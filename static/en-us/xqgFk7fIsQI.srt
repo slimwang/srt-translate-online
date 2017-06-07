@@ -1,0 +1,96 @@
+1
+00:00:00,190 --> 00:00:03,550
+Now that we've used the SDK tools to
+capture enough data to know when we have
+
+2
+00:00:03,550 --> 00:00:06,970
+a memory churn situation, let's zero
+in on the code that's causing it.
+
+3
+00:00:06,970 --> 00:00:08,960
+Well it turns out TraceView
+offered us a clue.
+
+4
+00:00:08,960 --> 00:00:10,710
+Let's take a closer look
+at the profile view,
+
+5
+00:00:10,710 --> 00:00:12,590
+when selecting a method
+on the main thread.
+
+6
+00:00:12,590 --> 00:00:15,540
+Now if you were to scrub the main
+thread's methods, you'd find multiple
+
+7
+00:00:15,540 --> 00:00:18,900
+recurrences of Java character ray
+copy operations, like this one.
+
+8
+00:00:18,900 --> 00:00:21,880
+Now walking up the call stack, we get
+more confirmation that the array copies
+
+9
+00:00:21,880 --> 00:00:23,570
+were used to enlarge a string buffer.
+
+10
+00:00:23,570 --> 00:00:26,030
+So now let's look at the source code for
+the MemoryChurnAcitivity.
+
+11
+00:00:26,030 --> 00:00:28,300
+As you can see here in
+the OnClickListener, we go ahead and
+
+12
+00:00:28,300 --> 00:00:30,570
+call this function
+imPrettySureSortingIsFree, so
+
+13
+00:00:30,570 --> 00:00:32,080
+let's take a look at that code.
+
+14
+00:00:32,080 --> 00:00:35,210
+Now, in this method aptly named
+imPrettySureSortingIsFree,
+
+15
+00:00:35,210 --> 00:00:36,700
+the code is constructing a new string,
+
+16
+00:00:36,700 --> 00:00:39,550
+one cell value at a time,
+using string concatenation.
+
+17
+00:00:39,550 --> 00:00:41,790
+See the instruction notes for
+the code I'm referring to.
+
+18
+00:00:41,790 --> 00:00:44,510
+But, here's specifically,
+where the concatenation occurs.
+
+19
+00:00:44,510 --> 00:00:46,280
+Now, it might look harmless at first,
+but,
+
+20
+00:00:46,280 --> 00:00:47,630
+why would this code
+lead to memory churn?

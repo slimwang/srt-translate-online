@@ -1,0 +1,219 @@
+1
+00:00:00,290 --> 00:00:04,955
+So, while the writer is executing in this write_phase,
+
+2
+00:00:04,955 --> 00:00:08,760
+let's say we have another writer that came in.
+
+3
+00:00:08,760 --> 00:00:12,580
+So this writer is now pending on the read_phase variable.
+
+4
+00:00:12,580 --> 00:00:15,570
+So, we currently have basically one writer here,
+
+5
+00:00:15,570 --> 00:00:18,770
+one writer pending on this write_phase.
+
+6
+00:00:18,770 --> 00:00:20,500
+And let's say we have another writer,
+
+7
+00:00:20,500 --> 00:00:24,950
+reader that came in and it's pending on this read_phase variable.
+
+8
+00:00:24,950 --> 00:00:28,260
+So we have two threads that are waiting on two different variables, and
+
+9
+00:00:28,260 --> 00:00:31,190
+then a writer that's actually in the critical section.
+
+10
+00:00:31,190 --> 00:00:36,310
+When this writer completes, it starts exiting the critical section.
+
+11
+00:00:36,310 --> 00:00:39,070
+So it will reset the resource_counter value,
+
+12
+00:00:39,070 --> 00:00:42,390
+doesn't make sense to decrement, only one writer at a time could,
+
+13
+00:00:42,390 --> 00:00:45,580
+could be in there so it's either negative 1 or 0.
+
+14
+00:00:45,580 --> 00:00:49,000
+And then here in this code, we did two things.
+
+15
+00:00:49,000 --> 00:00:53,280
+We broadcast to the read_phase condition variable.
+
+16
+00:00:53,280 --> 00:00:56,040
+And we'll signal to the write_phase condition variable.
+
+17
+00:00:56,040 --> 00:01:00,510
+We signal to the write_phase condition variable again because only one thread at
+
+18
+00:01:00,510 --> 00:01:05,019
+a time is able to proceed with our write operation.
+
+19
+00:01:05,019 --> 00:01:09,570
+We broadcast to those threads that are reading on the read_phase.
+
+20
+00:01:09,570 --> 00:01:12,930
+So potentially multiple threads will be woken up.
+
+21
+00:01:12,930 --> 00:01:17,220
+Because it makes sense, we allow multiple readers, we allow
+
+22
+00:01:17,220 --> 00:01:21,710
+multiple threads to be in a read_phase, it makes sense to use the broadcast.
+
+23
+00:01:21,710 --> 00:01:25,620
+So, let's say that we have multiple readers waiting on the read_phase when we
+
+24
+00:01:25,620 --> 00:01:27,340
+issued this broadcast.
+
+25
+00:01:27,340 --> 00:01:32,010
+Now, this phase here requires a mutex.
+
+26
+00:01:32,010 --> 00:01:37,159
+So, when these threads that were waiting on the read_phase are waking up
+
+27
+00:01:37,159 --> 00:01:41,144
+from the wait, they will one at a time acquire the mutex,
+
+28
+00:01:41,144 --> 00:01:44,380
+check is resource_counter negative 1?
+
+29
+00:01:44,380 --> 00:01:45,990
+No, it is not negative 1, right?
+
+30
+00:01:45,990 --> 00:01:47,960
+We just reset it to be 0.
+
+31
+00:01:47,960 --> 00:01:50,320
+So, I'll increment the counter.
+
+32
+00:01:50,320 --> 00:01:54,150
+So, incrementing the counter, when the first thread wakes up, the first,
+
+33
+00:01:54,150 --> 00:01:55,978
+the resource_counter will be 1.
+
+34
+00:01:55,978 --> 00:02:00,030
+And then the first thread of the waiting ones will release the mutex and
+
+35
+00:02:00,030 --> 00:02:01,550
+start reading the data.
+
+36
+00:02:01,550 --> 00:02:05,460
+The remaining threads that were waiting on the read_phase will also one at
+
+37
+00:02:05,460 --> 00:02:10,651
+a time come out of wait statement, check to see whether resource_counter is
+
+38
+00:02:10,651 --> 00:02:13,590
+negative 1, and now it will have some positive value.
+
+39
+00:02:13,590 --> 00:02:16,880
+And so, they too will increment the resource_counter and will come out.
+
+40
+00:02:16,880 --> 00:02:22,130
+So, the waiting threads which were woken up from the broadcast statement
+
+41
+00:02:22,130 --> 00:02:27,490
+will be coming out of this wait operation one at a time, but
+
+42
+00:02:27,490 --> 00:02:32,110
+ultimately, we will have multiple threads in the read_phase at the same time.
+
+43
+00:02:32,110 --> 00:02:34,290
+So, this is why broadcast is useful.
+
+44
+00:02:34,290 --> 00:02:38,280
+Yes, indeed, only one thread at a time can really be woken,
+
+45
+00:02:38,280 --> 00:02:40,890
+can really execute this piece of code.
+
+46
+00:02:40,890 --> 00:02:45,120
+But we do want multiple threads to be woken up so that multiple threads can
+
+47
+00:02:45,120 --> 00:02:49,050
+ultimately reach this read_phase once this writer completes.
+
+48
+00:02:49,050 --> 00:02:54,830
+The other thing that's worth noting is here we use both broadcast and signal.
+
+49
+00:02:54,830 --> 00:02:58,170
+Whether the reader's will be really the first ones to execute, or
+
+50
+00:02:58,170 --> 00:03:01,330
+the writers, that we really don't have control over.
+
+51
+00:03:01,330 --> 00:03:04,920
+It really depends on how the scheduler ends up
+
+52
+00:03:04,920 --> 00:03:07,110
+scheduling these various operations.
+
+53
+00:03:07,110 --> 00:03:12,590
+So, the fact that we first called broadcast versus signal, this is really just
+
+54
+00:03:12,590 --> 00:03:17,480
+implicit that the readers are given some kind of priority over the writers.
+
+55
+00:03:17,480 --> 00:03:18,830
+We have no control over that.

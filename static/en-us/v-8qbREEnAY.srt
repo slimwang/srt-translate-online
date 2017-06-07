@@ -1,0 +1,270 @@
+1
+00:00:00,750 --> 00:00:04,635
+We'll start by writing a new
+method called escapedParameters.
+
+2
+00:00:04,635 --> 00:00:09,060
+We're going to want this method to take
+a dictionary of the argument value,
+
+3
+00:00:09,060 --> 00:00:14,280
+aka keyvalue pairs in the URL,
+so that's what this is.
+
+4
+00:00:14,280 --> 00:00:17,920
+And then we want to return a string
+where they're correctly formatted and
+
+5
+00:00:17,920 --> 00:00:20,210
+don't have unsafe ASCII characters.
+
+6
+00:00:20,210 --> 00:00:23,607
+And also, each pair should be
+separated by an ampersand.
+
+7
+00:00:28,550 --> 00:00:31,430
+I think this will start to make more
+sense as we start building this method.
+
+8
+00:00:33,980 --> 00:00:37,300
+The first thing we'll do is check
+if any parameters are provided.
+
+9
+00:00:37,300 --> 00:00:39,650
+If none are provided we can
+just return the empty string.
+
+10
+00:00:40,710 --> 00:00:44,290
+Otherwise, let's create an array
+to store each key value pair
+
+11
+00:00:44,290 --> 00:00:45,000
+as we format it.
+
+12
+00:00:47,690 --> 00:00:51,410
+Then let's loop through the dictionary
+looking at the key value pairs.
+
+13
+00:00:51,410 --> 00:00:54,266
+For the keys, I don't think we
+really need to do anything to them,
+
+14
+00:00:54,266 --> 00:00:56,108
+they're the argument names themselves.
+
+15
+00:00:56,108 --> 00:00:59,810
+And we can assume that they're
+always safe ASCII characters.
+
+16
+00:00:59,810 --> 00:01:03,510
+And this is probably a safe
+assumption for this simple app and
+
+17
+00:01:03,510 --> 00:01:07,040
+just knowing that the Flickr API
+hasn't used key values or
+
+18
+00:01:07,040 --> 00:01:09,885
+argument names that are unsafe ASCII.
+
+19
+00:01:11,180 --> 00:01:14,110
+Then for the values,
+we need to convert them into strings.
+
+20
+00:01:14,110 --> 00:01:17,906
+Because if we look at the method itself,
+we're taking a string,
+
+21
+00:01:17,906 --> 00:01:22,463
+AnyObject dictionary, so it could be
+that we pass in a value that's a number,
+
+22
+00:01:22,463 --> 00:01:25,173
+and we need to convert
+that number to a string.
+
+23
+00:01:32,289 --> 00:01:35,157
+So we'll add this line of code to
+convert the value into a string.
+
+24
+00:01:40,079 --> 00:01:44,616
+And then once it's a string, we need to
+convert the string itself into an ASCII
+
+25
+00:01:44,616 --> 00:01:46,493
+compliant version of a string.
+
+26
+00:01:46,493 --> 00:01:53,048
+And we can do that by using this nice
+stringByAddingPercentEncodingWith
+
+27
+00:01:53,048 --> 00:01:56,226
+all characters allowed, method.
+
+28
+00:01:56,226 --> 00:01:59,442
+And that's definitely a mouthful for
+a method name, but
+
+29
+00:01:59,442 --> 00:02:01,890
+at least we know exactly what it does.
+
+30
+00:02:01,890 --> 00:02:06,814
+It takes one argument, a character set,
+and that character set specifies
+
+31
+00:02:06,814 --> 00:02:11,368
+which characters are going to be
+allowed in the string that it returns.
+
+32
+00:02:11,368 --> 00:02:16,312
+And in our case, there's a nice
+character set that we can use called
+
+33
+00:02:16,312 --> 00:02:20,241
+NSCharacterSet.URLQueryAllowedCharacter-
+Set.
+
+34
+00:02:20,241 --> 00:02:25,830
+And this is going to return characters
+that are only considered safe ASCII.
+
+35
+00:02:25,830 --> 00:02:31,240
+Then once we have the key and value as
+safe ASCII strings, we can add the equal
+
+36
+00:02:31,240 --> 00:02:36,200
+sign in the middle like this, and we can
+append it to our keyValuePairs array.
+
+37
+00:02:37,640 --> 00:02:40,779
+And once we've converted
+all the keyValuePairs,
+
+38
+00:02:40,779 --> 00:02:45,018
+we can join them into one string
+with the joinWithSeparator method.
+
+39
+00:02:47,560 --> 00:02:50,480
+And the separator that we
+want to use is the ampersand.
+
+40
+00:02:53,410 --> 00:02:56,200
+And we also can't forget to add
+the question mark to the beginning,
+
+41
+00:02:56,200 --> 00:03:00,660
+that's what's going to set off all of
+our argument value, or key value pairs.
+
+42
+00:03:02,310 --> 00:03:04,700
+Now once you've implemented
+this method yourself,
+
+43
+00:03:04,700 --> 00:03:07,314
+you should be able to call it
+using a dictionary like this.
+
+44
+00:03:15,719 --> 00:03:19,728
+So if you were to use these lines of
+code and a correct version of the escape
+
+45
+00:03:19,728 --> 00:03:23,439
+parameters that you've implemented,
+what would the output be?
+
+46
+00:03:26,551 --> 00:03:29,693
+So take some time and write this
+method yourself, and then test
+
+47
+00:03:29,693 --> 00:03:33,620
+your implementation using this code,
+and enter your answer in this text box.
+
+48
+00:03:37,960 --> 00:03:40,758
+If you correctly implemented
+the escapeP arameters method,
+
+49
+00:03:40,758 --> 00:03:43,512
+then you should have returned
+some variation of the string.
+
+50
+00:03:43,512 --> 00:03:47,412
+And the reason I'm saying variation is
+because the argument name pairs could
+
+51
+00:03:47,412 --> 00:03:49,450
+show up in a different order.
+
+52
+00:03:49,450 --> 00:03:49,987
+Right now,
+
+53
+00:03:49,987 --> 00:03:53,223
+the quiz argument is the first one to
+show up in this particular answer.
+
+54
+00:03:53,223 --> 00:03:57,956
+But because we can't be sure how
+our escapeParameters method is
+
+55
+00:03:57,956 --> 00:04:01,989
+going to iterate through
+the dictionary the argument key
+
+56
+00:04:01,989 --> 00:04:05,330
+pairs could show up in
+any particular order.

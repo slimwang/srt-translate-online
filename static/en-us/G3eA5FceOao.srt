@@ -1,0 +1,318 @@
+1
+00:00:00,462 --> 00:00:03,210
+Now, I'll analyze the average case
+performance of Quicksort, and
+
+2
+00:00:03,210 --> 00:00:06,580
+show that it is order n log n,
+just like the best case.
+
+3
+00:00:06,580 --> 00:00:10,000
+Suppose that randomized Quicksort is
+used to sort a list consisting of
+
+4
+00:00:10,000 --> 00:00:13,420
+elements a1 through an, all distinct.
+
+5
+00:00:13,420 --> 00:00:18,650
+We'll let Eijk be the event
+that the element ai
+
+6
+00:00:18,650 --> 00:00:23,440
+is separated from the element
+aj by the kth choice of a pivot.
+
+7
+00:00:23,440 --> 00:00:28,234
+And we'll let xij be a variable
+that's 1 if the algorithm actually
+
+8
+00:00:28,234 --> 00:00:33,042
+compares ai with aj, and
+we'll let this variable be 0 otherwise.
+
+9
+00:00:33,042 --> 00:00:37,474
+And we'll let xij be a variable
+that's 1 if the algorithm
+
+10
+00:00:37,474 --> 00:00:42,551
+actually compares ai with aj,
+and we'll let xij = 0 otherwise.
+
+11
+00:00:43,860 --> 00:00:48,120
+The sum of these xij will count the
+number of comparisons that the algorithm
+
+12
+00:00:48,120 --> 00:00:49,460
+actually uses.
+
+13
+00:00:49,460 --> 00:00:56,794
+Now, I claim that the expected value for
+xij is 2 divided by j- i + 1.
+
+14
+00:00:56,794 --> 00:01:00,770
+We'll look at this argument in some
+detail, so we'll need a new canvas.
+
+15
+00:01:00,770 --> 00:01:02,650
+By the definition of expectation,
+
+16
+00:01:02,650 --> 00:01:06,640
+the expected value of xij
+is this expression here.
+
+17
+00:01:06,640 --> 00:01:10,850
+So it's really just the probability
+of xij being equal to 1.
+
+18
+00:01:10,850 --> 00:01:14,140
+In fact, this is true of all 0,
+1 variables.
+
+19
+00:01:14,140 --> 00:01:19,390
+Now, ai has to be separated from
+aj by some pivot in the algorithm,
+
+20
+00:01:19,390 --> 00:01:20,705
+and it won't be separated by 2.
+
+21
+00:01:21,980 --> 00:01:25,625
+Therefore, these Eijk
+events are disjoint.
+
+22
+00:01:26,760 --> 00:01:31,910
+And this sum must be
+the probability that xij is 1.
+
+23
+00:01:31,910 --> 00:01:35,860
+This argument is known as the Law
+of Total Probability, by the way.
+
+24
+00:01:35,860 --> 00:01:39,140
+Each term here can be written in
+terms of a conditional probability.
+
+25
+00:01:40,300 --> 00:01:43,700
+And it turns out that this quantity here
+is the one that we're going to want to
+
+26
+00:01:43,700 --> 00:01:44,840
+reason about.
+
+27
+00:01:44,840 --> 00:01:48,230
+Given that ai is going
+to be separated from aj,
+
+28
+00:01:48,230 --> 00:01:50,160
+it must be that they
+haven't been separated yet.
+
+29
+00:01:51,470 --> 00:01:55,720
+So whatever the current list is,
+it must include ai, aj,
+
+30
+00:01:55,720 --> 00:02:01,760
+every element in between, and possibly
+some more elements to the outside.
+
+31
+00:02:01,760 --> 00:02:04,672
+Given that the separation does occur,
+however,
+
+32
+00:02:04,672 --> 00:02:08,918
+the pivot must be chosen in this range
+here, including the ai and the aj.
+
+33
+00:02:08,918 --> 00:02:12,640
+ai will actually only be compared to aj,
+however,
+
+34
+00:02:12,640 --> 00:02:15,334
+if one of the two is chosen as a pivot.
+
+35
+00:02:15,334 --> 00:02:19,999
+Therefore, given that the separation is
+going to occur, the probability that it
+
+36
+00:02:19,999 --> 00:02:24,596
+will actually require a comparison of
+these two particular elements is only 2,
+
+37
+00:02:24,596 --> 00:02:27,251
+the chances of choosing
+one of them as a pivot.
+
+38
+00:02:27,251 --> 00:02:33,710
+Divided by j- i + 1, the possible
+number of choices of pivot, here.
+
+39
+00:02:33,710 --> 00:02:37,455
+Substituting this value into here,
+will then give us the answer.
+
+40
+00:02:37,455 --> 00:02:43,135
+Our sum then, just becomes this ratio
+times the probability of the Eijks.
+
+41
+00:02:44,190 --> 00:02:46,930
+We can factor out the constant
+term here however.
+
+42
+00:02:46,930 --> 00:02:53,260
+And since i must be separated from j by
+some pivot, the remaining sum is just 1.
+
+43
+00:02:53,260 --> 00:02:55,860
+So we obtain the desired result.
+
+44
+00:02:55,860 --> 00:02:58,087
+With this claim established now,
+
+45
+00:02:58,087 --> 00:03:02,694
+we argue that by the linearity of
+expectations, the expected number of
+
+46
+00:03:02,694 --> 00:03:07,252
+total comparisons is just the sum
+of the expectations for these xijs.
+
+47
+00:03:07,252 --> 00:03:10,347
+Going for
+simplicity rather than tightness,
+
+48
+00:03:10,347 --> 00:03:13,519
+we can bound this expression
+by this one here and
+
+49
+00:03:13,519 --> 00:03:18,960
+see that summing up the 1 over js is
+rather like integrating 1 over x.
+
+50
+00:03:18,960 --> 00:03:21,730
+So this inner sum here becomes a log.
+
+51
+00:03:21,730 --> 00:03:26,260
+And then with the outer sum we
+end up with n log n, overall.
+
+52
+00:03:26,260 --> 00:03:30,200
+To sum things up then,
+we can state our result as follows.
+
+53
+00:03:30,200 --> 00:03:34,140
+For any input of distinct elements
+Quicksort, with pivots chosen
+
+54
+00:03:34,140 --> 00:03:38,840
+uniformly at random, compares order
+n log n elements in expectation.
+
+55
+00:03:39,910 --> 00:03:42,530
+The average case is on the same
+order as the best case.
+
+56
+00:03:43,740 --> 00:03:45,020
+This is comforting, but
+
+57
+00:03:45,020 --> 00:03:47,910
+by itself is not necessarily
+a good guarantee of performance.
+
+58
+00:03:47,910 --> 00:03:50,510
+It's conceivable that the distribution
+of running times could
+
+59
+00:03:50,510 --> 00:03:54,790
+be very spread out, so that it would
+be possible for the running time to be
+
+60
+00:03:54,790 --> 00:03:58,950
+a little better than the guarantee or
+potentially much worse.
+
+61
+00:03:58,950 --> 00:04:00,910
+It turns out that this is not the case.
+
+62
+00:04:00,910 --> 00:04:04,950
+The running times are actually quite
+concentrated around the expectation,
+
+63
+00:04:04,950 --> 00:04:09,540
+meaning one is unlikely to get much
+more or much less than the average.
+
+64
+00:04:09,540 --> 00:04:11,580
+This sort of argument is
+called a concentration bound.
+
+65
+00:04:11,580 --> 00:04:14,760
+And if you ever take a full
+course on randomized algorithms,
+
+66
+00:04:14,760 --> 00:04:16,870
+a good portion will be devoted
+to these types of arguments.

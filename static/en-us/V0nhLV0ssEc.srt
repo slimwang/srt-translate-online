@@ -1,0 +1,643 @@
+1
+00:00:00,270 --> 00:00:04,207
+All right, so now we've talked about two
+different algorithms, TD(0) and TD(1).
+
+2
+00:00:04,207 --> 00:00:09,204
+And what we'd like to do next is show
+that, in fact, there is a larger
+
+3
+00:00:09,204 --> 00:00:14,420
+algorithm that actually includes
+both of those as special cases.
+
+4
+00:00:14,420 --> 00:00:16,202
+And so
+we're going to write that as TD(lambda),
+
+5
+00:00:16,202 --> 00:00:18,505
+and it's going to have the property
+that when lambda is set to 0,
+
+6
+00:00:18,505 --> 00:00:20,860
+we get TD(0), and
+when lambda is set to 1, we get TD(1).
+
+7
+00:00:20,860 --> 00:00:24,730
+But we also get update rules for all
+sorts of in-between values of lambda.
+
+8
+00:00:24,730 --> 00:00:26,602
+>> I don't know, that sounds
+kind of like witchcraft to me.
+
+9
+00:00:26,602 --> 00:00:29,830
+>> [LAUGH] No, no, no it's just
+algorithm design, it's all good.
+
+10
+00:00:29,830 --> 00:00:32,439
+>> Hm, all right,
+well I'll believe it when I see it.
+
+11
+00:00:32,439 --> 00:00:35,554
+>> In particular, what's going to let us
+do that is the fact that both TD(0) and
+
+12
+00:00:35,554 --> 00:00:39,030
+TD(1), the way that we were writing
+them, have updates that are based on
+
+13
+00:00:39,030 --> 00:00:41,430
+differences between temporally
+successive predictions.
+
+14
+00:00:41,430 --> 00:00:43,200
+Temporal differences,
+that's the TD part.
+
+15
+00:00:43,200 --> 00:00:47,480
+And so
+we can actually unite them into one and,
+
+16
+00:00:47,480 --> 00:00:49,790
+I don't need to say that again,
+because I've already said it.
+
+17
+00:00:49,790 --> 00:00:50,470
+>> All right.
+
+18
+00:00:50,470 --> 00:00:52,560
+>> So
+I copied the algorithm back down here.
+
+19
+00:00:52,560 --> 00:00:55,230
+And do you know which
+algorithm [LAUGH] this is?
+
+20
+00:00:55,230 --> 00:00:58,140
+And the hope is that it's a little
+bit challenging because, in fact,
+
+21
+00:00:58,140 --> 00:01:01,370
+if it's TD(0) or it's TD(1), they
+actually look an awful lot the same.
+
+22
+00:01:01,370 --> 00:01:03,380
+They have a lot of stuff in common.
+
+23
+00:01:03,380 --> 00:01:06,970
+The update rule itself looks almost
+identical, but they are different.
+
+24
+00:01:06,970 --> 00:01:08,520
+So which one is this?
+
+25
+00:01:08,520 --> 00:01:09,730
+>> I'm trying to remember.
+
+26
+00:01:09,730 --> 00:01:11,930
+And let's see, well, let's see.
+
+27
+00:01:11,930 --> 00:01:14,570
+There's a 0 in one line and
+a 1 in another line so
+
+28
+00:01:14,570 --> 00:01:16,410
+that's not going to help me.
+
+29
+00:01:16,410 --> 00:01:17,822
+I was hoping I could
+the number pf 1s and 0s.
+
+30
+00:01:17,822 --> 00:01:20,940
+>> [LAUGH] Actually,
+there's a bunch of 1, right.
+
+31
+00:01:20,940 --> 00:01:24,911
+There's a (St-1), and there's another 1,
+and here's another 1, and
+
+32
+00:01:24,911 --> 00:01:26,940
+here's another 1, and another 1.
+
+33
+00:01:26,940 --> 00:01:29,010
+>> Yeah, but
+most of those are -1s, not +1s.
+
+34
+00:01:29,010 --> 00:01:30,400
+I mean,
+you didn't ask me if it was TD(-1).
+
+35
+00:01:30,400 --> 00:01:31,842
+>> So maybe this is TD(-1).
+
+36
+00:01:31,842 --> 00:01:35,208
+>> Oh, that probably suggests that the
+way I was going about this was wrong.
+
+37
+00:01:35,208 --> 00:01:37,909
+>> [LAUGH]
+>> I think it's TD(1).
+
+38
+00:01:37,909 --> 00:01:40,560
+>> All right, and
+you have any particular reason for that?
+
+39
+00:01:40,560 --> 00:01:45,520
+>> Because I recall TD(1)
+had a bunch of e's in it.
+
+40
+00:01:45,520 --> 00:01:47,075
+>> Yes,
+it is easy to tell the difference.
+
+41
+00:01:47,075 --> 00:01:51,086
+So e here, the eligibility, is something
+that doesn't show up in the TD(0) rule
+
+42
+00:01:51,086 --> 00:01:53,860
+the way that we wrote it, but
+it does show up in TD(1).
+
+43
+00:01:53,860 --> 00:01:56,440
+This sort of idea that what we're
+going to do is we're going to update
+
+44
+00:01:56,440 --> 00:01:59,160
+the values for all states, all s.
+
+45
+00:01:59,160 --> 00:02:02,680
+And the amount that we
+do this same update
+
+46
+00:02:02,680 --> 00:02:05,830
+varies depending on the current
+eligibility of that state in question.
+
+47
+00:02:05,830 --> 00:02:06,920
+>> Okay, that seems reasonable.
+
+48
+00:02:06,920 --> 00:02:07,650
+I feel better now.
+
+49
+00:02:07,650 --> 00:02:10,459
+>> All right, and so to highlight
+the similarities and differences between
+
+50
+00:02:10,459 --> 00:02:13,268
+TD(1) and TD(0), I took the TD(1)
+algorithm that we just had and
+
+51
+00:02:13,268 --> 00:02:15,180
+shrunk it and moved it over to the left.
+
+52
+00:02:15,180 --> 00:02:17,880
+And then made another copy of it,
+put it on the right, and
+
+53
+00:02:17,880 --> 00:02:23,630
+made the minimum changes necessary to
+turn TD(1), what was TD(1), into TD(0).
+
+54
+00:02:23,630 --> 00:02:27,560
+And so mainly all that it involved was,
+any time the eligibility was mentioned,
+
+55
+00:02:27,560 --> 00:02:28,570
+I kind of get rid of it.
+
+56
+00:02:28,570 --> 00:02:32,320
+So I got rid of it from there,
+I got rid of it from there.
+
+57
+00:02:32,320 --> 00:02:35,850
+And I don't multiply it here
+against the temporal update, and
+
+58
+00:02:35,850 --> 00:02:37,550
+I don't have to update it here.
+
+59
+00:02:37,550 --> 00:02:41,819
+And the only other difference, other
+than just getting rid of all references
+
+60
+00:02:41,819 --> 00:02:46,480
+to the eligibility trace, is where as in
+TD(1) we do this update over all states,
+
+61
+00:02:46,480 --> 00:02:50,650
+in TD(0) we just update the state
+that we left most recently.
+
+62
+00:02:50,650 --> 00:02:52,212
+So I changed that loop.
+
+63
+00:02:52,212 --> 00:02:55,450
+[LAUGH] Instead of making it a loop,
+it actually is just says for all s=st-1.
+
+64
+00:02:55,450 --> 00:03:00,130
+In other words, we are just going
+to do this update for S=St-1.
+
+65
+00:03:00,130 --> 00:03:04,040
+All right, so now we are ready
+to describe the TD(lambda) rule.
+
+66
+00:03:04,040 --> 00:03:06,294
+What I have done now,
+is I got rid of those words and
+
+67
+00:03:06,294 --> 00:03:08,399
+I took the TD(1) rule and
+copied it up here.
+
+68
+00:03:08,399 --> 00:03:10,260
+So this is currently TD(1).
+
+69
+00:03:10,260 --> 00:03:15,396
+And what we now need to do to it is
+make changes to it, small as we can,
+
+70
+00:03:15,396 --> 00:03:19,835
+so that it turns it into T (0)
+when lambda is equal to 0.
+
+71
+00:03:19,835 --> 00:03:21,280
+So we need to introduce a lambda.
+
+72
+00:03:21,280 --> 00:03:24,740
+So here's what I'm going to do,
+just to kind of cut to the chase.
+
+73
+00:03:24,740 --> 00:03:29,400
+I'm going to take this gamma
+decay of the eligibility.
+
+74
+00:03:29,400 --> 00:03:32,820
+And I'm going to change
+it to a lambda gamma
+
+75
+00:03:32,820 --> 00:03:35,560
+decay of the eligibility trace, right?
+
+76
+00:03:35,560 --> 00:03:39,870
+So all I've done here is, it's exactly
+TD(lambda), except I just threw in
+
+77
+00:03:39,870 --> 00:03:43,770
+an extra lambda here as a multiplier
+in the update of the eligibility role.
+
+78
+00:03:43,770 --> 00:03:46,060
+And boom, we're done.
+
+79
+00:03:46,060 --> 00:03:47,680
+>> Okay, so wait, okay, right.
+
+80
+00:03:47,680 --> 00:03:52,786
+So I was raised to never put two
+Greek letters next to one another.
+
+81
+00:03:52,786 --> 00:03:55,733
+But this does, do I buy this?
+
+82
+00:03:55,733 --> 00:03:58,215
+Okay so if lambda is 1 then,
+well, nothing's changed,
+
+83
+00:03:58,215 --> 00:04:00,560
+it's exactly the same
+algorithm as before.
+
+84
+00:04:00,560 --> 00:04:03,023
+>> Right, great, because [LAUGH]
+if lambda's equal to 1 and
+
+85
+00:04:03,023 --> 00:04:06,620
+we're just multiplying this lambda
+in there, then nothing's changed.
+
+86
+00:04:06,620 --> 00:04:10,200
+So, boom, it really is, and
+it was TD(1) and it is TD(1).
+
+87
+00:04:10,200 --> 00:04:12,220
+>> Right, so let's see,
+what happens is lambda is 0?
+
+88
+00:04:12,220 --> 00:04:16,820
+Well, for the thing we just looked at,
+that means it's 0.
+
+89
+00:04:16,820 --> 00:04:20,600
+So you just set yes,
+the eligibility trace equal to 0.
+
+90
+00:04:20,600 --> 00:04:21,350
+>> Right.
+>> But,
+
+91
+00:04:21,350 --> 00:04:24,230
+you started out with it being equal
+to 0 too so let's go back to the top.
+
+92
+00:04:24,230 --> 00:04:25,957
+So let's see, for all S if S is 0,
+
+93
+00:04:25,957 --> 00:04:29,612
+which is where we started out at
+the start of the episode, that's nice.
+
+94
+00:04:29,612 --> 00:04:36,860
+Then we update e(S sub t
+-1) to be e sub s(t+1).
+
+95
+00:04:36,860 --> 00:04:39,090
+So now e sub s(t) = 1.
+
+96
+00:04:39,090 --> 00:04:42,630
+>> Right, good, okay, so the eligibility
+of the state that we just left gets
+
+97
+00:04:42,630 --> 00:04:43,910
+bumped up to one, that's right.
+
+98
+00:04:43,910 --> 00:04:44,950
+>> And everything else is 0.
+
+99
+00:04:44,950 --> 00:04:46,720
+>> Now we loop over all states.
+
+100
+00:04:46,720 --> 00:04:53,510
+>> Right, and we update V sub
+t(s) to be this thing times,
+
+101
+00:04:53,510 --> 00:04:57,590
+well, it'll be 0 for
+everything except for S(t-1).
+
+102
+00:04:57,590 --> 00:04:58,720
+>> Good.
+
+103
+00:04:58,720 --> 00:05:04,309
+>> And then we will take the eligibility
+for that state and set it equal to 0.
+
+104
+00:05:04,309 --> 00:05:08,415
+>> Right so, iin particular on this
+update, the eligibility is 0 for
+
+105
+00:05:08,415 --> 00:05:12,990
+all the S's not equal to S(t-1),
+so nothing gets changed there.
+
+106
+00:05:12,990 --> 00:05:16,950
+And for the one where it is equal
+to S(t-1), its eligibility is 1.
+
+107
+00:05:16,950 --> 00:05:20,910
+So we just do it,
+we just update based on that,
+
+108
+00:05:20,910 --> 00:05:24,130
+which is exactly what we have for
+the TD(0) rule.
+
+109
+00:05:24,130 --> 00:05:27,250
+And then right, as you say, we zero out
+the eligibility and start it all again.
+
+110
+00:05:27,250 --> 00:05:30,840
+So it's almost like, it just briefly
+remembers where it needs to update and
+
+111
+00:05:30,840 --> 00:05:34,750
+then it loses that memory right away,
+goes right back into forgetful mode.
+
+112
+00:05:34,750 --> 00:05:36,780
+>> Although that won't matter
+anyway because you're doing it
+
+113
+00:05:36,780 --> 00:05:37,370
+for every S once.
+
+114
+00:05:37,370 --> 00:05:39,490
+And then you'll pop back up and
+do the episode again, and
+
+115
+00:05:39,490 --> 00:05:40,580
+you start all over again.
+
+116
+00:05:40,580 --> 00:05:41,630
+It's like an invariant, and so.
+
+117
+00:05:41,630 --> 00:05:45,560
+>> Oh, but that's only at the end of the
+episode, so we really only pop back to,
+
+118
+00:05:45,560 --> 00:05:49,480
+right, when we're doing these updates,
+this is after
+
+119
+00:05:49,480 --> 00:05:53,330
+each little t transition, so
+>> This part we're actually going to
+
+120
+00:05:53,330 --> 00:05:56,220
+execute over, and over, and over again,
+until the end of the episode.
+
+121
+00:05:56,220 --> 00:05:59,648
+So we don't zero out the eligibility
+until the end of the episode.
+
+122
+00:05:59,648 --> 00:06:02,270
+>> [INAUDIBLE]
+>> In fact, using lambda equal to zero
+
+123
+00:06:02,270 --> 00:06:05,200
+here, it has the same effect as it,
+so we don't really need to do that.
+
+124
+00:06:05,200 --> 00:06:06,980
+>> Exactly.
+Okay, so then the right thing happens.
+
+125
+00:06:06,980 --> 00:06:09,600
+>> Yeah, so when lambda's equal to zero,
+boom we get TD(0), and
+
+126
+00:06:09,600 --> 00:06:11,810
+when lambda's equal to one,
+boom we get TD(1).
+
+127
+00:06:11,810 --> 00:06:16,310
+And so, I guess what makes this
+interesting is not just that we
+
+128
+00:06:16,310 --> 00:06:19,440
+can cleverly shoehorn
+two algorithms into one,
+
+129
+00:06:19,440 --> 00:06:23,730
+but that it allows us to actually use
+values of lambda that are in-between
+
+130
+00:06:23,730 --> 00:06:25,700
+which gives us kind of
+elements of both of these.
+
+131
+00:06:25,700 --> 00:06:29,890
+It has TD0ish things to it and
+TD1ish things to it, and
+
+132
+00:06:29,890 --> 00:06:33,970
+what we're going to look at next
+is how to think about this rule.
+
+133
+00:06:33,970 --> 00:06:36,800
+This generalized TD lambda rule, so
+that it kind of makes some sense so
+
+134
+00:06:36,800 --> 00:06:39,730
+that it kind of grounds it into
+quantities that we can understand.
+
+135
+00:06:39,730 --> 00:06:40,570
+>> I look forward to that.

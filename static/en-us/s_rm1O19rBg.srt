@@ -1,0 +1,105 @@
+1
+00:00:00,440 --> 00:00:03,870
+If you needed help, you could have
+referenced the loaders developer guide
+
+2
+00:00:03,870 --> 00:00:06,326
+which mentions all the components
+in the loader API.
+
+3
+00:00:06,326 --> 00:00:08,386
+Here are the solutions to the quiz.
+
+4
+00:00:08,386 --> 00:00:11,376
+The loader manager interacts with
+an activity to manage one or
+
+5
+00:00:11,376 --> 00:00:13,130
+more loader instances.
+
+6
+00:00:13,130 --> 00:00:14,010
+It handles creating and
+
+7
+00:00:14,010 --> 00:00:17,190
+destroying loaders as well as
+reusing them if necessary.
+
+8
+00:00:18,520 --> 00:00:23,009
+Now in order for activity to be a client
+that interacts with the loader manager,
+
+9
+00:00:23,009 --> 00:00:25,555
+we need the earthquake
+activity to implement
+
+10
+00:00:25,555 --> 00:00:28,510
+the LoaderManager.LoaderCallbacks
+interface.
+
+11
+00:00:28,510 --> 00:00:33,103
+As such, the interface contains three
+abstract methods that we need to
+
+12
+00:00:33,103 --> 00:00:34,795
+override and implement.
+
+13
+00:00:34,795 --> 00:00:39,182
+That includes the onCreateLoader()
+method to create and return a new loader
+
+14
+00:00:39,182 --> 00:00:43,769
+instance, the onLoadFinished() method
+that receives the data once the loader
+
+15
+00:00:43,769 --> 00:00:48,489
+has finished loading it, and lastly, the
+onLoaderReset() method to handle when
+
+16
+00:00:48,489 --> 00:00:51,432
+the previously created
+loader is no longer needed.
+
+17
+00:00:51,432 --> 00:00:54,090
+And thus,
+the existing data can be discarded.
+
+18
+00:00:54,090 --> 00:00:56,051
+Once these callback
+methods are implemented,
+
+19
+00:00:56,051 --> 00:00:58,695
+we can start a loader when
+the activity is launched.
+
+20
+00:00:58,695 --> 00:01:01,575
+So in the EarthquakeActivity
+onCreate() method,
+
+21
+00:01:01,575 --> 00:01:04,815
+we should call
+the getLoaderManager.initLoader method,
+
+22
+00:01:04,815 --> 00:01:09,065
+passing in 0, null, and of reference to
+the current EarthquakeActivity object.

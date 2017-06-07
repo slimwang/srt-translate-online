@@ -1,0 +1,275 @@
+1
+00:00:00,640 --> 00:00:03,570
+Now that you know what the product
+actions are, you can add code to
+
+2
+00:00:03,570 --> 00:00:06,780
+your app to track when users view
+products and add them to the cart.
+
+3
+00:00:08,240 --> 00:00:12,261
+So for our app we are going to
+consider the activity Order Dinner
+
+4
+00:00:12,261 --> 00:00:15,010
+as the first step in the viewing and
+shopping process.
+
+5
+00:00:17,290 --> 00:00:19,220
+So when you create a product,
+
+6
+00:00:19,220 --> 00:00:23,430
+you specify a product Id that
+uniquely identifies the product.
+
+7
+00:00:24,600 --> 00:00:27,610
+But unfortunately for
+our dinners, we haven't actually
+
+8
+00:00:27,610 --> 00:00:31,580
+given each dinner a unique Id, so
+you're going to need to do that now.
+
+9
+00:00:33,110 --> 00:00:36,809
+So the dinner choices
+are all defined in the file,
+
+10
+00:00:36,809 --> 00:00:39,900
+arrays.xml in values in the res folder.
+
+11
+00:00:39,900 --> 00:00:43,442
+And each dinner is just a string.
+
+12
+00:00:43,442 --> 00:00:46,195
+And they're grouped together according
+to whether they're vegetarian,
+
+13
+00:00:46,195 --> 00:00:47,530
+vegan, and so on.
+
+14
+00:00:47,530 --> 00:00:53,147
+So as a somewhat hacky, hack to quickly
+be able to get unique product IDs,
+
+15
+00:00:53,147 --> 00:00:58,689
+we're going to add a product ID as
+the first two characters of each item.
+
+16
+00:00:58,689 --> 00:01:03,330
+So we'll start with 01, 02, and so on.
+
+17
+00:01:03,330 --> 00:01:09,360
+So your task is to add the prefixes
+to the dinners in arrays.xml.
+
+18
+00:01:09,360 --> 00:01:12,300
+One consequence of our change
+though is the list of dinners
+
+19
+00:01:12,300 --> 00:01:16,100
+is going to include the number for
+each of the dinner choices.
+
+20
+00:01:16,100 --> 00:01:19,790
+It's kind of a cosmetic thing,
+and if you don't like it,
+
+21
+00:01:19,790 --> 00:01:21,390
+I leave it to you to fix the code for
+that.
+
+22
+00:01:22,880 --> 00:01:25,850
+So now each of the dinner options
+includes the Id as the first two
+
+23
+00:01:25,850 --> 00:01:26,980
+characters.
+
+24
+00:01:26,980 --> 00:01:29,460
+So it's going to make our life
+a lot easier if we just quickly
+
+25
+00:01:29,460 --> 00:01:34,700
+add a utility method to get those first
+two characters to return as the Id.
+
+26
+00:01:34,700 --> 00:01:38,070
+So go ahead and
+add getDinnerId to the utility class.
+
+27
+00:01:39,550 --> 00:01:46,040
+Very simple method, it just gets the
+substring of the first two characters.
+
+28
+00:01:46,040 --> 00:01:50,060
+Okay, so now we're really getting to
+the meat of thing, excuse the pun.
+
+29
+00:01:50,060 --> 00:01:51,400
+You're going to write the code for
+
+30
+00:01:51,400 --> 00:01:55,265
+the method that actually sends
+the ViewProductHit to analytics.
+
+31
+00:01:55,265 --> 00:01:58,355
+So we're going to consider
+the Order Dinner screen
+
+32
+00:01:58,355 --> 00:02:01,475
+as equivalent to the View Product.
+
+33
+00:02:01,475 --> 00:02:05,269
+So when the user goes to the Order
+Dinner screen, they're indicating
+
+34
+00:02:05,269 --> 00:02:08,560
+an interest in viewing and
+possibly purchasing the dinner.
+
+35
+00:02:09,720 --> 00:02:15,093
+So, in the OrderDinnerActivity, go ahead
+and add a method sendViewProductHit.
+
+36
+00:02:15,093 --> 00:02:18,480
+It's going to create the product action,
+which in this case is ACTION_DETAIL,
+
+37
+00:02:18,480 --> 00:02:21,630
+because we want to indicate
+that we're viewing the product.
+
+38
+00:02:21,630 --> 00:02:23,410
+Get the tracker,
+we all know how to do that.
+
+39
+00:02:24,470 --> 00:02:26,600
+And send the hit as an event.
+
+40
+00:02:26,600 --> 00:02:28,810
+The Category is Shopping steps,
+the Action,
+
+41
+00:02:28,810 --> 00:02:32,820
+I mean these can be the things you like,
+but I used View Order Dinner screen.
+
+42
+00:02:32,820 --> 00:02:34,540
+The Label is the selected dinner.
+
+43
+00:02:34,540 --> 00:02:36,846
+We add the product, this is critical.
+
+44
+00:02:36,846 --> 00:02:39,660
+And we set the ProductAction,
+and then we build the hit.
+
+45
+00:02:41,102 --> 00:02:46,340
+Then you'll also need to make sure that
+you call sendViewProductHit() from
+
+46
+00:02:46,340 --> 00:02:48,840
+the onStart method in
+OrderDinnerActivity.
+
+47
+00:02:50,180 --> 00:02:52,230
+So I use a Toast also to double-check,
+but
+
+48
+00:02:52,230 --> 00:02:53,980
+you don't have to if you don't want to.
+
+49
+00:02:53,980 --> 00:03:00,052
+But so here's where I call
+sendViewProductHit in onStart.
+
+50
+00:03:00,052 --> 00:03:06,170
+And you will need to make sure of course
+that you add all the imports you need.
+
+51
+00:03:06,170 --> 00:03:09,257
+And that's Product,
+ProductAction, Tracker, and
+
+52
+00:03:09,257 --> 00:03:13,762
+HitBuilders, and they're all in
+com.google.android.gms.analytics.
+
+53
+00:03:13,762 --> 00:03:18,394
+Then make sure, of course, that your
+phone is connected to Android Studio,
+
+54
+00:03:18,394 --> 00:03:21,192
+deploy the app, run the app,
+and use the app.
+
+55
+00:03:21,192 --> 00:03:23,620
+And make sure you list all the dinners.
+
+56
+00:03:23,620 --> 00:03:27,005
+And you go to the Order Dinner
+screen and look for
+
+57
+00:03:27,005 --> 00:03:32,263
+the events to come in in the real time
+section of the Analytics dashboard.
+
+58
+00:03:32,263 --> 00:03:33,992
+And now it's the quiz.

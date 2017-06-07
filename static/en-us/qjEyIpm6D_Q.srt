@@ -1,0 +1,183 @@
+1
+00:00:00,610 --> 00:00:04,600
+When you request a URL and hit Enter, the browser sends a request to the
+
+2
+00:00:04,600 --> 00:00:07,320
+server. For example, we can simulate this right
+
+3
+00:00:07,320 --> 00:00:09,450
+on the command line. Once the browser receives
+
+4
+00:00:09,450 --> 00:00:12,950
+the response, which is the HTML we see here, it must somehow convert all of
+
+5
+00:00:12,950 --> 00:00:14,690
+the markup into something that we see on
+
+6
+00:00:14,690 --> 00:00:18,140
+the screen here. Ever wonder how that happens?
+
+7
+00:00:18,140 --> 00:00:21,380
+>> You know, now that you mention it, it does feel a little bit like magic.
+
+8
+00:00:21,380 --> 00:00:23,415
+>> It's not magic. The browser follows a
+
+9
+00:00:23,415 --> 00:00:25,680
+well-defined set of steps and it all starts
+
+10
+00:00:25,680 --> 00:00:28,750
+with processing the HTML and building the DOM. The
+
+11
+00:00:28,750 --> 00:00:31,760
+HTML specification contains a set of rules for how we
+
+12
+00:00:31,760 --> 00:00:35,655
+should process the received data. For example, the text contained
+
+13
+00:00:35,655 --> 00:00:38,648
+within the angle brackets has special meaning in HTML and
+
+14
+00:00:38,648 --> 00:00:41,110
+it's set to be a tag. As a result, whenever
+
+15
+00:00:41,110 --> 00:00:43,520
+we encounter a tag, the browser emits a token. In
+
+16
+00:00:43,520 --> 00:00:47,140
+this case, it is the start tag HTML token. Next,
+
+17
+00:00:47,140 --> 00:00:49,770
+we would get the StartTag, head token, and so on.
+
+18
+00:00:50,970 --> 00:00:54,900
+This entire process is done by the tokenizer, and while the tokenizer is
+
+19
+00:00:54,900 --> 00:00:57,410
+doing this work, there's another process that
+
+20
+00:00:57,410 --> 00:00:59,600
+is consuming these tokens and is converting
+
+21
+00:00:59,600 --> 00:01:05,260
+them to node objects. For example, we convert the first HTML token
+
+22
+00:01:05,260 --> 00:01:11,790
+and create the HTML node. Then we consume the next token and create that node.
+
+23
+00:01:11,790 --> 00:01:13,880
+>> Is there a relationship between the nodes?
+
+24
+00:01:13,880 --> 00:01:16,771
+>> Yes, notice that the tokenizer emits start and
+
+25
+00:01:16,771 --> 00:01:19,400
+end tokens, which tells us the relationship between
+
+26
+00:01:19,400 --> 00:01:23,673
+the nodes. The StartTag head token comes before EndTag
+
+27
+00:01:23,673 --> 00:01:27,120
+html token, which tells that the head token
+
+28
+00:01:27,120 --> 00:01:31,660
+is a child of html. Similarly, the meta and
+
+29
+00:01:31,660 --> 00:01:34,340
+link nodes are children of the head node
+
+30
+00:01:34,340 --> 00:01:37,080
+and so on. Eventually, once we consume all of
+
+31
+00:01:37,080 --> 00:01:39,150
+the tokens, we arrive at the document object
+
+32
+00:01:39,150 --> 00:01:41,940
+model, or simply DOM, which is a tree structure
+
+33
+00:01:41,940 --> 00:01:44,630
+that captures the content and properties of the
+
+34
+00:01:44,630 --> 00:01:48,260
+HTML and all the relationships between the nodes.
+
+35
+00:01:48,260 --> 00:01:51,630
+>> Cool, so we've converted the HTML to the Document Object
+
+36
+00:01:51,630 --> 00:01:55,350
+Model. It's pretty easy to see why it's called the DOM tree.
+
+37
+00:01:55,350 --> 00:01:57,240
+>> Yeah, also note that these objects
+
+38
+00:01:57,240 --> 00:02:00,090
+contain all of their properties. For example, the
+
+39
+00:02:00,090 --> 00:02:07,200
+image node has a source attribute and this node right here would also have the
+
+40
+00:02:07,200 --> 00:02:12,269
+same property. The DOM is the full parts presentation of the HTML markup.
+
+41
+00:02:13,320 --> 00:02:15,570
+>> Okay, so we downloaded all the HTML and
+
+42
+00:02:15,570 --> 00:02:18,210
+built a DOM. Got it. All right, what's next?
+
+43
+00:02:18,210 --> 00:02:21,140
+>> Actually, the browser constructs a DOM incrementally and you
+
+44
+00:02:21,140 --> 00:02:23,870
+can take advantage of this to speed up the rendering
+
+45
+00:02:23,870 --> 00:02:25,800
+of your pages. In fact, this is something that the
+
+46
+00:02:25,800 --> 00:02:29,090
+Google search pages do really, really well. Let me show you.

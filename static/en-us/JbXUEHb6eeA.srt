@@ -1,0 +1,276 @@
+﻿1
+00:00:00,950 --> 00:00:03,419
+As we've seen,
+there's a small problem with this app.
+
+2
+00:00:03,419 --> 00:00:06,519
+When I try to send a message,
+nothing's happening in the database.
+
+3
+00:00:07,710 --> 00:00:11,315
+Looking at the console message,
+setValue or removeValue, failed,
+
+4
+00:00:11,316 --> 00:00:13,830
+permission_denied, that
+gives us some clue.
+
+5
+00:00:15,210 --> 00:00:18,320
+And, if we go back to the Firebase
+Console and to the Database tab,
+
+6
+00:00:18,320 --> 00:00:19,469
+we can find another clue.
+
+7
+00:00:20,920 --> 00:00:22,110
+Here at the top it reads,
+
+8
+00:00:22,109 --> 00:00:25,619
+Default security rules require
+users to be authenticated.
+
+9
+00:00:25,620 --> 00:00:30,167
+The security rules refer to
+Firebase's security rules file,
+
+10
+00:00:30,167 --> 00:00:34,042
+which can also be seen in this tab,
+just click rules.
+
+11
+00:00:34,042 --> 00:00:37,332
+These rules are use to control which
+users can access information on
+
+12
+00:00:37,332 --> 00:00:38,839
+the database.
+
+13
+00:00:38,840 --> 00:00:41,419
+There's a rule for handling who
+can read data from the database.
+
+14
+00:00:42,439 --> 00:00:45,329
+And there's a rule for
+handling who can write to the database.
+
+15
+00:00:46,750 --> 00:00:49,929
+By default, these rules are set so
+that users can read from and write to
+
+16
+00:00:49,929 --> 00:00:54,659
+the database if they're authenticated,
+aka, if they're logged in.
+
+17
+00:00:54,659 --> 00:00:57,369
+But we haven't implemented
+the login functionality yet.
+
+18
+00:00:57,369 --> 00:01:01,500
+So it's impossible to get the app into
+a state where a user can read or write.
+
+19
+00:01:01,500 --> 00:01:04,200
+We're going to talk more about
+authentication later on.
+
+20
+00:01:04,200 --> 00:01:07,841
+But for now, we can change these rules
+so we can quickly experiment and
+
+21
+00:01:07,840 --> 00:01:09,333
+test the Friendly Chat app.
+
+22
+00:01:09,334 --> 00:01:11,799
+I want to set the read and
+write rules to true.
+
+23
+00:01:13,819 --> 00:01:17,139
+This should allow anyone using the app
+to read and write to the database.
+
+24
+00:01:18,269 --> 00:01:21,709
+But I should emphasize, you should
+never set these rules to true for
+
+25
+00:01:21,709 --> 00:01:23,569
+a production application.
+
+26
+00:01:23,569 --> 00:01:27,229
+It makes it possible for a savvy user
+with a bit of programing experience
+
+27
+00:01:27,230 --> 00:01:31,579
+to do anything to your database,
+including read the entire database,
+
+28
+00:01:31,579 --> 00:01:33,349
+and maybe erase all of the data.
+
+29
+00:01:34,730 --> 00:01:37,840
+So setting read and write to true is for
+development purposes only.
+
+30
+00:01:39,579 --> 00:01:41,280
+With that said, I'll select PUBLISH.
+
+31
+00:01:42,349 --> 00:01:45,629
+I'll go back to the app and
+try to send some messages again.
+
+32
+00:01:45,629 --> 00:01:47,319
+So I'm going to type hello and
+I'll click SEND.
+
+33
+00:01:48,870 --> 00:01:52,820
+And I'm not seeing anything in
+the output here, so, so far so good.
+
+34
+00:01:52,819 --> 00:01:54,792
+And for good measure,
+let's send another hello.
+
+35
+00:01:54,793 --> 00:01:57,168
+[BLANK_AUDIO]
+
+36
+00:01:57,168 --> 00:02:00,190
+Also not seeing anything in
+the console here, so that looks good.
+
+37
+00:02:01,219 --> 00:02:03,030
+If I jump back to the Firebase console,
+
+38
+00:02:03,030 --> 00:02:05,140
+I can see messages showing
+up in the database.
+
+39
+00:02:06,769 --> 00:02:10,709
+Awesome, congratulations, you just wrote
+your first messages to the database.
+
+40
+00:02:10,709 --> 00:02:12,439
+Isn't that cool?
+
+41
+00:02:12,439 --> 00:02:14,310
+Our structure starts
+with a messages node,
+
+42
+00:02:15,840 --> 00:02:18,399
+which then contains a list
+of individual message nodes.
+
+43
+00:02:20,150 --> 00:02:23,270
+The paths we see here are the same
+paths we configured in our code with
+
+44
+00:02:23,270 --> 00:02:24,420
+the database reference.
+
+45
+00:02:26,189 --> 00:02:30,688
+Each individual message can be
+considered as a child of messages.
+
+46
+00:02:31,990 --> 00:02:35,100
+You can also see the random ID
+that identifies each message.
+
+47
+00:02:36,389 --> 00:02:38,819
+Recall that every time data
+is pushed to the database,
+
+48
+00:02:38,819 --> 00:02:41,989
+a unique ID is created as a key for
+the data.
+
+49
+00:02:41,990 --> 00:02:46,090
+So even though I said hello twice, the
+database knows that these two messages
+
+50
+00:02:46,090 --> 00:02:48,890
+are different, and
+that’s because of the unique ID.
+
+51
+00:02:50,120 --> 00:02:52,099
+If we look at each message individually,
+
+52
+00:02:52,099 --> 00:02:56,639
+they consist of a name key value pair,
+and a text key value pair.
+
+53
+00:02:58,099 --> 00:03:01,349
+Right now, all messages show our name
+as a anonymous because we haven't
+
+54
+00:03:01,349 --> 00:03:03,599
+started authenticating users yet.
+
+55
+00:03:03,599 --> 00:03:06,569
+You'll learn how to do this shortly
+when we talk about authentication.
+
+56
+00:03:06,569 --> 00:03:09,169
+For now, we'll remain anonymous.
+
+57
+00:03:09,169 --> 00:03:12,599
+Great, Friendly Chat now sounds
+messages to the database.
+
+58
+00:03:12,599 --> 00:03:15,719
+The next task is to read messages
+that are in the database.
+

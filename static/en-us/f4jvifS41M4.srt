@@ -1,0 +1,351 @@
+1
+00:00:00,510 --> 00:00:02,800
+So we're going to talk about a different clustering algorithm that,
+
+2
+00:00:02,800 --> 00:00:05,140
+that at least doesn't have that weird property and it has
+
+3
+00:00:05,140 --> 00:00:09,388
+some other nice, positive properties. But, it, there's trade-offs. There's
+
+4
+00:00:09,388 --> 00:00:13,670
+always trade-offs in clustering. So k-means clustering is what we're going to
+
+5
+00:00:13,670 --> 00:00:16,490
+talk about next. And, and the, the feel, the basic
+
+6
+00:00:16,490 --> 00:00:20,280
+flow of the algorithm is like this. We're going to first pick
+
+7
+00:00:20,280 --> 00:00:22,900
+a K. K is going to be the number of clusters
+
+8
+00:00:22,900 --> 00:00:25,510
+that we're going to try to produce. And the way it's going to
+
+9
+00:00:25,510 --> 00:00:30,200
+do it is by picking K of the points at random to be centers. And then we're
+
+10
+00:00:32,420 --> 00:00:35,930
+going to repeat the following process, each center is going to
+
+11
+00:00:35,930 --> 00:00:39,840
+claim it's closest points. So, we're going to cluster all the
+
+12
+00:00:39,840 --> 00:00:42,600
+points based on how close they are to the k
+
+13
+00:00:42,600 --> 00:00:46,320
+centers that we've defined. Then, we're going to recompute, based on
+
+14
+00:00:46,320 --> 00:00:49,450
+that clustering that we just did. Recompute the centers.
+
+15
+00:00:49,450 --> 00:00:51,490
+And the center would be the average of the points
+
+16
+00:00:51,490 --> 00:00:54,860
+in its cluster. And then we're going to tick tock back
+
+17
+00:00:54,860 --> 00:00:58,160
+and forth. We're going to go back and repeat 'til convergence.
+
+18
+00:00:58,160 --> 00:01:01,770
+For the new centers claiming their closest points. The new
+
+19
+00:01:01,770 --> 00:01:04,450
+groups of points computing their average and back and forth
+
+20
+00:01:04,450 --> 00:01:07,730
+like that. So let's step through an example and then
+
+21
+00:01:07,730 --> 00:01:09,860
+and then we'll try to analyze what this actually does.
+
+22
+00:01:09,860 --> 00:01:11,660
+>> Okay, that makes sense.
+
+23
+00:01:11,660 --> 00:01:14,160
+>> Alright. I'm going to do K equals two. In
+
+24
+00:01:14,160 --> 00:01:16,670
+this example the same set of points that I
+
+25
+00:01:16,670 --> 00:01:19,550
+used in the previous example. And I'll just you
+
+26
+00:01:19,550 --> 00:01:23,320
+know, kind of randomly. Choose two of them to be
+
+27
+00:01:23,320 --> 00:01:26,240
+the two clusters the red cluster and the green cluster alright?
+
+28
+00:01:26,240 --> 00:01:26,700
+>> Okay.
+
+29
+00:01:26,700 --> 00:01:29,190
+>> So that's this, that's this first step done. Now
+
+30
+00:01:29,190 --> 00:01:31,620
+what we're going to do is each of these centers is going to
+
+31
+00:01:31,620 --> 00:01:34,450
+claim. Their closest point. So we are going to take all
+
+32
+00:01:34,450 --> 00:01:36,610
+the points in this space and assign them to one of
+
+33
+00:01:36,610 --> 00:01:39,840
+the other of these two clusters. And it ends up
+
+34
+00:01:39,840 --> 00:01:43,396
+looking like this. Alright? So this is now the points that's
+
+35
+00:01:43,396 --> 00:01:46,252
+closest to the green centers have all been put into
+
+36
+00:01:46,252 --> 00:01:48,370
+a green blob. The ones that are closest to the red
+
+37
+00:01:48,370 --> 00:01:50,210
+center, all get put into the red blob.
+
+38
+00:01:50,210 --> 00:01:50,560
+>> Okay.
+
+39
+00:01:50,560 --> 00:01:54,040
+>> Okay? So, that's, that's step two. Now what we do is recompute
+
+40
+00:01:54,040 --> 00:01:57,310
+the centers. So the center of the red blob is still pretty close to
+
+41
+00:01:57,310 --> 00:01:59,960
+where it was before but if you look at the green blob, the
+
+42
+00:01:59,960 --> 00:02:03,080
+center of the green blob ought to be to the right. You see that?
+
+43
+00:02:03,080 --> 00:02:05,560
+>> I do, I do. In fact it should be a lot more
+
+44
+00:02:05,560 --> 00:02:07,540
+to the right cause there's a whole lot of points on the right.
+
+45
+00:02:07,540 --> 00:02:10,620
+>> Yeah, though, I did this sort of by eye, so it doesn't, yeah,
+
+46
+00:02:10,620 --> 00:02:13,590
+you're right. It should be, it should be closer to the clump on the right,
+
+47
+00:02:13,590 --> 00:02:14,930
+but I, I didn't quite do it that way.
+
+48
+00:02:14,930 --> 00:02:15,400
+>> Okay.
+
+49
+00:02:15,400 --> 00:02:17,950
+>> So I moved it just a little bit more to the right. See that?
+
+50
+00:02:17,950 --> 00:02:19,055
+>> Mm-hm.
+
+51
+00:02:19,055 --> 00:02:20,590
+>> But now we can repeat this process. We
+
+52
+00:02:20,590 --> 00:02:22,640
+can say," Okay, now everybody join the group that
+
+53
+00:02:22,640 --> 00:02:25,590
+you're closest to." And one nice thing that happened
+
+54
+00:02:25,590 --> 00:02:27,300
+now is that the group of points on the
+
+55
+00:02:27,300 --> 00:02:29,730
+left all joined together in red and this sort
+
+56
+00:02:29,730 --> 00:02:32,680
+of weird hammery thing on the right became green.
+
+57
+00:02:33,880 --> 00:02:35,990
+And now we're going to recompute our centers again.
+
+58
+00:02:35,990 --> 00:02:38,910
+We're going to say, where's the center of the clusters given
+
+59
+00:02:38,910 --> 00:02:41,800
+the way that they've been painted. And that, again, move things
+
+60
+00:02:41,800 --> 00:02:44,250
+a little bit to the right in both cases. We ask
+
+61
+00:02:44,250 --> 00:02:47,360
+every point to join the team that they're closest to. And
+
+62
+00:02:47,360 --> 00:02:49,530
+we get that. And that actually turns out to be exactly
+
+63
+00:02:49,530 --> 00:02:51,790
+the same clustering that we had a moment ago. So when
+
+64
+00:02:51,790 --> 00:02:56,810
+we recompute the centers, they remain unchanged. And so we've converged.
+
+65
+00:02:56,810 --> 00:03:00,160
+So it, it seems to have clustered things reasonably given that
+
+66
+00:03:00,160 --> 00:03:02,510
+I didn't actually run this. I just did it by hand.
+
+67
+00:03:02,510 --> 00:03:04,170
+>> Okay. Can I ask a question?
+
+68
+00:03:04,170 --> 00:03:04,940
+>> Oh, please.
+
+69
+00:03:04,940 --> 00:03:08,280
+>> Okay. You seem to have drawn this in such a way that the centers
+
+70
+00:03:08,280 --> 00:03:13,480
+are always one of the points. But that's not really meant to do, is it?
+
+71
+00:03:13,480 --> 00:03:18,400
+>> No, no. It's definitely not what I meant to do. It's it realy is just.
+
+72
+00:03:18,400 --> 00:03:20,675
+It, it, doesn't. The center is not necessarily
+
+73
+00:03:20,675 --> 00:03:23,190
+a point that's in the collection of objects.
+
+74
+00:03:23,190 --> 00:03:23,370
+>> Right.
+
+75
+00:03:23,370 --> 00:03:24,540
+>> Yeah thanks for pointing that out.
+
+76
+00:03:24,540 --> 00:03:26,480
+>> Okay, so this makes sense and that
+
+77
+00:03:26,480 --> 00:03:29,300
+look better than what single linkage clustering, or single
+
+78
+00:03:29,300 --> 00:03:32,660
+link clustering, or single linkage or whatever it is called, clustering did.
+
+79
+00:03:32,660 --> 00:03:34,900
+>> At least for this kind of example, yeah, it, it
+
+80
+00:03:34,900 --> 00:03:38,130
+produced kind of more compact clusters without giant holes in them.
+
+81
+00:03:38,130 --> 00:03:39,180
+>> M-hm.
+
+82
+00:03:39,180 --> 00:03:44,930
+>> So so do you have any questions about this? About what it does.
+
+83
+00:03:44,930 --> 00:03:51,580
+>> Yes. So, so, [LAUGH] I think I might have
+
+84
+00:03:51,580 --> 00:03:54,630
+some questions Michael. And they may even be questions you'd like
+
+85
+00:03:54,630 --> 00:03:57,950
+to here. So I asked one question about what the synergy looked like. So I have a
+
+86
+00:03:57,950 --> 00:04:01,000
+couple of questions, one is does this always converge?
+
+87
+00:04:01,000 --> 00:04:03,080
+Does it always come up with a good answer?
+
+88
+00:04:03,080 --> 00:04:04,970
+>> Yes, those are good questions.

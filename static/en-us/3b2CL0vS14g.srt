@@ -1,0 +1,217 @@
+1
+00:00:00,160 --> 00:00:02,680
+Now, let's actually try
+to quantify all of this.
+
+2
+00:00:02,680 --> 00:00:07,020
+Imagine I have an input image
+which has been defocused, and
+
+3
+00:00:07,020 --> 00:00:09,740
+what we basically want
+to do is now look at.
+
+4
+00:00:09,740 --> 00:00:12,610
+Remember the, all those defocused
+regions that we'd looked at,
+
+5
+00:00:12,610 --> 00:00:16,379
+basically calibrate these blur
+kernels at different depths.
+
+6
+00:00:16,379 --> 00:00:17,440
+If can calibrate them,
+
+7
+00:00:17,440 --> 00:00:22,230
+perhaps we can now model the response
+on an image because of different types,
+
+8
+00:00:22,230 --> 00:00:24,340
+you know, different blur
+kernels that are coming in.
+
+9
+00:00:24,340 --> 00:00:25,270
+Because again,
+
+10
+00:00:25,270 --> 00:00:28,770
+these are response functions we
+saw when we moved objects around.
+
+11
+00:00:28,770 --> 00:00:30,918
+If you actually went through
+an exercise of doing that,
+
+12
+00:00:30,918 --> 00:00:33,380
+what we did of trying to move an object.
+
+13
+00:00:33,380 --> 00:00:36,740
+We might be able to kind of build
+a model that could be used to generate
+
+14
+00:00:36,740 --> 00:00:38,160
+this information.
+
+15
+00:00:38,160 --> 00:00:40,420
+So, let's look at this
+a little bit more carefully.
+
+16
+00:00:40,420 --> 00:00:45,790
+So imagine, I could now come up with
+some sort of a local sub-window and
+
+17
+00:00:45,790 --> 00:00:49,070
+also look at how
+the calibrated blur kernel for
+
+18
+00:00:49,070 --> 00:00:51,750
+that image would look
+like at certain depth k.
+
+19
+00:00:51,750 --> 00:00:54,990
+That would actually be fk,
+so, I have a window, yk,
+
+20
+00:00:54,990 --> 00:01:00,140
+I have a new calibrated
+blur at different depths k.
+
+21
+00:01:00,140 --> 00:01:01,100
+And we call that fk.
+
+22
+00:01:01,100 --> 00:01:05,717
+And basically, now, we can basically
+come up with a sharp output x on that
+
+23
+00:01:05,717 --> 00:01:10,424
+sub window, by doing what we know how
+to do which is convolutions, right?
+
+24
+00:01:10,424 --> 00:01:13,154
+So, it basically means is for
+a specific depth,
+
+25
+00:01:13,154 --> 00:01:16,158
+I can now come up with
+different types of images.
+
+26
+00:01:16,158 --> 00:01:18,740
+So, k1, k2 and k3.
+
+27
+00:01:18,740 --> 00:01:20,990
+So, I'm just showing you
+a simple table here.
+
+28
+00:01:20,990 --> 00:01:23,390
+This is my image,
+I found different sub-windows.
+
+29
+00:01:23,390 --> 00:01:27,040
+And I can now compute if
+I know the blur kernel.
+
+30
+00:01:27,040 --> 00:01:29,770
+And, these are again, if you noticed
+the ones that we had looked at as from
+
+31
+00:01:29,770 --> 00:01:32,190
+the example of images earlier.
+
+32
+00:01:32,190 --> 00:01:34,615
+When we basically moved
+the lens moved the object,
+
+33
+00:01:34,615 --> 00:01:36,220
+the light source away from the lens.
+
+34
+00:01:36,220 --> 00:01:38,420
+We've got different spread
+functions out of it.
+
+35
+00:01:38,420 --> 00:01:42,770
+We can actually use this to now,
+of course, compute sharp images.
+
+36
+00:01:42,770 --> 00:01:47,340
+And of course, no surprise to you how
+we do this is a simple convolution
+
+37
+00:01:47,340 --> 00:01:49,250
+of the calibrated blur kernel.
+
+38
+00:01:49,250 --> 00:01:53,690
+With the sharp window here to be
+able to create a local sub-window.
+
+39
+00:01:53,690 --> 00:01:54,290
+Right?
+
+40
+00:01:54,290 --> 00:01:55,650
+So this is how we would actually do it.
+
+41
+00:01:55,650 --> 00:01:57,500
+This is a forward process,
+if I had this,
+
+42
+00:01:57,500 --> 00:01:58,620
+I would actually be able to compute it.
+
+43
+00:01:58,620 --> 00:02:01,550
+Of course, my interest is in
+actually computing this, right?
+
+44
+00:02:01,550 --> 00:02:04,160
+I want to be able to actually
+come up with a sharps sub-window.
+
+45
+00:02:04,160 --> 00:02:06,700
+So the inverse of this process
+is what we are interested in.
+
+46
+00:02:06,700 --> 00:02:09,008
+But, we can actually do
+calibration this way.

@@ -1,0 +1,114 @@
+1
+00:00:00,460 --> 00:00:02,360
+Jay show us how you did this one.
+
+2
+00:00:02,360 --> 00:00:04,960
+>> Sure thing,
+it went a little like this.
+
+3
+00:00:04,960 --> 00:00:07,110
+So first I'm going to open the cache for
+our images.
+
+4
+00:00:08,170 --> 00:00:11,440
+Once I've got the cache,
+I'll look for a match for storageUrl.
+
+5
+00:00:13,630 --> 00:00:15,740
+If there is one I'll return it, done.
+
+6
+00:00:17,160 --> 00:00:20,490
+Otherwise, I'm going to fetch the image
+from the network using the fetch API.
+
+7
+00:00:22,600 --> 00:00:27,630
+Once I get the response, I'll add it
+to the cache using the storageUrl and
+
+8
+00:00:27,630 --> 00:00:28,680
+a clone at the response.
+
+9
+00:00:29,730 --> 00:00:32,409
+Then I'll return the original
+response to the browser.
+
+10
+00:00:32,409 --> 00:00:35,040
+Remember, you can only read
+a response's body once.
+
+11
+00:00:35,040 --> 00:00:37,330
+This is why we have one
+copy going to the cache and
+
+12
+00:00:37,330 --> 00:00:38,710
+the original going to the browser.
+
+13
+00:00:39,910 --> 00:00:42,550
+Now I'm going to use Force update and
+reload the page.
+
+14
+00:00:43,850 --> 00:00:47,330
+If we check in the Resources
+panel in dev tools, yep,
+
+15
+00:00:47,330 --> 00:00:49,670
+we can see the new cache and
+it has images in it.
+
+16
+00:00:50,720 --> 00:00:54,260
+If I resize this panel so
+we can see the whole URL,
+
+17
+00:00:54,260 --> 00:00:56,622
+you can see the URL ends before
+the bit with the pixel width,
+
+18
+00:00:56,622 --> 00:01:01,140
+confirming the cache URLs
+aren't site specific.
+
+19
+00:01:01,140 --> 00:01:02,055
+Let's test the serving.
+
+20
+00:01:02,055 --> 00:01:06,672
+We'll bring the server down,
+go offline, and reload the page.
+
+21
+00:01:06,672 --> 00:01:10,600
+And the images are still loading but
+here's the ultimate test.
+
+22
+00:01:10,600 --> 00:01:15,860
+If I change the width of the browser and
+reload, yep, the images still load.
+
+23
+00:01:15,860 --> 00:01:18,810
+This means the service worker is
+returning the image we have cached
+
+24
+00:01:18,810 --> 00:01:21,370
+no matter which width of
+image the browser requests.

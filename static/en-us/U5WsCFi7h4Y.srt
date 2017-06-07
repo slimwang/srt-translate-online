@@ -1,0 +1,291 @@
+1
+00:00:00,290 --> 00:00:04,090
+So to help us understand how imaging can be done with cameras,
+
+2
+00:00:04,090 --> 00:00:07,900
+let's try to build one from the basic first principles.
+
+3
+00:00:08,930 --> 00:00:13,350
+Help us do this, I'm starting off with a simple tree, shown here.
+
+4
+00:00:13,350 --> 00:00:16,810
+basically, it's kind of attempting to show a 3-D scene.
+
+5
+00:00:16,810 --> 00:00:20,480
+And what we're interested in is capturing this 3-D scene in a way that it
+
+6
+00:00:20,480 --> 00:00:24,310
+actually captures the geometry and all of the light variations of this.
+
+7
+00:00:24,310 --> 00:00:29,340
+Of course, nothing of the scene would be visible without a light source, right?
+
+8
+00:00:29,340 --> 00:00:31,810
+If you walk into a dark room, you can't see anything.
+
+9
+00:00:31,810 --> 00:00:35,800
+There has to be a light source, there could be an external one with sun or
+
+10
+00:00:35,800 --> 00:00:39,240
+simple light bulbs and stuff like that in internal situations.
+
+11
+00:00:40,410 --> 00:00:44,810
+Light source from this hits the tree, and basically then it reflects the light
+
+12
+00:00:44,810 --> 00:00:48,700
+back and it's the reflections from the scene that hit our eye,
+
+13
+00:00:48,700 --> 00:00:52,880
+that's why we see the scene, and again we want that reflections to hit
+
+14
+00:00:52,880 --> 00:00:56,480
+the camera, and store that image, and that's what we're interested in.
+
+15
+00:00:56,480 --> 00:01:00,340
+So in essence, any light source illuminates the scene like this, and
+
+16
+00:01:00,340 --> 00:01:03,900
+it's these reflections from this, kind of what we see, and
+
+17
+00:01:03,900 --> 00:01:07,020
+again that's one of the reasons we see color, we see specularities, and
+
+18
+00:01:07,020 --> 00:01:10,280
+stuff like that, depending on the type of surface it might be.
+
+19
+00:01:10,280 --> 00:01:13,280
+For example, if it's kind of reflecting black,
+
+20
+00:01:13,280 --> 00:01:16,990
+well it means that in essence it's absorbed everything.
+
+21
+00:01:16,990 --> 00:01:19,850
+If it's reflecting white, it means it's reflecting everything.
+
+22
+00:01:19,850 --> 00:01:23,460
+And you know, color come in, because again, the color properties of
+
+23
+00:01:23,460 --> 00:01:27,870
+the surface that actually has those color materials reflect differently, and
+
+24
+00:01:27,870 --> 00:01:29,200
+that's why we see those colors.
+
+25
+00:01:29,200 --> 00:01:32,920
+So this in essence, basically suggests that scenes have to be illuminated.
+
+26
+00:01:32,920 --> 00:01:35,300
+Now let's try to capture this information.
+
+27
+00:01:35,300 --> 00:01:39,820
+So to do this I'm actually going to pop up a, a screen of some sort, and
+
+28
+00:01:39,820 --> 00:01:43,850
+I'm now interested in basically saying this is my screen.
+
+29
+00:01:43,850 --> 00:01:48,460
+I want to capture this 3D structure onto the screen.
+
+30
+00:01:48,460 --> 00:01:50,930
+We can actually refer to this screen as a sensor.
+
+31
+00:01:50,930 --> 00:01:54,350
+Now we will talk about different types of sensors but let's assume this is
+
+32
+00:01:54,350 --> 00:01:59,840
+a sensor that actually captures this light and saves it for us.
+
+33
+00:01:59,840 --> 00:02:01,370
+But, before we get to the saving part,
+
+34
+00:02:01,370 --> 00:02:06,010
+let's see how light is actually created or gathered on this surface.
+
+35
+00:02:06,010 --> 00:02:10,190
+Of course, as I said in the last slide, if the sun was illuminating this tree,
+
+36
+00:02:10,190 --> 00:02:14,750
+each and every point of this tree would be reflecting back the light.
+
+37
+00:02:15,810 --> 00:02:18,350
+And that light would be hitting our eyes, and that's how we see it and
+
+38
+00:02:18,350 --> 00:02:19,190
+all that kind of stuff.
+
+39
+00:02:19,190 --> 00:02:20,880
+Well, so in essence, each and
+
+40
+00:02:20,880 --> 00:02:24,030
+every point is reflecting light and it's hitting the sensor.
+
+41
+00:02:24,030 --> 00:02:28,060
+And of course, no image is forming on this one because it's coming across in
+
+42
+00:02:28,060 --> 00:02:29,960
+all possible ways.
+
+43
+00:02:29,960 --> 00:02:32,630
+And of course, at present we're not thinking of this as a sensor.
+
+44
+00:02:32,630 --> 00:02:35,890
+Let's just claim it to be a screen and all of the light is there.
+
+45
+00:02:35,890 --> 00:02:39,550
+And of course it's for this reason, you walk around in an environment,
+
+46
+00:02:39,550 --> 00:02:44,420
+you actually don't see reflections of everything exactly on this environment.
+
+47
+00:02:44,420 --> 00:02:47,610
+What we want to now figure out is how to get these beams of
+
+48
+00:02:47,610 --> 00:02:49,840
+those rays of light focused.
+
+49
+00:02:49,840 --> 00:02:53,940
+So, to achieve this, let's put an obstruction in front of our screen.
+
+50
+00:02:53,940 --> 00:02:58,610
+And here I basically show an obstruction to be basically, a big, you know,
+
+51
+00:02:58,610 --> 00:03:03,990
+let's say a object of some sort, except that I do have an opening.
+
+52
+00:03:03,990 --> 00:03:07,960
+So, because of this obstruction, what will happen to all these sources of light?
+
+53
+00:03:07,960 --> 00:03:12,752
+Only the ones that actually go through this obstruction, this hole,
+
+54
+00:03:12,752 --> 00:03:14,629
+would make it to my screen.
+
+55
+00:03:14,629 --> 00:03:16,536
+The rest of them would just reflect off and
+
+56
+00:03:16,536 --> 00:03:19,916
+diffuse themselves in this part of the environment, and nothing will get
+
+57
+00:03:19,916 --> 00:03:23,790
+through, only the ones that get through would be through this opening.
+
+58
+00:03:23,790 --> 00:03:26,010
+So let's look at exactly what that means.
+
+59
+00:03:26,010 --> 00:03:29,160
+If a ray of light goes from the bottom of the tree, it goes through here,
+
+60
+00:03:29,160 --> 00:03:31,210
+it goes through the hole and hits the screen.
+
+61
+00:03:31,210 --> 00:03:33,359
+Let's see what happens on the other end.
+
+62
+00:03:33,359 --> 00:03:37,240
+Another ray of light goes from the top, goes through here and hits the screen.
+
+63
+00:03:37,240 --> 00:03:40,210
+Simple geometric kind of a way of looking at rays of light.
+
+64
+00:03:40,210 --> 00:03:42,200
+Remember, rays of light are the ones we are trying to
+
+65
+00:03:42,200 --> 00:03:43,860
+capture to create an image.
+
+66
+00:03:43,860 --> 00:03:48,510
+So one thing interesting is bottom is there, top is there.
+
+67
+00:03:48,510 --> 00:03:50,790
+So just by looking at this triangles,
+
+68
+00:03:50,790 --> 00:03:55,890
+we can say that this tree should be upside down when it forms on the sensor.
+
+69
+00:03:55,890 --> 00:03:59,090
+And again it makes perfect sense, this point is actually coming in and
+
+70
+00:03:59,090 --> 00:04:00,270
+registering here.
+
+71
+00:04:00,270 --> 00:04:03,690
+This point is coming and registering here and of course all of the points
+
+72
+00:04:03,690 --> 00:04:08,610
+on this tree would be going through this small hole and creating an image there.
+
+73
+00:04:08,610 --> 00:04:11,855
+So that in essence is basis of a camera per se.

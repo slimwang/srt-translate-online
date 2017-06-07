@@ -1,0 +1,342 @@
+﻿1
+00:00:00,220 --> 00:00:04,330
+Navigation is an excellent example
+of a computationally hard problem
+
+2
+00:00:04,330 --> 00:00:06,859
+that AI can help solve more efficiently.
+
+3
+00:00:06,860 --> 00:00:09,060
+>> What do you mean by
+computationally hard,
+
+4
+00:00:09,060 --> 00:00:12,580
+problems that have a high time or
+space complexity?
+
+5
+00:00:12,580 --> 00:00:13,740
+>> Yeah, precisely.
+
+6
+00:00:13,740 --> 00:00:15,330
+Let me illustrate.
+
+7
+00:00:15,330 --> 00:00:19,719
+I'm trying to plan a road trip from
+Manchester to Sheffield in the UK and
+
+8
+00:00:19,719 --> 00:00:23,029
+for that I wish to find
+a shortest path between them.
+
+9
+00:00:23,030 --> 00:00:25,390
+Given the information about
+where different cities and
+
+10
+00:00:25,390 --> 00:00:27,080
+towns are located and
+
+11
+00:00:27,079 --> 00:00:31,369
+what roadways connect them, can I use
+a computer to do the hard work for me?
+
+12
+00:00:31,370 --> 00:00:31,839
+>> Well, sure.
+
+13
+00:00:31,839 --> 00:00:35,060
+This seems like a simple search
+problem to do a graph of city nodes
+
+14
+00:00:35,060 --> 00:00:36,425
+connected by road edges.
+
+15
+00:00:36,424 --> 00:00:39,089
+Brek first search can handle that,
+right?
+
+16
+00:00:39,090 --> 00:00:42,820
+>> Yeah, but look what happens
+I applied brek for search.
+
+17
+00:00:42,820 --> 00:00:46,520
+It's starts considering all the possible
+pots out of the source city
+
+18
+00:00:46,520 --> 00:00:49,260
+till it reaches the desire
+destination on one of those pots.
+
+19
+00:00:50,299 --> 00:00:53,939
+>> That's not very efficient and
+you're only showing major roadways.
+
+20
+00:00:53,939 --> 00:00:57,244
+If you consider smaller streets and
+alleys I'm guessing the space of
+
+21
+00:00:57,244 --> 00:01:00,041
+possible paths to search can
+easily become intractable.
+
+22
+00:01:00,042 --> 00:01:03,030
+>> Right and that's where AI comes in.
+
+23
+00:01:03,030 --> 00:01:03,550
+Tell me,
+
+24
+00:01:03,549 --> 00:01:08,049
+if you were manually planning this trip,
+how would you approach the problem?
+
+25
+00:01:08,049 --> 00:01:09,840
+>> Well I can see that
+Sheffield is to the east and
+
+26
+00:01:09,840 --> 00:01:13,950
+slightly south of Manchester, so
+I'd probably only consider the few major
+
+27
+00:01:13,950 --> 00:01:16,500
+roadways that are coming
+out in that direction.
+
+28
+00:01:16,500 --> 00:01:19,010
+Paths that I see going too
+far away from my destination.
+
+29
+00:01:19,010 --> 00:01:22,730
+I might just ignore them, or
+keep them aside to be considered later.
+
+30
+00:01:22,730 --> 00:01:25,579
+I would definitely give priority to
+paths that I can see are getting me
+
+31
+00:01:25,579 --> 00:01:26,989
+closer to my destination.
+
+32
+00:01:26,989 --> 00:01:27,689
+>> There you go.
+
+33
+00:01:27,689 --> 00:01:30,340
+That's a perfectly
+fine heuristic to use.
+
+34
+00:01:30,340 --> 00:01:32,525
+>> I don't know how to drive stick,
+actually.
+
+35
+00:01:32,525 --> 00:01:35,585
+>> Heuristic-
+>> That's AI for smarts.
+
+36
+00:01:36,605 --> 00:01:40,844
+Basically, a heuristic is some
+additional piece of information, a rule,
+
+37
+00:01:40,844 --> 00:01:44,909
+function or constraint, that informs
+an otherwise brute-force algorithm
+
+38
+00:01:44,909 --> 00:01:46,840
+to act in a more optimal manner.
+
+39
+00:01:46,840 --> 00:01:50,255
+>> Hm, I see, but what I just
+described seems too imprecise to be
+
+40
+00:01:50,254 --> 00:01:52,679
+factored into a real algorithm.
+
+41
+00:01:52,680 --> 00:01:54,170
+>> You'd be surprised.
+
+42
+00:01:54,170 --> 00:01:57,180
+Let's draw a straight line between
+the source and destination.
+
+43
+00:01:57,180 --> 00:02:00,050
+This is the shortest possible
+path we could ever take
+
+44
+00:02:00,049 --> 00:02:02,149
+if the two cities were
+directly connected.
+
+45
+00:02:02,150 --> 00:02:03,900
+>> Right, as the crow flies.
+
+46
+00:02:03,900 --> 00:02:08,509
+>> Yeah, now let's consider taking
+a random step in any direction.
+
+47
+00:02:08,508 --> 00:02:11,519
+The new direct distance to
+the destination has changed.
+
+48
+00:02:11,520 --> 00:02:13,080
+In fact, it has become greater,
+
+49
+00:02:13,080 --> 00:02:16,210
+which means we have effectively
+gone away from the destination.
+
+50
+00:02:17,240 --> 00:02:18,460
+Let's consider a different step.
+
+51
+00:02:19,840 --> 00:02:21,800
+>> This time, it looks like
+our distance has shrunk, so
+
+52
+00:02:21,800 --> 00:02:23,350
+we've moved closer to our goal.
+
+53
+00:02:23,349 --> 00:02:24,469
+>> That's right.
+
+54
+00:02:24,469 --> 00:02:27,750
+We keep testing all possible next
+steps from the current position.
+
+55
+00:02:27,750 --> 00:02:31,889
+And pick the one with the smallest
+direct instance to move to next.
+
+56
+00:02:31,889 --> 00:02:34,839
+>> One thing you haven't considered
+though is that it seemed like
+
+57
+00:02:34,840 --> 00:02:37,599
+the current next step that
+seemed like the best choice
+
+58
+00:02:37,599 --> 00:02:39,969
+may not turn out to be
+on the optimal path.
+
+59
+00:02:39,969 --> 00:02:41,659
+>> Good catch.
+
+60
+00:02:41,659 --> 00:02:45,849
+Note that we are only using our direct
+distance heuristic to decide which step
+
+61
+00:02:45,849 --> 00:02:47,560
+to explore next.
+
+62
+00:02:47,560 --> 00:02:51,569
+We're not really throwing away the other
+possibilities, merely storing them for
+
+63
+00:02:51,569 --> 00:02:55,780
+later consideration in case none of
+the more promising paths works out.
+
+64
+00:02:55,780 --> 00:02:59,098
+Okay, so this help us prioritize
+how our algorithm considers and
+
+65
+00:02:59,098 --> 00:03:01,680
+evaluates different possibilities.
+
+66
+00:03:01,680 --> 00:03:04,662
+I can see that it may prevent
+some unnecessary searching but
+
+67
+00:03:04,662 --> 00:03:06,700
+how effective is it really?
+
+68
+00:03:06,699 --> 00:03:09,238
+Well, let's run it and figure it out.
+
+69
+00:03:09,239 --> 00:03:12,704
+Neat it does seem to explore
+some additional paths but
+
+70
+00:03:12,704 --> 00:03:16,710
+it converges on the optimal
+direction pretty quickly.
+
+71
+00:03:16,710 --> 00:03:20,379
+>> Yeah, the exact method
+here is called A* Search and
+
+72
+00:03:20,379 --> 00:03:24,639
+is one of the most popular yet
+effective AI algorithms out there.
+
+73
+00:03:24,639 --> 00:03:27,009
+We'll learn more about
+it in the search lesson.
+

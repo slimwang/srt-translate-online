@@ -1,0 +1,337 @@
+1
+00:00:00,560 --> 00:00:02,132
+Let's go back to our app now.
+
+2
+00:00:02,132 --> 00:00:05,040
+I want to focus on understanding
+what's going on behind the scenes
+
+3
+00:00:05,040 --> 00:00:06,700
+when a click happens in Android.
+
+4
+00:00:06,700 --> 00:00:08,860
+If we click on the Numbers
+category in the app,
+
+5
+00:00:08,860 --> 00:00:12,670
+how does an openNumbersList
+method magically get executed?
+
+6
+00:00:12,670 --> 00:00:16,329
+Well, we saw here in
+the activity_main.xml file
+
+7
+00:00:16,329 --> 00:00:18,770
+that we were able to define
+button click behavior
+
+8
+00:00:18,770 --> 00:00:23,540
+by adding an android:onClick attribute
+to a view in the XML layout.
+
+9
+00:00:23,540 --> 00:00:27,606
+So this is actually a pretty convenient
+shortcut in XML that Android provides.
+
+10
+00:00:27,606 --> 00:00:30,070
+However, we want to teach you
+how professional developers
+
+11
+00:00:30,070 --> 00:00:32,780
+typically hook up button
+code logic to their app.
+
+12
+00:00:32,780 --> 00:00:34,030
+Now by the end of this lesson,
+
+13
+00:00:34,030 --> 00:00:37,900
+we're going to accomplish the same
+button click behavior in the Miwok app,
+
+14
+00:00:37,900 --> 00:00:41,520
+but this time with only Java code and
+no XML changes.
+
+15
+00:00:42,560 --> 00:00:44,466
+When a user's interacting
+with their Android device,
+
+16
+00:00:44,466 --> 00:00:48,080
+they interact with the apps
+by touching the screen, and
+
+17
+00:00:48,080 --> 00:00:51,530
+these correspond to user
+input events in Android.
+
+18
+00:00:51,530 --> 00:00:54,920
+For example, there's a click
+event when a view pressed.
+
+19
+00:00:54,920 --> 00:01:00,140
+Other types of events include long
+click, drag events, key events,
+
+20
+00:01:00,140 --> 00:01:04,480
+this is when a key on the keyboard is
+pressed, and there are many others.
+
+21
+00:01:04,480 --> 00:01:06,510
+Say the user clicked
+a button on the screen.
+
+22
+00:01:06,510 --> 00:01:08,550
+The screen hardware will
+detect the touch and
+
+23
+00:01:08,550 --> 00:01:10,590
+notify Android that
+a click has occurred.
+
+24
+00:01:10,590 --> 00:01:13,227
+Android will then identify the view
+at the location that they touched
+
+25
+00:01:13,227 --> 00:01:14,540
+the screen.
+
+26
+00:01:14,540 --> 00:01:17,460
+Now what's really cool is that
+you can choose to get notified
+
+27
+00:01:17,460 --> 00:01:20,500
+when certain events happen
+on a specific view.
+
+28
+00:01:20,500 --> 00:01:25,040
+In the code you can say, I want to know
+when this particular event happens.
+
+29
+00:01:25,040 --> 00:01:28,440
+So developers often refer to
+this paradigm as listening for
+
+30
+00:01:28,440 --> 00:01:29,770
+a certain event.
+
+31
+00:01:29,770 --> 00:01:33,180
+In a way, you can think of your
+app as having an ear to listen for
+
+32
+00:01:33,180 --> 00:01:37,730
+certain signals that you care about,
+the signals being certain user events.
+
+33
+00:01:37,730 --> 00:01:40,940
+Once you know the event has happened,
+you can program exactly what should
+
+34
+00:01:40,940 --> 00:01:44,730
+happen when a user interacts
+with a specific part of your UI.
+
+35
+00:01:44,730 --> 00:01:47,380
+So how do you get this
+set up in your app?
+
+36
+00:01:47,380 --> 00:01:51,510
+Well, you can create an event
+listener object for this view and
+
+37
+00:01:51,510 --> 00:01:54,990
+you specify what should
+happen when the event occurs.
+
+38
+00:01:54,990 --> 00:01:58,200
+So in this diagram,
+we're interested in click events.
+
+39
+00:01:58,200 --> 00:02:00,880
+So we create an OnClickListener and
+
+40
+00:02:00,880 --> 00:02:04,550
+fill out instructions that should happen
+when the onClick method is called.
+
+41
+00:02:04,550 --> 00:02:06,960
+These instructions can
+be anything you want.
+
+42
+00:02:06,960 --> 00:02:09,880
+You can open a new screen when
+the user clicks on this view,
+
+43
+00:02:09,880 --> 00:02:11,540
+change the appearance of this view,
+
+44
+00:02:11,540 --> 00:02:15,430
+change the background color of
+the whole screen, or anything else.
+
+45
+00:02:15,430 --> 00:02:19,050
+So once you've created
+the OnClickListener, the last step is to
+
+46
+00:02:19,050 --> 00:02:22,870
+attach it to the view that we
+want to listen for clicks on.
+
+47
+00:02:22,870 --> 00:02:25,150
+This way, when the click event occurs,
+
+48
+00:02:25,150 --> 00:02:28,290
+if the view has a click
+listener associated with it,
+
+49
+00:02:28,290 --> 00:02:31,690
+Android will execute the code
+that you've specified over here.
+
+50
+00:02:31,690 --> 00:02:35,320
+This process happens all very quickly,
+and
+
+51
+00:02:35,320 --> 00:02:38,170
+you don't need to remember
+all the details of each step.
+
+52
+00:02:38,170 --> 00:02:42,150
+Your key role as a developer is
+to set up the event listeners for
+
+53
+00:02:42,150 --> 00:02:45,700
+the input events you care
+about in your application, and
+
+54
+00:02:45,700 --> 00:02:49,260
+Android will take care of running
+the code as you've specified.
+
+55
+00:02:49,260 --> 00:02:51,930
+This is a list of some of
+event listeners in Android.
+
+56
+00:02:51,930 --> 00:02:54,540
+Each event listener offers
+a single callback method
+
+57
+00:02:54,540 --> 00:02:56,400
+that you can provide code for.
+
+58
+00:02:56,400 --> 00:02:59,830
+It's named callback method
+because you'll be called back
+
+59
+00:02:59,830 --> 00:03:01,010
+when the event happens.
+
+60
+00:03:01,010 --> 00:03:04,120
+Now let's focus here this part
+of the article mentions that if
+
+61
+00:03:04,120 --> 00:03:08,020
+you're interested in a click event
+you must create an OnClickListener.
+
+62
+00:03:08,020 --> 00:03:11,747
+So let's navigate there and that
+contains the onClick method where you
+
+63
+00:03:11,747 --> 00:03:14,440
+fill out the instructions for
+the onClick method.
+
+64
+00:03:14,440 --> 00:03:17,060
+Then Android will take care of
+calling this method whenever the user
+
+65
+00:03:17,060 --> 00:03:18,200
+clicks on a view.
+
+66
+00:03:18,200 --> 00:03:18,780
+As a side note,
+
+67
+00:03:18,780 --> 00:03:22,820
+we refer to a tap on the screen as
+a click because of historical reasons.
+
+68
+00:03:22,820 --> 00:03:26,810
+Desktop computers use a mouse to
+navigate around the screen and when you
+
+69
+00:03:26,810 --> 00:03:31,220
+press a mouse button to select something
+on the screen the mouse went click.
+
+70
+00:03:31,220 --> 00:03:33,250
+And here's an image of
+the very first mouse.,

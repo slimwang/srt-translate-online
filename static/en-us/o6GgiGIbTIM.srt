@@ -1,0 +1,432 @@
+﻿1
+00:00:00,000 --> 00:00:01,740
+You've built the user interface and
+
+2
+00:00:01,740 --> 00:00:03,330
+imported the class extension for the
+
+3
+00:00:03,330 --> 00:00:05,370
+Play Sounds View Controller. We're on
+
+4
+00:00:05,370 --> 00:00:07,410
+the final step to get Pitch Perfect to
+
+5
+00:00:07,410 --> 00:00:10,380
+playback audio. Let me walk you through
+
+6
+00:00:10,380 --> 00:00:13,080
+what you need to set this up. If you
+
+7
+00:00:13,080 --> 00:00:14,880
+think back to earlier of this lesson, we
+
+8
+00:00:14,880 --> 00:00:17,309
+wired up all six sound effect buttons to
+
+9
+00:00:17,309 --> 00:00:20,760
+the playSoundForButton function.
+
+10
+00:00:20,760 --> 00:00:22,410
+What we need now is a way to distinguish
+
+11
+00:00:22,410 --> 00:00:24,629
+between those buttons and then call the
+
+12
+00:00:24,629 --> 00:00:27,028
+appropriate function in our extension to
+
+13
+00:00:27,028 --> 00:00:30,449
+play the sound effect. There are several
+
+14
+00:00:30,449 --> 00:00:32,759
+ways to distinguish one UIButton from another,
+
+15
+00:00:32,759 --> 00:00:35,789
+but the easiest is using the Tag
+
+16
+00:00:35,789 --> 00:00:38,969
+property of the button. If you select any
+
+17
+00:00:38,969 --> 00:00:40,738
+of the buttons in the Play Sounds View
+
+18
+00:00:40,738 --> 00:00:42,509
+Controller and go to the attributes
+
+19
+00:00:42,509 --> 00:00:44,549
+inspector, you can scroll down and find
+
+20
+00:00:44,549 --> 00:00:46,259
+its Tag property.
+
+21
+00:00:46,259 --> 00:00:51,808
+This property is just an integer value
+
+22
+00:00:51,808 --> 00:00:54,058
+that we can assign to each button and
+
+23
+00:00:54,058 --> 00:00:56,159
+then we can use it later to identify the
+
+24
+00:00:56,159 --> 00:00:58,229
+button that's pressed for the
+
+25
+00:00:58,229 --> 00:01:01,439
+playSoundForButton function. By default the
+
+26
+00:01:01,439 --> 00:01:03,750
+Tag value for any button is set to 0.
+
+27
+00:01:03,750 --> 00:01:06,599
+Because we haven't changed any Tag
+
+28
+00:01:06,599 --> 00:01:08,728
+values up to this point, all of our UIButtons
+
+29
+00:01:08,728 --> 00:01:10,890
+have zero as their tag value.
+
+30
+00:01:10,890 --> 00:01:14,310
+It's time to change that. The slow
+
+31
+00:01:14,310 --> 00:01:16,140
+playback button, the button with the
+
+32
+00:01:16,140 --> 00:01:19,079
+snail icon on it is our first button.
+
+33
+00:01:19,079 --> 00:01:21,180
+So it can have a tag of zero, but for the
+
+34
+00:01:21,180 --> 00:01:23,009
+other buttons, we should change their tag values.
+
+35
+00:01:23,009 --> 00:01:28,319
+So for the fast playback button
+
+36
+00:01:28,319 --> 00:01:30,450
+with the rabbit icon, lets set its tag
+
+37
+00:01:30,450 --> 00:01:34,049
+to 1. For the high pitched chipmunk button,
+
+38
+00:01:34,049 --> 00:01:40,579
+lets set its tag to 2.
+
+39
+00:01:40,579 --> 00:01:47,450
+For the low pitch Darth Vader button 3.
+
+40
+00:01:47,450 --> 00:01:53,689
+For the echo button 4, and finally for the
+
+41
+00:01:53,689 --> 00:01:57,290
+Reverb button, lets set its tag to 5.
+
+42
+00:01:57,290 --> 00:01:58,969
+Great now we have different tag values for
+
+43
+00:01:58,969 --> 00:02:02,900
+each playback button, from 0 to 5.
+
+44
+00:02:02,900 --> 00:02:04,670
+The next step is to change the
+
+45
+00:02:04,670 --> 00:02:06,590
+playSoundForButton function, so that it
+
+46
+00:02:06,590 --> 00:02:08,030
+does a different audio playback
+
+47
+00:02:08,030 --> 00:02:10,008
+depending on what button was pressed.
+
+48
+00:02:10,008 --> 00:02:13,219
+Let's go back to that function in the
+
+49
+00:02:13,219 --> 00:02:15,199
+PlaySoundsViewController.swift file.
+
+50
+00:02:15,199 --> 00:02:18,469
+Remember the enumeration you added
+
+51
+00:02:18,469 --> 00:02:21,469
+earlier called ButtonType? it has values
+
+52
+00:02:21,469 --> 00:02:24,620
+called slow, fast, chipmunk, vader, echo
+
+53
+00:02:24,620 --> 00:02:27,259
+and reverb. And each of these values,
+
+54
+00:02:27,259 --> 00:02:30,590
+starting with slow, map to an integer value.
+
+55
+00:02:30,590 --> 00:02:34,639
+Slow is equal to 0, fast is equal to 1,
+
+56
+00:02:34,639 --> 00:02:36,949
+and this pattern continues all the way
+
+57
+00:02:36,949 --> 00:02:40,430
+to reverb which is 5. This enumeration
+
+58
+00:02:40,430 --> 00:02:43,099
+gives us the ability to map the tag
+
+59
+00:02:43,099 --> 00:02:45,800
+values we just said in the storyboard to
+
+60
+00:02:45,800 --> 00:02:49,250
+an enumeration value. And then we can use
+
+61
+00:02:49,250 --> 00:02:51,289
+the enumeration value with a switch
+
+62
+00:02:51,289 --> 00:02:52,969
+statement to call the playSound
+
+63
+00:02:52,969 --> 00:02:54,650
+function differently for each of the
+
+64
+00:02:54,650 --> 00:02:57,259
+buttons. Add the following code to the
+
+65
+00:02:57,259 --> 00:02:59,300
+playSoundForButton function, so that
+
+66
+00:02:59,300 --> 00:03:02,180
+it appears as you see here. This code
+
+67
+00:03:02,180 --> 00:03:03,949
+contained within the switch statement is
+
+68
+00:03:03,949 --> 00:03:06,379
+what converts the button’s tag to a
+
+69
+00:03:06,379 --> 00:03:10,039
+ButtonType. Then using the ButtonType,
+
+70
+00:03:10,039 --> 00:03:13,400
+we can play a sound appropriately. So for
+
+71
+00:03:13,400 --> 00:03:15,620
+the slow and fast buttons, when they are
+
+72
+00:03:15,620 --> 00:03:17,180
+pressed, we’ll play the sound at a
+
+73
+00:03:17,180 --> 00:03:20,599
+different rate. If the low or high pitch
+
+74
+00:03:20,599 --> 00:03:23,330
+buttons are selected aka the chipmunk
+
+75
+00:03:23,330 --> 00:03:25,639
+or vader buttons, then we’ll alter the
+
+76
+00:03:25,639 --> 00:03:29,449
+pitch. And if the echo or reverb buttons
+
+77
+00:03:29,449 --> 00:03:31,099
+are pressed, then we'll pass those
+
+78
+00:03:31,099 --> 00:03:32,930
+settings onwards to the playSound
+
+79
+00:03:32,930 --> 00:03:36,080
+function. Now while playing audio is
+
+80
+00:03:36,080 --> 00:03:37,729
+great, it would be nice if we could stop
+
+81
+00:03:37,729 --> 00:03:41,120
+the playback when we want to. We already
+
+82
+00:03:41,120 --> 00:03:42,799
+have a stop button, and it's already
+
+83
+00:03:42,799 --> 00:03:44,959
+wired up to call the stopButtonPressed
+
+84
+00:03:44,959 --> 00:03:46,519
+function in our PlaySoundsViewController.
+
+85
+00:03:46,519 --> 00:03:48,889
+All we need to do is add a
+
+86
+00:03:48,889 --> 00:03:51,050
+call to the stopAudio function that is
+
+87
+00:03:51,050 --> 00:03:53,060
+in the class extension and it will do
+
+88
+00:03:53,060 --> 00:03:54,439
+the work of calling out
+
+89
+00:03:54,439 --> 00:03:56,659
+the AVAudioEngine to stop the playback.
+
+90
+00:03:56,659 --> 00:03:59,990
+If you follow along to this point, we
+
+91
+00:03:59,990 --> 00:04:01,849
+should be able to test the Pitch Perfect app.
+
+92
+00:04:01,849 --> 00:04:03,650
+You should be able to record
+
+93
+00:04:03,650 --> 00:04:05,479
+yourself and hear the playback with a
+
+94
+00:04:05,479 --> 00:04:07,250
+variety of sound effects.
+
+95
+00:04:07,250 --> 00:04:18,970
+Let's try it. “Swift is great”
+
+96
+00:04:18,970 --> 00:04:27,399
+“Swift is great” “Swift is great”
+
+97
+00:04:27,399 --> 00:04:33,379
+“Swift is great”
+
+98
+00:04:33,379 --> 00:04:38,389
+“Swift is great” “Swift is great”
+
+99
+00:04:38,389 --> 00:04:42,949
+Wow that's pretty cool, in a very short
+
+100
+00:04:42,949 --> 00:04:44,689
+amount of time you got Pitch Perfect
+
+101
+00:04:44,689 --> 00:04:48,139
+built from the ground up, a fun iOS app
+
+102
+00:04:48,139 --> 00:04:50,389
+that can record and playback audio with
+
+103
+00:04:50,389 --> 00:04:52,850
+different sound effects. If you're
+
+104
+00:04:52,850 --> 00:04:54,649
+curious about the calls to AVAudioEngine,
+
+105
+00:04:54,649 --> 00:04:56,449
+I’m going to go over that next.
+
+106
+00:04:56,449 --> 00:04:57,709
+For now,
+
+107
+00:04:57,709 --> 00:04:59,300
+pat yourself on the back, you're already
+
+108
+00:04:59,300 --> 00:05:05,590
+an iOS developer.
+

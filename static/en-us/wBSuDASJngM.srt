@@ -1,0 +1,287 @@
+1
+00:00:00,720 --> 00:00:05,188
+I want to introduce you to my two
+most favorite performance techniques,
+
+2
+00:00:05,188 --> 00:00:06,684
+batching and caching.
+
+3
+00:00:06,684 --> 00:00:09,030
+As we already talked about,
+some functions or
+
+4
+00:00:09,030 --> 00:00:12,703
+operations have a specific amount of
+overhead involved with them that is
+
+5
+00:00:12,703 --> 00:00:16,231
+different than the performance
+costs of the operation itself.
+
+6
+00:00:16,231 --> 00:00:20,521
+For example, loading data into a new
+place in memory before executing on it,
+
+7
+00:00:20,521 --> 00:00:23,840
+or sorting a set of values before
+doing a search through it.
+
+8
+00:00:23,840 --> 00:00:27,400
+When executed multiple times,
+where multiples are really big number,
+
+9
+00:00:27,400 --> 00:00:32,570
+this overhead can become a serious
+performance burden for your application.
+
+10
+00:00:32,570 --> 00:00:35,720
+Batching is the process of
+fixing this performance problem
+
+11
+00:00:35,720 --> 00:00:40,380
+by trying to eliminate the per execution
+overhead of these operations, kind of
+
+12
+00:00:40,380 --> 00:00:44,490
+like sharing a car instead of everyone
+driving themselves, thus saving gas.
+
+13
+00:00:44,490 --> 00:00:48,030
+This is most often seen in your code
+where you have to prepare your data
+
+14
+00:00:48,030 --> 00:00:49,660
+before actually operating on it.
+
+15
+00:00:49,660 --> 00:00:53,270
+Now, for example, let's say the most
+efficient way to find a value
+
+16
+00:00:53,270 --> 00:00:56,680
+existing in a set is to sort it, and
+then execute a binary search on it.
+
+17
+00:00:56,680 --> 00:00:59,150
+Now, wait to, to be clear, this isn't
+actually the most efficient way,
+
+18
+00:00:59,150 --> 00:01:01,885
+but just stay with me,
+I'm trying to make a point here.
+
+19
+00:01:01,885 --> 00:01:04,915
+Anyhow, the simplest way to do this
+would be to write a function that,
+
+20
+00:01:04,915 --> 00:01:05,995
+given a set and a value,
+
+21
+00:01:05,995 --> 00:01:10,325
+would sort the set and then search
+it to see if the value exists in it.
+
+22
+00:01:10,325 --> 00:01:12,855
+Now, this may be fine for
+some performance level but
+
+23
+00:01:12,855 --> 00:01:15,752
+let's say you've got like 10,000
+values you want to test, and
+
+24
+00:01:15,752 --> 00:01:18,072
+the size of the set is in the millions.
+
+25
+00:01:18,072 --> 00:01:21,402
+Suddenly you're incurring
+a ton of overhead per test
+
+26
+00:01:21,402 --> 00:01:22,742
+in the form of the sort.
+
+27
+00:01:22,742 --> 00:01:24,182
+The answer here is pretty clear.
+
+28
+00:01:24,182 --> 00:01:27,722
+You'd want to create a sorted
+version of the set once, and
+
+29
+00:01:27,722 --> 00:01:32,032
+then allow all 10,000 values to be
+tested for inclusion after that point.
+
+30
+00:01:32,032 --> 00:01:33,672
+This is batching in action.
+
+31
+00:01:33,672 --> 00:01:37,462
+We factored out the operation that
+is repeated and do it over once.
+
+32
+00:01:37,462 --> 00:01:41,710
+Now, similar to this is actually
+a concept known as caching and
+
+33
+00:01:41,710 --> 00:01:46,480
+is by far the most important performance
+technique you can understand,
+
+34
+00:01:46,480 --> 00:01:49,800
+mainly because it drives everything
+in modern computer technology.
+
+35
+00:01:49,800 --> 00:01:51,550
+Take your computer, for example.
+
+36
+00:01:51,550 --> 00:01:55,655
+The whole point of your RAM hardware is
+to provide a place to store information
+
+37
+00:01:55,655 --> 00:01:58,840
+that's faster to access for
+the CPU than the hard drive is.
+
+38
+00:01:58,840 --> 00:02:02,329
+Or take networking, and
+look at the modern internet itself,
+
+39
+00:02:02,329 --> 00:02:06,502
+huge warehouses of servers called data
+centers exist all over the world.
+
+40
+00:02:06,502 --> 00:02:09,826
+Their only purpose is to store or
+cache frequently accessed content so
+
+41
+00:02:09,826 --> 00:02:13,769
+that your computer doesn't have to hit
+a server 12,000 miles away every time
+
+42
+00:02:13,769 --> 00:02:15,597
+your friend in Egypt posts a picture.
+
+43
+00:02:15,597 --> 00:02:18,940
+Well, unless of course you're in Egypt,
+but, you know, you get the point.
+
+44
+00:02:18,940 --> 00:02:22,490
+Now in your code, the most common place
+that you can find optimizations for
+
+45
+00:02:22,490 --> 00:02:26,260
+caching has to do with data that
+is calculated multiple times, but
+
+46
+00:02:26,260 --> 00:02:28,070
+the result is always the same.
+
+47
+00:02:28,070 --> 00:02:30,830
+For example, if you're in the middle
+of a loop that you're calculating
+
+48
+00:02:30,830 --> 00:02:33,030
+the derivative of a four by four matrix,
+and
+
+49
+00:02:33,030 --> 00:02:36,070
+that result is always the same, then
+you're actually wasting performance,
+
+50
+00:02:36,070 --> 00:02:39,850
+recomputing it for
+each iteration of that loop.
+
+51
+00:02:39,850 --> 00:02:44,280
+Instead, compute and save the results of
+that derivation outside of the loop, and
+
+52
+00:02:44,280 --> 00:02:48,050
+then let your inner portions of
+the loop reference that cached result.
+
+53
+00:02:48,050 --> 00:02:51,210
+The reason that I love batching and
+caching so much is that pretty much
+
+54
+00:02:51,210 --> 00:02:54,620
+every performance improvement
+that you can think of,
+
+55
+00:02:54,620 --> 00:02:56,504
+including the ones that we're
+talking about in this course,
+
+56
+00:02:56,504 --> 00:02:59,670
+is effectively a variance of
+these two basic techniques.
+
+57
+00:02:59,670 --> 00:03:02,150
+And if you're serious about
+becoming a performance ninja,
+
+58
+00:03:02,150 --> 00:03:05,410
+then you better become a pro
+at what it means to leverage
+
+59
+00:03:05,410 --> 00:03:07,960
+the awesome power of these techniques.
+
+60
+00:03:07,960 --> 00:03:09,290
+So, let's get started.

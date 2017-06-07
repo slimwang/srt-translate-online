@@ -1,0 +1,192 @@
+1
+00:00:00,260 --> 00:00:04,120
+The tag manager class is the entry
+point for working with tag manager.
+
+2
+00:00:04,120 --> 00:00:08,350
+It has methods for loading the container
+and you get an instance of it by calling
+
+3
+00:00:08,350 --> 00:00:12,330
+get instance on the tag
+manager class itself.
+
+4
+00:00:12,330 --> 00:00:15,360
+The first thing you need to
+do is load the container.
+
+5
+00:00:15,360 --> 00:00:18,910
+The tag manager class has several
+methods for doing this and
+
+6
+00:00:18,910 --> 00:00:23,260
+we're going to start out using
+loadContainerPreferFresh() so
+
+7
+00:00:23,260 --> 00:00:25,810
+that we'll get the latest
+container if possible.
+
+8
+00:00:25,810 --> 00:00:29,130
+And then you have to wait
+until the loading finishes.
+
+9
+00:00:29,130 --> 00:00:33,300
+Use setResultCallback() to set
+the callback that gets invoked when
+
+10
+00:00:33,300 --> 00:00:39,060
+the loading is done and this callback
+is passed the container holder.
+
+11
+00:00:40,230 --> 00:00:43,390
+In the callback,
+store the container holder so
+
+12
+00:00:43,390 --> 00:00:46,480
+it can be accessed from
+other places in your app.
+
+13
+00:00:46,480 --> 00:00:50,800
+And remember how we used the application
+instance to store the analytics tracker
+
+14
+00:00:50,800 --> 00:00:52,390
+back in the first lesson.
+
+15
+00:00:52,390 --> 00:00:55,130
+We can do a similar thing here and
+
+16
+00:00:55,130 --> 00:00:58,060
+store the container holder
+in the application instance.
+
+17
+00:00:59,530 --> 00:01:03,470
+So now let's take a look at the code for
+loading and storing the container.
+
+18
+00:01:03,470 --> 00:01:06,450
+So here in main activity,
+I've defined a method,
+
+19
+00:01:06,450 --> 00:01:11,210
+loadGTMContainer that gets
+the tag manager instance.
+
+20
+00:01:11,210 --> 00:01:13,260
+here I've disenabled logging and
+
+21
+00:01:13,260 --> 00:01:17,330
+here I load the container,
+calling loadContainerPreferFresh.
+
+22
+00:01:17,330 --> 00:01:24,140
+Now you need to parse it the container
+Id and the default container.
+
+23
+00:01:24,140 --> 00:01:26,710
+So this is the default container
+that you downloaded and
+
+24
+00:01:26,710 --> 00:01:28,460
+copied into the role folder.
+
+25
+00:01:28,460 --> 00:01:30,030
+Then I set the result Callback and
+
+26
+00:01:30,030 --> 00:01:34,340
+it gets the ContainerHolder,
+deal with failure if there is any.
+
+27
+00:01:34,340 --> 00:01:38,330
+Here, I'm actually manually refreshing
+the container to make sure I really do
+
+28
+00:01:38,330 --> 00:01:43,640
+get the latest container and
+then I'm strobing the ContainerHolder.
+
+29
+00:01:43,640 --> 00:01:47,890
+In the application instance and
+here, at the end of the method,
+
+30
+00:01:47,890 --> 00:01:52,680
+we specify how long to wait,
+two and the time unit seconds, so
+
+31
+00:01:52,680 --> 00:01:56,980
+we're going to wait two seconds for
+the loading to finish.
+
+32
+00:01:56,980 --> 00:02:01,800
+Let's take a real quick look at
+the Tag Manager UI to remind ourselves
+
+33
+00:02:01,800 --> 00:02:04,870
+where to get the tag manager account ID.
+
+34
+00:02:04,870 --> 00:02:08,340
+And here in the tag manager UI,
+there's the account ID.
+
+35
+00:02:08,340 --> 00:02:12,625
+So that's what you need to put in your
+call to load container preferred fresh.
+
+36
+00:02:13,725 --> 00:02:16,565
+Now it's your turn to add the code
+to load and install the container.
+
+37
+00:02:17,565 --> 00:02:22,035
+First, update the application
+clas,s that's the sub-class
+
+38
+00:02:22,035 --> 00:02:25,485
+of application that you created
+in the analytics lessons.
+
+39
+00:02:25,485 --> 00:02:29,285
+Update it to have methods that
+get the Tag Manage instance and
+
+40
+00:02:29,285 --> 00:02:31,205
+that set and get the container holder.

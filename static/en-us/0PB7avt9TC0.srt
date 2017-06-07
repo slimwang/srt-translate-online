@@ -1,0 +1,270 @@
+﻿1
+00:00:00,400 --> 00:00:05,080
+To teach you how to implement implicit
+intents, we have another toy app.
+
+2
+00:00:05,080 --> 00:00:07,769
+Within the app,
+there are these four buttons,
+
+3
+00:00:07,769 --> 00:00:11,140
+with a label describing what
+each one should do when clicked.
+
+4
+00:00:11,140 --> 00:00:14,589
+Currently, each button
+simply displays a toast.
+
+5
+00:00:14,589 --> 00:00:18,420
+One by one, we'll walk you through
+creating the implicit intent, and
+
+6
+00:00:18,420 --> 00:00:21,050
+then you will do it on your own for
+practice.
+
+7
+00:00:21,050 --> 00:00:23,880
+Let's start by the open website button.
+
+8
+00:00:23,879 --> 00:00:25,649
+If you'd like to follow along,
+
+9
+00:00:25,649 --> 00:00:30,099
+open the exercise that's called
+OpenWebpage exercise folder.
+
+10
+00:00:30,100 --> 00:00:33,460
+The best place for learning how to
+create certain functionality in your
+
+11
+00:00:33,460 --> 00:00:37,289
+Android app is on the Android
+developer documentation site.
+
+12
+00:00:37,289 --> 00:00:40,769
+In order to find the code I'm looking
+for, I'm going to search Google for
+
+13
+00:00:40,770 --> 00:00:42,300
+common intents.
+
+14
+00:00:42,299 --> 00:00:44,969
+The result I want should
+be the first one listed.
+
+15
+00:00:44,969 --> 00:00:46,039
+If it's not there,
+
+16
+00:00:46,039 --> 00:00:49,759
+please visit the link that's mentioned
+in the notes underneath the video.
+
+17
+00:00:49,759 --> 00:00:52,859
+As you'll come to learn throughout your
+experience as an Android developer,
+
+18
+00:00:52,859 --> 00:00:56,539
+the documentation almost always
+has what you're looking for
+
+19
+00:00:56,539 --> 00:00:58,560
+if you know where to search.
+
+20
+00:00:58,560 --> 00:01:00,140
+It can be overwhelming at first,
+
+21
+00:01:00,140 --> 00:01:04,719
+but trust me, over time, you'll begin
+to get more comfortable with it.
+
+22
+00:01:04,719 --> 00:01:07,569
+All right, so we're looking for
+opening a web page.
+
+23
+00:01:07,569 --> 00:01:10,709
+Let's check out in this
+document links over here and
+
+24
+00:01:10,709 --> 00:01:13,589
+see if any of those links might
+help me find what I'm looking for.
+
+25
+00:01:14,819 --> 00:01:16,539
+Aha, web browser.
+
+26
+00:01:16,540 --> 00:01:17,750
+That looks promising.
+
+27
+00:01:17,750 --> 00:01:19,329
+Let's click at that and have a read.
+
+28
+00:01:20,579 --> 00:01:22,909
+Perfect, that's exactly
+what we're looking for.
+
+29
+00:01:22,909 --> 00:01:26,269
+And there is an even an example
+on how to load a web URL.
+
+30
+00:01:26,269 --> 00:01:30,509
+Most implicit intents include two
+things, an action and a data.
+
+31
+00:01:30,510 --> 00:01:32,950
+The action says what
+you're trying to do and
+
+32
+00:01:32,950 --> 00:01:35,359
+the data is what you're
+passing onto the action.
+
+33
+00:01:35,359 --> 00:01:36,670
+Let's go back to our code and
+
+34
+00:01:36,670 --> 00:01:40,390
+start by creating a function that will
+be called when the button is pressed.
+
+35
+00:01:40,390 --> 00:01:42,409
+This method expects a URL for
+
+36
+00:01:42,409 --> 00:01:45,229
+the website that I'd
+like to open as a string.
+
+37
+00:01:45,230 --> 00:01:50,310
+The intent, however, requires any
+data to be identified as a URI.
+
+38
+00:01:50,310 --> 00:01:52,900
+A URI is like an address
+that points to the data
+
+39
+00:01:52,900 --> 00:01:55,790
+you're planning to pass through
+to the intended action.
+
+40
+00:01:55,790 --> 00:01:59,767
+In this case, our web page URL
+should be parsed into a URI.
+
+41
+00:01:59,766 --> 00:02:03,545
+And then we create the intent and
+pass in that URI.
+
+42
+00:02:03,546 --> 00:02:07,145
+Intent.ACTION_VIEW tells the Android
+system that we want to view content.
+
+43
+00:02:07,144 --> 00:02:12,859
+In this case, our content is a web
+page with the URL specified.
+
+44
+00:02:12,860 --> 00:02:15,070
+And then I'm ready to start my activity.
+
+45
+00:02:15,069 --> 00:02:18,919
+This if condition here asks the Android
+system if there's an app that can handle
+
+46
+00:02:18,919 --> 00:02:20,069
+our request.
+
+47
+00:02:20,069 --> 00:02:21,769
+If we didn't include this check,
+
+48
+00:02:21,770 --> 00:02:25,145
+the request would probably work
+with most users, but would crash if
+
+49
+00:02:25,145 --> 00:02:29,230
+a device doesn't have an app installed
+that can handle our request.
+
+50
+00:02:29,229 --> 00:02:32,019
+Okay, now that I've written
+the code to open a website,
+
+51
+00:02:32,020 --> 00:02:35,750
+I can replace my toast message
+with a call to that method.
+
+52
+00:02:35,750 --> 00:02:39,889
+I'll first remove that Toast message,
+and then create a string to store
+
+53
+00:02:39,889 --> 00:02:44,259
+the Udacity homepage and
+pass it to the openWebPage function.
+
+54
+00:02:44,259 --> 00:02:48,060
+Now, I can run the app and
+open the web page from within it.
+
+55
+00:02:48,060 --> 00:02:50,250
+And if I load the application
+into the emulator and
+
+56
+00:02:50,250 --> 00:02:54,580
+click the Open Website button,
+it actually opens the Udacity website.
+
+57
+00:02:54,580 --> 00:02:55,219
+Pretty cool?
+

@@ -1,0 +1,282 @@
+﻿1
+00:00:00,250 --> 00:00:03,899
+First, we'll bring in the last dataset
+that we built with the principal
+
+2
+00:00:03,899 --> 00:00:08,869
+components for the four weather metrics,
+and the few other measures we included.
+
+3
+00:00:08,869 --> 00:00:13,799
+The file is named
+PCA Complete Process Results.yxdb.
+
+4
+00:00:13,800 --> 00:00:18,140
+A link to my dataset is available for
+download in the instructor notes.
+
+5
+00:00:18,140 --> 00:00:22,469
+Next, we will connect in
+the K-Centroids Diagnostics tool.
+
+6
+00:00:22,469 --> 00:00:27,079
+It's purpose is to help assess the
+appropriate number of clusters to use
+
+7
+00:00:27,079 --> 00:00:29,029
+for a clustering solution.
+
+8
+00:00:29,030 --> 00:00:32,100
+Let's take a look at how we
+might configure this tool.
+
+9
+00:00:32,100 --> 00:00:35,740
+First, I'm going to select
+the variables, I think I want to use for
+
+10
+00:00:35,740 --> 00:00:37,179
+my cluster model.
+
+11
+00:00:37,179 --> 00:00:39,429
+Now, I included some extra,
+
+12
+00:00:39,429 --> 00:00:43,850
+principle components when we ran
+the principal component's process.
+
+13
+00:00:43,850 --> 00:00:46,539
+But that doesn't mean that
+I need to keep them all.
+
+14
+00:00:46,539 --> 00:00:50,939
+In this case,
+I included in the PC process PC3 for
+
+15
+00:00:50,939 --> 00:00:56,349
+temp, PC4 for rain, and
+PC4 for precipitation.
+
+16
+00:00:56,350 --> 00:00:58,770
+I've decided that I don't
+want to use those for
+
+17
+00:00:58,770 --> 00:01:01,700
+this initial cluster diagnostics.
+
+18
+00:01:01,700 --> 00:01:05,260
+So just because I have
+certain variables in my data,
+
+19
+00:01:05,260 --> 00:01:08,050
+it doesn't mean that I
+have to use them all.
+
+20
+00:01:08,049 --> 00:01:11,230
+Since clustering is really
+an iterative process.
+
+21
+00:01:11,230 --> 00:01:15,450
+You may find that you want to try out
+various combination of variables to see
+
+22
+00:01:15,450 --> 00:01:17,909
+which might give you better results.
+
+23
+00:01:17,909 --> 00:01:22,319
+However, when using PCA,
+one thing to note is that you should
+
+24
+00:01:22,319 --> 00:01:26,209
+never skip the first components and
+use later ones.
+
+25
+00:01:26,209 --> 00:01:29,390
+That's because if you
+recall how PCA works,
+
+26
+00:01:29,390 --> 00:01:32,980
+it tries to get as much variance
+in the first component with
+
+27
+00:01:32,980 --> 00:01:36,329
+each subsequent component
+having less variance.
+
+28
+00:01:36,329 --> 00:01:40,260
+If you want to leave out any components,
+leave out the last ones,
+
+29
+00:01:40,260 --> 00:01:42,000
+like I've shown here.
+
+30
+00:01:42,000 --> 00:01:45,329
+Next, I'll check to
+standardize the fields.
+
+31
+00:01:45,329 --> 00:01:49,159
+As we discussed earlier, clustering
+algorithms are very sensitive to
+
+32
+00:01:49,159 --> 00:01:53,659
+outliers, and standardizing
+the fields helps eliminate that.
+
+33
+00:01:53,659 --> 00:01:57,908
+I'll just keep the z score selected
+as the default way to standardize.
+
+34
+00:01:57,908 --> 00:01:59,340
+Next, within Alteryx,
+
+35
+00:01:59,340 --> 00:02:03,590
+we have three different methods
+that we can use to create clusters.
+
+36
+00:02:03,590 --> 00:02:07,299
+K.Mean, K.Medians, and Neural Gas.
+
+37
+00:02:07,299 --> 00:02:09,978
+I won't go in to the map
+detail on these.
+
+38
+00:02:09,979 --> 00:02:14,140
+At a high level, each method differs
+in the placement of the centroid and
+
+39
+00:02:14,139 --> 00:02:16,279
+the way distances are measured.
+
+40
+00:02:16,280 --> 00:02:20,250
+For more details on each method,
+take a look at the reading node.
+
+41
+00:02:20,250 --> 00:02:24,336
+Since it's easy to do, my typical
+approach is to test with all three
+
+42
+00:02:24,336 --> 00:02:27,935
+methods to see if I get some
+distinct results from each one.
+
+43
+00:02:27,936 --> 00:02:32,640
+And then choose the method that
+seems to provide the better results.
+
+44
+00:02:32,639 --> 00:02:36,059
+For our example,
+I'll keep it on K.Means.
+
+45
+00:02:36,060 --> 00:02:39,909
+And finally, we have some options that
+are related directly to testing for
+
+46
+00:02:39,909 --> 00:02:41,539
+the number of clusters.
+
+47
+00:02:41,539 --> 00:02:46,150
+The first two choices are for the
+minimum and maximum number of clusters.
+
+48
+00:02:46,150 --> 00:02:50,490
+As I mentioned earlier, you might have
+operational constraints that won't
+
+49
+00:02:50,490 --> 00:02:54,460
+allow for more than a certain number
+of segments that can be used.
+
+50
+00:02:54,460 --> 00:02:57,730
+Or you may want to limit the number
+of clusters to make sure that
+
+51
+00:02:57,729 --> 00:03:00,429
+you can make sense and act on each one.
+
+52
+00:03:00,430 --> 00:03:03,879
+And of course, the minimum needs
+to be set to at least two.
+
+53
+00:03:03,879 --> 00:03:08,990
+Since having only one cluster eliminates
+the need for this process to begin with.
+
+54
+00:03:08,990 --> 00:03:13,487
+For the purpose of the exercise,
+let's set the minimum at 6 and
+
+55
+00:03:13,486 --> 00:03:14,993
+the maximum at 12.
+
+56
+00:03:14,993 --> 00:03:18,770
+For the last two options related
+to Bootstrap replication and
+
+57
+00:03:18,770 --> 00:03:22,659
+starting seeds,
+we will just leave at the default.
+
+58
+00:03:22,659 --> 00:03:25,530
+If you'd like to understand
+the details behind these,
+
+59
+00:03:25,530 --> 00:03:27,094
+please take a look at the reading note.
+

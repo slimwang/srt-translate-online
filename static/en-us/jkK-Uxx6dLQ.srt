@@ -1,0 +1,193 @@
+1
+00:00:00,350 --> 00:00:02,469
+First of all,
+you'll grab the starting code.
+
+2
+00:00:02,469 --> 00:00:06,000
+The next thing you had to do was add
+the library to point to the CardView,
+
+3
+00:00:06,000 --> 00:00:09,920
+which will be nicely inside
+of your greater files for
+
+4
+00:00:09,920 --> 00:00:13,250
+you if you added under project
+structure dependencies.
+
+5
+00:00:13,250 --> 00:00:15,910
+For tablet portrait it was really easy.
+
+6
+00:00:15,910 --> 00:00:19,300
+All you had to do Was replace it with
+currently there in the frame layout with
+
+7
+00:00:19,300 --> 00:00:20,800
+the CardView, and it just worked.
+
+8
+00:00:20,800 --> 00:00:23,550
+You would want to, of course,
+set the card elevation correctly, and
+
+9
+00:00:23,550 --> 00:00:25,750
+say PreventCornerOverlap=False.
+
+10
+00:00:25,750 --> 00:00:28,740
+So that on older devices you didn't
+end up with that little white line.
+
+11
+00:00:28,740 --> 00:00:33,360
+Now for tablet landscape,
+it was slightly more complicated.
+
+12
+00:00:33,360 --> 00:00:37,640
+So you see, what we did is, we actually
+added this CardView aligner here.
+
+13
+00:00:37,640 --> 00:00:41,740
+And we set the marginRight to 64dp, and
+
+14
+00:00:41,740 --> 00:00:46,350
+we set the alignLeft to layout_center,
+
+15
+00:00:46,350 --> 00:00:49,670
+and this allowed us to add
+an additional calculation.
+
+16
+00:00:49,670 --> 00:00:52,230
+But without adding any layout hierarchy,
+
+17
+00:00:52,230 --> 00:00:56,620
+we still were able to add margins
+in this case, which is pretty cool.
+
+18
+00:00:56,620 --> 00:01:00,060
+This allows us to the put the card view
+in the right place on both seven inch
+
+19
+00:01:00,060 --> 00:01:02,770
+and ten inch tablet layouts,
+which is pretty cool.
+
+20
+00:01:02,770 --> 00:01:04,099
+And the other thing we had to do was,
+
+21
+00:01:04,099 --> 00:01:06,560
+of course, replace the frame layout
+that was here with the card view.
+
+22
+00:01:06,560 --> 00:01:10,640
+So that makes sense, so you can see it's
+aligned with the card view aligner, and
+
+23
+00:01:10,640 --> 00:01:14,660
+of course it has card elevation and
+pard prevent corner over lap false.
+
+24
+00:01:14,660 --> 00:01:18,080
+And of course the one other
+note about all of this is that
+
+25
+00:01:18,080 --> 00:01:20,550
+we needed to do something
+in detail fragment.
+
+26
+00:01:20,550 --> 00:01:24,700
+And so what we're going to do is,
+when we are loading up
+
+27
+00:01:24,700 --> 00:01:28,060
+instead of setting ourselves to be
+INVISIBLE like we did before, we're
+
+28
+00:01:28,060 --> 00:01:31,560
+actually going to look at our parent and
+see oh, is our parent a CardView?
+
+29
+00:01:31,560 --> 00:01:35,640
+If so, let's set that to
+being INVISIBLE instead.
+
+30
+00:01:35,640 --> 00:01:37,850
+In onLoadFinished we're
+going to do the same thing.
+
+31
+00:01:37,850 --> 00:01:41,500
+We're going to say oh If
+the parent of us is a card view,
+
+32
+00:01:41,500 --> 00:01:43,640
+then let's set that to be visible.
+
+33
+00:01:43,640 --> 00:01:47,200
+And that'll keep the same behavior
+of when the fragment isn't loaded,
+
+34
+00:01:47,200 --> 00:01:48,230
+we don't see anything.
+
+35
+00:01:48,230 --> 00:01:51,840
+Which is important especially
+in the case of empty view.
+
+36
+00:01:51,840 --> 00:01:55,590
+Now we really don't want to see
+that kind of artifact going on.
+
+37
+00:01:55,590 --> 00:01:57,210
+And so that's it.
+
+38
+00:01:57,210 --> 00:01:58,620
+Pretty straight forward.
+
+39
+00:01:58,620 --> 00:02:03,180
+That one little challenge I think with
+the space in the relative layout, but
+
+40
+00:02:03,180 --> 00:02:08,690
+it's a good example of how one can use
+another view to do arithmetic for you.
+
+41
+00:02:08,690 --> 00:02:10,580
+And sometimes you have to
+do that in Android views.

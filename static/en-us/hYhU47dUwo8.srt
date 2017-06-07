@@ -1,0 +1,152 @@
+1
+00:00:00,625 --> 00:00:02,700
+Well, now we have fixed our web app so
+
+2
+00:00:02,700 --> 00:00:07,220
+users can't post JavaScript into it and
+create endless spam.
+
+3
+00:00:07,220 --> 00:00:10,300
+But all of that spam is
+still in the database.
+
+4
+00:00:10,300 --> 00:00:12,010
+How do we clean it up?
+
+5
+00:00:12,010 --> 00:00:16,400
+Or for that matter, if some user of our
+forum posted something awful into it,
+
+6
+00:00:16,400 --> 00:00:18,470
+how would we get rid of that post?
+
+7
+00:00:18,470 --> 00:00:20,690
+We have a couple of options here.
+
+8
+00:00:20,690 --> 00:00:24,820
+First, let's try replacing the spam
+post to something innocuous like,
+
+9
+00:00:24,820 --> 00:00:27,020
+say, the word Cheese!
+
+10
+00:00:27,020 --> 00:00:31,510
+We can do that from the psql
+database console, but to do it,
+
+11
+00:00:31,510 --> 00:00:35,600
+we're going to need a new SQL command,
+the update command.
+
+12
+00:00:35,600 --> 00:00:40,200
+Update is the SQL command for
+changing values in existing rows.
+
+13
+00:00:40,200 --> 00:00:43,470
+Unlike insert,
+it doesn't create new rows.
+
+14
+00:00:43,470 --> 00:00:46,740
+Instead, it replaces the value
+of a named column with a new
+
+15
+00:00:46,740 --> 00:00:49,860
+value in each row where
+this restriction is true.
+
+16
+00:00:51,210 --> 00:00:55,130
+The where restriction on update
+works like the one on select, but
+
+17
+00:00:55,130 --> 00:00:59,300
+if you leave it off entirely, the update
+will apply to every row in the table,
+
+18
+00:00:59,300 --> 00:01:01,800
+which is usually not what you want.
+
+19
+00:01:01,800 --> 00:01:05,250
+But you can always do a select first
+with that restriction to make sure that
+
+20
+00:01:05,250 --> 00:01:07,840
+your update affects the right rows.
+
+21
+00:01:07,840 --> 00:01:10,240
+But how are we going to
+find the right posts?
+
+22
+00:01:10,240 --> 00:01:14,410
+It would be a big pain to have to type
+out the whole spam post contents so
+
+23
+00:01:14,410 --> 00:01:16,890
+we can match it with
+the equals operator.
+
+24
+00:01:16,890 --> 00:01:20,030
+Here's a more fitting operator,
+the like operator.
+
+25
+00:01:20,030 --> 00:01:22,450
+Like takes a value,
+usually a text column,
+
+26
+00:01:22,450 --> 00:01:25,730
+on the left side and
+a pattern on the right.
+
+27
+00:01:25,730 --> 00:01:27,940
+And just because you really
+needed one more meaning for
+
+28
+00:01:27,940 --> 00:01:31,780
+the percent sign, SQL patterns use
+it to mean any string can go here.
+
+29
+00:01:33,200 --> 00:01:37,750
+So, now in the psql console,
+use the update command to replace all
+
+30
+00:01:37,750 --> 00:01:42,560
+the horrible spam posts in your database
+with something innocuous like cheese.
+
+31
+00:01:42,560 --> 00:01:46,800
+To check your work, reload the forum
+page or do select star from
+
+32
+00:01:46,800 --> 00:01:50,690
+posts in psql and check that
+all the spam has been replaced.

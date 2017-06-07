@@ -1,0 +1,463 @@
+1
+00:00:00,360 --> 00:00:04,900
+Finally, let's look at some aspects of the threading support in Linux as well.
+
+2
+00:00:04,900 --> 00:00:08,270
+Note that the current threading support in Linux has a lot of
+
+3
+00:00:08,270 --> 00:00:13,530
+lessons learned based in large part on earlier experiences with threads.
+
+4
+00:00:13,530 --> 00:00:14,050
+Such as,
+
+5
+00:00:14,050 --> 00:00:18,330
+the experiences that are presented in the two Solaris papers were described.
+
+6
+00:00:18,330 --> 00:00:22,560
+Like all operating systems, Linux has an abstraction to represent processes.
+
+7
+00:00:22,560 --> 00:00:27,500
+However, the main abstraction that it uses to represent an execution context is
+
+8
+00:00:27,500 --> 00:00:28,720
+called a task.
+
+9
+00:00:28,720 --> 00:00:31,810
+And it's represented via corresponding task structure.
+
+10
+00:00:31,810 --> 00:00:35,870
+A task is essentially the execution context of a kernel level thread.
+
+11
+00:00:35,870 --> 00:00:38,890
+A single-threaded process will have one task, and
+
+12
+00:00:38,890 --> 00:00:41,700
+a multi-threaded process will have many tasks.
+
+13
+00:00:41,700 --> 00:00:42,890
+One per thread.
+
+14
+00:00:42,890 --> 00:00:46,100
+Some of the key elements in a task structure are shown here.
+
+15
+00:00:47,200 --> 00:00:50,510
+Each task is identified by a task identifier, however for
+
+16
+00:00:50,510 --> 00:00:54,040
+historic reasons we call this a pid like a process ID.
+
+17
+00:00:54,040 --> 00:00:56,650
+It's a little bit misleading.
+
+18
+00:00:56,650 --> 00:00:59,650
+What this means is that, if we have a single thread of process that
+
+19
+00:00:59,650 --> 00:01:04,510
+has one task, then basically the task ID and the process ID are the same.
+
+20
+00:01:04,510 --> 00:01:09,320
+If we have a multi-threaded process, then we will have multiple tasks.
+
+21
+00:01:09,320 --> 00:01:12,570
+Each will be identified by its own identifier for
+
+22
+00:01:12,570 --> 00:01:15,750
+the task, and that will be held in the process ID.
+
+23
+00:01:15,750 --> 00:01:20,210
+Now the process as a whole, basically the entire group of tasks.
+
+24
+00:01:20,210 --> 00:01:22,840
+Will be identified by the process ID of
+
+25
+00:01:22,840 --> 00:01:27,930
+the very first task that was created when the process was first created.
+
+26
+00:01:27,930 --> 00:01:32,150
+This information is also stored in the task group ID field.
+
+27
+00:01:32,150 --> 00:01:36,190
+In addition a task structure maintains a list of tasks.
+
+28
+00:01:36,190 --> 00:01:39,410
+So this basically links all of the tasks that are part of
+
+29
+00:01:39,410 --> 00:01:42,260
+a single process it's all of threads of the process.
+
+30
+00:01:42,260 --> 00:01:46,020
+And so one can figure out what the process ID for
+
+31
+00:01:46,020 --> 00:01:49,750
+a group of tasks is also by walking through this list.
+
+32
+00:01:49,750 --> 00:01:53,630
+Having learned from implementation efforts like the Solaris threads
+
+33
+00:01:53,630 --> 00:01:58,630
+implementation Linux never had one contiguous process control block like what we
+
+34
+00:01:58,630 --> 00:02:00,940
+described at the start of this course.
+
+35
+00:02:00,940 --> 00:02:06,360
+Instead the process state was always represented through a collection
+
+36
+00:02:06,360 --> 00:02:11,390
+of references to data structures, like the memory management, file management.
+
+37
+00:02:11,390 --> 00:02:14,270
+These are all referenced via pointers.
+
+38
+00:02:14,270 --> 00:02:18,850
+So this makes it easy for tasks in a single process to share some portions of
+
+39
+00:02:18,850 --> 00:02:23,220
+the address space, like the virtual address mappings or files.
+
+40
+00:02:23,220 --> 00:02:26,236
+And in that case these pointers would simply point to the same
+
+41
+00:02:26,236 --> 00:02:29,310
+memory-management structure or file-structure.
+
+42
+00:02:29,310 --> 00:02:32,510
+There are a number of other fields in the task structure.
+
+43
+00:02:32,510 --> 00:02:37,790
+It's a data structure that's approximately 1.7 kilobytes large so
+
+44
+00:02:37,790 --> 00:02:40,180
+there's quite a lot of information in it.
+
+45
+00:02:40,180 --> 00:02:41,520
+To create a new task,
+
+46
+00:02:41,520 --> 00:02:45,940
+Linux supports an operation clone, and this is similar to this.
+
+47
+00:02:45,940 --> 00:02:47,560
+It takes a function pointer and
+
+48
+00:02:47,560 --> 00:02:51,600
+arguments similar to like what we saw when we were creating a new thread.
+
+49
+00:02:51,600 --> 00:02:55,470
+But it also has this one argument that's called sharing flags.
+
+50
+00:02:55,470 --> 00:03:01,220
+The flags parameter is a bit map that specifies which portion of the state
+
+51
+00:03:01,220 --> 00:03:06,000
+of a task will be shared between the parent and the child task.
+
+52
+00:03:06,000 --> 00:03:10,040
+As you can see the values of these flags can have different effects when
+
+53
+00:03:10,040 --> 00:03:12,270
+they're set versus when they're cleared.
+
+54
+00:03:12,270 --> 00:03:15,020
+For instance, when all of the flag bits are set,
+
+55
+00:03:15,020 --> 00:03:18,440
+then we're really creating a new thread that shares everything,
+
+56
+00:03:18,440 --> 00:03:21,730
+the entire address space and everything else with the parent thread.
+
+57
+00:03:21,730 --> 00:03:24,140
+They're part of the same address space.
+
+58
+00:03:24,140 --> 00:03:26,240
+If all of the sharing flags are clear,
+
+59
+00:03:26,240 --> 00:03:30,020
+then we're really not sharing anything between the child and the parent.
+
+60
+00:03:30,020 --> 00:03:33,530
+And this is more similar to what we saw happens when
+
+61
+00:03:33,530 --> 00:03:35,550
+we're forking a new process.
+
+62
+00:03:35,550 --> 00:03:38,820
+And in some cases various combinations make sense.
+
+63
+00:03:38,820 --> 00:03:41,490
+For instance you may want to share the files or
+
+64
+00:03:41,490 --> 00:03:45,670
+something else between the parent task and the child task.
+
+65
+00:03:45,670 --> 00:03:48,240
+Speaking of fork you should know a couple of things.
+
+66
+00:03:48,240 --> 00:03:52,670
+First of all fork in Linux is internally implemented via clone
+
+67
+00:03:52,670 --> 00:03:54,988
+by basically having these flags cleared.
+
+68
+00:03:54,988 --> 00:04:00,985
+And also fork has a very different semantics in Linux and compliant OS's
+
+69
+00:04:00,985 --> 00:04:07,250
+in general for multithreaded processes versus single threaded processes.
+
+70
+00:04:07,250 --> 00:04:10,550
+So for a single threaded process when we're forking we're really
+
+71
+00:04:10,550 --> 00:04:12,700
+expecting that the created,
+
+72
+00:04:12,700 --> 00:04:17,250
+that the child process will be a full replica of the parent process.
+
+73
+00:04:17,250 --> 00:04:21,730
+Where as with mult-threaded processes the child will
+
+74
+00:04:21,730 --> 00:04:24,200
+be a single threaded process.
+
+75
+00:04:24,200 --> 00:04:28,310
+So we're really going to create a replica of the portion of
+
+76
+00:04:28,310 --> 00:04:32,590
+the address space that's visible from the parent thread.
+
+77
+00:04:32,590 --> 00:04:36,560
+From the parent task in the process that called the fork.
+
+78
+00:04:36,560 --> 00:04:40,390
+This has a lot of implications on some issues related to synchronization,
+
+79
+00:04:40,390 --> 00:04:42,339
+to what happens with mutexs.
+
+80
+00:04:42,339 --> 00:04:44,760
+It's beyond the scope o f the class, but
+
+81
+00:04:44,760 --> 00:04:47,740
+I should just make sure that, that you're aware of this.
+
+82
+00:04:47,740 --> 00:04:50,080
+So that's why I'm bringing it up at this point.
+
+83
+00:04:50,080 --> 00:04:53,230
+The current implementation of Linux Threads is called
+
+84
+00:04:53,230 --> 00:04:56,940
+Native POSIX Threads Library, NPTL.
+
+85
+00:04:56,940 --> 00:05:00,260
+And this is a one to one model where there is a kernel level task for
+
+86
+00:05:00,260 --> 00:05:01,860
+each user-level thread.
+
+87
+00:05:01,860 --> 00:05:06,850
+This implementation replaced an earlier implementation, Linux threads, which was
+
+88
+00:05:06,850 --> 00:05:10,810
+very similar to the many to many model that was described in the Solaris papers.
+
+89
+00:05:10,810 --> 00:05:14,080
+And it suffered from the same kind of complexity regarding signal
+
+90
+00:05:14,080 --> 00:05:15,620
+management, etc.
+
+91
+00:05:15,620 --> 00:05:21,640
+In NPTL because of the one to one model the kernel sees every user level thread.
+
+92
+00:05:22,650 --> 00:05:23,850
+Sees all of its information,
+
+93
+00:05:23,850 --> 00:05:27,980
+whether it's block synchronization, what is its signal mask, everything.
+
+94
+00:05:27,980 --> 00:05:30,060
+This is made possible for two reasons.
+
+95
+00:05:30,060 --> 00:05:33,090
+First, the kernel traps have become much cheaper.
+
+96
+00:05:33,090 --> 00:05:37,680
+So the user to kernel level crossing that we've been trying to avoid in
+
+97
+00:05:37,680 --> 00:05:42,170
+part with this mini to mini model has become much faster and
+
+98
+00:05:42,170 --> 00:05:47,140
+we can afford to go through the kernel and update the kernel level signal map.
+
+99
+00:05:47,140 --> 00:05:52,000
+Also modern platforms have more memory so there really isn't some constraint to
+
+100
+00:05:52,000 --> 00:05:56,900
+keep the number of kernel level threads as small as possible.
+
+101
+00:05:56,900 --> 00:06:01,500
+So we can create as many kernel level threads and, as the process needs.
+
+102
+00:06:01,500 --> 00:06:07,160
+There aren't restrictions on the range of IDs that are too stressing for
+
+103
+00:06:07,160 --> 00:06:09,430
+most of the common processes.
+
+104
+00:06:09,430 --> 00:06:12,400
+So these sorts of things eliminate some of the main reasons for
+
+105
+00:06:12,400 --> 00:06:14,490
+going to the many to many model.
+
+106
+00:06:14,490 --> 00:06:18,690
+Still, however, when we start thinking about extremely large number of threads,
+
+107
+00:06:18,690 --> 00:06:22,270
+and as a community this is something that comes up in
+
+108
+00:06:22,270 --> 00:06:24,920
+the context of exascale computing.
+
+109
+00:06:24,920 --> 00:06:28,280
+Or when we are thinking about thread management in
+
+110
+00:06:28,280 --> 00:06:30,190
+platforms that are really complex,
+
+111
+00:06:30,190 --> 00:06:34,870
+that maybe have different kinds of processors, heterogeneity, et cetera.
+
+112
+00:06:34,870 --> 00:06:39,810
+Then it makes sense to start thinking again about user-level library support,
+
+113
+00:06:39,810 --> 00:06:44,940
+about providing more custom policies for how threads are managed, how threads,
+
+114
+00:06:44,940 --> 00:06:48,990
+how many threads are there going to be in the system, or similar issues.
+
+115
+00:06:48,990 --> 00:06:53,160
+But for most practical purposes, the one to one model that's supported by
+
+116
+00:06:53,160 --> 00:06:56,650
+the current Linux threading model is completely sufficient.

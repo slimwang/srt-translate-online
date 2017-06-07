@@ -1,0 +1,182 @@
+1
+00:00:00,260 --> 00:00:03,170
+I'm here in the shopping
+lists fragment class.
+
+2
+00:00:03,170 --> 00:00:05,700
+When you click on an item
+on the shopping list screen
+
+3
+00:00:05,700 --> 00:00:07,650
+this code here triggers.
+
+4
+00:00:07,650 --> 00:00:10,800
+Get ref is a method in
+firebase list adapter
+
+5
+00:00:10,800 --> 00:00:13,330
+that returns the firebase
+reference of an item.
+
+6
+00:00:13,330 --> 00:00:15,810
+The key of the shopping
+list is the push ID.
+
+7
+00:00:15,810 --> 00:00:19,930
+So you can use get ref and get key
+together to get the push ID and then
+
+8
+00:00:19,930 --> 00:00:23,600
+pass it to ActiveListDetailsActivity
+as an intent extra here.
+
+9
+00:00:24,720 --> 00:00:29,880
+Opening up ActiveListDetailsActivity
+here, and scrolling down, we see
+
+10
+00:00:29,880 --> 00:00:35,130
+the first thing we do is grab that push
+ID from the intent, use it here to make
+
+11
+00:00:35,130 --> 00:00:40,050
+the fire base reference, and then attach
+a value event listener to that location.
+
+12
+00:00:40,050 --> 00:00:43,120
+So this ensures that we're listening
+in the appropriate location.
+
+13
+00:00:43,120 --> 00:00:45,280
+Now you're also going to want
+to make sure that the dialog for
+
+14
+00:00:45,280 --> 00:00:47,140
+editing the list name works.
+
+15
+00:00:47,140 --> 00:00:49,690
+If you look at the edit
+list name dialog fragment,
+
+16
+00:00:49,690 --> 00:00:52,750
+you see it extends this
+edit list dialog fragment.
+
+17
+00:00:52,750 --> 00:00:57,050
+This is a super class that I made that
+abstracts out some of the common methods
+
+18
+00:00:57,050 --> 00:01:01,320
+setup and variables that
+are needed by the edit list name,
+
+19
+00:01:01,320 --> 00:01:04,760
+edit list item name and
+add list item dialogue fragments.
+
+20
+00:01:05,850 --> 00:01:09,030
+Since all of these classes edit
+a single shopping list in one way or
+
+21
+00:01:09,030 --> 00:01:11,609
+another, they will all need
+the push ID eventually.
+
+22
+00:01:12,670 --> 00:01:15,771
+So I'm going to open up this edit
+list dialog fragment super class.
+
+23
+00:01:15,771 --> 00:01:18,691
+[BLANK_AUDIO]
+
+24
+00:01:18,691 --> 00:01:22,326
+And what you should of done is in
+this new instance helper here,
+
+25
+00:01:22,326 --> 00:01:26,330
+added the list ID as something that
+gets passed into the super class.
+
+26
+00:01:26,330 --> 00:01:30,030
+And then down here in the onCreate
+I'm setting a member variable
+
+27
+00:01:30,030 --> 00:01:31,860
+to that list ID.
+
+28
+00:01:31,860 --> 00:01:35,740
+So basically in all those classes
+that then extend this super class,
+
+29
+00:01:35,740 --> 00:01:38,090
+I have mListId available to me.
+
+30
+00:01:38,090 --> 00:01:39,370
+I know you didn't write this code, but
+
+31
+00:01:39,370 --> 00:01:42,760
+hopefully the connection between
+the dialog fragments makes sense now.
+
+32
+00:01:42,760 --> 00:01:46,310
+So going back to making sure that
+EditListNameDialogFragment works,
+
+33
+00:01:46,310 --> 00:01:47,756
+I'm back here in that class.
+
+34
+00:01:47,756 --> 00:01:51,350
+I'm going to scroll down, and
+doListEdit is the method that
+
+35
+00:01:51,350 --> 00:01:53,530
+gets called when the positive
+button gets clicked.
+
+36
+00:01:53,530 --> 00:01:56,240
+And again, this is something
+that's set up by the super class.
+
+37
+00:01:56,240 --> 00:01:59,890
+And we can see that I'm using the
+mListId here and generating the correct
+
+38
+00:01:59,890 --> 00:02:02,528
+reference that you need to be
+able to update that list name.

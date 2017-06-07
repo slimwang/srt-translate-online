@@ -1,0 +1,495 @@
+1
+00:00:00,680 --> 00:00:04,340
+As I mentioned before, the cursor class
+has numerous methods so allow us to
+
+2
+00:00:04,340 --> 00:00:07,939
+handle the cursor object once we
+get it back from the create method.
+
+3
+00:00:07,939 --> 00:00:10,450
+One of the easiest things you
+can do with the cursor object
+
+4
+00:00:10,450 --> 00:00:13,420
+is to see how many rows
+are part of that cursor and
+
+5
+00:00:13,420 --> 00:00:17,340
+we can do that Using
+the cursor.getCount method.
+
+6
+00:00:17,340 --> 00:00:20,580
+And currently we're actually using this
+method already in our code, which is why
+
+7
+00:00:20,580 --> 00:00:24,180
+you're able to see the number of rows
+change as you add a new pet each time.
+
+8
+00:00:25,230 --> 00:00:27,950
+A cursor object represents rows and
+columns of data.
+
+9
+00:00:29,180 --> 00:00:33,610
+In addition it has a current
+position within all these rows.
+
+10
+00:00:33,610 --> 00:00:37,110
+In order for us to get the data from
+a specific row, we'll need to move our
+
+11
+00:00:37,110 --> 00:00:40,860
+cursor position to the the exact
+row of data that we want.
+
+12
+00:00:40,860 --> 00:00:45,010
+Now when we first get our cursor back,
+the position starts at -1.
+
+13
+00:00:45,010 --> 00:00:48,220
+And this is an invalid position
+that starts right before that
+
+14
+00:00:48,220 --> 00:00:52,880
+first actual position 0,
+the first usable position I mean.
+
+15
+00:00:52,880 --> 00:00:56,120
+Much like in array, you might
+notice that the positioning numbers
+
+16
+00:00:56,120 --> 00:00:59,980
+start at 0 and
+then incrementally move upward.
+
+17
+00:00:59,980 --> 00:01:01,860
+Now looking at the cursor
+documentation for
+
+18
+00:01:01,860 --> 00:01:05,080
+Android, there's several method
+that we can call to help us
+
+19
+00:01:05,080 --> 00:01:09,970
+move around that cursor object, and
+let's explore a couple of these further.
+
+20
+00:01:09,970 --> 00:01:12,830
+The first one is our moveToFirst method,
+
+21
+00:01:12,830 --> 00:01:17,180
+which moves the cursor position to
+the first row that's in our results set.
+
+22
+00:01:17,180 --> 00:01:21,200
+Say our results set is return
+back the entire pets table.
+
+23
+00:01:21,200 --> 00:01:23,380
+Well, if we invoke moveToFirst,
+
+24
+00:01:23,380 --> 00:01:27,040
+this takes our cursor position
+to the first row here.
+
+25
+00:01:27,040 --> 00:01:30,630
+And this allows us to access
+data in this first record.
+
+26
+00:01:30,630 --> 00:01:33,100
+Next stop is moveToLast.
+
+27
+00:01:33,100 --> 00:01:36,100
+In this method moves the cursor
+position to the last row
+
+28
+00:01:36,100 --> 00:01:37,820
+that's in the result set.
+
+29
+00:01:37,820 --> 00:01:40,710
+And again,
+if our result set is the entire table
+
+30
+00:01:40,710 --> 00:01:44,150
+move to the last jumps it
+down to this last row here.
+
+31
+00:01:44,150 --> 00:01:46,780
+Next we have the moveToPosition method.
+
+32
+00:01:46,780 --> 00:01:49,940
+And notice this method actually
+takes in a parameter, so
+
+33
+00:01:49,940 --> 00:01:52,170
+it takes in the position.
+
+34
+00:01:52,170 --> 00:01:57,030
+Specifically, this method moves the
+cursor position to a specified position.
+
+35
+00:01:57,030 --> 00:02:00,020
+For example,
+you can have moveToPosition, and
+
+36
+00:02:00,020 --> 00:02:04,880
+have the position be 3 and
+this would move us to the fourth row.
+
+37
+00:02:04,880 --> 00:02:07,780
+Visually, this is what this
+method call looks like.
+
+38
+00:02:07,780 --> 00:02:09,870
+Say we have the entire table again.
+
+39
+00:02:09,870 --> 00:02:13,810
+Remember the numbering starts from 0 and
+move upward.
+
+40
+00:02:13,810 --> 00:02:17,720
+If we want to go to position 3,
+we're taking to the fourth row here.
+
+41
+00:02:18,760 --> 00:02:23,310
+All those move methods that we saw for
+the cursor class, return either true or
+
+42
+00:02:23,310 --> 00:02:24,420
+false.
+
+43
+00:02:24,420 --> 00:02:27,850
+And this is to help us indicate whether
+we can actually make that move.
+
+44
+00:02:27,850 --> 00:02:32,010
+For example, if we're at the last
+position of our cursor object already,
+
+45
+00:02:32,010 --> 00:02:34,210
+and we call the moveToNext method.
+
+46
+00:02:34,210 --> 00:02:37,850
+Well, if the cursor position tries to
+move downward, we notice that there is
+
+47
+00:02:37,850 --> 00:02:41,910
+no row to be found and so
+this method will return to as false.
+
+48
+00:02:41,910 --> 00:02:44,370
+Cause we can't actually
+move to another row.
+
+49
+00:02:44,370 --> 00:02:47,400
+Now we just covered methods that we
+can use to get to the position that we
+
+50
+00:02:47,400 --> 00:02:48,700
+want in the cursor.
+
+51
+00:02:48,700 --> 00:02:52,460
+And once you're at that row, we can
+use these different types of getType
+
+52
+00:02:52,460 --> 00:02:57,140
+methods, to help us retrieve those
+specific values from the database.
+
+53
+00:02:57,140 --> 00:02:59,200
+Here are all these get methods.
+
+54
+00:02:59,200 --> 00:03:02,870
+We have getFlow, getInt, getLong,
+and a couple other ones.
+
+55
+00:03:02,870 --> 00:03:06,800
+Notice that they all take a parameter
+which is the columnIndex and
+
+56
+00:03:06,800 --> 00:03:08,830
+this is the columnIndex
+of the attribute or
+
+57
+00:03:08,830 --> 00:03:12,490
+the column name that we're
+interested in, inside our cursor.
+
+58
+00:03:13,540 --> 00:03:17,880
+Column indices are ordered according to
+the names given in the projection, and
+
+59
+00:03:17,880 --> 00:03:21,050
+you can use the getColumnIndex method
+
+60
+00:03:21,050 --> 00:03:24,860
+in order to discover the index
+of a column by a name.
+
+61
+00:03:24,860 --> 00:03:27,030
+I know that was a lot of
+information going on.
+
+62
+00:03:27,030 --> 00:03:30,200
+Let's take a look at a specific example
+and see how all these connections work.
+
+63
+00:03:31,260 --> 00:03:32,030
+In this example,
+
+64
+00:03:32,030 --> 00:03:36,520
+the cursor object return is all
+the information from the pets table.
+
+65
+00:03:36,520 --> 00:03:37,750
+For this specific case,
+
+66
+00:03:37,750 --> 00:03:42,730
+we want to get the name of the pet
+stored at row 4 of this cursor.
+
+67
+00:03:42,730 --> 00:03:47,492
+In order to do that, we can use this
+block of code, so this first sign here,
+
+68
+00:03:47,492 --> 00:03:52,840
+cursor.moveToPostion 3 gets us to
+position 3 which is the fourth row.
+
+69
+00:03:53,840 --> 00:03:59,270
+In this next line,
+nameColumnIndex = cursor.getColumnIndex.
+
+70
+00:03:59,270 --> 00:04:02,440
+This method allows us to get the column
+index from the column name that
+
+71
+00:04:02,440 --> 00:04:03,750
+we've passed in.
+
+72
+00:04:03,750 --> 00:04:08,730
+And in this case, we've passed in
+the column COLUMN_PET_NAME, so
+
+73
+00:04:08,730 --> 00:04:12,400
+passing that in we get the value 1 back.
+
+74
+00:04:12,400 --> 00:04:15,240
+And remember this is because
+column indices are ordered
+
+75
+00:04:15,240 --> 00:04:20,170
+according to the order, given in the
+projection which we specified earlier.
+
+76
+00:04:20,170 --> 00:04:24,290
+Now the last on here
+name = cursor.getString.
+
+77
+00:04:24,290 --> 00:04:29,240
+This method here returns the value
+of the requested column as a string.
+
+78
+00:04:29,240 --> 00:04:33,250
+The requested column is this one
+here which we've indicated as 1.
+
+79
+00:04:33,250 --> 00:04:38,610
+And using these two bits of information,
+we see the name of the pet here is Cat.
+
+80
+00:04:39,810 --> 00:04:42,210
+One important thing about cursors is
+that when you're done using them,
+
+81
+00:04:42,210 --> 00:04:45,670
+you should always call cursor.close.
+
+82
+00:04:45,670 --> 00:04:49,340
+This completely cleans up your
+cursor and makes it invalid.
+
+83
+00:04:49,340 --> 00:04:52,330
+Be sure to use it only when
+you're completely finished.
+
+84
+00:04:52,330 --> 00:04:56,330
+Not closing your cursor can cause
+poor performance due to memory leaks.
+
+85
+00:04:56,330 --> 00:05:00,720
+We've seen an example of this method
+call ready in our CatalogActivity.
+
+86
+00:05:00,720 --> 00:05:03,810
+Down at the bottom of the display
+database info method,
+
+87
+00:05:03,810 --> 00:05:07,560
+in the finally clause,
+we have the cursor.close call.
+
+88
+00:05:07,560 --> 00:05:11,520
+Forgetting to close your cursor is bit
+like leaving dirty dishes in a kitchen,
+
+89
+00:05:11,520 --> 00:05:14,660
+after you're done eating, and
+if you did it too many times,
+
+90
+00:05:14,660 --> 00:05:19,570
+the cursor becomes an unusable mess
+because of all the unwashed dishes.
+
+91
+00:05:19,570 --> 00:05:22,400
+In this situation,
+the kitchen is your app and
+
+92
+00:05:22,400 --> 00:05:25,150
+you don't want it to become
+an unusable memory mess
+
+93
+00:05:25,150 --> 00:05:27,630
+because you haven't cleaned it up and
+close up the cursor.
+
+94
+00:05:28,820 --> 00:05:32,100
+Let's pack this all that new
+information on this exercise.
+
+95
+00:05:32,100 --> 00:05:35,110
+Assume I've called the query
+method on our full pet's table,
+
+96
+00:05:35,110 --> 00:05:38,940
+using the projection that just
+returns the pet name and pet weight.
+
+97
+00:05:38,940 --> 00:05:43,347
+Then on this cursor variable,
+I execute these lines of code.
+
+98
+00:05:43,347 --> 00:05:47,381
+First off, I'm moving through
+the different cursor positions here.
+
+99
+00:05:47,381 --> 00:05:51,637
+Then I'm getting the column indices and
+using that information,
+
+100
+00:05:51,637 --> 00:05:53,085
+I get an integer back.
+
+101
+00:05:53,085 --> 00:05:55,281
+Now after executing these lines of code,
+
+102
+00:05:55,281 --> 00:05:58,960
+what is the integer value of
+these result variable here?
+
+103
+00:05:58,960 --> 00:06:01,510
+And go ahead and
+write your answer in this blank here.

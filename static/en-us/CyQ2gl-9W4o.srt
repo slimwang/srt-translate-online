@@ -1,0 +1,183 @@
+1
+00:00:00,000 --> 00:00:02,000
+So here is my solution.
+
+2
+00:00:02,000 --> 00:00:05,000
+I make a field called action of the same size as the grid,
+
+3
+00:00:05,000 --> 00:00:10,000
+where I memorize for each cell what action it took to get there.
+
+4
+00:00:10,000 --> 00:00:15,000
+So for example, if in the goal cell over here, it took an action of go down to get there
+
+5
+00:00:15,000 --> 00:00:17,000
+from the previous cell
+
+6
+00:00:17,000 --> 00:00:20,000
+then this cell over here would have the action index for the action down.
+
+7
+00:00:20,000 --> 00:00:25,000
+That's little a little bit tricky, but it turns out to be really easy to program.
+
+8
+00:00:25,000 --> 00:00:31,000
+In my node expansion routine, where I go from x to x2, which we talked about before,
+
+9
+00:00:31,000 --> 00:00:38,000
+I now add just a single command for the successive state x2 and y2.
+
+10
+00:00:38,000 --> 00:00:42,000
+I memorize the action it took to get there.
+
+11
+00:00:42,000 --> 00:00:46,000
+Notice I don't associate it with x and y, the from state.
+
+12
+00:00:46,000 --> 00:00:51,000
+The reason is in the from state I'm trying out many different actions,
+
+13
+00:00:51,000 --> 00:00:54,000
+and I don't yet know which one succeeds.
+
+14
+00:00:54,000 --> 00:00:57,000
+When I hit the 2 state and expand it for the first time
+
+15
+00:00:57,000 --> 00:01:01,000
+then this is going to be the expansion that's part of the optimal path.
+
+16
+00:01:01,000 --> 00:01:05,000
+So I associate the action with the successive state
+
+17
+00:01:05,000 --> 00:01:07,000
+not with the originating state over here.
+
+18
+00:01:07,000 --> 00:01:08,000
+Very subtle, very important.
+
+19
+00:01:08,000 --> 00:01:12,000
+If you got this right you know exactly what I'm talking about.
+
+20
+00:01:12,000 --> 00:01:15,000
+Now I have a field that memorizes for all these states over here
+
+21
+00:01:15,000 --> 00:01:18,000
+the action that it took to get in there,
+
+22
+00:01:18,000 --> 00:01:22,000
+but I don't have this wonderful representation as I have over here.
+
+23
+00:01:22,000 --> 00:01:26,000
+This will be compiled into a field called policy or plan,
+
+24
+00:01:26,000 --> 00:01:33,000
+which I initialize with blanks, but it is the same size grid as the field over here,
+
+25
+00:01:33,000 --> 00:01:36,000
+which I eventually print out down here.
+
+26
+00:01:36,000 --> 00:01:43,000
+In that field I set the location of the goal explicitly to be the star, resetting over here.
+
+27
+00:01:43,000 --> 00:01:46,000
+Then I go from the goal backwards.
+
+28
+00:01:46,000 --> 00:01:53,000
+I iterate from the goal location, x and y, now in backwards order all the way to the start.
+
+29
+00:01:53,000 --> 00:01:57,000
+Do this as long as x and y haven't become my initial location yet.
+
+30
+00:01:57,000 --> 00:02:00,000
+I apply the inverse action.
+
+31
+00:02:00,000 --> 00:02:04,000
+So I find the originating state by taking my current state
+
+32
+00:02:04,000 --> 00:02:10,000
+and subtracting the action exactly the same way I added it before using my action field
+
+33
+00:02:10,000 --> 00:02:12,000
+as finding out what action was actually being used.
+
+34
+00:02:12,000 --> 00:02:16,000
+In doing so the first time I do this, x and y was the goal state,
+
+35
+00:02:16,000 --> 00:02:19,000
+and x2 y2 become the state before.
+
+36
+00:02:19,000 --> 00:02:23,000
+I happen to know in the goal state that the action was a down action.
+
+37
+00:02:23,000 --> 00:02:27,000
+If I apply the negative of it I go up and find myself over here.
+
+38
+00:02:27,000 --> 00:02:31,000
+I then mark the policy field for the originating state
+
+39
+00:02:31,000 --> 00:02:36,000
+to be the special symbol associated with this specific action over here.
+
+40
+00:02:36,000 --> 00:02:38,000
+Then I recourse.
+
+41
+00:02:38,000 --> 00:02:43,000
+I set x and y to the state x2 y2, and I then go a step further.
+
+42
+00:02:43,000 --> 00:02:49,000
+In doing so I will reverse the path step by step, print the associated action,
+
+43
+00:02:49,000 --> 00:02:51,000
+and get exactly this state over here.
+
+44
+00:02:51,000 --> 00:02:55,000
+Very tricky, but look this is an advanced artificial intelligence class,
+
+45
+00:02:55,000 --> 00:02:57,000
+you might as well program something really tricky.
+
+46
+00:02:57,000 --> 99:59:59,999
+It took me a while to program it myself, but I finally got it right too.

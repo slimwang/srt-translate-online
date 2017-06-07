@@ -1,0 +1,816 @@
+﻿1
+00:00:00,170 --> 00:00:01,809
+How do we classify things?
+
+2
+00:00:01,810 --> 00:00:05,131
+We consider people to be experts
+in a field if they've mastered
+
+3
+00:00:05,131 --> 00:00:06,040
+classification.
+
+4
+00:00:06,040 --> 00:00:09,300
+Doctors can classify between a good
+blood sample, and a bad one.
+
+5
+00:00:09,300 --> 00:00:13,020
+Photographers can classify if their
+latest shot was beautiful, or not.
+
+6
+00:00:13,019 --> 00:00:17,059
+Musicians can classify what sounds good,
+and what doesn’t, in a piece of music.
+
+7
+00:00:17,059 --> 00:00:20,899
+The ability to classify well
+takes many hours of training.
+
+8
+00:00:20,899 --> 00:00:24,759
+We get it wrong over, and over again,
+until eventually we get it right.
+
+9
+00:00:24,760 --> 00:00:28,510
+But with a quality data set,
+deep learning can classify just as well,
+
+10
+00:00:28,510 --> 00:00:30,460
+if not better than we can.
+
+11
+00:00:30,460 --> 00:00:34,000
+We'll use it as a tool to improve
+our craft, whatever it is.
+
+12
+00:00:34,000 --> 00:00:36,670
+And if the job is monotonous,
+it'll do it for us.
+
+13
+00:00:36,670 --> 00:00:39,380
+When we reach the point where we
+aren't forced to do something we
+
+14
+00:00:39,380 --> 00:00:43,290
+don't want to just to survive,
+we'll flourish like never before.
+
+15
+00:00:43,289 --> 00:00:45,409
+And that's the world we're aiming for.
+
+16
+00:00:45,409 --> 00:00:46,739
+>> Hello, world, it's Siraj.
+
+17
+00:00:46,740 --> 00:00:47,359
+And today,
+
+18
+00:00:47,359 --> 00:00:52,600
+we're going to build an image classifier
+from scratch, to classify cats and dogs.
+
+19
+00:00:52,600 --> 00:00:54,939
+Finally, we get to work with images.
+
+20
+00:00:54,939 --> 00:00:57,364
+I'm feeling hype enough
+to do the Macarena.
+
+21
+00:00:57,365 --> 00:00:58,785
+[MUSIC]
+
+22
+00:00:58,784 --> 00:01:01,769
+So, how does image classification work?
+
+23
+00:01:01,770 --> 00:01:05,430
+Well, there were a bunch of different
+attempts in the 80s, and early 90s, and
+
+24
+00:01:05,430 --> 00:01:07,750
+all of them tried a similar approach.
+
+25
+00:01:07,750 --> 00:01:09,879
+Think about the features
+that make up an image, and
+
+26
+00:01:09,879 --> 00:01:12,009
+hand code detectors for each of them.
+
+27
+00:01:12,010 --> 00:01:13,880
+But there is so much variety out there.
+
+28
+00:01:13,879 --> 00:01:16,259
+No two apples look exactly the same.
+
+29
+00:01:16,260 --> 00:01:18,290
+So the results were always terrible.
+
+30
+00:01:18,290 --> 00:01:21,070
+This was considered a task
+only we humans could do.
+
+31
+00:01:21,069 --> 00:01:21,599
+But in 98,
+
+32
+00:01:21,599 --> 00:01:26,299
+a researcher named introduced a model
+called a Convolutional Neural Network.
+
+33
+00:01:26,299 --> 00:01:31,819
+Capable of classifying characters with a
+99% accuracy, which broke every record.
+
+34
+00:01:31,819 --> 00:01:34,819
+But CNN learned features by itself.
+
+35
+00:01:34,819 --> 00:01:38,479
+In 2012, it was used by other
+researcher named Alex Krizhevsky
+
+36
+00:01:38,480 --> 00:01:40,340
+at the yearly ImageNet competition.
+
+37
+00:01:40,340 --> 00:01:43,204
+Which is basically the annual
+Olympics of computer vision.
+
+38
+00:01:43,203 --> 00:01:47,739
+And it was able to classify thousands
+of images with a new record accuracy,
+
+39
+00:01:47,739 --> 00:01:49,108
+at the time of 85%.
+
+40
+00:01:49,108 --> 00:01:53,339
+Since then CNN's have been adopted by
+Google, to identify photos in search,
+
+41
+00:01:53,340 --> 00:01:55,310
+Facebook for automatic tagging.
+
+42
+00:01:55,310 --> 00:01:57,891
+Basically they are very hot right now.
+
+43
+00:01:57,891 --> 00:02:00,606
+But where did the idea for
+CNN's come from?
+
+44
+00:02:00,606 --> 00:02:10,606
+[MUSIC]
+
+45
+00:02:22,615 --> 00:02:26,987
+We'll first want to download our image
+data set from Cackle with 1024 pictures
+
+46
+00:02:26,987 --> 00:02:29,430
+of dogs and cats,
+each in its own folder.
+
+47
+00:02:29,430 --> 00:02:32,620
+We'll be using the Keras deep
+learning library for this demo.
+
+48
+00:02:32,620 --> 00:02:35,680
+Which is a high level wrapper
+that runs on top of TensorFlow.
+
+49
+00:02:35,680 --> 00:02:37,680
+It makes building models
+really intuitive,
+
+50
+00:02:37,680 --> 00:02:40,950
+since we can define each layer
+as it's own line of code.
+
+51
+00:02:40,949 --> 00:02:43,879
+First thing's first, we'll initialize
+variables for our training and
+
+52
+00:02:43,879 --> 00:02:45,159
+validation data.
+
+53
+00:02:45,159 --> 00:02:46,789
+Then we're ready to build our model.
+
+54
+00:02:46,789 --> 00:02:49,739
+We'll initialize the type of model
+using the sequential function,
+
+55
+00:02:49,740 --> 00:02:52,550
+which will allow us to build
+a linear stack of layers, so
+
+56
+00:02:52,550 --> 00:02:55,950
+we treat each layer as an object
+that feeds data to the next one.
+
+57
+00:02:55,949 --> 00:02:58,469
+It's like a conga line, kind of.
+
+58
+00:02:58,469 --> 00:03:01,409
+No, the alternative would be a graph
+model, which would allow for
+
+59
+00:03:01,409 --> 00:03:03,270
+multiple separate inputs and outputs.
+
+60
+00:03:03,270 --> 00:03:05,700
+But we're using a more simple example.
+
+61
+00:03:05,699 --> 00:03:08,479
+Next, we'll add our first layer,
+the convolutional layer.
+
+62
+00:03:08,479 --> 00:03:11,649
+The first layer of a CNN is
+always the convolutional layer.
+
+63
+00:03:11,650 --> 00:03:16,030
+The input is going to be a 32 by
+32 by 3 array of pixel values.
+
+64
+00:03:16,030 --> 00:03:18,659
+The 3 refers to RGB values.
+
+65
+00:03:18,659 --> 00:03:22,322
+Each of the numbers in this array
+is given a value from 0 to 255,
+
+66
+00:03:22,322 --> 00:03:25,379
+which describes the pixel
+intensity at that point.
+
+67
+00:03:25,379 --> 00:03:27,769
+The idea is that,
+given this as an input,
+
+68
+00:03:27,770 --> 00:03:31,800
+our CNN will describe the probability
+of it being of a certain class.
+
+69
+00:03:31,800 --> 00:03:35,835
+We can imagine the Convolutional Layer
+as a flashlight shining over the top
+
+70
+00:03:35,835 --> 00:03:37,105
+left of the image.
+
+71
+00:03:37,104 --> 00:03:40,314
+The flashlight slides across all
+the areas of the input image.
+
+72
+00:03:40,314 --> 00:03:42,264
+The flashlight is our filter, and
+
+73
+00:03:42,264 --> 00:03:45,074
+the region it shines over
+is the Receptive field.
+
+74
+00:03:45,074 --> 00:03:47,174
+Our filter is also an array of numbers.
+
+75
+00:03:47,175 --> 00:03:50,290
+These numbers are weights
+at a particular layer.
+
+76
+00:03:50,289 --> 00:03:53,370
+We can think of a filter
+as a feature identifier.
+
+77
+00:03:53,370 --> 00:03:56,500
+As our filter slides, or
+convolves around the input,
+
+78
+00:03:56,500 --> 00:04:00,300
+it is multiplying its values with
+the pixel values in the image.
+
+79
+00:04:00,300 --> 00:04:03,040
+These are called element
+wise multiplications.
+
+80
+00:04:03,039 --> 00:04:06,199
+The multiplications from each
+region are then summed up, and
+
+81
+00:04:06,199 --> 00:04:09,839
+after we've covered all parts of the
+image, we're left with the feature map.
+
+82
+00:04:09,840 --> 00:04:13,240
+This will help us find not buried
+treasure, but a prediction.
+
+83
+00:04:13,240 --> 00:04:15,070
+Which is even better.
+
+84
+00:04:15,069 --> 00:04:17,159
+Since our weights
+are randomly initialized,
+
+85
+00:04:17,160 --> 00:04:20,920
+our filter won't start off being
+able to detect any specific feature.
+
+86
+00:04:20,920 --> 00:04:24,780
+But during training, our CNN will
+learn values for its filters.
+
+87
+00:04:24,779 --> 00:04:28,750
+So this first one will learn to detect
+a low level feature, like curves.
+
+88
+00:04:28,750 --> 00:04:32,410
+So if we place this filter on a part of
+the image with a curve, the resulting
+
+89
+00:04:32,410 --> 00:04:36,170
+value from the multiplication,
+and summation, is a big number.
+
+90
+00:04:36,170 --> 00:04:38,939
+But if we place it on a different
+part of the image, without a curve,
+
+91
+00:04:38,939 --> 00:04:41,050
+the resulting value is zero.
+
+92
+00:04:41,050 --> 00:04:43,650
+This is how filters detect features.
+
+93
+00:04:43,649 --> 00:04:47,859
+We'll next pass this feature map through
+an activation layer, called ReLU, or
+
+94
+00:04:47,860 --> 00:04:49,420
+rectified linear unit.
+
+95
+00:04:49,420 --> 00:04:53,629
+ReLu is probably the name of same alien,
+but it's also a non-linear operation,
+
+96
+00:04:53,629 --> 00:04:57,949
+that replaces all the negative pixel
+values in the feature map with zero.
+
+97
+00:04:57,949 --> 00:04:59,279
+We could use other functions,
+
+98
+00:04:59,279 --> 00:05:02,109
+but ReLu tends to perform
+better in most situations.
+
+99
+00:05:02,110 --> 00:05:05,480
+This layer increases the non-linear
+properties of our model,
+
+100
+00:05:05,480 --> 00:05:09,520
+which means our neural net will be able
+to learn more complex functions than
+
+101
+00:05:09,519 --> 00:05:11,349
+just linear regression.
+
+102
+00:05:11,350 --> 00:05:14,280
+After that,
+we'll initialize our max pooling layer.
+
+103
+00:05:14,279 --> 00:05:17,139
+Pooling reduces the dimensionality
+of each feature map,
+
+104
+00:05:17,139 --> 00:05:20,110
+but retains the most
+important information.
+
+105
+00:05:20,110 --> 00:05:23,210
+This reduces the computational
+complexity of our network.
+
+106
+00:05:23,209 --> 00:05:26,370
+There are different types, but
+in our case, we'll use Max.
+
+107
+00:05:26,370 --> 00:05:30,180
+Which takes its largest element from the
+rectified feature map within a window we
+
+108
+00:05:30,180 --> 00:05:34,280
+define, and will slide this window
+over each region of our feature map,
+
+109
+00:05:34,279 --> 00:05:35,829
+taking the max values.
+
+110
+00:05:35,829 --> 00:05:40,669
+So a classic CNN architecture looks
+like this, three Convolutional Blocks,
+
+111
+00:05:40,670 --> 00:05:42,480
+followed by a Fully Connected layer.
+
+112
+00:05:42,480 --> 00:05:44,310
+We've initialized
+the first three layers.
+
+113
+00:05:44,310 --> 00:05:47,250
+We can basically just repeat
+this process twice more.
+
+114
+00:05:47,250 --> 00:05:50,810
+The output feature map is fed into
+the next convolutional layer.
+
+115
+00:05:50,810 --> 00:05:54,290
+And the filter in this layer will learn
+to detect more abstract features,
+
+116
+00:05:54,290 --> 00:05:56,150
+like paws and doge.
+
+117
+00:05:56,149 --> 00:05:59,639
+One technique we'll use to prevent over
+fitting, that point when our model
+
+118
+00:05:59,639 --> 00:06:03,519
+isn't able to predict labels for
+novel data, is called dropout.
+
+119
+00:06:03,519 --> 00:06:07,419
+A dropout layer drops out a random
+set of activation's in that layer,
+
+120
+00:06:07,420 --> 00:06:10,470
+by setting them to zero
+as data flows through it.
+
+121
+00:06:10,470 --> 00:06:11,450
+To prepare our data for
+
+122
+00:06:11,449 --> 00:06:14,990
+the dropout, we'll first flatten
+the feature map into one dimension.
+
+123
+00:06:14,990 --> 00:06:18,750
+Then we'll want to initialize a fully
+connected layer with the dense function,
+
+124
+00:06:18,750 --> 00:06:20,350
+and apply ReLu to it.
+
+125
+00:06:20,350 --> 00:06:23,710
+After dropout, we'll initialize
+one more fully connected layer.
+
+126
+00:06:23,709 --> 00:06:25,930
+This will output an n
+dimensional vector,
+
+127
+00:06:25,930 --> 00:06:28,329
+where n is the number
+of classes we have.
+
+128
+00:06:28,329 --> 00:06:29,550
+So it would be two.
+
+129
+00:06:29,550 --> 00:06:33,379
+And by applying a sigmoid to it, it will
+convert the data to probabilities for
+
+130
+00:06:33,379 --> 00:06:34,389
+each class.
+
+131
+00:06:34,389 --> 00:06:36,169
+So how does our network learn?
+
+132
+00:06:36,170 --> 00:06:39,629
+Well, we'll want to minimize a loss
+function which measures the difference
+
+133
+00:06:39,629 --> 00:06:42,509
+between the target output,
+and the expected output.
+
+134
+00:06:42,509 --> 00:06:45,069
+To do this,
+we'll take the derivative of the loss,
+
+135
+00:06:45,069 --> 00:06:47,339
+with respect to
+the weights in each layer.
+
+136
+00:06:47,339 --> 00:06:51,489
+Starting from the last, compute the
+direction we want our network to update.
+
+137
+00:06:51,490 --> 00:06:54,420
+We'll propagate our loss backwards for
+each layer.
+
+138
+00:06:54,420 --> 00:06:57,330
+Then we'll update our weight values for
+each filter, so
+
+139
+00:06:57,329 --> 00:07:01,283
+they can change in the direction of the
+gradient that will minimize our loss.
+
+140
+00:07:01,283 --> 00:07:04,264
+We then figure the learning process
+by using the compile method.
+
+141
+00:07:04,264 --> 00:07:08,757
+Where we'll define our loss as binary
+crossentropy,which is the preferred loss
+
+142
+00:07:08,757 --> 00:07:11,434
+function for
+binary classification problems.
+
+143
+00:07:11,434 --> 00:07:15,860
+Then our optimizer, rmsprop,
+which will perform gradient descent.
+
+144
+00:07:15,860 --> 00:07:18,250
+And a list of metrics which
+will set to accuracy,
+
+145
+00:07:18,250 --> 00:07:20,519
+since this is a classification problem.
+
+146
+00:07:20,519 --> 00:07:23,189
+Lastly, we'll write out our fit
+function to train the model,
+
+147
+00:07:23,189 --> 00:07:25,990
+giving it parameters for
+the training and validation data.
+
+148
+00:07:25,990 --> 00:07:28,460
+As well as a number of epochs to run for
+each.
+
+149
+00:07:28,459 --> 00:07:32,009
+And let's save our weights, so
+we can use our trained model later.
+
+150
+00:07:32,009 --> 00:07:36,409
+Overall accuracy comes to be about 70%,
+similar to my attention span.
+
+151
+00:07:36,410 --> 00:07:39,189
+And if we feed our model a new
+picture of a dog or cat,
+
+152
+00:07:39,189 --> 00:07:42,240
+it will predict its label
+relatively accurately.
+
+153
+00:07:42,240 --> 00:07:44,110
+We could definitely improve
+our prediction though,
+
+154
+00:07:44,110 --> 00:07:48,180
+by either using more pictures, or
+by augmenting an existing pre-trained
+
+155
+00:07:48,180 --> 00:07:52,230
+network with our own network,
+which is considered transfer learning.
+
+156
+00:07:52,230 --> 00:07:55,879
+So to break it down, convolutional
+neural networks are inspired by
+
+157
+00:07:55,879 --> 00:08:00,279
+the human visual cortex, and offer state
+of the art and image classification.
+
+158
+00:08:00,279 --> 00:08:03,465
+CNN's learned filters at each
+convolutional layer that act as
+
+159
+00:08:03,466 --> 00:08:06,110
+increasingly abstract feature detectors.
+
+160
+00:08:06,110 --> 00:08:09,250
+And with Keras and TensorFlow,
+you can build your own pretty easily.
+
+161
+00:08:09,250 --> 00:08:13,000
+The winner of the coding challenge from
+the last video, is Charles David-Blot.
+
+162
+00:08:13,000 --> 00:08:16,300
+He used Tensorflow to build a deep net,
+capable of predicting whether or
+
+163
+00:08:16,300 --> 00:08:19,400
+not someone would get a match or
+not after training on a data set.
+
+164
+00:08:19,399 --> 00:08:22,319
+And had a pretty sweet data
+visualization of his results.
+
+165
+00:08:22,319 --> 00:08:23,459
+Wizard of the Week.
+
+166
+00:08:23,459 --> 00:08:27,439
+And the runner up is Dalai Mingat,
+clean, organized, and documented code.
+
+167
+00:08:27,439 --> 00:08:30,839
+The coding challenge for this video
+is to create an image classifier.
+
+168
+00:08:30,839 --> 00:08:33,399
+For two types of animals,
+instructions are in the read me.
+
+169
+00:08:33,399 --> 00:08:35,029
+Post your GitHub link in the comments,
+and
+
+170
+00:08:35,029 --> 00:08:36,819
+I'll announce the winner next Friday.
+
+171
+00:08:36,820 --> 00:08:38,879
+Please subscribe if you want to
+see more videos like this,
+
+172
+00:08:38,879 --> 00:08:42,689
+check out this related video, and
+for now, I'm gotta upload my mind.
+
+173
+00:08:42,690 --> 00:08:43,929
+So, thanks for watching
+

@@ -1,0 +1,544 @@
+﻿1
+00:00:00,000 --> 00:00:02,129
+So the goal for the first coding task of
+
+2
+00:00:02,129 --> 00:00:04,259
+this lesson will be to change the UI
+
+3
+00:00:04,259 --> 00:00:06,719
+from displaying a single text view with
+
+4
+00:00:06,719 --> 00:00:09,570
+all the pet data to displaying all
+
+5
+00:00:09,570 --> 00:00:10,320
+these pets.
+
+6
+00:00:10,320 --> 00:00:12,630
+So this scrolling ListView will be a
+
+7
+00:00:12,630 --> 00:00:14,369
+much better user experience for viewing
+
+8
+00:00:14,369 --> 00:00:16,859
+all the pets in the database. It's much
+
+9
+00:00:16,859 --> 00:00:18,600
+easier to read format with more white
+
+10
+00:00:18,600 --> 00:00:21,329
+space and divider lines as well. Plus we
+
+11
+00:00:21,329 --> 00:00:22,439
+don't need to show unnecessary
+
+12
+00:00:22,439 --> 00:00:23,939
+information that the user doesn't
+
+13
+00:00:23,939 --> 00:00:25,649
+necessarily care about, such as the
+
+14
+00:00:25,649 --> 00:00:27,809
+database real IDs. So each list item here
+
+15
+00:00:27,809 --> 00:00:29,730
+will show two pieces of relevant
+
+16
+00:00:29,730 --> 00:00:32,340
+information, summaries of the pet with
+
+17
+00:00:32,340 --> 00:00:34,710
+its name in bold, and then it's breed down
+
+18
+00:00:34,710 --> 00:00:38,219
+below. So in the last lesson, recall that we
+
+19
+00:00:38,219 --> 00:00:40,469
+discussed how this diagram represents
+
+20
+00:00:40,469 --> 00:00:42,390
+the current state of how we query the
+
+21
+00:00:42,390 --> 00:00:46,350
+database from the UI code. So display a
+
+22
+00:00:46,350 --> 00:00:49,049
+list of pets, the catalog activity will
+
+23
+00:00:49,049 --> 00:00:51,210
+talk to the resolver, which then talk to
+
+24
+00:00:51,210 --> 00:00:53,820
+the provider, which then does the query
+
+25
+00:00:53,820 --> 00:00:56,850
+on the database. After which, the cursor
+
+26
+00:00:56,850 --> 00:00:59,009
+comes back as a result all the way back
+
+27
+00:00:59,009 --> 00:01:02,039
+to a catalog activity. So right now, we're
+
+28
+00:01:02,039 --> 00:01:03,420
+going to zoom in on the catalog activity,
+
+29
+00:01:03,420 --> 00:01:05,819
+and check in on how it modifies the
+
+30
+00:01:05,819 --> 00:01:07,530
+logic around how to display information
+
+31
+00:01:07,530 --> 00:01:12,030
+from the cursor into the UI. In earlier
+
+32
+00:01:12,030 --> 00:01:13,709
+courses we've learned that you can
+
+33
+00:01:13,709 --> 00:01:16,079
+easily display list information using a
+
+34
+00:01:16,079 --> 00:01:18,900
+ListView. And populate the information
+
+35
+00:01:18,900 --> 00:01:20,670
+within the ListView, we're going to need
+
+36
+00:01:20,670 --> 00:01:24,478
+an adapter. So essentially the adapter is
+
+37
+00:01:24,478 --> 00:01:25,829
+responsible for making the list item
+
+38
+00:01:25,829 --> 00:01:28,799
+view for each pet in the datasource, and
+
+39
+00:01:28,799 --> 00:01:30,959
+then hand them off to this view to show
+
+40
+00:01:30,959 --> 00:01:33,840
+on screen. so you first learned about
+
+41
+00:01:33,840 --> 00:01:35,430
+ListViews and adapters when building
+
+42
+00:01:35,430 --> 00:01:37,680
+out the Miwok language app used to
+
+43
+00:01:37,680 --> 00:01:40,769
+display a list of words. Now let's review
+
+44
+00:01:40,769 --> 00:01:43,170
+how is it used and then we can build on that
+
+45
+00:01:43,170 --> 00:01:46,920
+concept further for our pets use case. So
+
+46
+00:01:46,920 --> 00:01:48,688
+recall that the ListView takes up the
+
+47
+00:01:48,688 --> 00:01:51,569
+whole width and height of the screen, but
+
+48
+00:01:51,569 --> 00:01:54,239
+it starts off empty, so now here that the
+
+49
+00:01:54,239 --> 00:01:57,659
+list is empty. So the WordAdapter is
+
+50
+00:01:57,659 --> 00:02:00,478
+what holds onto the data source. Here, we
+
+51
+00:02:00,478 --> 00:02:03,509
+had a list of words, and the WordAdapter
+
+52
+00:02:03,509 --> 00:02:05,819
+also had instructions knowing how to
+
+53
+00:02:05,819 --> 00:02:07,920
+make a list item for each of these words.
+
+54
+00:02:07,920 --> 00:02:11,098
+So first the list you will need to
+
+55
+00:02:11,098 --> 00:02:12,900
+consult with the WordAdapter to figure out
+
+56
+00:02:12,900 --> 00:02:13,680
+eventually
+
+57
+00:02:13,680 --> 00:02:14,908
+how many words we need to be displayed,
+
+58
+00:02:14,908 --> 00:02:18,359
+after which it starts off by asking for
+
+59
+00:02:18,359 --> 00:02:21,900
+the list item at position zero. The
+
+60
+00:02:21,900 --> 00:02:23,669
+adapter helps us identify the zeroth
+
+61
+00:02:23,669 --> 00:02:27,930
+word in its data source, construct the
+
+62
+00:02:27,930 --> 00:02:30,568
+list item for that one word, and then
+
+63
+00:02:30,568 --> 00:02:33,959
+passes this back to our ListView. so
+
+64
+00:02:33,959 --> 00:02:35,489
+after the ListView has added this item
+
+65
+00:02:35,489 --> 00:02:37,408
+to the layout, is going to ask for
+
+66
+00:02:37,408 --> 00:02:41,039
+ListView at position 1, the adapter find
+
+67
+00:02:41,039 --> 00:02:43,739
+the corresponding word creates a proper
+
+68
+00:02:43,739 --> 00:02:45,598
+list item, and then hands it back to the
+
+69
+00:02:45,598 --> 00:02:48,120
+ListView. so this back-and-forth process
+
+70
+00:02:48,120 --> 00:02:51,120
+will keep repeating, so the ListView will
+
+71
+00:02:51,120 --> 00:02:52,739
+keep requesting list items for each
+
+72
+00:02:52,739 --> 00:02:55,109
+position in the list until either there
+
+73
+00:02:55,109 --> 00:02:58,139
+are no more words, or until the screen is
+
+74
+00:02:58,139 --> 00:03:01,169
+full. So for example if there are 10
+
+75
+00:03:01,169 --> 00:03:03,479
+words in our list but only 7 can fit on
+
+76
+00:03:03,479 --> 00:03:05,759
+the screen, then we don't need to request
+
+77
+00:03:05,759 --> 00:03:08,370
+the eighth word just yet. so this clever
+
+78
+00:03:08,370 --> 00:03:10,348
+behavior of not requesting views that
+
+79
+00:03:10,348 --> 00:03:12,509
+aren't shown to the user just yet is
+
+80
+00:03:12,509 --> 00:03:13,859
+what makes the ListView adapter
+
+81
+00:03:13,859 --> 00:03:15,930
+combination such an efficient use of
+
+82
+00:03:15,930 --> 00:03:17,848
+memory resources. So for the views that
+
+83
+00:03:17,848 --> 00:03:20,128
+are scrolled off-screen, we go ahead and
+
+84
+00:03:20,128 --> 00:03:22,289
+recycle them and simply swap out the
+
+85
+00:03:22,289 --> 00:03:24,150
+text and image, though it's gonna be used
+
+86
+00:03:24,150 --> 00:03:26,818
+for a different word so with a smaller
+
+87
+00:03:26,818 --> 00:03:28,259
+number of view objects to deal with
+
+88
+00:03:28,259 --> 00:03:31,049
+scrolling performance in a ListView can
+
+89
+00:03:31,049 --> 00:03:34,318
+become very smooth and fast, so is noted
+
+90
+00:03:34,318 --> 00:03:36,419
+here the adapter is responsible for
+
+91
+00:03:36,419 --> 00:03:38,639
+making a list item view for each item in
+
+92
+00:03:38,639 --> 00:03:41,280
+the data source, for example if our data
+
+93
+00:03:41,280 --> 00:03:43,799
+source is ArrayList such as an array
+
+94
+00:03:43,799 --> 00:03:46,199
+list of words, then we're going to use an
+
+95
+00:03:46,199 --> 00:03:51,030
+array adapter to populate that list. Now
+
+96
+00:03:51,030 --> 00:03:53,370
+if the data source is a cursor, such as a
+
+97
+00:03:53,370 --> 00:03:55,289
+cursor of pets, they were going to be
+
+98
+00:03:55,289 --> 00:03:57,658
+using a CursorAdapter to populate that
+
+99
+00:03:57,658 --> 00:04:01,229
+list. So let's head back to the pets app
+
+100
+00:04:01,229 --> 00:04:04,530
+and see all that in action. So the catalog
+
+101
+00:04:04,530 --> 00:04:07,258
+activity we wouldn't defining a ListView
+
+102
+00:04:07,258 --> 00:04:09,870
+that takes up the full width and height
+
+103
+00:04:09,870 --> 00:04:12,269
+of the screen, and again the list starts
+
+104
+00:04:12,269 --> 00:04:15,239
+off empty. Next we're going to set up a
+
+105
+00:04:15,239 --> 00:04:17,069
+CursorAdapter to hold onto the cursor
+
+106
+00:04:17,069 --> 00:04:18,959
+of pets, which will receive from the
+
+107
+00:04:18,959 --> 00:04:21,269
+provider, we also want to make sure that
+
+108
+00:04:21,269 --> 00:04:23,610
+the CursorAdapter knows how to create a
+
+109
+00:04:23,610 --> 00:04:26,649
+list item view per pet.
+
+110
+00:04:26,649 --> 00:04:27,939
+So ListView start off by asking
+
+111
+00:04:27,939 --> 00:04:30,459
+adapter how many items will eventually
+
+112
+00:04:30,459 --> 00:04:33,129
+be shown a list. Next
+
+113
+00:04:33,129 --> 00:04:34,839
+it starts off by asking for each one of
+
+114
+00:04:34,839 --> 00:04:36,759
+those items starting at position zero.
+
+115
+00:04:36,759 --> 00:04:40,418
+The adapter moves the cursor to the
+
+116
+00:04:40,418 --> 00:04:42,879
+zeroth row, and extracts out the column
+
+117
+00:04:42,879 --> 00:04:44,649
+values so that I can set up a proper
+
+118
+00:04:44,649 --> 00:04:47,620
+list item for this pet, and then passes
+
+119
+00:04:47,620 --> 00:04:49,779
+this list item you back to our ListView,
+
+120
+00:04:49,779 --> 00:04:53,228
+next the list you asked for the item at
+
+121
+00:04:53,228 --> 00:04:56,259
+position 1, the CursorAdapter moves the
+
+122
+00:04:56,259 --> 00:04:59,139
+cursor to row one, without this values,
+
+123
+00:04:59,139 --> 00:05:01,538
+and these values are used to create the
+
+124
+00:05:01,538 --> 00:05:04,149
+corresponding ListView which will
+
+125
+00:05:04,149 --> 00:05:07,990
+get past back to our ListView. This same
+
+126
+00:05:07,990 --> 00:05:09,610
+process is repeated for the next
+
+127
+00:05:09,610 --> 00:05:15,879
+position, position 2. ListView will
+
+128
+00:05:15,879 --> 00:05:17,470
+keep requesting these items for each
+
+129
+00:05:17,470 --> 00:05:19,899
+position until there are other no more
+
+130
+00:05:19,899 --> 00:05:22,689
+pets in the cursor, or until this screen
+
+131
+00:05:22,689 --> 00:05:30,899
+is full.
+
+132
+00:05:30,899 --> 00:05:33,149
+So the next coding task, we will ask you to
+
+133
+00:05:33,149 --> 00:05:35,279
+modify the catalog activity to have a
+
+134
+00:05:35,279 --> 00:05:39,120
+ListView and a custom CursorAdapter so
+
+135
+00:05:39,120 --> 00:05:40,350
+let's walk through some of the details
+
+136
+00:05:40,350 --> 00:05:45,949
+of that code together.
+

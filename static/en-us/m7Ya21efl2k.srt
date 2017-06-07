@@ -1,0 +1,47 @@
+1
+00:00:00,390 --> 00:00:02,930
+We do have a major problem with concurrency. The
+
+2
+00:00:02,930 --> 00:00:06,220
+lock makes essentially the whole body of the code critical,
+
+3
+00:00:06,220 --> 00:00:09,360
+while the digitizer is doing his work, the mutex
+
+4
+00:00:09,360 --> 00:00:12,810
+lock will prevent the tracker from doing his work and
+
+5
+00:00:12,810 --> 00:00:15,750
+similarly, while the tracker is doing his work, the
+
+6
+00:00:15,750 --> 00:00:19,320
+lock will prevent the digitizer from doing his work. All
+
+7
+00:00:19,320 --> 00:00:23,120
+parallelism is lost. Okay, okay. So we put too much
+
+8
+00:00:23,120 --> 00:00:26,330
+code in the critical section. Remember, that our original problem
+
+9
+00:00:26,330 --> 00:00:30,270
+arose when both threads were trying to modify bufavail. If we're
+
+10
+00:00:30,270 --> 00:00:33,840
+able to stop that, then we achieve mutual exclusion on the
+
+11
+00:00:33,840 --> 00:00:38,400
+buf frame array. Let's just try putting the lock around our
+
+12
+00:00:38,400 --> 00:00:42,890
+changing and accessing of the bufavail variable. What's wrong with this program?

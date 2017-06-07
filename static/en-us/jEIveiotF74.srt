@@ -1,0 +1,179 @@
+1
+00:00:00,008 --> 00:00:03,458
+In summary, user/kernel transitions are a necessary step
+
+2
+00:00:03,458 --> 00:00:05,360
+during application execution.
+
+3
+00:00:06,600 --> 00:00:10,720
+Applications may need to perform access to certain types of hardware.
+
+4
+00:00:10,720 --> 00:00:14,560
+Or, may need to request change in the allocations of
+
+5
+00:00:14,560 --> 00:00:17,680
+hardware resources that have been made to them.
+
+6
+00:00:17,680 --> 00:00:19,010
+Only the operating system,
+
+7
+00:00:19,010 --> 00:00:22,900
+the kernel, are allowed to perform those types of operations.
+
+8
+00:00:22,900 --> 00:00:27,720
+The hardware provides support for performing user/kernel transitions.
+
+9
+00:00:27,720 --> 00:00:31,800
+We explain that the hardware will cause a trap if the application from
+
+10
+00:00:31,800 --> 00:00:35,900
+unprivileged mode tries to perform some instruction, or
+
+11
+00:00:35,900 --> 00:00:39,540
+a memory access for which it doesn't have permissions.
+
+12
+00:00:39,540 --> 00:00:43,980
+For instance, the application cannot change the contents of certain registers,
+
+13
+00:00:43,980 --> 00:00:47,040
+and give itself more CPU, or more memory.
+
+14
+00:00:47,040 --> 00:00:49,160
+Only the operating system can do that.
+
+15
+00:00:49,160 --> 00:00:54,030
+The result of this trap is that the hardware initiates transfer of
+
+16
+00:00:54,030 --> 00:00:56,180
+the control to the operating system,
+
+17
+00:00:56,180 --> 00:01:01,730
+to the kernel, and marks this by that special privilege bit that we mentioned.
+
+18
+00:01:01,730 --> 00:01:05,610
+At that point, once control is passed over to the operating system,
+
+19
+00:01:05,610 --> 00:01:08,820
+the operating system can check what caused the trap, and
+
+20
+00:01:08,820 --> 00:01:10,570
+determine what's the appropriate thing to do.
+
+21
+00:01:10,570 --> 00:01:11,760
+Whether to grant or
+
+22
+00:01:11,760 --> 00:01:16,260
+deny the specific request that caused the trap to occur in the first place.
+
+23
+00:01:16,260 --> 00:01:16,960
+This will, of course,
+
+24
+00:01:16,960 --> 00:01:20,700
+depend on the policies that are supported by the operating system.
+
+25
+00:01:20,700 --> 00:01:25,320
+Performing all of this, despite of the fact that hardware provides support,
+
+26
+00:01:25,320 --> 00:01:27,730
+still takes a number of instructions.
+
+27
+00:01:27,730 --> 00:01:31,440
+For instance, on a two gigahertz machine running Linux,it can
+
+28
+00:01:31,440 --> 00:01:35,530
+take 50 to 100 nanoseconds to perform all the operations that
+
+29
+00:01:35,530 --> 00:01:38,950
+are necessary around a user/kernel transition.
+
+30
+00:01:38,950 --> 00:01:41,790
+This is real time, real overhead for the system.
+
+31
+00:01:41,790 --> 00:01:45,200
+The other problem with these transitions is they affect the hardware
+
+32
+00:01:45,200 --> 00:01:46,560
+cache usage.
+
+33
+00:01:46,560 --> 00:01:49,916
+The application performance is very dependent on the ability to
+
+34
+00:01:49,916 --> 00:01:51,230
+use the hardware cache.
+
+35
+00:01:52,230 --> 00:01:54,541
+If accessing cache is order a few cycles,
+
+36
+00:01:54,541 --> 00:01:58,510
+accessing memory can be order of hundreds of cycles.
+
+37
+00:01:58,510 --> 00:02:00,540
+When we perform a system call, or
+
+38
+00:02:00,540 --> 00:02:04,990
+in general when we cross into the operating system, the operating system,
+
+39
+00:02:04,990 --> 00:02:09,788
+while executing, will likely bring content that it needs in the cache.
+
+40
+00:02:09,788 --> 00:02:13,320
+This will replace some of the application content that was in
+
+41
+00:02:13,320 --> 00:02:16,680
+the hardware cache before that transition was performed.
+
+42
+00:02:16,680 --> 00:02:20,120
+And, so this will have some impact on the application performance,
+
+43
+00:02:20,120 --> 00:02:23,630
+because it will no longer be able to access its data in cache,
+
+44
+00:02:23,630 --> 00:02:25,290
+it will have to go to memory.
+
+45
+00:02:25,290 --> 00:02:28,880
+In summary, these user/kernel transitions, they're not cheap.

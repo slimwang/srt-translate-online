@@ -1,0 +1,185 @@
+1
+00:00:00,080 --> 00:00:03,590
+Let's talk briefly about
+the Sun RPC registry.
+
+2
+00:00:03,590 --> 00:00:08,610
+Remember we said already that the actual
+code that the server needs to register
+
+3
+00:00:08,610 --> 00:00:12,560
+with the registry's auto generated
+in the RPC general process, and
+
+4
+00:00:12,560 --> 00:00:14,980
+it's part of the main function.
+
+5
+00:00:14,980 --> 00:00:18,470
+In Sun RPC the registry process or
+the registry daemon
+
+6
+00:00:18,470 --> 00:00:24,150
+is a process that runs on every single
+machine and it's called portmapper.
+
+7
+00:00:24,150 --> 00:00:28,360
+To start this process in Linux you have
+to have administrative permissions or
+
+8
+00:00:28,360 --> 00:00:30,180
+sudo access privileges and
+
+9
+00:00:30,180 --> 00:00:33,930
+then you can launch it with
+the following command, sbin portmap.
+
+10
+00:00:33,930 --> 00:00:38,470
+This is the process that has to be
+contacted both by the servers when they
+
+11
+00:00:38,470 --> 00:00:43,750
+need to register a service, and also
+by the clients when they need to find
+
+12
+00:00:43,750 --> 00:00:46,540
+what is the specific
+contact information for
+
+13
+00:00:46,540 --> 00:00:48,580
+a particular service
+they are looking for.
+
+14
+00:00:48,580 --> 00:00:52,290
+Now given that the client already
+got to talk to this RPC daemon,
+
+15
+00:00:52,290 --> 00:00:56,840
+it clearly knows what is the IP address
+of the machine that it will need to
+
+16
+00:00:56,840 --> 00:00:58,020
+interact with.
+
+17
+00:00:58,020 --> 00:01:02,000
+So the information that the client can
+extract from the port mapper includes
+
+18
+00:01:02,000 --> 00:01:04,540
+things like what is the port
+number that the client
+
+19
+00:01:04,540 --> 00:01:08,970
+needs to use to talk to a server, or
+whether the particular version and
+
+20
+00:01:08,970 --> 00:01:13,340
+protocol are supported for
+the server that the client requires.
+
+21
+00:01:13,340 --> 00:01:17,550
+Once the RPC daemon is running we can
+explicitly check what are the services
+
+22
+00:01:17,550 --> 00:01:21,680
+that are registered with
+it using our rpcinfo -p.
+
+23
+00:01:21,680 --> 00:01:25,530
+You may need to explicitly type in
+the full path for this command but
+
+24
+00:01:25,530 --> 00:01:29,160
+once you run it you will see that
+it returns information like what is
+
+25
+00:01:29,160 --> 00:01:32,270
+the program ID,
+the service name, the version
+
+26
+00:01:32,270 --> 00:01:36,390
+of every single service that's
+registered on that particular machine.
+
+27
+00:01:36,390 --> 00:01:40,260
+Also for every service it will
+incorporate the contact information.
+
+28
+00:01:40,260 --> 00:01:44,110
+So what is the protocol that
+that service speaks so to say.
+
+29
+00:01:44,110 --> 00:01:48,860
+And what is the socket port number that
+needs to be contacted by the client
+
+30
+00:01:48,860 --> 00:01:54,200
+side RPC runtime when it wants to
+initiate communications with a service.
+
+31
+00:01:54,200 --> 00:01:58,270
+When you run this service, you will also
+probably notice that the port mapper
+
+32
+00:01:58,270 --> 00:02:05,000
+service is registered with tcp and
+udp on the same port number, 111.
+
+33
+00:02:05,000 --> 00:02:07,780
+This means that there
+are two different sockets
+
+34
+00:02:07,780 --> 00:02:10,220
+that this server is listening to.
+
+35
+00:02:10,220 --> 00:02:13,700
+One is a tcp socket, and
+the other one is a udp socket, and
+
+36
+00:02:13,700 --> 00:02:17,560
+they both happen to use
+the exact same port number, 111.
+
+37
+00:02:17,560 --> 00:02:20,150
+This means that this service,
+the port mapper,
+
+38
+00:02:20,150 --> 00:02:24,180
+will be able to talk to both the tcp,
+as well as udp clients.

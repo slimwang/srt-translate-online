@@ -1,0 +1,278 @@
+1
+00:00:00,430 --> 00:00:03,280
+So I have two folds, so
+I should get two sets of training times,
+
+2
+00:00:03,280 --> 00:00:05,090
+predicting times, and accuracies.
+
+3
+00:00:05,090 --> 00:00:08,010
+See, it only takes a few seconds to
+do the training and predicting, but
+
+4
+00:00:08,010 --> 00:00:13,150
+the accuracy is really terrible,
+less than 1% on my first fold and
+
+5
+00:00:13,150 --> 00:00:15,410
+only 15% on my second fold.
+
+6
+00:00:15,410 --> 00:00:18,130
+So what on Earth might be going on here?
+
+7
+00:00:18,130 --> 00:00:21,590
+To help unpack this, I'm going to add
+a couple of print statements to this.
+
+8
+00:00:21,590 --> 00:00:24,010
+The first thing that I'm going to
+do is I'm going to actually look
+
+9
+00:00:24,010 --> 00:00:28,840
+at the indices of all of the events that
+are going into my training data set.
+
+10
+00:00:28,840 --> 00:00:32,512
+Are there any patterns where all of
+a particular type of event end up in
+
+11
+00:00:32,512 --> 00:00:33,968
+the training data set, and
+
+12
+00:00:33,968 --> 00:00:37,653
+all of a particular other type of
+event end up in the testing data set?
+
+13
+00:00:37,653 --> 00:00:41,271
+because if that's the case,
+then I shouldn't expect that training on
+
+14
+00:00:41,271 --> 00:00:45,810
+one type of event allows me to classify
+very well another type of event.
+
+15
+00:00:45,810 --> 00:00:48,350
+The other thing I'll
+also do is print out
+
+16
+00:00:48,350 --> 00:00:52,030
+the labels of all of the events
+that are in my training data set.
+
+17
+00:00:52,030 --> 00:00:54,310
+So this is repeating some
+similar information, but
+
+18
+00:00:54,310 --> 00:00:56,410
+now I'm looking at the labels directly.
+
+19
+00:00:56,410 --> 00:00:59,490
+And last, I'll print out
+the authors of the testing data set
+
+20
+00:00:59,490 --> 00:01:02,290
+to see if there's some important
+difference between the events that
+
+21
+00:01:02,290 --> 00:01:04,510
+are going into the training data set and
+the testing data set.
+
+22
+00:01:06,040 --> 00:01:11,010
+Ha, so we get a lot of output
+because I have thousands of events.
+
+23
+00:01:11,010 --> 00:01:12,780
+Let me go back up to the first line.
+
+24
+00:01:12,780 --> 00:01:15,940
+This line here is showing me the indices
+of all of the data that's going
+
+25
+00:01:15,940 --> 00:01:17,720
+into my training data set, and
+
+26
+00:01:17,720 --> 00:01:21,380
+I can see that what it's doing here
+is it's just counting sequentially.
+
+27
+00:01:21,380 --> 00:01:26,385
+So all of the events from 8,789
+until the end of the data set,
+
+28
+00:01:26,385 --> 00:01:31,330
+17,577, are going into
+the training data set.
+
+29
+00:01:31,330 --> 00:01:34,658
+The other half that go from 1 to 8,789,
+
+30
+00:01:34,658 --> 00:01:38,290
+those are all going to
+the testing data set.
+
+31
+00:01:38,290 --> 00:01:40,830
+So in other words, I'm not
+shuffling my events around at all.
+
+32
+00:01:40,830 --> 00:01:42,720
+I'm not doing any randomization.
+
+33
+00:01:42,720 --> 00:01:46,750
+I'm just splitting my data set into
+two pieces, right down the middle.
+
+34
+00:01:46,750 --> 00:01:51,860
+And as it happens, there's a pattern
+in my data set that this will mess up.
+
+35
+00:01:51,860 --> 00:01:56,724
+The pattern happens to be that all of my
+emails from Sarah are in the first half
+
+36
+00:01:56,724 --> 00:01:57,796
+of the data set.
+
+37
+00:01:57,796 --> 00:02:01,140
+And all of my e-mails from Chris are in
+the second half of the data set.
+
+38
+00:02:01,140 --> 00:02:03,855
+And this becomes immediately clear when
+I start looking at the labels that
+
+39
+00:02:03,855 --> 00:02:06,310
+are showing up in the testing and
+the training data set.
+
+40
+00:02:06,310 --> 00:02:08,900
+So, all of these ones right here
+are the labels of the items
+
+41
+00:02:08,900 --> 00:02:10,830
+in the training data set.
+
+42
+00:02:10,830 --> 00:02:13,523
+You can see everything that's in
+the training data set is of class 1.
+
+43
+00:02:13,523 --> 00:02:14,626
+Then I start a second list.
+
+44
+00:02:14,626 --> 00:02:18,121
+These are the labels of all of the items
+that are in the testing data set.
+
+45
+00:02:18,121 --> 00:02:21,327
+I can see that everything that's in
+the testing data set is of label 0.
+
+46
+00:02:21,327 --> 00:02:24,460
+And then I have maybe
+a few 1s at the very end.
+
+47
+00:02:24,460 --> 00:02:27,740
+So what's happening is I'm doing all my
+training on the emails from one person
+
+48
+00:02:27,740 --> 00:02:30,620
+and then using them to try to classify
+emails from the second person.
+
+49
+00:02:30,620 --> 00:02:34,692
+This is like training a machine
+learning algorithm to drive a car and
+
+50
+00:02:34,692 --> 00:02:36,986
+then asking it to cook you breakfast.
+
+51
+00:02:36,986 --> 00:02:38,148
+It's not going to work.
+
+52
+00:02:38,148 --> 00:02:40,868
+So, and this is a feature, I would say,
+
+53
+00:02:40,868 --> 00:02:44,120
+of how the sklearn
+KFold algorithm works.
+
+54
+00:02:44,120 --> 00:02:48,550
+Is it's just going to split the data
+sort of into equal sized partitions.
+
+55
+00:02:49,740 --> 00:02:52,580
+It's not going to perform any
+type of shuffling of the events.
+
+56
+00:02:52,580 --> 00:02:56,460
+So if there's patterns in the way that
+the classes, especially, are represented
+
+57
+00:02:56,460 --> 00:03:00,050
+in your data, then these patterns
+are going to be reflected in sort of
+
+58
+00:03:00,050 --> 00:03:05,120
+big lumps of certain labels, ending up
+in particular folds of your validation.
+
+59
+00:03:05,120 --> 00:03:06,400
+This is probably not what you want.

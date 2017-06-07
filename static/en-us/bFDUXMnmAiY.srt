@@ -1,0 +1,376 @@
+﻿1
+00:00:00,000 --> 00:00:01,829
+Alright we're ready to add the code to
+
+2
+00:00:01,829 --> 00:00:03,480
+play back the recorded audio using
+
+3
+00:00:03,480 --> 00:00:06,209
+various effects. To do this requires more
+
+4
+00:00:06,209 --> 00:00:07,769
+of the AVFoundation framework.
+
+5
+00:00:07,769 --> 00:00:10,949
+Specifically we need a class called
+
+6
+00:00:10,949 --> 00:00:13,349
+AVAudioEngine, which uses audio player
+
+7
+00:00:13,349 --> 00:00:15,388
+nodes to make changes to audio output.
+
+8
+00:00:15,388 --> 00:00:17,579
+That's what gives us the ability to
+
+9
+00:00:17,579 --> 00:00:19,679
+raise and lower the pitch of recorded audio,
+
+10
+00:00:19,679 --> 00:00:21,719
+increase or decrease the rate of
+
+11
+00:00:21,719 --> 00:00:24,359
+playback and effects like echo and reverb.
+
+12
+00:00:24,359 --> 00:00:26,489
+I've included links to the
+
+13
+00:00:26,489 --> 00:00:28,649
+documentation for AVAudioEngine and
+
+14
+00:00:28,649 --> 00:00:30,449
+audio notes if you'd like to take a peek.
+
+15
+00:00:30,449 --> 00:00:34,200
+In order to make the audio playback code
+
+16
+00:00:34,200 --> 00:00:35,520
+a little bit easier,
+
+17
+00:00:35,520 --> 00:00:37,229
+we've included the functions you need in
+
+18
+00:00:37,229 --> 00:00:38,850
+a class extension involved you can
+
+19
+00:00:38,850 --> 00:00:40,738
+import to your Pitch Perfect project.
+
+20
+00:00:40,738 --> 00:00:43,829
+This is a peek at what the extension
+
+21
+00:00:43,829 --> 00:00:47,280
+file looks like. Class extensions allow
+
+22
+00:00:47,280 --> 00:00:49,378
+us to add code to a class even though
+
+23
+00:00:49,378 --> 00:00:51,570
+the new code resides in a different file.
+
+24
+00:00:51,570 --> 00:00:55,378
+Our class extension for the
+
+25
+00:00:55,378 --> 00:00:57,359
+playSoundsViewController class provides some easy
+
+26
+00:00:57,359 --> 00:00:58,979
+to use functions for playing the audio
+
+27
+00:00:58,979 --> 00:01:02,250
+effects that we want. Back in our project
+
+28
+00:01:02,250 --> 00:01:04,109
+in the PlaySoundsViewController.swift file,
+
+29
+00:01:04,109 --> 00:01:06,450
+add the following code
+
+30
+00:01:06,450 --> 00:01:09,269
+after the recordedAudioURL property.
+
+31
+00:01:09,269 --> 00:01:12,030
+These are some properties in an
+
+32
+00:01:12,030 --> 00:01:13,859
+enumeration that will be used by our
+
+33
+00:01:13,859 --> 00:01:17,489
+class extension. Also we need to import
+
+34
+00:01:17,489 --> 00:01:19,590
+AVFoundation, otherwise the compiler
+
+35
+00:01:19,590 --> 00:01:21,299
+will complain that it doesn't know
+
+36
+00:01:21,299 --> 00:01:23,609
+anything about AVAudio file,
+
+37
+00:01:23,609 --> 00:01:26,790
+AVAudioEngine and AVAudioPlayerNode.
+
+38
+00:01:26,790 --> 00:01:29,790
+Now we're ready to bring in the class extension.
+
+39
+00:01:29,790 --> 00:01:32,549
+It's contained in the file
+
+40
+00:01:32,549 --> 00:01:35,009
+called PlaySoundsViewController+Audio.swift.
+
+41
+00:01:35,009 --> 00:01:37,650
+And you can find it in
+
+42
+00:01:37,650 --> 00:01:40,828
+the resources for this lesson. I already
+
+43
+00:01:40,828 --> 00:01:42,599
+have it in my Downloads folder and I’ll
+
+44
+00:01:42,599 --> 00:01:47,069
+drag it into Xcode. Make sure the Copy
+
+45
+00:01:47,069 --> 00:01:49,140
+items if needed is checked and that
+
+46
+00:01:49,140 --> 00:01:50,969
+PitchPerfect is the target and it's
+
+47
+00:01:50,969 --> 00:01:55,200
+also checked. And click Finish.
+
+48
+00:01:55,200 --> 00:01:58,920
+Ok now that the extension has been added,
+
+49
+00:01:58,920 --> 00:02:00,810
+the new functions it provides are
+
+50
+00:02:00,810 --> 00:02:02,759
+available to us from the
+
+51
+00:02:02,759 --> 00:02:05,340
+PlaySoundsViewController. As we start using the
+
+52
+00:02:05,340 --> 00:02:07,379
+functions from the extension, don't worry
+
+53
+00:02:07,379 --> 00:02:08,848
+if you don't know how each one is
+
+54
+00:02:08,848 --> 00:02:10,258
+implemented. I’m going to walk you
+
+55
+00:02:10,258 --> 00:02:11,878
+through them line-by-line in just a
+
+56
+00:02:11,878 --> 00:02:13,590
+moment.
+
+57
+00:02:13,590 --> 00:02:15,360
+For now, we can just concentrate on calling
+
+58
+00:02:15,360 --> 00:02:17,370
+functions and having the audio playback.
+
+59
+00:02:17,370 --> 00:02:20,639
+First you want to add a call to setupAudio
+
+60
+00:02:20,639 --> 00:02:22,979
+in the viewDidLoad, so the
+
+61
+00:02:22,979 --> 00:02:26,189
+AVAudioEngine is properly set up. This is
+
+62
+00:02:26,189 --> 00:02:27,719
+one of the functions that's included in
+
+63
+00:02:27,719 --> 00:02:30,239
+the extension that you just added.
+
+64
+00:02:30,239 --> 00:02:32,219
+So we'll make a call to setupAudio in
+
+65
+00:02:32,219 --> 00:02:35,128
+the viewDidLoad function. Next let's
+
+66
+00:02:35,128 --> 00:02:37,019
+configure the UI, so that the stop button
+
+67
+00:02:37,019 --> 00:02:39,330
+is disabled when the View first appears,
+
+68
+00:02:39,330 --> 00:02:41,459
+as the app won't be playing any sound
+
+69
+00:02:41,459 --> 00:02:43,080
+until the user presses one of the six
+
+70
+00:02:43,080 --> 00:02:45,419
+playback buttons. I’m looking at the
+
+71
+00:02:45,419 --> 00:02:47,219
+extension file and there's a convenience
+
+72
+00:02:47,219 --> 00:02:49,049
+function to reset the buttons to the
+
+73
+00:02:49,049 --> 00:02:51,959
+proper state when playing or not playing
+
+74
+00:02:51,959 --> 00:02:55,709
+music. It's called configureUI.
+
+75
+00:02:55,709 --> 00:02:57,360
+We need to configure the UI right before
+
+76
+00:02:57,360 --> 00:03:00,780
+the view first appears on the screen.
+
+77
+00:03:00,780 --> 00:03:03,090
+Now I wonder where we could call configureUI?
+
+78
+00:03:03,090 --> 00:03:05,579
+If you were thinking viewWillAppear,
+
+79
+00:03:05,579 --> 00:03:08,969
+then you're right. Back in
+
+80
+00:03:08,969 --> 00:03:10,560
+the PlaySoundsViewController, let's
+
+81
+00:03:10,560 --> 00:03:12,329
+add a call to configureUI in the
+
+82
+00:03:12,329 --> 00:03:15,598
+viewWillAppear function. First make
+
+83
+00:03:15,598 --> 00:03:17,519
+sure to add a call to the super classes
+
+84
+00:03:17,519 --> 00:03:21,090
+viewWillAppear function, and then we can
+
+85
+00:03:21,090 --> 00:03:22,919
+add our call to configureUI and we'll
+
+86
+00:03:22,919 --> 00:03:27,870
+pass it the notPlaying state. Also while
+
+87
+00:03:27,870 --> 00:03:29,519
+I'm here, I'm going to remove the rest of
+
+88
+00:03:29,519 --> 00:03:34,680
+this boilerplate code. Let's run this
+
+89
+00:03:34,680 --> 00:03:36,449
+real quick and see if the UI for the
+
+90
+00:03:36,449 --> 00:03:38,310
+PlaySoundsViewController appears as
+
+91
+00:03:38,310 --> 00:03:43,829
+we expect. This is a test.
+
+92
+00:03:43,829 --> 00:03:47,729
+Awesome our call to the configureUI is
+
+93
+00:03:47,729 --> 00:03:49,949
+correctly disabling the stop button when
+
+94
+00:03:49,949 --> 00:03:55,399
+the view appears.
+

@@ -1,0 +1,609 @@
+1
+00:00:00,080 --> 00:00:03,107
+You mentioned that when the activity
+implements the LoaderCallback method
+
+2
+00:00:03,107 --> 00:00:06,050
+onCreateLoader, we need to create and
+return a loader.
+
+3
+00:00:06,050 --> 00:00:07,720
+So how do we do that?
+
+4
+00:00:07,720 --> 00:00:12,132
+Well, to create a loader, we're going to
+subclass the AsyncTaskLoader class.
+
+5
+00:00:12,132 --> 00:00:15,590
+The AsyncTaskLoader has all
+the benefits of a loader,
+
+6
+00:00:15,590 --> 00:00:18,260
+say in terms of being managed
+by the loader manager.
+
+7
+00:00:18,260 --> 00:00:22,680
+And behind the scenes, it's actually
+using an AsyncTask to do the work.
+
+8
+00:00:22,680 --> 00:00:26,630
+Now we interact with the AsyncTaskLoader
+just like any other loader.
+
+9
+00:00:26,630 --> 00:00:30,570
+Notice that the AsyncTaskLoader inherits
+behavior from the loader class.
+
+10
+00:00:30,570 --> 00:00:33,050
+It's also generic class with
+the generic parameter D.
+
+11
+00:00:34,150 --> 00:00:37,780
+Scrolling down to the public methods
+section, we see that the parameter D is
+
+12
+00:00:37,780 --> 00:00:41,290
+being used as the return value
+of the loadInBackground method.
+
+13
+00:00:41,290 --> 00:00:45,030
+This method is also abstract, meaning
+we need to define the behavior and
+
+14
+00:00:45,030 --> 00:00:48,350
+we need to return a value with
+any data type of our choosing.
+
+15
+00:00:48,350 --> 00:00:51,400
+As long as the class declaration
+specifies what that data type
+
+16
+00:00:51,400 --> 00:00:52,220
+it is upfront.
+
+17
+00:00:54,410 --> 00:00:56,861
+I think a concrete example
+will help you clarify and
+
+18
+00:00:56,861 --> 00:00:59,145
+combine all these things
+that we just covered.
+
+19
+00:00:59,145 --> 00:01:02,274
+But this tutorial is a little old
+as you can tell from the UI, but
+
+20
+00:01:02,274 --> 00:01:04,590
+I like the simplicity of this code.
+
+21
+00:01:04,590 --> 00:01:08,390
+The goal of this code is to show
+a list of employees in a ListView
+
+22
+00:01:08,390 --> 00:01:11,429
+by loading the data from a background
+thread within AsyncTaskLoader.
+
+23
+00:01:12,440 --> 00:01:14,650
+The webpage is linked below if
+you want to check it out later.
+
+24
+00:01:15,730 --> 00:01:18,030
+Let's look at the EmployeeLoader class.
+
+25
+00:01:18,030 --> 00:01:21,770
+As you can see we extend from
+the AsyncTaskLoader class.
+
+26
+00:01:21,770 --> 00:01:25,950
+For the generic parameter in brackets,
+we specify a list of employees.
+
+27
+00:01:25,950 --> 00:01:29,230
+That means that the return value
+of the loadInBackground method
+
+28
+00:01:29,230 --> 00:01:30,970
+is a list of employees.
+
+29
+00:01:30,970 --> 00:01:34,150
+Okay, so
+within the loadInBackground method,
+
+30
+00:01:34,150 --> 00:01:36,880
+we see that a new array list
+of employees is created.
+
+31
+00:01:36,880 --> 00:01:40,670
+We add three entries to the list and
+then we return the list.
+
+32
+00:01:40,670 --> 00:01:41,400
+Now technically,
+
+33
+00:01:41,400 --> 00:01:44,580
+the work being done in this method
+can be done on the main thread.
+
+34
+00:01:44,580 --> 00:01:48,090
+Because it isn't an expensive
+calculation or say a network call.
+
+35
+00:01:48,090 --> 00:01:50,760
+But the writer of this article just
+wanted a simple example to show
+
+36
+00:01:50,760 --> 00:01:52,220
+the AsyncTaskLoader class.
+
+37
+00:01:53,430 --> 00:01:57,210
+We also have a constructor to create
+a new EmployeeLoader instance.
+
+38
+00:01:57,210 --> 00:02:00,010
+Inside, we just call the super
+class constructor and
+
+39
+00:02:00,010 --> 00:02:02,890
+pass in the context and that's it.
+
+40
+00:02:02,890 --> 00:02:06,150
+See, a loader is pretty
+straightforward to implement.
+
+41
+00:02:06,150 --> 00:02:07,520
+Step back a little bit.
+
+42
+00:02:07,520 --> 00:02:11,009
+We could look at how the loader is
+being used in the context of the app.
+
+43
+00:02:11,009 --> 00:02:13,235
+Now in the activity class declaration,
+
+44
+00:02:13,235 --> 00:02:17,103
+we can see that the MainActivity
+extends from the FragmentActivity.
+
+45
+00:02:17,103 --> 00:02:20,700
+And then implements the LoaderManager
+LoaderCallbacks interface.
+
+46
+00:02:20,700 --> 00:02:24,290
+The generic type specified
+is a list of employees.
+
+47
+00:02:24,290 --> 00:02:26,138
+Scrolling down, as you can see,
+
+48
+00:02:26,138 --> 00:02:30,494
+that means the activity must implement
+the three abstract callback methods,
+
+49
+00:02:30,494 --> 00:02:34,410
+onCreateLoader, onLoaderFinished and
+onLoaderReset.
+
+50
+00:02:34,410 --> 00:02:38,309
+Now notice that the List Employee data
+type is used throughout the callback
+
+51
+00:02:38,309 --> 00:02:39,000
+methods.
+
+52
+00:02:39,000 --> 00:02:40,620
+Even though there's a lot
+of bracket symbols,
+
+53
+00:02:40,620 --> 00:02:43,520
+just treat List Employee
+as a single blob.
+
+54
+00:02:43,520 --> 00:02:47,029
+That same blob is inserted in different
+spots throughout the callback method
+
+55
+00:02:47,029 --> 00:02:47,720
+signatures.
+
+56
+00:02:47,720 --> 00:02:51,440
+For example, in the onCreateLoader
+method, it returns a loader that loads
+
+57
+00:02:51,440 --> 00:02:54,680
+data in the form of a list of employees,
+the same blob we used above.
+
+58
+00:02:55,840 --> 00:02:59,190
+Now within the method,
+we create a new EmployeeLoader,
+
+59
+00:02:59,190 --> 00:03:04,010
+which extends from loader List Employee,
+so it matches the required return value.
+
+60
+00:03:04,010 --> 00:03:05,960
+Then we return the loader instance.
+
+61
+00:03:05,960 --> 00:03:10,080
+In the onLoadFinished method,
+we received two inputs.
+
+62
+00:03:10,080 --> 00:03:12,100
+A loader and a result.
+
+63
+00:03:12,100 --> 00:03:14,810
+The result is of data
+type of List Employee and
+
+64
+00:03:14,810 --> 00:03:17,610
+the loader load List Employee data.
+
+65
+00:03:17,610 --> 00:03:20,740
+Now the real value we care
+about is this result object.
+
+66
+00:03:20,740 --> 00:03:24,150
+We take the list of employees and
+update the data set in the adapter which
+
+67
+00:03:24,150 --> 00:03:26,580
+will update the list
+view that it's tied to.
+
+68
+00:03:26,580 --> 00:03:31,610
+In the onLoadReset method,
+we receive one input, the loader itself.
+
+69
+00:03:31,610 --> 00:03:34,090
+Now since we only have one
+loader in the activity,
+
+70
+00:03:34,090 --> 00:03:38,210
+we can just clear out the previous data
+that the loader gave us last time.
+
+71
+00:03:38,210 --> 00:03:41,620
+So we set the adapter data set to
+be an empty list of employees.
+
+72
+00:03:41,620 --> 00:03:43,090
+Here's the full scenario.
+
+73
+00:03:43,090 --> 00:03:45,765
+Within our activity to kick off
+the loader in the first place,
+
+74
+00:03:45,765 --> 00:03:48,300
+we get the LoaderManager and
+had called an itLoader on it.
+
+75
+00:03:49,340 --> 00:03:54,150
+By the way, getSupportLoaderManager
+is the same as getLoaderManager.
+
+76
+00:03:54,150 --> 00:03:57,808
+But this version uses the support
+loader version of the LoaderManager.
+
+77
+00:03:57,808 --> 00:04:01,300
+Within the initLoader call, the manager
+first checks to see if that loader
+
+78
+00:04:01,300 --> 00:04:05,550
+has already been created and
+passes back the existing copy if so.
+
+79
+00:04:05,550 --> 00:04:07,470
+If a loader instance doesn't exist,
+
+80
+00:04:07,470 --> 00:04:10,850
+the onCreateLoader callback is
+triggered to create a new instance.
+
+81
+00:04:10,850 --> 00:04:13,410
+Then we can create a new
+EmployeeLoader instance and return it.
+
+82
+00:04:14,546 --> 00:04:17,870
+Here's the full scenario, within our
+activity to kick off a loader in
+
+83
+00:04:17,870 --> 00:04:22,190
+the first place, we get the
+LoaderManager and call initLoader on it.
+
+84
+00:04:22,190 --> 00:04:26,360
+By the way, getSupportLoaderManager
+is the same as getLoaderManager.
+
+85
+00:04:26,360 --> 00:04:29,235
+But this version uses the support
+loader version of the LoaderManager.
+
+86
+00:04:30,580 --> 00:04:33,950
+So within the initLoader call,
+the manager first checks to see if
+
+87
+00:04:33,950 --> 00:04:37,960
+that loader has already been created and
+passes back the existing copy if so.
+
+88
+00:04:38,990 --> 00:04:40,940
+If a loader instance doesn't exist,
+
+89
+00:04:40,940 --> 00:04:43,650
+then the onCreateLoader callback is
+triggered to create a new instance.
+
+90
+00:04:44,780 --> 00:04:47,640
+Then we've created a new
+EmployeeLoader instance and return it.
+
+91
+00:04:47,640 --> 00:04:52,070
+You notice that after we initialized
+the loader, the code calls forceLoad.
+
+92
+00:04:52,070 --> 00:04:54,860
+This is required to trigger the loader
+to start doing the background work.
+
+93
+00:04:56,070 --> 00:04:58,570
+It's good practice though
+to put the forceLoad call
+
+94
+00:04:58,570 --> 00:05:00,680
+within the loader subclass.
+
+95
+00:05:00,680 --> 00:05:03,607
+You override the onStartLoading
+method within the loader class and
+
+96
+00:05:03,607 --> 00:05:05,050
+then call forceLoad from there.
+
+97
+00:05:06,090 --> 00:05:10,170
+The oStartLoading method is triggered
+automatically from initLoader.
+
+98
+00:05:10,170 --> 00:05:12,900
+Okay, once we call forceLoad,
+then the loader started.
+
+99
+00:05:13,962 --> 00:05:17,260
+The loadInBackground method gets
+run on a background thread and
+
+100
+00:05:17,260 --> 00:05:21,470
+the list of employees is created and
+returned as the result of the loader.
+
+101
+00:05:21,470 --> 00:05:25,090
+Now once the loader has finished loading
+data, it'll inform the LoaderManager
+
+102
+00:05:25,090 --> 00:05:27,758
+which then pass the data to
+the onLoadFinished method.
+
+103
+00:05:27,758 --> 00:05:31,890
+When the onLloadFinished method is
+called with the list of employees.
+
+104
+00:05:31,890 --> 00:05:35,425
+Then we update the adapter with the new
+data, causing the list to update and
+
+105
+00:05:35,425 --> 00:05:36,400
+redraw.
+
+106
+00:05:36,400 --> 00:05:38,340
+When our activity's being shut down,
+
+107
+00:05:38,340 --> 00:05:41,140
+the LoaderManager will take
+care of destroying our loader.
+
+108
+00:05:41,140 --> 00:05:44,150
+And will inform us when the data
+being provided by the loader
+
+109
+00:05:44,150 --> 00:05:45,780
+is no longer valid.
+
+110
+00:05:45,780 --> 00:05:49,660
+In which case, we should remove
+it from the UI and stop using it.
+
+111
+00:05:49,660 --> 00:05:52,130
+If the activity is destroyed
+before a load is finished,
+
+112
+00:05:52,130 --> 00:05:54,220
+then this method won't be called.
+
+113
+00:05:54,220 --> 00:05:56,070
+If we ran this code on our device,
+
+114
+00:05:56,070 --> 00:05:57,920
+the app would look something
+like this screenshot.
+
+115
+00:05:58,930 --> 00:06:01,450
+I know, the UI looks a little dated.
+
+116
+00:06:01,450 --> 00:06:04,220
+But mainly it's because the emulator in
+Android Studio has been updated quite
+
+117
+00:06:04,220 --> 00:06:06,520
+a bit since this tutorial was created.
+
+118
+00:06:06,520 --> 00:06:08,870
+Now that we've come full
+circle on how the Loader and
+
+119
+00:06:08,870 --> 00:06:11,010
+the Loader Manager callbacks work.
+
+120
+00:06:11,010 --> 00:06:13,070
+Since we discussed how to implement
+the Loaders in this video,
+
+121
+00:06:13,070 --> 00:06:16,740
+I want you to attempt the following
+quiz by filling in the blanks.
+
+122
+00:06:16,740 --> 00:06:20,800
+What is the type of Loader that uses
+an AsyncTask to do the background work?
+
+123
+00:06:20,800 --> 00:06:24,240
+To create a custom Loader that
+fetches a list of Earthquake objects,
+
+124
+00:06:24,240 --> 00:06:28,010
+we can define an EarthquakeLoader
+class which extends from what?
+
+125
+00:06:28,010 --> 00:06:31,440
+Within the EarthquakeLoader class,
+we need to override what method,
+
+126
+00:06:31,440 --> 00:06:34,970
+which will run on the background thread
+and return a list of Earthquakes.
+
+127
+00:06:34,970 --> 00:06:36,090
+Again, as a hint,
+
+128
+00:06:36,090 --> 00:06:39,260
+you can choose from the possible answer
+choices in the notes below the quiz.

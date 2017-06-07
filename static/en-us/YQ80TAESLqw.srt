@@ -1,0 +1,219 @@
+1
+00:00:00,000 --> 00:00:04,000
+[Thrun] So now let's return to hidden Markov models.
+
+2
+00:00:04,000 --> 00:00:08,000
+Those are really the subject of this class.
+
+3
+00:00:08,000 --> 00:00:12,000
+Let's again use the rainy and sunny example just to keep it simple.
+
+4
+00:00:12,000 --> 00:00:15,000
+These are the transition probabilities as before.
+
+5
+00:00:15,000 --> 00:00:20,000
+Let's assume for now that the initial probability of rain is 0.5;
+
+6
+00:00:20,000 --> 00:00:23,000
+hence, the probability of sun at time 0 is 0.5.
+
+7
+00:00:23,000 --> 00:00:28,000
+The key modification to go to hidden Markov model is that this state is actually hidden.
+
+8
+00:00:28,000 --> 00:00:32,000
+I cannot see whether it's raining or it's sunny.
+
+9
+00:00:32,000 --> 00:00:35,000
+Instead I get to observe something else.
+
+10
+00:00:35,000 --> 00:00:38,000
+Suppose I can be happy or grumpy
+
+11
+00:00:38,000 --> 00:00:43,000
+and happiness or grumpiness is being caused by the weather.
+
+12
+00:00:43,000 --> 00:00:46,000
+So rain might make me happy or grumpy,
+
+13
+00:00:46,000 --> 00:00:49,000
+and sunshine makes me happy or grumpy
+
+14
+00:00:49,000 --> 00:00:51,000
+but with vastly different probabilities.
+
+15
+00:00:51,000 --> 00:00:55,000
+If it's sunny, I'm just mostly happy, 0.9.
+
+16
+00:00:55,000 --> 00:00:59,000
+There's a 0.1 chance I might still be grumpy for some other reason.
+
+17
+00:00:59,000 --> 00:01:05,000
+If it's rainy, I'm only happy with 0.4 probability and with 0.6 I'm grumpy.
+
+18
+00:01:05,000 --> 00:01:11,000
+In fact, living in California I can attest that these are actually not wrong probabilities.
+
+19
+00:01:11,000 --> 00:01:14,000
+I love the sun over here.
+
+20
+00:01:14,000 --> 00:01:20,000
+Suppose I observe that I'm happy on day 1.
+
+21
+00:01:20,000 --> 00:01:27,000
+A question that we can ask now is what is the so-called posterior probability
+
+22
+00:01:27,000 --> 00:01:35,000
+for it raining on day 1 and what's the posterior probability for it being sunny on day 1?
+
+23
+00:01:35,000 --> 00:01:43,000
+What's the probability of rain on day 1 given that I observed that I was happy on day 1?
+
+24
+00:01:43,000 --> 00:01:46,000
+This is being answered using Bayes rule,
+
+25
+00:01:46,000 --> 00:01:50,000
+so this is the probability of being happy given that it rains
+
+26
+00:01:50,000 --> 00:01:56,000
+times the probability that it rains over the probability of being happy.
+
+27
+00:01:56,000 --> 00:02:03,000
+We know the probability of rain at day 1 based on our Markov state transition model.
+
+28
+00:02:03,000 --> 00:02:05,000
+In fact, let's just calculate it.
+
+29
+00:02:05,000 --> 00:02:10,000
+The probability of rain on day 1 is the probability it was rainy on day 0
+
+30
+00:02:10,000 --> 00:02:14,000
+and it led to a self transition from rain to rain from day 0 to day 1
+
+31
+00:02:14,000 --> 00:02:20,000
+plus the probability it was sunny on day 0 times the probability that sun led to rain over here.
+
+32
+00:02:20,000 --> 00:02:26,000
+If you can plug in all these numbers to obtain 0.4,
+
+33
+00:02:26,000 --> 00:02:29,000
+you can just easily verify this.
+
+34
+00:02:29,000 --> 00:02:32,000
+So we know this guy over here is 0.4.
+
+35
+00:02:32,000 --> 00:02:39,000
+This guy over here is 0.4 again, but now it's this 0.4 over here.
+
+36
+00:02:39,000 --> 00:02:44,000
+The probability of being happy on a rainy day is 0.4.
+
+37
+00:02:44,000 --> 00:02:51,000
+This guy over here resolves to 0.4 times 0.4
+
+38
+00:02:51,000 --> 00:02:55,000
+plus the same situation with sunny in time 1
+
+39
+00:02:55,000 --> 00:03:01,000
+where the prior is 0.6 and the happiness factor is 0.9.
+
+40
+00:03:01,000 --> 00:03:06,000
+And that gives us the entire expression is 0.229.
+
+41
+00:03:06,000 --> 00:03:11,000
+Let's interpret the 0.229 in the context of the question we asked.
+
+42
+00:03:11,000 --> 00:03:16,000
+We know that at time 0 it was raining with half a chance.
+
+43
+00:03:16,000 --> 00:03:20,000
+If you look at the state transition diagram, it's more likely to be sunny afterwards
+
+44
+00:03:20,000 --> 00:03:23,000
+because it's more likely to flip from rain to sun than sun to rain.
+
+45
+00:03:23,000 --> 00:03:29,000
+In fact, we worked out that the probability of rain at a time step later was only 0.4,
+
+46
+00:03:29,000 --> 00:03:31,000
+so it was 0.6 sunny.
+
+47
+00:03:31,000 --> 00:03:36,000
+But now that I saw myself being happy, my probability of rain was further lowered
+
+48
+00:03:36,000 --> 00:03:39,000
+from 0.4 to 0.229.
+
+49
+00:03:39,000 --> 00:03:45,000
+And the reason why the probability went down is if you look at happiness,
+
+50
+00:03:45,000 --> 00:03:50,000
+happiness is much more likely to occur on a sunny day than it is to occur on a rainy day.
+
+51
+00:03:50,000 --> 00:03:53,000
+And when you work this in using Bayes rule and total probability,
+
+52
+00:03:53,000 --> 00:03:57,000
+you would find just the fact that it was at happiness at time 1
+
+53
+00:03:57,000 --> 00:04:05,000
+makes your belief of it being rainy go down from 0.4 to 0.229.
+
+54
+00:04:05,000 --> 00:04:08,000
+This is a wonderful example of applying Bayes rule
+
+55
+00:04:08,000 --> 99:59:59,999
+in this really relatively complicated hidden Markov model.

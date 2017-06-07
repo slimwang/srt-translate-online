@@ -1,0 +1,329 @@
+1
+00:00:00,460 --> 00:00:02,290
+There are a few different
+ways to complete this one,
+
+2
+00:00:02,290 --> 00:00:03,750
+how did you do it Jay?
+
+3
+00:00:03,750 --> 00:00:05,150
+>> Well as the easy way, and
+
+4
+00:00:05,150 --> 00:00:07,290
+there's the scalable way,
+we're going to look at both.
+
+5
+00:00:08,640 --> 00:00:09,350
+>> Here's the easy way.
+
+6
+00:00:09,350 --> 00:00:12,180
+I change the theme c.s.s
+to the green theme.
+
+7
+00:00:13,290 --> 00:00:16,290
+Then I bump the version number of
+the static cache in the service worker.
+
+8
+00:00:17,730 --> 00:00:21,330
+Then I use the activate event to remove
+the v one cache, the old cache cache.
+
+9
+00:00:23,230 --> 00:00:24,940
+Now I can refresh the page and
+
+10
+00:00:24,940 --> 00:00:28,610
+in DevTools, I see this new
+version install, and wait.
+
+11
+00:00:30,000 --> 00:00:32,780
+If I look at caches in DevTools,
+I can see v1 and v2,
+
+12
+00:00:32,780 --> 00:00:34,290
+which is what we want right now.
+
+13
+00:00:35,840 --> 00:00:39,160
+If i navigate away,
+the new service worker activates.
+
+14
+00:00:39,160 --> 00:00:41,170
+So if i click back
+the theme has changed.
+
+15
+00:00:42,210 --> 00:00:44,230
+As I said that's the easy solution.
+
+16
+00:00:44,230 --> 00:00:46,080
+But it's perfectly good in this case.
+
+17
+00:00:46,080 --> 00:00:48,300
+If it's what you did, you got it right.
+
+18
+00:00:48,300 --> 00:00:50,920
+But what about when we
+get to version twenty?
+
+19
+00:00:50,920 --> 00:00:54,000
+We can't just remove version
+19 in the activate event.
+
+20
+00:00:54,000 --> 00:00:57,300
+Because the user might be updating from
+an older version, maybe 18, maybe 17.
+
+21
+00:00:57,300 --> 00:01:01,830
+Calling delete on every old cache
+name is going to be a bit messy.
+
+22
+00:01:01,830 --> 00:01:04,720
+And that code's only keep getting
+bigger and bigger over time.
+
+23
+00:01:04,720 --> 00:01:07,996
+Instead, I'm going to maintain a safe
+list of cache names I want to keep and
+
+24
+00:01:07,996 --> 00:01:08,881
+remove the others.
+
+25
+00:01:12,664 --> 00:01:15,980
+To do that I'm going to store the name
+of the static cache in a variable.
+
+26
+00:01:19,230 --> 00:01:23,040
+Then in the activate event, I'm going to
+get all of the cache names that exist.
+
+27
+00:01:23,040 --> 00:01:28,270
+I'm going to fill up
+that list of cache names.
+
+28
+00:01:28,270 --> 00:01:31,190
+I'm only interested in the cache
+name begins with wizard dash.
+
+29
+00:01:31,190 --> 00:01:32,970
+But isn't the name of a static cache.
+
+30
+00:01:34,420 --> 00:01:37,900
+That gives me a list of wizard
+caches that I don't need anymore.
+
+31
+00:01:37,900 --> 00:01:40,969
+So, I'm going to map those to promises
+returned by caches dot delete.
+
+32
+00:01:44,840 --> 00:01:47,660
+Then I'm going to wrap all
+of that in promise dot all.
+
+33
+00:01:47,660 --> 00:01:50,210
+So we wait on the completion
+of all of those promises.
+
+34
+00:01:51,720 --> 00:01:54,520
+Checking the cache starts with with
+wizard dash means we don't delete caches
+
+35
+00:01:54,520 --> 00:01:57,330
+from other apps that might be
+running on the same origin, for
+
+36
+00:01:57,330 --> 00:01:59,130
+example some other static v1.
+
+37
+00:01:59,130 --> 00:02:02,680
+That isn't really necessary
+here as we only have
+
+38
+00:02:02,680 --> 00:02:04,470
+one service worker on the origin.
+
+39
+00:02:04,470 --> 00:02:07,510
+But on sites like GitHub pages you
+might have many service workers sharing
+
+40
+00:02:07,510 --> 00:02:09,090
+the same origin.
+
+41
+00:02:09,090 --> 00:02:12,250
+When updating the cache remember that
+the requests are going via the standard
+
+42
+00:02:12,250 --> 00:02:13,580
+browser cache.
+
+43
+00:02:13,580 --> 00:02:17,240
+So if one of these resources
+had a cache time of say a year,
+
+44
+00:02:17,240 --> 00:02:19,440
+the update would just be
+fetched from the HTTP cache.
+
+45
+00:02:19,440 --> 00:02:21,780
+So you wouldn't get
+any changes you made.
+
+46
+00:02:21,780 --> 00:02:25,020
+In the development server, all the
+resources are set to have a cache age
+
+47
+00:02:25,020 --> 00:02:27,820
+of zero as in they don't cache.
+
+48
+00:02:27,820 --> 00:02:30,590
+In production, I strongly recommend
+having versioning as part of your
+
+49
+00:02:30,590 --> 00:02:32,880
+resource names Like this.
+
+50
+00:02:32,880 --> 00:02:35,820
+Where the version number is generated
+from the content of the file.
+
+51
+00:02:35,820 --> 00:02:38,900
+Then you can give these resources
+a cache time of a year or more.
+
+52
+00:02:38,900 --> 00:02:41,790
+So if you update your CSS,
+a build script could automatically
+
+53
+00:02:41,790 --> 00:02:45,630
+update your service worker,
+changing the URL to this the CSS.
+
+54
+00:02:45,630 --> 00:02:48,830
+Your cash version number could also be
+all generated based on the things that
+
+55
+00:02:48,830 --> 00:02:50,130
+caches.
+
+56
+00:02:50,130 --> 00:02:51,530
+Versioning resources like this and
+
+57
+00:02:51,530 --> 00:02:55,050
+giving them a long cache time isn't
+advice specific to service workers.
+
+58
+00:02:55,050 --> 00:02:57,440
+It's just general good caching practice.
+
+59
+00:02:57,440 --> 00:03:00,020
+You can work around not to call
+caching with service worker.
+
+60
+00:03:00,020 --> 00:03:02,020
+You pack pretty much anything.
+
+61
+00:03:02,020 --> 00:03:05,760
+But things are so much easier if
+you work alongside good caching.
+
+62
+00:03:05,760 --> 00:03:10,400
+For example, in this model if i
+update my CSS the CSS URL changes,
+
+63
+00:03:10,400 --> 00:03:12,290
+therefore cache name changes.
+
+64
+00:03:12,290 --> 00:03:15,780
+Now when the browser fetches all these,
+it can get everything but
+
+65
+00:03:15,780 --> 00:03:18,280
+the CSS from the browser cache because.
+
+66
+00:03:18,280 --> 00:03:19,650
+They haven't changed.
+
+67
+00:03:19,650 --> 00:03:22,805
+The only thing that special
+the network is the new CSS.
+
+68
+00:03:22,805 --> 00:03:25,780
+Okay, I think we can say we've
+successfully delivered unobtrusive
+
+69
+00:03:25,780 --> 00:03:26,880
+updates.
+
+70
+00:03:26,880 --> 00:03:30,250
+Next we'll look at making sure the user
+gets these updates quickly and
+
+71
+00:03:30,250 --> 00:03:30,800
+painlessly.

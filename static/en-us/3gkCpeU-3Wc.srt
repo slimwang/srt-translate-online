@@ -1,0 +1,168 @@
+﻿1
+00:00:00,390 --> 00:00:04,280
+One remaining challenge in making our
+computer player are situations where it
+
+2
+00:00:04,280 --> 00:00:08,230
+is obvious to a human player that the
+game will be decided in the next move,
+
+3
+00:00:08,230 --> 00:00:11,140
+but that the computer player cannot
+search far enough into the future
+
+4
+00:00:11,140 --> 00:00:12,780
+to figure out the problem.
+
+5
+00:00:12,779 --> 00:00:14,759
+This situation is called
+the Horizon Effect.
+
+6
+00:00:15,939 --> 00:00:18,050
+Take a look at this isolation board.
+
+7
+00:00:18,050 --> 00:00:19,310
+It's O's turn.
+
+8
+00:00:19,309 --> 00:00:21,339
+Which move should O take?
+
+9
+00:00:21,339 --> 00:00:23,589
+>> Well,
+as soon as O moves diagonally down and
+
+10
+00:00:23,589 --> 00:00:27,201
+left one, X will only have six
+moves as compared to O's seven.
+
+11
+00:00:27,202 --> 00:00:29,200
+Then O will win.
+
+12
+00:00:29,199 --> 00:00:31,199
+>> But that is 13 moves in the future.
+
+13
+00:00:31,199 --> 00:00:33,089
+How did you figure that out?
+
+14
+00:00:33,090 --> 00:00:35,160
+>> X will be blocked on the wrong
+side of the partition and
+
+15
+00:00:35,159 --> 00:00:36,809
+not be able to reach O.
+
+16
+00:00:36,810 --> 00:00:39,539
+Both players will have to fill in
+the rest of the game board efficiently
+
+17
+00:00:39,539 --> 00:00:41,439
+in order to have a chance of winning.
+
+18
+00:00:41,439 --> 00:00:45,019
+That's a great observation, but
+our computer player may not see it.
+
+19
+00:00:45,020 --> 00:00:48,840
+Remember, when we started talking about
+having only two seconds to make a move,
+
+20
+00:00:48,840 --> 00:00:52,410
+we said that our computer player
+should only look ahead nine moves.
+
+21
+00:00:52,409 --> 00:00:54,459
+It won't see the end game coming.
+
+22
+00:00:54,460 --> 00:00:57,450
+>> But with iterative deepening,
+it might be able to go deeper.
+
+23
+00:00:57,450 --> 00:01:00,510
+The branching factor towards the end
+of the game is much smaller.
+
+24
+00:01:00,509 --> 00:01:04,500
+True, however, imagine that we have
+already reached the next to last
+
+25
+00:01:04,500 --> 00:01:07,060
+depth of our search tree
+in the time we have.
+
+26
+00:01:07,060 --> 00:01:10,250
+We have to evaluate the goodness
+of the children of this node.
+
+27
+00:01:10,250 --> 00:01:14,040
+Which move would our my moves
+evaluation function pick?
+
+28
+00:01:14,040 --> 00:01:16,090
+>> Well, certainly not the winning move.
+
+29
+00:01:16,090 --> 00:01:19,060
+The evaluation function will return
+three for the winning move, but
+
+30
+00:01:19,060 --> 00:01:21,570
+I can see a couple moves
+that would be preferred.
+
+31
+00:01:21,569 --> 00:01:24,239
+>> Going the whole way to
+the right gives a five.
+
+32
+00:01:24,239 --> 00:01:27,769
+And going diagonally left and
+down two spaces gives us six.
+
+33
+00:01:27,769 --> 00:01:30,379
+Yet both of these moves
+will result in a loss.
+
+34
+00:01:30,379 --> 00:01:31,109
+>> Yep.
+
+35
+00:01:31,109 --> 00:01:34,290
+Going to the right will get O on
+the wrong side of the partition.
+
+36
+00:01:34,290 --> 00:01:37,760
+Going to the left causes O to create
+another partition with even less moves.
+

@@ -1,0 +1,113 @@
+1
+00:00:00,260 --> 00:00:02,789
+So what exactly was happening
+with shopping list plus, plus,
+
+2
+00:00:02,789 --> 00:00:04,350
+why everything is so tricky?
+
+3
+00:00:04,350 --> 00:00:07,360
+>> Well, I can explain what the data
+structure look like and then,
+
+4
+00:00:07,360 --> 00:00:10,070
+maybe you can explain
+what the larger issue is.
+
+5
+00:00:10,070 --> 00:00:11,040
+Here, give me the tablet.
+
+6
+00:00:14,260 --> 00:00:17,000
+So this is what our final
+data schema looked like.
+
+7
+00:00:17,000 --> 00:00:19,730
+The developers were swan enough
+to make sure that all of our
+
+8
+00:00:19,730 --> 00:00:21,060
+data was denormalized.
+
+9
+00:00:21,060 --> 00:00:24,910
+Here you see we separated out shopping
+list items from the actual lists.
+
+10
+00:00:24,910 --> 00:00:28,280
+And we did this because when we list
+the shopping lists on the shopping list
+
+11
+00:00:28,280 --> 00:00:32,860
+fragment page, we knew that we didn't
+also want to download all of the items.
+
+12
+00:00:32,860 --> 00:00:34,260
+And you can see that relationship here.
+
+13
+00:00:34,260 --> 00:00:38,410
+In the same way, we move shopping
+list out from under users.
+
+14
+00:00:38,410 --> 00:00:40,599
+And instead, put them in their
+separate denormalized node.
+
+15
+00:00:41,600 --> 00:00:43,220
+To know who has access to them,
+
+16
+00:00:43,220 --> 00:00:47,420
+we store the owner as well as
+the users that list was shared with.
+
+17
+00:00:47,420 --> 00:00:50,610
+Now, the issue that users were
+experiencing was loading up the shopping
+
+18
+00:00:50,610 --> 00:00:53,360
+list fragments screen
+here was super slow.
+
+19
+00:00:53,360 --> 00:00:55,910
+This screen here combines a list
+that the users both shared on
+
+20
+00:00:55,910 --> 00:00:56,830
+with lists that they own.
+
+21
+00:00:57,870 --> 00:01:01,490
+For each user, this only amounted
+to about ten or 20 shopping lists.
+
+22
+00:01:01,490 --> 00:01:05,220
+But it was sluggish to load up
+even these ten or 20 items.
+
+23
+00:01:05,220 --> 00:01:08,100
+If you're wondering why, Walter,
+well, I think our developer can
+
+24
+00:01:08,100 --> 00:01:10,390
+explain a little bit more about
+what might have been going on.

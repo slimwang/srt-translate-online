@@ -1,0 +1,410 @@
+1
+00:00:00,340 --> 00:00:02,520
+Every piece of data,
+whether it be text or images,
+
+2
+00:00:02,520 --> 00:00:05,810
+is actually stored in byte-sized chunks.
+
+3
+00:00:05,810 --> 00:00:09,362
+When an app receives the data,
+it comes in as an input stream,
+
+4
+00:00:09,362 --> 00:00:11,850
+i.e., a stream of these bytes.
+
+5
+00:00:11,850 --> 00:00:16,149
+The input stream is an abstraction, that
+is, it hides the details of whether or
+
+6
+00:00:16,149 --> 00:00:20,890
+not the bytes represent a file or
+a webpage or even media content.
+
+7
+00:00:20,890 --> 00:00:23,150
+It's just a stream of information.
+
+8
+00:00:23,150 --> 00:00:26,360
+Then when we've received this stream,
+we need to reassemble the bytes
+
+9
+00:00:26,360 --> 00:00:29,090
+into something meaningful
+that our app can use.
+
+10
+00:00:29,090 --> 00:00:33,070
+For text data, the bytes need to be
+converted back into characters, so
+
+11
+00:00:33,070 --> 00:00:35,260
+the Buffered Reader class
+allows us to do that.
+
+12
+00:00:36,260 --> 00:00:38,580
+We then build up a JSON response string,
+
+13
+00:00:38,580 --> 00:00:40,809
+where the string is essentially
+a stream of characters.
+
+14
+00:00:42,080 --> 00:00:45,070
+Let's look at how this conversion
+process is accomplished in code
+
+15
+00:00:45,070 --> 00:00:47,330
+in the makeHttpRequest method.
+
+16
+00:00:47,330 --> 00:00:53,370
+Notice that we start with two variables,
+urlConnection of type HttpURLConnection,
+
+17
+00:00:53,370 --> 00:00:56,010
+and inputStream of type InputStream.
+
+18
+00:00:56,010 --> 00:00:58,180
+Now, instead of
+returning a final result,
+
+19
+00:00:58,180 --> 00:01:02,302
+like a string, sometimes a function
+will return an inputStream.
+
+20
+00:01:02,302 --> 00:01:06,430
+An inputStream allows you to retrieve
+information one chunk of data at a time.
+
+21
+00:01:06,430 --> 00:01:09,700
+This is useful if the stream will
+be returning a ton of data, or
+
+22
+00:01:09,700 --> 00:01:13,434
+if the stream represents some data
+source that will deliver data over time.
+
+23
+00:01:13,434 --> 00:01:16,822
+The HttpURLConnection class,
+which we use to get our JSON data,
+
+24
+00:01:16,822 --> 00:01:19,479
+returns the server's
+response via inputStream.
+
+25
+00:01:21,000 --> 00:01:24,111
+Next, we have a helper method
+to read the data that comes from
+
+26
+00:01:24,111 --> 00:01:25,120
+the inputStream.
+
+27
+00:01:25,120 --> 00:01:27,400
+Let's jump to the readFromStream method.
+
+28
+00:01:27,400 --> 00:01:31,350
+Remember that an inputStream doesn't
+actually return characters we can read
+
+29
+00:01:31,350 --> 00:01:32,890
+like numbers or letters.
+
+30
+00:01:32,890 --> 00:01:35,820
+Instead it returns raw binary data,
+ones and
+
+31
+00:01:35,820 --> 00:01:39,860
+zeros, with no specific instructions
+on what that data represents.
+
+32
+00:01:39,860 --> 00:01:44,930
+That data might be an image, a sound or
+some geoJSON data for us to parse.
+
+33
+00:01:44,930 --> 00:01:48,020
+In this case, we know that the data
+coming back from our inputStream
+
+34
+00:01:48,020 --> 00:01:51,340
+is indeed just text, and
+we can use the inputStreamReader
+
+35
+00:01:51,340 --> 00:01:56,120
+to handle that translation process from
+raw data to human readable characters.
+
+36
+00:01:56,120 --> 00:01:59,590
+Now, the InputStreamReader only allows
+you to read a single character at
+
+37
+00:01:59,590 --> 00:02:03,190
+a time, which can have some very rough
+performance implications, depending on
+
+38
+00:02:03,190 --> 00:02:06,760
+how the underlying inputStream
+is actually providing the data.
+
+39
+00:02:06,760 --> 00:02:09,520
+For instance, retrieving data
+from your computer's hard drive
+
+40
+00:02:09,520 --> 00:02:12,560
+is quite fast if you're reading
+large chunks of data at once.
+
+41
+00:02:12,560 --> 00:02:15,495
+However, if you try to read data from a
+hard drive a single character at a time,
+
+42
+00:02:15,495 --> 00:02:17,420
+it'll take a very long time.
+
+43
+00:02:17,420 --> 00:02:21,988
+This can be avoided by wrapping an
+inputStreamReader in a BufferedReader.
+
+44
+00:02:21,988 --> 00:02:25,040
+Now a BufferedReader will accept
+your request for a character and
+
+45
+00:02:25,040 --> 00:02:28,460
+will instead read and
+save a larger chunk of data around it.
+
+46
+00:02:28,460 --> 00:02:30,230
+When you go to request
+another character,
+
+47
+00:02:30,230 --> 00:02:33,530
+the BufferedReader will then be able
+to satisfy your request from the data
+
+48
+00:02:33,530 --> 00:02:37,730
+it read ahead of time instead of having
+to go back to the inputStreamReader.
+
+49
+00:02:37,730 --> 00:02:41,380
+So as you can see, in order to begin
+reading data from our inputStream,
+
+50
+00:02:41,380 --> 00:02:45,040
+we actually pass it in as a parameter
+to our InputStreamReader instance
+
+51
+00:02:45,040 --> 00:02:46,210
+via the constructor.
+
+52
+00:02:46,210 --> 00:02:50,257
+We also supply a character set, or
+Charset for short, to the constructor.
+
+53
+00:02:50,257 --> 00:02:54,680
+A Charset specifies how to translate
+the inputStream's raw data into readable
+
+54
+00:02:54,680 --> 00:02:56,405
+characters one byte at a time.
+
+55
+00:02:56,405 --> 00:03:00,693
+That is, it knows how to decode each
+byte into a specific human readable
+
+56
+00:03:00,693 --> 00:03:03,347
+character like a capital A or
+an equal sign.
+
+57
+00:03:03,347 --> 00:03:05,900
+UTF-8 is the Unicode
+character encoding used for
+
+58
+00:03:05,900 --> 00:03:09,100
+almost every piece of text
+you'll find on the web.
+
+59
+00:03:09,100 --> 00:03:12,200
+The last thing we do is we wrap the
+InputStreamReader in a BufferedReader,
+
+60
+00:03:12,200 --> 00:03:14,810
+and we're ready to start reading lines.
+
+61
+00:03:14,810 --> 00:03:19,709
+Okay, I know, these wrappings and layers
+can seem super confusing and roundabout.
+
+62
+00:03:19,709 --> 00:03:22,599
+An inputStream,
+wrapped in an inputStreamReader,
+
+63
+00:03:22,599 --> 00:03:24,300
+wrapped in a BufferedReader?
+
+64
+00:03:24,300 --> 00:03:25,020
+Surely there must be
+
+65
+00:03:25,020 --> 00:03:28,850
+a simpler way to read data back
+from an HttpURLConnection.
+
+66
+00:03:28,850 --> 00:03:29,890
+And indeed,
+
+67
+00:03:29,890 --> 00:03:33,770
+a read through the whole response's
+text method would be pretty convenient.
+
+68
+00:03:33,770 --> 00:03:37,120
+The problem though,
+is that the method wouldn't be reusable.
+
+69
+00:03:37,120 --> 00:03:39,550
+So instead of pre-built
+end to end solutions,
+
+70
+00:03:39,550 --> 00:03:43,020
+powerful programming frameworks and
+libraries usually give you individual
+
+71
+00:03:43,020 --> 00:03:46,510
+parts that could be combined
+together in many different ways.
+
+72
+00:03:46,510 --> 00:03:50,610
+So in this case, for example, the chain
+of streams in readers is kind of long,
+
+73
+00:03:50,610 --> 00:03:53,470
+but in the future you'll encounter
+situations where you'll need to assemble
+
+74
+00:03:53,470 --> 00:03:55,960
+these pieces in some kind
+of different configuration.
+
+75
+00:03:55,960 --> 00:03:58,810
+And the flexibility you gain is
+absolutely worth the verbosity
+
+76
+00:03:58,810 --> 00:04:00,640
+you need to endure right now.
+
+77
+00:04:00,640 --> 00:04:03,470
+To test your understanding of why
+these classes are needed, I'd
+
+78
+00:04:03,470 --> 00:04:08,040
+like you to describe in your own words,
+what's the purpose of an InputStream.
+
+79
+00:04:08,040 --> 00:04:09,766
+And what's the purpose
+of a BufferedReader?
+
+80
+00:04:09,766 --> 00:04:12,993
+Feel free to check out the resources
+linked below the quiz.
+
+81
+00:04:12,993 --> 00:04:15,778
+Once we know that the HTTP
+request was successful,
+
+82
+00:04:15,778 --> 00:04:19,730
+we can read the result from the
+inputStream using a BufferedReader, and
+
+83
+00:04:19,730 --> 00:04:23,640
+then we can convert it into a string and
+then parse the JSON.
+
+84
+00:04:23,640 --> 00:04:27,460
+So what's the purpose of an InputStream?
+
+85
+00:04:27,460 --> 00:04:30,218
+And similarly,
+what's the purpose of a BufferedReader?
+
+86
+00:04:30,218 --> 00:04:32,259
+[BLANK_AUDIO]

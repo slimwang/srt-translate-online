@@ -1,0 +1,276 @@
+1
+00:00:00,120 --> 00:00:03,030
+There's one more app engine
+system tool I'd like to show you.
+
+2
+00:00:03,030 --> 00:00:06,370
+This is a tool that helps you understand
+your application's performance in great
+
+3
+00:00:06,370 --> 00:00:08,370
+detail, much more than the logs do.
+
+4
+00:00:08,370 --> 00:00:10,822
+It's called App Stats, and
+this is what it looks like.
+
+5
+00:00:10,822 --> 00:00:13,990
+App Stats let's you find out
+what's going on behind the scenes
+
+6
+00:00:13,990 --> 00:00:16,079
+with each request that your app handles.
+
+7
+00:00:16,079 --> 00:00:19,610
+It shows you how many requests your app
+is sending to data store memcache or
+
+8
+00:00:19,610 --> 00:00:22,330
+other backends for
+each request that your app takes in.
+
+9
+00:00:22,330 --> 00:00:23,810
+It shows you latency details.
+
+10
+00:00:23,810 --> 00:00:26,980
+If a request was slow,
+what was it doing all that time?
+
+11
+00:00:26,980 --> 00:00:28,962
+And when you expand beyond
+the free service tier,
+
+12
+00:00:28,962 --> 00:00:32,067
+App Stats also shows you
+the cost of all these requests.
+
+13
+00:00:32,067 --> 00:00:35,590
+So App Stats is a tool for profiling
+your app, finding out which requests
+
+14
+00:00:35,590 --> 00:00:38,770
+take the most time or computer power,
+or cost the most money.
+
+15
+00:00:38,770 --> 00:00:41,960
+Then you can use this information
+to optimize your application.
+
+16
+00:00:41,960 --> 00:00:45,370
+For instance, by adding caching
+to reduce API queries, or
+
+17
+00:00:45,370 --> 00:00:50,080
+by bundling requests into fewer
+RPCs like we did with ndb.get_multi
+
+18
+00:00:50,080 --> 00:00:54,070
+in lesson four or by reducing
+dependency on expensive services.
+
+19
+00:00:54,070 --> 00:00:57,680
+Setting up App Stats in Python requires
+that you make two changes to your app.
+
+20
+00:00:57,680 --> 00:00:59,510
+You don't need to make any code changes,
+but
+
+21
+00:00:59,510 --> 00:01:01,450
+you do need to tell App Engine
+to collect the data.
+
+22
+00:01:01,450 --> 00:01:04,625
+And you need to turn on the built-in
+URL handler to allow you to
+
+23
+00:01:04,625 --> 00:01:06,515
+access the App Stats console.
+
+24
+00:01:06,515 --> 00:01:09,600
+For the instructions, see the docs
+linked in the instructor notes.
+
+25
+00:01:09,600 --> 00:01:12,240
+So let's take a look at the data
+the App Stats gives you.
+
+26
+00:01:12,240 --> 00:01:15,430
+The RPC stats table shows
+statistics of each RPC,
+
+27
+00:01:15,430 --> 00:01:18,290
+each request that your
+app sends to a back end.
+
+28
+00:01:18,290 --> 00:01:21,240
+For instance, here you can see
+data store get operations.
+
+29
+00:01:21,240 --> 00:01:25,440
+You can see the number of calls,
+the total cost and the percentage cost.
+
+30
+00:01:25,440 --> 00:01:29,840
+All the other back end calls are listed
+here too, like memCacheGet, and
+
+31
+00:01:29,840 --> 00:01:32,690
+datastoreRunQuery, and mail.send.
+
+32
+00:01:32,690 --> 00:01:34,320
+If your app has accessed another API,
+
+33
+00:01:34,320 --> 00:01:37,150
+like the translate API,
+you'd see that here as well.
+
+34
+00:01:37,150 --> 00:01:39,165
+Over here is the path stats table.
+
+35
+00:01:39,165 --> 00:01:41,945
+It shows you more or less the same
+information, but broken down by
+
+36
+00:01:41,945 --> 00:01:45,375
+the URL paths in your application,
+instead of by back end calls.
+
+37
+00:01:45,375 --> 00:01:48,525
+So if we expand query conferences,
+for instance, we can see that
+
+38
+00:01:48,525 --> 00:01:53,250
+query conferences makes calls to data
+store run query and memcacheget.
+
+39
+00:01:53,250 --> 00:01:55,600
+Further down the page you'll
+see a request history.
+
+40
+00:01:55,600 --> 00:01:58,510
+This shows information about each
+individual request that your app
+
+41
+00:01:58,510 --> 00:01:59,740
+has received recently.
+
+42
+00:01:59,740 --> 00:02:02,540
+For instance, here,
+query conferences was called.
+
+43
+00:02:02,540 --> 00:02:03,350
+And here's the time.
+
+44
+00:02:03,350 --> 00:02:06,610
+And they made requests
+to these API methods.
+
+45
+00:02:06,610 --> 00:02:09,470
+And if you click on one of these
+requests, you'll see the RPC
+
+46
+00:02:09,470 --> 00:02:13,110
+timeline view, which shows which
+specific RPC calls were made, and
+
+47
+00:02:13,110 --> 00:02:15,280
+how long each of them took to process.
+
+48
+00:02:15,280 --> 00:02:20,260
+So you can see here, for instance, that
+user.GetOAuthUser took 17 milliseconds.
+
+49
+00:02:20,260 --> 00:02:23,310
+This sort of thing is very important
+to understanding your app's latency to
+
+50
+00:02:23,310 --> 00:02:24,280
+users.
+
+51
+00:02:24,280 --> 00:02:26,770
+This information may not
+look very critical now.
+
+52
+00:02:26,770 --> 00:02:28,970
+But imagine that you're running
+a service that takes hundreds or
+
+53
+00:02:28,970 --> 00:02:31,080
+thousands of requests every second.
+
+54
+00:02:31,080 --> 00:02:34,280
+That's not at all unusual for
+a busy and popular app.
+
+55
+00:02:34,280 --> 00:02:36,630
+And you want to understand
+which requests are slow and
+
+56
+00:02:36,630 --> 00:02:38,630
+which requests cost you more money and
+
+57
+00:02:38,630 --> 00:02:42,230
+where you should focus your attention
+to make your app faster and cheaper.
+
+58
+00:02:42,230 --> 00:02:44,330
+App Stats is exactly the tool
+you'd use to do that.

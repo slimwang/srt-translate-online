@@ -1,0 +1,119 @@
+1
+00:00:00,250 --> 00:00:02,920
+Looking at the diagram, both T2 and
+
+2
+00:00:02,920 --> 00:00:07,990
+T4 have attempted to get the lock before it was released.
+
+3
+00:00:07,990 --> 00:00:11,850
+So, their requests will definitely be in the queue that's associated with
+
+4
+00:00:11,850 --> 00:00:14,670
+the mutex, the queue of pending requests.
+
+5
+00:00:14,670 --> 00:00:18,630
+Any one of these two requests could be one of the requests that can get to
+
+6
+00:00:18,630 --> 00:00:19,640
+execute first.
+
+7
+00:00:19,640 --> 00:00:23,240
+The specification of the mutex doesn't make any
+
+8
+00:00:23,240 --> 00:00:26,520
+guarantees regarding the ordering of the lock operations.
+
+9
+00:00:26,520 --> 00:00:31,210
+So, it doesn't really matter that the thread 4 issued the lock operation,
+
+10
+00:00:31,210 --> 00:00:33,870
+the lock request before T2.
+
+11
+00:00:33,870 --> 00:00:38,600
+We don't have a guarantee that these requests will be granted in order.
+
+12
+00:00:38,600 --> 00:00:44,660
+But, regardless, since both T2s and T4s requests are pending on the mutex,
+
+13
+00:00:44,660 --> 00:00:49,030
+then either one of these two threads will be viable candidates of who gets to
+
+14
+00:00:49,030 --> 00:00:52,160
+execute next after T1 releases control.
+
+15
+00:00:52,160 --> 00:00:56,820
+Thread T3 is definitely not a likely candidate, since it doesn't get to
+
+16
+00:00:56,820 --> 00:01:01,626
+issue the lock operation until after T1 released it and
+
+17
+00:01:01,626 --> 00:01:03,060
+their already pending requests.
+
+18
+00:01:03,060 --> 00:01:06,310
+So it's not going to be one of the next threads to execute.
+
+19
+00:01:06,310 --> 00:01:08,130
+For T5 it's a little tricky.
+
+20
+00:01:08,130 --> 00:01:13,090
+From the diagram we see that the lock is released just as T5
+
+21
+00:01:13,090 --> 00:01:16,300
+is starting to perform the lock operation.
+
+22
+00:01:16,300 --> 00:01:19,890
+So, what can happen is T1 releases the lock and
+
+23
+00:01:19,890 --> 00:01:25,180
+then we see that both T2 and T4 are actually pending on it.
+
+24
+00:01:25,180 --> 00:01:30,410
+But just before we give the lock to one of these two threads, on another CPU,
+
+25
+00:01:30,410 --> 00:01:34,610
+say T5 arrives, makes a lock request.
+
+26
+00:01:34,610 --> 00:01:36,770
+The lock is still free at that particular time,
+
+27
+00:01:36,770 --> 00:01:40,780
+and so T5 is the one that actually gets the lock.
+
+28
+00:01:40,780 --> 00:01:43,600
+So, it is the one that gets to execute next.
+
+29
+00:01:43,600 --> 00:01:49,300
+So, either one of these T2, T4, or T5 is a viable candidate of
+
+30
+00:01:49,300 --> 00:01:53,890
+which one of the threads is going to get to execute after T1 releases the lock.

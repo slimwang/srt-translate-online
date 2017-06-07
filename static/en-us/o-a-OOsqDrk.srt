@@ -1,0 +1,409 @@
+1
+00:00:00,380 --> 00:00:03,750
+One of the necessary prerequisites for
+setting a network request is that your
+
+2
+00:00:03,750 --> 00:00:07,380
+app must create a network connection
+over which to send the request.
+
+3
+00:00:07,380 --> 00:00:09,200
+Now, when you create an app on Android,
+
+4
+00:00:09,200 --> 00:00:12,500
+by default,
+it doesn't have access to the Internet.
+
+5
+00:00:12,500 --> 00:00:15,050
+Let me show you what I mean by using
+the Tsunami app that we created for
+
+6
+00:00:15,050 --> 00:00:16,360
+this lesson.
+
+7
+00:00:16,360 --> 00:00:19,090
+Now, this app is supposed
+to perform an HTTP request,
+
+8
+00:00:19,090 --> 00:00:21,290
+to retrieve earthquake information.
+
+9
+00:00:21,290 --> 00:00:23,280
+Instead the app crashes.
+
+10
+00:00:23,280 --> 00:00:26,470
+If we check the Android logs
+we see a security exception
+
+11
+00:00:26,470 --> 00:00:28,400
+saying that there's a missing
+Internet permission.
+
+12
+00:00:28,400 --> 00:00:31,990
+The tsunami app has not asked for
+permission to access the Internet, so
+
+13
+00:00:31,990 --> 00:00:35,210
+the Android operating system denies
+tsunami's attempt to make an HTTP
+
+14
+00:00:35,210 --> 00:00:36,310
+request.
+
+15
+00:00:36,310 --> 00:00:38,360
+The result is that the app crashes.
+
+16
+00:00:38,360 --> 00:00:41,340
+Your app needs to ask permission
+to perform protected actions on
+
+17
+00:00:41,340 --> 00:00:42,780
+a user's device.
+
+18
+00:00:42,780 --> 00:00:46,070
+Protected actions include
+creating a network connection,
+
+19
+00:00:46,070 --> 00:00:52,200
+accessing the camera, setting an SMS
+message, calling a phone number,
+
+20
+00:00:52,200 --> 00:00:56,430
+recording audio from the microphone, or
+even determining the user's location.
+
+21
+00:00:56,430 --> 00:01:00,350
+There also permissions to be informed of
+certain changes in the device's state,
+
+22
+00:01:00,350 --> 00:01:02,770
+such as network connectivity status.
+
+23
+00:01:02,770 --> 00:01:05,670
+For the full list of possible
+formations your app can ask for,
+
+24
+00:01:05,670 --> 00:01:07,570
+you can check out
+the intro documentation.
+
+25
+00:01:07,570 --> 00:01:10,510
+You may be wondering, why do I need
+a permission if I can just send
+
+26
+00:01:10,510 --> 00:01:13,150
+an intent to the camera app
+to take a picture for me or
+
+27
+00:01:13,150 --> 00:01:16,910
+send an intent to send an SMS message,
+or dial a phone number?
+
+28
+00:01:16,910 --> 00:01:20,040
+The power or intense is that you can
+request a different action to perform
+
+29
+00:01:20,040 --> 00:01:24,050
+an action on your behalf without needing
+to declare the permission yourself.
+
+30
+00:01:24,050 --> 00:01:27,590
+However, if you're building a custom
+camera app, for example, then you must
+
+31
+00:01:27,590 --> 00:01:30,109
+request the camera's permission to
+get direct access to the hardware.
+
+32
+00:01:31,210 --> 00:01:33,730
+For each permission you'd
+like to request, you want to
+
+33
+00:01:33,730 --> 00:01:38,240
+add a uses permission element to
+the Android manifest file in the app.
+
+34
+00:01:38,240 --> 00:01:41,780
+For example, if you create a messaging
+app and want users to be able to send
+
+35
+00:01:41,780 --> 00:01:45,335
+SMS message directly within your app,
+then you declare the app requires
+
+36
+00:01:45,335 --> 00:01:48,655
+the send SMS permission string
+in the Android manifest.
+
+37
+00:01:48,655 --> 00:01:51,195
+There must be a users permission
+line in your manifest for
+
+38
+00:01:51,195 --> 00:01:53,245
+each permission your
+application requires.
+
+39
+00:01:53,245 --> 00:01:56,132
+Application permissions have
+different protection levels.
+
+40
+00:01:56,132 --> 00:02:01,482
+The two most important levels for
+you to know are normal and dangerous.
+
+41
+00:02:01,482 --> 00:02:04,772
+Normal permissions have little
+risk to the users privacy or
+
+42
+00:02:04,772 --> 00:02:06,582
+the operation of other apps.
+
+43
+00:02:06,582 --> 00:02:09,211
+So the system will approve
+the permissions automatically.
+
+44
+00:02:09,211 --> 00:02:13,032
+Dangerous permissions get access to
+the users personally identifiable or
+
+45
+00:02:13,032 --> 00:02:14,257
+private information but
+
+46
+00:02:14,257 --> 00:02:18,072
+also they cover functions that could
+affect how other apps operate.
+
+47
+00:02:18,072 --> 00:02:22,180
+This include using the camera, accessing
+contacts or the phone call log, or
+
+48
+00:02:22,180 --> 00:02:24,150
+recording audio with the microphone.
+
+49
+00:02:24,150 --> 00:02:26,540
+These permissions must be
+requested at run time and
+
+50
+00:02:26,540 --> 00:02:29,680
+the user must explicitly grant
+them through a system dialogue.
+
+51
+00:02:29,680 --> 00:02:31,800
+The dialogue will look like this.
+
+52
+00:02:31,800 --> 00:02:35,040
+This app is requesting permission
+to access the user's contacts.
+
+53
+00:02:35,040 --> 00:02:38,540
+Once the user accepts the permission,
+the dialogue won't pop up anymore.
+
+54
+00:02:38,540 --> 00:02:41,390
+Know if the user denies permission,
+the apps should still continue to
+
+55
+00:02:41,390 --> 00:02:43,690
+operate as normal but
+without that feature.
+
+56
+00:02:43,690 --> 00:02:47,280
+Note that the run time permission model
+was only introduced with the Android 6.0
+
+57
+00:02:47,280 --> 00:02:51,310
+Marshmallow release and applies to
+any devices more recent than that.
+
+58
+00:02:51,310 --> 00:02:54,646
+For example, in the Instagram app
+the user will be prompted to plenty of
+
+59
+00:02:54,646 --> 00:02:58,261
+access to the photos and media files on
+the device directly when trying to push
+
+60
+00:02:58,261 --> 00:03:00,290
+the photo from the gallery.
+
+61
+00:03:00,290 --> 00:03:03,750
+However, on Android devices
+running Android 5.1 or older,
+
+62
+00:03:03,750 --> 00:03:07,610
+the user is prompted to accept all
+formations when they install the app.
+
+63
+00:03:07,610 --> 00:03:11,100
+If you use an older Android device,
+you may have seen this screen before.
+
+64
+00:03:11,100 --> 00:03:13,150
+Now, the old model is all or nothing.
+
+65
+00:03:13,150 --> 00:03:15,685
+The user must accept all
+the requested permissions or
+
+66
+00:03:15,685 --> 00:03:17,365
+the app can't be installed.
+
+67
+00:03:17,365 --> 00:03:18,655
+With runtime permissions,
+
+68
+00:03:18,655 --> 00:03:22,145
+the user can be selective about what
+permissions are granted to the app.
+
+69
+00:03:22,145 --> 00:03:24,595
+And the developer must be able to
+react to having permission revoked.
+
+70
+00:03:25,785 --> 00:03:29,225
+There's a useful article on best
+practices when it comes to permissions.
+
+71
+00:03:29,225 --> 00:03:32,950
+Generally, you should strive to
+define as few permissions as possible
+
+72
+00:03:32,950 --> 00:03:34,720
+while satisfying your app's needs.
+
+73
+00:03:34,720 --> 00:03:37,320
+For example,
+consider using an intent instead.
+
+74
+00:03:37,320 --> 00:03:38,480
+And then, apps that ask for
+
+75
+00:03:38,480 --> 00:03:42,070
+a lot of unnecessary permissions
+may appear suspicious to users and
+
+76
+00:03:42,070 --> 00:03:44,510
+then consequently won't
+get installed as often.
+
+77
+00:03:44,510 --> 00:03:46,160
+So don't overwhelm the user.
+
+78
+00:03:46,160 --> 00:03:49,600
+We won't be using dangerous permissions
+in this course, but if you do,
+
+79
+00:03:49,600 --> 00:03:53,400
+be sure to sufficiently explain why
+you need the permission to the user.
+
+80
+00:03:53,400 --> 00:03:56,130
+In this quiz,
+answer the following questions.
+
+81
+00:03:56,130 --> 00:03:58,110
+Do you need to declare
+permission in order to read and
+
+82
+00:03:58,110 --> 00:04:00,080
+write events on the user's calendar?
+
+83
+00:04:00,080 --> 00:04:03,030
+How about to play audio or
+video on the device?
+
+84
+00:04:03,030 --> 00:04:06,280
+Or how about to access
+the user's current location, or
+
+85
+00:04:06,280 --> 00:04:09,760
+lastly, how about to show
+a notification on the device?
+
+86
+00:04:09,760 --> 00:04:12,260
+You can check the documentation
+links below the quiz to help you.

@@ -1,0 +1,275 @@
+1
+00:00:00,220 --> 00:00:04,030
+So the first one is a process can fail.
+
+2
+00:00:04,030 --> 00:00:05,260
+What do you do with it?
+
+3
+00:00:05,260 --> 00:00:11,120
+Because you're about to make crash for certain reason, that you're not aware of.
+
+4
+00:00:11,120 --> 00:00:12,980
+Or even machines can fail.
+
+5
+00:00:12,980 --> 00:00:15,480
+So which means, there's no notion of availability.
+
+6
+00:00:15,480 --> 00:00:18,820
+Because real time means, we are continuously making the data available.
+
+7
+00:00:18,820 --> 00:00:20,500
+All the network is available.
+
+8
+00:00:20,500 --> 00:00:22,930
+So these are two important stuff, right?
+
+9
+00:00:22,930 --> 00:00:28,640
+And because of that computations is lost and your real time liveliness is lost.
+
+10
+00:00:28,640 --> 00:00:30,540
+Right?
+
+11
+00:00:30,540 --> 00:00:33,120
+So these are the first set of problems.
+
+12
+00:00:33,120 --> 00:00:36,680
+So now how do you survey process failures?
+
+13
+00:00:36,680 --> 00:00:40,347
+So one simple way to do it is run multiple instances and
+
+14
+00:00:40,347 --> 00:00:42,231
+load balance across them.
+
+15
+00:00:42,231 --> 00:00:46,600
+So that even when you have got this down, you can go all the way back.
+
+16
+00:00:46,600 --> 00:00:49,120
+And they are doing essentially the same thing.
+
+17
+00:00:49,120 --> 00:00:51,420
+And similarly, you can do that.
+
+18
+00:00:51,420 --> 00:00:53,800
+Java/Python Backend SL2.
+
+19
+00:00:53,800 --> 00:00:56,620
+And they are just doing a redundant computation continuously.
+
+20
+00:00:56,620 --> 00:00:57,447
+But any given,
+
+21
+00:00:57,447 --> 00:01:01,080
+assuming that they are going on the consuming data at the same rate.
+
+22
+00:01:01,080 --> 00:01:04,971
+You should be able to [INAUDIBLE] takes from one of them at least.
+
+23
+00:01:04,971 --> 00:01:06,011
+Right?
+
+24
+00:01:06,011 --> 00:01:10,394
+And the second option is you can duplicate the web server,
+
+25
+00:01:10,394 --> 00:01:13,180
+because web servers are stateless.
+
+26
+00:01:13,180 --> 00:01:17,272
+On the other hand, you don't have to replicate the Java/Python program to do
+
+27
+00:01:17,272 --> 00:01:19,380
+the same work across multiple nations.
+
+28
+00:01:19,380 --> 00:01:23,290
+Instead, you can by do a MySQL on a Postgres database,
+
+29
+00:01:23,290 --> 00:01:26,860
+that's a key-value store kind of equal length.
+
+30
+00:01:26,860 --> 00:01:31,216
+And whenever the web server requests the data,
+
+31
+00:01:31,216 --> 00:01:35,580
+then you can pick it up from there, MySQL Postgres.
+
+32
+00:01:35,580 --> 00:01:39,246
+So those are very simple things that he can do to make it
+
+33
+00:01:39,246 --> 00:01:41,780
+more make our solution more sturdy.
+
+34
+00:01:41,780 --> 00:01:44,240
+And again, part of the issue is with this solution.
+
+35
+00:01:44,240 --> 00:01:45,281
+I think you guys,
+
+36
+00:01:45,281 --> 00:01:49,800
+one of you already told that scalability is one of the biggest problems.
+
+37
+00:01:49,800 --> 00:01:54,780
+Yes, as you can see you can't process data at scale.
+
+38
+00:01:54,780 --> 00:01:59,831
+So the whole idea is like you get a large amount of data.
+
+39
+00:01:59,831 --> 00:02:04,943
+So we get around totally like around 600 to 700 million tweets every day and
+
+40
+00:02:04,943 --> 00:02:06,580
+how you can keep up with it.
+
+41
+00:02:06,580 --> 00:02:09,357
+Because you have to look all the tweets in order to
+
+42
+00:02:09,357 --> 00:02:12,280
+figure whether those URLs are data or not, right?
+
+43
+00:02:12,280 --> 00:02:16,900
+Let say for example, your input data rate is 10,000 tweets per second.
+
+44
+00:02:16,900 --> 00:02:21,366
+Your Java back, Python backend is capable of doing only like say,
+
+45
+00:02:21,366 --> 00:02:25,371
+1,000 tweets per second, that is a processing rate.
+
+46
+00:02:25,371 --> 00:02:31,200
+Now, so like it takes ten seconds to even process one second worth of tweets.
+
+47
+00:02:31,200 --> 00:02:33,515
+So which means like you will be,
+
+48
+00:02:33,515 --> 00:02:38,980
+by at the end of 10 seconds, 90,000 tweets are going to be backing up already.
+
+49
+00:02:38,980 --> 00:02:43,297
+So which means its kind of, because you were processing rate much lower than
+
+50
+00:02:43,297 --> 00:02:46,540
+the input data rate and they going to keep back up always.
+
+51
+00:02:46,540 --> 00:02:48,300
+So you will never catch up with the input data rate.
+
+52
+00:02:48,300 --> 00:02:49,180
+Right?
+
+53
+00:02:49,180 --> 00:02:51,251
+That is an issue.
+
+54
+00:02:51,251 --> 00:02:56,490
+And if you look at this simple example.
+
+55
+00:02:56,490 --> 00:02:59,580
+So there are two cases you are to consider.
+
+56
+00:02:59,580 --> 00:03:03,860
+One is your input data rate is less than processing rate.
+
+57
+00:03:03,860 --> 00:03:06,925
+[SOUND] The next one is when the input data rate is greater than
+
+58
+00:03:06,925 --> 00:03:08,100
+the processing rate.
+
+59
+00:03:08,100 --> 00:03:11,191
+And so when the input data rate is less than the processing rate.
+
+60
+00:03:11,191 --> 00:03:14,936
+Yes, the Java/Python back end solution will work previously,
+
+61
+00:03:14,936 --> 00:03:16,580
+because I'm able to control it.
+
+62
+00:03:16,580 --> 00:03:21,140
+And when it goes beyond that, that's where the problems occur.
+
+63
+00:03:21,140 --> 00:03:23,768
+And this is a simple exercise, but
+
+64
+00:03:23,768 --> 00:03:27,840
+I think this is pretty straightforward for you guys to do it.
+
+65
+00:03:27,840 --> 00:03:33,742
+And so if your input rate is 500,000 tweets per second and your processing
+
+66
+00:03:33,742 --> 00:03:39,840
+rate is 10,000 tweets per second, how many seconds does it take to process?
+
+67
+00:03:39,840 --> 00:03:42,120
+One second of input.
+
+68
+00:03:42,120 --> 00:03:46,530
+So how many tweet, tweets will be waiting in the queue at the end of processing?
+
+69
+00:03:46,530 --> 00:03:47,210
+Any ideas?

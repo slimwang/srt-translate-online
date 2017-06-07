@@ -1,0 +1,205 @@
+1
+00:00:00,090 --> 00:00:03,640
+Let's look at the different ways that
+a remote file service can be provided.
+
+2
+00:00:03,640 --> 00:00:06,562
+We will assume that there is
+one client and one server.
+
+3
+00:00:06,562 --> 00:00:11,120
+Whereas that one extreme we have what
+it is called the Upload/Download model.
+
+4
+00:00:11,120 --> 00:00:14,420
+This means that when the client
+wants to access the file,
+
+5
+00:00:14,420 --> 00:00:19,250
+it downloads the entire file,
+performs locally the operations and
+
+6
+00:00:19,250 --> 00:00:22,740
+then when done,
+it uploads the file back to the server.
+
+7
+00:00:22,740 --> 00:00:25,320
+This is less similar to
+proper file system but
+
+8
+00:00:25,320 --> 00:00:28,560
+it's more similar to the way
+FTP servers behave or
+
+9
+00:00:28,560 --> 00:00:32,810
+even the way version management
+systems like SVN servers behave.
+
+10
+00:00:32,810 --> 00:00:36,150
+The benefit of this model is that
+once the client has the file,
+
+11
+00:00:36,150 --> 00:00:40,660
+it can perform all of the operations
+locally so that can be done fast.
+
+12
+00:00:40,660 --> 00:00:45,920
+One downside of this model is that the
+client needs to download the entire file
+
+13
+00:00:45,920 --> 00:00:49,650
+even for a small file access for
+a small file modification.
+
+14
+00:00:49,650 --> 00:00:52,220
+A second downside with
+this model is that it
+
+15
+00:00:52,220 --> 00:00:55,340
+takes away file access
+control from the server.
+
+16
+00:00:55,340 --> 00:00:57,680
+Once the server gives
+the file to the client,
+
+17
+00:00:57,680 --> 00:01:02,540
+it has no idea what the client is doing
+with it, or when will it get it back.
+
+18
+00:01:02,540 --> 00:01:05,840
+This makes some operations
+related to sharing files
+
+19
+00:01:05,840 --> 00:01:07,950
+a little bit difficult to execute.
+
+20
+00:01:07,950 --> 00:01:09,030
+At the other extreme,
+
+21
+00:01:09,030 --> 00:01:13,030
+we have a model that's called
+the true remote file access.
+
+22
+00:01:13,030 --> 00:01:17,890
+In this model, the file remains on
+the server and every single operation,
+
+23
+00:01:17,890 --> 00:01:21,410
+every read or every write,
+has to go to the server.
+
+24
+00:01:21,410 --> 00:01:25,200
+In this model, the client makes
+no attempt whatsoever to leverage
+
+25
+00:01:25,200 --> 00:01:28,830
+any kind of local buffer cache,
+local disks, or anything like that.
+
+26
+00:01:28,830 --> 00:01:30,950
+Everything has to go to the server.
+
+27
+00:01:30,950 --> 00:01:35,250
+The benefits of this extreme is that
+the server has full control and
+
+28
+00:01:35,250 --> 00:01:37,540
+knowledge of how the clients
+are accessing and
+
+29
+00:01:37,540 --> 00:01:40,290
+modifying the shared state and
+the shared files.
+
+30
+00:01:40,290 --> 00:01:44,580
+This makes it easier to ensure that the
+state of the file system is consistent,
+
+31
+00:01:44,580 --> 00:01:48,210
+and that there are no situations where
+multiple clients are overwriting
+
+32
+00:01:48,210 --> 00:01:51,240
+the same portions of the single
+file at the same time.
+
+33
+00:01:51,240 --> 00:01:55,160
+The down side of this model is
+that every single file operation
+
+34
+00:01:55,160 --> 00:01:59,230
+has to incur the cost of
+remote network latency.
+
+35
+00:01:59,230 --> 00:02:02,040
+In this model,
+the latency costs are suffered
+
+36
+00:02:02,040 --> 00:02:06,700
+even when clients are only reading
+repeatedly from a read-only file.
+
+37
+00:02:06,700 --> 00:02:10,699
+This model will bypass any resources
+that the client has locally,
+
+38
+00:02:10,699 --> 00:02:12,210
+to cache that file.
+
+39
+00:02:12,210 --> 00:02:16,480
+Also, since every single file
+operation goes to the server,
+
+40
+00:02:16,480 --> 00:02:19,120
+the server will get
+overloaded more quickly,
+
+41
+00:02:19,120 --> 00:02:23,800
+meaning that the single server will not
+be able to support as many clients.
+
+42
+00:02:23,800 --> 00:02:26,730
+This limits the scalability
+of the file system solution.

@@ -1,0 +1,465 @@
+﻿1
+00:00:00,100 --> 00:00:02,879
+Now you have to find the two
+types of content URIs
+
+2
+00:00:02,879 --> 00:00:07,179
+that the to do list app will use to
+do things like insert and query data.
+
+3
+00:00:07,179 --> 00:00:10,400
+The first type gives us access
+to a directory of tasks.
+
+4
+00:00:10,400 --> 00:00:12,480
+And the second to a single task.
+
+5
+00:00:12,480 --> 00:00:15,509
+And you've added constants in your
+contract class to help you refer to
+
+6
+00:00:15,509 --> 00:00:16,899
+these URIs.
+
+7
+00:00:16,899 --> 00:00:20,279
+But how does this all fit in
+to how the provider works?
+
+8
+00:00:20,280 --> 00:00:23,679
+The provider has to have a way to
+recognize the different URIs that
+
+9
+00:00:23,679 --> 00:00:28,489
+are sent to it, and based on the path,
+match it with specific data.
+
+10
+00:00:28,489 --> 00:00:31,729
+So whether it receives a URI for
+a large directory, or
+
+11
+00:00:31,730 --> 00:00:35,980
+just a single row of data, it can
+interact with it correctly in each case.
+
+12
+00:00:35,979 --> 00:00:38,289
+And it's up to you to code
+this URI recognition.
+
+13
+00:00:39,950 --> 00:00:44,362
+>> One way to recognize specific URIs
+would be look at the URI that's passed
+
+14
+00:00:44,362 --> 00:00:48,719
+to your provider whenever data is
+accessed, parse it as a string and
+
+15
+00:00:48,719 --> 00:00:53,379
+see if that string matches the format
+for a directory or a single row of data.
+
+16
+00:00:53,380 --> 00:00:58,868
+For example you could write an if
+statement like, if the UriString.is
+
+17
+00:00:58,868 --> 00:01:05,280
+equal to
+content://com.android.todolist/tasks
+
+18
+00:01:05,280 --> 00:01:09,379
+then you know that this URI
+identifies the tasks directory.
+
+19
+00:01:09,379 --> 00:01:12,890
+But this becomes tricky when you want
+to check if a string has an integer ID
+
+20
+00:01:12,890 --> 00:01:14,055
+at the end.
+
+21
+00:01:14,055 --> 00:01:17,460
+And these statements can become
+really long and hard to read.
+
+22
+00:01:17,459 --> 00:01:21,719
+But there's a better way to do this
+with something called a UriMatcher.
+
+23
+00:01:21,719 --> 00:01:25,920
+It's the job of a UriMatcher to
+determine what kind of URI the provider
+
+24
+00:01:25,920 --> 00:01:26,840
+receives.
+
+25
+00:01:26,840 --> 00:01:29,310
+And match it to an integer constant, so
+
+26
+00:01:29,310 --> 00:01:32,290
+that you can easily make a switch
+statement instead of using
+
+27
+00:01:32,290 --> 00:01:35,890
+a series of long if statements
+that check for equality.
+
+28
+00:01:35,890 --> 00:01:39,189
+Using a switch statement will make
+your code much more readable.
+
+29
+00:01:39,189 --> 00:01:41,840
+And this will be easier to
+understand in actual code.
+
+30
+00:01:42,980 --> 00:01:47,079
+So in our TaskContentProvider code,
+let's build a UriMatcher so
+
+31
+00:01:47,079 --> 00:01:50,739
+that it can identify the two
+types of URIs we defined.
+
+32
+00:01:50,739 --> 00:01:52,369
+The first thing I'll do in this code,
+
+33
+00:01:52,370 --> 00:01:56,469
+is create the integer constants
+that these URIs will match to.
+
+34
+00:01:56,469 --> 00:01:58,129
+I'll make these final end variables,
+
+35
+00:01:58,129 --> 00:02:00,771
+since we'll be using them
+throughout this code.
+
+36
+00:02:00,772 --> 00:02:05,700
+I'll name one, public static final
+int TASKS and set it equal to 100,
+
+37
+00:02:05,700 --> 00:02:09,669
+this will be the matching integer for
+the whole task's directory.
+
+38
+00:02:09,669 --> 00:02:13,550
+Then let's make another
+called tasks with ID = 101,
+
+39
+00:02:13,550 --> 00:02:16,360
+which will match a single
+row of data in our table.
+
+40
+00:02:17,419 --> 00:02:19,739
+It's convention to have
+integer constants for
+
+41
+00:02:19,740 --> 00:02:24,580
+whole tables be rounded numbers,
+like 100, 200, 300 and so on.
+
+42
+00:02:25,580 --> 00:02:27,900
+And for
+smaller sets of data in those tables,
+
+43
+00:02:27,900 --> 00:02:31,500
+like single rows,
+they usually match to a related int.
+
+44
+00:02:31,500 --> 00:02:33,509
+Like 101 or 102 in this case.
+
+45
+00:02:34,780 --> 00:02:38,909
+Okay, so we've defined integer constants
+for our tasks directory and for
+
+46
+00:02:38,909 --> 00:02:40,509
+a single task.
+
+47
+00:02:40,509 --> 00:02:42,859
+Now let's actually build
+our UriMatcher and
+
+48
+00:02:42,860 --> 00:02:45,120
+associate these constants
+with the correct URI.
+
+49
+00:02:46,180 --> 00:02:49,310
+I'll be writing a helper
+function called build UriMatcher
+
+50
+00:02:49,310 --> 00:02:51,289
+to help me in this process.
+
+51
+00:02:51,289 --> 00:02:55,006
+In this function I'll first need
+to create a new UriMatcher object.
+
+52
+00:02:56,469 --> 00:03:00,270
+I can do this by passing in
+the constant UriMatcher.nomatch
+
+53
+00:03:00,270 --> 00:03:02,730
+to construct an empty matcher.
+
+54
+00:03:02,729 --> 00:03:04,459
+Then I'll add the matches I want.
+
+55
+00:03:04,460 --> 00:03:07,990
+Which just means telling it which
+URI structures to recognize and
+
+56
+00:03:07,990 --> 00:03:10,430
+the integer constants
+they'll match with.
+
+57
+00:03:10,430 --> 00:03:13,528
+And I'll do this one by one,
+calling the add URI function.
+
+58
+00:03:13,527 --> 00:03:18,780
+I'll use UriMatcher.addURI and
+pass in three arguments.
+
+59
+00:03:18,780 --> 00:03:21,050
+The first is the content authority.
+
+60
+00:03:21,050 --> 00:03:23,210
+The second is the path string, and
+
+61
+00:03:23,210 --> 00:03:27,840
+together these two tell the matcher
+what exact URI you want to recognize.
+
+62
+00:03:27,840 --> 00:03:32,170
+Then the third argument is the int
+constant that I want this URI to match
+
+63
+00:03:32,169 --> 00:03:32,329
+with.
+
+64
+00:03:33,389 --> 00:03:36,809
+So let's add the URI match for
+our directory of tasks first.
+
+65
+00:03:37,900 --> 00:03:40,629
+This URI points to our tasks table.
+
+66
+00:03:40,629 --> 00:03:44,359
+It has the same authority we've been
+using that's stored in our contract.
+
+67
+00:03:44,360 --> 00:03:47,200
+And the path is just
+the name of our tasks table,
+
+68
+00:03:47,199 --> 00:03:50,810
+which is also stored in our
+contract as path_tasks.
+
+69
+00:03:50,810 --> 00:03:54,420
+Then our third argument will be
+the end constant we defined earlier,
+
+70
+00:03:54,419 --> 00:03:57,689
+named tasks, which is the value 100, and
+
+71
+00:03:57,689 --> 00:04:01,639
+identifies this URI as
+the multirow directory of tasks.
+
+72
+00:04:01,639 --> 00:04:07,029
+And then we need to define the URI match
+for a second URI, for a single item.
+
+73
+00:04:07,030 --> 00:04:09,259
+This follows the same
+structure as before,
+
+74
+00:04:09,259 --> 00:04:12,669
+plus this # symbol added to the path,
+which stands in for
+
+75
+00:04:12,669 --> 00:04:17,000
+any numerical ID that points to
+specific row in the database.
+
+76
+00:04:17,000 --> 00:04:21,353
+So as long as the URI has an integer
+after the initial tasks path, this
+
+77
+00:04:21,353 --> 00:04:26,750
+matcher will recognize it and associate
+it with the int constant task with ID.
+
+78
+00:04:27,899 --> 00:04:30,984
+These are the only two URIs we
+need the matcher to recognize.
+
+79
+00:04:30,985 --> 00:04:34,086
+So to complete this helper function
+you just need to return this
+
+80
+00:04:34,086 --> 00:04:35,769
+complete matcher.
+
+81
+00:04:35,769 --> 00:04:41,319
+You'll also want to declare this matcher
+as a global variable named suriMatcher.
+
+82
+00:04:41,319 --> 00:04:43,089
+This is like a member variable, but
+
+83
+00:04:43,089 --> 00:04:47,027
+starts with a lowercase s
+because it's a static variable.
+
+84
+00:04:47,028 --> 00:04:50,270
+This way you'll be able to access
+this UriMatcher throughout your
+
+85
+00:04:50,269 --> 00:04:54,079
+provider code, and don't forget to
+set it equal to the return value
+
+86
+00:04:54,079 --> 00:04:56,649
+of the buildUriMatcher method.
+
+87
+00:04:56,649 --> 00:05:00,879
+And later you'll need to refer to
+the matcher to deal with different URIs.
+
+88
+00:05:00,879 --> 00:05:03,879
+For example,
+after creating the UriMatcher,
+
+89
+00:05:03,879 --> 00:05:08,360
+you can call UriMatcher.match and
+pass in a URI.
+
+90
+00:05:08,360 --> 00:05:12,180
+The match method returns an int value,
+which will be the integer that you
+
+91
+00:05:12,180 --> 00:05:16,100
+associated with the passed in URI
+structure using the add URI method.
+
+92
+00:05:16,100 --> 00:05:20,040
+And once you have this match number,
+you can write a switch statement
+
+93
+00:05:20,040 --> 00:05:23,550
+to program different behavior for
+a match equal to tasks.
+
+94
+00:05:23,550 --> 00:05:28,639
+Or to task with ID,
+such as deleting all tasks or just one.
+
+95
+00:05:28,639 --> 00:05:33,079
+And if there is no match found that
+means the URI is unknown to our matcher.
+
+96
+00:05:33,079 --> 00:05:36,060
+And later we'll add code
+to handle that case too.
+
+97
+00:05:36,060 --> 00:05:39,160
+The next quiz, we'll give an example
+of this matching process.
+

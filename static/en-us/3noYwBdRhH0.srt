@@ -1,0 +1,198 @@
+1
+00:00:00,140 --> 00:00:03,700
+Perhaps the traveling salesman problem
+can't be approximated in general.
+
+2
+00:00:03,700 --> 00:00:07,580
+But if we insist that the cost function
+obey the triangle inequality, as it does
+
+3
+00:00:07,580 --> 00:00:11,340
+in many practical applications,
+then we can find an approximation.
+
+4
+00:00:11,340 --> 00:00:14,550
+The triangle inequality, by the way,
+just says that it's never faster to go
+
+5
+00:00:14,550 --> 00:00:18,250
+from one vertex to another
+via a third vertex.
+
+6
+00:00:18,250 --> 00:00:20,220
+Here's the approximation algorithm.
+
+7
+00:00:20,220 --> 00:00:23,230
+We start by building
+a minimum spanning tree.
+
+8
+00:00:23,230 --> 00:00:27,100
+The usual approach here is to use one of
+the greedy algorIthms, either of Kruskal
+
+9
+00:00:27,100 --> 00:00:31,300
+or Prim that are typically taught
+in an undergraduate class.
+
+10
+00:00:31,300 --> 00:00:35,000
+In Kruskal's algorithm, the idea is to
+simply take the cheapest edge between
+
+11
+00:00:35,000 --> 00:00:40,350
+two unconnected vertices and add that
+to the graph until a tree is formed.
+
+12
+00:00:40,350 --> 00:00:45,000
+Thus we might start by adding this
+edge here, then this edge here, and so
+
+13
+00:00:45,000 --> 00:00:47,250
+on and so forth.
+
+14
+00:00:47,250 --> 00:00:49,680
+Here I connected these two components.
+
+15
+00:00:49,680 --> 00:00:52,520
+And we just keep going
+until we've formed a tree.
+
+16
+00:00:52,520 --> 00:00:55,400
+Next, we run a depth-first
+search on the tree,
+
+17
+00:00:55,400 --> 00:00:58,240
+keeping track of the order in
+which the vertices are discovered.
+
+18
+00:00:58,240 --> 00:01:01,120
+For this example, let's label
+the vertices with the letters of
+
+19
+00:01:01,120 --> 00:01:04,709
+the alphabet, and
+start from this vertex c over here.
+
+20
+00:01:04,709 --> 00:01:07,360
+Then the discovery order
+would go something like this.
+
+21
+00:01:07,360 --> 00:01:10,860
+From c we go to b and then to e and
+
+22
+00:01:10,860 --> 00:01:15,590
+then to h and then to i and
+we would record that like so.
+
+23
+00:01:15,590 --> 00:01:18,740
+At that point we'd turn back to h but
+
+24
+00:01:18,740 --> 00:01:21,770
+since we've already discovered it,
+we don't write it down.
+
+25
+00:01:21,770 --> 00:01:24,630
+Instead we write down
+the next vertex we visit j.
+
+26
+00:01:24,630 --> 00:01:27,430
+And this process continues.
+
+27
+00:01:27,430 --> 00:01:33,270
+We skip over h and e on the way to d,
+and then we'd go to g and
+
+28
+00:01:33,270 --> 00:01:37,220
+f, and then skip over g and
+d on our way up to a.
+
+29
+00:01:37,220 --> 00:01:39,760
+And then we skip over
+all these vertices,
+
+30
+00:01:39,760 --> 00:01:44,180
+which we've already visited,
+to get back to our original vertex c.
+
+31
+00:01:44,180 --> 00:01:47,140
+Finally, the algorithm
+returns the list of vertices,
+
+32
+00:01:47,140 --> 00:01:50,320
+in this discovery order,
+as the Hamiltonian cycle.
+
+33
+00:01:50,320 --> 00:01:54,740
+Note that this cycle follows
+along the tree from c to b
+
+34
+00:01:54,740 --> 00:01:58,560
+to e to h to i, but
+instead of going back to h,
+
+35
+00:01:58,560 --> 00:02:04,100
+it goes directly to j,
+then it goes directly to d, and so on.
+
+36
+00:02:04,100 --> 00:02:06,450
+This cycle always seems
+to be taking short cuts,
+
+37
+00:02:06,450 --> 00:02:09,130
+compared to the traversal that
+the depth for search performed.
+
+38
+00:02:10,270 --> 00:02:13,580
+For the general traveling salesman
+problem, we can't be sure that these
+
+39
+00:02:13,580 --> 00:02:17,890
+are in fact shortcuts, because we
+can't assume the triangle inequality.
+
+40
+00:02:17,890 --> 00:02:21,430
+Where we do have the triangle
+inequality, however, all of these will
+
+41
+00:02:21,430 --> 00:02:25,170
+be shortcuts, and as we'll see,
+that will be the key to the analysis.

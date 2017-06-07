@@ -1,0 +1,416 @@
+1
+00:00:00,160 --> 00:00:03,820
+Before moving onto concrete examples,
+I want to explicitly mention
+
+2
+00:00:03,820 --> 00:00:07,280
+one more design dimension when it
+comes to distributed file systems.
+
+3
+00:00:07,280 --> 00:00:10,410
+We said that the clients and the server
+can be distributed to different
+
+4
+00:00:10,410 --> 00:00:14,690
+machines, but the file server
+itself can also be distributed.
+
+5
+00:00:14,690 --> 00:00:18,330
+This can be achieved via replication or
+partitioning.
+
+6
+00:00:18,330 --> 00:00:19,300
+With replication,
+
+7
+00:00:19,300 --> 00:00:23,810
+the file system can be replicated onto
+multiple machines, such that every
+
+8
+00:00:23,810 --> 00:00:28,640
+single machine holds an exact replica
+of all of the files in the system.
+
+9
+00:00:28,640 --> 00:00:31,660
+The benefit of this can be
+that the client request can be
+
+10
+00:00:31,660 --> 00:00:35,720
+load balanced across all replicas,
+across all machines.
+
+11
+00:00:35,720 --> 00:00:37,850
+And this can lead to better performance.
+
+12
+00:00:37,850 --> 00:00:40,480
+The system overall can
+be more available,
+
+13
+00:00:40,480 --> 00:00:42,971
+it will return responses more quickly.
+
+14
+00:00:42,971 --> 00:00:45,860
+And also it is more fault tolerant.
+
+15
+00:00:45,860 --> 00:00:47,510
+When one replica fails,
+
+16
+00:00:47,510 --> 00:00:52,365
+the remaining replicas can continue
+serving the data for all the files.
+
+17
+00:00:52,365 --> 00:00:55,285
+The downside is that now
+the write operations
+
+18
+00:00:55,285 --> 00:00:58,825
+that update to the file system state,
+may become more complex.
+
+19
+00:00:58,825 --> 00:01:01,695
+Not only do we have to worry
+about the consistency among
+
+20
+00:01:01,695 --> 00:01:05,275
+the clients that may cache the file,
+and the servers, but
+
+21
+00:01:05,275 --> 00:01:08,615
+also about the consistency
+among all of the replicas.
+
+22
+00:01:08,615 --> 00:01:13,570
+A simple solution is to force every
+single write to each replica.
+
+23
+00:01:13,570 --> 00:01:17,950
+And only after that is done to
+actually return to the client and
+
+24
+00:01:17,950 --> 00:01:20,790
+to consider that the write
+operation has completed.
+
+25
+00:01:20,790 --> 00:01:22,590
+This will slow down all writes.
+
+26
+00:01:22,590 --> 00:01:27,060
+An alternative would be to allow
+the writes to be applied to one server,
+
+27
+00:01:27,060 --> 00:01:29,130
+to a single replica copy.
+
+28
+00:01:29,130 --> 00:01:33,130
+And then to have some background process
+that asynchronously propagates these
+
+29
+00:01:33,130 --> 00:01:35,310
+writes to the other replicas.
+
+30
+00:01:35,310 --> 00:01:39,700
+If it turns out that there are any
+differences among the state of a file on
+
+31
+00:01:39,700 --> 00:01:43,460
+different replicas, then these
+differences need to be resolved.
+
+32
+00:01:43,460 --> 00:01:46,640
+For instance, we can use
+a simple technique like voting,
+
+33
+00:01:46,640 --> 00:01:50,640
+where the votes are taken from
+all servers and majority wins.
+
+34
+00:01:50,640 --> 00:01:54,250
+There are many other techniques how
+these sorts of issues can be resolved,
+
+35
+00:01:54,250 --> 00:01:56,890
+but these are beyond
+the scope of this course.
+
+36
+00:01:56,890 --> 00:02:02,090
+The other technique is to distribute the
+file system state using partitioning.
+
+37
+00:02:02,090 --> 00:02:06,600
+As the name suggests, in partitioning
+every single machine has only a portion
+
+38
+00:02:06,600 --> 00:02:10,210
+of the state, only a subset of
+all the files in the system.
+
+39
+00:02:10,210 --> 00:02:11,995
+This may be done based on file names.
+
+40
+00:02:11,995 --> 00:02:15,959
+For instance, all the files from
+a to m sit on one machine, and
+
+41
+00:02:15,959 --> 00:02:19,280
+all the files from n to z
+sit on another machine.
+
+42
+00:02:19,280 --> 00:02:22,900
+Or we may choose a policy where
+different directories are stored on
+
+43
+00:02:22,900 --> 00:02:26,740
+different machines, where we'd somehow
+partition the hierarchical name
+
+44
+00:02:26,740 --> 00:02:29,390
+space of the directory tree structure.
+
+45
+00:02:29,390 --> 00:02:33,580
+There can be various criterias that
+can be used to decide how to partition
+
+46
+00:02:33,580 --> 00:02:35,520
+all the state in the file system.
+
+47
+00:02:35,520 --> 00:02:39,140
+Using this technique, we can definitely
+achieve greater availability compared to
+
+48
+00:02:39,140 --> 00:02:41,350
+a single server design.
+
+49
+00:02:41,350 --> 00:02:44,320
+Each server here will hold
+fewer files and therefore,
+
+50
+00:02:44,320 --> 00:02:48,040
+will be able to respond to a request for
+those files more quickly, so
+
+51
+00:02:48,040 --> 00:02:50,720
+will appear to be much more available.
+
+52
+00:02:50,720 --> 00:02:54,090
+The most important benefit of this
+design is that it provides for
+
+53
+00:02:54,090 --> 00:02:58,850
+greater scalability when we consider
+the size of the file system,
+
+54
+00:02:58,850 --> 00:03:02,890
+the overall size of all the files
+stored in that file system.
+
+55
+00:03:02,890 --> 00:03:06,830
+With replication, given that every
+server has to hold all the files,
+
+56
+00:03:06,830 --> 00:03:10,505
+the size of the file system
+will be limited by the capacity
+
+57
+00:03:10,505 --> 00:03:12,600
+of a single machine.
+
+58
+00:03:12,600 --> 00:03:15,770
+In partitioning,
+if we need the bigger file system,
+
+59
+00:03:15,770 --> 00:03:18,240
+we just add more machines and
+problem solved.
+
+60
+00:03:18,240 --> 00:03:21,380
+And finally,
+unlike in the replication case,
+
+61
+00:03:21,380 --> 00:03:25,410
+in the partitioning case when we need
+to perform a write to a single file,
+
+62
+00:03:25,410 --> 00:03:27,610
+that will remain localized
+to a single machine.
+
+63
+00:03:27,610 --> 00:03:30,880
+So that's much simpler
+than what we have here.
+
+64
+00:03:30,880 --> 00:03:34,800
+One of the main problems with this
+approach is that when there's a failure,
+
+65
+00:03:34,800 --> 00:03:39,720
+a portion of the data in this
+file system will be lost.
+
+66
+00:03:39,720 --> 00:03:42,600
+So, all of the files that are stored
+on that particular machine,
+
+67
+00:03:42,600 --> 00:03:45,850
+the machine that's failed,
+will not be accessible anymore.
+
+68
+00:03:45,850 --> 00:03:50,320
+In addition, balancing the system is
+more difficult because we have to take
+
+69
+00:03:50,320 --> 00:03:54,060
+into consideration how
+the specific files are accessed.
+
+70
+00:03:54,060 --> 00:03:57,780
+If there is a particular file
+that's more frequently accessed by
+
+71
+00:03:57,780 --> 00:04:01,540
+most clients in the systems,
+then that will create hotspots.
+
+72
+00:04:01,540 --> 00:04:04,610
+Finally, these two techniques can
+be combined to have a solution
+
+73
+00:04:04,610 --> 00:04:08,290
+where the files are partitioned
+across different groups or
+
+74
+00:04:08,290 --> 00:04:09,780
+in different volumes.
+
+75
+00:04:09,780 --> 00:04:12,610
+And each of these groups
+is then replicated,
+
+76
+00:04:12,610 --> 00:04:15,450
+potentially with different
+degree of replication.
+
+77
+00:04:15,450 --> 00:04:19,230
+For instance, you can have partitions
+of read-only files versus files that
+
+78
+00:04:19,230 --> 00:04:20,980
+are also written to, and
+
+79
+00:04:20,980 --> 00:04:25,060
+you can replicate the read-only
+files to a greater degree.
+
+80
+00:04:25,060 --> 00:04:28,700
+Or you can consider having
+smaller partitions where there
+
+81
+00:04:28,700 --> 00:04:33,130
+are files that are more frequently
+accessed, versus larger partitions
+
+82
+00:04:33,130 --> 00:04:37,130
+that consist of more files but
+less frequently accessed files.
+
+83
+00:04:37,130 --> 00:04:40,760
+And then you can consider using
+different degrees of replication for
+
+84
+00:04:40,760 --> 00:04:44,510
+the partition that has more
+frequently accessed files,
+
+85
+00:04:44,510 --> 00:04:46,550
+versus less frequently accessed files.
+
+86
+00:04:46,550 --> 00:04:50,901
+So that overall each machine has
+approximately the same number of
+
+87
+00:04:50,901 --> 00:04:52,810
+expected client requests.

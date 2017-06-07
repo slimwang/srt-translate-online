@@ -1,0 +1,139 @@
+1
+00:00:00,000 --> 00:00:05,000
+[Thrun] We discussed specific incidents of hidden Markov model inference or filtering
+
+2
+00:00:05,000 --> 00:00:07,000
+in our quizzes.
+
+3
+00:00:07,000 --> 00:00:09,000
+Let me now give you the basic math.
+
+4
+00:00:09,000 --> 00:00:13,000
+We all know hidden Markov model is a chain like this
+
+5
+00:00:13,000 --> 00:00:17,000
+of hidden states that are Markovian
+
+6
+00:00:17,000 --> 00:00:22,000
+and measurements that only depend on the corresponding state.
+
+7
+00:00:22,000 --> 00:00:25,000
+We know that this Bayes network entailed certain independencies.
+
+8
+00:00:25,000 --> 00:00:34,000
+For example, given X2 the past, the future, and the present measurement
+
+9
+00:00:34,000 --> 00:00:37,000
+are all conditionally independent given X2.
+
+10
+00:00:37,000 --> 00:00:42,000
+The nice thing about this structure is it makes it possible to efficiently do inference.
+
+11
+00:00:42,000 --> 00:00:49,000
+I'll give you the equations we used before here in a more explicit form.
+
+12
+00:00:49,000 --> 00:00:55,000
+Let's look at the measurement side, and suppose we wish to know the probability
+
+13
+00:00:55,000 --> 00:00:59,000
+of an internal state variable given a specific measurement,
+
+14
+00:00:59,000 --> 00:01:06,000
+and that by Bayes rule becomes P of Z1 given X1 times P of X1 over P of Z1.
+
+15
+00:01:06,000 --> 00:01:10,000
+When you start doing this, you'll find that the normalizer
+
+16
+00:01:10,000 --> 00:01:13,000
+doesn't depend on the target variable X;
+
+17
+00:01:13,000 --> 00:01:19,000
+therefore, we often write a proportionality sign and get an equation like this.
+
+18
+00:01:19,000 --> 00:01:24,000
+This product over here is the basic measurement update of hidden Markov models.
+
+19
+00:01:24,000 --> 00:01:27,000
+And the thing to remember when you apply it, you have to normalize.
+
+20
+00:01:27,000 --> 00:01:30,000
+We already practiced all of this, so you know all of this.
+
+21
+00:01:30,000 --> 00:01:33,000
+The other equation is the prediction equation,
+
+22
+00:01:33,000 --> 00:01:36,000
+so let's go from X1 to X2.
+
+23
+00:01:36,000 --> 00:01:40,000
+This is called prediction even though sometimes it has nothing to do with prediction.
+
+24
+00:01:40,000 --> 00:01:43,000
+It's the traditional term, but it comes from the fact that we might want to predict
+
+25
+00:01:43,000 --> 00:01:49,000
+the distribution of X2 given that we know the distribution of X1.
+
+26
+00:01:49,000 --> 00:01:51,000
+Here we apply total probability.
+
+27
+00:01:51,000 --> 00:01:59,000
+The probability of X2 is obtained by checking all states we might have come from in X1
+
+28
+00:01:59,000 --> 00:02:03,000
+and calculating the probability of going from X1 to X2.
+
+29
+00:02:03,000 --> 00:02:06,000
+We also practiced this before.
+
+30
+00:02:06,000 --> 00:02:12,000
+Any probability of X2 being in a certain state must have come from another state, X1,
+
+31
+00:02:12,000 --> 00:02:15,000
+and then transitioned into X2, so we sum over all of those
+
+32
+00:02:15,000 --> 00:02:18,000
+and we get the posterior probability of X2.
+
+33
+00:02:18,000 --> 00:02:24,000
+These 2 equations together form the math of a hidden Markov model
+
+34
+00:02:24,000 --> 00:02:29,000
+where the next state distribution and the measurement distribution
+
+35
+00:02:29,000 --> 99:59:59,999
+and the initial state distribution are all given as the parameters of a hidden Markov model.

@@ -1,0 +1,174 @@
+1
+00:00:00,730 --> 00:00:03,750
+I'll go ahead and stop because I
+want to show you one more thing.
+
+2
+00:00:03,750 --> 00:00:08,544
+Let's disable this break point
+in the handle single tap method,
+
+3
+00:00:08,544 --> 00:00:12,464
+and let's go ahead and
+add a break point if we scroll up
+
+4
+00:00:12,464 --> 00:00:17,460
+a little bit to the- here we go,
+add bug to view method on line 33.
+
+5
+00:00:17,460 --> 00:00:18,660
+And I'll run the app again.
+
+6
+00:00:19,860 --> 00:00:23,800
+I'll tap the Breakpoint Debugging scene,
+and then tap on the screen.
+
+7
+00:00:23,800 --> 00:00:26,940
+Now this time, our stack trace
+includes stack frames for
+
+8
+00:00:26,940 --> 00:00:31,340
+both addBugToView(),
+here at the top, and handleSingleTap.
+
+9
+00:00:32,500 --> 00:00:34,910
+And you'll notice again as I
+click through these stack frames,
+
+10
+00:00:34,910 --> 00:00:38,750
+the information that's available
+in the variables view changes.
+
+11
+00:00:38,750 --> 00:00:42,050
+And that's because each stack
+frame contains different state,
+
+12
+00:00:42,050 --> 00:00:45,150
+which was available to it
+at the time it was reached.
+
+13
+00:00:45,150 --> 00:00:50,080
+So in the handleSingleTap,
+we have the recognizer and self, and
+
+14
+00:00:50,080 --> 00:00:51,950
+then the add bug to view.
+
+15
+00:00:51,950 --> 00:00:55,220
+We just have self and
+then this new bug, and remember,
+
+16
+00:00:55,220 --> 00:00:58,900
+you can always switch this view
+mode to see additional information.
+
+17
+00:00:58,900 --> 00:01:01,110
+So let's go ahead and focus on self,
+
+18
+00:01:01,110 --> 00:01:03,990
+which is an instance of the break
+point bug view controller.
+
+19
+00:01:05,069 --> 00:01:08,350
+If you click the dropdown, we can
+see that it has a reference called
+
+20
+00:01:08,350 --> 00:01:12,430
+bugFactory, it's a reference
+to a BugFactory object, and
+
+21
+00:01:12,430 --> 00:01:16,440
+that it has a value for
+maxBugs, which is currently 0,
+
+22
+00:01:16,440 --> 00:01:21,420
+moveDuration, a disperseDuration,
+and then our array of bugs.
+
+23
+00:01:21,420 --> 00:01:23,240
+And that's an array of UIimageviews.
+
+24
+00:01:24,330 --> 00:01:25,640
+We also see our current values.
+
+25
+00:01:26,920 --> 00:01:30,990
+And if you look closely, you may already
+see what's causing some of our problem.
+
+26
+00:01:30,990 --> 00:01:33,330
+Currently, max bugs is set to zero and
+
+27
+00:01:33,330 --> 00:01:36,470
+the bugs array also
+contains zero values.
+
+28
+00:01:36,470 --> 00:01:38,900
+This means that this if block
+
+29
+00:01:38,900 --> 00:01:41,960
+will not execute because account
+of the bugs array is zero, and
+
+30
+00:01:41,960 --> 00:01:46,290
+that is not less than the value
+of max bugs, which is also zero.
+
+31
+00:01:46,290 --> 00:01:48,060
+This sounds like a valid hypothesis.
+
+32
+00:01:48,060 --> 00:01:50,180
+But how can we be so sure?
+
+33
+00:01:50,180 --> 00:01:52,980
+Well with breakpoints,
+we can actually test the hypothesis.
+
+34
+00:01:52,980 --> 00:01:56,910
+Breakpoints not only allow us to
+pause the execution of our apps, but
+
+35
+00:01:56,910 --> 00:02:00,870
+we can actually run our apps
+step by step or line by line.
+
+36
+00:02:00,870 --> 00:02:04,170
+And this is going to allow us to see
+if the if block is actually being
+
+37
+00:02:04,170 --> 00:02:06,020
+entered or not, and we'll do this next.

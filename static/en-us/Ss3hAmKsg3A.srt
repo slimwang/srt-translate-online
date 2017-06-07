@@ -1,0 +1,239 @@
+1
+00:00:00,500 --> 00:00:03,840
+So we've talked about how your code
+could be slow because the type of
+
+2
+00:00:03,840 --> 00:00:06,490
+hardware that's executing underneath it,
+
+3
+00:00:06,490 --> 00:00:09,510
+remember the whole floating
+point branching issue problem?
+
+4
+00:00:09,510 --> 00:00:11,540
+Well, that's mostly a non-issue for
+today's hardware.
+
+5
+00:00:11,540 --> 00:00:14,540
+There's one set of issues that you
+still need to worry about, that is,
+
+6
+00:00:14,540 --> 00:00:18,700
+the performance of the primitives
+in the language that you are using.
+
+7
+00:00:18,700 --> 00:00:21,230
+Take a fundamental
+algorithm such as sorting.
+
+8
+00:00:21,230 --> 00:00:23,300
+Now there are many
+ways in which to sort,
+
+9
+00:00:23,300 --> 00:00:27,078
+and some are better than others,
+depending on the circumstances.
+
+10
+00:00:27,078 --> 00:00:29,740
+For examples, quicksort is generally
+
+11
+00:00:29,740 --> 00:00:34,070
+faster than bubble sort except when you
+have a fewer than a thousand elements or
+
+12
+00:00:34,070 --> 00:00:37,370
+take searching for
+objects in a large sorted list.
+
+13
+00:00:37,370 --> 00:00:40,360
+Generally, the best way to do
+this is with a binary search.
+
+14
+00:00:40,360 --> 00:00:44,260
+But completely different is finding
+objects in an unsorted array.
+
+15
+00:00:44,260 --> 00:00:47,290
+Now instead of in comparing each object
+for the value you're looking for,
+
+16
+00:00:47,290 --> 00:00:50,090
+you can use a hash function
+to find it immediately.
+
+17
+00:00:50,090 --> 00:00:54,070
+Now this is all basic canon of modern
+computer science and data structures.
+
+18
+00:00:54,070 --> 00:00:57,790
+And thankfully, modern languages like
+Java supply these containers and
+
+19
+00:00:57,790 --> 00:01:00,910
+algorithms on your behalf, so that
+you don't have to rewrite the Murmur
+
+20
+00:01:00,910 --> 00:01:04,569
+3 Hash function or a quicksort over and
+over and over again.
+
+21
+00:01:04,569 --> 00:01:06,260
+But let me reveal something here.
+
+22
+00:01:06,260 --> 00:01:07,950
+In all of my years of programming,
+
+23
+00:01:07,950 --> 00:01:12,870
+the one problem that consistently
+bites performance of your project
+
+24
+00:01:12,870 --> 00:01:17,620
+has to do with the performance of these
+language-provided container objects.
+
+25
+00:01:17,620 --> 00:01:19,280
+I mean, it's awesome, right?
+
+26
+00:01:19,280 --> 00:01:22,350
+Java's providing you with
+an implementation of a vector class that
+
+27
+00:01:22,350 --> 00:01:26,480
+you can push, pop, add, and
+remove objects as you see fit, but
+
+28
+00:01:26,480 --> 00:01:31,140
+in order to get that flexibility, it has
+to use a linked list structure under
+
+29
+00:01:31,140 --> 00:01:34,050
+the hood, which has a unique set
+of performance characteristics.
+
+30
+00:01:34,050 --> 00:01:37,750
+As long as you are only operating on
+the front of the list, it's super fast.
+
+31
+00:01:37,750 --> 00:01:38,760
+But if you're trying to insert or
+
+32
+00:01:38,760 --> 00:01:43,410
+remove in other places, it's going to
+default to the worst possible time.
+
+33
+00:01:43,410 --> 00:01:46,290
+The point is that just because
+the underlying system provides
+
+34
+00:01:46,290 --> 00:01:49,130
+these containers doesn't mean
+that they're performant with
+
+35
+00:01:49,130 --> 00:01:52,860
+respect to how your program is
+going to actually be using them.
+
+36
+00:01:52,860 --> 00:01:56,690
+James Sutherland published a series of
+microbenchmarks on the performance of
+
+37
+00:01:56,690 --> 00:02:00,100
+specific data structures provided
+by the Java framework and
+
+38
+00:02:00,100 --> 00:02:03,630
+found that there's some differences
+in performance versus functionality
+
+39
+00:02:03,630 --> 00:02:05,690
+that people need to be aware of.
+
+40
+00:02:05,690 --> 00:02:09,130
+For example,
+he found that Hashtable performance
+
+41
+00:02:09,130 --> 00:02:13,100
+was about 22% faster
+than HashMap performance,
+
+42
+00:02:13,100 --> 00:02:16,760
+depending on how you're actually
+using the containers themselves.
+
+43
+00:02:16,760 --> 00:02:18,200
+The point is this.
+
+44
+00:02:18,200 --> 00:02:20,840
+Have you profiled your container
+classes that you're using in your code?
+
+45
+00:02:20,840 --> 00:02:25,090
+Are you confident that they are using
+the absolute fastest container for
+
+46
+00:02:25,090 --> 00:02:27,240
+what your code is actually doing?
+
+47
+00:02:27,240 --> 00:02:28,620
+Mm, yeah, that's what I thought.
+
+48
+00:02:28,620 --> 00:02:32,000
+But the good news is that you can gain
+visibility into the performance of these
+
+49
+00:02:32,000 --> 00:02:36,130
+containers with some handy
+profiling MPIs in Android.
+
+50
+00:02:36,130 --> 00:02:38,310
+So let's see if Chris's code
+stands up to our scrutiny.

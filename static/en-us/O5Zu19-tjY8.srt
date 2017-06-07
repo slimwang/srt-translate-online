@@ -1,0 +1,123 @@
+1
+00:00:00,000 --> 00:00:03,000
+Hi, students. I am back to teach you a bit about SLAM.
+
+2
+00:00:03,000 --> 00:00:07,000
+There was a request--a popular request, actually, in email and the discussion forum.
+
+3
+00:00:07,000 --> 00:00:14,000
+SLAM is a method for mapping that's short for "simultaneous localization and mapping."
+
+4
+00:00:14,000 --> 00:00:20,000
+Some of the this might show up in the final exam, so do pay attention.
+
+5
+00:00:20,000 --> 00:00:23,000
+Mapping is all about building maps of the environment.
+
+6
+00:00:23,000 --> 00:00:27,000
+You might remember in the localization classes we assumed the map was given.
+
+7
+00:00:27,000 --> 00:00:32,000
+One of the big passions in my life has been to understand how to make a robot
+
+8
+00:00:32,000 --> 00:00:37,000
+make these maps like this map here, which is a 3D map
+
+9
+00:00:37,000 --> 00:00:42,000
+of an abandoned underground coal mine in Pennsylvania
+
+10
+00:00:42,000 --> 00:00:45,000
+near Carnegie-Mellon University.
+
+11
+00:00:45,000 --> 00:00:48,000
+Over the past 10 years or so, I have worked on a number of different methods
+
+12
+00:00:48,000 --> 00:00:51,000
+for buildings maps that are quite sophisticated,
+
+13
+00:00:51,000 --> 00:00:55,000
+like this particle filter method over here that you can see.
+
+14
+00:00:55,000 --> 00:00:58,000
+All these methods have in common that we build a model of the environment
+
+15
+00:00:58,000 --> 00:01:04,000
+while also addressing the fact that the robot itself accrues uncertainty while it moves.
+
+16
+00:01:04,000 --> 00:01:07,000
+When, in this example here, the loop is being closed,
+
+17
+00:01:07,000 --> 00:01:12,000
+you can see how our mapping technology is able to accommodate this
+
+18
+00:01:12,000 --> 00:01:18,000
+and find a consistent map despite the fact that the robot drifted a little along the way.
+
+19
+00:01:18,000 --> 00:01:22,000
+The key insight in building maps is the robot itself
+
+20
+00:01:22,000 --> 00:01:26,000
+might lose track of where it is by virtue of its motion uncertainty.
+
+21
+00:01:26,000 --> 00:01:30,000
+You accommodate this in localization by using an existing map,
+
+22
+00:01:30,000 --> 00:01:33,000
+but now we don't have an existing map. We're building a map.
+
+23
+00:01:33,000 --> 00:01:35,000
+That's where SLAM comes into play.
+
+24
+00:01:35,000 --> 00:01:38,000
+SLAM doesn't stand for "slamming" a robot.
+
+25
+00:01:38,000 --> 00:01:43,000
+What it really means is "simultaneous localization and mapping."
+
+26
+00:01:43,000 --> 00:01:46,000
+This is a big, big, big research field.
+
+27
+00:01:46,000 --> 00:01:50,000
+Most of my AI book is about this technology,
+
+28
+00:01:50,000 --> 00:01:54,000
+and today I want to show you my favorite method called "graph SLAM,"
+
+29
+00:01:54,000 --> 00:01:58,000
+which is also by far the easiest method to understand.
+
+30
+00:01:58,000 --> 00:02:02,000
+We will reduce the mapping problem to a couple of very intuitive
+
+31
+00:02:02,000 --> 99:59:59,999
+additions into a big matrix and a vector, and that's it.

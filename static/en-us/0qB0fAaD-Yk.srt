@@ -1,0 +1,155 @@
+1
+00:00:00,250 --> 00:00:03,180
+So at that point, I have to consider which model I
+
+2
+00:00:03,180 --> 00:00:06,370
+was going to go with to accomplish that classification.
+
+3
+00:00:06,370 --> 00:00:08,440
+As you know, there are many options.
+
+4
+00:00:08,440 --> 00:00:14,500
+We can use a Bayes network or a perceptron or even perhaps logistic regression.
+
+5
+00:00:14,500 --> 00:00:18,690
+The actual classification was not simply less than or greater than nu.
+
+6
+00:00:18,690 --> 00:00:21,020
+But rather, a few time windows during the day.
+
+7
+00:00:21,020 --> 00:00:22,710
+But to start off with something simple,
+
+8
+00:00:22,710 --> 00:00:26,600
+to get a feel of the characteristics of the data, I wanted to start off with
+
+9
+00:00:26,600 --> 00:00:30,420
+something that would create linear separations between the classes.
+
+10
+00:00:30,420 --> 00:00:32,800
+And so I attempted to use a perceptron.
+
+11
+00:00:32,800 --> 00:00:35,948
+I then immediately performed some tests of validation.
+
+12
+00:00:35,948 --> 00:00:37,220
+After doing so,
+
+13
+00:00:37,220 --> 00:00:41,090
+it became clear I had to revisit the question of which model to use.
+
+14
+00:00:41,090 --> 00:00:43,550
+Or likely even, which features to consider.
+
+15
+00:00:43,550 --> 00:00:46,320
+As it was likely I did not capture all of the features that
+
+16
+00:00:46,320 --> 00:00:49,250
+might have an influencing force over arrival time.
+
+17
+00:00:49,250 --> 00:00:52,540
+I thought perhaps the data might exhibit some locality properties and
+
+18
+00:00:52,540 --> 00:00:55,560
+considered models to exploit this structure in the data.
+
+19
+00:00:55,560 --> 00:00:57,960
+Now, by locality, we mean the following.
+
+20
+00:00:57,960 --> 00:01:02,310
+Let's suppose we have a featured space of x and y values.
+
+21
+00:01:02,310 --> 00:01:06,660
+Each pair of x and y values is labeled with a value, v.
+
+22
+00:01:06,660 --> 00:01:10,880
+Now, let's suppose that in this space, we're given three training values.
+
+23
+00:01:10,880 --> 00:01:17,620
+Point 1, x1, y1, point 2, x2, y2, and point 3, x3, y3.
+
+24
+00:01:17,620 --> 00:01:20,800
+And each of these is labeled with a value.
+
+25
+00:01:20,800 --> 00:01:25,680
+So point 1 has value v1, v2 and v3 and so on.
+
+26
+00:01:25,680 --> 00:01:28,660
+Now these training points are just the ones that we're given, and
+
+27
+00:01:28,660 --> 00:01:31,980
+so we'd like to create an estimator that tells us the values of
+
+28
+00:01:31,980 --> 00:01:35,960
+the points everywhere in this space, not just at the training points.
+
+29
+00:01:35,960 --> 00:01:40,040
+We can ask what the value is at this new point in the middle, x,y.
+
+30
+00:01:40,040 --> 00:01:42,905
+Now if we can assume that the value at this point,
+
+31
+00:01:42,905 --> 00:01:47,220
+x,y is approximately the same as the values that surround it,
+
+32
+00:01:47,220 --> 00:01:50,390
+then we can say that this data exhibits locality.
+
+33
+00:01:50,390 --> 00:01:55,130
+So if the value at x,y is approximately equal to v1, v2,
+
+34
+00:01:55,130 --> 00:01:58,030
+and v3, the data has locality.
+
+35
+00:01:58,030 --> 00:02:00,190
+Now of course, this isn't always the case.
+
+36
+00:02:00,190 --> 00:02:03,140
+Not all data sets exhibit locality like this.
+
+37
+00:02:03,140 --> 00:02:04,780
+But of course, some do.
+
+38
+00:02:04,780 --> 00:02:10,729
+Now a model that uses this assumption of data locality is k nearest neighbors.
+
+39
+00:02:10,729 --> 00:02:13,390
+So it seemed like a reasonable model to attempt next.

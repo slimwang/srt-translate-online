@@ -1,0 +1,221 @@
+1
+00:00:00,350 --> 00:00:03,660
+This can be seen,
+sort of simply in this one d k.
+
+2
+00:00:03,660 --> 00:00:07,000
+So we start off with a prior and
+here it is as a Gaussian.
+
+3
+00:00:07,000 --> 00:00:08,930
+We have some measurement,
+that's the evidence,
+
+4
+00:00:08,930 --> 00:00:10,680
+and here it happens to be tighter.
+
+5
+00:00:10,680 --> 00:00:12,320
+And then we get a posterior, all right?
+
+6
+00:00:12,320 --> 00:00:15,700
+And the posterior is narrowing because
+it's narrower, it's also going to
+
+7
+00:00:15,700 --> 00:00:20,400
+be taller and then the prediction step,
+we just take that posterior and
+
+8
+00:00:20,400 --> 00:00:24,370
+we do this shift and
+we grow the uncertainty again.
+
+9
+00:00:24,370 --> 00:00:27,600
+So, so far, everything looks
+like it's behaving really well.
+
+10
+00:00:27,600 --> 00:00:28,610
+So, let me show, give you a quiz.
+
+11
+00:00:28,610 --> 00:00:30,510
+Well, it's not a real quiz.
+
+12
+00:00:30,510 --> 00:00:32,067
+It's like a fake quiz.
+
+13
+00:00:32,067 --> 00:00:33,869
+All right.
+
+14
+00:00:33,869 --> 00:00:37,710
+Suppose this is your prior.
+
+15
+00:00:37,710 --> 00:00:38,600
+Okay?
+
+16
+00:00:38,600 --> 00:00:41,030
+Okay so you see it is this nice
+white Gaussian lump over here.
+
+17
+00:00:42,200 --> 00:00:44,800
+And then suppose this
+is your measurement.
+
+18
+00:00:44,800 --> 00:00:46,100
+Okay.
+This nice tight green.
+
+19
+00:00:47,150 --> 00:00:49,330
+Where does the posterior go?
+
+20
+00:00:49,330 --> 00:00:54,520
+Well, first of all,
+it's gotta go somewhere in between,
+
+21
+00:00:54,520 --> 00:00:57,340
+because in Kalman filtering,
+
+22
+00:00:57,340 --> 00:01:02,650
+your mean is a weighted average between
+the priors mean and the measurement.
+
+23
+00:01:03,710 --> 00:01:04,310
+Okay?
+
+24
+00:01:04,310 --> 00:01:07,430
+So the fact that it's going to
+go in the middle is okay.
+
+25
+00:01:07,430 --> 00:01:11,990
+But what might bug you is it's got,
+again, that tight little uncertainty.
+
+26
+00:01:11,990 --> 00:01:15,610
+I've got this Gaussian bump here,
+all right?
+
+27
+00:01:15,610 --> 00:01:19,080
+Now Gaussians go to zero,
+really, really fast so
+
+28
+00:01:19,080 --> 00:01:23,420
+by the time we get out here,
+it's like incredibly, un, unlikely.
+
+29
+00:01:23,420 --> 00:01:28,920
+But then all of a sudden there
+is a measurement bump over here.
+
+30
+00:01:28,920 --> 00:01:30,060
+Okay.
+
+31
+00:01:30,060 --> 00:01:32,680
+So you know, what's poor Kalman to do?
+
+32
+00:01:32,680 --> 00:01:36,040
+Well, Kalman has to put them
+somewhere in the middle,
+
+33
+00:01:36,040 --> 00:01:37,960
+because that's all it does.
+
+34
+00:01:37,960 --> 00:01:41,700
+And furthermore, it has to, it,
+
+35
+00:01:41,700 --> 00:01:46,499
+it has to reduce that uncertainty
+because it's a slave to its model.
+
+36
+00:01:47,800 --> 00:01:51,890
+It really honest to God believes
+that things are distributed by
+
+37
+00:01:51,890 --> 00:01:56,460
+these Gaussians and if they really were,
+then that's the correct value to put in.
+
+38
+00:01:56,460 --> 00:01:59,240
+And the question is,
+does this agree with your intuition?
+
+39
+00:02:00,300 --> 00:02:07,690
+And the short answer should be, yeah, I
+don't think so because Megan, over here.
+
+40
+00:02:07,690 --> 00:02:08,750
+Over here, okay.
+
+41
+00:02:08,750 --> 00:02:14,300
+If I've really got a Gaussian lump
+over here, then the idea that
+
+42
+00:02:14,300 --> 00:02:19,530
+something will now be over here, the
+probability is so infinitesimally small
+
+43
+00:02:20,690 --> 00:02:25,700
+that what's probably the problem
+is that our model is wrong.
+
+44
+00:02:27,080 --> 00:02:30,880
+We really should be trying to
+abandon the model at that point
+
+45
+00:02:30,880 --> 00:02:33,350
+as opposed to doing the integration.
+
+46
+00:02:33,350 --> 00:02:36,180
+And in some sense, that's the, the, the,
+
+47
+00:02:36,180 --> 00:02:40,320
+the, the part of the message
+of Kalman filter.
+
+48
+00:02:40,320 --> 00:02:43,900
+You're actually a slave to
+the model you really believe in.

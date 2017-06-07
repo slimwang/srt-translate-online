@@ -1,0 +1,301 @@
+﻿1
+00:00:01,129 --> 00:00:03,960
+At this point, we've completed
+the settings activity and
+
+2
+00:00:03,960 --> 00:00:08,660
+we've made our first setting in
+the Settings Fragment using DXML.
+
+3
+00:00:08,660 --> 00:00:13,609
+When we hit the check box, what Android
+is doing is it goes into the file and
+
+4
+00:00:13,609 --> 00:00:18,210
+changes the value associated with
+the key Show Bass, setting it to true or
+
+5
+00:00:18,210 --> 00:00:21,160
+false depending on whether
+the box is checked or not.
+
+6
+00:00:21,160 --> 00:00:26,429
+What we need to do now is to read this
+from the file to update the actual app.
+
+7
+00:00:26,429 --> 00:00:28,870
+We need to answer two questions.
+
+8
+00:00:28,870 --> 00:00:32,280
+How and
+when should we read this from the file?
+
+9
+00:00:32,280 --> 00:00:35,210
+Here's what the code looks like
+to read from shared preferences.
+
+10
+00:00:35,210 --> 00:00:38,789
+First, you need to get an instance
+of shared preferences.
+
+11
+00:00:38,789 --> 00:00:41,700
+In the case of preferences,
+set by a preference screen, you can
+
+12
+00:00:41,700 --> 00:00:46,830
+use the preference manager method
+called getDefaultSharedPreferences.
+
+13
+00:00:46,829 --> 00:00:50,789
+There are other options mentioned in
+the notes below, but only if you want to
+
+14
+00:00:50,789 --> 00:00:54,289
+make multiple Multiple preference files
+for your app other than the default one.
+
+15
+00:00:54,289 --> 00:00:56,689
+But in our case, this is what we'll use.
+
+16
+00:00:56,689 --> 00:00:59,640
+Next, using that shared
+preferences object,
+
+17
+00:00:59,640 --> 00:01:04,450
+we can use various get methods to get
+data from that shared preference file.
+
+18
+00:01:04,450 --> 00:01:08,359
+Which Get method to use depends on
+the type object stored in the file.
+
+19
+00:01:08,359 --> 00:01:10,179
+There is for example, Get Boolean,
+
+20
+00:01:10,180 --> 00:01:14,860
+Get String, Get String Set,
+Get Flow, Get Int, and Get Long.
+
+21
+00:01:14,859 --> 00:01:17,409
+Once you've decided
+which Get method to use,
+
+22
+00:01:17,409 --> 00:01:20,269
+you pass in the string which is
+the key of the preference and
+
+23
+00:01:20,269 --> 00:01:23,599
+then you pass in the default value,
+which is basically the result of
+
+24
+00:01:23,599 --> 00:01:27,069
+this call if that preference
+was not found in the file.
+
+25
+00:01:27,069 --> 00:01:30,529
+Note that of course the default value
+always matches the type of the return of
+
+26
+00:01:30,530 --> 00:01:31,570
+that call.
+
+27
+00:01:31,569 --> 00:01:34,189
+Also note that there's no type checking,
+so
+
+28
+00:01:34,189 --> 00:01:37,920
+if you tell shared preferences to
+get you a long when there's actually
+
+29
+00:01:37,920 --> 00:01:43,159
+a string stored in there which cannot be
+converted to a long, the app will crash.
+
+30
+00:01:43,159 --> 00:01:46,801
+In our case, we want to use to get
+boolean and we're going to pass in
+
+31
+00:01:46,801 --> 00:01:51,469
+the the key showbass and
+we'll put in default value of true.
+
+32
+00:01:51,469 --> 00:01:55,980
+Now we won't be writing directly to
+the shared preferences in this exercise
+
+33
+00:01:55,980 --> 00:01:59,500
+because this is all handled in
+the background by the settings fragment.
+
+34
+00:01:59,500 --> 00:02:00,930
+That said, the code for
+
+35
+00:02:00,930 --> 00:02:04,590
+directly writing to the share
+preferences is very similar.
+
+36
+00:02:04,590 --> 00:02:08,509
+Just as with reading you'll get
+a reference to the share preferences.
+
+37
+00:02:08,508 --> 00:02:11,879
+You call the edit method
+to get the editor object.
+
+38
+00:02:11,879 --> 00:02:15,250
+Then, on the editor object,
+you can pass in the key value,
+
+39
+00:02:15,250 --> 00:02:18,509
+using the correct put type method,
+such as putBoolean.
+
+40
+00:02:18,509 --> 00:02:23,789
+And then, finally, you save your
+updates using the apply or commit.
+
+41
+00:02:23,789 --> 00:02:27,289
+Apply is usually the right choice
+because it performs the update off
+
+42
+00:02:27,289 --> 00:02:28,639
+the main thread.
+
+43
+00:02:28,639 --> 00:02:30,000
+Now that we've got our code for
+
+44
+00:02:30,000 --> 00:02:33,719
+interacting with a sharedPreferences
+where do I actually put it?
+
+45
+00:02:33,719 --> 00:02:35,710
+I'm going to load up
+the preference of whether or
+
+46
+00:02:35,710 --> 00:02:39,260
+not to display the bass circle
+right in the onCreate method.
+
+47
+00:02:39,259 --> 00:02:43,329
+So our onCreate method calls this
+setupSharedPreferences method and
+
+48
+00:02:43,330 --> 00:02:46,310
+inside it,
+I create the sharedPreference object.
+
+49
+00:02:46,310 --> 00:02:51,289
+This way I can pass this as the context
+to get the object reference and
+
+50
+00:02:51,289 --> 00:02:54,810
+then I can use that to get
+the boolean of the showbass settings.
+
+51
+00:02:54,810 --> 00:02:58,710
+And once I get it that boolean, I can
+pass it into the video license view,
+
+52
+00:02:58,710 --> 00:03:03,320
+set show bass and
+once I do that I'm ready to test this.
+
+53
+00:03:03,319 --> 00:03:07,769
+But there is one problem right now,
+our videos will only update if
+
+54
+00:03:07,770 --> 00:03:11,030
+the activity is recreated and
+hence the onCreate is called.
+
+55
+00:03:11,030 --> 00:03:13,340
+Something like a rotation would do, but
+
+56
+00:03:13,340 --> 00:03:15,879
+it won't reflect
+the visual straight away.
+
+57
+00:03:15,879 --> 00:03:19,189
+Regardless let's just try this out,
+and see if it works.
+
+58
+00:03:19,189 --> 00:03:23,409
+So I run the app,
+go into the settings, and
+
+59
+00:03:23,409 --> 00:03:28,310
+I'll uncheck that and if we go back, you
+can still see that the circle is there.
+
+60
+00:03:28,310 --> 00:03:31,560
+But once you rotate the phone,
+the circle disappears.
+
+61
+00:03:31,560 --> 00:03:34,530
+That's because it only loaded
+up the shared preferences
+
+62
+00:03:34,530 --> 00:03:36,001
+when the onCreate was called.
+

@@ -1,0 +1,347 @@
+1
+00:00:00,080 --> 00:00:04,019
+So, this was an idea behind this very nice paper on dual photography that
+
+2
+00:00:04,019 --> 00:00:07,380
+was presented at the Siggraph Conference in, 2005, and
+
+3
+00:00:07,380 --> 00:00:09,590
+I'm going to basically now just talk about it.
+
+4
+00:00:09,590 --> 00:00:13,230
+As I said, this was led by a bunch of people at Stanford with a bunch of
+
+5
+00:00:13,230 --> 00:00:15,660
+collaborators also at different places.
+
+6
+00:00:15,660 --> 00:00:18,480
+It's a very nice piece of work, and for those of you interested more,
+
+7
+00:00:18,480 --> 00:00:22,780
+please go to this link here, and you can see more details about this paper.
+
+8
+00:00:22,780 --> 00:00:25,400
+Just to showcase this example I'm going to play the video from this.
+
+9
+00:00:26,620 --> 00:00:29,690
+>> Our technique allows us to interchange cameras and projectors,
+
+10
+00:00:29,690 --> 00:00:33,390
+thereby enabling us to take images from the point of view of a projector.
+
+11
+00:00:33,390 --> 00:00:36,580
+Suppose for example we had the following experimental setup.
+
+12
+00:00:36,580 --> 00:00:39,810
+Here we have a scene that is imaged by a camera on the left and
+
+13
+00:00:39,810 --> 00:00:42,160
+illuminated by a projector on the right.
+
+14
+00:00:42,160 --> 00:00:44,220
+This is the image taken by the camera,
+
+15
+00:00:44,220 --> 00:00:47,010
+which shows the scene flood illuminated by the projector.
+
+16
+00:00:47,010 --> 00:00:49,450
+In our paper, we refer to this as the primal image.
+
+17
+00:00:51,050 --> 00:00:53,590
+After measuring the light transport between the projector and
+
+18
+00:00:53,590 --> 00:00:57,140
+the camera, we show that the flow of the light can be effectively reversed using
+
+19
+00:00:57,140 --> 00:00:59,090
+Helmholtz reciprocity.
+
+20
+00:00:59,090 --> 00:01:01,760
+This means that we're able to generate an image from the point of view of
+
+21
+00:01:01,760 --> 00:01:03,540
+the projector as shown here.
+
+22
+00:01:03,540 --> 00:01:07,400
+This dual image shows the scene from the perspective of the projector,
+
+23
+00:01:07,400 --> 00:01:10,380
+while the lumination is coming from the position of the camera.
+
+24
+00:01:10,380 --> 00:01:12,850
+Note that this is the image synthesized by our technique.
+
+25
+00:01:14,170 --> 00:01:17,660
+Dual photography is the process of measuring the light transport to
+
+26
+00:01:17,660 --> 00:01:18,820
+generate the dual image.
+
+27
+00:01:20,000 --> 00:01:23,650
+A simple example will help us understand how dual photography works.
+
+28
+00:01:23,650 --> 00:01:26,030
+This scene is illuminated by a projector and
+
+29
+00:01:26,030 --> 00:01:28,700
+the outgoing light will be measured by a photo sensor.
+
+30
+00:01:28,700 --> 00:01:31,510
+Suppose we light up a single pixel at a time in the projector and
+
+31
+00:01:31,510 --> 00:01:35,510
+store the value measured by the photo sensor as a function of pixel location.
+
+32
+00:01:35,510 --> 00:01:37,450
+We do this for all the pixels in the projector.
+
+33
+00:01:38,520 --> 00:01:41,130
+Helmholtz reciprocity specifies that the light transfer will be
+
+34
+00:01:41,130 --> 00:01:45,210
+the same along a light path, regardless of the direction of the flow of light.
+
+35
+00:01:45,210 --> 00:01:48,150
+This means that the same value would be measured whether the light starts off at
+
+36
+00:01:48,150 --> 00:01:51,030
+the projector pixel and goes to the photosensor, or
+
+37
+00:01:51,030 --> 00:01:54,630
+if it starts from the photosensor and arrives at that projector pixel.
+
+38
+00:01:54,630 --> 00:01:57,400
+The transfer of energy from one to the other will be the same in
+
+39
+00:01:57,400 --> 00:01:58,890
+either direction.
+
+40
+00:01:58,890 --> 00:02:01,910
+Thus we can transform our projector into a virtual camera and
+
+41
+00:02:01,910 --> 00:02:04,540
+the photo sensor into a virtual light source.
+
+42
+00:02:04,540 --> 00:02:06,990
+By putting back the measured values into the correct position so
+
+43
+00:02:06,990 --> 00:02:08,520
+the camera image array,
+
+44
+00:02:08,520 --> 00:02:12,060
+we can form the picture that would have been taken by the virtual camera.
+
+45
+00:02:12,060 --> 00:02:14,280
+The resolution of this image will be that of the projector.
+
+46
+00:02:16,860 --> 00:02:19,870
+Replacing the photo sensor with a camera, allows us to capture the four
+
+47
+00:02:19,870 --> 00:02:22,810
+dimensional transport between the pixels of the projector and
+
+48
+00:02:22,810 --> 00:02:24,480
+the pixels in the camera.
+
+49
+00:02:24,480 --> 00:02:27,340
+However, scanning the projector pixel by pixel is very slow,
+
+50
+00:02:27,340 --> 00:02:30,330
+since there are millions of pixels in a standard projector.
+
+51
+00:02:30,330 --> 00:02:33,920
+To accelerate this process, we must identify pixels whose contributions unto
+
+52
+00:02:33,920 --> 00:02:37,950
+the scene can be later separated and illuminate them in parallel.
+
+53
+00:02:37,950 --> 00:02:41,580
+Our adaptive algorithm subdivides the projector image recursively to
+
+54
+00:02:41,580 --> 00:02:44,380
+determine which pixels can be lit simultaneously.
+
+55
+00:02:44,380 --> 00:02:47,080
+This allows us to capture the transport between a projector and
+
+56
+00:02:47,080 --> 00:02:50,690
+camera significantly faster than with the brute force scan.
+
+57
+00:02:50,690 --> 00:02:52,970
+On the left, we show the projector pattern and on the right,
+
+58
+00:02:52,970 --> 00:02:54,550
+we show the image captured by the camera.
+
+59
+00:02:56,030 --> 00:02:59,820
+So now you noticed how this whole pipeline unfolds, and
+
+60
+00:02:59,820 --> 00:03:03,470
+how basically what the projector is illuminating, and how camera captures
+
+61
+00:03:03,470 --> 00:03:08,340
+the whole concept of dual photography results in a new work type of an image.
+
+62
+00:03:08,340 --> 00:03:11,080
+Let's look at one of the more interesting applications of this,
+
+63
+00:03:11,080 --> 00:03:14,220
+again there are other applications that are mentioned by the authors in
+
+64
+00:03:14,220 --> 00:03:16,580
+that paper that I encourage you to look at.
+
+65
+00:03:16,580 --> 00:03:19,760
+Finally, we perform an experiment to demonstrate that we can capture subtle
+
+66
+00:03:19,760 --> 00:03:21,510
+diffuse interaction.
+
+67
+00:03:21,510 --> 00:03:24,660
+The projector's set up in front of a standard playing card, while the camera's
+
+68
+00:03:24,660 --> 00:03:27,980
+placed so that it can see the back of the card and the diffuse page of a book.
+
+69
+00:03:27,980 --> 00:03:30,850
+In this case, the light going from the projector to the camera had to
+
+70
+00:03:30,850 --> 00:03:33,590
+undergo a diffuse bounce at the card, and another at the book.
+
+71
+00:03:35,070 --> 00:03:38,580
+The image on the right is what the camera can see under ordinary room lighting.
+
+72
+00:03:38,580 --> 00:03:41,720
+It seems impossible that we could ever identify the card by simply changing
+
+73
+00:03:41,720 --> 00:03:43,670
+the incident illumination.
+
+74
+00:03:43,670 --> 00:03:46,530
+However, our framework shows that this is indeed possible.
+
+75
+00:03:46,530 --> 00:03:50,520
+By scanning the pixels of the projector, we can generate the dual image.
+
+76
+00:03:50,520 --> 00:03:53,230
+Here we see that the color of the book changes depending on the point on
+
+77
+00:03:53,230 --> 00:03:54,870
+the card we're illuminating.
+
+78
+00:03:54,870 --> 00:03:57,042
+After the complete transport has been acquired,
+
+79
+00:03:57,042 --> 00:04:00,307
+we can generate an image of the card from the perspective of the projector.
+
+80
+00:04:05,045 --> 00:04:08,475
+So now you see we can actually use this approach to, well,
+
+81
+00:04:08,475 --> 00:04:13,025
+see things that were not directly visible by a camera, but again by looking at
+
+82
+00:04:13,025 --> 00:04:18,740
+how the light transport impacts the surfaces around it and just observing those.
+
+83
+00:04:18,740 --> 00:04:23,290
+So this is one of those instances where both the illumination from the projector
+
+84
+00:04:23,290 --> 00:04:28,770
+and the capture device, the camera, both are being controlled by a computer, and
+
+85
+00:04:28,770 --> 00:04:33,130
+used that to now actually generate a newer form of an image.
+
+86
+00:04:33,130 --> 00:04:35,440
+That's an important part that I want you to kind of understand,
+
+87
+00:04:35,440 --> 00:04:38,220
+because that will lead to the basics of computational photography.

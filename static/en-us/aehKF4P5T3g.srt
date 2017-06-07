@@ -1,0 +1,227 @@
+1
+00:00:00,140 --> 00:00:03,550
+So let's continue to build on the corner detection mathematics.
+
+2
+00:00:03,550 --> 00:00:05,490
+We looked at this M matrix.
+
+3
+00:00:05,490 --> 00:00:09,460
+Of course, we now put this M matrix in our E u,v term and
+
+4
+00:00:09,460 --> 00:00:13,000
+expand it out and we come up with this nice quadratic form here.
+
+5
+00:00:13,000 --> 00:00:16,770
+So, basically, the surface UV is a locally approximated by
+
+6
+00:00:16,770 --> 00:00:20,430
+a quadratic form here with a window here.
+
+7
+00:00:20,430 --> 00:00:23,360
+Let's look at this car, equation a little bit more carefully.
+
+8
+00:00:23,360 --> 00:00:27,280
+So as I said, this surface is locally approximated by a quadratic form, and
+
+9
+00:00:27,280 --> 00:00:31,120
+have just shown you, am showing you here, the surface.
+
+10
+00:00:31,120 --> 00:00:34,850
+Now, this quadratic here is basically a slice through this surface,
+
+11
+00:00:34,850 --> 00:00:37,040
+which is basically this equation.
+
+12
+00:00:37,040 --> 00:00:40,500
+And this equation is that of an ellipse.
+
+13
+00:00:40,500 --> 00:00:42,910
+And you can notice this ellipse is right here.
+
+14
+00:00:42,910 --> 00:00:45,940
+So this ellipse are these ellipses here, and
+
+15
+00:00:45,940 --> 00:00:47,840
+these are the slices to the surface.
+
+16
+00:00:49,010 --> 00:00:52,200
+Drawing them here, it's hard to see them because they get complicated.
+
+17
+00:00:52,200 --> 00:00:55,870
+But you'll notice each one of them, these slices, is an ellipse.
+
+18
+00:00:55,870 --> 00:00:58,570
+So basically now we can actually look at each one of
+
+19
+00:00:58,570 --> 00:01:00,930
+these slices as a single ellipse.
+
+20
+00:01:04,180 --> 00:01:08,620
+So again, this is my equation of the ellipse and in the surface and
+
+21
+00:01:08,620 --> 00:01:10,740
+these lines here on my ellipses.
+
+22
+00:01:10,740 --> 00:01:14,750
+Let's draw one ellipse out to just kind of see what we can measure out of this.
+
+23
+00:01:14,750 --> 00:01:19,271
+Remember where we were looking at, at any point the directions of changes at any
+
+24
+00:01:19,271 --> 00:01:23,589
+point and this direction and the magnitude of these change that will allow us
+
+25
+00:01:23,589 --> 00:01:27,300
+to kind of quantify at any point the strength of this feature that I
+
+26
+00:01:27,300 --> 00:01:31,420
+can actually use as a repeatable measure across two images.
+
+27
+00:01:31,420 --> 00:01:33,180
+Right? So, this is my center.
+
+28
+00:01:33,180 --> 00:01:36,830
+In this direction there is a change going on, from here to there.
+
+29
+00:01:36,830 --> 00:01:38,090
+It's a rather fast change.
+
+30
+00:01:38,090 --> 00:01:41,250
+I mean, the same magnitude is covered in over a short distance.
+
+31
+00:01:41,250 --> 00:01:46,690
+So in essence, we can start labeling this as maximum change.
+
+32
+00:01:46,690 --> 00:01:49,669
+So direction of fastest change is this direction in this ellipse.
+
+33
+00:01:50,820 --> 00:01:53,550
+And another one would be in this axis.
+
+34
+00:01:53,550 --> 00:01:57,120
+And we can refer to this as lambda min.
+
+35
+00:01:57,120 --> 00:01:59,160
+And this is direction of the slowest change.
+
+36
+00:02:00,190 --> 00:02:02,610
+Now, this is a very standard linear algebra trick.
+
+37
+00:02:02,610 --> 00:02:05,810
+Where basically when we have surfaces like this, and we have ellipses.
+
+38
+00:02:05,810 --> 00:02:11,380
+We can actually now compute the lambdas and also the orientation.
+
+39
+00:02:11,380 --> 00:02:15,200
+Notice again that while these are the values of lambdas,
+
+40
+00:02:15,200 --> 00:02:21,420
+this ellipse is rotated by certain angle from the original image at this point.
+
+41
+00:02:21,420 --> 00:02:27,308
+So, this is where we refer back to eigenvalue analysis where axis lengths,
+
+42
+00:02:27,308 --> 00:02:30,350
+the lambda values, are eigenvalues.
+
+43
+00:02:30,350 --> 00:02:34,229
+And the orientation is basically when you take these two vectors and
+
+44
+00:02:34,229 --> 00:02:36,678
+compare them to the normal axis or
+
+45
+00:02:36,678 --> 00:02:40,830
+frame of reference you know actually the angles of these two vectors.
+
+46
+00:02:40,830 --> 00:02:45,290
+So this allows us to now start quantifying the direction and
+
+47
+00:02:45,290 --> 00:02:50,530
+the quantity of change that goes on at any feature point in an image.
+
+48
+00:02:50,530 --> 00:02:51,680
+Help us simplify this,
+
+49
+00:02:51,680 --> 00:02:54,820
+now let's actually still continue to come up with newer ways.
+
+50
+00:02:54,820 --> 00:02:57,130
+Remember, we did come up with an M matrix here.
+
+51
+00:02:57,130 --> 00:03:00,220
+We can actually still go back and compute the M matrix this way.
+
+52
+00:03:00,220 --> 00:03:02,459
+This was the quadratic form we had looked at before.
+
+53
+00:03:03,510 --> 00:03:09,340
+And M here is a diagonal matrix which basically has nothing else but
+
+54
+00:03:09,340 --> 00:03:17,020
+R here and the two diagonals are the two eigenvalues, lambda1 and lambda2.
+
+55
+00:03:17,020 --> 00:03:19,720
+Let's talk about Rs in a bit because these are all methods we've come up
+
+56
+00:03:19,720 --> 00:03:22,350
+with to help us make an efficient set of calculations to
+
+57
+00:03:22,350 --> 00:03:23,570
+compute what we are interested in.

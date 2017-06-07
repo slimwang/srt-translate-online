@@ -1,0 +1,315 @@
+1
+00:00:00,340 --> 00:00:04,070
+So now let's look at a 2-D example of this.
+
+2
+00:00:04,070 --> 00:00:11,060
+Here I've basically shown you a nine by nine, image just as a sample.
+
+3
+00:00:11,060 --> 00:00:12,600
+And we will actually work around with this.
+
+4
+00:00:12,600 --> 00:00:16,010
+And note that basically I've filled it in with a lot of zeroes and 90s and
+
+5
+00:00:16,010 --> 00:00:18,920
+just to keep the, approach simple.
+
+6
+00:00:18,920 --> 00:00:21,870
+And these are intentionally designed to be values that we can actually do
+
+7
+00:00:21,870 --> 00:00:23,740
+some simple math with.
+
+8
+00:00:23,740 --> 00:00:27,150
+What we want to do now is smooth some aspects of this,
+
+9
+00:00:27,150 --> 00:00:29,480
+to be able to generate a newer, smoother image.
+
+10
+00:00:29,480 --> 00:00:33,030
+Here is the new image that I want to start filing in the values for.
+
+11
+00:00:33,030 --> 00:00:36,370
+Notice again that in this image, I've actually given values of 90s.
+
+12
+00:00:36,370 --> 00:00:41,350
+So you can imagine them to be the most, the peak value, of the image.
+
+13
+00:00:41,350 --> 00:00:45,060
+And again I've left us some holes with the zero here, black point, and
+
+14
+00:00:45,060 --> 00:00:48,130
+also 90 here to kind of give it some diversity, and
+
+15
+00:00:48,130 --> 00:00:50,230
+see how that actually generates itself.
+
+16
+00:00:50,230 --> 00:00:54,990
+To help us do this, let's actually look at a three by three neighborhood.
+
+17
+00:00:54,990 --> 00:00:58,300
+So while this image is nine-by-nine, I want to actually use
+
+18
+00:00:58,300 --> 00:01:03,180
+a three-by-three neighborhood to be able to then, smooth out and an intense,
+
+19
+00:01:03,180 --> 00:01:06,670
+basically the intention is, that every time I apply this three-by-three
+
+20
+00:01:06,670 --> 00:01:11,500
+neighborhood, I want to generate a new value, at this point, and place it here.
+
+21
+00:01:12,550 --> 00:01:13,810
+Okay? That's the goal.
+
+22
+00:01:13,810 --> 00:01:17,340
+So of course by looking at this, you can start guessing that if I was to do
+
+23
+00:01:17,340 --> 00:01:23,520
+a simple linear average, that is take the sum of all of this and divide by nine,
+
+24
+00:01:23,520 --> 00:01:25,920
+I would be able to come up with a value that I could place in here.
+
+25
+00:01:27,070 --> 00:01:30,080
+And that value of course would be zero.
+
+26
+00:01:30,080 --> 00:01:32,910
+Let's keep moving, and now I actually, next time what I'll do is, I want to
+
+27
+00:01:32,910 --> 00:01:36,870
+move this one frame here because we want to actually raster scan and move this
+
+28
+00:01:36,870 --> 00:01:41,190
+all over this image to be able to generate newer versions of the output image.
+
+29
+00:01:41,190 --> 00:01:44,260
+Now doing the summation over all of this neighborhood here, you would basically
+
+30
+00:01:44,260 --> 00:01:48,780
+see the summation is simply ninety, and of course I have nine divided by nine,
+
+31
+00:01:48,780 --> 00:01:53,540
+nine elements so you can predict what the next value is going to be, ten.
+
+32
+00:01:53,540 --> 00:01:55,950
+And we can keep doing this one after the other,
+
+33
+00:01:55,950 --> 00:02:00,340
+moving to the next one, one eighty is the sum divided that by.
+
+34
+00:02:00,340 --> 00:02:04,410
+nine, twenty and you can see basically,
+
+35
+00:02:04,410 --> 00:02:08,650
+how we can start filling up all of the values of this output matrix.
+
+36
+00:02:09,870 --> 00:02:13,600
+Once I'm done with this part here, of course I've filled in the ten and
+
+37
+00:02:13,600 --> 00:02:17,690
+now I need to rotate around, and start looking at these values here.
+
+38
+00:02:17,690 --> 00:02:18,580
+Move here.
+
+39
+00:02:18,580 --> 00:02:20,030
+Zero again.
+
+40
+00:02:20,030 --> 00:02:24,210
+Three values of ninety, so 270 divided by nine.
+
+41
+00:02:24,210 --> 00:02:27,830
+And using this, I can get all the way to the end here and,
+
+42
+00:02:27,830 --> 00:02:30,740
+fill in all of the values that came out of this process.
+
+43
+00:02:30,740 --> 00:02:34,220
+Now one thing you may notice that because the way we looked at our neighborhood
+
+44
+00:02:34,220 --> 00:02:38,880
+of three by three, and we're replacing the value here which is value here,
+
+45
+00:02:38,880 --> 00:02:43,550
+this whole top row, and the two edged columns, and
+
+46
+00:02:43,550 --> 00:02:45,550
+the bottom row are, of course, not filled.
+
+47
+00:02:45,550 --> 00:02:48,130
+We'll discuss how to fill that up in a, in a bit.
+
+48
+00:02:48,130 --> 00:02:49,440
+So while this thing is filled up,
+
+49
+00:02:49,440 --> 00:02:53,760
+let's now start looking at what really happened and what we can learn from this.
+
+50
+00:02:53,760 --> 00:02:55,210
+So a couple of interesting things happen.
+
+51
+00:02:55,210 --> 00:02:56,720
+There was a zero here.
+
+52
+00:02:56,720 --> 00:03:02,320
+If you noticed, the zero is now in this image, replaced by a much higher value.
+
+53
+00:03:02,320 --> 00:03:04,930
+Because again, if you notice it in both direction.
+
+54
+00:03:04,930 --> 00:03:08,170
+This pixel would have been of this intensity has been smoothed out.
+
+55
+00:03:08,170 --> 00:03:10,660
+Similarly there was a 90 here and it's been reduced to 10.
+
+56
+00:03:10,660 --> 00:03:14,690
+And again you may argue that actually the whole image now is
+
+57
+00:03:14,690 --> 00:03:16,290
+much smoother than this thinks.
+
+58
+00:03:16,290 --> 00:03:18,600
+Now of course there were two reasons we could have done this one.
+
+59
+00:03:18,600 --> 00:03:20,910
+Maybe this was some sort of an error.
+
+60
+00:03:20,910 --> 00:03:23,820
+Or maybe we just want to blur some information out.
+
+61
+00:03:23,820 --> 00:03:26,440
+And again both we will look at in careful detail.
+
+62
+00:03:26,440 --> 00:03:28,880
+Blurring or removing noise and error.
+
+63
+00:03:28,880 --> 00:03:31,880
+To help visualize this let me actually show this with a little bit of
+
+64
+00:03:31,880 --> 00:03:35,060
+information that's not just numbers, but shades of gray.
+
+65
+00:03:35,060 --> 00:03:37,780
+To achieve this, what I'm doing now is creating the same image,
+
+66
+00:03:37,780 --> 00:03:40,450
+except now I'm giving white values to all 90.
+
+67
+00:03:40,450 --> 00:03:43,750
+Assume this to be 255 equivalent scale between zero and 90.
+
+68
+00:03:43,750 --> 00:03:45,530
+And all of the blacks are, of course, still zero.
+
+69
+00:03:45,530 --> 00:03:47,290
+So this is my original image.
+
+70
+00:03:47,290 --> 00:03:49,380
+And now what I do is basically run the same process and
+
+71
+00:03:49,380 --> 00:03:51,060
+see what the output looks like.
+
+72
+00:03:51,060 --> 00:03:54,050
+So this would be what the output would look like for that image.
+
+73
+00:03:54,050 --> 00:03:57,550
+Again, smoothed out by an average filter that's
+
+74
+00:03:57,550 --> 00:04:00,670
+a three-by-three rubbed over the whole image.
+
+75
+00:04:00,670 --> 00:04:04,660
+And if you notice again, most of the 90s persist here because that's where
+
+76
+00:04:04,660 --> 00:04:08,960
+majority of the information was much more in the neighborhood the same.
+
+77
+00:04:08,960 --> 00:04:12,000
+And the rest of it now is kind of a simple smooth ramp,
+
+78
+00:04:12,000 --> 00:04:15,910
+as opposed in this one where it goes to 90 to zero and 90 to zero here.
+
+79
+00:04:15,910 --> 00:04:18,459
+All that kind of jagginess has been removed.

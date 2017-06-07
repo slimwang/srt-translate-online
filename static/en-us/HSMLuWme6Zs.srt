@@ -1,0 +1,271 @@
+1
+00:00:00,080 --> 00:00:03,170
+Let's show how you actually
+compile a .x file.
+
+2
+00:00:03,170 --> 00:00:07,700
+Assume that we're using the same squared
+example as in the previous videos.
+
+3
+00:00:07,700 --> 00:00:12,440
+In the file, the .x file for
+that example is square.x.
+
+4
+00:00:12,440 --> 00:00:17,140
+You'll see that by using this .x file,
+we will automatically generate
+
+5
+00:00:17,140 --> 00:00:21,700
+a bunch of the code that's used for the
+client and the server-side processing.
+
+6
+00:00:21,700 --> 00:00:25,540
+To do this,
+Sun RPC relies on a compiler, rpcgen.
+
+7
+00:00:25,540 --> 00:00:31,130
+And to generate C code,
+rpcgen is used with the option -c,
+
+8
+00:00:31,130 --> 00:00:36,486
+so that full command is rpcgen -c,
+and then square.x.
+
+9
+00:00:36,486 --> 00:00:39,190
+That's the .x XDR file.
+
+10
+00:00:39,190 --> 00:00:42,910
+The outcome of this operation will
+be that a number of files will be
+
+11
+00:00:42,910 --> 00:00:44,200
+generated.
+
+12
+00:00:44,200 --> 00:00:48,530
+First, they will generate a header file,
+square.h, that will have
+
+13
+00:00:48,530 --> 00:00:53,530
+all of the language-specific definitions
+of data types and function prototypes.
+
+14
+00:00:53,530 --> 00:00:58,370
+Next, they will generate the code for
+the client and the server-side stubs.
+
+15
+00:00:58,370 --> 00:01:02,240
+For the client, this is a proper stub,
+for the server side code,
+
+16
+00:01:02,240 --> 00:01:05,820
+this actually also includes
+the skeleton of the actual servers.
+
+17
+00:01:05,820 --> 00:01:07,810
+It has the main retaining.
+
+18
+00:01:07,810 --> 00:01:11,660
+The only thing that's not available
+will be the actual implementation of
+
+19
+00:01:11,660 --> 00:01:15,590
+the service, of the procedure, and this
+makes perfect sense since the compiler
+
+20
+00:01:15,590 --> 00:01:19,740
+has no way of knowing what exactly what
+do we want a particular procedure to do.
+
+21
+00:01:19,740 --> 00:01:21,680
+In this case, clearing a number.
+
+22
+00:01:21,680 --> 00:01:28,160
+Finally, the compilation stub will also
+generate a separate files, square_xdr.c.
+
+23
+00:01:28,160 --> 00:01:31,960
+And this will include some common code
+that's related to the marshalling and
+
+24
+00:01:31,960 --> 00:01:35,875
+unmarshalling routines for all of all
+of the data types, the arguments and
+
+25
+00:01:35,875 --> 00:01:40,235
+the results, that are used both at
+the client and on the server-side.
+
+26
+00:01:40,235 --> 00:01:44,815
+If you take a look at the file
+square_svc, which stands for
+
+27
+00:01:44,815 --> 00:01:47,665
+service, you will see
+that it has two parts.
+
+28
+00:01:47,665 --> 00:01:50,552
+The first part is the main function for
+the server and
+
+29
+00:01:50,552 --> 00:01:54,355
+that will include the code that,
+that does the registration step and
+
+30
+00:01:54,355 --> 00:01:58,160
+also some additional
+housekeeping co-operations.
+
+31
+00:01:58,160 --> 00:02:03,056
+In addition to main, the stubble
+contain all of the code that's related
+
+32
+00:02:03,056 --> 00:02:05,236
+to the particular RPC service.
+
+33
+00:02:05,236 --> 00:02:10,413
+So in our squared case,
+this is the square_prog service.
+
+34
+00:02:10,413 --> 00:02:14,369
+And, it is the first version of
+that particular service so for
+
+35
+00:02:14,369 --> 00:02:19,009
+all of the procedures in that particular
+service, the file will include
+
+36
+00:02:19,009 --> 00:02:22,750
+automatic regenerate code in
+order to parse the request.
+
+37
+00:02:22,750 --> 00:02:25,800
+So as to determine which
+particular procedure to be called
+
+38
+00:02:25,800 --> 00:02:28,550
+to generate the arguments,
+all of the argument
+
+39
+00:02:28,550 --> 00:02:32,580
+marshalling corporations will be
+invoked here, and other steps.
+
+40
+00:02:32,580 --> 00:02:37,260
+In addition, in the step file,
+the auto-generated code will include
+
+41
+00:02:37,260 --> 00:02:41,828
+the prototype for the actual procedure
+that's invoked in the server process.
+
+42
+00:02:41,828 --> 00:02:48,000
+For the square_proc procedure that we
+describe, this is the procedure name.
+
+43
+00:02:48,000 --> 00:02:52,510
+And that will include also the _1,
+that refers to the version number.
+
+44
+00:02:52,510 --> 00:02:55,772
+And this piece if code has to
+be implemented by the developer,
+
+45
+00:02:55,772 --> 00:02:57,857
+this is not automatically generated.
+
+46
+00:02:57,857 --> 00:03:02,939
+The client stub will include a procedure
+that's automatically generated,
+
+47
+00:03:02,939 --> 00:03:04,196
+squareproc_1.
+
+48
+00:03:04,196 --> 00:03:09,882
+And this will represent a wrapper for
+the actual RPC call that the client
+
+49
+00:03:09,882 --> 00:03:16,045
+makes to the server-side process where
+the implementation of the service,
+
+50
+00:03:16,045 --> 00:03:20,605
+this squareproc_1.svc
+is actually called.
+
+51
+00:03:20,605 --> 00:03:25,380
+Once we have all of this, the developer
+then writes the client application and
+
+52
+00:03:25,380 --> 00:03:29,110
+makes call to this wrapper function
+that looks something like this,
+
+53
+00:03:29,110 --> 00:03:31,540
+y equals squareproc of x.
+
+54
+00:03:31,540 --> 00:03:34,760
+This very much looks like
+a regular procedure call.
+
+55
+00:03:34,760 --> 00:03:38,070
+There is no need to create sockets,
+create buffers,
+
+56
+00:03:38,070 --> 00:03:41,970
+copy data into the buffers, and
+this is what makes RPC appealing.

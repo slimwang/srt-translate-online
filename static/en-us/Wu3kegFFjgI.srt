@@ -1,0 +1,163 @@
+1
+00:00:00,000 --> 00:00:05,000
+[Norvig] Another way to search is called backwards or regression search
+
+2
+00:00:05,000 --> 00:00:07,000
+in which we start at the goal.
+
+3
+00:00:07,000 --> 00:00:10,000
+So we take the description of the goal state.
+
+4
+00:00:10,000 --> 00:00:21,000
+C1 is at JFK and C2 is at SFO, so that's the goal state.
+
+5
+00:00:21,000 --> 00:00:23,000
+And notice that that's the complete goal state.
+
+6
+00:00:23,000 --> 00:00:26,000
+It's not that I left out all the other facts about the state;
+
+7
+00:00:26,000 --> 00:00:31,000
+it's that that's all that's known about the state is that these 2 propositions are true
+
+8
+00:00:31,000 --> 00:00:34,000
+and all the others can be anything you want.
+
+9
+00:00:34,000 --> 00:00:37,000
+And now we can start searching backwards.
+
+10
+00:00:37,000 --> 00:00:40,000
+We can say what actions would lead to that state.
+
+11
+00:00:40,000 --> 00:00:45,000
+Remember in problem solving we did have that option of searching backwards.
+
+12
+00:00:45,000 --> 00:00:51,000
+If there was a single goal state, we could say what other arcs are coming into that goal state.
+
+13
+00:00:51,000 --> 00:00:54,000
+But here, this goal state doesn't represent a single state;
+
+14
+00:00:54,000 --> 00:01:01,000
+it represents a whole family of states with different values for all the other variables.
+
+15
+00:01:01,000 --> 00:01:03,000
+And so we can't just look at that,
+
+16
+00:01:03,000 --> 00:01:10,000
+but what we can do is look at the definition of possible actions that will result in this goal.
+
+17
+00:01:10,000 --> 00:01:12,000
+So let's look at it one at a time.
+
+18
+00:01:12,000 --> 00:01:19,000
+Let's first look at what actions could result at C1, JFK.
+
+19
+00:01:19,000 --> 00:01:26,000
+We look at our action schema, and there's only 1 action schema that adds an At,
+
+20
+00:01:26,000 --> 00:01:30,000
+and that would be the Unload schema.
+
+21
+00:01:30,000 --> 00:01:37,000
+Unload of C, P, A adds C, A.
+
+22
+00:01:37,000 --> 00:01:40,000
+And so what we would know is if we want to achieve this,
+
+23
+00:01:40,000 --> 00:01:50,000
+then we would have to do an Unload where the C variable would have to be C1,
+
+24
+00:01:50,000 --> 00:01:55,000
+the P variable is still unknown--it could be any plane--
+
+25
+00:01:55,000 --> 00:02:01,000
+and the A variable has to be JFK.
+
+26
+00:02:01,000 --> 00:02:03,000
+Notice what we've done here.
+
+27
+00:02:03,000 --> 00:02:07,000
+We have this representation in terms of logical formula
+
+28
+00:02:07,000 --> 00:02:12,000
+that allows us to specify a goal as a set of many world states,
+
+29
+00:02:12,000 --> 00:02:18,000
+and we also can use that same representation to represent an arrow here
+
+30
+00:02:18,000 --> 00:02:21,000
+not as a single action but as a set of possible actions.
+
+31
+00:02:21,000 --> 00:02:26,000
+So this is representing all possible actions for any plane, P,
+
+32
+00:02:26,000 --> 00:02:29,000
+of unloading cargo at the destination.
+
+33
+00:02:29,000 --> 00:02:36,000
+And then we can regress this state over this operator
+
+34
+00:02:36,000 --> 00:02:40,000
+and now we have another representation of this state here.
+
+35
+00:02:40,000 --> 00:02:44,000
+But just as this state was uncertain--not all the variables were known--
+
+36
+00:02:44,000 --> 00:02:46,000
+this state too will be uncertain.
+
+37
+00:02:46,000 --> 00:02:51,000
+For example, we won't know anything about what plane, P, is involved,
+
+38
+00:02:51,000 --> 00:02:56,000
+and now we continue searching backwards until we get to a state
+
+39
+00:02:56,000 --> 00:03:01,000
+where enough of the variables are filled in and where we match against the initial state.
+
+40
+00:03:01,000 --> 00:03:03,000
+And then we have our solution.
+
+41
+00:03:03,000 --> 99:59:59,999
+We found it going backwards, but we can apply the solution going forwards.

@@ -1,0 +1,206 @@
+1
+00:00:00,480 --> 00:00:05,040
+To avoid skewing our data, we only want
+stores that have 68 weeks of data.
+
+2
+00:00:05,040 --> 00:00:08,310
+So we'll use a summarize tool to create
+a count of weeks for each store.
+
+3
+00:00:09,700 --> 00:00:11,300
+We'll group by store and
+
+4
+00:00:11,300 --> 00:00:15,150
+then count the distinct number
+of weeks related to each store.
+
+5
+00:00:15,150 --> 00:00:18,410
+Next, we can use the filter tool
+to keep only those stores that
+
+6
+00:00:18,410 --> 00:00:20,160
+have 68 weeks of data.
+
+7
+00:00:20,160 --> 00:00:23,930
+Using a join tool, we'll add back in
+the transaction data, but only for
+
+8
+00:00:23,930 --> 00:00:27,240
+those stores we identified
+as having 68 weeks of data.
+
+9
+00:00:27,240 --> 00:00:30,390
+We'll join on the store field and
+remove fields that we don't need.
+
+10
+00:00:31,570 --> 00:00:34,720
+We now have a data set with
+all of the information, but
+
+11
+00:00:34,720 --> 00:00:38,430
+reduced to only stores that
+have a full 68 weeks of data.
+
+12
+00:00:38,430 --> 00:00:40,780
+The day spa has a variety of services,
+but
+
+13
+00:00:40,780 --> 00:00:43,770
+we're only interested in the sales
+in gross margins for facials.
+
+14
+00:00:43,770 --> 00:00:46,620
+Since we are testing a change
+in the price of facials.
+
+15
+00:00:46,620 --> 00:00:50,140
+However, we still want to use total
+sales when calculating the store's sales
+
+16
+00:00:50,140 --> 00:00:53,300
+trends used to match control
+in treatment stores.
+
+17
+00:00:53,300 --> 00:00:56,505
+This is commonly done because total
+sales is a representative of foot
+
+18
+00:00:56,505 --> 00:00:58,250
+traffic for a store.
+
+19
+00:00:58,250 --> 00:01:02,450
+For this scenario, we'll be using
+unique sales invoices as a proxy for
+
+20
+00:01:02,450 --> 00:01:04,120
+store traffic.
+
+21
+00:01:04,120 --> 00:01:08,430
+Invoices currently span multiple rows,
+each row specifying a product or
+
+22
+00:01:08,430 --> 00:01:11,170
+service included in the transaction.
+
+23
+00:01:11,170 --> 00:01:13,710
+Using the summarize tool,
+let's aggregate the data so
+
+24
+00:01:13,710 --> 00:01:15,740
+we have one invoice per row.
+
+25
+00:01:15,740 --> 00:01:18,840
+We want the total gross margin and
+sales amount, per invoice, and
+
+26
+00:01:18,840 --> 00:01:20,660
+whether the invoice contained a facial,
+or not.
+
+27
+00:01:20,660 --> 00:01:25,090
+So we'll start by grouping the regions'
+store invoice number and date fields.
+
+28
+00:01:25,090 --> 00:01:30,060
+And we'll calculate the sum of
+the gross margin and sales fields and
+
+29
+00:01:30,060 --> 00:01:33,610
+then we'll count the distinct non
+null for the facial flag field.
+
+30
+00:01:33,610 --> 00:01:36,870
+The reason for
+this is the facial flag will be
+
+31
+00:01:36,870 --> 00:01:41,270
+null if there is no facial involvement
+in transaction and it'll be one for
+
+32
+00:01:41,270 --> 00:01:43,540
+each line item with a facial in it.
+
+33
+00:01:43,540 --> 00:01:47,410
+What the count distinct non null will
+do is it'll give us one for an invoice
+
+34
+00:01:47,410 --> 00:01:51,870
+that had a facial, and a zero for
+an invoice that didn't have a facial.
+
+35
+00:01:51,870 --> 00:01:54,900
+While a number of difference performance
+measures could be used to calculate
+
+36
+00:01:54,900 --> 00:01:58,410
+trend and seasonality,
+we'll be using store foot traffic
+
+37
+00:01:58,410 --> 00:02:02,540
+determined by calculating the number
+of invoices per week for our analysis.
+
+38
+00:02:02,540 --> 00:02:05,290
+Again, we'll look to the Summarize
+tool to help us out, and
+
+39
+00:02:05,290 --> 00:02:07,810
+count the number of invoices
+per store per week.
+
+40
+00:02:09,060 --> 00:02:13,730
+We now have a data set that we wanted
+that shows the invoices per store
+
+41
+00:02:13,730 --> 00:02:16,690
+per week,
+along with the data information.
+
+42
+00:02:16,690 --> 00:02:19,980
+So let's drag an output data tool onto
+the canvas, and save this file for
+
+43
+00:02:19,980 --> 00:02:20,680
+later use.

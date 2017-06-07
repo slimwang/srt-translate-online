@@ -1,0 +1,247 @@
+1
+00:00:00,250 --> 00:00:03,260
+Okay. Let's take a look at what's happening in the system.
+
+2
+00:00:03,260 --> 00:00:06,430
+In the first case, we have ten toy orders.
+
+3
+00:00:06,430 --> 00:00:08,498
+Both solutions have six threads each.
+
+4
+00:00:08,498 --> 00:00:13,950
+For the boss-workers case, that means that one of the threads will be the boss,
+
+5
+00:00:13,950 --> 00:00:16,910
+and then the remaining five threads will be the workers.
+
+6
+00:00:16,910 --> 00:00:21,580
+For the pipeline model, each of the six threads will perform one stage,
+
+7
+00:00:21,580 --> 00:00:24,280
+one step in the toy order application.
+
+8
+00:00:24,280 --> 00:00:29,490
+So, for the boss-workers case, because we have five worker threads, at any given
+
+9
+00:00:29,490 --> 00:00:34,440
+point of time, these workers will be able to process up to five toy orders.
+
+10
+00:00:34,440 --> 00:00:38,640
+So, if we have ten toy orders, for the boss-worker model,
+
+11
+00:00:38,640 --> 00:00:43,020
+the workers will process the first five orders,
+
+12
+00:00:43,020 --> 00:00:46,830
+given that we have five workers, at the same time.
+
+13
+00:00:46,830 --> 00:00:50,720
+And every single one of them will take 120 milliseconds, so
+
+14
+00:00:50,720 --> 00:00:54,580
+the first five toy orders will be processed in 120 milliseconds.
+
+15
+00:00:54,580 --> 00:00:59,170
+The next five orders will take additional 120 milliseconds for
+
+16
+00:00:59,170 --> 00:01:00,930
+a total of 240 milliseconds.
+
+17
+00:01:00,930 --> 00:01:06,130
+For the pipeline case, the very first toy order will
+
+18
+00:01:06,130 --> 00:01:11,020
+take 120 milliseconds to go through the six stages of the pipeline.
+
+19
+00:01:11,020 --> 00:01:13,120
+So 6 times 20 milliseconds.
+
+20
+00:01:13,120 --> 00:01:18,000
+Then, once the first toy order exits the pipeline, that
+
+21
+00:01:18,000 --> 00:01:22,740
+means that the second toy order is already in the last stage of the pipeline.
+
+22
+00:01:22,740 --> 00:01:25,690
+So we'll take another 20 seconds to finish.
+
+23
+00:01:25,690 --> 00:01:29,050
+And then the third toy order will be immediately afterwards.
+
+24
+00:01:29,050 --> 00:01:32,430
+It will take additional 20 milliseconds to finish.
+
+25
+00:01:32,430 --> 00:01:37,280
+So given that we have nine remaining orders after the first one, the total
+
+26
+00:01:37,280 --> 00:01:43,520
+processing time for the pipeline case when we have ten toy orders is as follows.
+
+27
+00:01:43,520 --> 00:01:47,650
+120 for the first one, and then 9 times 20 to
+
+28
+00:01:47,650 --> 00:01:51,750
+complete the last stage of every single one of the remaining nine toys.
+
+29
+00:01:51,750 --> 00:01:52,850
+That's 300 milliseconds.
+
+30
+00:01:53,910 --> 00:01:56,170
+Now, if we have 11 toy orders,
+
+31
+00:01:56,170 --> 00:02:01,040
+we will process the first ten in the exact same manner as before.
+
+32
+00:02:01,040 --> 00:02:02,580
+We have five worker threads.
+
+33
+00:02:02,580 --> 00:02:05,970
+They can only process five toy orders at the same time.
+
+34
+00:02:05,970 --> 00:02:11,390
+So the first ten out of these 11 will be processed in 240 milliseconds.
+
+35
+00:02:11,390 --> 00:02:15,903
+Then, the 11th order will take another 120 milliseconds.
+
+36
+00:02:15,903 --> 00:02:18,672
+Only one of the workers will be busy.
+
+37
+00:02:18,672 --> 00:02:22,110
+Only one of the workers will be processing that toy order.
+
+38
+00:02:22,110 --> 00:02:27,250
+However, it will take an additional 120 milliseconds to complete all
+
+39
+00:02:27,250 --> 00:02:30,440
+of the 11 toy orders for a total of 360 milliseconds.
+
+40
+00:02:31,910 --> 00:02:36,390
+For the pipeline case, applying the exact same reasoning as before,
+
+41
+00:02:36,390 --> 00:02:41,400
+when we have 11 toys, it will take 120 to process the first one.
+
+42
+00:02:41,400 --> 00:02:46,270
+And then for the remaining ten, it will take another 20 milliseconds for
+
+43
+00:02:46,270 --> 00:02:50,400
+every single one of them to finish the last stage of the pipeline.
+
+44
+00:02:50,400 --> 00:02:53,240
+So we'll take a total of 320 millisecond for
+
+45
+00:02:53,240 --> 00:02:56,600
+the pipeline approach to process 11 toys.
+
+46
+00:02:56,600 --> 00:03:00,890
+If we look at these results, we see that the boss-worker model is better in
+
+47
+00:03:00,890 --> 00:03:03,580
+one case, when there are only ten toy orders in the system.
+
+48
+00:03:03,580 --> 00:03:07,650
+And then the pipeline approach is better in the other case,
+
+49
+00:03:07,650 --> 00:03:10,050
+when there are 11 toy orders in the system.
+
+50
+00:03:10,050 --> 00:03:14,010
+This illustrates the fact that there isn't a single way to
+
+51
+00:03:14,010 --> 00:03:17,590
+say that one pattern or the other is better.
+
+52
+00:03:17,590 --> 00:03:20,640
+As this example illustrates, the answer to that
+
+53
+00:03:20,640 --> 00:03:25,510
+can depend very much on the input that that application receives.
+
+54
+00:03:25,510 --> 00:03:30,355
+For one input, an input of ten toy orders, one implementation is better,
+
+55
+00:03:30,355 --> 00:03:35,970
+whereas for another input of 11 toy orders, the other implementation is better.
+
+56
+00:03:35,970 --> 00:03:40,590
+And finally, you should note that we really simplified the calculation of
+
+57
+00:03:40,590 --> 00:03:43,230
+the execution times of the different models because we
+
+58
+00:03:43,230 --> 00:03:46,930
+ignored overheads due to synchronization, overheads due
+
+59
+00:03:46,930 --> 00:03:52,200
+to passing data among the threads through the shared memory queues.
+
+60
+00:03:52,200 --> 00:03:55,110
+In reality, you'd actually have to perform a little bit more
+
+61
+00:03:55,110 --> 00:03:59,730
+complex experimental analysis to come up with these answers and draw
+
+62
+00:03:59,730 --> 00:04:04,340
+conclusions as to which pattern is better suited for a particular application.

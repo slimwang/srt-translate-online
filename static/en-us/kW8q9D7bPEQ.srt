@@ -1,0 +1,116 @@
+1
+00:00:00,250 --> 00:00:04,830
+Another important design point in
+distributed shared memory systems
+
+2
+00:00:04,830 --> 00:00:09,200
+is to understand what are the types
+of access algorithms that
+
+3
+00:00:09,200 --> 00:00:12,620
+need to be supported on
+top of that DSM solution?
+
+4
+00:00:12,620 --> 00:00:16,260
+In other words, to understand what are
+the kinds of applications that will be
+
+5
+00:00:16,260 --> 00:00:18,510
+running on top of the DSM layer.
+
+6
+00:00:18,510 --> 00:00:22,090
+The simplest example is
+single reader/single writer.
+
+7
+00:00:22,090 --> 00:00:24,040
+For these kinds of applications,
+
+8
+00:00:24,040 --> 00:00:29,140
+the main role of the DSM layer
+is to provide additional memory,
+
+9
+00:00:29,140 --> 00:00:33,530
+to provide the application with
+the ability to access remote memory.
+
+10
+00:00:33,530 --> 00:00:36,610
+In this case,
+there really aren't any consistency or
+
+11
+00:00:36,610 --> 00:00:40,960
+sharing related challenges that need
+to be supported at the DSM layer.
+
+12
+00:00:40,960 --> 00:00:45,110
+The more complex examples are of
+an application support either multiple
+
+13
+00:00:45,110 --> 00:00:50,050
+readers and single writer, or both
+multiple readers and multiple writers.
+
+14
+00:00:50,050 --> 00:00:53,030
+In those cases,
+it's not just about how to read or
+
+15
+00:00:53,030 --> 00:00:58,300
+write to the correct physical memory
+location in the distributed system, but
+
+16
+00:00:58,300 --> 00:01:03,370
+it's also about how to make sure that
+the reads return the correctly written,
+
+17
+00:01:03,370 --> 00:01:07,330
+the most recently written value of
+a particular memory location, and
+
+18
+00:01:07,330 --> 00:01:11,110
+also that all of the writes that
+are performed are correctly ordered.
+
+19
+00:01:11,110 --> 00:01:16,110
+This is necessary so as to present the
+consistent view of the distributed state
+
+20
+00:01:16,110 --> 00:01:20,280
+of the distributed shared memory
+to all of the nodes in the system.
+
+21
+00:01:20,280 --> 00:01:22,990
+Multiple reader,
+single writer, is a special,
+
+22
+00:01:22,990 --> 00:01:26,860
+simpler case of the multiple reader,
+multiple writer problem.
+
+23
+00:01:26,860 --> 00:01:31,600
+And so, in our discussion in this
+lesson, we will focus on DSM support for
+
+24
+00:01:31,600 --> 00:01:33,420
+multiple readers, multiple writers.

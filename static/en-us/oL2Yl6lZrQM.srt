@@ -1,0 +1,274 @@
+﻿1
+00:00:00,770 --> 00:00:02,490
+We're not done yet.
+
+2
+00:00:02,490 --> 00:00:03,640
+Things are working, but
+
+3
+00:00:03,640 --> 00:00:06,040
+there are lots of things that
+aren't being handled well.
+
+4
+00:00:06,040 --> 00:00:08,179
+What happens if there
+are slow connectivity?
+
+5
+00:00:08,179 --> 00:00:10,449
+What happens if there
+isn't any connectivity?
+
+6
+00:00:10,449 --> 00:00:13,189
+We're going to add a bit of polish to
+make for a better user experience.
+
+7
+00:00:13,189 --> 00:00:14,971
+[BLANK_AUDIO]
+
+8
+00:00:14,971 --> 00:00:19,817
+The to-do manager is, once again,
+wow, [LAUGH] that's a lot of to-dos.
+
+9
+00:00:19,817 --> 00:00:21,269
+Don't panic.
+
+10
+00:00:21,269 --> 00:00:24,405
+Remember the polish takes time, and this
+is the kind of stuff that distinguishes
+
+11
+00:00:24,405 --> 00:00:26,760
+pro-Android apps from the rest.
+
+12
+00:00:26,760 --> 00:00:30,107
+We'll start by adding an error
+string called error_message.
+
+13
+00:00:30,106 --> 00:00:33,060
+We're going to display this
+whenever the response is null, so
+
+14
+00:00:33,060 --> 00:00:35,940
+we're going to make
+the message very generic.
+
+15
+00:00:35,939 --> 00:00:37,789
+Failed to get results, please try again.
+
+16
+00:00:37,789 --> 00:00:38,810
+Sounds pretty good to us.
+
+17
+00:00:40,390 --> 00:00:41,859
+Let's talk about layout.
+
+18
+00:00:41,859 --> 00:00:44,649
+We're going to display something
+alternate in the area that currently
+
+19
+00:00:44,649 --> 00:00:47,869
+houses our scrollview when there
+is an error or during progress.
+
+20
+00:00:49,024 --> 00:00:52,664
+To begin to do this, we'll wrap
+the scroll view with the frame layout,
+
+21
+00:00:52,664 --> 00:00:55,884
+meaning that we add a frame layout
+to the linear layout at the same
+
+22
+00:00:55,884 --> 00:01:00,254
+level as the scroll view and move
+the scroll view into the frame layout.
+
+23
+00:01:00,255 --> 00:01:03,605
+We want to make sure that the frame
+layout takes up all the remaining space
+
+24
+00:01:03,604 --> 00:01:07,034
+in the linear layout, so we tell it to
+match the parent in height and width.
+
+25
+00:01:08,694 --> 00:01:13,368
+Next, we'll add a text view to
+display the error message, setting
+
+26
+00:01:13,368 --> 00:01:18,379
+the text size to 22 sp and giving
+it an ID of error_message_display.
+
+27
+00:01:18,379 --> 00:01:22,186
+We'll give it the same padding as the
+scroll view, set it to the error stream
+
+28
+00:01:22,186 --> 00:01:24,879
+we just created, and
+make it start off as invisible.
+
+29
+00:01:26,189 --> 00:01:28,039
+Let's now go to MainActivity.
+
+30
+00:01:28,040 --> 00:01:30,865
+First, we'll create a member variable
+to store the reference to our
+
+31
+00:01:30,864 --> 00:01:33,375
+errorMessageText and
+then set it in onCreate.
+
+32
+00:01:34,704 --> 00:01:44,704
+[BLANK_AUDIO]
+
+33
+00:01:47,313 --> 00:01:50,934
+Now we'll add some helper methods,
+first one to show the JSON data view and
+
+34
+00:01:50,935 --> 00:01:53,034
+then one to show the error message.
+
+35
+00:01:53,034 --> 00:01:54,974
+These methods will show
+the selected view and
+
+36
+00:01:54,974 --> 00:01:57,174
+hide the other by setting
+the visibility of each view.
+
+37
+00:01:58,730 --> 00:02:01,420
+Finally, let's go to onPostExecute.
+
+38
+00:02:01,420 --> 00:02:05,120
+If our result is not null or empty,
+we'll add an else to show the error
+
+39
+00:02:05,120 --> 00:02:08,319
+message with showErrorMessage,
+but we're not done yet.
+
+40
+00:02:08,319 --> 00:02:10,008
+When we have a successful transaction,
+
+41
+00:02:10,008 --> 00:02:13,039
+we'll show the JSON data view
+with our new helper method.
+
+42
+00:02:13,039 --> 00:02:17,469
+Otherwise, the view might be hidden if
+the user first had a failed transaction.
+
+43
+00:02:17,469 --> 00:02:20,109
+Let's run this to see what happens
+when we don't have Internet now.
+
+44
+00:02:20,110 --> 00:02:25,980
+[BLANK_AUDIO]
+
+45
+00:02:25,979 --> 00:02:28,149
+Now we'll hook up the progress bar.
+
+46
+00:02:28,150 --> 00:02:29,879
+We go back to the main activity layout,
+
+47
+00:02:29,879 --> 00:02:32,289
+and add a progress bar
+to the frame layout.
+
+48
+00:02:32,289 --> 00:02:36,841
+We'll fix its layout, height, and width
+and tell frame layout to center it.
+
+49
+00:02:36,842 --> 00:02:39,566
+We'll give it an ID of
+pb_loading_indicator.
+
+50
+00:02:39,566 --> 00:02:41,560
+Then, we'll make it invisible.
+
+51
+00:02:41,560 --> 00:02:49,090
+[BLANK_AUDIO]
+
+52
+00:02:49,090 --> 00:02:52,842
+Back to main activity, as before, we'll
+start by adding a member variable and
+
+53
+00:02:52,842 --> 00:02:54,150
+setting this in onCreate.
+
+54
+00:02:54,150 --> 00:03:03,799
+[BLANK_AUDIO]
+
+55
+00:03:03,799 --> 00:03:07,587
+In our onPreExecute, we'll set the
+visibility of this loading indicator to
+
+56
+00:03:07,586 --> 00:03:12,139
+visible, and in the onPostExecute,
+we'll begin by setting it to invisible.
+
+57
+00:03:12,139 --> 00:03:14,855
+Because it is last in
+the frame layout XML,
+
+58
+00:03:14,855 --> 00:03:17,653
+it will draw on top of
+any of the other views.
+
+59
+00:03:17,653 --> 00:03:27,653
+[BLANK_AUDIO]
+

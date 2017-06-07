@@ -1,0 +1,350 @@
+1
+00:00:00,387 --> 00:00:04,870
+AsyncTask is unlike all the other
+classes that we've used before.
+
+2
+00:00:04,870 --> 00:00:06,120
+All the other classes,
+
+3
+00:00:06,120 --> 00:00:09,443
+like activity or view,
+perform their work on the main thread.
+
+4
+00:00:09,443 --> 00:00:11,663
+>> Yeah, with AsyncTask, however,
+
+5
+00:00:11,663 --> 00:00:15,886
+some parts of the class are run on
+the main thread in the foreground.
+
+6
+00:00:15,886 --> 00:00:19,868
+And other parts of the task
+are run on a separate thread,
+
+7
+00:00:19,868 --> 00:00:22,682
+which is obviously in the background.
+
+8
+00:00:22,682 --> 00:00:26,510
+>> Yes, so AsyncTask deals
+with more than one thread.
+
+9
+00:00:26,510 --> 00:00:29,610
+So let's walk through this
+together step by step.
+
+10
+00:00:29,610 --> 00:00:32,740
+AsyncTask is an abstract class.
+
+11
+00:00:32,740 --> 00:00:37,385
+You first learned about abstract classes
+from the last course with Jessica when
+
+12
+00:00:37,385 --> 00:00:40,495
+you were building
+the Miwok language app.
+
+13
+00:00:40,495 --> 00:00:43,595
+An abstract class contains some
+methods that are left blank for
+
+14
+00:00:43,595 --> 00:00:49,425
+us as developers to override and
+provide our own implementations.
+
+15
+00:00:49,425 --> 00:00:54,050
+To use an AsyncTask,
+we'll need to make a custom subclass.
+
+16
+00:00:54,050 --> 00:00:56,470
+We'll call this one EarthquakeAsyncTask.
+
+17
+00:00:58,110 --> 00:01:01,995
+The subclass is required to override
+the method doInBackground().
+
+18
+00:01:03,340 --> 00:01:06,970
+From our earlier demonstration,
+whatever work you want to happen in
+
+19
+00:01:06,970 --> 00:01:11,780
+the background thread should be included
+in the doInBackground() method.
+
+20
+00:01:13,120 --> 00:01:15,780
+Once you've got the earthquake
+data from the server,
+
+21
+00:01:15,780 --> 00:01:17,330
+you probably want to update the UI.
+
+22
+00:01:17,330 --> 00:01:23,360
+But to update the UI you must be on the
+main thread, not a background thread.
+
+23
+00:01:25,130 --> 00:01:29,320
+So how do you communicate between
+the main and background threads?
+
+24
+00:01:29,320 --> 00:01:34,020
+You can override a method in
+AsyncTask called onPostExecute().
+
+25
+00:01:34,020 --> 00:01:38,320
+This method runs on the main thread
+which is why I highlighted it in green.
+
+26
+00:01:38,320 --> 00:01:41,790
+This method will be called after
+the background work is done,
+
+27
+00:01:41,790 --> 00:01:43,996
+which is why it's
+called onPostExecute().
+
+28
+00:01:45,550 --> 00:01:47,990
+If I reveal more details
+about the methods,
+
+29
+00:01:47,990 --> 00:01:51,460
+we can see that the doInBackground()
+method returns a result.
+
+30
+00:01:52,790 --> 00:01:58,263
+That result is passed in as the input
+to the onPostExecute() method.
+
+31
+00:01:58,263 --> 00:02:02,526
+If the result of the doInBackground()
+method is a list of earthquakes from
+
+32
+00:02:02,526 --> 00:02:07,187
+the server, then in onPostExecute() that
+list of data now has been migrated back
+
+33
+00:02:07,187 --> 00:02:10,651
+to the main thread where we can
+update the ListView in the app to
+
+34
+00:02:10,651 --> 00:02:11,930
+display the new data.
+
+35
+00:02:13,140 --> 00:02:18,540
+If you need to, there is also
+an AsyncTask method named OnPreExecut()
+
+36
+00:02:18,540 --> 00:02:22,420
+which is called on the main thread
+before the background work is started,
+
+37
+00:02:22,420 --> 00:02:24,440
+hence the name onPreExecute().
+
+38
+00:02:24,440 --> 00:02:28,930
+Developers will override this method if
+there's something that needs to be done
+
+39
+00:02:28,930 --> 00:02:30,930
+before preparing to do
+the background work.
+
+40
+00:02:32,590 --> 00:02:35,540
+Sometimes the background work
+can take a really long time.
+
+41
+00:02:36,920 --> 00:02:40,320
+Some developers may want to update
+the user about the progress in
+
+42
+00:02:40,320 --> 00:02:41,010
+the background task.
+
+43
+00:02:42,280 --> 00:02:45,000
+For example, an app may download
+a photo from the Internet,
+
+44
+00:02:45,000 --> 00:02:47,070
+it may display a progress
+bar in the meantime.
+
+45
+00:02:48,446 --> 00:02:52,786
+Within the doInBackground() method,
+we can periodically call
+
+46
+00:02:52,786 --> 00:02:56,978
+the publishProgress method and
+pass on the new progress value.
+
+47
+00:02:56,978 --> 00:03:01,252
+Then we can override the
+onProgressUpdate method which occurs on
+
+48
+00:03:01,252 --> 00:03:06,301
+the main thread, which can be used to
+update the UI with a new progress value,
+
+49
+00:03:06,301 --> 00:03:08,850
+which is 72% in this case.
+
+50
+00:03:08,850 --> 00:03:12,700
+Let's look at the documentation for
+the AsyncTask class.
+
+51
+00:03:12,700 --> 00:03:15,219
+We can scroll down to
+the methods section and
+
+52
+00:03:15,219 --> 00:03:19,319
+you can see that doInBackground is
+listed as being an abstract method.
+
+53
+00:03:19,319 --> 00:03:22,480
+So we are required to
+implement this method.
+
+54
+00:03:22,480 --> 00:03:26,124
+We also recognize other
+methods like onPreExecute(),
+
+55
+00:03:26,124 --> 00:03:28,662
+onProgressUpdate and onPostExecute.
+
+56
+00:03:28,662 --> 00:03:31,934
+These methods are not abstract,
+so it's not required for
+
+57
+00:03:31,934 --> 00:03:33,745
+us to implement these methods.
+
+58
+00:03:34,905 --> 00:03:38,411
+Scrolling back up, we can also find
+this code example of a class called
+
+59
+00:03:38,411 --> 00:03:42,815
+DownloadFilesTask that
+subclasses AsyncTask.
+
+60
+00:03:42,815 --> 00:03:46,060
+We'll talk about this
+example in more detail later.
+
+61
+00:03:46,060 --> 00:03:49,700
+But the main gist is that in
+the doInBackground() method, a file is
+
+62
+00:03:49,700 --> 00:03:54,680
+downloaded, which can take a long time,
+so it's done on a background thread.
+
+63
+00:03:54,680 --> 00:03:57,910
+Note that the input in the
+doInBackground() method can be a list of
+
+64
+00:03:57,910 --> 00:04:02,350
+items to process, which in this case,
+is a list of files to download.
+
+65
+00:04:02,350 --> 00:04:04,940
+Progress is reported incrementally and
+
+66
+00:04:04,940 --> 00:04:08,590
+we can update the screen with
+the percentage progress so far.
+
+67
+00:04:08,590 --> 00:04:12,420
+After the background work is completed,
+we show a dialogue with how many
+
+68
+00:04:12,420 --> 00:04:15,110
+bytes of information were
+downloaded successfully.
+
+69
+00:04:16,279 --> 00:04:20,483
+Now in this quiz, I want you to fill
+in this table about the most common
+
+70
+00:04:20,483 --> 00:04:22,528
+callback methods in AsyncTask.
+
+71
+00:04:22,528 --> 00:04:27,240
+Describe what each method is called in
+your own words, then indicate whether
+
+72
+00:04:27,240 --> 00:04:31,640
+the method is run on the main thread or
+on a background thread.
+
+73
+00:04:31,640 --> 00:04:34,120
+You can check the link below
+the quiz if you need help.

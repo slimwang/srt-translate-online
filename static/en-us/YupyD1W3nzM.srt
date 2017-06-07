@@ -1,0 +1,347 @@
+1
+00:00:00,000 --> 00:00:04,944
+>> The bottom line is in order for you to pick a threshold if you wanted to do
+
+2
+00:00:04,944 --> 00:00:08,809
+this sort of analytically, what you need is a noise model.
+
+3
+00:00:08,809 --> 00:00:11,885
+And unfortunately, this noise model is not the same model as the thing we
+
+4
+00:00:11,885 --> 00:00:12,749
+were going before.
+
+5
+00:00:12,749 --> 00:00:15,316
+It's not our line, it's our dist, it's our belief.
+
+6
+00:00:15,316 --> 00:00:19,820
+I'll use the word belief, maybe, instead of model of no, because it's model.
+
+7
+00:00:19,820 --> 00:00:22,757
+It's a model of how that the, the noise behaves.
+
+8
+00:00:22,757 --> 00:00:25,760
+So let's go back to our line example, you remember this?
+
+9
+00:00:25,760 --> 00:00:29,566
+So if we were just looking at a line so let's assume that we,
+
+10
+00:00:29,566 --> 00:00:31,680
+you know, we have this real line and
+
+11
+00:00:31,680 --> 00:00:35,703
+that our points are perturbed by a Gaussian by Gaussian noise.
+
+12
+00:00:35,703 --> 00:00:38,406
+This is the thing we looked at last time.
+
+13
+00:00:38,406 --> 00:00:43,144
+So the distance in a Gaussian is sometimes a complicated thing.
+
+14
+00:00:43,144 --> 00:00:47,051
+So you've got multi-dimensional Gaussian, you may know about Chi squared and
+
+15
+00:00:47,051 --> 00:00:50,751
+that the, and the square root of that is the distribution of, of the distances.
+
+16
+00:00:50,751 --> 00:00:54,056
+In one d, it's actually much easier.
+
+17
+00:00:54,056 --> 00:00:57,185
+It's essentially what's called a half normal.
+
+18
+00:00:57,185 --> 00:01:02,342
+Because basically, you know, the probability that you're d, o, a is, it's,
+
+19
+00:01:02,342 --> 00:01:06,933
+you could either be d this way or d that way, but d is only a positive value.
+
+20
+00:01:06,933 --> 00:01:09,937
+So it's just twice the regular Gaussian distribution.
+
+21
+00:01:09,937 --> 00:01:13,074
+That's what this dis distribution here looks like.
+
+22
+00:01:13,074 --> 00:01:15,142
+Because it says, d greater than zero.
+
+23
+00:01:15,142 --> 00:01:19,109
+But all that matters is given a noise model,
+
+24
+00:01:19,109 --> 00:01:22,550
+you could generate a distance model.
+
+25
+00:01:22,550 --> 00:01:25,853
+And given a distance model, you could pick a threshold.
+
+26
+00:01:25,853 --> 00:01:29,764
+So in fact, if you have this 1D Gaussian, let's say and
+
+27
+00:01:29,764 --> 00:01:34,819
+let's suppose it has a distribution of, of parameter of sigma squared,
+
+28
+00:01:34,819 --> 00:01:38,833
+then you could set the threshold t, based upon t squared.
+
+29
+00:01:38,833 --> 00:01:41,969
+Is this number 3.84 sigma squared?
+
+30
+00:01:41,969 --> 00:01:44,405
+Where the heck does 3.84 come from?
+
+31
+00:01:44,405 --> 00:01:49,484
+Well, I just arbitrarily said, lets pick a threshold such that
+
+32
+00:01:49,484 --> 00:01:54,014
+95% of the inliers would fall within that threshold.
+
+33
+00:01:54,014 --> 00:02:00,654
+So 95%, if you got sigma squared then I said, t squared at 3.84 sigma squared.
+
+34
+00:02:00,654 --> 00:02:05,160
+If you wanted 99%, you'd have to make it bigger threshold.
+
+35
+00:02:05,160 --> 00:02:07,728
+If you're willing to remove some points, you'd make it a smaller one.
+
+36
+00:02:07,728 --> 00:02:09,830
+But the idea is that you have some threshold.
+
+37
+00:02:09,830 --> 00:02:12,603
+And then you're going to accept the point if the distance D
+
+38
+00:02:12,603 --> 00:02:16,037
+is less than that threshold, you'll count that point as an inlier.
+
+39
+00:02:16,037 --> 00:02:16,604
+Okay?
+
+40
+00:02:16,604 --> 00:02:17,839
+Cool. All right.
+
+41
+00:02:17,839 --> 00:02:19,540
+So let's see, we've got our number of points.
+
+42
+00:02:19,540 --> 00:02:23,344
+We have our distance threshold t, it says what we did here before.
+
+43
+00:02:23,344 --> 00:02:25,746
+We've go one more.
+
+44
+00:02:25,746 --> 00:02:28,215
+The number of samples we're going to compute.
+
+45
+00:02:28,215 --> 00:02:31,919
+Now this is not s, the number of points within a sample.
+
+46
+00:02:31,919 --> 00:02:35,990
+Right? A sample is a set of points that it takes to compute a model.
+
+47
+00:02:35,990 --> 00:02:39,593
+This is how many times are we going to draw a sample.
+
+48
+00:02:39,593 --> 00:02:43,430
+How many models are we going to try and check.
+
+49
+00:02:43,430 --> 00:02:50,104
+So what we'd like to do is we'd like to choose N to be big enough.
+
+50
+00:02:50,104 --> 00:02:55,409
+That we can't actually guarantee that we're always going to get inliers, can we?
+
+51
+00:02:55,409 --> 00:02:56,344
+Right?
+
+52
+00:02:56,344 --> 00:02:59,251
+Because if we're randomly picking points, et cetera and
+
+53
+00:02:59,251 --> 00:03:02,349
+unless we were to exhaustively pick all, say, N choose two.
+
+54
+00:03:02,349 --> 00:03:06,198
+If we're just randomly picking things, it's only with probability that we
+
+55
+00:03:06,198 --> 00:03:09,523
+can say that, what's the likelihood that we got a good solution?
+
+56
+00:03:09,523 --> 00:03:14,073
+So what's we're going to do is let's pick a probability p and
+
+57
+00:03:14,073 --> 00:03:17,484
+what we want to know is how big does N have to be,
+
+58
+00:03:17,484 --> 00:03:22,403
+such that the probability is p, let's say, 0.99, 99%.
+
+59
+00:03:22,403 --> 00:03:26,099
+That at least one of our samples will just be made up of
+
+60
+00:03:26,099 --> 00:03:29,044
+points that come from the correct model?
+
+61
+00:03:29,044 --> 00:03:29,677
+Right?
+
+62
+00:03:29,677 --> 00:03:31,363
+So, that's a way of saying if,
+
+63
+00:03:31,363 --> 00:03:35,115
+if this line, I actually get two points that really came from the line.
+
+64
+00:03:35,115 --> 00:03:37,383
+Or another way of saying it is, I've got this,
+
+65
+00:03:37,383 --> 00:03:41,155
+all these putative matches that are compute and I want to compute a homography.
+
+66
+00:03:41,155 --> 00:03:44,703
+I want at least one set of four matches that I
+
+67
+00:03:44,703 --> 00:03:48,462
+test to actually be the correct homography.
+
+68
+00:03:48,462 --> 00:03:49,430
+All right.
+
+69
+00:03:49,430 --> 00:03:51,966
+So the question there is can we figure that out?
+
+70
+00:03:51,966 --> 00:03:54,802
+And in particular, it should be pretty clear.
+
+71
+00:03:54,802 --> 00:03:57,338
+What if all the points were right?
+
+72
+00:03:57,338 --> 00:04:00,241
+That is all the matches were right.
+
+73
+00:04:00,241 --> 00:04:03,041
+Well, then as soon as you pick some set of four, you would have four
+
+74
+00:04:03,041 --> 00:04:05,746
+points that's correct and you would get the right homography.
+
+75
+00:04:05,746 --> 00:04:08,716
+What if none of the point matches were correct?
+
+76
+00:04:08,716 --> 00:04:10,800
+Well, then you could be there all day and
+
+77
+00:04:10,800 --> 00:04:12,954
+you're never going to get four that match.
+
+78
+00:04:12,954 --> 00:04:17,791
+In between those is that there's some percentage of points that are not correct.
+
+79
+00:04:17,791 --> 00:04:19,844
+So if the ones that are correct are called inliers,
+
+80
+00:04:19,844 --> 00:04:22,196
+what do you thing the ones that are not correct are called?
+
+81
+00:04:22,196 --> 00:04:23,365
+>> Outliers.
+
+82
+00:04:23,365 --> 00:04:24,732
+>> Outliers.
+
+83
+00:04:24,732 --> 00:04:30,197
+So the question is for a given percentage of bad points, for
+
+84
+00:04:30,197 --> 00:04:32,506
+a given outlier ratio E.
+
+85
+00:04:32,506 --> 00:04:34,808
+So let's, E is 20, is 20%.
+
+86
+00:04:34,808 --> 00:04:37,445
+Means that 20% of your points are bad.
+
+87
+00:04:37,445 --> 00:04:41,050
+For a given ratio, how many samples do we have to check?

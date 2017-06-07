@@ -1,0 +1,131 @@
+1
+00:00:00,000 --> 00:00:07,000
+Here I have 3 files containing a corpus of text in each of the languages that I want to classify into,
+
+2
+00:00:07,000 --> 00:00:11,000
+and imagine these are much longer, so it gives you a good sample in text in
+
+3
+00:00:11,000 --> 00:00:14,000
+English, German, and Azerbaijan.
+
+4
+00:00:14,000 --> 00:00:20,000
+Now I have a new piece of text that I want to classify against each of these possibilities.
+
+5
+00:00:20,000 --> 00:00:23,000
+Well, I can do that using the gzip command.
+
+6
+00:00:23,000 --> 00:00:27,000
+So I could issue this Unix command that says
+
+7
+00:00:27,000 --> 00:00:31,000
+"concatenate together the new file with the English file,
+
+8
+00:00:31,000 --> 00:00:35,000
+gzip them, compress them, then count the number of characters,
+
+9
+00:00:35,000 --> 00:00:39,000
+and do the same for the German and Azerbaijani,
+
+10
+00:00:39,000 --> 00:00:43,000
+and then figure out which one is shortest.
+
+11
+00:00:43,000 --> 00:00:48,000
+In fact, when we do that with the files I've collected, it gives me the right answer.
+
+12
+00:00:48,000 --> 00:00:50,000
+Now how does it do that?
+
+13
+00:00:50,000 --> 00:00:55,000
+Well, you have to understand a little bit about how compression algorithms like gzip work.
+
+14
+00:00:55,000 --> 00:01:00,000
+What they do is they take a file like this and they look for common subsequences,
+
+15
+00:01:00,000 --> 00:01:04,000
+and they represent that in less than 1 byte.
+
+16
+00:01:04,000 --> 00:01:12,000
+For example, I-S-SPACE would be represented by 3 bytes in an ASCII encoding,
+
+17
+00:01:12,000 --> 00:01:14,000
+but in compressed encoding you could say,
+
+18
+00:01:14,000 --> 00:01:18,000
+"Hey, I see that sequence here. I see it here again. It's going to show up many times."
+
+19
+00:01:18,000 --> 00:01:22,000
+So maybe I can represent those 3 bytes just in terms of one,
+
+20
+00:01:22,000 --> 00:01:26,000
+saying this is a common subsequence that I'm going to see again and again.
+
+21
+00:01:26,000 --> 00:01:31,000
+Once we've done that for English, we come up with common subsequences in English.
+
+22
+00:01:31,000 --> 00:01:37,000
+Then if we add in another file that has a lot of the same common sequences,
+
+23
+00:01:37,000 --> 00:01:40,000
+like here it has I-S-SPACE again,
+
+24
+00:01:40,000 --> 00:01:43,000
+then that's going to compress well with respect to this.
+
+25
+00:01:43,000 --> 00:01:47,000
+It's not going to compress very well with respect to the Azerbaijan,
+
+26
+00:01:47,000 --> 00:01:50,000
+because that won't have built up a code for I-S-SPACE.
+
+27
+00:01:50,000 --> 00:01:58,000
+That will have built up codes for things like R-B-A rather than for I-S-SPACE.
+
+28
+00:01:58,000 --> 00:02:04,000
+So it turns out that the ideas of compression and learning are actually very closely related,
+
+29
+00:02:04,000 --> 00:02:10,000
+and they're related by information theory and this idea of entropy of an expression
+
+30
+00:02:10,000 --> 00:02:13,000
+or the information content.
+
+31
+00:02:13,000 --> 00:02:16,000
+That wasn't discovered until fairly recently.
+
+32
+00:02:16,000 --> 00:02:20,000
+The two fields had developed independently, but now they've come back together,
+
+33
+00:02:20,000 --> 99:59:59,999
+and we understand how they relate.

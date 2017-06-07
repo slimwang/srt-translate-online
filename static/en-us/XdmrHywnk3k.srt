@@ -1,0 +1,202 @@
+1
+00:00:00,490 --> 00:00:03,750
+So you might have noticed that
+computers that are on the same network,
+
+2
+00:00:03,750 --> 00:00:05,800
+like an individual home, or business, or
+
+3
+00:00:05,800 --> 00:00:09,880
+school, usually have IP addresses
+that are similar to each other.
+
+4
+00:00:10,880 --> 00:00:12,286
+To be more specific about it,
+
+5
+00:00:12,286 --> 00:00:18,375
+all of the addresses on a specific
+network block share a particular prefix.
+
+6
+00:00:18,375 --> 00:00:22,965
+They all start the same and only differ
+after some particular bit position.
+
+7
+00:00:22,965 --> 00:00:25,935
+And computers that are on the same
+network block can communicate with each
+
+8
+00:00:25,935 --> 00:00:28,280
+other without going through a router.
+
+9
+00:00:28,280 --> 00:00:29,950
+But not all networks are the same size.
+
+10
+00:00:31,140 --> 00:00:34,020
+So when we talk about a particular
+network, we have to talk not only
+
+11
+00:00:34,020 --> 00:00:36,615
+about its network prefix but
+the length of that prefix.
+
+12
+00:00:36,615 --> 00:00:39,930
+A network with a longer prefix
+
+13
+00:00:39,930 --> 00:00:44,020
+has less of the 32-bit address left
+over to distinguish particular hosts.
+
+14
+00:00:45,040 --> 00:00:47,950
+And a network with a shorter prefix
+has more addresses for hosts, so
+
+15
+00:00:47,950 --> 00:00:48,809
+it's a larger network.
+
+16
+00:00:50,080 --> 00:00:52,750
+The network prefix length is
+something that has to be chosen when
+
+17
+00:00:52,750 --> 00:00:53,450
+the network is set up.
+
+18
+00:00:53,450 --> 00:00:56,610
+And it's usually configured
+by whatever process assigns
+
+19
+00:00:56,610 --> 00:00:57,820
+addresses to the computers.
+
+20
+00:00:58,930 --> 00:01:02,660
+For instance, if you have
+a network with a 24-bit prefix,
+
+21
+00:01:02,660 --> 00:01:06,420
+that means there's 8 bits left over for
+the host part of addresses.
+
+22
+00:01:06,420 --> 00:01:08,809
+We would conventionally
+write this is as /24.
+
+23
+00:01:08,809 --> 00:01:16,262
+For instance,
+198.51.100.0/24 network block.
+
+24
+00:01:16,262 --> 00:01:19,040
+But if the network prefix is shorter,
+say 22 bits,
+
+25
+00:01:19,040 --> 00:01:22,840
+then there will be 10 bits left over for
+host addressing.
+
+26
+00:01:22,840 --> 00:01:24,580
+This would be a /22 network.
+
+27
+00:01:25,700 --> 00:01:30,010
+And you can't tell how long the prefix
+is just by looking at the addresses.
+
+28
+00:01:30,010 --> 00:01:34,890
+For these addresses either a 22 or
+a 24 network would be a possibility.
+
+29
+00:01:34,890 --> 00:01:37,090
+So how many hosts can fit
+on one of these networks?
+
+30
+00:01:38,090 --> 00:01:44,400
+Well, 10 bits of host address means
+2 to the tenth power addresses,
+
+31
+00:01:44,400 --> 00:01:49,470
+which would be a 1,024 except that
+the top and the bottom addresses of
+
+32
+00:01:49,470 --> 00:01:54,630
+a network block are reserved and
+the first address is usually the router.
+
+33
+00:01:54,630 --> 00:01:56,660
+So 1021 addresses are available for
+hosts.
+
+34
+00:01:57,960 --> 00:02:04,850
+Similarly in a /24 network, there would
+be 256 addresses but minus those 3.
+
+35
+00:02:04,850 --> 00:02:08,288
+There are usually about 253
+addresses that remain for hosts.
+
+36
+00:02:09,949 --> 00:02:11,710
+Now why does this matter?
+
+37
+00:02:11,710 --> 00:02:14,650
+Subnet misconfiguration can
+cause some pretty weird problems
+
+38
+00:02:14,650 --> 00:02:16,530
+on a server network especially.
+
+39
+00:02:16,530 --> 00:02:21,220
+Things like one machine thinks that it
+can talk to another machine directly,
+
+40
+00:02:21,220 --> 00:02:24,710
+but the other thinks that it has
+to talk back through a router, and
+
+41
+00:02:24,710 --> 00:02:27,180
+that can cause very strange
+communications problems.
+
+42
+00:02:27,180 --> 00:02:30,230
+Getting a good grasp of how the stuff
+works can save you a lot of trouble if
+
+43
+00:02:30,230 --> 00:02:31,620
+you're ever setting up a server network.

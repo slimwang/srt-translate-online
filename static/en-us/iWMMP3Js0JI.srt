@@ -1,0 +1,115 @@
+1
+00:00:00,180 --> 00:00:03,260
+Let's discuss typical
+firewall configuration.
+
+2
+00:00:03,260 --> 00:00:05,430
+First, let's provide some background.
+
+3
+00:00:05,430 --> 00:00:10,690
+Most standard applications that run
+on top of TCP follow a kind and
+
+4
+00:00:10,690 --> 00:00:11,970
+server model.
+
+5
+00:00:11,970 --> 00:00:14,760
+For example, for
+a simple mail transfer protocol or
+
+6
+00:00:14,760 --> 00:00:19,700
+SMTP, email is transmitted from
+a kind system to a server system.
+
+7
+00:00:19,700 --> 00:00:24,760
+The client system generates new email
+messages, typically from user input.
+
+8
+00:00:24,760 --> 00:00:28,128
+The server system accepts
+incoming email messages, and
+
+9
+00:00:28,128 --> 00:00:30,802
+places them in appropriate
+user mailboxes.
+
+10
+00:00:30,802 --> 00:00:36,105
+SMTP operates by setting up a TCP
+connection between client and server, in
+
+11
+00:00:36,105 --> 00:00:42,098
+which the TCP server port number, which
+identifies the SMTP server, is port 25.
+
+12
+00:00:42,098 --> 00:00:49,248
+The TCP port number for the SMTP client
+is a number between 1,024 and 65,535.
+
+13
+00:00:49,248 --> 00:00:55,140
+From this example, the port numbers
+less than 1,024 are so called
+
+14
+00:00:55,140 --> 00:00:59,750
+well known port numbers and are assigned
+permanently to particular applications.
+
+15
+00:00:59,750 --> 00:01:04,319
+Such as port 25 for
+server SMTP or port 80 for HTTP.
+
+16
+00:01:04,319 --> 00:01:10,070
+The port numbers between 1,024 and
+65,535 are generated dynamically and
+
+17
+00:01:10,070 --> 00:01:13,140
+have temporary significance only for
+
+18
+00:01:13,140 --> 00:01:16,720
+the duration of a TCP connection
+from a client to the server.
+
+19
+00:01:16,720 --> 00:01:20,800
+Therefore, a packet filtering firewall
+must permit inbound network traffic on
+
+20
+00:01:20,800 --> 00:01:24,280
+all these high number ports
+vorticity base connections.
+
+21
+00:01:24,280 --> 00:01:27,360
+For the so-called,
+well-known ports that are below 1,024,
+
+22
+00:01:27,360 --> 00:01:31,720
+there are protocols that use
+the entire range of ports.
+
+23
+00:01:31,720 --> 00:01:34,920
+And in such case, the entire range
+must be allowed in order for
+
+24
+00:01:34,920 --> 00:01:35,910
+the protocol to work.

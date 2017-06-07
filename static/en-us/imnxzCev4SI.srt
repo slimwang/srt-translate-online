@@ -1,0 +1,1033 @@
+﻿1
+00:00:00,340 --> 00:00:03,520
+All right, so in project three we're
+going to build our neural network.
+
+2
+00:00:03,520 --> 00:00:06,220
+That is going to predict whether or
+not a neural review has positive or
+
+3
+00:00:06,219 --> 00:00:11,149
+negative sediment by using the counts
+of words that are inside of our review.
+
+4
+00:00:11,150 --> 00:00:15,120
+Now the changes I made first were, to
+create a pre process data function, that
+
+5
+00:00:15,119 --> 00:00:18,320
+just brings in all the kind of little
+snippets that we built and tested above.
+
+6
+00:00:18,320 --> 00:00:23,329
+So word to index, kind of the different
+vocabularies, and vocabulary sizes.
+
+7
+00:00:23,329 --> 00:00:26,139
+Just all of the variables that
+we used in our training dataset
+
+8
+00:00:26,140 --> 00:00:28,750
+generation logic, I wanted to have it
+in a pre-processing data function,
+
+9
+00:00:28,750 --> 00:00:33,280
+so that it's all kind of self contained
+in the variables that are in this class.
+
+10
+00:00:33,280 --> 00:00:35,960
+The next thing I did was, I split off
+the stuff that was in here into an init
+
+11
+00:00:35,960 --> 00:00:38,350
+network function,
+just to keep things clean, and
+
+12
+00:00:38,350 --> 00:00:43,340
+also this needs to know the number of
+input nodes, the number of output nodes.
+
+13
+00:00:43,340 --> 00:00:47,640
+Which is based on the number of reviews
+or unique vocabulary in our views, and
+
+14
+00:00:47,640 --> 00:00:49,490
+the number of labels that we have.
+
+15
+00:00:49,490 --> 00:00:52,900
+So it's nice to kind of have
+these in separate function,
+
+16
+00:00:52,899 --> 00:00:55,969
+just so that you can kind of read
+the progress that's here, and
+
+17
+00:00:55,969 --> 00:00:58,600
+just clean it that way,
+I kind of like it.
+
+18
+00:00:58,600 --> 00:01:01,213
+And the next thing it did was update
+input layer and set target for
+
+19
+00:01:01,213 --> 00:01:03,695
+label which are these functions
+that we played with before.
+
+20
+00:01:03,695 --> 00:01:05,974
+I'm going to go ahead and
+move into the class just so
+
+21
+00:01:05,974 --> 00:01:08,306
+that it's all kind of self contained and
+together,
+
+22
+00:01:08,307 --> 00:01:11,490
+and that makes this class portable,
+so I can use it somewhere else.
+
+23
+00:01:11,489 --> 00:01:11,959
+All right, so
+
+24
+00:01:11,959 --> 00:01:14,439
+now on the training method, this is
+where most of the action is, right?
+
+25
+00:01:14,439 --> 00:01:16,899
+So the first thing I checked was that,
+
+26
+00:01:16,900 --> 00:01:20,050
+the number of training reviews we have
+is the same as the number of labels.
+
+27
+00:01:20,049 --> 00:01:22,769
+So in the off chance someone
+input something that
+
+28
+00:01:22,769 --> 00:01:25,519
+doesn't line up correctly,
+we kind of want to let people know,
+
+29
+00:01:25,519 --> 00:01:29,140
+so we see a kind of weird
+behavior in around that.
+
+30
+00:01:29,140 --> 00:01:31,548
+And the next thing we´re going to do
+is kind of intialize correct so far,
+
+31
+00:01:31,548 --> 00:01:33,638
+we´re going keep track of how
+many predictions we get right and
+
+32
+00:01:33,638 --> 00:01:34,679
+wrong while we´re training.
+
+33
+00:01:34,680 --> 00:01:37,860
+This is a useful metric that I kind
+of like to watch to understand
+
+34
+00:01:37,859 --> 00:01:41,099
+how the neuromet is doing during
+the training process, right.
+
+35
+00:01:41,099 --> 00:01:45,349
+Is it getting better, is it not getting
+better at all, is it getting worse?
+
+36
+00:01:45,349 --> 00:01:49,250
+These things are kind of the basics
+of understanding how you're doing and
+
+37
+00:01:49,250 --> 00:01:51,620
+then being able to adjust for that.
+
+38
+00:01:51,620 --> 00:01:53,500
+Now also we select review and
+
+39
+00:01:53,500 --> 00:01:56,370
+a label out of our training reviews,
+we update the input layer.
+
+40
+00:01:56,370 --> 00:02:00,280
+This is the same as previously we were
+propagating from layer zero to layer
+
+41
+00:02:00,280 --> 00:02:02,840
+one, or from your input
+layer to your hidden layer.
+
+42
+00:02:02,840 --> 00:02:07,100
+However, in this case,
+we have to adjust and
+
+43
+00:02:07,099 --> 00:02:10,948
+generate our input data set first
+before we can do this propagation.
+
+44
+00:02:10,949 --> 00:02:14,330
+So now we generate hidden layer same way
+as before, except without nonlinearity,
+
+45
+00:02:14,330 --> 00:02:17,100
+and the last one will
+generate with nonlinearity.
+
+46
+00:02:17,099 --> 00:02:19,939
+So that's our forward propagation step.
+
+47
+00:02:19,939 --> 00:02:22,689
+Our back propagation step,
+the first thing we do.
+
+48
+00:02:22,689 --> 00:02:24,564
+How close did we, did we miss?
+
+49
+00:02:24,564 --> 00:02:26,490
+This is where we put our
+function that we created.
+
+50
+00:02:26,490 --> 00:02:31,519
+We say our prediction minus our
+function, and then because we
+
+51
+00:02:31,519 --> 00:02:36,935
+have a nonlinearity on this layer
+our layer 2 delta has to multiply
+
+52
+00:02:36,935 --> 00:02:41,883
+by this function,
+which is sigmoid times 1 minus sigmoid.
+
+53
+00:02:41,883 --> 00:02:42,640
+And then we continue to
+back propagate in this way.
+
+54
+00:02:42,639 --> 00:02:46,489
+Now a thing that you see we skip here is
+that because there's a nonlinearity on
+
+55
+00:02:46,490 --> 00:02:51,469
+layer one, we don't do this
+multiplication step here, unlike before,
+
+56
+00:02:51,469 --> 00:02:53,060
+because this is a linear layer.
+
+57
+00:02:53,060 --> 00:02:58,134
+So we don't actually have to adjust for
+the not mislope of the non linearity.
+
+58
+00:02:58,133 --> 00:03:00,430
+Once we have our layer two and
+layer one deltas,
+
+59
+00:03:00,431 --> 00:03:02,219
+we're ready to update our weights.
+
+60
+00:03:02,219 --> 00:03:04,849
+Which you do here in the exact same
+way that we did in our previous
+
+61
+00:03:04,849 --> 00:03:05,900
+neural network.
+
+62
+00:03:05,900 --> 00:03:09,879
+And then add a little bit of logic
+just to kind of log our progress.
+
+63
+00:03:09,879 --> 00:03:14,449
+As well as see how fast we're training,
+and how many predictions we got correct.
+
+64
+00:03:14,449 --> 00:03:18,229
+Now how am I deciding whether
+we got something correct or not?
+
+65
+00:03:18,229 --> 00:03:22,099
+What I'm looking at is the absolute
+value of our prediction, or,
+
+66
+00:03:22,099 --> 00:03:24,280
+excuse me, the absolute value
+of the error of our prediction.
+
+67
+00:03:24,280 --> 00:03:27,784
+So up here we calculate the difference
+between what our prediction
+
+68
+00:03:27,784 --> 00:03:29,169
+should be and what it was.
+
+69
+00:03:29,169 --> 00:03:32,526
+And so I said if it predicts
+exactly 0.5, well it didn't,
+
+70
+00:03:32,526 --> 00:03:34,209
+it's totally ambiguous.
+
+71
+00:03:34,210 --> 00:03:38,378
+It's kind of half way between positive
+and negative, it didn't pick either.
+
+72
+00:03:38,377 --> 00:03:42,595
+But if it's closer to
+the right prediction,
+
+73
+00:03:42,596 --> 00:03:47,710
+well then this error measure
+will be less than 0.5.
+
+74
+00:03:47,710 --> 00:03:52,252
+And so that's why I can kind of see
+how many classifications we got right,
+
+75
+00:03:52,252 --> 00:03:56,426
+as opposed to just the loss by kind
+of just typing this on the fly, and
+
+76
+00:03:56,425 --> 00:03:57,829
+then logging as we go.
+
+77
+00:03:59,379 --> 00:04:02,519
+Now the other thing I want to
+be able to do here is test it.
+
+78
+00:04:02,520 --> 00:04:06,140
+Which is really just a matter
+of taking it for logic and
+
+79
+00:04:06,139 --> 00:04:09,869
+in the evaluation logic, put that in
+a one function, which I did here.
+
+80
+00:04:09,870 --> 00:04:14,300
+And then I add another one for running
+where we can put in a text review and
+
+81
+00:04:14,300 --> 00:04:17,300
+it converts that text into an input
+data, and just forward pops and
+
+82
+00:04:17,300 --> 00:04:18,519
+give POSITIVE, NEGATIVE labels.
+
+83
+00:04:18,519 --> 00:04:20,588
+So we can test it on
+the whole data set or
+
+84
+00:04:20,588 --> 00:04:24,689
+we can kind of throw in some
+examples and see whether we like it.
+
+85
+00:04:24,689 --> 00:04:28,930
+So now that we've got this,
+let's go ahead and
+
+86
+00:04:28,930 --> 00:04:33,509
+first validate that our and
+the next we'd go first and create one.
+
+87
+00:04:34,649 --> 00:04:37,727
+Here, I'm actually selecting
+the first 24,000 reviews to train on.
+
+88
+00:04:37,728 --> 00:04:39,300
+And I'm just going ahead and say it,
+
+89
+00:04:39,300 --> 00:04:46,600
+the last we could say these 1,000
+reviews can be our test data set.
+
+90
+00:04:46,600 --> 00:04:48,129
+So I'm going to kind of
+continue to do that.
+
+91
+00:04:48,129 --> 00:04:50,230
+You could pick a different
+training test split,
+
+92
+00:04:50,230 --> 00:04:53,939
+there's actually another 25,000 in
+the IMDB data set you could use.
+
+93
+00:04:53,939 --> 00:04:55,399
+But, just for
+the sake of making it easy,
+
+94
+00:04:55,399 --> 00:04:58,250
+I think we're just
+going to go with this.
+
+95
+00:04:58,250 --> 00:05:00,009
+So, we're going to
+initialize it this way,
+
+96
+00:05:00,009 --> 00:05:02,159
+this is actually our
+default learning rate.
+
+97
+00:05:02,160 --> 00:05:07,140
+>From here, I'm going to put it in so
+just we can see it.
+
+98
+00:05:07,139 --> 00:05:10,399
+The other thing I like to do before
+we get started is actually test it.
+
+99
+00:05:10,399 --> 00:05:13,099
+So our waits are initialized
+randomly right now, so
+
+100
+00:05:13,100 --> 00:05:16,879
+it shouldn't really predict well at all.
+
+101
+00:05:16,879 --> 00:05:20,939
+So in this case, testing
+accuracy is exactly 50% which is,
+
+102
+00:05:20,939 --> 00:05:25,389
+if you just guessed, between
+positive and negative randomly then
+
+103
+00:05:25,389 --> 00:05:28,159
+gear you should get 50% accuracy,
+and it's actually what we see here.
+
+104
+00:05:28,160 --> 00:05:31,970
+Which is a good place to start.\
+Especially when you have a neural
+
+105
+00:05:31,970 --> 00:05:33,800
+net with only two predictions,
+
+106
+00:05:33,800 --> 00:05:37,470
+I really like to see it start off
+not being biased towards one way.
+
+107
+00:05:37,470 --> 00:05:41,889
+Like if I initialize my weights in such
+a way where it always predicts one way
+
+108
+00:05:41,889 --> 00:05:45,829
+or always predicts another, or
+it doesn't get any of them right.
+
+109
+00:05:45,829 --> 00:05:47,620
+Then I kind of scratch my head like,
+wait a minute,
+
+110
+00:05:47,620 --> 00:05:51,689
+something's probably broken here, and
+so I'll go investigate that first.
+
+111
+00:05:51,689 --> 00:05:55,389
+But, as we can see,
+it's breaking randomly, and
+
+112
+00:05:55,389 --> 00:05:59,819
+it doesn't seem to have any real
+predictive power at the moment.
+
+113
+00:05:59,819 --> 00:06:02,099
+So, now we're going to
+try to train our network.
+
+114
+00:06:04,290 --> 00:06:07,280
+Every, something I threw in here
+a little bit later is that,
+
+115
+00:06:07,279 --> 00:06:10,509
+every 2,500 predictions it will do
+a new line, wo we can not just see
+
+116
+00:06:10,509 --> 00:06:15,199
+what the progress is now but,
+we can kind of see it change over time.
+
+117
+00:06:16,560 --> 00:06:18,910
+So now when I'm watching it train
+there's a few things I'm looking at.
+
+118
+00:06:18,910 --> 00:06:23,520
+First is speed, trying to kind of gauge,
+how long am I going to be sitting here?
+
+119
+00:06:23,519 --> 00:06:26,123
+And then I'm also looking
+at the training accuracy.
+
+120
+00:06:26,124 --> 00:06:31,081
+So now if you look, so far it's actually
+not predicting particularly well.
+
+121
+00:06:31,081 --> 00:06:33,910
+It's doing just worse than random.
+
+122
+00:06:33,910 --> 00:06:37,140
+Which is sort of worse
+than it was doing before.
+
+123
+00:06:37,139 --> 00:06:40,990
+At this point, when we're 14% of the way
+through the training data set, and
+
+124
+00:06:40,990 --> 00:06:45,329
+it hasn't even learned anything yet, and
+it’s like it is doing worst then that.
+
+125
+00:06:45,329 --> 00:06:48,019
+I’m really starting to go okay,
+something is probably wrong here.
+
+126
+00:06:48,019 --> 00:06:52,379
+They are a few types of neutral nets
+where at this point it actually
+
+127
+00:06:52,379 --> 00:06:55,469
+does continue print random especially
+in reinforcement learning,
+
+128
+00:06:55,470 --> 00:06:58,630
+however on this dataset we
+are looking in direct correlation.
+
+129
+00:06:58,629 --> 00:07:03,517
+I should be seeing some change right
+here, so I’m just going to go ahead
+
+130
+00:07:03,517 --> 00:07:08,485
+a quit this out, we could wait longer,
+but I just don't think that it's
+
+131
+00:07:08,485 --> 00:07:13,224
+going to be a good idea to do that, so
+we're going to go ahead and hit stop.
+
+132
+00:07:13,225 --> 00:07:15,612
+The natural thing for
+me to do here is think, okay, so
+
+133
+00:07:15,612 --> 00:07:17,430
+the learning rate's too high, right?
+
+134
+00:07:17,430 --> 00:07:21,655
+So, when things are doing like this,
+maybe it's diverging, who knows.
+
+135
+00:07:21,654 --> 00:07:24,137
+So let's go ahead and
+adjust this learning rate to b.
+
+136
+00:07:24,137 --> 00:07:30,351
+Lower and a good way to fill things out
+is first move by orders in magnitude so
+
+137
+00:07:30,351 --> 00:07:35,087
+I'm going to divide it by ten,
+reinitialize the network,
+
+138
+00:07:35,088 --> 00:07:40,218
+I'm queue slash then compare
+bounce around a little bit Man,
+
+139
+00:07:40,218 --> 00:07:44,090
+I'm starting to see
+kind of the same behavior.
+
+140
+00:07:44,089 --> 00:07:45,609
+It's not really getting better.
+
+141
+00:07:45,610 --> 00:07:47,060
+Now we'll just train for a second and
+
+142
+00:07:47,060 --> 00:07:50,009
+then kind of talk about why
+was I lowering rate, right?
+
+143
+00:07:50,009 --> 00:07:54,159
+So lowering rate, if you remember
+from before, is the step side,
+
+144
+00:07:54,160 --> 00:07:57,520
+it's how big of a jump that it
+tries to take to reduce the error.
+
+145
+00:07:58,720 --> 00:08:02,810
+Probably a standard reason why
+thins kind of thing happens is that
+
+146
+00:08:02,810 --> 00:08:06,790
+it's over shooting, so
+it's ending up not really any closer
+
+147
+00:08:07,990 --> 00:08:12,170
+to solving the problem than when it
+started because it's going to far.
+
+148
+00:08:12,170 --> 00:08:15,954
+Under shooting means the network
+trains very very slowly but
+
+149
+00:08:15,954 --> 00:08:20,403
+it does tend to make progress, this
+to me could be very very slowly, but
+
+150
+00:08:20,403 --> 00:08:23,690
+it just doesn't look like it's,
+training at all.
+
+151
+00:08:23,690 --> 00:08:27,609
+It's just camping out right near 50% and
+so that's really concerning.
+
+152
+00:08:27,610 --> 00:08:31,182
+And so, we're at our 20% here, I should
+be seeing something at this point.
+
+153
+00:08:31,182 --> 00:08:34,524
+So we're going to cancel this and
+we're going to go again.
+
+154
+00:08:34,524 --> 00:08:36,873
+So check this out.
+
+155
+00:08:36,873 --> 00:08:37,820
+Do it one more time.
+
+156
+00:08:37,820 --> 00:08:40,283
+[BLANK_AUDIO]
+
+157
+00:08:40,283 --> 00:08:41,932
+Okay, camping out 40%
+
+158
+00:08:41,932 --> 00:08:43,826
+[BLANK_AUDIO]
+
+159
+00:08:43,826 --> 00:08:46,533
+Create.
+
+160
+00:08:46,533 --> 00:08:47,481
+Come on, buddy.
+
+161
+00:08:47,481 --> 00:08:48,449
+It's funny.
+
+162
+00:08:48,450 --> 00:08:54,280
+Eventually, these types of metrics
+become really entertaining to watch.
+
+163
+00:08:54,279 --> 00:08:57,709
+And man, I'm actually still kind of
+surprised, it is not really happening.
+
+164
+00:08:59,120 --> 00:09:02,509
+Here we go, okay, so
+it's starting to learn a little bit,
+
+165
+00:09:02,509 --> 00:09:03,809
+so this is a good sign, right?
+
+166
+00:09:03,809 --> 00:09:07,849
+So it's starting to find correlation but
+it's still going pretty slow, not only,
+
+167
+00:09:07,850 --> 00:09:10,870
+like this is pretty slow as
+far as your views per second.
+
+168
+00:09:10,870 --> 00:09:13,610
+It's only expressing 100
+reviews per second but
+
+169
+00:09:13,610 --> 00:09:16,840
+then it's not converting very quickly,
+right?
+
+170
+00:09:16,840 --> 00:09:18,980
+And I can keep knocking
+down the learning rate, but
+
+171
+00:09:18,980 --> 00:09:21,730
+the truth is, the more you
+knock down the learning rate,
+
+172
+00:09:21,730 --> 00:09:23,409
+the slower the learning happens, right?
+
+173
+00:09:23,409 --> 00:09:26,959
+Whereas before, overshooting, this is
+still going to continue knocking down.
+
+174
+00:09:26,960 --> 00:09:30,110
+So one thing that I could do here is
+continue to tweak the learning rate,
+
+175
+00:09:30,110 --> 00:09:31,899
+and I could spend all day
+trying to do that, and
+
+176
+00:09:31,899 --> 00:09:34,059
+I would get incremental Improvements.
+
+177
+00:09:34,059 --> 00:09:39,169
+But we're so early on we haven't
+refined anything, just pose some big
+
+178
+00:09:39,169 --> 00:09:43,659
+frame questions that we need to really
+re-evaluate in our neural networks.
+
+179
+00:09:43,659 --> 00:09:45,029
+Say hey, can we frame this problem so
+
+180
+00:09:45,029 --> 00:09:47,809
+that the correlation is
+a little more clear, right?
+
+181
+00:09:47,809 --> 00:09:51,149
+So right now I'm going back,
+I'm thinking, okay, so, up here.
+
+182
+00:09:51,149 --> 00:09:55,079
+This is our setup, right, we're counting
+the words and putting them in here, and
+
+183
+00:09:55,080 --> 00:09:57,450
+then it's making a prediction.
+
+184
+00:09:57,450 --> 00:10:01,990
+What about this is so difficult for
+this thing that it's taking this,
+
+185
+00:10:01,990 --> 00:10:06,350
+so it is converging, but
+it's just not going very quickly.
+
+186
+00:10:06,350 --> 00:10:12,040
+Is there anything that we can do, to
+make it more obvious for the network for
+
+187
+00:10:12,039 --> 00:10:15,959
+it to identify the words that
+were validated in kind of in our,
+
+188
+00:10:15,960 --> 00:10:18,790
+well not those lists those
+were the raw counts.
+
+189
+00:10:18,789 --> 00:10:22,799
+Up here, right so
+it finds these words more easily, so
+
+190
+00:10:22,799 --> 00:10:25,419
+there are two things
+that I typically do here.
+
+191
+00:10:25,419 --> 00:10:29,599
+One is I start changing stuff and see if
+stuff works, and the other one is I dig
+
+192
+00:10:29,600 --> 00:10:34,290
+deeper in to exactly what's going here,
+take a look at a few training examples.
+
+193
+00:10:34,289 --> 00:10:38,179
+See that, make sure that the pattern
+that I think should be in there is
+
+194
+00:10:38,179 --> 00:10:41,569
+actually showing up or
+maybe I have a mistake in my logic.
+
+195
+00:10:41,570 --> 00:10:44,500
+Nine times out of ten, when something's
+not training correctly it means
+
+196
+00:10:44,500 --> 00:10:47,039
+that there's something simple
+in here that I got backwards,
+
+197
+00:10:47,039 --> 00:10:48,799
+more than a big complicated change.
+
+198
+00:10:48,799 --> 00:10:51,729
+But sometimes it needs
+to be a big complicated
+
+199
+00:10:51,730 --> 00:10:55,750
+change, it's still training
+really really quickly.
+
+200
+00:10:55,750 --> 00:10:59,029
+So I mean if we if we extrapolated
+this you know things can
+
+201
+00:10:59,029 --> 00:11:01,769
+train fast in the beginning and
+then slow down and taper off.
+
+202
+00:11:01,769 --> 00:11:05,225
+So I mean I don't really see
+this getting much past 61, 62,
+
+203
+00:11:05,225 --> 00:11:11,180
+something in that kind of range,
+I don't know if they keep training.
+
+204
+00:11:11,179 --> 00:11:13,118
+All right.
+
+205
+00:11:13,119 --> 00:11:14,149
+So now I'm going to ask my question.
+
+206
+00:11:14,149 --> 00:11:14,236
+Okay.
+
+207
+00:11:14,236 --> 00:11:15,399
+How can I make this simpler?
+
+208
+00:11:16,600 --> 00:11:19,050
+What is the signal in my training data,
+
+209
+00:11:19,049 --> 00:11:21,149
+and what is the noise
+in my training data?
+
+210
+00:11:22,360 --> 00:11:27,320
+And that's going to be kind of a topic
+of the next section, which we're going
+
+211
+00:11:27,320 --> 00:11:30,410
+to analyze, and then try to see if we
+can get this training to happen faster.
+
+212
+00:11:30,409 --> 00:11:32,169
+So feel free to let this
+kind of train all the way,
+
+213
+00:11:32,169 --> 00:11:34,759
+I don't think it'll get
+too much past this.
+
+214
+00:11:34,759 --> 00:11:37,539
+And I really feel that we're going to be
+able to build a better classifier here
+
+215
+00:11:37,539 --> 00:11:37,849
+in a minute.
+

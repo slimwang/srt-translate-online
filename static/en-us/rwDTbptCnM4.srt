@@ -1,0 +1,107 @@
+1
+00:00:00,508 --> 00:00:06,210
+And if we put a debugger inside of plot points in our console, we'll see
+
+2
+00:00:06,210 --> 00:00:10,570
+that data looks exactly like the data we've worked with, with our scatter plot.
+
+3
+00:00:10,570 --> 00:00:14,360
+But for this next step of drawing our map, we're going to need to
+
+4
+00:00:14,360 --> 00:00:18,430
+group our games by the year they were held since the start.
+
+5
+00:00:18,430 --> 00:00:21,900
+We're going to compare the total attendance from one year of
+
+6
+00:00:21,900 --> 00:00:23,100
+the World Cup to the next.
+
+7
+00:00:23,100 --> 00:00:29,080
+As I mentioned previously, d3 has some great functionality to manipulate data.
+
+8
+00:00:29,080 --> 00:00:35,670
+To do this, we can use the d3 function nest, which does exactly what we need.
+
+9
+00:00:35,670 --> 00:00:40,320
+Rather droops our data and performs some aggregation on that.
+
+10
+00:00:40,320 --> 00:00:43,180
+I don't want to spend too much time getting into the specifics of
+
+11
+00:00:43,180 --> 00:00:47,630
+all the possibilities of what can be done with the nest function.
+
+12
+00:00:47,630 --> 00:00:52,190
+But I'll cover the basics that we'll be using for our map example.
+
+13
+00:00:52,190 --> 00:00:55,460
+The nest function has two main pieces.
+
+14
+00:00:55,460 --> 00:00:59,050
+As you can see here, we call a dot key function and
+
+15
+00:00:59,050 --> 00:01:02,230
+a dot rollup function on the nest object.
+
+16
+00:01:02,230 --> 00:01:05,280
+In order to specify how you want to group your data,
+
+17
+00:01:05,280 --> 00:01:10,060
+you use the key function and you pass it in accessor callback.
+
+18
+00:01:10,060 --> 00:01:12,600
+In this case, I've left, left it empty, but
+
+19
+00:01:12,600 --> 00:01:18,210
+whatever this callback returns is the value that nest groups by.
+
+20
+00:01:18,210 --> 00:01:22,676
+And once you have your data grouped in some way, you need to aggregate it in
+
+21
+00:01:22,676 --> 00:01:27,522
+some meaningful fashion, which is where the rollup function comes into play.
+
+22
+00:01:27,522 --> 00:01:31,340
+The rollup accessor function is slightly different than the key
+
+23
+00:01:31,340 --> 00:01:35,802
+accessor function in that it gets passed what I've called here, leaves.
+
+24
+00:01:35,802 --> 00:01:37,864
+Or rather, a nested and
+
+25
+00:01:37,864 --> 00:01:44,677
+hierarchical set of our data organized by the group we previously specified.
+
+26
+00:01:44,677 --> 00:01:47,547
+And the last function call here simply passes our
+
+27
+00:01:47,547 --> 00:01:49,580
+data through this nest pipeline.

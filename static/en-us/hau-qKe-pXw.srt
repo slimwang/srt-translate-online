@@ -1,0 +1,73 @@
+1
+00:00:00,640 --> 00:00:04,707
+So, here's one approach to fixing up
+this code that you might have taken.
+
+2
+00:00:04,707 --> 00:00:08,141
+This code here actually has a bad
+bug that we'll be looking into next.
+
+3
+00:00:08,141 --> 00:00:12,350
+So, please don't go copying this
+into all your production apps.
+
+4
+00:00:12,350 --> 00:00:17,040
+So, whenever we want to read or write
+to database, we first connect to it.
+
+5
+00:00:18,200 --> 00:00:19,340
+Then establish a cursor.
+
+6
+00:00:20,940 --> 00:00:22,160
+Then we do an execute.
+
+7
+00:00:23,480 --> 00:00:28,740
+In the case of GetAllPosts,
+we execute a SELECT statement.
+
+8
+00:00:30,160 --> 00:00:35,160
+And then we fetch all the results and
+
+9
+00:00:35,160 --> 00:00:39,570
+reformat them into the dictionary
+that our code expects.
+
+10
+00:00:39,570 --> 00:00:42,110
+And of course, we close
+the connection and return the posts.
+
+11
+00:00:43,270 --> 00:00:46,760
+In the case of AddPost, we still
+connect to the database just the same.
+
+12
+00:00:47,850 --> 00:00:49,950
+We execute an INSERT query,
+
+13
+00:00:49,950 --> 00:00:55,280
+substituting in the post
+content into the query string.
+
+14
+00:00:55,280 --> 00:00:58,070
+Commit the change and close.
+
+15
+00:00:58,070 --> 00:01:02,060
+Now, this seems to work, but
+I did just say this has a bad bug, and
+
+16
+00:01:02,060 --> 00:01:03,420
+we're going to see that right up ahead.

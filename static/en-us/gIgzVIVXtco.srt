@@ -1,0 +1,120 @@
+1
+00:00:00,470 --> 00:00:02,560
+Jay, how did you implement this?
+
+2
+00:00:02,560 --> 00:00:05,080
+>> Well, it went a little like this.
+
+3
+00:00:05,080 --> 00:00:06,710
+We can see the problem building up.
+
+4
+00:00:06,710 --> 00:00:10,470
+I already have over 60
+photos cashed to solve this.
+
+5
+00:00:10,470 --> 00:00:13,310
+I'm going to start by creating a ray
+of images that I want to keep,
+
+6
+00:00:14,700 --> 00:00:15,980
+then I'll create a transaction.
+
+7
+00:00:15,980 --> 00:00:17,220
+To look at the witches objects store.
+
+8
+00:00:19,120 --> 00:00:21,930
+Then I'll get the object store and
+get all the messages.
+
+9
+00:00:23,070 --> 00:00:25,590
+Now we can take a peek
+into the database.
+
+10
+00:00:25,590 --> 00:00:28,590
+For each message, I'll look to
+see if it has a photo property.
+
+11
+00:00:28,590 --> 00:00:31,750
+This contains the photo URL, but
+without the width bit at the end.
+
+12
+00:00:32,830 --> 00:00:35,200
+So I'll add those to the array
+of images that I want to keep.
+
+13
+00:00:37,110 --> 00:00:39,290
+Then I'll open the images cache and
+
+14
+00:00:39,290 --> 00:00:42,980
+get all the requests that
+are stored in it using cache.keys.
+
+15
+00:00:42,980 --> 00:00:45,760
+Now, the URLs on request
+objects are absolute.
+
+16
+00:00:45,760 --> 00:00:47,850
+So they'll include the local
+host port 8080 bit,
+
+17
+00:00:47,850 --> 00:00:53,050
+whereas the URLs was storing
+an index Db, they don't have that.
+
+18
+00:00:53,050 --> 00:00:55,920
+So for
+each request I'm going to pass as URL.
+
+19
+00:00:55,920 --> 00:01:00,350
+So now if the path name of the URL
+isn't in our array of images needed,
+
+20
+00:01:00,350 --> 00:01:03,870
+I'll pass a request to cache.delete.
+
+21
+00:01:03,870 --> 00:01:07,180
+So now with force update enabled,
+I'll refresh the page.
+
+22
+00:01:07,180 --> 00:01:09,260
+And I've only got seven images cached.
+
+23
+00:01:09,260 --> 00:01:09,760
+Job done!
+
+24
+00:01:10,780 --> 00:01:13,740
+We're caching photos now,
+we're so very nearly there.
+
+25
+00:01:13,740 --> 00:01:16,890
+The last thing we need
+to deal with is avatars.
+
+26
+00:01:16,890 --> 00:01:20,140
+One more chapter before we
+achieve total offline first.

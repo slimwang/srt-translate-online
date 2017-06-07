@@ -1,0 +1,419 @@
+1
+00:00:00,150 --> 00:00:03,290
+In this video, we'll take a look at the website for Backbones JS.
+
+2
+00:00:03,290 --> 00:00:07,260
+Now everything I do in this lesson you can do on your own.
+
+3
+00:00:07,260 --> 00:00:11,080
+So if you're feeling especially brave, pause the video right now and
+
+4
+00:00:11,080 --> 00:00:13,020
+explore the site on your own.
+
+5
+00:00:13,020 --> 00:00:16,690
+And remember that we're just looking for a high level picture of backbone.
+
+6
+00:00:16,690 --> 00:00:18,970
+We're not trying to get into the nitty gritty.
+
+7
+00:00:18,970 --> 00:00:23,728
+This page here, Backbonejs.org is actually the documentation for backbone.
+
+8
+00:00:23,728 --> 00:00:27,430
+Now we're going to look through this page and get an idea of what exactly
+
+9
+00:00:27,430 --> 00:00:31,570
+backbone is, and roughly how we can use it from a high level perspective.
+
+10
+00:00:31,570 --> 00:00:36,420
+The first paragraph bolds a couple words, models, collections, and views.
+
+11
+00:00:36,420 --> 00:00:37,730
+So we can infer that,
+
+12
+00:00:37,730 --> 00:00:43,560
+the models are our data and collections are collections of models.
+
+13
+00:00:43,560 --> 00:00:47,050
+In our original model view octopus paradigm.
+
+14
+00:00:47,050 --> 00:00:48,790
+We just had normal arrays.
+
+15
+00:00:48,790 --> 00:00:53,770
+In our model view, view model paradigm with knockout, we had observable arrays.
+
+16
+00:00:53,770 --> 00:00:56,270
+In Backbone, they're called collections.
+
+17
+00:00:56,270 --> 00:00:59,580
+And we also have views with declarative event handling.
+
+18
+00:00:59,580 --> 00:01:02,130
+We'll get an idea of what that is, in just a moment.
+
+19
+00:01:02,130 --> 00:01:05,459
+Let's scroll down a little bit and just skim through the introduction section.
+
+20
+00:01:05,459 --> 00:01:08,380
+The first paragraph says when working on a web application that involves a lot
+
+21
+00:01:08,380 --> 00:01:11,850
+of JavaScript, one of the first things you can do is to stop tying your
+
+22
+00:01:11,850 --> 00:01:12,820
+data to the DOM.
+
+23
+00:01:12,820 --> 00:01:15,780
+It's all too easy to create JavaScript applications that end up as
+
+24
+00:01:15,780 --> 00:01:20,250
+tangled piles of jQuery selectors and callbacks, all trying frantically to keep
+
+25
+00:01:20,250 --> 00:01:25,740
+data in sync between the HTML, UI, your JavaScript logic, and in some cases,
+
+26
+00:01:25,740 --> 00:01:27,880
+not our case, the database on the server.
+
+27
+00:01:27,880 --> 00:01:29,770
+So this sounds very familiar.
+
+28
+00:01:29,770 --> 00:01:31,700
+This is what lesson one was about.
+
+29
+00:01:31,700 --> 00:01:33,500
+Writing a spaghetti code application and
+
+30
+00:01:33,500 --> 00:01:36,210
+figuring out, you know maybe it's not good enough.
+
+31
+00:01:36,210 --> 00:01:40,720
+The second paragraph says, with backbone you represent your data as models.
+
+32
+00:01:40,720 --> 00:01:42,990
+Which can be created, validated, destroyed, and
+
+33
+00:01:42,990 --> 00:01:45,120
+saved to the server, if you have a server.
+
+34
+00:01:45,120 --> 00:01:46,390
+Now here's the fun part.
+
+35
+00:01:46,390 --> 00:01:50,550
+Whenever a UI action causes an attribute of a model to change,
+
+36
+00:01:50,550 --> 00:01:53,520
+the model triggers a change event.
+
+37
+00:01:53,520 --> 00:01:55,990
+All of the views that display the model state,
+
+38
+00:01:55,990 --> 00:02:00,335
+can be notified of that change, so they're able to respond accordingly,
+
+39
+00:02:00,335 --> 00:02:02,890
+re-rendering themselves to this new information.
+
+40
+00:02:02,890 --> 00:02:04,720
+This also sounds familiar.
+
+41
+00:02:04,720 --> 00:02:07,960
+This sounds exactly like what Knock Out was doing.
+
+42
+00:02:07,960 --> 00:02:11,130
+Keeping track of the way things are connected, so that way it can
+
+43
+00:02:11,130 --> 00:02:16,030
+selectively re-render certain parts of the view when the model changes.
+
+44
+00:02:16,030 --> 00:02:19,170
+In a finished Backbone app you don't have to write the glue code or
+
+45
+00:02:19,170 --> 00:02:23,070
+the octopus code or at least a lot of it, that looks into the DOM to
+
+46
+00:02:23,070 --> 00:02:28,000
+find the element with a specific ID and update the HTML manually.
+
+47
+00:02:28,000 --> 00:02:32,680
+Instead, when a model changes, the views update themselves on their own.
+
+48
+00:02:32,680 --> 00:02:34,080
+Now, I'm going to stop here.
+
+49
+00:02:34,080 --> 00:02:38,500
+At a very high level, it's basically the exact same thing as we've done before,
+
+50
+00:02:38,500 --> 00:02:41,570
+keeping our concerns generally separated from each other.
+
+51
+00:02:41,570 --> 00:02:42,680
+Now, if you look around on the web,
+
+52
+00:02:42,680 --> 00:02:46,780
+you'll find all kinds of shaky statements about what Backbone is.
+
+53
+00:02:46,780 --> 00:02:50,000
+It's not Modelview Controller, MVC.
+
+54
+00:02:50,000 --> 00:02:54,600
+If we look on Wikipedia, we'll find that Backbone.js it says, is based on
+
+55
+00:02:54,600 --> 00:02:59,490
+the model-view-presenter and the Actor model application design paradigm.
+
+56
+00:02:59,490 --> 00:03:01,390
+So we're not going to talk about this second part.
+
+57
+00:03:01,390 --> 00:03:03,960
+But if you read the rest of the Wikipedia article,
+
+58
+00:03:03,960 --> 00:03:06,960
+at least as of now when I'm recording this lesson.
+
+59
+00:03:06,960 --> 00:03:08,940
+It doesn't mention MVP ever again.
+
+60
+00:03:08,940 --> 00:03:13,250
+Now, this guy named Addy Osmani, who's a developer who really understands this
+
+61
+00:03:13,250 --> 00:03:17,540
+stuff and who wrote the code we're going to be modifying, wrote a blog post
+
+62
+00:03:17,540 --> 00:03:23,500
+about this, Understanding MVC and MVP For JavaScript and Backbone Developers.
+
+63
+00:03:23,500 --> 00:03:26,300
+This sounds like a wonderful article for us.
+
+64
+00:03:26,300 --> 00:03:29,070
+Unfortunately, it's really, really long so
+
+65
+00:03:29,070 --> 00:03:31,210
+I'm not going to go over it right now with you.
+
+66
+00:03:31,210 --> 00:03:34,440
+But I would like to point out one particular area of it.
+
+67
+00:03:34,440 --> 00:03:37,800
+About halfway down, he says, in this respect contrary,
+
+68
+00:03:37,800 --> 00:03:42,100
+to what might be mentioned in the official documentation or in blog posts,
+
+69
+00:03:42,100 --> 00:03:49,750
+Backbone is neither a truly MVC/MVP nor MVVM Framework.
+
+70
+00:03:49,750 --> 00:03:53,450
+It's in fact better to consider it a member of the MV* family,
+
+71
+00:03:53,450 --> 00:03:55,200
+which approaches architecture in its own way.
+
+72
+00:03:56,230 --> 00:03:57,400
+There's nothing wrong with this, but
+
+73
+00:03:57,400 --> 00:04:02,210
+it's important to distinguish between classical MVC and MV*, should you be
+
+74
+00:04:02,210 --> 00:04:07,530
+relying on advice on classical literature on the former to help with the latter.
+
+75
+00:04:07,530 --> 00:04:09,960
+In other words, what he's really saying is,
+
+76
+00:04:09,960 --> 00:04:15,080
+Backbone doesn't exactly follow, the MVC model view controller, or
+
+77
+00:04:15,080 --> 00:04:18,570
+model view presenter, or model view, view model parallax.
+
+78
+00:04:18,570 --> 00:04:21,310
+Backbone kind of does things a little bit differently.
+
+79
+00:04:21,310 --> 00:04:22,990
+So now we know a couple things.
+
+80
+00:04:22,990 --> 00:04:26,300
+Definition like MVC and MVP and MVVM.
+
+81
+00:04:26,300 --> 00:04:28,210
+Are not the be all end all.
+
+82
+00:04:28,210 --> 00:04:30,360
+We also know that MV asterisk,
+
+83
+00:04:30,360 --> 00:04:34,720
+means patterns that do it differently form our traditional patterns.
+
+84
+00:04:34,720 --> 00:04:38,470
+And to make things stranger if you read a little bit more between the lines,
+
+85
+00:04:38,470 --> 00:04:41,230
+you'll find that Backbone is pretty agnostic about how
+
+86
+00:04:41,230 --> 00:04:45,200
+you organize the communication between the different parts of your application.
+
+87
+00:04:45,200 --> 00:04:46,490
+So what we're going to do,
+
+88
+00:04:46,490 --> 00:04:49,490
+is we're going to rely on the code that we're editing.
+
+89
+00:04:49,490 --> 00:04:50,880
+To dictate how things are done.
+
+90
+00:04:50,880 --> 00:04:53,990
+And we're going to check the documentation when we need help or
+
+91
+00:04:53,990 --> 00:04:55,450
+when things don't work.
+
+92
+00:04:55,450 --> 00:04:59,560
+So, it may seem strange to say, but in order to make a few changes to
+
+93
+00:04:59,560 --> 00:05:03,850
+a particular project, sometimes we don't have to understand it fully.
+
+94
+00:05:03,850 --> 00:05:06,390
+Its important that we remember, we're looking for
+
+95
+00:05:06,390 --> 00:05:08,880
+a general organizational picture here.
+
+96
+00:05:08,880 --> 00:05:10,710
+Not a super detailed one.
+
+97
+00:05:10,710 --> 00:05:14,720
+We aren't going to learn backbone.js really really well.
+
+98
+00:05:14,720 --> 00:05:16,860
+All of this documentation is here to help us,
+
+99
+00:05:16,860 --> 00:05:20,180
+we're not going to understand what every single piece does.
+
+100
+00:05:20,180 --> 00:05:24,560
+If we had to learn a library 100% before we could make any changes,
+
+101
+00:05:24,560 --> 00:05:27,380
+that would be impractical and unsustainable.
+
+102
+00:05:27,380 --> 00:05:28,960
+Let's take a step back from all of this and,
+
+103
+00:05:28,960 --> 00:05:31,460
+talk to Jacques, one of our Front End Developers.
+
+104
+00:05:31,460 --> 00:05:35,850
+About strategies that we can use, to start adding to a project,
+
+105
+00:05:35,850 --> 00:05:38,880
+without the code that we add, sticking out like a sore thumb.

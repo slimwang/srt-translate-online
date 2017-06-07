@@ -1,0 +1,198 @@
+﻿1
+00:00:00,320 --> 00:00:04,227
+Let's look at a more realistic
+image this time, for example,
+
+2
+00:00:04,227 --> 00:00:07,179
+this 64 by 64 pixel image of a car.
+
+3
+00:00:07,179 --> 00:00:11,509
+And let's compute the gradient
+magnitudes and directions at each pixel.
+
+4
+00:00:11,509 --> 00:00:15,429
+Now, instead of using all
+these individual values,
+
+5
+00:00:15,429 --> 00:00:21,289
+let's group them up into small cells,
+say, of size 8 by 8 pixels each.
+
+6
+00:00:21,289 --> 00:00:24,349
+Inside each cell is
+where the magic happens.
+
+7
+00:00:24,350 --> 00:00:27,400
+You will compute a histogram
+of gradient directions or
+
+8
+00:00:27,399 --> 00:00:32,019
+orientations from each of
+the 64 pixels within the cell.
+
+9
+00:00:32,020 --> 00:00:36,720
+The gradient samples are distributed
+into, say, nine orientation bins, and
+
+10
+00:00:36,719 --> 00:00:37,810
+summed up.
+
+11
+00:00:37,810 --> 00:00:41,510
+You typically won't need any more
+accuracy at this small scale.
+
+12
+00:00:41,509 --> 00:00:44,899
+The resulting histogram will
+look somewhat like this.
+
+13
+00:00:44,899 --> 00:00:47,060
+A better way to visualize
+the histogram for
+
+14
+00:00:47,060 --> 00:00:51,480
+an individual cell would be to add
+up the contributions for samples in
+
+15
+00:00:51,479 --> 00:00:56,719
+each orientation bin to get a sort of
+star with arms of different lengths.
+
+16
+00:00:56,719 --> 00:01:00,689
+The direction with the longest arm
+is the dominant gradient direction
+
+17
+00:01:00,689 --> 00:01:01,949
+in the cell.
+
+18
+00:01:01,950 --> 00:01:06,450
+Note that the histogram is not strictly
+a count of the number of samples in each
+
+19
+00:01:06,450 --> 00:01:07,540
+direction.
+
+20
+00:01:07,540 --> 00:01:11,860
+Instead, you sum up the gradient
+magnitude of each sample.
+
+21
+00:01:11,859 --> 00:01:16,280
+So stronger gradients contribute more
+weight to their orientation bin, and
+
+22
+00:01:16,280 --> 00:01:21,760
+the effect of small random gradients
+due to noise, etc., is reduced.
+
+23
+00:01:21,760 --> 00:01:26,490
+In other words, each pixel in the image
+gets a vote on which histogram bin it
+
+24
+00:01:26,489 --> 00:01:30,259
+belongs in based on the gradient
+direction at that position.
+
+25
+00:01:30,260 --> 00:01:31,219
+But the strength or
+
+26
+00:01:31,219 --> 00:01:36,090
+weight of that vote depends on
+the gradient magnitude at that pixel.
+
+27
+00:01:36,090 --> 00:01:38,079
+When you do this for all the cells,
+
+28
+00:01:38,079 --> 00:01:42,409
+you begin to see a representation
+of the original structure emerge.
+
+29
+00:01:42,409 --> 00:01:45,269
+As demonstrated with
+simpler shapes before,
+
+30
+00:01:45,269 --> 00:01:49,289
+something like this can be used
+as a signature for a given shape.
+
+31
+00:01:49,290 --> 00:01:54,780
+This is known as a histogram of
+oriented gradients, or HOG feature.
+
+32
+00:01:54,780 --> 00:01:58,920
+The main advantage now is that you have
+built in the ability to accept small
+
+33
+00:01:58,920 --> 00:02:03,310
+variations in the shape, while
+keeping the signature distinct enough.
+
+34
+00:02:03,310 --> 00:02:07,265
+How accommodating or sensitive
+the feature is can be tweaked by
+
+35
+00:02:07,265 --> 00:02:11,699
+varying parameters such as the number
+of orientation bins, grid of cells,
+
+36
+00:02:11,699 --> 00:02:15,780
+cell sizes,
+adding any overlap between cells, etc.
+
+37
+00:02:15,780 --> 00:02:20,620
+A number of other enhancements are used
+in practice, including normalizing for
+
+38
+00:02:20,620 --> 00:02:24,120
+intensity across small blocks of cells,
+etc.
+
+39
+00:02:24,120 --> 00:02:28,030
+For a more in depth discussion of
+histogram of oriented gradients and
+
+40
+00:02:28,030 --> 00:02:29,319
+how it has been used for
+
+41
+00:02:29,319 --> 00:02:33,234
+detecting people, please refer to
+the link in the instructor notes.
+

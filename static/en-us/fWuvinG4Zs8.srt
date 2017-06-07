@@ -1,0 +1,225 @@
+1
+00:00:00,100 --> 00:00:03,950
+One way to solve this is to use so
+called indirect pointers.
+
+2
+00:00:03,950 --> 00:00:07,340
+Here is an inode structure that
+uses these indirect pointers.
+
+3
+00:00:07,340 --> 00:00:12,160
+Just like before, the inode contains
+metadata and pointers to blocks of data.
+
+4
+00:00:12,160 --> 00:00:14,900
+The inode is organized
+in a way that first,
+
+5
+00:00:14,900 --> 00:00:19,840
+it has all of the metadata, owner,
+when is the file last accessed?
+
+6
+00:00:19,840 --> 00:00:23,340
+Then it starts with
+the pointers to blocks.
+
+7
+00:00:23,340 --> 00:00:27,630
+The first part is a list
+of pointers that directly
+
+8
+00:00:27,630 --> 00:00:31,600
+point to a block on disk
+that stores the file data.
+
+9
+00:00:31,600 --> 00:00:35,200
+Using the same example like before,
+where we had blocks that are 1 kilobyte
+
+10
+00:00:35,200 --> 00:00:41,015
+large, and we used 4 bytes to
+address an individual block,
+
+11
+00:00:41,015 --> 00:00:47,605
+these direct pointers will
+point to 1KB of data per entry.
+
+12
+00:00:47,605 --> 00:00:52,465
+To extend the number of disk blocks
+that can be addressed via single inode
+
+13
+00:00:52,465 --> 00:00:56,282
+element, while keeping
+the size of the inode small,
+
+14
+00:00:56,282 --> 00:00:59,157
+we use so-called indirect pointers.
+
+15
+00:00:59,157 --> 00:01:03,862
+And indirect pointer, as opposed to
+pointing to an actual data block
+
+16
+00:01:03,862 --> 00:01:08,112
+will point to a block
+that's full of pointers.
+
+17
+00:01:08,112 --> 00:01:12,072
+Given that our blocks
+are 1 kilobyte large and
+
+18
+00:01:12,072 --> 00:01:17,100
+our pointers are 4 byte large, that
+means that a single indirect pointer
+
+19
+00:01:17,100 --> 00:01:22,770
+can point to 256 kilobytes
+of file content.
+
+20
+00:01:22,770 --> 00:01:26,580
+So just using a single element
+of the inode data structure
+
+21
+00:01:26,580 --> 00:01:31,410
+as this indirect pointer can
+significantly increase the overall size
+
+22
+00:01:31,410 --> 00:01:34,720
+of the files that can be
+supported in this file system.
+
+23
+00:01:34,720 --> 00:01:39,380
+Now, if we need even larger files,
+we can use double indirect pointers.
+
+24
+00:01:39,380 --> 00:01:41,290
+A double indirect pointer,
+
+25
+00:01:41,290 --> 00:01:46,310
+points to a block which contains
+pointers to blocks of data.
+
+26
+00:01:46,310 --> 00:01:51,430
+If every block has 256 pointers,
+then this double
+
+27
+00:01:51,430 --> 00:01:57,070
+indirect pointer can help
+us address 256 times 256
+
+28
+00:01:57,070 --> 00:02:03,180
+times 1 kilobyte blocks for
+a total of 64 megabytes of data.
+
+29
+00:02:03,180 --> 00:02:07,670
+We can apply the same idea to triple
+indirect addressing and so forth.
+
+30
+00:02:07,670 --> 00:02:12,910
+The benefits of using indirect pointers
+is that it allows us to continue using
+
+31
+00:02:12,910 --> 00:02:19,385
+relatively small inodes, while at the
+same time addressing really large files.
+
+32
+00:02:19,385 --> 00:02:22,935
+The downside is that this
+has an implication on
+
+33
+00:02:22,935 --> 00:02:27,065
+slowing down the file access
+with direct pointer when we need
+
+34
+00:02:27,065 --> 00:02:29,690
+to perform an access to
+a portion of the file.
+
+35
+00:02:29,690 --> 00:02:32,870
+We need to first access
+the inode itself and
+
+36
+00:02:32,870 --> 00:02:36,710
+that may be stored somewhere on disk,
+and then we will find out what is
+
+37
+00:02:36,710 --> 00:02:40,380
+the pointer to a particular data block,
+and we will access the data block.
+
+38
+00:02:40,380 --> 00:02:44,700
+So we mean the performing 2 disk
+accesses per file access and
+
+39
+00:02:44,700 --> 00:02:46,212
+that's at most.
+
+40
+00:02:46,212 --> 00:02:49,890
+With the double indirect pointers,
+the situation is very different.
+
+41
+00:02:49,890 --> 00:02:54,780
+We need one disk access to get to
+the block that contains the inode.
+
+42
+00:02:54,780 --> 00:03:00,060
+Then we may need another disk access
+to get to the first addressing block.
+
+43
+00:03:00,060 --> 00:03:04,290
+Then, from there, a second disk
+access to get to the second level
+
+44
+00:03:04,290 --> 00:03:08,310
+addressing block, and then finally we
+get to the block that contains the data.
+
+45
+00:03:08,310 --> 00:03:13,390
+So for a single file operation, we may
+end up performing up to 4 disk accesses.
+
+46
+00:03:13,390 --> 00:03:15,760
+That's a 2x performance degradation.

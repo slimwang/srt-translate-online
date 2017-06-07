@@ -1,0 +1,283 @@
+1
+00:00:00,220 --> 00:00:01,390
+Let's go through the prediction and
+
+2
+00:00:01,390 --> 00:00:04,400
+correction just a little
+bit in the Kalman 1D case.
+
+3
+00:00:04,400 --> 00:00:09,870
+Remember, we're going to assume
+that the state of time t, okay,
+
+4
+00:00:09,870 --> 00:00:14,660
+is just a constant times whatever
+the state was at t minus 1,
+
+5
+00:00:14,660 --> 00:00:17,830
+plus some noise that's added,
+some process noise.
+
+6
+00:00:17,830 --> 00:00:18,470
+Right?
+
+7
+00:00:18,470 --> 00:00:21,570
+So the first thing we would like to do
+is we would like to know our estimate.
+
+8
+00:00:21,570 --> 00:00:23,650
+What's our best guess?
+
+9
+00:00:23,650 --> 00:00:29,090
+At time t, given everything t minus 1,
+when we've got this Gaussian model.
+
+10
+00:00:29,090 --> 00:00:31,846
+Well, we're going to write
+this the following, right.
+
+11
+00:00:31,846 --> 00:00:33,870
+If, if something is a Gaussian, and
+
+12
+00:00:33,870 --> 00:00:37,410
+I multiply it by a constant,
+what does that become?
+
+13
+00:00:37,410 --> 00:00:38,890
+It becomes another Gaussian.
+
+14
+00:00:38,890 --> 00:00:42,120
+Or another way of saying it,
+I have some variable that's distributed
+
+15
+00:00:42,120 --> 00:00:45,660
+by a Gaussian, and
+I multiply that variable by a constant.
+
+16
+00:00:45,660 --> 00:00:47,110
+I get a new value out.
+
+17
+00:00:47,110 --> 00:00:49,740
+But it's also a Gaussian, all right?
+
+18
+00:00:49,740 --> 00:00:52,950
+And in fact,
+if you remember from probability right?
+
+19
+00:00:52,950 --> 00:00:58,350
+It's mean is just going to be that
+constant times the previous mean.
+
+20
+00:00:58,350 --> 00:01:00,760
+So that's what this equation here says.
+
+21
+00:01:00,760 --> 00:01:06,890
+This equation says that if I have my
+belief about the mean at time t minus 1.
+
+22
+00:01:06,890 --> 00:01:09,730
+After I've done all
+my work at t minus 1.
+
+23
+00:01:09,730 --> 00:01:14,370
+And if I believe that my
+dynamics are multiplying
+
+24
+00:01:14,370 --> 00:01:19,500
+the state at every time step by d,
+my belief before
+
+25
+00:01:19,500 --> 00:01:24,750
+I take a measurement about what the new
+mean is just going to be d times that.
+
+26
+00:01:24,750 --> 00:01:27,520
+That's what this equation at
+the bottom says here, right?
+
+27
+00:01:27,520 --> 00:01:29,560
+Mu minus a time t,
+
+28
+00:01:29,560 --> 00:01:36,180
+the predicted mean is just d times
+the mean from what I had before.
+
+29
+00:01:36,180 --> 00:01:38,120
+Okay?
+Because d is my multiplier.
+
+30
+00:01:38,120 --> 00:01:41,570
+All right, so you remember that when I
+multiply something by a constant and
+
+31
+00:01:41,570 --> 00:01:44,810
+it's Gaussian, the mean just multiplies.
+
+32
+00:01:44,810 --> 00:01:47,320
+But what about the variance, okay?
+
+33
+00:01:47,320 --> 00:01:49,020
+Now we have to update the variance.
+
+34
+00:01:49,020 --> 00:01:51,100
+There are two things that are going on.
+
+35
+00:01:51,100 --> 00:01:55,000
+First of all,
+we're taking some previous variable and
+
+36
+00:01:55,000 --> 00:01:56,880
+we're multiplying it by constant.
+
+37
+00:01:56,880 --> 00:02:00,820
+That variable had some sigma,
+sigma squared to it.
+
+38
+00:02:00,820 --> 00:02:03,590
+And maybe you remember if you have
+a Gaussian, when you multiply that by
+
+39
+00:02:03,590 --> 00:02:07,800
+a constant, its variance goes up
+by the square of that constant.
+
+40
+00:02:07,800 --> 00:02:12,690
+So just In the multiplication part,
+all right.
+
+41
+00:02:12,690 --> 00:02:17,780
+Whatever the variance was before is
+going to go up by now d squared.
+
+42
+00:02:18,820 --> 00:02:20,930
+But wait, we're not done.
+
+43
+00:02:20,930 --> 00:02:28,680
+We also added in some more noise when
+we took that step, right, of d squared.
+
+44
+00:02:28,680 --> 00:02:32,630
+So that means the new variance
+before we take a measurement
+
+45
+00:02:32,630 --> 00:02:35,190
+is made up of two components.
+
+46
+00:02:35,190 --> 00:02:37,376
+It's d squared times whatever
+the variance was before so
+
+47
+00:02:37,376 --> 00:02:39,350
+that's written as d sigma
+t minus 1 plus squared.
+
+48
+00:02:39,350 --> 00:02:45,960
+Sigma t minus 1 plus is the standard
+deviation if its squared.
+
+49
+00:02:45,960 --> 00:02:49,240
+It's the variance of what we
+had at the end of t minus 1.
+
+50
+00:02:49,240 --> 00:02:50,870
+We multiply everything by d.
+
+51
+00:02:50,870 --> 00:02:53,540
+So we multiply that
+variance by d squared.
+
+52
+00:02:53,540 --> 00:02:55,410
+That's what this term over here is.
+
+53
+00:02:55,410 --> 00:02:58,800
+And then, we added in some more noise.
+
+54
+00:02:58,800 --> 00:03:02,190
+Because of uncertainty of how
+the thing actually then moved,
+
+55
+00:03:02,190 --> 00:03:04,920
+that is this d squared okay?
+
+56
+00:03:04,920 --> 00:03:09,858
+So even if we were multiplying by
+a one that is even if we had no idea.
+
+57
+00:03:09,858 --> 00:03:12,190
+There was that, you know,
+everything was just a one,
+
+58
+00:03:12,190 --> 00:03:16,680
+our variance would still grow
+because of the added uncertainty.
+
+59
+00:03:16,680 --> 00:03:18,206
+All right?
+So the, the update of the mean or
+
+60
+00:03:18,206 --> 00:03:21,198
+the update of the variance for
+the Kalman is written like this.
+
+61
+00:03:21,198 --> 00:03:22,483
+All right.

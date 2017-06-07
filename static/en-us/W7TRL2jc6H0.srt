@@ -1,0 +1,174 @@
+1
+00:00:00,490 --> 00:00:01,430
+All right, last question.
+
+2
+00:00:02,430 --> 00:00:06,810
+Remember we said features are not 2D,
+no problem, just hydro planes.
+
+3
+00:00:06,810 --> 00:00:09,100
+If the labels are not
+linearly separable,
+
+4
+00:00:09,100 --> 00:00:11,560
+we do this really cool thing
+with the kernel trick and
+
+5
+00:00:11,560 --> 00:00:15,080
+that puts us in a higher dimensional
+space, and we separate them up there.
+
+6
+00:00:15,080 --> 00:00:18,030
+Well, what if we have just, we,
+we don't have just two categories,
+
+7
+00:00:18,030 --> 00:00:19,860
+what if we have more than two?
+
+8
+00:00:19,860 --> 00:00:23,380
+Well, you have a couple of choices, none
+of which are particularly satisfying.
+
+9
+00:00:23,380 --> 00:00:27,230
+Basically, SVMs allow you to
+create binary classifiers.
+
+10
+00:00:27,230 --> 00:00:28,790
+This versus that.
+
+11
+00:00:28,790 --> 00:00:30,840
+The simplest thing you can do,
+well, not the simplest,
+
+12
+00:00:30,840 --> 00:00:34,050
+one thing you can do is you can train,
+it's called one versus all.
+
+13
+00:00:34,050 --> 00:00:36,590
+You can train the As versus not As.
+
+14
+00:00:36,590 --> 00:00:38,218
+Right?
+And the Bs versus not Bs, and
+
+15
+00:00:38,218 --> 00:00:40,220
+the Cs, you, you get the point, right?
+
+16
+00:00:40,220 --> 00:00:44,610
+And then at testing time,
+you apply all of these machines, and
+
+17
+00:00:44,610 --> 00:00:48,540
+you assign it to the SVM that
+is it's actually interesting,
+
+18
+00:00:48,540 --> 00:00:51,380
+we haven't talked about this, maybe
+two of the machines say that you're
+
+19
+00:00:51,380 --> 00:00:54,660
+on the positive side of the line,
+but remember that
+
+20
+00:00:56,150 --> 00:01:00,840
+W dot X plus B, or the kernel,
+plus b, that actually
+
+21
+00:01:00,840 --> 00:01:05,850
+gives you something like a distance
+away from the decision boundary.
+
+22
+00:01:05,850 --> 00:01:08,760
+So, you could actually pick the one
+that had that highest value.
+
+23
+00:01:08,760 --> 00:01:12,620
+The one that seems to be farthest
+away from its decision function.
+
+24
+00:01:12,620 --> 00:01:14,410
+So that's one versus all.
+
+25
+00:01:14,410 --> 00:01:18,660
+The other thing that you can do is you
+can do what's called one versus one.
+
+26
+00:01:18,660 --> 00:01:22,120
+You learn an SVM for
+each pair of classes.
+
+27
+00:01:22,120 --> 00:01:26,980
+So A versus B, A versus C, A versus D,
+B versus C, B versus D, C versus D,
+
+28
+00:01:26,980 --> 00:01:28,270
+if you had A, B, C, D.
+
+29
+00:01:29,970 --> 00:01:34,610
+And then what you do is you apply all
+of those to some point that comes in,
+
+30
+00:01:34,610 --> 00:01:39,610
+and, essentially each SVM is trying to
+vote for which class it belongs to.
+
+31
+00:01:39,610 --> 00:01:42,820
+Now, if I apply a D to the A versus B,
+
+32
+00:01:42,820 --> 00:01:45,160
+I'm going to get some random value,
+right?
+
+33
+00:01:46,200 --> 00:01:50,500
+But if I apply the, a D to the A versus
+D, and the B versus D, and
+
+34
+00:01:50,500 --> 00:01:55,030
+the C versus D, I hope that three
+of those would vote for it being D.
+
+35
+00:01:55,030 --> 00:01:57,080
+So you basically count the votes.
+
+36
+00:01:57,080 --> 00:02:00,700
+It's not very satisfying either way,
+
+37
+00:02:00,700 --> 00:02:03,980
+most people I know actually do the one
+versus all, so they do n of them.

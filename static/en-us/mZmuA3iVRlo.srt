@@ -1,0 +1,292 @@
+1
+00:00:00,486 --> 00:00:03,189
+All right, so
+here we are back in the Android Studio,
+
+2
+00:00:03,189 --> 00:00:05,606
+reviewing the source for
+our DroidCardsView.
+
+3
+00:00:05,606 --> 00:00:07,962
+Again, this is our custom view.
+
+4
+00:00:07,962 --> 00:00:11,870
+Just to recall, it's in this custom view
+that we build our stacked playing cards.
+
+5
+00:00:11,870 --> 00:00:14,480
+For example,
+each card has its own bitmap, and
+
+6
+00:00:14,480 --> 00:00:17,910
+we draw them to the screen by
+overriding the onDraw method.
+
+7
+00:00:19,280 --> 00:00:22,320
+Now remember,
+by overriding the onDraw method,
+
+8
+00:00:22,320 --> 00:00:25,580
+Android won't be able to optimize
+the rendering of this view, so
+
+9
+00:00:25,580 --> 00:00:28,720
+it's our job as developers
+to properly clip each card
+
+10
+00:00:28,720 --> 00:00:31,200
+as it's drawn to the screen to
+avoid the unnecessary overdraw.
+
+11
+00:00:32,470 --> 00:00:36,010
+Fortunately, the Canvas API gives us
+just the right methods we need to draw
+
+12
+00:00:36,010 --> 00:00:38,010
+our cards more efficiently.
+
+13
+00:00:38,010 --> 00:00:39,130
+Let's take a look at the documentation.
+
+14
+00:00:40,520 --> 00:00:45,010
+Let's use the canvas.clipRect
+method to improve our code.
+
+15
+00:00:45,010 --> 00:00:49,272
+We're going to use this variant here
+that takes four floats as parameters.
+
+16
+00:00:49,272 --> 00:00:51,325
+All right,
+now we're back in Android Studio.
+
+17
+00:00:51,325 --> 00:00:56,074
+Let's tweak how we draw each cascaded
+card so that we reduce this overdraw.
+
+18
+00:00:56,074 --> 00:00:59,063
+I'm going to use this nifty feature
+within Android Studio to bring up a diff
+
+19
+00:00:59,063 --> 00:01:02,212
+view, so you can see the before and
+after state of the code.
+
+20
+00:01:02,212 --> 00:01:05,510
+'Kay, all right, here we are in our
+comparison view, and let's look
+
+21
+00:01:05,510 --> 00:01:09,180
+particularly at the onDraw method,
+which is the one we're overriding.
+
+22
+00:01:09,180 --> 00:01:11,590
+We've got the old state of the for
+loop here on the left,
+
+23
+00:01:11,590 --> 00:01:15,110
+but let's focus here on the improvements
+that we're going to make on the right.
+
+24
+00:01:15,110 --> 00:01:19,100
+Now, as we iterate over the cards,
+let's go over each step of improvement.
+
+25
+00:01:19,100 --> 00:01:22,789
+Number one, first, we're going to
+calculate the position for the card.
+
+26
+00:01:23,850 --> 00:01:26,736
+Then we need to call this
+function canvas.save,
+
+27
+00:01:26,736 --> 00:01:29,491
+which is going to save our
+existing canvas state.
+
+28
+00:01:29,491 --> 00:01:30,549
+In other words,
+
+29
+00:01:30,549 --> 00:01:35,691
+it maintains the existing state of your
+screen before we apply the clipRect API.
+
+30
+00:01:35,691 --> 00:01:37,485
+Now, when we call this clipRect method,
+
+31
+00:01:37,485 --> 00:01:40,664
+we're basically doing some
+geometric restrictions.
+
+32
+00:01:40,664 --> 00:01:43,580
+When we pass in these parameters,
+we're basically telling the system
+
+33
+00:01:43,580 --> 00:01:47,000
+to only draw a portion of the card
+that we want to see visible.
+
+34
+00:01:47,000 --> 00:01:48,420
+Obviously, the rest of
+it would be hidden.
+
+35
+00:01:49,470 --> 00:01:52,250
+Now, only the parts of the card that lie
+within the bounds of the restriction
+
+36
+00:01:52,250 --> 00:01:54,660
+that we just put will get drawn.
+
+37
+00:01:54,660 --> 00:01:57,012
+Finally, we're going to
+call canvas.restore,
+
+38
+00:01:57,012 --> 00:01:59,890
+which is going to revert the canvas
+to a non-clipping state.
+
+39
+00:01:59,890 --> 00:02:00,650
+In other words,
+
+40
+00:02:00,650 --> 00:02:04,244
+it's going to undo the restriction that
+we put in place when we called clipRect.
+
+41
+00:02:04,244 --> 00:02:08,788
+And then we repeat this loop for
+all the cards except the top one.
+
+42
+00:02:08,788 --> 00:02:11,000
+Now specifically, we process the top or
+
+43
+00:02:11,000 --> 00:02:13,780
+last card differently than
+its underlying siblings.
+
+44
+00:02:13,780 --> 00:02:16,440
+For this one, no clipping is needed, so
+
+45
+00:02:16,440 --> 00:02:18,650
+we're going to go ahead and
+draw it in its entirety.
+
+46
+00:02:18,650 --> 00:02:20,780
+You can see that via
+the statement right here.
+
+47
+00:02:21,980 --> 00:02:23,800
+All right,
+let's build our improved code and
+
+48
+00:02:23,800 --> 00:02:25,315
+see if we've reduced
+a bunch of overdraw.
+
+49
+00:02:27,660 --> 00:02:28,820
+All right, awesome.
+
+50
+00:02:28,820 --> 00:02:30,970
+As you can see here, much less overdraw.
+
+51
+00:02:32,130 --> 00:02:35,250
+Now I hope it's clear that with the
+Canvas API, we have a straightforward
+
+52
+00:02:35,250 --> 00:02:38,350
+way to draw efficiently when
+working with custom views.
+
+53
+00:02:38,350 --> 00:02:41,720
+Oh, and in case you want to
+explore the Canvas API some more,
+
+54
+00:02:41,720 --> 00:02:45,170
+be sure to check out the full
+documentation in the instructor notes.
+
+55
+00:02:45,170 --> 00:02:48,460
+Now, views like these are great for
+helping us create a unique and
+
+56
+00:02:48,460 --> 00:02:52,480
+compelling UX, but
+remember that we must clue in the system
+
+57
+00:02:52,480 --> 00:02:56,110
+to help Android render such
+views in a performant fashion.
+
+58
+00:02:56,110 --> 00:02:59,800
+So whenever you're creating a custom
+view, be sure to check for overdraw, and
+
+59
+00:02:59,800 --> 00:03:01,972
+be ready to revive your friend,
+the clipRect method.
+
+60
+00:03:01,972 --> 00:03:04,290
+All right, awesome work.
+
+61
+00:03:04,290 --> 00:03:06,280
+Let's head back to Colt for
+more perf wisdom.

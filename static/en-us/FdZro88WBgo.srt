@@ -1,0 +1,218 @@
+﻿1
+00:00:00,000 --> 00:00:03,658
+Services hang out in the background,
+processing, downloading, or
+
+2
+00:00:03,658 --> 00:00:07,700
+uploading data while the phone is locked
+or the user is using unrelated apps.
+
+3
+00:00:07,700 --> 00:00:08,532
+This is nice, but
+
+4
+00:00:08,532 --> 00:00:11,989
+you might be wondering how services
+are started in the first place.
+
+5
+00:00:11,990 --> 00:00:14,220
+There are three ways to start a service.
+
+6
+00:00:14,220 --> 00:00:18,071
+You can manually start a service,
+you can schedule a service, or
+
+7
+00:00:18,071 --> 00:00:20,070
+you can bind to a service.
+
+8
+00:00:20,070 --> 00:00:22,859
+The most straightforward way
+to start a service is to call
+
+9
+00:00:22,859 --> 00:00:25,950
+the startService method from a context,
+such as an activity.
+
+10
+00:00:25,949 --> 00:00:27,335
+The service will execute, but
+
+11
+00:00:27,335 --> 00:00:30,820
+will not usually communicate back
+to the component which started it.
+
+12
+00:00:30,820 --> 00:00:33,996
+If you want to have a service execute
+at some point in the future, or
+
+13
+00:00:33,996 --> 00:00:35,471
+when some conditions are met,
+
+14
+00:00:35,470 --> 00:00:38,439
+you can create a special type
+of service called a JobService.
+
+15
+00:00:38,439 --> 00:00:41,924
+You create your JobService, and
+then you define when the job should
+
+16
+00:00:41,924 --> 00:00:46,140
+run using a scheduler, like
+JobScheduler or Firebase JobDispatcher.
+
+17
+00:00:46,140 --> 00:00:49,637
+They allow you to define complex
+run schedules for your service,
+
+18
+00:00:49,637 --> 00:00:52,509
+like have a service run
+every 24 hours when on WiFi.
+
+19
+00:00:52,509 --> 00:00:54,899
+Then the scheduler schedules the job for
+you.
+
+20
+00:00:54,899 --> 00:00:58,347
+We'll be talking about scheduling
+services like this in greater detail
+
+21
+00:00:58,347 --> 00:00:58,748
+later.
+
+22
+00:00:58,747 --> 00:01:02,890
+Finally, a bindService offers
+a client server-like interface.
+
+23
+00:01:02,890 --> 00:01:04,861
+With your service being the server and
+
+24
+00:01:04,861 --> 00:01:08,320
+the various components binding to
+the service being the clients.
+
+25
+00:01:08,319 --> 00:01:11,699
+Components bind to the service
+using the bindService method.
+
+26
+00:01:11,700 --> 00:01:15,210
+Unlike started services, which you
+tend to start and then forget about.
+
+27
+00:01:15,209 --> 00:01:18,712
+Bound services can easily communicate
+back to the components that are bound to
+
+28
+00:01:18,712 --> 00:01:19,489
+them.
+
+29
+00:01:19,489 --> 00:01:23,469
+An example of when you might use a bound
+service is a media player application.
+
+30
+00:01:23,469 --> 00:01:25,844
+You might have a bound
+service which plays audio and
+
+31
+00:01:25,844 --> 00:01:27,819
+an activity which controls the UI.
+
+32
+00:01:27,819 --> 00:01:31,734
+It's important to use a bound service as
+oppose to a started service because you
+
+33
+00:01:31,734 --> 00:01:35,140
+probably want to update the UI to
+represent where in the audio you are.
+
+34
+00:01:35,140 --> 00:01:38,495
+If you press the Pause button in the
+activity, you might also want to send
+
+35
+00:01:38,495 --> 00:01:41,400
+additional commands to
+the service from the activity.
+
+36
+00:01:41,400 --> 00:01:45,070
+Note that a service being bound or
+started is not mutually exclusive.
+
+37
+00:01:45,069 --> 00:01:46,649
+A service can be both.
+
+38
+00:01:46,650 --> 00:01:49,830
+We'll be using services
+in Sunshine in two ways.
+
+39
+00:01:49,829 --> 00:01:52,091
+First, when the user
+changes their location,
+
+40
+00:01:52,091 --> 00:01:55,959
+new weather data needs to be immediately
+downloaded in the background.
+
+41
+00:01:55,959 --> 00:01:59,444
+Secondly, weather data should
+be downloaded on a regular
+
+42
+00:01:59,444 --> 00:02:01,229
+schedule in the background.
+
+43
+00:02:01,230 --> 00:02:04,130
+Because of this, I won't say
+much more about bound services.
+
+44
+00:02:04,129 --> 00:02:07,589
+But if you're curious about them,
+I've provided some links below.
+
+45
+00:02:07,590 --> 00:02:11,229
+I'll be focusing on started services and
+scheduled job services.
+
+46
+00:02:11,229 --> 00:02:13,269
+Let's talk about started services first.
+

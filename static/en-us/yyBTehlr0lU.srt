@@ -1,0 +1,470 @@
+1
+00:00:00,025 --> 00:00:07,045
+AsyncTask has three generic parameters,
+params, progress and result.
+
+2
+00:00:07,045 --> 00:00:11,309
+And the AsyncTask method utilize
+this generics as place holders for
+
+3
+00:00:11,309 --> 00:00:14,360
+the actual data type we want to use.
+
+4
+00:00:14,360 --> 00:00:17,536
+You see the methods signature
+refer the param, progress and
+
+5
+00:00:17,536 --> 00:00:19,286
+result placeholder data types.
+
+6
+00:00:19,286 --> 00:00:22,056
+When we subclass
+a AsyncTtask in our app,
+
+7
+00:00:22,056 --> 00:00:26,647
+we can substitute the placeholders
+with the data types we want to use,
+
+8
+00:00:26,647 --> 00:00:30,550
+like string or earthquake or
+other object types.
+
+9
+00:00:30,550 --> 00:00:33,420
+I'll explain the purpose
+of each generic parameter
+
+10
+00:00:33,420 --> 00:00:35,650
+in the context of
+the below code snippet.
+
+11
+00:00:36,660 --> 00:00:39,960
+The download files task class
+is meant to take one or
+
+12
+00:00:39,960 --> 00:00:44,740
+more URL's, download each of them while
+publishing progress along the way.
+
+13
+00:00:44,740 --> 00:00:45,260
+And finally,
+
+14
+00:00:45,260 --> 00:00:50,610
+the task returns the total size of all
+the downloaded files in units of bytes.
+
+15
+00:00:50,610 --> 00:00:53,850
+Once this class is defined
+we can the constructor
+
+16
+00:00:53,850 --> 00:00:57,700
+to create a download files
+task object instance.
+
+17
+00:00:57,700 --> 00:01:01,120
+Then, we can execute
+the task immediately and
+
+18
+00:01:01,120 --> 00:01:05,330
+pass in any number of file
+URLs that we want to fetch.
+
+19
+00:01:05,330 --> 00:01:08,723
+Here we pass in three,
+url1, url2, and url3.
+
+20
+00:01:08,723 --> 00:01:12,421
+Let's take a closer look
+at the class definition,
+
+21
+00:01:12,421 --> 00:01:16,800
+which is a subclass that
+extends from AsyncTask.
+
+22
+00:01:16,800 --> 00:01:20,830
+Notice that the AsyncTask name is
+followed by the names of three classes
+
+23
+00:01:20,830 --> 00:01:22,390
+in brackets.
+
+24
+00:01:22,390 --> 00:01:24,880
+The first generic type is params
+
+25
+00:01:24,880 --> 00:01:28,620
+which is the data type of the in
+parameter sent to the background task.
+
+26
+00:01:29,910 --> 00:01:33,840
+In the code snippet
+the params data type is URL.
+
+27
+00:01:33,840 --> 00:01:38,720
+That means the doInBackground method
+will accept the list of URL inputs.
+
+28
+00:01:38,720 --> 00:01:40,150
+You haven’t seen this kind of dot,
+
+29
+00:01:40,150 --> 00:01:44,250
+dot, dot notation yet but all that it
+means is that there's a variable number
+
+30
+00:01:44,250 --> 00:01:48,930
+of arguments that we can put in there,
+this is often called varargs.
+
+31
+00:01:48,930 --> 00:01:51,800
+Any numbers of inputs here is
+valid as long as they all have
+
+32
+00:01:51,800 --> 00:01:53,800
+the same data type in this case URL.
+
+33
+00:01:54,820 --> 00:01:58,649
+That means you can execute
+the task with one URL, two URLs or
+
+34
+00:01:58,649 --> 00:02:02,105
+more depending on how many
+files you want to download.
+
+35
+00:02:02,105 --> 00:02:04,396
+Back to the do and background method,
+
+36
+00:02:04,396 --> 00:02:08,949
+the input arguments get stored in
+an array variable called URLs.
+
+37
+00:02:08,949 --> 00:02:13,040
+We can check the length of
+the URLs array using urls.length,
+
+38
+00:02:13,040 --> 00:02:17,000
+then we can access each element of the
+array using square bracket notation were
+
+39
+00:02:17,000 --> 00:02:18,660
+you're familiar with.
+
+40
+00:02:18,660 --> 00:02:22,940
+URL gives us access to the zeroth
+element of the ray and so on.
+
+41
+00:02:22,940 --> 00:02:26,650
+In this example we used a four
+loop to iterate to each element
+
+42
+00:02:26,650 --> 00:02:32,220
+of the URLs array and actually download
+a file using the Downloader class.
+
+43
+00:02:32,220 --> 00:02:35,720
+We also keep a running total
+of the size of all the files
+
+44
+00:02:35,720 --> 00:02:37,480
+in the totalSize integer variable.
+
+45
+00:02:38,510 --> 00:02:42,550
+Remember, doInBackground
+happens off the UI threat.
+
+46
+00:02:42,550 --> 00:02:46,630
+So our app will stay responsive even if
+the doing background part takes a while.
+
+47
+00:02:47,870 --> 00:02:50,460
+The second generic
+parameter is progress.
+
+48
+00:02:50,460 --> 00:02:51,770
+Which is the data type used for
+
+49
+00:02:51,770 --> 00:02:54,750
+measuring progress of the work being
+down on the background thread.
+
+50
+00:02:56,170 --> 00:02:59,710
+In download files task,
+we periodically publish updates and
+
+51
+00:02:59,710 --> 00:03:02,890
+then update the UI with
+percentage completed.
+
+52
+00:03:02,890 --> 00:03:08,016
+To do this we specify integer
+as the progress parameter.
+
+53
+00:03:08,016 --> 00:03:11,360
+That means we call publish
+progress with an integer
+
+54
+00:03:11,360 --> 00:03:14,479
+value while the background
+work is happening.
+
+55
+00:03:14,479 --> 00:03:19,620
+Then, in the onProgressUpdate method
+which is called by the main thread,
+
+56
+00:03:19,620 --> 00:03:24,580
+we received that integer input value and
+can modify the UI.
+
+57
+00:03:24,580 --> 00:03:29,670
+Again, we see the three dot notation
+following the input data type here,
+
+58
+00:03:29,670 --> 00:03:33,990
+meaning that we can accept a variable
+number of input arguments.
+
+59
+00:03:33,990 --> 00:03:38,450
+If you call publish progress from
+a background thread with two values,
+
+60
+00:03:38,450 --> 00:03:42,330
+then in on progress update
+you will receive two inputs.
+
+61
+00:03:42,330 --> 00:03:46,330
+This functionality is useful if you're
+downloading multiple files at the same
+
+62
+00:03:46,330 --> 00:03:49,450
+time, and want to show the different
+progress values of each file.
+
+63
+00:03:50,490 --> 00:03:55,040
+Similar to the URL inputs above,
+the progress variable is an array.
+
+64
+00:03:55,040 --> 00:03:59,380
+We can access each progress value using
+the square brackets with an index
+
+65
+00:03:59,380 --> 00:04:02,460
+position, such as progress zezro.
+
+66
+00:04:02,460 --> 00:04:05,890
+Then we can update the UI
+with a new progress value.
+
+67
+00:04:07,030 --> 00:04:11,340
+Similar to the URL inputs above,
+the progress variable is an array.
+
+68
+00:04:12,400 --> 00:04:16,089
+We can access each progress value using
+the square brackets with an index
+
+69
+00:04:16,089 --> 00:04:19,290
+position such as progress 0.
+
+70
+00:04:19,290 --> 00:04:21,990
+Then we can update the UI
+with the new progress value.
+
+71
+00:04:23,890 --> 00:04:28,170
+Now, we've come to the third and
+final generic datatype called result.
+
+72
+00:04:29,220 --> 00:04:34,080
+Result is the datatype of the return
+value from the doInBackground method.
+
+73
+00:04:34,080 --> 00:04:37,880
+You can think of it as the datatype of
+the result from the background work.
+
+74
+00:04:39,340 --> 00:04:43,950
+In this case, we return total size once
+all the files have been downloaded.
+
+75
+00:04:43,950 --> 00:04:49,240
+The method signature of doing background
+specifies long as the return data type.
+
+76
+00:04:49,240 --> 00:04:52,610
+Note that long is
+spelled with capital L.
+
+77
+00:04:52,610 --> 00:04:57,530
+In the past, we've seen that long is a
+primitive Java data type just like int,
+
+78
+00:04:57,530 --> 00:05:00,630
+that covers a wider numerical range.
+
+79
+00:05:00,630 --> 00:05:05,210
+However, generic data types must
+be an object data type here.
+
+80
+00:05:05,210 --> 00:05:09,670
+So we use Long with a capital L,
+which is just an object version
+
+81
+00:05:09,670 --> 00:05:12,550
+wrapped around the old,
+primitive long data type.
+
+82
+00:05:12,550 --> 00:05:18,010
+In the AsyncTask the Long result
+gets passed to onPostExectute.
+
+83
+00:05:18,010 --> 00:05:20,420
+Which is now back on the UI thread.
+
+84
+00:05:20,420 --> 00:05:24,130
+We don't use the variable arguments
+notation with dots in this case.
+
+85
+00:05:24,130 --> 00:05:26,800
+The input to the on post execute method
+
+86
+00:05:26,800 --> 00:05:31,620
+has to be a single value with the data
+type specified in the class declaration.
+
+87
+00:05:31,620 --> 00:05:32,670
+In this example,
+
+88
+00:05:32,670 --> 00:05:37,250
+we just wanted to show a dialog with
+the file size that we retrieved.
+
+89
+00:05:37,250 --> 00:05:40,120
+Depending on how the sub
+class is implemented,
+
+90
+00:05:40,120 --> 00:05:43,140
+we may not need all
+the generic data types.
+
+91
+00:05:43,140 --> 00:05:47,820
+For examples, there may be no input
+parameters, no return value, or
+
+92
+00:05:47,820 --> 00:05:49,510
+no progress value.
+
+93
+00:05:49,510 --> 00:05:53,740
+In those cases, use void for
+the generic type parameter.
+
+94
+00:05:53,740 --> 00:05:57,600
+Make sure you capitalize v
+in void because the generic
+
+95
+00:05:57,600 --> 00:06:00,442
+parameter must be an object data type.
+
+96
+00:06:00,442 --> 00:06:03,183
+Now, it's time for a quiz to
+reinforce what you just learned.
+
+97
+00:06:03,183 --> 00:06:07,438
+Look at the provide code StepIt and fill
+in the blank for the generic types and
+
+98
+00:06:07,438 --> 00:06:10,510
+the class declaration for
+the download webpage task.

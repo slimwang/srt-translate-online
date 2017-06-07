@@ -1,0 +1,275 @@
+1
+00:00:00,170 --> 00:00:05,030
+Looking in the code from the previous morsel, it may seem complex, but
+
+2
+00:00:05,030 --> 00:00:08,950
+you will soon become experts at turning on these critical sections.
+
+3
+00:00:08,950 --> 00:00:13,620
+To make things more simple, let's generalize the structure of each of the code
+
+4
+00:00:13,620 --> 00:00:20,120
+blocks corresponding to the entry points and the exit points in the actual,
+
+5
+00:00:20,120 --> 00:00:25,050
+the real critical section code that the readers and writers are performing.
+
+6
+00:00:25,050 --> 00:00:30,130
+So these code segments here correspond to the enter critical
+
+7
+00:00:30,130 --> 00:00:35,080
+section and the exit critical section codes.
+
+8
+00:00:35,080 --> 00:00:40,710
+When we consider read data as the operation that the real critical section,
+
+9
+00:00:40,710 --> 00:00:44,520
+given that what we really wanted to protect was the file.
+
+10
+00:00:44,520 --> 00:00:49,668
+So this is what we want to control, and then we structure these code blocks to,
+
+11
+00:00:49,668 --> 00:00:55,380
+to limit the entry phase into this code and then the exit phase.
+
+12
+00:00:55,380 --> 00:00:58,360
+Internally, each of these clearly,
+
+13
+00:00:58,360 --> 00:01:01,320
+it represents a critical section code as well.
+
+14
+00:01:01,320 --> 00:01:05,250
+Since there is a lock operation and then there is a shared resource.
+
+15
+00:01:05,250 --> 00:01:09,030
+The resource counter that is updated in both of these cases.
+
+16
+00:01:09,030 --> 00:01:13,090
+If we closely examine each of the blocks that we highlighted in
+
+17
+00:01:13,090 --> 00:01:14,910
+the previous example.
+
+18
+00:01:14,910 --> 00:01:17,980
+We will see that they have the form as follows.
+
+19
+00:01:17,980 --> 00:01:20,030
+First we must lock the mutex.
+
+20
+00:01:20,030 --> 00:01:23,162
+Then we have to check on a predicate to determine whether
+
+21
+00:01:23,162 --> 00:01:26,190
+it's okay to actually perform the access.
+
+22
+00:01:26,190 --> 00:01:28,800
+If the predicate is not met, we must wait.
+
+23
+00:01:28,800 --> 00:01:33,120
+The wait itself is associated with the condition variable and a mutex, and
+
+24
+00:01:33,120 --> 00:01:35,650
+this is the exact same mutex that we locked.
+
+25
+00:01:35,650 --> 00:01:37,920
+When we come out of the wait statement,
+
+26
+00:01:37,920 --> 00:01:40,700
+we have to go back to check the predicate.
+
+27
+00:01:40,700 --> 00:01:42,720
+So we have to have the while loop.
+
+28
+00:01:42,720 --> 00:01:45,010
+The wait statement has to be in a while loop.
+
+29
+00:01:45,010 --> 00:01:47,120
+When we ultimately come out of the while loop,
+
+30
+00:01:47,120 --> 00:01:49,240
+because the predicate has been made.
+
+31
+00:01:49,240 --> 00:01:52,860
+We potentially perform some type of update to the shared state.
+
+32
+00:01:52,860 --> 00:01:57,430
+These updates potentially impact something about the predicates that
+
+33
+00:01:57,430 --> 00:02:00,670
+other threads are waiting on, so we should need to
+
+34
+00:02:00,670 --> 00:02:05,510
+notify them by basically notifying the appropriate condition variables.
+
+35
+00:02:05,510 --> 00:02:08,110
+We do that via a signal and a broadcast.
+
+36
+00:02:08,110 --> 00:02:12,540
+And ultimately we must unlock the mutex so here the lock construct we set in
+
+37
+00:02:12,540 --> 00:02:16,280
+Burrell's paper, the unlock operation is implicit.
+
+38
+00:02:16,280 --> 00:02:21,300
+In some threading environments there is an explicit unlock api that,
+
+39
+00:02:21,300 --> 00:02:22,860
+that we must call.
+
+40
+00:02:22,860 --> 00:02:27,570
+Returning to the readers writers example the real critical sections in this
+
+41
+00:02:27,570 --> 00:02:31,510
+case, are the read operation and the write operation, right?
+
+42
+00:02:31,510 --> 00:02:34,370
+These are the operations that we want to control.
+
+43
+00:02:34,370 --> 00:02:38,470
+And we want to protect, the very least we want to make sure that there isn't
+
+44
+00:02:38,470 --> 00:02:41,990
+a situation where there is a concurrently a write operation where,
+
+45
+00:02:41,990 --> 00:02:43,750
+while others are reading.
+
+46
+00:02:43,750 --> 00:02:45,900
+As well as that there are no concurrent writes.
+
+47
+00:02:45,900 --> 00:02:48,560
+So the code blocks that precede and
+
+48
+00:02:48,560 --> 00:02:52,830
+follow each of these critical sections both on the reader's side that we
+
+49
+00:02:52,830 --> 00:02:57,260
+outlined before and the corresponding ones on the writer's side.
+
+50
+00:02:57,260 --> 00:03:00,770
+These we call the Enter Critical Section blocks and
+
+51
+00:03:00,770 --> 00:03:02,900
+the Exit Critical Section blocks.
+
+52
+00:03:02,900 --> 00:03:07,720
+Every single one of these blocks uses the same mutex, counter_mutex.
+
+53
+00:03:07,720 --> 00:03:10,680
+And so only one thread at a time will be able to
+
+54
+00:03:10,680 --> 00:03:15,100
+execute within these code blocks, except that in these code blocks we
+
+55
+00:03:15,100 --> 00:03:17,500
+only manipulate the resource_counter variable.
+
+56
+00:03:17,500 --> 00:03:21,860
+So only one one thread at a time can manipulate the resource_counter variable.
+
+57
+00:03:21,860 --> 00:03:24,890
+However potentially multiple threads at a time can be
+
+58
+00:03:24,890 --> 00:03:28,220
+performing concurrently a read file operation.
+
+59
+00:03:28,220 --> 00:03:33,310
+So it looks like these enter critical section blocks are sort of like
+
+60
+00:03:33,310 --> 00:03:38,610
+a lock operation that we have to perform before we want to
+
+61
+00:03:38,610 --> 00:03:41,340
+access a resource that we want to protect.
+
+62
+00:03:41,340 --> 00:03:46,740
+That we want to control what kinds of accesses to that shared resource we allow.
+
+63
+00:03:46,740 --> 00:03:50,420
+And then similarly when we are done with manipulating that shared resource,
+
+64
+00:03:50,420 --> 00:03:55,230
+these exit critical sections are sort of for like are, unlock.
+
+65
+00:03:55,230 --> 00:04:01,520
+In the plain mutex case, we have to unlock a mutex in order to allow some
+
+66
+00:04:01,520 --> 00:04:05,980
+other thread to proceed, otherwise the threads will be blocked indefinitely.
+
+67
+00:04:05,980 --> 00:04:11,380
+Same here, when we finish this critical section we have to execute this
+
+68
+00:04:11,380 --> 00:04:16,660
+portion of the code in order to allow other threads, writers in this case,
+
+69
+00:04:16,660 --> 00:04:19,320
+to actually go ahead and gain access to the file.

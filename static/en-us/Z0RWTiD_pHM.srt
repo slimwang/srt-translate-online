@@ -1,0 +1,243 @@
+1
+00:00:00,340 --> 00:00:03,020
+So, this is where we turn to NuPrl. As
+
+2
+00:00:03,020 --> 00:00:07,000
+I mentioned already, NuPrl is a theoretical framework. And there
+
+3
+00:00:07,000 --> 00:00:10,260
+is a way by which the OCaml code can
+
+4
+00:00:10,260 --> 00:00:12,620
+be converted to NuPrl code. There is a tool that
+
+5
+00:00:12,620 --> 00:00:15,480
+allows that transformation to be done very simply. We
+
+6
+00:00:15,480 --> 00:00:19,550
+use that tool to convert the unoptimized OCaml code to
+
+7
+00:00:19,550 --> 00:00:21,960
+the NuPrl code and once you have the NuPrl
+
+8
+00:00:21,960 --> 00:00:25,630
+code, then we can roll up our sleeves and say
+
+9
+00:00:25,630 --> 00:00:27,840
+how do we go about optimizing this NuPrl
+
+10
+00:00:27,840 --> 00:00:30,360
+code. There are two step process for this.
+
+11
+00:00:30,360 --> 00:00:32,350
+The first step is what is called static
+
+12
+00:00:32,350 --> 00:00:37,200
+optimization and this requires that a NuPrl expert
+
+13
+00:00:37,200 --> 00:00:39,850
+and the OCaml expert sit together and, in
+
+14
+00:00:39,850 --> 00:00:43,460
+a semi-automatic manner, they go layer by layer
+
+15
+00:00:43,460 --> 00:00:47,550
+in the protocol stack, and identify what transformation
+
+16
+00:00:47,550 --> 00:00:51,030
+code can be applied in order to optimize
+
+17
+00:00:51,030 --> 00:00:53,010
+each of the layers. We're not going across
+
+18
+00:00:53,010 --> 00:00:55,210
+layers, but for every layer we're asking the
+
+19
+00:00:55,210 --> 00:00:59,440
+question, is it possible to simplify the functionality
+
+20
+00:00:59,440 --> 00:01:02,430
+of what is happening in one layer by
+
+21
+00:01:02,430 --> 00:01:06,120
+looking at the NuPrl code and using the
+
+22
+00:01:06,120 --> 00:01:10,000
+NuPrl framework and the optimization theorems that is
+
+23
+00:01:10,000 --> 00:01:12,430
+part of that framework to come up with
+
+24
+00:01:12,430 --> 00:01:16,120
+a more optimized implementation of each and every one
+
+25
+00:01:16,120 --> 00:01:18,040
+of these layers. That's what we're doing in this
+
+26
+00:01:18,040 --> 00:01:21,000
+first step. This is where both the NuPrl expert and
+
+27
+00:01:21,000 --> 00:01:23,750
+the OCaml expert have to sit together because you want
+
+28
+00:01:23,750 --> 00:01:26,490
+the NuPrl expert to know whether the optimization that they
+
+29
+00:01:26,490 --> 00:01:29,120
+are attempting to do is kosher with respect to the
+
+30
+00:01:29,120 --> 00:01:32,740
+functionality that is desired in the OCaml code. And that's
+
+31
+00:01:32,740 --> 00:01:36,259
+why this is semi-automatic. Because the optimization itself can be
+
+32
+00:01:36,259 --> 00:01:41,120
+done, using the theorem proving framework. But whether that optimization
+
+33
+00:01:41,120 --> 00:01:43,700
+is an appropriate one or not is something that
+
+34
+00:01:43,700 --> 00:01:47,160
+has to be verified with manual intervention. And the kinds
+
+35
+00:01:47,160 --> 00:01:49,550
+of code transformation that can be done, are things
+
+36
+00:01:49,550 --> 00:01:53,180
+like function inlining. If you have function calls, then you
+
+37
+00:01:53,180 --> 00:01:55,650
+can make them inline. And that is one way
+
+38
+00:01:55,650 --> 00:01:59,870
+of optimizing it within a layer. And directed equality substitution
+
+39
+00:01:59,870 --> 00:02:02,370
+is another optimization that can be done. There are some
+
+40
+00:02:02,370 --> 00:02:06,200
+things that are very specific to functional programming, leading to
+
+41
+00:02:06,200 --> 00:02:08,270
+code simplicity. And all of those things are
+
+42
+00:02:08,270 --> 00:02:11,440
+what is being done in the static optimization
+
+43
+00:02:11,440 --> 00:02:14,560
+of every layer in the protocol stack. Remember
+
+44
+00:02:14,560 --> 00:02:16,845
+we are not going across layers, but every layer
+
+45
+00:02:16,845 --> 00:02:20,130
+we're doing the static optimization. This is good,
+
+46
+00:02:20,130 --> 00:02:23,960
+but unfortunately, that's not enough. Because we have lots
+
+47
+00:02:23,960 --> 00:02:28,040
+of layers between a message arriving and the
+
+48
+00:02:28,040 --> 00:02:31,670
+application getting that message or vice versa. And what
+
+49
+00:02:31,670 --> 00:02:38,230
+we want to be able to do is, if possible, collapse all these layers. Because
+
+50
+00:02:38,230 --> 00:02:43,300
+when you go through these multiple layers we're adding latency to the overall
+
+51
+00:02:43,300 --> 00:02:48,996
+processing of any message. And this is where we are going to turn to
+
+52
+00:02:48,996 --> 00:02:51,972
+the power of the NuPrl theorem proving
+
+53
+00:02:51,972 --> 00:02:56,520
+framework. So the next step is dynamic optimization.
+
+54
+00:02:56,520 --> 00:02:59,682
+Which is attempting to collapse these multiple layers, and
+
+55
+00:02:59,682 --> 00:03:02,764
+it is completely automatic. The previous one I said, layer
+
+56
+00:03:02,764 --> 00:03:06,882
+by layer, we're doing semi automatic fashion, there's completely automatic,
+
+57
+00:03:06,882 --> 00:03:09,434
+and it is the power of that theorem proving framework
+
+58
+00:03:09,434 --> 00:03:11,848
+which is actually going do that for you. And in
+
+59
+00:03:11,848 --> 00:03:15,327
+order for that theorem proving framework to do this work,
+
+60
+00:03:15,327 --> 00:03:18,380
+what we need to identify is, what are common things
+
+61
+00:03:18,380 --> 00:03:21,660
+that happen in order to do this collapsing of layers.

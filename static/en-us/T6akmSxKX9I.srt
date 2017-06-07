@@ -1,0 +1,95 @@
+1
+00:00:00,000 --> 00:00:06,766
+All right. So now we have our nice probabilistic model. They've been trained by data, and we'd like to see what we can do with them.
+
+2
+00:00:06,767 --> 00:00:11,666
+Here's an example of the type of things we'd like to be able to do, is resolve ambiguity.
+
+3
+00:00:11,667 --> 00:00:18,699
+So here we have the sentence, "I saw the man with the telescope," and two problem parses of the sentence.
+
+4
+00:00:18,700 --> 00:00:25,266
+In this part, it's the "seeing" that's done with the telescope. "I used the telescope to see the man."
+
+5
+00:00:25,267 --> 00:00:33,332
+In this parse, it's the man who has a telescope. So there's one noun phrase, "The man with the telescope," and that's what I saw.
+
+6
+00:00:33,333 --> 00:00:41,366
+Now, if we use the probabilistic model we have so far, all the probabilities are attached to these inner tree nodes,
+
+7
+00:00:41,367 --> 00:00:48,832
+and they only depend on the categories. So the difference between these two trees would be, one, here,
+
+8
+00:00:48,833 --> 00:00:54,266
+do we have a noun phrase that consists of a noun phrase followed by a preposition?
+
+9
+00:00:54,267 --> 00:01:03,199
+Or here, do we have a verb phrase which consists of a verb followed by a noun phrase followed by a prepositional phrase?
+
+10
+00:01:03,200 --> 00:01:09,099
+And yes, you could expect that there'll be different probabilities for those two cases.
+
+11
+00:01:09,100 --> 00:01:14,666
+But it doesn't seem like the difference between those probabilities is really getting at what's going on in this sentence.
+
+12
+00:01:14,667 --> 00:01:21,399
+What's really going on here is what we want to compare, and what we want to look at the probabilities for is,
+
+13
+00:01:21,400 --> 00:01:27,999
+does "telescope" and "with" go better with "man" or go better with "saw"?
+
+14
+00:01:28,000 --> 00:01:35,932
+So in other words, we'd like to condition our probabilities on the preposition with the noun "telescope"
+
+15
+00:01:35,933 --> 00:01:45,632
+and whether that associates better with "man," in which case we'd attach it here using this nP, or with "saw",
+
+16
+00:01:45,633 --> 00:01:51,032
+in which case we'd attach it over here using the vnP Pp construction.
+
+17
+00:01:51,033 --> 00:01:56,866
+And that doesn't seem to have to do anything at all with how common these constructions are,
+
+18
+00:01:56,867 --> 00:02:02,966
+whether vPs have pPs attached with them or whether nPs have pPs attached with them.
+
+19
+00:02:02,967 --> 00:02:11,632
+PP here of course means "prepositional phrase." But rather it has to do with the specifics of whether "men" are usually with "telescopes"
+
+20
+00:02:11,633 --> 00:02:14,399
+or whether "seeing" is usually with telescopes.
+
+21
+00:02:14,400 --> 00:02:19,532
+And so that's where we'd like to place our probabilities. And a grammar that does that,
+
+22
+00:02:19,533 --> 00:02:30,532
+that puts the probabilities down with the "telescope" and the "man", rather than up with the nP, that's called a lexicalized grammar.
+
+23
+00:02:30,533 --> 00:02:36,366
+So now we want to go--we started with context-free grammars, we add probabilities, and we got a probabilistic,
+
+24
+00:02:36,367 --> 00:02:42,767
+context-free grammar. Now we want a lexicalized probabilistic, context-free grammar.

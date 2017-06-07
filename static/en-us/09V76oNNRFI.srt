@@ -1,0 +1,238 @@
+1
+00:00:00,008 --> 00:00:04,490
+Now that we've finished coding the
+Gaussian elimination algorithm and we've
+
+2
+00:00:04,490 --> 00:00:09,620
+coded how to extract a solution from the
+reduced row echelon form of a system,
+
+3
+00:00:09,620 --> 00:00:13,930
+let's go one step further and
+give our program the ability to output
+
+4
+00:00:13,930 --> 00:00:19,140
+a Parameterization of the solution set
+if there are infinitely many solutions.
+
+5
+00:00:19,140 --> 00:00:23,930
+I've added a new class called
+Parameterization to my lynsis module.
+
+6
+00:00:23,930 --> 00:00:28,180
+To initialize a Parameterization object,
+you need to pass in a base point,
+
+7
+00:00:28,180 --> 00:00:32,020
+which is a vector and a list of vectors,
+the direction vectors.
+
+8
+00:00:32,020 --> 00:00:37,151
+For an example of what this means,
+let's look at the plain x + y + z = 1.
+
+9
+00:00:37,151 --> 00:00:40,810
+Suppose this is the solution set
+to some system of equations.
+
+10
+00:00:40,810 --> 00:00:47,810
+We could rewrite x as 1-y-z and
+then treat y and z as free variables.
+
+11
+00:00:47,810 --> 00:00:54,340
+So if we parameterize x, y, and
+z, the base point would be 1 0 0,
+
+12
+00:00:54,340 --> 00:00:58,640
+because y and z don't have constant
+terms, and x has a constant term of 1.
+
+13
+00:00:58,640 --> 00:01:04,510
+Then the vector multiplied
+by y would be -1 1 0 because
+
+14
+00:01:04,510 --> 00:01:10,080
+x has a -y term, y has 1 times y and
+z has no y term.
+
+15
+00:01:10,080 --> 00:01:14,991
+And similarly, the vector
+multiplied by z would be -1 0 1.
+
+16
+00:01:14,991 --> 00:01:19,170
+In this case, y and z are the parameters
+of the parametrization.
+
+17
+00:01:19,170 --> 00:01:23,590
+The base point of this parameterization
+would be the constant vector 1 0 0 and
+
+18
+00:01:23,590 --> 00:01:29,490
+the direction vectors are the vectors
+multiplied by y and z, the parameters.
+
+19
+00:01:29,490 --> 00:01:34,654
+These are the vectors -1 1 0 and -1 0 1.
+
+20
+00:01:34,654 --> 00:01:35,728
+You can find the code for
+
+21
+00:01:35,728 --> 00:01:39,110
+the parameterization class in
+the instructor notes as well.
+
+22
+00:01:39,110 --> 00:01:43,320
+For this quiz, your goal is to write
+a program that outputs a parametrization
+
+23
+00:01:43,320 --> 00:01:48,540
+object representing the solution to
+a system with infinitely many solutions.
+
+24
+00:01:48,540 --> 00:01:51,240
+To test that your program
+is working correctly,
+
+25
+00:01:51,240 --> 00:01:54,680
+here are three systems with
+infinitely many solutions.
+
+26
+00:01:54,680 --> 00:01:58,180
+Enter the correct parameterizations
+into the boxes provided.
+
+27
+00:01:58,180 --> 00:02:05,035
+The first system is 0.786x + 0.786y
+
+28
+00:02:05,035 --> 00:02:10,175
++ 0.588z = -0.714 and
+
+29
+00:02:10,175 --> 00:02:14,975
+-0.138x- 0.138y +
+
+30
+00:02:14,975 --> 00:02:19,271
+0.244z = 0.319.
+
+31
+00:02:19,271 --> 00:02:24,185
+The second system is 8.631x +
+
+32
+00:02:24,185 --> 00:02:30,747
+5.112y- 1.816z = -5.113.
+
+33
+00:02:30,747 --> 00:02:36,938
+And 4.315x +11.132y-
+
+34
+00:02:36,938 --> 00:02:41,730
+5.27z = -6.77 and
+
+35
+00:02:41,730 --> 00:02:46,722
+-2.158 + 3.01y-
+
+36
+00:02:46,722 --> 00:02:52,123
+1.727z = -0.831.
+
+37
+00:02:52,123 --> 00:02:57,217
+The third system is 0.935x
+
+38
+00:02:57,217 --> 00:03:04,953
++ 1.76y- 9.365z = -9.955 and
+
+39
+00:03:04,953 --> 00:03:09,859
+0.187x + 0.352y-
+
+40
+00:03:09,859 --> 00:03:15,143
+1.873z = -9.991 and
+
+41
+00:03:15,143 --> 00:03:20,049
+0.374x + 0.704y-
+
+42
+00:03:20,049 --> 00:03:25,333
+3.746z = -3.982 and
+
+43
+00:03:25,333 --> 00:03:30,239
+-0.561x- 1.056y
+
+44
+00:03:30,239 --> 00:03:36,040
++ 5.619z = 5.973.
+
+45
+00:03:36,040 --> 00:03:38,430
+In the code for
+the parameterization object,
+
+46
+00:03:38,430 --> 00:03:42,810
+the parameters are named t sub i for
+some number i.
+
+47
+00:03:42,810 --> 00:03:47,300
+But, for the purposes of this quiz,
+please use the letters t for
+
+48
+00:03:47,300 --> 00:03:49,560
+a parameter if there's
+just one parameter.
+
+49
+00:03:49,560 --> 00:03:52,720
+This would be called t1
+in the Python module.
+
+50
+00:03:52,720 --> 00:03:56,090
+And used t and
+s if there are two parameters.
+
+51
+00:03:56,090 --> 00:04:00,307
+So t would be t1 in the python module,
+and s would be t2.
+
+52
+00:04:00,307 --> 00:04:00,810
+Good luck.

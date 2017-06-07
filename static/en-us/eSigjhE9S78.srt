@@ -1,0 +1,487 @@
+1
+00:00:00,490 --> 00:00:05,170
+Let's now discuss the components of the RPC latency.
+
+2
+00:00:05,170 --> 00:00:07,640
+By now we are all familiar with the semantics
+
+3
+00:00:07,640 --> 00:00:12,330
+of RPC, namely, in RPC the client, is making
+
+4
+00:00:12,330 --> 00:00:15,100
+a remote procedure call to a server, and it
+
+5
+00:00:15,100 --> 00:00:18,840
+has to send the arguments of the call to
+
+6
+00:00:18,840 --> 00:00:20,810
+the server so that the server can execute the
+
+7
+00:00:20,810 --> 00:00:23,360
+server procedure and return the results back to the
+
+8
+00:00:23,360 --> 00:00:25,560
+client. So if you look at the components of the
+
+9
+00:00:25,560 --> 00:00:28,771
+RPC latency, it starts with the client, with a
+
+10
+00:00:28,771 --> 00:00:32,930
+client call. So the client call subsumes a number
+
+11
+00:00:32,930 --> 00:00:35,790
+of things. Number one, it is setting up the
+
+12
+00:00:35,790 --> 00:00:38,260
+arguments for the call. The client has to set up
+
+13
+00:00:38,260 --> 00:00:41,510
+the arguments for the procedure call. And then it
+
+14
+00:00:41,510 --> 00:00:44,200
+makes a call into the kernel. And once the
+
+15
+00:00:44,200 --> 00:00:46,480
+kernel is being informed that it wants to make
+
+16
+00:00:46,480 --> 00:00:50,980
+this call, the kernel validates the call, and then marshals
+
+17
+00:00:50,980 --> 00:00:54,260
+the arguments into a network packet, and sets
+
+18
+00:00:54,260 --> 00:00:56,790
+up the controller to actually do the network
+
+19
+00:00:56,790 --> 00:01:00,840
+transmission. That entire set of activities that the
+
+20
+00:01:00,840 --> 00:01:04,180
+client program and the kernel is involved in, in
+
+21
+00:01:04,180 --> 00:01:07,150
+getting ready a network packet to send out,
+
+22
+00:01:07,150 --> 00:01:10,100
+is subsumed in this one line, which I say
+
+23
+00:01:10,100 --> 00:01:12,360
+is the client call. The second part of
+
+24
+00:01:12,360 --> 00:01:16,110
+the latency is the controller latency, and this is
+
+25
+00:01:16,110 --> 00:01:19,130
+the part where the controller says, well, there is
+
+26
+00:01:19,130 --> 00:01:21,710
+a message to be sent out. I know where
+
+27
+00:01:21,710 --> 00:01:24,860
+it is in memory. I have to first DMA
+
+28
+00:01:24,860 --> 00:01:28,200
+that message into my buffer and then put the
+
+29
+00:01:28,200 --> 00:01:32,000
+message out on the wire. That's the controller latency
+
+30
+00:01:32,000 --> 00:01:35,510
+and so this part of it is in hardware,
+
+31
+00:01:35,510 --> 00:01:38,030
+and as operating system designer we're going to take what
+
+32
+00:01:38,030 --> 00:01:41,430
+the hardware gives us. Controller latency is what you have,
+
+33
+00:01:41,430 --> 00:01:44,260
+that given by the hardware. The third part of the
+
+34
+00:01:44,260 --> 00:01:47,440
+latency is the time on the wire. Now this really
+
+35
+00:01:47,440 --> 00:01:52,150
+depends, as one might imagine, on the distance between the
+
+36
+00:01:52,150 --> 00:01:54,680
+client and the server. The limiting factor of course is
+
+37
+00:01:54,680 --> 00:01:58,550
+speed of light. So, depending on the bandwidth that's available
+
+38
+00:01:58,550 --> 00:02:01,430
+between the source and the destination, perhaps if you have
+
+39
+00:02:01,430 --> 00:02:04,290
+to go through intermediate routers and so on. It is
+
+40
+00:02:04,290 --> 00:02:06,980
+going to take a certain amount of time to go from
+
+41
+00:02:06,980 --> 00:02:09,680
+the client to the server machine, and that we
+
+42
+00:02:09,680 --> 00:02:12,240
+call as the time on the wire. So then, the
+
+43
+00:02:12,240 --> 00:02:16,950
+message arrives over on the destination node, and it
+
+44
+00:02:16,950 --> 00:02:19,130
+arrives in the form of an interrupt to the operating
+
+45
+00:02:19,130 --> 00:02:21,550
+system. So, the interrupt has to be handled by
+
+46
+00:02:21,550 --> 00:02:24,730
+the operating system, and part of handling the interrupt is
+
+47
+00:02:24,730 --> 00:02:27,650
+moving the bits that come in on the wire
+
+48
+00:02:27,650 --> 00:02:32,570
+into the controller buffer. And from the controller buffer into
+
+49
+00:02:32,570 --> 00:02:36,050
+the memory of the node. So all of
+
+50
+00:02:36,050 --> 00:02:39,610
+that activity is subsumed in this item number four,
+
+51
+00:02:39,610 --> 00:02:42,600
+which I call the interrupt handling. So once the
+
+52
+00:02:42,600 --> 00:02:45,770
+interrupt handling is complete, then we can set up
+
+53
+00:02:45,770 --> 00:02:49,060
+the server procedure to execute the original call. Now,
+
+54
+00:02:49,060 --> 00:02:51,080
+what is involved in that? Well, you have to
+
+55
+00:02:51,080 --> 00:02:55,180
+locate the server procedure, and once you locate the
+
+56
+00:02:55,180 --> 00:02:58,270
+server procedure, you have to dispatch the server procedure.
+
+57
+00:02:58,270 --> 00:03:00,970
+And once you dispatch the server procedure, you
+
+58
+00:03:00,970 --> 00:03:05,210
+have to unmarshal the network packet that comes in
+
+59
+00:03:05,210 --> 00:03:08,780
+as the actual arguments for the call that the
+
+60
+00:03:08,780 --> 00:03:11,340
+server procedure has to execute. So all of that
+
+61
+00:03:11,340 --> 00:03:14,570
+setup is first done, and then the server procedure
+
+62
+00:03:14,570 --> 00:03:18,565
+can actually execute the call. So this is the
+
+63
+00:03:18,565 --> 00:03:21,490
+five-step process. From the time the client says, I
+
+64
+00:03:21,490 --> 00:03:24,020
+want to make a RPC call to the point
+
+65
+00:03:24,020 --> 00:03:26,950
+of actually executing the call, these are the layers
+
+66
+00:03:26,950 --> 00:03:30,560
+of software and, of course, hardware and time on
+
+67
+00:03:30,560 --> 00:03:34,720
+the wire, by which time you're ready to execute
+
+68
+00:03:34,720 --> 00:03:38,070
+the server procedure. So even though it looks like a
+
+69
+00:03:38,070 --> 00:03:40,770
+simple procedure call from the clients point of view,
+
+70
+00:03:40,770 --> 00:03:43,010
+there is all this latency to be incurred in
+
+71
+00:03:43,010 --> 00:03:45,500
+executing a remote procedure call. So at the end
+
+72
+00:03:45,500 --> 00:03:49,330
+of step five, the server is all set to execute
+
+73
+00:03:49,330 --> 00:03:52,426
+the procedure. Let's see what happens then. So step
+
+74
+00:03:52,426 --> 00:03:55,537
+number six is server execution, meaning that it is actually
+
+75
+00:03:55,537 --> 00:03:58,645
+executing the procedure. And of course, this is not under
+
+76
+00:03:58,645 --> 00:04:02,236
+our control as operating system designer, because at this point,
+
+77
+00:04:02,236 --> 00:04:04,441
+the amount of time that the server is going
+
+78
+00:04:04,441 --> 00:04:07,402
+to execute this procedure depends really on the logic of
+
+79
+00:04:07,402 --> 00:04:10,111
+the program that has been written as a client server
+
+80
+00:04:10,111 --> 00:04:14,584
+program. And then, finally, once the server procedure has completed
+
+81
+00:04:14,584 --> 00:04:17,248
+execution, then it says okay, I am ready to
+
+82
+00:04:17,248 --> 00:04:20,055
+send the reply back to the client, and that's
+
+83
+00:04:20,055 --> 00:04:22,720
+where we pick up again, so, what happens is
+
+84
+00:04:22,720 --> 00:04:26,400
+that at that point, you are receiving the results. So,
+
+85
+00:04:26,400 --> 00:04:29,680
+once again, just like when the client wanted to
+
+86
+00:04:29,680 --> 00:04:33,380
+send the arguments, you have to convert the actual
+
+87
+00:04:33,380 --> 00:04:35,530
+arguments into a network packet and send it out
+
+88
+00:04:35,530 --> 00:04:39,570
+on the wire. Similarly,when the server is ready to reply,
+
+89
+00:04:39,570 --> 00:04:41,850
+you have to take that reply, which is the results
+
+90
+00:04:41,850 --> 00:04:45,950
+of the execution of this procedure, and make it into a
+
+91
+00:04:45,950 --> 00:04:48,700
+network packet. And at this point, once it has been made
+
+92
+00:04:48,700 --> 00:04:50,920
+into a network packet it has to be handed over to
+
+93
+00:04:50,920 --> 00:04:55,160
+the controller, and the controller does exactly what we did
+
+94
+00:04:55,160 --> 00:04:58,204
+on this side, which is to say the controller latency is
+
+95
+00:04:58,204 --> 00:05:00,400
+gon, is going to be incurred. So that's why you see
+
+96
+00:05:00,400 --> 00:05:04,170
+item number two appearing all over again in the return path.
+
+97
+00:05:04,170 --> 00:05:07,860
+Similar to sending the arguments over to the server
+
+98
+00:05:07,860 --> 00:05:10,420
+on the wire, the results have to be sent on
+
+99
+00:05:10,420 --> 00:05:13,140
+the wire back to the client. And so you
+
+100
+00:05:13,140 --> 00:05:16,110
+see that item number three, which is the time on
+
+101
+00:05:16,110 --> 00:05:18,360
+the wire, is reappearing on the return path as
+
+102
+00:05:18,360 --> 00:05:22,960
+well. Come over to this side. The incoming result message
+
+103
+00:05:22,960 --> 00:05:26,230
+is going to result in a, an interrupt on the
+
+104
+00:05:26,230 --> 00:05:29,400
+receiving node, the client node. And that is exactly similar
+
+105
+00:05:29,400 --> 00:05:32,400
+to what happened on the server side item number four.
+
+106
+00:05:32,400 --> 00:05:35,300
+So you see number item number four reappearing on the
+
+107
+00:05:35,300 --> 00:05:37,900
+return path as well. So that is the interrupt handling
+
+108
+00:05:37,900 --> 00:05:42,010
+part. And once that interrupt is handled, the operating system on
+
+109
+00:05:42,010 --> 00:05:44,900
+the client side said, oh this was on behalf of
+
+110
+00:05:44,900 --> 00:05:48,080
+this client, let me redispatch the client, set up the
+
+111
+00:05:48,080 --> 00:05:51,710
+client so that the client can then receive the results,
+
+112
+00:05:51,710 --> 00:05:54,680
+and restart execution where it left off. So the only two
+
+113
+00:05:54,680 --> 00:05:57,520
+new things that we added in the return path
+
+114
+00:05:57,520 --> 00:06:00,100
+was item number six and seven. Two, three, and
+
+115
+00:06:00,100 --> 00:06:03,070
+four was exactly the same as what we saw
+
+116
+00:06:03,070 --> 00:06:05,330
+on the way over to the server, that is being
+
+117
+00:06:05,330 --> 00:06:08,380
+repeated on the way back to the client. So
+
+118
+00:06:08,380 --> 00:06:13,660
+that's the seven step latency involved in the RPC, not
+
+119
+00:06:13,660 --> 00:06:16,870
+worrying about the actual execution time of the server
+
+120
+00:06:16,870 --> 00:06:19,890
+core itself because that is not in the purview of
+
+121
+00:06:19,890 --> 00:06:21,620
+the operating system, it is in the purview of
+
+122
+00:06:21,620 --> 00:06:24,800
+the client server program that the app developer has done.

@@ -1,0 +1,349 @@
+1
+00:00:00,300 --> 00:00:03,460
+In this lesson, we will be talking
+at length about scheduling and
+
+2
+00:00:03,460 --> 00:00:05,250
+OS schedulers.
+
+3
+00:00:05,250 --> 00:00:09,760
+So continuing with our visual metaphor,
+we'll try to visualize what are some of
+
+4
+00:00:09,760 --> 00:00:13,270
+the issues when it
+comes to OS scheduling.
+
+5
+00:00:13,270 --> 00:00:17,660
+Using our toy shop analogies,
+we'll think of an OS scheduler and
+
+6
+00:00:17,660 --> 00:00:20,520
+we'll compare it with
+a toy shop manager.
+
+7
+00:00:20,520 --> 00:00:26,010
+like an OS scheduler, the toy shop
+manager schedules work in the toy shop.
+
+8
+00:00:26,010 --> 00:00:27,240
+For a toy shop manager,
+
+9
+00:00:27,240 --> 00:00:31,530
+there are multiple ways how it can
+choose to schedule the toy shop workers
+
+10
+00:00:31,530 --> 00:00:34,810
+and dispatch them two
+workers in the toy shop.
+
+11
+00:00:34,810 --> 00:00:38,385
+First, the toy shop owner can
+dispatch orders immediately,
+
+12
+00:00:38,385 --> 00:00:40,592
+as soon as they arrive in the toy shop.
+
+13
+00:00:40,592 --> 00:00:44,124
+Or the manager may decide to
+dispatch the simple orders first.
+
+14
+00:00:44,124 --> 00:00:48,830
+Or, even conversely, the manager can
+decide to dispatch the complex orders as
+
+15
+00:00:48,830 --> 00:00:50,600
+soon as they arrive in the shop.
+
+16
+00:00:50,600 --> 00:00:53,400
+The motivation for
+each of these choices is based
+
+17
+00:00:53,400 --> 00:00:55,980
+on some of the high level
+goals of the manager and
+
+18
+00:00:55,980 --> 00:01:01,130
+how he wants to manage the shop and
+utilize the resources in the shop.
+
+19
+00:01:01,130 --> 00:01:03,940
+Let's investigate these
+choices a little more.
+
+20
+00:01:03,940 --> 00:01:06,770
+If the manager wants low
+scheduling overhead,
+
+21
+00:01:06,770 --> 00:01:11,260
+not to have to analyze too much what
+he needs to do when an order comes,
+
+22
+00:01:11,260 --> 00:01:14,220
+he can choose to dispatch
+the orders immediately.
+
+23
+00:01:14,220 --> 00:01:18,140
+The scheduling in this case is very
+simple, we can think of it as a FIFO.
+
+24
+00:01:18,140 --> 00:01:20,875
+First order that comes in,
+is the first one that will be served.
+
+25
+00:01:20,875 --> 00:01:24,360
+If the manager is concerned
+with the total number of
+
+26
+00:01:24,360 --> 00:01:27,690
+orders that get processed
+over a period of time,
+
+27
+00:01:27,690 --> 00:01:31,340
+it would be good to dispatch the simple
+orders as soon as they arrive.
+
+28
+00:01:31,340 --> 00:01:34,690
+They will be the ones that will
+be completing more quickly, and
+
+29
+00:01:34,690 --> 00:01:37,690
+that will maximize
+this particular metric.
+
+30
+00:01:37,690 --> 00:01:38,990
+Obviously, in order to do this,
+
+31
+00:01:38,990 --> 00:01:43,380
+the manager has to spend a little bit
+more time whenever an order comes,
+
+32
+00:01:43,380 --> 00:01:46,930
+because he needs to check what
+kind of order that it is,
+
+33
+00:01:46,930 --> 00:01:51,370
+whether it's going to be a simple one or
+not, and then decide what to do with it.
+
+34
+00:01:51,370 --> 00:01:53,230
+So basically, it will be important for
+
+35
+00:01:53,230 --> 00:01:57,190
+the manager to be able to assess
+the complexity of the orders.
+
+36
+00:01:57,190 --> 00:02:00,778
+On the other hand,
+on each of the work benches in the shop,
+
+37
+00:02:00,778 --> 00:02:04,810
+there may be different kinds of tools,
+and these simple orders,
+
+38
+00:02:04,810 --> 00:02:07,890
+these may not really
+exercise all of these tools,
+
+39
+00:02:07,890 --> 00:02:11,799
+they may not require the use of
+all aspects of the work benches.
+
+40
+00:02:11,799 --> 00:02:16,176
+So if the manager wishes to keep all
+of the resources that are available on
+
+41
+00:02:16,176 --> 00:02:18,472
+the work benches as busy as possible,
+
+42
+00:02:18,472 --> 00:02:22,378
+he may choose to schedule complex
+orders as soon as they arrive.
+
+43
+00:02:22,378 --> 00:02:24,558
+And then whenever simple ones come in,
+
+44
+00:02:24,558 --> 00:02:27,862
+perhaps the workers can pause
+the processing of the complex
+
+45
+00:02:27,862 --> 00:02:32,120
+order to get a simple one in and
+to finish it as soon as possible.
+
+46
+00:02:32,120 --> 00:02:34,440
+In comparison,
+the scheduling options for
+
+47
+00:02:34,440 --> 00:02:38,890
+a toy shop manager are surprisingly
+similar to those of an OS scheduler.
+
+48
+00:02:38,890 --> 00:02:42,970
+For an OS scheduler, these choices
+are analyzed in terms of tasks,
+
+49
+00:02:42,970 --> 00:02:45,990
+which is either a thread or a process.
+
+50
+00:02:45,990 --> 00:02:49,800
+And these are being scheduled onto
+the CPUs that are managed by the OS
+
+51
+00:02:49,800 --> 00:02:54,310
+scheduler, like the work benches in
+the case of the toy shop manager.
+
+52
+00:02:54,310 --> 00:02:58,990
+For an OS scheduler, we can choose
+a simple approach to schedule tasks
+
+53
+00:02:58,990 --> 00:03:01,080
+in a first come, first serve manner.
+
+54
+00:03:01,080 --> 00:03:03,380
+The benefit is that
+the scheduling is simple and
+
+55
+00:03:03,380 --> 00:03:07,930
+that we don't spend a lot of
+overhead in the OS scheduler itself.
+
+56
+00:03:07,930 --> 00:03:12,490
+Using a similar analogy to what the toy
+shop manager was thinking of when
+
+57
+00:03:12,490 --> 00:03:15,780
+he chose to dispatch
+the simple orders first,
+
+58
+00:03:15,780 --> 00:03:21,200
+an OS scheduler can assign,
+can dispatch simple tasks first.
+
+59
+00:03:21,200 --> 00:03:25,030
+The outcome of this kind of scheduling
+can be that the throughput of the system
+
+60
+00:03:25,030 --> 00:03:26,360
+overall is maximized.
+
+61
+00:03:26,360 --> 00:03:30,360
+And there are schedulers that actually
+follow this kind of algorithm and
+
+62
+00:03:30,360 --> 00:03:32,300
+those are called shortest job first.
+
+63
+00:03:32,300 --> 00:03:36,510
+So simple in terms of the task
+is equal to its running time, so
+
+64
+00:03:36,510 --> 00:03:38,440
+shortest job first.
+
+65
+00:03:38,440 --> 00:03:43,430
+And finally, the scheduling logic
+behind assigning complex task first
+
+66
+00:03:43,430 --> 00:03:46,400
+is similar to the case in the toy shop.
+
+67
+00:03:46,400 --> 00:03:50,860
+Here, the scheduler's calls are to
+maximize all aspects of the platform.
+
+68
+00:03:50,860 --> 00:03:55,510
+So to utilize well both the CPUs as
+well as any other devices, memory,
+
+69
+00:03:55,510 --> 00:03:58,510
+or other resources that
+are present on that platform.
+
+70
+00:03:58,510 --> 00:04:02,170
+As we move through this lesson, we will
+discuss some of the options that need to
+
+71
+00:04:02,170 --> 00:04:05,530
+be considered when designing
+algorithms such as these.
+
+72
+00:04:05,530 --> 00:04:09,280
+And, in general, we will discuss
+various aspects of the design and
+
+73
+00:04:09,280 --> 00:04:11,170
+implementation of OS schedulers.

@@ -1,0 +1,151 @@
+1
+00:00:00,240 --> 00:00:02,740
+Let's talk about process scheduling next.
+
+2
+00:00:02,740 --> 00:00:07,520
+For the CPU to start executing a process, the process must be ready first.
+
+3
+00:00:07,520 --> 00:00:08,310
+The problem is,
+
+4
+00:00:08,310 --> 00:00:12,665
+however, there will be multiple ready processes waiting in the ready queue.
+
+5
+00:00:13,760 --> 00:00:18,202
+How do we pick what is the right process that should be given the CPU next,
+
+6
+00:00:18,202 --> 00:00:20,530
+that should be scheduled on the CPU?
+
+7
+00:00:20,530 --> 00:00:23,290
+This is a simple diagram where we have our ready queue with
+
+8
+00:00:23,290 --> 00:00:25,690
+several processes waiting in it.
+
+9
+00:00:25,690 --> 00:00:30,430
+Here's the CPU which has currently one process scheduled on it.
+
+10
+00:00:30,430 --> 00:00:34,420
+So the question is, which process do we run next?
+
+11
+00:00:34,420 --> 00:00:39,200
+This is determined by a component called a CPU scheduler.
+
+12
+00:00:39,200 --> 00:00:43,950
+The CPU scheduler is an operating system component that manages how
+
+13
+00:00:43,950 --> 00:00:46,220
+processes use the CPU resources.
+
+14
+00:00:47,340 --> 00:00:52,490
+It decides which one of the currently ready processes
+
+15
+00:00:52,490 --> 00:00:57,450
+will be dispatched to the CPU so that it can start running, start using the CPU.
+
+16
+00:00:57,450 --> 00:01:03,470
+And it also determines how long this process should be allowed to run for.
+
+17
+00:01:03,470 --> 00:01:07,100
+Over time this means that in order to manage the CPU,
+
+18
+00:01:07,100 --> 00:01:10,450
+the operating system must be able to preempt,
+
+19
+00:01:10,450 --> 00:01:15,050
+to interrupt the executing process and save its current context.
+
+20
+00:01:15,050 --> 00:01:17,460
+This operation is called preemption.
+
+21
+00:01:17,460 --> 00:01:21,620
+Then the operating system must run the scheduling algorithm,
+
+22
+00:01:21,620 --> 00:01:25,840
+in order to choose one of the ready processes that should be run next.
+
+23
+00:01:25,840 --> 00:01:31,760
+And finally, once the process is chosen, the OS must dispatch this process on to
+
+24
+00:01:31,760 --> 00:01:37,650
+the CPU and switch into its context so that process can finally start executing.
+
+25
+00:01:37,650 --> 00:01:42,340
+Given that the CPU resources are precious, the operating system needs to
+
+26
+00:01:42,340 --> 00:01:46,660
+make sure that CPU time is spent running processes and
+
+27
+00:01:46,660 --> 00:01:51,880
+not executing scheduling algorithms and other operating system operations.
+
+28
+00:01:51,880 --> 00:01:56,750
+So, it should minimize the amount of time that it takes to perform these tasks.
+
+29
+00:01:56,750 --> 00:01:59,940
+The operating system must be efficient in that respect.
+
+30
+00:01:59,940 --> 00:02:05,130
+What that means is that it is important to have both efficient designs as well
+
+31
+00:02:05,130 --> 00:02:09,288
+as sufficient implementations of the various algorithms that are used, for
+
+32
+00:02:09,288 --> 00:02:11,290
+instance in scheduling.
+
+33
+00:02:11,290 --> 00:02:13,980
+As well as efficient data structures that are used to
+
+34
+00:02:13,980 --> 00:02:17,350
+represent things like the waiting processes or
+
+35
+00:02:17,350 --> 00:02:21,310
+any information that's relevant to make scheduling decisions.
+
+36
+00:02:21,310 --> 00:02:24,730
+This includes information about the priority of the processes,
+
+37
+00:02:24,730 --> 00:02:25,890
+about their history,
+
+38
+00:02:25,890 --> 00:02:29,993
+like how long that they ran in the past, other information may be also useful.

@@ -1,0 +1,291 @@
+1
+00:00:00,000 --> 00:00:03,000
+[Thrun] Here is our 1-dimensional localization example again,
+
+2
+00:00:03,000 --> 00:00:06,000
+this time with particle filters.
+
+3
+00:00:06,000 --> 00:00:09,000
+You can see the particles initially spread out uniformly.
+
+4
+00:00:09,000 --> 00:00:13,000
+This 1-dimensional space of forward locations you're going to use as an example
+
+5
+00:00:13,000 --> 00:00:16,000
+to explain every single step of particle filters.
+
+6
+00:00:16,000 --> 00:00:20,000
+In the very first step, the robot senses a door.
+
+7
+00:00:20,000 --> 00:00:24,000
+Here is its initial particles before sensing the door.
+
+8
+00:00:24,000 --> 00:00:30,000
+It now copies these particles over verbatim but gives them what's called a weight.
+
+9
+00:00:30,000 --> 00:00:33,000
+We call this weight the importance weight,
+
+10
+00:00:33,000 --> 00:00:37,000
+and the importance weight is nothing else but the measurement probability.
+
+11
+00:00:37,000 --> 00:00:41,000
+It's more likely to see a door over here than over here.
+
+12
+00:00:41,000 --> 00:00:44,000
+The red curve over here is the measurement probability,
+
+13
+00:00:44,000 --> 00:00:48,000
+and the particles over here are the same as up here,
+
+14
+00:00:48,000 --> 00:00:52,000
+but they now attached an importance weight where the height of the particle
+
+15
+00:00:52,000 --> 00:00:54,000
+illustrates the weight.
+
+16
+00:00:54,000 --> 00:00:57,000
+So you can see the place over here, the place over here, and the place over here
+
+17
+00:00:57,000 --> 00:01:00,000
+carry the most weight because they're the most likely ones.
+
+18
+00:01:00,000 --> 00:01:07,000
+This robot moves and it moves by using its previous particles
+
+19
+00:01:07,000 --> 00:01:12,000
+to create a new random particle set that represents the posterior probability
+
+20
+00:01:12,000 --> 00:01:15,000
+of being at a new location.
+
+21
+00:01:15,000 --> 00:01:19,000
+The key thing here is called resampling.
+
+22
+00:01:19,000 --> 00:01:21,000
+The algorithm works as follows.
+
+23
+00:01:21,000 --> 00:01:28,000
+Pick a particle from the set over here and pick it in proportion to the importance weight.
+
+24
+00:01:28,000 --> 00:01:32,000
+Once you've picked one--and sure enough, you pick those more frequently
+
+25
+00:01:32,000 --> 00:01:37,000
+than those over here--add the motion to it plus a little bit of noise
+
+26
+00:01:37,000 --> 00:01:39,000
+to create a new particle.
+
+27
+00:01:39,000 --> 00:01:42,000
+Repeat this procedure for each particle.
+
+28
+00:01:42,000 --> 00:01:44,000
+Pick them with replacement.
+
+29
+00:01:44,000 --> 00:01:47,000
+You're allowed to pick a particle twice or 3 or 4 times.
+
+30
+00:01:47,000 --> 00:01:49,000
+Sure enough, you pick these more frequently.
+
+31
+00:01:49,000 --> 00:01:53,000
+These are being forward moved to over here, these to over here.
+
+32
+00:01:53,000 --> 00:01:56,000
+You see a higher density of particles over here and over here,
+
+33
+00:01:56,000 --> 00:01:58,000
+than you see, for example, over here.
+
+34
+00:01:58,000 --> 00:02:01,000
+That's your forward prediction step in particle filters.
+
+35
+00:02:01,000 --> 00:02:04,000
+It's really easy to implement.
+
+36
+00:02:04,000 --> 00:02:06,000
+The next step is another measurement step,
+
+37
+00:02:06,000 --> 00:02:10,000
+and here I'm illustrating to you that indeed this nonuniform set of particles
+
+38
+00:02:10,000 --> 00:02:13,000
+leads to a reasonable posterior in this space.
+
+39
+00:02:13,000 --> 00:02:16,000
+We now have a particle set as nonuniform.
+
+40
+00:02:16,000 --> 00:02:20,000
+We have increased density over here, over here, and over here.
+
+41
+00:02:20,000 --> 00:02:25,000
+You can see how multiplying these particles with the importance weight,
+
+42
+00:02:25,000 --> 00:02:31,000
+which is copying them over verbatim but attaching a vertical importance weight
+
+43
+00:02:31,000 --> 00:02:33,000
+in proportion to the measurement probability,
+
+44
+00:02:33,000 --> 00:02:37,000
+yields a lot of particles over here with big weights,
+
+45
+00:02:37,000 --> 00:02:41,000
+some over here with big weights, lots of particles over here with low weights.
+
+46
+00:02:41,000 --> 00:02:46,000
+They got copied over, but the measurement probability here is low and so on and so on.
+
+47
+00:02:46,000 --> 00:02:50,000
+And if you look at this set of particles, you already understand
+
+48
+00:02:50,000 --> 00:02:56,000
+why the majority of importance and weights resides in the correct location
+
+49
+00:02:56,000 --> 00:02:59,000
+given that we had a measurement of a door and motion to the right
+
+50
+00:02:59,000 --> 00:03:01,000
+and another measurement of the door.
+
+51
+00:03:01,000 --> 00:03:06,000
+The nice thing here is that particle filters work in continuous spaces,
+
+52
+00:03:06,000 --> 00:03:13,000
+and, what's often underappreciated, they use your computational resources
+
+53
+00:03:13,000 --> 00:03:16,000
+in proportion to how likely something is.
+
+54
+00:03:16,000 --> 00:03:19,000
+You can see that almost all the computation now resides over here,
+
+55
+00:03:19,000 --> 00:03:21,000
+almost all the memory resides over here,
+
+56
+00:03:21,000 --> 00:03:23,000
+and that's the place that's likely.
+
+57
+00:03:23,000 --> 00:03:27,000
+Stuff over here requires less memory, less computation, and guess what?
+
+58
+00:03:27,000 --> 00:03:29,000
+It's much less likely.
+
+59
+00:03:29,000 --> 00:03:34,000
+So particle filters make use of your computational resources in an intelligent way.
+
+60
+00:03:34,000 --> 00:03:38,000
+They're really nice to implement on something with low compute power.
+
+61
+00:03:38,000 --> 00:03:42,000
+Let me move on to explain the next motion.
+
+62
+00:03:42,000 --> 00:03:45,000
+Here you see our robot moving to the right again,
+
+63
+00:03:45,000 --> 00:03:49,000
+and now the same what we call resampling takes place.
+
+64
+00:03:49,000 --> 00:03:52,000
+We pick, with replacement, particles from over here.
+
+65
+00:03:52,000 --> 00:03:55,000
+Sure enough, these are the ones we pick the most often.
+
+66
+00:03:55,000 --> 00:03:59,000
+And then we add the motion command plus some random noise.
+
+67
+00:03:59,000 --> 00:04:03,000
+If you look at this particle set over here, almost all the particles sit over here.
+
+68
+00:04:03,000 --> 00:04:06,000
+It doesn't really show it very well on this computer screen,
+
+69
+00:04:06,000 --> 00:04:10,000
+but the density of particles over here is significantly higher than anywhere else.
+
+70
+00:04:10,000 --> 00:04:14,000
+There's occurrences over here and over here that correspond with these guys over here
+
+71
+00:04:14,000 --> 00:04:18,000
+and these guys over here and over here, correspond to this guy over here,
+
+72
+00:04:18,000 --> 00:04:22,000
+but the vast majority of probability mass sits over here.
+
+73
+00:04:22,000 --> 99:59:59,999
+So let's dive into how complicated this algorithm really is.

@@ -1,0 +1,163 @@
+1
+00:00:00,480 --> 00:00:03,360
+Okay so there are different
+answers to this question
+
+2
+00:00:03,360 --> 00:00:06,140
+depending on how you solve the problem.
+
+3
+00:00:06,140 --> 00:00:07,930
+Let me show you my solution first, and
+
+4
+00:00:07,930 --> 00:00:11,620
+then I'll talk through how you may
+have come to a different conclusion.
+
+5
+00:00:11,620 --> 00:00:17,760
+I'm iterating through the URLs and
+adding two .thens for each URL.
+
+6
+00:00:17,760 --> 00:00:21,740
+The first gets the JSON data and then
+the second creates the planet thumbnail.
+
+7
+00:00:22,920 --> 00:00:27,220
+As for each iterates through
+the array of planet data urls,
+
+8
+00:00:27,220 --> 00:00:31,042
+the sequence gets longer
+by two thens each time.
+
+9
+00:00:31,042 --> 00:00:32,590
+Each .then will need to wait for
+
+10
+00:00:32,590 --> 00:00:35,960
+the promise before it to
+resolve before it can execute.
+
+11
+00:00:37,010 --> 00:00:39,156
+There's some good news and
+some bad news.
+
+12
+00:00:39,156 --> 00:00:43,077
+The good news is that the planet
+thumbnail show up in the right order.
+
+13
+00:00:43,077 --> 00:00:46,980
+The bad news is that
+it's happening in series.
+
+14
+00:00:46,980 --> 00:00:50,540
+You can pretty clearly see that each
+request depends on the one before it
+
+15
+00:00:50,540 --> 00:00:54,680
+finishing, but you might have seen that
+all the thumbnails show up and found
+
+16
+00:00:54,680 --> 00:00:59,299
+that it was in parallel, and if so, I
+bet your code looks something like this.
+
+17
+00:01:00,300 --> 00:01:04,400
+Notice that this time I'm not actually
+adding to the sequence, rather,
+
+18
+00:01:04,400 --> 00:01:07,460
+I'm simply adding two
+thens which quickly get
+
+19
+00:01:07,460 --> 00:01:10,840
+overwritten by the next
+iteration through the loop.
+
+20
+00:01:10,840 --> 00:01:14,250
+Luckily, these two thens stay
+attached to one another, and so
+
+21
+00:01:14,250 --> 00:01:16,680
+they continue to execute.
+
+22
+00:01:16,680 --> 00:01:17,690
+If your code looked like this,
+
+23
+00:01:17,690 --> 00:01:21,120
+then you probably saw
+the request come in like so.
+
+24
+00:01:21,120 --> 00:01:22,390
+They're in parallel and
+
+25
+00:01:22,390 --> 00:01:26,330
+the problem is that there's
+no guarantee about the order.
+
+26
+00:01:26,330 --> 00:01:30,430
+And to be honest for many
+applications this is completely fine.
+
+27
+00:01:30,430 --> 00:01:33,470
+You can handle ordering in
+other ways with your front end.
+
+28
+00:01:33,470 --> 00:01:37,270
+But if the order that promises
+resolve is important to your app,
+
+29
+00:01:37,270 --> 00:01:42,040
+this kind of code could easily become
+a subtle source of bugs later.
+
+30
+00:01:42,040 --> 00:01:45,460
+Browsers can request many
+resources simultaneously so
+
+31
+00:01:45,460 --> 00:01:48,990
+it makes a lot of sense to run
+code like this in parallel.
+
+32
+00:01:48,990 --> 00:01:52,000
+But if you want to do so,
+you probably should where it's really,
+
+33
+00:01:52,000 --> 00:01:55,300
+really obvious that your requests
+are happening in parallel.
+
+34
+00:01:55,300 --> 00:01:57,300
+In fact,
+you'll be doing that in the next quiz.

@@ -1,0 +1,408 @@
+﻿1
+00:00:00,280 --> 00:00:03,240
+The last bit left in our app
+is to be able to remove guests
+
+2
+00:00:03,240 --> 00:00:04,600
+when they've been seated.
+
+3
+00:00:04,599 --> 00:00:07,359
+We've decided to use the swipe
+off feature in Android
+
+4
+00:00:07,360 --> 00:00:09,070
+to make this a cool experience.
+
+5
+00:00:09,070 --> 00:00:11,280
+So, let's see how to build
+this feature step by step.
+
+6
+00:00:12,509 --> 00:00:16,195
+This is the last exercise for
+this toy app, remove guests.
+
+7
+00:00:16,195 --> 00:00:19,045
+The first to do is to go
+into the main activity and
+
+8
+00:00:19,045 --> 00:00:21,575
+create a method called removeGuest.
+
+9
+00:00:21,574 --> 00:00:25,274
+This method would handle removing
+a specific record from a database.
+
+10
+00:00:25,274 --> 00:00:29,125
+It takes an ID of type long as an input
+and simply returns a boolean to indicate
+
+11
+00:00:29,125 --> 00:00:31,515
+the success or
+failure of the remove operation.
+
+12
+00:00:31,515 --> 00:00:35,780
+Inside, all we need to do
+is to call the mDb.delete.
+
+13
+00:00:35,780 --> 00:00:39,560
+To delete something from the database,
+you need to specify the table name as
+
+14
+00:00:39,560 --> 00:00:44,329
+the first argument and something called
+the where clause as the second argument.
+
+15
+00:00:44,329 --> 00:00:47,640
+A where clause is simply a string
+that defines a condition for
+
+16
+00:00:47,640 --> 00:00:49,359
+the row to be effected.
+
+17
+00:00:49,359 --> 00:00:52,369
+It usually starts with a column
+name which you can always get from
+
+18
+00:00:52,369 --> 00:00:56,869
+the contract and then a comparison sign,
+in our case just a simple equals sign,
+
+19
+00:00:56,869 --> 00:01:00,019
+and then the value to compare against.
+
+20
+00:01:00,020 --> 00:01:02,849
+Because here we just
+want to delete one row,
+
+21
+00:01:02,848 --> 00:01:05,837
+which is namely the row
+with that specific ID.
+
+22
+00:01:05,837 --> 00:01:10,540
+So our where clause is simply the column
+ID is equal to the value of the ID
+
+23
+00:01:10,540 --> 00:01:12,869
+that was passed into this method.
+
+24
+00:01:12,870 --> 00:01:16,064
+The last argument which
+we've just passed null for
+
+25
+00:01:16,063 --> 00:01:19,669
+helps creating more
+complicated where clauses.
+
+26
+00:01:19,670 --> 00:01:23,210
+But it's not required for such a simple
+delete query that we have here.
+
+27
+00:01:23,209 --> 00:01:26,409
+But feel free to check out
+the Android documentation to find out
+
+28
+00:01:26,409 --> 00:01:28,170
+more about the delete operation.
+
+29
+00:01:28,170 --> 00:01:31,200
+Like, for example, we can now find
+out from the documentation that
+
+30
+00:01:31,200 --> 00:01:34,230
+the delete returns the number
+of rows successfully removed.
+
+31
+00:01:34,230 --> 00:01:37,790
+Which means we can use that to find
+out if our delete worked or not.
+
+32
+00:01:37,790 --> 00:01:42,380
+We can simply check that the delete
+operation returned a value larger than 0
+
+33
+00:01:42,379 --> 00:01:45,589
+and then just return the boolean
+result of this comparison.
+
+34
+00:01:45,590 --> 00:01:48,579
+So if we did delete one row
+which is larger than 0,
+
+35
+00:01:48,579 --> 00:01:50,500
+remove guest will return true.
+
+36
+00:01:50,500 --> 00:01:52,430
+Now let's move to the cool part.
+
+37
+00:01:52,430 --> 00:01:54,281
+To handle the swipe actions in Android,
+
+38
+00:01:54,281 --> 00:01:57,650
+we need to create something
+called ItemTouchHelper.
+
+39
+00:01:57,650 --> 00:02:00,859
+We'll do that in the onCreate
+method in the MainActivity.
+
+40
+00:02:00,859 --> 00:02:05,359
+The ItemTouchHelper needs a callback
+to trigger when an item gets swiped.
+
+41
+00:02:05,359 --> 00:02:09,330
+So we'll pass in a simple callback so in
+the constructor we're passing a simple
+
+42
+00:02:09,330 --> 00:02:12,980
+callback that handles both left and
+right side swipes.
+
+43
+00:02:12,979 --> 00:02:15,979
+The 0 over here refers
+to dragging items.
+
+44
+00:02:15,979 --> 00:02:18,169
+Which we're not interested in this case.
+
+45
+00:02:18,169 --> 00:02:21,450
+Again, check out the Item TouchHelper
+documentation if you want to know more
+
+46
+00:02:21,450 --> 00:02:22,012
+about that.
+
+47
+00:02:22,012 --> 00:02:28,372
+The simple callback however requires
+us to override two methods.
+
+48
+00:02:28,372 --> 00:02:32,587
+The simple callback however requires
+us to override two methods.
+
+49
+00:02:32,587 --> 00:02:35,400
+Unmove, and unswiped.
+
+50
+00:02:35,400 --> 00:02:39,430
+We don't care a lot about unmove,
+for now, so we just return false.
+
+51
+00:02:39,430 --> 00:02:42,340
+But for unswiped, we need to
+extract the idea of the guest so
+
+52
+00:02:42,340 --> 00:02:43,840
+that we can delete
+them from the database,
+
+53
+00:02:43,840 --> 00:02:47,455
+but we're never really got to
+save the ID anywhere in the UI.
+
+54
+00:02:49,775 --> 00:02:52,844
+How can we tell which
+guest are we swiping off?
+
+55
+00:02:52,844 --> 00:02:54,775
+Well let's go back to the UI and
+fix that.
+
+56
+00:02:55,865 --> 00:02:59,955
+Let's open GuestListAdapter and
+try to add the ID somewhere in the UI.
+
+57
+00:03:01,074 --> 00:03:03,974
+First we can just retrieve the ID
+the same way we retrieve the name and
+
+58
+00:03:03,974 --> 00:03:06,659
+the party size,
+except that we're going to use the get
+
+59
+00:03:06,659 --> 00:03:10,909
+long instead of get string or ent
+because the ideas always of type long.
+
+60
+00:03:10,909 --> 00:03:14,020
+Then we can probably store
+the ID in a text field but
+
+61
+00:03:14,020 --> 00:03:17,219
+we don't really want to display
+the ID anywhere in our app.
+
+62
+00:03:17,219 --> 00:03:20,109
+That's why the recycler view offers
+something called a tag object.
+
+63
+00:03:21,129 --> 00:03:24,759
+It's meant to store any data that
+doesn't need to be displayed.
+
+64
+00:03:24,759 --> 00:03:28,959
+To do that we just call
+the holder.itemview.settag.
+
+65
+00:03:28,960 --> 00:03:30,290
+And pass on the ID.
+
+66
+00:03:30,289 --> 00:03:33,879
+This will store the ID inside this
+item view without displaying it.
+
+67
+00:03:33,879 --> 00:03:36,289
+Now lets' switch back
+to our main activity.
+
+68
+00:03:36,289 --> 00:03:41,849
+And now inside on swiped we can actually
+retrieve the ID from the item view tag,
+
+69
+00:03:41,849 --> 00:03:45,150
+pass that ID to the removeGuest method,
+and
+
+70
+00:03:45,150 --> 00:03:49,200
+then refresh the list by
+calling the swap cursor method.
+
+71
+00:03:49,199 --> 00:03:53,919
+And just like we did with the addGuests,
+we just pass in the getAllGuests call
+
+72
+00:03:53,919 --> 00:03:57,309
+to the swap cursor to refresh
+it with the new guest.
+
+73
+00:03:57,310 --> 00:03:59,819
+Now that we've created
+the ItemTouchHelper,
+
+74
+00:03:59,819 --> 00:04:02,829
+we just need to attach
+that to our RecyclerView.
+
+75
+00:04:02,830 --> 00:04:06,480
+We do that by calling
+attachToRecyclerView and
+
+76
+00:04:06,479 --> 00:04:08,549
+passing which recycler view
+we want to attach it to.
+
+77
+00:04:09,740 --> 00:04:10,870
+Okay, let's give this a try.
+
+78
+00:04:11,889 --> 00:04:15,754
+Now if we run our app and try to swipe
+one of the names off, there you go.
+
+79
+00:04:15,754 --> 00:04:19,144
+It disappears on the RecyclerView and
+it deletes it from the database.
+
+80
+00:04:20,204 --> 00:04:21,365
+Our app looks pretty cool now.
+
+81
+00:04:22,824 --> 00:04:26,495
+Feel free to add more features to it,
+like maybe changing the background color
+
+82
+00:04:26,495 --> 00:04:28,694
+for guests who have
+been waiting too long.
+
+83
+00:04:28,694 --> 00:04:31,454
+Or you could go as far as sending
+a text message to guests when they
+
+84
+00:04:31,454 --> 00:04:33,875
+make it to the top of the wait list.
+
+85
+00:04:33,875 --> 00:04:35,795
+But now it's time to
+work on our Sunshine app.
+

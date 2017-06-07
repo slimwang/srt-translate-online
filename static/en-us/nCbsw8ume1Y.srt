@@ -1,0 +1,193 @@
+1
+00:00:00,160 --> 00:00:02,788
+In addition to the multiple
+synchronization constructs
+
+2
+00:00:02,788 --> 00:00:06,700
+that we already saw, there are many
+other options available out there.
+
+3
+00:00:06,700 --> 00:00:11,040
+Some, like serializers,
+make it easier to define priorities and
+
+4
+00:00:11,040 --> 00:00:14,380
+then also hide the need for
+explicit signaling and
+
+5
+00:00:14,380 --> 00:00:17,940
+explicit use of condition
+variables from the programmers.
+
+6
+00:00:17,940 --> 00:00:22,448
+Others, like path expressions, require
+that a programmer specify the regular
+
+7
+00:00:22,448 --> 00:00:26,242
+expression that captures the correct
+synchronization behavior.
+
+8
+00:00:26,242 --> 00:00:30,240
+So as opposed to using locks or
+other constructs,
+
+9
+00:00:30,240 --> 00:00:36,250
+the programmer would specify something
+like many reads or a single write.
+
+10
+00:00:36,250 --> 00:00:41,173
+And the runtime will make sure that the
+way the operations are interleaved that
+
+11
+00:00:41,173 --> 00:00:45,426
+are accessing the shared resource
+satisfy that particular regular
+
+12
+00:00:45,426 --> 00:00:46,890
+expression.
+
+13
+00:00:46,890 --> 00:00:50,220
+Another useful construct are barriers,
+and
+
+14
+00:00:50,220 --> 00:00:55,000
+these are almost like a reverse from
+a semaphore in that if a semaphore
+
+15
+00:00:55,000 --> 00:01:00,060
+will allow n threads to proceed
+before it blocks, a barrier will
+
+16
+00:01:00,060 --> 00:01:05,970
+block all threads until n threads
+arrive at this particular point.
+
+17
+00:01:05,970 --> 00:01:09,510
+Rendezvous points is also a
+synchronization construct that waits for
+
+18
+00:01:09,510 --> 00:01:13,240
+multiple threads to meet that
+particular point in execution.
+
+19
+00:01:13,240 --> 00:01:15,430
+Also for scalability and efficiency,
+
+20
+00:01:15,430 --> 00:01:21,380
+there are efforts to achieve concurrency
+without explicitly locking and waiting.
+
+21
+00:01:21,380 --> 00:01:25,761
+These approaches all fall in a category
+that we refer to as wait-free
+
+22
+00:01:25,761 --> 00:01:26,970
+synchronization.
+
+23
+00:01:26,970 --> 00:01:30,780
+And they're optimistic in the sense
+that they bet on the fact that
+
+24
+00:01:30,780 --> 00:01:33,980
+there won't be any conflicts
+due to concurrent writes and
+
+25
+00:01:33,980 --> 00:01:37,260
+it's safe to allow reads
+to proceed concurrently.
+
+26
+00:01:37,260 --> 00:01:43,085
+An example that falls into this category
+is this so-called read-copy update log,
+
+27
+00:01:43,085 --> 00:01:46,035
+RCU log,
+that's part of the Linux kernel.
+
+28
+00:01:46,035 --> 00:01:50,627
+One thing that all of these methods have
+in common is that at the lowest level,
+
+29
+00:01:50,627 --> 00:01:55,294
+they all require some support from the
+underlying hardware to atomically make
+
+30
+00:01:55,294 --> 00:01:57,144
+updates to a memory location.
+
+31
+00:01:57,144 --> 00:02:02,088
+This is the only way they can actually
+guarantee that the lock is properly
+
+32
+00:02:02,088 --> 00:02:06,961
+required, and that the state change
+is performed in a way that is safe.
+
+33
+00:02:06,961 --> 00:02:10,143
+And that it doesn't lead
+to any race conditions, and
+
+34
+00:02:10,143 --> 00:02:14,808
+that all threads in the system are in an
+agreement of what exactly is the current
+
+35
+00:02:14,808 --> 00:02:18,030
+state of the synchronization construct.
+
+36
+00:02:18,030 --> 00:02:21,620
+We will spend the remainder
+of this lesson discussing
+
+37
+00:02:21,620 --> 00:02:26,040
+how synchronization construct can be
+built using directly the hardware
+
+38
+00:02:26,040 --> 00:02:29,260
+support that's available from
+the underlying platform.
+
+39
+00:02:29,260 --> 00:02:32,600
+And we will specifically focus
+on spinlocks as the simplest
+
+40
+00:02:32,600 --> 00:02:33,530
+construct out there.

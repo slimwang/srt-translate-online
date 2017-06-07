@@ -1,0 +1,626 @@
+1
+00:00:00,210 --> 00:00:04,620
+So Walter, building off the developer
+just said, the problem was with the many
+
+2
+00:00:04,620 --> 00:00:09,360
+to many relationship between the users
+who were on a shared shopping list and
+
+3
+00:00:09,360 --> 00:00:10,900
+those shared shopping lists.
+
+4
+00:00:10,900 --> 00:00:13,280
+We needed some way to
+represent this relationship.
+
+5
+00:00:13,280 --> 00:00:16,470
+Shopping lists could have a bunch of
+different people associated with them
+
+6
+00:00:16,470 --> 00:00:19,950
+and users themselves could be associated
+with a bunch of her shopping lists.
+
+7
+00:00:19,950 --> 00:00:24,040
+In this example here, A has three
+different users associated with it, and,
+
+8
+00:00:24,040 --> 00:00:25,020
+JP, for example,
+
+9
+00:00:25,020 --> 00:00:27,230
+has three different shopping
+lists that he's associated with.
+
+10
+00:00:27,230 --> 00:00:29,700
+And what we needed was for
+
+11
+00:00:29,700 --> 00:00:32,650
+the data that's associated with
+the shopping list, for example, shopping
+
+12
+00:00:32,650 --> 00:00:36,760
+list A, to have some sort of reference
+to these people that are shared.
+
+13
+00:00:36,760 --> 00:00:40,920
+And what we needed was some way to
+be looking at a shopping list And
+
+14
+00:00:40,920 --> 00:00:43,610
+know the people who had
+access to that list.
+
+15
+00:00:43,610 --> 00:00:45,850
+And also be able to look at a user and
+
+16
+00:00:45,850 --> 00:00:48,530
+know all the lists that
+were associated with them.
+
+17
+00:00:48,530 --> 00:00:51,470
+The decision that we made about our
+database was that we would store
+
+18
+00:00:51,470 --> 00:00:54,270
+the shared members as part
+of the shopping list itself.
+
+19
+00:00:54,270 --> 00:00:56,100
+For example,
+you can see them right here for
+
+20
+00:00:56,100 --> 00:00:58,670
+the shopping list,
+the Wilderness Survival List.
+
+21
+00:00:58,670 --> 00:01:02,620
+This made looking up whether a user had
+access to a particular list very easy.
+
+22
+00:01:02,620 --> 00:01:05,080
+There are problems, though, that arose
+
+23
+00:01:05,080 --> 00:01:08,050
+when we had to deal with displaying
+the shopping list fragment for
+
+24
+00:01:08,050 --> 00:01:10,720
+a user that had a huge
+amount of shopping lists.
+
+25
+00:01:10,720 --> 00:01:12,310
+There are two main issues.
+
+26
+00:01:12,310 --> 00:01:15,120
+First was the amount of data
+that we were manipulating.
+
+27
+00:01:15,120 --> 00:01:17,140
+Now FarBase provides some methods for
+sorting and
+
+28
+00:01:17,140 --> 00:01:20,030
+filtering data and
+they work very efficiently.
+
+29
+00:01:20,030 --> 00:01:23,560
+We were able to use these methods to
+go through the hundreds of thousands of
+
+30
+00:01:23,560 --> 00:01:24,640
+shopping lists and
+
+31
+00:01:24,640 --> 00:01:27,560
+grab the lists that were specifically
+owned by the user in question.
+
+32
+00:01:27,560 --> 00:01:30,840
+We were also able to use
+these methods to go in and
+
+33
+00:01:30,840 --> 00:01:34,200
+filter out only the lists that
+were shared with the user.
+
+34
+00:01:34,200 --> 00:01:36,410
+Again, these were speeding
+queries when we had less data.
+
+35
+00:01:36,410 --> 00:01:39,120
+But with hundreds of thousands of
+shopping lists to sift through,
+
+36
+00:01:39,120 --> 00:01:42,730
+even Firebase's lightning fast
+query language began to slow down.
+
+37
+00:01:42,730 --> 00:01:44,640
+And we did the search twice once for
+
+38
+00:01:44,640 --> 00:01:47,120
+trying to find out if the user
+was an owner of a list.
+
+39
+00:01:47,120 --> 00:01:49,420
+And again to try to find out if
+the user was shared with the list.
+
+40
+00:01:49,420 --> 00:01:52,010
+So that was the first issue.
+
+41
+00:01:52,010 --> 00:01:55,230
+The second issue was that it was tricky
+and annoying to combine the results
+
+42
+00:01:55,230 --> 00:01:57,970
+from these two different
+queries in Firebase UI.
+
+43
+00:01:57,970 --> 00:02:00,790
+These two listings should be combined
+to make a master list of all
+
+44
+00:02:00,790 --> 00:02:03,510
+the shopping lists that
+a user had access to, and
+
+45
+00:02:03,510 --> 00:02:06,420
+this required some sub-classing
+of the fire base list adapter.
+
+46
+00:02:06,420 --> 00:02:09,680
+We had to rewrite a lot of code,
+and it just wasn't very clean.
+
+47
+00:02:09,680 --> 00:02:13,450
+>> You know, after the fact, they found
+out that issues involving two way many
+
+48
+00:02:13,450 --> 00:02:14,840
+to many relationships are common.
+
+49
+00:02:14,840 --> 00:02:18,390
+So, I did a little bit of research on
+my free time, since my retirement I've
+
+50
+00:02:18,390 --> 00:02:21,300
+got a little example using a chat
+app that you might find informative.
+
+51
+00:02:21,300 --> 00:02:22,211
+Here, let me see that tablet.
+
+52
+00:02:26,165 --> 00:02:29,142
+It's important at this point
+to emphasize that many to many
+
+53
+00:02:29,142 --> 00:02:31,670
+relationships are important
+to get correct.
+
+54
+00:02:31,670 --> 00:02:38,080
+Consider how users can belong to a group
+and groups can contain a list of users.
+
+55
+00:02:38,080 --> 00:02:42,370
+For reasons such as these a two
+way relationship must exist and
+
+56
+00:02:42,370 --> 00:02:45,120
+needs to be accounted for
+in your database design.
+
+57
+00:02:45,120 --> 00:02:47,800
+Let's look at this model in
+the fire based dashboard.
+
+58
+00:02:47,800 --> 00:02:51,240
+Here is a first attempt at
+producing two way relationships.
+
+59
+00:02:51,240 --> 00:02:54,580
+But when it comes time to decide
+which groups a user belongs to,
+
+60
+00:02:54,580 --> 00:02:56,280
+things get complicated.
+
+61
+00:02:56,280 --> 00:02:57,880
+We can monitor all the groups and
+
+62
+00:02:57,880 --> 00:03:02,380
+iterate them every time there is
+a change, but this is costly and slow.
+
+63
+00:03:02,380 --> 00:03:06,820
+Even worse, what if Walter isn't
+allowed to see all of these groups?
+
+64
+00:03:06,820 --> 00:03:08,890
+When we try to fetch the entire list,
+
+65
+00:03:08,890 --> 00:03:11,960
+we'll get an error telling us
+the operation wasn't allowed.
+
+66
+00:03:11,960 --> 00:03:16,270
+What we would like instead is an elegant
+way to list the groups Walter belongs to
+
+67
+00:03:16,270 --> 00:03:19,090
+and fetch only data for those groups.
+
+68
+00:03:19,090 --> 00:03:22,550
+An index of Walter's groups,
+can help a great deal here.
+
+69
+00:03:22,550 --> 00:03:25,980
+Didn't we just duplicate some data by
+storing the relationship under both
+
+70
+00:03:25,980 --> 00:03:28,710
+Walter's record and under the group?
+
+71
+00:03:28,710 --> 00:03:33,120
+Yes, this is a necessary redundancy for
+to a relationships.
+
+72
+00:03:33,120 --> 00:03:36,770
+It allows us to quickly and
+efficiently fetch memberships.
+
+73
+00:03:36,770 --> 00:03:40,620
+Even when the list of users or
+groups scales into the millions.
+
+74
+00:03:40,620 --> 00:03:45,420
+Or when security and firebase rules will
+prevent access to some of the records.
+
+75
+00:03:45,420 --> 00:03:51,140
+When in doubt remember data storage
+is cheap, the user's time is not.
+
+76
+00:03:51,140 --> 00:03:52,330
+>> That's fascinating.
+
+77
+00:03:52,330 --> 00:03:55,340
+Actually, while you were talking
+I took the liberty of drafting up
+
+78
+00:03:55,340 --> 00:03:57,870
+a couple of different ways that we could
+have dealt with that tricky to many
+
+79
+00:03:57,870 --> 00:04:00,160
+many relationship that
+you were talking about.
+
+80
+00:04:00,160 --> 00:04:02,180
+What do you think we should have done.
+
+81
+00:04:02,180 --> 00:04:05,580
+And into these five I've come up with
+another tip which basically is that
+
+82
+00:04:05,580 --> 00:04:08,877
+data storage is pretty cheap but
+the user's time is not cheap.
+
+83
+00:04:08,877 --> 00:04:13,260
+As just mentioned, if you find yourself
+in a situation where Where duplicating
+
+84
+00:04:13,260 --> 00:04:16,060
+data can make reading and writing
+to the database more efficient for
+
+85
+00:04:16,060 --> 00:04:18,300
+the client app you should do it.
+
+86
+00:04:18,300 --> 00:04:23,220
+It's better to duplicate data than to
+create more Firebase back end traffic.
+
+87
+00:04:23,220 --> 00:04:25,760
+Now we're actually already
+doing this in our code.
+
+88
+00:04:25,760 --> 00:04:27,850
+For example with our user data.
+
+89
+00:04:27,850 --> 00:04:29,880
+Here we have some user data for Walter.
+
+90
+00:04:29,880 --> 00:04:34,430
+And we copy again all of this user
+data into our user shopping list.
+
+91
+00:04:34,430 --> 00:04:37,600
+Now this might seem somewhat
+unnatural to developers.
+
+92
+00:04:37,600 --> 00:04:40,240
+Usually, developers for their best
+not to create duplicated data.
+
+93
+00:04:40,240 --> 00:04:43,210
+But let's get to the root
+of why you do that.
+
+94
+00:04:43,210 --> 00:04:44,950
+Well you usually do that
+because it's easy for
+
+95
+00:04:44,950 --> 00:04:48,460
+duplicated data to get out of
+sync if you're not careful.
+
+96
+00:04:48,460 --> 00:04:51,930
+To deal with this, Firebase makes it
+easy to keep duplicated data consistent.
+
+97
+00:04:51,930 --> 00:04:53,250
+By using deep path updates.
+
+98
+00:04:54,250 --> 00:04:59,160
+Here is some code for actually doing
+one of those fancy deep path updates.
+
+99
+00:04:59,160 --> 00:05:01,980
+And you should note that it's using
+the method updateChildren to deal with
+
+100
+00:05:01,980 --> 00:05:02,860
+that duplicated data.
+
+101
+00:05:02,860 --> 00:05:06,100
+What you do is you simply make
+a hash map with all of the changes
+
+102
+00:05:06,100 --> 00:05:08,030
+that you need to make bundled together.
+
+103
+00:05:08,030 --> 00:05:12,340
+So for example let's say that the Walter
+user object appears two different places
+
+104
+00:05:12,340 --> 00:05:13,430
+in the database.
+
+105
+00:05:13,430 --> 00:05:14,130
+And just for
+
+106
+00:05:14,130 --> 00:05:17,550
+this example, let's say that you can
+change Walter's name around, and
+
+107
+00:05:17,550 --> 00:05:20,990
+if you do change Walter's name, you want
+to change it in both of these places.
+
+108
+00:05:20,990 --> 00:05:25,460
+In that case we take the hash map and
+we put each of the locations and
+
+109
+00:05:25,460 --> 00:05:27,070
+the new updated name value.
+
+110
+00:05:27,070 --> 00:05:31,310
+So, this location and updated name is
+for this location in the database And
+
+111
+00:05:31,310 --> 00:05:34,760
+this location and updated name is for
+this location in the database.
+
+112
+00:05:34,760 --> 00:05:38,040
+And we update his name to the exact
+same thing in both places.
+
+113
+00:05:38,040 --> 00:05:40,540
+And because we use
+the updateChildren method,
+
+114
+00:05:40,540 --> 00:05:44,290
+either all of these updates are going
+to occur or none of them will occur.
+
+115
+00:05:44,290 --> 00:05:46,930
+This approach though does make
+it easy to make a mistake.
+
+116
+00:05:46,930 --> 00:05:49,640
+If you're sleepy and let's say forget
+
+117
+00:05:49,640 --> 00:05:52,910
+to add all the correct places in
+the code that a user needs to update.
+
+118
+00:05:52,910 --> 00:05:55,450
+Then you'll still get into
+an inconsistent state.
+
+119
+00:05:55,450 --> 00:05:58,600
+One approach to deal with this
+is to create helper method for
+
+120
+00:05:58,600 --> 00:06:01,730
+each collection of objects that
+needs to be updated at once.
+
+121
+00:06:01,730 --> 00:06:05,660
+So for example for the user object,
+you could create one such helper method.
+
+122
+00:06:05,660 --> 00:06:10,440
+And then the entire job of this helper
+method is to take in as a parameter
+
+123
+00:06:10,440 --> 00:06:13,090
+the property of the object
+that you want to change.
+
+124
+00:06:13,090 --> 00:06:15,730
+And then that helper method
+will create a hash map
+
+125
+00:06:15,730 --> 00:06:18,400
+that adds all of the different
+places of the database.
+
+126
+00:06:18,400 --> 00:06:20,610
+That that property would
+need to be changed.
+
+127
+00:06:20,610 --> 00:06:23,780
+Okay So with all of that in mind I
+want you to take a look at the five
+
+128
+00:06:23,780 --> 00:06:27,080
+alternative database options that I
+put in the instructor notes below.
+
+129
+00:06:28,130 --> 00:06:30,190
+And I want you to pick which
+of these database structures
+
+130
+00:06:30,190 --> 00:06:32,274
+you think is the best for
+ShoppingList++.
+
+131
+00:06:32,274 --> 00:06:34,650
+And here are the screens if
+you need them for reference.

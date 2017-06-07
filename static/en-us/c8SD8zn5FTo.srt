@@ -1,0 +1,382 @@
+1
+00:00:00,262 --> 00:00:03,308
+So far in this lesson, you've
+been doing computations on
+
+2
+00:00:03,308 --> 00:00:05,242
+series using
+built-in functions.
+
+3
+00:00:05,242 --> 00:00:08,946
+For example, the mean function
+and vectorized operations.
+
+4
+00:00:08,946 --> 00:00:12,310
+For example, plus for
+vectorized addition.
+
+5
+00:00:12,310 --> 00:00:14,590
+But what do you do when
+you want to perform some
+
+6
+00:00:14,590 --> 00:00:17,100
+calculation that's not
+built into pandas and
+
+7
+00:00:17,100 --> 00:00:19,660
+can't be performed using
+simple vector s operations?
+
+8
+00:00:20,910 --> 00:00:22,240
+Like you saw before,
+
+9
+00:00:22,240 --> 00:00:24,780
+one option would be to treat
+the series as a list using
+
+10
+00:00:24,780 --> 00:00:25,670
+four loops or
+
+11
+00:00:25,670 --> 00:00:27,690
+accessing individual
+elements of thee series.
+
+12
+00:00:28,880 --> 00:00:30,600
+There is another
+option though,
+
+13
+00:00:30,600 --> 00:00:33,520
+pandas has a function called
+apply(), which you can use to
+
+14
+00:00:33,520 --> 00:00:35,949
+perform computations that
+aren't built into Pandas.
+
+15
+00:00:37,125 --> 00:00:38,290
+Apply() takes a series and
+
+16
+00:00:38,290 --> 00:00:41,590
+a function and it creates
+a new series by applying
+
+17
+00:00:41,590 --> 00:00:44,030
+the function to every element
+of the original series.
+
+18
+00:00:45,040 --> 00:00:48,300
+So for example, suppose
+the function was add three,
+
+19
+00:00:48,300 --> 00:00:50,240
+which takes a number and
+adds three to it.
+
+20
+00:00:51,390 --> 00:00:54,247
+Applying this function to the
+series on the left would give
+
+21
+00:00:54,247 --> 00:00:55,481
+the series on the right.
+
+22
+00:00:55,481 --> 00:00:58,774
+First, add three would be
+applied to the first element
+
+23
+00:00:58,774 --> 00:01:00,426
+of the series giving four.
+
+24
+00:01:00,426 --> 00:01:03,139
+Then add three would be
+applied to the second element
+
+25
+00:01:03,139 --> 00:01:05,269
+of the series, giving five.
+
+26
+00:01:05,269 --> 00:01:08,460
+Then to the third element of
+the series, giving six and
+
+27
+00:01:08,460 --> 00:01:08,990
+so on.
+
+28
+00:01:10,610 --> 00:01:13,700
+If you're familiar with the
+Python function map apply() is
+
+29
+00:01:13,700 --> 00:01:17,190
+exactly the same, but it works
+on series instead of lists.
+
+30
+00:01:17,190 --> 00:01:19,740
+If you haven't heard of map,
+that's okay too.
+
+31
+00:01:19,740 --> 00:01:21,206
+Now in this example
+of adding three,
+
+32
+00:01:21,206 --> 00:01:23,392
+it would have been better
+to use vectorized addition.
+
+33
+00:01:23,392 --> 00:01:25,870
+If this series were named s,
+
+34
+00:01:25,870 --> 00:01:30,838
+then you could create the new
+series with the code s+3.
+
+35
+00:01:30,838 --> 00:01:35,586
+And this would do the same
+thing as s.apply(add 3).
+
+36
+00:01:35,586 --> 00:01:38,998
+However, apply() can be very
+useful in cases where there is
+
+37
+00:01:38,998 --> 00:01:41,699
+no built-in operation
+that does what you want.
+
+38
+00:01:42,840 --> 00:01:45,950
+For example, suppose you have
+a series of states where some
+
+39
+00:01:45,950 --> 00:01:48,130
+states are represented
+by the full name and
+
+40
+00:01:48,130 --> 00:01:49,470
+others by the abbreviation.
+
+41
+00:01:50,710 --> 00:01:53,650
+I want to clean up the data by
+replacing each full state by
+
+42
+00:01:53,650 --> 00:01:54,600
+its abbreviation.
+
+43
+00:01:55,680 --> 00:01:56,316
+Now let's say,
+
+44
+00:01:56,316 --> 00:01:58,270
+I've already written
+a function that does this for
+
+45
+00:01:58,270 --> 00:01:58,914
+a single state.
+
+46
+00:01:58,914 --> 00:02:01,202
+The code might look
+something like this.
+
+47
+00:02:01,202 --> 00:02:04,371
+First, I check if the value
+is already an abbreviation.
+
+48
+00:02:04,371 --> 00:02:06,125
+In which case,
+I return it unchanged.
+
+49
+00:02:06,125 --> 00:02:08,366
+Next, I check if
+the state is Alabama.
+
+50
+00:02:08,366 --> 00:02:11,267
+In which case, I return the
+abbreviation for Alabama, and
+
+51
+00:02:11,267 --> 00:02:12,490
+so on, you get the idea.
+
+52
+00:02:13,530 --> 00:02:15,330
+Now I could create
+an empty list,
+
+53
+00:02:15,330 --> 00:02:18,300
+then loop over the series,
+then call my clean_state
+
+54
+00:02:18,300 --> 00:02:20,680
+function on each value
+in the series and
+
+55
+00:02:20,680 --> 00:02:23,020
+append each new
+value to the list.
+
+56
+00:02:23,020 --> 00:02:25,898
+But I probably really wanted
+my cleaned data to be a panda
+
+57
+00:02:25,898 --> 00:02:27,429
+series rather than a list, so
+
+58
+00:02:27,429 --> 00:02:30,443
+I could convert this list to a
+series at the end of the loop.
+
+59
+00:02:30,443 --> 00:02:33,705
+Instead though, I could
+use the apply() function.
+
+60
+00:02:33,705 --> 00:02:36,357
+First, I type the name
+of my original series,
+
+61
+00:02:36,357 --> 00:02:39,223
+which is states, then I
+call the apply function.
+
+62
+00:02:39,223 --> 00:02:41,551
+And as an argument to
+the apply() function,
+
+63
+00:02:41,551 --> 00:02:44,236
+I give the clean_state
+function that I wrote to clean
+
+64
+00:02:44,236 --> 00:02:45,022
+up each state.
+
+65
+00:02:45,022 --> 00:02:47,383
+Note that I don't put
+parenthesis after
+
+66
+00:02:47,383 --> 00:02:51,280
+the clean_state function, I'm
+not calling the function here.
+
+67
+00:02:51,280 --> 00:02:54,867
+I'm giving the entire function
+as an input to apply().
+
+68
+00:02:54,867 --> 00:02:57,829
+The main advantage of using
+apply() over a loop is that it
+
+69
+00:02:57,829 --> 00:02:59,650
+makes your code
+a lot more concise.
+
+70
+00:02:59,650 --> 00:03:01,566
+It might also be
+slightly faster.
+
+71
+00:03:01,566 --> 00:03:04,041
+But in this case, the bulk
+of the time will probably be
+
+72
+00:03:04,041 --> 00:03:06,024
+spent within
+the clean_state function.
+
+73
+00:03:06,024 --> 00:03:08,603
+So, it probably wonÂ´t
+matter much from a speed
+
+74
+00:03:08,603 --> 00:03:11,190
+perspective whether I
+use a loop or apply().
+
+75
+00:03:11,190 --> 00:03:12,560
+Now, it's your turn.
+
+76
+00:03:12,560 --> 00:03:15,772
+Write code that will take
+a series of names in the form
+
+77
+00:03:15,772 --> 00:03:17,670
+of, firstname, lastname and
+
+78
+00:03:17,670 --> 00:03:20,820
+then put them into the form
+lastname, firstname.
+
+79
+00:03:21,820 --> 00:03:24,950
+You might find Python's split
+function helpful, there's
+
+80
+00:03:24,950 --> 00:03:27,210
+a link to documentation
+in the instructor notes.

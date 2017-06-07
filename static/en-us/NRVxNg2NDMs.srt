@@ -1,0 +1,209 @@
+1
+00:00:00,370 --> 00:00:03,300
+The code in our service worker doesn't
+do anything yet, because it hasn't been
+
+2
+00:00:03,300 --> 00:00:07,640
+registered, but I've been talking long
+enough, so this is a job for you.
+
+3
+00:00:07,640 --> 00:00:11,620
+Once again, we pick up the video
+phone to our taskmaster, Mike Wales.
+
+4
+00:00:11,620 --> 00:00:12,440
+>> Hello again.
+>> Now, this
+
+5
+00:00:12,440 --> 00:00:16,820
+is the first coding task of the course
+Mike, so, you know, don't be too cruel.
+
+6
+00:00:16,820 --> 00:00:18,930
+>> Who do you take me for?
+
+7
+00:00:18,930 --> 00:00:22,720
+Okay, we're just saw Jake add of fetch
+listener to a service worker script.
+
+8
+00:00:22,720 --> 00:00:25,180
+But now you need to
+register it from the page.
+
+9
+00:00:25,180 --> 00:00:28,430
+To get your copy of the project
+into the same state as Jake's,
+
+10
+00:00:28,430 --> 00:00:30,830
+run git reset --hard.
+
+11
+00:00:30,830 --> 00:00:33,871
+And then git checkout task-register-sw.
+
+12
+00:00:33,871 --> 00:00:36,110
+If you've already got
+the server running,
+
+13
+00:00:36,110 --> 00:00:38,330
+you don't need to stop
+it to switch branches.
+
+14
+00:00:38,330 --> 00:00:41,421
+Just open another command
+window to the project.
+
+15
+00:00:41,421 --> 00:00:47,768
+Once you're on the correct branch,
+take a look at public/js/sw/index.js.
+
+16
+00:00:47,768 --> 00:00:49,730
+This is the service worker script.
+
+17
+00:00:49,730 --> 00:00:52,937
+And it contains the fetch event
+listener from the last chapter.
+
+18
+00:00:52,937 --> 00:00:58,639
+And if you navigate the browser to
+http://local host.port 88/sw.js,
+
+19
+00:00:58,639 --> 00:01:01,740
+you can see the output of that code.
+
+20
+00:01:01,740 --> 00:01:04,959
+Along with a little extra
+that babel has thrown in.
+
+21
+00:01:04,959 --> 00:01:08,490
+We want to register the service worker
+as soon as our app starts up, so
+
+22
+00:01:08,490 --> 00:01:14,240
+let's go into
+public/js/main/indexcontroller.js.
+
+23
+00:01:14,240 --> 00:01:17,600
+And its controls constructor is
+taking care of the set up of our app,
+
+24
+00:01:17,600 --> 00:01:20,880
+including setting up the web socket for
+the live updates.
+
+25
+00:01:20,880 --> 00:01:22,560
+Don't worry about this stuff.
+
+26
+00:01:22,560 --> 00:01:25,800
+This would be the custom code for
+your app, whatever it is.
+
+27
+00:01:25,800 --> 00:01:29,600
+In this case it's setting up our views,
+and getting ready to receive wheats.
+
+28
+00:01:30,710 --> 00:01:33,690
+Also, JavaScript doesn't
+have private methods, but
+
+29
+00:01:33,690 --> 00:01:36,240
+it's common practice to start
+methods with an underscore
+
+30
+00:01:36,240 --> 00:01:39,090
+if they'll only ever be called
+by other methods of this object.
+
+31
+00:01:40,230 --> 00:01:45,240
+Just notice that at the end there,
+it calls _registerServiceWorker.
+
+32
+00:01:45,240 --> 00:01:47,990
+Here's the implementation
+of _registerServiceWorker,
+
+33
+00:01:47,990 --> 00:01:48,940
+which is currently empty.
+
+34
+00:01:48,940 --> 00:01:51,630
+And this is where you come in.
+
+35
+00:01:51,630 --> 00:01:54,490
+Add the code to register
+the service worker here.
+
+36
+00:01:54,490 --> 00:01:58,460
+We want the scope to be the whole
+origin, so the default scope is fine.
+
+37
+00:01:58,460 --> 00:02:02,050
+Once you've done that, reload the page
+so your code runs, and check for errors.
+
+38
+00:02:02,050 --> 00:02:05,790
+The best way to do this is
+to open Chrome dev tools.
+
+39
+00:02:05,790 --> 00:02:08,389
+You can also use command
++ Alt + J as a shortcut,
+
+40
+00:02:08,389 --> 00:02:10,990
+which is Alt + Ctrl + J on Windows.
+
+41
+00:02:10,990 --> 00:02:12,960
+Once you're happy the service
+worker has registered,
+
+42
+00:02:12,960 --> 00:02:16,900
+head to the Settings page and
+type registered into the test field.
+
+43
+00:02:16,900 --> 00:02:18,020
+Then press Enter.
+
+44
+00:02:18,020 --> 00:02:19,998
+It'll test to see if
+everything's working.

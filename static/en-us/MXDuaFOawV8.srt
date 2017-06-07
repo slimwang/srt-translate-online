@@ -1,0 +1,477 @@
+1
+00:00:00,190 --> 00:00:02,600
+The browse fragment is very powerful.
+
+2
+00:00:02,600 --> 00:00:05,280
+In this lesson,
+we'll bring some of that power to life.
+
+3
+00:00:05,280 --> 00:00:07,750
+First, our UI is looking
+a little bit drab, so
+
+4
+00:00:07,750 --> 00:00:09,880
+let's add some content to spice it up.
+
+5
+00:00:09,880 --> 00:00:14,110
+Inside the on activity created method,
+uncomment setup UI elements.
+
+6
+00:00:14,110 --> 00:00:16,309
+Now, let's take a look
+inside this method.
+
+7
+00:00:16,309 --> 00:00:19,630
+First off, notice that all these methods
+are being called on the browse fragment
+
+8
+00:00:19,630 --> 00:00:21,770
+provided by the lean back library.
+
+9
+00:00:21,770 --> 00:00:25,270
+Most of this code is self-explanatory
+except for setHeadersState and
+
+10
+00:00:25,270 --> 00:00:27,560
+setHeadersTransitionOnBackEnabled.
+
+11
+00:00:27,560 --> 00:00:30,330
+These indicate to the browse fragment
+you want headers to be visible by
+
+12
+00:00:30,330 --> 00:00:33,890
+default and that we want the back button
+to move the focus back to the headers
+
+13
+00:00:33,890 --> 00:00:37,440
+from a row, if it's pressed while
+the user is scrolling through cards.
+
+14
+00:00:37,440 --> 00:00:40,430
+The browse fragment can display
+either a badge or a title.
+
+15
+00:00:40,430 --> 00:00:43,020
+If you prefer a badge,
+uncomment this line.
+
+16
+00:00:43,020 --> 00:00:45,650
+Let's run the project now and
+see how it looks.
+
+17
+00:00:45,650 --> 00:00:48,110
+It looks a little bit better but
+there's still not much going on.
+
+18
+00:00:48,110 --> 00:00:49,500
+That's going to change really soon.
+
+19
+00:00:50,550 --> 00:00:52,740
+Now it's time to add
+content to our layout.
+
+20
+00:00:52,740 --> 00:00:56,460
+Return to onActivityCreated and
+uncomment loadRows.
+
+21
+00:00:56,460 --> 00:00:58,310
+Here's the loadRows method.
+
+22
+00:00:58,310 --> 00:01:00,000
+There's still more than
+a page of code here, so
+
+23
+00:01:00,000 --> 00:01:02,556
+we're going to comment some out
+to make it easier to understand.
+
+24
+00:01:02,556 --> 00:01:05,170
+First, I'm going to comment
+out all these lines except for
+
+25
+00:01:05,170 --> 00:01:08,870
+mRowsAdapter, which is an object
+adapter that I'll explain later.
+
+26
+00:01:08,870 --> 00:01:11,550
+Next, I'm going to change this i to a 0.
+
+27
+00:01:11,550 --> 00:01:13,270
+Let's run the project to see what's up,
+and
+
+28
+00:01:13,270 --> 00:01:15,730
+then I'll explain what
+happened line by line.
+
+29
+00:01:15,730 --> 00:01:17,190
+Now we're getting somewhere.
+
+30
+00:01:17,190 --> 00:01:19,750
+One thing to notice is that we
+have really smooth animations, and
+
+31
+00:01:19,750 --> 00:01:21,890
+it's easy to browse our
+layout with the D-pad.
+
+32
+00:01:21,890 --> 00:01:24,280
+There's even sound if you
+have speakers attached.
+
+33
+00:01:24,280 --> 00:01:26,260
+On the left, we see a category name.
+
+34
+00:01:26,260 --> 00:01:27,670
+Pretty soon we'll have many.
+
+35
+00:01:27,670 --> 00:01:31,190
+And on the right, we see a list
+of three cards inside of a row.
+
+36
+00:01:31,190 --> 00:01:33,120
+We only added a few lines of code, so
+
+37
+00:01:33,120 --> 00:01:35,180
+where did all this
+functionality come from?
+
+38
+00:01:35,180 --> 00:01:38,860
+Well, it turns out the browse fragment
+goes way beyond helping with layout.
+
+39
+00:01:38,860 --> 00:01:42,700
+It also provides smooth animation,
+easy D-pad navigation and
+
+40
+00:01:42,700 --> 00:01:47,000
+memory efficiency for displaying large
+lists of media items behind the scenes.
+
+41
+00:01:47,000 --> 00:01:49,590
+When you use the browse fragment,
+you get all this for free.
+
+42
+00:01:50,605 --> 00:01:52,850
+Here's the code that
+created our category name.
+
+43
+00:01:52,850 --> 00:01:55,830
+The first parameter is unique ID for
+the item.
+
+44
+00:01:55,830 --> 00:01:58,400
+The three cards we saw were
+created by these lines.
+
+45
+00:01:58,400 --> 00:02:01,510
+Cards of course can get much fancier
+than just a line of text, but for
+
+46
+00:02:01,510 --> 00:02:03,300
+now let's stick with this.
+
+47
+00:02:03,300 --> 00:02:04,780
+How are these cards created?
+
+48
+00:02:04,780 --> 00:02:06,820
+Well, that's the job of a presenter.
+
+49
+00:02:06,820 --> 00:02:11,180
+Recall that a presenter takes an object,
+in this case a plain text string, and
+
+50
+00:02:11,180 --> 00:02:13,080
+returns a view that represents it.
+
+51
+00:02:13,080 --> 00:02:15,890
+Let's take a look inside this class and
+see how it works.
+
+52
+00:02:15,890 --> 00:02:17,920
+And by the way,
+in case the name confuses you,
+
+53
+00:02:17,920 --> 00:02:21,570
+we really could have called this class,
+Textcard Presenter.
+
+54
+00:02:21,570 --> 00:02:23,860
+Inside, there are two important methods.
+
+55
+00:02:23,860 --> 00:02:27,020
+And at run time,
+LeanBack will call both of these for us.
+
+56
+00:02:27,020 --> 00:02:29,190
+First stop is onCreateViewHolder.
+
+57
+00:02:29,190 --> 00:02:31,610
+This creates a view
+that becomes our card.
+
+58
+00:02:31,610 --> 00:02:34,820
+A ViewHolder, by the way, is a simple
+class that Android uses to improve
+
+59
+00:02:34,820 --> 00:02:38,660
+performance, by removing the need to
+do a linear lookup for nested views.
+
+60
+00:02:38,660 --> 00:02:40,400
+It's not native to LeanBack.
+
+61
+00:02:40,400 --> 00:02:43,100
+Here, the view we create is
+just a simple text view and
+
+62
+00:02:43,100 --> 00:02:45,710
+we set a couple of properties
+to customize how it looks.
+
+63
+00:02:45,710 --> 00:02:47,910
+Next stop is onBindViewHolder.
+
+64
+00:02:47,910 --> 00:02:51,150
+This method receives the view that we
+created earlier as well as an object
+
+65
+00:02:51,150 --> 00:02:52,630
+that should be bound to it.
+
+66
+00:02:52,630 --> 00:02:55,250
+Bound by the way, is a fancy way
+of saying that we should populate
+
+67
+00:02:55,250 --> 00:02:58,320
+the fields of the view,
+using properties of this item.
+
+68
+00:02:58,320 --> 00:03:00,380
+The parameter always
+comes in as an object, so
+
+69
+00:03:00,380 --> 00:03:02,420
+we cast it to the appropriate type.
+
+70
+00:03:02,420 --> 00:03:04,370
+Here, we know that
+this will be a string.
+
+71
+00:03:04,370 --> 00:03:06,720
+We also know the view we created
+above is a text view, so
+
+72
+00:03:06,720 --> 00:03:08,400
+we make that cast, as well.
+
+73
+00:03:08,400 --> 00:03:10,620
+And now we can set the text to
+match the string we passed in.
+
+74
+00:03:11,770 --> 00:03:13,900
+Now we have a presenter
+that creates cards and
+
+75
+00:03:13,900 --> 00:03:15,970
+three strings that should become cards.
+
+76
+00:03:15,970 --> 00:03:20,110
+To tie these together, we use a LeanBack
+class called an ObjectAdapter.
+
+77
+00:03:20,110 --> 00:03:21,970
+If you recall from our previous lesson,
+
+78
+00:03:21,970 --> 00:03:25,900
+an ObjectAdapter's job is to
+connect the model with the view.
+
+79
+00:03:25,900 --> 00:03:29,360
+When we create our adapter, we give
+it our presenter in the constructor.
+
+80
+00:03:29,360 --> 00:03:31,010
+Next we add objects to it.
+
+81
+00:03:31,010 --> 00:03:31,680
+At run time,
+
+82
+00:03:31,680 --> 00:03:36,220
+the ObjectAdapter will use our presenter
+to create views for these objects.
+
+83
+00:03:36,220 --> 00:03:37,670
+Now we want our category name and
+
+84
+00:03:37,670 --> 00:03:40,480
+our three cards to be
+displayed as a single row.
+
+85
+00:03:40,480 --> 00:03:42,840
+To do so, we'll use a list row class.
+
+86
+00:03:42,840 --> 00:03:46,230
+This is built into LeanBack, and it's
+just a holder for a category name and
+
+87
+00:03:46,230 --> 00:03:49,240
+the ObjectAdapter that will
+create cards for that category.
+
+88
+00:03:49,240 --> 00:03:51,900
+And remember at this point,
+the object adapter contains
+
+89
+00:03:51,900 --> 00:03:56,170
+both the presenter to create cards and
+the data that should become cards.
+
+90
+00:03:56,170 --> 00:03:59,200
+Now that we have a list row,
+we'll need a presenter for it.
+
+91
+00:03:59,200 --> 00:04:02,010
+Scrolling up a bit, you can see
+one that LeanBack provides for
+
+92
+00:04:02,010 --> 00:04:04,060
+us, called a ListRowPresenter.
+
+93
+00:04:04,060 --> 00:04:07,670
+Just like we used a presenter to create
+views for strings, this presenter will
+
+94
+00:04:07,670 --> 00:04:11,630
+create a view that contains multiple
+views and line them up in a row.
+
+95
+00:04:11,630 --> 00:04:15,660
+We need a second ObjectAdapter to hold
+this presenter and we create it here.
+
+96
+00:04:15,660 --> 00:04:19,110
+We add our list row to that adapter and
+then we set it as the main adapter for
+
+97
+00:04:19,110 --> 00:04:20,540
+the browse fragment.
+
+98
+00:04:20,540 --> 00:04:23,110
+That's the Model Presenter View
+pattern in action.
+
+99
+00:04:23,110 --> 00:04:24,220
+Once you understand it,
+
+100
+00:04:24,220 --> 00:04:27,160
+you're well on your way to
+understanding the LeanBack library.
+
+101
+00:04:27,160 --> 00:04:28,420
+Here's a quick quiz.
+
+102
+00:04:28,420 --> 00:04:32,260
+An ObjectAdapter uses a blank to
+display objects from the blank.

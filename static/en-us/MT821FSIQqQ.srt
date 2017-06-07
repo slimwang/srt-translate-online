@@ -1,0 +1,223 @@
+1
+00:00:00,150 --> 00:00:03,969
+Here is my solution. We're using the dictionary as a cache. We're
+
+2
+00:00:03,969 --> 00:00:07,170
+going to use a and b as the key to this cache. So
+
+3
+00:00:07,170 --> 00:00:09,170
+I just made a variable here called key which is just the
+
+4
+00:00:09,170 --> 00:00:11,520
+tuple of a and b and in Python, you can use a tuple
+
+5
+00:00:11,520 --> 00:00:14,350
+as a key and a hash table. Not all hash tables work
+
+6
+00:00:14,350 --> 00:00:17,590
+this way, but the dictionaries built in the Python [INAUDIBLE] convenient. So
+
+7
+00:00:17,590 --> 00:00:20,150
+the first thing we do is to say, if key in cache
+
+8
+00:00:20,150 --> 00:00:25,550
+and if so r equals cache key. Which basically looks up that value
+
+9
+00:00:25,550 --> 00:00:28,610
+in the cache. If its not in the cache,
+
+10
+00:00:28,610 --> 00:00:32,650
+we run complex computation. We set cache key key to
+
+11
+00:00:32,650 --> 00:00:35,560
+equal r and then we return r. So lets see
+
+12
+00:00:35,560 --> 00:00:38,727
+how this, this runs. Okay, so if I were to
+
+13
+00:00:38,727 --> 00:00:42,100
+call cached computational. The inputs 5 and 3,. We see
+
+14
+00:00:42,100 --> 00:00:44,940
+the value 8 prints out.Okay? And it paused for half
+
+15
+00:00:44,940 --> 00:00:48,060
+a second but you'll just have to believe me. let's,
+
+16
+00:00:48,060 --> 00:00:50,670
+let's add some extra information here so we can see
+
+17
+00:00:50,670 --> 00:00:52,600
+how long it's taking to run. Okay, the first thing I'm going to
+
+18
+00:00:52,600 --> 00:00:55,160
+do is I'm going to store in a variable called start time, the current
+
+19
+00:00:55,160 --> 00:01:00,520
+time. If you call time.time Using the time library here. This will return
+
+20
+00:01:00,520 --> 00:01:04,300
+the current time in seconds. That is just our starting point. Then we
+
+21
+00:01:04,300 --> 00:01:07,680
+will actually print our cache computation like what we did before and
+
+22
+00:01:07,680 --> 00:01:10,255
+then I will print how long it took to compute that. And so
+
+23
+00:01:10,255 --> 00:01:12,068
+what I am doing here is I say print and then I am
+
+24
+00:01:12,068 --> 00:01:15,860
+printing the string for the first computation took percent f seconds. Percent f
+
+25
+00:01:15,860 --> 00:01:19,700
+is just like percent s except its, we'll print a
+
+26
+00:01:19,700 --> 00:01:23,160
+number formatted a little bit better. And I'm going to print the
+
+27
+00:01:23,160 --> 00:01:26,860
+current time minus the start time which will basically give
+
+28
+00:01:26,860 --> 00:01:30,490
+us how many seconds this this computation took to run. So
+
+29
+00:01:30,490 --> 00:01:32,650
+let's give this a run. Okay, now we see the
+
+30
+00:01:32,650 --> 00:01:36,170
+first computation took. Just over half a second. And that makes
+
+31
+00:01:36,170 --> 00:01:38,500
+sense because we sleep for half a second and otherwise we're
+
+32
+00:01:38,500 --> 00:01:41,170
+just adding 2 numbers, which doesn't take very long at all.
+
+33
+00:01:41,170 --> 00:01:43,670
+Let's go ahead and run this a second time and see what happens
+
+34
+00:01:43,670 --> 00:01:45,930
+if we run it twice in a row. Okay, so I just copied
+
+35
+00:01:45,930 --> 00:01:48,890
+and pasted these lines and we're going to run them a second time. So
+
+36
+00:01:48,890 --> 00:01:52,870
+we're going to restart the start time and then we're going to run the
+
+37
+00:01:52,870 --> 00:01:56,080
+same computation again with different numbers. And we are going to print how
+
+38
+00:01:56,080 --> 00:01:58,970
+long it took to run. So lets give this a run. Okay, so
+
+39
+00:01:58,970 --> 00:02:02,085
+now we have printed out 2 things. We printed out the result both
+
+40
+00:02:02,085 --> 00:02:06,730
+times, the first time the computation took .5 seconds. And the second time
+
+41
+00:02:06,730 --> 00:02:08,930
+when we had a cache hit, when we ran through this
+
+42
+00:02:08,930 --> 00:02:15,730
+piece of code here. The computation took .000011 seconds. Which is
+
+43
+00:02:15,730 --> 00:02:18,270
+substantially faster. So if we had to run this computation a
+
+44
+00:02:18,270 --> 00:02:22,430
+lot. Let's say we're returning the front page of askichan and
+
+45
+00:02:22,430 --> 00:02:24,220
+we didn't want to do that database query over and over
+
+46
+00:02:24,220 --> 00:02:26,810
+again and we cached it, we could get a substantial speed
+
+47
+00:02:26,810 --> 00:02:29,450
+improvement. Now who knows how long it takes to actually run
+
+48
+00:02:29,450 --> 00:02:31,950
+the front page of askichan. We will get to that in
+
+49
+00:02:31,950 --> 00:02:34,040
+a bit. But this is the general algorithm, and you should
+
+50
+00:02:34,040 --> 00:02:36,440
+get familiar with you know, this algorithm because you'll be using it
+
+51
+00:02:36,440 --> 00:02:38,130
+a lot. You know, there's lots of different ways you can
+
+52
+00:02:38,130 --> 00:02:40,550
+cache things, lots of different types of caches and all sorts of
+
+53
+00:02:40,550 --> 00:02:42,770
+things, but the algorithm is always the same. If you'd like
+
+54
+00:02:42,770 --> 00:02:44,800
+to see if something's in the cache, if it is return it,
+
+55
+00:02:44,800 --> 00:02:48,130
+otherwise compute it, store it, return it. So, good job if
+
+56
+00:02:48,130 --> 00:02:51,440
+you got that and let's move along to a real world example.

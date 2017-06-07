@@ -1,0 +1,369 @@
+1
+00:00:00,080 --> 00:00:01,770
+Based on what we described so far,
+
+2
+00:00:01,770 --> 00:00:05,939
+let's take a look at how a distributed
+shared memory system can be designed.
+
+3
+00:00:05,939 --> 00:00:09,310
+This type of system consists
+of a number of nodes,
+
+4
+00:00:09,310 --> 00:00:11,685
+each with their own physical memory.
+
+5
+00:00:11,685 --> 00:00:15,300
+Everyone of the nodes may contribute
+towards the distributed shared memory
+
+6
+00:00:15,300 --> 00:00:20,130
+system, only a portion of their physical
+memory, or it can contribute all of it.
+
+7
+00:00:20,130 --> 00:00:24,250
+Let's assume here, that only
+a portion of the physical memory,
+
+8
+00:00:24,250 --> 00:00:28,900
+is contributed towards the DSM service
+and can explicitly be addressed.
+
+9
+00:00:28,900 --> 00:00:32,680
+Whereas the rest of the memory
+is used either for caches or
+
+10
+00:00:32,680 --> 00:00:36,460
+for replication or for some metadata
+that's needed for the DSM layer.
+
+11
+00:00:37,470 --> 00:00:41,490
+The pool of memory regions, the memory
+pages that every single one of these
+
+12
+00:00:41,490 --> 00:00:47,060
+nodes contributes, forms the global
+shared memory that's available for
+
+13
+00:00:47,060 --> 00:00:49,300
+applications running in the system.
+
+14
+00:00:49,300 --> 00:00:54,450
+Every address in this memory pool
+will be uniquely identified based
+
+15
+00:00:54,450 --> 00:00:58,260
+on the identifier for
+the node where it's, residing,
+
+16
+00:00:58,260 --> 00:01:02,840
+as well of the page frame number of that
+particular physical memory location.
+
+17
+00:01:02,840 --> 00:01:06,620
+The node where our page is located
+is typically referred to as
+
+18
+00:01:06,620 --> 00:01:07,570
+the home node of that page.
+
+19
+00:01:08,640 --> 00:01:11,620
+Now let's say, we're trying to
+solve the most general case
+
+20
+00:01:11,620 --> 00:01:15,700
+where the system is supposed to support
+applications that have multiple reader,
+
+21
+00:01:15,700 --> 00:01:17,710
+multiple writer requirements.
+
+22
+00:01:17,710 --> 00:01:22,330
+For that reason, in order for the system
+to deliver acceptable performance, and
+
+23
+00:01:22,330 --> 00:01:26,610
+achieve low latency with which
+the memory accesses are performed,
+
+24
+00:01:26,610 --> 00:01:29,960
+the DSM layer will
+incorporate use of caching.
+
+25
+00:01:29,960 --> 00:01:33,980
+Pages will be cached on the nodes
+where they are accessed, and for
+
+26
+00:01:33,980 --> 00:01:38,580
+a state that's cached, for memory pages
+that are stored on these remote nodes.
+
+27
+00:01:38,580 --> 00:01:42,360
+The home node, or the manager node,
+will be responsible for
+
+28
+00:01:42,360 --> 00:01:46,570
+driving all of the coherence related
+operations, so, it will maintain state,
+
+29
+00:01:46,570 --> 00:01:49,190
+that's necessary to track
+the number of readers,
+
+30
+00:01:49,190 --> 00:01:52,640
+the writers, whatever cache
+has been modified, et cetera.
+
+31
+00:01:52,640 --> 00:01:56,420
+In this way, all of the notes in
+the system are responsible for
+
+32
+00:01:56,420 --> 00:02:01,700
+some portion of the management
+operations for that distributed memory.
+
+33
+00:02:01,700 --> 00:02:04,220
+The information that's
+maintained at the home, or
+
+34
+00:02:04,220 --> 00:02:08,300
+the manager node is similar to the kind
+of information that we saw that
+
+35
+00:02:08,300 --> 00:02:12,680
+the servers have to maintain in
+the distributed file system example.
+
+36
+00:02:12,680 --> 00:02:16,980
+Except that in this situation every
+single one of the nodes is responsible
+
+37
+00:02:16,980 --> 00:02:20,550
+for both providing the service,
+the acting as a server for
+
+38
+00:02:20,550 --> 00:02:23,520
+that particular portion
+of the shared memory.
+
+39
+00:02:23,520 --> 00:02:27,150
+And also being the client with
+respect to the other nodes.
+
+40
+00:02:27,150 --> 00:02:30,640
+So every one of the nodes will
+participate in interactions with,
+
+41
+00:02:30,640 --> 00:02:34,400
+a home node in case they
+are locally caching some of
+
+42
+00:02:34,400 --> 00:02:37,760
+the memory that's stored
+at a remote site.
+
+43
+00:02:37,760 --> 00:02:40,660
+The home node will have to
+keep track of states, such as,
+
+44
+00:02:40,660 --> 00:02:44,970
+what are the pages accessed, who is it
+accessed by, whether it's been modified.
+
+45
+00:02:44,970 --> 00:02:49,184
+We may also choose to incorporate
+mechanisms to dynamical enable/disable
+
+46
+00:02:49,184 --> 00:02:50,035
+caching for.
+
+47
+00:02:50,035 --> 00:02:53,685
+For a similar motivation, like what
+we had in the sprite file system.
+
+48
+00:02:53,685 --> 00:02:57,055
+What are the pages locked, that's
+another useful piece of information.
+
+49
+00:02:57,055 --> 00:03:00,166
+All this information is
+used in enforcing the,
+
+50
+00:03:00,166 --> 00:03:04,797
+shearing semantics that this
+particular DSM system will implement.
+
+51
+00:03:04,797 --> 00:03:07,365
+One particular page is repeatedly and
+
+52
+00:03:07,365 --> 00:03:12,220
+even exclusively accessed on
+a node that's not its home node.
+
+53
+00:03:12,220 --> 00:03:16,500
+It would be too expensive to repeatedly
+contact the home node to perform any
+
+54
+00:03:16,500 --> 00:03:21,370
+necessary state updates, so one
+mechanism that's useful in DSN systems
+
+55
+00:03:21,370 --> 00:03:26,320
+is to separate the notion of home node,
+from the so-called owner.
+
+56
+00:03:27,430 --> 00:03:31,450
+The owner is the node that
+currently owns the page that's,
+
+57
+00:03:31,450 --> 00:03:34,050
+like the exclusive writer for instance.
+
+58
+00:03:34,050 --> 00:03:38,370
+And that's the node that can control
+all of these state updates and
+
+59
+00:03:38,370 --> 00:03:41,470
+can drive any consistency
+related operations.
+
+60
+00:03:41,470 --> 00:03:45,960
+So this owner may be different from
+the home node, and in fact the owner may
+
+61
+00:03:45,960 --> 00:03:51,530
+change, as, whoever is accessing this
+page migrates throughout the system or
+
+62
+00:03:51,530 --> 00:03:55,890
+new processes, new threads require
+access to this particular page.
+
+63
+00:03:55,890 --> 00:03:58,050
+They may become owners as well.
+
+64
+00:03:58,050 --> 00:04:03,200
+The role of the home node for that page,
+in this case, that was node two,
+
+65
+00:04:03,200 --> 00:04:07,630
+is to keep track of who is
+the current owner of that page.
+
+66
+00:04:07,630 --> 00:04:13,100
+In addition to creating page copies
+via caching, in an on demand manner,
+
+67
+00:04:13,100 --> 00:04:18,152
+page replicas can be explicitly created,
+for reasons such as load balancing,
+
+68
+00:04:18,152 --> 00:04:21,680
+hot spot avoidance, or
+reliability reasons so
+
+69
+00:04:21,680 --> 00:04:26,440
+that the page contents do not disappear
+if some note in the system fails.
+
+70
+00:04:26,440 --> 00:04:30,510
+For instance, in data center
+environment that have lots of machines,
+
+71
+00:04:30,510 --> 00:04:35,340
+where a certain distributed shared
+state is managed, it makes sense to
+
+72
+00:04:35,340 --> 00:04:40,780
+triplicate such shared state on the
+original machine, on a nearby machine,
+
+73
+00:04:40,780 --> 00:04:45,150
+for instance in the same rack, and
+then, on another remote machine,
+
+74
+00:04:45,150 --> 00:04:49,010
+whether it's in another rack or
+even potentially in another data center.
+
+75
+00:04:49,010 --> 00:04:53,420
+The consistency of these replicas is
+controlled either by the home node or
+
+76
+00:04:53,420 --> 00:04:55,140
+by some designated management node.

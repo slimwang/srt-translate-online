@@ -1,0 +1,276 @@
+1
+00:00:00,290 --> 00:00:01,280
+Whoa.
+>> High five,
+
+2
+00:00:01,280 --> 00:00:03,610
+our students are showing some
+real developer chops now.
+
+3
+00:00:03,610 --> 00:00:04,820
+>> Yeah, super exciting.
+
+4
+00:00:04,820 --> 00:00:06,720
+Wait, Joe not to be a party pooper,
+
+5
+00:00:06,720 --> 00:00:09,840
+but did you tell the students
+about the gotcha with AsyncTask?
+
+6
+00:00:09,840 --> 00:00:11,660
+>> No, why can't we just celebrate?
+
+7
+00:00:11,660 --> 00:00:13,940
+>> Dude, we really need to tell them.
+
+8
+00:00:13,940 --> 00:00:15,490
+>> Fine, you tell them.
+
+9
+00:00:15,490 --> 00:00:19,450
+>> Okay, let's think about what
+happens when I open up the app and
+
+10
+00:00:19,450 --> 00:00:21,030
+launch the earthquake activity.
+
+11
+00:00:21,030 --> 00:00:23,092
+At this point,
+we have an activity object in memory.
+
+12
+00:00:23,092 --> 00:00:27,950
+Then in the onCreate method,
+we instantiate a new AsyncTask object.
+
+13
+00:00:27,950 --> 00:00:30,095
+Which then starts running
+on a background thread and
+
+14
+00:00:30,095 --> 00:00:32,229
+opens up an HTTP connection.
+
+15
+00:00:32,229 --> 00:00:35,440
+Now here's the catch,
+before the AsyncTask finishes,
+
+16
+00:00:35,440 --> 00:00:38,100
+what happens if I rotate my phone?
+
+17
+00:00:38,100 --> 00:00:41,770
+Well, in order to show our UI
+properly in the new orientation,
+
+18
+00:00:41,770 --> 00:00:45,720
+the system needs to create a new
+activity and relayout our views.
+
+19
+00:00:45,720 --> 00:00:49,200
+And since memory is limited on a mobile
+device, this also means that the system
+
+20
+00:00:49,200 --> 00:00:53,490
+probably should destroy the old activity
+and reclaim the memory it occupied.
+
+21
+00:00:53,490 --> 00:00:57,770
+But since the AsyncTask is an inner
+class of the original activity,
+
+22
+00:00:57,770 --> 00:01:01,920
+that memory can't be reclaimed until
+the AsyncTask is finished executing.
+
+23
+00:01:01,920 --> 00:01:02,730
+Let me explain what I mean.
+
+24
+00:01:03,750 --> 00:01:06,727
+Note that any time our phone is rotated,
+
+25
+00:01:06,727 --> 00:01:09,887
+a new activity gets
+created from scratch.
+
+26
+00:01:09,887 --> 00:01:13,020
+And via our code, so
+does a new AsyncTask instance.
+
+27
+00:01:13,020 --> 00:01:17,340
+It starts another background thread and
+opens up another HTTP connection.
+
+28
+00:01:17,340 --> 00:01:21,708
+Now this is very wasteful because
+now there's actually AsyncTask.
+
+29
+00:01:21,708 --> 00:01:25,600
+And two in closing activities
+residing in memory at the same time,
+
+30
+00:01:25,600 --> 00:01:27,340
+twice as much as before.
+
+31
+00:01:27,340 --> 00:01:30,520
+So what happens when the first
+AsyncTask finally completes?
+
+32
+00:01:30,520 --> 00:01:33,190
+Well, the result of the task
+is no longer useful
+
+33
+00:01:33,190 --> 00:01:35,590
+because the views are no
+longer shown on the screen.
+
+34
+00:01:35,590 --> 00:01:37,750
+Which is kind of a waste
+of device resources.
+
+35
+00:01:37,750 --> 00:01:41,170
+Fetching and parsing a server response
+that will never be seen, right?
+
+36
+00:01:41,170 --> 00:01:43,490
+But what if we rotate
+the phone multiple times?
+
+37
+00:01:43,490 --> 00:01:45,940
+Now we've got a ton of
+extra AsyncTask and
+
+38
+00:01:45,940 --> 00:01:49,610
+activities in memory trying to run and
+talk to the network at once.
+
+39
+00:01:49,610 --> 00:01:53,500
+As a result, we use all of this
+additional memory unnecessarily,
+
+40
+00:01:53,500 --> 00:01:55,580
+possibly even slowing down our phone.
+
+41
+00:01:55,580 --> 00:01:59,160
+While we only really need one
+activity and one AsyncTask for
+
+42
+00:01:59,160 --> 00:02:01,050
+what's currently being
+displayed on the screen.
+
+43
+00:02:01,050 --> 00:02:03,020
+Plus, if you really think about it,
+
+44
+00:02:03,020 --> 00:02:05,490
+all of these new tasks will
+likely receive the same result.
+
+45
+00:02:05,490 --> 00:02:08,000
+Because there's probably not
+much earthquake data changing
+
+46
+00:02:08,000 --> 00:02:09,858
+during the few seconds we
+were rotating the phone.
+
+47
+00:02:09,858 --> 00:02:14,090
+So ideally, anytime we create a new
+activity to support an orientation
+
+48
+00:02:14,090 --> 00:02:17,580
+change, it would be more efficient if we
+just use the original result from that
+
+49
+00:02:17,580 --> 00:02:19,695
+first HTTP request.
+
+50
+00:02:19,695 --> 00:02:21,680
+Provided that it completed
+successfully of course.
+
+51
+00:02:21,680 --> 00:02:25,190
+Instead, we have multiple network
+requests in flight to the same server.
+
+52
+00:02:25,190 --> 00:02:27,240
+All fetching and
+parsing the same response.
+
+53
+00:02:27,240 --> 00:02:29,500
+Super wasteful, yuck.
+
+54
+00:02:29,500 --> 00:02:31,000
+>> Okay, Chris,
+you're scaring the student now.
+
+55
+00:02:31,000 --> 00:02:32,310
+There's got to be a better way.
+
+56
+00:02:33,350 --> 00:02:35,380
+>> In fact, there is.
+
+57
+00:02:35,380 --> 00:02:39,560
+>> Watch the Android performance
+pattern video we've linked below and
+
+58
+00:02:39,560 --> 00:02:41,000
+then answer this quiz question.
+
+59
+00:02:41,000 --> 00:02:44,190
+On what component in Android
+helps us solve this issue?

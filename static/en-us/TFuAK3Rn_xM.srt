@@ -1,0 +1,163 @@
+1
+00:00:00,370 --> 00:00:03,740
+You may be asking yourself, how are processes created?
+
+2
+00:00:03,740 --> 00:00:05,320
+What came first?
+
+3
+00:00:05,320 --> 00:00:10,150
+In operating systems, a process can create child processes.
+
+4
+00:00:10,150 --> 00:00:15,530
+In this diagram here, you see that all processes will come from a single root,
+
+5
+00:00:15,530 --> 00:00:20,110
+and they will have some relationship to one another where the creating
+
+6
+00:00:20,110 --> 00:00:25,350
+process is the parent and the created process is the child of that parent.
+
+7
+00:00:25,350 --> 00:00:27,770
+Some of these will be privileged processes.
+
+8
+00:00:27,770 --> 00:00:29,220
+They will be root processes.
+
+9
+00:00:29,220 --> 00:00:33,550
+In fact, this is how most operating systems work.
+
+10
+00:00:33,550 --> 00:00:37,510
+Once the initial boot process is done and the operating system is loaded on
+
+11
+00:00:37,510 --> 00:00:41,570
+the machine, it will create some number of initial processes.
+
+12
+00:00:41,570 --> 00:00:46,100
+When a user logs into a system, a user shell process is created.
+
+13
+00:00:46,100 --> 00:00:49,360
+And then when the user types in commands, like list or
+
+14
+00:00:49,360 --> 00:00:55,460
+emacs, then new processes get spawned from that shell parent process.
+
+15
+00:00:55,460 --> 00:00:58,510
+So the final relationship looks like this tree.
+
+16
+00:00:58,510 --> 00:01:01,680
+Most operating systems support two basic mechanisms for
+
+17
+00:01:01,680 --> 00:01:04,040
+process creation, fork and exec.
+
+18
+00:01:04,040 --> 00:01:08,015
+A process can create a child via either one of these mechanisms.
+
+19
+00:01:08,015 --> 00:01:09,390
+With the fork mechanism,
+
+20
+00:01:09,390 --> 00:01:14,720
+the operating system will create a new Process Control Block for the child.
+
+21
+00:01:14,720 --> 00:01:17,390
+And then it will copy the exact same values from
+
+22
+00:01:17,390 --> 00:01:21,220
+the parent Process Control into the child Process Control Block.
+
+23
+00:01:21,220 --> 00:01:24,940
+At that point, both the parent and the child will continue their
+
+24
+00:01:24,940 --> 00:01:30,390
+execution at the instruction that's immediately after the fork.
+
+25
+00:01:30,390 --> 00:01:35,420
+And this is because both the parent and the child have the exact same values in
+
+26
+00:01:35,420 --> 00:01:39,760
+their Process Control Block, and this includes the value of the program counter.
+
+27
+00:01:39,760 --> 00:01:42,920
+So, after the operating system completes the fork,
+
+28
+00:01:42,920 --> 00:01:47,540
+both of these processes will start their execution at the exact same point.
+
+29
+00:01:48,710 --> 00:01:49,950
+Exec behaves differently.
+
+30
+00:01:49,950 --> 00:01:54,230
+It will take a Process Control Block structure created via fork, but
+
+31
+00:01:54,230 --> 00:01:58,350
+it will not leave its values to match the parent's values like with fork.
+
+32
+00:01:58,350 --> 00:02:01,610
+Instead, the operating system place the child's image.
+
+33
+00:02:01,610 --> 00:02:03,930
+It will load a new program.
+
+34
+00:02:03,930 --> 00:02:08,110
+And the child's PCB will now point to values or
+
+35
+00:02:08,110 --> 00:02:11,820
+describe values that describe this new program.
+
+36
+00:02:11,820 --> 00:02:14,340
+In particular, the program counter for
+
+37
+00:02:14,340 --> 00:02:18,260
+the child will now point to the first instruction of the new program.
+
+38
+00:02:18,260 --> 00:02:23,670
+Now, the behavior of actually creating a new program is like,
+
+39
+00:02:23,670 --> 00:02:28,380
+you call a fork, where the fork creates the initial process.
+
+40
+00:02:28,380 --> 00:02:32,530
+And then you call an exec, which replaces the child's image,
+
+41
+00:02:32,530 --> 00:02:37,450
+the image that was created in the fork, with the image of this new program.

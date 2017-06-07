@@ -1,0 +1,155 @@
+﻿1
+00:00:00,280 --> 00:00:03,490
+We've spent quite a bit of time
+talking about the activity lifecycle,
+
+2
+00:00:03,490 --> 00:00:06,990
+the Android component that is tied to
+the user interface of your application.
+
+3
+00:00:06,990 --> 00:00:12,060
+But some tasks just don't fit nicely
+into the lifecycle of a single activity.
+
+4
+00:00:12,060 --> 00:00:15,875
+For example, you might trigger a change
+inside of the preferences activity
+
+5
+00:00:15,875 --> 00:00:18,954
+that require the database
+to re-sync with the server.
+
+6
+00:00:18,954 --> 00:00:21,754
+It doesn't make sense to run
+a synchronization task within
+
+7
+00:00:21,754 --> 00:00:23,024
+the preference activity.
+
+8
+00:00:23,024 --> 00:00:26,875
+Which will soon be destroyed when
+the user return to the MainActivity.
+
+9
+00:00:26,875 --> 00:00:30,434
+In fact it doesn't make sense to do
+network transactions that talk to
+
+10
+00:00:30,434 --> 00:00:33,479
+a database inside of an activity.
+
+11
+00:00:33,479 --> 00:00:37,239
+It has nothing to directly do with
+the user interface of the application.
+
+12
+00:00:37,240 --> 00:00:39,429
+That's where services come into play.
+
+13
+00:00:39,429 --> 00:00:42,619
+Services are one of the four
+primary Android components as
+
+14
+00:00:42,619 --> 00:00:44,659
+described in the Android manifest.
+
+15
+00:00:44,659 --> 00:00:48,949
+Including activities, content providers,
+and broadcast receivers.
+
+16
+00:00:48,950 --> 00:00:50,940
+All connected using Intents.
+
+17
+00:00:50,939 --> 00:00:51,820
+Services are meant for
+
+18
+00:00:51,820 --> 00:00:55,700
+long running background tasks which
+don't need a visual component.
+
+19
+00:00:55,700 --> 00:00:58,450
+Because of this services,
+unlike activity,
+
+20
+00:00:58,450 --> 00:01:00,570
+do not provide a user interface.
+
+21
+00:01:00,570 --> 00:01:02,179
+An activity can start a service,
+
+22
+00:01:02,179 --> 00:01:05,980
+which will then continue to run even
+after the activity is shut down.
+
+23
+00:01:05,980 --> 00:01:09,646
+Therefore, services are great for things
+like processing loading and processing
+
+24
+00:01:09,646 --> 00:01:12,695
+of data in the background even when
+non of these activities are open.
+
+25
+00:01:12,694 --> 00:01:16,597
+For example, the fact you will get
+email, text messages and calendar
+
+26
+00:01:16,597 --> 00:01:20,899
+reminders even when all these apps are
+closed is because there are background
+
+27
+00:01:20,899 --> 00:01:24,757
+services running on your phone
+listening for and downloading data.
+
+28
+00:01:24,757 --> 00:01:28,804
+When you send an email message and
+navigate away from Gmail a service is
+
+29
+00:01:28,804 --> 00:01:31,615
+what makes sure that that
+message gets sent out,
+
+30
+00:01:31,614 --> 00:01:34,349
+even though your activity is closed.
+
+31
+00:01:34,349 --> 00:01:35,019
+All right.
+
+32
+00:01:35,019 --> 00:01:38,689
+Now that we know the basics of services,
+let's compare them to a framework
+
+33
+00:01:38,689 --> 00:01:41,340
+component we're already familiar with,
+loaders.
+

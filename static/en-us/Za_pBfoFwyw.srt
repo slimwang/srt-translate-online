@@ -1,0 +1,281 @@
+1
+00:00:00,130 --> 00:00:04,970
+As a more concrete example, Fedorava
+speculates that a useful counter to use
+
+2
+00:00:04,970 --> 00:00:11,030
+to detect the thread CPU NS versus
+memory NS is cycles for instruction.
+
+3
+00:00:11,030 --> 00:00:14,390
+She observes that memory
+bound threads take a lot of
+
+4
+00:00:14,390 --> 00:00:18,780
+cycles to complete an instruction
+therefore it has a high CPI.
+
+5
+00:00:18,780 --> 00:00:23,910
+Where is the CPU-bound thread, it will
+complete an instruction every cycle or
+
+6
+00:00:23,910 --> 00:00:28,580
+near that and therefore,
+it will have a CPI of 1, or a low CPI.
+
+7
+00:00:28,580 --> 00:00:32,610
+So this speculates then, it would
+be useful to gather this kind of
+
+8
+00:00:32,610 --> 00:00:37,190
+information, this counter about
+the cycles per instruction.
+
+9
+00:00:37,190 --> 00:00:42,810
+And use that as a metric in scheduling
+threats on hyper-threaded platforms.
+
+10
+00:00:42,810 --> 00:00:47,360
+Given that there isn't exactly a CPI
+counter on the processors that Fedorova
+
+11
+00:00:47,360 --> 00:00:52,360
+uses in her work, and
+computing something like one over IPC
+
+12
+00:00:52,360 --> 00:00:56,200
+would require software computations so
+that wouldn't be acceptable.
+
+13
+00:00:56,200 --> 00:00:59,820
+For that reason Fedorapa
+uses a simulator,
+
+14
+00:00:59,820 --> 00:01:04,610
+that supposedly the CPU
+does have a CPI counter.
+
+15
+00:01:04,610 --> 00:01:08,570
+And then she looks at a better
+scheduler can take that information and
+
+16
+00:01:08,570 --> 00:01:10,190
+make good decisions.
+
+17
+00:01:10,190 --> 00:01:14,700
+Her hope is that if she can demonstrate
+that CPI is a useful metric,
+
+18
+00:01:14,700 --> 00:01:19,370
+then hardware engineers will add
+this particular type of counter in
+
+19
+00:01:19,370 --> 00:01:20,970
+future architectures.
+
+20
+00:01:20,970 --> 00:01:25,330
+To explore this question she simulates
+a system that has four cores where
+
+21
+00:01:25,330 --> 00:01:28,320
+every one of the cores is
+four way multi threaded.
+
+22
+00:01:28,320 --> 00:01:33,020
+So, there's a total of 16 hardware
+contexts in her experimental test bed.
+
+23
+00:01:33,020 --> 00:01:37,226
+Now, she wants to bury the threads that
+get assigned to these hardware contexts
+
+24
+00:01:37,226 --> 00:01:38,305
+based on their CPI.
+
+25
+00:01:38,305 --> 00:01:41,490
+So, she creates a synthetic workload,
+
+26
+00:01:41,490 --> 00:01:46,000
+where her threads have a CPI of one,
+six, 11 and 16.
+
+27
+00:01:46,000 --> 00:01:50,740
+Clearly the threat with the CPI of one
+will be the most CP intensive, and
+
+28
+00:01:50,740 --> 00:01:56,630
+then the threats with a CPI of 16
+will be the most, memoring threads.
+
+29
+00:01:56,630 --> 00:02:00,750
+And the overall work load mix
+has four threads of each kind.
+
+30
+00:02:00,750 --> 00:02:04,860
+And then what she wants to evaluate is
+what is the overall performance when
+
+31
+00:02:04,860 --> 00:02:11,410
+a specific mix of threads gets assigned
+to each of these 16 hardware contexts.
+
+32
+00:02:11,410 --> 00:02:15,030
+To understand the performance in
+tact of such potentially different
+
+33
+00:02:15,030 --> 00:02:20,440
+scheduling positions, she uses a metric,
+the instructions per cycle.
+
+34
+00:02:20,440 --> 00:02:23,260
+Given that the system
+has four cores in total,
+
+35
+00:02:23,260 --> 00:02:27,080
+the maximum IPC that could be
+achieved is going to be four.
+
+36
+00:02:27,080 --> 00:02:30,930
+So, four instructions per cycle
+will be the best case scenario for
+
+37
+00:02:30,930 --> 00:02:35,250
+where every single one of the cores
+complete one instruction in each cycle.
+
+38
+00:02:35,250 --> 00:02:39,390
+And then she conducts several
+experiments as shown in this figure.
+
+39
+00:02:39,390 --> 00:02:42,430
+In every one of the experiments
+she manually and
+
+40
+00:02:42,430 --> 00:02:47,160
+statically changes how the workload
+is distributed across the course.
+
+41
+00:02:47,160 --> 00:02:51,670
+So in the first experiment on core one,
+the four hardware threads will
+
+42
+00:02:51,670 --> 00:02:56,580
+be assigned threads that have,
+software threads that have a CPI of one,
+
+43
+00:02:56,580 --> 00:02:58,930
+six, 11, and 16.
+
+44
+00:02:58,930 --> 00:03:03,100
+The four hardware threads on Core 2
+will be assigned software threads and
+
+45
+00:03:03,100 --> 00:03:08,570
+tasks that have CPI of one,
+six, 11, and 16, and so forth.
+
+46
+00:03:08,570 --> 00:03:14,050
+In the first experiment every one of
+the Cores runs identical mix, where.
+
+47
+00:03:14,050 --> 00:03:17,792
+Each hardware thread runs
+a task with a different CPI.
+
+48
+00:03:17,792 --> 00:03:20,261
+And then in the last experiment,
+
+49
+00:03:20,261 --> 00:03:25,462
+each of the cores runs a very different
+kinds of mix, where on Core 0,
+
+50
+00:03:25,462 --> 00:03:29,714
+all of the tasks are CPU intensive,
+they have a CPI of 1.
+
+51
+00:03:29,714 --> 00:03:33,866
+Where as on Core 3,
+all of the tasks are memory intensive,
+
+52
+00:03:33,866 --> 00:03:36,130
+because they have a CPI of 16.
+
+53
+00:03:36,130 --> 00:03:37,100
+And then the second and
+
+54
+00:03:37,100 --> 00:03:41,320
+the third round of the experiments falls
+somewhere between these two extremes.
+
+55
+00:03:41,320 --> 00:03:44,291
+So what she's trying to do,
+she's trying to make
+
+56
+00:03:44,291 --> 00:03:47,695
+some static decisions that
+a scheduler would have made.
+
+57
+00:03:47,695 --> 00:03:51,797
+And in doing that she's trying to
+understand whether it even makes sense
+
+58
+00:03:51,797 --> 00:03:54,637
+to build a scheduler that
+will use CPU as a metric.

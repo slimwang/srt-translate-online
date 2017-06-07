@@ -1,0 +1,87 @@
+1
+00:00:00,240 --> 00:00:02,570
+Okay. So, say I truly have more than
+
+2
+00:00:02,570 --> 00:00:05,630
+five terabytes of data. Seems like MapReduce is the
+
+3
+00:00:05,630 --> 00:00:08,920
+best tool for the job. How exactly does MapReduce
+
+4
+00:00:08,920 --> 00:00:13,270
+work? MapReduce is actually just a parallel programming model
+
+5
+00:00:13,270 --> 00:00:15,940
+for processing large data sets across a cluster
+
+6
+00:00:15,940 --> 00:00:18,820
+of computers. The most important thing to understand about
+
+7
+00:00:18,820 --> 00:00:21,210
+MapReduce at a high level is that computation is
+
+8
+00:00:21,210 --> 00:00:26,010
+done via two functions. The mapper and the reducer.
+
+9
+00:00:26,010 --> 00:00:28,390
+So, in the most general sense, we start out
+
+10
+00:00:28,390 --> 00:00:31,670
+with a collection of documents or records. If we were
+
+11
+00:00:31,670 --> 00:00:33,300
+indexing all of the books in the history of the
+
+12
+00:00:33,300 --> 00:00:37,010
+world. As we discussed before maybe each book is a
+
+13
+00:00:37,010 --> 00:00:40,570
+separate document. We send these documents in a distributed way
+
+14
+00:00:40,570 --> 00:00:43,590
+to many mappers. Which each perform the same mapping on
+
+15
+00:00:43,590 --> 00:00:47,510
+their respective documents and produce a series of intermediate key
+
+16
+00:00:47,510 --> 00:00:51,260
+value pairs. We then shuffle these intermediate results and send
+
+17
+00:00:51,260 --> 00:00:56,160
+all key value pairs of the same key to the same reducer for processing. We
+
+18
+00:00:56,160 --> 00:01:01,720
+do this so that each reducer can produce one final key value pair for each key.
+
+19
+00:01:01,720 --> 00:01:04,010
+If we didn't send all values corresponding to
+
+20
+00:01:04,010 --> 00:01:06,380
+a given key to the same reducer, we
+
+21
+00:01:06,380 --> 00:01:08,730
+would end up with many final, key value
+
+22
+00:01:08,730 --> 00:01:11,410
+pairs for each key. Which is not desirable.

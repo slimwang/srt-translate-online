@@ -1,0 +1,404 @@
+1
+00:00:00,180 --> 00:00:04,010
+Several design points are important to
+consider when designing a distributed
+
+2
+00:00:04,010 --> 00:00:06,000
+shared memory system.
+
+3
+00:00:06,000 --> 00:00:08,080
+First is the granularity of sharing.
+
+4
+00:00:08,080 --> 00:00:12,150
+In S and P systems, the granularity
+of sharing is a cache line.
+
+5
+00:00:12,150 --> 00:00:14,980
+The hardware tracks
+concurrent memory accesses at
+
+6
+00:00:14,980 --> 00:00:17,620
+the granularity of a single cache line.
+
+7
+00:00:17,620 --> 00:00:21,980
+And triggers all the necessary
+coherence actions like invalidations,
+
+8
+00:00:21,980 --> 00:00:25,350
+if it detects that a cache
+line has been modified,
+
+9
+00:00:25,350 --> 00:00:28,410
+if that cache line has been
+shared with other caches.
+
+10
+00:00:28,410 --> 00:00:29,950
+For distributed systems,
+
+11
+00:00:29,950 --> 00:00:35,520
+adopting a solution where every
+single cache line sized write message
+
+12
+00:00:35,520 --> 00:00:41,270
+is being sent to nodes over a network
+will potentially be too expensive.
+
+13
+00:00:41,270 --> 00:00:45,420
+And it will be hard to justify the use
+of such system, the performance slowdown
+
+14
+00:00:45,420 --> 00:00:48,920
+will be significant, and
+likely, it won't be very useful.
+
+15
+00:00:48,920 --> 00:00:52,185
+Instead, distributed shared
+memory designs look at larger
+
+16
+00:00:52,185 --> 00:00:54,390
+granularities of sharing.
+
+17
+00:00:54,390 --> 00:00:59,050
+Some options include variables,
+or pages of virtual memory, or
+
+18
+00:00:59,050 --> 00:01:03,280
+entire objects as defined by some
+higher level programming language.
+
+19
+00:01:03,280 --> 00:01:06,580
+Variables are meaningful from
+the programmer's perspective so
+
+20
+00:01:06,580 --> 00:01:09,570
+potentially DSM solutions can benefit.
+
+21
+00:01:09,570 --> 00:01:13,830
+Because the programmer can provide some
+explicit support to tell the distributed
+
+22
+00:01:13,830 --> 00:01:19,270
+shared memory system how and when
+individual variables should be shared.
+
+23
+00:01:19,270 --> 00:01:22,560
+However, this is still
+potentially too fine granularity.
+
+24
+00:01:22,560 --> 00:01:26,680
+We have a lot of variables that
+just few bytes long, like integers.
+
+25
+00:01:26,680 --> 00:01:31,550
+And in those settings, the DSM system
+would still have very high overheads.
+
+26
+00:01:31,550 --> 00:01:35,220
+Using something larger,
+like an entire page of content or
+
+27
+00:01:35,220 --> 00:01:38,940
+a larger object,
+that begins to make more sense.
+
+28
+00:01:38,940 --> 00:01:42,620
+If the distributed shared memory system
+is to be integrated at the operating
+
+29
+00:01:42,620 --> 00:01:46,160
+system level, the operating system
+doesn't understand objects.
+
+30
+00:01:46,160 --> 00:01:50,240
+The only thing that it understands
+is pages of virtual memory.
+
+31
+00:01:50,240 --> 00:01:53,380
+And then, the OS tries to map
+those pages of virtual memory to
+
+32
+00:01:53,380 --> 00:01:55,870
+the underlying physical page frames.
+
+33
+00:01:55,870 --> 00:01:57,490
+So at the operating system level,
+
+34
+00:01:57,490 --> 00:02:02,230
+it makes sense to integrate
+some page-based DSM solutions.
+
+35
+00:02:02,230 --> 00:02:04,980
+The OS would track when pages
+are modified, and then,
+
+36
+00:02:04,980 --> 00:02:08,000
+it would trigger all of
+the necessary messages
+
+37
+00:02:08,000 --> 00:02:12,560
+that need to be exchanged with
+remote nodes on page modification.
+
+38
+00:02:12,560 --> 00:02:13,840
+Pages are larger.
+
+39
+00:02:13,840 --> 00:02:18,320
+We set a common page sizes for
+kilobytes in many environments.
+
+40
+00:02:18,320 --> 00:02:23,430
+And so it is possible to then amortize
+the cost of the remote access for
+
+41
+00:02:23,430 --> 00:02:26,040
+these larger granularities.
+
+42
+00:02:26,040 --> 00:02:28,040
+With some help from the compiler,
+
+43
+00:02:28,040 --> 00:02:32,051
+application level objects can be
+laid out on different pages, and
+
+44
+00:02:32,051 --> 00:02:37,030
+then we can fully just rely on the page
+base operating system level mechanism.
+
+45
+00:02:38,100 --> 00:02:41,990
+Or, we can have a distributed shared
+memory solution that's actually
+
+46
+00:02:41,990 --> 00:02:45,710
+supported by the programming
+language and the runtime,
+
+47
+00:02:45,710 --> 00:02:50,890
+where the runtime understands which
+objects are local versus remote objects.
+
+48
+00:02:50,890 --> 00:02:52,990
+And for
+those objects that are remote ones,
+
+49
+00:02:52,990 --> 00:02:56,665
+the run-time will generate all of
+the necessary communications with remote
+
+50
+00:02:56,665 --> 00:03:01,430
+nodes and all the necessary operations
+to provide distributed shared memory.
+
+51
+00:03:01,430 --> 00:03:02,110
+In that case,
+
+52
+00:03:02,110 --> 00:03:07,410
+the operating system doesn't really need
+to know anything about the DSM solution.
+
+53
+00:03:07,410 --> 00:03:10,630
+So, the benefit of that is that
+the operating system doesn't have to be
+
+54
+00:03:10,630 --> 00:03:12,730
+modified in this case, but
+
+55
+00:03:12,730 --> 00:03:15,280
+this is clearly going to
+be a less general solution.
+
+56
+00:03:15,280 --> 00:03:19,050
+It will be applicable only for
+those languages for
+
+57
+00:03:19,050 --> 00:03:21,430
+which there is such a DSM support.
+
+58
+00:03:21,430 --> 00:03:26,540
+Once we start increasing the granularity
+of sharing, one important problem that
+
+59
+00:03:26,540 --> 00:03:30,860
+everyone has to be aware of is
+what's called false sharing.
+
+60
+00:03:30,860 --> 00:03:31,900
+Consider a page or
+
+61
+00:03:31,900 --> 00:03:36,525
+even a higher level object that
+internally has two variables, x and y.
+
+62
+00:03:36,525 --> 00:03:40,920
+A process in one node is exclusively
+accessing and modifying x.
+
+63
+00:03:40,920 --> 00:03:43,660
+It doesn't completely
+care about anything
+
+64
+00:03:43,660 --> 00:03:46,310
+that's stored in the variable y.
+
+65
+00:03:46,310 --> 00:03:51,430
+Similarly, a process on another node
+is exclusively concerned with y.
+
+66
+00:03:51,430 --> 00:03:55,760
+And it has no reference whatsoever,
+to the other variable, x.
+
+67
+00:03:55,760 --> 00:04:00,550
+Now when x and y are shared on the same
+page, as in this example here,
+
+68
+00:04:00,550 --> 00:04:04,910
+the distributed shared memory system,
+when it's using these larger
+
+69
+00:04:04,910 --> 00:04:07,940
+granularities, that's the only
+thing that it understands.
+
+70
+00:04:07,940 --> 00:04:10,627
+So it understands a shared page.
+
+71
+00:04:10,627 --> 00:04:15,472
+So it will interpret these two write
+accesses to that shared page as
+
+72
+00:04:15,472 --> 00:04:20,414
+some indication of concurrent
+accesses to the same location.
+
+73
+00:04:20,414 --> 00:04:25,320
+And it will trigger any necessary
+coherence operations, invalidations,
+
+74
+00:04:25,320 --> 00:04:30,302
+updates, or any of the other overheads
+that are associated with maintaining
+
+75
+00:04:30,302 --> 00:04:33,330
+consistency among these two copies.
+
+76
+00:04:33,330 --> 00:04:36,304
+Such coherence overheads
+won't benefit anyone.
+
+77
+00:04:36,304 --> 00:04:39,890
+P1 doesn't care what happened to y,
+and also,
+
+78
+00:04:39,890 --> 00:04:42,700
+P2 doesn't care what happened to x.
+
+79
+00:04:42,700 --> 00:04:45,250
+In order to avoid these
+kinds of situations,
+
+80
+00:04:45,250 --> 00:04:50,170
+the programmer must be careful how data
+is allocated and laid out on pages, or
+
+81
+00:04:50,170 --> 00:04:52,810
+how it's grouped in
+higher level objects.
+
+82
+00:04:52,810 --> 00:04:57,803
+Or the other alternative is to rely on
+some smart compiler that will be able to
+
+83
+00:04:57,803 --> 00:05:00,541
+understand what is really shared state.
+
+84
+00:05:00,541 --> 00:05:03,719
+And then allocate it within a page or
+within an object,
+
+85
+00:05:03,719 --> 00:05:08,220
+versus what is something that will
+trigger these false sharing situations.

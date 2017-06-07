@@ -1,0 +1,198 @@
+1
+00:00:00,200 --> 00:00:02,910
+There's another interesting kernel
+that's used in computer vision
+
+2
+00:00:02,910 --> 00:00:06,010
+I want to mention it explicitly,
+because it, it works so
+
+3
+00:00:06,010 --> 00:00:09,590
+much better than what people
+might've tried originally.
+
+4
+00:00:09,590 --> 00:00:14,380
+Often in computer vision
+we'll build histograms
+
+5
+00:00:14,380 --> 00:00:16,660
+of some distribution
+to describe something.
+
+6
+00:00:16,660 --> 00:00:21,590
+So, one we'll actually talk about it
+just a little bit when we talk about
+
+7
+00:00:21,590 --> 00:00:23,460
+video activity recognition.
+
+8
+00:00:23,460 --> 00:00:27,140
+You might build up what are called a
+bunch of video code, visual code words.
+
+9
+00:00:27,140 --> 00:00:30,130
+All right?
+So, you you find a whole bunch of
+
+10
+00:00:30,130 --> 00:00:33,544
+interest points in video or set, and you
+say well, they're all different kinds.
+
+11
+00:00:33,544 --> 00:00:36,150
+But let me create a whole
+bunch of buckets,
+
+12
+00:00:36,150 --> 00:00:38,680
+maybe a thousand different buckets,
+and I'm going to
+
+13
+00:00:38,680 --> 00:00:41,740
+map each one of these points to
+being in to one of those buckets.
+
+14
+00:00:41,740 --> 00:00:45,840
+So, if you give me a chunk of video,
+it could be described by the histogram
+
+15
+00:00:45,840 --> 00:00:48,410
+of how many of each
+visual code word show up.
+
+16
+00:00:48,410 --> 00:00:53,010
+So, I've got two different pieces of
+video, and I want to compare them.
+
+17
+00:00:53,010 --> 00:00:56,100
+I want a similarity metric
+between these histograms.
+
+18
+00:00:56,100 --> 00:00:57,990
+So, people used a variety of things.
+
+19
+00:00:57,990 --> 00:01:01,530
+You can think of them as distributions,
+so you can use KL divergence or
+
+20
+00:01:01,530 --> 00:01:04,410
+symmetric KL divergence,
+or Bhattacharyya distance,
+
+21
+00:01:04,410 --> 00:01:07,778
+which is another was of computing,
+of comparing, densities.
+
+22
+00:01:07,778 --> 00:01:10,391
+But Jitendra Malik and
+
+23
+00:01:10,391 --> 00:01:14,900
+students came up with what is called
+a histogram intersection kernel.
+
+24
+00:01:14,900 --> 00:01:20,000
+And the histogram intersection kernel
+is incredibly simple, all right?
+
+25
+00:01:20,000 --> 00:01:24,260
+So your xi's and xj's, they're
+now the vectors of the histogram.
+
+26
+00:01:24,260 --> 00:01:29,350
+And you just sum up over all of them,
+the min of the two values, right?
+
+27
+00:01:29,350 --> 00:01:32,702
+So in bin one, whichever one is smaller,
+you take that.
+
+28
+00:01:32,702 --> 00:01:35,420
+Oh, and by the way, the histogram's
+been normalized to sum to one.
+
+29
+00:01:35,420 --> 00:01:38,860
+And if you take that value and
+you sum them up,
+
+30
+00:01:38,860 --> 00:01:43,280
+you'll realize the minimum
+value is zero, right?
+
+31
+00:01:43,280 --> 00:01:47,840
+If, if one bin is empty when the other
+one is full, always take the empty ones.
+
+32
+00:01:47,840 --> 00:01:49,550
+So, I can sum up all zeros.
+
+33
+00:01:49,550 --> 00:01:51,340
+And the maximum it can be is one,
+
+34
+00:01:51,340 --> 00:01:55,400
+because if they're all identical,
+then it doesn't matter which one I pick.
+
+35
+00:01:55,400 --> 00:01:58,310
+And the histogram has been
+normalized to sum to one, anyway.
+
+36
+00:01:58,310 --> 00:02:00,870
+So, it's got, so it can have a large
+number of dimensions, if you have, for
+
+37
+00:02:00,870 --> 00:02:04,000
+example, a large number of code
+words that your histogramming.
+
+38
+00:02:04,000 --> 00:02:07,730
+And it's very effective, and, sort of
+caught people a little bit by surprise,
+
+39
+00:02:07,730 --> 00:02:11,540
+I think, because people had been doing
+things like Euclidean distances on,
+
+40
+00:02:11,540 --> 00:02:14,650
+on histogram, which,
+turns out to be a bad idea.
+
+41
+00:02:14,650 --> 00:02:16,240
+And this is just much more effective.

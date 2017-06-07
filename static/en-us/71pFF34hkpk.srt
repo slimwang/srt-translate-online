@@ -1,0 +1,216 @@
+1
+00:00:00,390 --> 00:00:04,070
+In order to construct an ARIMA model,
+it's important to understand whether and
+
+2
+00:00:04,070 --> 00:00:07,750
+to what degree autocorrelation
+exists in the time series.
+
+3
+00:00:07,750 --> 00:00:12,430
+Autocorrelation refers to how correlated
+a time series is with its past values.
+
+4
+00:00:12,430 --> 00:00:14,280
+Let's quickly look at an example.
+
+5
+00:00:14,280 --> 00:00:18,090
+The autocorrelation function plot
+show a series correlated with itself,
+
+6
+00:00:18,090 --> 00:00:20,110
+like by x time units.
+
+7
+00:00:20,110 --> 00:00:23,240
+So if you take each of the correlation
+numbers we just calculated and plotted
+
+8
+00:00:23,240 --> 00:00:27,540
+them, you'd have the autocorrelation
+function plot or ACF plot.
+
+9
+00:00:27,540 --> 00:00:30,670
+We use this plot to see the correlation
+between the points up to, and
+
+10
+00:00:30,670 --> 00:00:31,880
+including our lag unit.
+
+11
+00:00:33,090 --> 00:00:35,480
+Looking at the ACF plot
+of our toothbrush series,
+
+12
+00:00:35,480 --> 00:00:39,030
+we see the correlation coefficient
+represented in the vertical axis.
+
+13
+00:00:39,030 --> 00:00:42,140
+Or the number of lag shown
+across the horizontal axis.
+
+14
+00:00:42,140 --> 00:00:46,030
+This will let us know how far out our
+time series is correlated with itself.
+
+15
+00:00:46,030 --> 00:00:50,030
+This series is undifferenced and
+has a slow decay toward 0 correlation.
+
+16
+00:00:50,030 --> 00:00:53,340
+Meaning that the current values are much
+more correlated to recent values
+
+17
+00:00:53,340 --> 00:00:55,540
+than values further in the past.
+
+18
+00:00:55,540 --> 00:00:57,890
+This suggests that the series
+is not stationary and
+
+19
+00:00:57,890 --> 00:01:00,720
+will need to be differenced
+to reach a stationary series.
+
+20
+00:01:00,720 --> 00:01:03,650
+This plot is for
+the same toothbrush sales data set, but
+
+21
+00:01:03,650 --> 00:01:05,640
+now we've taken the first difference.
+
+22
+00:01:05,640 --> 00:01:07,700
+You can see that Lag-1 is significant.
+
+23
+00:01:07,700 --> 00:01:12,300
+However this time the significance
+after Lag-1 is much less,
+
+24
+00:01:12,300 --> 00:01:14,950
+suggesting now a stationary series.
+
+25
+00:01:14,950 --> 00:01:19,310
+We can now use this plot to help us
+determine if we should use AR, MA, or
+
+26
+00:01:19,310 --> 00:01:20,420
+both components.
+
+27
+00:01:20,420 --> 00:01:22,670
+And how many lags we should use.
+
+28
+00:01:22,670 --> 00:01:25,440
+Let's discuss a few things
+about selecting AR and
+
+29
+00:01:25,440 --> 00:01:27,580
+MA components in an ARIMA model.
+
+30
+00:01:27,580 --> 00:01:32,150
+Generally, the model is sufficient
+with either an AR or MA term.
+
+31
+00:01:32,150 --> 00:01:34,069
+Models that use both
+terms are less common.
+
+32
+00:01:35,120 --> 00:01:40,330
+If the stationarized series has positive
+correlation at Lag-1, AR terms are best.
+
+33
+00:01:40,330 --> 00:01:44,810
+If it has negative correlation at Lag-1,
+then MA terms are best.
+
+34
+00:01:44,810 --> 00:01:49,020
+The decay or cut off of the ACF will
+give us hints at what terms to use,
+
+35
+00:01:49,020 --> 00:01:50,555
+as well as spikes decaying towards 0.
+
+36
+00:01:51,600 --> 00:01:55,450
+Analyzing the plot we just looked at,
+we have a suggestion of an AR 1 model,
+
+37
+00:01:55,450 --> 00:01:58,380
+because after we stationarize
+the data set through differencing,
+
+38
+00:01:58,380 --> 00:02:02,090
+there was positive autocorrelation at
+Lag-1 and a spikes decay towards 0.
+
+39
+00:02:02,090 --> 00:02:06,810
+Now these are some useful tips, but the
+process of selecting the model manually
+
+40
+00:02:06,810 --> 00:02:10,720
+will likely involve several rounds of
+differencing, reviewing plots, and
+
+41
+00:02:10,720 --> 00:02:12,230
+comparing models.
+
+42
+00:02:12,230 --> 00:02:15,120
+More advanced statistical
+tools like all tricks,
+
+43
+00:02:15,120 --> 00:02:18,780
+handle this process automatically,
+which we'll touch on later.
+
+44
+00:02:18,780 --> 00:02:22,330
+Now that we've looked at possible AR and
+MA terms from the ACF,
+
+45
+00:02:22,330 --> 00:02:26,370
+we can look to the partial
+autocorrelation function plot, or PACF,
+
+46
+00:02:26,370 --> 00:02:27,790
+to better confirm our findings.

@@ -1,0 +1,192 @@
+1
+00:00:00,130 --> 00:00:04,420
+Believe it or not the correct answer
+is that they have the same scope.
+
+2
+00:00:04,420 --> 00:00:07,939
+In both cases the browser
+has to assume the worst.
+
+3
+00:00:07,939 --> 00:00:10,810
+Meaning that the change
+invalidated the entire dom.
+
+4
+00:00:11,970 --> 00:00:16,570
+The browser then has to keep the entire
+dom in scope while it's running layout.
+
+5
+00:00:16,570 --> 00:00:19,520
+This is the timeline panel in dev
+tools which you'll be spending
+
+6
+00:00:19,520 --> 00:00:22,070
+quite a bit of time with
+later in this course.
+
+7
+00:00:22,070 --> 00:00:25,030
+To see what happens when I click around
+on the page, I will go ahead and
+
+8
+00:00:25,030 --> 00:00:27,190
+click this button which
+starts recording and
+
+9
+00:00:27,190 --> 00:00:32,590
+then I will click once, twice,
+three times and then stop recording.
+
+10
+00:00:32,590 --> 00:00:35,900
+Like I said, you'll be spending quite
+a bit of time with this tool later in
+
+11
+00:00:35,900 --> 00:00:40,020
+the course, so I’m going to quickly zoom
+in and show you what you need to see.
+
+12
+00:00:40,020 --> 00:00:43,580
+This is the first click event which
+affected the geometry of the body.
+
+13
+00:00:43,580 --> 00:00:46,480
+You can see that the click
+lead to other pieces of work,
+
+14
+00:00:46,480 --> 00:00:48,150
+including this one right here.
+
+15
+00:00:48,150 --> 00:00:50,010
+Which is the layout that was triggered.
+
+16
+00:00:50,010 --> 00:00:53,830
+I can scroll down and see that the scope
+of the layout was the whole document.
+
+17
+00:00:53,830 --> 00:00:57,060
+Which means that the entire
+dom was in scope.
+
+18
+00:00:57,060 --> 00:00:59,820
+Okay now that shouldn't be too
+surprising because the click effect
+
+19
+00:00:59,820 --> 00:01:00,860
+the body.
+
+20
+00:01:00,860 --> 00:01:03,860
+But I wonder what it looks like for
+the other two elements.
+
+21
+00:01:03,860 --> 00:01:07,700
+Here's the second click event,
+which affected the top level div.
+
+22
+00:01:07,700 --> 00:01:09,670
+And this is the resulting layout.
+
+23
+00:01:09,670 --> 00:01:13,620
+Notice that, in this case,
+the scope is still the whole document.
+
+24
+00:01:13,620 --> 00:01:17,020
+Meaning the whole DOM was in scope for
+this layout event.
+
+25
+00:01:17,020 --> 00:01:18,950
+Now I'll look at the last one.
+
+26
+00:01:18,950 --> 00:01:21,540
+Here's the last click
+event on the child div.
+
+27
+00:01:21,540 --> 00:01:24,740
+So this div is the farthest
+down on the DOM.
+
+28
+00:01:24,740 --> 00:01:26,790
+And here's the resulting layout.
+
+29
+00:01:26,790 --> 00:01:31,330
+Once again, notice that the scope of
+this layout is still the entire DOM.
+
+30
+00:01:31,330 --> 00:01:34,260
+You may have noticed as I was going
+through the clicks that the different
+
+31
+00:01:34,260 --> 00:01:37,610
+layout events affected
+different numbers of nodes.
+
+32
+00:01:37,610 --> 00:01:41,360
+But the whole time
+the entire dom was in scope.
+
+33
+00:01:41,360 --> 00:01:43,690
+In case you're wondering,
+it's possible but
+
+34
+00:01:43,690 --> 00:01:46,220
+very difficult to limit layout scope.
+
+35
+00:01:46,220 --> 00:01:48,820
+You can use something called
+a layout boundary but Paul and
+
+36
+00:01:48,820 --> 00:01:50,780
+I won't be getting into
+that in this class.
+
+37
+00:01:50,780 --> 00:01:53,490
+Check out the instructor notes for
+more information.
+
+38
+00:01:53,490 --> 00:01:56,590
+So if there is one take
+away from this question,
+
+39
+00:01:56,590 --> 00:01:59,330
+it's that the layout
+process is complicated and
+
+40
+00:01:59,330 --> 00:02:03,020
+it's probably best to assume that
+the entire dom is always in scope.

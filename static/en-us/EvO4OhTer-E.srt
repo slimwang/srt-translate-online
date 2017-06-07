@@ -1,0 +1,169 @@
+1
+00:00:00,000 --> 00:00:04,657
+So the main steps again are in video
+stabilization are estimating camera
+
+2
+00:00:04,657 --> 00:00:09,555
+motion, stabilizing camera paths and
+then being able to resynthize them.
+
+3
+00:00:09,555 --> 00:00:11,135
+Let's look at each one of them.
+
+4
+00:00:11,135 --> 00:00:14,732
+So let's start off with first
+step estimating camera motion.
+
+5
+00:00:14,732 --> 00:00:17,642
+Here we will actually talk a process
+that we've looked at before.
+
+6
+00:00:17,642 --> 00:00:20,908
+To estimate camera motion,
+we need to find features and
+
+7
+00:00:20,908 --> 00:00:24,465
+then we need to take those features and
+track them over time.
+
+8
+00:00:24,465 --> 00:00:27,332
+So, again, what we can do is we
+can basically find image corners.
+
+9
+00:00:27,332 --> 00:00:30,462
+Remember, what we did and
+we were talking about feature detection.
+
+10
+00:00:30,462 --> 00:00:34,765
+Look at points that have a high gradient
+in both x and y, that's a corner.
+
+11
+00:00:34,765 --> 00:00:39,515
+And using that corner with the fact that
+we want to do is we want to track hem
+
+12
+00:00:39,515 --> 00:00:40,329
+over time.
+
+13
+00:00:40,329 --> 00:00:42,598
+And here, you basically see
+a lot of these green lines.
+
+14
+00:00:42,598 --> 00:00:46,532
+Basically, these green lines are saying
+is okay, this point was here in this
+
+15
+00:00:46,532 --> 00:00:49,921
+frame and moved to this one and
+that starts, if you're noticing,
+
+16
+00:00:49,921 --> 00:00:53,031
+give me very good motion,
+even when I'm zooming in and out.
+
+17
+00:00:53,031 --> 00:00:56,325
+You can see motions very
+clearly going on as to where
+
+18
+00:00:56,325 --> 00:01:01,035
+the different parts of the region are
+changing with respect to how I'm moving.
+
+19
+00:01:01,035 --> 00:01:04,135
+Or in this case,
+even zooming the camera in and out.
+
+20
+00:01:04,135 --> 00:01:08,556
+Of course, the camera's going through
+translation, some rotation and
+
+21
+00:01:08,556 --> 00:01:09,348
+scale here.
+
+22
+00:01:09,348 --> 00:01:11,374
+Couple of things we have
+to note when we do this,
+
+23
+00:01:11,374 --> 00:01:15,032
+we have to start differentiating between
+background motion and foreground motion.
+
+24
+00:01:15,032 --> 00:01:18,744
+So for example, in this case, if
+you'll notice there's a car coming in.
+
+25
+00:01:18,744 --> 00:01:22,262
+We want to be able to differentiate
+between the motion of the background
+
+26
+00:01:22,262 --> 00:01:24,535
+itself and
+some of the foreground elements.
+
+27
+00:01:24,535 --> 00:01:27,558
+We don't want our camera to be
+dominated by the car moving.
+
+28
+00:01:27,558 --> 00:01:30,683
+We want to be able to lock in do
+the background pixels itself, so
+
+29
+00:01:30,683 --> 00:01:33,508
+we have to do a little bit of
+separation of foreground and
+
+30
+00:01:33,508 --> 00:01:35,088
+background in this analysis.
+
+31
+00:01:35,088 --> 00:01:37,900
+So we only, I want to estimate
+the motion of the background,
+
+32
+00:01:37,900 --> 00:01:40,220
+because that's the one
+we want to stabilize on.
+
+33
+00:01:40,220 --> 00:01:44,234
+And we want to basically be able to kind
+of create some sort of way to separate
+
+34
+00:01:44,234 --> 00:01:45,529
+out the foreground by,
+
+35
+00:01:45,529 --> 00:01:48,920
+with the background by giving
+more weight to the background.

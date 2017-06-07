@@ -1,0 +1,472 @@
+1
+00:00:00,290 --> 00:00:03,890
+We need to modify our Quake Report app
+to parse a JSON response from the USGS
+
+2
+00:00:03,890 --> 00:00:07,220
+server and convert it into
+an array list of earthquakes.
+
+3
+00:00:07,220 --> 00:00:10,430
+So first I ask you to copy over
+the QueryUtils class that I provided for
+
+4
+00:00:10,430 --> 00:00:11,900
+you in this link.
+
+5
+00:00:11,900 --> 00:00:14,480
+Select all this text and copy it.
+
+6
+00:00:14,480 --> 00:00:16,392
+Then in Android Studio, go ahead and
+
+7
+00:00:16,392 --> 00:00:19,580
+create a new Java class
+file called QueryUtils.
+
+8
+00:00:19,580 --> 00:00:23,850
+You can remove the initial boilerplate
+code, and then paste in these contents.
+
+9
+00:00:23,850 --> 00:00:25,825
+Let's collapse this pane so
+it's easier to read this file.
+
+10
+00:00:25,825 --> 00:00:28,775
+Now you can scan this file to
+become familiar with it, but
+
+11
+00:00:28,775 --> 00:00:31,060
+let's review it right now.
+
+12
+00:00:31,060 --> 00:00:33,990
+In this class we have a string
+constant in all capital letters,
+
+13
+00:00:33,990 --> 00:00:36,170
+called SAMPLE_JSON_RESPONSE.
+
+14
+00:00:36,170 --> 00:00:38,480
+Since it's a static
+final constant value,
+
+15
+00:00:38,480 --> 00:00:40,490
+this means the value will never change.
+
+16
+00:00:40,490 --> 00:00:43,090
+So remember that when we set this
+constant to equal the response from
+
+17
+00:00:43,090 --> 00:00:44,630
+the USGS query.
+
+18
+00:00:44,630 --> 00:00:47,500
+The special characters like
+the quotation marks are properly escaped
+
+19
+00:00:47,500 --> 00:00:49,260
+with a backslash character.
+
+20
+00:00:49,260 --> 00:00:50,870
+Then we have a private constructor,
+
+21
+00:00:50,870 --> 00:00:53,830
+which means no one should create
+an instance of this class.
+
+22
+00:00:53,830 --> 00:00:57,040
+This is a utility class, so
+it'll contain static variables and
+
+23
+00:00:57,040 --> 00:00:59,690
+static methods,
+where you can call the method directly,
+
+24
+00:00:59,690 --> 00:01:02,560
+without having to have
+an object instance of class.
+
+25
+00:01:02,560 --> 00:01:05,730
+Now, the most important method
+is this public static method
+
+26
+00:01:05,730 --> 00:01:09,320
+called extractEarthquakes
+that takes in no inputs and
+
+27
+00:01:09,320 --> 00:01:11,970
+returns an array list of earthquakes.
+
+28
+00:01:11,970 --> 00:01:15,910
+Within the method, we create an empty
+array list of earthquakes and
+
+29
+00:01:15,910 --> 00:01:18,060
+return it at the end of the method.
+
+30
+00:01:18,060 --> 00:01:21,080
+We also have a try-catch block,
+which will handle intercepting
+
+31
+00:01:21,080 --> 00:01:23,740
+any exceptions that get thrown
+from the JSON parsing code.
+
+32
+00:01:23,740 --> 00:01:26,140
+We'll talk more in detail about
+the try-catch blocks in Java
+
+33
+00:01:26,140 --> 00:01:27,310
+in the next lesson.
+
+34
+00:01:27,310 --> 00:01:30,520
+But for now, there's a single TODO
+mark in this method that we left for
+
+35
+00:01:30,520 --> 00:01:31,350
+you to finish.
+
+36
+00:01:31,350 --> 00:01:33,130
+So let's write that together now.
+
+37
+00:01:33,130 --> 00:01:35,505
+Now, you could have used the pseudo
+code we provided you to guide you in
+
+38
+00:01:35,505 --> 00:01:36,940
+writing this code.
+
+39
+00:01:36,940 --> 00:01:40,540
+First, we create the root JSON object
+by calling the constructor, and
+
+40
+00:01:40,540 --> 00:01:42,980
+passing in the sample
+JSON response string.
+
+41
+00:01:42,980 --> 00:01:47,230
+This class will parse the whole GL JSON
+string we got back from the USGS API.
+
+42
+00:01:47,230 --> 00:01:51,240
+We'll then store this object in
+a variable called baseJsonResponse.
+
+43
+00:01:51,240 --> 00:01:54,930
+Now, we're looking for the magnitude,
+place, and time of the earthquake.
+
+44
+00:01:54,930 --> 00:01:58,310
+So to drill down for that info,
+we first need the features array.
+
+45
+00:01:58,310 --> 00:01:59,630
+Within the root JSONObject,
+
+46
+00:01:59,630 --> 00:02:02,700
+we want to get the values
+associated with the features key.
+
+47
+00:02:02,700 --> 00:02:06,320
+It should map to a JSONArray that
+contains a list of earthquakes.
+
+48
+00:02:06,320 --> 00:02:10,419
+So let's call the getJSONArray method
+on the baseJsonResponse object,
+
+49
+00:02:10,419 --> 00:02:13,500
+passing in the features key as a string.
+
+50
+00:02:13,500 --> 00:02:16,060
+We can then store the result in
+the earthquake array variable,
+
+51
+00:02:16,060 --> 00:02:18,470
+which is of data type JSONArray.
+
+52
+00:02:18,470 --> 00:02:21,650
+At this point, we want to loop through
+each earthquake in the earthquake array.
+
+53
+00:02:21,650 --> 00:02:23,150
+So, let's start with the for loop.
+
+54
+00:02:23,150 --> 00:02:24,540
+If you want to review loops and for
+
+55
+00:02:24,540 --> 00:02:27,975
+loops, you can check out the notes
+below for a video from the last course.
+
+56
+00:02:27,975 --> 00:02:30,810
+Now we begin creating a loop by
+initializing the counter variable
+
+57
+00:02:30,810 --> 00:02:32,230
+i to be 0.
+
+58
+00:02:32,230 --> 00:02:34,960
+Before each iteration of the loop
+we test that the condition
+
+59
+00:02:34,960 --> 00:02:38,120
+i is less than the length of
+the earthquakeArray is still true.
+
+60
+00:02:38,120 --> 00:02:41,810
+If it is true, we can execute all
+the lines of code within the loop.
+
+61
+00:02:41,810 --> 00:02:45,010
+At the end of one iteration,
+we increase the value of i by 1,
+
+62
+00:02:45,010 --> 00:02:47,190
+indicated here by the i++ syntax.
+
+63
+00:02:47,190 --> 00:02:49,620
+And then we can go ahead and
+loop around again.
+
+64
+00:02:49,620 --> 00:02:52,790
+Next we can pull out the JSON
+object at the specified position of
+
+65
+00:02:52,790 --> 00:02:53,870
+the earthquakeArray.
+
+66
+00:02:53,870 --> 00:02:58,260
+We start with position 0, which is the
+initial value of the counter i variable.
+
+67
+00:02:58,260 --> 00:03:00,290
+Once we have the current
+earthquake JSON object,
+
+68
+00:03:00,290 --> 00:03:04,230
+we can extract out the JSON object
+associated with the properties key.
+
+69
+00:03:04,230 --> 00:03:07,340
+Remember that this lists out many
+of the earthquakes' attributes.
+
+70
+00:03:07,340 --> 00:03:08,280
+As you can see,
+
+71
+00:03:08,280 --> 00:03:11,540
+these JSON objects are deeply
+nested within the overall response.
+
+72
+00:03:11,540 --> 00:03:14,880
+But finally, we're at the level where
+we can access the individual values
+
+73
+00:03:14,880 --> 00:03:18,190
+of the properties JSONObject by
+referring to the key mag for
+
+74
+00:03:18,190 --> 00:03:21,590
+magnitude, place for
+location, and time for
+
+75
+00:03:21,590 --> 00:03:24,280
+the time in milliseconds that
+the earthquake happened.
+
+76
+00:03:24,280 --> 00:03:26,360
+For now, we can extract all
+these values as strings,
+
+77
+00:03:26,360 --> 00:03:28,830
+because we're just displaying
+them straight to the screen, and
+
+78
+00:03:28,830 --> 00:03:31,900
+not doing any additional calculation or
+formatting on them.
+
+79
+00:03:31,900 --> 00:03:35,550
+Then we can create a new earthquake
+object from these three strings.
+
+80
+00:03:35,550 --> 00:03:39,100
+And lastly, we need to add the new
+earthquake to the list of earthquakes.
+
+81
+00:03:39,100 --> 00:03:42,130
+After the loop finishes executing
+once per each earthquake in
+
+82
+00:03:42,130 --> 00:03:46,095
+the features array, we will then build
+up a whole array list of earthquakes.
+
+83
+00:03:46,095 --> 00:03:49,165
+Then we can return this list as
+the return value of the method.
+
+84
+00:03:49,165 --> 00:03:49,685
+Great work.
+
+85
+00:03:49,685 --> 00:03:52,895
+That was a very challenging problem
+with a lot of tricky job syntax, so
+
+86
+00:03:52,895 --> 00:03:54,495
+you should be proud of yourself for
+solving it.
+
+87
+00:03:54,495 --> 00:03:57,655
+I'm going to go back now and
+add some more comments to my code.
+
+88
+00:03:57,655 --> 00:03:59,205
+All right, this looks good.
+
+89
+00:03:59,205 --> 00:04:01,395
+Now let's test this code
+by calling this method.
+
+90
+00:04:01,395 --> 00:04:04,225
+For step number three of the quiz,
+I asked you to modify the earthquake
+
+91
+00:04:04,225 --> 00:04:08,060
+activity to call the query utils
+extractEarthquakes method.
+
+92
+00:04:08,060 --> 00:04:10,988
+So in this file, let's delete
+the fake array list of earthquakes
+
+93
+00:04:10,988 --> 00:04:14,143
+that we created earlier, and
+let's call the QueryUtils method now.
+
+94
+00:04:14,143 --> 00:04:16,846
+There are no errors in our code,
+so let's run it on a device and
+
+95
+00:04:16,846 --> 00:04:18,279
+see what happens.
+
+96
+00:04:18,279 --> 00:04:20,930
+Awesome, our app now shows
+the list of earthquakes.
+
+97
+00:04:20,930 --> 00:04:22,900
+This should look similar to
+the sketch you drew earlier
+
+98
+00:04:22,900 --> 00:04:25,430
+when you parsed the JSON
+response manually in your head.
+
+99
+00:04:25,430 --> 00:04:27,380
+If you want to reference any
+of the code we showed you,
+
+100
+00:04:27,380 --> 00:04:28,800
+check out the notes below for
+the code diff.

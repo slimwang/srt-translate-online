@@ -1,0 +1,733 @@
+1
+00:00:00,280 --> 00:00:03,960
+So here I am in the command
+prompt inside sqlite3 program,
+
+2
+00:00:03,960 --> 00:00:05,700
+looking at the shelter database.
+
+3
+00:00:05,700 --> 00:00:07,930
+So using our .schema command,
+
+4
+00:00:07,930 --> 00:00:12,095
+I can see that this is the CREATE TABLE
+segment used to create the pets table.
+
+5
+00:00:12,095 --> 00:00:16,600
+Well as it stands this CREATE TABLE
+segment is a little bit problematic, and
+
+6
+00:00:16,600 --> 00:00:18,020
+I'll explain why.
+
+7
+00:00:18,020 --> 00:00:18,770
+So first,
+
+8
+00:00:18,770 --> 00:00:21,000
+let's actually look at the information
+that's in our pets table right now.
+
+9
+00:00:22,000 --> 00:00:24,907
+So to make it easier to read I'm
+going to turn on the header, and
+
+10
+00:00:24,907 --> 00:00:26,617
+then change the mode to column, and
+
+11
+00:00:26,617 --> 00:00:29,767
+then select all the information
+from the pets table to print out.
+
+12
+00:00:29,767 --> 00:00:31,558
+[BLANK_AUDIO]
+
+13
+00:00:31,558 --> 00:00:35,950
+So you'll notice right now we
+have two pets with IDs 1 and 2.
+
+14
+00:00:35,950 --> 00:00:39,710
+Well let's say a cat named Binks,
+perhaps a breed of Bombay,
+
+15
+00:00:39,710 --> 00:00:41,963
+was just dropped off at the shelter.
+
+16
+00:00:41,963 --> 00:00:44,812
+And the attendant enters this
+information into the database.
+
+17
+00:00:44,812 --> 00:00:46,691
+[BLANK_AUDIO]
+
+18
+00:00:46,691 --> 00:00:48,830
+Did you notice that something is off?
+
+19
+00:00:48,830 --> 00:00:52,100
+Let's take a look at using the select
+statement to see in more detail
+
+20
+00:00:52,100 --> 00:00:53,090
+what exactly went wrong.
+
+21
+00:00:54,180 --> 00:00:58,690
+So looking at the output here we
+notice that our supposedly unique IDs
+
+22
+00:00:58,690 --> 00:01:00,630
+are no longer unique.
+
+23
+00:01:00,630 --> 00:01:04,700
+Notice that both Tommy and
+Binx both have the ID 1.
+
+24
+00:01:04,700 --> 00:01:07,530
+Alternatively, what if
+this scenario happened?
+
+25
+00:01:07,530 --> 00:01:11,440
+Say an attendant forgot to enter
+the name of a cat completely.
+
+26
+00:01:11,440 --> 00:01:13,492
+So for example,
+a cat enters the shelter,
+
+27
+00:01:13,492 --> 00:01:15,489
+the attendant enters this information.
+
+28
+00:01:15,489 --> 00:01:17,859
+[BLANK_AUDIO]
+
+29
+00:01:17,859 --> 00:01:22,080
+So notice that the attendant completely
+forget to enter the name of the cat.
+
+30
+00:01:22,080 --> 00:01:24,980
+And so here we just see a blank
+space for this fourth object here.
+
+31
+00:01:26,690 --> 00:01:30,671
+SQL has solved these easy keywords that
+we can add to the columns to help us
+
+32
+00:01:30,671 --> 00:01:31,397
+avoid this.
+
+33
+00:01:31,397 --> 00:01:34,488
+And note that these are just a small
+subset of all the attributes
+
+34
+00:01:34,488 --> 00:01:35,432
+available to you.
+
+35
+00:01:35,432 --> 00:01:38,275
+But these are going to be the important
+ones for us in this table.
+
+36
+00:01:38,275 --> 00:01:42,729
+So the ones I've listed here
+are the primary key, auto increment,
+
+37
+00:01:42,729 --> 00:01:44,920
+not null and default.
+
+38
+00:01:44,920 --> 00:01:46,581
+So let's take a look at these at work.
+
+39
+00:01:46,581 --> 00:01:49,290
+Let's see how they would effect our
+headphones example from before.
+
+40
+00:01:50,570 --> 00:01:53,750
+Now their headphones, remember there
+were five attributes we want to store.
+
+41
+00:01:53,750 --> 00:01:58,327
+So it's the name, the price, whether or
+not it's in stock, the description,
+
+42
+00:01:58,327 --> 00:01:59,217
+and the style.
+
+43
+00:01:59,217 --> 00:02:03,207
+So I've taken those five attributes and
+put them as the columns in this table.
+
+44
+00:02:03,207 --> 00:02:04,790
+As well as included the ID column.
+
+45
+00:02:06,410 --> 00:02:10,133
+Now to create our headphones table,
+we would need to use this statement.
+
+46
+00:02:10,133 --> 00:02:13,560
+So CREATE TABLE,
+with a table named headphones.
+
+47
+00:02:13,560 --> 00:02:16,830
+And here would be the columns,
+ID which is an INTEGER,
+
+48
+00:02:16,830 --> 00:02:21,475
+name which is TEXT, price which is
+an INTEGER, style which is an INTEGER.
+
+49
+00:02:21,475 --> 00:02:25,259
+And stock, that would be INTEGER,
+and lastly description,
+
+50
+00:02:25,259 --> 00:02:26,947
+which will store as a TEXT.
+
+51
+00:02:26,947 --> 00:02:31,145
+Now, let's see how we can use those key
+words from before to help make our table
+
+52
+00:02:31,145 --> 00:02:31,919
+more robust.
+
+53
+00:02:31,919 --> 00:02:34,080
+So first off is the primary key.
+
+54
+00:02:34,080 --> 00:02:38,470
+So this key word marks the column
+used As a uniquely identified row.
+
+55
+00:02:38,470 --> 00:02:41,210
+And like I said,
+this ensures uniqueness.
+
+56
+00:02:41,210 --> 00:02:44,870
+Meaning there can only be
+one primary key per table.
+
+57
+00:02:44,870 --> 00:02:48,450
+So the PRIMARY KEY attribute
+is often used in conjunction
+
+58
+00:02:48,450 --> 00:02:50,990
+with the AUTO INCREMENT keyword.
+
+59
+00:02:50,990 --> 00:02:55,563
+And this keyword is used to make
+an ID column that is both unique and
+
+60
+00:02:55,563 --> 00:02:59,900
+automatically picks up a new
+unique ID when you make that row.
+
+61
+00:02:59,900 --> 00:03:02,020
+So this is how it would look
+in our headphone table.
+
+62
+00:03:03,410 --> 00:03:07,760
+So I've added the keywords right after
+I declare the data type for ID, so
+
+63
+00:03:07,760 --> 00:03:08,810
+after integer here.
+
+64
+00:03:08,810 --> 00:03:11,998
+So I've added PRIMARY KEY,
+and AUTOINCREMENT.
+
+65
+00:03:11,998 --> 00:03:15,510
+So note that I could've added one or
+the other just by itself, but
+
+66
+00:03:15,510 --> 00:03:18,980
+in this case, I decided I wanted
+to add both of the keywords.
+
+67
+00:03:18,980 --> 00:03:22,530
+So having added those keywords, this
+means if I add three new headphones,
+
+68
+00:03:22,530 --> 00:03:26,650
+inserting three rows, even if I
+don't add the ID, the table would
+
+69
+00:03:26,650 --> 00:03:31,120
+automatically increment the ID without
+me specifying what the number would be.
+
+70
+00:03:32,460 --> 00:03:35,502
+So for example,
+this one might get the ID 1.
+
+71
+00:03:35,502 --> 00:03:39,240
+This headphone might get the ID 2, and
+this one might get the headphone ID 3.
+
+72
+00:03:39,240 --> 00:03:43,246
+Now, say I've added those three
+rows into the table using
+
+73
+00:03:43,246 --> 00:03:45,963
+the autogenerate IDs, 1, 2 and 3.
+
+74
+00:03:45,963 --> 00:03:50,630
+What if I try to enter a new row
+with an ID that's already used?
+
+75
+00:03:50,630 --> 00:03:56,482
+So in the example here,
+I'm inserting a headphone into the ID 1.
+
+76
+00:03:56,482 --> 00:03:57,599
+[BLANK_AUDIO]
+
+77
+00:03:57,599 --> 00:03:59,020
+Well, I would get this error.
+
+78
+00:03:59,020 --> 00:04:04,007
+And this error tells me that I can't
+enter the ID that's already being used
+
+79
+00:04:04,007 --> 00:04:05,837
+because it's not unique.
+
+80
+00:04:05,837 --> 00:04:08,170
+So this here is an added
+layer of protection.
+
+81
+00:04:09,380 --> 00:04:11,940
+So next up is the not null keyword.
+
+82
+00:04:11,940 --> 00:04:16,180
+So this keyword allows us to say when
+a value's inserted into the table,
+
+83
+00:04:16,180 --> 00:04:18,180
+it must have a value associated with it.
+
+84
+00:04:19,430 --> 00:04:23,790
+So if, for example, we didn't want to
+allow a missing name from the table,
+
+85
+00:04:23,790 --> 00:04:27,450
+we can change our creation
+statement to be this.
+
+86
+00:04:27,450 --> 00:04:31,220
+So adding NOT NULL after
+the data type TEXT
+
+87
+00:04:31,220 --> 00:04:34,469
+indicates that the name value must
+have something associated with it.
+
+88
+00:04:35,500 --> 00:04:37,170
+It can't be just null.
+
+89
+00:04:37,170 --> 00:04:38,676
+So let's head over to the terminal and
+
+90
+00:04:38,676 --> 00:04:41,360
+try out what this command
+looks like there.
+
+91
+00:04:41,360 --> 00:04:46,420
+So let's use our .open store.db command
+and move over to our store database.
+
+92
+00:04:47,830 --> 00:04:50,380
+So inside this database I'm
+going to create a table.
+
+93
+00:04:50,380 --> 00:04:54,578
+Where the ID is the primary key, and
+I want that ID to auto-increment.
+
+94
+00:04:54,578 --> 00:04:57,770
+And I also want the name
+value not to be null.
+
+95
+00:04:57,770 --> 00:04:59,324
+So let's enter those specifications.
+
+96
+00:04:59,324 --> 00:05:01,769
+[BLANK_AUDIO]
+
+97
+00:05:01,769 --> 00:05:05,874
+Now if I enter a headphone that doesn't
+have a name, I should get an error.
+
+98
+00:05:05,874 --> 00:05:06,675
+So let's try that out.
+
+99
+00:05:06,675 --> 00:05:11,760
+[BLANK_AUDIO]
+
+100
+00:05:11,760 --> 00:05:15,270
+And as expected,
+I'm getting this error that says,
+
+101
+00:05:15,270 --> 00:05:18,858
+NOT NULL constraint failed:
+headphones.name, and
+
+102
+00:05:18,858 --> 00:05:23,859
+that's because I had specified up here,
+that I want the name not to be NULL.
+
+103
+00:05:23,859 --> 00:05:28,530
+But when I inserted a headphone into
+it I didn't have a name specified.
+
+104
+00:05:28,530 --> 00:05:32,037
+And so the database is telling me,
+nope, you can't do that.
+
+105
+00:05:32,037 --> 00:05:33,588
+Remember, you have to have the name.
+
+106
+00:05:33,588 --> 00:05:34,979
+[BLANK_AUDIO]
+
+107
+00:05:34,979 --> 00:05:39,142
+So finally we have here our DEFAULT
+keyword which adds a default value of no
+
+108
+00:05:39,142 --> 00:05:41,170
+other values given.
+
+109
+00:05:41,170 --> 00:05:44,978
+As it says here, when inserting
+a new row, if no value is defined,
+
+110
+00:05:44,978 --> 00:05:47,088
+the default value given can be used.
+
+111
+00:05:47,088 --> 00:05:50,148
+So say for example if no value for
+in_stock is given,
+
+112
+00:05:50,148 --> 00:05:53,230
+I want it to be set
+automatically to zero.
+
+113
+00:05:53,230 --> 00:05:55,680
+Meaning that there's no stock.
+
+114
+00:05:55,680 --> 00:06:00,940
+Also if I want in_stock to never be
+NULL, I'd add the NOT NULL keyword here.
+
+115
+00:06:00,940 --> 00:06:03,820
+So this is what the entire
+create scene will look like.
+
+116
+00:06:03,820 --> 00:06:07,730
+Notice that I don't add any commas
+between the keywords, just spaces.
+
+117
+00:06:08,942 --> 00:06:11,600
+All right, so here we are back
+in the command prompt, and
+
+118
+00:06:11,600 --> 00:06:14,600
+lets see that DEFAULT
+keyword in action here.
+
+119
+00:06:14,600 --> 00:06:18,258
+So before I do that, I'm going to
+drop the table we just created in
+
+120
+00:06:18,258 --> 00:06:20,616
+the previous example so we start fresh.
+
+121
+00:06:20,616 --> 00:06:23,920
+So DROP TABLE headphones,
+and just want to make sure.
+
+122
+00:06:25,070 --> 00:06:28,140
+So no more tables inside this database.
+
+123
+00:06:28,140 --> 00:06:30,820
+So from here I want to
+create a new headphones tool
+
+124
+00:06:30,820 --> 00:06:32,918
+that involves our keyword DEFAULT.
+
+125
+00:06:32,918 --> 00:06:38,397
+So CREATE TABLE headphones.
+
+126
+00:06:38,397 --> 00:06:42,390
+So for our in_stock com here I
+want to specify that it's an INTEGER,
+
+127
+00:06:42,390 --> 00:06:44,010
+I don't want it to be NULL.
+
+128
+00:06:44,010 --> 00:06:45,679
+[BLANK_AUDIO]
+
+129
+00:06:45,679 --> 00:06:49,700
+And I want to give it
+a default value of 0.
+
+130
+00:06:49,700 --> 00:06:55,520
+Now given these constraints,
+if I insert a new headphone again but
+
+131
+00:06:55,520 --> 00:06:58,370
+I don't specify it whether or
+not it's in stock.
+
+132
+00:06:58,370 --> 00:07:01,880
+The tables automatically set
+the headphone to default as 0
+
+133
+00:07:01,880 --> 00:07:03,850
+which corresponds with not in_stock.
+
+134
+00:07:03,850 --> 00:07:04,940
+So let's try that.
+
+135
+00:07:04,940 --> 00:07:10,419
+So when insert a new headphone in,
+leaving off the in_stock column.
+
+136
+00:07:10,419 --> 00:07:14,470
+All right, so that command should've
+inserted a new headphone into our table.
+
+137
+00:07:14,470 --> 00:07:17,536
+And we can see that by using
+our SELECT FROM command.
+
+138
+00:07:17,536 --> 00:07:21,100
+[BLANK_AUDIO]
+
+139
+00:07:21,100 --> 00:07:24,620
+So here's what the headphone looks
+like as a row inside our table.
+
+140
+00:07:24,620 --> 00:07:27,620
+Notice there's a little bit of
+a wrap around for the description,
+
+141
+00:07:27,620 --> 00:07:28,170
+but that's okay.
+
+142
+00:07:29,380 --> 00:07:32,880
+So first of we have the ID that we
+enter, actually we didn't enter.
+
+143
+00:07:32,880 --> 00:07:36,188
+Remember we automatically
+incremented it here.
+
+144
+00:07:36,188 --> 00:07:39,421
+And then we have the name
+of the headset, the price,
+
+145
+00:07:39,421 --> 00:07:42,620
+the style that we specified,
+and then in-stock.
+
+146
+00:07:42,620 --> 00:07:46,110
+So look, it automatically
+used our default 0 here, and
+
+147
+00:07:46,110 --> 00:07:51,070
+then our description,
+Standard inner headphone, color black.
+
+148
+00:07:51,070 --> 00:07:53,700
+Now to make our create
+table even more robust,
+
+149
+00:07:53,700 --> 00:07:57,300
+I'm going to drop this existing
+table and they create a new one.
+
+150
+00:07:57,300 --> 00:08:01,736
+Where I add NOT NULL to the price,
+as well as having nothing for the style.
+
+151
+00:08:01,736 --> 00:08:03,577
+So here's what that would look like.
+
+152
+00:08:03,577 --> 00:08:07,048
+So like I mentioned before,
+style won't have any constraints on it.
+
+153
+00:08:07,048 --> 00:08:09,645
+[BLANK_AUDIO]
+
+154
+00:08:09,645 --> 00:08:14,869
+But in_stock will have
+a couple of constraints on it.
+
+155
+00:08:14,869 --> 00:08:16,760
+And the description will just be TEXT.
+
+156
+00:08:18,000 --> 00:08:18,529
+And there we have it.
+
+157
+00:08:18,529 --> 00:08:22,976
+So this is the newly created headphones
+table with all this new constraints
+
+158
+00:08:22,976 --> 00:08:23,760
+added to it.

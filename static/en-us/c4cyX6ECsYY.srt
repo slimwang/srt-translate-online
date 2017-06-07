@@ -1,0 +1,145 @@
+1
+00:00:00,180 --> 00:00:02,910
+Now let's discuss firewall
+deployment strategy.
+
+2
+00:00:02,910 --> 00:00:05,939
+That is, where in the network
+do we put a firewall?
+
+3
+00:00:05,939 --> 00:00:09,890
+Typically, we put an application
+level gateway, such as a web proxy,
+
+4
+00:00:09,890 --> 00:00:13,610
+to a dedicated machine and we call
+these machines the bastion hosts.
+
+5
+00:00:13,610 --> 00:00:15,710
+These machines are made
+to be very secure.
+
+6
+00:00:16,710 --> 00:00:21,050
+Here are some measures that we can take
+to make this bastion host very secure.
+
+7
+00:00:21,050 --> 00:00:25,600
+First, these machines execute a secure
+version of the operating system.
+
+8
+00:00:25,600 --> 00:00:28,530
+In addition, only the services
+that the admin consider
+
+9
+00:00:28,530 --> 00:00:30,950
+essential are installed on the host.
+
+10
+00:00:30,950 --> 00:00:35,560
+For example, a bastion host may
+only allow DNS and web traffic.
+
+11
+00:00:35,560 --> 00:00:39,710
+A bastion host can also require that,
+even for traffic coming from an internal
+
+12
+00:00:39,710 --> 00:00:43,630
+host, the user must authenticate
+himself to the bastion host.
+
+13
+00:00:43,630 --> 00:00:46,750
+Each proxy running on
+the bastion host is configured
+
+14
+00:00:46,750 --> 00:00:51,150
+to allow access only to specific host
+systems in the internal network.
+
+15
+00:00:51,150 --> 00:00:54,930
+This is important because we
+don't want compromised proxy
+
+16
+00:00:54,930 --> 00:00:58,260
+lead to attacks to
+the entire internal network.
+
+17
+00:00:58,260 --> 00:01:01,720
+Each proxy module is a very
+small software package,
+
+18
+00:01:01,720 --> 00:01:03,930
+designed with security in mind.
+
+19
+00:01:03,930 --> 00:01:06,950
+That is,
+we want each proxy to be as small and
+
+20
+00:01:06,950 --> 00:01:11,000
+simple program as possible so
+that we can check for security.
+
+21
+00:01:11,000 --> 00:01:14,500
+For example, a typical Unix
+email application may contain
+
+22
+00:01:14,500 --> 00:01:16,820
+over a couple hundred
+thousand lines of code,
+
+23
+00:01:16,820 --> 00:01:21,710
+while an email proxy may contain fewer
+than one thousand lines of code.
+
+24
+00:01:21,710 --> 00:01:25,180
+A proxy typically performs
+no disk access other than
+
+25
+00:01:25,180 --> 00:01:27,590
+reading its initial configuration file.
+
+26
+00:01:27,590 --> 00:01:28,750
+This makes it difficult for
+
+27
+00:01:28,750 --> 00:01:33,770
+an attacker to install a Trojan horse on
+the bastion host and affect the proxy.
+
+28
+00:01:33,770 --> 00:01:38,060
+Proxies are typically non-privileged and
+they're isolated from each other.
+
+29
+00:01:38,060 --> 00:01:42,320
+The security benefit is that if
+a proxy is compromised by an attack,
+
+30
+00:01:42,320 --> 00:01:47,250
+it cannot easily compromise the entire
+bastion host or affect other proxies.

@@ -1,0 +1,168 @@
+1
+00:00:00,300 --> 00:00:02,130
+Okay, let's take a look at this sample.
+
+2
+00:00:02,130 --> 00:00:04,939
+When I change this,
+the width of this green block and
+
+3
+00:00:04,939 --> 00:00:08,720
+then click this button,
+all the paragraphs will change size.
+
+4
+00:00:08,720 --> 00:00:11,700
+You see, it took a really long time for
+that to work out.
+
+5
+00:00:11,700 --> 00:00:15,170
+To understand why, we need to
+look again at the pipeline and
+
+6
+00:00:15,170 --> 00:00:18,530
+specifically the order of
+the tasks that it contains.
+
+7
+00:00:18,530 --> 00:00:20,090
+The order is pretty clear.
+
+8
+00:00:20,090 --> 00:00:22,020
+We do want JavaScript here.
+
+9
+00:00:22,020 --> 00:00:25,588
+Then we do our style calculations and
+then we do any layout.
+
+10
+00:00:25,588 --> 00:00:28,328
+Maintaining this order is important.
+
+11
+00:00:28,328 --> 00:00:29,163
+And this is the code.
+
+12
+00:00:29,163 --> 00:00:33,428
+First we select all the paragraphs,
+and then the green block.
+
+13
+00:00:33,428 --> 00:00:37,028
+And then we step through each
+of the paragraphs in turn.
+
+14
+00:00:37,028 --> 00:00:40,975
+For each paragraph,
+we request the green block's width, and
+
+15
+00:00:40,975 --> 00:00:44,710
+then we set the width of
+each paragraph to match.
+
+16
+00:00:44,710 --> 00:00:50,210
+Now the problem is this, to answer the
+question of the element's width, using
+
+17
+00:00:50,210 --> 00:00:56,070
+offsetWidth, the browser must first
+calculate it, which requires layout.
+
+18
+00:00:56,070 --> 00:00:57,960
+But see what that does to the pipeline.
+
+19
+00:00:57,960 --> 00:01:01,200
+It moves the layout task into here, and
+
+20
+00:01:01,200 --> 00:01:05,850
+that puts the layout before
+the style calculations.
+
+21
+00:01:05,850 --> 00:01:10,560
+Now this is not a problem unless
+you now make a style change,
+
+22
+00:01:10,560 --> 00:01:14,500
+which we did when we set
+the width of the paragraph.
+
+23
+00:01:14,500 --> 00:01:16,310
+Look again at the code.
+
+24
+00:01:16,310 --> 00:01:20,740
+We request the width,
+and then we set a style.
+
+25
+00:01:20,740 --> 00:01:24,040
+We do layout and
+then we do a style calculation.
+
+26
+00:01:24,040 --> 00:01:26,340
+Every time we change a style,
+
+27
+00:01:26,340 --> 00:01:30,729
+the layout pass that we just did is
+invalidated because you changed things.
+
+28
+00:01:32,060 --> 00:01:34,550
+So now,
+the browser has to do it all again, and
+
+29
+00:01:34,550 --> 00:01:37,460
+this can be an expensive
+mistake to make.
+
+30
+00:01:37,460 --> 00:01:39,960
+If you trigger a forced
+synchronous layout,
+
+31
+00:01:39,960 --> 00:01:44,260
+DevTools will denote this with
+this little exclamation mark here.
+
+32
+00:01:44,260 --> 00:01:45,300
+In you're in flame chart view,
+
+33
+00:01:45,300 --> 00:01:49,870
+you'll see a little red triangle
+in the corner of a layout record.
+
+34
+00:01:49,870 --> 00:01:53,660
+That's the same thing as the exclamation
+mark from the waterfall view.
+
+35
+00:01:53,660 --> 00:01:55,270
+If you see this warning,
+
+36
+00:01:55,270 --> 00:01:58,750
+then you need to look at where it was
+forced in your code and remove it.

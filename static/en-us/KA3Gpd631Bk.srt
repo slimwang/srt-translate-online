@@ -1,0 +1,71 @@
+1
+00:00:00,160 --> 00:00:03,190
+The correct answer is that
+likely the event-driven
+
+2
+00:00:03,190 --> 00:00:06,060
+model will consume least resources.
+
+3
+00:00:06,060 --> 00:00:10,150
+Recall that in the other models,
+we had a separate thread for
+
+4
+00:00:10,150 --> 00:00:13,308
+each of the requests or for
+each of the pipeline stages.
+
+5
+00:00:13,308 --> 00:00:15,120
+In the event-driven model,
+
+6
+00:00:15,120 --> 00:00:19,000
+we have handlers which are just
+procedures in that address space, and
+
+7
+00:00:19,000 --> 00:00:22,098
+the helper threads only occur for
+blocking I operations.
+
+8
+00:00:22,098 --> 00:00:26,640
+For the event-driven model,
+extra memory is required only for
+
+9
+00:00:26,640 --> 00:00:31,478
+the helper threads that are associated
+with concurrent blocking I/O calls.
+
+10
+00:00:31,478 --> 00:00:36,150
+In the boss-worker model,
+extra memory will be required for
+
+11
+00:00:36,150 --> 00:00:41,670
+threads for all concurrent requests, and
+similarly, even in the pipeline model,
+
+12
+00:00:41,670 --> 00:00:47,490
+concurrent requests will demand multiple
+threads to be available in a stage of
+
+13
+00:00:47,490 --> 00:00:53,330
+the pipeline if the level of concurrency
+is beyond the number of pipeline stages.
+
+14
+00:00:53,330 --> 00:00:53,980
+As a result,
+
+15
+00:00:53,980 --> 00:00:57,360
+the event-driven model will likely
+have the smallest memory footprint.

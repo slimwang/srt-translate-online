@@ -1,0 +1,503 @@
+1
+00:00:00,270 --> 00:00:03,250
+Before I give you my thoughts on which
+of these suggestions is valid and
+
+2
+00:00:03,250 --> 00:00:06,470
+good of the scenario, I want to
+re-remind us of these data tips.
+
+3
+00:00:06,470 --> 00:00:08,470
+The key to deciding
+where data should be,
+
+4
+00:00:08,470 --> 00:00:11,290
+relies on what portions of data that
+you're going to need at the same time.
+
+5
+00:00:11,290 --> 00:00:13,820
+And that's really about using
+your activities as guides.
+
+6
+00:00:13,820 --> 00:00:15,620
+If you don't need the same
+doubt at the same time,
+
+7
+00:00:15,620 --> 00:00:17,220
+you should think about denormalising.
+
+8
+00:00:17,220 --> 00:00:19,350
+Again remember,
+that we're optimizing for
+
+9
+00:00:19,350 --> 00:00:21,670
+making a minimal number
+of data transfers.
+
+10
+00:00:21,670 --> 00:00:24,500
+Remember what you're optimizing for,
+you don't want to have to make a million
+
+11
+00:00:24,500 --> 00:00:27,620
+different listeners to get all
+the data that you need for one screen.
+
+12
+00:00:27,620 --> 00:00:30,200
+But more importantly, you want to
+optimize your data structure in such
+
+13
+00:00:30,200 --> 00:00:32,840
+a way that you're allowing for
+minimal data transfer.
+
+14
+00:00:32,840 --> 00:00:35,710
+Suggestion one suggestion two
+could be compared to one another.
+
+15
+00:00:35,710 --> 00:00:37,330
+Let's take a look at
+what one looks like.
+
+16
+00:00:37,330 --> 00:00:39,840
+For both of these were going to
+extract out shopping list items.
+
+17
+00:00:39,840 --> 00:00:42,640
+For suggestion one,
+I just have a simple list of all items.
+
+18
+00:00:42,640 --> 00:00:44,150
+And then embedded within the item,
+
+19
+00:00:44,150 --> 00:00:46,640
+is the push idea of the shopping
+list that it is associated to.
+
+20
+00:00:46,640 --> 00:00:47,800
+Let's take a look at option two.
+
+21
+00:00:47,800 --> 00:00:51,510
+For option two, I similarly have
+de-normalized out shopping list items.
+
+22
+00:00:51,510 --> 00:00:54,710
+But instead of these being a list
+of items, there are sub-lists for
+
+23
+00:00:54,710 --> 00:00:55,980
+each shopping list push ID.
+
+24
+00:00:55,980 --> 00:00:59,290
+And you'll notice the item itself does
+not contain a shopping list push ID,
+
+25
+00:00:59,290 --> 00:01:00,920
+because you have to push I.D. up here.
+
+26
+00:01:00,920 --> 00:01:02,180
+This is our original design for
+
+27
+00:01:02,180 --> 00:01:05,140
+where we put items in
+shoppinglist++ from way back when.
+
+28
+00:01:05,140 --> 00:01:07,720
+So just looking at suggestion number
+one, and number two, which again,
+
+29
+00:01:07,720 --> 00:01:09,840
+are very similar,
+which one do we think is better?
+
+30
+00:01:09,840 --> 00:01:11,560
+So here's data structure
+number one again.
+
+31
+00:01:11,560 --> 00:01:13,850
+And number one might seem
+like a better option.
+
+32
+00:01:13,850 --> 00:01:16,290
+After all the data is
+less deeply nested.
+
+33
+00:01:16,290 --> 00:01:18,280
+When you want to get all the shopping
+list items that are part
+
+34
+00:01:18,280 --> 00:01:20,120
+of a certain list, you do a query,
+
+35
+00:01:20,120 --> 00:01:23,310
+which selects out all the items that
+have the same shopping list push ID.
+
+36
+00:01:23,310 --> 00:01:26,150
+But the issue is that you need to
+make that query in the first place.
+
+37
+00:01:26,150 --> 00:01:28,410
+Remember, shopping list items
+is going to get long so
+
+38
+00:01:28,410 --> 00:01:32,050
+eventually that query could be
+looking over millions of items.
+
+39
+00:01:32,050 --> 00:01:35,430
+With suggestion number two, if you
+organize your shopping list items so
+
+40
+00:01:35,430 --> 00:01:37,440
+that they're already grouped by list,
+
+41
+00:01:37,440 --> 00:01:39,620
+you don't need any sort
+of extra processing.
+
+42
+00:01:39,620 --> 00:01:42,320
+So actually, where we put the shopping
+list items way back when.
+
+43
+00:01:42,320 --> 00:01:45,510
+Which is what it says, that option two
+is the better of these two options and
+
+44
+00:01:45,510 --> 00:01:48,330
+better than what we have right
+now darn those data architects,
+
+45
+00:01:48,330 --> 00:01:50,160
+that did not design for Firebase.
+
+46
+00:01:50,160 --> 00:01:51,150
+Why did I hire them?
+
+47
+00:01:51,150 --> 00:01:54,440
+Anyways, lets look at suggestion number
+three move the list of user's shopping
+
+48
+00:01:54,440 --> 00:01:55,780
+on a list to it's top node.
+
+49
+00:01:55,780 --> 00:01:58,050
+Have them organized under the push
+IDs of the list they are a part of.
+
+50
+00:01:58,050 --> 00:02:00,070
+All right,
+let's see what this looks like in data.
+
+51
+00:02:00,070 --> 00:02:03,880
+Okay, so here's suggestion number three,
+we have one of our list push ids and
+
+52
+00:02:03,880 --> 00:02:06,770
+then this is showing that Walter and
+I are shopping on that list.
+
+53
+00:02:06,770 --> 00:02:08,508
+And it is denormalizing the data.
+
+54
+00:02:08,508 --> 00:02:10,600
+Again, we've taken
+usersShopping out of users.
+
+55
+00:02:10,600 --> 00:02:13,770
+But you gotta ask, is there a purpose
+that we are doing this for?
+
+56
+00:02:13,770 --> 00:02:17,150
+Remember, on the active list
+details screen right here,
+
+57
+00:02:17,150 --> 00:02:19,590
+we need to be able to say
+who's shopping on the list.
+
+58
+00:02:19,590 --> 00:02:21,380
+And also here the shopping
+list fragment.
+
+59
+00:02:21,380 --> 00:02:23,350
+We say how many people
+are shopping on the list.
+
+60
+00:02:23,350 --> 00:02:26,800
+So whenever we are using
+the shopping list data in our app,
+
+61
+00:02:26,800 --> 00:02:30,000
+we're actually also using the data for
+who's shopping on the list.
+
+62
+00:02:30,000 --> 00:02:33,000
+Separating out the shopping list
+users from the shopping list object
+
+63
+00:02:33,000 --> 00:02:34,570
+therefore it doesn't
+make a lot of sense.
+
+64
+00:02:34,570 --> 00:02:37,490
+Because there's never a point of
+the app that you need to display or
+
+65
+00:02:37,490 --> 00:02:41,210
+use the list of shopping users on its
+own separated from the shopping list.
+
+66
+00:02:41,210 --> 00:02:42,980
+Okay, so I say no to suggestion three.
+
+67
+00:02:42,980 --> 00:02:44,730
+Okay, so this is suggestion four.
+
+68
+00:02:44,730 --> 00:02:45,920
+And again we've denormalized.
+
+69
+00:02:45,920 --> 00:02:49,820
+We took user friends, which used to
+be inside of the user objects, and
+
+70
+00:02:49,820 --> 00:02:50,840
+put them on the top node.
+
+71
+00:02:50,840 --> 00:02:54,930
+So instead of having a user friends
+category in Walter's user data
+
+72
+00:02:54,930 --> 00:02:58,820
+we've denormalized it out here so that
+the fact that Walter is friends with me
+
+73
+00:02:58,820 --> 00:03:02,560
+is up here, and not embedded with,
+inside his user information.
+
+74
+00:03:02,560 --> 00:03:04,560
+So is this helpful?
+
+75
+00:03:04,560 --> 00:03:07,220
+Okay, so looking at our screens again
+here are the two screens that have to
+
+76
+00:03:07,220 --> 00:03:08,360
+deal with shopping lists.
+
+77
+00:03:08,360 --> 00:03:11,560
+And I'm actually going to pull up the
+screen that shows the friends as well.
+
+78
+00:03:11,560 --> 00:03:12,880
+So let's think about our screens again.
+
+79
+00:03:13,910 --> 00:03:17,610
+These two screens here,
+will probably need to get user data.
+
+80
+00:03:17,610 --> 00:03:21,320
+For example, to be able to display while
+as lists, you need to get the user.
+
+81
+00:03:21,320 --> 00:03:24,190
+And just in general, to do things
+with permissioning about what you
+
+82
+00:03:24,190 --> 00:03:27,250
+can actually click on a list you need
+to know who the current user is.
+
+83
+00:03:27,250 --> 00:03:29,790
+But these screens don't need to
+know anything about who the user's
+
+84
+00:03:29,790 --> 00:03:30,630
+friends are.
+
+85
+00:03:30,630 --> 00:03:33,320
+The share lists screen on
+the other hand has a list
+
+86
+00:03:33,320 --> 00:03:35,000
+that lists out the user's friends.
+
+87
+00:03:35,000 --> 00:03:37,200
+So it does need this
+user's friend details.
+
+88
+00:03:37,200 --> 00:03:40,230
+But because here we're using the user
+object without needing to know anything
+
+89
+00:03:40,230 --> 00:03:41,410
+about the user's friends.
+
+90
+00:03:41,410 --> 00:03:43,654
+It makes sense to separate
+these two things out and
+
+91
+00:03:43,654 --> 00:03:45,350
+sort of denormalize the data.
+
+92
+00:03:45,350 --> 00:03:47,440
+So that action forces
+actually looking pretty good.
+
+93
+00:03:47,440 --> 00:03:48,080
+Okay.
+And finally,
+
+94
+00:03:48,080 --> 00:03:51,790
+we have suggestion five which is to move
+the shopping list out of the user class.
+
+95
+00:03:51,790 --> 00:03:53,620
+And here's what that would look like.
+
+96
+00:03:53,620 --> 00:03:56,190
+We move the shopping list
+out here into activeLists.
+
+97
+00:03:56,190 --> 00:03:57,750
+So that's looking pretty good.
+
+98
+00:03:57,750 --> 00:04:00,810
+And suggestion five is actually
+a must when we're grabbing user data,
+
+99
+00:04:00,810 --> 00:04:04,040
+which we do on basically every
+screen of the app, we don't want to
+
+100
+00:04:04,040 --> 00:04:06,830
+also be pulling down all the shopping
+lists associated with them.
+
+101
+00:04:06,830 --> 00:04:10,490
+Now this still leaves us with some
+interesting things to say about sharing.
+
+102
+00:04:10,490 --> 00:04:13,210
+But it does pinpoint where our
+original problem came from,
+
+103
+00:04:13,210 --> 00:04:15,850
+with the shopping list fragment
+taking so long to load.
+
+104
+00:04:15,850 --> 00:04:18,480
+Okay, so it looks like we should
+have implemented suggestions
+
+105
+00:04:18,480 --> 00:04:19,050
+two, four, and five.
+
+106
+00:04:19,050 --> 00:04:22,240
+Well, that would have been good
+to know before all this happened.

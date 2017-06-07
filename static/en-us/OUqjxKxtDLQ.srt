@@ -1,0 +1,184 @@
+1
+00:00:00,240 --> 00:00:01,160
+I went through our code and
+
+2
+00:00:01,160 --> 00:00:04,320
+added log messages in the places
+specified in the quiz.
+
+3
+00:00:04,320 --> 00:00:06,480
+In the earthquake
+activity's onCreate method,
+
+4
+00:00:06,480 --> 00:00:08,210
+I log when the onCreate
+method is called for
+
+5
+00:00:08,210 --> 00:00:12,130
+the earthquake activity, I log when
+we call loadermanager.netloader.
+
+6
+00:00:12,130 --> 00:00:15,160
+As you can see, I also print out
+whenever a loader callback is invoked.
+
+7
+00:00:15,160 --> 00:00:19,080
+For example, when the onCreateLoader
+function is called or
+
+8
+00:00:19,080 --> 00:00:20,970
+the onLoadFinished method is called, and
+
+9
+00:00:20,970 --> 00:00:24,560
+then lastly, onLoaderReset,
+when that's called as well.
+
+10
+00:00:24,560 --> 00:00:28,123
+We also print messages when
+onStartLoading is called as well as when
+
+11
+00:00:28,123 --> 00:00:29,754
+loadInBackground is called.
+
+12
+00:00:29,754 --> 00:00:36,230
+And then lastly, we print a log when the
+fetchEarthquakeData method is called.
+
+13
+00:00:36,230 --> 00:00:37,826
+And when I run the app on my device,
+
+14
+00:00:37,826 --> 00:00:40,689
+I can start to see the log messages
+printed out here in logcat,
+
+15
+00:00:40,689 --> 00:00:44,180
+detailing the sequence of
+behavior taken in our code.
+
+16
+00:00:44,180 --> 00:00:46,290
+Now first, the activity is launched, so
+
+17
+00:00:46,290 --> 00:00:50,200
+we can see the onCreate method being
+called, followed by initLoader.
+
+18
+00:00:51,560 --> 00:00:54,030
+Now since there is no
+loader instance yet,
+
+19
+00:00:54,030 --> 00:00:56,150
+our onCreateLoader callback is called.
+
+20
+00:00:56,150 --> 00:00:58,891
+Then our earthquakeLoader
+gets instantiated, and
+
+21
+00:00:58,891 --> 00:01:00,990
+onStartLoading is called.
+
+22
+00:01:00,990 --> 00:01:05,269
+Soon afterwards, loadInBackground
+gets run on a background thread.
+
+23
+00:01:05,269 --> 00:01:08,500
+And then we finally see that our
+query util's fetchEarthquakeData
+
+24
+00:01:08,500 --> 00:01:10,060
+method is executed.
+
+25
+00:01:10,060 --> 00:01:13,290
+Now at this point, we get a response
+from the server and parse it into a list
+
+26
+00:01:13,290 --> 00:01:16,520
+of earthquake objects which
+are returned as a result of the loader.
+
+27
+00:01:16,520 --> 00:01:21,385
+And then lastly, we see onLoad finished,
+and the activity gets called with
+
+28
+00:01:21,385 --> 00:01:25,405
+this list of earthquake objects, and
+then we can update the UI successfully.
+
+29
+00:01:25,405 --> 00:01:28,085
+Now you'll realize that rotating
+your device doesn't trigger a new
+
+30
+00:01:28,085 --> 00:01:29,555
+network request.
+
+31
+00:01:29,555 --> 00:01:31,225
+So even though the activity
+is created again,
+
+32
+00:01:31,225 --> 00:01:35,190
+when we call initLoader,
+there is already a loader instance, so
+
+33
+00:01:35,190 --> 00:01:38,960
+we reused that existing loader, which
+already has a response from the network.
+
+34
+00:01:38,960 --> 00:01:42,300
+Now you can also go ahead and experiment
+with other ways to leave enter the app.
+
+35
+00:01:42,300 --> 00:01:43,830
+You find that if you
+hit the home button and
+
+36
+00:01:43,830 --> 00:01:46,080
+return to the app,
+a full load is triggered again.
+
+37
+00:01:46,080 --> 00:01:47,450
+Now that makes sense,
+
+38
+00:01:47,450 --> 00:01:50,615
+because if you think about it, if
+the user leaves the app and comes back,
+
+39
+00:01:50,615 --> 00:01:53,653
+we'll want to refresh the data so they
+have the latest earthquake information.

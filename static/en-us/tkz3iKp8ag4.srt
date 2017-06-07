@@ -1,0 +1,254 @@
+1
+00:00:00,520 --> 00:00:01,050
+Hm.
+
+2
+00:00:01,050 --> 00:00:03,900
+We've got all these methods and
+we know when they'll happen.
+
+3
+00:00:03,900 --> 00:00:07,160
+I think you're probably ready to
+make a ListView in the UI code so
+
+4
+00:00:07,160 --> 00:00:08,650
+that you can add these items.
+
+5
+00:00:08,650 --> 00:00:09,652
+[NOISE] Wait a moment.
+
+6
+00:00:09,652 --> 00:00:12,114
+JP wants to join the hangout.
+
+7
+00:00:12,114 --> 00:00:14,200
+Hey JP, how's it going?
+
+8
+00:00:14,200 --> 00:00:14,750
+>> Good.
+Good.
+
+9
+00:00:14,750 --> 00:00:16,400
+I just wanted to check in on the app.
+
+10
+00:00:17,850 --> 00:00:18,800
+>> I'm having a pretty good time.
+
+11
+00:00:18,800 --> 00:00:21,750
+Our new developer is getting
+up to speed very fast and
+
+12
+00:00:21,750 --> 00:00:24,260
+Firebase isn't giving us any trouble.
+
+13
+00:00:24,260 --> 00:00:27,160
+We're currently trying to figure out
+the best way to display lists of data.
+
+14
+00:00:28,320 --> 00:00:31,920
+>> Well I haven't looked into it yet,
+but have you heard of the FirebaseUI.
+
+15
+00:00:33,370 --> 00:00:36,150
+>> Yeah, I actually remember
+reading something about that.
+
+16
+00:00:36,150 --> 00:00:38,225
+It's a Firebase library, right?
+
+17
+00:00:38,225 --> 00:00:41,700
+Okay, I should probably look into
+that to make sure we don't start
+
+18
+00:00:41,700 --> 00:00:44,320
+writing code that somebody
+else has already made.
+
+19
+00:00:44,320 --> 00:00:47,240
+>> Glad to be of service,
+send over a demo when you got it.
+
+20
+00:00:47,240 --> 00:00:50,010
+>> Will do.
+All right,
+
+21
+00:00:50,010 --> 00:00:51,720
+I think I've got a link
+here to the Firebase UI.
+
+22
+00:00:51,720 --> 00:00:54,450
+This is all coming back to me, actually.
+
+23
+00:00:54,450 --> 00:00:55,720
+Let me show you my screen.
+
+24
+00:00:55,720 --> 00:00:58,470
+So here's the Firebase UI
+package on GitHub.
+
+25
+00:00:58,470 --> 00:01:02,100
+It contains a Firebase array class,
+a Firebase list adapter class, and
+
+26
+00:01:02,100 --> 00:01:04,440
+a Firebase recycler view adapter.
+
+27
+00:01:04,440 --> 00:01:07,240
+Before I go much further,
+I should mention that this section
+
+28
+00:01:07,240 --> 00:01:12,040
+requires an understanding of ListViews,
+adapters, and how they work together.
+
+29
+00:01:12,040 --> 00:01:13,870
+If you need a refresher of ListViews,
+
+30
+00:01:13,870 --> 00:01:16,230
+I've provided some links
+in the instructor notes.
+
+31
+00:01:16,230 --> 00:01:18,860
+Please pause now and
+watch these to get up to speed, or
+
+32
+00:01:18,860 --> 00:01:20,880
+the rest of this section
+might be very confusing.
+
+33
+00:01:22,130 --> 00:01:23,560
+Before we dive into any code,
+
+34
+00:01:23,560 --> 00:01:26,450
+let's talk about how these classes
+work together with your app.
+
+35
+00:01:26,450 --> 00:01:28,300
+Now the goal of Firebase
+list adaptor and
+
+36
+00:01:28,300 --> 00:01:30,950
+Firebase array,
+the two classes we'll be using,
+
+37
+00:01:30,950 --> 00:01:35,820
+is to use the Firebase SDK to keep your
+list of online Firebase objects, such
+
+38
+00:01:35,820 --> 00:01:39,930
+as your shopping list objects, synced
+with data displayed in a ListView.
+
+39
+00:01:39,930 --> 00:01:42,180
+The general idea is that
+you have a ListView, and
+
+40
+00:01:42,180 --> 00:01:45,418
+this ListView is hooked up
+to a Firebase list adaptor.
+
+41
+00:01:45,418 --> 00:01:49,240
+Firebase list adapter is backed
+by a Firebase array, but
+
+42
+00:01:49,240 --> 00:01:50,970
+at least synced to
+your Firebase database.
+
+43
+00:01:52,120 --> 00:01:54,830
+Changes in the Firebase
+database it updates the array.
+
+44
+00:01:54,830 --> 00:01:59,380
+The array notifies the adapter
+that the data set has changed.
+
+45
+00:02:00,960 --> 00:02:05,200
+The Firebase array data
+converts it into a POJO, and
+
+46
+00:02:05,200 --> 00:02:10,820
+then uses the POJOs to make
+the items for the ListView.
+
+47
+00:02:10,820 --> 00:02:14,022
+All you need to do is update the item
+in the Firebase database, and
+
+48
+00:02:14,022 --> 00:02:16,000
+that will start this
+whole chain process.
+
+49
+00:02:17,690 --> 00:02:18,740
+These classes work together.
+
+50
+00:02:20,200 --> 00:02:23,389
+Ways that you can add listeners for
+reading from a Firebase database.
+
+51
+00:02:25,260 --> 00:02:29,840
+Listeners, what method is
+used to attach a listener
+
+52
+00:02:29,840 --> 00:02:34,970
+to sync a local Firebase array,
+with a list in your Firebase database?
+
+53
+00:02:34,970 --> 00:02:37,830
+You could just look at the source code,
+but you should be able to figure this
+
+54
+00:02:37,830 --> 00:02:40,250
+out from what you know
+now about read listeners.

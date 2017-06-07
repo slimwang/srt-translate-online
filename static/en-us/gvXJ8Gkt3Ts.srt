@@ -1,0 +1,271 @@
+1
+00:00:00,100 --> 00:00:02,950
+There is a problem with both interrupts and signals,
+
+2
+00:00:02,950 --> 00:00:07,190
+in that they're executed in the context of the thread that was interrupted.
+
+3
+00:00:07,190 --> 00:00:10,980
+This means that they're handled on the thread stack and
+
+4
+00:00:10,980 --> 00:00:13,970
+can cause certain issues that will lead us to
+
+5
+00:00:13,970 --> 00:00:19,570
+the answer of why we should sometimes disable interrupts and signals.
+
+6
+00:00:19,570 --> 00:00:23,720
+To demonstrate this problem, let's assume we have some arbitrary thread that's
+
+7
+00:00:23,720 --> 00:00:27,460
+executing, and this is its program counter and its stack pointer.
+
+8
+00:00:27,460 --> 00:00:30,210
+At some point in the execution, an interrupt occurs, or
+
+9
+00:00:30,210 --> 00:00:34,330
+a signal, and as a result of that, the program counter will change, and
+
+10
+00:00:34,330 --> 00:00:37,990
+it will start pointing to the first instruction of the handler.
+
+11
+00:00:37,990 --> 00:00:41,410
+However, notice that the stack pointer will remain the same.
+
+12
+00:00:41,410 --> 00:00:42,910
+And in fact, this can be nested.
+
+13
+00:00:42,910 --> 00:00:46,060
+There may be multiple interrupts or multiple signals.
+
+14
+00:00:46,060 --> 00:00:50,300
+And in a nested fashion, they will keep executing on the stack of the thread,
+
+15
+00:00:50,300 --> 00:00:51,860
+which was interrupted.
+
+16
+00:00:51,860 --> 00:00:52,940
+If the handling code,
+
+17
+00:00:52,940 --> 00:00:57,590
+the handling routine, if it needs to access some state that perhaps other
+
+18
+00:00:57,590 --> 00:01:02,070
+threads in the system would be accessing, then we have to use mutexes.
+
+19
+00:01:02,070 --> 00:01:06,628
+However, if the thread which was interrupted already had that exact same
+
+20
+00:01:06,628 --> 00:01:11,496
+mutex that's needed in the handling routine, we have a deadlock situation.
+
+21
+00:01:11,496 --> 00:01:15,068
+The interrupted thread will not release the mutex until
+
+22
+00:01:15,068 --> 00:01:20,180
+the handling routine completes the execution on its stack and returns.
+
+23
+00:01:20,180 --> 00:01:23,130
+And we know that that clearly wont hap'pen because this one is
+
+24
+00:01:23,130 --> 00:01:24,620
+locked on this mutex.
+
+25
+00:01:24,620 --> 00:01:26,479
+To prevent from these issues,
+
+26
+00:01:26,479 --> 00:01:30,500
+one possibility we have is to keep the handler code simple.
+
+27
+00:01:30,500 --> 00:01:33,250
+What this means in this context is we
+
+28
+00:01:33,250 --> 00:01:36,480
+can prohibit the handling code to use mutexes.
+
+29
+00:01:36,480 --> 00:01:40,260
+Even if there is no possibility for the handler code to
+
+30
+00:01:40,260 --> 00:01:45,470
+lock on some mutex operation, then the deadlock will not occur.
+
+31
+00:01:45,470 --> 00:01:47,730
+The problem with this is that it's too restrictive.
+
+32
+00:01:47,730 --> 00:01:50,040
+It limits what a handler can do.
+
+33
+00:01:50,040 --> 00:01:54,080
+So instead of enforcing that a handler has to be simple and
+
+34
+00:01:54,080 --> 00:01:58,490
+avoid the use of mutexes, we introduce masks.
+
+35
+00:01:58,490 --> 00:02:02,080
+These masks allow us to dynamically enable or
+
+36
+00:02:02,080 --> 00:02:08,150
+disable whether the handling code can interrupt the executing mutex.
+
+37
+00:02:08,150 --> 00:02:10,660
+We call these interrupt or signal masks.
+
+38
+00:02:10,660 --> 00:02:14,440
+The mask is a sequence of bits where each bit corresponds to
+
+39
+00:02:14,440 --> 00:02:19,210
+a specific interrupt or signal, and the value of the bit, zero or one,
+
+40
+00:02:19,210 --> 00:02:25,510
+will indicate whether the specific interrupter signal is disabled or enabled.
+
+41
+00:02:25,510 --> 00:02:29,380
+When an event occurs, first, the mask is checked, and
+
+42
+00:02:29,380 --> 00:02:34,726
+if the event is enabled, then we proceed with the actual handler invocation and
+
+43
+00:02:34,726 --> 00:02:36,790
+interrupt or signal handling.
+
+44
+00:02:36,790 --> 00:02:41,670
+If the event is disabled, then the signal or the interrupt remains standing, and
+
+45
+00:02:41,670 --> 00:02:45,220
+it will be handled at a later time when the mask value changes.
+
+46
+00:02:45,220 --> 00:02:48,660
+To solve the deadlock situation that we described, the thread,
+
+47
+00:02:48,660 --> 00:02:53,620
+prior to acquiring the mutex, it would have disabled the interrupt.
+
+48
+00:02:53,620 --> 00:02:55,640
+So then even if the interrupt occurs,
+
+49
+00:02:55,640 --> 00:03:00,890
+it will be disabled, and it will not interrupt the execution of the threads.
+
+50
+00:03:00,890 --> 00:03:03,210
+It will not interrupt this critical section.
+
+51
+00:03:03,210 --> 00:03:06,580
+If the mask indicates that an interrupt is disabled,
+
+52
+00:03:06,580 --> 00:03:10,680
+then it will remain pending until a later time.
+
+53
+00:03:10,680 --> 00:03:15,410
+Once the lock is freed, once we perform an unlock operation on the mutex,
+
+54
+00:03:15,410 --> 00:03:19,710
+the thread will then reset the appropriate field in the mask.
+
+55
+00:03:19,710 --> 00:03:22,210
+As a result, the interrupt becomes enabled.
+
+56
+00:03:22,210 --> 00:03:23,500
+And at that point,
+
+57
+00:03:23,500 --> 00:03:27,430
+the operating system will allow the execution of the handler code.
+
+58
+00:03:27,430 --> 00:03:28,730
+Know that at this point,
+
+59
+00:03:28,730 --> 00:03:33,130
+it is okay to execute this code because we no longer hold the mutex.
+
+60
+00:03:33,130 --> 00:03:36,650
+So the thread that would be interrupted when the handler code is
+
+61
+00:03:36,650 --> 00:03:38,740
+called doesn't hold this mutex.
+
+62
+00:03:38,740 --> 00:03:41,050
+As a result, the deadlock will be avoided.
+
+63
+00:03:41,050 --> 00:03:46,050
+We should point out that while an interrupt or a signal is pending,
+
+64
+00:03:46,050 --> 00:03:51,980
+then other instances may occur, and they will remain pending as well.
+
+65
+00:03:51,980 --> 00:03:54,530
+Once the event is enabled over here,
+
+66
+00:03:54,530 --> 00:03:58,090
+the handling routine will typically be executed only once, so
+
+67
+00:03:58,090 --> 00:04:03,110
+if we want to ensure that a signal handling routine is executed more then once,
+
+68
+00:04:03,110 --> 00:04:07,480
+it is not just sufficient to generate the signal more then once.

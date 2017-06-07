@@ -1,0 +1,58 @@
+1
+00:00:00,000 --> 00:00:02,529
+So we need to get some
+help from the hardware,
+
+2
+00:00:02,529 --> 00:00:05,872
+looking at this spinlock example
+from the previous video.
+
+3
+00:00:05,872 --> 00:00:09,140
+We somehow needed the checking
+of the lock value and
+
+4
+00:00:09,140 --> 00:00:14,082
+the setting of the lock value to happen
+indivisibly, atomically, so that we
+
+5
+00:00:14,082 --> 00:00:19,140
+can guarantee that only one thread at
+a time can successfully obtain the lock.
+
+6
+00:00:19,140 --> 00:00:23,470
+The problem with this implementation is
+that it takes multiple cycles to perform
+
+7
+00:00:23,470 --> 00:00:27,080
+the check in this setting and
+during these multiple cycles,
+
+8
+00:00:27,080 --> 00:00:29,780
+threads can be interleaved
+in arbitrary ways.
+
+9
+00:00:29,780 --> 00:00:31,680
+If they're running on
+multiple processors,
+
+10
+00:00:31,680 --> 00:00:35,120
+their execution can
+completely overlap in time.
+
+11
+00:00:35,120 --> 00:00:36,411
+To make this work,
+
+12
+00:00:36,411 --> 00:00:41,430
+we have to rely on support from
+hardware-supported atomic instructions

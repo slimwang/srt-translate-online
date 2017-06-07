@@ -1,0 +1,94 @@
+1
+00:00:00,180 --> 00:00:03,160
+There are several problems
+with this rule set.
+
+2
+00:00:03,160 --> 00:00:05,660
+For example,
+let's look at rule number four.
+
+3
+00:00:05,660 --> 00:00:10,890
+This rule allows inbound traffic to
+any destination port above 1023,
+
+4
+00:00:10,890 --> 00:00:14,770
+whereas, the original intent is
+to allow an inbound traffic,
+
+5
+00:00:14,770 --> 00:00:16,900
+that is part of the email connection.
+
+6
+00:00:16,900 --> 00:00:20,970
+In other words, it is more
+permissive than its original intent.
+
+7
+00:00:20,970 --> 00:00:24,760
+For security purposes, we want to
+make these rules more specific.
+
+8
+00:00:24,760 --> 00:00:27,980
+Therefore we can add another
+condition to the rules.
+
+9
+00:00:27,980 --> 00:00:31,590
+This condition is on
+the source port of the packet.
+
+10
+00:00:31,590 --> 00:00:33,580
+For example for rule number four,
+
+11
+00:00:33,580 --> 00:00:37,800
+our intent is to allow inbound traffic
+that is part of an email connection.
+
+12
+00:00:37,800 --> 00:00:41,370
+Therefore the source port should be 25.
+
+13
+00:00:41,370 --> 00:00:43,830
+We can make these rules
+even more precise.
+
+14
+00:00:43,830 --> 00:00:46,400
+For example,
+because the intent of rule number four,
+
+15
+00:00:46,400 --> 00:00:51,190
+is to allow inbound traffic, there's
+part of a established email connection.
+
+16
+00:00:51,190 --> 00:00:55,570
+We will want to check the ackbit of the
+packet, and make sure that it is set.
+
+17
+00:00:55,570 --> 00:00:58,600
+This is because in TCP,
+once a connection is set up,
+
+18
+00:00:58,600 --> 00:01:01,910
+the TCP flag in the TCP header is set.
+
+19
+00:01:01,910 --> 00:01:03,140
+So we can check this bit,
+
+20
+00:01:03,140 --> 00:01:07,250
+to make sure that the inbound packet
+is part of an establish connection.

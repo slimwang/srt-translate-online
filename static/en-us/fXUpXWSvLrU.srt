@@ -1,0 +1,579 @@
+1
+00:00:00,420 --> 00:00:03,469
+When positioning children
+relative to other sibling views,
+
+2
+00:00:03,469 --> 00:00:06,190
+you can add constraints
+on their position.
+
+3
+00:00:06,190 --> 00:00:09,885
+For example, one TextView must
+be above another TextView,
+
+4
+00:00:09,885 --> 00:00:14,090
+or one ImageView must be to
+the left of another TextView.
+
+5
+00:00:14,090 --> 00:00:17,280
+All these constraints remind me
+of making a seating chart for
+
+6
+00:00:17,280 --> 00:00:17,900
+a dinner party.
+
+7
+00:00:18,910 --> 00:00:21,380
+We do have our birthday party
+celebration coming up, so
+
+8
+00:00:21,380 --> 00:00:23,540
+let's look at the seating chart for
+that.
+
+9
+00:00:23,540 --> 00:00:25,140
+We invited all these people over for
+
+10
+00:00:25,140 --> 00:00:28,330
+dinner But there are constraints
+on where people want to sit.
+
+11
+00:00:28,330 --> 00:00:30,550
+Some people must sit next
+to their best friend.
+
+12
+00:00:30,550 --> 00:00:33,490
+Other people have what
+you might call frenemies.
+
+13
+00:00:33,490 --> 00:00:36,120
+So, they might not want to
+sit next to certain people.
+
+14
+00:00:36,120 --> 00:00:39,860
+So, taking into account all of that,
+I came up with this proposed layout.
+
+15
+00:00:39,860 --> 00:00:41,880
+Kunal, Ben, and Kagure are up here.
+
+16
+00:00:41,880 --> 00:00:45,900
+Natalie, Lyla, and me are down here And
+Amy, Omoju and Jenny are in this corner.
+
+17
+00:00:45,900 --> 00:00:49,400
+So could we build this seating
+arrangement in XML using TextViews and
+
+18
+00:00:49,400 --> 00:00:51,040
+a relative layout?
+
+19
+00:00:51,040 --> 00:00:53,270
+We know how to position
+views in corners.
+
+20
+00:00:53,270 --> 00:00:57,398
+So the Lyla TextView would be aligned to
+the parent's left edge and bottom edge.
+
+21
+00:00:57,398 --> 00:01:01,390
+The Jennie TextView would be aligned to
+the parent's right edge and bottom edge.
+
+22
+00:01:01,390 --> 00:01:04,510
+For Ben we would align them to
+the top edge of the parent.
+
+23
+00:01:04,510 --> 00:01:07,280
+By the way, we're assuming that
+the parent is the full width and
+
+24
+00:01:07,280 --> 00:01:11,360
+height of the screen, so we've set
+match parent for width and height.
+
+25
+00:01:11,360 --> 00:01:12,430
+So back to Ben.
+
+26
+00:01:12,430 --> 00:01:14,550
+He's aligned to the top of the parent.
+
+27
+00:01:14,550 --> 00:01:16,970
+We also want to center him horizontally.
+
+28
+00:01:16,970 --> 00:01:20,320
+And formerly, you might call these
+three views the anchor views.
+
+29
+00:01:20,320 --> 00:01:23,750
+Because everyone else is positioned
+relative to these people.
+
+30
+00:01:23,750 --> 00:01:27,670
+And these people won't move, regardless
+of where everyone else is sitting.
+
+31
+00:01:27,670 --> 00:01:29,360
+So let's add another person.
+
+32
+00:01:29,360 --> 00:01:32,810
+We have Kunal here,
+who's located to the left of Ben.
+
+33
+00:01:32,810 --> 00:01:35,259
+But how do we express that in XML?
+
+34
+00:01:35,259 --> 00:01:39,552
+Well, there's no specific attribute that
+says that a view should be to the left
+
+35
+00:01:39,552 --> 00:01:40,655
+of a view named Ben.
+
+36
+00:01:40,655 --> 00:01:43,363
+All the Android attribute
+names are general so
+
+37
+00:01:43,363 --> 00:01:46,940
+that it works for
+any use case that you'd want.
+
+38
+00:01:46,940 --> 00:01:49,410
+We want to position Kunal
+to the left of Ben, but
+
+39
+00:01:49,410 --> 00:01:52,580
+we don't know of any existing
+attribute names that can do that.
+
+40
+00:01:52,580 --> 00:01:53,768
+Luckily though,
+
+41
+00:01:53,768 --> 00:01:58,780
+RelativeLayout has an attribute
+that says android: layout_toLeftof.
+
+42
+00:01:58,780 --> 00:02:03,520
+This means that the Kunal text view
+should be to the left of some view.
+
+43
+00:02:03,520 --> 00:02:08,020
+And the way that we specify
+some view is to use view IDs.
+
+44
+00:02:08,020 --> 00:02:10,000
+We can assign view ID names to any view.
+
+45
+00:02:10,000 --> 00:02:13,110
+They don't have to be specifically
+addressed for RelativeLayout.
+
+46
+00:02:13,110 --> 00:02:16,275
+They could be located within
+a RelativeLayout, or a LinearLayout, or
+
+47
+00:02:16,275 --> 00:02:18,200
+any other view group.
+
+48
+00:02:18,200 --> 00:02:21,710
+So on the Ben TextView,
+we can add this attribute, android:id.
+
+49
+00:02:21,710 --> 00:02:23,860
+The value of it is the ID name.
+
+50
+00:02:23,860 --> 00:02:29,500
+The format starts with @ symbol, @
+refers to a resource in our Android app.
+
+51
+00:02:29,500 --> 00:02:34,263
+We've also seen this @symbol for
+referring to images in our app.
+
+52
+00:02:34,263 --> 00:02:36,516
+For example app Drawable.
+
+53
+00:02:36,516 --> 00:02:38,950
+Then we specify the resource type.
+
+54
+00:02:38,950 --> 00:02:41,017
+In this case,
+the resource type is an id.
+
+55
+00:02:41,017 --> 00:02:44,197
+We also add the plus symbol because
+this is the first time we're
+
+56
+00:02:44,197 --> 00:02:45,219
+declaring this id.
+
+57
+00:02:45,219 --> 00:02:50,120
+Then we have a slash and
+then we have the name of the view.
+
+58
+00:02:50,120 --> 00:02:53,190
+This is the name that we chose for
+the Ben TextView.
+
+59
+00:02:53,190 --> 00:02:55,240
+We call it ben_text_view.
+
+60
+00:02:56,320 --> 00:02:59,470
+The basic requirements are that
+the name can't have any spaces.
+
+61
+00:02:59,470 --> 00:03:00,937
+That's why we use
+underscore symbols here.
+
+62
+00:03:00,937 --> 00:03:02,883
+It needs to start with a letter and
+
+63
+00:03:02,883 --> 00:03:06,229
+it can't contain any of
+the weird punctuation symbols.
+
+64
+00:03:07,250 --> 00:03:08,990
+Numbers are fine though.
+
+65
+00:03:08,990 --> 00:03:14,500
+So in this case we give Ben
+the ID of ben_text_view.
+
+66
+00:03:14,500 --> 00:03:16,130
+That way we can refer to it later.
+
+67
+00:03:16,130 --> 00:03:20,460
+So on the Kunal TextView we can add
+the attribute layout_toLeftof and
+
+68
+00:03:20,460 --> 00:03:22,920
+we can say it's to the left
+of the Ben TextView.
+
+69
+00:03:24,190 --> 00:03:28,390
+We refer to the ID for
+the Ben TextView using @id.
+
+70
+00:03:28,390 --> 00:03:32,322
+We don't need to use the plus symbol
+because We've already defined that ID.
+
+71
+00:03:32,322 --> 00:03:34,692
+This is the second time
+we're using the ID.
+
+72
+00:03:34,692 --> 00:03:38,910
+When you come up with view ID names,
+make sure that they're all unique names.
+
+73
+00:03:38,910 --> 00:03:42,550
+Usually, picking something related to
+the content inside of it is helpful.
+
+74
+00:03:42,550 --> 00:03:45,920
+Okay, cool, so that's how you
+position Kunal to the left of Ben.
+
+75
+00:03:45,920 --> 00:03:49,740
+Now, say, for example,
+we want to position Omoju above Jennie.
+
+76
+00:03:49,740 --> 00:03:51,760
+Since we're going to
+need to refer to Jennie,
+
+77
+00:03:51,760 --> 00:03:53,980
+we should create an ID for Jennie.
+
+78
+00:03:53,980 --> 00:03:58,240
+On the Jennie TextView, we specify
+this attribute and give it this value.
+
+79
+00:03:58,240 --> 00:04:01,880
+The ID name is jennie_text_view.
+
+80
+00:04:01,880 --> 00:04:04,550
+On the Omoju TextView,
+we add this attribute.
+
+81
+00:04:04,550 --> 00:04:09,680
+This says that Omoju should be
+positioned above the jennie_text_view.
+
+82
+00:04:09,680 --> 00:04:11,380
+And this is the ID that
+we created up here.
+
+83
+00:04:12,570 --> 00:04:13,850
+Let's look at the XML layout.
+
+84
+00:04:13,850 --> 00:04:18,010
+We have a relative layout where
+the width and height are match_parent.
+
+85
+00:04:18,010 --> 00:04:19,870
+Then we have the lyla_text_view.
+
+86
+00:04:19,870 --> 00:04:22,267
+It's aligned to the parent's
+bottom left corner, and
+
+87
+00:04:22,267 --> 00:04:23,600
+that's what we see down here.
+
+88
+00:04:24,770 --> 00:04:26,314
+Then we have the jennie_text_view.
+
+89
+00:04:26,314 --> 00:04:29,010
+It's aligned to the parents
+bottom right corner.
+
+90
+00:04:29,010 --> 00:04:29,720
+So that's over here.
+
+91
+00:04:31,300 --> 00:04:32,876
+Then we have the ben_text_view.
+
+92
+00:04:32,876 --> 00:04:35,900
+And it's aligned to the top
+edge of the parent.
+
+93
+00:04:35,900 --> 00:04:38,290
+It's also centered horizontally.
+
+94
+00:04:38,290 --> 00:04:39,880
+These are the anchor views and
+
+95
+00:04:39,880 --> 00:04:42,460
+now we can position
+the other views around them.
+
+96
+00:04:42,460 --> 00:04:45,720
+Notice that for each of the views I
+already went ahead and added an ID.
+
+97
+00:04:45,720 --> 00:04:48,040
+So this is the Ben TextView ID.
+
+98
+00:04:48,040 --> 00:04:50,970
+Then we can position
+the Kunal TextView to the left of Ben.
+
+99
+00:04:50,970 --> 00:04:56,930
+I align Kunal to the top of the parent,
+and to the left of the Ben TextView.
+
+100
+00:04:56,930 --> 00:04:58,525
+I use the view ID for Ben right here.
+
+101
+00:04:58,525 --> 00:05:02,025
+Then we position
+the Omoju TextView above Jenny.
+
+102
+00:05:02,025 --> 00:05:04,915
+Omoju is aligned to the right
+edge of the parent, and
+
+103
+00:05:04,915 --> 00:05:06,435
+above the Jenny TextView.
+
+104
+00:05:07,505 --> 00:05:08,245
+Okay cool.
+
+105
+00:05:08,245 --> 00:05:11,465
+So there's more friends to
+position correctly in this layout.
+
+106
+00:05:12,925 --> 00:05:15,475
+In the instructor notes below
+we've provided you a link
+
+107
+00:05:15,475 --> 00:05:19,270
+to the XML Visualizer with some
+initial code already in there.
+
+108
+00:05:19,270 --> 00:05:20,910
+Go ahead and modify the XML so
+
+109
+00:05:20,910 --> 00:05:24,200
+that we can achieve this
+desired layout for everyone.
+
+110
+00:05:24,200 --> 00:05:26,840
+Some of the views are already
+positioned incorrectly, so
+
+111
+00:05:26,840 --> 00:05:28,060
+you'll need to fix those.
+
+112
+00:05:29,310 --> 00:05:32,490
+By the way, we just introduced
+a ton of new attributes.
+
+113
+00:05:32,490 --> 00:05:34,680
+But don't feel like you have
+to memorize all of them.
+
+114
+00:05:34,680 --> 00:05:36,446
+You can always look them up at any time.
+
+115
+00:05:36,446 --> 00:05:40,460
+You can just search for
+a relativelayout, layout params.
+
+116
+00:05:40,460 --> 00:05:45,260
+If you click on this first link,
+you go to the documentation for this.
+
+117
+00:05:45,260 --> 00:05:48,870
+So these are all the XML attributes
+that you can put on a child view
+
+118
+00:05:48,870 --> 00:05:53,290
+within a RelativeLayout so that the
+RelativeLayout knows how to lay it out.
+
+119
+00:05:53,290 --> 00:05:54,755
+Here are some that you're
+already familiar with.
+
+120
+00:05:54,755 --> 00:06:00,370
+Layout_above, alignParentbottom,
+alignParentright and so on.
+
+121
+00:06:00,370 --> 00:06:00,890
+Note that for
+
+122
+00:06:00,890 --> 00:06:05,510
+teaching purposes, the XML Visualizer
+may not support all of these attributes.
+
+123
+00:06:05,510 --> 00:06:08,630
+However, when you're developing
+an app in Android Studio you
+
+124
+00:06:08,630 --> 00:06:10,050
+should be able to use all of these.

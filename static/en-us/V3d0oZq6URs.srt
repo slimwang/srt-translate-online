@@ -1,0 +1,371 @@
+1
+00:00:00,320 --> 00:00:03,880
+So a problem that often
+confuses new Android developers
+
+2
+00:00:03,880 --> 00:00:06,370
+is usually around rotation, right?
+
+3
+00:00:06,370 --> 00:00:10,930
+So a common issue you'll see is
+like if I have a progress bar or
+
+4
+00:00:10,930 --> 00:00:14,610
+I have suppose I'm building a game and
+I have a score or something.
+
+5
+00:00:14,610 --> 00:00:18,400
+But when I rotate, I lose that
+information I lose like maybe
+
+6
+00:00:18,400 --> 00:00:22,520
+the progress either set it out or
+the score that I calculated at the time.
+
+7
+00:00:22,520 --> 00:00:26,140
+Can you explain to me in some more
+detail why that is occurring?
+
+8
+00:00:26,140 --> 00:00:30,980
+>> Right, so this has to do with one
+of the fundamental concepts of Android
+
+9
+00:00:30,980 --> 00:00:32,890
+development and
+the Android operating system,
+
+10
+00:00:32,890 --> 00:00:36,730
+which is the activity lifecycle or
+the fragment lifecycle as well.
+
+11
+00:00:36,730 --> 00:00:39,920
+So when you create a fragment,
+it's attached your activity.
+
+12
+00:00:39,920 --> 00:00:43,260
+When you rotate a device
+your activity is destroyed,
+
+13
+00:00:43,260 --> 00:00:45,120
+your fragment will be destroyed.
+
+14
+00:00:45,120 --> 00:00:50,720
+And so if you don't have any sort of
+check to see if your application has
+
+15
+00:00:50,720 --> 00:00:55,590
+been running, that activity will reset
+as if it's the first time it opened.
+
+16
+00:00:55,590 --> 00:00:59,240
+Everything will, any sort of data or
+something that you change throughout
+
+17
+00:00:59,240 --> 00:01:03,580
+the lifecycle of the application
+will then start anew.
+
+18
+00:01:03,580 --> 00:01:07,310
+>> So what you're saying is that,
+this is all information that was
+
+19
+00:01:07,310 --> 00:01:10,690
+either set by the user,
+before the activity started?
+
+20
+00:01:10,690 --> 00:01:14,628
+So these are things where they mutated
+state while the activity was running and
+
+21
+00:01:14,628 --> 00:01:16,187
+then we need to save those off.
+
+22
+00:01:16,187 --> 00:01:16,766
+>> Right.
+
+23
+00:01:16,766 --> 00:01:17,545
+>> Beforehand.
+
+24
+00:01:17,545 --> 00:01:21,964
+>> Right, and even if we do save them
+somewhere and we turn the device again,
+
+25
+00:01:21,964 --> 00:01:25,420
+if we don't reference that,
+nothing's going to happen.
+
+26
+00:01:25,420 --> 00:01:30,780
+The way around this is to in your
+own create usually for your activity
+
+27
+00:01:30,780 --> 00:01:35,590
+you would have if saved instance state
+is not able to know the saved instance
+
+28
+00:01:35,590 --> 00:01:40,760
+state is something that Android
+uses to to account for this.
+
+29
+00:01:40,760 --> 00:01:45,185
+So, you check if it's not equal to null
+because if it is not equal to null that
+
+30
+00:01:45,185 --> 00:01:49,906
+means your activity or your application
+was running before it got to this point.
+
+31
+00:01:49,906 --> 00:01:53,402
+So before this activity was
+created it was running and
+
+32
+00:01:53,402 --> 00:01:57,132
+there we can reference some
+data that we wanted to save and
+
+33
+00:01:57,132 --> 00:02:01,450
+we can have it translate over to
+the rotation with a new activity.
+
+34
+00:02:01,450 --> 00:02:04,750
+>> Yes of the save state
+is effectively saying,
+
+35
+00:02:04,750 --> 00:02:07,720
+you're saying if it's null that means
+this is the first time it's ever run.
+
+36
+00:02:07,720 --> 00:02:08,320
+>> Right.
+>> And
+
+37
+00:02:08,320 --> 00:02:10,570
+if it's not null will then
+something has occurred.
+
+38
+00:02:10,570 --> 00:02:13,080
+And someone cared enough to
+write this out to a bundle.
+
+39
+00:02:14,090 --> 00:02:18,015
+So it could be progress or things, so
+in this application maybe it's a game.
+
+40
+00:02:18,015 --> 00:02:21,215
+I have more than just
+a simple primitive, right?
+
+41
+00:02:21,215 --> 00:02:24,035
+Maybe I have a really
+slightly complex object.
+
+42
+00:02:24,035 --> 00:02:26,485
+I have a lot of,
+not necessarily a lot, but
+
+43
+00:02:26,485 --> 00:02:30,255
+I mean certainly more data than an
+integer or string or something simple.
+
+44
+00:02:30,255 --> 00:02:33,995
+What are some ways that I could
+write that out to the bundle?
+
+45
+00:02:33,995 --> 00:02:38,125
+>> So one, there's a couple ways
+to pass information through.
+
+46
+00:02:38,125 --> 00:02:39,545
+When you have something complex,
+
+47
+00:02:39,545 --> 00:02:42,320
+you might want to use
+something like a par syllable.
+
+48
+00:02:42,320 --> 00:02:46,030
+Perhaps, or a database.
+
+49
+00:02:46,030 --> 00:02:48,390
+Maybe through a content provider or
+something like that.
+
+50
+00:02:48,390 --> 00:02:53,230
+Or even if you're accessing something on
+the network you would want to account
+
+51
+00:02:53,230 --> 00:02:56,150
+for that so if you're maybe-
+>> So you're saying maybe like caching
+
+52
+00:02:56,150 --> 00:02:58,630
+results so that I don't have
+to like redo their press.
+
+53
+00:02:58,630 --> 00:03:01,910
+>> Yeah, so
+say if you're using a cloud database.
+
+54
+00:03:01,910 --> 00:03:03,660
+Cloud storage you could
+reference that as well,
+
+55
+00:03:03,660 --> 00:03:05,670
+that could be through
+a content provider.
+
+56
+00:03:05,670 --> 00:03:09,850
+So instead of just maybe passing strings
+or something through it in ten or
+
+57
+00:03:09,850 --> 00:03:12,850
+saving something simple
+in as shared preferences.
+
+58
+00:03:12,850 --> 00:03:16,400
+You would want to go with something more
+robust like that database or parcelable.
+
+59
+00:03:16,400 --> 00:03:19,656
+>> Yeah, that makes sense because we
+were saying is if we stored it in
+
+60
+00:03:19,656 --> 00:03:21,432
+a database, then when I rotate it,
+
+61
+00:03:21,432 --> 00:03:24,648
+I really don't have to worry about
+saving that state in and out.
+
+62
+00:03:24,648 --> 00:03:27,760
+Because it's going to get loaded
+from the database regardless.
+
+63
+00:03:27,760 --> 00:03:29,760
+And the state which should update.
+
+64
+00:03:29,760 --> 00:03:31,700
+I'm wondering, too,
+
+65
+00:03:31,700 --> 00:03:36,620
+why wouldn't I use something like
+Serializable, for instead of a parsable?
+
+66
+00:03:36,620 --> 00:03:39,240
+>> So
+I'm not too familiar with Serializable.
+
+67
+00:03:39,240 --> 00:03:43,300
+I know the general idea of it and
+I think it's some sort of
+
+68
+00:03:43,300 --> 00:03:48,270
+persistent object that's related to
+a database but I've never had to use it.
+
+69
+00:03:48,270 --> 00:03:53,610
+>> So a lot of times it's Serializable's
+very much a Java concept.
+
+70
+00:03:53,610 --> 00:03:58,560
+And it was used very often where you're
+a way of writing out a class and
+
+71
+00:03:58,560 --> 00:04:01,400
+so you could write out a class for
+serializable.
+
+72
+00:04:01,400 --> 00:04:04,910
+But generally parsable like
+you suggested is a better way.
+
+73
+00:04:04,910 --> 00:04:06,590
+Because Serializable
+tends to be very slow.
+
+74
+00:04:07,600 --> 00:04:09,000
+It uses, it has to use reflection.
+
+75
+00:04:09,000 --> 00:04:09,990
+It has to use other things.
+
+76
+00:04:09,990 --> 00:04:12,790
+So, definitely building a parsable
+would be a better idea.
+
+77
+00:04:12,790 --> 00:04:13,290
+>> Okay.

@@ -1,0 +1,159 @@
+1
+00:00:00,000 --> 00:00:03,000
+Now for your homework--your homework for this unit will be
+
+2
+00:00:03,000 --> 00:00:06,000
+statistical debugging on a mystery program.
+
+3
+00:00:06,000 --> 00:00:11,000
+The ideal is that you get the mystery program and the number of runs which pass or fail
+
+4
+00:00:11,000 --> 00:00:15,000
+and your job is to apply statistical debugging to find out
+
+5
+00:00:15,000 --> 00:00:18,000
+what is it in the mystery program that causes the failures.
+
+6
+00:00:18,000 --> 00:00:24,000
+However, this time we're going to look at another set of execution features that is not lines executed
+
+7
+00:00:24,000 --> 00:00:27,000
+but instead the return values of individual functions.
+
+8
+00:00:27,000 --> 00:00:30,000
+One of the outputs of your task could be
+
+9
+00:00:30,000 --> 00:00:36,000
+that the program fails whenever f returns a value that's greater than zero.
+
+10
+00:00:36,000 --> 00:00:39,000
+For this, you need to track the return values of individual functions
+
+11
+00:00:39,000 --> 00:00:43,000
+and again, the Python trace it function will do that for you.
+
+12
+00:00:43,000 --> 00:00:47,000
+The event is return and the return value is contained in the argument.
+
+13
+00:00:47,000 --> 00:00:52,000
+Plus you need to categorize the return values in multiple booklets.
+
+14
+00:00:52,000 --> 00:00:58,000
+I want you to use precisely three categories--namely less than zero, zero, and greater than zero.
+
+15
+00:00:58,000 --> 00:01:01,000
+For numerical values, this is straightforward.
+
+16
+00:01:01,000 --> 00:01:04,000
+Depending on the sign you put them into one of the three categories,
+
+17
+00:01:04,000 --> 00:01:11,000
+but what for non numerical values say list or strings or dictionaries or sets.
+
+18
+00:01:11,000 --> 00:01:16,000
+For these, you compute the length. If a string is empty, then it comes into the zero category.
+
+19
+00:01:16,000 --> 00:01:21,000
+If it has one character or more, then it comes into the greater than zero category.
+
+20
+00:01:21,000 --> 00:01:26,000
+Same goes for sets--no elements, one element or more, list in dictionaries likewise.
+
+21
+00:01:26,000 --> 00:01:32,000
+The Boolean values false and true, also going to zero and greater than zero.
+
+22
+00:01:32,000 --> 00:01:37,000
+Since less than zero is frequently used to indicate some exceptional return value,
+
+23
+00:01:37,000 --> 00:01:40,000
+we're going to use this category for special values
+
+24
+00:01:40,000 --> 00:01:44,000
+such as none, not a number. as well as for exceptions.
+
+25
+00:01:44,000 --> 00:01:49,000
+That is if a function does not return a value but raises an exception instead,
+
+26
+00:01:49,000 --> 00:01:54,000
+then you categorize this in the same way as the return value that is less than zero.
+
+27
+00:01:54,000 --> 00:02:00,000
+What you then do is for each function you compute the five coefficient for each category
+
+28
+00:02:00,000 --> 00:02:02,000
+as well as for its respective complement.
+
+29
+00:02:02,000 --> 00:02:06,000
+What do I mean by complement? Well, let me illustrate this with an example.
+
+30
+00:02:06,000 --> 00:02:10,000
+So again you set up a table and count in how many runs the function f
+
+31
+00:02:10,000 --> 00:02:12,000
+return the value that was less than zero.
+
+32
+00:02:12,000 --> 00:02:15,000
+Do this for the failing runs as well as for the passing runs.
+
+33
+00:02:15,000 --> 00:02:20,000
+The complement here of course is any value that is greater or equal than zero
+
+34
+00:02:20,000 --> 00:02:24,000
+and again you count the number of runs and this is something you do for each category.
+
+35
+00:02:24,000 --> 00:02:29,000
+For the zero category, we check whether the return value was zero or whether it was non-zero
+
+36
+00:02:29,000 --> 00:02:33,000
+and finally, we do the same for the third category namely greater than zero.
+
+37
+00:02:33,000 --> 00:02:39,000
+Now your task will be to compute the five coefficients for all function and all categories
+
+38
+00:02:39,000 --> 00:02:45,000
+as well as their compliments and then to find out for the mystery program, which is the one function
+
+39
+00:02:45,000 --> 00:02:49,000
+whose return value category correlates the strongest with failure.
+
+40
+00:02:49,000 --> 00:02:51,000
+Here's your chance to apply statistics to do the debugging. Enjoy.

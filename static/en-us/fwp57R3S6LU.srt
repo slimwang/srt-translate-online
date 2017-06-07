@@ -1,0 +1,530 @@
+1
+00:00:00,280 --> 00:00:02,093
+All right, so now back to the Pets app.
+
+2
+00:00:02,093 --> 00:00:02,764
+So, so far,
+
+3
+00:00:02,764 --> 00:00:06,247
+we've covered the merits of why you
+want to use a content provider and
+
+4
+00:00:06,247 --> 00:00:09,810
+then heard about future possibilities
+of using it to share pet data.
+
+5
+00:00:10,810 --> 00:00:14,470
+So now let's work on diving into the
+details of how specifically the content
+
+6
+00:00:14,470 --> 00:00:16,260
+provider works.
+
+7
+00:00:16,260 --> 00:00:19,990
+Now, as a word of caution here,
+learning about content providers
+
+8
+00:00:19,990 --> 00:00:23,600
+will involve learning a lot of
+new Android framework classes,
+
+9
+00:00:23,600 --> 00:00:27,010
+as well as adding additional
+code across multiple files.
+
+10
+00:00:27,010 --> 00:00:30,630
+But don't be scared off,
+we'll be breaking it all down slowly and
+
+11
+00:00:30,630 --> 00:00:32,490
+walking you through the process.
+
+12
+00:00:32,490 --> 00:00:35,570
+So let's start of with a high-level
+picture of all the components.
+
+13
+00:00:35,570 --> 00:00:39,750
+And then we'll zoom in to each component
+as we move through the lesson and
+
+14
+00:00:39,750 --> 00:00:42,450
+implement each part of
+the content provider.
+
+15
+00:00:42,450 --> 00:00:46,108
+So let's begin this discussion
+with a Contacts app example.
+
+16
+00:00:46,108 --> 00:00:47,199
+And later in the quiz,
+
+17
+00:00:47,199 --> 00:00:51,890
+you'll apply the information that you
+learned into your Pets app specifically.
+
+18
+00:00:51,890 --> 00:00:52,710
+So in this case,
+
+19
+00:00:52,710 --> 00:00:57,360
+the Contacts app does need to share its
+data with other apps on the device.
+
+20
+00:00:57,360 --> 00:01:00,700
+So this will be an ideal use case
+to take advantage of everything for
+
+21
+00:01:00,700 --> 00:01:03,400
+the content provider has to offer.
+
+22
+00:01:03,400 --> 00:01:06,120
+Now let's assume there are bunch of
+social networking apps installed
+
+23
+00:01:06,120 --> 00:01:08,970
+on your device,
+including your Contacts app.
+
+24
+00:01:08,970 --> 00:01:12,412
+So the Contacts app contains
+a Contacts DatabaseHelper, and
+
+25
+00:01:12,412 --> 00:01:15,960
+this manages the creation and
+versioning of the database.
+
+26
+00:01:15,960 --> 00:01:19,610
+So this database will contain all the
+details of the contacts in your phone.
+
+27
+00:01:19,610 --> 00:01:23,346
+So whether it's your mom, your dad,
+your grandma, whomever you contact with,
+
+28
+00:01:23,346 --> 00:01:24,710
+this database will store it.
+
+29
+00:01:25,760 --> 00:01:30,352
+So if other apps want access to the
+information in our contacts database,
+
+30
+00:01:30,352 --> 00:01:34,512
+we can create and expose a content
+provider to the Android system.
+
+31
+00:01:34,512 --> 00:01:37,950
+And then the other apps can
+interact with the content provider.
+
+32
+00:01:37,950 --> 00:01:42,147
+So here, more specifically called
+Contacts Provider, request data from it.
+
+33
+00:01:42,147 --> 00:01:44,525
+And then the content
+provider will interact with
+
+34
+00:01:44,525 --> 00:01:48,353
+the Contacts DatabaseHelper, and then
+the database to fetch the appropriate
+
+35
+00:01:48,353 --> 00:01:49,980
+data and return it to the caller.
+
+36
+00:01:51,180 --> 00:01:54,251
+So, how do other apps communicate
+with the contacts provider?
+
+37
+00:01:54,251 --> 00:01:56,530
+Well, for one thing,
+they'll use the contract,
+
+38
+00:01:56,530 --> 00:02:00,390
+which contains details on what tables
+and columns are available here.
+
+39
+00:02:00,390 --> 00:02:05,084
+Now, all parties must adhere to the
+contract because as the name applies,
+
+40
+00:02:05,084 --> 00:02:06,809
+it's a binding contract.
+
+41
+00:02:06,809 --> 00:02:11,277
+So the Google+ app wants to
+request data on a specific person.
+
+42
+00:02:11,277 --> 00:02:15,194
+It refers the contacts contract,
+and creates a request for
+
+43
+00:02:15,194 --> 00:02:16,850
+a specific content URI.
+
+44
+00:02:18,160 --> 00:02:22,313
+So a content URI uniquely
+identifies a set of data.
+
+45
+00:02:22,313 --> 00:02:26,521
+So this is similar to how a web URI
+address uniquely identifies a unique
+
+46
+00:02:26,521 --> 00:02:28,740
+website on the Internet.
+
+47
+00:02:28,740 --> 00:02:32,340
+So how does the Android system
+know that the Google+ app
+
+48
+00:02:32,340 --> 00:02:34,640
+wants to talk to our Contacts app?
+
+49
+00:02:34,640 --> 00:02:37,430
+Well, this is based on
+the information that we've passed in
+
+50
+00:02:37,430 --> 00:02:38,540
+thru the content URI.
+
+51
+00:02:40,020 --> 00:02:44,530
+Given this information, this is going to
+determine which content provider and
+
+52
+00:02:44,530 --> 00:02:46,460
+which app can handle our request.
+
+53
+00:02:47,470 --> 00:02:50,830
+Now this is important because you
+can imagine that there are numerous
+
+54
+00:02:50,830 --> 00:02:55,330
+other apps on the device that all
+have their own content providers.
+
+55
+00:02:55,330 --> 00:02:59,347
+And these content providers are used
+to shared data to outside apps.
+
+56
+00:02:59,347 --> 00:03:03,636
+For example, the Calendar app has
+a calendar provider to provide access to
+
+57
+00:03:03,636 --> 00:03:06,240
+the user's schedule of events.
+
+58
+00:03:06,240 --> 00:03:10,441
+Additionally, the Android framework
+also exposes a provider for
+
+59
+00:03:10,441 --> 00:03:12,097
+the user's dictionary.
+
+60
+00:03:12,097 --> 00:03:16,147
+And this dictionary is all the words
+that you add when you're say,
+
+61
+00:03:16,147 --> 00:03:19,709
+typing text, these are added
+into your dictionary here.
+
+62
+00:03:19,709 --> 00:03:23,030
+Now there's something on Android
+called a content resolver.
+
+63
+00:03:24,120 --> 00:03:26,200
+And it takes the URI and
+
+64
+00:03:26,200 --> 00:03:30,030
+resolves which content provider
+should handle our request.
+
+65
+00:03:30,030 --> 00:03:34,170
+Now the magic behind how the content
+resolver knows which provider to go to
+
+66
+00:03:34,170 --> 00:03:36,391
+is that it uses the content authority.
+
+67
+00:03:36,391 --> 00:03:40,105
+And the content authority is
+this specific part of the URI,
+
+68
+00:03:40,105 --> 00:03:45,169
+which let's the content resolver know
+which provider should handle a request.
+
+69
+00:03:46,630 --> 00:03:50,960
+This content authority is similar
+to parts of a website URL.
+
+70
+00:03:50,960 --> 00:03:56,690
+So just like all Google.com URLs
+contain the words Google.com,
+
+71
+00:03:56,690 --> 00:04:01,716
+all Contacts app URIs
+contain com.android.contacts.
+
+72
+00:04:01,716 --> 00:04:05,304
+And we'll be getting into more
+the details of how the content URI as
+
+73
+00:04:05,304 --> 00:04:07,430
+a whole is structured in later videos.
+
+74
+00:04:08,450 --> 00:04:13,150
+So for now, just focus on the content
+authority part of the content URI.
+
+75
+00:04:13,150 --> 00:04:15,230
+So all the other apps, as we see here,
+
+76
+00:04:15,230 --> 00:04:18,720
+actually talk to the content resolver
+and not directly to the provider.
+
+77
+00:04:20,310 --> 00:04:25,306
+So the content resolver will expose
+the same methods, our query(),
+
+78
+00:04:25,306 --> 00:04:28,397
+insert(), update() and delete().
+
+79
+00:04:28,397 --> 00:04:32,048
+And it calls the appropriate
+methods on a provider for us,
+
+80
+00:04:32,048 --> 00:04:36,930
+which in turn calls the appropriate
+provider methods to act on the database.
+
+81
+00:04:36,930 --> 00:04:40,400
+So, so far, we've seen
+the example of how outside apps
+
+82
+00:04:40,400 --> 00:04:43,890
+call on the content provider
+of another existing app.
+
+83
+00:04:43,890 --> 00:04:44,430
+For example,
+
+84
+00:04:44,430 --> 00:04:48,942
+our Google+ app calling into the content
+provider of the Contacts app.
+
+85
+00:04:48,942 --> 00:04:52,890
+But there's also situations where
+the code, within the Contacts app,
+
+86
+00:04:52,890 --> 00:04:58,030
+can actually use the provider itself
+to load data into its own UI.
+
+87
+00:04:58,030 --> 00:05:01,570
+So let's zoom in on a specific case and
+focus on our Contacts app.
+
+88
+00:05:02,780 --> 00:05:07,910
+So in this case, the ContactEditor
+Activity of the Contacts app will use
+
+89
+00:05:07,910 --> 00:05:13,240
+the provider and loader in order to load
+data from the database into the UI for
+
+90
+00:05:13,240 --> 00:05:14,970
+editing our contacts.
+
+91
+00:05:14,970 --> 00:05:18,901
+So the ContactEditor Activity
+can call methods on
+
+92
+00:05:18,901 --> 00:05:23,308
+the Content Resolver with
+the contact's Content URI.
+
+93
+00:05:23,308 --> 00:05:27,750
+And the resolver will then route the
+message to its own Contacts Provider.
+
+94
+00:05:29,270 --> 00:05:32,540
+So the provider will send
+a request to the database, and
+
+95
+00:05:32,540 --> 00:05:33,400
+we'll get some result back.
+
+96
+00:05:35,160 --> 00:05:38,939
+And this result will get sent
+back to the Content Resolver,
+
+97
+00:05:38,939 --> 00:05:43,852
+which will then ultimately return it
+back to our ContactEditor Activity to be
+
+98
+00:05:43,852 --> 00:05:44,847
+seen in our UI.
+
+99
+00:05:44,847 --> 00:05:48,240
+All right, so I know that was
+a lot of information to cover.
+
+100
+00:05:48,240 --> 00:05:52,260
+So let's pause here and answer the
+following quiz question in order to test
+
+101
+00:05:52,260 --> 00:05:54,980
+your knowledge of how all these
+components interact with each other.
+
+102
+00:05:56,250 --> 00:05:59,530
+So this quiz will involve applying
+what you just learned to the Pets app
+
+103
+00:05:59,530 --> 00:06:04,000
+specifically, in this end-to-end
+flow using a content provider.
+
+104
+00:06:04,000 --> 00:06:05,248
+And as a reminder,
+
+105
+00:06:05,248 --> 00:06:09,928
+in this use-case we're not sharing
+our pet data with any other apps for
+
+106
+00:06:09,928 --> 00:06:14,144
+now, so this quiz is focused
+specifically on just the Pets app.
+
+107
+00:06:14,144 --> 00:06:16,315
+So we're focusing on the UI and
+
+108
+00:06:16,315 --> 00:06:21,550
+how it use the content provider to
+access data in the data source.
+
+109
+00:06:21,550 --> 00:06:24,620
+And so far, I've helped you out by
+filling in the content provider and
+
+110
+00:06:24,620 --> 00:06:27,060
+SQLiteDatabase of this diagram.
+
+111
+00:06:28,370 --> 00:06:31,350
+I'd like you to go ahead and
+use these answer choices and
+
+112
+00:06:31,350 --> 00:06:34,900
+fill out this remaining
+blanks in this diagram.

@@ -1,0 +1,210 @@
+1
+00:00:00,240 --> 00:00:03,560
+The next construct we will
+talk about is semaphores, and
+
+2
+00:00:03,560 --> 00:00:06,660
+these are a common synchronization
+constructs that have been part of
+
+3
+00:00:06,660 --> 00:00:09,130
+operating system kernels for a while.
+
+4
+00:00:09,130 --> 00:00:12,815
+As a first approximation, a semaphore
+acts like a traffic semaphore.
+
+5
+00:00:12,815 --> 00:00:17,818
+It either allows threads to go or
+it will block them.
+
+6
+00:00:17,818 --> 00:00:21,420
+It will stop them from
+proceeding any further.
+
+7
+00:00:21,420 --> 00:00:24,560
+This is in some ways similar to
+what we saw in, with the mutex.
+
+8
+00:00:24,560 --> 00:00:27,060
+It either allows a thread
+to obtain the lock and
+
+9
+00:00:27,060 --> 00:00:31,760
+proceed with the critical section,
+or the thread is blocked and
+
+10
+00:00:31,760 --> 00:00:33,688
+has to wait for
+the mutex to become free.
+
+11
+00:00:33,688 --> 00:00:38,479
+However, semaphores are more general
+than just this behavior that can be
+
+12
+00:00:38,479 --> 00:00:41,954
+obtained with a mutex, and
+we will take a look at how,
+
+13
+00:00:41,954 --> 00:00:46,110
+what exactly a semaphore is
+a bit more formally next.
+
+14
+00:00:46,110 --> 00:00:49,500
+Semaphores are represented
+via an integer number,
+
+15
+00:00:49,500 --> 00:00:51,910
+some positive integer value.
+
+16
+00:00:51,910 --> 00:00:55,970
+When they're initialized,
+they're assigned some maximum value,
+
+17
+00:00:55,970 --> 00:00:57,950
+some positive integer.
+
+18
+00:00:57,950 --> 00:01:01,730
+Threads arriving at
+the semaphore will try it out.
+
+19
+00:01:01,730 --> 00:01:06,750
+If the semaphore's value is non-zero,
+they will decrement it and proceed.
+
+20
+00:01:06,750 --> 00:01:09,500
+If it is zero,
+then they will have to wait.
+
+21
+00:01:09,500 --> 00:01:13,220
+This means that the number of threads
+that will be allowed to proceed
+
+22
+00:01:13,220 --> 00:01:17,950
+will equal this maximum value that
+was used when the semaphore was first
+
+23
+00:01:17,950 --> 00:01:19,360
+initialized.
+
+24
+00:01:19,360 --> 00:01:21,330
+So as a synchronization construct,
+
+25
+00:01:21,330 --> 00:01:26,078
+one of the benefits of semaphores
+is that they'll allow us to express
+
+26
+00:01:26,078 --> 00:01:29,240
+count-related synchronization
+requirements.
+
+27
+00:01:29,240 --> 00:01:34,330
+For instance, five producers may be able
+to produce an item at the same time.
+
+28
+00:01:34,330 --> 00:01:38,820
+The semaphore will be initialized with
+the number five, and then it will count
+
+29
+00:01:38,820 --> 00:01:43,000
+and make sure that exactly five
+producers are allowed to proceed.
+
+30
+00:01:43,000 --> 00:01:45,700
+It a semaphore is initialized with one,
+
+31
+00:01:45,700 --> 00:01:48,430
+then its behavior will be
+equivalent to a mutex.
+
+32
+00:01:48,430 --> 00:01:50,720
+It will be a binary semaphore.
+
+33
+00:01:50,720 --> 00:01:53,720
+All threads that are leaving
+the critical section will
+
+34
+00:01:53,720 --> 00:01:57,060
+post to the semaphore or
+signal the semaphore.
+
+35
+00:01:57,060 --> 00:02:00,980
+What that will do, it will
+increment the semaphore's counter.
+
+36
+00:02:00,980 --> 00:02:05,690
+For a binary semaphore,
+this is equivalent to unlocking a mutex.
+
+37
+00:02:05,690 --> 00:02:07,700
+Finally, some historic tidbits.
+
+38
+00:02:07,700 --> 00:02:11,140
+Semaphores were originally
+designed by Dijkstra.
+
+39
+00:02:11,140 --> 00:02:14,788
+He was a Dutch computer scientist and
+also a Turing Award winner.
+
+40
+00:02:14,788 --> 00:02:19,930
+And the wait and post operations that
+are used with semaphores were referred
+
+41
+00:02:19,930 --> 00:02:24,920
+to as P and V, and P and
+V come from the Dutch words proberon,
+
+42
+00:02:24,920 --> 00:02:29,590
+which means to test out, to try, and
+verhogen, which means to increase.
+
+43
+00:02:30,700 --> 00:02:34,540
+So if you ever see a semaphore
+used with operations P and
+
+44
+00:02:34,540 --> 00:02:35,990
+V, you will now know what that means.

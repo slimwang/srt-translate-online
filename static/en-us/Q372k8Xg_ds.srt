@@ -1,0 +1,210 @@
+1
+00:00:00,170 --> 00:00:01,569
+This is how it works, right.
+
+2
+00:00:01,569 --> 00:00:03,779
+So I've got my one image and
+my other image,
+
+3
+00:00:03,779 --> 00:00:07,550
+which is why they're called image 1 and
+image 2, all right.
+
+4
+00:00:07,550 --> 00:00:10,710
+And, the first thing we're going to do
+is we're going to build what are called
+
+5
+00:00:10,710 --> 00:00:12,910
+Gaussian pyramids, all right.
+
+6
+00:00:12,910 --> 00:00:14,780
+And that's illustrated like this.
+
+7
+00:00:14,780 --> 00:00:16,535
+So it's Gaussian pyramid of image one.
+
+8
+00:00:16,535 --> 00:00:20,040
+Well we'll talk more extensively in
+a minute about how you might go about
+
+9
+00:00:20,040 --> 00:00:21,530
+building those pyramids.
+
+10
+00:00:21,530 --> 00:00:24,000
+This is just mostly so
+you understand what is going on.
+
+11
+00:00:24,000 --> 00:00:26,260
+So now I have these reduced
+pyramids at the top level.
+
+12
+00:00:26,260 --> 00:00:29,990
+Remember I have that very blurry picture
+that actually only has a small number of
+
+13
+00:00:29,990 --> 00:00:34,820
+pixels in it and the motion between
+them is actually much smaller.
+
+14
+00:00:34,820 --> 00:00:36,410
+And that's shown here, right?
+
+15
+00:00:36,410 --> 00:00:38,020
+So here, it says our u is ten.
+
+16
+00:00:38,020 --> 00:00:39,190
+So that's saying,
+
+17
+00:00:39,190 --> 00:00:42,180
+let's suppose the shift is ten pixels,
+at the lowest level.
+
+18
+00:00:42,180 --> 00:00:43,920
+Well when I cut it in half,
+it becomes five.
+
+19
+00:00:43,920 --> 00:00:45,460
+Then it becomes two and a half.
+
+20
+00:00:45,460 --> 00:00:46,420
+Then it becomes one and a quarter.
+
+21
+00:00:46,420 --> 00:00:47,370
+I can keep going.
+
+22
+00:00:47,370 --> 00:00:51,350
+So this is how I reduce the amount
+of motion that's present.
+
+23
+00:00:51,350 --> 00:00:54,040
+So because I've reduced
+the amount of motion,
+
+24
+00:00:54,040 --> 00:00:59,760
+I can first run Lukas-Kanade
+between those coarsest level.
+
+25
+00:00:59,760 --> 00:01:01,110
+And I might do the iterative thing,
+
+26
+00:01:01,110 --> 00:01:04,550
+that's the thing we looked at
+last time where I set a plane,
+
+27
+00:01:04,550 --> 00:01:07,890
+estimate it, shift it a little bit,
+estimate it, shift it a little bit.
+
+28
+00:01:07,890 --> 00:01:10,040
+Keep doing til i, til I converge.
+
+29
+00:01:10,040 --> 00:01:13,830
+So that will map the motion between
+the very reduced image 1 and
+
+30
+00:01:13,830 --> 00:01:15,130
+the very reduced image 2.
+
+31
+00:01:15,130 --> 00:01:16,940
+Right, so I can, I can compare that.
+
+32
+00:01:16,940 --> 00:01:19,110
+I can find the motion between them.
+
+33
+00:01:19,110 --> 00:01:22,030
+The question then is, what do I do next?
+
+34
+00:01:22,030 --> 00:01:23,990
+Well what I have to do is,
+
+35
+00:01:23,990 --> 00:01:29,760
+I have to go from the coarser
+to the next finer level, okay?
+
+36
+00:01:29,760 --> 00:01:33,540
+And what's written here is warp and
+upsample, all right?
+
+37
+00:01:33,540 --> 00:01:36,820
+We're going to go through the details
+of that, but basically the way you can
+
+38
+00:01:36,820 --> 00:01:41,440
+think about this is,
+I compared something at a coarse level.
+
+39
+00:01:41,440 --> 00:01:44,870
+Then I know, okay,
+if I were to double up this image and
+
+40
+00:01:44,870 --> 00:01:48,270
+double up that image, I would have
+to double up the motion field.
+
+41
+00:01:48,270 --> 00:01:51,550
+I would also have to double the,
+the, the amount I'm moving.
+
+42
+00:01:51,550 --> 00:01:52,930
+We'll do that algorithm in a minute.
+
+43
+00:01:52,930 --> 00:01:56,230
+But I could apply that to the next
+level and what that will do is,
+
+44
+00:01:56,230 --> 00:02:01,030
+that will get me the next level
+very close to the second image.
+
+45
+00:02:01,030 --> 00:02:05,190
+At that level and I could run Lucas and
+Kanade again, and then I can iterate and
+
+46
+00:02:05,190 --> 00:02:08,870
+run that over again and
+eventually get the entire motion field.

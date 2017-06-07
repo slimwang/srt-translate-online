@@ -1,0 +1,304 @@
+﻿1
+00:00:00,320 --> 00:00:02,889
+Just like when you start a new job or
+you sign a lease,
+
+2
+00:00:02,890 --> 00:00:06,450
+the contract is what both sides
+agree on before they move forward.
+
+3
+00:00:06,450 --> 00:00:09,730
+In Android, it's important to define
+in the very beginning what your
+
+4
+00:00:09,730 --> 00:00:11,440
+database design would look like.
+
+5
+00:00:11,439 --> 00:00:14,259
+So that when you're writing the code for
+your app, you can always
+
+6
+00:00:14,259 --> 00:00:18,079
+use the contract to tell you any
+information you need about the database.
+
+7
+00:00:18,079 --> 00:00:21,570
+More specifically, the contract in
+Android is a clause that defines
+
+8
+00:00:21,570 --> 00:00:25,679
+the tables and the colons for each table
+that are included in the database.
+
+9
+00:00:25,679 --> 00:00:29,050
+A good way to organize the contract
+clause, is to put the definitions that
+
+10
+00:00:29,050 --> 00:00:32,740
+relate generally to the whole database
+directly in the contract clause.
+
+11
+00:00:32,740 --> 00:00:36,550
+And then create an inner clause for each
+table, and then includes the colons for
+
+12
+00:00:36,549 --> 00:00:39,349
+each of those tables
+inside that inner clause.
+
+13
+00:00:39,350 --> 00:00:42,620
+Here's an example contract,
+from the Android developer's website.
+
+14
+00:00:42,619 --> 00:00:45,219
+It's supposed to define a database for
+a feed reader.
+
+15
+00:00:45,219 --> 00:00:49,420
+It only includes one in our clause,
+called FeedEntry, which itself includes
+
+16
+00:00:49,420 --> 00:00:54,280
+the constants, defining the table name
+and the names of each of its columns.
+
+17
+00:00:54,280 --> 00:00:57,509
+Notice that the constructor here
+has been declared to be private.
+
+18
+00:00:57,509 --> 00:01:00,390
+You should never need to create
+an instance of the contract class,
+
+19
+00:01:00,390 --> 00:01:02,859
+because the contract is
+simply just a class filled,
+
+20
+00:01:02,859 --> 00:01:05,659
+with DB related constants
+that are all static.
+
+21
+00:01:05,659 --> 00:01:08,310
+So, it make sense to make
+the constructor private.
+
+22
+00:01:08,310 --> 00:01:11,150
+Also notice that our
+feed entry interclause,
+
+23
+00:01:11,150 --> 00:01:14,370
+is implementing
+the interface base columns.
+
+24
+00:01:14,370 --> 00:01:17,000
+The base columns interface,
+automatically includes
+
+25
+00:01:17,000 --> 00:01:21,760
+a constant representing
+the primary key field called _ID.
+
+26
+00:01:21,760 --> 00:01:25,690
+Some android adapters will expect your
+contract to have this constant defined.
+
+27
+00:01:25,689 --> 00:01:28,929
+It's not always required to implement
+base columns interface, but
+
+28
+00:01:28,930 --> 00:01:32,620
+that can help your database fit in
+better with the Android framework.
+
+29
+00:01:32,620 --> 00:01:35,430
+>> Great, now that you know what
+a contract should look like,
+
+30
+00:01:35,430 --> 00:01:38,500
+let's create one of our own for
+the wait list toy app.
+
+31
+00:01:38,500 --> 00:01:41,060
+Make sure you try and
+write the code changes yourself,
+
+32
+00:01:41,060 --> 00:01:42,070
+after watching these videos.
+
+33
+00:01:43,099 --> 00:01:46,059
+All of the changes that you need
+to do are marked as to-do's
+
+34
+00:01:46,060 --> 00:01:47,159
+inside the exercise code.
+
+35
+00:01:48,239 --> 00:01:50,309
+>> But before we dive into coding,
+
+36
+00:01:50,310 --> 00:01:53,519
+let's spend some time mapping out
+what our table should look like.
+
+37
+00:01:53,519 --> 00:01:57,269
+We need to store the guest's name,
+number of those in the party, and
+
+38
+00:01:57,269 --> 00:02:00,575
+the timestamp in which each
+guest was added to the database.
+
+39
+00:02:00,575 --> 00:02:02,284
+So that we can display them in order.
+
+40
+00:02:02,284 --> 00:02:04,454
+Finally, we need a unique identifier for
+
+41
+00:02:04,454 --> 00:02:07,635
+reach row, to be able to delete
+particular rows when needed.
+
+42
+00:02:07,635 --> 00:02:09,754
+That looks neat, and
+
+43
+00:02:09,754 --> 00:02:14,389
+everything we need seems to fit in one
+table, which makes things a lot simpler.
+
+44
+00:02:14,389 --> 00:02:15,939
+So let's start coding.
+
+45
+00:02:15,939 --> 00:02:19,849
+This is the first exercise
+titled Created Contract.
+
+46
+00:02:19,849 --> 00:02:25,039
+Open up WaitlistContract, and
+inside the WaitlistContract class create
+
+47
+00:02:25,039 --> 00:02:29,679
+an inner class called WaitlistEntry that
+implements the BaseColumns interface.
+
+48
+00:02:29,680 --> 00:02:32,280
+And inside that inter
+class waitlistEntry
+
+49
+00:02:32,280 --> 00:02:35,659
+create a static final string
+to finding the table's name.
+
+50
+00:02:35,659 --> 00:02:39,924
+Let's call our table waitlist, and then
+after that create a static final string
+
+51
+00:02:39,924 --> 00:02:44,063
+for each of the columns, in the waitlist
+table representing the guestsName,
+
+52
+00:02:44,062 --> 00:02:46,429
+the partySize and the timeStamp.
+
+53
+00:02:46,430 --> 00:02:49,210
+Notice that we didn't need to
+create a string for the Id,
+
+54
+00:02:49,210 --> 00:02:53,150
+because that's what the base columns
+interface already does for us, remember?
+
+55
+00:02:53,150 --> 00:02:55,460
+>> Perfect that looks
+like a solid contract.
+
+56
+00:02:55,460 --> 00:02:57,969
+I'm sure both bodies
+will be happy to sign.
+
+57
+00:02:57,969 --> 00:03:00,069
+Next, we'll be creating
+the actual database,
+
+58
+00:03:00,069 --> 00:03:02,009
+that complies with this contract.
+
+59
+00:03:02,009 --> 00:03:05,519
+But before we go there,
+try to complete this exercise yourself.
+
+60
+00:03:05,520 --> 00:03:08,050
+And to verify that everything
+works after you're done,
+
+61
+00:03:08,050 --> 00:03:10,189
+we've created some unit test for you.
+
+62
+00:03:10,189 --> 00:03:12,300
+If you are not sure
+how to run unit tests,
+
+63
+00:03:12,300 --> 00:03:13,760
+check out the next
+video in how to do so.
+

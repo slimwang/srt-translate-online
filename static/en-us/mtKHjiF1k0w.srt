@@ -1,0 +1,157 @@
+1
+00:00:00,470 --> 00:00:04,078
+So Jake, have you got the service
+worker serving the skeleton page?
+
+2
+00:00:04,078 --> 00:00:06,015
+>> Yes, and here's how i did it.
+
+3
+00:00:06,015 --> 00:00:09,500
+Over in the service worker instead of
+cache the root page with the date in it.
+
+4
+00:00:09,500 --> 00:00:11,070
+I'm going to cache the skeleton.
+
+5
+00:00:11,070 --> 00:00:14,413
+I'm going to bump the cache version
+number as well because we've
+
+6
+00:00:14,413 --> 00:00:15,337
+changed things.
+
+7
+00:00:15,337 --> 00:00:18,607
+Now I'm going to pause the request URL.
+
+8
+00:00:18,607 --> 00:00:21,158
+First, I check to see if
+the request origin is the same as
+
+9
+00:00:21,158 --> 00:00:22,149
+the current origin.
+
+10
+00:00:22,149 --> 00:00:25,634
+Remember that the service worker
+handles requests for other origins too.
+
+11
+00:00:25,634 --> 00:00:30,358
+In this case, we only want to intercept
+route requests for the same origin.
+
+12
+00:00:30,358 --> 00:00:32,150
+Now I checked the path name,
+
+13
+00:00:32,150 --> 00:00:37,420
+if it's the route, I respond with
+the skeleton straight from the cache.
+
+14
+00:00:37,420 --> 00:00:39,510
+I don't need to go to
+the network as a fallback,
+
+15
+00:00:39,510 --> 00:00:41,880
+because I know skeleton is cached
+is part of the install step.
+
+16
+00:00:43,300 --> 00:00:45,020
+So let's test this.
+
+17
+00:00:45,020 --> 00:00:47,950
+I refresh the page get
+told about an update.
+
+18
+00:00:49,210 --> 00:00:52,530
+I click refresh and
+now I'm running with the page show.
+
+19
+00:00:53,590 --> 00:00:55,890
+At this point,
+we have a pretty viable product,
+
+20
+00:00:55,890 --> 00:00:57,680
+this is something we could launch.
+
+21
+00:00:59,540 --> 00:01:01,510
+Things haven't changed much
+when the connection's perfect,
+
+22
+00:01:01,510 --> 00:01:04,170
+but perfect doesn't really exist.
+
+23
+00:01:04,170 --> 00:01:08,100
+On a slow connection we get to render
+the top bar much quicker, we even get to
+
+24
+00:01:08,100 --> 00:01:11,485
+render content quicker purely because
+our JavaScript is arriving sooner.
+
+25
+00:01:11,485 --> 00:01:17,976
+Li-Fi is still a bit crap really, but
+at least something is on the screen.
+
+26
+00:01:17,976 --> 00:01:21,764
+With offline, we're now showing our own
+error message using the branding of our
+
+27
+00:01:21,764 --> 00:01:25,344
+app, rather than the default browser
+error message, which is something.
+
+28
+00:01:25,344 --> 00:01:28,915
+Even at this stage, we can massively
+improve the user experience, but
+
+29
+00:01:28,915 --> 00:01:31,230
+now we need to cache those winter posts.
+
+30
+00:01:31,230 --> 00:01:34,769
+And to do that we're going to use
+one of the web's most hated APIs.
+
+31
+00:01:34,769 --> 00:01:37,464
+[MUSIC]
+
+32
+00:01:37,464 --> 00:01:40,380
+Yes, but seriously,
+we're going to tame this API and
+
+33
+00:01:40,380 --> 00:01:44,810
+learn how to use all the good bits
+of IndexedDB without getting burned.
+
+34
+00:01:44,810 --> 00:01:46,980
+It might even be fun, maybe.

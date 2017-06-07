@@ -1,0 +1,123 @@
+1
+00:00:00,330 --> 00:00:02,790
+So now we can see the code for
+resolve sign in error and
+
+2
+00:00:02,790 --> 00:00:03,880
+we can see how it works.
+
+3
+00:00:03,880 --> 00:00:06,930
+First of all, if we don't
+already have a sign in intent,
+
+4
+00:00:06,930 --> 00:00:08,100
+we want to execute this code.
+
+5
+00:00:08,100 --> 00:00:11,030
+If we have one already we'll just wait
+for it do it's activity callback.
+
+6
+00:00:12,170 --> 00:00:14,760
+So what we're going to do is we're
+going to first of all set the sign in
+
+7
+00:00:14,760 --> 00:00:17,000
+progress to say,
+the state is in progress.
+
+8
+00:00:17,000 --> 00:00:19,960
+And then we're going to call
+the startIntentSenderForResult.
+
+9
+00:00:19,960 --> 00:00:22,080
+Check the documentation for this one.
+
+10
+00:00:22,080 --> 00:00:26,440
+What it does basically is it takes your
+sign in intent's intent sender, and
+
+11
+00:00:26,440 --> 00:00:28,340
+then you tell it the RC_SIGN_IN code so
+
+12
+00:00:28,340 --> 00:00:31,200
+it's actually sign in intent
+that we're working on.
+
+13
+00:00:31,200 --> 00:00:33,570
+This needs to be put
+in a try catch clause.
+
+14
+00:00:33,570 --> 00:00:37,000
+So the catch would be
+IntentSender.SendIntentException,
+
+15
+00:00:37,000 --> 00:00:38,430
+in which case we're
+just going to log it.
+
+16
+00:00:38,430 --> 00:00:40,960
+And we're going to change
+our sign-in progress.
+
+17
+00:00:40,960 --> 00:00:44,020
+If it errors of course,
+we'll also try to reconnect the client.
+
+18
+00:00:44,020 --> 00:00:47,060
+So now this is what we did if
+we didn't have a sign-in intent.
+
+19
+00:00:47,060 --> 00:00:50,080
+And of course, if we did have one
+already we'll just show a dialog saying
+
+20
+00:00:50,080 --> 00:00:51,090
+there was an error.
+
+21
+00:00:51,090 --> 00:00:54,610
+Though sometimes it can happen where
+it's unable to provide an intent.
+
+22
+00:00:54,610 --> 00:00:56,410
+We don't get the accounts intent.
+
+23
+00:00:56,410 --> 00:00:59,490
+And we don't get the confirmation
+screen or anything like that.
+
+24
+00:00:59,490 --> 00:01:00,940
+And in that case we'll
+just log an error.
+
+25
+00:01:01,940 --> 00:01:06,000
+Now this intent will also generate an on
+activity result, so we just need to
+
+26
+00:01:06,000 --> 00:01:10,720
+implement an on activity result code for
+the results coming back from the intent.

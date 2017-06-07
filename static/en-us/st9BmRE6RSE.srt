@@ -1,0 +1,141 @@
+1
+00:00:00,370 --> 00:00:02,850
+Earlier, we discussed how
+you don't always touch
+
+2
+00:00:02,850 --> 00:00:04,840
+every part of the rendering pipeline.
+
+3
+00:00:04,840 --> 00:00:07,450
+In fact, the workload depends
+very heavily on exactly
+
+4
+00:00:07,450 --> 00:00:09,000
+which properties you change.
+
+5
+00:00:09,000 --> 00:00:12,180
+>> Right, and often people ask me
+whether they should animate styles
+
+6
+00:00:12,180 --> 00:00:14,020
+with JavaScript or CSS.
+
+7
+00:00:14,020 --> 00:00:15,540
+Which one is faster?
+
+8
+00:00:15,540 --> 00:00:17,730
+And honestly, it rarely matters.
+
+9
+00:00:17,730 --> 00:00:19,770
+Most of the time the speed is the same.
+
+10
+00:00:19,770 --> 00:00:20,880
+The reason is that changing,
+
+11
+00:00:20,880 --> 00:00:24,620
+say, width incurs the cost of
+layout no matter how you do it.
+
+12
+00:00:24,620 --> 00:00:27,230
+That's true whether you did
+it in JavaScript or CSS.
+
+13
+00:00:27,230 --> 00:00:32,369
+If you change width, height, top,
+left, you're going to trigger layout.
+
+14
+00:00:32,369 --> 00:00:35,230
+If you trigger layout,
+you're going to trigger paint.
+
+15
+00:00:35,230 --> 00:00:37,640
+Or maybe you just change
+box shadow on an element.
+
+16
+00:00:37,640 --> 00:00:38,990
+That's not going to trigger layout.
+
+17
+00:00:38,990 --> 00:00:40,540
+But it will trigger paint, and
+
+18
+00:00:40,540 --> 00:00:44,620
+paint is super expensive,
+especially on a mobile device.
+
+19
+00:00:44,620 --> 00:00:47,640
+And you can't trigger layout
+without triggering paint.
+
+20
+00:00:47,640 --> 00:00:49,810
+>> You need to be careful about
+what styles you change and when.
+
+21
+00:00:49,810 --> 00:00:51,450
+In the app life cycle,
+
+22
+00:00:51,450 --> 00:00:55,060
+which if you recall was RAIL,
+response, animation, idle, and load,.
+
+23
+00:00:55,060 --> 00:00:58,140
+You can afford to do these expensive
+style changes in the load, idle, and
+
+24
+00:00:58,140 --> 00:01:01,060
+response times but
+not during animations.
+
+25
+00:01:01,060 --> 00:01:03,810
+>> Right, during animations
+you'll want to avoid layout and
+
+26
+00:01:03,810 --> 00:01:05,510
+paint if at all possible.
+
+27
+00:01:05,510 --> 00:01:08,340
+Just because they're normally too
+expensive to fit into the short time
+
+28
+00:01:08,340 --> 00:01:08,990
+you have available.
+
+29
+00:01:08,990 --> 00:01:10,450
+Now if you can't do that,
+
+30
+00:01:10,450 --> 00:01:13,350
+you're going to have to find
+a way of limiting your effects.
+
+31
+00:01:13,350 --> 00:01:15,980
+Let's get on to the next lesson,
+where we'll discuss just that.

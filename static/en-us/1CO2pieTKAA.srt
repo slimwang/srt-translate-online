@@ -1,0 +1,203 @@
+1
+00:00:00,350 --> 00:00:00,901
+Okay.
+
+2
+00:00:00,901 --> 00:00:02,900
+So let's take a look at the big picture.
+
+3
+00:00:02,900 --> 00:00:05,810
+First, your app gets a reference to the ContentResolver,
+
+4
+00:00:05,810 --> 00:00:09,050
+which handles any provider communication that you need.
+
+5
+00:00:09,050 --> 00:00:13,170
+You tell the ContentResolver what content provider you're trying to access and
+
+6
+00:00:13,170 --> 00:00:16,960
+what data in that content provider that you're trying to manipulate.
+
+7
+00:00:16,960 --> 00:00:19,400
+I'm going to show what happens with a query example.
+
+8
+00:00:19,400 --> 00:00:22,289
+So first off, your app requests a ContentResolver.
+
+9
+00:00:22,289 --> 00:00:25,444
+It then uses the Contentresolver to start communications with your
+
+10
+00:00:25,444 --> 00:00:26,395
+content provider.
+
+11
+00:00:26,395 --> 00:00:30,113
+Remember, to say what content provider that you're trying to access, and
+
+12
+00:00:30,113 --> 00:00:33,910
+what data that you're trying to modify, you need to pass a URI.
+
+13
+00:00:33,910 --> 00:00:37,290
+What you're going to do to that data is designated by whatever method you
+
+14
+00:00:37,290 --> 00:00:38,330
+choose to call.
+
+15
+00:00:38,330 --> 00:00:42,020
+Since we're doing a query example, let's assume that I'm using the query method.
+
+16
+00:00:42,020 --> 00:00:44,940
+There's also some additional parameters that you pass with a query,
+
+17
+00:00:44,940 --> 00:00:47,070
+which designate what exact rows and
+
+18
+00:00:47,070 --> 00:00:49,862
+columns in the data source that you're interested in.
+
+19
+00:00:49,862 --> 00:00:52,530
+The ContentResolver takes the URI from your app, and
+
+20
+00:00:52,530 --> 00:00:55,460
+just passes it on to the right content provider.
+
+21
+00:00:55,460 --> 00:00:59,009
+It also calls the same method that your app called on the ContentResolver onto
+
+22
+00:00:59,009 --> 00:01:00,770
+the ContentProvider.
+
+23
+00:01:00,770 --> 00:01:03,750
+With the information from this URI, the ContentProvider and
+
+24
+00:01:03,750 --> 00:01:05,640
+the data source have a little exchange.
+
+25
+00:01:05,640 --> 00:01:08,630
+And the content provider does whatever manipulations that you told it to.
+
+26
+00:01:08,630 --> 00:01:11,770
+At that point we have a cursor.
+
+27
+00:01:11,770 --> 00:01:14,830
+And remember, that cursor gets all the way back to your app, and
+
+28
+00:01:14,830 --> 00:01:17,580
+it contains some of the data in the data source.
+
+29
+00:01:17,580 --> 00:01:20,170
+And lucky for you, this data is really easy to iterate through.
+
+30
+00:01:20,170 --> 00:01:22,083
+So you could do what you want with it.
+
+31
+00:01:22,083 --> 00:01:24,618
+So the question is, what do you want to do do with it?
+
+32
+00:01:24,618 --> 00:01:26,483
+So, as we've already discussed,
+
+33
+00:01:26,483 --> 00:01:30,525
+one of the most powerful features of content providers is that they allow us to
+
+34
+00:01:30,525 --> 00:01:33,527
+hook into a lot of standard Android classes seamlessly.
+
+35
+00:01:33,527 --> 00:01:37,031
+I don't mean to be mean, but our UI right now is pretty ugly.
+
+36
+00:01:37,031 --> 00:01:40,506
+It's also highly inefficient if we had a table with say thousands of rows and
+
+37
+00:01:40,506 --> 00:01:42,203
+we're trying to scroll through it.
+
+38
+00:01:42,203 --> 00:01:42,750
+All right.
+
+39
+00:01:42,750 --> 00:01:44,030
+So let's change all of that and
+
+40
+00:01:44,030 --> 00:01:46,820
+add a new list view, which is going to look a lot like this.
+
+41
+00:01:46,820 --> 00:01:48,943
+Of course, it's going to have your own words in it.
+
+42
+00:01:48,943 --> 00:01:53,013
+This will involve adding something to your program called a cursor adapter.
+
+43
+00:01:53,013 --> 00:01:55,716
+A cursor adapter is a lot like an arrayadapter.
+
+44
+00:01:55,716 --> 00:01:58,596
+But instead of taking an array to populate a listview,
+
+45
+00:01:58,596 --> 00:02:01,700
+we're going to use a cursor to populate that same listview.
+
+46
+00:02:01,700 --> 00:02:04,940
+So, after getting the cursor back from our content provider,
+
+47
+00:02:04,940 --> 00:02:08,600
+we can simply pass it off to an instance of simple cursor adapter,
+
+48
+00:02:08,600 --> 00:02:11,320
+which in turn is linked to a listview.
+
+49
+00:02:11,320 --> 00:02:13,262
+The cursor will then populate the listview.
+
+50
+00:02:13,262 --> 00:02:15,870
+And all this can be done with only a few lines of code.
+
+51
+00:02:15,870 --> 00:02:16,560
+So let's get started.

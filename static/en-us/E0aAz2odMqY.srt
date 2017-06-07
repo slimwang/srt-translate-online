@@ -1,0 +1,667 @@
+1
+00:00:00,370 --> 00:00:03,400
+Okay so, we're going to have a quick quiz. Michael insists on having
+
+2
+00:00:03,400 --> 00:00:06,000
+one, because Michael likes that sort of thing, and I like Michael,
+
+3
+00:00:06,000 --> 00:00:08,020
+so I'm going to go with him and give you a quick quiz
+
+4
+00:00:08,020 --> 00:00:10,600
+to see if you follow along with what we talked about. Now this
+
+5
+00:00:10,600 --> 00:00:15,140
+quiz is less about the details of mimic itself. Than it is
+
+6
+00:00:15,140 --> 00:00:19,650
+about the probability distribution. So I've been harping on this idea that mimic
+
+7
+00:00:19,650 --> 00:00:22,490
+doesn't care about your probability distribution. You should just pick the best
+
+8
+00:00:22,490 --> 00:00:25,370
+one. So we want to make certain that you get that by giving your
+
+9
+00:00:25,370 --> 00:00:30,390
+three problems and three probability distributions you might use and see if you
+
+10
+00:00:30,390 --> 00:00:34,770
+can tell us which one goes with which. Okay? So here are the three problems. The
+
+11
+00:00:34,770 --> 00:00:39,150
+first problem is you're fitness function is maximize the number of 1.
+
+12
+00:00:39,150 --> 00:00:42,790
+So the first thing you need to, to see is that; we're going to assume in all of
+
+13
+00:00:42,790 --> 00:00:51,320
+these cases, that our input value is x binary strings
+
+14
+00:00:51,320 --> 00:00:57,040
+of length N. Okay? So, 00000001001011. 11100111, whatever. There's going
+
+15
+00:00:57,040 --> 00:01:00,210
+to be a string of 100. So, they're binary digits.
+
+16
+00:01:00,210 --> 00:01:02,090
+And the first problem we want to maximize the number of
+
+17
+00:01:02,090 --> 00:01:05,890
+1s that appear in that sample. Do you get that, Michael.
+
+18
+00:01:05,890 --> 00:01:07,530
+>> Yeah. I mean it's, I mean that's going to
+
+19
+00:01:07,530 --> 00:01:09,630
+be maximized by just making everything a 1, right?
+
+20
+00:01:09,630 --> 00:01:11,140
+>> That's right. That's right.
+
+21
+00:01:11,140 --> 00:01:13,600
+>> Okay, but, but we want, we want to think about mimic finding
+
+22
+00:01:13,600 --> 00:01:14,990
+that. Right, because you don't know
+
+23
+00:01:14,990 --> 00:01:16,570
+that, that's the true underlying fitness function.
+
+24
+00:01:16,570 --> 00:01:17,940
+That just happens to be what it is.
+
+25
+00:01:17,940 --> 00:01:18,770
+>> I see. Okay.
+
+26
+00:01:18,770 --> 00:01:20,810
+>> Okay. So, in the second problem, we
+
+27
+00:01:20,810 --> 00:01:23,960
+want you to maximize the number of alternations between
+
+28
+00:01:23,960 --> 00:01:28,054
+bits. So, 101 01 01 is better than all
+
+29
+00:01:28,054 --> 00:01:31,680
+1s, much better the all 1s in fact. because
+
+30
+00:01:31,680 --> 00:01:35,750
+the fitness you'd get from maximizing alternations. Between
+
+31
+00:01:35,750 --> 00:01:37,700
+01 0101 is in fact, N minus 1 which
+
+32
+00:01:37,700 --> 00:01:39,630
+is the largest that could be. But if you
+
+33
+00:01:39,630 --> 00:01:41,960
+add all the digits being the same, your fitness
+
+34
+00:01:41,960 --> 00:01:43,490
+would be 0. You see that Michael?
+
+35
+00:01:43,490 --> 00:01:45,060
+>> And minus 1, oh, I see and
+
+36
+00:01:45,060 --> 00:01:47,030
+minus 1 because it switch every time it switches.
+
+37
+00:01:47,030 --> 00:01:47,650
+>> Right.
+
+38
+00:01:47,650 --> 00:01:48,140
+>> Got it.
+
+39
+00:01:48,140 --> 00:01:49,920
+>> So what would maximize the number
+
+40
+00:01:49,920 --> 00:01:54,020
+of alternations and say, hey. Five digit string.
+
+41
+00:01:54,020 --> 00:01:55,550
+>> Like 01010.
+
+42
+00:01:55,550 --> 00:01:56,280
+>> Or?
+
+43
+00:01:56,280 --> 00:01:59,040
+>> The compliment of that, 10101.
+
+44
+00:01:59,040 --> 00:02:03,670
+>> Right. So two values both act as maxima here. Okay.
+
+45
+00:02:03,670 --> 00:02:07,240
+The third problem is you want to minimize two color errors
+
+46
+00:02:07,240 --> 00:02:08,610
+in a graph. Now that one is a little bit
+
+47
+00:02:08,610 --> 00:02:11,060
+harder to describe, so I'm going to draw a little graph
+
+48
+00:02:11,060 --> 00:02:14,880
+for you. So, the two color problem you might remember
+
+49
+00:02:14,880 --> 00:02:19,170
+is given a graph with some edges, like say, this graph
+
+50
+00:02:19,170 --> 00:02:23,510
+here. You want to assign a color to each node
+
+51
+00:02:23,510 --> 00:02:26,850
+such that every node has a different color than its
+
+52
+00:02:26,850 --> 00:02:29,830
+neighbor. Okay? So, we assume there's only two colors here.
+
+53
+00:02:29,830 --> 00:02:32,540
+One is zero. So let's say I assign This the color,
+
+54
+00:02:33,690 --> 00:02:39,250
+value of 1. This the color value of zero. This the color value of zero.
+
+55
+00:02:41,910 --> 00:02:43,840
+This the color value of 1. And this the color
+
+56
+00:02:43,840 --> 00:02:46,290
+value of 1. So how many errors are there? Michael.
+
+57
+00:02:46,290 --> 00:02:49,420
+>> Wait, we're, oh, we should be trying to maximize. But, okay,
+
+58
+00:02:49,420 --> 00:02:52,530
+so I guess not. So minimize two color errors. So an error would,
+
+59
+00:02:52,530 --> 00:02:55,140
+in this case would be, an edge that has the same color on
+
+60
+00:02:55,140 --> 00:02:58,780
+both ends. And I see one of those, the bottom sort of rightish.
+
+61
+00:02:58,780 --> 00:03:03,940
+>> Right. So here these do not match. So that's good. These
+
+62
+00:03:03,940 --> 00:03:06,940
+do not match. These do not match. But these two match. Even though
+
+63
+00:03:06,940 --> 00:03:10,120
+that one doesn't. So there's exactly one error. So in these first two examples
+
+64
+00:03:10,120 --> 00:03:12,040
+we're trying to maximize the fitness. Here
+
+65
+00:03:12,040 --> 00:03:13,250
+we're trying to minimize the cost just
+
+66
+00:03:13,250 --> 00:03:19,040
+to make things. Slightly more difficult for you. If we removed this edge here,
+
+67
+00:03:19,040 --> 00:03:22,170
+then you'll notice that this has no
+
+68
+00:03:22,170 --> 00:03:24,680
+mismatches whatsoever, and this would be an optimum.
+
+69
+00:03:24,680 --> 00:03:25,450
+>> Got it.
+
+70
+00:03:25,450 --> 00:03:28,440
+>> Okay? So we need to figure this out. Okay? So there
+
+71
+00:03:28,440 --> 00:03:32,270
+we go. To maximize the number of ones in your string or maximize
+
+72
+00:03:32,270 --> 00:03:35,510
+the alternations by adjacent bits. Or to minimize
+
+73
+00:03:35,510 --> 00:03:37,840
+the number of two color errors in a graph.
+
+74
+00:03:37,840 --> 00:03:39,790
+Alright. Those are the three problems. Now here
+
+75
+00:03:39,790 --> 00:03:42,640
+are the three distributions. The first distribution, these are
+
+76
+00:03:42,640 --> 00:03:45,060
+in alphabetical order, is a chain. So a
+
+77
+00:03:45,060 --> 00:03:49,290
+chain would be in kind of Bayesian network speak,
+
+78
+00:03:49,290 --> 00:03:52,700
+a chain would be a graph. Like this.
+
+79
+00:03:52,700 --> 00:03:57,280
+Where basically every feature depends on its previous neighbor.
+
+80
+00:03:57,280 --> 00:03:59,720
+So, in a four-bit string, I'm saying that the first
+
+81
+00:03:59,720 --> 00:04:02,500
+bit depends on nothing, the second bit depends on the value
+
+82
+00:04:02,500 --> 00:04:04,560
+of the first bit, the third bit depends on the
+
+83
+00:04:04,560 --> 00:04:06,770
+value of the second bit and the fourth bit depends on
+
+84
+00:04:06,770 --> 00:04:08,470
+the value of the third bit. So, the way you
+
+85
+00:04:08,470 --> 00:04:11,370
+would generate samples is you would generate a sample from here.
+
+86
+00:04:11,370 --> 00:04:13,793
+And then generate a sample on here dependent upon this value.
+
+87
+00:04:13,793 --> 00:04:15,320
+Given that value, you generate a sample here. Given that value,
+
+88
+00:04:17,589 --> 00:04:20,149
+then you generate a sample given that value. Got it Michael?
+
+89
+00:04:20,149 --> 00:04:22,400
+>> I think so. So, and, and we are imagining that the
+
+90
+00:04:22,400 --> 00:04:25,860
+ordering is given. So, that, so, we know which ones depend on which.
+
+91
+00:04:25,860 --> 00:04:28,990
+>> Right. So, in fact, it's not just a chain. It's a specific chain.
+
+92
+00:04:28,990 --> 00:04:32,110
+>> And is it the same chain as, say, the ordering of the bits?
+
+93
+00:04:32,110 --> 00:04:34,720
+>> Yes. In this particular case, it's the same chain as the
+
+94
+00:04:34,720 --> 00:04:38,268
+ordering of the bits so, I'm going to call this that chain.
+
+95
+00:04:38,268 --> 00:04:39,470
+>> [LAUGH] Alright.
+
+96
+00:04:39,470 --> 00:04:42,628
+>> Okay. The second one is what we've been talking
+
+97
+00:04:42,628 --> 00:04:45,710
+all about along. It's a dependency tree. Unlike in the case with
+
+98
+00:04:45,710 --> 00:04:49,620
+this chain here where. I am giving you a specific chain. This is
+
+99
+00:04:49,620 --> 00:04:52,950
+the first bit, the second bit, the third bit, the fourth bit
+
+100
+00:04:52,950 --> 00:04:55,540
+and so on to the nth bit. I don't know which is the
+
+101
+00:04:55,540 --> 00:04:57,700
+dependency tree is or you have to find it but there is
+
+102
+00:04:57,700 --> 00:05:01,050
+some dependency tree I want you to represent. And the third one is
+
+103
+00:05:01,050 --> 00:05:02,220
+the easiest to think about and
+
+104
+00:05:02,220 --> 00:05:04,970
+that's where everything is independent of everything
+
+105
+00:05:04,970 --> 00:05:07,790
+else. So, if I were to draw that. It would be a bunch
+
+106
+00:05:07,790 --> 00:05:12,720
+of nodes with no edges between them, directed or otherwise.
+
+107
+00:05:12,720 --> 00:05:15,520
+And so, the joint probability across all your features is
+
+108
+00:05:15,520 --> 00:05:20,300
+just a product of the unconditional probabilities. So, the simplest
+
+109
+00:05:20,300 --> 00:05:23,170
+probability distribution you can have. Okay, You got that, Michael?
+
+110
+00:05:23,170 --> 00:05:26,630
+>> Yeah, so. And, okay, if I'm understanding correctly,
+
+111
+00:05:26,630 --> 00:05:29,500
+each of these is representable by a dependency tree.
+
+112
+00:05:29,500 --> 00:05:32,880
+>> Yeah, each one is, actually. So then why, why would
+
+113
+00:05:32,880 --> 00:05:34,320
+any one be better than any other one?
+
+114
+00:05:34,320 --> 00:05:35,740
+>> I don't know, Michael, you tell me?
+
+115
+00:05:38,430 --> 00:05:42,360
+>> I guess in the case of, well could be, you could think of
+
+116
+00:05:42,360 --> 00:05:45,530
+it maybe in the terms of number of parameters that need to be estimated. So
+
+117
+00:05:45,530 --> 00:05:47,970
+in the independent case, since we know
+
+118
+00:05:47,970 --> 00:05:49,990
+that it's independent or at least we're imagining
+
+119
+00:05:49,990 --> 00:05:51,570
+it's independent, we just have to estimate
+
+120
+00:05:51,570 --> 00:05:53,970
+one probability per node, which is like N.
+
+121
+00:05:53,970 --> 00:05:57,670
+>> Yep. In the chain case, we have a
+
+122
+00:05:57,670 --> 00:06:01,710
+conditional probability per node. So it's, like 2n parameters.
+
+123
+00:06:01,710 --> 00:06:02,830
+>> Mm-hm, yep.
+
+124
+00:06:02,830 --> 00:06:03,450
+>> And
+
+125
+00:06:03,450 --> 00:06:07,110
+in the dependency tree case, it's. I think what you were saying is that
+
+126
+00:06:07,110 --> 00:06:09,270
+we're estimating kind of n squared parameters. And
+
+127
+00:06:09,270 --> 00:06:11,200
+then, then pulling the tree out of that.
+
+128
+00:06:11,200 --> 00:06:14,210
+Exactly. Now, of course, like you point
+
+129
+00:06:14,210 --> 00:06:16,980
+out Michael. A chain is a dependency tree.
+
+130
+00:06:18,040 --> 00:06:20,400
+Independents are a dependency tree and a
+
+131
+00:06:20,400 --> 00:06:23,260
+dependency tree is surprisingly enough a dependency tree.
+
+132
+00:06:23,260 --> 00:06:23,789
+>> [LAUGH]
+
+133
+00:06:23,789 --> 00:06:25,910
+>> But these numbers and parameters do matter, because
+
+134
+00:06:25,910 --> 00:06:28,640
+although a dependency tree can represent and independent set
+
+135
+00:06:28,640 --> 00:06:31,050
+of variables. The way your going to discover that
+
+136
+00:06:31,050 --> 00:06:32,390
+their independent is that your going to need a
+
+137
+00:06:32,390 --> 00:06:34,875
+lot of data to estimate those in square
+
+138
+00:06:34,875 --> 00:06:37,338
+parameters in order to realize that the conditional
+
+139
+00:06:37,338 --> 00:06:40,410
+probability tables effectively don't mean anything. So, it
+
+140
+00:06:40,410 --> 00:06:42,130
+will be very easy for a dependency tree
+
+141
+00:06:42,130 --> 00:06:45,210
+to over fit in the case where all
+
+142
+00:06:45,210 --> 00:06:48,040
+the variables or all the features are independent. Okay.
+
+143
+00:06:48,040 --> 00:06:51,150
+>> Okay. Alright. So, you got it?
+
+144
+00:06:51,150 --> 00:06:52,530
+>> Alright. Nope. One more question.
+
+145
+00:06:52,530 --> 00:06:53,250
+>> Yes?
+
+146
+00:06:53,250 --> 00:06:53,690
+>> Well,
+
+147
+00:06:53,690 --> 00:06:57,410
+other then I need to fill the boxes with the numbers one, two, or three, right?
+
+148
+00:06:57,410 --> 00:06:59,080
+>> Yep. Of the algorithm that they're best for,
+
+149
+00:06:59,080 --> 00:07:00,660
+or the the problem that they're the best for.
+
+150
+00:07:00,660 --> 00:07:04,700
+>> Got it. And each one is used exactly once? Yes.
+
+151
+00:07:04,700 --> 00:07:08,490
+>> Okay, and then finally just to kind of
+
+152
+00:07:08,490 --> 00:07:10,680
+make sure that I am wrapped head around why we
+
+153
+00:07:10,680 --> 00:07:13,570
+are doing probability distributions at all. So in the
+
+154
+00:07:13,570 --> 00:07:18,590
+context of mimic, we need some way of capturing the,
+
+155
+00:07:18,590 --> 00:07:22,950
+I guess the space of answers that do at least a certain level. They,
+
+156
+00:07:22,950 --> 00:07:25,810
+they do at least this will and [UNKNOWN] the fitness. So, it, it, it.
+
+157
+00:07:25,810 --> 00:07:26,340
+>> Hm.
+
+158
+00:07:26,340 --> 00:07:27,970
+>> I guess, I guess I feel a little
+
+159
+00:07:27,970 --> 00:07:30,460
+turn off because. We're not trying to represent the
+
+160
+00:07:30,460 --> 00:07:33,550
+fitness functions, right? You're not telling me which dependency
+
+161
+00:07:33,550 --> 00:07:36,290
+structure should I be using to represent this fitness function.
+
+162
+00:07:36,290 --> 00:07:39,150
+>> Right. Instead I'm asking you to figure out which
+
+163
+00:07:39,150 --> 00:07:42,430
+distribution will represent the optima,
+
+164
+00:07:42,430 --> 00:07:43,970
+the structure between the optimal values.
+
+165
+00:07:43,970 --> 00:07:48,450
+>> Huh, okay. Alright, I'm not sure I 100% get it,
+
+166
+00:07:48,450 --> 00:07:50,650
+but I think I get it enough to answer this quiz.
+
+167
+00:07:50,650 --> 00:07:52,510
+>> Excellent. Okay, so go.

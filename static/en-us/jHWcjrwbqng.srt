@@ -1,0 +1,279 @@
+1
+00:00:00,520 --> 00:00:03,520
+Okay, so, so far, we've done the first three steps.
+
+2
+00:00:03,520 --> 00:00:07,000
+And we're really just looking at this last step here for our program where we
+
+3
+00:00:07,000 --> 00:00:10,300
+display the information that we get from the query to the UI.
+
+4
+00:00:10,300 --> 00:00:12,540
+What we haven't talked about yet
+
+5
+00:00:12,540 --> 00:00:15,450
+is what the query method returns, which is a cursor.
+
+6
+00:00:15,450 --> 00:00:17,470
+So, what's a cursor?
+
+7
+00:00:17,470 --> 00:00:21,090
+A cursor is an iterator that gives access to the underlying data in
+
+8
+00:00:21,090 --> 00:00:22,480
+tabular form.
+
+9
+00:00:22,480 --> 00:00:25,260
+If you're not familiar with what an iterator is,
+
+10
+00:00:25,260 --> 00:00:27,320
+there's a link in the instructor notes.
+
+11
+00:00:27,320 --> 00:00:31,730
+Also, if you Google iterators, you'll get more than enough reading material.
+
+12
+00:00:31,730 --> 00:00:33,320
+So let's think about something.
+
+13
+00:00:33,320 --> 00:00:36,390
+This picture of a database right here is pretty small.
+
+14
+00:00:36,390 --> 00:00:38,840
+But theoretically it could be thousands of lines long.
+
+15
+00:00:38,840 --> 00:00:41,290
+Do you see these nulls?
+
+16
+00:00:41,290 --> 00:00:46,510
+The first three are used to say exactly which rows and which columns that
+
+17
+00:00:46,510 --> 00:00:50,530
+you want to include in the cursor so that if you do have thousands of lines of
+
+18
+00:00:50,530 --> 00:00:54,130
+data you don't have to load them all in your cursor at once.
+
+19
+00:00:54,130 --> 00:00:57,720
+Now the fact that we are using these nulls is saying that we want to load in
+
+20
+00:00:57,720 --> 00:01:01,460
+all the data in this table without being more specific about the exact rows and
+
+21
+00:01:01,460 --> 00:01:02,680
+columns that we need.
+
+22
+00:01:02,680 --> 00:01:04,780
+If you want to learn more about these parameters,
+
+23
+00:01:04,780 --> 00:01:06,850
+I've provided a link in the instructor notes.
+
+24
+00:01:06,850 --> 00:01:10,320
+All right. So let's talk about what we could actually do with our cursor.
+
+25
+00:01:10,320 --> 00:01:14,052
+You could get the number of rows in a cursor using cursor.getCount.
+
+26
+00:01:14,052 --> 00:01:15,900
+Since a cursor works like an iterator,
+
+27
+00:01:15,900 --> 00:01:20,010
+you could travel through its data by calling the moveToNext method.
+
+28
+00:01:20,010 --> 00:01:23,490
+Specifically, if you want to iterate through all the rows in a cursor,
+
+29
+00:01:23,490 --> 00:01:26,380
+you can use while(cursor.moveToNext()).
+
+30
+00:01:26,380 --> 00:01:27,700
+At each iteration in the while loop,
+
+31
+00:01:27,700 --> 00:01:30,630
+the cursor will be pointing at a different row.
+
+32
+00:01:30,630 --> 00:01:34,280
+If, when the cursor is pointing at a row you want to get the value at one of
+
+33
+00:01:34,280 --> 00:01:37,870
+the associated columns, you can use the cursor.get method.
+
+34
+00:01:39,110 --> 00:01:41,740
+Whatever you put here will be what you're trying to get.
+
+35
+00:01:41,740 --> 00:01:45,920
+So there's cursor.getString, cursor.getInt, so on.
+
+36
+00:01:45,920 --> 00:01:48,120
+The method takes the index of the column you want.
+
+37
+00:01:48,120 --> 00:01:50,180
+Let's see how that works.
+
+38
+00:01:50,180 --> 00:01:53,920
+Okay, so when your cursor is pointing at a specific row,
+
+39
+00:01:53,920 --> 00:01:57,570
+you might want to actually get the data at one of these columns.
+
+40
+00:01:57,570 --> 00:01:59,760
+To do that, you can use two methods.
+
+41
+00:01:59,760 --> 00:02:03,250
+The first method is cursor.getColumnIndex.
+
+42
+00:02:03,250 --> 00:02:06,180
+This takes the name of the column as an argument.
+
+43
+00:02:06,180 --> 00:02:11,300
+For the user dictionary this name is stored in this constant.
+
+44
+00:02:11,300 --> 00:02:13,090
+Once we have the column Index,
+
+45
+00:02:13,090 --> 00:02:17,640
+we can use the getString method to get what's actually in the column.
+
+46
+00:02:17,640 --> 00:02:23,310
+Note that the type here changes depending on what the type of the column is.
+
+47
+00:02:23,310 --> 00:02:25,860
+So in this example, I'm getting string, but
+
+48
+00:02:25,860 --> 00:02:29,480
+if I was trying to get the frequency, I would get int instead.
+
+49
+00:02:29,480 --> 00:02:34,250
+Finally, and important to note, you should always remember to call cursor.close,
+
+50
+00:02:34,250 --> 00:02:37,730
+which closes the cursor by cleaning up associated objects.
+
+51
+00:02:37,730 --> 00:02:38,450
+Why?
+
+52
+00:02:38,450 --> 00:02:41,940
+Well, every time you don't close a cursor, you leak a little memory.
+
+53
+00:02:41,940 --> 00:02:45,910
+If your code keeps opening up cursors without cleaning up after itself.
+
+54
+00:02:45,910 --> 00:02:49,540
+It can eventually get so bad that it causes your app to crash.
+
+55
+00:02:49,540 --> 00:02:52,040
+So close your cursor.
+
+56
+00:02:52,040 --> 00:02:55,150
+You can even take your code and wrap it in a try block.
+
+57
+00:02:55,150 --> 00:02:58,320
+Then just make sure to follow with a finally block and
+
+58
+00:02:58,320 --> 00:03:00,490
+put your c.close in that block.
+
+59
+00:03:00,490 --> 00:03:04,420
+By doing this, you'll be 100% sure that you're not leaking memory.
+
+60
+00:03:04,420 --> 00:03:07,900
+Okay, so I want you to take everything that we've been talking about and
+
+61
+00:03:07,900 --> 00:03:10,780
+finish the onCreate method in your app.
+
+62
+00:03:10,780 --> 00:03:11,680
+In this method,
+
+63
+00:03:11,680 --> 00:03:14,900
+you should print the number of words that are in the user dictionary.
+
+64
+00:03:14,900 --> 00:03:19,070
+And for each word you should print the ID, word, and frequency.
+
+65
+00:03:19,070 --> 00:03:20,550
+What do I mean by print?
+
+66
+00:03:20,550 --> 00:03:24,480
+All I want you to do is append the values to the text view.
+
+67
+00:03:24,480 --> 00:03:27,190
+When you're finished, your app should look like this.
+
+68
+00:03:27,190 --> 00:03:28,050
+The starter code for
+
+69
+00:03:28,050 --> 00:03:31,630
+your app is in the instructor notes as well as some helpful links.
+
+70
+00:03:31,630 --> 00:03:33,670
+When everything's complete check this box.

@@ -1,0 +1,295 @@
+1
+00:00:00,180 --> 00:00:04,750
+So, what are the benefits of using
+a panda series instead of a numpy array?
+
+2
+00:00:04,750 --> 00:00:07,590
+I mentioned before that panda
+series have some extra functions
+
+3
+00:00:07,590 --> 00:00:09,270
+not available for numpy arrays.
+
+4
+00:00:09,270 --> 00:00:11,230
+For example, the describe function.
+
+5
+00:00:12,340 --> 00:00:15,410
+However, the main difference
+between panda series and
+
+6
+00:00:15,410 --> 00:00:19,920
+numpy arrays is that a panda series
+has something called an index.
+
+7
+00:00:19,920 --> 00:00:21,800
+Let's take a look at an example.
+
+8
+00:00:21,800 --> 00:00:23,970
+Throughout this lesson,
+we've been looking at data for
+
+9
+00:00:23,970 --> 00:00:26,880
+a bunch of different countries, and
+I've been creating one array to hold
+
+10
+00:00:26,880 --> 00:00:30,210
+the actual data points and
+one to hold the country names.
+
+11
+00:00:30,210 --> 00:00:33,210
+In pandas,
+I would only create one series, and
+
+12
+00:00:33,210 --> 00:00:36,430
+I would use the data points
+as the values of that series.
+
+13
+00:00:36,430 --> 00:00:39,960
+Then I would use the country names
+as the index for the series.
+
+14
+00:00:39,960 --> 00:00:43,510
+Now I'll delete the numpy array code and
+print out the series.
+
+15
+00:00:43,510 --> 00:00:46,850
+You can see here that pandas is
+matching up each index value
+
+16
+00:00:46,850 --> 00:00:48,980
+to the corresponding data point.
+
+17
+00:00:48,980 --> 00:00:52,910
+I've said before that numpy arrays are
+like souped version so of Python lists.
+
+18
+00:00:54,100 --> 00:00:59,640
+Similarly, a pandas series is like
+a cross between a list and a dictionary.
+
+19
+00:00:59,640 --> 00:01:04,250
+In a list, elements are stored in order
+and you access them by their position.
+
+20
+00:01:04,250 --> 00:01:07,350
+And you've just seen that
+that's true for a series also.
+
+21
+00:01:07,350 --> 00:01:10,940
+These values are stored in order, and
+you can access them by their position.
+
+22
+00:01:12,060 --> 00:01:13,520
+In the dictionary, on the other hand,
+
+23
+00:01:13,520 --> 00:01:15,930
+you can have a key such
+as a country name, and
+
+24
+00:01:15,930 --> 00:01:19,990
+a value such as a life expectancy,
+and you can look up values by keys.
+
+25
+00:01:19,990 --> 00:01:23,620
+You saw earlier that
+the code life expectancy
+
+26
+00:01:23,620 --> 00:01:28,070
+at zero will give the life expectancy
+at position zero in the series.
+
+27
+00:01:28,070 --> 00:01:31,300
+Pandas also has an attribute
+called walk that lets you look up
+
+28
+00:01:31,300 --> 00:01:33,240
+values by their index.
+
+29
+00:01:33,240 --> 00:01:38,550
+If I run life_expectancy.loc Angola,
+then I'll see the life expectancy for
+
+30
+00:01:38,550 --> 00:01:43,015
+Angola, without needing to know which
+position Angola is In the list.
+
+31
+00:01:43,015 --> 00:01:46,165
+So, what happens if you create
+a series without specifying an index,
+
+32
+00:01:46,165 --> 00:01:46,935
+like we did earlier?
+
+33
+00:01:48,065 --> 00:01:51,995
+Well, then the numbers zero, one,
+two, and so on get used as the index,
+
+34
+00:01:51,995 --> 00:01:53,375
+by default.
+
+35
+00:01:53,375 --> 00:01:57,005
+So, before, when I accessed
+elements using square brackets,
+
+36
+00:01:57,005 --> 00:02:00,870
+it wasn't clear whether I was
+accessing by index, or by position.
+
+37
+00:02:00,870 --> 00:02:04,060
+At this point, it should be clear to you
+that the square brackets are accessing
+
+38
+00:02:04,060 --> 00:02:05,250
+elements by position,
+
+39
+00:02:05,250 --> 00:02:09,500
+since there is no value in our life
+expectancy series with index zero.
+
+40
+00:02:09,500 --> 00:02:12,975
+I prefer to be a bit more explicit
+when using a series though.
+
+41
+00:02:12,975 --> 00:02:15,850
+Pendas has an attribute
+corresponding to the lock attribute
+
+42
+00:02:15,850 --> 00:02:19,480
+call iloc to access
+elements by position.
+
+43
+00:02:19,480 --> 00:02:21,820
+These two lines of code
+do the same thing, but
+
+44
+00:02:21,820 --> 00:02:24,960
+the version using iloc is just
+a little more clear in my opinion.
+
+45
+00:02:26,300 --> 00:02:27,996
+By the way, here's a terminology note.
+
+46
+00:02:27,996 --> 00:02:30,060
+In this numpy array,
+
+47
+00:02:30,060 --> 00:02:34,220
+many people will say something like
+the country Albania is at index zero.
+
+48
+00:02:34,220 --> 00:02:39,210
+And they'll call using square
+brackets to access an array element
+
+49
+00:02:39,210 --> 00:02:41,140
+indexing into the array.
+
+50
+00:02:41,140 --> 00:02:43,880
+I've been trying to avoid
+this terminology, and
+
+51
+00:02:43,880 --> 00:02:48,530
+call this position zero rather than
+index zero, since in a panda series,
+
+52
+00:02:48,530 --> 00:02:51,200
+the index and
+the position are not the same.
+
+53
+00:02:51,200 --> 00:02:54,410
+But be aware that you might hear
+the term index used inconsistently
+
+54
+00:02:54,410 --> 00:02:55,520
+elsewhere.
+
+55
+00:02:55,520 --> 00:02:58,140
+On the next screen,
+I want you to rewrite the max_employment
+
+56
+00:02:58,140 --> 00:03:00,710
+function that you wrote at
+the beginning of this lesson.
+
+57
+00:03:00,710 --> 00:03:03,710
+Which finds the highest employment
+rate in some given data, and
+
+58
+00:03:03,710 --> 00:03:05,970
+the country name with
+that employment rate.
+
+59
+00:03:05,970 --> 00:03:10,250
+This time, the input will be a single
+series, rather than two numpy arrays,
+
+60
+00:03:10,250 --> 00:03:13,400
+and the index of that series
+will be the country names.
+
+61
+00:03:13,400 --> 00:03:16,230
+Try using the pandas argmax function.
+
+62
+00:03:16,230 --> 00:03:18,820
+There's a link to the documentation
+in the instructor notes.

@@ -1,0 +1,255 @@
+1
+00:00:00,190 --> 00:00:02,930
+It seems like the simplest thing
+we could do from our Android app.
+
+2
+00:00:02,930 --> 00:00:06,440
+Would be to add a single piece of
+data to the Firebase database.
+
+3
+00:00:06,440 --> 00:00:08,670
+If you remember,
+here's my shopping list screen, and
+
+4
+00:00:08,670 --> 00:00:11,090
+I got this floating
+action bar button here.
+
+5
+00:00:11,090 --> 00:00:12,870
+It's supposed to add a shopping list.
+
+6
+00:00:12,870 --> 00:00:15,595
+When you press it you've got the nice
+dialogue, you can enter a name.
+
+7
+00:00:15,595 --> 00:00:18,793
+[BLANK_AUDIO]
+
+8
+00:00:18,793 --> 00:00:21,380
+But when you press
+Create it does nothing.
+
+9
+00:00:21,380 --> 00:00:26,040
+Let's have it store the name for the
+shopping list I enter here, in Firebase.
+
+10
+00:00:26,040 --> 00:00:28,060
+Whenever we interact
+with our Firebase data,
+
+11
+00:00:28,060 --> 00:00:30,250
+we need to create a Firebase object.
+
+12
+00:00:30,250 --> 00:00:31,040
+This object,
+
+13
+00:00:31,040 --> 00:00:36,210
+here, is tied to a specific Firebase
+database that's specified by this URL.
+
+14
+00:00:36,210 --> 00:00:37,020
+Right before this,
+
+15
+00:00:37,020 --> 00:00:41,230
+you should have saved your URL in
+a constant that we called FIREBASE_URL.
+
+16
+00:00:41,230 --> 00:00:45,890
+So for us, we can use the FIREBASE_URL
+constant as a argument, here.
+
+17
+00:00:45,890 --> 00:00:49,630
+Now this Firebase ref object here has a
+lot of methods that you can call on it.
+
+18
+00:00:49,630 --> 00:00:52,010
+Many of these methods we're going to
+go over in detail and they're all
+
+19
+00:00:52,010 --> 00:00:54,980
+referenced in the Firebase DOCs which
+I've linked in the instructor notes.
+
+20
+00:00:54,980 --> 00:00:57,910
+The two that we're interested
+in right now are the child and
+
+21
+00:00:57,910 --> 00:00:59,465
+the .setValue method.
+
+22
+00:00:59,465 --> 00:01:03,695
+Your online Firebase database stores
+everything as key value pairs.
+
+23
+00:01:03,695 --> 00:01:07,005
+What this code will do is make
+whatever is put here the key and
+
+24
+00:01:07,005 --> 00:01:08,995
+whatever is put here the value.
+
+25
+00:01:08,995 --> 00:01:12,835
+So, if we were to type "listname"
+right here, we'd be making a new
+
+26
+00:01:12,835 --> 00:01:16,535
+data entry in Firebase, or node,
+that had the key of "listname", and
+
+27
+00:01:16,535 --> 00:01:18,980
+then we'd set it to
+whatever value it has here.
+
+28
+00:01:18,980 --> 00:01:21,170
+I'm going to go ahead and
+do this in the code.
+
+29
+00:01:21,170 --> 00:01:25,200
+The code that I'm interested in
+is inside AddLIstDialogFragment.
+
+30
+00:01:25,200 --> 00:01:27,320
+Specifically, when you
+hit the "Create" button,
+
+31
+00:01:27,320 --> 00:01:30,840
+it calls this addShoppingList method,
+which is currently blank.
+
+32
+00:01:30,840 --> 00:01:33,870
+So, what I'm going to do is
+make a new Firebase reference.
+
+33
+00:01:33,870 --> 00:01:37,640
+And I'm going to pass in the constant
+that I made for the Firebase_URL.
+
+34
+00:01:37,640 --> 00:01:39,290
+And then I'm going to
+take that reference.
+
+35
+00:01:39,290 --> 00:01:44,540
+And I'm going to say,
+go to a child called ListName.
+
+36
+00:01:44,540 --> 00:01:45,370
+That's going to be our key.
+
+37
+00:01:45,370 --> 00:01:47,390
+And I'm going to say
+set the value there.
+
+38
+00:01:47,390 --> 00:01:52,263
+And what I'm going to set it to is
+what the user entered in the text
+
+39
+00:01:52,263 --> 00:01:54,270
+view of that dialog.
+
+40
+00:01:54,270 --> 00:01:55,659
+And if I scroll up.
+
+41
+00:01:55,659 --> 00:01:58,364
+[BLANK_AUDIO]
+
+42
+00:01:58,364 --> 00:02:00,317
+We already have an instance
+variable up here,
+
+43
+00:02:00,317 --> 00:02:03,150
+storing in reference to
+the EditText in that dialogue.
+
+44
+00:02:03,150 --> 00:02:04,120
+So scrolling back down,
+
+45
+00:02:04,120 --> 00:02:09,150
+I'm going to set this string to
+what's stored in the EditText.
+
+46
+00:02:09,150 --> 00:02:11,730
+And then I'm going to pass
+that string in right here.
+
+47
+00:02:13,020 --> 00:02:14,650
+Okay, let's run this code.
+
+48
+00:02:14,650 --> 00:02:16,260
+Okay, so I've got the code up and
+running.
+
+49
+00:02:16,260 --> 00:02:19,730
+I'm also going to go ahead and
+open up my Firebase dashboard.
+
+50
+00:02:19,730 --> 00:02:22,048
+Okay, now moment of truth,
+I'm going to click the plus button.
+
+51
+00:02:22,048 --> 00:02:28,330
+And I'm going to type in a list name,
+and well, I
+
+52
+00:02:28,330 --> 00:02:31,200
+don't want to ruin the surprise of what
+happens when I click that create button.
+
+53
+00:02:31,200 --> 00:02:33,000
+So go ahead and try this yourself and
+
+54
+00:02:33,000 --> 00:02:36,221
+tell me, what do you see on
+the Firebase dashboard here?

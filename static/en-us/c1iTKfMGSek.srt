@@ -1,0 +1,400 @@
+1
+00:00:00,390 --> 00:00:03,230
+Now the first problem that I notice is
+probably the first problem that you
+
+2
+00:00:03,230 --> 00:00:05,470
+notice and that's that
+the spiders are being created,
+
+3
+00:00:05,470 --> 00:00:08,330
+however they're not
+crawling on the screen.
+
+4
+00:00:08,330 --> 00:00:12,680
+So I've spawned a couple
+spiders here and no luck.
+
+5
+00:00:12,680 --> 00:00:14,500
+They are not crawling onto the screen.
+
+6
+00:00:14,500 --> 00:00:16,940
+So let's add a break point for this.
+
+7
+00:00:16,940 --> 00:00:18,980
+I'll do it again in
+the bug to view method.
+
+8
+00:00:18,980 --> 00:00:21,820
+And we'll trigger it again.
+
+9
+00:00:21,820 --> 00:00:22,870
+There we go.
+
+10
+00:00:22,870 --> 00:00:25,030
+And now let's bring up
+the debug view hierarchy and
+
+11
+00:00:25,030 --> 00:00:28,650
+select one of the UI image views for
+one of our bugs.
+
+12
+00:00:29,710 --> 00:00:31,130
+Here's something I noticed off the bat.
+
+13
+00:00:31,130 --> 00:00:33,540
+All the bugs appear to
+be in the same position.
+
+14
+00:00:33,540 --> 00:00:35,040
+Every single one of them.
+
+15
+00:00:35,040 --> 00:00:38,740
+They're all here in the top left hand
+corner slightly out of our view.
+
+16
+00:00:38,740 --> 00:00:40,830
+And something else is strange and
+
+17
+00:00:40,830 --> 00:00:44,570
+that's the visible content doesn't
+really look like what we saw earlier.
+
+18
+00:00:44,570 --> 00:00:46,710
+Last time I didn't even see bugs here.
+
+19
+00:00:46,710 --> 00:00:48,380
+This time I see some of the red bugs,
+
+20
+00:00:48,380 --> 00:00:50,820
+some of the blue bug,
+there are some black bugs.
+
+21
+00:00:50,820 --> 00:00:52,580
+I'm not seeing them at all.
+
+22
+00:00:52,580 --> 00:00:54,500
+If I go to the inspector,
+
+23
+00:00:54,500 --> 00:00:56,770
+I'm not really getting a lot of
+information about what's going on.
+
+24
+00:00:56,770 --> 00:01:01,030
+This is a little confusing and
+what I'd like to see is a little bit of
+
+25
+00:01:01,030 --> 00:01:06,080
+information that describes where
+the visual content the actual spider is.
+
+26
+00:01:06,080 --> 00:01:07,660
+Let's try running again.
+
+27
+00:01:07,660 --> 00:01:10,690
+Create another bug, see what happens.
+
+28
+00:01:10,690 --> 00:01:13,590
+Actually the debug view hierarchy.
+
+29
+00:01:13,590 --> 00:01:15,880
+This is another oddity here.
+
+30
+00:01:15,880 --> 00:01:17,540
+Now we see some of a blue bug.
+
+31
+00:01:17,540 --> 00:01:18,710
+What happened to our red bug?
+
+32
+00:01:18,710 --> 00:01:20,540
+Let's try it one more time.
+
+33
+00:01:20,540 --> 00:01:21,578
+See if anything changes.
+
+34
+00:01:25,966 --> 00:01:26,559
+Yeah.
+
+35
+00:01:26,559 --> 00:01:31,430
+Each time so now we can see almost all
+the blue bug and some of the red bug.
+
+36
+00:01:31,430 --> 00:01:35,900
+So my hunch is that the content for
+the spider image is being randomly
+
+37
+00:01:35,900 --> 00:01:40,060
+placed somewhere within this frame
+instead of the position of the frame
+
+38
+00:01:40,060 --> 00:01:42,640
+being randomly placed
+somewhere within the view.
+
+39
+00:01:42,640 --> 00:01:45,690
+So seems like we're randomly
+placing the wrong thing.
+
+40
+00:01:45,690 --> 00:01:47,790
+Instead of randomly placing
+this thing's position,
+
+41
+00:01:47,790 --> 00:01:50,300
+we're randomly placing
+the visual content.
+
+42
+00:01:50,300 --> 00:01:54,560
+So let's use the command line
+interface to test this assumption.
+
+43
+00:01:54,560 --> 00:01:57,415
+So I've selected one of
+the UI image views here so
+
+44
+00:01:57,415 --> 00:02:02,965
+that I have an address I can work with
+and in the console let's use the unsafe
+
+45
+00:02:02,965 --> 00:02:08,535
+bit cast to cast this address into a UI
+image view object that we can use.
+
+46
+00:02:08,535 --> 00:02:12,315
+So we'll type the expression
+spider equals unsafe bit cast and
+
+47
+00:02:12,315 --> 00:02:15,655
+we'll pass the raw address for
+this image view and
+
+48
+00:02:15,655 --> 00:02:19,865
+then the UIImageView.self since we're
+casting into a UI image view object.
+
+49
+00:02:21,260 --> 00:02:24,620
+Lets go ahead and
+print out this spider object.
+
+50
+00:02:26,440 --> 00:02:27,800
+There we go.
+
+51
+00:02:27,800 --> 00:02:31,830
+And the first part of the images frame
+shows a negative 100, negative 100,
+
+52
+00:02:31,830 --> 00:02:34,220
+which are the x and y position.
+
+53
+00:02:35,240 --> 00:02:36,020
+But this is a little weird.
+
+54
+00:02:36,020 --> 00:02:40,290
+The spiders bounds show
+the CA basic animation thing.
+
+55
+00:02:40,290 --> 00:02:44,030
+So this kind of plays on the same hunch
+that maybe we're doing something with
+
+56
+00:02:44,030 --> 00:02:49,360
+the visual content or
+the bounds instead of the frame.
+
+57
+00:02:49,360 --> 00:02:54,440
+So let's set a new break point when
+the animation shouldn't be occurring.
+
+58
+00:02:54,440 --> 00:02:58,420
+Like maybe if there is an animation
+it's played through and
+
+59
+00:02:58,420 --> 00:02:59,560
+that could tell us something.
+
+60
+00:02:59,560 --> 00:03:05,840
+So, there shouldn't be any animation
+of position, which we're on this hunch
+
+61
+00:03:05,840 --> 00:03:08,860
+that maybe we're updating the bounds
+instead of the position of the frame.
+
+62
+00:03:08,860 --> 00:03:12,360
+There shouldn't be any animation
+of that going on when we pop
+
+63
+00:03:12,360 --> 00:03:13,410
+back to the master view.
+
+64
+00:03:13,410 --> 00:03:16,540
+So let's go to the visual
+debug controller.
+
+65
+00:03:16,540 --> 00:03:18,380
+Let me hide these things away.
+
+66
+00:03:18,380 --> 00:03:22,200
+And here in the pop to master view
+controller I'll set a break point.
+
+67
+00:03:22,200 --> 00:03:23,900
+Let's see if we can trigger
+this break point and
+
+68
+00:03:23,900 --> 00:03:25,860
+see if we can get any new information.
+
+69
+00:03:27,100 --> 00:03:30,630
+So I'll re run the app and
+then I'll tap the back arrow.
+
+70
+00:03:31,830 --> 00:03:34,150
+That should trigger our new break point.
+
+71
+00:03:34,150 --> 00:03:37,290
+And now let's print out the spider
+object again and see what's happened.
+
+72
+00:03:38,430 --> 00:03:42,130
+Okay,now our bounds.
+
+73
+00:03:42,130 --> 00:03:44,860
+I don't see anything there for bounds.
+
+74
+00:03:44,860 --> 00:03:47,080
+The animation, maybe that's gone.
+
+75
+00:03:47,080 --> 00:03:51,390
+I think this is enough evidence to
+work on this idea to prove that
+
+76
+00:03:51,390 --> 00:03:55,850
+maybe the issue is happening
+when we animate the bugs or
+
+77
+00:03:55,850 --> 00:03:57,290
+maybe we're animating the wrong thing.
+
+78
+00:03:57,290 --> 00:03:58,690
+We're not moving the frame.
+
+79
+00:03:58,690 --> 00:04:00,160
+We're moving the bounds.
+
+80
+00:04:00,160 --> 00:04:05,150
+Let's stop the app and
+go to the move bugs animation method.
+
+81
+00:04:05,150 --> 00:04:08,960
+Because this is the method where
+that movement is supposed to happen.
+
+82
+00:04:08,960 --> 00:04:10,430
+And I think we see the problem now.
+
+83
+00:04:10,430 --> 00:04:14,090
+Instead of updating the frame,
+we're updating the bounds.
+
+84
+00:04:14,090 --> 00:04:18,374
+So let's change bounds to frame and
+then rebuild our application.
+
+85
+00:04:18,374 --> 00:04:24,661
+[SOUND] And
+
+86
+00:04:24,661 --> 00:04:27,891
+lets disable this.
+
+87
+00:04:27,891 --> 00:04:28,790
+There we go.
+
+88
+00:04:28,790 --> 00:04:31,350
+So now our bugs are appearing just fine.

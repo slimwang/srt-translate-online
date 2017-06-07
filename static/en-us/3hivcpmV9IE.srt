@@ -1,0 +1,330 @@
+1
+00:00:00,168 --> 00:00:03,197
+So now let's actually start
+understanding how to build
+
+2
+00:00:03,197 --> 00:00:04,556
+a simple stereo system.
+
+3
+00:00:04,556 --> 00:00:09,316
+Let's take our coordinate axis, here
+I just put a simple left camera here.
+
+4
+00:00:09,316 --> 00:00:14,146
+I'm going to put them at coordinate
+axis point 0.00, which is here.
+
+5
+00:00:14,146 --> 00:00:18,801
+Now let's imagine I can basically
+translate this viewpoint by amount Tx
+
+6
+00:00:18,801 --> 00:00:22,783
+just in the X-axis,
+no change in y to another location here.
+
+7
+00:00:22,783 --> 00:00:27,771
+So now, I have another camera, which
+is located just Tx in this direction
+
+8
+00:00:27,771 --> 00:00:31,560
+farther from where the original
+one was at zero, zero.
+
+9
+00:00:31,560 --> 00:00:33,162
+So both the cameras
+are exactly the same.
+
+10
+00:00:33,162 --> 00:00:35,972
+They're just now translated
+by a certain distance.
+
+11
+00:00:35,972 --> 00:00:39,455
+And I have of course, a new camera
+which has its own coordinate axis.
+
+12
+00:00:39,455 --> 00:00:43,999
+So right camera is simply just looking
+at the same view you just translated by
+
+13
+00:00:43,999 --> 00:00:45,561
+x along the x directions.
+
+14
+00:00:45,561 --> 00:00:46,885
+Everything else is the same.
+
+15
+00:00:46,885 --> 00:00:51,229
+In this case, the focal length is
+the same orientation is the same,
+
+16
+00:00:51,229 --> 00:00:52,736
+everything is the same.
+
+17
+00:00:52,736 --> 00:00:54,964
+Let's look at this scene from the top.
+
+18
+00:00:54,964 --> 00:00:56,985
+Just looking at the X-Z plane.
+
+19
+00:00:56,985 --> 00:00:59,376
+So here again, I have a left camera.
+
+20
+00:00:59,376 --> 00:01:01,767
+Here now,
+I have actually listed the focal length.
+
+21
+00:01:01,767 --> 00:01:02,975
+Right camera.
+
+22
+00:01:02,975 --> 00:01:04,926
+Again, we know the focal length here.
+
+23
+00:01:04,926 --> 00:01:09,430
+So, of course, the two cameras are
+translated by distance Tx along x-axis.
+
+24
+00:01:09,430 --> 00:01:12,216
+Tx is also know as the baseline.
+
+25
+00:01:12,216 --> 00:01:14,144
+We have a point, X, Y, Z.
+
+26
+00:01:14,144 --> 00:01:18,854
+Of course, that point appears and
+this viewpoint here we'll point,
+
+27
+00:01:18,854 --> 00:01:22,689
+call this Xl for the left image,
+a location just an x-axis.
+
+28
+00:01:22,689 --> 00:01:26,023
+Looking down on X, Y is pointing
+outwards, we're not change,
+
+29
+00:01:26,023 --> 00:01:28,385
+looking any changes in y on this one.
+
+30
+00:01:28,385 --> 00:01:31,987
+So then that point,
+appears as Xr on this viewpoint here.
+
+31
+00:01:31,987 --> 00:01:37,282
+Question now of course is if I
+know Xl and Xr, can I compute Z?
+
+32
+00:01:37,282 --> 00:01:41,484
+Which would basically be the depth
+of this point here, right?
+
+33
+00:01:41,484 --> 00:01:46,011
+Now this is where actually we can
+bring back simple geometry to help us.
+
+34
+00:01:46,011 --> 00:01:50,470
+So let's look at this again back
+into our 3D simple stereo system.
+
+35
+00:01:50,470 --> 00:01:53,954
+I have a point in 3D,
+that ray of light goes from this camera,
+
+36
+00:01:53,954 --> 00:01:56,232
+goes through this image and
+hits that and
+
+37
+00:01:56,232 --> 00:02:00,050
+another one across just like we
+saw in the previous example.
+
+38
+00:02:00,050 --> 00:02:05,732
+And of course, that's Xl and there
+would be an X right here for this one.
+
+39
+00:02:05,732 --> 00:02:07,706
+Same kind of setup as before.
+
+40
+00:02:07,706 --> 00:02:09,110
+Now we can actually compute,
+
+41
+00:02:09,110 --> 00:02:12,605
+you link the same equations we looked
+at at the beginning of this lecture.
+
+42
+00:02:12,605 --> 00:02:18,604
+That Xl basically would
+be f X over Z and
+
+43
+00:02:18,604 --> 00:02:21,800
+yl would be Y over Z.
+
+44
+00:02:21,800 --> 00:02:22,404
+Right?
+
+45
+00:02:22,404 --> 00:02:23,750
+That's for this point here.
+
+46
+00:02:23,750 --> 00:02:25,724
+And in this case, of course,
+you can also do the Y.
+
+47
+00:02:25,724 --> 00:02:28,394
+In this case of course,
+yl is the same as yr.
+
+48
+00:02:28,394 --> 00:02:33,340
+The same point in the right camera,
+Xr is different and Xl is not.
+
+49
+00:02:33,340 --> 00:02:34,965
+So here is one thing we can start doing.
+
+50
+00:02:34,965 --> 00:02:40,538
+Basically, we know that this
+camera is moved by a distance Tx.
+
+51
+00:02:40,538 --> 00:02:44,137
+Well, that suggests something
+to us we can actually use.
+
+52
+00:02:44,137 --> 00:02:48,372
+That basically, if I was to move
+this point here by that same amount,
+
+53
+00:02:48,372 --> 00:02:51,890
+nothing else is changing,
+the same point would appear.
+
+54
+00:02:51,890 --> 00:02:56,020
+So, in essence, the converse of me
+moving the camera by distance Tx is
+
+55
+00:02:56,020 --> 00:02:59,240
+me moving this point in
+the other direction minus Tx and
+
+56
+00:02:59,240 --> 00:03:01,348
+actually taking another picture.
+
+57
+00:03:01,348 --> 00:03:05,416
+So now basically saying is rather than
+taking two pictures by moving the camera
+
+58
+00:03:05,416 --> 00:03:08,865
+by distance Tx, I'm just moving
+the point minus Tx in the opposite
+
+59
+00:03:08,865 --> 00:03:11,610
+direction and taking another pictures.
+
+60
+00:03:11,610 --> 00:03:14,054
+So basically,
+that means is now I have a point T,
+
+61
+00:03:14,054 --> 00:03:16,452
+a point here that should
+be visible in this one.
+
+62
+00:03:16,452 --> 00:03:18,215
+So we don't have to look at this camera.
+
+63
+00:03:18,215 --> 00:03:22,654
+And of course,
+now this ray is coming in this way,
+
+64
+00:03:22,654 --> 00:03:29,222
+implying that Xr is actually moved
+there, same translation as minus Tx.
+
+65
+00:03:29,222 --> 00:03:32,611
+So now, I can basically compute Xr.
+
+66
+00:03:32,611 --> 00:03:37,318
+Again f,
+X is now just this location x here minus
+
+67
+00:03:37,318 --> 00:03:40,390
+Tx in X direction divided by Z.
+
+68
+00:03:40,390 --> 00:03:42,991
+So that's basically, becomes my Xr.
+
+69
+00:03:42,991 --> 00:03:46,009
+Yr is the same,
+we haven't changed anything in the Y.
+
+70
+00:03:46,009 --> 00:03:50,896
+So basically, this starts giving me
+a very interesting way of comparing both
+
+71
+00:03:50,896 --> 00:03:54,970
+Xl and Xr which are now different
+just by the top numerator.

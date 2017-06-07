@@ -1,0 +1,209 @@
+1
+00:00:00,530 --> 00:00:02,840
+We're going to take
+the example just mentioned and
+
+2
+00:00:02,840 --> 00:00:05,600
+illustrate how you can do this Alteryx.
+
+3
+00:00:05,600 --> 00:00:09,490
+We're going to count how many
+customers fall within five miles
+
+4
+00:00:09,490 --> 00:00:11,550
+of each store location.
+
+5
+00:00:11,550 --> 00:00:16,219
+We start our workflow with two files,
+a store location file.
+
+6
+00:00:16,219 --> 00:00:20,880
+It's in Alteryx native format
+with the extension yxdb, and
+
+7
+00:00:20,880 --> 00:00:24,680
+the other file is a customer
+file in CSV format.
+
+8
+00:00:25,750 --> 00:00:28,760
+Notice that the customer's
+file has a latitude and
+
+9
+00:00:28,760 --> 00:00:33,110
+longitude field associated
+with each of the customers.
+
+10
+00:00:33,110 --> 00:00:37,390
+We can use this data to create
+spacial points for each customer,
+
+11
+00:00:37,390 --> 00:00:41,790
+making it possible to use this
+data set for spacial matching.
+
+12
+00:00:41,790 --> 00:00:43,560
+Now let's go back to
+the store locations.
+
+13
+00:00:44,710 --> 00:00:51,450
+Notice how this file has field called
+spacial obj with a value point.
+
+14
+00:00:51,450 --> 00:00:56,800
+That means that the records already have
+a point spacial object attached to them.
+
+15
+00:00:56,800 --> 00:01:01,820
+To confirm this, we can simply add
+a browse tool and run the workflow.
+
+16
+00:01:01,820 --> 00:01:05,580
+When we do this,
+we can see points on a map on the left.
+
+17
+00:01:05,580 --> 00:01:09,792
+We'll use cloud made maps
+as the base map layers, so
+
+18
+00:01:09,792 --> 00:01:13,924
+that we can view the map
+with reference map layers.
+
+19
+00:01:13,924 --> 00:01:18,012
+But if we add a browse tool
+to the customer's file,
+
+20
+00:01:18,012 --> 00:01:21,158
+we'll see only tabular data, no map.
+
+21
+00:01:21,158 --> 00:01:24,661
+So we know that this file is
+not spatially enabled yet.
+
+22
+00:01:24,661 --> 00:01:28,797
+To spatially enable a file,
+we go to the Spatial category, and
+
+23
+00:01:28,797 --> 00:01:31,380
+select the tool called Create Points.
+
+24
+00:01:32,380 --> 00:01:35,300
+Once connected,
+we identify the longitude and
+
+25
+00:01:35,300 --> 00:01:37,715
+latitude fields in the customer file.
+
+26
+00:01:38,725 --> 00:01:40,205
+By adding a browse tool and
+
+27
+00:01:40,205 --> 00:01:43,775
+then running the work flow,
+we'll see the customers on a map.
+
+28
+00:01:43,775 --> 00:01:45,425
+Coming back to the stores,
+
+29
+00:01:45,425 --> 00:01:50,635
+we wanted to find the trade area around
+each store as a five-mile radius.
+
+30
+00:01:50,635 --> 00:01:54,285
+To create this,
+we add in the Trade Area tool.
+
+31
+00:01:54,285 --> 00:01:58,625
+And we're going to specify the value
+of the trade area to be 5 and
+
+32
+00:01:58,625 --> 00:02:01,690
+the units to be radius in miles.
+
+33
+00:02:01,690 --> 00:02:04,710
+Let's bring in a browse tool so
+we can see the radii.
+
+34
+00:02:04,710 --> 00:02:09,830
+Browse tools always have to be used when
+we're looking at the actual map objects.
+
+35
+00:02:09,830 --> 00:02:12,250
+They're not required for
+looking at tabular data.
+
+36
+00:02:12,250 --> 00:02:17,720
+We can see the trade areas here,
+and if we look close,
+
+37
+00:02:17,720 --> 00:02:23,030
+we can see that there's overlap
+between two of the trade areas.
+
+38
+00:02:23,030 --> 00:02:28,430
+This could actually be removed by
+going back to the Trade Area tool and
+
+39
+00:02:28,430 --> 00:02:31,940
+selecting the option
+to eliminate overlap.
+
+40
+00:02:31,940 --> 00:02:37,670
+When we run the work flow again, we can
+see that the overlap is eliminated,
+
+41
+00:02:37,670 --> 00:02:43,420
+basically by drawing a straight line
+on the edges where the two radii meet,
+
+42
+00:02:43,420 --> 00:02:45,580
+getting rid of the overlap.
+
+43
+00:02:45,580 --> 00:02:48,140
+Next, we'lll use a spacial match tool
+
+44
+00:02:48,140 --> 00:02:52,100
+to find the customers that fall
+within the five mile radii

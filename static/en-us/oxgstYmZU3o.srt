@@ -1,0 +1,256 @@
+1
+00:00:00,140 --> 00:00:05,280
+The delay alternatives in the spinlock
+implementations that we saw in the last
+
+2
+00:00:05,280 --> 00:00:10,020
+morsel address the problem that
+everybody tries to acquire
+
+3
+00:00:10,020 --> 00:00:14,175
+a spinlock at the same time
+when that lock is freed.
+
+4
+00:00:14,175 --> 00:00:19,445
+In this paper, Anderson proposes
+a new lock called a queuing lock,
+
+5
+00:00:19,445 --> 00:00:22,295
+and that lock is trying
+to solve the problem that
+
+6
+00:00:22,295 --> 00:00:25,285
+everybody sees that the lock
+is free at the same time.
+
+7
+00:00:26,335 --> 00:00:30,635
+If we solve this problem, if not
+everybody sees that the lock is free,
+
+8
+00:00:30,635 --> 00:00:33,215
+then we're essentially also
+solving the second problem,
+
+9
+00:00:33,215 --> 00:00:37,640
+because then not everybody will try
+to acquire the lock at the same time.
+
+10
+00:00:37,640 --> 00:00:40,024
+So let's take a look at
+what this lock looks like.
+
+11
+00:00:40,024 --> 00:00:42,820
+The queuing lock looks as follows.
+
+12
+00:00:42,820 --> 00:00:44,930
+It uses an array of flags,
+
+13
+00:00:44,930 --> 00:00:49,600
+with up to N elements where N is
+the number of processors in the system.
+
+14
+00:00:49,600 --> 00:00:53,585
+And every single one of the elements
+will have one of two values,
+
+15
+00:00:53,585 --> 00:00:57,530
+either has-lock or must-wait.
+
+16
+00:00:57,530 --> 00:01:00,180
+In addition, we will have two pointers.
+
+17
+00:01:00,180 --> 00:01:03,371
+They will indicate
+the current lock holder, so
+
+18
+00:01:03,371 --> 00:01:06,652
+that one clearly will
+have a value of has-lock.
+
+19
+00:01:06,652 --> 00:01:11,608
+And they will also indicate the index
+into this array that has the last
+
+20
+00:01:11,608 --> 00:01:13,700
+element on the queue.
+
+21
+00:01:13,700 --> 00:01:17,690
+When a new thread arrives at the lock,
+it will get a ticket and
+
+22
+00:01:17,690 --> 00:01:20,720
+that will be the current position
+of the thread in the lock.
+
+23
+00:01:20,720 --> 00:01:24,780
+This will be done by adding it after
+the existing last element in the queue.
+
+24
+00:01:24,780 --> 00:01:29,020
+So basically the queue last
+value will be incremented and
+
+25
+00:01:29,020 --> 00:01:32,340
+the new thread will be assigned
+the next position in the array.
+
+26
+00:01:32,340 --> 00:01:36,190
+Since multiple threads may be arriving
+at the lock at the same time,
+
+27
+00:01:36,190 --> 00:01:39,930
+we will clearly have to
+make sure that the way that
+
+28
+00:01:39,930 --> 00:01:43,900
+this queue last appointer is
+incremented is done atomically.
+
+29
+00:01:43,900 --> 00:01:48,130
+So basically this queuing clock depends
+on some support for an atomic read and
+
+30
+00:01:48,130 --> 00:01:48,920
+increments.
+
+31
+00:01:48,920 --> 00:01:52,650
+It will rely on that kind of
+hardware atomic operation.
+
+32
+00:01:52,650 --> 00:01:55,420
+This is not as common
+as test-and-set that we
+
+33
+00:01:55,420 --> 00:01:58,150
+used in the previous
+spinlock implementations.
+
+34
+00:01:58,150 --> 00:02:02,480
+For each of the threads that
+are arriving at this queuing spinlock,
+
+35
+00:02:02,480 --> 00:02:06,780
+the assigned element of this
+flags array, the queue[ticket],
+
+36
+00:02:06,780 --> 00:02:08,870
+that acts like a private lock.
+
+37
+00:02:08,870 --> 00:02:13,360
+What that means is that as long as
+the value of queue[ticket] is must-wait,
+
+38
+00:02:13,360 --> 00:02:16,530
+then the thread will have to
+spin just like with a spinlock.
+
+39
+00:02:16,530 --> 00:02:19,770
+When the value of this
+element becomes has-lock,
+
+40
+00:02:19,770 --> 00:02:23,330
+that will be an indication that the lock
+is free and you can go ahead and
+
+41
+00:02:23,330 --> 00:02:25,480
+proceed and enter the critical section.
+
+42
+00:02:25,480 --> 00:02:28,883
+When a thread completes
+the critical section and
+
+43
+00:02:28,883 --> 00:02:33,448
+needs to release the lock,
+it needs to signal the next flag in this
+
+44
+00:02:33,448 --> 00:02:36,693
+queuing array that it
+currently has the lock.
+
+45
+00:02:36,693 --> 00:02:41,113
+So these are the steps that control who
+gets to execute and what needs to happen
+
+46
+00:02:41,113 --> 00:02:45,071
+when a critical sections is complete and
+a lock needs to be released.
+
+47
+00:02:45,071 --> 00:02:49,298
+Other than the fact that this lock
+requires some support for some read and
+
+48
+00:02:49,298 --> 00:02:53,802
+increment to be performed atomically,
+clearly it's going to require a size
+
+49
+00:02:53,802 --> 00:02:57,510
+that is much larger than the other
+spinlock implementations.
+
+50
+00:02:57,510 --> 00:03:01,110
+All other locks we saw needed
+only one memory location to
+
+51
+00:03:01,110 --> 00:03:04,960
+keep the spinlock information whether
+the spinlock is free or busy.
+
+52
+00:03:04,960 --> 00:03:09,774
+And here we need N such locations
+to keep the values has-lock or
+
+53
+00:03:09,774 --> 00:03:13,250
+must-wait for
+each of the elements in this array.

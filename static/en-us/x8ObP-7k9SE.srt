@@ -1,0 +1,108 @@
+1
+00:00:00,130 --> 00:00:03,924
+I'll start answering this question by
+looking at Apple's documentation for
+
+2
+00:00:03,924 --> 00:00:05,196
+the UIWebViewDelegate.
+
+3
+00:00:05,196 --> 00:00:09,822
+If we scroll down, of these four methods
+listed, webViewDidFinishLoad definitely
+
+4
+00:00:09,822 --> 00:00:12,530
+stands out as the method
+that we're looking for.
+
+5
+00:00:14,620 --> 00:00:17,550
+With this method we should have
+access to the URLs that are being
+
+6
+00:00:17,550 --> 00:00:22,450
+loaded by a webview, including the URL
+that's loaded after a user taps Allow.
+
+7
+00:00:22,450 --> 00:00:24,850
+Now checking for
+this is surprisingly simple.
+
+8
+00:00:24,850 --> 00:00:27,050
+Back in the TMDBAuthViewController,
+
+9
+00:00:27,050 --> 00:00:30,260
+I'll start by implementing
+webViewDidFinishLoad.
+
+10
+00:00:30,260 --> 00:00:31,480
+In this function, I can check for
+
+11
+00:00:31,480 --> 00:00:35,630
+the webview's current URL by
+digging into this absoluteString.
+
+12
+00:00:35,630 --> 00:00:38,921
+I'll just print this value out first
+to see what the URL is after the user's
+
+13
+00:00:38,921 --> 00:00:39,661
+clicked Allow.
+
+14
+00:00:47,783 --> 00:00:50,899
+So, we've clicked Allow, and
+the last URL that's printed here,
+
+15
+00:00:50,899 --> 00:00:54,990
+this is the value we'll want to
+capture in order to dismiss the view.
+
+16
+00:00:54,990 --> 00:00:56,860
+So let's stop this and
+finish the implementation.
+
+17
+00:00:57,900 --> 00:00:59,430
+So we'll check the absoluteString, and
+
+18
+00:00:59,430 --> 00:01:03,630
+if it's equal to the AuthorizationURL
+plus the requestToken and
+
+19
+00:01:03,630 --> 00:01:07,460
+allow, then we can assume that
+the user's clicked the Allow button.
+
+20
+00:01:07,460 --> 00:01:10,240
+If that's the case, then we'll
+dismiss the ViewController and
+
+21
+00:01:10,240 --> 00:01:13,290
+call the completitionHandler
+that we stored earlier.
+
+22
+00:01:13,290 --> 00:01:14,211
+Let's see if this works.
+
+23
+00:01:22,567 --> 00:01:24,440
+And there we go,
+the controller dismisses.

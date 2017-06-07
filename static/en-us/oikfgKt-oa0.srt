@@ -1,0 +1,542 @@
+1
+00:00:00,160 --> 00:00:04,910
+We mentioned timeslices very briefly in
+the introductory lesson on processes.
+
+2
+00:00:04,910 --> 00:00:09,050
+To define it more specifically,
+a timeslice is the maximum amount of
+
+3
+00:00:09,050 --> 00:00:12,000
+uninterrupted time that
+can be given to a task.
+
+4
+00:00:12,000 --> 00:00:15,354
+It is also referred
+to as a time quantum.
+
+5
+00:00:15,354 --> 00:00:19,300
+The timeslice determines the maximum
+amount, that means that a task can
+
+6
+00:00:19,300 --> 00:00:23,960
+actually run a less amount of time
+than what the timeslice specifies.
+
+7
+00:00:23,960 --> 00:00:27,310
+For instance the task may need
+to wait on an I/O operation or
+
+8
+00:00:27,310 --> 00:00:32,110
+to synchronize with some other tasks in
+the system, on a mute tag that's locked.
+
+9
+00:00:32,110 --> 00:00:34,400
+In that case the task will
+be placed on a queue,
+
+10
+00:00:34,400 --> 00:00:37,480
+will no longer be running on the CPU.
+
+11
+00:00:37,480 --> 00:00:41,600
+The task will run less amount of time,
+once it's placed on the queue
+
+12
+00:00:41,600 --> 00:00:44,690
+the scheduler will pick
+the next task to execute.
+
+13
+00:00:44,690 --> 00:00:47,570
+Also if we have
+a priority-based scheduling,
+
+14
+00:00:47,570 --> 00:00:52,170
+a higher priority task will preempt
+a lower priority one, which means that
+
+15
+00:00:52,170 --> 00:00:56,630
+the lower priority task will run less
+amount of time than the timeslice.
+
+16
+00:00:56,630 --> 00:00:58,420
+Regardless of what exactly happens,
+
+17
+00:00:58,420 --> 00:01:04,090
+the use of timeslices allows us to
+achieve for the tasks to be interleaved.
+
+18
+00:01:04,090 --> 00:01:06,632
+They will be timesharing the CPU.
+
+19
+00:01:06,632 --> 00:01:11,340
+For I/O bound tasks, this is not so
+critical since they're constantly
+
+20
+00:01:11,340 --> 00:01:14,820
+releasing the CPU to
+wait on some I/O event.
+
+21
+00:01:14,820 --> 00:01:16,545
+But for CPU bound tasks,
+
+22
+00:01:16,545 --> 00:01:20,710
+timeslices is the only event that
+we can achieve time-sharing.
+
+23
+00:01:20,710 --> 00:01:25,350
+They will be preempted after some amount
+of time as specified by the timeslice.
+
+24
+00:01:25,350 --> 00:01:28,370
+And we will schedule
+the next CPU bound task.
+
+25
+00:01:28,370 --> 00:01:31,150
+Let's look at some examples now,
+consider for
+
+26
+00:01:31,150 --> 00:01:33,730
+an instance the simple
+first-come-first-serve and
+
+27
+00:01:33,730 --> 00:01:38,470
+shortest job first scheduler that we saw
+earlier in this lesson, they both had
+
+28
+00:01:38,470 --> 00:01:43,580
+a same mix of task with same arrival
+times but led to different metrics.
+
+29
+00:01:43,580 --> 00:01:47,490
+And, note that the metrics that we
+computed for first-come-first-serve
+
+30
+00:01:47,490 --> 00:01:52,220
+also apply to a round-robin scheduler
+that doesn't use timeslices.
+
+31
+00:01:52,220 --> 00:01:56,770
+Given that these tasks don't perform any
+I/O, they just execute for some fixed,
+
+32
+00:01:56,770 --> 00:01:58,832
+specified amount of time.
+
+33
+00:01:58,832 --> 00:02:02,230
+Then, round-robin would
+have scheduled them one and
+
+34
+00:02:02,230 --> 00:02:04,460
+after another the way they
+showed up in the queue.
+
+35
+00:02:04,460 --> 00:02:07,700
+And, that would have been identical
+to first-come-first-serve.
+
+36
+00:02:07,700 --> 00:02:11,931
+Now let's calculate the metrics for
+a round-robin scheduler with timeslices,
+
+37
+00:02:11,931 --> 00:02:14,701
+and let's say we'll first
+look at a timeslice of 1.
+
+38
+00:02:15,740 --> 00:02:19,000
+The execution of these
+tasks will look as follows.
+
+39
+00:02:19,000 --> 00:02:21,060
+T1 will execute for 1 second,
+
+40
+00:02:21,060 --> 00:02:25,890
+that happens to be exactly the time
+that T1 requires, so T1 will complete.
+
+41
+00:02:25,890 --> 00:02:30,650
+Then, with timeslicing, we would have
+preempted the execution of T1 anyways.
+
+42
+00:02:30,650 --> 00:02:32,110
+We will execute T2.
+
+43
+00:02:32,110 --> 00:02:36,440
+Now, T2 needs more time to execute,
+10 seconds.
+
+44
+00:02:36,440 --> 00:02:38,710
+So, it will actually be preempted.
+
+45
+00:02:38,710 --> 00:02:41,100
+T3 will run for 1 second.
+
+46
+00:02:41,100 --> 00:02:45,370
+At the time when we're about to preempt
+it, the T3 will anyways complete, and
+
+47
+00:02:45,370 --> 00:02:49,610
+the only runnable task in the system
+is T2, and we will execute T2.
+
+48
+00:02:49,610 --> 00:02:51,670
+So T2 will run for
+the remainder of the time.
+
+49
+00:02:51,670 --> 00:02:54,510
+Now if we look at some of
+the metrics for throughput,
+
+50
+00:02:54,510 --> 00:02:56,360
+we'll see we have the exact same thing.
+
+51
+00:02:56,360 --> 00:03:00,350
+It's still takes us 12 seconds to
+complete these three tasks, so
+
+52
+00:03:00,350 --> 00:03:03,770
+the throughput will again be the same
+as in the previous two systems.
+
+53
+00:03:03,770 --> 00:03:08,647
+Looking at the wait time,
+we have a wait time of, 0, 1, and
+
+54
+00:03:08,647 --> 00:03:11,440
+2 for each of the tasks respectively.
+
+55
+00:03:11,440 --> 00:03:13,790
+So wait time is 1 second.
+
+56
+00:03:13,790 --> 00:03:19,320
+If we look at the average completion
+time, the tasks complete at 1,
+
+57
+00:03:19,320 --> 00:03:22,070
+at 12, and at 3 seconds respectively.
+
+58
+00:03:22,070 --> 00:03:25,150
+So the average completion
+time is 5.33 seconds.
+
+59
+00:03:26,450 --> 00:03:30,285
+So without even knowing what
+are the execution times of these tasks,
+
+60
+00:03:30,285 --> 00:03:35,230
+with a timeslice of 1, we were able to
+achieve a schedule that's really close
+
+61
+00:03:35,230 --> 00:03:39,350
+to this best one that we saw before,
+the shortest job-first one.
+
+62
+00:03:39,350 --> 00:03:39,980
+This is good.
+
+63
+00:03:39,980 --> 00:03:43,610
+We keep some of the simplicity that
+we had in first-come-first-serve.
+
+64
+00:03:43,610 --> 00:03:45,720
+We don't need to worry
+about the going out,
+
+65
+00:03:45,720 --> 00:03:48,230
+what is the execution time of the task.
+
+66
+00:03:48,230 --> 00:03:51,560
+And yet
+we're able to achieve good wait time and
+
+67
+00:03:51,560 --> 00:03:54,500
+good completion time for
+all of the tasks.
+
+68
+00:03:54,500 --> 00:03:57,940
+Some of the benefits of this
+timeslice-based method,
+
+69
+00:03:57,940 --> 00:04:03,140
+particularly when the timeslice is
+relatively short like in this case,
+
+70
+00:04:03,140 --> 00:04:07,060
+is that we end up with a situation
+where the short tasks finish sooner.
+
+71
+00:04:07,060 --> 00:04:11,030
+So T3 was able to complete much
+sooner than in the first come,
+
+72
+00:04:11,030 --> 00:04:12,650
+first serve case.
+
+73
+00:04:12,650 --> 00:04:17,220
+And we're also able to achieve a
+schedule of that is more responsive and
+
+74
+00:04:17,220 --> 00:04:21,680
+any I/O operations can be executed and
+initiated as soon as possible.
+
+75
+00:04:21,680 --> 00:04:27,150
+So for instance, consider if T2 is
+a task that the users interact with,
+
+76
+00:04:27,150 --> 00:04:29,570
+it will be able to start
+as soon as possible,
+
+77
+00:04:29,570 --> 00:04:31,990
+only 1 second into the execution.
+
+78
+00:04:31,990 --> 00:04:34,900
+The users will see that it is running.
+
+79
+00:04:34,900 --> 00:04:39,692
+And yet it will be preempted to
+squeeze in T3 at this point.
+
+80
+00:04:39,692 --> 00:04:43,460
+If T2 needs to initiate any I/O
+operations, those will be initiated
+
+81
+00:04:43,460 --> 00:04:46,500
+during this interval that
+it's running at this point.
+
+82
+00:04:46,500 --> 00:04:50,690
+That would not have been the case with
+the shortest job first scheduler, and
+
+83
+00:04:50,690 --> 00:04:53,840
+because T2 would have only
+been scheduled after all
+
+84
+00:04:53,840 --> 00:04:58,080
+of the shorter jobs complete,
+so T1 and T3 in that case.
+
+85
+00:04:58,080 --> 00:05:03,590
+The downside is that we exaggerated so
+far a little in that we had these tasks
+
+86
+00:05:03,590 --> 00:05:07,810
+immediately starting their execution
+after the previous one was interrupted.
+
+87
+00:05:07,810 --> 00:05:09,970
+However, there's some real overheads.
+
+88
+00:05:09,970 --> 00:05:11,740
+We have to interrupt a running task.
+
+89
+00:05:11,740 --> 00:05:16,290
+We have to run the scheduler in order
+to pick which task to run next.
+
+90
+00:05:16,290 --> 00:05:19,610
+And then we actually need to perform the
+context which when we're scheduling from
+
+91
+00:05:19,610 --> 00:05:22,230
+the context of task of
+one task to another.
+
+92
+00:05:22,230 --> 00:05:24,340
+All of these times are pure overhead.
+
+93
+00:05:24,340 --> 00:05:28,500
+There's no useful application processing
+that's done during those intervals.
+
+94
+00:05:28,500 --> 00:05:32,400
+Know that these overheads, so
+if we have a timeslice of one
+
+95
+00:05:32,400 --> 00:05:37,395
+these set time-outs for the timer will
+appear during the execution of task
+
+96
+00:05:37,395 --> 00:05:42,080
+T2 except at that point since there
+are no other runable tasks in the system
+
+97
+00:05:42,080 --> 00:05:45,240
+we're really not going to be
+scheduling or contact switching.
+
+98
+00:05:45,240 --> 00:05:47,440
+And that's the dominant
+part of the overhead.
+
+99
+00:05:47,440 --> 00:05:49,770
+And exactly how these
+sticks are handled,
+
+100
+00:05:49,770 --> 00:05:52,800
+we're not really going to
+discuss further in this class.
+
+101
+00:05:52,800 --> 00:05:57,750
+The dominant sources of these overheads
+will impact the total execution of
+
+102
+00:05:57,750 --> 00:06:02,470
+this timeline, and increasing the time
+will cause the throughput to go down.
+
+103
+00:06:02,470 --> 00:06:06,110
+Each of the tasks will also start
+just a little bit later, so
+
+104
+00:06:06,110 --> 00:06:09,300
+the wait time will actually
+increase a little bit.
+
+105
+00:06:09,300 --> 00:06:13,250
+And the completion time for each of the
+tasks will be delayed by a little bit so
+
+106
+00:06:13,250 --> 00:06:16,720
+the average completion time
+will increase as well.
+
+107
+00:06:16,720 --> 00:06:22,000
+The exact impact on these metrics will
+depend on the length of the timeslice
+
+108
+00:06:22,000 --> 00:06:26,360
+and how it relates to the actual time
+to perform these context switching and
+
+109
+00:06:26,360 --> 00:06:30,490
+scheduling actions, so as long as
+the timeslice value significantly larger
+
+110
+00:06:30,490 --> 00:06:34,750
+than the context switch-time, we should
+be able to minimize these overheads.
+
+111
+00:06:34,750 --> 00:06:39,540
+In general, we should consider both
+the nature of the tasks as well as
+
+112
+00:06:39,540 --> 00:06:43,930
+the overheads in the system when
+determining meaningful values for
+
+113
+00:06:43,930 --> 00:06:44,590
+the timeslice.

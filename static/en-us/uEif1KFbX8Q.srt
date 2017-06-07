@@ -1,0 +1,293 @@
+1
+00:00:00,530 --> 00:00:03,620
+This article explains how you can
+support multiple languages in an app.
+
+2
+00:00:05,060 --> 00:00:07,830
+Scrolling down we can look
+at the project structure.
+
+3
+00:00:09,110 --> 00:00:11,840
+Within the res directory,
+you can add another subdirectory
+
+4
+00:00:11,840 --> 00:00:14,750
+that contains resources for
+a certain language.
+
+5
+00:00:14,750 --> 00:00:16,219
+This is the default values folder,
+
+6
+00:00:16,219 --> 00:00:18,868
+and we're choosing to put all
+the English text strings here.
+
+7
+00:00:18,868 --> 00:00:23,418
+In the values-es folder,
+we have all the Spanish text strings.
+
+8
+00:00:23,418 --> 00:00:28,560
+In the values-fr folder,
+we have all the French translations.
+
+9
+00:00:28,560 --> 00:00:31,640
+If the user chooses Spanish as
+the language on their device,
+
+10
+00:00:31,640 --> 00:00:35,810
+then the system will load these
+resources from the values-es folder.
+
+11
+00:00:35,810 --> 00:00:37,290
+If this folder didn't exist,
+
+12
+00:00:37,290 --> 00:00:40,720
+then the system would just fall
+back to the default resources.
+
+13
+00:00:40,720 --> 00:00:43,560
+If the user has French as the default
+language on their device,
+
+14
+00:00:43,560 --> 00:00:46,200
+then the system will
+load these resources.
+
+15
+00:00:46,200 --> 00:00:50,930
+By the way, es is the language code for
+Spanish, and fr is the language code for
+
+16
+00:00:50,930 --> 00:00:52,240
+French.
+
+17
+00:00:52,240 --> 00:00:55,010
+Android uses the ISO language codes.
+
+18
+00:00:55,010 --> 00:00:57,350
+Here are some examples of languages and
+
+19
+00:00:57,350 --> 00:01:00,470
+the two-letter language codes
+that correspond with them.
+
+20
+00:01:00,470 --> 00:01:02,960
+Let's go back to implementation details.
+
+21
+00:01:02,960 --> 00:01:06,230
+In order for this system to switch out
+different translations for the text in
+
+22
+00:01:06,230 --> 00:01:10,880
+our app, we need to isolate all the text
+from all the other logic in our app.
+
+23
+00:01:10,880 --> 00:01:15,000
+We do this by creating a strings.xml
+file in the values folder.
+
+24
+00:01:15,000 --> 00:01:18,180
+This is an XML resource file
+that contains a list of
+
+25
+00:01:18,180 --> 00:01:21,850
+all the string resources that
+are visible to the user.
+
+26
+00:01:21,850 --> 00:01:24,718
+This is the first time we're
+seeing XML be used for
+
+27
+00:01:24,718 --> 00:01:29,309
+something other than defining a layout,
+this is defining a list of resources.
+
+28
+00:01:29,309 --> 00:01:33,311
+This is one string resource, and
+the name that we used to refer to it is
+
+29
+00:01:33,311 --> 00:01:36,970
+called title, and the value of
+this string is My Application.
+
+30
+00:01:38,180 --> 00:01:43,085
+This is another string resource, and
+we refer to it using hello_world,
+
+31
+00:01:43,085 --> 00:01:46,380
+and the actual value is Hello World.
+
+32
+00:01:46,380 --> 00:01:50,010
+Then, in the values-es folder we
+can create a strings.xml file,
+
+33
+00:01:50,010 --> 00:01:54,290
+but now these have the Spanish
+translations of those same strings.
+
+34
+00:01:54,290 --> 00:01:58,600
+This string resource still goes by
+the name of title, like here, but
+
+35
+00:01:58,600 --> 00:02:03,190
+now the value is the Spanish
+translation of My Application.
+
+36
+00:02:03,190 --> 00:02:04,410
+The same applies for
+
+37
+00:02:04,410 --> 00:02:08,805
+the Hello World string resource with
+the Spanish translation here now.
+
+38
+00:02:08,805 --> 00:02:11,593
+And this is one more example
+of the French translations of
+
+39
+00:02:11,593 --> 00:02:12,820
+the strings.xml file.
+
+40
+00:02:14,180 --> 00:02:16,680
+Once our strings
+are declared as resources,
+
+41
+00:02:16,680 --> 00:02:20,709
+we can then refer to them in the XML or
+Java using the appropriate syntax.
+
+42
+00:02:21,880 --> 00:02:24,910
+In the Java code,
+we refer to strings like this.
+
+43
+00:02:24,910 --> 00:02:28,330
+In the Java code, this is how
+we reference string resources.
+
+44
+00:02:28,330 --> 00:02:32,380
+First, we call the method getResources
+to get the app's resources, and
+
+45
+00:02:32,380 --> 00:02:37,565
+then we call getString and we pass as
+input the resource ID of the string.
+
+46
+00:02:38,705 --> 00:02:41,985
+In this case it's r.string.hello_world.
+
+47
+00:02:41,985 --> 00:02:46,125
+String is the resource type and
+hello_world is the name of the resource.
+
+48
+00:02:47,145 --> 00:02:51,125
+All of this on the right-hand side ends
+up becoming the hello_world string, and
+
+49
+00:02:51,125 --> 00:02:52,895
+is stored in this string variable.
+
+50
+00:02:53,920 --> 00:02:56,760
+This whole expression
+evaluates to hello_world and
+
+51
+00:02:56,760 --> 00:02:58,320
+gets stored in this variable.
+
+52
+00:02:58,320 --> 00:03:02,910
+By the way, this is similar to how we
+refer to image resources in the Java
+
+53
+00:03:02,910 --> 00:03:08,900
+code using r.drawable.photo, or
+whatever the name of the image is.
+
+54
+00:03:08,900 --> 00:03:12,940
+In the XML we can refer to the strings
+using the add string notation and
+
+55
+00:03:12,940 --> 00:03:15,000
+then the name of the string resource.
+
+56
+00:03:15,000 --> 00:03:17,990
+Now the XML and
+the Java code can stay the same
+
+57
+00:03:17,990 --> 00:03:21,910
+regardless of what language the user
+has chosen on their device.
+
+58
+00:03:21,910 --> 00:03:25,600
+We don't need a different layout file
+that has the Spanish translation for
+
+59
+00:03:25,600 --> 00:03:26,800
+the text attribute here.
+
+60
+00:03:27,940 --> 00:03:31,250
+Android will load the correct
+translations depending on the primary
+
+61
+00:03:31,250 --> 00:03:33,470
+language selected on the device.
+
+62
+00:03:33,470 --> 00:03:34,310
+It's pretty awesome, huh?

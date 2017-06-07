@@ -1,0 +1,413 @@
+﻿1
+00:00:00,140 --> 00:00:04,107
+Thus far we've talked at
+length about activities,
+
+2
+00:00:04,107 --> 00:00:06,919
+content providers, and services.
+
+3
+00:00:06,919 --> 00:00:09,679
+So you might be wondering,
+what about that mysterious
+
+4
+00:00:09,679 --> 00:00:12,529
+fourth Android component,
+the broadcast receiver?
+
+5
+00:00:13,800 --> 00:00:15,360
+When things happen on your phone,
+
+6
+00:00:15,359 --> 00:00:19,419
+Android issues special intents
+known as system broadcast intents.
+
+7
+00:00:19,420 --> 00:00:22,840
+Here are some examples of broadcast
+intents sent by the system.
+
+8
+00:00:22,839 --> 00:00:27,269
+Looking a little closer, here's one, for
+example, when a download is complete.
+
+9
+00:00:27,269 --> 00:00:30,160
+And here's another for
+when the headset is plugged in.
+
+10
+00:00:30,160 --> 00:00:33,270
+If you're creating an app that needs to
+know about one of these state changes on
+
+11
+00:00:33,270 --> 00:00:37,620
+the phone and then run some code, you're
+going to be using a broadcast receiver.
+
+12
+00:00:37,619 --> 00:00:41,530
+A broadcast receiver is a core Android
+component that enables applications to
+
+13
+00:00:41,530 --> 00:00:46,240
+receive intents that are broadcast by
+the system or by other applications.
+
+14
+00:00:46,240 --> 00:00:50,160
+A broadcast receiver can be triggered
+even when the app is not running.
+
+15
+00:00:50,159 --> 00:00:53,869
+For example, say that you have
+an app that needs to change its UI
+
+16
+00:00:53,869 --> 00:00:57,439
+depending on whether the device
+is online versus offline.
+
+17
+00:00:57,439 --> 00:01:00,451
+A broadcast receiver is what you'd
+use to be triggered when the change
+
+18
+00:01:00,451 --> 00:01:01,755
+has occurred.
+
+19
+00:01:01,755 --> 00:01:04,730
+You specify which request
+the receiver is interested in,
+
+20
+00:01:04,730 --> 00:01:06,689
+using something known
+as an intent filter.
+
+21
+00:01:07,959 --> 00:01:10,899
+An intent filter is an expression
+that says what intents
+
+22
+00:01:10,900 --> 00:01:12,530
+should trigger your component.
+
+23
+00:01:12,530 --> 00:01:16,280
+Intent filters are commonly used
+in the app's manifest file.
+
+24
+00:01:16,280 --> 00:01:20,280
+It should be noted that intent filters
+are not specific to broadcast receivers.
+
+25
+00:01:20,280 --> 00:01:24,769
+For example, the first activity in
+your app always has an intent filter.
+
+26
+00:01:24,769 --> 00:01:29,699
+This intent filter uses the action Main,
+and the category LAUNCHER, as seen here.
+
+27
+00:01:29,700 --> 00:01:33,340
+This signals that this is the main
+entry point for your app.
+
+28
+00:01:33,340 --> 00:01:35,820
+And when the launcher starts
+an intent to launch the app,
+
+29
+00:01:35,819 --> 00:01:38,909
+this is the activity that should
+be triggered by that intent.
+
+30
+00:01:38,909 --> 00:01:40,390
+If you want to create
+a broadcast receiver,
+
+31
+00:01:40,390 --> 00:01:44,920
+there are basically two ways to do it,
+either statically or dynamically.
+
+32
+00:01:44,920 --> 00:01:47,489
+The difference is that
+static broadcast receivers
+
+33
+00:01:47,489 --> 00:01:50,589
+are triggered whenever
+the broadcast intent occurs.
+
+34
+00:01:50,590 --> 00:01:53,780
+The receiver will be triggered
+even if the app is offline.
+
+35
+00:01:53,780 --> 00:01:56,210
+This is opposed to dynamic
+broadcast receivers,
+
+36
+00:01:56,209 --> 00:01:58,119
+which are tied to the app's life cycle.
+
+37
+00:01:58,120 --> 00:02:03,040
+Generally, if possible, it's better to
+create a dynamic broadcast receiver, or
+
+38
+00:02:03,040 --> 00:02:05,320
+to use job scheduling, if you can.
+
+39
+00:02:05,319 --> 00:02:08,758
+Relying on static broadcast
+receivers can be problematic.
+
+40
+00:02:08,758 --> 00:02:10,019
+Let's see why.
+
+41
+00:02:10,020 --> 00:02:12,909
+So if you look at how you statically
+define a broadcast receiver,
+
+42
+00:02:12,909 --> 00:02:16,250
+it involves registering
+the receiver in the manifest, and
+
+43
+00:02:16,250 --> 00:02:18,068
+using the XML intent-filter tags.
+
+44
+00:02:19,139 --> 00:02:22,479
+For example, this is how you'd
+statically define a broadcast receiver
+
+45
+00:02:22,479 --> 00:02:23,739
+in the Android manifest.
+
+46
+00:02:23,740 --> 00:02:25,920
+And this would trigger
+a broadcast receiver called
+
+47
+00:02:25,919 --> 00:02:30,109
+NewPictureBroadcastReceiver anytime
+a new photo is taken.
+
+48
+00:02:30,110 --> 00:02:33,259
+The corresponding
+NewPictureBroadcastReceiver class would
+
+49
+00:02:33,258 --> 00:02:34,628
+look something like this.
+
+50
+00:02:34,628 --> 00:02:37,323
+It would be a class that
+extends BroadcastReceiver and
+
+51
+00:02:37,324 --> 00:02:39,870
+implements the onReceive method.
+
+52
+00:02:39,870 --> 00:02:41,135
+onReceive takes a context and
+
+53
+00:02:41,135 --> 00:02:43,879
+the broadcast intent that
+triggered the broadcast.
+
+54
+00:02:43,879 --> 00:02:46,699
+Because this is a static broadcast
+receiver that was defined in
+
+55
+00:02:46,699 --> 00:02:49,509
+the manifest, this broadcast
+receiver would be triggered
+
+56
+00:02:49,509 --> 00:02:53,340
+whenever a photo was taken,
+even if your app isn't running.
+
+57
+00:02:53,340 --> 00:02:57,530
+Now, this is very powerful, but
+it's also very easy to abuse.
+
+58
+00:02:57,530 --> 00:03:00,840
+Just think of what would happen if
+the user had downloaded ten apps
+
+59
+00:03:00,840 --> 00:03:04,060
+that were all using the new
+picture taken broadcast.
+
+60
+00:03:04,060 --> 00:03:06,900
+Whenever a new picture was taken,
+suddenly a bunch of
+
+61
+00:03:06,900 --> 00:03:10,210
+apps would be triggered, and
+the device would slow to a crawl.
+
+62
+00:03:10,210 --> 00:03:14,140
+Because of this, some broadcast intents
+won't even let you statically define
+
+63
+00:03:14,139 --> 00:03:15,819
+a broadcast receiver.
+
+64
+00:03:15,819 --> 00:03:20,352
+Specifically, intents that have
+the FLAG_RECEIVER_REGISTERED_ONLY.
+
+65
+00:03:20,353 --> 00:03:25,175
+Specifically, intents that have the
+FLAG_RECEIVER_REGISTERED_ONLY flag set.
+
+66
+00:03:25,175 --> 00:03:28,755
+So if you need to execute code
+when your app isn't running,
+
+67
+00:03:28,754 --> 00:03:31,055
+schedule a job if possible.
+
+68
+00:03:31,055 --> 00:03:32,284
+Jobs have constraints for
+
+69
+00:03:32,284 --> 00:03:36,430
+the most common situations, as we
+mentioned, such as Wi-Fi and charging.
+
+70
+00:03:36,430 --> 00:03:39,010
+And jobs are set up to be
+very battery friendly.
+
+71
+00:03:39,009 --> 00:03:44,049
+That said, in some cases, you will need
+to register a static broadcast receiver.
+
+72
+00:03:44,050 --> 00:03:47,760
+These are usually cases where you need
+to catch certain specific intents
+
+73
+00:03:47,759 --> 00:03:50,929
+on older devices when
+the app is not running.
+
+74
+00:03:50,930 --> 00:03:55,330
+But if you need to listen for system
+broadcasts when the app is running,
+
+75
+00:03:55,330 --> 00:03:58,110
+dynamic broadcast receivers
+are your best option.
+
+76
+00:03:58,110 --> 00:04:00,190
+The actual broadcast receiver class for
+
+77
+00:04:00,189 --> 00:04:03,159
+a dynamically registered
+receiver looks the same.
+
+78
+00:04:03,159 --> 00:04:06,294
+But instead of defining the receiver
+in the manifest, you register and
+
+79
+00:04:06,294 --> 00:04:10,099
+un-register the receiver during
+the activity's life cycle methods.
+
+80
+00:04:10,099 --> 00:04:12,909
+In this case,
+we're using onResume and onPause.
+
+81
+00:04:12,909 --> 00:04:14,746
+This example's some
+code that listens for
+
+82
+00:04:14,746 --> 00:04:16,482
+whether the headphones are plugged in.
+
+83
+00:04:16,482 --> 00:04:19,851
+Now, in this example, because it's
+a dynamic broadcast receiver,
+
+84
+00:04:19,850 --> 00:04:24,050
+this listening will only happen when
+the activity is open and visible.
+
+85
+00:04:24,050 --> 00:04:26,759
+Now that you know a little bit
+more about broadcast receivers and
+
+86
+00:04:26,759 --> 00:04:28,639
+when to use them,
+let's add one to your app.
+

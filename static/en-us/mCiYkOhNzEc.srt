@@ -1,0 +1,212 @@
+1
+00:00:00,460 --> 00:00:03,400
+If you've ever painted a room or
+a house, you know that it takes a lot of
+
+2
+00:00:03,400 --> 00:00:06,820
+work to color in those walls, and if
+you need to end up repainting it again,
+
+3
+00:00:06,820 --> 00:00:09,270
+you've wasted a ton of work
+doing it the first time.
+
+4
+00:00:09,270 --> 00:00:12,310
+This same concept of wasting
+effort to paint something
+
+5
+00:00:12,310 --> 00:00:15,680
+can also contribute to performance
+problems in your applications.
+
+6
+00:00:15,680 --> 00:00:17,370
+See, at the intersection
+of performance and
+
+7
+00:00:17,370 --> 00:00:20,520
+design lies a common
+performance problem.
+
+8
+00:00:20,520 --> 00:00:21,490
+Overdraw.
+
+9
+00:00:21,490 --> 00:00:25,480
+Overdraw is a term used to describe how
+many times a pixel on the screen has
+
+10
+00:00:25,480 --> 00:00:30,340
+been redrawn in a single frame for
+example if we have a bunch of stacked
+
+11
+00:00:30,340 --> 00:00:33,600
+UI cards, all of the cards that are on
+the top part of the stack closer to
+
+12
+00:00:33,600 --> 00:00:37,670
+the user will hide large portions of
+the cards that are hidden underneath.
+
+13
+00:00:37,670 --> 00:00:41,610
+Meaning that we'll spend time drawing
+those cards which are mostly invisible.
+
+14
+00:00:41,610 --> 00:00:45,050
+This is actually a large problem because
+each time we're rendering pixels that
+
+15
+00:00:45,050 --> 00:00:48,490
+don't contribute to the final scene,
+we're wasting GP performance.
+
+16
+00:00:48,490 --> 00:00:52,620
+And with modern layouts, it's easy to
+fall into a trap where we're stacking
+
+17
+00:00:52,620 --> 00:00:56,280
+and layering views to give us this
+beautiful, transcendent design.
+
+18
+00:00:56,280 --> 00:00:58,580
+But also creating the same
+overdraw problem.
+
+19
+00:00:58,580 --> 00:01:01,030
+To maximize performance
+in your application,
+
+20
+00:01:01,030 --> 00:01:03,170
+you'll want to minimize overdraw.
+
+21
+00:01:03,170 --> 00:01:07,200
+Fortunately, it's easy to see the amount
+of overdraw in your applications
+
+22
+00:01:07,200 --> 00:01:08,620
+right on your Android device.
+
+23
+00:01:08,620 --> 00:01:13,330
+Simply go into developer mode, and
+then turn on the Show GPU overdraw flag.
+
+24
+00:01:13,330 --> 00:01:17,040
+Now, don't panic while your phone turns
+into some sort of visual awesomeness.
+
+25
+00:01:17,040 --> 00:01:19,200
+This is completely normal.
+
+26
+00:01:19,200 --> 00:01:22,920
+Android is using different colors to
+highlight areas of overdraw occurring
+
+27
+00:01:22,920 --> 00:01:23,880
+on your screen.
+
+28
+00:01:23,880 --> 00:01:25,590
+If you've only rendered
+a pixel one time,
+
+29
+00:01:25,590 --> 00:01:28,500
+you should see it in its
+true color with no tint.
+
+30
+00:01:28,500 --> 00:01:31,870
+However, as the overdraw increases,
+so do the colors.
+
+31
+00:01:31,870 --> 00:01:34,290
+A one x overdraw, for
+example, is tinted blue,
+
+32
+00:01:34,290 --> 00:01:36,940
+meaning that you've now redrawn
+this pixel one extra time.
+
+33
+00:01:36,940 --> 00:01:41,230
+And, of course, two x, three x, and
+four x follow the same pattern.
+
+34
+00:01:41,230 --> 00:01:43,050
+So when you're tuning your
+app's user interface,
+
+35
+00:01:43,050 --> 00:01:46,210
+you'll want to reduce as
+much overdraw as possible,
+
+36
+00:01:46,210 --> 00:01:50,130
+reducing all of those areas of
+red in favor of the nice blues.
+
+37
+00:01:50,130 --> 00:01:53,140
+To accomplish this goal, there's two
+main ways you can remove overdraw.
+
+38
+00:01:53,140 --> 00:01:56,270
+Now firstly, you'll want to
+eliminate unneeded backgrounds and
+
+39
+00:01:56,270 --> 00:01:59,490
+drawables from views that won't
+contribute to the final rendered image.
+
+40
+00:01:59,490 --> 00:02:02,020
+Remember, this is wasted performance.
+
+41
+00:02:02,020 --> 00:02:05,200
+Secondly, you can define areas
+of your screen that you know
+
+42
+00:02:05,200 --> 00:02:10,430
+will hide portions of your view, which
+can help reduce CPU and GPU overhead.
+
+43
+00:02:10,430 --> 00:02:13,900
+So let's get started at the top and
+join Chris as he's going to take us and
+
+44
+00:02:13,900 --> 00:02:14,750
+help us look at overdraw.

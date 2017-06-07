@@ -1,0 +1,266 @@
+1
+00:00:00,100 --> 00:00:01,890
+Our favorite actor app is up and
+working.
+
+2
+00:00:01,890 --> 00:00:04,050
+But it's time for
+us to tackle the class that we took for
+
+3
+00:00:04,050 --> 00:00:06,990
+granted in lesson three,
+the Core Data stack manager.
+
+4
+00:00:06,990 --> 00:00:09,490
+We've been using a convenient
+singleton method to get a hold of this
+
+5
+00:00:09,490 --> 00:00:10,390
+stack manager.
+
+6
+00:00:10,390 --> 00:00:12,750
+The class method named sharedInstance.
+
+7
+00:00:12,750 --> 00:00:16,149
+It gives us a handle to an object
+that represents the whole stack.
+
+8
+00:00:16,149 --> 00:00:19,460
+Let's consider this whole diagram
+to be that very shared object.
+
+9
+00:00:19,460 --> 00:00:20,650
+What does it consist of?
+
+10
+00:00:20,650 --> 00:00:23,230
+What kind of objects
+does it hold inside?
+
+11
+00:00:23,230 --> 00:00:26,000
+One thing that we know for
+sure is that it holds context.
+
+12
+00:00:26,000 --> 00:00:29,080
+An instance of NSManagedObjectContext.
+
+13
+00:00:29,080 --> 00:00:31,810
+We've been accessing this context
+through the managed object
+
+14
+00:00:31,810 --> 00:00:33,180
+context property.
+
+15
+00:00:33,180 --> 00:00:36,700
+We've insinuated that this context
+sits on top of a Core Data stack.
+
+16
+00:00:36,700 --> 00:00:38,020
+What is this stack?
+
+17
+00:00:38,020 --> 00:00:39,610
+Well, quite a bit as it turns out.
+
+18
+00:00:39,610 --> 00:00:40,910
+Let's take a look deeper.
+
+19
+00:00:40,910 --> 00:00:43,680
+One of the things that this stack
+contains is an object that describes
+
+20
+00:00:43,680 --> 00:00:45,180
+the movie and person entities.
+
+21
+00:00:45,180 --> 00:00:48,560
+This object is called the manage
+object model or the model.
+
+22
+00:00:48,560 --> 00:00:50,750
+And it's created using
+a special Xcode tool.
+
+23
+00:00:50,750 --> 00:00:53,150
+We're going to learn to use
+that tool in this lesson.
+
+24
+00:00:53,150 --> 00:00:56,010
+Any time that you use Core Data,
+you will make one of these models.
+
+25
+00:00:56,010 --> 00:00:59,020
+Your virtual tour staff will have
+a similar model that describes
+
+26
+00:00:59,020 --> 00:01:00,230
+the pins and pictures.
+
+27
+00:01:00,230 --> 00:01:02,460
+After that, we get into the standard
+machinery of Core Data.
+
+28
+00:01:02,460 --> 00:01:06,320
+The machinery that actually persists
+the objects into the hard drive.
+
+29
+00:01:06,320 --> 00:01:09,400
+At the very bottom of the stack is
+the file that actually holds the data.
+
+30
+00:01:09,400 --> 00:01:12,980
+Our manager starts out with a handle to
+the familiar documents directory where
+
+31
+00:01:12,980 --> 00:01:14,350
+the files live.
+
+32
+00:01:14,350 --> 00:01:15,740
+And what is this file?
+
+33
+00:01:15,740 --> 00:01:19,660
+Core Data is capable of using an XML
+file or bites from an NSData, but
+
+34
+00:01:19,660 --> 00:01:23,390
+usually Core Data uses a database
+file in the SQLite format.
+
+35
+00:01:23,390 --> 00:01:26,670
+Our Core Data stack manager has
+code to help it find this file.
+
+36
+00:01:26,670 --> 00:01:30,020
+In our case,
+it's called FavoriteActors.sqlite.
+
+37
+00:01:30,020 --> 00:01:30,590
+Rest easy.
+
+38
+00:01:30,590 --> 00:01:34,115
+You don't need to know how to uses
+relational databases to use Core Data.
+
+39
+00:01:34,115 --> 00:01:37,550
+Xcode makes this file for us, and
+we never interact with it, directly.
+
+40
+00:01:37,550 --> 00:01:41,550
+Instead, our stack manager has an object
+named the persistent store coordinator.
+
+41
+00:01:41,550 --> 00:01:44,280
+Again, we won't need to work with
+this object directly, either.
+
+42
+00:01:44,280 --> 00:01:46,840
+But in order to write
+the Core Data stack manager class,
+
+43
+00:01:46,840 --> 00:01:48,950
+we'll need to know the steps
+required to make one.
+
+44
+00:01:48,950 --> 00:01:52,900
+When we invoke save or fetch on the
+context, it works with this persistent
+
+45
+00:01:52,900 --> 00:01:55,660
+store coordinator to interact
+with the SQLite file.
+
+46
+00:01:55,660 --> 00:01:56,230
+In this lesson,
+
+47
+00:01:56,230 --> 00:01:59,380
+we're going to go line by line through
+the whole coredatamanager.swift
+
+48
+00:01:59,380 --> 00:02:01,900
+file and make sure that there's
+nothing mysterious about how
+
+49
+00:02:01,900 --> 00:02:03,110
+this class gets built.
+
+50
+00:02:03,110 --> 00:02:05,600
+As we said, it's good to have that
+kind of confidence in an interview.
+
+51
+00:02:05,600 --> 00:02:09,070
+But first, we're going to focus on
+this managed object model, or model.
+
+52
+00:02:09,070 --> 00:02:11,862
+The tool that we use to configure this
+object is one of the more interesting
+
+53
+00:02:11,862 --> 00:02:12,990
+Xcode features.
+
+54
+00:02:12,990 --> 00:02:14,820
+It's a little bit like storyboard,
+but for data.
+
+55
+00:02:14,820 --> 00:02:16,610
+It's called the model editor.
+
+56
+00:02:16,610 --> 00:02:19,550
+We'll use it to define the person and
+movie entities, purely logically.
+
+57
+00:02:19,550 --> 00:02:20,830
+In a second, we'll take a look.

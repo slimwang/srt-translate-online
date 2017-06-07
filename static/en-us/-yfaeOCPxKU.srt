@@ -1,0 +1,304 @@
+1
+00:00:00,050 --> 00:00:04,260
+We said multiple times throughout this
+lecture that the exact details of how
+
+2
+00:00:04,260 --> 00:00:09,190
+a distributed shared memory system
+should be designed or how the coherence
+
+3
+00:00:09,190 --> 00:00:14,360
+mechanisms will be triggered depends
+on the exact Consistency Model.
+
+4
+00:00:14,360 --> 00:00:17,340
+But before describing
+several Consistency Models,
+
+5
+00:00:17,340 --> 00:00:20,930
+let's first explain what
+is a Consistency Model.
+
+6
+00:00:20,930 --> 00:00:23,680
+Consistency models
+exist in the context of
+
+7
+00:00:23,680 --> 00:00:28,560
+the implementations of applications or
+services that manage distributed state.
+
+8
+00:00:28,560 --> 00:00:33,270
+The consistency model is
+a guarantee that the state changes
+
+9
+00:00:33,270 --> 00:00:35,690
+will behave in a certain way,
+
+10
+00:00:35,690 --> 00:00:40,420
+as long as the upper software layers
+follow a certain set of rules.
+
+11
+00:00:40,420 --> 00:00:44,950
+For the memory to behave
+correctly what that means is that
+
+12
+00:00:44,950 --> 00:00:49,530
+we're making some guarantees how our
+memory access is going to be ordered.
+
+13
+00:00:49,530 --> 00:00:53,770
+For the memory to behave correctly,
+what that means is that
+
+14
+00:00:53,770 --> 00:00:58,080
+the way that the operations will
+access memory will somehow be
+
+15
+00:00:58,080 --> 00:01:02,790
+representative to how those operations
+were issued in the first place.
+
+16
+00:01:02,790 --> 00:01:06,880
+And that, we will be able to make some
+guarantees that whenever somebody is
+
+17
+00:01:06,880 --> 00:01:11,650
+trying to read the memory location
+that the value that they will see will
+
+18
+00:01:11,650 --> 00:01:17,210
+be a value that's representative of what
+was written to that location recently.
+
+19
+00:01:17,210 --> 00:01:21,890
+Now, what it means is that a consistency
+model guarantees that the memory will
+
+20
+00:01:21,890 --> 00:01:26,760
+behave correctly, that the accesses will
+be correctly interleaved and the updates
+
+21
+00:01:26,760 --> 00:01:32,400
+will be correctly propagated only if
+the software follows certain rules.
+
+22
+00:01:32,400 --> 00:01:37,830
+That implies that the software
+needs to either use specific APIs
+
+23
+00:01:37,830 --> 00:01:42,320
+when it performs an update or when
+it requests to perform an access, or
+
+24
+00:01:42,320 --> 00:01:46,350
+that the software needs to
+set certain expectations,
+
+25
+00:01:46,350 --> 00:01:50,170
+based on what this memory guarantee is.
+
+26
+00:01:50,170 --> 00:01:55,520
+For instance that I'm just not going
+to enforce that updates the particular
+
+27
+00:01:55,520 --> 00:02:00,120
+memory location are written in the exact
+same order as they were issued.
+
+28
+00:02:00,120 --> 00:02:02,850
+If the software knows this
+particular information,
+
+29
+00:02:02,850 --> 00:02:06,580
+then it is up to the programmer to
+use some additional operations,
+
+30
+00:02:06,580 --> 00:02:11,600
+such as locking constructs or similar
+in order to get the desired behavior.
+
+31
+00:02:11,600 --> 00:02:16,070
+This is not something that's
+specific to a distributed system.
+
+32
+00:02:16,070 --> 00:02:19,920
+Even in a single CPU, when we have
+multiple threads that are trying to
+
+33
+00:02:19,920 --> 00:02:22,720
+access a particular memory location,
+
+34
+00:02:22,720 --> 00:02:28,900
+we know that there's no guarantee how
+those thread accesses will be ordered.
+
+35
+00:02:28,900 --> 00:02:32,760
+And which particular update
+will be returned when,
+
+36
+00:02:32,760 --> 00:02:37,120
+let's say, thread end tries to
+read a particular shared variable.
+
+37
+00:02:37,120 --> 00:02:42,020
+If we want to achieve some guaranties
+that are stronger than that,
+
+38
+00:02:42,020 --> 00:02:46,730
+the software will have to use locks,
+would have to use atomic operations,
+
+39
+00:02:46,730 --> 00:02:49,364
+would have to use some counters.
+
+40
+00:02:49,364 --> 00:02:54,220
+So, a consistency model, it specifies
+how the memory will behave and
+
+41
+00:02:54,220 --> 00:02:58,200
+the upper layers of the software
+must understand that and
+
+42
+00:02:58,200 --> 00:03:00,400
+set their expectations accordingly.
+
+43
+00:03:00,400 --> 00:03:04,340
+At the same time, the memory
+layer may export certain API's,
+
+44
+00:03:04,340 --> 00:03:07,360
+certain operations like
+the locks that we mentioned.
+
+45
+00:03:07,360 --> 00:03:10,790
+And then, if the software
+uses those API's correctly,
+
+46
+00:03:10,790 --> 00:03:13,960
+then perhaps the memory system can
+make even stronger guarantees.
+
+47
+00:03:14,960 --> 00:03:17,670
+In the discussion of consistency models,
+
+48
+00:03:17,670 --> 00:03:21,070
+we will use timeline diagrams
+which will look like this.
+
+49
+00:03:21,070 --> 00:03:25,260
+Which will show when certain operations
+occur according to real time,
+
+50
+00:03:25,260 --> 00:03:28,220
+based on some neutral
+external observer that sees
+
+51
+00:03:28,220 --> 00:03:31,600
+everything instantaneously
+the minute those operations occur.
+
+52
+00:03:31,600 --> 00:03:38,170
+Our notation for
+this is as follows: R_m1(x) means that
+
+53
+00:03:38,170 --> 00:03:44,760
+this value x was read from
+a particular memory location m1.
+
+54
+00:03:44,760 --> 00:03:48,240
+What this means here, is that at
+this particular point of time,
+
+55
+00:03:48,240 --> 00:03:51,520
+the value x was read
+from memory location m1.
+
+56
+00:03:51,520 --> 00:03:54,330
+And then at this later point in time,
+
+57
+00:03:54,330 --> 00:03:59,500
+the value y was read
+from memory location m2.
+
+58
+00:03:59,500 --> 00:04:03,280
+Similarly, W_m1(y) means that the value
+
+59
+00:04:03,280 --> 00:04:06,960
+y was written to in this case,
+memory location m1.
+
+60
+00:04:06,960 --> 00:04:09,480
+So, at this particular point in time,
+
+61
+00:04:09,480 --> 00:04:12,600
+the value z was written
+to a memory location m3.
+
+62
+00:04:12,600 --> 00:04:17,600
+We will also assume that initially at
+the start of this timeline diagrams
+
+63
+00:04:17,600 --> 00:04:19,260
+all of the memory set to zero

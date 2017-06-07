@@ -1,0 +1,193 @@
+1
+00:00:00,100 --> 00:00:03,910
+We spend already quite a bit of time
+talking about dealing with concurrency
+
+2
+00:00:03,910 --> 00:00:05,570
+in multi-threaded programs.
+
+3
+00:00:05,570 --> 00:00:08,020
+We explained mutexes and
+condition variables,
+
+4
+00:00:08,020 --> 00:00:11,380
+both in generic terms based
+on Birrell's paper, and
+
+5
+00:00:11,380 --> 00:00:15,690
+also their specific APIs and
+usage in the context of Pthreads.
+
+6
+00:00:15,690 --> 00:00:16,890
+You're probably all safe and
+
+7
+00:00:16,890 --> 00:00:21,530
+well underway with writing your Pthread
+programs using these constructs.
+
+8
+00:00:21,530 --> 00:00:23,550
+So you're probably
+asking yourselves now,
+
+9
+00:00:23,550 --> 00:00:26,335
+why do we have to talk more
+about synchronization?
+
+10
+00:00:26,335 --> 00:00:29,710
+We spent quite a bit of time
+already talking about it and
+
+11
+00:00:29,710 --> 00:00:31,620
+gained experience with it.
+
+12
+00:00:31,620 --> 00:00:33,120
+Well, as we discussed mutexes and
+
+13
+00:00:33,120 --> 00:00:37,610
+condition variables we mentioned
+a number of common pitfalls.
+
+14
+00:00:37,610 --> 00:00:41,390
+This included things like
+forgetting to unlock the mutex, or
+
+15
+00:00:41,390 --> 00:00:44,280
+signalling the wrong
+condition variables.
+
+16
+00:00:44,280 --> 00:00:47,740
+These issues are an indication
+that the use of mutexes and
+
+17
+00:00:47,740 --> 00:00:51,770
+condition variables is not
+an error-proof process.
+
+18
+00:00:51,770 --> 00:00:55,960
+What that means is that these
+errors may affect the correctness
+
+19
+00:00:55,960 --> 00:00:59,670
+of programs that use mutexes and
+condition variables.
+
+20
+00:00:59,670 --> 00:01:02,630
+And in general it will affect the ease
+
+21
+00:01:02,630 --> 00:01:06,410
+of use of these two
+synchronization constructs.
+
+22
+00:01:06,410 --> 00:01:08,450
+Also, in the examples that we discussed,
+
+23
+00:01:08,450 --> 00:01:12,525
+we had to introduce some helper
+variables when we needed to express
+
+24
+00:01:12,525 --> 00:01:17,870
+invariance to control a reader's
+writer access to a shared file.
+
+25
+00:01:17,870 --> 00:01:22,420
+We also need helper variables to deal
+with certain priority restrictions,
+
+26
+00:01:22,420 --> 00:01:26,450
+given that mutexes or
+condition variables don't inherently
+
+27
+00:01:26,450 --> 00:01:29,180
+allow us to specify anything
+regarding priority.
+
+28
+00:01:30,190 --> 00:01:35,160
+This implies that these
+constructs lack expressive power.
+
+29
+00:01:35,160 --> 00:01:40,110
+We cannot easily express with them
+arbitrary synchronization conditions.
+
+30
+00:01:40,110 --> 00:01:44,860
+Finally, mutexes and condition variables
+and any other software synchronization
+
+31
+00:01:44,860 --> 00:01:49,190
+construct requires a lower
+level support from the hardware
+
+32
+00:01:49,190 --> 00:01:53,870
+in order to guarantee the correctness
+of the synchronization construct.
+
+33
+00:01:53,870 --> 00:01:59,145
+Hardware provides this type of low
+level support via atomic instructions.
+
+34
+00:01:59,145 --> 00:02:01,700
+So these are some of
+the reasons why it makes
+
+35
+00:02:01,700 --> 00:02:05,030
+sense to spend more time
+talking about synchronization.
+
+36
+00:02:05,030 --> 00:02:08,258
+What we will do, we will look
+at few other constructs, some of
+
+37
+00:02:08,258 --> 00:02:12,560
+which eliminate some of the issues
+with mutexes and condition variables.
+
+38
+00:02:12,560 --> 00:02:15,430
+And also we will talk
+about different types of
+
+39
+00:02:15,430 --> 00:02:17,970
+views the underlying
+atomic instructions,
+
+40
+00:02:17,970 --> 00:02:21,810
+to achieve efficient implementations
+of certain synchronization constructs.

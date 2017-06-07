@@ -1,0 +1,167 @@
+1
+00:00:00,110 --> 00:00:04,019
+An alternative to the multi-process
+model is to develop the web server as
+
+2
+00:00:04,019 --> 00:00:06,220
+a multi-threaded application.
+
+3
+00:00:06,220 --> 00:00:10,220
+So here we have multiple execution
+context, multiple threads within
+
+4
+00:00:10,220 --> 00:00:15,030
+the same address space and every single
+one of them is processing a request.
+
+5
+00:00:15,030 --> 00:00:19,070
+Again, this illustration is taken
+from Pai's Flash paper, and
+
+6
+00:00:19,070 --> 00:00:20,670
+this is figure three there.
+
+7
+00:00:20,670 --> 00:00:25,660
+In this figure, every single one of the
+threads executes all the steps, starting
+
+8
+00:00:25,660 --> 00:00:31,230
+from the accept connection call all the
+way down to actually sending the file.
+
+9
+00:00:31,230 --> 00:00:34,560
+Another possibility is to have
+the web server implemented
+
+10
+00:00:34,560 --> 00:00:37,560
+as a boss-workers model
+where a single boss
+
+11
+00:00:37,560 --> 00:00:40,610
+thread performs the accept
+connection operation.
+
+12
+00:00:40,610 --> 00:00:44,590
+And every single one of the workers
+performs the remaining operations from
+
+13
+00:00:44,590 --> 00:00:49,740
+the reading of the HTTP request
+that comes in on that connection
+
+14
+00:00:49,740 --> 00:00:51,950
+until actually sending the file.
+
+15
+00:00:51,950 --> 00:00:55,890
+The benefits of this approach is that
+the threads share the address space, so
+
+16
+00:00:55,890 --> 00:00:58,205
+they will share everything
+that's within it.
+
+17
+00:00:58,205 --> 00:01:02,170
+They don't have to perform system calls
+in order to coordinate with other
+
+18
+00:01:02,170 --> 00:01:06,040
+threads, like what's the case
+in the multi-threaded execution.
+
+19
+00:01:06,040 --> 00:01:08,991
+Also context switching between
+these threads is cheap.
+
+20
+00:01:08,991 --> 00:01:12,066
+It can be done at the user level,
+threading library level.
+
+21
+00:01:12,066 --> 00:01:15,576
+Because a lot of the per thread
+state is shared among them,
+
+22
+00:01:15,576 --> 00:01:20,093
+then we don't have to allocate memory
+for everything that's required for
+
+23
+00:01:20,093 --> 00:01:22,330
+each of these execution contexts.
+
+24
+00:01:22,330 --> 00:01:26,776
+They share the address space, so the
+memory requirements are also lower for
+
+25
+00:01:26,776 --> 00:01:28,941
+the multi-threaded application.
+
+26
+00:01:28,941 --> 00:01:31,860
+The downside of the approach
+is that it is not simple and
+
+27
+00:01:31,860 --> 00:01:35,250
+straightforward to implement
+the multi-threaded program.
+
+28
+00:01:35,250 --> 00:01:38,151
+You have to explicitly
+deal with synchronization
+
+29
+00:01:38,151 --> 00:01:41,616
+when threads are accessing and
+updating the shared state.
+
+30
+00:01:41,616 --> 00:01:45,696
+And we also rely for the underlying
+operating system to have support for
+
+31
+00:01:45,696 --> 00:01:46,650
+threads.
+
+32
+00:01:46,650 --> 00:01:48,460
+This is not so much of an issue today.
+
+33
+00:01:48,460 --> 00:01:51,490
+Operating systems
+are regularly multi-threaded.
+
+34
+00:01:51,490 --> 00:01:55,540
+But it was at the time of
+the writing of the Flash paper, so
+
+35
+00:01:55,540 --> 00:01:59,010
+we will make sure that we address this
+argument as well in our explanations.

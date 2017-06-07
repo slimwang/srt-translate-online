@@ -1,0 +1,319 @@
+1
+00:00:00,470 --> 00:00:00,970
+In Python,
+
+2
+00:00:00,970 --> 00:00:05,510
+the contents of a CSV file are commonly
+represented as a list of rows.
+
+3
+00:00:05,510 --> 00:00:08,760
+There are two common choices for
+how to represent each row.
+
+4
+00:00:08,760 --> 00:00:11,500
+In the first option, each row is a list.
+
+5
+00:00:11,500 --> 00:00:14,090
+So then the overall data
+structure is a list of lists.
+
+6
+00:00:15,290 --> 00:00:17,830
+In the second option,
+each row is a dictionary.
+
+7
+00:00:17,830 --> 00:00:21,560
+This option works well if you have a CSV
+header because then the keys of each
+
+8
+00:00:21,560 --> 00:00:26,330
+dictionary can be column names and
+the fields can be values.
+
+9
+00:00:26,330 --> 00:00:29,280
+So then your overall data structure
+would be a list of dictionaries.
+
+10
+00:00:30,580 --> 00:00:34,160
+Now you could write the code to read
+in the data from the CSV yourself and
+
+11
+00:00:34,160 --> 00:00:35,670
+it wouldn't be too hard, but
+
+12
+00:00:35,670 --> 00:00:39,040
+there are libraries already
+written to do it for you.
+
+13
+00:00:39,040 --> 00:00:42,870
+Here I've written some code using
+Python's unicodecsv library
+
+14
+00:00:42,870 --> 00:00:46,290
+to read in the student enrollments and
+print out the first record.
+
+15
+00:00:46,290 --> 00:00:48,070
+I'll go ahead and run the cell.
+
+16
+00:00:48,070 --> 00:00:51,430
+This code is taken pretty directly
+from the example code on the CSV
+
+17
+00:00:51,430 --> 00:00:53,040
+module's documentation page.
+
+18
+00:00:53,040 --> 00:00:54,790
+There's a link to this page
+in the instructor notes.
+
+19
+00:00:56,060 --> 00:00:58,950
+So in this code,
+first I create the list of enrollment.
+
+20
+00:00:58,950 --> 00:01:00,840
+Then I open the file.
+
+21
+00:01:00,840 --> 00:01:04,379
+The mode, rb, here, means that
+the file will be opened for reading.
+
+22
+00:01:04,379 --> 00:01:07,650
+And the b flag changes the format
+of how the file is read.
+
+23
+00:01:07,650 --> 00:01:11,440
+The CSV documentation page mentions that
+I need to use this when I'm using this
+
+24
+00:01:11,440 --> 00:01:12,600
+library.
+
+25
+00:01:12,600 --> 00:01:14,680
+Next, you'll notice I'm
+using the DictReader,
+
+26
+00:01:14,680 --> 00:01:17,020
+which means each row
+will be a dictionary.
+
+27
+00:01:17,020 --> 00:01:20,620
+I chose this since our data does have
+a header row, and this will allow me to
+
+28
+00:01:20,620 --> 00:01:24,210
+refer to each column by its name,
+rather than its number.
+
+29
+00:01:24,210 --> 00:01:27,070
+Now the reader won't
+actually be a list of rows.
+
+30
+00:01:27,070 --> 00:01:29,860
+Instead it will be something
+called an interator.
+
+31
+00:01:29,860 --> 00:01:33,120
+If you're curious, you can learn more
+about iterators by following the link in
+
+32
+00:01:33,120 --> 00:01:34,670
+the instructor notes.
+
+33
+00:01:34,670 --> 00:01:37,850
+What you need to know here though, is
+that the iterator let's you write a for
+
+34
+00:01:37,850 --> 00:01:40,580
+loop to access each element,
+but only once.
+
+35
+00:01:42,010 --> 00:01:46,104
+So if I were to add this second loop
+to print out all the row in the reader,
+
+36
+00:01:46,104 --> 00:01:48,493
+then actually nothing would be printed,
+
+37
+00:01:48,493 --> 00:01:52,270
+because you can only loop
+over an iterator once.
+
+38
+00:01:52,270 --> 00:01:54,760
+Since I want to access
+the data multiple times,
+
+39
+00:01:54,760 --> 00:01:58,450
+I used my one loop to
+append each row to a list.
+
+40
+00:01:58,450 --> 00:02:00,870
+And finally I need to close the file.
+
+41
+00:02:00,870 --> 00:02:03,188
+Then since this row is
+the last row in the cell,
+
+42
+00:02:03,188 --> 00:02:05,100
+it gets the output in the output area.
+
+43
+00:02:05,100 --> 00:02:08,183
+And actually this code is a bit
+like lengthier than it needs to be
+
+44
+00:02:08,183 --> 00:02:09,630
+in a couple of ways.
+
+45
+00:02:09,630 --> 00:02:13,600
+The first is that I can avoid having to
+close the file by instead using a with
+
+46
+00:02:13,600 --> 00:02:14,970
+statement.
+
+47
+00:02:14,970 --> 00:02:17,420
+When I open the file
+using a with statement,
+
+48
+00:02:17,420 --> 00:02:21,150
+I need to indent everything
+that accesses that file.
+
+49
+00:02:21,150 --> 00:02:25,340
+Then, once the indented block ends,
+the file will automatically be closed.
+
+50
+00:02:25,340 --> 00:02:29,900
+This is closer to how the example code
+in the CSV documentation page looked.
+
+51
+00:02:29,900 --> 00:02:33,970
+And second, there's actually an easier
+way to convert an iterator to a list.
+
+52
+00:02:33,970 --> 00:02:35,800
+Here, by calling list{reader},
+
+53
+00:02:35,800 --> 00:02:39,220
+I've created a list of the enrollment
+data without using a loop.
+
+54
+00:02:39,220 --> 00:02:42,290
+So now I can delete this line and
+this line.
+
+55
+00:02:44,130 --> 00:02:47,620
+Now I'd like you to write code to
+read in the other two CSV files.
+
+56
+00:02:47,620 --> 00:02:50,700
+And also take a look at the first row
+of each file to make sure it worked
+
+57
+00:02:50,700 --> 00:02:51,250
+properly.
+
+58
+00:02:52,270 --> 00:02:55,090
+In case you're still getting everything
+set up, you'll also be able to
+
+59
+00:02:55,090 --> 00:02:59,100
+complete this exercise in the Udacity
+code editor at the end of this video.
+
+60
+00:02:59,100 --> 00:03:02,410
+If you do, you can use test run to
+see the output of your code, and
+
+61
+00:03:02,410 --> 00:03:04,340
+submit to see if your
+solution is correct.
+
+62
+00:03:05,350 --> 00:03:07,650
+If you do have everything
+set up locally,
+
+63
+00:03:07,650 --> 00:03:10,830
+then the starter notebook will contain
+the codes that I've just written,
+
+64
+00:03:10,830 --> 00:03:13,050
+as well as some other code
+you'll see later in the course.
+
+65
+00:03:14,110 --> 00:03:17,650
+Find the point marked number 1,
+and add your code there.
+
+66
+00:03:17,650 --> 00:03:20,862
+Make sure you name your variables,
+daily_engagement, and
+
+67
+00:03:20,862 --> 00:03:24,180
+project_submissions, or
+some of the later code will not work.

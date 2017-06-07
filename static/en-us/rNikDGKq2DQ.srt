@@ -1,0 +1,137 @@
+﻿1
+00:00:00,840 --> 00:00:04,049
+We just made our app write
+messages to the database.
+
+2
+00:00:04,049 --> 00:00:07,099
+It's cool to see the messages showing
+up in the database console, but for
+
+3
+00:00:07,099 --> 00:00:11,259
+friendly chat to work, our friends need
+to be able to read those messages.
+
+4
+00:00:11,259 --> 00:00:13,929
+Right now,
+our table of messages is empty.
+
+5
+00:00:13,929 --> 00:00:16,239
+It's as if our messages just disappear,
+
+6
+00:00:16,239 --> 00:00:18,280
+somewhere off into
+the ether of the cloud.
+
+7
+00:00:19,359 --> 00:00:21,469
+Now in reality,
+they are in the database.
+
+8
+00:00:21,469 --> 00:00:26,099
+But unless we visit the database and the
+Firebase console, we're not seeing them.
+
+9
+00:00:26,100 --> 00:00:29,750
+We need to add code to the app so that
+it not only writes it to the database,
+
+10
+00:00:29,750 --> 00:00:32,020
+but reads and
+displays data from the database.
+
+11
+00:00:33,390 --> 00:00:37,130
+Reading data in Firebase works a little
+different than the traditional method.
+
+12
+00:00:37,130 --> 00:00:39,320
+Traditionally if you
+want to read some data,
+
+13
+00:00:39,320 --> 00:00:43,980
+you'd send individual request or queries
+to read data from your data base.
+
+14
+00:00:43,979 --> 00:00:45,689
+If you think this data
+might change often,
+
+15
+00:00:45,689 --> 00:00:48,829
+such as the contents of
+the chat message list.
+
+16
+00:00:48,829 --> 00:00:51,989
+You need to keep requerying
+the database to get new messages.
+
+17
+00:00:51,990 --> 00:00:55,289
+Firebase real time
+database is different,
+
+18
+00:00:55,289 --> 00:00:57,890
+because it tells you
+when the changes occur.
+
+19
+00:00:57,890 --> 00:01:01,399
+Instead of repeatedly asking whether
+there are changes made to the data,
+
+20
+00:01:01,399 --> 00:01:04,409
+our code will be automatically
+informed when data is updated.
+
+21
+00:01:05,519 --> 00:01:09,440
+With just a little work, we can handle
+both downloading the existing database
+
+22
+00:01:09,439 --> 00:01:12,480
+as well as syncing any
+future updates in real time.
+
+23
+00:01:13,890 --> 00:01:18,120
+We can do this by creating listeners
+that are tuned in like a radio station
+
+24
+00:01:18,120 --> 00:01:21,250
+into specific locations in the database.
+
+25
+00:01:21,250 --> 00:01:24,069
+The listener is triggered once for
+the initial state of the data and
+
+26
+00:01:24,069 --> 00:01:26,029
+again any time the data changes.
+
+27
+00:01:27,280 --> 00:01:31,230
+And once the listener is triggered,
+it completes any task that you specify.
+
+28
+00:01:31,230 --> 00:01:33,660
+So let's see what this listener
+looks like in Friendly Chat.
+

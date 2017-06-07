@@ -1,0 +1,181 @@
+1
+00:00:00,330 --> 00:00:02,520
+Let me go ahead and
+show you my implementation for
+
+2
+00:00:02,520 --> 00:00:06,090
+this exercise, although your code
+may be a little bit different.
+
+3
+00:00:06,090 --> 00:00:08,670
+Let's start with the /restaurants route.
+
+4
+00:00:08,670 --> 00:00:10,730
+If I'm receiving a get
+request from the client,
+
+5
+00:00:10,730 --> 00:00:14,950
+I should return all of the restaurants
+currently stored in my database.
+
+6
+00:00:14,950 --> 00:00:18,300
+I can do that by making a query
+with SQL alchemy like so.
+
+7
+00:00:18,300 --> 00:00:21,060
+And then serializing and
+jsoning the results.
+
+8
+00:00:21,060 --> 00:00:24,870
+Now, if I'm receiving a post request,
+I will want to extract information from
+
+9
+00:00:24,870 --> 00:00:28,040
+the url parameters in order
+to find a new restaurant.
+
+10
+00:00:28,040 --> 00:00:31,320
+So I retrieve my location and
+mealType in the code here.
+
+11
+00:00:31,320 --> 00:00:34,956
+Next, I will call findARestaurant
+on the mealType and location and
+
+12
+00:00:34,956 --> 00:00:37,550
+start in a variable
+called restaurant_info.
+
+13
+00:00:37,550 --> 00:00:41,480
+So long as restaurant_info isn’t empty,
+I can create a new restaurant row in my
+
+14
+00:00:41,480 --> 00:00:45,750
+database with the restaurant_info
+object and commit my changes.
+
+15
+00:00:45,750 --> 00:00:48,510
+If I find a restaurant did
+not come up with any results,
+
+16
+00:00:48,510 --> 00:00:52,380
+I can return a json message like
+this one indicating the error.
+
+17
+00:00:52,380 --> 00:00:55,108
+Now for my /restaurants/id route.
+
+18
+00:00:55,108 --> 00:00:56,200
+For all of these requests,
+
+19
+00:00:56,200 --> 00:00:59,870
+I'm going to want to find the restaurant
+with the matching id number of my route.
+
+20
+00:00:59,870 --> 00:01:02,260
+So I will execute that query here first.
+
+21
+00:01:02,260 --> 00:01:03,610
+If I received a get request,
+
+22
+00:01:03,610 --> 00:01:07,570
+I will simply return the restaurant
+in a serialized json object.
+
+23
+00:01:07,570 --> 00:01:10,870
+If I received a put request, there
+should be some parameters to update
+
+24
+00:01:10,870 --> 00:01:12,760
+the information about this restaurant.
+
+25
+00:01:12,760 --> 00:01:14,580
+I will grab these parameters
+from the URL here.
+
+26
+00:01:14,580 --> 00:01:17,450
+I will only update
+the restaurant if there was
+
+27
+00:01:17,450 --> 00:01:19,910
+actually a parameter
+provided in the URL.
+
+28
+00:01:19,910 --> 00:01:22,240
+So I'll check first and then update.
+
+29
+00:01:22,240 --> 00:01:25,060
+Finally, I return
+an updated JSON object,
+
+30
+00:01:25,060 --> 00:01:26,270
+once I've committed these changes.
+
+31
+00:01:27,290 --> 00:01:31,280
+And finally, I add the functionality for
+the delete request.
+
+32
+00:01:31,280 --> 00:01:34,400
+I delete the restaurant,
+commit the change, and
+
+33
+00:01:34,400 --> 00:01:36,988
+return that the restaurant has
+been successfully deleted.
+
+34
+00:01:36,988 --> 00:01:42,360
+Running my tester.py, I see that
+all of my tests run successfully.
+
+35
+00:01:42,360 --> 00:01:45,900
+The solution code for this activity
+is provided in the instructor notes.
+
+36
+00:01:45,900 --> 00:01:49,090
+Please make sure you are able to get
+your own version of this web application
+
+37
+00:01:49,090 --> 00:01:53,180
+running and understand the code
+written thus far before continuing on.
+
+38
+00:01:53,180 --> 00:01:56,470
+Don't hesitate to ask for help in
+the forums if you have any questions.

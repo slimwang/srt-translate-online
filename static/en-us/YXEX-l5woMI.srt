@@ -1,0 +1,110 @@
+1
+00:00:00,100 --> 00:00:03,610
+And the last part of Sun RPC that
+I wanted us to talk about is
+
+2
+00:00:03,610 --> 00:00:05,090
+the binding process.
+
+3
+00:00:05,090 --> 00:00:09,780
+The binding process is initiated by the
+client using the following operation.
+
+4
+00:00:09,780 --> 00:00:13,140
+So, clnt_create with
+a number of parameters.
+
+5
+00:00:13,140 --> 00:00:16,079
+For the specific squaring
+example that we talked about,
+
+6
+00:00:16,079 --> 00:00:18,030
+this operation will look like this.
+
+7
+00:00:18,030 --> 00:00:21,230
+We will specify the host
+name of the server,
+
+8
+00:00:21,230 --> 00:00:25,740
+as well as the protocol that we want to
+use when communicating with the server.
+
+9
+00:00:25,740 --> 00:00:30,310
+And we will specify the name of the RPC
+service as well as the version number.
+
+10
+00:00:30,310 --> 00:00:33,908
+These two arguments of
+the clnt_create operations
+
+11
+00:00:33,908 --> 00:00:39,230
+are auto-generated in the RPC
+generation process from the .x file.
+
+12
+00:00:39,230 --> 00:00:46,010
+And will be included in the header file
+in the .h file as hash defined values.
+
+13
+00:00:46,010 --> 00:00:50,080
+What this means is that if the client
+needs to now support a different version
+
+14
+00:00:50,080 --> 00:00:52,790
+number, it will need to be recompiled,
+
+15
+00:00:52,790 --> 00:00:56,300
+given that this is essentially
+a static piece of information.
+
+16
+00:00:56,300 --> 00:01:01,310
+However, none of the other portions of
+the client code have to be modified.
+
+17
+00:01:01,310 --> 00:01:04,500
+Also note that the return
+from this operation
+
+18
+00:01:04,500 --> 00:01:08,600
+is a variable clnt_handle
+that's of data type CLIENT.
+
+19
+00:01:08,600 --> 00:01:13,710
+This is the clnt_handle that the client
+will include in every single RPC
+
+20
+00:01:13,710 --> 00:01:16,020
+operation that it requests.
+
+21
+00:01:16,020 --> 00:01:20,050
+And this handle will be used to
+track certain information, such
+
+22
+00:01:20,050 --> 00:01:24,890
+as what is the status of the current
+RPC operation, any error messages, or
+
+23
+00:01:24,890 --> 00:01:28,677
+it can even be used to capture certain
+authentication-related conformation.

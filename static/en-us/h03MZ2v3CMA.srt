@@ -1,0 +1,449 @@
+1
+00:00:00,380 --> 00:00:02,370
+Right so we're back in Android studio.
+
+2
+00:00:02,370 --> 00:00:04,170
+Let's make sure that our
+phone is reconnected.
+
+3
+00:00:04,170 --> 00:00:06,780
+So we're going to go ahead and
+type ADB devices once more.
+
+4
+00:00:06,780 --> 00:00:09,590
+Just to confirm that it's
+back here in our list.
+
+5
+00:00:09,590 --> 00:00:11,230
+All right so now it's time for
+the real fun.
+
+6
+00:00:11,230 --> 00:00:13,130
+Let's go ahead and
+look at some battery statistics.
+
+7
+00:00:13,130 --> 00:00:16,020
+And the way we do that
+is we run this command.
+
+8
+00:00:16,020 --> 00:00:17,810
+You type in ADB shell.
+
+9
+00:00:18,850 --> 00:00:24,580
+Dump Sis, which is stands for
+dump service battery stats.
+
+10
+00:00:24,580 --> 00:00:25,960
+Let's go ahead and pipe that to a file.
+
+11
+00:00:28,070 --> 00:00:30,610
+Now the next thing we're going to
+do is run the same command again,
+
+12
+00:00:30,610 --> 00:00:33,370
+however we're going to restrict
+the data that it outputs.
+
+13
+00:00:33,370 --> 00:00:37,400
+By passing in the package name of
+the application we're profiling.
+
+14
+00:00:37,400 --> 00:00:38,479
+Let's do it for sunshine.
+
+15
+00:00:42,821 --> 00:00:45,090
+All right, so with these commands
+we've partially generated some
+
+16
+00:00:45,090 --> 00:00:45,890
+data that we're.
+
+17
+00:00:45,890 --> 00:00:47,080
+going to use.
+
+18
+00:00:47,080 --> 00:00:50,030
+Unfortunately the data in these
+files aren't very readable.
+
+19
+00:00:50,030 --> 00:00:52,960
+So we're going to use the historian
+Python script to extract the battery of
+
+20
+00:00:52,960 --> 00:00:56,230
+information and turn that into some HTML
+that we can then view in the browser.
+
+21
+00:00:56,230 --> 00:00:57,750
+So this is how we do it.
+
+22
+00:00:57,750 --> 00:00:59,290
+All right, so let's go.
+
+23
+00:00:59,290 --> 00:00:59,820
+Go ahead and
+
+24
+00:00:59,820 --> 00:01:03,886
+invoke that Python script called
+historian.py that we downloaded earlier.
+
+25
+00:01:03,886 --> 00:01:05,730
+That's the battery historian script.
+
+26
+00:01:05,730 --> 00:01:09,610
+So I'm going to type in
+python historian.py.
+
+27
+00:01:09,610 --> 00:01:13,500
+Let's look at the sunshine file.
+
+28
+00:01:13,500 --> 00:01:20,520
+And let's generate a sunshine
+battery stats HTML file.
+
+29
+00:01:20,520 --> 00:01:23,360
+Okay let's go ahead and
+open this file in a browser.
+
+30
+00:01:23,360 --> 00:01:25,300
+All right, here we are looking
+at the battery story and
+
+31
+00:01:25,300 --> 00:01:28,100
+output now as an HTML
+file in our web browser.
+
+32
+00:01:28,100 --> 00:01:30,630
+Now there's a good amount of
+information in this file.
+
+33
+00:01:30,630 --> 00:01:33,110
+Let's go ahead and
+see what some of it is.
+
+34
+00:01:33,110 --> 00:01:34,370
+And what it might mean.
+
+35
+00:01:34,370 --> 00:01:36,460
+And at the top left,
+you can see the file name and
+
+36
+00:01:36,460 --> 00:01:39,310
+some overall information
+such as the battery level.
+
+37
+00:01:39,310 --> 00:01:40,730
+In this case, we're at 67%.
+
+38
+00:01:40,730 --> 00:01:45,560
+This can give you a quantitative
+idea of battery drain over time.
+
+39
+00:01:45,560 --> 00:01:49,000
+As you see, this point here is
+actually when our battery went down.
+
+40
+00:01:49,000 --> 00:01:52,670
+By 1% to 66.
+All right, so if we scroll down a little
+
+41
+00:01:52,670 --> 00:01:58,080
+bit, towards the bottom here,
+there's a timeline and a scale.
+
+42
+00:01:58,080 --> 00:02:01,030
+And then, the time in this table
+runs from left to right, and
+
+43
+00:02:01,030 --> 00:02:03,740
+everything that is vertically
+aligned happened at that same time.
+
+44
+00:02:04,860 --> 00:02:07,870
+Now you can see the scale here but
+you can also adjust.
+
+45
+00:02:07,870 --> 00:02:09,100
+That zoom level right here.
+
+46
+00:02:09,100 --> 00:02:12,900
+Now, when you see these little
+bars here that represent activity,
+
+47
+00:02:12,900 --> 00:02:16,440
+you can actually mouse over and
+you can actually see
+
+48
+00:02:16,440 --> 00:02:20,970
+when this particular item started and
+how long it's been active.
+
+49
+00:02:20,970 --> 00:02:24,530
+Now, what battery storage does not tell
+you is how much battery was used for
+
+50
+00:02:24,530 --> 00:02:28,949
+each individual action, only how
+often and how long it used battery.
+
+51
+00:02:30,040 --> 00:02:32,840
+But you can look at the battery level
+over time to get a general sense of
+
+52
+00:02:32,840 --> 00:02:34,010
+the absolute battery drain.
+
+53
+00:02:34,010 --> 00:02:37,540
+Now the rows are pretty obvious from
+their names so we're not going to
+
+54
+00:02:37,540 --> 00:02:41,200
+explain them right now, you'll get that
+more deeper during the tools exercise.
+
+55
+00:02:41,200 --> 00:02:44,390
+Now you see these bars, and you can
+actually mouse over each one of them.
+
+56
+00:02:44,390 --> 00:02:47,740
+To find out when it started and
+how long it took.
+
+57
+00:02:47,740 --> 00:02:51,200
+Now battery storage does not tell
+you how much battery was used by
+
+58
+00:02:51,200 --> 00:02:52,400
+each individual action.
+
+59
+00:02:52,400 --> 00:02:55,730
+Only how often and
+how long it used battery, but
+
+60
+00:02:55,730 --> 00:02:59,530
+you can look at that overall battery
+level over time to get a general sense.
+
+61
+00:02:59,530 --> 00:03:01,420
+Of absolute battery drain.
+
+62
+00:03:01,420 --> 00:03:04,780
+Now the rows here, they're pretty
+obvious from their names, so
+
+63
+00:03:04,780 --> 00:03:06,340
+we're not going to explain
+all of them right now.
+
+64
+00:03:06,340 --> 00:03:09,160
+We'll get deeper into
+the tool during the exercise.
+
+65
+00:03:09,160 --> 00:03:11,700
+Check out this item here,
+this one called screen.
+
+66
+00:03:11,700 --> 00:03:13,770
+Now, this represents how
+often the screen is on.
+
+67
+00:03:13,770 --> 00:03:15,990
+In this case,
+when I was interacting with the phone.
+
+68
+00:03:15,990 --> 00:03:18,040
+You could see that screen
+was on the entire time.
+
+69
+00:03:19,090 --> 00:03:22,310
+We also have this section for top which
+actually lists which application was
+
+70
+00:03:22,310 --> 00:03:23,420
+in the forefront at the time.
+
+71
+00:03:23,420 --> 00:03:27,790
+In this case, we've interacted
+with Sunshine for a little bit and
+
+72
+00:03:27,790 --> 00:03:33,100
+then if we scroll to the right here,
+this is when we hopped into Maps.
+
+73
+00:03:33,100 --> 00:03:35,520
+And this is actually when
+we switched to YouTube.
+
+74
+00:03:35,520 --> 00:03:39,820
+Now what's neat about this file is we
+see a lot of things additionally that
+
+75
+00:03:39,820 --> 00:03:41,580
+might impact the battery.
+
+76
+00:03:41,580 --> 00:03:45,730
+For example, we have stats of when WiFi
+was one, in this case all the time.
+
+77
+00:03:45,730 --> 00:03:48,400
+Video playbacks seems to be happening.
+
+78
+00:03:48,400 --> 00:03:50,665
+You'll.
+Notice the GPS started here.
+
+79
+00:03:50,665 --> 00:03:52,195
+And if we scroll up,
+
+80
+00:03:52,195 --> 00:03:55,545
+this is the time that we actually
+hopped into the maps application.
+
+81
+00:03:55,545 --> 00:03:58,375
+So that would make sense that when
+our maps application was started,
+
+82
+00:03:58,375 --> 00:03:59,565
+our GPS was turned on.
+
+83
+00:03:59,565 --> 00:04:02,315
+And this time the GPS was
+using a bit of battery here.
+
+84
+00:04:03,780 --> 00:04:06,940
+We also see bursts of spikes
+here in our WiFi strength.
+
+85
+00:04:06,940 --> 00:04:08,950
+And that's changing over time as well,
+dynamically.
+
+86
+00:04:10,240 --> 00:04:13,270
+Now here's a more in depth example
+output from a battery store and capture.
+
+87
+00:04:14,740 --> 00:04:17,410
+You can see that there's a very
+large amount of mobile radio and
+
+88
+00:04:17,410 --> 00:04:19,029
+wave clockwork that's
+occurring on this device.
+
+89
+00:04:20,269 --> 00:04:24,080
+It looks like away clock is turning
+on running some networking work and
+
+90
+00:04:24,080 --> 00:04:26,390
+then going back to sleep over and
+over again.
+
+91
+00:04:26,390 --> 00:04:29,000
+This level of behavior definitely
+deserves a closer look to see if it's
+
+92
+00:04:29,000 --> 00:04:29,900
+using too much battery.
+
+93
+00:04:29,900 --> 00:04:31,480
+In the next section,
+
+94
+00:04:31,480 --> 00:04:33,840
+we'll use battery storing to find
+out battery problems in our code.
+
+95
+00:04:33,840 --> 00:04:35,170
+Let's go ahead and do it.

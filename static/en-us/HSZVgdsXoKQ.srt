@@ -1,0 +1,439 @@
+1
+00:00:00,220 --> 00:00:01,180
+Now if you recall,
+
+2
+00:00:01,180 --> 00:00:05,750
+when we looked at our histogram of signed error, using our guess of 1,451 and
+
+3
+00:00:05,750 --> 00:00:11,600
+a half seconds, we saw that most of the histogram occurs before zero.
+
+4
+00:00:11,600 --> 00:00:14,460
+This suggests that if we adjusted our model just a little bit
+
+5
+00:00:14,460 --> 00:00:19,060
+by perhaps adding an offset, we might be able to improve our accuracy.
+
+6
+00:00:19,060 --> 00:00:21,580
+So let's think about that problem a little bit.
+
+7
+00:00:21,580 --> 00:00:26,040
+So our initial guess, of the exponential fit, says that our initial for
+
+8
+00:00:26,040 --> 00:00:30,100
+the PDF of inter-tweet times has this form.
+
+9
+00:00:30,100 --> 00:00:33,920
+One over beta, times E to the power of -t over beta.
+
+10
+00:00:33,920 --> 00:00:35,550
+And then we found the value of beta,
+
+11
+00:00:35,550 --> 00:00:38,560
+which is most likely to have produced the data that we saw.
+
+12
+00:00:38,560 --> 00:00:41,760
+Now, our insight that we might be able to add an offset,
+
+13
+00:00:41,760 --> 00:00:43,680
+means that we're suggesting the model.
+
+14
+00:00:43,680 --> 00:00:47,170
+Might look, something like this instead, and then,
+
+15
+00:00:47,170 --> 00:00:51,350
+in addition to finding a value of beta, we should also look for a value of C,
+
+16
+00:00:51,350 --> 00:00:54,490
+that then makes it most likely to have produced the data that we saw.
+
+17
+00:00:54,490 --> 00:00:56,400
+We can actually generalize this,
+
+18
+00:00:56,400 --> 00:00:59,390
+to a slightly larger class of exponential models.
+
+19
+00:00:59,390 --> 00:01:04,489
+In addition to a constant c, we can also think about another constant, A.
+
+20
+00:01:04,489 --> 00:01:06,890
+Where A and C are constants.
+
+21
+00:01:06,890 --> 00:01:08,680
+So what does this mean, exactly?
+
+22
+00:01:08,680 --> 00:01:11,120
+Well, we're still trying to solve the same problem.
+
+23
+00:01:11,120 --> 00:01:12,460
+We have a collection of data points,
+
+24
+00:01:12,460 --> 00:01:17,470
+describing a histogram and we're trying to find a curve that best fits it.
+
+25
+00:01:17,470 --> 00:01:20,220
+So previously, we just used beta.
+
+26
+00:01:20,220 --> 00:01:22,690
+And we used the knob of the beta parameter,
+
+27
+00:01:22,690 --> 00:01:26,400
+until we found a PDF that best fit the curve.
+
+28
+00:01:26,400 --> 00:01:29,070
+Now, in addition to using the knob of beta,
+
+29
+00:01:29,070 --> 00:01:33,160
+we're going to attempt to use two additional knobs, A and C.
+
+30
+00:01:33,160 --> 00:01:38,380
+And the thought is, can we use the three of these together to get a fit for
+
+31
+00:01:38,380 --> 00:01:40,870
+the PDF, which is more accurate?
+
+32
+00:01:40,870 --> 00:01:42,250
+Lets find out.
+
+33
+00:01:42,250 --> 00:01:45,270
+So we're going to use precisely the same method in i pi fun
+
+34
+00:01:45,270 --> 00:01:46,620
+notebook to perform a fit.
+
+35
+00:01:46,620 --> 00:01:50,530
+Specifically we're again going to use psy pi's curved fit in order to
+
+36
+00:01:50,530 --> 00:01:52,470
+find the best parameters.
+
+37
+00:01:52,470 --> 00:01:53,850
+This time however.
+
+38
+00:01:53,850 --> 00:01:57,150
+Fitfunc is gong to have a couple of extra parameters.
+
+39
+00:01:57,150 --> 00:01:59,400
+So in addition to just having the constant B,
+
+40
+00:01:59,400 --> 00:02:03,790
+now we're reasoning about the constant A and the offset C.
+
+41
+00:02:03,790 --> 00:02:07,280
+And so fitfunc lets you pass to it in addition to
+
+42
+00:02:07,280 --> 00:02:11,990
+the independent parameter time, the parameter which we had before, B.
+
+43
+00:02:11,990 --> 00:02:14,780
+But as well as that A and C.
+
+44
+00:02:14,780 --> 00:02:16,780
+Other than that, it's exactly the same.
+
+45
+00:02:16,780 --> 00:02:20,020
+We're setting to curve_fit, we've got this callable function
+
+46
+00:02:20,020 --> 00:02:25,120
+with independent value t and a bunch of parameters, and we're going to feed it,
+
+47
+00:02:25,120 --> 00:02:27,530
+these values that I want you to fit to.
+
+48
+00:02:27,530 --> 00:02:32,530
+Now given that, find me the parameters which best fits those values and give me
+
+49
+00:02:32,530 --> 00:02:36,760
+the covariance matrix which describes how certain we are about those values.
+
+50
+00:02:36,760 --> 00:02:38,560
+Let's go ahead and do that.
+
+51
+00:02:38,560 --> 00:02:43,890
+So, here are the parameters that it came up with for A, B and C.
+
+52
+00:02:43,890 --> 00:02:49,180
+So curve fit says the value for a is 3.34 times 10 to the negative 1, or 0.334.
+
+53
+00:02:49,180 --> 00:02:55,717
+We have a new B value, of 2.172 times 10 to the negative 3.
+
+54
+00:02:55,717 --> 00:02:58,377
+Which means, in order to get our beta value,
+
+55
+00:02:58,377 --> 00:03:03,095
+we just find the reciprocal of this and then the offset value C, is quite small.
+
+56
+00:03:03,095 --> 00:03:05,820
+3.185 times 10 to the negative 6.
+
+57
+00:03:05,820 --> 00:03:07,730
+Pretty much negligible.
+
+58
+00:03:07,730 --> 00:03:08,430
+So, what does that mean?
+
+59
+00:03:08,430 --> 00:03:12,100
+It means that the adjusted model, looks something like this.
+
+60
+00:03:12,100 --> 00:03:16,110
+Recall that the generalized form of the adjusted exponential model.
+
+61
+00:03:16,110 --> 00:03:20,910
+Is a times 1 over beta, times E to the power of minus T over beta,
+
+62
+00:03:20,910 --> 00:03:22,570
+plus offset C.
+
+63
+00:03:22,570 --> 00:03:25,350
+Except that now, we have actual values for A, beta and C.
+
+64
+00:03:25,350 --> 00:03:27,660
+So, let's just plug those in.
+
+65
+00:03:27,660 --> 00:03:30,770
+So, the result of our new fit, looks like this.
+
+66
+00:03:30,770 --> 00:03:36,439
+It says that, our new model is approximately 3.34 x 10 to the negative 1,
+
+67
+00:03:36,439 --> 00:03:42,760
+times 2.172 times 10 to the negative 3, times E to the power of
+
+68
+00:03:42,760 --> 00:03:51,080
+minus 2.172 times 10 to the minus 3 times t, plus an offset that is nearly zero.
+
+69
+00:03:51,080 --> 00:03:52,910
+So recall that once we've got our model,
+
+70
+00:03:52,910 --> 00:03:58,440
+in order to go from our model to our guess, of the number of seconds to wait.
+
+71
+00:03:58,440 --> 00:04:00,940
+We take the expected value of this.
+
+72
+00:04:00,940 --> 00:04:05,360
+So what we want is expected value of inter-tweet time,
+
+73
+00:04:05,360 --> 00:04:07,030
+given that the above is our model.
+
+74
+00:04:07,030 --> 00:04:12,920
+And so if we are to evaluate that, that comes to about 153.83 seconds.
+
+75
+00:04:12,920 --> 00:04:16,700
+So that's to be compared against our initial value of 1,451 and
+
+76
+00:04:16,700 --> 00:04:20,910
+a half seconds, quite smaller.
+
+77
+00:04:20,910 --> 00:04:27,140
+Now let's see how well this new guess of 153.83 seconds works out.
+
+78
+00:04:27,140 --> 00:04:31,350
+So first thing's first, let's evaluate our adjusted histogram.
+
+79
+00:04:31,350 --> 00:04:35,940
+So just as before, the blue indicates the original intertweet times.
+
+80
+00:04:35,940 --> 00:04:39,200
+And the yellow, is the initial exponential fit that we did.
+
+81
+00:04:39,200 --> 00:04:41,140
+To that graph, we've added the red,
+
+82
+00:04:41,140 --> 00:04:46,160
+which is the generalized exponential fit, using the A and C parameters.
+
+83
+00:04:46,160 --> 00:04:49,860
+You can see that it's a little bit of a tighter fit, just sort of qualitatively.
+
+84
+00:04:49,860 --> 00:04:53,110
+Now, let's form a histogram of the signed error for
+
+85
+00:04:53,110 --> 00:04:57,090
+our updated guess of 153.83 seconds.
+
+86
+00:04:57,090 --> 00:05:01,950
+So again here, we're collecting signed differences and absolute values of
+
+87
+00:05:01,950 --> 00:05:06,480
+differences, just now for our updated guess instead of the original guess.
+
+88
+00:05:06,480 --> 00:05:12,668
+So we see that the mean of the absolute error, has decreased to 1401 seconds
+
+89
+00:05:12,668 --> 00:05:18,780
+from 4446.8 seconds, as it was before.
+
+90
+00:05:18,780 --> 00:05:20,650
+So it's gone down quite a bit.
+
+91
+00:05:20,650 --> 00:05:26,050
+In addition to that, we've gone from being within about 1,437 seconds 75%
+
+92
+00:05:26,050 --> 00:05:31,320
+of the time to being within 676 seconds 75% of the time,
+
+93
+00:05:31,320 --> 00:05:34,170
+of the actual inter-tweet time.
+
+94
+00:05:34,170 --> 00:05:37,580
+So that's saying that with our adjusted model were good to
+
+95
+00:05:37,580 --> 00:05:42,350
+within about 11 minutes, 75% of the time, which is actually not terrible, given
+
+96
+00:05:42,350 --> 00:05:45,470
+that we still don't really know anything about the dynamics of the problem.
+
+97
+00:05:45,470 --> 00:05:48,390
+So, before we proceed, let's just summarize where we are.
+
+98
+00:05:48,390 --> 00:05:52,270
+So we decided to build a regression estimator to estimate the number of
+
+99
+00:05:52,270 --> 00:05:54,080
+seconds since the last tweet.
+
+100
+00:05:54,080 --> 00:05:58,020
+We decided to model this regression estimator, using an exponential fit.
+
+101
+00:05:58,020 --> 00:05:59,090
+Our initial fit.
+
+102
+00:05:59,090 --> 00:06:03,370
+Suggested always guessing 1451.5 seconds.
+
+103
+00:06:03,370 --> 00:06:07,410
+After forming some confidence bands on this value of beta and taking a look
+
+104
+00:06:07,410 --> 00:06:11,340
+at the absolute and assigned error, we decided we want to take a step back and
+
+105
+00:06:11,340 --> 00:06:14,660
+look at a slightly more generalized version of that model.
+
+106
+00:06:14,660 --> 00:06:16,990
+With a greater number of parameters.
+
+107
+00:06:16,990 --> 00:06:22,900
+After fitting the new generalized model, we came to a new guess, of 153.83
+
+108
+00:06:22,900 --> 00:06:27,180
+seconds, and discovered that it performed a bit better than the initial fit.
+
+109
+00:06:27,180 --> 00:06:30,950
+Now, in the next few videos, we're going to dig deeper into this data, and
+
+110
+00:06:30,950 --> 00:06:33,940
+the dynamics of the problem, as we do a more formal investigation.

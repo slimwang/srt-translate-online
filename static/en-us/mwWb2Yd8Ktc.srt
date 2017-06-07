@@ -1,0 +1,225 @@
+1
+00:00:00,390 --> 00:00:01,240
+For our example,
+
+2
+00:00:01,240 --> 00:00:05,980
+we're going to use data in the
+MatchedPairAnalysisExample Excel file.
+
+3
+00:00:05,980 --> 00:00:09,250
+This file contains the results of
+our new candy product introduction
+
+4
+00:00:09,250 --> 00:00:10,610
+experiment.
+
+5
+00:00:10,610 --> 00:00:14,470
+The stores that were used for treatment
+stores are in the Treatments tab.
+
+6
+00:00:14,470 --> 00:00:16,059
+The matched pairs of control and
+
+7
+00:00:16,059 --> 00:00:18,720
+treatment stores can be
+found in the Pairs tab.
+
+8
+00:00:18,720 --> 00:00:22,610
+The data from the experiment
+can be found in the Data tab.
+
+9
+00:00:22,610 --> 00:00:26,350
+Baltrex will not only perform the t-Test
+and identify the significance of
+
+10
+00:00:26,350 --> 00:00:30,450
+the results but will also compare the
+treatment and control stores to baseline
+
+11
+00:00:30,450 --> 00:00:33,983
+or past data to see the impact
+during the treatment period.
+
+12
+00:00:33,983 --> 00:00:37,740
+In order to do this, you'll need to
+feed the tool both the baseline data and
+
+13
+00:00:37,740 --> 00:00:39,490
+the data from the experiment.
+
+14
+00:00:39,490 --> 00:00:44,120
+The experiment was run from October
+15th, 2011, and ended on March 17, 2012.
+
+15
+00:00:44,120 --> 00:00:49,570
+Each week, each store recorded
+the average spend per customer.
+
+16
+00:00:49,570 --> 00:00:53,180
+So let's create a new Alteryx workflow,
+and
+
+17
+00:00:53,180 --> 00:00:56,696
+use the input data tool
+to bring in the data.
+
+18
+00:00:56,696 --> 00:00:59,601
+The control store information is located
+in the Pairs tab of the spreadsheet.
+
+19
+00:00:59,601 --> 00:01:01,220
+So let's import that first.
+
+20
+00:01:01,220 --> 00:01:05,025
+Next, let's bring in the treatment
+store data from the Treatments tab and
+
+21
+00:01:05,025 --> 00:01:07,760
+lastly, let's bring in
+the historical performance
+
+22
+00:01:07,760 --> 00:01:10,950
+as well as the data from the experiment
+located in the Data tab.
+
+23
+00:01:12,210 --> 00:01:15,270
+Now that we have the data,
+we're ready to up the analysis.
+
+24
+00:01:15,270 --> 00:01:18,520
+Let's grab an AB analysis tool and
+drag it onto the canvas.
+
+25
+00:01:19,520 --> 00:01:24,220
+Connect the data from the Pairs
+tab to the C or Controls input.
+
+26
+00:01:24,220 --> 00:01:28,465
+Connect the data from the Treatments
+tab to the T or Treatment input.
+
+27
+00:01:28,465 --> 00:01:32,615
+And the data from the Data tab should
+go to the P, or Performance input.
+
+28
+00:01:32,615 --> 00:01:34,825
+Next, let's configure the tool.
+
+29
+00:01:34,825 --> 00:01:38,105
+On the Input Data tab,
+let's set up our analysis as follows.
+
+30
+00:01:38,105 --> 00:01:40,690
+The control section of
+the configuration window
+
+31
+00:01:40,690 --> 00:01:45,710
+relates to the control store data in
+the Pairs tab, coming in on the C input.
+
+32
+00:01:45,710 --> 00:01:48,670
+The controls field is
+the control unit identifier.
+
+33
+00:01:48,670 --> 00:01:51,840
+And the treatments field is
+the treatment unit mapping field.
+
+34
+00:01:51,840 --> 00:01:55,790
+The treatment section uses the data
+coming in from the T input.
+
+35
+00:01:55,790 --> 00:01:59,710
+And we're looking for the field
+to match the treatment identifier
+
+36
+00:01:59,710 --> 00:02:02,510
+with the treatment identifier
+from the controls field.
+
+37
+00:02:02,510 --> 00:02:05,340
+So we should use store ID
+from the treatment stream
+
+38
+00:02:05,340 --> 00:02:08,550
+to match to the treatments
+field of the control stream.
+
+39
+00:02:08,550 --> 00:02:13,070
+For the performance data, we'll use the
+right store ID, the Week Ending date and
+
+40
+00:02:13,070 --> 00:02:16,300
+the Spend Customer fields to
+finish our configuration.
+
+41
+00:02:16,300 --> 00:02:20,570
+Clicking on the Test Dates tab, we need
+to enter the dates of our experiment.
+
+42
+00:02:20,570 --> 00:02:22,160
+The start date was October 15th, 2011.
+
+43
+00:02:22,160 --> 00:02:26,610
+And the end date was March 17th, 2012.
+
+44
+00:02:26,610 --> 00:02:29,750
+Next, let's add browse
+tools by right-clicking
+
+45
+00:02:29,750 --> 00:02:33,270
+on the AB Analysis tool and
+selecting Add All Browses.
+
+46
+00:02:33,270 --> 00:02:35,913
+Let's run the work flow and
+take a look at the results.
+
+47
+00:02:35,913 --> 00:02:37,259
+[BLANK_AUDIO]

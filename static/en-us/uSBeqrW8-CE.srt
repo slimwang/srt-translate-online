@@ -1,0 +1,172 @@
+1
+00:00:00,320 --> 00:00:03,650
+Right now, the QR code app is
+doing all of the image decoding
+
+2
+00:00:03,650 --> 00:00:05,170
+on the main thread.
+
+3
+00:00:05,170 --> 00:00:09,270
+It's hard work, and it sometimes
+introduces a bit of jank to the app.
+
+4
+00:00:09,270 --> 00:00:12,100
+This is actually a perfect situation for
+Web Workers.
+
+5
+00:00:12,100 --> 00:00:16,090
+Image decoding can be handled in
+a separate thread by a worker while
+
+6
+00:00:16,090 --> 00:00:20,278
+the main thread is simply concerned with
+delivering 60 frame per second video.
+
+7
+00:00:20,278 --> 00:00:24,900
+The main thread can send off image data
+to the worker so it can do its analysis.
+
+8
+00:00:24,900 --> 00:00:26,250
+And then when it's done,
+
+9
+00:00:26,250 --> 00:00:29,710
+the worker will simply post
+the data back to the main thread.
+
+10
+00:00:29,710 --> 00:00:33,130
+In this case, the processed data that
+the worker thread will be sending back
+
+11
+00:00:33,130 --> 00:00:37,970
+to the main thread is simply a URL
+if the QR code was resolved, or
+
+12
+00:00:37,970 --> 00:00:39,530
+undefined, if not.
+
+13
+00:00:39,530 --> 00:00:43,670
+Now, I am about to give you some hints
+about where you should do your work
+
+14
+00:00:43,670 --> 00:00:46,910
+including things like where you
+should be putting the worker.
+
+15
+00:00:46,910 --> 00:00:51,430
+But to be honest, you might actually
+enjoy reverse engineering the QR code
+
+16
+00:00:51,430 --> 00:00:55,600
+app yourself and trying to figure
+out where to spawn the Web Worker.
+
+17
+00:00:55,600 --> 00:00:58,980
+So if you are feeling brave and
+up to the challenge,
+
+18
+00:00:58,980 --> 00:01:03,080
+stop this video right now and
+just hit the Continue to Quiz button.
+
+19
+00:01:03,080 --> 00:01:04,660
+All right, there's my advice.
+
+20
+00:01:04,660 --> 00:01:06,710
+Here we go into some hints.
+
+21
+00:01:06,710 --> 00:01:08,590
+The big question to ask yourself is,
+
+22
+00:01:08,590 --> 00:01:11,890
+where will I be doing most
+of the work for this quiz?
+
+23
+00:01:11,890 --> 00:01:15,250
+You will actually be able to find the
+web worker inside a mostly ready state
+
+24
+00:01:15,250 --> 00:01:18,049
+inside app/scripts/qrworker.js.
+
+25
+00:01:19,180 --> 00:01:23,240
+You'll need to spawn the Web Worker
+from inside the QRCodeManager,
+
+26
+00:01:23,240 --> 00:01:25,370
+which you can find in main.js.
+
+27
+00:01:25,370 --> 00:01:29,020
+You should be posting data to
+the web worker from inside
+
+28
+00:01:29,020 --> 00:01:33,080
+the detectQRCode function, which you
+can find inside the same object.
+
+29
+00:01:33,080 --> 00:01:37,430
+And you'll notice that qrworker.js
+includes a lot of scripts.
+
+30
+00:01:37,430 --> 00:01:40,310
+Right now they're already in index.html.
+
+31
+00:01:40,310 --> 00:01:44,530
+But with the worker, they're pretty much
+redundant, so go ahead and remove them.
+
+32
+00:01:44,530 --> 00:01:47,260
+Okay, and there's one last thing.
+
+33
+00:01:47,260 --> 00:01:51,620
+You might encounter a small bug when the
+main thread starts receiving messages
+
+34
+00:01:51,620 --> 00:01:52,900
+from the worker.
+
+35
+00:01:52,900 --> 00:01:56,950
+I'm just going to leave it up to you to
+figure out what it is and how to fix it.
+
+36
+00:01:56,950 --> 00:01:58,670
+All right, good luck.
+
+37
+00:01:58,670 --> 00:02:01,210
+Check the box here once you've
+got the Web Worker working.

@@ -1,0 +1,244 @@
+1
+00:00:00,470 --> 00:00:04,430
+An Android application needs to register
+with GCM servers before it can receive
+
+2
+00:00:04,430 --> 00:00:05,570
+messages.
+
+3
+00:00:05,570 --> 00:00:08,860
+To help us with this,
+we are adding two new services.
+
+4
+00:00:08,860 --> 00:00:11,660
+The first is MyInstanceIDListenerService
+
+5
+00:00:11,660 --> 00:00:15,325
+which extends from
+GCM's InstanceIDListenerService.
+
+6
+00:00:15,325 --> 00:00:18,460
+This service is what checks the validity
+of a registration token and
+
+7
+00:00:18,460 --> 00:00:22,430
+requests a new one if a token
+is not present or is expired.
+
+8
+00:00:22,430 --> 00:00:25,100
+Google Play services will
+automatically start the service and
+
+9
+00:00:25,100 --> 00:00:29,000
+invoke on token refresh when it
+detects that a new token is needed.
+
+10
+00:00:29,000 --> 00:00:31,760
+To get a new token,
+we have a registration intent
+
+11
+00:00:31,760 --> 00:00:36,060
+service which will communicate with
+the GCM servers off of the main thread.
+
+12
+00:00:36,060 --> 00:00:38,760
+Keeping the registration work
+in its own service instead of
+
+13
+00:00:38,760 --> 00:00:43,000
+the InstanceIDListenerService means
+that it can be invoked only when needed,
+
+14
+00:00:43,000 --> 00:00:45,960
+which may not always overlap
+with a token refresh
+
+15
+00:00:45,960 --> 00:00:48,850
+such as the initial registration
+when the app starts.
+
+16
+00:00:48,850 --> 00:00:52,240
+It also makes for cleaner code so
+that you can easily track buys and
+
+17
+00:00:52,240 --> 00:00:53,560
+make future changes.
+
+18
+00:00:53,560 --> 00:00:56,810
+But you could also have done all of
+this work in one service if you prefer,
+
+19
+00:00:56,810 --> 00:00:59,780
+which is why I mentioned that this was
+our fourth class when we were talking
+
+20
+00:00:59,780 --> 00:01:01,550
+about the Android Manifest.
+
+21
+00:01:01,550 --> 00:01:06,160
+To perform the registration, we use
+the InstanceID class to call getToken.
+
+22
+00:01:06,160 --> 00:01:10,299
+This class needs a SenderID which is
+pulled from our google-services.json
+
+23
+00:01:10,299 --> 00:01:11,710
+config file.
+
+24
+00:01:11,710 --> 00:01:14,820
+Then it also needs a scope for
+the permissions that will be granted by
+
+25
+00:01:14,820 --> 00:01:17,820
+the token and
+any parameters required by that scope.
+
+26
+00:01:17,820 --> 00:01:19,710
+In our case, there are none.
+
+27
+00:01:19,710 --> 00:01:22,710
+Once we have our token, we store
+our Boolean in sharedPreferences
+
+28
+00:01:22,710 --> 00:01:24,470
+to let us know we've got it.
+
+29
+00:01:24,470 --> 00:01:27,730
+Normally, you would also want to
+send the token to your server.
+
+30
+00:01:27,730 --> 00:01:31,640
+The server needs the token in order
+to send the message to this specific
+
+31
+00:01:31,640 --> 00:01:33,570
+device in the future.
+
+32
+00:01:33,570 --> 00:01:36,810
+However, because we don't have a server,
+you should log the token so
+
+33
+00:01:36,810 --> 00:01:39,310
+that you can use it
+later in our website.
+
+34
+00:01:39,310 --> 00:01:43,760
+But generally, a token should be kept
+secret and not just logged willy-nilly.
+
+35
+00:01:43,760 --> 00:01:45,870
+All of this takes place
+in the background so
+
+36
+00:01:45,870 --> 00:01:47,418
+as not to block the main thread.
+
+37
+00:01:47,418 --> 00:01:50,530
+And since our GCM feature
+isn't a core piece of the app,
+
+38
+00:01:50,530 --> 00:01:54,300
+we don't need to worry about letting
+a user know when they are registered.
+
+39
+00:01:54,300 --> 00:01:57,880
+But if your feature is necessary to your
+app's behaviour, you may also want to
+
+40
+00:01:57,880 --> 00:02:01,980
+let the users know their registration
+status somewhere in your UI.
+
+41
+00:02:01,980 --> 00:02:05,530
+Finally, we'll need to modify our
+Google Play services check in on create
+
+42
+00:02:05,530 --> 00:02:09,300
+inside of main activity to see if
+our app is already registered.
+
+43
+00:02:09,300 --> 00:02:12,260
+We can do this by checking
+the boolean that we stored
+
+44
+00:02:12,260 --> 00:02:15,050
+with the default value of false.
+
+45
+00:02:15,050 --> 00:02:16,995
+This means that if we
+cannot find the boolean,
+
+46
+00:02:16,995 --> 00:02:20,100
+assume we have not registered and
+if we haven't already,
+
+47
+00:02:20,100 --> 00:02:24,160
+we will register the app by invoking
+our new registration service.
+
+48
+00:02:24,160 --> 00:02:28,410
+If an app is not registered or if
+Google Play services is non available,
+
+49
+00:02:28,410 --> 00:02:31,920
+this device will simply
+not receive any messages.
+
+50
+00:02:31,920 --> 00:02:35,380
+This is convenient, because it also
+means we do not need to hide layouts, or
+
+51
+00:02:35,380 --> 00:02:37,650
+features, as may be
+the case in your app.

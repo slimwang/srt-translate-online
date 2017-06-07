@@ -1,0 +1,103 @@
+1
+00:00:00,430 --> 00:00:05,740
+We saw so far some rough indications how an operating system is laid out.
+
+2
+00:00:05,740 --> 00:00:09,150
+But let's now more explicitly look at different types of
+
+3
+00:00:09,150 --> 00:00:11,780
+operating system organizations, and
+
+4
+00:00:11,780 --> 00:00:15,430
+we will start with what we call a monolithic operating system.
+
+5
+00:00:15,430 --> 00:00:19,100
+Historically, the operating system had a monolithic design.
+
+6
+00:00:19,100 --> 00:00:22,010
+That's when every possible service that any one of
+
+7
+00:00:22,010 --> 00:00:25,080
+the applications can require or
+
+8
+00:00:25,080 --> 00:00:31,190
+that any type of hardware will demand is already part of the operating system.
+
+9
+00:00:31,190 --> 00:00:35,570
+For instance, such a monolithic operating system may include several possible
+
+10
+00:00:35,570 --> 00:00:42,130
+file systems, where one is specialized for, of sequential workloads where
+
+11
+00:00:42,130 --> 00:00:46,890
+the workload is sequentially accessing files when reading and writing them.
+
+12
+00:00:46,890 --> 00:00:50,780
+And then maybe other file system that's optimized for random I/O.
+
+13
+00:00:50,780 --> 00:00:53,590
+For instance, this is common with databases.
+
+14
+00:00:53,590 --> 00:00:56,990
+There isn't necessarily a sequential access there.
+
+15
+00:00:56,990 --> 00:01:01,100
+Rather, each database operation can randomly access any portion of
+
+16
+00:01:01,100 --> 00:01:02,360
+the backing file.
+
+17
+00:01:02,360 --> 00:01:07,020
+This would clearly make the operating system potentially really, really large.
+
+18
+00:01:07,020 --> 00:01:09,860
+The benefit of this approach is that everything is
+
+19
+00:01:09,860 --> 00:01:11,590
+included in the operating system.
+
+20
+00:01:11,590 --> 00:01:16,450
+The abstractions, all the services, and everything is packaged at the same time.
+
+21
+00:01:16,450 --> 00:01:19,670
+And because of that, there's some possibilities for
+
+22
+00:01:19,670 --> 00:01:22,560
+some compile-time optimizations.
+
+23
+00:01:22,560 --> 00:01:25,060
+The downside is that there is too much state,
+
+24
+00:01:25,060 --> 00:01:28,840
+too much code that's hard to maintain, debug, upgrade.
+
+25
+00:01:28,840 --> 00:01:34,140
+And then its large size also poses large memory requirements, and that
+
+26
+00:01:34,140 --> 00:01:37,870
+can always impact the performance that the applications are able to observe.

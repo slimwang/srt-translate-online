@@ -1,0 +1,370 @@
+1
+00:00:00,300 --> 00:00:05,280
+In order to append a properly scaled
+circle, we'll need to use three scales,
+
+2
+00:00:05,280 --> 00:00:09,580
+the x, y, and r scale that we
+created throughout this lesson.
+
+3
+00:00:09,580 --> 00:00:13,520
+Remember, these scales let us input
+a data value to output a pixel value.
+
+4
+00:00:15,830 --> 00:00:17,780
+Before I actually append the circle,
+
+5
+00:00:17,780 --> 00:00:21,500
+I want to make sure that the scales
+that I've created are reasonable.
+
+6
+00:00:21,500 --> 00:00:26,160
+For China in 2015,
+the life expectancy value was 77 years.
+
+7
+00:00:26,160 --> 00:00:30,931
+The income per person was 13,330.
+
+8
+00:00:30,931 --> 00:00:36,054
+And the population was 1.38 billion.
+
+9
+00:00:36,054 --> 00:00:39,374
+[BLANK_AUDIO]
+
+10
+00:00:39,374 --> 00:00:44,005
+Now, what's useful about this is that
+we can preview where our circle will
+
+11
+00:00:44,005 --> 00:00:44,604
+show up.
+
+12
+00:00:44,604 --> 00:00:48,681
+The console.log function in JavaScript
+simply prints the arguments to
+
+13
+00:00:48,681 --> 00:00:50,250
+the console.
+
+14
+00:00:50,250 --> 00:00:53,170
+So it takes this function
+with this value and
+
+15
+00:00:53,170 --> 00:00:55,950
+evaluates it to get an output value.
+
+16
+00:00:55,950 --> 00:01:01,230
+So, we can expect our circle to have
+a y value of 43 pixels or about there,
+
+17
+00:01:01,230 --> 00:01:07,270
+an x value of about 398 pixels and
+a radius of 50 pixels.
+
+18
+00:01:07,270 --> 00:01:11,710
+Remember that this y value
+of 43 pixels corresponds
+
+19
+00:01:11,710 --> 00:01:13,490
+to a higher portion of the graph.
+
+20
+00:01:15,020 --> 00:01:19,430
+We have a high data input value,
+but a low white pixel value.
+
+21
+00:01:19,430 --> 00:01:23,630
+Because our y axis starts at zero for
+the SVG canvas, and
+
+22
+00:01:23,630 --> 00:01:25,780
+increases as it goes down.
+
+23
+00:01:25,780 --> 00:01:28,880
+Let's try to append the circle
+to the SVG element.
+
+24
+00:01:28,880 --> 00:01:33,120
+I store the SVG element into a variable,
+so that way I can reference it later.
+
+25
+00:01:33,120 --> 00:01:36,190
+Now, I can append an SVG
+circle by passing in
+
+26
+00:01:36,190 --> 00:01:38,060
+the string circle to
+the append function.
+
+27
+00:01:39,310 --> 00:01:43,490
+Now, if I just ran this code a circle
+would be added to the SVG element, but
+
+28
+00:01:43,490 --> 00:01:46,570
+it wouldn't be styled or
+have any of its attributes set.
+
+29
+00:01:46,570 --> 00:01:49,160
+In fact,
+we wouldn't actually be able to see it.
+
+30
+00:01:49,160 --> 00:01:53,310
+Let's go over to Mozilla to look at some
+SVG elements, and what we can set for
+
+31
+00:01:53,310 --> 00:01:55,000
+their attributes.
+
+32
+00:01:55,000 --> 00:01:58,370
+So, I'm going to look at this list and
+check out circle.
+
+33
+00:01:58,370 --> 00:01:59,430
+So, here we go.
+
+34
+00:01:59,430 --> 00:02:04,340
+It looks like, for a circle,
+we can set cx, cy, and r.
+
+35
+00:02:05,420 --> 00:02:08,039
+If I scroll down a little bit,
+I can get an explanation for
+
+36
+00:02:08,039 --> 00:02:10,190
+those specific attributes.
+
+37
+00:02:10,190 --> 00:02:13,740
+Clicking on cx, I see that this
+attribute defines the x-axis
+
+38
+00:02:13,740 --> 00:02:15,550
+coordinate of the center of the element.
+
+39
+00:02:15,550 --> 00:02:17,800
+Which is basically
+the center of the circle.
+
+40
+00:02:17,800 --> 00:02:21,249
+So cy would be the y coordinate for
+the center of the circle and
+
+41
+00:02:21,249 --> 00:02:24,250
+r would be the radius of our circle.
+
+42
+00:02:24,250 --> 00:02:27,660
+Let's use D3 to set these
+different attributes.
+
+43
+00:02:27,660 --> 00:02:29,660
+The first attribute that I'll set and
+
+44
+00:02:29,660 --> 00:02:31,760
+one that I didn't cover,
+is the fill attribute.
+
+45
+00:02:33,330 --> 00:02:36,800
+This attribute sets the background
+color for the circle.
+
+46
+00:02:36,800 --> 00:02:39,030
+The second attribute
+allowed is the radius.
+
+47
+00:02:40,822 --> 00:02:47,677
+We want to use our radius scale here and
+pass in our value of 1.38 billion.
+
+48
+00:02:47,677 --> 00:02:52,187
+And the last two attributes that I'll
+set are the center exposition and
+
+49
+00:02:52,187 --> 00:02:55,040
+the center y position of the circle.
+
+50
+00:02:55,040 --> 00:02:58,580
+Again as you can see here
+D3's chainable syntax
+
+51
+00:02:58,580 --> 00:03:02,750
+allows you to passes circle element
+from one method call to the next.
+
+52
+00:03:02,750 --> 00:03:06,085
+You can keep adding different
+attributes down the chain.
+
+53
+00:03:06,085 --> 00:03:09,495
+Running the code we see the red
+circle appear on the page.
+
+54
+00:03:09,495 --> 00:03:11,025
+Now it's a little bit cut off and
+
+55
+00:03:11,025 --> 00:03:14,895
+that might mean that your radius
+scale is a little bit too much.
+
+56
+00:03:14,895 --> 00:03:18,697
+So in that case we could go back and
+change our r scale and then replot.
+
+57
+00:03:19,857 --> 00:03:23,241
+So first, I'm going to find the circle
+and remove it from the page.
+
+58
+00:03:23,241 --> 00:03:26,749
+[BLANK_AUDIO]
+
+59
+00:03:26,749 --> 00:03:29,877
+I'll just hit Delete, and
+it removes it from our DOM.
+
+60
+00:03:31,778 --> 00:03:35,168
+I'll scroll back up to where
+we created the r radius scale.
+
+61
+00:03:35,168 --> 00:03:38,955
+And I'll change the max radius
+to a value of, say, 40 pixels.
+
+62
+00:03:38,955 --> 00:03:41,865
+[BLANK_AUDIO]
+
+63
+00:03:41,865 --> 00:03:45,590
+Now I'll rerun the code
+to add our circle.
+
+64
+00:03:45,590 --> 00:03:47,460
+There that's better.
+
+65
+00:03:47,460 --> 00:03:50,490
+Sometimes you'll need to play around
+with the radius scale in order to get
+
+66
+00:03:50,490 --> 00:03:52,010
+the proportions right for your graphic.
+
+67
+00:03:54,050 --> 00:03:57,000
+Now putting our graphic side
+by side with the original,
+
+68
+00:03:57,000 --> 00:04:00,500
+we can see that China's red dot is
+about where it should be on the page.
+
+69
+00:04:00,500 --> 00:04:01,750
+Nice work.
+
+70
+00:04:01,750 --> 00:04:05,230
+I hope you have a better sense of how
+to learn and work with any new tool,
+
+71
+00:04:05,230 --> 00:04:08,670
+such as D3,
+when you encounter it in the wild.
+
+72
+00:04:08,670 --> 00:04:12,350
+You can learn more about D3 JS by
+reading through links that are included
+
+73
+00:04:12,350 --> 00:04:13,800
+in the instructor notes.
+
+74
+00:04:13,800 --> 00:04:18,320
+Or by taking a look at the D3
+website and Mike Bostock's blog.
+
+75
+00:04:18,320 --> 00:04:22,440
+Next up, you can review all of the code
+that we've gone through in one place.
+
+76
+00:04:22,440 --> 00:04:26,720
+So that way you can see which code
+was used to create this graphic.
+
+77
+00:04:26,720 --> 00:04:29,450
+Then I'll hand it over to Jonathan,
+who will recap and
+
+78
+00:04:29,450 --> 00:04:32,440
+walk you through one
+last bar chart example.
+
+79
+00:04:32,440 --> 00:04:34,060
+Great work, and keep learning.

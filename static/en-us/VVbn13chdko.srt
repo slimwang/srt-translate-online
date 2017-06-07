@@ -1,0 +1,315 @@
+1
+00:00:00,900 --> 00:00:05,060
+Let's learn how to animate a coconut
+falling from a tree onto the ground.
+
+2
+00:00:05,060 --> 00:00:09,330
+First off, open up Unity and
+load our starter scene for this lesson.
+
+3
+00:00:09,330 --> 00:00:11,420
+Check out the notes below for
+the specific scene to load.
+
+4
+00:00:13,120 --> 00:00:14,450
+Okay, great.
+
+5
+00:00:14,450 --> 00:00:16,800
+So if we want to take this
+coconut right here, and
+
+6
+00:00:16,800 --> 00:00:19,610
+make it fall,
+then we have a lot of options.
+
+7
+00:00:19,610 --> 00:00:22,090
+The easiest way to make a coconut
+fall would probably be to
+
+8
+00:00:22,090 --> 00:00:26,530
+use the Unity physics system,
+so let's try that first.
+
+9
+00:00:26,530 --> 00:00:33,830
+Just attach a sphere collider and
+a rigid body to this coconut.
+
+10
+00:00:33,830 --> 00:00:34,820
+Just like that.
+
+11
+00:00:34,820 --> 00:00:35,882
+Okay, press play.
+
+12
+00:00:35,882 --> 00:00:38,363
+[BLANK_AUDIO]
+
+13
+00:00:38,363 --> 00:00:40,739
+And you're done and it looks great.
+
+14
+00:00:42,090 --> 00:00:42,880
+Very realistic.
+
+15
+00:00:44,340 --> 00:00:47,110
+But what if you want to defy gravity, or
+
+16
+00:00:47,110 --> 00:00:49,620
+what if you want the coconut to
+follow a different path entirely.
+
+17
+00:00:50,630 --> 00:00:52,220
+Well then you'll probably
+need to write some code.
+
+18
+00:00:53,280 --> 00:00:56,930
+So instead of using a physics system
+let's write a script that does exactly
+
+19
+00:00:56,930 --> 00:01:01,940
+what the rigid body does to the coconut,
+that is, it lets it fall to the ground.
+
+20
+00:01:01,940 --> 00:01:05,010
+First things first, let's clean up and
+remove the rigid body and
+
+21
+00:01:05,010 --> 00:01:06,360
+sphere collider from the coconut.
+
+22
+00:01:07,710 --> 00:01:08,900
+Okay, great.
+
+23
+00:01:08,900 --> 00:01:11,644
+Then let's create a script
+called fall from tree.
+
+24
+00:01:11,644 --> 00:01:19,145
+New C# script, FallFromTree.
+
+25
+00:01:19,145 --> 00:01:22,680
+Double-click on the script,
+and load it up in MonoDevelop.
+
+26
+00:01:22,680 --> 00:01:25,650
+Remember, we want to move
+the coconut down, every frame,
+
+27
+00:01:25,650 --> 00:01:27,270
+until it hits the ground, then stop.
+
+28
+00:01:29,290 --> 00:01:32,040
+Since we want to move
+the coconut every frame,
+
+29
+00:01:32,040 --> 00:01:34,390
+we're going to put some code
+inside of the Update method.
+
+30
+00:01:35,510 --> 00:01:37,690
+Go ahead and
+add this code to the Update method.
+
+31
+00:01:39,300 --> 00:01:43,200
+Okay, now I'll explain all of
+this in just a second but first,
+
+32
+00:01:43,200 --> 00:01:45,940
+save your script and go back to Unity.
+
+33
+00:01:45,940 --> 00:01:49,150
+Now drag and drop the fall from
+tree script onto the coconut.
+
+34
+00:01:49,150 --> 00:01:51,769
+And then press play.
+
+35
+00:01:51,769 --> 00:01:58,185
+[BLANK_AUDIO]
+
+36
+00:01:58,185 --> 00:02:00,213
+Hm, well you see the coconut fall, but
+
+37
+00:02:00,213 --> 00:02:05,160
+it falls right down through the ground
+and continues falling forever and ever.
+
+38
+00:02:05,160 --> 00:02:08,280
+It's a good start, but
+that's not exactly what we want.
+
+39
+00:02:08,280 --> 00:02:10,240
+We need to stop the coconut
+when it hits the ground.
+
+40
+00:02:11,320 --> 00:02:13,060
+Okay, let's take another
+look at our code.
+
+41
+00:02:15,050 --> 00:02:17,710
+We start by typing transform.
+
+42
+00:02:17,710 --> 00:02:20,830
+This is a shortcut to access
+the transform component
+
+43
+00:02:20,830 --> 00:02:23,840
+of whatever game object
+the script is attached to.
+
+44
+00:02:23,840 --> 00:02:27,530
+Remember studying the transform
+component earlier in this nanodegree?
+
+45
+00:02:27,530 --> 00:02:28,850
+Well, this is the same thing.
+
+46
+00:02:28,850 --> 00:02:32,370
+We're just changing it using
+code instead of the editor.
+
+47
+00:02:32,370 --> 00:02:38,070
+So that code is really just changing
+the position of the transform component,
+
+48
+00:02:38,070 --> 00:02:38,550
+right here.
+
+49
+00:02:39,620 --> 00:02:41,060
+Okay, after that,
+
+50
+00:02:41,060 --> 00:02:46,030
+the Translate command tells Unity that
+we want to move an object In 3D space.
+
+51
+00:02:46,030 --> 00:02:50,435
+We then tell Unity that we want to
+move the object 0 units in the x axis,
+
+52
+00:02:50,435 --> 00:02:58,050
+-2.5 units in the y axis,
+and 0 units in the z axis.
+
+53
+00:02:58,050 --> 00:03:00,890
+There are a couple
+things to notice here.
+
+54
+00:03:00,890 --> 00:03:04,320
+First, we put an f next to -2.5.
+
+55
+00:03:05,340 --> 00:03:10,180
+That f just tells Unity we're typing
+a number with a decimal point.
+
+56
+00:03:10,180 --> 00:03:14,020
+It's a way of specifying exactly
+what kind of number we're using.
+
+57
+00:03:14,020 --> 00:03:16,040
+The f stands for floating point.
+
+58
+00:03:16,040 --> 00:03:19,010
+But you can just think of it
+as a decimal value, for now.
+
+59
+00:03:19,010 --> 00:03:24,900
+You'll also notice that we
+multiply -2.5 by time.deltatime.
+
+60
+00:03:24,900 --> 00:03:26,590
+That's pretty strange, isn't it?
+
+61
+00:03:26,590 --> 00:03:29,910
+Well, we'll cover
+time.deltatime in depth soon.
+
+62
+00:03:29,910 --> 00:03:32,759
+For now, just know that this
+smooths out our animation.
+
+63
+00:03:33,810 --> 00:03:36,790
+Lastly, we put Space.World
+to say that we want to
+
+64
+00:03:36,790 --> 00:03:40,680
+move the coconut in World Space,
+rather than Local Space.
+
+65
+00:03:40,680 --> 00:03:43,090
+This means that,
+even if we rotate the coconut,
+
+66
+00:03:43,090 --> 00:03:44,580
+it always falls towards the ground.
+
+67
+00:03:45,640 --> 00:03:47,410
+Okay, let's wrap up this section,
+
+68
+00:03:47,410 --> 00:03:50,230
+now that we've covered the very
+basics of procedural animation.

@@ -1,0 +1,159 @@
+1
+00:00:00,100 --> 00:00:01,710
+At the end of the last video,
+
+2
+00:00:01,710 --> 00:00:06,230
+we posed the question, can we predict the next time a person will tweet?
+
+3
+00:00:06,230 --> 00:00:10,250
+In order to make this question quantitative, we proposed two ways forward.
+
+4
+00:00:10,250 --> 00:00:12,520
+One was to use the quantity, the time of day.
+
+5
+00:00:12,520 --> 00:00:17,365
+The second was to use the quantity, number of seconds since the last tweet.
+
+6
+00:00:17,365 --> 00:00:20,879
+And we propose that using this quantity makes sense if we think about
+
+7
+00:00:20,879 --> 00:00:25,160
+the tweeting process as starting over each time some one makes a tweet.
+
+8
+00:00:25,160 --> 00:00:29,180
+Let's go ahead and add a Q note here, to signify our selection.
+
+9
+00:00:29,180 --> 00:00:30,950
+Now as far as our next step,
+
+10
+00:00:30,950 --> 00:00:36,020
+we know that our goal is to create a regression estimator of inter-tweet time.
+
+11
+00:00:36,020 --> 00:00:36,990
+Although as we know,
+
+12
+00:00:36,990 --> 00:00:41,460
+we can capture this quantity in another statistical inference problem.
+
+13
+00:00:41,460 --> 00:00:45,485
+For example, we could capture this as a hypothesis test or
+
+14
+00:00:45,485 --> 00:00:50,511
+also as a classifier, but our goal is to be bold and create an estimator.
+
+15
+00:00:50,511 --> 00:00:53,810
+I've tried to capture that here with the expression r of delta t.
+
+16
+00:00:55,060 --> 00:00:59,030
+So to make that more precise, I'm going to use the quantity,
+
+17
+00:00:59,030 --> 00:01:00,930
+time since the last tweet.
+
+18
+00:01:00,930 --> 00:01:03,540
+And let's abbreviate that as delta t.
+
+19
+00:01:03,540 --> 00:01:06,880
+And r of delta t is just time until next tweet.
+
+20
+00:01:06,880 --> 00:01:08,940
+The thing we're trying to predict.
+
+21
+00:01:08,940 --> 00:01:12,450
+So now that we've arrived at a statistical formulation of the problem,
+
+22
+00:01:13,530 --> 00:01:17,640
+the next step is to propose a model to represent this estimator.
+
+23
+00:01:17,640 --> 00:01:18,990
+But in order to do that,
+
+24
+00:01:18,990 --> 00:01:22,760
+we must understand what structure exists within the data.
+
+25
+00:01:22,760 --> 00:01:27,540
+To do that, let's examine a histogram of the inter-tweet times.
+
+26
+00:01:27,540 --> 00:01:30,570
+So to create a histogram of the inter-tweet times,
+
+27
+00:01:30,570 --> 00:01:32,210
+we first need to collect the values.
+
+28
+00:01:33,410 --> 00:01:35,110
+So let's go ahead and do that.
+
+29
+00:01:35,110 --> 00:01:38,810
+So in the first line here we're just using Pandas to read in the JSON data.
+
+30
+00:01:38,810 --> 00:01:40,510
+Let's go ahead and do that.
+
+31
+00:01:40,510 --> 00:01:44,530
+Then we're going to pull in the created at attribute for every row.
+
+32
+00:01:44,530 --> 00:01:47,530
+Now, for each tweet that we've collected, we're just going to
+
+33
+00:01:47,530 --> 00:01:51,918
+evaluate the difference between the times in which each tweet was created.
+
+34
+00:01:51,918 --> 00:01:56,210
+Okay, now we've got most of those values in the time until next list.
+
+35
+00:01:56,210 --> 00:02:00,290
+Now, Pandas has a very handy data type called a Series.
+
+36
+00:02:00,290 --> 00:02:03,270
+A Series wraps a list of values, and
+
+37
+00:02:03,270 --> 00:02:06,310
+provides a lot of handy functionality around that list.
+
+38
+00:02:06,310 --> 00:02:10,690
+For example, once you've got a list of values that has been wrapped in a series,
+
+39
+00:02:10,690 --> 00:02:13,100
+you can evaluate a histogram very easily.
+
+40
+00:02:13,100 --> 00:02:14,172
+Now that's very interesting.

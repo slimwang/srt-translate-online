@@ -1,0 +1,239 @@
+1
+00:00:00,060 --> 00:00:05,020
+We said that inodes play a key role in
+keeping track how file is organized on
+
+2
+00:00:05,020 --> 00:00:08,730
+disk, because they essentially
+integrate an index
+
+3
+00:00:08,730 --> 00:00:12,182
+of all of the disk blocks that
+correspond to a particular file.
+
+4
+00:00:12,182 --> 00:00:16,565
+First a file is uniquely
+identified by its inode.
+
+5
+00:00:16,565 --> 00:00:20,375
+In the virtual file system,
+inodes are uniquely numbered, so
+
+6
+00:00:20,375 --> 00:00:26,817
+to identify a file we use the number
+identifier of the corresponding inode.
+
+7
+00:00:26,817 --> 00:00:30,537
+This inode itself will contain a list of
+
+8
+00:00:30,537 --> 00:00:33,747
+all of the blocks that
+correspond to the actual file.
+
+9
+00:00:33,747 --> 00:00:39,040
+So it will be like an index into
+the blocks of the actual storage device.
+
+10
+00:00:39,040 --> 00:00:42,680
+That when stitched together
+give us the actual file.
+
+11
+00:00:42,680 --> 00:00:44,330
+In addition to this list of blocks,
+
+12
+00:00:44,330 --> 00:00:48,240
+the inode also has some
+other metadata information.
+
+13
+00:00:48,240 --> 00:00:50,730
+And this is useful to
+keep track of whether or
+
+14
+00:00:50,730 --> 00:00:53,820
+not certain certain file
+accesses are legal, or
+
+15
+00:00:53,820 --> 00:00:58,130
+to correctly updated the status of
+the file if it's locked or not locked.
+
+16
+00:00:58,130 --> 00:00:59,460
+Or other things.
+
+17
+00:00:59,460 --> 00:01:02,980
+One simple way in which this
+can be used this as follows.
+
+18
+00:01:02,980 --> 00:01:05,710
+A file name is mapped to a single inode.
+
+19
+00:01:05,710 --> 00:01:09,370
+And an inode, let's say here
+that it corresponds to a block.
+
+20
+00:01:09,370 --> 00:01:13,020
+So the file jeep points to the block 19.
+
+21
+00:01:13,020 --> 00:01:15,170
+That is the inode for
+this particular file.
+
+22
+00:01:16,330 --> 00:01:19,970
+The contents of this
+inode block are all of
+
+23
+00:01:19,970 --> 00:01:23,950
+the other blocks that constitute
+the contents of the file.
+
+24
+00:01:23,950 --> 00:01:29,030
+If you look here we see that this
+file has five blocks allocated to it,
+
+25
+00:01:29,030 --> 00:01:32,630
+and if we turn aside that
+we need more storage for
+
+26
+00:01:32,630 --> 00:01:36,520
+these files, as per, pending per
+writing more data into the file.
+
+27
+00:01:36,520 --> 00:01:39,840
+The file system will allocate a free
+block, lets say in this case,
+
+28
+00:01:39,840 --> 00:01:40,480
+this block 30.
+
+29
+00:01:40,480 --> 00:01:45,170
+It will correctly update
+the inode data structure,
+
+30
+00:01:45,170 --> 00:01:49,950
+the list of blocks to say that the next
+node in the system is this node 30.
+
+31
+00:01:49,950 --> 00:01:54,020
+And so the actual representation of the
+file on disk will now look as follows.
+
+32
+00:01:54,020 --> 00:01:58,580
+The benefit of this approach is that
+it's easy to perform both sequential or
+
+33
+00:01:58,580 --> 00:02:00,070
+random accesses to the file.
+
+34
+00:02:00,070 --> 00:02:04,560
+That for sequential we just need to get
+the next index into this list of blocks.
+
+35
+00:02:04,560 --> 00:02:09,150
+For random access we just,
+based on the block size need to compute.
+
+36
+00:02:09,150 --> 00:02:12,640
+Which particular block
+reference do we need to find.
+
+37
+00:02:12,640 --> 00:02:15,450
+And so
+it's fairly straightforward to do this.
+
+38
+00:02:15,450 --> 00:02:20,470
+The downside is that this limits
+the size of the file to the total
+
+39
+00:02:20,470 --> 00:02:25,140
+number of blocks that can be indexed
+using this linear data structure.
+
+40
+00:02:25,140 --> 00:02:26,810
+Let's take a look at this example.
+
+41
+00:02:26,810 --> 00:02:29,600
+Let's say we have 128 byte inodes.
+
+42
+00:02:29,600 --> 00:02:34,210
+And let's say they only contain
+these indexes to the blocks on desk.
+
+43
+00:02:34,210 --> 00:02:39,370
+Supposedly, we have 4 bytes to
+address individual block on this.
+
+44
+00:02:39,370 --> 00:02:42,960
+So that means that the maximum
+number of block pointers,
+
+45
+00:02:42,960 --> 00:02:47,870
+of block addresses, that can be
+included in this inode is 32 of those.
+
+46
+00:02:47,870 --> 00:02:50,780
+That's if we don't have
+any metadata in the inode.
+
+47
+00:02:50,780 --> 00:02:56,200
+If we assume that a single block is 1
+kilobyte, that means that the maximum
+
+48
+00:02:56,200 --> 00:03:01,230
+number of a file that can be addressed
+using this inode data structure.
+
+49
+00:03:01,230 --> 00:03:05,490
+That's represented in this way,
+is 32 kilobytes.
+
+50
+00:03:05,490 --> 00:03:07,340
+That clearly is very restrictive.

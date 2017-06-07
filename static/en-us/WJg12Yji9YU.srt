@@ -1,0 +1,352 @@
+﻿1
+00:00:00,210 --> 00:00:04,330
+Now let's move on to the next exercise,
+where we get to bind this cool looking
+
+2
+00:00:04,330 --> 00:00:07,879
+UI with some data to see
+those values filled up.
+
+3
+00:00:07,879 --> 00:00:12,599
+When we were first designing the UI, we
+set those view text to string resources,
+
+4
+00:00:12,599 --> 00:00:15,399
+just to help us design and
+build that UI.
+
+5
+00:00:15,400 --> 00:00:19,649
+But to display actual data that can
+change from one user to the other,
+
+6
+00:00:19,649 --> 00:00:23,409
+we need to be able to modify those
+text values programmatically.
+
+7
+00:00:23,410 --> 00:00:27,169
+In earlier lessons and
+exercises, we managed to do so
+
+8
+00:00:27,169 --> 00:00:29,178
+by using the findViewById.
+
+9
+00:00:29,178 --> 00:00:32,850
+And then setting the text to
+something or changing any attribute.
+
+10
+00:00:32,850 --> 00:00:36,079
+This time, however,
+we're going to use something new.
+
+11
+00:00:36,079 --> 00:00:39,829
+Android offers a really cool library
+called the Data Binding Library.
+
+12
+00:00:39,829 --> 00:00:43,039
+This can help us link
+any UI with actual data
+
+13
+00:00:43,039 --> 00:00:46,820
+without having to call
+the findViewById for every view item.
+
+14
+00:00:46,820 --> 00:00:48,490
+Let's see how to use this.
+
+15
+00:00:48,490 --> 00:00:52,170
+First thing, make sure you're using
+the latest Android Studio, or at least
+
+16
+00:00:52,170 --> 00:00:56,320
+something that's later than 2.1 so that
+it can actually support dataBinding.
+
+17
+00:00:56,320 --> 00:00:59,619
+These here are the steps that we're
+going to go through to connect real data
+
+18
+00:00:59,619 --> 00:01:01,699
+to our UI using dataBinding.
+
+19
+00:01:01,700 --> 00:01:05,480
+The first step is to enable
+dataBinding in our application.
+
+20
+00:01:05,480 --> 00:01:08,710
+To do that,
+open up the build.gradle file and
+
+21
+00:01:08,709 --> 00:01:13,569
+inside the Android section, make sure
+to set the dataBinding.enabled to true.
+
+22
+00:01:13,569 --> 00:01:16,051
+And then sync to update your project.
+
+23
+00:01:16,052 --> 00:01:19,135
+In this exercise,
+we've already created a class for
+
+24
+00:01:19,135 --> 00:01:22,296
+you that can hold all the data
+you need to bind to the UI.
+
+25
+00:01:22,296 --> 00:01:24,306
+It's called the BoardingPassInfo.
+
+26
+00:01:24,305 --> 00:01:28,962
+And it's a simple plain old Java object
+which simply acts as a placeholder for
+
+27
+00:01:28,962 --> 00:01:30,046
+the actual data.
+
+28
+00:01:30,046 --> 00:01:34,234
+Ideally, this will filled with
+data from say, an airline API or
+
+29
+00:01:34,234 --> 00:01:35,796
+some database lookup.
+
+30
+00:01:35,796 --> 00:01:40,195
+But for simplicity, we've provided you
+with another FakeDataUtils class that
+
+31
+00:01:40,195 --> 00:01:45,090
+just generates random information and
+fills up power plain old Java object.
+
+32
+00:01:45,090 --> 00:01:49,350
+The second step is to change
+the root tag in our layout XML
+
+33
+00:01:49,350 --> 00:01:50,903
+to use a layout tag.
+
+34
+00:01:50,903 --> 00:01:53,906
+Android automatically
+generates a binding class for
+
+35
+00:01:53,906 --> 00:01:56,516
+any layout that includes
+this tag as its root.
+
+36
+00:01:56,516 --> 00:01:59,070
+And we will need those
+binding classes later.
+
+37
+00:01:59,069 --> 00:02:04,639
+So let's go ahead and open up our
+activity_main.xml and then surround
+
+38
+00:02:04,640 --> 00:02:10,009
+this with our layout tag and then
+let's copy those definitions up here.
+
+39
+00:02:10,008 --> 00:02:13,669
+And make sure to close our
+layout all the way at the end.
+
+40
+00:02:13,669 --> 00:02:16,189
+This way we've surrounded
+our ScrollView tag,
+
+41
+00:02:16,189 --> 00:02:18,419
+making our root tag this layout tag.
+
+42
+00:02:19,490 --> 00:02:20,944
+Once we are done with that,
+
+43
+00:02:20,943 --> 00:02:25,479
+make sure to rebuild our project to
+create those binding classes for us.
+
+44
+00:02:25,479 --> 00:02:29,750
+Perfect, next, we'll be creating
+something called a binding instance.
+
+45
+00:02:29,750 --> 00:02:33,400
+This will help us access those
+UI components from the code.
+
+46
+00:02:33,400 --> 00:02:38,575
+Open up the MainActivity and create
+a variable for type ActivityMainBinding.
+
+47
+00:02:38,575 --> 00:02:42,719
+This is the class that was generated for
+us based on the name of the layout.
+
+48
+00:02:42,719 --> 00:02:47,159
+So activity_main becomes
+MainActivityBinding.
+
+49
+00:02:47,159 --> 00:02:50,884
+Whatever you named your layout, the
+class would follow the same convention.
+
+50
+00:02:50,884 --> 00:02:55,319
+The following step is to point the data
+binding instance to the correct content
+
+51
+00:02:55,319 --> 00:02:56,299
+view.
+
+52
+00:02:56,300 --> 00:03:01,270
+This is done using the DataBindingUtil
+class by calling the setContentView and
+
+53
+00:03:01,270 --> 00:03:03,890
+passing in the actual main activity.
+
+54
+00:03:03,889 --> 00:03:07,299
+This sets the context of our binding
+class to the elements in the layout
+
+55
+00:03:07,300 --> 00:03:08,469
+we just passed.
+
+56
+00:03:08,469 --> 00:03:12,609
+Next, let's try to generate some fake
+data using the FakeDataUtils class
+
+57
+00:03:12,610 --> 00:03:13,920
+that we've provided.
+
+58
+00:03:13,919 --> 00:03:18,129
+And let's put them in a BoardingPassInfo
+class called fakeBoardingInfo.
+
+59
+00:03:18,129 --> 00:03:21,710
+The final step is to actually
+bind the data one by one
+
+60
+00:03:21,710 --> 00:03:24,469
+using that binding
+instance we just created.
+
+61
+00:03:24,469 --> 00:03:27,889
+Simply go through the attributes in
+the binding object one by one and
+
+62
+00:03:27,889 --> 00:03:30,969
+set the text values to
+our fake data object.
+
+63
+00:03:30,969 --> 00:03:33,990
+We're doing this in the function
+displayBoardingPassInfo
+
+64
+00:03:33,990 --> 00:03:37,140
+where you pass in this
+fake object called info.
+
+65
+00:03:37,139 --> 00:03:39,789
+And then we could set
+the passenger name, the airport,
+
+66
+00:03:39,789 --> 00:03:41,569
+and flight code information.
+
+67
+00:03:41,569 --> 00:03:45,349
+And then we could do some formatting for
+our times, and set the values for
+
+68
+00:03:45,349 --> 00:03:46,509
+those as well.
+
+69
+00:03:46,509 --> 00:03:50,209
+And then finally, our gate and
+terminal information down here.
+
+70
+00:03:50,210 --> 00:03:53,719
+And then the very last tab is going
+back to the onCreate method, and
+
+71
+00:03:53,719 --> 00:03:58,009
+calling this displayBoardingPassInfo,
+passing in our fake data.
+
+72
+00:03:58,009 --> 00:03:59,445
+Now if we run this app.
+
+73
+00:03:59,445 --> 00:04:01,217
+[BLANK_AUDIO]
+
+74
+00:04:01,217 --> 00:04:04,339
+Voila, we got our design
+filled with actual data.
+

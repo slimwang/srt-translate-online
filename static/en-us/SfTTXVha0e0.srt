@@ -1,0 +1,265 @@
+1
+00:00:00,090 --> 00:00:02,780
+So it's helpful to think
+about how we would use this
+
+2
+00:00:02,780 --> 00:00:05,090
+potential function idea in
+the context of Q learning,
+
+3
+00:00:05,090 --> 00:00:08,850
+instead of just solving Bellman
+equations like we had a moment ago.
+
+4
+00:00:08,850 --> 00:00:11,150
+So in the setting of Q learning,
+
+5
+00:00:11,150 --> 00:00:13,474
+we're going to be keeping
+some Q function, Q(s,a).
+
+6
+00:00:14,590 --> 00:00:19,020
+And each time we get a state
+action reward next date quadruple.
+
+7
+00:00:19,020 --> 00:00:23,170
+We're going to update our state action
+pair for this state action pair we just
+
+8
+00:00:23,170 --> 00:00:28,030
+left to be the, you know, little bit
+more in the direction of the reward
+
+9
+00:00:28,030 --> 00:00:30,270
+plus the discounted value
+of the state we end up in.
+
+10
+00:00:31,580 --> 00:00:34,770
+And this reward, now we're
+going to use the real reward, but
+
+11
+00:00:34,770 --> 00:00:37,730
+now we're going to shift it around, mess
+it around with this potential function.
+
+12
+00:00:37,730 --> 00:00:40,796
+So we're going to take the actual
+reward, subtract the potential for
+
+13
+00:00:40,796 --> 00:00:43,809
+the state that we're leaving and
+add the discounted potential for
+
+14
+00:00:43,809 --> 00:00:45,448
+the state that we're arriving in.
+
+15
+00:00:45,448 --> 00:00:47,980
+And so this is going to
+be how we do our updates.
+
+16
+00:00:47,980 --> 00:00:50,826
+And so
+if we run this version of Q learning,
+
+17
+00:00:50,826 --> 00:00:53,051
+what should happen in the limit?
+
+18
+00:00:53,051 --> 00:00:54,731
+>> The right thing.
+
+19
+00:00:54,731 --> 00:00:55,280
+>> Yeah.
+So
+
+20
+00:00:55,280 --> 00:00:59,730
+it should actually solve the original
+MDP, the one with just R here.
+
+21
+00:00:59,730 --> 00:01:02,402
+And it should ultimately
+ignore the size.
+
+22
+00:01:02,402 --> 00:01:07,000
+So there's a sense in which we don't
+really care what the size are.
+
+23
+00:01:07,000 --> 00:01:09,280
+So what if we choose like this one?
+
+24
+00:01:09,280 --> 00:01:13,700
+What if we say psi of s is
+the max over all actions
+
+25
+00:01:13,700 --> 00:01:19,420
+of the optimal Q function Q*,
+for that state action pair.
+
+26
+00:01:19,420 --> 00:01:21,575
+>> You mean the actual true
+value of being in the state?
+
+27
+00:01:21,575 --> 00:01:22,280
+>> Yeah.
+
+28
+00:01:22,280 --> 00:01:25,769
+>> Oh, well first off, if we choose psi
+to be that then we're already done.
+
+29
+00:01:25,769 --> 00:01:27,633
+>> Well so, yes and no, right?
+
+30
+00:01:27,633 --> 00:01:30,330
+We only can do this if we've
+already solved the problem.
+
+31
+00:01:30,330 --> 00:01:32,920
+So admittedly this is an unrealistic
+thing to be able to do.
+
+32
+00:01:32,920 --> 00:01:34,280
+But what does it do to Q?
+
+33
+00:01:34,280 --> 00:01:36,486
+What does Q end up being in this case?
+
+34
+00:01:36,486 --> 00:01:37,190
+>> Zero.
+
+35
+00:01:37,190 --> 00:01:38,125
+>> Is that obvious?
+
+36
+00:01:38,125 --> 00:01:43,987
+QSA Is going to be Q*(S,a)-
+
+37
+00:01:43,987 --> 00:01:47,976
+psi(S), right?
+
+38
+00:01:47,976 --> 00:01:49,809
+That's what we figured
+out on the last slide.
+
+39
+00:01:49,809 --> 00:01:56,234
+And this psi(S) is
+exactly -max a Q* (S,a).
+
+40
+00:01:56,234 --> 00:01:58,240
+>> Which is Q* (S,a).
+
+41
+00:01:58,240 --> 00:01:59,560
+>> Not exactly, right.
+
+42
+00:01:59,560 --> 00:02:04,078
+So Q(s,a), for
+the optimal action, is zero.
+
+43
+00:02:04,078 --> 00:02:05,230
+>> Oh, you're right, I'm sorry.
+
+44
+00:02:05,230 --> 00:02:07,840
+What I just said is true for
+when you take the optimal action.
+
+45
+00:02:07,840 --> 00:02:08,495
+It is zero.
+
+46
+00:02:08,495 --> 00:02:09,850
+>> Right.
+So Q(S,
+
+47
+00:02:09,850 --> 00:02:14,620
+a) in this case is going to
+be 0 is a is optimal.
+
+48
+00:02:14,620 --> 00:02:19,620
+>> And it'll be less than 0 otherwise by
+a consonant for each action otherwise.
+
+49
+00:02:19,620 --> 00:02:21,589
+>> Right,
+by the amount that it's suboptimal.
+
+50
+00:02:21,589 --> 00:02:23,640
+>> Yes, that's exactly right,
+by the amount that it's suboptimal.
+
+51
+00:02:23,640 --> 00:02:24,435
+>> So this is kind of cool.
+
+52
+00:02:24,435 --> 00:02:28,799
+So if you think about initializing your
+Q function to 0, which we often do,
+
+53
+00:02:28,799 --> 00:02:29,972
+because what do we know.
+
+54
+00:02:29,972 --> 00:02:32,870
+Then it should start off
+actually doing the right thing.
+
+55
+00:02:32,870 --> 00:02:36,280
+It should maybe take some of the
+non-optimal actions, discover that they
+
+56
+00:02:36,280 --> 00:02:40,960
+have a value less than 0, and
+then after that just take the best ones.
+
+57
+00:02:40,960 --> 00:02:44,550
+So this give you an incredible
+leg up on the learning problem.

@@ -1,0 +1,113 @@
+﻿1
+00:00:01,010 --> 00:00:03,570
+Let's make our text view
+logger more useful by
+
+2
+00:00:03,569 --> 00:00:08,050
+persisting its state between activity
+tear downs using onSaveInstanceState.
+
+3
+00:00:09,220 --> 00:00:12,760
+onSaveInstanceState takes
+a bundle as its parameter.
+
+4
+00:00:12,759 --> 00:00:15,719
+This bundle is a key value
+storage mechanism that we use to
+
+5
+00:00:15,720 --> 00:00:18,089
+store the data we want to be saved.
+
+6
+00:00:18,089 --> 00:00:21,460
+Now it can't quite store any data.
+
+7
+00:00:21,460 --> 00:00:24,995
+Bundles need to be passed between
+processes or serialized to a file.
+
+8
+00:00:24,995 --> 00:00:27,480
+So they support a limited set of types.
+
+9
+00:00:28,530 --> 00:00:31,743
+That being said,
+you can add complex types to a bundle
+
+10
+00:00:31,743 --> 00:00:34,966
+by having them implement
+the parcelable interface.
+
+11
+00:00:34,966 --> 00:00:39,317
+The parcelable effectively contains the
+instructions for how to output an object
+
+12
+00:00:39,317 --> 00:00:43,770
+to a stream of data, and then
+recreate the object from that stream.
+
+13
+00:00:43,770 --> 00:00:47,590
+We're just going to save off the string
+contents of the text view by keying
+
+14
+00:00:47,590 --> 00:00:48,990
+into the bundle.
+
+15
+00:00:48,990 --> 00:00:52,079
+We begin by creating our
+key string as a constant,
+
+16
+00:00:52,079 --> 00:00:55,458
+then we override onSaveInstanceState.
+
+17
+00:00:57,990 --> 00:01:00,000
+First, we'll have it
+call it super class.
+
+18
+00:01:02,109 --> 00:01:04,500
+Then, we'll also log and
+append this state.
+
+19
+00:01:05,780 --> 00:01:09,695
+We'll get the text from our
+mLifecycleDisplay text view,
+
+20
+00:01:09,694 --> 00:01:11,971
+and we'll store it in our bundle.
+
+21
+00:01:11,971 --> 00:01:15,312
+[BLANK_AUDIO]
+
+22
+00:01:15,313 --> 00:01:19,990
+Finally, in onCreate we check to see if
+the savedInstanceState bundle is null.
+
+23
+00:01:21,010 --> 00:01:24,650
+And if it isn't, we get our
+lifecycle callbacks texts by key.
+
+24
+00:01:25,939 --> 00:01:29,719
+And then call set text on
+mLifecycleDisplay with the saved text.
+

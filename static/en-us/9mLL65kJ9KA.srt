@@ -1,0 +1,240 @@
+1
+00:00:00,140 --> 00:00:05,060
+In Linux, you can define a reader
+writer lock by using the provided
+
+2
+00:00:05,060 --> 00:00:07,910
+data type for reader writer locks.
+
+3
+00:00:07,910 --> 00:00:12,070
+To access a shared resource
+using this reader writer lock,
+
+4
+00:00:12,070 --> 00:00:16,320
+you use the appropriate interface,
+read lock or write lock.
+
+5
+00:00:16,320 --> 00:00:19,730
+Which one you use will clearly
+depend on the kind of operation that
+
+6
+00:00:19,730 --> 00:00:22,240
+you want to perform in
+the shared resource.
+
+7
+00:00:22,240 --> 00:00:27,550
+The reader writer API also provides the
+corresponding unlock counterparts for
+
+8
+00:00:27,550 --> 00:00:29,520
+both read and write.
+
+9
+00:00:29,520 --> 00:00:33,060
+A few other operations are supported
+on reader writer locks, but
+
+10
+00:00:33,060 --> 00:00:34,640
+these are the primary ones.
+
+11
+00:00:34,640 --> 00:00:38,450
+And if you would like to explore more,
+then take a look at the .h file.
+
+12
+00:00:38,450 --> 00:00:41,800
+We are providing a link to it
+in the instructor's notes.
+
+13
+00:00:41,800 --> 00:00:45,280
+Reader writer locks are supported
+in many operating systems and
+
+14
+00:00:45,280 --> 00:00:46,850
+language run times.
+
+15
+00:00:46,850 --> 00:00:50,890
+In some of these contexts, the reader
+writer operations are referred to as
+
+16
+00:00:50,890 --> 00:00:53,390
+shared locks and exclusive locks.
+
+17
+00:00:53,390 --> 00:00:56,720
+However, certain aspects of
+the behavior of the reader writer locks
+
+18
+00:00:56,720 --> 00:00:59,730
+are different in terms
+of their semantics.
+
+19
+00:00:59,730 --> 00:01:00,420
+For instance,
+
+20
+00:01:00,420 --> 00:01:05,610
+it makes sense to permit a recursive
+read_lock operations to be invoked.
+
+21
+00:01:05,610 --> 00:01:08,840
+But then,
+it differs across implementations, and
+
+22
+00:01:08,840 --> 00:01:11,500
+exactly what happens on read_unlock.
+
+23
+00:01:11,500 --> 00:01:16,660
+In some cases, a single read_unlock may
+unlock every single one of the read_lock
+
+24
+00:01:16,660 --> 00:01:20,850
+operations that have recursively been
+invoked from within the same thread.
+
+25
+00:01:20,850 --> 00:01:25,520
+Whereas in other implementations,
+a separate read_unlock is required for
+
+26
+00:01:25,520 --> 00:01:28,060
+every single read_lock operation.
+
+27
+00:01:28,060 --> 00:01:32,680
+Another way in which implementations
+of reader writer locks differ is
+
+28
+00:01:32,680 --> 00:01:35,160
+in their treatment of priorities.
+
+29
+00:01:35,160 --> 00:01:39,740
+For instance in some cases, a reader,
+so an owner of a shared lock,
+
+30
+00:01:39,740 --> 00:01:43,250
+may be given a priority
+to upgrade the lock.
+
+31
+00:01:43,250 --> 00:01:46,560
+So from a reader lock to
+convert to a writer lock.
+
+32
+00:01:46,560 --> 00:01:52,000
+Compared to a newly arriving request for
+a write lock, or an exclusive lock.
+
+33
+00:01:52,000 --> 00:01:54,320
+In other implementations,
+that's not the case.
+
+34
+00:01:54,320 --> 00:01:58,730
+So the owner of a read lock
+will first release it and
+
+35
+00:01:58,730 --> 00:02:03,992
+then try to re-acquire it with
+write access permissions.
+
+36
+00:02:03,992 --> 00:02:09,900
+And contend with any other thread that's
+trying to perform the same operation.
+
+37
+00:02:09,900 --> 00:02:13,245
+Another priority related
+difference across
+
+38
+00:02:13,245 --> 00:02:15,690
+reader writer lock implementations
+
+39
+00:02:15,690 --> 00:02:20,380
+is what kind of interaction is there
+between the state of the lock,
+
+40
+00:02:20,380 --> 00:02:25,358
+the priority of the threads, and the
+scheduling policy in the system overall.
+
+41
+00:02:25,358 --> 00:02:28,050
+For instance it could block a reader so
+
+42
+00:02:28,050 --> 00:02:31,910
+a thread that otherwise would
+have been allowed to proceed.
+
+43
+00:02:31,910 --> 00:02:35,680
+If there is already a writer
+that has higher priority and
+
+44
+00:02:35,680 --> 00:02:37,640
+that is waiting on that lock.
+
+45
+00:02:37,640 --> 00:02:41,740
+In this case the writer is waiting
+because there are other threads that
+
+46
+00:02:41,740 --> 00:02:44,290
+already have read access to the lock.
+
+47
+00:02:44,290 --> 00:02:48,160
+And if there is a coupling
+between the scheduling policy and
+
+48
+00:02:48,160 --> 00:02:49,830
+the synchronization mechanisms,
+
+49
+00:02:49,830 --> 00:02:54,130
+it's possible that a newly
+arriving reader will be blocked.
+
+50
+00:02:54,130 --> 00:02:59,270
+It will not be allowed to join the other
+readers in the critical section.
+
+51
+00:02:59,270 --> 00:03:02,710
+Because of the fact that the waiting
+writer has higher priority.

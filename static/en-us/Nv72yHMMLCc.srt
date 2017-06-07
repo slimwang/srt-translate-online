@@ -1,0 +1,146 @@
+1
+00:00:00,180 --> 00:00:03,180
+As we mentioned multiple
+times in this course,
+
+2
+00:00:03,180 --> 00:00:07,490
+understanding the workload, in this
+case, that will be the access pattern,
+
+3
+00:00:07,490 --> 00:00:09,410
+how the files are being accessed.
+
+4
+00:00:09,410 --> 00:00:13,260
+This is an important piece of
+information, that's useful when we're
+
+5
+00:00:13,260 --> 00:00:17,520
+trying to design and optimize
+a particular solution in a certain way.
+
+6
+00:00:17,520 --> 00:00:20,620
+When we're thinking about
+how to design the system so
+
+7
+00:00:20,620 --> 00:00:23,900
+as to support a particular
+file sharing semantics,
+
+8
+00:00:23,900 --> 00:00:27,270
+we need to understand things like
+what is the sharing frequency,
+
+9
+00:00:27,270 --> 00:00:30,100
+what is the write frequency,
+so what is the access pattern.
+
+10
+00:00:30,100 --> 00:00:34,360
+And also how important is it to
+maintain a consistent view for
+
+11
+00:00:34,360 --> 00:00:36,390
+that particular type of files.
+
+12
+00:00:36,390 --> 00:00:39,830
+Once we understand these workload
+properties, the design of the file
+
+13
+00:00:39,830 --> 00:00:44,330
+system must be done so
+that it's optimized for the common case.
+
+14
+00:00:44,330 --> 00:00:48,690
+One issues, however, that file systems
+have two different types of files,
+
+15
+00:00:48,690 --> 00:00:50,428
+regular files and directories.
+
+16
+00:00:50,428 --> 00:00:55,150
+In these two types of files, we often
+have very different access patterns in
+
+17
+00:00:55,150 --> 00:00:58,670
+terms of what is the locality,
+what is the lifetime of the files,
+
+18
+00:00:58,670 --> 00:01:02,390
+the size distribution,
+how frequently are they accessed.
+
+19
+00:01:02,390 --> 00:01:04,450
+For these reasons,
+it is not uncommon for
+
+20
+00:01:04,450 --> 00:01:07,330
+these two types of files
+to be treated differently.
+
+21
+00:01:07,330 --> 00:01:11,200
+For instance, we can adopt one type of
+semantics for the regular files and
+
+22
+00:01:11,200 --> 00:01:14,440
+another type of semantics for
+the directories.
+
+23
+00:01:14,440 --> 00:01:18,080
+Or, if we use periodic
+updates as a mechanism for
+
+24
+00:01:18,080 --> 00:01:21,480
+both, then we may choose to use
+less frequent write-backs for
+
+25
+00:01:21,480 --> 00:01:24,420
+the regular files versus for
+the directories.
+
+26
+00:01:24,420 --> 00:01:27,410
+This can be based on observations that,
+for instance,
+
+27
+00:01:27,410 --> 00:01:31,820
+directories are more frequently shared,
+than individual files in them.
+
+28
+00:01:31,820 --> 00:01:34,230
+Later in this lesson,
+we will look at the choices,
+
+29
+00:01:34,230 --> 00:01:36,920
+how to treat these two
+different types of files, for
+
+30
+00:01:36,920 --> 00:01:40,710
+the network file system manifest,
+and the sprite file system.

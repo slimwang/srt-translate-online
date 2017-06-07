@@ -1,0 +1,457 @@
+1
+00:00:00,310 --> 00:00:03,790
+It makes sense to start by
+taking a look at worker.js.
+
+2
+00:00:03,790 --> 00:00:06,200
+Notice that when it receives
+a message from the main thread,
+
+3
+00:00:06,200 --> 00:00:10,430
+it's going to get two things, the image
+data and the type of manipulation.
+
+4
+00:00:10,430 --> 00:00:12,820
+E is the whole message
+from the main thread.
+
+5
+00:00:12,820 --> 00:00:16,600
+And then the data is the user data
+that we're sending to the worker.
+
+6
+00:00:16,600 --> 00:00:18,540
+So, when I post a message
+to the web worker,
+
+7
+00:00:18,540 --> 00:00:20,700
+I'll make sure that both
+of these are included.
+
+8
+00:00:20,700 --> 00:00:22,470
+Back in the image app or in this case,
+
+9
+00:00:22,470 --> 00:00:26,990
+my solution to it, notice that
+the loop is gone from manipulateImage.
+
+10
+00:00:26,990 --> 00:00:30,220
+That's because the loop
+now lives in worker.js.
+
+11
+00:00:30,220 --> 00:00:34,190
+At the top of the script, I created
+the web worker from worker.js and
+
+12
+00:00:34,190 --> 00:00:35,890
+I just called it imageWorker.
+
+13
+00:00:35,890 --> 00:00:39,440
+Whenever I need to use the web worker,
+I'll use the reference imageWorker.
+
+14
+00:00:40,470 --> 00:00:42,830
+Whenever I need to post
+a message to the worker or
+
+15
+00:00:42,830 --> 00:00:46,560
+receive a message from the worker,
+I'll refer to it as imageWorker.
+
+16
+00:00:46,560 --> 00:00:50,420
+Back in the image app or in my case
+the solution to the image app,
+
+17
+00:00:50,420 --> 00:00:52,480
+I'll start by creating a new web worker.
+
+18
+00:00:52,480 --> 00:00:53,930
+The syntax is fairly simple.
+
+19
+00:00:53,930 --> 00:00:57,460
+And then once I create it from
+worker.js I can simply refer to it with
+
+20
+00:00:57,460 --> 00:00:58,750
+this variable name.
+
+21
+00:00:58,750 --> 00:01:01,990
+Down below in manipulateImage, you'll
+notice that the whole loop is gone.
+
+22
+00:01:01,990 --> 00:01:04,720
+And that's because it's
+being handled by the worker.
+
+23
+00:01:04,720 --> 00:01:07,230
+When I'm ready for
+the worker to start doing its work,
+
+24
+00:01:07,230 --> 00:01:11,490
+I'll simply post a message to it by
+calling postMessage on the variable for
+
+25
+00:01:11,490 --> 00:01:13,380
+the worker that I created above.
+
+26
+00:01:13,380 --> 00:01:16,990
+And remember, the worker is
+expecting image data in type, so
+
+27
+00:01:16,990 --> 00:01:18,960
+I'm sending it an object of both.
+
+28
+00:01:18,960 --> 00:01:22,950
+Here the image data is being collected
+from the canvas after an image
+
+29
+00:01:22,950 --> 00:01:24,150
+is uploaded.
+
+30
+00:01:24,150 --> 00:01:27,100
+And the type here is coming from
+the button that was pressed.
+
+31
+00:01:27,100 --> 00:01:28,450
+Here, let me show you.
+
+32
+00:01:28,450 --> 00:01:32,350
+Each of the image manipulation buttons
+has an onclick handler, which posts
+
+33
+00:01:32,350 --> 00:01:36,320
+a different string representing the type
+of manipulation that should happen.
+
+34
+00:01:36,320 --> 00:01:39,030
+This type here gets passed
+to manipulateImage.
+
+35
+00:01:39,030 --> 00:01:42,230
+Next up is the onmessage
+handler attached to the worker.
+
+36
+00:01:42,230 --> 00:01:45,410
+This function will be run once
+the worker sends something back.
+
+37
+00:01:45,410 --> 00:01:47,910
+First off, I toggle the ButtonAbledness.
+
+38
+00:01:47,910 --> 00:01:50,390
+So that's what grays out or
+grays back in,
+
+39
+00:01:50,390 --> 00:01:53,620
+I guess, all the image manipulation
+buttons at the top of the page.
+
+40
+00:01:53,620 --> 00:01:58,930
+And then I go ahead and grab the data,
+and then return it to the context.
+
+41
+00:01:58,930 --> 00:02:02,730
+Next up there's the onmessage handler
+that's attached to the web worker.
+
+42
+00:02:02,730 --> 00:02:05,980
+This function gets run once the web
+worker returns something back to
+
+43
+00:02:05,980 --> 00:02:07,160
+the main thread.
+
+44
+00:02:07,160 --> 00:02:10,680
+One again, it passes a message
+back which is called e here.
+
+45
+00:02:10,680 --> 00:02:14,360
+And the actual image itself
+in the web worker is e.data.
+
+46
+00:02:14,360 --> 00:02:17,890
+Assuming that there is an image,
+it gets put right on the canvas.
+
+47
+00:02:17,890 --> 00:02:21,710
+As a good practice, I also included
+an onerror handler on the web worker.
+
+48
+00:02:21,710 --> 00:02:26,180
+It also calls a function, which in this
+case throws a web worker exception.
+
+49
+00:02:26,180 --> 00:02:29,100
+All right.
+Now let's see how all of this runs.
+
+50
+00:02:29,100 --> 00:02:30,990
+I've opened the solution
+in the browser and
+
+51
+00:02:30,990 --> 00:02:33,750
+I've loaded the Chrome
+image like before.
+
+52
+00:02:33,750 --> 00:02:35,770
+I'll hit Invert and watch.
+
+53
+00:02:35,770 --> 00:02:38,540
+No Jank, it doesn't freeze up,
+and then a few seconds later,
+
+54
+00:02:38,540 --> 00:02:40,220
+the new one appears.
+
+55
+00:02:40,220 --> 00:02:41,870
+Notice that there was no huge stutter.
+
+56
+00:02:41,870 --> 00:02:44,000
+There was no Jank
+appearing in the timer.
+
+57
+00:02:44,000 --> 00:02:47,460
+That's a really good sign that,
+that work, that image manipulation work,
+
+58
+00:02:47,460 --> 00:02:49,770
+is happening off the main thread.
+
+59
+00:02:49,770 --> 00:02:51,920
+Notice how the work pretty
+much stays under 60 frames
+
+60
+00:02:51,920 --> 00:02:53,050
+per second the whole time.
+
+61
+00:02:53,050 --> 00:02:54,340
+That's awesome.
+
+62
+00:02:54,340 --> 00:02:59,830
+And also down here in the view, you can
+see the WebCore worker being spawned.
+
+63
+00:02:59,830 --> 00:03:03,830
+This worker's work down here is all of
+the image manipulation that happened
+
+64
+00:03:03,830 --> 00:03:05,210
+off the main thread.
+
+65
+00:03:05,210 --> 00:03:06,320
+Very cool.
+
+66
+00:03:06,320 --> 00:03:08,790
+But, there is still
+that performance bug.
+
+67
+00:03:08,790 --> 00:03:10,180
+Let me show you what it is.
+
+68
+00:03:10,180 --> 00:03:13,620
+Remember, I said to start with
+the manipulate function before.
+
+69
+00:03:13,620 --> 00:03:17,570
+This manipulate function can be
+found inside ImageManips.js.
+
+70
+00:03:17,570 --> 00:03:21,190
+The whole of ImageManips.js
+is this manipulate function.
+
+71
+00:03:21,190 --> 00:03:23,690
+And then, using the string
+types that were passed to it,
+
+72
+00:03:23,690 --> 00:03:25,520
+it decides what that
+function should be equal to.
+
+73
+00:03:25,520 --> 00:03:29,530
+And then it runs the function using
+the parameters passed from the worker.
+
+74
+00:03:29,530 --> 00:03:33,140
+Okay, that seems fairly reasonable,
+but why is this a bug.
+
+75
+00:03:33,140 --> 00:03:36,100
+Notice how this is happening
+inside the for loop.
+
+76
+00:03:36,100 --> 00:03:36,600
+That means,
+
+77
+00:03:36,600 --> 00:03:41,890
+for each and every pixel on the page, a
+new function object has to get created.
+
+78
+00:03:41,890 --> 00:03:44,790
+And that's just a lot of overhead for
+the browser.
+
+79
+00:03:44,790 --> 00:03:46,929
+So, I refactored this loop.
+
+80
+00:03:46,929 --> 00:03:50,179
+Outside of the loop,
+I figure out which function I need.
+
+81
+00:03:50,179 --> 00:03:53,280
+I'll show you where this
+function came from in a second.
+
+82
+00:03:53,280 --> 00:03:56,460
+And then I simply call that
+function inside the loop.
+
+83
+00:03:56,460 --> 00:03:59,710
+This is much more performant because
+I'm not creating a new function
+
+84
+00:03:59,710 --> 00:04:01,790
+every time I hit a new pixel.
+
+85
+00:04:01,790 --> 00:04:03,829
+GetManipFunc is the replacement for
+
+86
+00:04:03,829 --> 00:04:06,920
+manipulate from before
+in imagemanips.js.
+
+87
+00:04:06,920 --> 00:04:10,100
+And instead of running one of
+the image manipulations on a pixel,
+
+88
+00:04:10,100 --> 00:04:12,080
+it simple returns the function.
+
+89
+00:04:12,080 --> 00:04:14,180
+This allows me to use
+the function over and
+
+90
+00:04:14,180 --> 00:04:17,980
+over inside the for loop without
+creating a new one each time.
+
+91
+00:04:17,980 --> 00:04:19,320
+So, how does this perform?
+
+92
+00:04:19,320 --> 00:04:20,700
+Let me show you.
+
+93
+00:04:20,700 --> 00:04:23,846
+I've got the before and
+after fixing that performance bug.
+
+94
+00:04:23,846 --> 00:04:27,470
+First off, notice how the new timeline
+looks way better than the old one.
+
+95
+00:04:27,470 --> 00:04:31,852
+And the function itself run by the web
+worker finished in only one second,
+
+96
+00:04:31,852 --> 00:04:36,690
+which compares very well to the five
+seconds when it was done poorly.
+
+97
+00:04:36,690 --> 00:04:39,690
+All in all, I would be very happy
+seeing this timeline on any app.

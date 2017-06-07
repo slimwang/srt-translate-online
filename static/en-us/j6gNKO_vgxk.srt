@@ -1,0 +1,240 @@
+1
+00:00:00,170 --> 00:00:04,180
+Another popular type of
+RPC-like system is Java RMI,
+
+2
+00:00:04,180 --> 00:00:06,440
+Java Remote Method Invocations.
+
+3
+00:00:06,440 --> 00:00:11,090
+It's also pioneered by Sun as a form
+of client-server communication method,
+
+4
+00:00:11,090 --> 00:00:14,310
+among address spaces in
+the Java virtual machine.
+
+5
+00:00:14,310 --> 00:00:17,520
+Java is an object-oriented
+language where objects interact
+
+6
+00:00:17,520 --> 00:00:20,800
+via method invocations and
+not via procedure calls.
+
+7
+00:00:20,800 --> 00:00:25,725
+For this reason, this inter-process
+communication mechanism matches the Java
+
+8
+00:00:25,725 --> 00:00:31,240
+object-oriented semantics as in
+the form of remote method invocations.
+
+9
+00:00:31,240 --> 00:00:35,360
+Its architecture is similar to what we
+saw with the remote procedure calls.
+
+10
+00:00:35,360 --> 00:00:40,690
+Client and server processes have
+client-side stubs and server-side stubs.
+
+11
+00:00:40,690 --> 00:00:43,090
+The server-side stub is
+referred to as a skeleton.
+
+12
+00:00:44,180 --> 00:00:47,690
+In the Java virtual machines,
+all of the processes, all clients and
+
+13
+00:00:47,690 --> 00:00:51,200
+all servers, are written in
+the Java programming language.
+
+14
+00:00:51,200 --> 00:00:54,660
+For that reason,
+the interface definition language for
+
+15
+00:00:54,660 --> 00:00:57,380
+the Java RMIs is also Java.
+
+16
+00:00:57,380 --> 00:01:01,680
+It doesn't make sense to adopt a
+different interface definition language,
+
+17
+00:01:01,680 --> 00:01:03,580
+like in the case of XDR for
+
+18
+00:01:03,580 --> 00:01:07,640
+RPC, where in this case, everything will
+be written in Java in the first place.
+
+19
+00:01:08,690 --> 00:01:13,810
+So RMI uses a language-specific
+interface definition language choice.
+
+20
+00:01:13,810 --> 00:01:15,560
+And in this case, that's Java.
+
+21
+00:01:15,560 --> 00:01:18,660
+The runtime layer is separated
+into two components,
+
+22
+00:01:18,660 --> 00:01:21,450
+the remote reference layer and
+the transport layer.
+
+23
+00:01:21,450 --> 00:01:24,870
+This bottom layer implements all
+of the transport protocol related
+
+24
+00:01:24,870 --> 00:01:25,890
+functionality.
+
+25
+00:01:25,890 --> 00:01:30,200
+This can be TCP, UDP,
+shared memory based communications
+
+26
+00:01:30,200 --> 00:01:33,300
+if the two processes are running
+on the same machine.
+
+27
+00:01:33,300 --> 00:01:36,110
+Above that is the remote
+reference layer.
+
+28
+00:01:36,110 --> 00:01:39,690
+This component captures all of
+the common code that's needed
+
+29
+00:01:39,690 --> 00:01:42,560
+to provide different
+reference semantics.
+
+30
+00:01:42,560 --> 00:01:47,000
+For instance, it can support unicast,
+where a client interacts with
+
+31
+00:01:47,000 --> 00:01:50,640
+a single server, like what we
+had in the previous examples.
+
+32
+00:01:50,640 --> 00:01:55,030
+But RMI can be used for other types
+of server reference semantics.
+
+33
+00:01:55,030 --> 00:01:59,540
+For instance, with broadcast, the client
+will contact multiple servers.
+
+34
+00:01:59,540 --> 00:02:02,960
+And then the reference semantics
+can be such that it will return
+
+35
+00:02:02,960 --> 00:02:06,450
+only once the first response arrives, or
+
+36
+00:02:06,450 --> 00:02:11,170
+only when all of the responses
+arrive and the responses match.
+
+37
+00:02:11,170 --> 00:02:14,570
+It also makes sense to design other
+types of reference semantics.
+
+38
+00:02:14,570 --> 00:02:16,660
+These are not the exclusive list.
+
+39
+00:02:16,660 --> 00:02:19,280
+Regardless of the underlying
+transport protocol,
+
+40
+00:02:19,280 --> 00:02:22,680
+this type of functionality will
+be implemented in a similar way.
+
+41
+00:02:22,680 --> 00:02:27,160
+So RMI separates it and
+captures it in a separate component,
+
+42
+00:02:27,160 --> 00:02:29,130
+this remote reference layer.
+
+43
+00:02:29,130 --> 00:02:33,670
+As a developer, you can either just
+specify the reference semantics you want
+
+44
+00:02:33,670 --> 00:02:37,650
+from the RMI interactions and
+the system will take care of the rest.
+
+45
+00:02:37,650 --> 00:02:41,610
+Or if you want something exotic, you
+can implement just this component and
+
+46
+00:02:41,610 --> 00:02:44,145
+the rest of the system
+can remain the same.
+
+47
+00:02:44,145 --> 00:02:47,610
+We're mentioning in this lesson
+Java RMIs just for completeness.
+
+48
+00:02:47,610 --> 00:02:50,110
+We're not going to
+discuss it in any detail.
+
+49
+00:02:50,110 --> 00:02:51,490
+If you would like to know more,
+
+50
+00:02:51,490 --> 00:02:54,280
+visit the resources that are linked
+in from the instructor's notes.

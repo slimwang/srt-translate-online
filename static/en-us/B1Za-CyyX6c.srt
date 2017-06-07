@@ -1,0 +1,398 @@
+1
+00:00:00,500 --> 00:00:03,860
+This is all well and good,
+but what we ultimately want
+
+2
+00:00:03,860 --> 00:00:07,190
+to do is have some sort of live
+data that our app will understand.
+
+3
+00:00:08,270 --> 00:00:12,380
+To continue our analogy with drive
+through data, we're going to use an API
+
+4
+00:00:12,380 --> 00:00:18,000
+to allow our app to request and consume
+data from the USGS site as it's needed.
+
+5
+00:00:18,000 --> 00:00:21,797
+Let's take a look at the For
+Developers section on the left and
+
+6
+00:00:21,797 --> 00:00:23,556
+select API Documentation.
+
+7
+00:00:23,556 --> 00:00:28,519
+This documentation exists to help us
+understand how to build the proper URL
+
+8
+00:00:28,519 --> 00:00:32,631
+to query the site for the particular
+type of data that we want.
+
+9
+00:00:32,631 --> 00:00:37,699
+Right at the top, the documentation
+is telling us that the URL we need to
+
+10
+00:00:37,699 --> 00:00:42,693
+query is right here and then it gives
+us two more components at the end.
+
+11
+00:00:42,693 --> 00:00:46,497
+It went to method and
+actually some parameters.
+
+12
+00:00:46,497 --> 00:00:49,464
+The list of valid methods is
+right here below the URL and
+
+13
+00:00:49,464 --> 00:00:53,853
+we've got various options most of which
+are concerned with retrieving metadata
+
+14
+00:00:53,853 --> 00:00:55,095
+about the API itself.
+
+15
+00:00:55,095 --> 00:00:59,008
+Scrolling down a bit though and
+find one called query,
+
+16
+00:00:59,008 --> 00:01:03,347
+which is probably the method
+used to submit data requests and
+
+17
+00:01:03,347 --> 00:01:07,190
+the description does say,
+to submit a data request.
+
+18
+00:01:07,190 --> 00:01:10,564
+Next, we have the available
+query parameters.
+
+19
+00:01:10,564 --> 00:01:15,605
+The first one specifies how we like
+USGS to format the data it sends us.
+
+20
+00:01:15,605 --> 00:01:19,944
+We'll talk about this more shortly and
+then we've got query parameters for
+
+21
+00:01:19,944 --> 00:01:24,484
+what time period we're interested in and
+lots of ways to pull up the location and
+
+22
+00:01:24,484 --> 00:01:28,822
+other ways to constrain the results,
+such as limiting the number of results
+
+23
+00:01:28,822 --> 00:01:31,193
+we get back or
+what's the maximum depth or
+
+24
+00:01:31,193 --> 00:01:35,110
+maximum magnitude, minimum depth,
+minimum magnitude and so on.
+
+25
+00:01:36,130 --> 00:01:40,030
+So, let's try this out in a browser and
+see what comes back.
+
+26
+00:01:40,030 --> 00:01:43,838
+Let's say, I want to get a list
+of earthquakes for the past day.
+
+27
+00:01:43,838 --> 00:01:48,161
+I'm going to type in this URL,
+add the query method and
+
+28
+00:01:48,161 --> 00:01:53,874
+then I'm going to add parameters for
+the start time and the end time.
+
+29
+00:01:53,874 --> 00:01:58,324
+So, here I've used the dates 2016-05-02,
+and
+
+30
+00:01:58,324 --> 00:02:03,487
+2016-05-03, so
+that these dates are just one day apart.
+
+31
+00:02:03,487 --> 00:02:08,586
+And it's using a very specific format,
+year dash month dash day.
+
+32
+00:02:08,586 --> 00:02:12,909
+Then finally,
+I'm going to add format=geojson.
+
+33
+00:02:12,909 --> 00:02:17,521
+The reason why I'm adding this is
+because JSON is a pretty good format for
+
+34
+00:02:17,521 --> 00:02:22,133
+working with API data and GeoJSON is
+special type of JSON that is tailored
+
+35
+00:02:22,133 --> 00:02:25,327
+just for
+describing geographical information.
+
+36
+00:02:25,327 --> 00:02:28,724
+We'll discuss JSON in detail
+later in this course.
+
+37
+00:02:28,724 --> 00:02:30,710
+Now, let's press Enter and
+see what comes back.
+
+38
+00:02:31,880 --> 00:02:34,017
+Cool, it gave me a bunch of code.
+
+39
+00:02:34,017 --> 00:02:37,730
+It doesn't look all that readable yet
+in its current state, but
+
+40
+00:02:37,730 --> 00:02:40,498
+we can use a formatting
+tool effect setup a bit.
+
+41
+00:02:40,498 --> 00:02:44,946
+If I copy and paste this code
+into JSON pretty printer,
+
+42
+00:02:44,946 --> 00:02:48,146
+I can get something way more readable.
+
+43
+00:02:48,146 --> 00:02:52,553
+So I paste my code in,
+I'm going to click the button and there.
+
+44
+00:02:52,553 --> 00:02:54,240
+That's way easier to read.
+
+45
+00:02:55,620 --> 00:02:59,310
+Immediately, I can see that the
+earthquake events are group into nodes
+
+46
+00:02:59,310 --> 00:03:04,070
+called features and I can see for
+a given feature like what the magnitude
+
+47
+00:03:04,070 --> 00:03:08,760
+is and a place and the time.
+
+48
+00:03:09,990 --> 00:03:13,785
+By the way, that's an interesting
+way to represent time.
+
+49
+00:03:13,785 --> 00:03:16,404
+This is actually called Unix timestamp.
+
+50
+00:03:16,404 --> 00:03:19,986
+Computers often use Unix timestamps,
+because they are integers.
+
+51
+00:03:19,986 --> 00:03:24,190
+And therefore, they're easy to work
+with when doing calculations between two
+
+52
+00:03:24,190 --> 00:03:27,040
+dates or
+any other kind of math operation.
+
+53
+00:03:27,040 --> 00:03:31,781
+A Unix timestamp, by the way is
+defined as the number of seconds
+
+54
+00:03:31,781 --> 00:03:34,921
+since the date January 1st, 1970.
+
+55
+00:03:34,921 --> 00:03:39,604
+By the way, don't worry when you have
+to display a date and time in software.
+
+56
+00:03:39,604 --> 00:03:41,517
+There's plenty of libraries and
+
+57
+00:03:41,517 --> 00:03:45,550
+other ways to represent that
+in a more human readable way.
+
+58
+00:03:45,550 --> 00:03:50,626
+I can also see from this list that
+the magnitude values are often very low.
+
+59
+00:03:50,626 --> 00:03:53,697
+Nobody is going to fee a 0.1 earthquake.
+
+60
+00:03:53,697 --> 00:03:59,097
+In fact, let's assume we only care about
+earthquakes that are magnitude of 4.5 or
+
+61
+00:03:59,097 --> 00:03:59,699
+higher.
+
+62
+00:03:59,699 --> 00:04:04,652
+What query parameter would we add to
+the URL to make this only show me
+
+63
+00:04:04,652 --> 00:04:06,340
+those larger quakes?
+
+64
+00:04:07,520 --> 00:04:11,280
+After a quick glance at
+the documentation, I can see that min
+
+65
+00:04:11,280 --> 00:04:15,779
+magnitude will give me events that
+are larger than the indicated value,
+
+66
+00:04:15,779 --> 00:04:17,197
+so let's put that in.
+
+67
+00:04:17,197 --> 00:04:21,367
+Now, I'll go ahead and
+grab all this code and
+
+68
+00:04:21,367 --> 00:04:24,895
+paste it back into JSON pretty print.
+
+69
+00:04:24,895 --> 00:04:27,135
+And now,
+let's take a look at what we have.
+
+70
+00:04:27,135 --> 00:04:31,383
+And indeed, right away,
+I can see a magnitude 4.7 earthquake.
+
+71
+00:04:31,383 --> 00:04:33,342
+Let's scroll down.
+
+72
+00:04:33,342 --> 00:04:38,193
+There's a 4.5, a 4.6.
+
+73
+00:04:38,193 --> 00:04:39,807
+And yet, another 4.6.
+
+74
+00:04:39,807 --> 00:04:42,143
+So, this seems to be
+working as advertised.
+
+75
+00:04:42,143 --> 00:04:42,703
+Awesome.
+
+76
+00:04:42,703 --> 00:04:46,260
+How else might you be
+able to modify the URL?
+
+77
+00:04:46,260 --> 00:04:47,070
+Now, it's time for
+
+78
+00:04:47,070 --> 00:04:51,820
+you to take a look at the documentation
+and explore things on your own.
+
+79
+00:04:51,820 --> 00:04:56,560
+In this table, write in your own words
+what you think is a good description for
+
+80
+00:04:56,560 --> 00:04:58,530
+each of the parameters listed.
+
+81
+00:04:58,530 --> 00:05:01,420
+Use the link to the datafeed
+in the class notes to get some
+
+82
+00:05:01,420 --> 00:05:03,310
+USGS earthquake data.
+
+83
+00:05:03,310 --> 00:05:05,770
+Throw it into a formatter,
+if you like and
+
+84
+00:05:05,770 --> 00:05:09,390
+give it your best guess as to what
+you think each data type is used for.

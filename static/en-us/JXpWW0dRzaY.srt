@@ -1,0 +1,236 @@
+1
+00:00:00,120 --> 00:00:01,609
+All right.
+So let's talk through the analysis of
+
+2
+00:00:01,609 --> 00:00:03,830
+this algorithm in determine its MDPs.
+
+3
+00:00:03,830 --> 00:00:07,410
+I'm going to call the algorithm RMAX
+because anything we don't know we assume
+
+4
+00:00:07,410 --> 00:00:08,100
+is RMAX.
+
+5
+00:00:08,100 --> 00:00:11,836
+It's not a great name, I guess, but
+it is the name that it was given by
+
+6
+00:00:11,836 --> 00:00:15,130
+Brafman and Tennenholtz when they
+first proposed and analyzed it.
+
+7
+00:00:15,130 --> 00:00:16,730
+I guess it had another name, too.
+
+8
+00:00:16,730 --> 00:00:18,440
+>> RMIN?
+>> [LAUGH] No.
+
+9
+00:00:18,440 --> 00:00:21,900
+because the algorithm actually
+is directly related to
+
+10
+00:00:21,900 --> 00:00:25,110
+an algorithm that Andrew Moore proposed
+but didn't have an analysis for it.
+
+11
+00:00:25,110 --> 00:00:26,005
+>> So it could've been RMOORE?
+
+12
+00:00:26,005 --> 00:00:29,880
+>> [LAUGH]
+I see.
+
+13
+00:00:29,880 --> 00:00:30,410
+RMAX.
+
+14
+00:00:30,410 --> 00:00:31,965
+And even more than that is RMOORE.
+
+15
+00:00:31,965 --> 00:00:33,040
+>> Mm-hm.
+>> All right.
+
+16
+00:00:33,040 --> 00:00:33,820
+So let's just go with that.
+
+17
+00:00:33,820 --> 00:00:35,280
+So here's the algorithm.
+
+18
+00:00:35,280 --> 00:00:36,670
+I just copied it from
+the previous slide.
+
+19
+00:00:36,670 --> 00:00:40,320
+And there's some things that we can
+figure out about this, like once
+
+20
+00:00:40,320 --> 00:00:43,520
+we've actually visited all the state
+action pairs in a deterministic MDP.
+
+21
+00:00:44,650 --> 00:00:46,180
+Then this algorithm is
+going to be perfect.
+
+22
+00:00:46,180 --> 00:00:48,370
+It's never going to make any
+more mistakes after that.
+
+23
+00:00:49,870 --> 00:00:51,590
+Right?
+Do you see that?
+
+24
+00:00:51,590 --> 00:00:54,920
+Because in step three,
+it solves the MDP which
+
+25
+00:00:54,920 --> 00:00:58,980
+is in this case now the actual optimal
+policy and then any action that it takes
+
+26
+00:00:58,980 --> 00:01:02,680
+from that policy thereafter is going
+to be an optimal action not a mistake.
+
+27
+00:01:02,680 --> 00:01:03,780
+So this is great.
+
+28
+00:01:03,780 --> 00:01:07,720
+If it's the case that we eventually
+visit all of the edges in the MDP,
+
+29
+00:01:07,720 --> 00:01:10,010
+then we will no more
+mistakes after that point.
+
+30
+00:01:10,010 --> 00:01:11,670
+>> How do you count mistakes, though?
+
+31
+00:01:11,670 --> 00:01:13,930
+Do you count mistakes
+on a per state basis?
+
+32
+00:01:13,930 --> 00:01:17,165
+>> Yeah, a mistake in this case means
+I'm in a state, I take an action,
+
+33
+00:01:17,165 --> 00:01:19,375
+and that action wasn't near
+optimal from that state.
+
+34
+00:01:19,375 --> 00:01:20,195
+>> From that state, right.
+
+35
+00:01:20,195 --> 00:01:22,655
+>> All right, but we need
+a couple more things here, right?
+
+36
+00:01:22,655 --> 00:01:25,515
+So it could be that we never
+actually know the whole MDP.
+
+37
+00:01:25,515 --> 00:01:26,255
+>> That's possible.
+
+38
+00:01:26,255 --> 00:01:27,795
+For example,
+if you're in Windows trap states.
+
+39
+00:01:27,795 --> 00:01:31,615
+>> What happens if you stop
+visiting unknown states, right?
+
+40
+00:01:31,615 --> 00:01:32,365
+So what would that mean?
+
+41
+00:01:32,365 --> 00:01:36,045
+In the case of a deterministic MDP, it
+would mean that we were following some
+
+42
+00:01:36,045 --> 00:01:42,620
+policy that is taking us on
+edges that we know about.
+
+43
+00:01:42,620 --> 00:01:44,610
+So nothing new ever happens.
+
+44
+00:01:44,610 --> 00:01:46,370
+Nothing new is ever learned.
+
+45
+00:01:46,370 --> 00:01:49,230
+But there could be other unknown
+edges elsewhere in the MDP
+
+46
+00:01:49,230 --> 00:01:50,164
+that we are not visiting.
+
+47
+00:01:50,164 --> 00:01:54,145
+So could we be making a mistake as
+we go around this loop over and
+
+48
+00:01:54,145 --> 00:01:55,035
+over and over again.
+
+49
+00:01:55,035 --> 00:02:00,375
+>> If we can get to that state from any
+of those states, then we would end up
+
+50
+00:02:00,375 --> 00:02:03,985
+going to that state, because we assume
+its the best thing that we could do.
+
+51
+00:02:03,985 --> 00:02:04,635
+>> Not necessarily.

@@ -1,0 +1,238 @@
+1
+00:00:00,440 --> 00:00:02,490
+In order to create China's red dot,
+
+2
+00:00:02,490 --> 00:00:06,220
+we'll need to figure out how to
+map data values to pixel values.
+
+3
+00:00:06,220 --> 00:00:07,680
+As you recently learned,
+
+4
+00:00:07,680 --> 00:00:11,240
+D3 provides a scale function
+which lets you do just that.
+
+5
+00:00:11,240 --> 00:00:15,491
+As you can see here, there's a couple
+functions that are available,
+
+6
+00:00:15,491 --> 00:00:17,662
+like a linear scale and a log scale.
+
+7
+00:00:17,662 --> 00:00:19,344
+There's also ordinal in power.
+
+8
+00:00:19,344 --> 00:00:24,510
+For the y axis of the gap minor chart,
+we'll be using a linear scale.
+
+9
+00:00:24,510 --> 00:00:29,180
+With this scale, we'll be mapping
+a domain of 15 to 90 years
+
+10
+00:00:29,180 --> 00:00:34,360
+to a range that corresponds
+to 0 to 250 pixels.
+
+11
+00:00:34,360 --> 00:00:38,360
+Now we're not using the entire 300
+pixels of the entire chart area.
+
+12
+00:00:38,360 --> 00:00:40,910
+We're going to have a little
+bit of a buffer at the top.
+
+13
+00:00:40,910 --> 00:00:43,460
+Remember that for SVG elements,
+
+14
+00:00:43,460 --> 00:00:47,630
+the y axis has a value of 0 in
+the upper left-hand corner.
+
+15
+00:00:47,630 --> 00:00:51,960
+And then the y value increases
+going down the SVG chart.
+
+16
+00:00:51,960 --> 00:00:54,870
+Normally we would want our
+range to be from 0 to 250,
+
+17
+00:00:54,870 --> 00:01:00,300
+but because we're talking about the y
+axis, we need to reverse the values.
+
+18
+00:01:00,300 --> 00:01:05,680
+We want the lowest input value to
+correspond to the highest output value,
+
+19
+00:01:05,680 --> 00:01:10,420
+and the highest input value to
+correspond to the lowest output value.
+
+20
+00:01:10,420 --> 00:01:14,839
+So the lowest value of 15
+years will correspond to
+
+21
+00:01:14,839 --> 00:01:17,938
+the highest pixel value of 250.
+
+22
+00:01:17,938 --> 00:01:22,655
+So all together,
+this D3 code tells us to create
+
+23
+00:01:22,655 --> 00:01:27,487
+a linear scale that has
+a domain from 15 to 90,
+
+24
+00:01:27,487 --> 00:01:32,104
+and maps those values
+to a range of 250 to 0.
+
+25
+00:01:32,104 --> 00:01:36,107
+Running the code,
+we can see that it returns a function.
+
+26
+00:01:36,107 --> 00:01:37,903
+As previously mentioned,
+
+27
+00:01:37,903 --> 00:01:42,280
+a scale can be thought of as a function
+that maps a domain to a range.
+
+28
+00:01:42,280 --> 00:01:46,650
+And this is exactly what D3
+returns to you, a function.
+
+29
+00:01:46,650 --> 00:01:49,730
+Let's store this function
+into a variable called y
+
+30
+00:01:49,730 --> 00:01:53,180
+which will correspond to
+the y axis on our graph.
+
+31
+00:01:53,180 --> 00:01:55,700
+This is so
+that we can make use of the scale
+
+32
+00:01:55,700 --> 00:01:59,120
+to transform our data
+values to pixel values.
+
+33
+00:01:59,120 --> 00:02:02,540
+Now let's just check to see
+if this works as expected.
+
+34
+00:02:02,540 --> 00:02:05,150
+I want to make sure that my scale will
+
+35
+00:02:05,150 --> 00:02:09,940
+return a value of 250 pixels
+when I input 15 years.
+
+36
+00:02:09,940 --> 00:02:14,820
+So if I input 15,
+I should get an output of 250 pixels.
+
+37
+00:02:14,820 --> 00:02:15,890
+Great.
+
+38
+00:02:15,890 --> 00:02:19,260
+And when I input 90,
+I should get an output of 0.
+
+39
+00:02:19,260 --> 00:02:23,370
+Now because life expectancy
+is a linear scale, we
+
+40
+00:02:23,370 --> 00:02:28,620
+know that the value in between those two
+should return the halfway pixel point.
+
+41
+00:02:28,620 --> 00:02:31,670
+So an input of 52.5 years
+
+42
+00:02:31,670 --> 00:02:34,986
+should return a value that's
+exactly in between the max and
+
+43
+00:02:34,986 --> 00:02:40,160
+min values of our pixels, which
+should be 125 pixels, in this case.
+
+44
+00:02:40,160 --> 00:02:44,970
+D3's API are methods are very general
+and adaptable, so I'd like to see if
+
+45
+00:02:44,970 --> 00:02:49,390
+you can create a scale for
+the x axis based on the gapminder plot.
+
+46
+00:02:50,420 --> 00:02:54,370
+You'll want to save your
+scale to a variable named x.
+
+47
+00:02:54,370 --> 00:02:56,390
+So go ahead and
+play around on the console and
+
+48
+00:02:56,390 --> 00:02:59,360
+see if you can create this x-axis scale.
+
+49
+00:02:59,360 --> 00:03:05,073
+You'll want to map the input values
+GDP per capita from 250 to 100,000
+
+50
+00:03:05,073 --> 00:03:09,440
+to a range of the output which
+is between 0 and 600 pixels.

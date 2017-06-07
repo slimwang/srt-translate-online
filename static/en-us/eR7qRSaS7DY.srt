@@ -1,0 +1,141 @@
+1
+00:00:00,190 --> 00:00:02,730
+The last coding task that we did for
+the mewalk app involved
+
+2
+00:00:02,730 --> 00:00:06,190
+releasing the media player resources
+as soon as we didn't need them anymore.
+
+3
+00:00:06,190 --> 00:00:10,020
+But we can't always assume that the
+audio file will be played to completion.
+
+4
+00:00:10,020 --> 00:00:13,605
+Because if it's interrupted by the user
+switching away to a different activity
+
+5
+00:00:13,605 --> 00:00:16,935
+then we still need to make sure
+to clean up everything properly.
+
+6
+00:00:16,935 --> 00:00:19,995
+So my question to you is that
+if the user leaves the activity,
+
+7
+00:00:19,995 --> 00:00:24,055
+during which activity lifecycle
+stage should we release resources
+
+8
+00:00:24,055 --> 00:00:25,785
+used by the MediaPlayer?
+
+9
+00:00:25,785 --> 00:00:30,870
+So is it during onResume,
+onCreate OnStop or onDestroy?
+
+10
+00:00:32,000 --> 00:00:34,930
+So once you've made your selection,
+modify your app so
+
+11
+00:00:34,930 --> 00:00:39,110
+that we can actually release resources
+during that lifecycle stage.
+
+12
+00:00:39,110 --> 00:00:42,250
+So let me show you what your
+app should look like before and
+
+13
+00:00:42,250 --> 00:00:44,490
+after making this code change.
+
+14
+00:00:44,490 --> 00:00:46,730
+So your app currently behaves like this.
+
+15
+00:00:46,730 --> 00:00:50,027
+If I click on a word,
+it'll start speaking the word aloud, and
+
+16
+00:00:50,027 --> 00:00:52,703
+if I leave the activity
+without letting it finish,
+
+17
+00:00:52,703 --> 00:00:55,649
+the app will still continue
+to play the full audio file.
+
+18
+00:00:55,649 --> 00:00:57,530
+[BLANK_AUDIO]
+
+19
+00:00:59,520 --> 00:01:02,680
+>> So, here's the version of the code
+where we cleaned up media resources
+
+20
+00:01:02,680 --> 00:01:05,500
+properly according to
+the activity lifecycle.
+
+21
+00:01:05,500 --> 00:01:08,820
+So, in this case,
+when we hit the device home button.
+
+22
+00:01:08,820 --> 00:01:11,820
+The app should immediately
+stop playing the audio file,
+
+23
+00:01:11,820 --> 00:01:13,290
+even in the middle of a word.
+
+24
+00:01:13,290 --> 00:01:16,290
+This reinforces the fact that
+we should only play audio
+
+25
+00:01:16,290 --> 00:01:18,180
+when the user is within our app.
+
+26
+00:01:18,180 --> 00:01:21,780
+Because in our case,
+we are a music or podcast player app.
+
+27
+00:01:21,780 --> 00:01:24,054
+So let me demonstrate.
+
+28
+00:01:24,054 --> 00:01:25,471
+[SOUND].
+
+29
+00:01:25,471 --> 00:01:28,140
+All right so go ahead and
+make those code changes now.
+
+30
+00:01:28,140 --> 00:01:30,650
+And remember to update all
+four of our activities.

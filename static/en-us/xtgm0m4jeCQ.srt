@@ -1,0 +1,299 @@
+1
+00:00:00,420 --> 00:00:04,620
+Some Google services are now available
+through a config file that you get from
+
+2
+00:00:04,620 --> 00:00:06,370
+the developers console.
+
+3
+00:00:06,370 --> 00:00:08,940
+This config file helps
+by doing such tasks
+
+4
+00:00:08,940 --> 00:00:12,350
+as keeping track of your project number,
+which will later be the sender ID
+
+5
+00:00:12,350 --> 00:00:16,170
+used to identify your messages
+as distinct from another app's.
+
+6
+00:00:16,170 --> 00:00:19,830
+When you generate this file,
+also take note of the server API key
+
+7
+00:00:19,830 --> 00:00:22,230
+because you will need
+this value later on.
+
+8
+00:00:22,230 --> 00:00:25,700
+Once you have your config file, you need
+to make sure it leaves in the app or
+
+9
+00:00:25,700 --> 00:00:28,890
+mobile directory of your project so
+that the Android framework can find it.
+
+10
+00:00:29,890 --> 00:00:33,446
+And then you need to tell the Android
+framework that it is there by modifying
+
+11
+00:00:33,446 --> 00:00:35,220
+the build.gradle files.
+
+12
+00:00:35,220 --> 00:00:36,800
+And the top level build.gradle,
+
+13
+00:00:36,800 --> 00:00:40,070
+you're going to add a dependency
+on Google Services.
+
+14
+00:00:40,070 --> 00:00:43,840
+Then in your project level built.gradle,
+you'll introduce the plug in for
+
+15
+00:00:43,840 --> 00:00:45,650
+Google Services.
+
+16
+00:00:45,650 --> 00:00:48,340
+Now to use Google Play
+services specifically,
+
+17
+00:00:48,340 --> 00:00:52,850
+you'll need to first install the library
+through the Android SDK manager.
+
+18
+00:00:52,850 --> 00:00:56,580
+You'll find Google Play services
+under extras at the bottom.
+
+19
+00:00:56,580 --> 00:00:58,790
+But you should also see
+Google Repository there.
+
+20
+00:00:59,970 --> 00:01:04,349
+Go ahead and install both Google
+Repository and Google Play services.
+
+21
+00:01:04,349 --> 00:01:07,420
+The repository is where all of the jars
+you will be referencing are so
+
+22
+00:01:07,420 --> 00:01:09,080
+don't skip this one.
+
+23
+00:01:09,080 --> 00:01:13,930
+While Google Play services will give you
+access to offline docs and code samples.
+
+24
+00:01:13,930 --> 00:01:17,150
+Then you will need to reference
+the new library in your app.
+
+25
+00:01:17,150 --> 00:01:20,420
+So go back to your project
+level build.gradle file and
+
+26
+00:01:20,420 --> 00:01:23,450
+add the compile rule for
+Google Play services.
+
+27
+00:01:23,450 --> 00:01:26,920
+The cool thing about this library is
+that you can reference the specific
+
+28
+00:01:26,920 --> 00:01:28,530
+bundle that you care about.
+
+29
+00:01:28,530 --> 00:01:30,880
+In our case,
+that is Google Cloud Messaging.
+
+30
+00:01:30,880 --> 00:01:34,950
+And you can avoid compiling
+the entire library into your app.
+
+31
+00:01:34,950 --> 00:01:38,620
+Also the version number will likely
+have changed from what you see here, so
+
+32
+00:01:38,620 --> 00:01:42,210
+use the Android Studio recommendation or
+check the documentation for
+
+33
+00:01:42,210 --> 00:01:44,010
+the latest version number.
+
+34
+00:01:44,010 --> 00:01:47,470
+Finally, because it is hard to
+anticipate the state of a user's device,
+
+35
+00:01:47,470 --> 00:01:50,860
+you must always check for
+compatible Google Play service
+
+36
+00:01:50,860 --> 00:01:53,660
+APK before you access
+Google Play services features.
+
+37
+00:01:53,660 --> 00:01:54,990
+There are two approaches to this and
+
+38
+00:01:54,990 --> 00:01:57,038
+you should choose the one
+that best fits your app.
+
+39
+00:01:57,038 --> 00:02:01,530
+You remember Radel's explanation of
+the Android activity life cycle right?
+
+40
+00:02:01,530 --> 00:02:04,140
+So you could handle this
+flow while your app is
+
+41
+00:02:04,140 --> 00:02:07,290
+active at the moment you
+wish to make the API call.
+
+42
+00:02:07,290 --> 00:02:09,870
+Or you can check for
+the SDK when your app first start and
+
+43
+00:02:09,870 --> 00:02:13,250
+then attempt to resolve error such
+as a need to install or update or
+
+44
+00:02:13,250 --> 00:02:16,610
+enable Google Play services at
+the beginning of your apps execution.
+
+45
+00:02:16,610 --> 00:02:20,500
+If you're checking early, you can do so
+in on creates that you can configure
+
+46
+00:02:20,500 --> 00:02:23,020
+various aspects of your
+app based on the result.
+
+47
+00:02:23,020 --> 00:02:28,320
+But you may prefer to make this check or
+an additional check in on resume.
+
+48
+00:02:28,320 --> 00:02:30,840
+Because you never know how
+the user will use their device and
+
+49
+00:02:30,840 --> 00:02:32,960
+you don't want to end
+up in a wonky state.
+
+50
+00:02:32,960 --> 00:02:36,940
+If your features are dependent on the
+expectation that Google Play services is
+
+51
+00:02:36,940 --> 00:02:40,030
+available you'll need to check here.
+
+52
+00:02:40,030 --> 00:02:44,640
+For sunshine, we are only going to check
+at creation because we are going to
+
+53
+00:02:44,640 --> 00:02:47,480
+design the messages separately
+from the rest of the app.
+
+54
+00:02:48,660 --> 00:02:52,220
+If the APK is unavailable,
+we will never enable the GCM feature.
+
+55
+00:02:52,220 --> 00:02:55,610
+And the user will not
+receive weather alerts.
+
+56
+00:02:55,610 --> 00:02:59,520
+In this way the user should never even
+notice that something is missing from
+
+57
+00:02:59,520 --> 00:03:02,180
+the app as the normal
+app flow is untouched.
+
+58
+00:03:02,180 --> 00:03:05,640
+And that is what it is
+to fail gracefully.
+
+59
+00:03:05,640 --> 00:03:08,120
+So, at the creation of the app,
+we will check for
+
+60
+00:03:08,120 --> 00:03:12,080
+Google Play services with a call to
+is Google Play services available.
+
+61
+00:03:12,080 --> 00:03:15,310
+Then, we will attempt to
+solve any errors that we can,
+
+62
+00:03:15,310 --> 00:03:17,240
+such as prompting the user to update.

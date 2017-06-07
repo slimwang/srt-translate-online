@@ -1,0 +1,262 @@
+﻿1
+00:00:00,470 --> 00:00:04,509
+In exercise four, we need to modify
+the adapter even further, and instead of
+
+2
+00:00:04,509 --> 00:00:08,539
+just passing in the cursor account,
+we need to pass the entire cursor so
+
+3
+00:00:08,539 --> 00:00:11,349
+that the adapter can extract
+the guest information and
+
+4
+00:00:11,349 --> 00:00:13,681
+display it in the RecyclerView properly.
+
+5
+00:00:13,682 --> 00:00:17,605
+In GuestListAdapter, since we're passing
+in the entire cursor, rather than just
+
+6
+00:00:17,605 --> 00:00:23,449
+a count, let's replace this integer with
+a cursor variable called mCursor, and
+
+7
+00:00:23,449 --> 00:00:28,070
+then modify the constructor to accept
+a new cursor, rather than an integer.
+
+8
+00:00:28,070 --> 00:00:31,850
+And inside, set the local
+mCursor to be equal to cursor.
+
+9
+00:00:31,850 --> 00:00:36,427
+And then finally, update the
+getItemCount to return the getCount from
+
+10
+00:00:36,427 --> 00:00:38,659
+the passed in cursor object.
+
+11
+00:00:38,659 --> 00:00:41,750
+Now, for the part where we bind
+the cursor data with the UI, just like
+
+12
+00:00:41,750 --> 00:00:46,980
+a typical recycler view adapter, we
+will override the onBindViewHolder, and
+
+13
+00:00:46,979 --> 00:00:52,759
+inside, by the data, the specified
+position to the viewHolder passed in.
+
+14
+00:00:52,759 --> 00:00:53,842
+But before we do that,
+
+15
+00:00:53,843 --> 00:00:56,921
+let's have a quick look at what
+the result of a query looks like.
+
+16
+00:00:56,920 --> 00:00:59,975
+A result of any selection
+query is formed as a table,
+
+17
+00:00:59,975 --> 00:01:03,031
+if you select everything
+from a database table, and
+
+18
+00:01:03,031 --> 00:01:05,680
+the result table is
+identical to that table.
+
+19
+00:01:05,680 --> 00:01:09,512
+A result of any selection
+query is formatted as a table.
+
+20
+00:01:09,513 --> 00:01:11,638
+If you select everything, for example,
+
+21
+00:01:11,638 --> 00:01:14,920
+then the result is identical
+to that database table.
+
+22
+00:01:14,920 --> 00:01:17,760
+You can think of the cursor as
+if it's pointing to a particular
+
+23
+00:01:17,760 --> 00:01:19,370
+row in that result.
+
+24
+00:01:19,370 --> 00:01:23,590
+To extract information from a particular
+row, you can move the cursor to point
+
+25
+00:01:23,590 --> 00:01:27,180
+there, and then extract
+the specific goal information.
+
+26
+00:01:27,180 --> 00:01:30,050
+For example,
+to get the guest name in the fourth row,
+
+27
+00:01:30,049 --> 00:01:32,170
+move the cursor to the fourth position,
+and
+
+28
+00:01:32,170 --> 00:01:36,390
+then call getString,
+passing in the index of that column.
+
+29
+00:01:36,390 --> 00:01:40,545
+To do so in the onBindViewHolder,
+first thing we need to do is call
+
+30
+00:01:40,545 --> 00:01:45,393
+the mCurser.movetoposition,
+passing in the current binding position.
+
+31
+00:01:45,393 --> 00:01:49,174
+And this will move the cursor to the
+point where we have the data that we're
+
+32
+00:01:49,174 --> 00:01:50,033
+interested in.
+
+33
+00:01:50,033 --> 00:01:52,704
+It will return false,
+if there's no data there, or
+
+34
+00:01:52,704 --> 00:01:56,406
+if it's out of the bounds of the cursor,
+so make sure you add a check, and
+
+35
+00:01:56,406 --> 00:01:58,131
+if it's not true, just return.
+
+36
+00:01:58,132 --> 00:02:01,445
+If everything's good,
+then we can get the name of the guest,
+
+37
+00:02:01,444 --> 00:02:03,433
+and the party size from that cursor.
+
+38
+00:02:03,433 --> 00:02:06,709
+To get the guest's name,
+use mCursor.GetString.
+
+39
+00:02:06,709 --> 00:02:09,070
+And then passing
+the index of that column,
+
+40
+00:02:09,070 --> 00:02:13,074
+which you can get also using the
+getColumnIndex function in the cursor,
+
+41
+00:02:13,074 --> 00:02:17,224
+and then just passing the column name,
+which we can get from the contract.
+
+42
+00:02:17,223 --> 00:02:19,304
+The same can be done
+to get the party size,
+
+43
+00:02:19,304 --> 00:02:22,706
+except that we're using the get
+integer instead of the get string.
+
+44
+00:02:22,706 --> 00:02:27,760
+Then to reflect this information in
+the UI, we just set the text for
+
+45
+00:02:27,760 --> 00:02:32,030
+the holder.nameTextView and
+.partySizeTextView.
+
+46
+00:02:32,030 --> 00:02:35,067
+We've already created all the UI for
+you, however,
+
+47
+00:02:35,067 --> 00:02:39,188
+if you're interested, check out
+this activity_main.xml file, and
+
+48
+00:02:39,187 --> 00:02:41,770
+see how these text fields
+have been created.
+
+49
+00:02:41,770 --> 00:02:46,251
+Now, the very last step is drop
+date MainActivity, and instead of
+
+50
+00:02:46,252 --> 00:02:51,146
+pausing in the getCount of the cursor,
+just pause in the entire cursor.
+
+51
+00:02:51,145 --> 00:02:55,734
+And if we run this now, voila,
+we get the actual names and
+
+52
+00:02:55,735 --> 00:02:59,857
+party sizes for
+each of our fake guests, perfect.
+
+53
+00:02:59,856 --> 00:03:02,954
+Now, let's start adding guests
+of our own, but as always,
+
+54
+00:03:02,954 --> 00:03:05,590
+remember to try everything
+we've done yourself.
+

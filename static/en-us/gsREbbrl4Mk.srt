@@ -1,0 +1,91 @@
+1
+00:00:00,350 --> 00:00:03,320
+The key to solving this problem is to know that
+
+2
+00:00:03,320 --> 00:00:05,920
+both these images are of type uint8.
+
+3
+00:00:07,330 --> 00:00:12,630
+This means that all pixel values are integers in the range 0 to 255.
+
+4
+00:00:12,630 --> 00:00:14,530
+So here's what happens.
+
+5
+00:00:14,530 --> 00:00:16,915
+Since the images are unsigned integers,
+
+6
+00:00:16,915 --> 00:00:22,830
+Octave tries to retain the same data type throughout the arithmetic operation.
+
+7
+00:00:22,830 --> 00:00:26,200
+So 183 by 2 comes out to be 92.
+
+8
+00:00:26,200 --> 00:00:30,800
+Note that Octave rounds to the nearest integer.
+
+9
+00:00:30,800 --> 00:00:32,910
+In this case, it is rounding up.
+
+10
+00:00:32,910 --> 00:00:39,377
+Similarly, 152 by 2 is 76, and their sum comes out to be 168.
+
+11
+00:00:39,377 --> 00:00:47,740
+In the second case, the addition is performed first, so 183 plus 152 is 335.
+
+12
+00:00:47,740 --> 00:00:52,740
+But note that this number cannot fit in the unsigned int 8-bit range.
+
+13
+00:00:52,740 --> 00:00:55,380
+The maximum value possible is 255.
+
+14
+00:00:55,380 --> 00:00:59,760
+So this number gets truncated to the upper limit.
+
+15
+00:00:59,760 --> 00:01:04,489
+The division proceeds as expected, and the result is 128.
+
+16
+00:01:04,489 --> 00:01:08,990
+You can imagine that in a number of places,
+
+17
+00:01:08,990 --> 00:01:11,800
+the pixel values add up to more than 255.
+
+18
+00:01:11,800 --> 00:01:18,540
+In all these locations, you will only get 128 as the result.
+
+19
+00:01:18,540 --> 00:01:22,660
+This is often less than the actual average of the two numbers.
+
+20
+00:01:22,660 --> 00:01:27,060
+Hence we see that the first method better preserves pixel values.
+
+21
+00:01:28,080 --> 00:01:31,980
+You will certainly come across these odd arithmetic errors.
+
+22
+00:01:31,980 --> 00:01:35,520
+Just be mindful of the image data type you are using, and
+
+23
+00:01:35,520 --> 00:01:38,500
+the order in which you perform arithmetic operations.

@@ -1,0 +1,143 @@
+1
+00:00:00,250 --> 00:00:03,810
+Here's a code snippet illustrating thread creation.
+
+2
+00:00:03,810 --> 00:00:05,720
+Two threads are involved in this system.
+
+3
+00:00:05,720 --> 00:00:08,500
+The parent thread that's executing this code and
+
+4
+00:00:08,500 --> 00:00:11,910
+the child that gets created via this fork.
+
+5
+00:00:11,910 --> 00:00:16,350
+Both threads perform this operations safe_insert which manipulates some
+
+6
+00:00:16,350 --> 00:00:19,440
+shared list that's initially empty, let's say.
+
+7
+00:00:19,440 --> 00:00:23,230
+Let's assume initially the process begins with one parent thread,
+
+8
+00:00:23,230 --> 00:00:24,100
+T0 in this case.
+
+9
+00:00:25,340 --> 00:00:30,380
+At some point thread 0 calls fork and it creates a child T1.
+
+10
+00:00:30,380 --> 00:00:34,440
+Now, T1 will need to execute safe_insert with an argument 4.
+
+11
+00:00:34,440 --> 00:00:40,480
+As soon as T1 is created, the parent thread continues its execution and at some
+
+12
+00:00:40,480 --> 00:00:45,820
+point it will reach a point where it calls safe_insert of 6, in this case.
+
+13
+00:00:45,820 --> 00:00:49,490
+So it's trying to insert the element 6 into the list.
+
+14
+00:00:49,490 --> 00:00:53,590
+Because these threads are running concurrently, and are constantly being
+
+15
+00:00:53,590 --> 00:00:59,145
+switched when executing on the CPU, the order in which these
+
+16
+00:00:59,145 --> 00:01:04,830
+safe_insert operations on the parent and the child thread is not clear.
+
+17
+00:01:04,830 --> 00:01:09,231
+It is not guaranteed that when this fork operation
+
+18
+00:01:09,231 --> 00:01:14,157
+completes the execution will actually switch to T1 and
+
+19
+00:01:14,157 --> 00:01:19,520
+will allow T1 to perform its safe_insert before T0 does.
+
+20
+00:01:19,520 --> 00:01:23,960
+Or, if after the fork, although the thread is created,
+
+21
+00:01:23,960 --> 00:01:27,289
+T0 will continue and the safe_insert for
+
+22
+00:01:27,289 --> 00:01:33,200
+argument 6 that T0 performs will be the first one to be performed.
+
+23
+00:01:33,200 --> 00:01:38,240
+So as a result, both the list may have a state where the child
+
+24
+00:01:38,240 --> 00:01:43,190
+completes its safe_insert before the parent or the other way around,
+
+25
+00:01:43,190 --> 00:01:46,030
+the parent completes before the child does.
+
+26
+00:01:46,030 --> 00:01:48,330
+Both of these are possible executions.
+
+27
+00:01:48,330 --> 00:01:53,400
+Finally, the last operation in this code snippet is this join.
+
+28
+00:01:53,400 --> 00:01:55,950
+So we're calling join with T1.
+
+29
+00:01:55,950 --> 00:02:00,120
+If this join is called when T1 has actually completed,
+
+30
+00:02:00,120 --> 00:02:02,620
+it will return immediately.
+
+31
+00:02:02,620 --> 00:02:08,070
+If this join occurs while T1 is still executing, the parent thread
+
+32
+00:02:08,070 --> 00:02:13,840
+will be blocked here until T1 finishes the end of the safe_insert operation.
+
+33
+00:02:13,840 --> 00:02:15,690
+In this particular example,
+
+34
+00:02:15,690 --> 00:02:21,250
+the results of the child processing are available through this shared list.
+
+35
+00:02:21,250 --> 00:02:25,260
+So really the join isn't a necessary part of the code.
+
+36
+00:02:25,260 --> 00:02:29,950
+We will be able to access the results of the child thread regardless.

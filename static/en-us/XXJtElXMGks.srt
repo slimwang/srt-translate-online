@@ -1,0 +1,221 @@
+﻿1
+00:00:00,370 --> 00:00:02,740
+To add new guest to the database,
+
+2
+00:00:02,740 --> 00:00:05,075
+the first thing we need to
+do is read them from the UI.
+
+3
+00:00:05,075 --> 00:00:10,009
+In the main activity, declare two
+EditText fields to point to the UI,
+
+4
+00:00:10,009 --> 00:00:13,504
+one for the guest name and
+another for the party size.
+
+5
+00:00:13,505 --> 00:00:15,485
+Then inside onCreate,
+
+6
+00:00:15,484 --> 00:00:20,114
+we use findViewById to get
+the reference to those EditText fields.
+
+7
+00:00:20,114 --> 00:00:26,864
+The GuestNameEditText is defined in
+the UI XML as person_name_edit_text.
+
+8
+00:00:26,864 --> 00:00:34,269
+And the PartySize is defined
+as party_count _edit_text.
+
+9
+00:00:34,270 --> 00:00:36,400
+Now that we have a reference
+to both of them,
+
+10
+00:00:36,399 --> 00:00:41,519
+let's scroll down to AddToWaitlist
+that's linked from the AddGuest button.
+
+11
+00:00:41,520 --> 00:00:44,180
+First, we'll check that
+both have text in them
+
+12
+00:00:44,179 --> 00:00:46,519
+otherwise we don't need to do anything.
+
+13
+00:00:46,520 --> 00:00:50,200
+Then we'll declare an integer for
+the ParitySize and initialize it with 1.
+
+14
+00:00:50,200 --> 00:00:54,290
+We need to pass the text
+in mNewPartySizeEditText
+
+15
+00:00:54,289 --> 00:00:58,399
+into an integer ,so we'll
+use integer.parseInt and
+
+16
+00:00:58,399 --> 00:01:02,619
+pass in the result of
+getTextToString to our variable.
+
+17
+00:01:02,619 --> 00:01:07,390
+To prevent an unexpected parse error,
+we can wrap this in a try catch block.
+
+18
+00:01:07,390 --> 00:01:11,010
+So let's now insert those
+values into our database.
+
+19
+00:01:11,010 --> 00:01:15,010
+To make our code more modular, we'll
+create a method that will handle adding
+
+20
+00:01:15,010 --> 00:01:18,100
+any new guests into the database and
+call it here.
+
+21
+00:01:18,099 --> 00:01:20,159
+Let's call that method AddNewGuest, and
+
+22
+00:01:20,159 --> 00:01:23,640
+it will take the guestName and
+partySize as parameters.
+
+23
+00:01:23,641 --> 00:01:28,380
+To insert data into the database,
+we need to use a ContentValues object
+
+24
+00:01:28,379 --> 00:01:32,269
+that maps column names as
+the key to the desired values.
+
+25
+00:01:32,269 --> 00:01:34,060
+Let's call it CV.
+
+26
+00:01:34,060 --> 00:01:36,990
+Then we can add our values
+using the put method.
+
+27
+00:01:36,989 --> 00:01:41,849
+The first parameter is the column name,
+and we can get that from the contract.
+
+28
+00:01:41,849 --> 00:01:44,329
+The second parameter is the value.
+
+29
+00:01:44,329 --> 00:01:47,099
+Now that we have our
+content value object ready,
+
+30
+00:01:47,099 --> 00:01:51,629
+we can call insert passing in the table
+name and the ContentValues object.
+
+31
+00:01:51,629 --> 00:01:56,000
+This will insert a new row in the table
+with the value specified in CV.
+
+32
+00:01:56,000 --> 00:01:58,750
+Notice that we didn't insert any IDs.
+
+33
+00:01:58,750 --> 00:02:03,060
+That's because in our SQL
+create statement, shown here,
+
+34
+00:02:03,060 --> 00:02:06,079
+we declared the ID column
+to be auto increment.
+
+35
+00:02:06,079 --> 00:02:08,300
+Which means every time
+you insert a new row,
+
+36
+00:02:08,300 --> 00:02:12,870
+it'll automatically add one to the
+previous ID, and use that as the new ID.
+
+37
+00:02:12,870 --> 00:02:15,939
+DB insert returns that new
+ID that was generated, so
+
+38
+00:02:15,939 --> 00:02:20,930
+we'll return that as well as
+the output of our addNewGuest method.
+
+39
+00:02:20,930 --> 00:02:24,879
+We need that reference to be able to
+delete it from the database later.
+
+40
+00:02:24,879 --> 00:02:28,090
+Finally, head back to AddToWaitlist and
+
+41
+00:02:28,090 --> 00:02:32,289
+call addNewGuest and pass through
+the guestName and partySize.
+
+42
+00:02:32,289 --> 00:02:33,250
+We're almost there.
+
+43
+00:02:33,250 --> 00:02:37,169
+If we run this right now, it will
+successfully insert new guest into
+
+44
+00:02:37,169 --> 00:02:40,839
+the database, but we won't see
+them appear in the RecyclerView.
+
+45
+00:02:40,840 --> 00:02:44,259
+That's because our adaptor is
+still using the old cursor
+
+46
+00:02:44,259 --> 00:02:47,409
+with the old query resolve that
+doesn't include the new guest.
+

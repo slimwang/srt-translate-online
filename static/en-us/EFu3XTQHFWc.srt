@@ -1,0 +1,183 @@
+1
+00:00:00,470 --> 00:00:03,840
+So far we've set up our own service
+worker, learned its life cycle, and
+
+2
+00:00:03,840 --> 00:00:05,340
+explored the dev tools, but
+
+3
+00:00:05,340 --> 00:00:09,080
+we haven't really used our service
+worker to do anything yet.
+
+4
+00:00:09,080 --> 00:00:11,940
+Currently, the server's having all
+the fun when it comes to sending content
+
+5
+00:00:11,940 --> 00:00:13,160
+back to the browser.
+
+6
+00:00:13,160 --> 00:00:15,480
+Well, now it's our turn to have fun.
+
+7
+00:00:16,650 --> 00:00:19,900
+So far we've seen requests go from the
+page, through the service worker fetch
+
+8
+00:00:19,900 --> 00:00:24,510
+event, then onto the network as usual,
+through the HTTP cache.
+
+9
+00:00:24,510 --> 00:00:27,560
+But now we're going to catch the request
+as it hits the service worker, and
+
+10
+00:00:27,560 --> 00:00:31,190
+respond ourselves, so
+nothing goes to the network.
+
+11
+00:00:31,190 --> 00:00:34,160
+Obviously, this is an important
+step in going offline first, so
+
+12
+00:00:34,160 --> 00:00:35,680
+let's make it happen.
+
+13
+00:00:35,680 --> 00:00:40,283
+Over in the service worker script,
+we can call event.respondWith.
+
+14
+00:00:40,283 --> 00:00:43,538
+This tells the browser that we're
+going to handle this request ourselves.
+
+15
+00:00:43,538 --> 00:00:45,440
+Event or
+respondWith takes a response object or
+
+16
+00:00:45,440 --> 00:00:48,240
+a promise that resolves with a response.
+
+17
+00:00:48,240 --> 00:00:51,770
+One way to create a response is well,
+new response.
+
+18
+00:00:51,770 --> 00:00:54,600
+The first parameter is the body of
+the response, which can be a blob,
+
+19
+00:00:54,600 --> 00:00:59,480
+a buffer, some other things, but
+at its simplest it can take a string.
+
+20
+00:00:59,480 --> 00:01:02,860
+So here I'm going to
+respond with Hello world.
+
+21
+00:01:02,860 --> 00:01:06,360
+Back in the browser, because I have
+Force update on reload checked,
+
+22
+00:01:06,360 --> 00:01:10,180
+I refresh once, and
+I get the custom response.
+
+23
+00:01:10,180 --> 00:01:13,120
+No matter what URL I enter here,
+I get the same response,
+
+24
+00:01:13,120 --> 00:01:14,920
+because I'm intercepting all fetches.
+
+25
+00:01:16,050 --> 00:01:19,300
+I could even modify the response
+to include some HTML.
+
+26
+00:01:19,300 --> 00:01:22,800
+Back in the page, I hit refresh, and
+
+27
+00:01:22,800 --> 00:01:28,910
+although the HTML is there,
+it's just being output as text.
+
+28
+00:01:28,910 --> 00:01:31,010
+You can see why if you
+look in the network panel.
+
+29
+00:01:31,010 --> 00:01:35,210
+The content type is text/plain,
+meaning it won't be passed as HTML.
+
+30
+00:01:35,210 --> 00:01:38,620
+Thankfully, I can set headers
+as part of the response.
+
+31
+00:01:38,620 --> 00:01:41,110
+The second parameter of
+new request is an object.
+
+32
+00:01:41,110 --> 00:01:44,530
+And the header's property takes
+an object of headers and values.
+
+33
+00:01:44,530 --> 00:01:46,710
+So I can set the foo header to be bar.
+
+34
+00:01:48,220 --> 00:01:52,325
+Back in the page, hit refresh, and
+in the network panel, there it is.
+
+35
+00:01:53,935 --> 00:01:56,685
+The phone lines have lit up and
+that can only mean one thing.
+
+36
+00:01:56,685 --> 00:01:58,235
+A wild Mike Wales has appeared.
+
+37
+00:01:58,235 --> 00:01:59,235
+Hello, Mike.
+
+38
+00:01:59,235 --> 00:02:02,105
+>> Hey, fixing that request sounds
+like something the student can do.
+
+39
+00:02:03,105 --> 00:02:04,555
+>> Fair point, go for it.

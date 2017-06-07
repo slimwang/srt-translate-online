@@ -1,0 +1,259 @@
+1
+00:00:00,270 --> 00:00:05,150
+We've seen Karthik introduce the theory and motivation of the Storm data model.
+
+2
+00:00:05,150 --> 00:00:08,770
+Amazingly, his presentation is all that is given to real hackathons held at
+
+3
+00:00:08,770 --> 00:00:11,020
+Twitter, Stanford and Berkeley.
+
+4
+00:00:11,020 --> 00:00:13,930
+In this course, however, we will help you connect Storm concepts to
+
+5
+00:00:13,930 --> 00:00:18,810
+Storm code syntax in the remainder of lesson one and lessons two and three.
+
+6
+00:00:18,810 --> 00:00:21,990
+Finally, in lesson four, you will complete a simple final project to
+
+7
+00:00:21,990 --> 00:00:25,400
+complete the course with the option to hack away further on more
+
+8
+00:00:25,400 --> 00:00:28,950
+complex projects along with our hackathon participants.
+
+9
+00:00:28,950 --> 00:00:32,689
+Let's get started linking Storm concepts to Storm syntax.
+
+10
+00:00:32,689 --> 00:00:38,640
+The Storm Data Model contains two simple computational units, spouts and bolts.
+
+11
+00:00:38,640 --> 00:00:42,530
+In this course, we will identify spouts with a red triangle
+
+12
+00:00:42,530 --> 00:00:45,210
+to represent sources of data for the topology.
+
+13
+00:00:45,210 --> 00:00:50,230
+In other words, coming from Postgres SQL, MySQL, Kafka Spout, or
+
+14
+00:00:50,230 --> 00:00:53,830
+Kestrel Spout, or the Twitter Sample Stream.
+
+15
+00:00:53,830 --> 00:00:58,220
+Next, we will identify Bolts with a blue square to represent units of
+
+16
+00:00:58,220 --> 00:00:59,710
+computation on data.
+
+17
+00:00:59,710 --> 00:01:03,780
+In other words, filtering, aggregation, join or transformations.
+
+18
+00:01:03,780 --> 00:01:06,310
+I'm using a red triangle and a blue square,
+
+19
+00:01:06,310 --> 00:01:09,815
+simply because I can't really [LAUGH] draw the spout and bolt like Karthik.
+
+20
+00:01:11,270 --> 00:01:15,200
+The next concept of the Storm Data Model is that spouts emit tuples or
+
+21
+00:01:15,200 --> 00:01:17,960
+an immutable ordered list of elements.
+
+22
+00:01:17,960 --> 00:01:22,460
+Bolts receive a tuple, do internal calculation and emit a tuple.
+
+23
+00:01:22,460 --> 00:01:23,830
+Know that tuples are immutables.
+
+24
+00:01:23,830 --> 00:01:28,140
+So, a new tuple is emitted rather than a modified tuple.
+
+25
+00:01:28,140 --> 00:01:32,260
+Finally, spouts and bolts are linked together in a Storm topology to
+
+26
+00:01:32,260 --> 00:01:36,460
+create a directed acyclic graph, meaning simply that there are no cycles.
+
+27
+00:01:36,460 --> 00:01:39,250
+Although cycles are permitted, we do not typically use this feature.
+
+28
+00:01:40,250 --> 00:01:43,020
+Vertices are computational elements, either spouts or
+
+29
+00:01:43,020 --> 00:01:45,980
+bolts, and edges are streams of data.
+
+30
+00:01:45,980 --> 00:01:49,890
+Finally, edges are defined by four typical groupings.
+
+31
+00:01:49,890 --> 00:01:53,920
+There are more, but these are the typical and most often used.
+
+32
+00:01:53,920 --> 00:01:57,580
+Shuffle grouping randomly distributes tuples to the next stage of
+
+33
+00:01:57,580 --> 00:01:59,170
+bolt instances.
+
+34
+00:01:59,170 --> 00:02:04,780
+This shuffle grouping in Storm allows you to automatically rebalance tuples.
+
+35
+00:02:04,780 --> 00:02:07,570
+The fields grouping groups tuples by single column value or
+
+36
+00:02:07,570 --> 00:02:09,350
+multiple column values.
+
+37
+00:02:09,350 --> 00:02:14,330
+The all grouping replicates all tuples to the next stage of bolt instances.
+
+38
+00:02:14,330 --> 00:02:17,330
+This is a rare grouping because there typically is
+
+39
+00:02:17,330 --> 00:02:19,840
+fan out with all grouping, basically.
+
+40
+00:02:19,840 --> 00:02:22,770
+You need to be careful that all of your data is not going to
+
+41
+00:02:22,770 --> 00:02:27,650
+be replicated to such an extent that your topology fails.
+
+42
+00:02:27,650 --> 00:02:30,230
+We do use this in lesson three.
+
+43
+00:02:30,230 --> 00:02:33,330
+The final grouping is the global grouping which sends all tuples of
+
+44
+00:02:33,330 --> 00:02:36,090
+a single stage to a single bolt.
+
+45
+00:02:36,090 --> 00:02:39,180
+You will have the opportunity to work with all of these grouping types in
+
+46
+00:02:39,180 --> 00:02:40,360
+the remainder of the course.
+
+47
+00:02:40,360 --> 00:02:42,070
+Let's get started with code.
+
+48
+00:02:42,070 --> 00:02:46,305
+On a final note, linking Storm concepts to Storm syntax, navigate to
+
+49
+00:02:46,305 --> 00:02:52,430
+storm.apache.org at anytime throughout the course, and click on Documentation.
+
+50
+00:02:52,430 --> 00:02:56,340
+As an open source project, Storm has excellent documentation.
+
+51
+00:02:56,340 --> 00:02:58,550
+And as our hackathoners discovered, sometimes,
+
+52
+00:02:58,550 --> 00:03:03,320
+it was easier to simply look at the Java docs for any questions they had.
+
+53
+00:03:03,320 --> 00:03:07,160
+As of this recording, use the Javadocs on the left hand pane and
+
+54
+00:03:07,160 --> 00:03:10,450
+not the documentation Javadocs in the middle of the page.
+
+55
+00:03:10,450 --> 00:03:11,860
+Which again, as of this recording,
+
+56
+00:03:11,860 --> 00:03:18,210
+goes to Nathan Marz's old Javadoc's site as a version 0.8.1.
+
+57
+00:03:18,210 --> 00:03:21,440
+Navigating back to the updated Javadocs you see that
+
+58
+00:03:21,440 --> 00:03:26,340
+the Storm core documentation is at least up to 0.9.1.
+
+59
+00:03:26,340 --> 00:03:29,980
+Remember, our Storm version is 0.9.2 incubating.
+
+60
+00:03:31,860 --> 00:03:37,040
+For example, searching for tuple and clicking on tuple, we see in the method
+
+61
+00:03:37,040 --> 00:03:43,390
+summary the getString by position method along with getValue at position method.
+
+62
+00:03:43,390 --> 00:03:46,510
+Along with a number of different methods that may be useful for you.
+
+63
+00:03:46,510 --> 00:03:50,410
+As you can see by all packages and all classes, this course is
+
+64
+00:03:50,410 --> 00:03:54,210
+touching the surface of all of the different things that you can do with Storm.
+
+65
+00:03:54,210 --> 00:03:56,870
+So with that quick reminder, let's continue on with the course.

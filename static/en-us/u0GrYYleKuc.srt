@@ -1,0 +1,265 @@
+1
+00:00:00,100 --> 00:00:04,850
+In the basic square RPC example,
+we said that all of the data types for
+
+2
+00:00:04,850 --> 00:00:09,680
+the input and output arguments
+must be described in the .x file.
+
+3
+00:00:09,680 --> 00:00:14,930
+All of these types and data structures
+must be XDR supported data types.
+
+4
+00:00:14,930 --> 00:00:18,860
+Some of the default XDR data types
+are those that are commonly available in
+
+5
+00:00:18,860 --> 00:00:22,430
+programming languages like C for
+things like character and byte and
+
+6
+00:00:22,430 --> 00:00:23,810
+integer and float.
+
+7
+00:00:23,810 --> 00:00:26,810
+But XDR supports many other data types.
+
+8
+00:00:26,810 --> 00:00:29,530
+For instance, if you specify
+that something is a const,
+
+9
+00:00:29,530 --> 00:00:34,210
+it will be translated after compilation
+into a constant, which is C,
+
+10
+00:00:34,210 --> 00:00:36,930
+will be a #define value.
+
+11
+00:00:36,930 --> 00:00:42,320
+Data types like hyper or quadruple
+are used to refer to a 64-bit integer or
+
+12
+00:00:42,320 --> 00:00:44,980
+a 120-bit float, respectively.
+
+13
+00:00:44,980 --> 00:00:48,280
+And XDR also supports
+a so-called opaque type,
+
+14
+00:00:48,280 --> 00:00:52,730
+which really corresponds to data type
+that's uninterpreted binary data.
+
+15
+00:00:52,730 --> 00:00:55,400
+So, similar to the C byte type.
+
+16
+00:00:55,400 --> 00:00:58,770
+So for instance,
+if you want to transfer an image,
+
+17
+00:00:58,770 --> 00:01:02,120
+that image will be represented
+as an array of opaque elements.
+
+18
+00:01:03,140 --> 00:01:06,550
+Let's talk more specifically
+about arrays because in XDR,
+
+19
+00:01:06,550 --> 00:01:09,030
+you can specify two types of arrays.
+
+20
+00:01:09,030 --> 00:01:12,835
+The first is a fixed-length array
+that's described as follows.
+
+21
+00:01:12,835 --> 00:01:17,670
+And here, the exact number of
+elements in the array is specified.
+
+22
+00:01:17,670 --> 00:01:21,090
+The RPC runtime will allocate
+the corresponding amount of
+
+23
+00:01:21,090 --> 00:01:25,150
+memory whenever arguments of this
+data type are sent or received.
+
+24
+00:01:25,150 --> 00:01:29,610
+And it will also know exactly how many
+bytes from the incoming packet stream it
+
+25
+00:01:29,610 --> 00:01:33,630
+should read out in order to populate
+a variable that's of this data type,
+
+26
+00:01:33,630 --> 00:01:34,690
+this type of array.
+
+27
+00:01:34,690 --> 00:01:36,670
+There are also variable-length arrays,
+
+28
+00:01:36,670 --> 00:01:39,890
+where the length is specified
+in angular brackets.
+
+29
+00:01:39,890 --> 00:01:42,170
+And this doesn't denote
+the actual length,
+
+30
+00:01:42,170 --> 00:01:44,690
+rather the maximum expected length.
+
+31
+00:01:44,690 --> 00:01:49,410
+When compiled, this will translate into
+a data structure that has two fields.
+
+32
+00:01:49,410 --> 00:01:54,390
+An integer, len, that corresponds
+to the actual size of this array.
+
+33
+00:01:54,390 --> 00:01:55,800
+And a pointer,
+
+34
+00:01:55,800 --> 00:02:00,900
+val, that is the address of where the
+data in this array is actually stored.
+
+35
+00:02:00,900 --> 00:02:06,404
+When the data is sent, the sender has
+to specify len, the size of the array,
+
+36
+00:02:06,404 --> 00:02:11,660
+and then set val to point to the memory
+location where the data is stored.
+
+37
+00:02:11,660 --> 00:02:13,075
+On the receiving end,
+
+38
+00:02:13,075 --> 00:02:18,602
+the server will know that it's expecting
+data structure that's a variable-length.
+
+39
+00:02:18,602 --> 00:02:22,961
+So it will know to read the first 4
+bytes to determine what is the length,
+
+40
+00:02:22,961 --> 00:02:24,755
+what is the size of the array.
+
+41
+00:02:24,755 --> 00:02:28,295
+And then to allocate
+the appropriate amount of memory,
+
+42
+00:02:28,295 --> 00:02:32,739
+and then to read the remaining portions
+of the incoming byte stream and
+
+43
+00:02:32,739 --> 00:02:36,170
+to populate that memory
+with those values.
+
+44
+00:02:36,170 --> 00:02:39,392
+The only exception to
+this are the strings.
+
+45
+00:02:39,392 --> 00:02:42,730
+A variable-length string
+is defined as follows, and
+
+46
+00:02:42,730 --> 00:02:46,810
+this line is really just
+the C pointer to character.
+
+47
+00:02:46,810 --> 00:02:47,980
+In memory,
+
+48
+00:02:47,980 --> 00:02:51,930
+the string will be stored just like
+a normal null-terminated string, so
+
+49
+00:02:51,930 --> 00:02:56,550
+it will be an array of characters
+with the null character at the end.
+
+50
+00:02:56,550 --> 00:02:58,570
+Operations like string copy and
+
+51
+00:02:58,570 --> 00:03:01,960
+string length need that
+particular representation
+
+52
+00:03:01,960 --> 00:03:05,910
+in order to be able to determine
+where is the end of the string.
+
+53
+00:03:05,910 --> 00:03:10,270
+However, when that variable-length
+string is encoded for transmission,
+
+54
+00:03:10,270 --> 00:03:14,100
+it will be encoded as
+a pair of length and data.
+
+55
+00:03:14,100 --> 00:03:16,360
+So from that perspective,
+that will be similar,
+
+56
+00:03:16,360 --> 00:03:20,540
+actually identical to what we see for
+other variable-length data structures.

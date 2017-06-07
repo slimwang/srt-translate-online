@@ -1,0 +1,604 @@
+1
+00:00:00,250 --> 00:00:04,080
+Let's add the FirebaseJobDispatcher
+to our hydration reminder app.
+
+2
+00:00:04,080 --> 00:00:07,320
+The end goal is to run a job
+which triggers a notification
+
+3
+00:00:07,320 --> 00:00:10,000
+every 15 minutes when
+the device is charging.
+
+4
+00:00:10,000 --> 00:00:12,730
+To do this,
+you'll need to follow a few steps.
+
+5
+00:00:12,730 --> 00:00:14,909
+First, you're going to be adding
+the Gradle dependency for
+
+6
+00:00:14,909 --> 00:00:16,519
+FirebaseJobDispatcher.
+
+7
+00:00:16,519 --> 00:00:19,890
+Then, you're going to create a new task
+for our ReminderTasks, which creates
+
+8
+00:00:19,890 --> 00:00:23,780
+a charging reminder, and updates
+the charging count on the screen.
+
+9
+00:00:23,780 --> 00:00:27,009
+After that, you're going to create a new
+Service that extends from JobService.
+
+10
+00:00:27,009 --> 00:00:30,249
+This service will run the charging
+reminder task that you just made.
+
+11
+00:00:30,248 --> 00:00:32,103
+As part of creating that JobService,
+
+12
+00:00:32,103 --> 00:00:34,427
+you're going to need to
+add that to the manifest.
+
+13
+00:00:34,427 --> 00:00:37,390
+Then finally, you'll use
+FirebaseJobDispatcher to schedule
+
+14
+00:00:37,390 --> 00:00:40,198
+the JobService you just made
+according to the constraints.
+
+15
+00:00:40,198 --> 00:00:43,259
+Now, these constraints are listed and
+introduced in the code.
+
+16
+00:00:43,259 --> 00:00:47,039
+But to just cover them again, the first
+is that you gotta execute the job
+
+17
+00:00:47,039 --> 00:00:49,503
+every 15 minutes with
+a 15 minute window.
+
+18
+00:00:49,503 --> 00:00:52,754
+You should only be executing
+the job if the device is charging.
+
+19
+00:00:52,755 --> 00:00:56,571
+And you want to be continuously
+executing this job every 15 minutes,
+
+20
+00:00:56,570 --> 00:00:59,049
+even if the device reboots.
+
+21
+00:00:59,049 --> 00:01:00,799
+Okay, that's a lot, so let's dive in.
+
+22
+00:01:02,039 --> 00:01:06,400
+So first, I'm going to go ahead and
+open the Build.gradle file for the app.
+
+23
+00:01:06,400 --> 00:01:10,212
+And then down here, I'm going to add
+the depency for Firebase Job Dispatcher.
+
+24
+00:01:10,212 --> 00:01:12,340
+Once that's done,
+I'll go ahead and sync the code.
+
+25
+00:01:12,340 --> 00:01:15,719
+The next step is to create
+a new task in reminder tasks.
+
+26
+00:01:15,719 --> 00:01:18,966
+I'll start by making a new
+constant up here for my new tasks.
+
+27
+00:01:18,966 --> 00:01:21,814
+And it's going to be called
+action charging reminder.
+
+28
+00:01:21,814 --> 00:01:25,052
+Next, I'm going to check for
+that action here in execute task.
+
+29
+00:01:25,052 --> 00:01:28,829
+So if it's an ACTION_CHARGING_REMINDER
+and execute action,
+
+30
+00:01:28,829 --> 00:01:33,301
+I'm going to check now if it was called
+with the ACTION_CHARGING_REMINDER.
+
+31
+00:01:33,302 --> 00:01:37,446
+So if
+ACTION_CHARGING_REMINDER.equals(action),
+
+32
+00:01:37,445 --> 00:01:43,640
+I'm going to call issueChargingReminder,
+which is a method that I need to write.
+
+33
+00:01:43,640 --> 00:01:45,840
+So I'm going to create
+that method down here.
+
+34
+00:01:45,840 --> 00:01:48,380
+And the point of this
+issueChargingReminder method
+
+35
+00:01:48,379 --> 00:01:50,199
+is that it's going to
+make a notification.
+
+36
+00:01:50,200 --> 00:01:52,977
+And then it's also going to increment
+the charging reminder count.
+
+37
+00:01:52,977 --> 00:01:54,829
+Now, in PreferenceUtilities,
+
+38
+00:01:54,829 --> 00:01:58,281
+there is a method called
+incrementChargingReminderCount.
+
+39
+00:01:58,281 --> 00:02:02,329
+And I just need to pass into context,
+which I have up here in the parameter.
+
+40
+00:02:02,329 --> 00:02:05,203
+And then we just created
+in NotificationUtils,
+
+41
+00:02:05,203 --> 00:02:09,750
+the remindUserBecauseCharging method,
+which also needs a context.
+
+42
+00:02:09,750 --> 00:02:13,729
+And by calling these two methods, I will
+update the ChargingReminderCount, and
+
+43
+00:02:13,729 --> 00:02:15,979
+I will send out that notification.
+
+44
+00:02:15,979 --> 00:02:18,201
+So now, I should have a working task.
+
+45
+00:02:18,201 --> 00:02:22,979
+Next, I'm going to create a new job
+service that actually runs the task.
+
+46
+00:02:22,979 --> 00:02:25,669
+Here I am in
+WaterReminderFirebasedjobService.
+
+47
+00:02:25,669 --> 00:02:27,491
+Wow, that's a mouthful.
+
+48
+00:02:27,491 --> 00:02:30,614
+So here I am in
+WaterReminderFirebasedjobService.
+
+49
+00:02:30,615 --> 00:02:32,830
+Wow, that's a mouthful.
+
+50
+00:02:32,830 --> 00:02:35,991
+Anyways, this class is going to
+extend from JobService.
+
+51
+00:02:35,991 --> 00:02:43,000
+And it's very important that it
+extends from this JobService class,
+
+52
+00:02:43,000 --> 00:02:50,240
+because that's the type that
+Firebase JobDispatcher expects.
+
+53
+00:02:50,240 --> 00:02:54,439
+Now, I should note that, like a service,
+JobService runs on the main thread.
+
+54
+00:02:54,439 --> 00:02:57,389
+And it's upset at me right now because
+there are two methods that you need
+
+55
+00:02:57,389 --> 00:03:02,559
+to override, and
+those are onStartJob and onStopJob.
+
+56
+00:03:02,560 --> 00:03:06,527
+onStartJob is going to execute that task
+that sends out the notification which we
+
+57
+00:03:06,527 --> 00:03:07,138
+just made.
+
+58
+00:03:07,138 --> 00:03:11,030
+Now again, by default, this is going to
+be doing it on the main thread.
+
+59
+00:03:11,030 --> 00:03:15,560
+And in this case, making a notification
+is a pretty fast action.
+
+60
+00:03:15,560 --> 00:03:17,759
+But in many of the use
+cases of JobService,
+
+61
+00:03:17,759 --> 00:03:20,370
+you're going to need to schedule
+a repeating job that's going to do
+
+62
+00:03:20,370 --> 00:03:24,289
+something large, like downloading
+bulk data from the Internet.
+
+63
+00:03:24,289 --> 00:03:25,889
+Because of this, in this example,
+
+64
+00:03:25,889 --> 00:03:28,268
+I'm going to show you how to move
+the operation off of the main thread.
+
+65
+00:03:29,509 --> 00:03:32,310
+So the first thing I'm actually going to
+do, is make a variable up here,
+
+66
+00:03:32,310 --> 00:03:34,759
+which is an AsyncTask.
+
+67
+00:03:34,759 --> 00:03:37,370
+And it's going to be
+called mBackgroundTask.
+
+68
+00:03:37,370 --> 00:03:41,360
+And then down here in my onStartJob
+method, I'm going to set that background
+
+69
+00:03:41,360 --> 00:03:49,260
+task to a new AsyncTask,
+which is anonymously subclassed.
+
+70
+00:03:49,259 --> 00:03:51,929
+Now, this is the code that's going to
+happen off of the main thread.
+
+71
+00:03:51,930 --> 00:03:55,520
+So in here, I'm going to get
+a reference to the context.
+
+72
+00:03:55,520 --> 00:03:58,943
+And this is going to be a reference
+to the context of the outer
+
+73
+00:03:58,943 --> 00:04:01,307
+WaterReminderFirebaseJobService.
+
+74
+00:04:01,306 --> 00:04:04,417
+And then I'm going to take that
+reminder task that I just made.
+
+75
+00:04:04,418 --> 00:04:08,271
+And I'm going to call executeTask
+with this context and
+
+76
+00:04:08,270 --> 00:04:11,674
+with the CHARGING_REMINDER action.
+
+77
+00:04:11,675 --> 00:04:14,719
+JobServices need to tell the system
+when the job is actually done
+
+78
+00:04:14,719 --> 00:04:16,660
+by calling job finished.
+
+79
+00:04:16,660 --> 00:04:18,956
+The job is done when
+the AsyncTask is done.
+
+80
+00:04:18,956 --> 00:04:22,950
+And the AsyncTask signals that it's
+done by calling onPostExecute.
+
+81
+00:04:22,949 --> 00:04:25,879
+Because of that, I'm going to
+override the onPostExecute method.
+
+82
+00:04:26,930 --> 00:04:31,019
+And here in onPostExecute,
+I'm going to call jobFinished.
+
+83
+00:04:31,019 --> 00:04:33,759
+And I'm going to pass in
+the jobParameters and false.
+
+84
+00:04:34,860 --> 00:04:38,009
+The jobParameters are a bundle
+of key value arguments that
+
+85
+00:04:38,009 --> 00:04:40,120
+are passed in when the job starts.
+
+86
+00:04:40,120 --> 00:04:44,110
+And this job here represents whether or
+not the job needs to be rescheduled.
+
+87
+00:04:44,110 --> 00:04:47,600
+The job was successful so
+there's no need to reschedule it,
+
+88
+00:04:47,600 --> 00:04:49,590
+which is why we are passing false here.
+
+89
+00:04:49,589 --> 00:04:52,878
+Okay, so now, I have a background
+task that's going to do this.
+
+90
+00:04:54,139 --> 00:04:58,649
+And after I define that background task,
+I actually need to execute it.
+
+91
+00:04:58,649 --> 00:04:59,329
+And then finally,
+
+92
+00:04:59,329 --> 00:05:04,000
+I'll just return true, which signals
+that our job is still doing some work.
+
+93
+00:05:04,000 --> 00:05:07,029
+Because remember, it's doing it
+on this other thread here now.
+
+94
+00:05:07,029 --> 00:05:09,599
+Okay, so now,
+we have a completed onStartJob method,
+
+95
+00:05:09,600 --> 00:05:11,470
+which will execute our task.
+
+96
+00:05:11,470 --> 00:05:15,030
+And we have to just scroll down and
+define this onStopJob method.
+
+97
+00:05:15,029 --> 00:05:17,879
+So what is onStopJob, and
+when does it get called.
+
+98
+00:05:17,879 --> 00:05:21,399
+Well, it gets called if the requirements
+of your job are no longer met.
+
+99
+00:05:21,399 --> 00:05:23,239
+So, for example,
+let's say that you, maybe,
+
+100
+00:05:23,240 --> 00:05:26,720
+specified a job that wants
+to upload large video files.
+
+101
+00:05:26,720 --> 00:05:29,051
+And because you want to be
+kind to your users data plan,
+
+102
+00:05:29,050 --> 00:05:31,288
+you say that you're only
+going to do this over Wi-Fi.
+
+103
+00:05:31,288 --> 00:05:34,591
+In this case, onStopJob would
+be called if, for example,
+
+104
+00:05:34,591 --> 00:05:37,312
+you started this job when
+the user was on Wi-Fi.
+
+105
+00:05:37,312 --> 00:05:39,664
+And then in the middle of
+downloading this huge file,
+
+106
+00:05:39,665 --> 00:05:42,145
+the Wi-Fi connection gets shut off.
+
+107
+00:05:42,144 --> 00:05:44,844
+So in our case,
+what we're going to do here,
+
+108
+00:05:44,845 --> 00:05:47,706
+is we're going to see if
+our AsyncTask is null.
+
+109
+00:05:47,706 --> 00:05:51,424
+And if it is not null, we're going to go
+ahead and cancel that backgroundTask.
+
+110
+00:05:51,423 --> 00:05:54,961
+And then here, we're going to
+return not false but true.
+
+111
+00:05:54,961 --> 00:05:58,269
+And what this means, is that as
+soon as the conditions are re-met,
+
+112
+00:05:58,269 --> 00:06:00,021
+the job should be re-tried again.
+
+113
+00:06:00,021 --> 00:06:03,925
+Okay, and with that,
+you have created your first JobService.
+
+114
+00:06:03,925 --> 00:06:07,087
+But there's one more step,
+we have to add it to the manifest.
+
+115
+00:06:07,088 --> 00:06:12,271
+So right here after our other service,
+I'll make a new service.
+
+116
+00:06:12,271 --> 00:06:14,739
+And I'm going to set
+exported to [INAUDIBLE].
+
+117
+00:06:14,738 --> 00:06:17,810
+And I'm going to set exported to false.
+
+118
+00:06:17,810 --> 00:06:21,596
+And I'm going to add
+a intent filter tag in here,
+
+119
+00:06:21,596 --> 00:06:24,411
+with an action tag which is equal to
+
+120
+00:06:24,411 --> 00:06:28,990
+com.firebase.jobdispatcher.ACTION_EXEC-
+UTE.
+
+121
+00:06:28,990 --> 00:06:31,539
+You'll learn a lot more about
+intent filters shortly.
+
+122
+00:06:31,540 --> 00:06:34,780
+So don't worry if this XML here
+looks a little bit strange.
+
+123
+00:06:34,779 --> 00:06:35,579
+Whew, okay.
+
+124
+00:06:35,579 --> 00:06:38,129
+You're about half done with
+adding your scheduled job.
+
+125
+00:06:38,129 --> 00:06:39,185
+Time for a quick water break.
+
+126
+00:06:39,185 --> 00:06:41,223
+[SOUND]
+

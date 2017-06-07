@@ -1,0 +1,597 @@
+1
+00:00:00,150 --> 00:00:01,670
+Hey Charles.
+>> Hey Michael.
+
+2
+00:00:01,670 --> 00:00:06,040
+>> We've got a quick little
+mini-topic to talk about
+
+3
+00:00:06,040 --> 00:00:07,665
+which I'm calling Messing with Rewards.
+
+4
+00:00:07,665 --> 00:00:08,400
+>> Okay.
+
+5
+00:00:08,400 --> 00:00:13,280
+>> And so just to give you a sense
+of what that's about, I mention Ng,
+
+6
+00:00:13,280 --> 00:00:14,170
+Harada, and Russell.
+
+7
+00:00:16,180 --> 00:00:20,160
+They wrote a paper that covers
+the ground that I'm going to talk about.
+
+8
+00:00:20,160 --> 00:00:22,030
+And then to make it more vivid,
+
+9
+00:00:22,030 --> 00:00:24,500
+I drew a picture of me messing
+with the reward function.
+
+10
+00:00:24,500 --> 00:00:27,970
+And when I asked Google for a picture
+for this, this is what it came up with.
+
+11
+00:00:27,970 --> 00:00:30,516
+So that's Debra Messing
+winning an award.
+
+12
+00:00:30,516 --> 00:00:34,649
+>> [LAUGH] And
+that seems absolutely appropriate.
+
+13
+00:00:34,649 --> 00:00:37,340
+because she's got the same look on
+her face that you had on yours.
+
+14
+00:00:37,340 --> 00:00:39,330
+>> I know,
+I thought that was really interesting,
+
+15
+00:00:39,330 --> 00:00:41,380
+I was surprised that Google
+did such a good job.
+
+16
+00:00:41,380 --> 00:00:44,010
+I think Emma Church is getting
+better because of machine learning.
+
+17
+00:00:44,010 --> 00:00:45,550
+>> Probably,
+probably reinforcing the learning.
+
+18
+00:00:45,550 --> 00:00:47,720
+I hope you gave it a little reward.
+
+19
+00:00:47,720 --> 00:00:49,160
+>> I forgot to do that.
+
+20
+00:00:49,160 --> 00:00:50,120
+All right I owe it one.
+
+21
+00:00:50,120 --> 00:00:53,400
+So I wanted to start off with question
+two, which is if we're going to
+
+22
+00:00:53,400 --> 00:00:57,180
+be tinkering with the reward function,
+why might we want to do that?
+
+23
+00:00:57,180 --> 00:01:00,160
+Why might it make sense to
+take a reward function for
+
+24
+00:01:00,160 --> 00:01:02,890
+MDP and then turn it into
+some other reward function?
+
+25
+00:01:03,980 --> 00:01:05,150
+>> Because it's easier?
+
+26
+00:01:05,150 --> 00:01:07,550
+>> It's easier to change
+it than to not change it?
+
+27
+00:01:07,550 --> 00:01:09,949
+>> No, just we might get a reward
+function that's easier to solve.
+
+28
+00:01:09,949 --> 00:01:11,860
+This is the whole point
+which is to solve the MDP,
+
+29
+00:01:11,860 --> 00:01:13,362
+we should just make that really easy.
+
+30
+00:01:13,362 --> 00:01:16,778
+>> Yeah, so if we can find a way to
+changing the reward function in a way
+
+31
+00:01:16,778 --> 00:01:20,120
+that makes it easier for
+the learner to work with.
+
+32
+00:01:20,120 --> 00:01:24,860
+Then without actually changing what
+it's going to learn as a result.
+
+33
+00:01:24,860 --> 00:01:25,880
+That's a win.
+
+34
+00:01:25,880 --> 00:01:27,460
+>> Oh, I wasn't going that far.
+
+35
+00:01:27,460 --> 00:01:29,790
+I just figured we'd set
+the reward to zero everywhere.
+
+36
+00:01:29,790 --> 00:01:31,770
+And then everything would be easy.
+
+37
+00:01:31,770 --> 00:01:33,600
+>> That would make it easy.
+
+38
+00:01:33,600 --> 00:01:35,790
+But I think it should
+be easier to solve and
+
+39
+00:01:37,080 --> 00:01:39,875
+similar to what it would
+have learned otherwise.
+
+40
+00:01:39,875 --> 00:01:41,240
+>> Okay, I guess that's fair.
+
+41
+00:01:41,240 --> 00:01:42,647
+That seems like less cheating.
+
+42
+00:01:42,647 --> 00:01:43,793
+But it does invite a question,
+
+43
+00:01:43,793 --> 00:01:46,349
+maybe we don't want to get into
+a philosophical discussion here, but
+
+44
+00:01:46,349 --> 00:01:48,567
+where did the reward function
+come from in the first place?
+
+45
+00:01:48,567 --> 00:01:53,062
+I mean, I think the way you pose this
+question sort of suggests that there's
+
+46
+00:01:53,062 --> 00:01:56,000
+a true, original reward function.
+
+47
+00:01:56,000 --> 00:01:56,810
+>> That's a good question.
+
+48
+00:01:56,810 --> 00:02:01,200
+So, why wouldn't we want to
+change the reward function?
+
+49
+00:02:01,200 --> 00:02:02,790
+because, we don't have one yet.
+
+50
+00:02:02,790 --> 00:02:04,538
+>> Right.
+>> I think that is a really good point
+
+51
+00:02:04,538 --> 00:02:06,413
+and you're right I'm not
+going to get into that.
+
+52
+00:02:06,413 --> 00:02:10,733
+But this is a topic that you know that I
+have a lot interest in because you and
+
+53
+00:02:10,733 --> 00:02:15,110
+I have been meeting on this subject for
+a year or so trying to figure out.
+
+54
+00:02:15,110 --> 00:02:17,990
+If we think about reward functions
+as being ways of encouraging
+
+55
+00:02:17,990 --> 00:02:20,579
+reinforcement learners to exhibit
+certain kinds of behavior.
+
+56
+00:02:21,680 --> 00:02:23,190
+Then they're kind of like
+a programming language.
+
+57
+00:02:23,190 --> 00:02:27,060
+They're kind of like a way
+of specifying behavior that
+
+58
+00:02:27,060 --> 00:02:31,610
+then is going to get compiled by the
+learning algorithm into actual behavior.
+
+59
+00:02:31,610 --> 00:02:35,750
+And so there isn't actually
+a lot of work on how to do that.
+
+60
+00:02:35,750 --> 00:02:37,920
+If we have some idea of
+what behavior we want.
+
+61
+00:02:37,920 --> 00:02:41,460
+What reward function would be
+appropriate to make that happen?
+
+62
+00:02:41,460 --> 00:02:42,510
+So you're right.
+
+63
+00:02:42,510 --> 00:02:46,320
+So in some sense I'm finessing that
+question and instead staying yeah,
+
+64
+00:02:46,320 --> 00:02:49,790
+somehow we have reward function and
+we want to tinker with it.
+
+65
+00:02:49,790 --> 00:02:51,590
+Maybe to make it easier to solve.
+
+66
+00:02:51,590 --> 00:02:53,740
+Maybe make it easier to represent.
+
+67
+00:02:53,740 --> 00:02:57,250
+Or, easier to reason about, or
+any of a number of possible reasons, but
+
+68
+00:02:57,250 --> 00:03:01,640
+without actually undermining what it
+is that the behavior is supposed to be,
+
+69
+00:03:01,640 --> 00:03:03,570
+that's being specified
+by that reward function.
+
+70
+00:03:03,570 --> 00:03:04,240
+because, as you said,
+
+71
+00:03:04,240 --> 00:03:07,260
+it's really easy to just turn
+the reward function into all zeros.
+
+72
+00:03:07,260 --> 00:03:10,533
+And then all policies maximize
+that reward function.
+
+73
+00:03:10,533 --> 00:03:12,948
+In which case, learning is done.
+
+74
+00:03:12,948 --> 00:03:14,165
+>> Yeah, and then we solved a problem,
+
+75
+00:03:14,165 --> 00:03:16,106
+just not necessarily the problem
+we were trying to solve.
+
+76
+00:03:16,106 --> 00:03:16,942
+>> Yeah, that's right.
+
+77
+00:03:16,942 --> 00:03:20,638
+And that's always an issue in AI,
+I think, we have to worry about turning
+
+78
+00:03:20,638 --> 00:03:24,534
+the problem into an easier problem
+that isn't really interesting anymore.
+
+79
+00:03:24,534 --> 00:03:25,208
+>> Right.
+
+80
+00:03:25,208 --> 00:03:27,599
+So, by the way, something you said
+made me think about something.
+
+81
+00:03:27,599 --> 00:03:29,712
+Well two completely unrelated things.
+
+82
+00:03:29,712 --> 00:03:32,390
+So, you call the reward function
+sort of like a programming language.
+
+83
+00:03:32,390 --> 00:03:33,250
+I like that.
+
+84
+00:03:33,250 --> 00:03:36,850
+One nice thing about that is let us
+think about this easier to solve thing
+
+85
+00:03:37,970 --> 00:03:39,450
+while still being
+similar to saying well,
+
+86
+00:03:39,450 --> 00:03:41,170
+if you have a program
+that allows you to sort.
+
+87
+00:03:41,170 --> 00:03:43,880
+Well there are many different
+programs that allow you to sort and
+
+88
+00:03:43,880 --> 00:03:46,510
+some are actually more
+efficient than others.
+
+89
+00:03:46,510 --> 00:03:50,220
+And they're more efficient both in
+terms of the time it takes them to run.
+
+90
+00:03:50,220 --> 00:03:52,200
+More efficient in
+the space that they use.
+
+91
+00:03:52,200 --> 00:03:54,440
+And they're more efficient in
+the sense that they're easier for
+
+92
+00:03:54,440 --> 00:03:58,380
+a human being to write or to think
+about, even though they're ultimately
+
+93
+00:03:58,380 --> 00:04:01,370
+going to exhibit the same behavior,
+which is sorting a list.
+
+94
+00:04:01,370 --> 00:04:04,670
+So I like that, then it makes the
+question of why would you want to change
+
+95
+00:04:04,670 --> 00:04:06,280
+a reward function make
+a little more sense?
+
+96
+00:04:06,280 --> 00:04:08,180
+And that ties in to the second
+thing I wanted to say,
+
+97
+00:04:08,180 --> 00:04:11,170
+which is you say easier to solve, but
+you haven't said what that meant.
+
+98
+00:04:11,170 --> 00:04:12,990
+I can think of at least
+two things it could mean.
+
+99
+00:04:12,990 --> 00:04:17,190
+Easier as in faster, or
+easier as in might be solvable at all.
+
+100
+00:04:17,190 --> 00:04:21,230
+Like there maybe a reward function that
+becomes extremely difficult to solve.
+
+101
+00:04:21,230 --> 00:04:24,825
+>> So okay, so I summarized what you
+were saying to me as first of all,
+
+102
+00:04:24,825 --> 00:04:27,666
+if we think about reward
+functions as a certain way.
+
+103
+00:04:27,666 --> 00:04:29,778
+At least gives us an idea
+about what semantics is.
+
+104
+00:04:29,778 --> 00:04:33,430
+Like what is it that we want a reward
+function to make the agent do?
+
+105
+00:04:33,430 --> 00:04:36,548
+And at the moment we're going to
+finesse that and just say, well,
+
+106
+00:04:36,548 --> 00:04:39,217
+whatever it is that the old
+reward functioned me to do.
+
+107
+00:04:39,217 --> 00:04:42,502
+But then we can also think about
+changing it in a way that doesn't change
+
+108
+00:04:42,502 --> 00:04:44,710
+the meaning, but
+does make it more efficient.
+
+109
+00:04:44,710 --> 00:04:47,172
+Either in terms of the amount
+of data it needs to learn or
+
+110
+00:04:47,172 --> 00:04:49,290
+the computation that it needs to learn.
+
+111
+00:04:49,290 --> 00:04:51,818
+I guess speed really has
+those two different pieces.
+
+112
+00:04:51,818 --> 00:04:54,502
+Right?
+One could be how much experience does
+
+113
+00:04:54,502 --> 00:04:55,575
+the agent need?
+
+114
+00:04:55,575 --> 00:04:59,292
+And then how much computation does it
+take to actually carry out the learning
+
+115
+00:04:59,292 --> 00:04:59,824
+process?
+
+116
+00:04:59,824 --> 00:05:01,480
+And that can be easier or harder.
+
+117
+00:05:01,480 --> 00:05:04,360
+If you don't have to plan ahead super
+long then it might actually be faster in
+
+118
+00:05:04,360 --> 00:05:05,330
+terms of computation.
+
+119
+00:05:05,330 --> 00:05:07,552
+And other kinds of
+efficiency include space,
+
+120
+00:05:07,552 --> 00:05:10,262
+sort of the complexity of writing
+down the reward function.
+
+121
+00:05:10,262 --> 00:05:12,350
+And maybe whether it makes
+a problem solvable at all.
+
+122
+00:05:12,350 --> 00:05:16,233
+Maybe that the efficiency is
+the difference between infinity and
+
+123
+00:05:16,233 --> 00:05:17,297
+not-infinity.
+
+124
+00:05:17,297 --> 00:05:19,990
+>> Yeah, this is a pretty big difference
+most times, I mean in the limit.
+
+125
+00:05:19,990 --> 00:05:21,670
+>> So good, all right.
+
+126
+00:05:21,670 --> 00:05:24,860
+So let's think about some ways that we
+can actually change the reward function
+
+127
+00:05:24,860 --> 00:05:27,965
+without changing what it is optimizing.

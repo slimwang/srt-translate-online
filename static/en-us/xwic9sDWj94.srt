@@ -1,0 +1,225 @@
+﻿1
+00:00:00,250 --> 00:00:03,379
+However, I noticed we could have
+stopped our search earlier.
+
+2
+00:00:03,379 --> 00:00:04,400
+>> How?
+
+3
+00:00:04,400 --> 00:00:06,839
+>> At this step,
+we said the northern territory and
+
+4
+00:00:06,839 --> 00:00:09,279
+South Australia, both had to be blue.
+
+5
+00:00:09,279 --> 00:00:10,000
+>> So?
+
+6
+00:00:10,000 --> 00:00:13,968
+>> But these two regions are adjacent,
+we know they can't both be blue.
+
+7
+00:00:13,968 --> 00:00:17,629
+>> I see, forward checking propagates
+information from assigned to unassigned
+
+8
+00:00:17,629 --> 00:00:20,939
+variables, but doesn't provide
+early detection for all failures.
+
+9
+00:00:20,940 --> 00:00:24,020
+Instead we can use constraint
+propagation repeatedly to enforce all
+
+10
+00:00:24,019 --> 00:00:25,649
+the local constraints.
+
+11
+00:00:25,649 --> 00:00:29,729
+We can use arc consistency for a simple
+version of constraint propagation.
+
+12
+00:00:29,730 --> 00:00:33,579
+A variable in a constraint satisfaction
+problem is arc consistent with respect
+
+13
+00:00:33,579 --> 00:00:37,049
+to another variable if there is
+some value still available for
+
+14
+00:00:37,049 --> 00:00:40,320
+the second variable after we assign
+a value to the first variable.
+
+15
+00:00:40,320 --> 00:00:43,090
+If all variables in the graph
+satisfy this condition,
+
+16
+00:00:43,090 --> 00:00:45,520
+then the network is arc consistent.
+
+17
+00:00:45,520 --> 00:00:47,490
+>> Let's look at a practical example.
+
+18
+00:00:47,490 --> 00:00:50,289
+Once we get to the stage of
+assigning green to Queensland,
+
+19
+00:00:50,289 --> 00:00:52,269
+we look at all of its
+neighbors that are unassigned.
+
+20
+00:00:52,270 --> 00:00:54,890
+And see if the assignment of green
+reduces the number of colors
+
+21
+00:00:54,890 --> 00:00:56,070
+available to them.
+
+22
+00:00:56,070 --> 00:00:58,210
+If so, we remove that color
+from the neighboring region.
+
+23
+00:00:58,210 --> 00:01:00,939
+And then look at its neighboring
+regions to see if we need to propagate
+
+24
+00:01:00,939 --> 00:01:02,119
+the change onward.
+
+25
+00:01:02,119 --> 00:01:04,299
+We keep doing this process
+until it terminates or
+
+26
+00:01:04,299 --> 00:01:07,369
+we determine that one of the regions
+does not have any colors left.
+
+27
+00:01:07,370 --> 00:01:10,650
+>> So, here we have removed green
+from South Australia's list, and
+
+28
+00:01:10,650 --> 00:01:12,290
+are now looking at its neighbors.
+
+29
+00:01:12,290 --> 00:01:16,160
+New South Wales is a neighbor, and
+in order to be arc consistent we
+
+30
+00:01:16,159 --> 00:01:19,379
+will have to remove blue
+from its available colors.
+
+31
+00:01:19,379 --> 00:01:21,119
+It can only be orange.
+
+32
+00:01:21,120 --> 00:01:23,150
+>> Victoria is a neighbor
+of New South Wales, so
+
+33
+00:01:23,150 --> 00:01:25,120
+we look to see if the change affects it.
+
+34
+00:01:25,120 --> 00:01:26,490
+In fact, it does.
+
+35
+00:01:26,489 --> 00:01:29,679
+We remove orange from Victoria's
+list of available colors.
+
+36
+00:01:29,680 --> 00:01:30,560
+Our choice of green for
+
+37
+00:01:30,560 --> 00:01:34,629
+Queensland has caused a chain of changes
+in possible values for our variables.
+
+38
+00:01:34,629 --> 00:01:36,729
+>> Why don't we remove
+blue while we're at it, so
+
+39
+00:01:36,730 --> 00:01:39,329
+Victoria doesn't conflict
+with South Australia.
+
+40
+00:01:39,329 --> 00:01:42,530
+>> Well, we haven't gotten that far
+in our queue of things to check yet.
+
+41
+00:01:42,530 --> 00:01:45,079
+Next we're going to look at the Northern
+territory because they're just another
+
+42
+00:01:45,079 --> 00:01:48,310
+neighbor that might be affected
+by South Australia's change.
+
+43
+00:01:48,310 --> 00:01:50,939
+In fact we see South Australia and
+the Northern territory are both
+
+44
+00:01:50,939 --> 00:01:54,170
+restricted to blue which is not allowed,
+so we return a failure and
+
+45
+00:01:54,170 --> 00:01:57,159
+force a search to try another option for
+Queensland.
+
+46
+00:01:57,159 --> 00:01:58,939
+>> Wow, that was a lot of work.
+
+47
+00:01:58,939 --> 00:02:01,159
+>> But it can save a lot of
+unnecessary deep searching for
+
+48
+00:02:01,159 --> 00:02:02,509
+more complicated problems.
+

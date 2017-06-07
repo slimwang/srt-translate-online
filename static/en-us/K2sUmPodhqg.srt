@@ -1,0 +1,233 @@
+1
+00:00:00,380 --> 00:00:03,380
+I'm going to run each piece of
+example code and see what it does.
+
+2
+00:00:03,380 --> 00:00:07,068
+The first piece of code involves adding
+a series to a square data frame.
+
+3
+00:00:07,068 --> 00:00:10,606
+That is, a data frame with the same
+number of rows as columns.
+
+4
+00:00:10,606 --> 00:00:16,230
+I've used 0, 1, 2, and 3 as both the
+index values and the column names here.
+
+5
+00:00:16,230 --> 00:00:18,870
+I've printed out both
+the original data frame, and
+
+6
+00:00:18,870 --> 00:00:21,840
+the result of adding the series here for
+comparison.
+
+7
+00:00:21,840 --> 00:00:25,600
+It looks like the value 1 was added
+to each value in the first column,
+
+8
+00:00:25,600 --> 00:00:30,400
+2 was added to each value in
+the second column, and so on.
+
+9
+00:00:30,400 --> 00:00:33,610
+So it looks like each value from
+the series was added to one of
+
+10
+00:00:33,610 --> 00:00:35,770
+the columns of the dataframe.
+
+11
+00:00:35,770 --> 00:00:39,650
+Given this, I have an idea what will
+happen if I add a series to a dataframe
+
+12
+00:00:39,650 --> 00:00:40,660
+with a single row.
+
+13
+00:00:40,660 --> 00:00:41,610
+But I'll try it anyway.
+
+14
+00:00:42,760 --> 00:00:45,730
+Again, I've printed both data
+frames here for comparison, and
+
+15
+00:00:45,730 --> 00:00:49,150
+again it looks like each value from
+the series was added to a single column
+
+16
+00:00:49,150 --> 00:00:49,860
+from the data frame.
+
+17
+00:00:50,935 --> 00:00:54,470
+1 was added to the first column, 2 was
+added to the second column and so on.
+
+18
+00:00:55,470 --> 00:00:58,870
+Something that might not be obvious
+given this is what will happen if I add
+
+19
+00:00:58,870 --> 00:01:01,620
+a series to a data frame
+with only one column?
+
+20
+00:01:01,620 --> 00:01:04,489
+Will it figure out somehow that
+it should add the values to
+
+21
+00:01:04,489 --> 00:01:06,990
+each row of the data frame instead?
+
+22
+00:01:06,990 --> 00:01:10,060
+I tried it out here, and
+you can see that's not what happened.
+
+23
+00:01:10,060 --> 00:01:13,690
+Instead, the result of the addition
+actually has four columns, one for
+
+24
+00:01:13,690 --> 00:01:17,770
+each value in the series, and every
+column except the first contains NaNs.
+
+25
+00:01:18,900 --> 00:01:22,120
+The first column had 1 added
+to each value, as before.
+
+26
+00:01:23,310 --> 00:01:28,670
+By the way, the code df.add s it's
+usually the same as df plus s,
+
+27
+00:01:28,670 --> 00:01:31,290
+so I usually don't call this function.
+
+28
+00:01:31,290 --> 00:01:34,040
+But the benefit of using this
+function is that it can also take
+
+29
+00:01:34,040 --> 00:01:35,790
+an axis argument.
+
+30
+00:01:35,790 --> 00:01:41,192
+If I use axix = columns,
+I get the same result as df plus s.
+
+31
+00:01:41,192 --> 00:01:46,009
+However if I use axis='index' then each
+value of the series will be added to
+
+32
+00:01:46,009 --> 00:01:50,175
+one row of the data frame, which
+might be what I want in some cases.
+
+33
+00:01:51,635 --> 00:01:55,455
+Now in all the examples I've tried so
+far, the index of the series has been
+
+34
+00:01:55,455 --> 00:01:59,530
+the same as the column names of
+the data frame, 0, 1, 2, and 3.
+
+35
+00:01:59,530 --> 00:02:02,790
+Now I'm going to look at an example
+where that's not the case.
+
+36
+00:02:02,790 --> 00:02:05,850
+Here the index of the series is B,C,
+D, and E and
+
+37
+00:02:05,850 --> 00:02:09,580
+the column name of the data frame are A,
+B, C, and D.
+
+38
+00:02:09,580 --> 00:02:13,510
+The result here is very similar to what
+happened when we added Pandas series and
+
+39
+00:02:13,510 --> 00:02:16,020
+the indexes didn't match exactly.
+
+40
+00:02:16,020 --> 00:02:18,840
+For each letter that wasn't
+present in both the data frame and
+
+41
+00:02:18,840 --> 00:02:21,470
+the series, the result is NaN.
+
+42
+00:02:21,470 --> 00:02:23,190
+For letters that were present in both,
+
+43
+00:02:23,190 --> 00:02:25,210
+the addition has been
+matched up based on letter.
+
+44
+00:02:26,220 --> 00:02:30,300
+So every value in the b column
+has had 1 added to it and
+
+45
+00:02:30,300 --> 00:02:32,680
+1 was the value in
+the series with index b.
+
+46
+00:02:33,810 --> 00:02:36,420
+So in summary,
+adding a data frame to a series,
+
+47
+00:02:36,420 --> 00:02:40,170
+adds each value of the series
+to one column of the data frame.
+
+48
+00:02:40,170 --> 00:02:43,850
+And it matches up the series to the
+dataframe using the index of the series
+
+49
+00:02:43,850 --> 00:02:45,390
+and the column names of the dataframe.

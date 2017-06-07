@@ -1,0 +1,116 @@
+1
+00:00:00,380 --> 00:00:03,000
+Have you ever had that experience
+where you fix one bug,
+
+2
+00:00:03,000 --> 00:00:06,370
+and it just creates, well, more bugs?
+
+3
+00:00:06,370 --> 00:00:09,690
+You might of noticed that we lost
+some functionality from the app.
+
+4
+00:00:09,690 --> 00:00:13,320
+You can actually no longer click
+on items to open up detail views.
+
+5
+00:00:13,320 --> 00:00:16,420
+This is because we've removed
+the layout we were clicking on, and
+
+6
+00:00:16,420 --> 00:00:18,500
+destroyed the on click listener.
+
+7
+00:00:18,500 --> 00:00:21,410
+Let's think about this as an opportunity
+to rethink how we actually open
+
+8
+00:00:21,410 --> 00:00:23,520
+our details list activity.
+
+9
+00:00:23,520 --> 00:00:26,870
+Okay, I'm here in
+ActiveListDetailsActivity.
+
+10
+00:00:26,870 --> 00:00:31,150
+If I scroll down to the onCreate method
+I make a new Firebase reference here and
+
+11
+00:00:31,150 --> 00:00:35,030
+I attach a ValueEventListener
+to that Firebase reference.
+
+12
+00:00:35,030 --> 00:00:38,110
+This is the URL that
+we're listening on and
+
+13
+00:00:38,110 --> 00:00:42,070
+it's statically attached to
+whatever's stored in ACTIVE_LIST.
+
+14
+00:00:42,070 --> 00:00:45,630
+Now that we've got a lot of lists, we're
+going to need to change this URL so
+
+15
+00:00:45,630 --> 00:00:49,010
+that it's referring to the specific
+list that the user just clicked on.
+
+16
+00:00:49,010 --> 00:00:51,928
+Which means if I go over to
+ShoppingListsFragment here,
+
+17
+00:00:51,928 --> 00:00:54,540
+in this onClick listener here
+in ShoppingListsFragment that's
+
+18
+00:00:54,540 --> 00:00:57,170
+attached to the ListView,
+I probably want to pass on
+
+19
+00:00:57,170 --> 00:01:00,170
+some information about the list
+item that I just clicked.
+
+20
+00:01:00,170 --> 00:01:04,110
+And we can easily do that with a intent
+extra, so what you should be asking
+
+21
+00:01:04,110 --> 00:01:07,480
+yourself is what extra data do
+you actually need to send over so
+
+22
+00:01:07,480 --> 00:01:11,450
+that you can make that specific URL to
+the list that you're interested in.
+
+23
+00:01:11,450 --> 00:01:15,360
+So should we send over the push ID,
+the shopping list name, or
+
+24
+00:01:15,360 --> 00:01:18,880
+the Firebase reference object pointing
+to the specific shopping list?

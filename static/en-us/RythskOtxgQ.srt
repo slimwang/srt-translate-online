@@ -1,0 +1,219 @@
+1
+00:00:01,670 --> 00:00:03,510
+Now that we know how to
+hijack a request and
+
+2
+00:00:03,510 --> 00:00:06,870
+respond with something basic,
+let's do something cooler.
+
+3
+00:00:06,870 --> 00:00:09,160
+Let's go to the network for
+the response, but not for
+
+4
+00:00:09,160 --> 00:00:11,070
+the thing that was requested.
+
+5
+00:00:11,070 --> 00:00:13,960
+Handily there's an API for that, Fetch.
+
+6
+00:00:13,960 --> 00:00:17,610
+Fetch lets you make network requests and
+lets you read the response.
+
+7
+00:00:17,610 --> 00:00:21,718
+Now you might be thinking, isn't
+this what XML HTTP requests is for?
+
+8
+00:00:21,718 --> 00:00:24,460
+No, just no.
+
+9
+00:00:24,460 --> 00:00:27,380
+Much of the XHR API is 15 years old.
+
+10
+00:00:27,380 --> 00:00:29,120
+Soon it'll be old enough to drink.
+
+11
+00:00:29,120 --> 00:00:32,640
+And i can't even bare to think
+of what a drunk XHR could do.
+
+12
+00:00:32,640 --> 00:00:35,770
+Even from the outset,
+it wasn't particularly well thought out.
+
+13
+00:00:35,770 --> 00:00:39,240
+I mean, just look at the name, XML, no,
+
+14
+00:00:39,240 --> 00:00:42,310
+it deals with many
+different response types.
+
+15
+00:00:42,310 --> 00:00:47,340
+HTTP, not really, it deals with
+other protocols such as file system.
+
+16
+00:00:47,340 --> 00:00:52,190
+Request, actually the returned object is
+like a strange mixture of request and
+
+17
+00:00:52,190 --> 00:00:56,930
+response, and why is the XML in
+all caps but only the H in http.
+
+18
+00:00:56,930 --> 00:01:00,590
+But it's not just the name that's wrong.
+
+19
+00:01:01,780 --> 00:01:04,128
+Here's the code to fetch
+some Jason from URL food.
+
+20
+00:01:05,209 --> 00:01:08,580
+Everything feels like
+it's in the wrong order.
+
+21
+00:01:08,580 --> 00:01:14,000
+The URL's down there you have to
+open and then send for some reason.
+
+22
+00:01:15,010 --> 00:01:18,990
+It makes you declare how the response
+is read before you make the request.
+
+23
+00:01:18,990 --> 00:01:22,120
+And it doesn't support lower
+level things like streams.
+
+24
+00:01:22,120 --> 00:01:25,710
+But worst of all, the event system
+gets event to callback hell.
+
+25
+00:01:26,805 --> 00:01:28,595
+Here's the fetch code for
+the same operation.
+
+26
+00:01:29,845 --> 00:01:33,555
+Fetch foo, this returns a promise
+which resolves to a response.
+
+27
+00:01:34,595 --> 00:01:36,175
+Then we can read that response's JSON.
+
+28
+00:01:38,175 --> 00:01:39,105
+And then we've got the result.
+
+29
+00:01:40,610 --> 00:01:46,608
+We can catch errors from either the
+request or reading the response, done.
+
+30
+00:01:46,608 --> 00:01:50,799
+And as it turns out, back in our service
+worker event.respondwith takes either
+
+31
+00:01:50,799 --> 00:01:54,150
+a response or
+a promise that resolves to a response.
+
+32
+00:01:54,150 --> 00:01:56,490
+Fetch returns a promise that
+resolves to a response.
+
+33
+00:01:56,490 --> 00:01:58,780
+So they can post together really well.
+
+34
+00:01:58,780 --> 00:02:01,330
+So let's respond with a fetch for a GIF.
+
+35
+00:02:02,740 --> 00:02:07,610
+Over in the browser, let's enable
+force update, hit refresh, and
+
+36
+00:02:07,610 --> 00:02:09,830
+we've just served up different
+content using the network.
+
+37
+00:02:10,910 --> 00:02:13,160
+The fetch API performs
+a normal browser fetch.
+
+38
+00:02:13,160 --> 00:02:16,030
+So the results may come from the cache.
+
+39
+00:02:16,030 --> 00:02:19,570
+That's a benefit in this case,
+as we want the GIF to cache as usual.
+
+40
+00:02:20,910 --> 00:02:23,880
+Of course we might not
+want to hijack every URL.
+
+41
+00:02:23,880 --> 00:02:28,920
+We could, wait a minute we have
+an incoming communication situation.
+
+42
+00:02:28,920 --> 00:02:30,780
+>> It is I Mike Wales.
+
+43
+00:02:30,780 --> 00:02:34,430
+>> Hey Mike, so
+what's the meaning of this interruption?
+
+44
+00:02:34,430 --> 00:02:37,500
+>> Well it sounded like you were just
+going to describe a load of stuff.
+
+45
+00:02:37,500 --> 00:02:39,510
+But I think it'd be better if
+the students figured this out for
+
+46
+00:02:39,510 --> 00:02:40,500
+themselves.
+
+47
+00:02:40,500 --> 00:02:41,830
+>> Great idea, go for it.

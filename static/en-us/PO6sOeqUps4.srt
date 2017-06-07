@@ -1,0 +1,410 @@
+1
+00:00:00,650 --> 00:00:02,380
+All right, so
+open up the NumbersActivity.
+
+2
+00:00:02,380 --> 00:00:05,750
+And let's start here by detecting
+the click on the list item.
+
+3
+00:00:05,750 --> 00:00:09,620
+So what we'll need to do is temporarily
+hook it up to play a toast message so
+
+4
+00:00:09,620 --> 00:00:11,480
+that we know that our code is working.
+
+5
+00:00:11,480 --> 00:00:13,242
+So scrolling down here, this line,
+
+6
+00:00:13,242 --> 00:00:17,630
+listView.setAdapter, is where we bind
+our word adapter to our listView.
+
+7
+00:00:17,630 --> 00:00:22,010
+So after this line would be a good place
+for us to configure our onClickListener.
+
+8
+00:00:22,010 --> 00:00:26,546
+So we'll use a listView object and call
+the setOnItemClickListener method on it.
+
+9
+00:00:26,546 --> 00:00:29,084
+And when it showed up with
+the autocomplete suggestions,
+
+10
+00:00:29,084 --> 00:00:30,750
+I clicked Enter.
+
+11
+00:00:30,750 --> 00:00:34,020
+Now here only to pass in
+an OnItemClickListener.
+
+12
+00:00:34,020 --> 00:00:37,530
+Now since this is an interface, we have
+to implement the method ourselves.
+
+13
+00:00:37,530 --> 00:00:40,440
+So here, since we're only writing
+one method, it's easy for
+
+14
+00:00:40,440 --> 00:00:44,090
+us to implement it in line right
+here as an anonymous class.
+
+15
+00:00:44,090 --> 00:00:46,470
+However, if we were to
+define many methods,
+
+16
+00:00:46,470 --> 00:00:49,900
+we would probably want to define it
+all in a separate class file and
+
+17
+00:00:49,900 --> 00:00:52,690
+then just call the classes
+constructor in here.
+
+18
+00:00:52,690 --> 00:00:54,510
+So to begin writing our anonymous class,
+
+19
+00:00:54,510 --> 00:00:57,420
+I'm going to type in here
+new OnItemClickListener.
+
+20
+00:00:58,530 --> 00:01:01,480
+So Android Studio is giving me
+an autocomplete suggestion, so
+
+21
+00:01:01,480 --> 00:01:03,320
+I'm going to select that suggestion.
+
+22
+00:01:03,320 --> 00:01:07,540
+And with it, Android Studio knows that
+we need to find an OnItemClickListener
+
+23
+00:01:07,540 --> 00:01:10,070
+and override the onClick method.
+
+24
+00:01:10,070 --> 00:01:14,110
+So instead of onItemClick method, let's
+just pop up a toast message temporarily.
+
+25
+00:01:15,206 --> 00:01:19,310
+I'm going to call Toast.makeText and
+pass in a context and
+
+26
+00:01:19,310 --> 00:01:21,650
+remember that our activity is a context.
+
+27
+00:01:21,650 --> 00:01:24,500
+So normally, we can refer to
+the class that we're inside.
+
+28
+00:01:24,500 --> 00:01:27,314
+So the one here in
+NumbersActivity as just this.
+
+29
+00:01:27,314 --> 00:01:30,830
+But in certain places such as
+inside the OnItemClickListener,
+
+30
+00:01:30,830 --> 00:01:33,448
+using just the word this
+can become ambiguous.
+
+31
+00:01:33,448 --> 00:01:38,389
+So here we specify the class first,
+so we have NumbersActivity.this.
+
+32
+00:01:38,389 --> 00:01:41,995
+Now, the second input of the toast
+message is to display what we want
+
+33
+00:01:41,995 --> 00:01:42,979
+to see on screen.
+
+34
+00:01:42,979 --> 00:01:46,575
+So here, let's have it
+display list item clicked and
+
+35
+00:01:46,575 --> 00:01:49,935
+for the third input we specify
+the duration of the toast.
+
+36
+00:01:49,935 --> 00:01:52,295
+So here, let's have it display for
+a short period of time.
+
+37
+00:01:53,735 --> 00:01:58,325
+The output of the makeText method
+call will be a new toast object.
+
+38
+00:01:58,325 --> 00:02:00,445
+So following that we can call
+the show method on that.
+
+39
+00:02:01,625 --> 00:02:03,490
+Now let's run the app on our device.
+
+40
+00:02:03,490 --> 00:02:07,440
+So let's tap into the NumbersActivity
+and then type in a list item.
+
+41
+00:02:07,440 --> 00:02:09,120
+Nice, so our toast is working.
+
+42
+00:02:09,120 --> 00:02:12,310
+Now, let's modify the behavior so
+that clicking on a list item
+
+43
+00:02:12,310 --> 00:02:15,350
+plays an audio file instead of
+popping up a toast message.
+
+44
+00:02:15,350 --> 00:02:19,940
+So first, I downloaded the audio file,
+which was provided for you in the quiz.
+
+45
+00:02:19,940 --> 00:02:22,490
+I'm going to copy and paste that,
+and back in Android studio,
+
+46
+00:02:22,490 --> 00:02:25,930
+I created the raw folder in
+the resources directory of the app.
+
+47
+00:02:25,930 --> 00:02:28,380
+So inside that,
+I'm going to paste in the audio file.
+
+48
+00:02:29,440 --> 00:02:31,630
+So the default name that
+we have is okay and
+
+49
+00:02:31,630 --> 00:02:34,290
+now the audio file is
+included in our app.
+
+50
+00:02:34,290 --> 00:02:37,810
+Now, let's focus on the NumbersActivity
+and how to play that audio file.
+
+51
+00:02:37,810 --> 00:02:40,500
+We know that we'll need a media
+player object instance.
+
+52
+00:02:40,500 --> 00:02:43,930
+So let's declare a new member
+variable in this activity.
+
+53
+00:02:43,930 --> 00:02:46,090
+Now we can either go back to
+the tutorial that we used for
+
+54
+00:02:46,090 --> 00:02:47,470
+the MediaPlayer app, or
+
+55
+00:02:47,470 --> 00:02:51,240
+we can go back to the first article
+here that we saw on the Media Playback.
+
+56
+00:02:51,240 --> 00:02:52,840
+Now, either would work.
+
+57
+00:02:52,840 --> 00:02:56,470
+So here we can copy this code that
+creates a new MediaPlayer object for
+
+58
+00:02:56,470 --> 00:02:57,700
+a certain raw sound file.
+
+59
+00:02:58,800 --> 00:03:01,460
+Now let's go back to our
+app in Android Studio.
+
+60
+00:03:01,460 --> 00:03:05,180
+Now within the onItemClick method,
+let's remove this line
+
+61
+00:03:05,180 --> 00:03:09,230
+that shows a toast message and
+instead paste in the media player code.
+
+62
+00:03:09,230 --> 00:03:11,620
+So we need to make some
+modifications to this code.
+
+63
+00:03:11,620 --> 00:03:15,720
+So here we don't need to define
+the media player object data type again,
+
+64
+00:03:15,720 --> 00:03:21,000
+instead we can just refer to the global
+variable that we called mMediaPlayer.
+
+65
+00:03:21,000 --> 00:03:23,708
+So we'll need to also update
+all the references to
+
+66
+00:03:23,708 --> 00:03:26,549
+the variable name MediaPlayer
+with mMediaPlayer.
+
+67
+00:03:26,549 --> 00:03:28,940
+Now, there are a couple more errors.
+
+68
+00:03:28,940 --> 00:03:31,760
+So here the variable
+context is not recognized.
+
+69
+00:03:31,760 --> 00:03:35,310
+So we need to replace it with the
+reference to the NumbersActivity context
+
+70
+00:03:35,310 --> 00:03:38,980
+using the syntax NumbersActivity.this.
+
+71
+00:03:38,980 --> 00:03:43,470
+Also, Android Studio is complaining that
+it doesn't recognize the raw resource
+
+72
+00:03:43,470 --> 00:03:45,150
+called sound_file_1.
+
+73
+00:03:45,150 --> 00:03:48,360
+We'll need to call
+the sound file number_1.
+
+74
+00:03:48,360 --> 00:03:50,330
+So let's just update the name here.
+
+75
+00:03:50,330 --> 00:03:53,730
+Now that we can just use
+the name of the resource, so
+
+76
+00:03:53,730 --> 00:03:57,070
+we can leave off the name
+of the MP3 file extension.
+
+77
+00:03:57,070 --> 00:04:00,130
+All right, so after we've created
+the MediaPlayer object for a given sound
+
+78
+00:04:00,130 --> 00:04:03,080
+file, we can call the start method
+to start playing that sound.
+
+79
+00:04:04,460 --> 00:04:06,090
+Now let's test it on our device.
+
+80
+00:04:06,090 --> 00:04:08,162
+So tap through the Numbers category and
+
+81
+00:04:08,162 --> 00:04:12,257
+let's click on any of these list items
+and see if it plays the luti sound file.
+
+82
+00:04:12,257 --> 00:04:14,451
+>> Luti.
+
+83
+00:04:14,451 --> 00:04:16,401
+Luti.
+
+84
+00:04:16,401 --> 00:04:19,390
+Luti.
+
+85
+00:04:19,390 --> 00:04:20,220
+>> Perfect.
+
+86
+00:04:20,220 --> 00:04:22,590
+So our app is working for
+our single audio file.
+
+87
+00:04:22,590 --> 00:04:23,090
+Nice work.

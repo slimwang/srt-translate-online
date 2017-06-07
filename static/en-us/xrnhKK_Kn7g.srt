@@ -1,0 +1,943 @@
+1
+00:00:00,000 --> 00:00:03,000
+Welcome to office hours for week 4.
+
+2
+00:00:03,000 --> 00:00:05,000
+Before we get into your questions,
+
+3
+00:00:05,000 --> 00:00:10,000
+there's a little issue I'd like to mention with regard to the homeworks.
+
+4
+00:00:11,000 --> 00:00:14,000
+Some of you have been asking about how to delete cookies.
+
+5
+00:00:14,000 --> 00:00:19,000
+The way I had intended for you to do this for the logout portion of the homework--
+
+6
+00:00:19,000 --> 00:00:21,000
+deleting cookies is how you log out--
+
+7
+00:00:21,000 --> 00:00:24,000
+was for you to basically just set an empty cookie.
+
+8
+00:00:24,000 --> 00:00:28,000
+Unbeknownst to me--but now I've learned--webapp 2, the framework we're using
+
+9
+00:00:28,000 --> 00:00:31,000
+that's built into App Engine, also has a delete cookie method
+
+10
+00:00:31,000 --> 00:00:33,000
+that you can use to delete a cookie.
+
+11
+00:00:33,000 --> 00:00:37,000
+And all that does is it sets the cookie to blank,
+
+12
+00:00:37,000 --> 00:00:40,000
+just like you would do by hand if you were manipulating the header.
+
+13
+00:00:40,000 --> 00:00:43,000
+Both should work fine. Delete cookie is probably a little bit easier.
+
+14
+00:00:43,000 --> 00:00:46,000
+But not all frameworks have that sort of thing built in,
+
+15
+00:00:46,000 --> 00:00:48,000
+and I wasn't really looking for it.
+
+16
+00:00:48,000 --> 00:00:53,000
+If you read the docs and you find that sort of thing, good for you. It should work fine.
+
+17
+00:00:53,000 --> 00:00:56,000
+Okay. >>Okay. So let's-- What have you got for me?
+
+18
+00:00:56,000 --> 00:00:59,000
+Okay. First off, we've got some questions on authentication
+
+19
+00:00:59,000 --> 00:01:02,000
+and when we should roll our own authentication libraries,
+
+20
+00:01:02,000 --> 00:01:05,000
+when we should use ones that are provided,
+
+21
+00:01:05,000 --> 00:01:11,000
+and if we could go into more professional authentication libraries like OAuth, for example,
+
+22
+00:01:11,000 --> 00:01:13,000
+a little bit in depth. >>Okay.
+
+23
+00:01:13,000 --> 00:01:15,000
+Authentication is a tricky issue.
+
+24
+00:01:15,000 --> 00:01:17,000
+If you get it wrong, it can be a painful process.
+
+25
+00:01:17,000 --> 00:01:22,000
+I told you that story about how I got it wrong during Reddit, and it was a painful process.
+
+26
+00:01:22,000 --> 00:01:26,000
+So the decision whether to roll your own or use what's built in,
+
+27
+00:01:26,000 --> 00:01:29,000
+it's almost the same thing, because if you're going to use what's built in,
+
+28
+00:01:29,000 --> 00:01:31,000
+you need to understand how it works so you can decide
+
+29
+00:01:31,000 --> 00:01:33,000
+whether you're better off rolling your own.
+
+30
+00:01:33,000 --> 00:01:39,000
+The one that's built into webapp2, I looked into it in response to this question,
+
+31
+00:01:39,000 --> 00:01:42,000
+and what I found is that they basically have almost the exact same algorithm
+
+32
+00:01:42,000 --> 00:01:45,000
+that we discussed in the lecture--
+
+33
+00:01:45,000 --> 00:01:48,000
+having the password, creating a random salt,
+
+34
+00:01:48,000 --> 00:01:50,000
+hashing the whole thing together and storing that.
+
+35
+00:01:50,000 --> 00:01:56,000
+By default they use SHA1, and you can specify whatever hashing system you would like.
+
+36
+00:01:56,000 --> 00:02:01,000
+I mentioned in the lecture if you have the option, you should use bcrypt.
+
+37
+00:02:01,000 --> 00:02:03,000
+Somebody else on the forums mentioned scrypt.
+
+38
+00:02:03,000 --> 00:02:07,000
+I'm not super familiar with scrypt. It seems like the same concept but a little bit better.
+
+39
+00:02:07,000 --> 00:02:11,000
+The whole idea of bcrypt versus one of the SHA hashing systems
+
+40
+00:02:11,000 --> 00:02:14,000
+is SHA and MD5 and those guys were designed to be fast,
+
+41
+00:02:14,000 --> 00:02:17,000
+mostly for message authentication,
+
+42
+00:02:17,000 --> 00:02:20,000
+and bcrypt is designed deliberately to be slow
+
+43
+00:02:20,000 --> 00:02:26,000
+so that if somebody wants to hash all of your passwords, it's going to take a while.
+
+44
+00:02:26,000 --> 00:02:32,000
+Now, with regard to things like Google's built-in authentication based on Google users,
+
+45
+00:02:32,000 --> 00:02:35,000
+if that fits your app, use it, by all means.
+
+46
+00:02:35,000 --> 00:02:39,000
+It's kind of a neat thing, but if you want users to have passwords and custom behavior,
+
+47
+00:02:39,000 --> 00:02:43,000
+you're going to have to build your own thing or use another library.
+
+48
+00:02:43,000 --> 00:02:46,000
+But if just logging in with Google suffices, yeah, great.
+
+49
+00:02:48,000 --> 00:02:50,000
+The next part of the question was about OAuth.
+
+50
+00:02:50,000 --> 00:02:57,000
+OAuth is a protocol for authenticating with third party websites.
+
+51
+00:02:57,000 --> 00:03:00,000
+I wouldn't use it if you can avoid it.
+
+52
+00:03:00,000 --> 00:03:04,000
+There's a successor to OAuth called OAuth 2 which works a lot better.
+
+53
+00:03:04,000 --> 00:03:08,000
+If you try to implement OAuth, you will be grumpy for weeks.
+
+54
+00:03:08,000 --> 00:03:10,000
+I'm still getting over it.
+
+55
+00:03:10,000 --> 00:03:12,000
+OAuth 2 is much more straightforward,
+
+56
+00:03:12,000 --> 00:03:16,000
+and it's basically, if you want to integrate with--
+
+57
+00:03:16,000 --> 00:03:20,000
+I think Twitter and Google has an OAuth 2 integration. Facebook does as well.
+
+58
+00:03:20,000 --> 00:03:23,000
+You basically sign up for them, you get an API key, some credentials,
+
+59
+00:03:23,000 --> 00:03:26,000
+and there's a little kind of back and forth message exchange
+
+60
+00:03:26,000 --> 00:03:31,000
+that basically says, "I am this developer, and you agreed to give me access."
+
+61
+00:03:31,000 --> 00:03:34,000
+So it's not just random access, and you don't have to worry about passwords.
+
+62
+00:03:34,000 --> 00:03:36,000
+It's a little bit more complicated.
+
+63
+00:03:36,000 --> 00:03:39,000
+There's all these tokens and timeouts and stuff like that to deal with,
+
+64
+00:03:39,000 --> 00:03:42,000
+but there are OAuth 2 libraries in Python that work just fine.
+
+65
+00:03:42,000 --> 00:03:46,000
+So long story short, use what fits your app.
+
+66
+00:03:46,000 --> 00:03:48,000
+You'll find yourself rolling your own very often.
+
+67
+00:03:48,000 --> 00:03:52,000
+At Reddit and Hipmunk we rolled our own both times.
+
+68
+00:03:52,000 --> 00:03:54,000
+But if the Google login works for you, great.
+
+69
+00:03:54,000 --> 00:03:57,000
+And if you need OAuth 2, good luck. [chuckles]
+
+70
+00:03:57,000 --> 00:04:01,000
+The next question we had was about database constraints
+
+71
+00:04:01,000 --> 00:04:05,000
+and people had some issues with user names not being unique
+
+72
+00:04:05,000 --> 00:04:08,000
+in the Google Datastore and how to enforce that
+
+73
+00:04:08,000 --> 00:04:12,000
+and when you need to enforce that. >>Okay, sure.
+
+74
+00:04:12,000 --> 00:04:15,000
+So the database consistency issue, that's a great question,
+
+75
+00:04:15,000 --> 00:04:17,000
+and it's been lurking in the back of my mind
+
+76
+00:04:17,000 --> 00:04:19,000
+ever since I started teaching you guys about Datastore.
+
+77
+00:04:19,000 --> 00:04:23,000
+There's kind of 2 main ways to approach this problem.
+
+78
+00:04:23,000 --> 00:04:25,000
+The first would be using transactions.
+
+79
+00:04:25,000 --> 00:04:28,000
+I'm not super familiar with how transactions work in Datastore,
+
+80
+00:04:28,000 --> 00:04:30,000
+which is why I haven't spent a whole lot of time on it.
+
+81
+00:04:30,000 --> 00:04:32,000
+And I'm not going to spend a whole lot of time on it now,
+
+82
+00:04:32,000 --> 00:04:36,000
+but the general idea is most database systems, Datastore included
+
+83
+00:04:36,000 --> 00:04:39,000
+and also PostgreSQL and MySQL and all the SQL ones,
+
+84
+00:04:39,000 --> 00:04:42,000
+have this notion of a transaction where you basically say, "Begin transaction,"
+
+85
+00:04:42,000 --> 00:04:44,000
+and then you can do all sorts of operations.
+
+86
+00:04:44,000 --> 00:04:47,000
+You can do some selects, you can do updates, you can do inserts.
+
+87
+00:04:47,000 --> 00:04:50,000
+And then you commit that transaction.
+
+88
+00:04:50,000 --> 00:04:55,000
+And if any of those queries fail for whatever reason, the whole transaction fails.
+
+89
+00:04:55,000 --> 00:04:58,000
+And so you can turn a bunch of operations into 1 cohesive unit.
+
+90
+00:04:58,000 --> 00:05:00,000
+So that's 1 way of solving this problem.
+
+91
+00:05:00,000 --> 00:05:04,000
+And actually, most of the SQL databases allow you to have constraints on the tables as well.
+
+92
+00:05:04,000 --> 00:05:07,000
+So you can just say, "This field is supposed to be unique."
+
+93
+00:05:07,000 --> 00:05:11,000
+Now, Datastore doesn't allow those constraints, at least to my knowledge.
+
+94
+00:05:11,000 --> 00:05:14,000
+So the way I would solve it in Datastore,
+
+95
+00:05:14,000 --> 00:05:17,000
+not understanding the transactions super well, is to use Memcached.
+
+96
+00:05:17,000 --> 00:05:19,000
+Memcached is an external system.
+
+97
+00:05:19,000 --> 00:05:21,000
+We'll be talking about it in Unit 6,
+
+98
+00:05:21,000 --> 00:05:23,000
+largely from the point of view of caching
+
+99
+00:05:23,000 --> 00:05:25,000
+so you don't have to hit the database on every request
+
+100
+00:05:25,000 --> 00:05:27,000
+because Memcached is very fast.
+
+101
+00:05:27,000 --> 00:05:31,000
+It's basically a giant shared key value store.
+
+102
+00:05:31,000 --> 00:05:35,000
+Memcached can be used to basically behave as a shared locking system.
+
+103
+00:05:35,000 --> 00:05:38,000
+So for the user concurrency issue, the way I would do it probably
+
+104
+00:05:38,000 --> 00:05:43,000
+is let's say you have 2 people trying to register the same user name at the same time.
+
+105
+00:05:43,000 --> 00:05:46,000
+The first case is that user already exists.
+
+106
+00:05:46,000 --> 00:05:50,000
+Both of those queries from separate requests are going to say, "Does this user exist?"
+
+107
+00:05:50,000 --> 00:05:53,000
+and they'll both fail because the user exists.
+
+108
+00:05:53,000 --> 00:05:57,000
+If the user doesn't exist, the problem can arise that both queries hit the database
+
+109
+00:05:57,000 --> 00:06:00,000
+at the same time and it says, "Oh, great, the user doesn't exist,"
+
+110
+00:06:00,000 --> 00:06:04,000
+and then allows 2 registrations to happen at the same time,
+
+111
+00:06:04,000 --> 00:06:06,000
+and then that user name gets inserted twice.
+
+112
+00:06:06,000 --> 00:06:12,000
+The way you would work around that is both queries hit the database,
+
+113
+00:06:12,000 --> 00:06:15,000
+return to the app server as false, the user doesn't exist,
+
+114
+00:06:15,000 --> 00:06:18,000
+and then you would have them both write to Memcached.
+
+115
+00:06:18,000 --> 00:06:21,000
+Memcached has an operation called Add which basically says,
+
+116
+00:06:21,000 --> 00:06:24,000
+"Put this item in the cache if it doesn't already exist."
+
+117
+00:06:24,000 --> 00:06:28,000
+And if they both try to add that user name to the cache at the same time,
+
+118
+00:06:28,000 --> 00:06:31,000
+one of them will fail because it's an atomic operation.
+
+119
+00:06:31,000 --> 00:06:33,000
+So they'll both try to add it, one will fail,
+
+120
+00:06:33,000 --> 00:06:39,000
+and he'll return to the user, "User already exists," or, "I can't register this name right now,"
+
+121
+00:06:39,000 --> 00:06:41,000
+and the other one will go ahead with the registration process
+
+122
+00:06:41,000 --> 00:06:44,000
+and then, when the registration process is complete, delete that value from the cache
+
+123
+00:06:44,000 --> 00:06:48,000
+or it will expire on its own--that sort of thing.
+
+124
+00:06:48,000 --> 00:06:50,000
+In summary, I would use Memcached.
+
+125
+00:06:50,000 --> 00:06:52,000
+You basically need some shared state between all of your application servers,
+
+126
+00:06:52,000 --> 00:06:54,000
+and that's one of the tricky things when you're scaling,
+
+127
+00:06:54,000 --> 00:06:58,000
+because the more shared state you have, the harder it is to scale.
+
+128
+00:06:58,000 --> 00:07:01,000
+And Memcached is a good place to store this sort of thing.
+
+129
+00:07:01,000 --> 00:07:03,000
+So I hope that helps.
+
+130
+00:07:03,000 --> 00:07:08,000
+Okay. >>What's next? >>Okay. So we had a question about storing static files,
+
+131
+00:07:08,000 --> 00:07:11,000
+storing data files that you're serving through Lynx or whatever on your site
+
+132
+00:07:11,000 --> 00:07:15,000
+and where to put them and how to organize them. >>Okay, great.
+
+133
+00:07:15,000 --> 00:07:17,000
+So the easy answer is just look at the code that I've put up
+
+134
+00:07:17,000 --> 00:07:20,000
+for the homework solutions 2 and 3 at this point.
+
+135
+00:07:20,000 --> 00:07:22,000
+Both have a static directory.
+
+136
+00:07:22,000 --> 00:07:25,000
+And in App Engine you can basically define app.yaml.
+
+137
+00:07:25,000 --> 00:07:27,000
+You can give it a directory specifically for this purpose.
+
+138
+00:07:27,000 --> 00:07:29,000
+In my case, I've just called it Static.
+
+139
+00:07:29,000 --> 00:07:32,000
+And then you can put whatever file you want in there,
+
+140
+00:07:32,000 --> 00:07:35,000
+and your URLs will be whatever you define in your app.yaml.
+
+141
+00:07:35,000 --> 00:07:38,000
+So mine is /static/ and then whatever file.
+
+142
+00:07:38,000 --> 00:07:40,000
+When you're operating on a bigger scale,
+
+143
+00:07:40,000 --> 00:07:45,000
+often what you do is you have a web server dedicated to only serving static files.
+
+144
+00:07:45,000 --> 00:07:49,000
+So you'd probably still put all of your static files under 1 path in your URLs.
+
+145
+00:07:49,000 --> 00:07:51,000
+Very often it's /static.
+
+146
+00:07:51,000 --> 00:07:56,000
+And then you have a whole subsystem designed that's optimized for serving static files
+
+147
+00:07:56,000 --> 00:07:59,000
+and caching them very aggressively and doing all of that stuff.
+
+148
+00:07:59,000 --> 00:08:02,000
+But for our purposes right here, for little stuff,
+
+149
+00:08:02,000 --> 00:08:07,000
+just look at the example code I have in my app.yaml for defining the static directory.
+
+150
+00:08:07,000 --> 00:08:11,000
+And then I just put files in that directory in my project, and it should work just fine for you.
+
+151
+00:08:11,000 --> 00:08:15,000
+Okay. So, possibly embarrassing but probably not, we had a note
+
+152
+00:08:15,000 --> 00:08:21,000
+that Select * is not the only thing that's allowed in Datastore queries and GQL queries.
+
+153
+00:08:21,000 --> 00:08:25,000
+So could you talk a little about that and why you mentioned that? >>Sure.
+
+154
+00:08:25,000 --> 00:08:28,000
+I mentioned in the lecture for Unit 3 that in Datastore
+
+155
+00:08:28,000 --> 00:08:33,000
+you can only do queries that are of the nature of Select * from 1 table.
+
+156
+00:08:33,000 --> 00:08:37,000
+And it turns out that by the time that lecture aired, that is no longer a true statement.
+
+157
+00:08:37,000 --> 00:08:43,000
+Google released an update to App Engine to allow you to do more complex select queries.
+
+158
+00:08:43,000 --> 00:08:47,000
+So you can select 1 column or multiple columns or *--whatever you want.
+
+159
+00:08:47,000 --> 00:08:49,000
+So that's an improvement to App Engine.
+
+160
+00:08:49,000 --> 00:08:54,000
+We're teaching a little bit to a moving target, so no big deal there.
+
+161
+00:08:54,000 --> 00:08:58,000
+If you want to use those fancy select statements, knock yourself out.
+
+162
+00:08:58,000 --> 00:09:02,000
+You don't really need to use them in any of the homeworks I'm doing in this class.
+
+163
+00:09:02,000 --> 00:09:05,000
+But Google App Engine gets a little bit better every day,
+
+164
+00:09:05,000 --> 00:09:08,000
+and this is an example of it.
+
+165
+00:09:08,000 --> 00:09:11,000
+A little bit of unfortunate timing, but that's how it goes sometimes.
+
+166
+00:09:11,000 --> 00:09:14,000
+The final question we had was about infrastructure
+
+167
+00:09:14,000 --> 00:09:17,000
+and how you go about planning how to build your infrastructure
+
+168
+00:09:17,000 --> 00:09:21,000
+and grow your infrastructure when you're designing your app. >>Okay.
+
+169
+00:09:21,000 --> 00:09:23,000
+Designing your infrastructure ahead of time is important,
+
+170
+00:09:23,000 --> 00:09:26,000
+and this is actually mostly what we talk about in Unit 6.
+
+171
+00:09:26,000 --> 00:09:28,000
+You don't need to scale ahead of time.
+
+172
+00:09:28,000 --> 00:09:31,000
+That definitely would kind of fall under premature optimization--
+
+173
+00:09:31,000 --> 00:09:34,000
+making things too complex when all you're writing is a simple blog
+
+174
+00:09:34,000 --> 00:09:36,000
+or ASCII Chan or something like that.
+
+175
+00:09:36,000 --> 00:09:38,000
+But it's good to have in mind the approach you're going to take
+
+176
+00:09:38,000 --> 00:09:42,000
+so you don't shut any doors that you may need to go through later.
+
+177
+00:09:42,000 --> 00:09:45,000
+Generally, what I do is-- So I've been working on Amazon for years now.
+
+178
+00:09:45,000 --> 00:09:48,000
+Both Reddit and Hipmunk use Amazon service.
+
+179
+00:09:48,000 --> 00:09:51,000
+And the way Amazon service works is you just rent machines from them--
+
+180
+00:09:51,000 --> 00:09:53,000
+physical machines.
+
+181
+00:09:53,000 --> 00:09:56,000
+You never get to see these machines, but you have access to them.
+
+182
+00:09:56,000 --> 00:09:58,000
+So we'll have a couple machines for our database
+
+183
+00:09:58,000 --> 00:10:00,000
+and a couple machines for our app servers.
+
+184
+00:10:00,000 --> 00:10:04,000
+Always whenever I have a database, I always replicate it at least once.
+
+185
+00:10:04,000 --> 00:10:07,000
+Especially an Amazon system, machines can come and go.
+
+186
+00:10:07,000 --> 00:10:10,000
+But even if you're running your own machines, a machine can fail.
+
+187
+00:10:10,000 --> 00:10:13,000
+A hard drive will die, bad memory, power failure.
+
+188
+00:10:13,000 --> 00:10:16,000
+There's lots of reasons you'll lose a machine.
+
+189
+00:10:16,000 --> 00:10:19,000
+So I always replicate a database at least once--usually twice--
+
+190
+00:10:19,000 --> 00:10:23,000
+so that even if we lose one of our machines, if we lose our master database,
+
+191
+00:10:23,000 --> 00:10:26,000
+even if the site goes down for a little bit as a result--
+
+192
+00:10:26,000 --> 00:10:29,000
+maybe we're not very good at automatically switching over to our slaves--
+
+193
+00:10:29,000 --> 00:10:31,000
+we want to make sure we don't actually lose the data.
+
+194
+00:10:31,000 --> 00:10:33,000
+There's a couple classes of failures.
+
+195
+00:10:33,000 --> 00:10:36,000
+Users will forgive you for having a little bit of downtime;
+
+196
+00:10:36,000 --> 00:10:39,000
+they're not so friendly when you actually lose their data.
+
+197
+00:10:39,000 --> 00:10:41,000
+So no matter how small a system I'm working on,
+
+198
+00:10:41,000 --> 00:10:44,000
+I at least replicate the database once.
+
+199
+00:10:45,000 --> 00:10:47,000
+If that's not a can of worms you want to open
+
+200
+00:10:47,000 --> 00:10:50,000
+if you're really running a small thing for yourself,
+
+201
+00:10:50,000 --> 00:10:53,000
+I'd suggest at the minimum at least dumping your database every day,
+
+202
+00:10:53,000 --> 00:10:57,000
+maybe every couple of hours, and uploading that to a third party service.
+
+203
+00:10:57,000 --> 00:11:01,000
+We would use Amazon's S3. Google has data storage.
+
+204
+00:11:01,000 --> 00:11:03,000
+Dropbox, downloading, it doesn't matter.
+
+205
+00:11:03,000 --> 00:11:05,000
+Just make sure you store that data somewhere else
+
+206
+00:11:05,000 --> 00:11:10,000
+so that if that machine dies, you lose it, it gets stolen, whatever, your data is safe.
+
+207
+00:11:10,000 --> 00:11:12,000
+That's usually the most important thing.
+
+208
+00:11:12,000 --> 00:11:14,000
+And then of course as your system gets bigger,
+
+209
+00:11:14,000 --> 00:11:19,000
+you can start being a little bit more thoughtful about how you store huge amounts of data
+
+210
+00:11:19,000 --> 00:11:21,000
+in a reliable way.
+
+211
+00:11:21,000 --> 00:11:26,000
+One of the advantages of using Google's Datastore is they do all that for you.
+
+212
+00:11:27,000 --> 00:11:30,000
+If you're running your own machine, you have to do all of this yourself.
+
+213
+00:11:30,000 --> 00:11:33,000
+Amazon is kind of in the middle where you're still getting your own machines
+
+214
+00:11:33,000 --> 00:11:35,000
+but you have this really nice infrastructure.
+
+215
+00:11:35,000 --> 00:11:39,000
+In the Datastore, you don't even really deal with the notion of machines and replication.
+
+216
+00:11:39,000 --> 00:11:41,000
+Google just handles it.
+
+217
+00:11:41,000 --> 00:11:43,000
+And that's one of the reasons we're using it in this class,
+
+218
+00:11:43,000 --> 00:11:45,000
+so you don't have to think about that stuff right now.
+
+219
+00:11:45,000 --> 00:11:47,000
+Okay. I think that's all for this time.
+
+220
+00:11:47,000 --> 00:11:51,000
+Anything you want to add or any comments you want to make for the upcoming weeks?
+
+221
+00:11:51,000 --> 00:11:53,000
+Sure.
+
+222
+00:11:53,000 --> 00:11:56,000
+I haven't seen a whole lot of questions in the forums or in the office hours
+
+223
+00:11:56,000 --> 00:12:01,000
+about Unit 4 stuff, so that makes me think you all either figured it out or quit.
+
+224
+00:12:01,000 --> 00:12:03,000
+Good job.
+
+225
+00:12:03,000 --> 00:12:05,000
+It sounds like everybody is doing well.
+
+226
+00:12:05,000 --> 00:12:07,000
+Thanks again to everybody that's been helping out in the forums.
+
+227
+00:12:07,000 --> 00:12:11,000
+Sean and I do the best we can in terms of trying to find questions that are easy to grade,
+
+228
+00:12:11,000 --> 00:12:15,000
+but you guys always come up with creative solutions that are technically correct
+
+229
+00:12:15,000 --> 00:12:18,000
+but then fit exactly what we're asking.
+
+230
+00:12:18,000 --> 00:12:21,000
+So thanks for being patient with us. We try to work with you.
+
+231
+00:12:21,000 --> 00:12:23,000
+And if you have those answers you think are correct
+
+232
+00:12:23,000 --> 00:12:26,000
+and our grading scripts don't think it's so,
+
+233
+00:12:26,000 --> 00:12:29,000
+it's perfectly reasonable--and you guys have been doing so--to just let us know
+
+234
+00:12:29,000 --> 00:12:32,000
+and we'll adapt accordingly.
+
+235
+00:12:32,000 --> 00:12:37,000
+Best of luck in Unit 5. That one should be a little bit simpler and a lot of fun.
+
+236
+00:12:37,000 --> 00:12:40,000
+So we'll see you there. >>See you.

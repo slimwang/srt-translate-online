@@ -1,0 +1,63 @@
+1
+00:00:00,000 --> 00:00:05,000
+In this question, we'll introduce OAEP, which is Optimal Asymmetric Encryption Padding,
+
+2
+00:00:05,000 --> 00:00:08,000
+OAEP is a padding scheme for use with RSA.
+
+3
+00:00:08,000 --> 00:00:11,000
+It provides stronger assurances than the PKCS#1 scheme.
+
+4
+00:00:11,000 --> 00:00:14,000
+In OAEP, we use two functions--
+
+5
+00:00:14,000 --> 00:00:16,000
+G, which is a hash function outputting g bits,
+
+6
+00:00:16,000 --> 00:00:19,000
+and H, which is another hash function outputting h bits.
+
+7
+00:00:19,000 --> 00:00:22,000
+We also have r, a random nonce of g bits.
+
+8
+00:00:22,000 --> 00:00:26,000
+We then take our message m and append to it 0's
+
+9
+00:00:26,000 --> 00:00:28,000
+such that the length of m' is g.
+
+10
+00:00:28,000 --> 00:00:31,000
+We then calculate x by concatenating two parts,
+
+11
+00:00:31,000 --> 00:00:36,000
+First part is our message XORed with the output of the hash of r.
+
+12
+00:00:36,000 --> 00:00:41,000
+The second part is r XORed with the hash of the first part.
+
+13
+00:00:41,000 --> 00:00:45,000
+We then encrypt x using RSA and send off our message.
+
+14
+00:00:45,000 --> 00:00:48,000
+For this assignment, you've been given a ciphertext, which was encrypted
+
+15
+00:00:48,000 --> 00:00:51,000
+using OAEP and RSA, using the given encrypt function.
+
+16
+00:00:51,000 --> 99:59:59,999
+Your task is to decrypt the ciphertext and put your answer into the plaintext variable.

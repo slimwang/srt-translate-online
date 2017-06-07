@@ -1,0 +1,198 @@
+﻿1
+00:00:00,570 --> 00:00:04,477
+Next, you'll be tasked with inserting
+weather data into the database.
+
+2
+00:00:04,477 --> 00:00:08,298
+But we'll be doing this in a more
+efficient way than just one day at
+
+3
+00:00:08,298 --> 00:00:11,788
+a time since there's always a week or
+so of data to display.
+
+4
+00:00:11,788 --> 00:00:15,641
+Instead of one insert at a time,
+we'll be doing a bulk insert,
+
+5
+00:00:15,641 --> 00:00:20,443
+which basically tries to insert an array
+of content values, not just one set,
+
+6
+00:00:20,443 --> 00:00:21,640
+into a database.
+
+7
+00:00:21,640 --> 00:00:26,080
+It will respond to the URI that
+identifies the directory of weather
+
+8
+00:00:26,079 --> 00:00:26,909
+data.
+
+9
+00:00:26,910 --> 00:00:30,230
+And then iterate through the array
+of values and enter each one.
+
+10
+00:00:31,300 --> 00:00:32,618
+To write a book insert,
+
+11
+00:00:32,618 --> 00:00:36,979
+we'll override the book insert method
+in the weather provider class.
+
+12
+00:00:36,979 --> 00:00:41,229
+This method takes in the URI in
+an array of content values and
+
+13
+00:00:41,229 --> 00:00:44,089
+it returns the number
+of values inserted.
+
+14
+00:00:44,090 --> 00:00:47,560
+The bulkInsert will start with
+the same database accessing and
+
+15
+00:00:47,560 --> 00:00:50,060
+URI match code that you've seen before.
+
+16
+00:00:50,060 --> 00:00:52,600
+In this time,
+inside our weather directory case It
+
+17
+00:00:52,600 --> 00:00:55,719
+will also include
+a database transaction.
+
+18
+00:00:55,719 --> 00:01:00,269
+A transaction is a way to mark the start
+and end of a large data transfer.
+
+19
+00:01:00,270 --> 00:01:04,090
+So you want to start a transaction,
+then try to do all your inserts and
+
+20
+00:01:04,090 --> 00:01:05,740
+finally end the transaction.
+
+21
+00:01:05,739 --> 00:01:07,469
+So here we begin the transaction and
+
+22
+00:01:07,469 --> 00:01:11,019
+also initialize the number
+of rows inserted to 0.
+
+23
+00:01:11,019 --> 00:01:15,209
+To try inserting and then end the
+transaction we'll use a try statement to
+
+24
+00:01:15,209 --> 00:01:18,750
+do our inserts and then something
+called a finally block of code.
+
+25
+00:01:18,750 --> 00:01:22,049
+Which will execute after
+everything in the tri is complete.
+
+26
+00:01:22,049 --> 00:01:26,739
+In the tri we'll loop through all our
+content values in a four each loop and
+
+27
+00:01:26,739 --> 00:01:30,479
+in the loop we'll insert each days
+weather into the underlying database
+
+28
+00:01:30,480 --> 00:01:32,790
+using DB.insert.
+
+29
+00:01:32,790 --> 00:01:37,270
+And if an insert's successful we'll
+update the number of rows inserted.
+
+30
+00:01:37,269 --> 00:01:41,069
+After this foreloop is complete, we set
+the transaction state to be successful.
+
+31
+00:01:42,069 --> 00:01:45,099
+And down in this finally block,
+we'll just end the transaction.
+
+32
+00:01:46,250 --> 00:01:50,465
+After the finally, still in the whether
+directory case we'll notify the content
+
+33
+00:01:50,465 --> 00:01:53,865
+resolver that a change has been
+made to the directory URI.
+
+34
+00:01:53,864 --> 00:01:56,344
+We'll do this with a call
+to notify change, and
+
+35
+00:01:56,344 --> 00:01:59,424
+we'll also return the number
+of rows that were intereded.
+
+36
+00:01:59,424 --> 00:02:02,250
+And finally,
+we'll want to handle the default case.
+
+37
+00:02:02,250 --> 00:02:06,950
+In the default case, you can just return
+the super implementation of bulk insert.
+
+38
+00:02:06,950 --> 00:02:09,680
+This is the implementation in
+Android's content provider
+
+39
+00:02:09,680 --> 00:02:12,430
+class that this weather
+provider extends from.
+
+40
+00:02:12,430 --> 00:02:15,750
+And lastly, don't forget to
+delete this run time exception.
+
+41
+00:02:15,750 --> 00:02:18,030
+And that completes an efficient
+book insert method.
+

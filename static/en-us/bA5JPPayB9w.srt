@@ -1,0 +1,243 @@
+1
+00:00:00,320 --> 00:00:03,180
+Let's review the kinds of timers that are
+
+2
+00:00:03,180 --> 00:00:05,410
+avaialbe in an operating system, and the Pro's
+
+3
+00:00:05,410 --> 00:00:12,010
+and Con's. The timer that, many of you may be familiar with is a periodic timer
+
+4
+00:00:12,010 --> 00:00:15,530
+that is standard in, in most Unix operating
+
+5
+00:00:15,530 --> 00:00:20,110
+systems. And the periodic timer, the pro is,
+
+6
+00:00:20,110 --> 00:00:22,990
+periodicity. That's the pro of a periodic timer
+
+7
+00:00:22,990 --> 00:00:25,795
+that. The operating system is not going to be interrupted
+
+8
+00:00:25,795 --> 00:00:28,890
+willy-nilly, but it is going to be interrupted
+
+9
+00:00:28,890 --> 00:00:32,640
+at regular periods. But the con is the
+
+10
+00:00:32,640 --> 00:00:35,590
+event recognition latency, because the event may have
+
+11
+00:00:35,590 --> 00:00:38,130
+happened at a particular point in time, but
+
+12
+00:00:38,130 --> 00:00:42,490
+because of the granularity of the periodic timer.
+
+13
+00:00:42,490 --> 00:00:44,910
+The event is actually recognized at a much
+
+14
+00:00:44,910 --> 00:00:46,820
+later point in real time, and that's the
+
+15
+00:00:46,820 --> 00:00:50,840
+con for periodic timer. And the maximum time
+
+16
+00:00:50,840 --> 00:00:55,640
+of latency is equal to the period itself, so for instance, if the event happened
+
+17
+00:00:55,640 --> 00:01:00,200
+just after a periodic interrupt, then the event
+
+18
+00:01:00,200 --> 00:01:02,340
+will have to be delivered by the next
+
+19
+00:01:02,340 --> 00:01:05,760
+periodic interrupt. So the worst case latency is
+
+20
+00:01:05,760 --> 00:01:08,570
+going to be the periodicity of the periodic
+
+21
+00:01:08,570 --> 00:01:12,270
+timer itself. The other extreme to periodic timer,
+
+22
+00:01:12,270 --> 00:01:16,111
+is what we call one-shot timers. And what
+
+23
+00:01:16,111 --> 00:01:20,420
+one-shot timers are, they are exact timers.
+
+24
+00:01:20,420 --> 00:01:23,210
+That is, you can program these timers to
+
+25
+00:01:23,210 --> 00:01:29,260
+go off at exactly the point at which you want the entropy delivered. To the
+
+26
+00:01:29,260 --> 00:01:32,740
+processor, so the pro is a timeliness
+
+27
+00:01:32,740 --> 00:01:35,760
+of the one-shot timer. And secondly, there is
+
+28
+00:01:35,760 --> 00:01:38,840
+also fielding these one shot timers as
+
+29
+00:01:38,840 --> 00:01:41,700
+and which they occur, that's an extra overhead
+
+30
+00:01:41,700 --> 00:01:44,340
+that the operating system has to deal with.
+
+31
+00:01:44,340 --> 00:01:47,940
+If you're concerned with the interrupt overhead, one
+
+32
+00:01:47,940 --> 00:01:50,590
+extreme position to take is to get rid
+
+33
+00:01:50,590 --> 00:01:53,670
+of timer interrupts all together, and simply use
+
+34
+00:01:53,670 --> 00:01:56,670
+soft timers. That is, there is no timer
+
+35
+00:01:56,670 --> 00:02:00,470
+interrupt, but the operating system is going to poll
+
+36
+00:02:00,470 --> 00:02:03,420
+at strategic times. To see if there is
+
+37
+00:02:03,420 --> 00:02:06,770
+an external event. What would be strategic times?
+
+38
+00:02:06,770 --> 00:02:10,270
+Typically any application is going to make system calls. And
+
+39
+00:02:10,270 --> 00:02:12,780
+when a system call gets you into the kernel,
+
+40
+00:02:12,780 --> 00:02:16,500
+at that point the kernel can see if there
+
+41
+00:02:16,500 --> 00:02:20,130
+are any events that need attention at that point
+
+42
+00:02:20,130 --> 00:02:22,860
+of time. And that is a polling method, but
+
+43
+00:02:22,860 --> 00:02:25,990
+the downside of the polling method Is the fact
+
+44
+00:02:25,990 --> 00:02:28,790
+that, there is latency associated with that and there
+
+45
+00:02:28,790 --> 00:02:32,310
+is also, the fact that, you have to pull
+
+46
+00:02:32,310 --> 00:02:37,030
+all the events to see if any of them have expired, and there is an
+
+47
+00:02:37,030 --> 00:02:42,340
+overhead associated with that. These are, the two cons, for a soft timer
+
+48
+00:02:42,340 --> 00:02:47,190
+but the pro is, the fact that you have reduced overhead for soft timers
+
+49
+00:02:47,190 --> 00:02:52,680
+since there are no. Timer interrupts, per se, but the kernal
+
+50
+00:02:52,680 --> 00:02:57,720
+is using strategic points during it's execution
+
+51
+00:02:57,720 --> 00:03:02,160
+such as system calls or other external interrupts. For instance a network packet
+
+52
+00:03:02,160 --> 00:03:07,880
+arrival or something like that. As a trigger for looking at the time
+
+53
+00:03:07,880 --> 00:03:13,580
+related structures to see if any of the events may have expired
+
+54
+00:03:13,580 --> 00:03:18,240
+at that point of time. Firm timer is a new mechanism that is
+
+55
+00:03:18,240 --> 00:03:23,740
+proposed in TS Linux and as we will see shortly it combines
+
+56
+00:03:23,740 --> 00:03:27,310
+the advantages of all the three. Timers
+
+57
+00:03:27,310 --> 00:03:29,410
+that I just mentioned, the periodic timer,
+
+58
+00:03:29,410 --> 00:03:31,730
+the one-shot timer, and the soft timer.
+
+59
+00:03:31,730 --> 00:03:34,180
+Essentially, what firm timer is trying to do
+
+60
+00:03:34,180 --> 00:03:40,480
+is, take the pros of all of these types of timers in its implementation so
+
+61
+00:03:40,480 --> 00:03:46,060
+that it can avoid the cons associated with each one of these individual choices.

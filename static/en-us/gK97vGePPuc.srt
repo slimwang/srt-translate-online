@@ -1,0 +1,276 @@
+1
+00:00:00,340 --> 00:00:04,560
+So, if we have these motion models,
+
+2
+00:00:04,560 --> 00:00:09,590
+we'd like to be able to use
+them within all of that
+
+3
+00:00:09,590 --> 00:00:13,660
+motion math we did before on
+the brightness constraint equation and
+
+4
+00:00:13,660 --> 00:00:18,860
+the optical flow and that kind of
+stuff and we can do that directly.
+
+5
+00:00:18,860 --> 00:00:19,520
+All right.
+
+6
+00:00:19,520 --> 00:00:23,510
+So here we have our image showing you
+the math of an affine transformation.
+
+7
+00:00:23,510 --> 00:00:26,470
+Now, you'll all remember your brightness
+constancy constraint equation, yes?
+
+8
+00:00:26,470 --> 00:00:27,020
+Yes?
+Yes?
+
+9
+00:00:27,020 --> 00:00:27,690
+Yes?
+
+10
+00:00:27,690 --> 00:00:28,720
+Looks like That.
+
+11
+00:00:28,720 --> 00:00:31,950
+Remember, what this says was,
+that the dot product between the u and
+
+12
+00:00:31,950 --> 00:00:34,800
+v, that's the amount of motion and
+the gradient,
+
+13
+00:00:34,800 --> 00:00:38,840
+has to essentially remain constant with
+respect to the change in intensity.
+
+14
+00:00:38,840 --> 00:00:40,980
+So that was the brightness
+constraint equation.
+
+15
+00:00:40,980 --> 00:00:43,890
+Right?
+We had two unknowns, one equation.
+
+16
+00:00:43,890 --> 00:00:45,370
+So the way we fixed that before is,
+
+17
+00:00:45,370 --> 00:00:48,100
+we assumed that all
+the points had the same uv.
+
+18
+00:00:49,280 --> 00:00:51,820
+Suppose instead of saying
+it's the same u v,
+
+19
+00:00:52,820 --> 00:00:56,920
+we assume that it's
+the same affine model.
+
+20
+00:00:56,920 --> 00:01:02,290
+That means that we substitute in for
+u and v the equations from above.
+
+21
+00:01:02,290 --> 00:01:03,410
+Doesn't that work out nicely?
+
+22
+00:01:03,410 --> 00:01:08,005
+All right, so instead of just saying u,
+we're going to say okay,
+
+23
+00:01:08,005 --> 00:01:13,209
+over this window, we have to
+find the a1, a2, a3, a4, a5, a6.
+
+24
+00:01:13,209 --> 00:01:13,840
+So how many unknowns is that?
+
+25
+00:01:13,840 --> 00:01:17,090
+One, two, three, four, five, six.
+
+26
+00:01:17,090 --> 00:01:20,550
+We have six unknowns over the window.
+
+27
+00:01:20,550 --> 00:01:23,210
+So how many points are we,
+how many equations do we need?
+
+28
+00:01:23,210 --> 00:01:27,670
+Well, we need at least six, but
+now our assumption has been relaxed.
+
+29
+00:01:27,670 --> 00:01:31,100
+Before we required that everything
+be moving constantly, so
+
+30
+00:01:31,100 --> 00:01:34,050
+you can't really let your windows get
+too big if you're going to require that
+
+31
+00:01:34,050 --> 00:01:37,720
+they be constant motion because as
+you let your windows get bigger,
+
+32
+00:01:37,720 --> 00:01:39,600
+they may not be moving constantly.
+
+33
+00:01:39,600 --> 00:01:42,800
+But if you can allow for
+an affine deformation, so
+
+34
+00:01:42,800 --> 00:01:45,500
+they're not all moving the same,
+they're all just the same flow,
+
+35
+00:01:45,500 --> 00:01:50,220
+like maybe they're rotating around,
+now I can have bigger windows.
+
+36
+00:01:50,220 --> 00:01:54,520
+So what we do is we take this equation,
+all right.
+
+37
+00:01:54,520 --> 00:01:59,190
+Each pixel provides one linear
+equation with six unknown, so
+
+38
+00:01:59,190 --> 00:02:01,928
+we're going to do that same least
+squares minimization we did for
+
+39
+00:02:01,928 --> 00:02:06,490
+Lukas-Kanade, but now, instead of having
+a constant uv, those two unknowns over
+
+40
+00:02:06,490 --> 00:02:10,810
+window, we're going to use this
+linear model with six unknowns.
+
+41
+00:02:10,810 --> 00:02:13,235
+And we do exactly the same
+thing we did before.
+
+42
+00:02:13,235 --> 00:02:17,180
+It's going to be a mean, minimized
+squared error, least squares, and
+
+43
+00:02:17,180 --> 00:02:20,720
+that allows you to solve for
+that over that region and
+
+44
+00:02:20,720 --> 00:02:24,900
+because the pixels are moving
+differently depending upon the xy,
+
+45
+00:02:24,900 --> 00:02:28,760
+I can have a whole area that's rotating.
+
+46
+00:02:28,760 --> 00:02:34,110
+It's one model, so
+all of those pixels use the same a1,
+
+47
+00:02:34,110 --> 00:02:38,640
+2, 3, 4, 5,
+6 because it's the same rotation.
+
+48
+00:02:38,640 --> 00:02:39,160
+All right.
+
+49
+00:02:39,160 --> 00:02:41,750
+It's not the same little vector,
+it's the same model.
+
+50
+00:02:41,750 --> 00:02:45,110
+So it can be a much more
+robust way of doing things.
+
+51
+00:02:45,110 --> 00:02:47,750
+So here is a version of
+the Lukas-Kanade now,
+
+52
+00:02:47,750 --> 00:02:49,940
+and it's taken from the original paper.
+
+53
+00:02:49,940 --> 00:02:53,760
+It finds that, it's a paper that's cited
+a lot and it's almost impossible to find
+
+54
+00:02:53,760 --> 00:02:58,150
+by Jim Bergen and Anandan and
+Keith Hanna way back in 1992, and
+
+55
+00:02:58,150 --> 00:03:01,990
+the thing that's different about
+this from Lucas-Kanade is,
+
+56
+00:03:01,990 --> 00:03:07,120
+instead of computing m for motion, which
+was just the specific motion everywhere,
+
+57
+00:03:07,120 --> 00:03:10,520
+we're doing these little m,
+which are the model parameters, right?
+
+58
+00:03:10,520 --> 00:03:12,710
+And so you have to compute
+the model parameters.

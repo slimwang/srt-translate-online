@@ -1,0 +1,267 @@
+1
+00:00:00,320 --> 00:00:04,070
+What if, over here I've got
+something spinning and over here,
+
+2
+00:00:04,070 --> 00:00:05,930
+I've got something translating.
+
+3
+00:00:05,930 --> 00:00:08,039
+No, sorry, expanding.
+
+4
+00:00:08,039 --> 00:00:09,800
+I'm expanding.
+
+5
+00:00:09,800 --> 00:00:11,750
+What I've got is I've got
+different motion regions and
+
+6
+00:00:11,750 --> 00:00:14,690
+I need to find those
+different motion regions.
+
+7
+00:00:14,690 --> 00:00:19,330
+So, some nice work done, again,
+a long time ago by, Ted and John Wang,
+
+8
+00:00:19,330 --> 00:00:21,510
+I'm going to call
+layered representations.
+
+9
+00:00:21,510 --> 00:00:22,780
+The idea is,
+
+10
+00:00:22,780 --> 00:00:28,020
+what if we could break the image up into
+a bunch of different motion regions?
+
+11
+00:00:28,020 --> 00:00:30,730
+Okay.
+And in fact that is illustrated here.
+
+12
+00:00:30,730 --> 00:00:33,550
+So this is a, a figure taken
+directly from their paper, so
+
+13
+00:00:33,550 --> 00:00:37,520
+the idea is we have a hand
+that's moving across, and
+
+14
+00:00:37,520 --> 00:00:40,800
+it's against the background of checkers,
+squares moving this way,
+
+15
+00:00:40,800 --> 00:00:43,360
+because we're always moving our
+hands over, moving checkerboards.
+
+16
+00:00:43,360 --> 00:00:44,780
+I don't know, it's just what they did.
+
+17
+00:00:44,780 --> 00:00:45,390
+Okay?
+
+18
+00:00:45,390 --> 00:00:50,100
+So, here they're showing you each of the
+frames, and clearly, what you'd like to
+
+19
+00:00:50,100 --> 00:00:54,220
+do is you'd like to be able to recover
+those different elements that the front
+
+20
+00:00:54,220 --> 00:00:58,510
+part is moving this way, and
+the back part is moving that way.
+
+21
+00:00:58,510 --> 00:01:00,190
+So, here's how we do it.
+
+22
+00:01:00,190 --> 00:01:02,220
+Here's our affine equations, again.
+
+23
+00:01:02,220 --> 00:01:04,569
+So we have these local flow estimates,
+right?
+
+24
+00:01:04,569 --> 00:01:08,890
+So, compute some local flow some way.
+
+25
+00:01:08,890 --> 00:01:12,510
+Maybe you use straight Lucas-Kanade,
+all right?
+
+26
+00:01:12,510 --> 00:01:14,050
+Notice that this one equation.
+
+27
+00:01:14,050 --> 00:01:17,030
+Let's just worry about the u,
+for, for right now.
+
+28
+00:01:17,030 --> 00:01:19,330
+That's a linear equation in x and y.
+
+29
+00:01:19,330 --> 00:01:20,430
+That's just sort of a plane.
+
+30
+00:01:20,430 --> 00:01:23,370
+In fact, if we were just doing this
+in 1D, it would be a line, right,
+
+31
+00:01:23,370 --> 00:01:28,090
+forget the y,
+just say that u is equal to a1 plus a2x.
+
+32
+00:01:28,090 --> 00:01:30,060
+It would just be a, a, a, a line.
+
+33
+00:01:30,060 --> 00:01:31,970
+These are linear systems.
+
+34
+00:01:31,970 --> 00:01:32,760
+All right.
+
+35
+00:01:32,760 --> 00:01:35,360
+So, the way this works is the following.
+
+36
+00:01:35,360 --> 00:01:39,060
+And here's an example done from 1D,
+again taken from that paper.
+
+37
+00:01:39,060 --> 00:01:42,450
+Suppose this is the velocity
+as a function of x, so
+
+38
+00:01:42,450 --> 00:01:45,380
+we are only showing you the 1D version,
+cause its a lot easier.
+
+39
+00:01:45,380 --> 00:01:50,020
+And lets suppose that this is the true
+flow, and what we mean by the true flow
+
+40
+00:01:50,020 --> 00:01:54,590
+here is that the foreground region
+is actually moving in some way and
+
+41
+00:01:54,590 --> 00:01:59,700
+its not a constant because its an affine
+flow, that is it's a, it's planar.
+
+42
+00:01:59,700 --> 00:02:01,920
+And the background might
+be moving some other way.
+
+43
+00:02:01,920 --> 00:02:04,160
+And what we want to do is,
+we want to be able to find that.
+
+44
+00:02:04,160 --> 00:02:07,585
+So the first thing you do is
+you do a local flow estimate.
+
+45
+00:02:07,585 --> 00:02:10,090
+Lucas-Kanade everywhere, let's say.
+
+46
+00:02:10,090 --> 00:02:11,190
+That gives you some vectors.
+
+47
+00:02:11,190 --> 00:02:13,040
+Now those vectors are not perfect.
+
+48
+00:02:13,040 --> 00:02:15,190
+They are what they are, okay?
+
+49
+00:02:15,190 --> 00:02:19,550
+Well, what you do then is,
+you take a look at those values.
+
+50
+00:02:19,550 --> 00:02:20,880
+Where do I see big jumps?
+
+51
+00:02:20,880 --> 00:02:23,810
+I see a jump there, I see a jump there,
+I see a jump here, I see a jump there.
+
+52
+00:02:23,810 --> 00:02:28,316
+And I break that up into those segments,
+and then what I do is I take a look at
+
+53
+00:02:28,316 --> 00:02:32,848
+the segments, and I say, which segments
+seem to be along the same plane?
+
+54
+00:02:32,848 --> 00:02:35,815
+And it's planar because
+of this affine equation.
+
+55
+00:02:35,815 --> 00:02:37,105
+And when you do that,
+
+56
+00:02:37,105 --> 00:02:41,049
+you get to automatically separate
+out the foreground motion from
+
+57
+00:02:41,049 --> 00:02:45,063
+the background motion just by
+fitting it says line fitting but
+
+58
+00:02:45,063 --> 00:02:49,310
+essentially by fitting the affine
+plane to what's going there.

@@ -1,0 +1,397 @@
+﻿1
+00:00:00,450 --> 00:00:04,580
+Before we saw that you can include
+information from a sequence of data
+
+2
+00:00:04,580 --> 00:00:06,990
+using a recurrent connection
+on the hidden layer.
+
+3
+00:00:06,990 --> 00:00:09,345
+This connection goes
+through these weights, Whh.
+
+4
+00:00:10,699 --> 00:00:13,689
+If we enroll the network,
+we see that the hidden layer sub t
+
+5
+00:00:13,689 --> 00:00:17,859
+is a function of the previous hidden
+state multiplied by those weights.
+
+6
+00:00:17,859 --> 00:00:20,759
+And the output from that layer
+is again multiplied by Whh.
+
+7
+00:00:21,879 --> 00:00:23,299
+For every step you have in the network,
+
+8
+00:00:23,300 --> 00:00:25,600
+you're multiplying by
+the weights again and again.
+
+9
+00:00:25,600 --> 00:00:29,640
+And when you're doing backprop,
+that's even more multiplications.
+
+10
+00:00:29,640 --> 00:00:32,640
+This leads to a problem where
+the gradients going through the network
+
+11
+00:00:32,640 --> 00:00:37,170
+either get really small and vanish or
+get really large and explode.
+
+12
+00:00:38,240 --> 00:00:41,240
+This happens because if you're
+multiplying by some number a bunch of
+
+13
+00:00:41,240 --> 00:00:46,500
+times, you're going to get two results,
+except in a couple special cases.
+
+14
+00:00:46,500 --> 00:00:49,689
+If that number is less that 1,
+you'll end up at 0.
+
+15
+00:00:49,689 --> 00:00:53,030
+If it's greater than 1,
+you'll head towards infinity.
+
+16
+00:00:53,030 --> 00:00:55,640
+This happens to gradients
+in a normal RNN.
+
+17
+00:00:55,640 --> 00:00:57,920
+They'll either vanish or explode.
+
+18
+00:00:57,920 --> 00:01:01,969
+This makes it difficult for
+RNNs to learn long range interactions.
+
+19
+00:01:01,969 --> 00:01:03,229
+Luckily, there is a solution.
+
+20
+00:01:04,299 --> 00:01:08,459
+We can think of recurrent networks as a
+bunch of cells with inputs and outputs.
+
+21
+00:01:08,459 --> 00:01:10,379
+Inside the cell you have
+your network layers,
+
+22
+00:01:10,379 --> 00:01:13,969
+such as the sigmoid layer
+labeled with a sigma here.
+
+23
+00:01:13,969 --> 00:01:15,780
+To solve the problem of
+the vanishing gradients,
+
+24
+00:01:15,780 --> 00:01:20,939
+we can use more complicated cells called
+long short-term memory, LSTMs for short.
+
+25
+00:01:21,959 --> 00:01:26,580
+Okay, LSTM cells are pretty
+complicated at first glance.
+
+26
+00:01:26,581 --> 00:01:31,390
+But if you break it down into parts,
+they aren't too difficult to understand.
+
+27
+00:01:31,390 --> 00:01:36,159
+The key addition here is the cell state
+labeled C, I'll get into this next.
+
+28
+00:01:36,159 --> 00:01:40,459
+In this cell, there are four network
+layers shown as yellow boxes.
+
+29
+00:01:40,459 --> 00:01:42,549
+Each of them with their own weights.
+
+30
+00:01:42,549 --> 00:01:45,009
+The layers labeled with
+sigmas are sigmoids.
+
+31
+00:01:45,010 --> 00:01:48,820
+And tanh is the hyperbolic
+tangent function.
+
+32
+00:01:48,819 --> 00:01:52,329
+tanh is similar to a sigmoid
+in that it squashes inputs.
+
+33
+00:01:52,329 --> 00:01:56,811
+But the output is between -1 and
+1 instead of 0 and 1.
+
+34
+00:01:56,811 --> 00:02:00,159
+The red circles are point-wise or
+element-wise operations.
+
+35
+00:02:00,159 --> 00:02:03,229
+That is, they operate on
+matrices element by element.
+
+36
+00:02:04,319 --> 00:02:06,779
+The main improvement here
+is through the cell state.
+
+37
+00:02:06,780 --> 00:02:10,009
+The cell state goes through the LSTM
+cell with little interaction,
+
+38
+00:02:10,008 --> 00:02:13,379
+allowing information to flow
+easily through the cells.
+
+39
+00:02:13,379 --> 00:02:16,030
+The cell state is modified only
+through these element-wise
+
+40
+00:02:16,030 --> 00:02:18,569
+operations which function as gates.
+
+41
+00:02:18,569 --> 00:02:22,039
+And the hidden state is now calculated
+from the cell state, then passed on.
+
+42
+00:02:23,289 --> 00:02:26,019
+The first gate is the forget gate.
+
+43
+00:02:26,020 --> 00:02:29,219
+The values coming out of the sigmoid
+layer are between 0 and 1.
+
+44
+00:02:29,219 --> 00:02:32,759
+Then, they are multiplied
+element-wise with the cell state.
+
+45
+00:02:32,759 --> 00:02:36,699
+So values from this layer close to
+0 will shut off certain elements in
+
+46
+00:02:36,699 --> 00:02:37,699
+the cell state.
+
+47
+00:02:37,699 --> 00:02:40,359
+Effectively forgetting that
+information going forward.
+
+48
+00:02:41,430 --> 00:02:46,530
+Conversely, values close to 1 will allow
+information to pass through unchanged.
+
+49
+00:02:46,530 --> 00:02:50,189
+This is helpful, because the network can
+learn to forget information that causes
+
+50
+00:02:50,189 --> 00:02:51,710
+incorrect predictions.
+
+51
+00:02:51,710 --> 00:02:52,930
+On the other hand,
+
+52
+00:02:52,930 --> 00:02:56,099
+long range information that is helpful
+is allowed to flow through freely.
+
+53
+00:02:57,139 --> 00:03:01,079
+The next bit updates the cell state from
+the input and previous hidden state.
+
+54
+00:03:01,080 --> 00:03:03,920
+The tanh layer output is
+added to the cell state,
+
+55
+00:03:03,919 --> 00:03:06,379
+again, gated by a sigmoid layer.
+
+56
+00:03:06,379 --> 00:03:09,340
+In this way, the cell state
+can be updated in the step and
+
+57
+00:03:09,340 --> 00:03:10,610
+passed along to the next cell.
+
+58
+00:03:11,610 --> 00:03:14,950
+Here, the cell state is used to
+produce the hidden state which is sent
+
+59
+00:03:14,949 --> 00:03:18,639
+to the next hidden cell as
+well as to higher layers.
+
+60
+00:03:18,639 --> 00:03:20,037
+It's the arrow pointing up here.
+
+61
+00:03:20,038 --> 00:03:24,518
+The cell state is passed through
+another tanh then gated again with
+
+62
+00:03:24,518 --> 00:03:26,205
+another sigmoid layer.
+
+63
+00:03:26,205 --> 00:03:30,301
+All these sigmoid gates let the network
+learn which information to keep and
+
+64
+00:03:30,300 --> 00:03:32,859
+which information to get rid of.
+
+65
+00:03:32,860 --> 00:03:37,420
+Putting all this together, the LSTM
+cell consists of a cell state with
+
+66
+00:03:37,419 --> 00:03:41,989
+a bunch of gates used to update it,
+and leak it out to the hidden state.
+
+67
+00:03:41,990 --> 00:03:43,667
+This is just the basic LSTM.
+
+68
+00:03:43,667 --> 00:03:45,518
+There are multiple variations and
+
+69
+00:03:45,518 --> 00:03:49,490
+a lot of ongoing experimentation
+into improving these.
+
+70
+00:03:49,490 --> 00:03:52,600
+They are also easily
+stacked into deeper layers.
+
+71
+00:03:52,599 --> 00:03:55,329
+You just send the output from one
+cell to the input of another.
+
+72
+00:03:56,379 --> 00:04:01,478
+Okay, so now you might be wondering how
+all of this fixes our gradient problem.
+
+73
+00:04:01,479 --> 00:04:04,910
+Since the cell state is allowed to flow
+through the hidden layers with only this
+
+74
+00:04:04,909 --> 00:04:06,520
+linear sum operation.
+
+75
+00:04:06,520 --> 00:04:09,860
+Gradients can easily move through
+the network without being diminished.
+
+76
+00:04:09,860 --> 00:04:13,475
+You also get gradients added into
+the network through the LSTM cells but
+
+77
+00:04:13,474 --> 00:04:16,278
+they're just added to
+the gradients flowing through.
+
+78
+00:04:16,278 --> 00:04:19,420
+I'm not going to get into
+the math behind all this.
+
+79
+00:04:19,420 --> 00:04:22,990
+I'll link you to some resources such
+as a great lecture by Andre Carpathy to
+
+80
+00:04:22,990 --> 00:04:24,600
+help you out there.
+
+81
+00:04:24,600 --> 00:04:28,680
+LSTMs are the basic unit of
+recurrent networks these days.
+
+82
+00:04:28,680 --> 00:04:30,870
+You don't have to completely
+understand the inner workings.
+
+83
+00:04:30,870 --> 00:04:33,410
+But knowing how they work
+conceptually will be important.
+

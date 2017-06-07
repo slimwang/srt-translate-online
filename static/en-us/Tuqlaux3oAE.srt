@@ -1,0 +1,83 @@
+1
+00:00:00,000 --> 00:00:03,000
+We're coming to the end of what I want to say about decorators.
+
+2
+00:00:03,000 --> 00:00:06,000
+I wanted to add one more debug tool.
+
+3
+00:00:06,000 --> 00:00:09,000
+That's one I'm going to call disabled.
+
+4
+00:00:09,000 --> 00:00:11,000
+It's very simple.
+
+5
+00:00:11,000 --> 00:00:13,000
+Disabled is another name for the identity function--
+
+6
+00:00:13,000 --> 00:00:18,000
+that is the function that returns its argument without doing any computation on it whatsoever.
+
+7
+00:00:18,000 --> 00:00:21,000
+Why do I want it and why do I call it "disabled?"
+
+8
+00:00:21,000 --> 00:00:27,000
+Well, the idea is that if I'm using some of these debugging tools like trace or countcalls,
+
+9
+00:00:27,000 --> 00:00:33,000
+I might have scattered throughout my program trace define f and some other traced functions.
+
+10
+00:00:33,000 --> 00:00:37,000
+Then I might decide I think I'm okay now. I think I've got it debugged.
+
+11
+00:00:37,000 --> 00:00:39,000
+I don't want to trace any more.
+
+12
+00:00:39,000 --> 00:00:44,000
+Then what I can do is I can just say "trace = disabled"
+
+13
+00:00:44,000 --> 00:00:50,000
+and reload my program, and now the decorator trace will be applied to the function,
+
+14
+00:00:50,000 --> 00:00:52,000
+but what it will do is return the function itself.
+
+15
+00:00:52,000 --> 00:00:55,000
+Notice we don't have to say that disabled is a decorator,
+
+16
+00:00:55,000 --> 00:00:59,000
+even though we're using it as if it were one,
+
+17
+00:00:59,000 --> 00:01:02,000
+because it doesn't create a new function. It just returns the original function.
+
+18
+00:01:02,000 --> 00:01:06,000
+That way we won't have the trace output cluttering up our output,
+
+19
+00:01:06,000 --> 00:01:08,000
+and the function will be efficient.
+
+20
+00:01:08,000 --> 00:01:11,000
+There won't even be a test to see if we are tracing or not.
+
+21
+00:01:11,000 --> 99:59:59,999
+It'll just use the exact function that passed in.

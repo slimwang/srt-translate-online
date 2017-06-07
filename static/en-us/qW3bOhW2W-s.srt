@@ -1,0 +1,463 @@
+1
+00:00:00,700 --> 00:00:04,530
+Alright, so we understand at this point how to use these decision trees, but
+
+2
+00:00:04,530 --> 00:00:07,310
+this is a class about machine learning, right? So we need to figure out
+
+3
+00:00:07,310 --> 00:00:12,120
+how to make those decision trees happen as a result of processing a set
+
+4
+00:00:12,120 --> 00:00:16,880
+of training data. So, it's not clear to me how we're going to make that leap.
+
+5
+00:00:16,880 --> 00:00:18,460
+>> Let's see if we can figure it out
+
+6
+00:00:18,460 --> 00:00:21,670
+together. So, I'm going to play a game with you, Michael,
+
+7
+00:00:21,670 --> 00:00:24,230
+and if we do the game well. Then I
+
+8
+00:00:24,230 --> 00:00:26,200
+think we'll have an idea of what a good algorithm
+
+9
+00:00:26,200 --> 00:00:28,710
+might be for actually building a decision tree. So
+
+10
+00:00:28,710 --> 00:00:31,080
+we're going to play 20 questions. You're familiar with 20 questions?
+
+11
+00:00:31,080 --> 00:00:33,660
+>> Right, that's the game where I'm allowed
+
+12
+00:00:33,660 --> 00:00:35,970
+to ask yes/no questions to try to guess
+
+13
+00:00:35,970 --> 00:00:37,790
+something that you're thinking of, and if I
+
+14
+00:00:37,790 --> 00:00:39,440
+take more than 20 of them, then I lose.
+
+15
+00:00:39,440 --> 00:00:42,230
+>> Right, okay. So, here's what I'm going to
+
+16
+00:00:42,230 --> 00:00:47,550
+do. I'm going to think of a thing, and,
+
+17
+00:00:47,550 --> 00:00:51,450
+you ask me questions and I'm going to answer them and we'll see if you can guess
+
+18
+00:00:51,450 --> 00:00:54,620
+what thing I'm thinking about. Okay, I've got something in my head.
+
+19
+00:00:54,620 --> 00:00:56,980
+>> The first question, the typical first question
+
+20
+00:00:56,980 --> 00:00:58,970
+is it animal, vegetable or mineral but that doesn't
+
+21
+00:00:58,970 --> 00:01:01,830
+seem like a yes/no question, so is it, is
+
+22
+00:01:01,830 --> 00:01:05,519
+it an animal, or like a, a living creature.
+
+23
+00:01:05,519 --> 00:01:06,520
+>> The answer is yes.
+
+24
+00:01:06,520 --> 00:01:08,650
+>> Alright, is it a person?
+
+25
+00:01:08,650 --> 00:01:17,058
+>> Is it a person?
+
+26
+00:01:17,058 --> 00:01:18,100
+The answer is yes.
+
+27
+00:01:18,100 --> 00:01:20,270
+>> Is it a famous person?
+
+28
+00:01:20,270 --> 00:01:21,350
+>> Is it a famous person? That's a
+
+29
+00:01:21,350 --> 00:01:24,130
+deep philosophical question, but I'm going to say yes.
+
+30
+00:01:26,770 --> 00:01:31,200
+>> Is it a famous person that we both know in like directly.
+
+31
+00:01:31,200 --> 00:01:34,720
+>> Oh, who we both personally know directly, I do not believe so.
+
+32
+00:01:34,720 --> 00:01:34,810
+>> Yeah.
+
+33
+00:01:34,810 --> 00:01:37,020
+>> So, the answer is no.
+
+34
+00:01:37,020 --> 00:01:38,570
+>> Is it a living person?
+
+35
+00:01:38,570 --> 00:01:42,140
+>> Living person, no.
+
+36
+00:01:42,140 --> 00:01:45,490
+>> So it is a dead, famous person. Is
+
+37
+00:01:45,490 --> 00:01:49,590
+the person famous for, say being in the music industry.
+
+38
+00:01:51,600 --> 00:01:53,310
+>> The answer yes.
+
+39
+00:01:53,310 --> 00:01:55,890
+>> Did this person live during the 20th century?
+
+40
+00:01:55,890 --> 00:01:57,870
+>> The answer is yes.
+
+41
+00:01:57,870 --> 00:02:01,450
+>> Is the genre of music that the
+
+42
+00:02:01,450 --> 00:02:04,960
+person was associated with, say hip hop or rap?
+
+43
+00:02:04,960 --> 00:02:06,100
+>> No.
+
+44
+00:02:06,100 --> 00:02:10,270
+>> Is the person a singer?
+
+45
+00:02:10,270 --> 00:02:11,420
+>> Singer? Yes.
+
+46
+00:02:11,420 --> 00:02:14,460
+>> Male or female, is the person female?
+
+47
+00:02:14,460 --> 00:02:16,500
+>> Person female? No.
+
+48
+00:02:18,390 --> 00:02:19,490
+That's ten questions, Michael.
+
+49
+00:02:19,490 --> 00:02:22,870
+>> Yes, the, the clock is ticking down, but I feel like I have narrowed it
+
+50
+00:02:22,870 --> 00:02:25,060
+down quite a bit at this point. Did
+
+51
+00:02:25,060 --> 00:02:27,680
+the person die since you've become a professor?
+
+52
+00:02:29,250 --> 00:02:32,290
+>> So, say in the last How long have you been a professor?
+
+53
+00:02:32,290 --> 00:02:36,500
+>> Too forever it sounds like feels like. Let's see,
+
+54
+00:02:36,500 --> 00:02:41,120
+recent death. And I'm going to say the answer is yes.
+
+55
+00:02:41,120 --> 00:02:42,610
+>> Is the person's name Michael?
+
+56
+00:02:44,190 --> 00:02:45,780
+>> The answer is yes.
+
+57
+00:02:45,780 --> 00:02:50,050
+>> Alright, alright, I think I'm on to it. Is it Michael Jackson?
+
+58
+00:02:52,180 --> 00:02:52,510
+>> No.
+
+59
+00:02:52,510 --> 00:02:53,040
+>> Woo hoo!
+
+60
+00:02:54,820 --> 00:02:55,940
+>> Of course, it's Michael Jackson.
+
+61
+00:02:55,940 --> 00:02:58,820
+>> Alright, Thriller.
+
+62
+00:02:58,820 --> 00:03:03,320
+>> Yes, Michael Jackson is the answer.
+
+63
+00:03:03,320 --> 00:03:06,120
+>> Alright. So that was, that was very fun. And
+
+64
+00:03:06,120 --> 00:03:08,460
+I'm very glad that I was able to solve it.
+
+65
+00:03:08,460 --> 00:03:08,728
+>> [LAUGH]
+
+66
+00:03:08,728 --> 00:03:12,370
+>> But it's not clear to me how, this
+
+67
+00:03:12,370 --> 00:03:14,380
+is going to give us an algorithm for building decision trees.
+
+68
+00:03:14,380 --> 00:03:17,180
+>> Okay, so let's think about that for a second. So you asked a bunch
+
+69
+00:03:17,180 --> 00:03:18,370
+of questions, and you asked them in a
+
+70
+00:03:18,370 --> 00:03:21,320
+particular order. Right? So, here's a question I have
+
+71
+00:03:21,320 --> 00:03:23,370
+for you. Why was the first question you
+
+72
+00:03:23,370 --> 00:03:24,970
+asked me whether it was an animal or not?
+
+73
+00:03:26,230 --> 00:03:29,370
+>> well, it seemed like I needed some way of
+
+74
+00:03:29,370 --> 00:03:32,330
+narrowing down the space, and so I wanted to get
+
+75
+00:03:32,330 --> 00:03:36,380
+as much information out of that question as I could
+
+76
+00:03:36,380 --> 00:03:40,360
+to try to make progress towards figuring who it actually was.
+
+77
+00:03:40,360 --> 00:03:42,050
+>> Right. So,
+
+78
+00:03:42,050 --> 00:03:47,740
+animal is the first question and it was because it narrowed things down. So,
+
+79
+00:03:47,740 --> 00:03:52,470
+your goal in asking questions was to narrow the possibilities, right?
+
+80
+00:03:52,470 --> 00:03:55,083
+>> Sure, right because I only have 20 questions and
+
+81
+00:03:55,083 --> 00:03:57,428
+then I'm, you know I'm out of it, so if I
+
+82
+00:03:57,428 --> 00:04:01,046
+asked questions like You know, if I had said--started with,
+
+83
+00:04:01,046 --> 00:04:05,830
+Is it someone named Michael, that would have been really bizarre.
+
+84
+00:04:05,830 --> 00:04:06,990
+>> Right, and if the answer was no,
+
+85
+00:04:06,990 --> 00:04:08,550
+it's not clear that it would tell you anything
+
+86
+00:04:08,550 --> 00:04:11,270
+at all. So, actually, that's an interesting point. You started
+
+87
+00:04:11,270 --> 00:04:14,340
+with animal; you could have started with Michael. And
+
+88
+00:04:14,340 --> 00:04:16,850
+if I had said yes, that would have told you
+
+89
+00:04:16,850 --> 00:04:21,100
+something. But if I had said No, it wouldn't have told you hardly anything at
+
+90
+00:04:21,100 --> 00:04:26,990
+all. Right? So animal is a better attribute, or
+
+91
+00:04:26,990 --> 00:04:32,320
+feature, to ask about than Michael as a first question. Do you agree with that?
+
+92
+00:04:32,320 --> 00:04:34,460
+>> Yeah, because it could have been like a stapler or something
+
+93
+00:04:34,460 --> 00:04:36,990
+like that and then I, the Michael question would've been pretty silly.
+
+94
+00:04:36,990 --> 00:04:39,040
+>> Exactly. So what about persons? So first you
+
+95
+00:04:39,040 --> 00:04:41,638
+asked about animal. Then you asked about person. Why person?
+
+96
+00:04:41,638 --> 00:04:45,900
+>> Right, because, because again it seemed like of the space of possibilities
+
+97
+00:04:45,900 --> 00:04:50,190
+that I could think of person would help kind of again narrow things down.
+
+98
+00:04:50,190 --> 00:04:53,090
+That I'd if it was the answer was yes, I would be able
+
+99
+00:04:53,090 --> 00:04:55,640
+to focus there. If the answer was no I could focus some place else.
+
+100
+00:04:55,640 --> 00:04:57,350
+>> Exactly. And so I
+
+101
+00:04:57,350 --> 00:05:00,510
+think in fact we could, we have a general statement here.
+
+102
+00:05:00,510 --> 00:05:05,030
+That each one of these questions. Person, famous, do we know this
+
+103
+00:05:05,030 --> 00:05:09,200
+person, personally, so on and so forth. All make sense because they
+
+104
+00:05:09,200 --> 00:05:13,220
+further narrow down the possibilities. And that bit about further is important.
+
+105
+00:05:19,040 --> 00:05:22,720
+Because it implies that the usefulness of a question
+
+106
+00:05:22,720 --> 00:05:24,870
+depends upon the answers that you got in the
+
+107
+00:05:24,870 --> 00:05:27,900
+previous questions. So even though Michael is not a
+
+108
+00:05:27,900 --> 00:05:30,730
+particularly good first question to ask, it's a perfectly
+
+109
+00:05:30,730 --> 00:05:34,340
+reasonable twelfth question to ask or however far down
+
+110
+00:05:34,340 --> 00:05:36,850
+it is, given that you already know this person's,
+
+111
+00:05:36,850 --> 00:05:39,550
+this is an animal, a person, a famous person
+
+112
+00:05:39,550 --> 00:05:42,710
+we don't know personally who's not living, who's into
+
+113
+00:05:42,710 --> 00:05:46,230
+music, etc., etc., etc. Okay, that make sense?
+
+114
+00:05:46,230 --> 00:05:46,810
+>> Yeah.
+
+115
+00:05:46,810 --> 00:05:52,080
+>> Okay. So I think then, we have the hints of an algorithm. So let's
+
+116
+00:05:52,080 --> 00:05:55,590
+try to write down that algorithm and, and see if it matches with our intuition.

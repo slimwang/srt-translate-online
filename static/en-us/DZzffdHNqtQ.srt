@@ -1,0 +1,495 @@
+1
+00:00:00,000 --> 00:00:03,000
+Let's start by looking at passive reinforcement learning.
+
+2
+00:00:03,000 --> 00:00:05,000
+I'm going to describe an algorithm called
+
+3
+00:00:05,000 --> 00:00:07,000
+Temporal Difference Learning--or TD.
+
+4
+00:00:07,000 --> 00:00:09,000
+And what that means--sounds like a fancy name,
+
+5
+00:00:09,000 --> 00:00:11,000
+but all it really means is we're going to move
+
+6
+00:00:11,000 --> 00:00:13,000
+from one state to the next;
+
+7
+00:00:13,000 --> 00:00:16,000
+and we're going to look at the difference between the 2 states,
+
+8
+00:00:16,000 --> 00:00:19,000
+and learn that--and then kind of back up
+
+9
+00:00:19,000 --> 00:00:22,000
+the values, from one state to the next.
+
+10
+00:00:22,000 --> 00:00:27,000
+So if we're going to follow a fixed policy, pi,
+
+11
+00:00:27,000 --> 00:00:31,000
+and let's say our policy tells us to go this way, and then go this way.
+
+12
+00:00:31,000 --> 00:00:35,000
+We'll eventually learn that we get a plus 1 reward there
+
+13
+00:00:35,000 --> 00:00:38,000
+and we'll start feeding back that plus 1, saying:
+
+14
+00:00:38,000 --> 00:00:40,000
+if it was good to get a plus 1 here,
+
+15
+00:00:40,000 --> 00:00:42,000
+it must be somewhat good to be in this state,
+
+16
+00:00:42,000 --> 00:00:46,000
+somewhat good to be in this state--and so on, back to the start state.
+
+17
+00:00:46,000 --> 00:00:48,000
+So, in order to run this algorithm,
+
+18
+00:00:48,000 --> 00:00:53,000
+we're going to try to build up a table of utilities for each state
+
+19
+00:00:53,000 --> 00:00:56,000
+and along the way, we're going to keep track of
+
+20
+00:00:56,000 --> 00:00:59,000
+the number of times that we visited each state.
+
+21
+00:00:59,000 --> 00:01:01,000
+Now, the table of utilities, we're going to start blank--
+
+22
+00:01:01,000 --> 00:01:03,000
+we're not going to start them at zero or anything else
+
+23
+00:01:03,000 --> 00:01:05,000
+where they're just going to be undefined.
+
+24
+00:01:05,000 --> 00:01:07,000
+And the table of numbers, we're going to start at zero,
+
+25
+00:01:07,000 --> 00:01:11,000
+saying we visited each state a total of zero times.
+
+26
+00:01:11,000 --> 00:01:14,000
+What we're going to do is run the policy,
+
+27
+00:01:14,000 --> 00:01:16,000
+have a trial that goes through the state;
+
+28
+00:01:16,000 --> 00:01:18,000
+when it gets to a terminal state,
+
+29
+00:01:18,000 --> 00:01:21,000
+we start it over again at the start and run it again;
+
+30
+00:01:21,000 --> 00:01:24,000
+and we keep track of how many times we visited each state,
+
+31
+00:01:24,000 --> 00:01:26,000
+we update the utilities, and we get a better
+
+32
+00:01:26,000 --> 00:01:28,000
+and better estimate for the utility.
+
+33
+00:01:28,000 --> 00:01:30,000
+And this is what the inner loop of the algorithm looks like--
+
+34
+00:01:30,000 --> 00:01:32,000
+and let's see if we can trace it out.
+
+35
+00:01:32,000 --> 00:01:34,000
+So we'll start at a start state,
+
+36
+00:01:34,000 --> 00:01:39,000
+we'll apply the policy--and let's say the policy tells us to move in this direction.
+
+37
+00:01:39,000 --> 00:01:42,000
+Then we get a reward here,
+
+38
+00:01:42,000 --> 00:01:44,000
+which is zero;
+
+39
+00:01:44,000 --> 00:01:46,000
+and then we look at it with the algorithm,
+
+40
+00:01:46,000 --> 00:01:48,000
+and the algorithm tells us if the state
+
+41
+00:01:48,000 --> 00:01:51,000
+is new--yes, it is; we've never been there before--
+
+42
+00:01:51,000 --> 00:01:56,000
+then set the utility of that state to the new reward, which is zero.
+
+43
+00:01:56,000 --> 00:01:58,000
+Okay--so now we have a zero here;
+
+44
+00:01:58,000 --> 00:02:02,000
+and then let's say, the next step, we move up here.
+
+45
+00:02:02,000 --> 00:02:04,000
+So, again, we have a zero;
+
+46
+00:02:04,000 --> 00:02:07,000
+and let's say our policy looks like a good one,
+
+47
+00:02:07,000 --> 00:02:10,000
+so we get: here, we have a zero.
+
+48
+00:02:10,000 --> 00:02:12,000
+We get: here, we have a zero.
+
+49
+00:02:12,000 --> 00:02:16,000
+We get: here--now, this state,
+
+50
+00:02:16,000 --> 00:02:20,000
+we get a reward of 1, so that state gets a utility of 1.
+
+51
+00:02:20,000 --> 00:02:23,000
+And all along the way, we have to think about
+
+52
+00:02:23,000 --> 00:02:26,000
+how we're backing up these values, as well.
+
+53
+00:02:26,000 --> 00:02:31,000
+So when we get here, we have to look at this formula to say:
+
+54
+00:02:31,000 --> 00:02:35,000
+How are we going to update the utility of the prior state?
+
+55
+00:02:35,000 --> 00:02:38,000
+And the difference between this state and this state is zero.
+
+56
+00:02:38,000 --> 00:02:43,000
+so this difference, here, is going to be zero--
+
+57
+00:02:43,000 --> 00:02:46,000
+the reward is zero, and so there's going to be no update to this state.
+
+58
+00:02:46,000 --> 00:02:50,000
+But now, finally--for the first time--we're going to have an actual update.
+
+59
+00:02:50,000 --> 00:02:54,000
+So we're going to update this state to be plus 1,
+
+60
+00:02:54,000 --> 00:02:57,000
+and now we're going to think about changing this state.
+
+61
+00:02:57,000 --> 00:03:00,000
+And what was its old utility?--well, it was zero.
+
+62
+00:03:00,000 --> 00:03:03,000
+And then there's a factor called Alpha,
+
+63
+00:03:03,000 --> 00:03:05,000
+which is the learning rate
+
+64
+00:03:05,000 --> 00:03:08,000
+that tells us how much we want to move this utility
+
+65
+00:03:08,000 --> 00:03:11,000
+towards something that's maybe a better estimate.
+
+66
+00:03:11,000 --> 00:03:14,000
+And the learning rate should be such that,
+
+67
+00:03:14,000 --> 00:03:16,000
+if we are brand new,
+
+68
+00:03:16,000 --> 00:03:18,000
+we want to move a big step;
+
+69
+00:03:18,000 --> 00:03:20,000
+and if we've seen this state a lot of times,
+
+70
+00:03:20,000 --> 00:03:22,000
+we're pretty confident of our number
+
+71
+00:03:22,000 --> 00:03:24,000
+and we want to make a small step.
+
+72
+00:03:24,000 --> 00:03:29,000
+So let's say that the Alpha function is 1 over N plus 1.
+
+73
+00:03:29,000 --> 00:03:31,000
+Well, we'd better not make it 1 over N plus 1, when N is zero.
+
+74
+00:03:31,000 --> 00:03:35,000
+So 1 over N plus 1 would be ½;
+
+75
+00:03:35,000 --> 00:03:39,000
+and then the reward in this state was zero;
+
+76
+00:03:39,000 --> 00:03:41,000
+plus, we had a Gamma--
+
+77
+00:03:41,000 --> 00:03:44,000
+and let's just say that Gamma is 1,
+
+78
+00:03:44,000 --> 00:03:46,000
+so there's no discounting; and then
+
+79
+00:03:46,000 --> 00:03:49,000
+we look at the difference between the utility
+
+80
+00:03:49,000 --> 00:03:52,000
+of the resulting state--which is 1--
+
+81
+00:03:52,000 --> 00:03:57,000
+minus the utility of this state, which was zero.
+
+82
+00:03:57,000 --> 00:04:01,000
+So we get ½, 1 minus zero--which is ½.
+
+83
+00:04:01,000 --> 00:04:03,000
+So we update this;
+
+84
+00:04:03,000 --> 00:04:06,000
+and we change this zero to ½.
+
+85
+00:04:06,000 --> 00:04:10,000
+Now let's say we start all over again
+
+86
+00:04:10,000 --> 00:04:12,000
+and let's say our policy is right on track;
+
+87
+00:04:12,000 --> 00:04:16,000
+and nothing unusual, stochastically, has happened.
+
+88
+00:04:16,000 --> 00:04:19,000
+So we follow the same path,
+
+89
+00:04:19,000 --> 00:04:23,000
+we don't update--because they're all zeros all along this path.
+
+90
+00:04:23,000 --> 00:04:26,000
+We go here, here, here;
+
+91
+00:04:26,000 --> 00:04:28,000
+and now it's time for an update.
+
+92
+00:04:28,000 --> 00:04:33,000
+So now, we've transitioned from a zero to ½--
+
+93
+00:04:33,000 --> 00:04:35,000
+so how are we going to update this state?
+
+94
+00:04:35,000 --> 00:04:37,000
+Well, the old state was zero
+
+95
+00:04:37,000 --> 00:04:41,000
+and now we have a 1 over N plus 1--
+
+96
+00:04:41,000 --> 00:04:44,000
+so let's say 1/3.
+
+97
+00:04:44,000 --> 00:04:46,000
+So we're getting a little bit more confident--because we've been there
+
+98
+00:04:46,000 --> 00:04:48,000
+twice, rather than just once.
+
+99
+00:04:48,000 --> 00:04:51,000
+The reward in this state was zero,
+
+100
+00:04:51,000 --> 00:04:54,000
+and then we have to look at the difference between these 2 states.
+
+101
+00:04:54,000 --> 00:04:57,000
+That's where we get the name, Temporal Difference;
+
+102
+00:04:57,000 --> 00:05:01,000
+and so, we have ½ minus zero--
+
+103
+00:05:01,000 --> 00:05:03,000
+and so that's 1/3 times ½--
+
+104
+00:05:03,000 --> 00:05:05,000
+so that's 1/6.
+
+105
+00:05:05,000 --> 00:05:07,000
+Now we update this state.
+
+106
+00:05:07,000 --> 00:05:11,000
+It was zero; now it becomes 1/6.
+
+107
+00:05:11,000 --> 00:05:13,000
+And you can see how the results
+
+108
+00:05:13,000 --> 00:05:16,000
+of the positive 1 starts to propagate
+
+109
+00:05:16,000 --> 00:05:18,000
+backwards--but it propagates slowly.
+
+110
+00:05:18,000 --> 00:05:20,000
+We have to have 1 trial at a time
+
+111
+00:05:20,000 --> 00:05:22,000
+to get that to propagate backwards.
+
+112
+00:05:22,000 --> 00:05:25,000
+Now, how about the update from this state to this state?
+
+113
+00:05:25,000 --> 00:05:31,000
+Now, we were ½ here--so our old utility was ½;
+
+114
+00:05:31,000 --> 00:05:35,000
+plus Alpha--the learning rate--is 1/3.
+
+115
+00:05:35,000 --> 00:05:39,000
+The reward in the old state was zero;
+
+116
+00:05:39,000 --> 00:05:42,000
+plus the difference between these two,
+
+117
+00:05:42,000 --> 00:05:45,000
+which is 1 minus ½.
+
+118
+00:05:45,000 --> 00:05:49,000
+So that's ½ plus 1/6 is 2/3.
+
+119
+00:05:49,000 --> 00:05:51,000
+And now the second time through,
+
+120
+00:05:51,000 --> 00:05:57,000
+we've updated the utility of this state from 1/2 to 2/3.
+
+121
+00:05:57,000 --> 00:06:02,000
+And we keep on going--and you can see the results of the positive, propagating backwards.
+
+122
+00:06:02,000 --> 00:06:04,000
+And if we did more examples through here,
+
+123
+00:06:04,000 --> 00:06:08,000
+you would see the results of the negative propagating backwards.
+
+124
+00:06:08,000 --> 99:59:59,999
+And eventually, it converges to the correct utilities for this policy.

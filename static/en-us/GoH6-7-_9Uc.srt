@@ -1,0 +1,101 @@
+﻿1
+00:00:00,990 --> 00:00:04,250
+So far, we've uploaded
+a photo to Firebase Storage.
+
+2
+00:00:04,250 --> 00:00:07,429
+Next we need to add functionality
+to handle adding photo messages to
+
+3
+00:00:07,429 --> 00:00:08,589
+the database, so
+
+4
+00:00:08,589 --> 00:00:11,919
+that other people chatting in
+Friendly Chat can see the photo.
+
+5
+00:00:11,919 --> 00:00:14,820
+We've already done part of the work
+by saving the photo's path,
+
+6
+00:00:14,820 --> 00:00:17,179
+the URL,
+as part of a message in the database.
+
+7
+00:00:18,579 --> 00:00:21,469
+This creates an entry in the messages
+part of the database that has
+
+8
+00:00:21,469 --> 00:00:25,559
+a key value pair for the image URL, and
+a key value pair for the display name.
+
+9
+00:00:26,559 --> 00:00:28,309
+But, unlike text messages,
+
+10
+00:00:28,309 --> 00:00:31,529
+these photo messages do not
+include a key value pair for text.
+
+11
+00:00:32,929 --> 00:00:36,119
+This causes a problem when I want to
+see a photo message appear in the app.
+
+12
+00:00:37,469 --> 00:00:41,259
+Currently the table code is implemented
+to find values for the key name and
+
+13
+00:00:41,259 --> 00:00:41,750
+text.
+
+14
+00:00:43,280 --> 00:00:46,859
+Hence our problem, it's not looking for
+the image URL for our photo messages.
+
+15
+00:00:47,899 --> 00:00:50,719
+There's one other thing I
+want to mention about this URL.
+
+16
+00:00:50,719 --> 00:00:53,909
+It's really important that we're only
+storing the URL here in the database,
+
+17
+00:00:53,909 --> 00:00:57,129
+because we don't want the database
+to be bogged down with large files.
+
+18
+00:00:58,149 --> 00:01:00,820
+By having the URL here,
+which is just a string,
+
+19
+00:01:00,820 --> 00:01:04,540
+we can recreate the image
+using that URL in our app.
+
+20
+00:01:05,629 --> 00:01:06,929
+All right, enough talk.
+
+21
+00:01:06,930 --> 00:01:10,120
+Let's modify our tableView code,
+so it can display photo messages
+

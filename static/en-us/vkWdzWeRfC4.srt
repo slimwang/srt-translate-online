@@ -1,0 +1,223 @@
+1
+00:00:00,000 --> 00:00:03,000
+Sometimes you wish to find corners,
+
+2
+00:00:03,000 --> 00:00:05,000
+as in this checkerboard over here.
+
+3
+00:00:05,000 --> 00:00:08,000
+Corners have an advantage over edges.
+
+4
+00:00:08,000 --> 00:00:10,000
+Edges aren't localizable.
+
+5
+00:00:10,000 --> 00:00:12,000
+They could be anywhere on an edge.
+
+6
+00:00:12,000 --> 00:00:15,000
+But a corner like this or a corner like this
+
+7
+00:00:15,000 --> 00:00:18,000
+can be localized, which is useful in computer vision.
+
+8
+00:00:18,000 --> 00:00:22,000
+What you see here is a Harris corner detector
+
+9
+00:00:22,000 --> 00:00:26,000
+applied to a checkerboard pattern.
+
+10
+00:00:26,000 --> 00:00:29,000
+And you can see all the points that define the checkerboard
+
+11
+00:00:29,000 --> 00:00:33,000
+clearly found by a relatively simple algorithm
+
+12
+00:00:33,000 --> 00:00:36,000
+which I'm just about to explain to you.
+
+13
+00:00:36,000 --> 00:00:41,000
+The Harris corner detector is really a simple algorithm.
+
+14
+00:00:41,000 --> 00:00:44,000
+Suppose you wished to find a corner just like this.
+
+15
+00:00:44,000 --> 00:00:48,000
+Then in the small region over here where the corner resides,
+
+16
+00:00:48,000 --> 00:00:51,000
+you will find a lot of horizontal gradients
+
+17
+00:00:51,000 --> 00:00:53,000
+and a lot of vertical gradients.
+
+18
+00:00:53,000 --> 00:00:55,000
+Now, what's our trick of finding gradients?
+
+19
+00:00:55,000 --> 00:00:58,000
+Well, we know about horizontal gradients.
+
+20
+00:00:58,000 --> 00:01:00,000
+We know about vertical gradients.
+
+21
+00:01:00,000 --> 00:01:03,000
+If those summed up over a small window--
+
+22
+00:01:03,000 --> 00:01:07,000
+as shown right over here--are large, we have a corner.
+
+23
+00:01:07,000 --> 00:01:11,000
+If only one of them is large and the other one is small, we likely have an edge.
+
+24
+00:01:11,000 --> 00:01:13,000
+We already learned this before.
+
+25
+00:01:13,000 --> 00:01:15,000
+It should be no surprise so far.
+
+26
+00:01:15,000 --> 00:01:20,000
+Now, the Harris corner detector generalizes to images,
+
+27
+00:01:20,000 --> 00:01:22,000
+we might have a corner like this
+
+28
+00:01:22,000 --> 00:01:25,000
+that is rotated from the original corner.
+
+29
+00:01:25,000 --> 00:01:28,000
+An image like this on a horizontal gradient
+
+30
+00:01:28,000 --> 00:01:31,000
+isn't quite as pronounced as it is on the vertical gradient.
+
+31
+00:01:31,000 --> 00:01:34,000
+But if you were to rotate our coordinate system
+
+32
+00:01:34,000 --> 00:01:36,000
+back into the correct orientation,
+
+33
+00:01:36,000 --> 00:01:38,000
+we could reduce it back to the case over here.
+
+34
+00:01:38,000 --> 00:01:43,000
+The trick that's being applied is to de-rotate
+
+35
+00:01:43,000 --> 00:01:47,000
+this image over here using eigenvalue decomposition.
+
+36
+00:01:47,000 --> 00:01:50,000
+We use a matrix that slightly generalizes these 2 things over here
+
+37
+00:01:50,000 --> 00:01:53,000
+where again we add our small windows.
+
+38
+00:01:53,000 --> 00:01:56,000
+We plug in the statistic over here up here.
+
+39
+00:01:56,000 --> 00:01:58,000
+The statistic over here down there.
+
+40
+00:01:58,000 --> 00:02:01,000
+And here we have a mixture with the sum over the product
+
+41
+00:02:01,000 --> 00:02:06,000
+of Ix and Iy in the off-diagonal terms.
+
+42
+00:02:06,000 --> 00:02:09,000
+If we apply eigenvalue decomposition to this matrix over here,
+
+43
+00:02:09,000 --> 00:02:11,000
+we get 2 eigenvalues.
+
+44
+00:02:11,000 --> 00:02:13,000
+And if both eigenvalues are large,
+
+45
+00:02:13,000 --> 00:02:16,000
+we again say we have a corner.
+
+46
+00:02:16,000 --> 00:02:19,000
+So, applying this eigenvalue decomposition
+
+47
+00:02:19,000 --> 00:02:21,000
+to every positive pixel in the original image
+
+48
+00:02:21,000 --> 00:02:24,000
+and then taking the local maxima of that result
+
+49
+00:02:24,000 --> 00:02:27,000
+where both eigenvalues are large gives us exactly
+
+50
+00:02:27,000 --> 00:02:30,000
+the Harris corner detector in a very robust way
+
+51
+00:02:30,000 --> 00:02:33,000
+to find corners in an image.
+
+52
+00:02:33,000 --> 00:02:37,000
+This is exactly what's being done over here,
+
+53
+00:02:37,000 --> 00:02:41,000
+and you can see it's very robust even to small rotations of the image,
+
+54
+00:02:41,000 --> 00:02:43,000
+and of course, to a scale of the image.
+
+55
+00:02:43,000 --> 00:02:47,000
+It's a beautiful way to find stable,
+
+56
+00:02:47,000 --> 00:02:51,000
+localizable features in contrast-rich images.

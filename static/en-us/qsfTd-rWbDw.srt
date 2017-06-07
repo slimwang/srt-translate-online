@@ -1,0 +1,563 @@
+1
+00:00:00,590 --> 00:00:05,310
+So, if a client asks you to
+develop an application that should
+
+2
+00:00:05,310 --> 00:00:10,590
+display the temperature
+in several cities
+
+3
+00:00:10,590 --> 00:00:15,720
+in both Celsius and Fahrenheit,
+both as text and as a graph.
+
+4
+00:00:15,720 --> 00:00:19,740
+Just a color or a line graph, whatever.
+
+5
+00:00:19,740 --> 00:00:20,920
+How would you go and design it?
+
+6
+00:00:20,920 --> 00:00:24,680
+And by designing mean,
+the architecture of the application,
+
+7
+00:00:24,680 --> 00:00:26,140
+not graphical design.
+
+8
+00:00:26,140 --> 00:00:28,480
+I'm thinking with model view controller.
+
+9
+00:00:28,480 --> 00:00:29,320
+>> Okay, yeah.
+
+10
+00:00:29,320 --> 00:00:31,220
+Use the whiteboard.
+
+11
+00:00:31,220 --> 00:00:34,540
+So, I like to start with the model
+
+12
+00:00:34,540 --> 00:00:37,240
+when I'm thinking about
+applications like this.
+
+13
+00:00:37,240 --> 00:00:40,780
+And when you said graph, I kind of
+quickly thought about data points.
+
+14
+00:00:40,780 --> 00:00:43,445
+So in this case,
+maybe like a temperature point.
+
+15
+00:00:43,445 --> 00:00:47,355
+So, we'll just say struct for now, and
+
+16
+00:00:47,355 --> 00:00:51,618
+let's say it needs
+a temperature reading.
+
+17
+00:00:51,618 --> 00:00:57,420
+I'll just, let tempReading.
+
+18
+00:00:57,420 --> 00:01:01,410
+So, something like this and
+I'll put it as a double.
+
+19
+00:01:01,410 --> 00:01:05,081
+I don't know exactly what
+system we need to be in.
+
+20
+00:01:05,081 --> 00:01:08,232
+But whether we want to do the readings
+in Celsius or Fahrenheit, but
+
+21
+00:01:08,232 --> 00:01:09,819
+don't worry about that for now.
+
+22
+00:01:09,819 --> 00:01:10,480
+>> Okay.
+
+23
+00:01:10,480 --> 00:01:12,234
+>> And then maybe a timestamp.
+
+24
+00:01:12,234 --> 00:01:18,736
+>> I want just to show them in
+several degrees Celsius, Fahrenheit.
+
+25
+00:01:18,736 --> 00:01:22,012
+It doesn't really matter
+how you do the reading,
+
+26
+00:01:22,012 --> 00:01:24,800
+as long as the user can see it in both.
+
+27
+00:01:24,800 --> 00:01:25,540
+>> Okay.
+
+28
+00:01:25,540 --> 00:01:27,970
+Okay, so this will work then, I think.
+
+29
+00:01:27,970 --> 00:01:32,860
+Maybe I'll just call it temp,
+make it more simple.
+
+30
+00:01:32,860 --> 00:01:34,070
+So we'll have a temperature.
+
+31
+00:01:34,070 --> 00:01:37,571
+And then since,
+if we're going to display it on a graph,
+
+32
+00:01:37,571 --> 00:01:42,224
+in a graphical format, it'd be nice
+to have a date when it was recorded.
+
+33
+00:01:46,484 --> 00:01:50,978
+I can use a date of maybe
+some information about
+
+34
+00:01:50,978 --> 00:01:55,730
+the region in the locality or something.
+
+35
+00:01:55,730 --> 00:01:59,460
+So, region.
+
+36
+00:02:02,400 --> 00:02:07,290
+And for this, are we going to display
+them based on maybe city, or does it?
+
+37
+00:02:07,290 --> 00:02:08,160
+>> A city.
+
+38
+00:02:08,160 --> 00:02:09,100
+City is enough.
+
+39
+00:02:09,100 --> 00:02:10,788
+>> Okay.
+We'll do more precision.
+
+40
+00:02:10,788 --> 00:02:13,263
+Okay, I guess what I'm trying to ask,
+
+41
+00:02:13,263 --> 00:02:16,122
+is it a small set of places potentially,
+or?
+
+42
+00:02:16,122 --> 00:02:16,910
+>> Yes, a small one.
+
+43
+00:02:16,910 --> 00:02:18,224
+>> Okay.
+
+44
+00:02:18,224 --> 00:02:19,988
+I would just use a string for now.
+
+45
+00:02:19,988 --> 00:02:24,567
+What I'm thinking is,
+if you're say, displaying cities,
+
+46
+00:02:24,567 --> 00:02:27,570
+maybe there's a quicker way to filter.
+
+47
+00:02:27,570 --> 00:02:31,708
+Like, if we wanted to filter which graph
+we're looking at other than just using
+
+48
+00:02:31,708 --> 00:02:33,579
+a string, but we'll go with this.
+
+49
+00:02:33,579 --> 00:02:37,891
+So we'll say this is the model,
+
+50
+00:02:37,891 --> 00:02:42,210
+it's a simple model right now.
+
+51
+00:02:42,210 --> 00:02:47,034
+And then for our views, let's think
+about how we're going to display it.
+
+52
+00:02:47,034 --> 00:02:54,674
+So, it's a very rudimentary iPhone here.
+
+53
+00:02:54,674 --> 00:02:58,592
+You said, a graph and then just maybe
+like a single temperature reading or?
+
+54
+00:02:58,592 --> 00:02:59,255
+>> Yes.
+
+55
+00:02:59,255 --> 00:03:04,764
+The temperature in Celsius and
+Fahrenheit, both,
+
+56
+00:03:04,764 --> 00:03:10,045
+and the user might switch
+from a text to a graph or-
+
+57
+00:03:10,045 --> 00:03:12,775
+>> Okay, so I'm just trying to,
+
+58
+00:03:12,775 --> 00:03:17,290
+in my head,
+think about what it might look like, so
+
+59
+00:03:17,290 --> 00:03:20,456
+we might have something like this.
+
+60
+00:03:20,456 --> 00:03:22,615
+Show the time it was recorded.
+
+61
+00:03:22,615 --> 00:03:25,018
+So maybe we should use
+something other than NSDate.
+
+62
+00:03:25,018 --> 00:03:30,022
+Just add time, we need some time for
+this potentially.
+
+63
+00:03:30,022 --> 00:03:37,770
+We'll say it was like 10:53 PM central
+standard time, since I'm in Alabama.
+
+64
+00:03:37,770 --> 00:03:39,930
+Assume it's going to be
+central standard time.
+
+65
+00:03:39,930 --> 00:03:46,070
+And then of, maybe something
+that talks about where it is.
+
+66
+00:03:46,070 --> 00:03:50,318
+So I'll just say Alabama.
+
+67
+00:03:50,318 --> 00:03:54,141
+If we want to be able to show both
+Celsius and Fahrenheit at the same time,
+
+68
+00:03:54,141 --> 00:03:56,962
+it might be nice to have
+like a calculated property.
+
+69
+00:03:56,962 --> 00:04:01,745
+If this is recorded, say in Celsius.
+
+70
+00:04:01,745 --> 00:04:08,309
+We could have temp F double and
+
+71
+00:04:08,309 --> 00:04:14,611
+then return, whatever that
+
+72
+00:04:14,611 --> 00:04:22,050
+calculation is to Fahrenheit.
+
+73
+00:04:22,050 --> 00:04:26,140
+And then for our graph,
+I don't know if there's actually
+
+74
+00:04:26,140 --> 00:04:31,590
+a built-in graph display within
+UI Kit or something like that.
+
+75
+00:04:31,590 --> 00:04:36,610
+>> There's core plot, which is not
+built in, but a lot of people use.
+
+76
+00:04:36,610 --> 00:04:39,260
+But with, what I meant a graph,
+it's enough to have kind of a bar,
+
+77
+00:04:39,260 --> 00:04:45,640
+that displays the temperature
+with a slightly different color
+
+78
+00:04:45,640 --> 00:04:48,960
+maybe if it's getting hot, this would
+be red and over here would be blue.
+
+79
+00:04:49,960 --> 00:04:53,967
+Nothing too-
+>> So you're saying, plotting like,
+
+80
+00:04:53,967 --> 00:04:57,560
+if it's like we have
+a little temperature.
+
+81
+00:04:57,560 --> 00:04:58,630
+>> Yeah, something like that.
+
+82
+00:04:58,630 --> 00:04:59,130
+>> Plot.
+
+83
+00:05:00,390 --> 00:05:04,070
+I have a little, like a beaker here.
+
+84
+00:05:04,070 --> 00:05:05,970
+Will we have multiple
+points on the same?
+
+85
+00:05:07,260 --> 00:05:11,720
+Okay, so I mean, at some point, this is
+going to be backed by a controller and
+
+86
+00:05:11,720 --> 00:05:16,980
+this controller, whatever it is, is
+going to need to have an array of these.
+
+87
+00:05:16,980 --> 00:05:17,789
+We never name this.
+
+88
+00:05:18,800 --> 00:05:21,160
+We'll call this TempReading.
+
+89
+00:05:23,412 --> 00:05:25,820
+Reading structs.
+
+90
+00:05:25,820 --> 00:05:30,470
+>> So, if this is your model and
+these are going to be the views.
+
+91
+00:05:30,470 --> 00:05:32,180
+Where is the controller in this?
+
+92
+00:05:32,180 --> 00:05:33,782
+>> The controller kind of
+lives in between.
+
+93
+00:05:33,782 --> 00:05:39,566
+So, imagine somewhere kind of here
+in the middle of these two things.
+
+94
+00:05:39,566 --> 00:05:45,092
+We have a temperature, we'll call this
+
+95
+00:05:45,092 --> 00:05:50,138
+something like temperature graph.
+
+96
+00:05:50,138 --> 00:05:51,833
+The view controller.
+
+97
+00:05:51,833 --> 00:05:59,010
+And we may have the single temp,
+new controller.
+
+98
+00:06:00,110 --> 00:06:04,140
+And these two, since they're going to be
+displaying essentially the same thing.
+
+99
+00:06:04,140 --> 00:06:10,150
+Maybe this is displaying one particular
+element in an array of these structs.
+
+100
+00:06:10,150 --> 00:06:13,860
+These can probably be backed
+by the same data source.
+
+101
+00:06:13,860 --> 00:06:17,230
+So, they could have a property
+that is that potentially.
+
+102
+00:06:17,230 --> 00:06:22,779
+So, we'll just say,
+it's temp data source,
+
+103
+00:06:22,779 --> 00:06:26,950
+or we could have these two classes.
+
+104
+00:06:28,180 --> 00:06:29,800
+Let's just say, we'll call this.
+
+105
+00:06:30,910 --> 00:06:34,020
+No, actually, that works fine, I think.
+
+106
+00:06:34,020 --> 00:06:38,880
+What I was thinking is maybe we
+have them inherit from an object
+
+107
+00:06:38,880 --> 00:06:40,754
+that has the data in it.
+
+108
+00:06:40,754 --> 00:06:45,604
+So, we can have like a temp
+
+109
+00:06:45,604 --> 00:06:50,242
+data store or like that.
+
+110
+00:06:50,242 --> 00:06:56,112
+And then this particular class-
+>> Mm-hm?
+
+111
+00:06:56,112 --> 00:07:01,099
+>> Gives us options for
+like, add reading.
+
+112
+00:07:04,780 --> 00:07:10,005
+Get reading at index for
+these particular one we want
+
+113
+00:07:10,005 --> 00:07:14,764
+to split a single one,
+or something like that.
+
+114
+00:07:14,764 --> 00:07:19,415
+>> Okay, makes sense.
+
+115
+00:07:19,415 --> 00:07:21,911
+>> Yeah, so
+it's a little rough but I think-
+
+116
+00:07:21,911 --> 00:07:22,590
+>> Yeah, but
+
+117
+00:07:22,590 --> 00:07:26,366
+I just want to have a broad
+overview of if you understand what
+
+118
+00:07:26,366 --> 00:07:30,989
+are the responsibilities of the model,
+the view, and the controller.
+
+119
+00:07:30,989 --> 00:07:31,629
+>> Yeah.
+
+120
+00:07:31,629 --> 00:07:33,370
+>> So that's our main focus.
+
+121
+00:07:33,370 --> 00:07:36,400
+>> Yeah, I mean my main goal with
+these would be to try to keep them
+
+122
+00:07:36,400 --> 00:07:37,630
+as small as possible.
+
+123
+00:07:37,630 --> 00:07:42,273
+And just make sure that they're doing
+the task they're dedicated to do.
+
+124
+00:07:42,273 --> 00:07:43,704
+>> Okay.
+
+125
+00:07:43,704 --> 00:07:45,140
+Okay, thank you.

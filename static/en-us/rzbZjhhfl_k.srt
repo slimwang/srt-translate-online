@@ -1,0 +1,361 @@
+1
+00:00:00,090 --> 00:00:04,730
+Shorter's job considers the execution
+time of the tasks in order to decide how
+
+2
+00:00:04,730 --> 00:00:08,890
+to schedule tasks, and
+when to preempt a particular task.
+
+3
+00:00:08,890 --> 00:00:10,030
+Another criteria for
+
+4
+00:00:10,030 --> 00:00:14,630
+driving those decisions may be that
+the tasks have different priority.
+
+5
+00:00:14,630 --> 00:00:16,850
+Tasks that have different
+priority levels,
+
+6
+00:00:16,850 --> 00:00:18,940
+that's a pretty common situation.
+
+7
+00:00:18,940 --> 00:00:23,820
+For instance, we have certain operating
+system level threads that run OS tasks,
+
+8
+00:00:23,820 --> 00:00:27,290
+that have higher priority than
+other threads that support,
+
+9
+00:00:27,290 --> 00:00:31,390
+maybe user-level processes, or
+even within a user-level process,
+
+10
+00:00:31,390 --> 00:00:36,618
+maybe certain threads that are intended
+to run when there is user input.
+
+11
+00:00:36,618 --> 00:00:40,390
+Such threads may have higher priority
+compared to other threads that just do
+
+12
+00:00:40,390 --> 00:00:43,840
+some background processing for
+long running simulations.
+
+13
+00:00:43,840 --> 00:00:47,360
+In such scenarios the scheduler will
+have to be able to run the highest
+
+14
+00:00:47,360 --> 00:00:49,460
+priority task next.
+
+15
+00:00:49,460 --> 00:00:52,000
+So clearly it will have
+to support preemption.
+
+16
+00:00:52,000 --> 00:00:56,500
+It will need to be able to stop a low
+priority task and preempt it, so
+
+17
+00:00:56,500 --> 00:00:59,200
+that the high priority one can run next.
+
+18
+00:00:59,200 --> 00:01:01,780
+So, let's look at now at
+the same example from before,
+
+19
+00:01:01,780 --> 00:01:05,120
+except now we're going to
+use priority scheduling.
+
+20
+00:01:05,120 --> 00:01:07,800
+And we need to know
+the task's priorities.
+
+21
+00:01:07,800 --> 00:01:11,310
+And in this particular example,
+the priorities P1, P2, and
+
+22
+00:01:11,310 --> 00:01:16,740
+P3 are such that the first thread,
+T1, has the lowest priority.
+
+23
+00:01:16,740 --> 00:01:19,500
+Followed by the second thread,
+so it's Priority, P2.
+
+24
+00:01:19,500 --> 00:01:24,650
+And then finally, the third thread,
+P3, has the highest Priority, P3.
+
+25
+00:01:24,650 --> 00:01:27,100
+Again, we start with
+the execution of T2,
+
+26
+00:01:27,100 --> 00:01:30,280
+since it's the only
+thread in the system.
+
+27
+00:01:30,280 --> 00:01:35,360
+Now however, when T1 and T3 become
+ready at this particular point in time,
+
+28
+00:01:35,360 --> 00:01:38,930
+when time is doom, we'll have
+a very definite execution compared
+
+29
+00:01:38,930 --> 00:01:42,900
+to the shortest job first
+with preemption scheduler.
+
+30
+00:01:42,900 --> 00:01:44,780
+So when we look at the priorities,
+
+31
+00:01:44,780 --> 00:01:49,280
+we see that T3 has the highest priority,
+P3.
+
+32
+00:01:49,280 --> 00:01:51,830
+So when threads one and
+three become ready and
+
+33
+00:01:51,830 --> 00:01:56,120
+they arrive at this particular moment,
+thread two is first going to be
+
+34
+00:01:56,120 --> 00:02:00,460
+preempted and the execution of
+the thread three will start.
+
+35
+00:02:00,460 --> 00:02:03,290
+So thread three has
+the highest priority.
+
+36
+00:02:03,290 --> 00:02:08,389
+When thread three completes, at that
+point thread two has the lower priority.
+
+37
+00:02:08,389 --> 00:02:11,960
+So we'll have to give
+the CPU to thread two.
+
+38
+00:02:11,960 --> 00:02:13,810
+And now it's pretty unfortunate that for
+
+39
+00:02:13,810 --> 00:02:17,350
+thread 1 we'll have to wait for
+all this time before it can execute.
+
+40
+00:02:17,350 --> 00:02:22,010
+But a priority based scheduling is only
+going to look at the priorities of
+
+41
+00:02:22,010 --> 00:02:23,210
+the threads.
+
+42
+00:02:23,210 --> 00:02:27,710
+So thread 1 is not going to really
+start running until the 11th second
+
+43
+00:02:27,710 --> 00:02:31,590
+in this time graph and
+then it will complete at time
+
+44
+00:02:31,590 --> 00:02:35,500
+T12 as the entire schedule will
+complete at that time as well.
+
+45
+00:02:35,500 --> 00:02:39,990
+In this example we were looking at this
+table, but in principal, our scheduler
+
+46
+00:02:39,990 --> 00:02:43,680
+if it needs to be a priority based
+scheduler, it will somehow need
+
+47
+00:02:43,680 --> 00:02:48,200
+to quickly be able to assess not just
+what are the runnable threads in this
+
+48
+00:02:48,200 --> 00:02:51,680
+system that are ready to execute,
+but also what are their priorities?
+
+49
+00:02:51,680 --> 00:02:55,380
+And it will need to select the one
+that has the highest priority to
+
+50
+00:02:55,380 --> 00:02:56,820
+execute next.
+
+51
+00:02:56,820 --> 00:03:01,020
+We can achieve this by having
+multiple run queue structures.
+
+52
+00:03:01,020 --> 00:03:04,480
+Different run queue structures for
+each priority level.
+
+53
+00:03:04,480 --> 00:03:07,300
+And then have the scheduler
+select a task
+
+54
+00:03:07,300 --> 00:03:10,640
+from the runqueue that corresponds
+to the highest priority level.
+
+55
+00:03:10,640 --> 00:03:12,910
+In this case that was the P3.
+
+56
+00:03:12,910 --> 00:03:15,620
+Other than having per priority queues,
+
+57
+00:03:15,620 --> 00:03:19,260
+another option would be to have some
+kind of ordered data structure.
+
+58
+00:03:19,260 --> 00:03:22,870
+Like, for instance, the tree that
+resolve with the shortest job first.
+
+59
+00:03:22,870 --> 00:03:25,730
+However, in this case,
+with priority scheduling,
+
+60
+00:03:25,730 --> 00:03:29,390
+this tree would need to be ordered
+based on the priority of the tasks.
+
+61
+00:03:29,390 --> 00:03:33,320
+One danger with priority-based
+scheduling is starvation.
+
+62
+00:03:33,320 --> 00:03:37,590
+We can have a situation in which a low
+priority tasks is basically infinitely
+
+63
+00:03:37,590 --> 00:03:41,862
+start in a run queue just because
+they're constantly higher priority tasks
+
+64
+00:03:41,862 --> 00:03:45,820
+that show up in some of the other
+parts of the run queue.
+
+65
+00:03:45,820 --> 00:03:49,430
+One mechanism that we use to
+protect against starvation is so
+
+66
+00:03:49,430 --> 00:03:51,548
+called priority aging.
+
+67
+00:03:51,548 --> 00:03:57,110
+What that means is that, the priority of
+the task isn't just a fixed priority,
+
+68
+00:03:57,110 --> 00:04:01,450
+instead, it's some kind of function
+of the actual priority of the thread.
+
+69
+00:04:01,450 --> 00:04:03,630
+Plus one other factor, and
+
+70
+00:04:03,630 --> 00:04:07,280
+that is the time that the thread or
+the task spent in the run queue.
+
+71
+00:04:07,280 --> 00:04:11,140
+The idea is that the longer
+a task spends in a run queue,
+
+72
+00:04:11,140 --> 00:04:14,010
+the higher it priority should become.
+
+73
+00:04:14,010 --> 00:04:18,180
+So eventually the task will become
+the highest priority task in the system,
+
+74
+00:04:18,180 --> 00:04:21,410
+using this priority aging mechanism,
+and it will run.
+
+75
+00:04:21,410 --> 00:04:23,730
+And in this manner,
+starvation will be prevented.

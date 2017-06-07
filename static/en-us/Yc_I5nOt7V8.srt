@@ -1,0 +1,97 @@
+1
+00:00:00,160 --> 00:00:02,469
+So Jake,
+did you manage to finish the project?
+
+2
+00:00:02,469 --> 00:00:05,860
+>> Yes, yes, it's all done,
+completely offline first.
+
+3
+00:00:05,860 --> 00:00:08,020
+Here's how the final bits came together.
+
+4
+00:00:08,020 --> 00:00:15,576
+So over in our fetch event I'm going to
+react to URLs that start with /avatars/.
+
+5
+00:00:15,576 --> 00:00:19,750
+For those I'll call respondWith,
+passing in the result of serveAvatar.
+
+6
+00:00:21,320 --> 00:00:25,477
+Over in serveAvatar,
+I'll start by opening the image cache,
+
+7
+00:00:25,477 --> 00:00:28,623
+then I'll look for
+a match for the storage URL.
+
+8
+00:00:28,623 --> 00:00:32,000
+Right, here's where things start
+to get a little bit different.
+
+9
+00:00:32,000 --> 00:00:33,940
+I'm going to do a network fetch for
+the avatar.
+
+10
+00:00:35,250 --> 00:00:38,720
+And if I get a response,
+I'm going to put a clone in the cache
+
+11
+00:00:38,720 --> 00:00:44,410
+using the storage URL, then I'm
+going to return the original response.
+
+12
+00:00:44,410 --> 00:00:46,140
+Now I've got a response from the cache.
+
+13
+00:00:46,140 --> 00:00:49,390
+That might be undefined if there's no
+match for this particular request.
+
+14
+00:00:49,390 --> 00:00:52,730
+But I've also got a promise for
+the network response.
+
+15
+00:00:52,730 --> 00:00:58,690
+So I'll return the cache response or
+the network response, and that's it.
+
+16
+00:00:58,690 --> 00:01:02,840
+If I go to the browser and ensure force
+update is enabled and hit refresh,
+
+17
+00:01:04,230 --> 00:01:08,290
+I can now see in the resources panel,
+if I hit this update icon here,
+
+18
+00:01:08,290 --> 00:01:11,310
+things are entering the cache
+both photos and avatars.
+
+19
+00:01:12,490 --> 00:01:17,330
+So if I go offline now and
+refresh the page, we have content,
+
+20
+00:01:17,330 --> 00:01:21,197
+photos, and avatars,
+the full offline-first experience.

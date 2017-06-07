@@ -1,0 +1,51 @@
+1
+00:00:00,190 --> 00:00:04,370
+I would argue that the global grouping is needed here because we
+
+2
+00:00:04,370 --> 00:00:09,720
+want the entire stream to be sent to a single bolt, the ReportBolt.
+
+3
+00:00:09,720 --> 00:00:11,840
+Because we have a parallelism of one for
+
+4
+00:00:11,840 --> 00:00:14,970
+the ReportBolt, technically a shuffle grouping would also work.
+
+5
+00:00:14,970 --> 00:00:17,640
+All streams are shuffled to one ReportBolt, but
+
+6
+00:00:17,640 --> 00:00:20,440
+this adds computational overhead for one bolt.
+
+7
+00:00:20,440 --> 00:00:23,330
+Finally the fields grouping means we hash or
+
+8
+00:00:23,330 --> 00:00:27,580
+bin on a subset of the tuple attributes or fields.
+
+9
+00:00:27,580 --> 00:00:31,520
+For our use case then this is also not the best solution due to
+
+10
+00:00:31,520 --> 00:00:33,800
+computational overhead for one bolt.
+
+11
+00:00:33,800 --> 00:00:36,990
+Hopefully you chose the global grouping to connect the report bolt
+
+12
+00:00:36,990 --> 00:00:38,490
+to the count bolt.
+
+13
+00:00:38,490 --> 00:00:38,990
+Great job.

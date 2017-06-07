@@ -1,0 +1,95 @@
+1
+00:00:00,290 --> 00:00:03,020
+So, how do you go about solving this?
+
+2
+00:00:03,020 --> 00:00:06,300
+Let's first figure out what the number of blocks should be.
+
+3
+00:00:06,300 --> 00:00:08,570
+Since we're only interested in whole blocks,
+
+4
+00:00:08,570 --> 00:00:10,540
+we use the floor function to round off.
+
+5
+00:00:11,690 --> 00:00:14,665
+Okay, now initialize disparity as a row-vector.
+
+6
+00:00:15,890 --> 00:00:19,840
+For each block, let's compute the x coordinate of the left edge.
+
+7
+00:00:19,840 --> 00:00:22,954
+Note that MATLAB and Octave begin indexing at 1.
+
+8
+00:00:24,140 --> 00:00:27,070
+Use this to extract an image patch from the left strip.
+
+9
+00:00:28,450 --> 00:00:32,659
+Now find its best matching exposition in the right strip.
+
+10
+00:00:32,659 --> 00:00:36,800
+And finally, compute disparity as the difference between expositions in
+
+11
+00:00:36,800 --> 00:00:38,220
+the left and right images.
+
+12
+00:00:39,470 --> 00:00:40,750
+Okay? Let's run this.
+
+13
+00:00:42,230 --> 00:00:47,180
+Six disparity values, as expected, but they don't make much sense, do they?
+
+14
+00:00:47,180 --> 00:00:48,100
+Let's try to plot them.
+
+15
+00:00:49,430 --> 00:00:53,470
+Okay, so what does the 0 in the first block position mean?
+
+16
+00:00:53,470 --> 00:00:55,710
+Well, it just says that the best match for
+
+17
+00:00:55,710 --> 00:01:00,770
+the block in the left image was found at the same position in the right image.
+
+18
+00:01:00,770 --> 00:01:02,240
+How about the peak at position 2?
+
+19
+00:01:02,240 --> 00:01:06,860
+This says that the second block has apparently moved a lot.
+
+20
+00:01:06,860 --> 00:01:08,840
+You can actually verify this visually.
+
+21
+00:01:10,030 --> 00:01:14,190
+Look at this feature in the left strip and its position in the right strip.
+
+22
+00:01:15,470 --> 00:01:20,130
+Different blocks have apparently moved by different amounts.
+
+23
+00:01:20,130 --> 00:01:24,010
+Now, how do these disparity values relate to depth in the scene?
+
+24
+00:01:24,010 --> 00:01:27,090
+Think of what are the drawbacks of a simple approach like this.

@@ -1,0 +1,364 @@
+﻿1
+00:00:00,000 --> 00:00:02,460
+This is great. Now you have your recordAudio
+
+2
+00:00:02,460 --> 00:00:04,560
+function executed every time
+
+3
+00:00:04,560 --> 00:00:07,710
+the user presses the Record audio button.
+
+4
+00:00:07,710 --> 00:00:09,780
+This is an example of going from a user
+
+5
+00:00:09,780 --> 00:00:11,910
+face element, in this case the Record
+
+6
+00:00:11,910 --> 00:00:14,969
+button to your code using an IBAction.
+
+7
+00:00:14,969 --> 00:00:17,430
+But what about going the other way
+
+8
+00:00:17,430 --> 00:00:20,250
+around, from code to a user interface element?
+
+9
+00:00:20,250 --> 00:00:23,250
+Maybe we want to disable or
+
+10
+00:00:23,250 --> 00:00:25,710
+enable button, or maybe we want to change
+
+11
+00:00:25,710 --> 00:00:28,439
+the text of a label. When you want to go
+
+12
+00:00:28,439 --> 00:00:31,769
+from code to a UI element, we’ll use a
+
+13
+00:00:31,769 --> 00:00:34,200
+connection called an IBOutlet, otherwise
+
+14
+00:00:34,200 --> 00:00:37,790
+known as an outlet from the code to the
+
+15
+00:00:37,790 --> 00:00:40,790
+UI element. Let's add one of those in now.
+
+16
+00:00:40,790 --> 00:00:45,629
+I’ll stop our simulator and I’m going to
+
+17
+00:00:45,629 --> 00:00:50,760
+go back to our AppDelegate. I’m going to
+
+18
+00:00:50,760 --> 00:00:53,100
+remove our print(“hello, world”) statement,
+
+19
+00:00:53,100 --> 00:00:57,270
+because we don't need it anymore.
+
+20
+00:00:57,270 --> 00:00:58,649
+And then let's go back to our Main.storyboard
+
+21
+00:00:58,649 --> 00:01:04,799
+we’ll hide the debug area. we'll go
+
+22
+00:01:04,799 --> 00:01:09,180
+back to our standard editor view and
+
+23
+00:01:09,180 --> 00:01:12,750
+will reveal the utilities panel. And we
+
+24
+00:01:12,750 --> 00:01:16,800
+need to add some new UI elements.
+
+25
+00:01:16,800 --> 00:01:19,800
+I'll clear out our filter and I’m going to
+
+26
+00:01:19,800 --> 00:01:21,960
+scroll down to a label and let's drag a
+
+27
+00:01:21,960 --> 00:01:26,310
+label into our view. I’ll drag it below
+
+28
+00:01:26,310 --> 00:01:28,590
+our Record button and let the blue lines
+
+29
+00:01:28,590 --> 00:01:33,479
+kind of guide me at least for now.
+
+30
+00:01:33,479 --> 00:01:35,130
+And in the attributes inspector, let's
+
+31
+00:01:35,130 --> 00:01:39,150
+change the text from Label to Tap to Record.
+
+32
+00:01:39,150 --> 00:01:42,570
+And then in the interface editor,
+
+33
+00:01:42,570 --> 00:01:44,759
+I’m going to drag it out, so that we can
+
+34
+00:01:44,759 --> 00:01:49,860
+see all the texts. And reposition it in
+
+35
+00:01:49,860 --> 00:01:52,619
+the center. Next I’m going to drag over
+
+36
+00:01:52,619 --> 00:01:54,930
+another UIButton and I’ll also try to
+
+37
+00:01:54,930 --> 00:01:59,700
+center it here. There we go. And let's change
+
+38
+00:01:59,700 --> 00:02:04,829
+the button’s text to Stop Recording and
+
+39
+00:02:04,829 --> 00:02:06,689
+also drag it out so we can see all the
+
+40
+00:02:06,689 --> 00:02:09,209
+text and kind of centered up. We'll
+
+41
+00:02:09,209 --> 00:02:10,709
+worry about the layout later, so that's
+
+42
+00:02:10,709 --> 00:02:13,130
+not super important.
+
+43
+00:02:13,130 --> 00:02:14,930
+Now pay attention, because here comes the
+
+44
+00:02:14,930 --> 00:02:17,360
+unintuitive part. We want to make
+
+45
+00:02:17,360 --> 00:02:20,720
+connection from the code to a UI element,
+
+46
+00:02:20,720 --> 00:02:24,200
+in this case the Tap to Record label.
+
+47
+00:02:24,200 --> 00:02:26,660
+Let's hide away the utilities and go
+
+48
+00:02:26,660 --> 00:02:36,920
+back to the assistant editor. Now in the
+
+49
+00:02:36,920 --> 00:02:39,500
+document outline, select the Tap to
+
+50
+00:02:39,500 --> 00:02:42,680
+Record label and then hold down the control
+
+51
+00:02:42,680 --> 00:02:45,170
+key and click drag from the Tap to
+
+52
+00:02:45,170 --> 00:02:47,660
+Record label to our ViewController.swift
+
+53
+00:02:47,660 --> 00:02:51,320
+file over here on the right.
+
+54
+00:02:51,320 --> 00:02:52,820
+This time let's place it above our
+
+55
+00:02:52,820 --> 00:02:54,500
+functions, above this viewDidLoad
+
+56
+00:02:54,500 --> 00:02:57,350
+function that we have already. And we’ll
+
+57
+00:02:57,350 --> 00:02:59,450
+let go and in the dialog that appears, we
+
+58
+00:02:59,450 --> 00:03:01,550
+want Outlet and then let's set the name
+
+59
+00:03:01,550 --> 00:03:08,570
+to RecordingLabel. Give ourselves a
+
+60
+00:03:08,570 --> 00:03:11,330
+little space and you can see that Xcode
+
+61
+00:03:11,330 --> 00:03:13,250
+has created an outlet linking the UI
+
+62
+00:03:13,250 --> 00:03:17,900
+element into our code. And now we can use
+
+63
+00:03:17,900 --> 00:03:19,580
+this IBOutlet to change the text after
+
+64
+00:03:19,580 --> 00:03:20,810
+the Record button was pressed,
+
+65
+00:03:20,810 --> 00:03:24,200
+specifically what we want is for the
+
+66
+00:03:24,200 --> 00:03:26,300
+text of the recording label to change
+
+67
+00:03:26,300 --> 00:03:28,910
+when the Record button was pressed.
+
+68
+00:03:28,910 --> 00:03:30,410
+Now we already know that this function
+
+69
+00:03:30,410 --> 00:03:32,750
+recordAudio gets called when the
+
+70
+00:03:32,750 --> 00:03:35,300
+recording button is pressed. That's the
+
+71
+00:03:35,300 --> 00:03:37,130
+function that we wired up earlier as an
+
+72
+00:03:37,130 --> 00:03:38,390
+IBAction.
+
+73
+00:03:38,390 --> 00:03:40,580
+Add the following line to the recordAudio
+
+74
+00:03:40,580 --> 00:03:42,650
+function to change the text of the
+
+75
+00:03:42,650 --> 00:03:46,700
+label to Recording in Progress. If we
+
+76
+00:03:46,700 --> 00:03:48,140
+run the app now and press the Record
+
+77
+00:03:48,140 --> 00:03:50,420
+audio button, we should see the text of
+
+78
+00:03:50,420 --> 00:03:52,310
+the label change to Recording in
+
+79
+00:03:52,310 --> 00:03:59,240
+Progress. So let's run to test this.
+
+80
+00:03:59,240 --> 00:04:01,370
+Right now the controls that we added have not
+
+81
+00:04:01,370 --> 00:04:03,110
+been positioned correctly, but that's ok,
+
+82
+00:04:03,110 --> 00:04:05,000
+we should still be able to test this.
+
+83
+00:04:05,000 --> 00:04:08,540
+Let's click on our button and we can see
+
+84
+00:04:08,540 --> 00:04:10,430
+that the text for the label has changed.
+
+85
+00:04:10,430 --> 00:04:13,280
+Our interface may look a little wacky,
+
+86
+00:04:13,280 --> 00:04:15,560
+but now we've used a IBAction to
+
+87
+00:04:15,560 --> 00:04:17,810
+receive an interaction event on our
+
+88
+00:04:17,810 --> 00:04:20,600
+button, and then we've used an IBOutlet
+
+89
+00:04:20,600 --> 00:04:22,669
+to reach back to a UI element, in this
+
+90
+00:04:22,669 --> 00:04:25,700
+case the label and changes text.
+
+91
+00:04:25,700 --> 00:04:30,969
+Great job
+

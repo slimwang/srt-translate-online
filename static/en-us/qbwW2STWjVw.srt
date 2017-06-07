@@ -1,0 +1,187 @@
+1
+00:00:00,000 --> 00:00:03,346
+Our new empty list is better, but
+it's not telling the user any good
+
+2
+00:00:03,346 --> 00:00:06,293
+information about why they
+aren't getting weather data.
+
+3
+00:00:06,293 --> 00:00:08,312
+There's something easy for us to check.
+
+4
+00:00:08,312 --> 00:00:12,092
+Let's look at improving the integration
+point between the sync adapter in our
+
+5
+00:00:12,092 --> 00:00:13,530
+application and the server.
+
+6
+00:00:14,600 --> 00:00:18,220
+This integration point can go
+wrong in one of two common ways.
+
+7
+00:00:18,220 --> 00:00:20,733
+And, it's vital to make sure
+that we're dealing with both.
+
+8
+00:00:20,733 --> 00:00:24,363
+The first case is when
+the user gives us bad input,
+
+9
+00:00:24,363 --> 00:00:28,100
+either an empty response or
+a non-JSON response.
+
+10
+00:00:28,100 --> 00:00:31,138
+This can happen when there is
+an error on the server side, or
+
+11
+00:00:31,138 --> 00:00:34,440
+when the user is behind
+a captive web portal.
+
+12
+00:00:36,330 --> 00:00:39,170
+The other case,
+which we'll be tackling first,
+
+13
+00:00:39,170 --> 00:00:41,520
+is when we cannot connect
+to the network at all.
+
+14
+00:00:41,520 --> 00:00:44,661
+This will result in outdated data and
+a bad user experience.
+
+15
+00:00:44,661 --> 00:00:48,191
+And it's part of the reason our
+onboarding case goes so poorly.
+
+16
+00:00:48,191 --> 00:00:51,151
+In oder to address this,
+we'll do two things.
+
+17
+00:00:51,151 --> 00:00:53,421
+An onLoadFinished in
+the forecast fragment,
+
+18
+00:00:53,421 --> 00:00:55,281
+if we see that we have an empty cursor,
+
+19
+00:00:55,281 --> 00:00:59,160
+we will write a check to see if
+the device is connected to the internet.
+
+20
+00:00:59,160 --> 00:01:02,740
+If the device is not connected to
+the internet, we will alter the message
+
+21
+00:01:02,740 --> 00:01:06,510
+displayed in the empty list to
+reflect the lack of connectivity.
+
+22
+00:01:06,510 --> 00:01:10,711
+Because Android uses a permission system
+to allow apps access to certain parts of
+
+23
+00:01:10,711 --> 00:01:14,541
+the devices functionality, we'll
+need to have a specific permission,
+
+24
+00:01:14,541 --> 00:01:18,435
+ACCESS_NETWORK_STATE in our Android
+manifest in order to check whether
+
+25
+00:01:18,435 --> 00:01:20,620
+the device is connected to the internet.
+
+26
+00:01:20,620 --> 00:01:23,751
+This is a separate permission from
+the internet permission we already have
+
+27
+00:01:23,751 --> 00:01:24,254
+in our app.
+
+28
+00:01:24,254 --> 00:01:27,620
+We use the connectivity manager
+to check for this state.
+
+29
+00:01:27,620 --> 00:01:32,250
+I recommend creating a function in the
+utility class that can do this for us.
+
+30
+00:01:32,250 --> 00:01:35,210
+We're going to update the empty view for
+no connectivity.
+
+31
+00:01:35,210 --> 00:01:38,498
+First, we're going to add
+the ACCESS_NETWORK_STATE permission.
+
+32
+00:01:38,498 --> 00:01:41,535
+Then, you're going to want to add an
+empty view the sibling to the list view.
+
+33
+00:01:41,535 --> 00:01:44,965
+In onLoadFinished in the forecast
+fragment, as we just went over,
+
+34
+00:01:44,965 --> 00:01:46,356
+check for an empty cursor.
+
+35
+00:01:46,356 --> 00:01:47,899
+If the cursor is empty, check for
+
+36
+00:01:47,899 --> 00:01:50,337
+the network state using
+the Connectivity Manager.
+
+37
+00:01:50,337 --> 00:01:54,214
+If the network state is not connected,
+update the empty view message.
+
+38
+00:01:54,214 --> 00:01:57,344
+Once again, we can test this
+by uninstalling the app,
+
+39
+00:01:57,344 --> 00:02:00,895
+putting the device into airplane mode,
+and running the app.

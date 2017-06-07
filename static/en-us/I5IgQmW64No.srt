@@ -1,0 +1,311 @@
+1
+00:00:00,970 --> 00:00:04,019
+Let's take a look at the continuous
+delivery portion of the pipeline.
+
+2
+00:00:04,019 --> 00:00:07,020
+This includes the continues integration
+portion of the pipeline, so
+
+3
+00:00:07,020 --> 00:00:09,530
+some of the steps will be very similar.
+
+4
+00:00:09,530 --> 00:00:13,980
+Like continuous integration, continuous
+delivery starts with a code check-in,
+
+5
+00:00:13,980 --> 00:00:17,990
+after that an automated build and
+test process is triggered.
+
+6
+00:00:17,990 --> 00:00:20,490
+This part of the continuous
+delivery pipeline is
+
+7
+00:00:20,490 --> 00:00:22,960
+also known as continuous integration.
+
+8
+00:00:22,960 --> 00:00:25,480
+Developers can get quick
+feedback from the system
+
+9
+00:00:25,480 --> 00:00:27,060
+about the status of the build.
+
+10
+00:00:27,060 --> 00:00:30,360
+If it fails, they'll know pretty quickly
+and they should be fixing it right away.
+
+11
+00:00:30,360 --> 00:00:34,710
+If the build works and is good though,
+the continuous delivery pipeline will
+
+12
+00:00:34,710 --> 00:00:37,950
+continue and the developer
+to work on their next task.
+
+13
+00:00:37,950 --> 00:00:41,900
+Next in the pipeline, the code gets
+deployed to a testing environment.
+
+14
+00:00:41,900 --> 00:00:43,780
+At this point,
+several things could happen.
+
+15
+00:00:43,780 --> 00:00:47,240
+The testing server that's set up is
+going to have as close a configuration
+
+16
+00:00:47,240 --> 00:00:50,270
+to production as possible,
+except it's going to usually run
+
+17
+00:00:50,270 --> 00:00:53,810
+on scaled down infrastructure and
+won't have a live database.
+
+18
+00:00:53,810 --> 00:00:56,620
+It's probably going to have a test
+database with generated data or
+
+19
+00:00:56,620 --> 00:00:58,520
+a copy of the actual data.
+
+20
+00:00:58,520 --> 00:01:01,150
+Either a comprehensive
+testing suite will be run or
+
+21
+00:01:01,150 --> 00:01:04,420
+a QA team will be running tests or both.
+
+22
+00:01:04,420 --> 00:01:07,110
+Once that's finished and they've given
+the green light, the code could be
+
+23
+00:01:07,110 --> 00:01:11,120
+deployed to the next stage which is
+usually called the staging environment.
+
+24
+00:01:11,120 --> 00:01:14,440
+The staging environment is a mirror
+of the production environment.
+
+25
+00:01:14,440 --> 00:01:17,360
+This means that it uses
+the actual databases.
+
+26
+00:01:17,360 --> 00:01:21,410
+It's used to test the deployment process
+itself as well as possibly to run some
+
+27
+00:01:21,410 --> 00:01:25,110
+last minute manual tests before
+the code is released to users.
+
+28
+00:01:25,110 --> 00:01:27,720
+If everything looks good
+in the staging process and
+
+29
+00:01:27,720 --> 00:01:31,840
+it's given a quote unquote green result,
+the code is assumed to be production
+
+30
+00:01:31,840 --> 00:01:36,140
+deployment ready and it will go out
+to the world to all the happy users.
+
+31
+00:01:36,140 --> 00:01:38,610
+At any point in the process,
+the pipeline can fail
+
+32
+00:01:38,610 --> 00:01:42,830
+in which case the failure is reported
+to the developer and the process stops.
+
+33
+00:01:42,830 --> 00:01:46,770
+When a developer finds that a test or
+a build process fails,
+
+34
+00:01:46,770 --> 00:01:49,740
+they can fix whatever caused the failure
+and then recommit the fixed code.
+
+35
+00:01:49,740 --> 00:01:53,550
+Now you might be wondering,
+why do we call this a pipeline?
+
+36
+00:01:53,550 --> 00:01:57,530
+The most obvious reason is because
+it looks like a linear process
+
+37
+00:01:57,530 --> 00:02:01,850
+where code goes in one end and that it
+flows to the customer on the other end.
+
+38
+00:02:01,850 --> 00:02:04,200
+You want to make sure that
+the flow is good in the pipeline,
+
+39
+00:02:04,200 --> 00:02:06,990
+that there aren't any bottlenecks and
+there isn't waste.
+
+40
+00:02:06,990 --> 00:02:10,300
+But the authors of The Continuous
+Delivery book originally were thinking
+
+41
+00:02:10,300 --> 00:02:15,250
+of a different analogy and that analogy
+is instruction pipeline in a CPU.
+
+42
+00:02:15,250 --> 00:02:18,210
+This is a technique that
+implements a form of parallelism
+
+43
+00:02:18,210 --> 00:02:21,760
+called instruction level parallelism
+where multiple instructions are run in
+
+44
+00:02:21,760 --> 00:02:23,980
+parallel on a single processor.
+
+45
+00:02:23,980 --> 00:02:26,390
+While I've drawn the pipeline
+as a linear pipeline,
+
+46
+00:02:26,390 --> 00:02:30,680
+you should realize that some parts
+will necessarily be run in parallel.
+
+47
+00:02:30,680 --> 00:02:32,670
+One example is testing.
+
+48
+00:02:32,670 --> 00:02:35,470
+It's very important that in
+continuous integration, build and
+
+49
+00:02:35,470 --> 00:02:39,610
+test run fast, and that's so that
+developers can get feedback quickly.
+
+50
+00:02:39,610 --> 00:02:42,340
+Unfortunately, it's not always
+going to be possible to
+
+51
+00:02:42,340 --> 00:02:44,650
+have tests give immediate feedback.
+
+52
+00:02:44,650 --> 00:02:47,900
+For large projects, running the full
+test suite of acceptance tests can take
+
+53
+00:02:47,900 --> 00:02:49,310
+a pretty long time.
+
+54
+00:02:49,310 --> 00:02:52,430
+You probably also want to run
+manual user acceptance tests and
+
+55
+00:02:52,430 --> 00:02:54,080
+that can take even longer.
+
+56
+00:02:54,080 --> 00:02:56,150
+Performance tests also take time,
+
+57
+00:02:56,150 --> 00:02:59,090
+maybe if it's just a product
+on many different platforms.
+
+58
+00:02:59,090 --> 00:03:03,260
+Making developers wait until all of
+these tests are done is unreasonable.
+
+59
+00:03:03,260 --> 00:03:04,650
+The continuous delivery approach
+
+60
+00:03:04,650 --> 00:03:06,990
+optimistically assumes
+that the commit is good.
+
+61
+00:03:06,990 --> 00:03:09,320
+iI it passes the continuous
+integration process,
+
+62
+00:03:09,320 --> 00:03:12,350
+the developers can go back to writing
+the next feature while the commit
+
+63
+00:03:12,350 --> 00:03:14,600
+continues to go through more testing.
+
+64
+00:03:14,600 --> 00:03:18,260
+They'll still get immediate feedback if
+a problem happens in the process, but
+
+65
+00:03:18,260 --> 00:03:21,160
+if everything goes well,
+that time was gained for development.

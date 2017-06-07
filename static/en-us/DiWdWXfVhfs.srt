@@ -1,0 +1,439 @@
+1
+00:00:00,092 --> 00:00:03,469
+We're going to want our learning
+algorithms to return optimal policies.
+
+2
+00:00:03,469 --> 00:00:04,310
+>> Right.
+
+3
+00:00:04,310 --> 00:00:07,610
+>> But to do that, we're going to
+have to say what we mean by optimal.
+
+4
+00:00:07,610 --> 00:00:10,727
+So I know we talked about this in the
+context of MDPs, but I thought it might
+
+5
+00:00:10,727 --> 00:00:14,116
+be worth revisiting just to see that
+there's different choices we could make.
+
+6
+00:00:14,116 --> 00:00:17,954
+And the choices that we make have
+implications about what it means to be
+
+7
+00:00:17,954 --> 00:00:18,549
+optimal.
+
+8
+00:00:18,549 --> 00:00:19,363
+>> Okay.
+
+9
+00:00:19,363 --> 00:00:21,608
+>> So here's, in particular,
+what I want to get at,
+
+10
+00:00:21,608 --> 00:00:25,300
+let's say we have some particular
+policy that we're going to follow.
+
+11
+00:00:25,300 --> 00:00:28,104
+By following that policy
+from some initial state,
+
+12
+00:00:28,104 --> 00:00:31,571
+we're going to have a sequence
+of states, actions and rewards.
+
+13
+00:00:31,571 --> 00:00:35,335
+But there's actually multiple possible
+sequences of state, actions and
+
+14
+00:00:35,335 --> 00:00:38,455
+rewards that can happen because
+the domains are stochastic.
+
+15
+00:00:38,455 --> 00:00:39,830
+>> Right, right.
+
+16
+00:00:39,830 --> 00:00:43,340
+>> So let's say that we've got some
+particular policy that we want to
+
+17
+00:00:43,340 --> 00:00:48,420
+evaluate and it generates this sequence
+of states with this probability,
+
+18
+00:00:48,420 --> 00:00:50,370
+and this sequence states
+what this probability, and
+
+19
+00:00:50,370 --> 00:00:52,024
+this sequence of states
+with this probability.
+
+20
+00:00:53,120 --> 00:00:57,934
+How do we turn all that possibilities
+into a single number so that we can say,
+
+21
+00:00:57,934 --> 00:01:01,110
+oh, this policy is this good,
+has this value, and
+
+22
+00:01:01,110 --> 00:01:04,025
+the other one is a smaller value so
+I like this one better?
+
+23
+00:01:04,025 --> 00:01:07,980
+So here's this four steps
+that we need to do to take
+
+24
+00:01:07,980 --> 00:01:10,530
+what was once a sequence of sequences,
+or
+
+25
+00:01:10,530 --> 00:01:14,540
+a set of sequences of states, and
+turn them into a single number.
+
+26
+00:01:14,540 --> 00:01:17,470
+So the first step is, for
+each of the state transitions,
+
+27
+00:01:17,470 --> 00:01:21,520
+we need to turn it into actual numbers,
+the immediate rewards.
+
+28
+00:01:21,520 --> 00:01:22,570
+>> Sure.
+
+29
+00:01:22,570 --> 00:01:27,220
+>> So in this case maybe landing
+in a red state gets us -0.2 and
+
+30
+00:01:27,220 --> 00:01:29,360
+landing in a green state gets us a +1.
+
+31
+00:01:29,360 --> 00:01:33,910
+What is it in the definition of the MDP
+that allows us to translate between
+
+32
+00:01:33,910 --> 00:01:37,500
+state transitions, from some state
+via some action to some next state,
+
+33
+00:01:37,500 --> 00:01:41,320
+to actual values,
+actual numbers for that transition?
+
+34
+00:01:41,320 --> 00:01:42,800
+>> Oh, it's our reward function.
+
+35
+00:01:42,800 --> 00:01:46,439
+>> Exactly, that basically just
+gives us strings of numbers.
+
+36
+00:01:46,439 --> 00:01:50,100
+Right, so what was strings of states
+now becomes strings of numbers.
+
+37
+00:01:50,100 --> 00:01:51,680
+And those are infinitely long, right,
+
+38
+00:01:51,680 --> 00:01:54,160
+because this process can
+continue in an unbounded way.
+
+39
+00:01:54,160 --> 00:01:57,398
+If we're talking about the infinite
+horizon, we just leave it that way.
+
+40
+00:01:57,398 --> 00:02:01,588
+But if we're talking about some kind
+of finite horizon, like I don't know,
+
+41
+00:02:01,588 --> 00:02:05,649
+say truncating it at 5 steps, we can
+actually take the sequence of numbers
+
+42
+00:02:05,649 --> 00:02:08,622
+that results and
+cut it off after just 5 transitions.
+
+43
+00:02:08,622 --> 00:02:09,298
+>> Mm-hm.
+
+44
+00:02:09,298 --> 00:02:12,811
+>> Now we need to take that list
+of truncated numbers, and for
+
+45
+00:02:12,811 --> 00:02:17,130
+each of the sequences, turn it into
+a single number for that sequence.
+
+46
+00:02:17,130 --> 00:02:19,230
+It's called the return for the sequence.
+
+47
+00:02:19,230 --> 00:02:20,402
+So how do we do that?
+
+48
+00:02:23,005 --> 00:02:27,965
+Yeah, often what we'll do is
+actually add them according to some
+
+49
+00:02:27,965 --> 00:02:29,958
+kind of discount factor.
+
+50
+00:02:29,958 --> 00:02:31,281
+>> Mm-hm.
+
+51
+00:02:31,281 --> 00:02:34,939
+>> If r sub i is the reward that
+we got on step i of the sequence,
+
+52
+00:02:34,939 --> 00:02:38,482
+we might want to actually sum
+up the discounted rewards.
+
+53
+00:02:38,482 --> 00:02:42,686
+>> Right, and my recollection is
+that that's a geometric sequence so
+
+54
+00:02:42,686 --> 00:02:46,018
+it allows us to do infinite
+sequences in finite time.
+
+55
+00:02:46,018 --> 00:02:50,020
+Or at least infinite numbers and
+make it a finite number, so to speak.
+
+56
+00:02:50,020 --> 00:02:52,540
+>> That's right, and
+that's a good point actually because
+
+57
+00:02:52,540 --> 00:02:55,070
+we might be doing this finite or
+we might be doing this infinite.
+
+58
+00:02:55,070 --> 00:02:57,328
+In general, we do it up to
+the length of the horizon.
+
+59
+00:02:57,328 --> 00:02:57,858
+>> Mm-hm.
+
+60
+00:02:57,858 --> 00:03:00,720
+>> All right, and so
+let's just say for concreteness,
+
+61
+00:03:00,720 --> 00:03:02,850
+you can imagine having
+a discount factor of 0.8.
+
+62
+00:03:02,850 --> 00:03:06,300
+And that gives us a way of summing
+up the numbers that have been
+
+63
+00:03:06,300 --> 00:03:09,760
+generated by these states and getting
+a single number for each sequence.
+
+64
+00:03:09,760 --> 00:03:13,100
+And then finally, we have to take
+those multiple numbers, one number for
+
+65
+00:03:13,100 --> 00:03:14,190
+each of the sequences, and
+
+66
+00:03:14,190 --> 00:03:17,490
+turn it into a single number that
+summarizes across all of them.
+
+67
+00:03:17,490 --> 00:03:18,430
+>> I see, so
+
+68
+00:03:18,430 --> 00:03:24,000
+you would just average them according
+to how likely the sequences are.
+
+69
+00:03:24,000 --> 00:03:27,760
+>> Good, so it's also taking
+the expectation, all right.
+
+70
+00:03:27,760 --> 00:03:31,015
+And so I've annotated these
+sequences with their probabilities.
+
+71
+00:03:31,015 --> 00:03:35,947
+So what you should be able to do at this
+point, is actually, according to these
+
+72
+00:03:35,947 --> 00:03:40,160
+parameters that I filled in,
+say what the value of this policy is.
+
+73
+00:03:40,160 --> 00:03:44,523
+Assuming that these are the three
+possible trajectories that could result,
+
+74
+00:03:44,523 --> 00:03:49,099
+what is the single number that actually
+summarizes the outcomes of this policy?
+
+75
+00:03:50,130 --> 00:03:53,003
+>> Right and so that's what,
+when we talked about MDPs,
+
+76
+00:03:53,003 --> 00:03:55,150
+is long-term expected reward.
+
+77
+00:03:55,150 --> 00:03:56,698
+>> That's right, or value or utility.
+
+78
+00:03:56,698 --> 00:03:57,412
+>> Mm-hm.
+
+79
+00:03:57,412 --> 00:04:01,528
+>> All right, so can you work
+out what it is for this case?
+
+80
+00:04:01,528 --> 00:04:03,358
+We're going to make that a quiz.
+
+81
+00:04:03,358 --> 00:04:08,330
+>> Oh, okay, let's pretend,
+oh wait, I've got one more thing.
+
+82
+00:04:08,330 --> 00:04:10,562
+I think I know what the answer is, but
+
+83
+00:04:10,562 --> 00:04:13,690
+just to force you to be
+absolutely concrete.
+
+84
+00:04:13,690 --> 00:04:16,329
+I know what happens when you hit a red
+circle, I know what happens when you hit
+
+85
+00:04:16,329 --> 00:04:18,940
+a green circle, what happens
+when you hit a white circle?
+
+86
+00:04:18,940 --> 00:04:19,601
+>> Good question.
+
+87
+00:04:19,601 --> 00:04:22,490
+[LAUGH] They look like 0s,
+let's just make them 0s.
+
+88
+00:04:22,490 --> 00:04:26,285
+So they're not going to come into play,
+except for the fact that they're 0.
+
+89
+00:04:27,400 --> 00:04:29,155
+>> I like it.
+
+90
+00:04:29,155 --> 00:04:32,292
+>> All right, so you should be able to
+reduce this entire sequence to a single
+
+91
+00:04:32,292 --> 00:04:34,275
+number, and
+you can put the number in the box.
+
+92
+00:04:34,275 --> 00:04:36,290
+>> All right, sounds good, let's do it.
+
+93
+00:04:36,290 --> 00:04:36,790
+Go.

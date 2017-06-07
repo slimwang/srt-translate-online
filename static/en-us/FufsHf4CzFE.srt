@@ -1,0 +1,533 @@
+1
+00:00:00,280 --> 00:00:03,060
+The best place to start learning is
+with the sample app that comes with
+
+2
+00:00:03,060 --> 00:00:04,330
+Android Studio.
+
+3
+00:00:04,330 --> 00:00:06,310
+We'll use this to understand
+the principles and
+
+4
+00:00:06,310 --> 00:00:08,680
+then apply them to
+uamp in a later lesson.
+
+5
+00:00:08,680 --> 00:00:11,110
+Fire up Android Studio and
+start a new project.
+
+6
+00:00:11,110 --> 00:00:13,335
+Give your application a name,
+and hit Next.
+
+7
+00:00:13,335 --> 00:00:15,295
+Choose TV as the form factor and
+
+8
+00:00:15,295 --> 00:00:17,595
+make sure the minimum API
+version is at least 21.
+
+9
+00:00:17,595 --> 00:00:22,265
+Now of course in the real application,
+we wouldn't just target Android TV.
+
+10
+00:00:22,265 --> 00:00:25,912
+We'd build our mobile and
+TV UI into the same APK.
+
+11
+00:00:25,912 --> 00:00:28,602
+Just for right now, I want to keep
+the code to an absolute minimum, so
+
+12
+00:00:28,602 --> 00:00:30,332
+I'm just targeting TV.
+
+13
+00:00:30,332 --> 00:00:34,172
+Make sure you add an Android TV
+activity to your project and hit next.
+
+14
+00:00:34,172 --> 00:00:36,982
+These will be the names of our first
+couple of lean back fragments, but
+
+15
+00:00:36,982 --> 00:00:38,092
+the defaults are fine.
+
+16
+00:00:38,092 --> 00:00:39,332
+So hit finish.
+
+17
+00:00:39,332 --> 00:00:42,912
+Let's take a fair amount of code here,
+but no worries.
+
+18
+00:00:42,912 --> 00:00:45,632
+A good learning strategy is to
+learn what the big pieces are and
+
+19
+00:00:45,632 --> 00:00:48,820
+how they fit together, and
+that's exactly what we'll do today.
+
+20
+00:00:48,820 --> 00:00:51,290
+Let's start by looking at the manifest.
+
+21
+00:00:51,290 --> 00:00:55,450
+The most important part is how we
+specify a main activity for Android TV.
+
+22
+00:00:55,450 --> 00:00:58,250
+As we discussed earlier, this is
+accomplished by using the Leanback
+
+23
+00:00:58,250 --> 00:01:00,980
+launcher and
+intent filter which you can see here.
+
+24
+00:01:00,980 --> 00:01:04,319
+If we were also writing an app for other
+devices, we'd have their main activities
+
+25
+00:01:04,319 --> 00:01:07,620
+and corresponding intent filters
+above or below this section.
+
+26
+00:01:07,620 --> 00:01:11,250
+Scrolling up a bit did you notice
+these two users' feature tags?
+
+27
+00:01:11,250 --> 00:01:14,720
+The first indicates that a touch screen
+is not required as we discussed.
+
+28
+00:01:14,720 --> 00:01:16,070
+The second is necessary for
+
+29
+00:01:16,070 --> 00:01:19,770
+app to be listed as an Android TV
+application on the Google Play Store.
+
+30
+00:01:19,770 --> 00:01:22,480
+And by the way, the sample set this
+required attribute to true, but
+
+31
+00:01:22,480 --> 00:01:23,810
+I've changed it to false, and
+
+32
+00:01:23,810 --> 00:01:27,970
+this is how it would look if we also had
+a mobile version inside the same APK.
+
+33
+00:01:27,970 --> 00:01:30,705
+I mentioned earlier that Android TV
+comes with a nice theme called
+
+34
+00:01:30,705 --> 00:01:31,880
+Theme.Leanback.
+
+35
+00:01:31,880 --> 00:01:33,340
+Here's where we apply it.
+
+36
+00:01:33,340 --> 00:01:36,140
+Because we're using the Leanback
+support library fragments,
+
+37
+00:01:36,140 --> 00:01:39,510
+it's necessary that we use this theme or
+one that extends from it.
+
+38
+00:01:39,510 --> 00:01:42,130
+And by the way, you can notice that
+this theme is actually applied at
+
+39
+00:01:42,130 --> 00:01:43,580
+the application level.
+
+40
+00:01:43,580 --> 00:01:46,440
+If we were writing an app that had
+a mobile version as well,we'd apply it
+
+41
+00:01:46,440 --> 00:01:48,470
+only to the TV activity.
+
+42
+00:01:48,470 --> 00:01:50,150
+Now let's open up MainActivity.
+
+43
+00:01:50,150 --> 00:01:52,420
+The entry point for our application.
+
+44
+00:01:52,420 --> 00:01:53,180
+What's this?
+
+45
+00:01:53,180 --> 00:01:54,420
+There's nothing here.
+
+46
+00:01:54,420 --> 00:01:55,300
+Correct.
+
+47
+00:01:55,300 --> 00:01:58,040
+That's the end of the sample app and
+we're all done in this lesson.
+
+48
+00:01:58,040 --> 00:02:01,060
+To recap, we learned how to
+open up the Android manifest.
+
+49
+00:02:01,060 --> 00:02:02,170
+Just kidding.
+
+50
+00:02:02,170 --> 00:02:05,490
+The reason why there's nothing here is
+we're going to start by using the browse
+
+51
+00:02:05,490 --> 00:02:07,460
+fragment from the lean back library.
+
+52
+00:02:07,460 --> 00:02:10,270
+All fragments have to be contained
+within an activity in order to
+
+53
+00:02:10,270 --> 00:02:11,490
+be displayed.
+
+54
+00:02:11,490 --> 00:02:14,970
+Our strategy here is just to use this
+activity to specify a layout that
+
+55
+00:02:14,970 --> 00:02:15,970
+contains the browse fragment.
+
+56
+00:02:15,970 --> 00:02:20,140
+Here is the layout file, it doesn't do
+much except reference that fragment, so
+
+57
+00:02:20,140 --> 00:02:21,680
+lets head there next.
+
+58
+00:02:21,680 --> 00:02:23,110
+Finally, code.
+
+59
+00:02:23,110 --> 00:02:26,180
+Our main fragment extends the browse
+fragment which is provided by the lean
+
+60
+00:02:26,180 --> 00:02:27,380
+back library.
+
+61
+00:02:27,380 --> 00:02:30,870
+Scrolling down a bit, we see there's
+way too much code to dive right in.
+
+62
+00:02:30,870 --> 00:02:34,390
+Really to learn a concept, you need to
+fit all the code on about one page.
+
+63
+00:02:34,390 --> 00:02:36,440
+Let's start by looking
+at onActivityCreated.
+
+64
+00:02:36,440 --> 00:02:40,505
+I want you to trust me here and
+comment out these lines.
+
+65
+00:02:40,505 --> 00:02:43,215
+In this lesson we're going to take
+out all the functionality and
+
+66
+00:02:43,215 --> 00:02:45,325
+put it back in piece by piece.
+
+67
+00:02:45,325 --> 00:02:48,635
+Now it's time to set up
+an Android TV emulator runner app.
+
+68
+00:02:48,635 --> 00:02:51,545
+Using a real Android TV device,
+as covered in the notes,
+
+69
+00:02:51,545 --> 00:02:53,285
+is strongly preferred.
+
+70
+00:02:53,285 --> 00:02:55,575
+It's much faster and less buggy.
+
+71
+00:02:55,575 --> 00:02:58,025
+That said though, in this lesson
+I'm going to use the emulator,
+
+72
+00:02:58,025 --> 00:02:59,850
+so everyone can participate.
+
+73
+00:02:59,850 --> 00:03:02,730
+To start an emulator,
+bring up the Virtual Device manager.
+
+74
+00:03:02,730 --> 00:03:04,420
+Select Create a Device.
+
+75
+00:03:04,420 --> 00:03:06,460
+In the Category tab, select TV.
+
+76
+00:03:06,460 --> 00:03:10,760
+Here, I'm going to choose an android TV
+running at 720p for performance reasons.
+
+77
+00:03:10,760 --> 00:03:13,770
+On the next tab, we have a couple
+of choices between API level and
+
+78
+00:03:13,770 --> 00:03:14,660
+architecture.
+
+79
+00:03:14,660 --> 00:03:17,920
+Here I'm going to select
+an emulator with api level 21 and
+
+80
+00:03:17,920 --> 00:03:20,530
+architecture x86 for
+performance reasons.
+
+81
+00:03:20,530 --> 00:03:24,900
+Recall that api level 21 is the minimum
+version supported by android tv.
+
+82
+00:03:24,900 --> 00:03:30,170
+Also, for notes on why I picked version
+21 and not 22 see the instructor notes.
+
+83
+00:03:30,170 --> 00:03:34,640
+On the next screen give your TV a name
+and make sure use host GPU is selected.
+
+84
+00:03:34,640 --> 00:03:36,140
+This will improve performance.
+
+85
+00:03:36,140 --> 00:03:38,850
+For more tips on improving performance
+via hardware acceleration,
+
+86
+00:03:38,850 --> 00:03:40,360
+see the instructor notes.
+
+87
+00:03:40,360 --> 00:03:41,590
+Now click finish.
+
+88
+00:03:41,590 --> 00:03:44,600
+Start your emulator by selecting it and
+pressing play.
+
+89
+00:03:44,600 --> 00:03:46,420
+It may take some time to
+start your emulator, so
+
+90
+00:03:46,420 --> 00:03:48,330
+don't close it when it finishes.
+
+91
+00:03:48,330 --> 00:03:51,000
+Also, you'll notice that recommendations
+aren't available right now.
+
+92
+00:03:51,000 --> 00:03:54,390
+The reason is we don't have any apps
+installed to provide those recs.
+
+93
+00:03:54,390 --> 00:03:56,420
+Now lets run our app on the emulator.
+
+94
+00:03:56,420 --> 00:03:57,650
+Here's our emulator.
+
+95
+00:03:57,650 --> 00:03:58,660
+Often, when you're developing for
+
+96
+00:03:58,660 --> 00:04:01,520
+multiple form factors you'll have
+a variety of emulators running.
+
+97
+00:04:01,520 --> 00:04:02,330
+And you can check whether or
+
+98
+00:04:02,330 --> 00:04:05,120
+not your app is compatible
+with one via this column.
+
+99
+00:04:05,120 --> 00:04:07,800
+When our app starts up,
+you'll see an almost blank screen.
+
+100
+00:04:07,800 --> 00:04:10,440
+This is the empty browse
+fragment with no content, but
+
+101
+00:04:10,440 --> 00:04:12,860
+there's actually more going
+on here than it seems.
+
+102
+00:04:12,860 --> 00:04:16,269
+On the emulator, the arrow keys
+function as the d pad remote controls.
+
+103
+00:04:16,269 --> 00:04:18,260
+Press right and watch what happens.
+
+104
+00:04:18,260 --> 00:04:20,700
+The header section of
+the browse fragment collapsed.
+
+105
+00:04:20,700 --> 00:04:21,820
+Pretty cool, right?
+
+106
+00:04:21,820 --> 00:04:23,100
+Hit left to bring it back.
+
+107
+00:04:23,100 --> 00:04:25,670
+The escape key functions as
+the back button on the emulator.
+
+108
+00:04:25,670 --> 00:04:27,600
+Press that once to return
+to the home screen.
+
+109
+00:04:27,600 --> 00:04:29,340
+And here's where our app was installed.
+
+110
+00:04:29,340 --> 00:04:30,450
+That might not seem like much so
+
+111
+00:04:30,450 --> 00:04:33,700
+far, but trust me, things are going
+to get awesome very soon.
+
+112
+00:04:33,700 --> 00:04:35,340
+Slow and steady wins the race.
+
+113
+00:04:35,340 --> 00:04:38,570
+If you'd like to follow along in code,
+create a project in Android Studio, and
+
+114
+00:04:38,570 --> 00:04:40,460
+do the steps as
+discussed in this lesson.
+
+115
+00:04:40,460 --> 00:04:42,510
+Alternatively, you can wait
+to do your own coding live,
+
+116
+00:04:42,510 --> 00:04:44,304
+when we get to the exercises in you-amp

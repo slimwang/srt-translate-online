@@ -1,0 +1,450 @@
+1
+00:00:00,243 --> 00:00:02,869
+So, here's the same idea
+the Bellman Equations and
+
+2
+00:00:02,869 --> 00:00:05,501
+the learning update rule but
+his time with actions.
+
+3
+00:00:05,501 --> 00:00:07,602
+>> Actions.
+
+4
+00:00:07,602 --> 00:00:11,061
+>> So, in the action form of it,
+we have this Bellman equation,
+
+5
+00:00:11,061 --> 00:00:15,384
+the Q form of the Bellman equation
+Q(s,a) equals the immediate reward plus
+
+6
+00:00:15,384 --> 00:00:19,863
+the discounted, expected value of the
+maximum action in the resulting state.
+
+7
+00:00:19,863 --> 00:00:22,525
+Okay, so, when we actually land
+in that new state S prime,
+
+8
+00:00:22,525 --> 00:00:24,727
+we choose the action that is best for
+that state.
+
+9
+00:00:24,727 --> 00:00:26,828
+>> Right.
+
+10
+00:00:26,828 --> 00:00:29,185
+>> But otherwise, this is really
+the same kind of update as before.
+
+11
+00:00:29,185 --> 00:00:34,045
+And so, we can translate this into
+a TD0-like rule using the same sorts
+
+12
+00:00:34,045 --> 00:00:38,904
+of idea so that we're going to have
+a new estimate of the value function,
+
+13
+00:00:38,904 --> 00:00:43,444
+and the way that we're going to change
+it as we go from one time step to
+
+14
+00:00:43,444 --> 00:00:48,145
+the next time step as it's the same
+everywhere except for the state and
+
+15
+00:00:48,145 --> 00:00:49,930
+action that we just left.
+
+16
+00:00:49,930 --> 00:00:54,690
+We just took action At-l and state St-1.
+
+17
+00:00:54,690 --> 00:00:55,922
+And so that one we are going to update.
+
+18
+00:00:55,922 --> 00:00:59,865
+We are going to move a little bit in the
+direction of the immediate reward plus
+
+19
+00:00:59,865 --> 00:01:03,377
+the discounted value of the state
+that we landed in St where the value
+
+20
+00:01:03,377 --> 00:01:07,879
+is taken- Is that better?
+
+21
+00:01:07,879 --> 00:01:10,789
+>> [LAUGH]
+>> [LAUGH] It's taken with respect
+
+22
+00:01:10,789 --> 00:01:14,588
+to the best action that we
+get from that state, okay?
+
+23
+00:01:14,588 --> 00:01:16,086
+So, this is, again,
+the same update rule.
+
+24
+00:01:16,086 --> 00:01:19,683
+The only difference is we got this
+extra little max in here to simulate
+
+25
+00:01:19,683 --> 00:01:22,483
+the idea of choosing the best
+action from each state.
+
+26
+00:01:22,483 --> 00:01:26,293
+All right, so, what I'd like to argue
+here is that this Q learning update rule
+
+27
+00:01:26,293 --> 00:01:30,308
+is actually taking care of two different
+kinds of approximations all at one time.
+
+28
+00:01:30,308 --> 00:01:33,935
+So, let me step you through what those
+are and then what we're going to do is
+
+29
+00:01:33,935 --> 00:01:36,585
+understand how each of them
+works independently, and
+
+30
+00:01:36,585 --> 00:01:39,868
+then use a result that says if these
+two things work independently,
+
+31
+00:01:39,868 --> 00:01:41,558
+they're going to work together.
+
+32
+00:01:41,558 --> 00:01:45,285
+So, all right, here's the first idea.
+
+33
+00:01:45,285 --> 00:01:50,245
+Notice that if we knew the model,
+if we knew the transitions and rewards,
+
+34
+00:01:50,245 --> 00:01:54,485
+then when we go from some state,
+take an action, get a reward,
+
+35
+00:01:54,485 --> 00:01:58,965
+go to a next state, we could actually
+use that to update the Q values
+
+36
+00:01:58,965 --> 00:02:02,304
+simply by applying the Bellman equation
+>> Right
+
+37
+00:02:02,304 --> 00:02:04,716
+>> All that's really happening there is
+
+38
+00:02:04,716 --> 00:02:09,309
+we take the old Q value estimate and
+we update it in the way that the Bellman
+
+39
+00:02:09,309 --> 00:02:14,226
+equation says we should update it at
+that particular state connection pair.
+
+40
+00:02:14,226 --> 00:02:17,362
+And so
+we haven't quite argued that this works.
+
+41
+00:02:17,362 --> 00:02:21,085
+We said that it works but I want to dive
+into a little more detail about why this
+
+42
+00:02:21,085 --> 00:02:24,925
+works, but I want to show that there's
+a second kind of approximation that's
+
+43
+00:02:24,925 --> 00:02:26,800
+actually being used at the same time.
+
+44
+00:02:26,800 --> 00:02:29,687
+So, here's the second kind of
+approximation that's going on with the Q
+
+45
+00:02:29,687 --> 00:02:30,457
+learning update.
+
+46
+00:02:30,457 --> 00:02:34,875
+It says that if we knew Q star already,
+we could use that to learn Q star,
+
+47
+00:02:34,875 --> 00:02:38,722
+which now that I say it out loud,
+seems kind of tautological.
+
+48
+00:02:38,722 --> 00:02:41,775
+>> I think, it, currently, is.
+
+49
+00:02:41,775 --> 00:02:44,200
+>> But don't mean it quite so directly.
+
+50
+00:02:44,200 --> 00:02:48,101
+What I'm saying is, let's say that we
+run the Q learning update like this.
+
+51
+00:02:48,101 --> 00:02:50,702
+We say, we're in some state.
+
+52
+00:02:50,702 --> 00:02:51,445
+We took some action.
+
+53
+00:02:51,445 --> 00:02:52,118
+We got some reward.
+
+54
+00:02:52,118 --> 00:02:53,279
+We ended up in some next state.
+
+55
+00:02:53,279 --> 00:02:57,604
+We're going to update the Q value for
+the state action pair that we just left,
+
+56
+00:02:57,604 --> 00:03:01,585
+moving it a little bit in the direction
+of the reward that we just got,
+
+57
+00:03:01,585 --> 00:03:05,979
+plus the discounted value of the next
+state, St, which for the purposes for
+
+58
+00:03:05,979 --> 00:03:07,490
+this little update rule,
+
+59
+00:03:07,490 --> 00:03:10,879
+we're going to use the actual
+Q values to get that estimate.
+
+60
+00:03:10,879 --> 00:03:11,738
+So, we're kind of cheating here.
+
+61
+00:03:11,738 --> 00:03:14,988
+We're saying, we already know the Q
+value at least for the next state, and
+
+62
+00:03:14,988 --> 00:03:16,949
+we're going to use that
+to update the Q value for
+
+63
+00:03:16,949 --> 00:03:18,564
+this J action pair that we just left.
+
+64
+00:03:18,564 --> 00:03:23,135
+>> Right, and that would work because
+since we keep applying truth to it,
+
+65
+00:03:23,135 --> 00:03:28,009
+Q star being true, eventually, you have
+to kind of get closer and closer and
+
+66
+00:03:28,009 --> 00:03:28,943
+closer to it.
+
+67
+00:03:28,943 --> 00:03:32,518
+>> Yeah, and do you remember there's an
+important property though that we have
+
+68
+00:03:32,518 --> 00:03:34,341
+to have in terms of this learning rate.
+
+69
+00:03:34,341 --> 00:03:35,955
+>> Proper subscripts?
+
+70
+00:03:35,955 --> 00:03:40,922
+>> No, you can get subscripts wrong and
+you can always fix it in post.
+
+71
+00:03:40,922 --> 00:03:42,861
+>> Well, what's that property, Michael?
+
+72
+00:03:42,861 --> 00:03:43,617
+>> Yes, so what is the property?
+
+73
+00:03:43,617 --> 00:03:48,200
+This is just like in the TD row where
+we looked at, where we said that,
+
+74
+00:03:48,200 --> 00:03:51,916
+if we have the learning rate
+sequence sum to infinity but
+
+75
+00:03:51,916 --> 00:03:54,526
+the square to that sequence be finite,
+
+76
+00:03:54,526 --> 00:03:59,615
+then you know good things happen we
+actually convert it to the right answer.
+
+77
+00:03:59,615 --> 00:04:00,137
+>> Right.
+
+78
+00:04:00,137 --> 00:04:04,394
+>> So, in this particular case if we
+have, if we know what the target is,
+
+79
+00:04:04,394 --> 00:04:07,929
+if we know where Q star is
+supposed to be for the next state,
+
+80
+00:04:07,929 --> 00:04:09,660
+we can use that to actually,
+
+81
+00:04:09,660 --> 00:04:14,602
+what we're really doing here is dealing
+with the expectation over next states.
+
+82
+00:04:14,602 --> 00:04:18,845
+And we handle that by using next states
+sampled from the distribution, because
+
+83
+00:04:18,845 --> 00:04:23,278
+we're actually acting in the world, and
+instead of actually computing this sum,
+
+84
+00:04:23,278 --> 00:04:27,234
+we just do this successive averaging
+thing and that's going to work out.
+
+85
+00:04:27,234 --> 00:04:32,124
+>> Right and so it's insanely
+high probability you will move
+
+86
+00:04:32,124 --> 00:04:34,432
+towards the expectation.
+
+87
+00:04:34,432 --> 00:04:36,138
+>> Yeah, like, probability is seven.
+
+88
+00:04:36,138 --> 00:04:37,694
+>> Yeah, that's pretty insanely high.
+
+89
+00:04:37,694 --> 00:04:39,319
+>> That's pretty insanely high.
+
+90
+00:04:39,319 --> 00:04:43,279
+>> Yes, so
+the piece that we really don't have yet
+
+91
+00:04:43,279 --> 00:04:45,958
+to build on is this first piece.
+
+92
+00:04:45,958 --> 00:04:49,342
+What is it that's making
+the Bellman equation update
+
+93
+00:04:49,342 --> 00:04:54,303
+actually converge on the solution to
+the Bellman Equations or Q star, and, so
+
+94
+00:04:54,303 --> 00:04:59,264
+we're going to prove that next, and
+then we're going to show, or actually,
+
+95
+00:04:59,264 --> 00:05:03,849
+assert, that these two things can be
+tethered together in such a way that
+
+96
+00:05:03,849 --> 00:05:07,194
+they're both going to end
+up converging in tandem.
+
+97
+00:05:07,194 --> 00:05:07,740
+>> Nice.

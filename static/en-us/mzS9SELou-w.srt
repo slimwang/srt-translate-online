@@ -1,0 +1,115 @@
+1
+00:00:00,110 --> 00:00:01,560
+All right,
+welcome back to Computer Vision.
+
+2
+00:00:02,570 --> 00:00:04,310
+What we're doing in this lesson is,
+
+3
+00:00:04,310 --> 00:00:09,130
+we're basically going to finish up
+motion estimation, and this is the raw
+
+4
+00:00:09,130 --> 00:00:15,290
+estimation of motion with respect
+to sort of a motion field.
+
+5
+00:00:15,290 --> 00:00:18,730
+Going forward, we're going to do
+things like tracking, and other, and
+
+6
+00:00:18,730 --> 00:00:24,335
+other sorts of examples where we'll sort
+of use motion in order to essentially
+
+7
+00:00:24,335 --> 00:00:29,300
+process an entire video, but here only
+talking about frame to frame motion.
+
+8
+00:00:29,300 --> 00:00:34,850
+In the previous couple lessons we talked
+about methods that gave us dense flow,
+
+9
+00:00:34,850 --> 00:00:37,680
+except for that sparse l k thing.
+
+10
+00:00:37,680 --> 00:00:40,770
+Where we had a different estimate for
+
+11
+00:00:40,770 --> 00:00:45,550
+each pixel and we didn't have any
+real serious constraint between them
+
+12
+00:00:45,550 --> 00:00:48,920
+other than something like,
+local smoothness or something like that.
+
+13
+00:00:48,920 --> 00:00:52,750
+That is, we, we were just imposing
+this on the image without any sort
+
+14
+00:00:52,750 --> 00:00:55,530
+of real thought to what's
+going within the picture.
+
+15
+00:00:55,530 --> 00:01:00,870
+But suppose you know that the motion
+is actually constrained, okay?
+
+16
+00:01:00,870 --> 00:01:05,260
+So for example, maybe you know, you're
+just looking at something rotating and
+
+17
+00:01:05,260 --> 00:01:07,720
+you want to recover the motion
+all right, so that would co,
+
+18
+00:01:07,720 --> 00:01:09,160
+constraint on the motion field.
+
+19
+00:01:09,160 --> 00:01:12,740
+Or suppose you know that some
+object's variation in depth
+
+20
+00:01:12,740 --> 00:01:15,550
+is small compared to
+the depth to the camera.
+
+21
+00:01:15,550 --> 00:01:18,660
+Okay, so
+delta z is small compared to total z.
+
+22
+00:01:18,660 --> 00:01:21,710
+That gives you another
+constraint on how things move.
+
+23
+00:01:22,770 --> 00:01:26,570
+In these cases, you might want to
+have sort of a model for the flow,
+
+24
+00:01:26,570 --> 00:01:29,960
+that is, how do I think the points
+could be moving within a region?

@@ -1,0 +1,285 @@
+1
+00:00:00,230 --> 00:00:01,270
+One challenge is,
+
+2
+00:00:01,270 --> 00:00:06,040
+what happens when multiple CPUs
+reference the same data, x in this case?
+
+3
+00:00:06,040 --> 00:00:09,120
+The data could appear
+in multiple caches.
+
+4
+00:00:09,120 --> 00:00:11,770
+Or in this case when we have
+multiple memory modules,
+
+5
+00:00:11,770 --> 00:00:14,490
+x is actually present in one
+of the memory modules, but
+
+6
+00:00:14,490 --> 00:00:18,990
+both of the CPUs referenced it, and so
+it appears in both of their caches.
+
+7
+00:00:18,990 --> 00:00:22,690
+On some architectures, this is a problem
+that has to be dealt with purely in
+
+8
+00:00:22,690 --> 00:00:26,300
+software, otherwise the caches
+will be not coherent.
+
+9
+00:00:26,300 --> 00:00:31,860
+For instance, if on one CPU we update x
+to be 3, the hardware is not going to do
+
+10
+00:00:31,860 --> 00:00:37,240
+anything about the fact that the value
+of x in the cache of another CPU is 4.
+
+11
+00:00:37,240 --> 00:00:39,650
+This will have to be fixed in software.
+
+12
+00:00:39,650 --> 00:00:42,700
+These are called
+non-cache-coherent architectures.
+
+13
+00:00:42,700 --> 00:00:46,040
+On other platforms, however,
+the hardware will take care of
+
+14
+00:00:46,040 --> 00:00:50,230
+all of the necessary steps to make
+sure that the caches are coherent.
+
+15
+00:00:50,230 --> 00:00:53,540
+So, when one CPU updates x to be 3,
+
+16
+00:00:53,540 --> 00:00:58,700
+the hardware will make sure that the
+cache on the other CPU is also updated.
+
+17
+00:00:58,700 --> 00:01:00,980
+These are called
+cache-coherent platforms.
+
+18
+00:01:00,980 --> 00:01:05,038
+The basic methods that are used in
+managing the cache coherence are called
+
+19
+00:01:05,038 --> 00:01:07,430
+write-invalidate and write-update.
+
+20
+00:01:07,430 --> 00:01:11,040
+Let's see what happens with each of
+these methods when we have a situation
+
+21
+00:01:11,040 --> 00:01:14,280
+where a certain value is
+present in all of the caches
+
+22
+00:01:14,280 --> 00:01:15,930
+on these two different platforms.
+
+23
+00:01:15,930 --> 00:01:20,810
+In the red invalidate case,
+if one CPU changes the value of x,
+
+24
+00:01:20,810 --> 00:01:25,620
+then the hardware will make sure that
+if any other cache has cashed that
+
+25
+00:01:25,620 --> 00:01:29,680
+particular variable x,
+that value will be invalidated.
+
+26
+00:01:29,680 --> 00:01:33,590
+Future references on this
+CPU to that same value x
+
+27
+00:01:33,590 --> 00:01:37,800
+will result in a cache miss and
+will be pushed over to memory.
+
+28
+00:01:37,800 --> 00:01:40,770
+The memory location clearly
+has to be updated based on
+
+29
+00:01:40,770 --> 00:01:43,338
+one of the methods write-through or
+write-back.
+
+30
+00:01:43,338 --> 00:01:48,060
+In the write-update case, when one CPU
+changes the value of x to x prime,
+
+31
+00:01:48,060 --> 00:01:52,660
+then the hardware makes sure that
+if any other cache has cached that
+
+32
+00:01:52,660 --> 00:01:56,560
+same memory location,
+its value gets updated as well,
+
+33
+00:01:56,560 --> 00:01:59,140
+as the name of this method suggests.
+
+34
+00:01:59,140 --> 00:02:03,200
+Subsequent accesses to this memorial
+occasion from the other CPU will
+
+35
+00:02:03,200 --> 00:02:07,650
+result in a cache hit and will return
+the correctly updated new value.
+
+36
+00:02:07,650 --> 00:02:11,440
+The trade off is that with
+write-invalidate, we actually post lower
+
+37
+00:02:11,440 --> 00:02:15,270
+bandwidth requirements on the shared
+interconnecting the system.
+
+38
+00:02:15,270 --> 00:02:18,930
+This is because we don't actually
+have to send the full value of x,
+
+39
+00:02:18,930 --> 00:02:23,080
+just its address so that it can
+be invalidated in other caches.
+
+40
+00:02:23,080 --> 00:02:27,680
+Plus once the cache line is invalidated,
+future modifications to the same memory
+
+41
+00:02:27,680 --> 00:02:31,210
+location will not result in
+subsequent invalidations,
+
+42
+00:02:31,210 --> 00:02:33,730
+that location is already invalidated.
+
+43
+00:02:33,730 --> 00:02:38,640
+So if the data isn't needed on any of
+the other CPUs anytime soon, it is
+
+44
+00:02:38,640 --> 00:02:43,190
+possible to amortize the cost of the
+coherence traffic over multiple changes.
+
+45
+00:02:43,190 --> 00:02:44,260
+So basically,
+
+46
+00:02:44,260 --> 00:02:49,590
+x will change multiple times over here,
+before it's needed on the other CPU.
+
+47
+00:02:49,590 --> 00:02:51,460
+And it's only going to
+be invalidated once.
+
+48
+00:02:52,470 --> 00:02:54,942
+That's what we mean by
+this amortized cost.
+
+49
+00:02:54,942 --> 00:02:58,770
+For write-update architectures,
+the benefit is that the data will be
+
+50
+00:02:58,770 --> 00:03:03,270
+available immediately on the other
+CPUs that need to access it.
+
+51
+00:03:03,270 --> 00:03:07,360
+We will not have to pay the cost
+to perform another memory access
+
+52
+00:03:07,360 --> 00:03:10,120
+in order to retrieve
+the latest value of x.
+
+53
+00:03:10,120 --> 00:03:14,800
+So then, clearly programs that will need
+to access the value of x immediately
+
+54
+00:03:14,800 --> 00:03:19,350
+after it has been updated on another
+CPU will benefit from support for
+
+55
+00:03:19,350 --> 00:03:20,680
+a write-update.
+
+56
+00:03:20,680 --> 00:03:23,390
+Note that you as a programmer,
+you don't really have a choice
+
+57
+00:03:23,390 --> 00:03:26,590
+in whether you will use write-update or
+write-invalidate.
+
+58
+00:03:26,590 --> 00:03:29,170
+This is a property of
+the hardware architecture, and
+
+59
+00:03:29,170 --> 00:03:31,970
+whichever policy the hardware uses,
+you will be stuck with it.

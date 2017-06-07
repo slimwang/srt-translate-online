@@ -1,0 +1,82 @@
+1
+00:00:00,300 --> 00:00:02,580
+All right, so let's take a look
+at some Traceview output.
+
+2
+00:00:02,580 --> 00:00:04,680
+Notice this big section
+pf activity here, but
+
+3
+00:00:04,680 --> 00:00:06,470
+let's talk about a few observations.
+
+4
+00:00:06,470 --> 00:00:09,028
+You might notice that the top
+function here is the most
+
+5
+00:00:09,028 --> 00:00:10,340
+resource-intensive when sorted.
+
+6
+00:00:10,340 --> 00:00:13,650
+Now, there are a few others,
+such as this nativePullOnce.
+
+7
+00:00:13,650 --> 00:00:15,800
+But these are system
+methods that we don't own.
+
+8
+00:00:15,800 --> 00:00:17,861
+So if we go down a little bit further,
+
+9
+00:00:17,861 --> 00:00:21,666
+notice that we have this nativeSetPixel
+and this nativeGetPixel.
+
+10
+00:00:21,666 --> 00:00:23,250
+So let's see where they're coming from.
+
+11
+00:00:23,250 --> 00:00:25,400
+Let's go ahead and expand a little bit.
+
+12
+00:00:25,400 --> 00:00:26,790
+Ah-ha, here we go.
+
+13
+00:00:26,790 --> 00:00:30,360
+So setPixel looks like it's being called
+from something within our busy UI
+
+14
+00:00:30,360 --> 00:00:32,340
+thread activity,
+which is from the sample app code.
+
+15
+00:00:32,340 --> 00:00:34,580
+And the same is the case for getPixel,
+
+16
+00:00:34,580 --> 00:00:37,450
+which also seems to be coming
+from our busy UI thread activity.
+
+17
+00:00:37,450 --> 00:00:40,640
+So now that we've identified
+that setPixel and getPixel
+
+18
+00:00:40,640 --> 00:00:43,960
+come from our busy UI thread activity,
+let's go ahead and explore them further.

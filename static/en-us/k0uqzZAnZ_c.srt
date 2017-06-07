@@ -1,0 +1,158 @@
+﻿1
+00:00:00,170 --> 00:00:04,140
+Searching is one of the most fundamental
+methods of solving problems in AI.
+
+2
+00:00:04,139 --> 00:00:07,503
+We've now seen depth-first search,
+breadth-first search,
+
+3
+00:00:07,503 --> 00:00:09,900
+uniform cost search in a star.
+
+4
+00:00:09,900 --> 00:00:13,371
+In the book, we've read about iterative
+deepening and bidirectional search and
+
+5
+00:00:13,371 --> 00:00:16,890
+the space and time advantages of
+these different search methods.
+
+6
+00:00:16,890 --> 00:00:19,070
+Remember Sally from the Carter Center?
+
+7
+00:00:19,070 --> 00:00:21,885
+Let's use the knowledge from the section
+to look at the problem more thoroughly.
+
+8
+00:00:21,885 --> 00:00:25,130
+Depth-first search is non-viable here.
+
+9
+00:00:25,129 --> 00:00:26,140
+If we were unlucky,
+
+10
+00:00:26,140 --> 00:00:29,289
+we might cross a country several
+times in just our first branch.
+
+11
+00:00:30,504 --> 00:00:34,369
+Breadth-first search, or
+our uniform cost search would work, but
+
+12
+00:00:34,369 --> 00:00:39,199
+we'd have to do three searches,
+one from Little 5 Points to Scottdale,
+
+13
+00:00:39,200 --> 00:00:44,230
+one from Scottdale to Buckhead, and
+one from Buckhead to Little 5 Points.
+
+14
+00:00:44,229 --> 00:00:47,049
+We would then determine the shortest
+two of the three paths.
+
+15
+00:00:47,049 --> 00:00:50,099
+And so, the pulling station that
+is common between those two paths
+
+16
+00:00:50,100 --> 00:00:51,829
+is a second pulling
+station we would visit.
+
+17
+00:00:51,829 --> 00:00:55,030
+We could then start at either
+of the other two cities.
+
+18
+00:00:55,030 --> 00:00:58,620
+The problem is that this method revisits
+some nodes repeatedly in the three
+
+19
+00:00:58,619 --> 00:01:02,959
+searches, and the search would range
+much farther than is necessary.
+
+20
+00:01:02,960 --> 00:01:05,549
+A bi-directional search
+would help considerably.
+
+21
+00:01:05,549 --> 00:01:08,739
+Instead of each of the three
+searches requiring B to the D nodes,
+
+22
+00:01:08,739 --> 00:01:11,869
+it would be done in B to
+the D over two nodes.
+
+23
+00:01:11,870 --> 00:01:15,030
+But we would still revisit a lot of the
+nodes in the triangle between the three
+
+24
+00:01:15,030 --> 00:01:16,349
+cities.
+
+25
+00:01:16,349 --> 00:01:20,569
+Instead, what if we start up the search
+at all the locations simultaneously?
+
+26
+00:01:20,569 --> 00:01:23,459
+Growing them out until the first
+two connect, and then continuing
+
+27
+00:01:23,459 --> 00:01:26,929
+all until the third location connects
+somewhere with the first two.
+
+28
+00:01:26,930 --> 00:01:28,938
+That would avoid
+the repeated node visits.
+
+29
+00:01:28,938 --> 00:01:33,975
+The question is, can we modify this
+uninformed tridirectional search
+
+30
+00:01:33,974 --> 00:01:36,594
+into a tridirectional a star search?
+
+31
+00:01:36,594 --> 00:01:39,614
+The key is figuring out an admissible
+heuristic that takes into account
+
+32
+00:01:39,614 --> 00:01:41,234
+two potential goals at the same time.
+
+33
+00:01:41,234 --> 00:01:44,504
+Give it some thought,
+see if you can come up with one
+

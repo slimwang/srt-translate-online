@@ -1,0 +1,425 @@
+1
+00:00:00,470 --> 00:00:01,050
+In this lesson,
+
+2
+00:00:01,050 --> 00:00:05,080
+we'll cover the minimum changes required
+to get your app running on Android tv.
+
+3
+00:00:05,080 --> 00:00:07,792
+We'll also discuss how to prep
+your development environment.
+
+4
+00:00:07,792 --> 00:00:10,903
+Users will launch your app from
+the Android tv home screen.
+
+5
+00:00:10,903 --> 00:00:13,069
+Your app will appear in the apps row,
+and
+
+6
+00:00:13,069 --> 00:00:16,406
+will be represented by a 320
+by 180 pixel banner image.
+
+7
+00:00:16,406 --> 00:00:18,126
+When the user chooses our banner,
+
+8
+00:00:18,126 --> 00:00:21,283
+Android tv will launch an activity
+we specify in the manifest.
+
+9
+00:00:21,283 --> 00:00:21,797
+But first,
+
+10
+00:00:21,797 --> 00:00:25,390
+I want to show you there's an even
+better way to attract users to your app.
+
+11
+00:00:25,390 --> 00:00:27,170
+That's recommendations.
+
+12
+00:00:27,170 --> 00:00:30,770
+This is the recommendations row, and
+your app can suggest content to appear
+
+13
+00:00:30,770 --> 00:00:33,810
+right here, front and
+center on the Android T.V. home screen.
+
+14
+00:00:33,810 --> 00:00:34,434
+For example,
+
+15
+00:00:34,434 --> 00:00:37,765
+let's say the user just watched the
+first couple of episodes in the series.
+
+16
+00:00:37,765 --> 00:00:41,015
+Your app could recommend the next
+episode to appear right here.
+
+17
+00:00:41,015 --> 00:00:43,352
+And of course,
+since Android TV is built by Google,
+
+18
+00:00:43,352 --> 00:00:46,286
+users can find your content by
+searching for it with their voice.
+
+19
+00:00:46,286 --> 00:00:47,912
+More on Reqs and Search later.
+
+20
+00:00:47,912 --> 00:00:50,396
+Let's take a look at our
+application manifest.
+
+21
+00:00:50,396 --> 00:00:53,949
+The most important thing to note is
+the leanback launcher intent filter.
+
+22
+00:00:53,949 --> 00:00:57,535
+This identifies our app as being
+enabled for TV, and it's required for
+
+23
+00:00:57,535 --> 00:00:59,940
+our app to be considered
+a TV app in Google Play.
+
+24
+00:00:59,940 --> 00:01:03,393
+It's also used to specify the activity
+that will be launched when a user
+
+25
+00:01:03,393 --> 00:01:05,884
+chooses her app on the Android T.V.
+home screen.
+
+26
+00:01:05,884 --> 00:01:09,420
+Above that, you can see an activity that
+will be launched when the user runs our
+
+27
+00:01:09,420 --> 00:01:10,505
+app on a mobile device.
+
+28
+00:01:10,505 --> 00:01:14,199
+If you plan to use the lean back support
+library, as we will in this class,
+
+29
+00:01:14,199 --> 00:01:16,240
+the new must include Theme.Leanback.
+
+30
+00:01:16,240 --> 00:01:18,572
+This is required by most of
+the fragments provided by
+
+31
+00:01:18,572 --> 00:01:19,584
+the support library.
+
+32
+00:01:19,584 --> 00:01:22,276
+If you'd like to create your own theme,
+no problem, but
+
+33
+00:01:22,276 --> 00:01:25,714
+be sure to inherit from Theme.Leanback
+and override specific styles.
+
+34
+00:01:25,714 --> 00:01:29,043
+Now, if you're modifying
+an existing app to also run on TV,
+
+35
+00:01:29,043 --> 00:01:33,307
+it's important not to reuse the same
+activity layout as for mobile devices.
+
+36
+00:01:33,307 --> 00:01:36,689
+Building a slick user interface like the
+one we saw earlier can be challenging,
+
+37
+00:01:36,689 --> 00:01:38,113
+but I've got great news for you.
+
+38
+00:01:38,113 --> 00:01:40,301
+The leanback support library
+includes fragments and
+
+39
+00:01:40,301 --> 00:01:42,640
+widgets that will make this hella easy.
+
+40
+00:01:42,640 --> 00:01:44,900
+Leanback provides fragments and
+widgets for building T.V.
+
+41
+00:01:44,900 --> 00:01:49,060
+apps, including a catalog browser,
+a details view, and playback controls.
+
+42
+00:01:49,060 --> 00:01:52,211
+Also included are nice card views for
+displaying text and pictures.
+
+43
+00:01:52,211 --> 00:01:54,129
+Recyclerview helps us scroll through and
+
+44
+00:01:54,129 --> 00:01:56,437
+display large lists of
+media items efficiently.
+
+45
+00:01:56,437 --> 00:01:58,235
+This is important to do on a T.V.
+
+46
+00:01:58,235 --> 00:02:00,942
+device where media is rich and
+memories limited.
+
+47
+00:02:00,942 --> 00:02:04,704
+In order to be listed as compatible
+with TV devices and Google Play,
+
+48
+00:02:04,704 --> 00:02:09,138
+your app must declare that you use
+the feature android.software.leanback.
+
+49
+00:02:09,138 --> 00:02:13,132
+If your APK will also run in other
+devices like phones, tablets or wear.
+
+50
+00:02:13,132 --> 00:02:16,035
+Then you must declare
+that required is false.
+
+51
+00:02:16,035 --> 00:02:20,142
+Also note that leanback here refers to
+the Android TV home screen launcher app,
+
+52
+00:02:20,142 --> 00:02:21,631
+not the support libraries.
+
+53
+00:02:21,631 --> 00:02:25,090
+So you use this regardless of whether
+you use the support libraries or not.
+
+54
+00:02:25,090 --> 00:02:28,389
+Now, if you're using Android Studio,
+all of the dependencies for the Leanback
+
+55
+00:02:28,389 --> 00:02:31,221
+libraries will automatically be
+added to your build.gradle file.
+
+56
+00:02:31,221 --> 00:02:34,170
+On the other hand, if you're using
+Eclipse, see the instructor notes.
+
+57
+00:02:34,170 --> 00:02:35,253
+Also, a quick note for
+
+58
+00:02:35,253 --> 00:02:38,279
+completeness, Leanback depends
+on the v4 support library.
+
+59
+00:02:38,279 --> 00:02:41,789
+Users will interact with your app
+using a TV remote control, or
+
+60
+00:02:41,789 --> 00:02:42,923
+a game controller.
+
+61
+00:02:42,923 --> 00:02:46,592
+Because of this, make sure your app
+supports a d-pad control scheme.
+
+62
+00:02:46,592 --> 00:02:49,469
+Android automatically applies
+directional navigation between your
+
+63
+00:02:49,469 --> 00:02:50,888
+layout elements automatically.
+
+64
+00:02:50,888 --> 00:02:54,290
+So you usually don't need to do anything
+extra to have your app work with
+
+65
+00:02:54,290 --> 00:02:55,207
+a remote control.
+
+66
+00:02:55,207 --> 00:02:57,510
+Just in case navigation
+doesn't work out of the box or
+
+67
+00:02:57,510 --> 00:02:59,108
+it doesn't work the way you prefer.
+
+68
+00:02:59,108 --> 00:03:02,521
+You can create a custom control scheme
+by checking out the instructor note.
+
+69
+00:03:02,521 --> 00:03:04,704
+Let's talk for
+a moment about T.V. hardware.
+
+70
+00:03:04,704 --> 00:03:07,225
+Now obviously T.V.'s have a lot
+of hardware differences with
+
+71
+00:03:07,225 --> 00:03:07,930
+a mobile device.
+
+72
+00:03:07,930 --> 00:03:09,810
+I don't know about yours but my T.V.
+
+73
+00:03:09,810 --> 00:03:11,830
+doesn't have an accelerometer for
+example.
+
+74
+00:03:11,830 --> 00:03:13,190
+Will cover these in detail later.
+
+75
+00:03:13,190 --> 00:03:16,460
+But for now there's one feature you
+always have to specify is not required
+
+76
+00:03:16,460 --> 00:03:17,460
+in your manifest.
+
+77
+00:03:17,460 --> 00:03:18,830
+And that's a touch screen.
+
+78
+00:03:18,830 --> 00:03:20,300
+More detail soon.
+
+79
+00:03:20,300 --> 00:03:23,040
+Last, let's talk for
+a moment about Android versions.
+
+80
+00:03:23,040 --> 00:03:26,230
+Android T.V.
+support first appeared in Android 5.0.
+
+81
+00:03:26,230 --> 00:03:27,970
+Before you begin building Android T.V.
+
+82
+00:03:27,970 --> 00:03:31,020
+apps update your SDK to version 21 or
+higher.
+
+83
+00:03:31,020 --> 00:03:34,220
+Also update your S.T.K.
+tools to version 24 or higher.
+
+84
+00:03:34,220 --> 00:03:37,670
+And be sure that your project targets
+at least A.P.I. level twenty one.
+
+85
+00:03:37,670 --> 00:03:39,590
+More details on these are in the notes.
+
+86
+00:03:39,590 --> 00:03:41,920
+Okay, that's everything you
+need to know to get started.
+
+87
+00:03:41,920 --> 00:03:44,300
+In the next lessons, we'll talk
+about hardware differences and
+
+88
+00:03:44,300 --> 00:03:45,770
+the lean back support library.
+
+89
+00:03:45,770 --> 00:03:47,150
+Then it's on decode.
+
+90
+00:03:47,150 --> 00:03:49,530
+What's the name of the intent filter,
+you need to specify for
+
+91
+00:03:49,530 --> 00:03:52,950
+your main activity on T.V. Refer to
+the developer training if you get stuck

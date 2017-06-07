@@ -1,0 +1,333 @@
+1
+00:00:00,090 --> 00:00:04,870
+It is not actually necessary to go
+through the kernel to get to a device.
+
+2
+00:00:04,870 --> 00:00:06,150
+For some devices,
+
+3
+00:00:06,150 --> 00:00:11,770
+it is possible to configure them to
+be directly accessed from user level.
+
+4
+00:00:11,770 --> 00:00:14,560
+This method is called
+operating system bypass.
+
+5
+00:00:14,560 --> 00:00:16,580
+We're bypassing the operating system and
+
+6
+00:00:16,580 --> 00:00:19,580
+from user level,
+directly accessing the device.
+
+7
+00:00:19,580 --> 00:00:24,550
+That means that the device registers or
+any memory that is assigned for
+
+8
+00:00:24,550 --> 00:00:29,080
+use for this device is directly
+accessible to the user process.
+
+9
+00:00:29,080 --> 00:00:31,730
+The operating system is
+involved in configuring this.
+
+10
+00:00:31,730 --> 00:00:34,360
+So, making sure that any memory for
+
+11
+00:00:34,360 --> 00:00:40,300
+register share data corresponding to the
+device are mapped to the user process.
+
+12
+00:00:40,300 --> 00:00:43,600
+But then after that's performed,
+the operating system is out of the way.
+
+13
+00:00:43,600 --> 00:00:45,210
+It's not involved in it, and
+
+14
+00:00:45,210 --> 00:00:48,700
+we go from the user process all
+the way down to the device.
+
+15
+00:00:48,700 --> 00:00:52,420
+Since we don't want the user process
+to go into the operating system,
+
+16
+00:00:52,420 --> 00:00:56,000
+this driver has to be
+some user level driver.
+
+17
+00:00:56,000 --> 00:00:59,500
+It's like a library that the user
+process has to be linked with
+
+18
+00:00:59,500 --> 00:01:03,980
+in order to perform the device
+specific operations
+
+19
+00:01:03,980 --> 00:01:06,440
+regarding the access to registers or
+
+20
+00:01:06,440 --> 00:01:11,140
+device configurations that are typically
+performed by the kernel level drivers.
+
+21
+00:01:11,140 --> 00:01:15,210
+Like the kernel level drivers,
+this code, this user level drivers,
+
+22
+00:01:15,210 --> 00:01:19,590
+will typically be provided by the actual
+manufacturers of the devices.
+
+23
+00:01:19,590 --> 00:01:23,568
+When bypassing the operating system, the
+operating system has to make sure that
+
+24
+00:01:23,568 --> 00:01:26,040
+it still has some kind
+of coarse-grain control.
+
+25
+00:01:26,040 --> 00:01:29,243
+Like for instance, enabling or
+disabling a device,
+
+26
+00:01:29,243 --> 00:01:33,780
+adding permissions to add more
+processes to use the device, etc.
+
+27
+00:01:33,780 --> 00:01:38,680
+This means that the operating system
+relies on some type of device features,
+
+28
+00:01:38,680 --> 00:01:42,880
+like for instance, the device has
+to have sufficient registers so
+
+29
+00:01:42,880 --> 00:01:47,770
+that the operating system can map
+some registers to the user process.
+
+30
+00:01:47,770 --> 00:01:52,075
+So the user process can perform
+the default device functionality like
+
+31
+00:01:52,075 --> 00:01:57,280
+send/receive if it's a network device or
+read/write if it's a disk device.
+
+32
+00:01:57,280 --> 00:02:01,390
+But still retain access to
+whatever registers are used for
+
+33
+00:02:01,390 --> 00:02:04,660
+configuring and controlling
+the device that are needed for
+
+34
+00:02:04,660 --> 00:02:07,200
+these coarse-grain control operations.
+
+35
+00:02:07,200 --> 00:02:12,560
+If the device has too few registers and
+it's reusing the same registers for
+
+36
+00:02:12,560 --> 00:02:15,730
+both the core data movement or
+
+37
+00:02:15,730 --> 00:02:19,340
+the core functionality,
+as well as these control operations
+
+38
+00:02:19,340 --> 00:02:23,650
+that are needed to be performed by
+the operating system, we can't do this.
+
+39
+00:02:23,650 --> 00:02:27,830
+We need to be able to share the same
+device across potentially multiple user
+
+40
+00:02:27,830 --> 00:02:28,820
+processes.
+
+41
+00:02:28,820 --> 00:02:32,830
+So assign some subset of
+the registers to different user level
+
+42
+00:02:32,830 --> 00:02:37,410
+processes to be controlled by different
+user level drivers and libraries.
+
+43
+00:02:37,410 --> 00:02:41,530
+And still make sure that the operating
+system has some coarse-grain control
+
+44
+00:02:41,530 --> 00:02:44,120
+over exactly how the device is used.
+
+45
+00:02:44,120 --> 00:02:45,970
+And whether something
+needs to be changed.
+
+46
+00:02:45,970 --> 00:02:52,062
+Another thing that happens when multiple
+processes use the device at the same
+
+47
+00:02:52,062 --> 00:02:58,590
+time is that when the device needs to
+pass some data to one of the processes.
+
+48
+00:02:58,590 --> 00:03:03,220
+It is now the device that needs to
+be able to figure out how exactly
+
+49
+00:03:03,220 --> 00:03:08,640
+to pass data to the address space
+of process one versus process two.
+
+50
+00:03:08,640 --> 00:03:11,000
+For instance,
+when receiving network packets,
+
+51
+00:03:11,000 --> 00:03:16,080
+the device itself has to determine which
+process is the target of the packet.
+
+52
+00:03:16,080 --> 00:03:20,420
+If you think about what that means with
+respect to the networking protocols,
+
+53
+00:03:20,420 --> 00:03:24,520
+that means the device has to
+peek inside of the packet
+
+54
+00:03:24,520 --> 00:03:29,840
+in order to see what is the port number
+that this packet is intended to do.
+
+55
+00:03:29,840 --> 00:03:34,590
+And then also it has to know which
+are the socket port numbers that
+
+56
+00:03:34,590 --> 00:03:37,385
+these processes are using
+in their communication.
+
+57
+00:03:37,385 --> 00:03:40,595
+So what that means is that
+the device has to perform some
+
+58
+00:03:40,595 --> 00:03:45,285
+protocol functionality in order
+to be able to demultiplex
+
+59
+00:03:45,285 --> 00:03:50,185
+the different packets that belong
+to these different processes.
+
+60
+00:03:50,185 --> 00:03:54,015
+In general, it needs to have
+demultiplexing capabilities so
+
+61
+00:03:54,015 --> 00:03:56,880
+that data that's arriving in this device
+
+62
+00:03:56,880 --> 00:04:00,610
+can be correctly passed through
+the appropriate process.
+
+63
+00:04:00,610 --> 00:04:05,100
+In the regular device stack, where
+the operating system kernel is involved,
+
+64
+00:04:05,100 --> 00:04:07,970
+it is the kernel that
+performs these operations.
+
+65
+00:04:07,970 --> 00:04:12,740
+The kernel is aware of the resources
+that are allocated to each process.
+
+66
+00:04:12,740 --> 00:04:15,670
+And the mappings that
+each process has with
+
+67
+00:04:15,670 --> 00:04:18,339
+respect to the physical
+resources in the system.
+
+68
+00:04:18,339 --> 00:04:20,550
+When the operating system is bypassed,
+
+69
+00:04:20,550 --> 00:04:23,700
+those types of checks have to be
+performed by the device itself.

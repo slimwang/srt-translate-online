@@ -1,0 +1,145 @@
+1
+00:00:00,120 --> 00:00:04,630
+Sun RPC is an RPC package originally
+developed by Sun in the 80s for
+
+2
+00:00:04,630 --> 00:00:09,540
+their network file system NFS for
+UNIX systems but it became popular and
+
+3
+00:00:09,540 --> 00:00:12,340
+now it's widely available
+in other platforms.
+
+4
+00:00:12,340 --> 00:00:15,070
+Sun RPC makes the following
+design choices.
+
+5
+00:00:15,070 --> 00:00:20,390
+In Sun RPC it's assumed that the server
+machine is known up front and therefore
+
+6
+00:00:20,390 --> 00:00:25,890
+the registry design choice is such that
+there is a registry daemon per-machine.
+
+7
+00:00:25,890 --> 00:00:28,520
+When a client wants to talk
+to a particular service,
+
+8
+00:00:28,520 --> 00:00:33,350
+it needs to first talk to the registry
+on that particular machine to find out
+
+9
+00:00:33,350 --> 00:00:36,462
+how to contact the exact
+service that it requires.
+
+10
+00:00:36,462 --> 00:00:40,120
+Sun RPC makes no assumption
+regarding the programming
+
+11
+00:00:40,120 --> 00:00:43,480
+language that used by the client or
+by the server process.
+
+12
+00:00:43,480 --> 00:00:47,860
+To maintain neutrality
+Center PC relays on a language
+
+13
+00:00:47,860 --> 00:00:51,460
+agnostic interface definition language,
+XDR.
+
+14
+00:00:51,460 --> 00:00:55,250
+And this is used both for
+the specification of the interface of
+
+15
+00:00:55,250 --> 00:01:00,020
+the RPC service, as well as for
+the specification of the encoding.
+
+16
+00:01:00,020 --> 00:01:02,980
+How data types will be
+encoded when they're being
+
+17
+00:01:02,980 --> 00:01:05,239
+transmitted amongst machines?
+
+18
+00:01:05,239 --> 00:01:07,940
+Some RPC does allow
+the use of pointers and
+
+19
+00:01:07,940 --> 00:01:13,130
+data structures that are pointed by
+these pointers will be serialized.
+
+20
+00:01:13,130 --> 00:01:18,150
+And finally, Sun RPC incorporates some
+mechanisms for dealing with errors.
+
+21
+00:01:18,150 --> 00:01:21,290
+First, it has internally retry mechanism
+
+22
+00:01:21,290 --> 00:01:25,520
+to retry contacting a server
+when a connection times out.
+
+23
+00:01:25,520 --> 00:01:28,140
+This will be done for
+a specific number of times.
+
+24
+00:01:28,140 --> 00:01:29,980
+Second, as much as possible,
+
+25
+00:01:29,980 --> 00:01:33,480
+the RPC run time will try to
+return meaningful errors.
+
+26
+00:01:33,480 --> 00:01:36,570
+So that a caller can at least
+distinguish between things like
+
+27
+00:01:36,570 --> 00:01:38,490
+the server is not available, or
+
+28
+00:01:38,490 --> 00:01:43,180
+there is a mismatch, or
+unsupported protocol or version.
+
+29
+00:01:43,180 --> 00:01:46,590
+Or there is simply a time
+out related failure that
+
+30
+00:01:46,590 --> 00:01:49,270
+just covers all of the other
+types of possible failures.

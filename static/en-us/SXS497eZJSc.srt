@@ -1,0 +1,312 @@
+1
+00:00:00,290 --> 00:00:04,046
+So one of the first, to me at least,
+it seems like obvious problems
+
+2
+00:00:04,046 --> 00:00:08,337
+with this approach is that if we come
+back later and have the Mark 5 come out,
+
+3
+00:00:08,337 --> 00:00:12,296
+there doesn't seem to be any real
+ability to reuse the components that
+
+4
+00:00:12,296 --> 00:00:13,800
+we've already created.
+
+5
+00:00:13,800 --> 00:00:18,286
+For instance, if our warmer plate is
+described here as just this warmer
+
+6
+00:00:18,286 --> 00:00:21,950
+plate and we flush it out with
+functions and attributes and
+
+7
+00:00:21,950 --> 00:00:27,080
+then the Mark 5 comes around and we
+have this completely new warmer plate.
+
+8
+00:00:27,080 --> 00:00:28,910
+There doesn't seem to be any way for
+
+9
+00:00:28,910 --> 00:00:33,780
+us to share some of the things that
+might be similar between those?
+
+10
+00:00:33,780 --> 00:00:38,790
+>> Well, we have a play heater class and
+a boiler heater class.
+
+11
+00:00:38,790 --> 00:00:40,040
+Why can't we use those?
+
+12
+00:00:40,040 --> 00:00:43,080
+>> Well, I don't know.
+
+13
+00:00:43,080 --> 00:00:48,352
+The heater, I guess,
+the parts of it that are general about
+
+14
+00:00:48,352 --> 00:00:53,427
+the heating element doesn't
+seem to be specified here.
+
+15
+00:00:53,427 --> 00:00:56,592
+Like, the boiler heater and the plate
+heater, they're both heaters, but
+
+16
+00:00:56,592 --> 00:00:58,460
+I don't know what they're sharing.
+
+17
+00:00:58,460 --> 00:01:04,399
+>> So, am I hearing that you'd
+like to see a separation between
+
+18
+00:01:04,399 --> 00:01:09,756
+the classes that,
+a class that describes in general,
+
+19
+00:01:09,756 --> 00:01:15,828
+the property of things, and
+then the specifics from Mark 4?
+
+20
+00:01:15,828 --> 00:01:20,300
+>> It seems it should be defined more
+about how the heating is accomplished
+
+21
+00:01:20,300 --> 00:01:24,484
+instead of just this general
+classification of it being a heater.
+
+22
+00:01:24,484 --> 00:01:28,849
+>> If we're heating elements by this
+particular function, all the heaters or
+
+23
+00:01:28,849 --> 00:01:31,851
+types of heaters that do
+this particular function,
+
+24
+00:01:31,851 --> 00:01:34,880
+they should extend from
+that type of heater.
+
+25
+00:01:34,880 --> 00:01:38,590
+So it's more of a functional approach,
+as opposed to this
+
+26
+00:01:38,590 --> 00:01:41,040
+kind of general put everything
+in a box because it's a heater.
+
+27
+00:01:42,260 --> 00:01:42,960
+>> Okay.
+So there's
+
+28
+00:01:42,960 --> 00:01:44,120
+a couple of things going on here.
+
+29
+00:01:44,120 --> 00:01:45,750
+Let's see what Martin
+had to say about this.
+
+30
+00:01:46,750 --> 00:01:50,640
+So, Martin came up with
+four primary problems
+
+31
+00:01:50,640 --> 00:01:53,670
+associated with this
+approach to doing the model.
+
+32
+00:01:53,670 --> 00:01:57,720
+The first is that, obviously,
+we haven't paid much, if any,
+
+33
+00:01:57,720 --> 00:02:00,630
+attention to the operations
+that are going on.
+
+34
+00:02:00,630 --> 00:02:06,000
+And, in fact, many of the classes that
+we have here have no state at all.
+
+35
+00:02:06,000 --> 00:02:07,400
+So they don't have any
+attributes either.
+
+36
+00:02:08,750 --> 00:02:14,062
+If you have a class without state,
+it probably should
+
+37
+00:02:14,062 --> 00:02:18,911
+be an interface instead
+of being a class, okay?
+
+38
+00:02:18,911 --> 00:02:23,907
+Second, what Martin labels
+as imaginary abstractions
+
+39
+00:02:23,907 --> 00:02:29,009
+that even though the heater and
+sensor are base classes,
+
+40
+00:02:29,009 --> 00:02:33,803
+they are not going to have
+much to share between them.
+
+41
+00:02:33,803 --> 00:02:39,500
+Third is a term from the objectorian
+role called the God class.
+
+42
+00:02:39,500 --> 00:02:43,800
+The only substance of class left, when
+taking account these the other problems,
+
+43
+00:02:43,800 --> 00:02:45,270
+is the coffee maker class.
+
+44
+00:02:45,270 --> 00:02:47,330
+And it contains all
+the interesting code.
+
+45
+00:02:47,330 --> 00:02:48,830
+When you have that sort of situation,
+
+46
+00:02:48,830 --> 00:02:54,735
+you probably haven't done
+a good job at your OO design.
+
+47
+00:02:54,735 --> 00:02:57,534
+And so, we want to address that.
+
+48
+00:02:57,534 --> 00:03:00,864
+And then even though
+we have the button and
+
+49
+00:03:00,864 --> 00:03:05,536
+the light, we don't really
+have a user interface class.
+
+50
+00:03:05,536 --> 00:03:09,750
+And so
+we need to represent that as well.
+
+51
+00:03:09,750 --> 00:03:11,300
+>> So I have a quick question.
+
+52
+00:03:11,300 --> 00:03:15,470
+Is the term here, god class,
+is there some carry over to that in
+
+53
+00:03:15,470 --> 00:03:18,330
+the invariance maintenance strategies
+that we talked about earlier,
+
+54
+00:03:18,330 --> 00:03:21,840
+where you have kind of this central
+node that seems like it's controlling
+
+55
+00:03:21,840 --> 00:03:25,270
+everything instead of distributing
+that responsibility out
+
+56
+00:03:25,270 --> 00:03:27,720
+amongst the rest of
+the components in this system?
+
+57
+00:03:27,720 --> 00:03:29,490
+>> So I hadn't thought about that.
+
+58
+00:03:31,000 --> 00:03:34,240
+One of the guidelines for
+
+59
+00:03:34,240 --> 00:03:40,360
+OO design is to break things up
+into very small pieces, okay?
+
+60
+00:03:40,360 --> 00:03:47,620
+There's reasons to centralize, okay,
+both at the architectural level,
+
+61
+00:03:47,620 --> 00:03:52,140
+where you'd like to have knowledge
+concentrated because you want to
+
+62
+00:03:52,140 --> 00:03:56,890
+control effectively where you might want
+to do things with respect to safety or
+
+63
+00:03:56,890 --> 00:04:01,030
+security, things like that,
+but also at the object level.
+
+64
+00:04:01,030 --> 00:04:05,950
+If there are things that might change
+separately, you probably want to
+
+65
+00:04:05,950 --> 00:04:10,140
+have those in separate places, so you
+can change just what you need to change.

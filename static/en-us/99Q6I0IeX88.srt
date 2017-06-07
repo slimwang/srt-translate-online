@@ -1,0 +1,387 @@
+1
+00:00:00,340 --> 00:00:02,550
+This map is taken from these three.
+
+2
+00:00:02,550 --> 00:00:05,420
+We found that previous side has example of you know,
+
+3
+00:00:05,420 --> 00:00:09,390
+there is these three visualizations and we already decide that you know,
+
+4
+00:00:09,390 --> 00:00:12,830
+visualizing the sentiment across the United States is a very cool idea.
+
+5
+00:00:12,830 --> 00:00:17,260
+So we took you know, a map that we can make some interactive display.
+
+6
+00:00:17,260 --> 00:00:22,360
+This map is broken up by counties, and each county has a color and
+
+7
+00:00:22,360 --> 00:00:26,320
+the color is a sentiment of those tweets that we got for that county.
+
+8
+00:00:26,320 --> 00:00:27,840
+And also if you see,
+
+9
+00:00:27,840 --> 00:00:31,750
+when you hover over the county you'll see the tweet message of the county.
+
+10
+00:00:31,750 --> 00:00:35,470
+Other grey area are the places where we haven't seen tweet yet.
+
+11
+00:00:35,470 --> 00:00:40,380
+>> And so yellow is very happy and dark blue is unhappy and so with
+
+12
+00:00:40,380 --> 00:00:45,470
+the World Series going on right now we see the some yellow around San Fransisco.
+
+13
+00:00:46,675 --> 00:00:49,800
+>> Okay, well, let's take a look at your code.
+
+14
+00:00:49,800 --> 00:00:53,050
+And so and a lot of the logic here is basically you've
+
+15
+00:00:53,050 --> 00:00:56,650
+modified the app.py that we gave you.
+
+16
+00:00:56,650 --> 00:01:01,256
+You created a map.html, so how about we start with the app.yi.
+
+17
+00:01:01,256 --> 00:01:01,795
+>> Okay.
+
+18
+00:01:01,795 --> 00:01:03,890
+So Juan all ready got this.
+
+19
+00:01:03,890 --> 00:01:07,710
+There are already a couple, you know, applications all ready filled out for
+
+20
+00:01:07,710 --> 00:01:10,360
+us, you know, the basic and the stream.
+
+21
+00:01:10,360 --> 00:01:12,700
+So what we did is we added a map.html and
+
+22
+00:01:12,700 --> 00:01:15,794
+the way to send any data to it is by adding this app.route.
+
+23
+00:01:17,350 --> 00:01:20,750
+And that's the only thing that'll add to the app.python.
+
+24
+00:01:20,750 --> 00:01:22,430
+>> So it's pretty simple.
+
+25
+00:01:22,430 --> 00:01:23,260
+>> Yeah, very simple.
+
+26
+00:01:24,650 --> 00:01:26,080
+>> Mm-hm. >> So this is a map.html.
+
+27
+00:01:26,080 --> 00:01:30,330
+And we originally took a template that already exists.
+
+28
+00:01:30,330 --> 00:01:32,544
+And we- >> That's from the datamaps.github.
+
+29
+00:01:32,544 --> 00:01:34,380
+>> Yeah. The datamap.github.
+
+30
+00:01:34,380 --> 00:01:36,000
+Yup. That's the place.
+
+31
+00:01:36,000 --> 00:01:39,560
+And this JavaScript file has the map or data.
+
+32
+00:01:39,560 --> 00:01:43,090
+So the java script renders all the information in this file and
+
+33
+00:01:43,090 --> 00:01:45,940
+create this map that you see on this display.
+
+34
+00:01:45,940 --> 00:01:52,150
+And we added a JavaScript that physical just does a county lookup.
+
+35
+00:01:52,150 --> 00:01:56,690
+It, it a reads the county id and
+
+36
+00:01:56,690 --> 00:02:02,020
+then give us the id that corresponds to this map we see here.
+
+37
+00:02:02,020 --> 00:02:05,690
+>> And I see it's in the static county, the static\countyLookup.
+
+38
+00:02:05,690 --> 00:02:06,370
+There it is.
+
+39
+00:02:06,370 --> 00:02:07,150
+Cool.
+
+40
+00:02:07,150 --> 00:02:09,100
+>> We have a couple colors on this map and
+
+41
+00:02:09,100 --> 00:02:13,940
+we're trying to really show, you know, the sentiment pretty continuous scale.
+
+42
+00:02:13,940 --> 00:02:18,120
+Well, of course, we cannot put all the colors on there so chose ten levels.
+
+43
+00:02:18,120 --> 00:02:23,020
+And those ten levels are, you know, kind of a gradient from blue to yellow.
+
+44
+00:02:23,020 --> 00:02:27,440
+And that's, you know, how we created that, those color code.
+
+45
+00:02:27,440 --> 00:02:30,170
+Over here we have the source.onmessage, and
+
+46
+00:02:30,170 --> 00:02:36,200
+this is the part that takes the information, the Storm pass to Redis.
+
+47
+00:02:36,200 --> 00:02:40,470
+So it reads the event data, and split it by the delimiter, and
+
+48
+00:02:40,470 --> 00:02:44,620
+gets the county id, the sentence, the tweet and then a sentiment.
+
+49
+00:02:44,620 --> 00:02:48,060
+So that's the three things that we decided to pass to the map.
+
+50
+00:02:48,060 --> 00:02:50,250
+Of course there used to be a lot more fields but
+
+51
+00:02:50,250 --> 00:02:52,440
+that's the thing that we ended up using.
+
+52
+00:02:52,440 --> 00:02:55,050
+>> How about we skip really quickly to the report bolt just to
+
+53
+00:02:55,050 --> 00:02:56,830
+make that connection.
+
+54
+00:02:56,830 --> 00:02:59,510
+So we've basically, I see that you've,
+
+55
+00:02:59,510 --> 00:03:03,460
+you've changed the bar type character that I was using.
+
+56
+00:03:03,460 --> 00:03:04,510
+And provided the class.
+
+57
+00:03:04,510 --> 00:03:07,180
+And you have created a delimeter.
+
+58
+00:03:07,180 --> 00:03:11,370
+And so basically what we're doing is Redis.publish to the word
+
+59
+00:03:11,370 --> 00:03:16,240
+count topology stream and you're publishing the count id, delimeter the tweet,
+
+60
+00:03:16,240 --> 00:03:20,680
+the delimeter, and the sentiment with another delimeter.
+
+61
+00:03:20,680 --> 00:03:24,650
+And So you've stuffed this into a large string.
+
+62
+00:03:24,650 --> 00:03:25,310
+>> Right.
+
+63
+00:03:25,310 --> 00:03:26,140
+>> And then parsed it out.
+
+64
+00:03:26,140 --> 00:03:27,000
+>> Right. >> Very cool.
+
+65
+00:03:27,000 --> 00:03:28,250
+>> Yeah.
+
+66
+00:03:28,250 --> 00:03:31,100
+RIght, so, we had to up, because we had to update the map,
+
+67
+00:03:31,100 --> 00:03:34,420
+the color in real time, so what we did is that we created a hash,
+
+68
+00:03:34,420 --> 00:03:38,040
+kind of an associative array in JavaScript.
+
+69
+00:03:38,040 --> 00:03:42,220
+And in here we update a counting id with the most frequent sentence that we
+
+70
+00:03:42,220 --> 00:03:43,420
+pass in.
+
+71
+00:03:43,420 --> 00:03:47,470
+And also the kind of running average sentence that we pass in.
+
+72
+00:03:47,470 --> 00:03:51,860
+So every time there's something new, we pass into this hash structure.
+
+73
+00:03:51,860 --> 00:03:56,440
+And then we have this window.setInterval function.
+
+74
+00:03:56,440 --> 00:03:59,360
+This is, this is saying, let's update a map every second.
+
+75
+00:03:59,360 --> 00:04:01,410
+This is millisecond unit.
+
+76
+00:04:01,410 --> 00:04:03,360
+And we call this function updateViz.
+
+77
+00:04:03,360 --> 00:04:05,580
+And in here we are looking at okay,
+
+78
+00:04:05,580 --> 00:04:10,640
+let's look at all the keys in hashSentiment and we're going to update.
+
+79
+00:04:10,640 --> 00:04:14,630
+All the sentiment that we received was in that one second interval and
+
+80
+00:04:14,630 --> 00:04:21,500
+here we're seeing if the sentiment we get the color, put the color into this
+
+81
+00:04:21,500 --> 00:04:26,230
+data of structure and the map will take this data and update it accordingly.
+
+82
+00:04:26,230 --> 00:04:29,680
+So this, [INAUDIBLE] you know by, in the D3 package.
+
+83
+00:04:29,680 --> 00:04:31,820
+So we didn't have to do much with that.
+
+84
+00:04:31,820 --> 00:04:32,990
+I know it's very complicated.
+
+85
+00:04:32,990 --> 00:04:34,100
+Yeah.
+
+86
+00:04:34,100 --> 00:04:35,990
+And then we reset hashSentiment.
+
+87
+00:04:35,990 --> 00:04:38,740
+>> Cool. >> So we can see it, you know, updating in real-time.
+
+88
+00:04:38,740 --> 00:04:41,260
+I think this is super cool.
+
+89
+00:04:41,260 --> 00:04:42,920
+>> Yeah. We're getting only 1% of tweets, so
+
+90
+00:04:42,920 --> 00:04:46,120
+the map is not, you know, populating very quickly.
+
+91
+00:04:46,120 --> 00:04:46,710
+>> Right.
+
+92
+00:04:46,710 --> 00:04:49,160
+>> But if we have a lot more data, then we will be seeing a lot of,
+
+93
+00:04:49,160 --> 00:04:49,965
+you know, blinking.
+
+94
+00:04:49,965 --> 00:04:50,480
+>> Mm-hm. >> And.
+
+95
+00:04:51,594 --> 00:04:53,014
+A lot more colors.
+
+96
+00:04:53,014 --> 00:04:53,770
+>> Cool.
+
+97
+00:04:53,770 --> 00:04:54,470
+All right, thanks a lot.

@@ -1,0 +1,381 @@
+1
+00:00:00,030 --> 00:00:04,350
+While the previous example gave us a
+good idea what type of scheduler to use,
+
+2
+00:00:04,350 --> 00:00:07,890
+that the scheduler should mix CPU and
+memory bound tasks.
+
+3
+00:00:07,890 --> 00:00:12,590
+The question that is open at this point
+is how do we know if a thread is CPU
+
+4
+00:00:12,590 --> 00:00:14,800
+bound versus a memory bound.
+
+5
+00:00:14,800 --> 00:00:18,390
+To answer this question we
+will use historic information.
+
+6
+00:00:18,390 --> 00:00:21,350
+We will look at
+the thread's past behavior.
+
+7
+00:00:21,350 --> 00:00:25,410
+And this is similar to what we said was
+useful when we were trying to determine
+
+8
+00:00:25,410 --> 00:00:30,710
+whether a thread is interactive or
+I/O bound versus CPU bound.
+
+9
+00:00:30,710 --> 00:00:33,508
+However, previously we
+used sleep time for
+
+10
+00:00:33,508 --> 00:00:37,460
+this type of differentiation
+of I/O versus CPU bound.
+
+11
+00:00:37,460 --> 00:00:39,730
+And that won't work in this case.
+
+12
+00:00:39,730 --> 00:00:43,440
+First of all, the thread is not really
+sleeping when it's waiting on a memory
+
+13
+00:00:43,440 --> 00:00:47,070
+reference, the thread is active and
+it's just waiting in some stage
+
+14
+00:00:47,070 --> 00:00:51,000
+in the processor pipeline and
+not on some type of software queue.
+
+15
+00:00:51,000 --> 00:00:55,940
+Second, to keep track of the sleep time
+we were using some software methods, and
+
+16
+00:00:55,940 --> 00:00:57,200
+that's not acceptable.
+
+17
+00:00:57,200 --> 00:01:01,990
+We cannot execute in software some
+computations to decide whether a thread
+
+18
+00:01:01,990 --> 00:01:04,379
+is CPU bound or memory-bound.
+
+19
+00:01:04,379 --> 00:01:08,130
+Given the fact that the context
+switch takes order of cycles, so
+
+20
+00:01:08,130 --> 00:01:12,400
+the decision what to execute
+should be very, very fast.
+
+21
+00:01:12,400 --> 00:01:16,620
+Therefore, we somehow need some kind of
+hardware support, some information from
+
+22
+00:01:16,620 --> 00:01:20,490
+the hardware in order to be
+able to answer this question.
+
+23
+00:01:20,490 --> 00:01:25,370
+Fortunately, modern hardware has
+lots of so called hardware counters
+
+24
+00:01:25,370 --> 00:01:29,030
+that get updated as
+the processor is executing and
+
+25
+00:01:29,030 --> 00:01:33,200
+keep information about various
+aspects of the execution.
+
+26
+00:01:33,200 --> 00:01:36,365
+These include information
+about the cash usage for
+
+27
+00:01:36,365 --> 00:01:41,125
+instance such as the L1, L2, or
+the last level cash misses or
+
+28
+00:01:41,125 --> 00:01:44,525
+information about the number of
+instructions that were retired.
+
+29
+00:01:44,525 --> 00:01:47,495
+So that we can compute the IPC or
+
+30
+00:01:47,495 --> 00:01:50,955
+in your platforms there's also
+information regarding the power or
+
+31
+00:01:50,955 --> 00:01:55,710
+energy usage of the CPU or
+particular components of the system.
+
+32
+00:01:55,710 --> 00:01:57,420
+There are a number of interfaces and
+
+33
+00:01:57,420 --> 00:02:01,805
+tools that can be used to access
+these hardware counters via software.
+
+34
+00:02:01,805 --> 00:02:06,910
+For instance, oprofiler or the Linux
+perf tool are available in Linux, and
+
+35
+00:02:06,910 --> 00:02:10,949
+one of the things that's useful is that
+if you look at the oprofile website,
+
+36
+00:02:10,949 --> 00:02:15,000
+it actually has a list of all of the
+hardware counters that are available for
+
+37
+00:02:15,000 --> 00:02:16,540
+different architectures.
+
+38
+00:02:16,540 --> 00:02:21,320
+Because the hardware counters are not
+uniform on every single platform.
+
+39
+00:02:21,320 --> 00:02:24,580
+So, then how can hardware
+counters help a scheduler
+
+40
+00:02:24,580 --> 00:02:26,530
+make any kinds of scheduling decision?
+
+41
+00:02:27,670 --> 00:02:32,700
+Many practical as well as research based
+scheduling techniques rely on the use
+
+42
+00:02:32,700 --> 00:02:37,510
+of hardware counters to understand
+something about the requirements of
+
+43
+00:02:37,510 --> 00:02:40,960
+the threads in terms of the kinds
+of resources that they need,
+
+44
+00:02:40,960 --> 00:02:42,590
+CPUs or memory.
+
+45
+00:02:42,590 --> 00:02:47,120
+So then, the scheduler can use that
+information to pick a good mix of
+
+46
+00:02:47,120 --> 00:02:51,710
+the threads that are available in the
+run queue to schedule on the system so
+
+47
+00:02:51,710 --> 00:02:56,040
+that all of the components of the system
+are well utilized or that, so
+
+48
+00:02:56,040 --> 00:02:58,820
+that the threads don't
+interfere with one another.
+
+49
+00:02:58,820 --> 00:03:02,510
+Or, whatever other scheduling
+policy needs to be achieved.
+
+50
+00:03:02,510 --> 00:03:07,450
+For instance, a scheduler can look at a
+counter like the last level cash misses
+
+51
+00:03:07,450 --> 00:03:13,340
+and using this counter, a scheduler can
+decide that a thread is memory bound,
+
+52
+00:03:13,340 --> 00:03:16,150
+so its footprint doesn't
+fit in the cash.
+
+53
+00:03:16,150 --> 00:03:20,540
+Or the same counter can also tell
+the scheduler that something changed in
+
+54
+00:03:20,540 --> 00:03:25,790
+the execution of the threat so that now
+it's executing with some different data
+
+55
+00:03:25,790 --> 00:03:29,930
+in a different phase of its execution,
+and it's running with the cold cash.
+
+56
+00:03:29,930 --> 00:03:31,510
+What this tells us is that,
+
+57
+00:03:31,510 --> 00:03:35,950
+that one counter can tell us
+different things about a thread.
+
+58
+00:03:35,950 --> 00:03:40,250
+So, given that there isn't a unique way
+to interpret the information provided
+
+59
+00:03:40,250 --> 00:03:44,000
+from hardware counters,
+we really sort of guesstimate
+
+60
+00:03:44,000 --> 00:03:48,090
+what it is that they're telling us
+about the thread's resource use.
+
+61
+00:03:48,090 --> 00:03:51,630
+That doesn't mean that the use of
+hardware counters is not good,
+
+62
+00:03:51,630 --> 00:03:55,320
+in fact schedulers can use
+hardware counters to make
+
+63
+00:03:55,320 --> 00:04:00,150
+informed decisions regarding the
+workload mix that they need to select.
+
+64
+00:04:00,150 --> 00:04:03,620
+They would typically use some
+combination of the counters that
+
+65
+00:04:03,620 --> 00:04:06,520
+are available on the CPU, not just one,
+
+66
+00:04:06,520 --> 00:04:11,220
+in order to build a more accurate
+picture of the threads resource needs.
+
+67
+00:04:11,220 --> 00:04:15,050
+And they would also rely on some
+models that have been built for
+
+68
+00:04:15,050 --> 00:04:17,589
+a specific hardware platform and
+
+69
+00:04:17,589 --> 00:04:20,860
+that have been trained using
+some well understood workloads.
+
+70
+00:04:20,860 --> 00:04:24,940
+So we ran a workload that we
+know is memory intensive and
+
+71
+00:04:24,940 --> 00:04:29,440
+we made some observations regarding the
+values of those counters and therefore,
+
+72
+00:04:29,440 --> 00:04:34,055
+we now know how to interpret them for
+other types of workloads.
+
+73
+00:04:34,055 --> 00:04:36,765
+These types of techniques
+really fall into much more
+
+74
+00:04:36,765 --> 00:04:38,325
+advanced research problems,
+
+75
+00:04:38,325 --> 00:04:42,665
+which are a little bit out of the scope
+of this particular introductory course.
+
+76
+00:04:42,665 --> 00:04:46,685
+However, I really wanted to make sure
+that you're aware of the existence of
+
+77
+00:04:46,685 --> 00:04:49,540
+these hardware counters and
+how they can be used.
+
+78
+00:04:49,540 --> 00:04:53,650
+And how they can be really useful when
+it comes to resource management in
+
+79
+00:04:53,650 --> 00:04:56,280
+general not just
+regarding CPU scheduling.

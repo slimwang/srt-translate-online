@@ -1,0 +1,253 @@
+1
+00:00:00,170 --> 00:00:03,092
+A simple way to deal with
+the problems of the test and
+
+2
+00:00:03,092 --> 00:00:05,830
+test and
+set lock is to introduce a delay.
+
+3
+00:00:05,830 --> 00:00:09,360
+Here's a simple implementation
+which introduces a delay
+
+4
+00:00:09,360 --> 00:00:13,290
+every single time a thread
+notices that the lock is freed.
+
+5
+00:00:13,290 --> 00:00:15,820
+So the delay happens after release.
+
+6
+00:00:15,820 --> 00:00:18,326
+When the thread sees
+that the lock is freed,
+
+7
+00:00:18,326 --> 00:00:20,371
+we'll come out of this while loop.
+
+8
+00:00:20,371 --> 00:00:25,241
+And then before going back to recheck
+what the value of the lock is and
+
+9
+00:00:25,241 --> 00:00:29,599
+if it's indeed free to try to
+execute the atomic operation,
+
+10
+00:00:29,599 --> 00:00:34,760
+the test and set, the thread will
+wait a little bit, will delay.
+
+11
+00:00:34,760 --> 00:00:36,920
+The rationale of this is yes,
+
+12
+00:00:36,920 --> 00:00:40,630
+everybody will see that the lock
+is free at the same time.
+
+13
+00:00:40,630 --> 00:00:42,460
+However, with this delay,
+
+14
+00:00:42,460 --> 00:00:47,400
+not everybody will try to issue
+the atomic operation at the same time.
+
+15
+00:00:47,400 --> 00:00:51,980
+As a result, the contention in the
+system will be significantly improved.
+
+16
+00:00:51,980 --> 00:00:53,970
+When the delay expires,
+
+17
+00:00:53,970 --> 00:00:57,740
+the delayed threads will try to
+recheck the value of the lock.
+
+18
+00:00:57,740 --> 00:01:01,181
+And it's possible that if somebody
+else in the meantime came and
+
+19
+00:01:01,181 --> 00:01:05,400
+executed the test and set, it's possible
+they will see that the lock is busy.
+
+20
+00:01:05,400 --> 00:01:09,450
+And then they will go in this inner
+while loop and continue spinning.
+
+21
+00:01:09,450 --> 00:01:14,160
+If the lock is free, the delayed thread
+will execute the atomic operation.
+
+22
+00:01:14,160 --> 00:01:17,131
+However with this delay it's
+more likely that not all
+
+23
+00:01:17,131 --> 00:01:21,041
+the threads will try to execute
+the atomic operation at the same time.
+
+24
+00:01:21,041 --> 00:01:25,237
+And also that we're not going to
+have these situations where threads
+
+25
+00:01:25,237 --> 00:01:30,930
+are repeatedly invalidated while they're
+attempting to spin on the cached value.
+
+26
+00:01:30,930 --> 00:01:34,124
+That is because after
+the delay in the second check,
+
+27
+00:01:34,124 --> 00:01:38,271
+a lot of the threads will see that
+this lock has become busy already.
+
+28
+00:01:38,271 --> 00:01:41,091
+And they will not even attempt
+to execute the test and and
+
+29
+00:01:41,091 --> 00:01:42,170
+set instructions.
+
+30
+00:01:42,170 --> 00:01:45,740
+So, it'll be fewer cases
+where the lock is busy and
+
+31
+00:01:45,740 --> 00:01:48,970
+somebody's attempting to execute
+the test and set instruction.
+
+32
+00:01:48,970 --> 00:01:52,820
+And that was what caused one of
+the issues with the contention effects
+
+33
+00:01:52,820 --> 00:01:54,550
+in the previous examples.
+
+34
+00:01:54,550 --> 00:01:58,440
+From a latency perspective,
+this spinlock is still okay.
+
+35
+00:01:58,440 --> 00:02:02,096
+Yes, we do have to perform one memory
+reference to get the lock first
+
+36
+00:02:02,096 --> 00:02:05,321
+into the cache, and
+then perform the atomic instruction.
+
+37
+00:02:05,321 --> 00:02:09,120
+But that's similar to what we saw
+with the test and test and set.
+
+38
+00:02:09,120 --> 00:02:12,450
+From a delay perspective, clearly,
+this lock will be much worse,
+
+39
+00:02:12,450 --> 00:02:17,450
+because once the lock is freed, then we
+have to delay for some amount of time.
+
+40
+00:02:17,450 --> 00:02:19,960
+And if there's no contention for
+the lock,
+
+41
+00:02:19,960 --> 00:02:22,860
+then that delay is just waste of time.
+
+42
+00:02:22,860 --> 00:02:27,320
+Another variant of the delay-based
+spinlocks is to introduce a delay after
+
+43
+00:02:27,320 --> 00:02:29,570
+every single lock reference.
+
+44
+00:02:29,570 --> 00:02:32,970
+So every time we go through this
+while loop, we include a delay.
+
+45
+00:02:32,970 --> 00:02:36,108
+The main benefit of this is
+that it works in non-cache
+
+46
+00:02:36,108 --> 00:02:37,790
+coherent architectures.
+
+47
+00:02:37,790 --> 00:02:40,471
+Because basically we're not
+going to be spinning constantly.
+
+48
+00:02:40,471 --> 00:02:44,160
+In every single spin loop,
+we will include a delay.
+
+49
+00:02:44,160 --> 00:02:49,070
+So if we don't have cache coherence and
+we have to go to memory, using this
+
+50
+00:02:49,070 --> 00:02:53,830
+delay will help with the reduction
+of contention of the memory network.
+
+51
+00:02:53,830 --> 00:02:58,130
+The downside of this is clearly that
+it will hurt the delay much more.
+
+52
+00:02:58,130 --> 00:03:02,583
+Because we're basically building up the
+delay even when there is no contention
+
+53
+00:03:02,583 --> 00:03:03,520
+on the network.

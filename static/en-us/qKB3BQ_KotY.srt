@@ -1,0 +1,404 @@
+1
+00:00:00,090 --> 00:00:03,969
+So the last little piece to talk about
+is the explore or exploit lemma.
+
+2
+00:00:03,969 --> 00:00:07,450
+So the idea of the explore or
+exploit lemma is it gives us
+
+3
+00:00:07,450 --> 00:00:11,230
+the peace of the argument that we did
+when we were doing deterministic Rmax,
+
+4
+00:00:11,230 --> 00:00:15,695
+which basically said if we are in
+some kind of a loop going around and
+
+5
+00:00:15,695 --> 00:00:18,165
+around and around, and
+we're getting optimal reward.
+
+6
+00:00:18,165 --> 00:00:21,075
+If not, then we're going to quickly
+reach an unknown state, and
+
+7
+00:00:21,075 --> 00:00:22,020
+we're going to learn something.
+
+8
+00:00:22,020 --> 00:00:22,905
+>> Mm-hm.
+>> And so
+
+9
+00:00:22,905 --> 00:00:26,690
+the corresponding version of
+this in a stochastic domain.
+
+10
+00:00:26,690 --> 00:00:31,470
+Let's say we're running Rmax,
+ad all the transitions are either
+
+11
+00:00:31,470 --> 00:00:34,590
+accurately estimated or
+we mark them as unknown, and
+
+12
+00:00:34,590 --> 00:00:39,070
+we have it in our Rmax transition for
+those state action pairs.
+
+13
+00:00:39,070 --> 00:00:40,710
+Then if we take that MDP and
+
+14
+00:00:40,710 --> 00:00:44,980
+optimize it, that optimal
+policy is either near optimal.
+
+15
+00:00:44,980 --> 00:00:47,940
+In other words,
+we're not making any mistakes.
+
+16
+00:00:47,940 --> 00:00:51,520
+The reward that we're getting as we
+travel along this optimal policy is
+
+17
+00:00:51,520 --> 00:00:58,462
+essentially optimal, or we're actually
+going to make it to some unknown state.
+
+18
+00:00:58,462 --> 00:01:03,270
+So Rmax is marked state, relatively
+quickly in polynomial number of steps.
+
+19
+00:01:03,270 --> 00:01:04,379
+We're going to reach this new state,
+
+20
+00:01:04,379 --> 00:01:05,920
+and we're going to learn
+something from that.
+
+21
+00:01:05,920 --> 00:01:09,990
+And so this property ends up being
+true throughout the execution of Rmax.
+
+22
+00:01:09,990 --> 00:01:12,050
+>> I'm sorry, literally that property or
+
+23
+00:01:12,050 --> 00:01:15,040
+that property like
+with high probability.
+
+24
+00:01:15,040 --> 00:01:16,400
+>> Right, with high probability, right.
+
+25
+00:01:16,400 --> 00:01:17,960
+So things can always fail.
+
+26
+00:01:17,960 --> 00:01:22,170
+We set up our union bound in
+such a way to make sure that
+
+27
+00:01:22,170 --> 00:01:24,950
+the probability of failure
+is sufficiently small.
+
+28
+00:01:24,950 --> 00:01:28,000
+Given that it hasn't failed,
+then this will actually be true.
+
+29
+00:01:28,000 --> 00:01:32,520
+And if it's true, then what's going to
+be happening is we're either going to be
+
+30
+00:01:32,520 --> 00:01:35,650
+doing the right thing, or we're going to
+quickly bump into a new state and
+
+31
+00:01:35,650 --> 00:01:37,400
+learn something new and continue.
+
+32
+00:01:37,400 --> 00:01:39,290
+And the number of times that
+we can learn something new is
+
+33
+00:01:39,290 --> 00:01:42,165
+going to be bounded by the number of
+states times the number of actions.
+
+34
+00:01:42,165 --> 00:01:42,790
+>> Mm-hm.
+
+35
+00:01:42,790 --> 00:01:46,250
+>> And the number of steps before
+we learn something new is bounded
+
+36
+00:01:46,250 --> 00:01:48,240
+by a polynomial in
+the various quantities.
+
+37
+00:01:48,240 --> 00:01:49,920
+And that's, I think, all we need, right?
+
+38
+00:01:49,920 --> 00:01:52,520
+So we can't actually run for
+
+39
+00:01:52,520 --> 00:01:56,010
+a very long time without either learning
+something new or being near optimal.
+
+40
+00:01:56,010 --> 00:01:56,690
+>> Huh.
+
+41
+00:01:56,690 --> 00:01:58,910
+I feel like there's some metaphor for
+life here.
+
+42
+00:01:58,910 --> 00:01:59,800
+>> Hm.
+
+43
+00:01:59,800 --> 00:02:00,870
+How would that go?
+
+44
+00:02:00,870 --> 00:02:02,460
+>> I'm not sure something
+about grad school.
+
+45
+00:02:02,460 --> 00:02:04,280
+>> Yeah you can't always just go there.
+
+46
+00:02:04,280 --> 00:02:07,370
+>> I'm pretty sure you can and
+I proved it for many years.
+
+47
+00:02:07,370 --> 00:02:11,470
+>> Well I don't know if this is related
+to grad school but it is sort of a key
+
+48
+00:02:11,470 --> 00:02:16,280
+property of these algorithms that's just
+basically trying to handle the case that
+
+49
+00:02:16,280 --> 00:02:19,920
+says by virtue of the fact that we
+make the unknown stuff optimistic.
+
+50
+00:02:19,920 --> 00:02:21,530
+We do the right thing right?
+
+51
+00:02:21,530 --> 00:02:24,410
+So we're either learning quickly or
+we're being near optimal.
+
+52
+00:02:24,410 --> 00:02:28,210
+And so what would be bad is if there was
+some kind of hole in between these two
+
+53
+00:02:28,210 --> 00:02:32,920
+cases that says, well we're kind of
+stuck doing something sub optimal for
+
+54
+00:02:32,920 --> 00:02:34,720
+a long time, but we don't know it and
+
+55
+00:02:34,720 --> 00:02:37,450
+we don't learn that we
+are doing something wrong.
+
+56
+00:02:37,450 --> 00:02:38,580
+That's the bad case.
+
+57
+00:02:38,580 --> 00:02:42,720
+And what this lemma is
+about is showing that,
+
+58
+00:02:42,720 --> 00:02:45,050
+in fact,
+the bad case doesn't happen there.
+
+59
+00:02:45,050 --> 00:02:47,640
+Either we're learning something or
+we're doing very well.
+
+60
+00:02:47,640 --> 00:02:49,850
+>> Right.
+And that could only not happen if we
+
+61
+00:02:49,850 --> 00:02:51,670
+were incredibly and extremely unlucky.
+
+62
+00:02:51,670 --> 00:02:53,950
+But if we were incredibly and
+extremely unlucky,
+
+63
+00:02:53,950 --> 00:02:56,440
+then you couldn't learn anything anyway.
+
+64
+00:02:56,440 --> 00:02:57,140
+>> Yeah.
+Right, well,
+
+65
+00:02:57,140 --> 00:03:01,015
+that's back to this sort of PAC notion
+that it's probably going to work.
+
+66
+00:03:01,015 --> 00:03:03,520
+[LAUGH] And we can actually put-
+>> At least approximately.
+
+67
+00:03:03,520 --> 00:03:04,480
+>> Yeah, that's right.
+
+68
+00:03:04,480 --> 00:03:06,855
+And working is here
+related to approximately.
+
+69
+00:03:06,855 --> 00:03:07,470
+>> Mm-hm.
+>> So
+
+70
+00:03:07,470 --> 00:03:10,690
+that was really all I wanted to get
+at with exploring explorations.
+
+71
+00:03:10,690 --> 00:03:16,700
+This idea that even in general MDP's we
+have a way of organizing our learning so
+
+72
+00:03:16,700 --> 00:03:20,150
+that we can make guarantees on
+how close to optimal we are and
+
+73
+00:03:20,150 --> 00:03:21,060
+how quickly we get there.
+
+74
+00:03:21,060 --> 00:03:22,920
+>> But wait a minute,
+you didn't tell me what C was.
+
+75
+00:03:22,920 --> 00:03:23,940
+Is C just quickly?
+
+76
+00:03:23,940 --> 00:03:25,360
+>> Oh, this C is correct.
+
+77
+00:03:25,360 --> 00:03:27,580
+>> No I meant the original
+C that was a parameter.
+
+78
+00:03:27,580 --> 00:03:31,100
+>> Oh, well I did not write
+down a formula for that.
+
+79
+00:03:31,100 --> 00:03:35,620
+But it follows the same analysis as what
+we did when we wrote down the value of C
+
+80
+00:03:35,620 --> 00:03:36,750
+for bandits.
+
+81
+00:03:36,750 --> 00:03:37,310
+>> Oh, okay.
+
+82
+00:03:37,310 --> 00:03:38,370
+>> So, good enough?
+
+83
+00:03:38,370 --> 00:03:39,700
+We could make that a homework problem.
+
+84
+00:03:39,700 --> 00:03:41,535
+>> Sure.
+I mean that's what we usually do.
+
+85
+00:03:41,535 --> 00:03:43,565
+[LAUGH] I want to write something down.
+
+86
+00:03:43,565 --> 00:03:45,530
+[LAUGH] Okay.
+
+87
+00:03:45,530 --> 00:03:46,510
+>> All right, done.

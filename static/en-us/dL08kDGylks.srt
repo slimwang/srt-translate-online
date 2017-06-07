@@ -1,0 +1,447 @@
+1
+00:00:00,000 --> 00:00:03,000
+Okay. So here we are, looking at the queue code from unit 1,
+
+2
+00:00:03,000 --> 00:00:05,000
+and what we're going to do is try to figure out
+
+3
+00:00:05,000 --> 00:00:07,000
+what kind of assertions we can add to this queue code
+
+4
+00:00:07,000 --> 00:00:10,000
+that would make it more robust with respect to mistakes.
+
+5
+00:00:10,000 --> 00:00:12,000
+So we go through the code--and this is the same code
+
+6
+00:00:12,000 --> 00:00:14,000
+we already looked at--and what you can see is
+
+7
+00:00:14,000 --> 00:00:16,000
+at the end, I've added a check rep function.
+
+8
+00:00:16,000 --> 00:00:18,000
+And what check rep is is a function that stands for check
+
+9
+00:00:18,000 --> 00:00:21,000
+representation, and this is a function
+
+10
+00:00:21,000 --> 00:00:23,000
+that we commonly add to a data structure
+
+11
+00:00:23,000 --> 00:00:25,000
+or to other functions that checks
+
+12
+00:00:25,000 --> 00:00:28,000
+the variables in the program for self-consistency.
+
+13
+00:00:28,000 --> 00:00:30,000
+And so what it's going to do is basically try
+
+14
+00:00:30,000 --> 00:00:32,000
+and terminate the program if some invariant that we know
+
+15
+00:00:32,000 --> 00:00:34,000
+should hold over the program's data structures
+
+16
+00:00:34,000 --> 00:00:36,000
+fails to hold.
+
+17
+00:00:36,000 --> 00:00:38,000
+What I first want to do, though, is run this program.
+
+18
+00:00:38,000 --> 00:00:40,000
+And when I run it, what's going to happen is
+
+19
+00:00:40,000 --> 00:00:42,000
+some testing code that I haven't shown you
+
+20
+00:00:42,000 --> 00:00:45,000
+is going to create a queue and call its
+
+21
+00:00:45,000 --> 00:00:47,000
+methods in a loop, and it's going to look at
+
+22
+00:00:47,000 --> 00:00:50,000
+the output of the queu and try to find any mistakes.
+
+23
+00:00:50,000 --> 00:00:53,000
+So the test function has the test oracle built into it
+
+24
+00:00:53,000 --> 00:00:56,000
+that I wrote that's going to try and see if our queue is correct.
+
+25
+00:00:56,000 --> 00:00:58,000
+What we hope is that it's correct,
+
+26
+00:00:58,000 --> 00:01:01,000
+and, also, we know that the check rep is going to succeed,
+
+27
+00:01:01,000 --> 00:01:03,000
+because it contains no assertions right now, so let's run.
+
+28
+00:01:03,000 --> 00:01:06,000
+Okay. Now that we've seen that our queue passes
+
+29
+00:01:06,000 --> 00:01:08,000
+the test harness, let's see if we can harden up the queue
+
+30
+00:01:08,000 --> 00:01:10,000
+a little bit by thinking of a good assertion to add to it.
+
+31
+00:01:10,000 --> 00:01:13,000
+And so I think that the first assertion that we're going to add
+
+32
+00:01:13,000 --> 00:01:16,000
+is going to be over the size variable.
+
+33
+00:01:16,000 --> 00:01:18,000
+And if you recall from earlier, the size variable tracks
+
+34
+00:01:18,000 --> 00:01:20,000
+the number of elements currently in the queue.
+
+35
+00:01:20,000 --> 00:01:23,000
+So let's go ahead and add an assertion about the size.
+
+36
+00:01:23,000 --> 00:01:26,000
+One thing we know about the size variable
+
+37
+00:01:26,000 --> 00:01:29,000
+is it should never be negative, because we
+
+38
+00:01:29,000 --> 00:01:31,000
+can't possibly ever have a negative number
+
+39
+00:01:31,000 --> 00:01:33,000
+of elements in a queue, so let's assert that self.size
+
+40
+00:01:33,000 --> 00:01:35,000
+is greater than or equal to zero.
+
+41
+00:01:35,000 --> 00:01:37,000
+And the other thing we can assert about self.size
+
+42
+00:01:37,000 --> 00:01:39,000
+is that it never exceeds self.max,
+
+43
+00:01:39,000 --> 00:01:42,000
+which is the constant variable, which counts the
+
+44
+00:01:42,000 --> 00:01:44,000
+most elements that could ever be in our queue.
+
+45
+00:01:44,000 --> 00:01:47,000
+So here we're asserting self.size is not negative
+
+46
+00:01:47,000 --> 00:01:49,000
+and doesn't exceed self.max, and so now
+
+47
+00:01:49,000 --> 00:01:51,000
+when I run the test harness again,
+
+48
+00:01:51,000 --> 00:01:53,000
+we're going to again check the queue for
+
+49
+00:01:53,000 --> 00:01:55,000
+functional correctness and also call the check rep.
+
+50
+00:01:55,000 --> 00:01:57,000
+Let's see what happens, so it printed a
+
+51
+00:01:57,000 --> 00:02:00,000
+finished over the old finished, and so that's good.
+
+52
+00:02:00,000 --> 00:02:02,000
+Okay. That invariant was good.
+
+53
+00:02:02,000 --> 00:02:04,000
+So what I want to do next is I'm going to break
+
+54
+00:02:04,000 --> 00:02:06,000
+our queue, so I'm going to break our queue
+
+55
+00:02:06,000 --> 00:02:10,000
+by making the enqueue fail to properly
+
+56
+00:02:10,000 --> 00:02:12,000
+reset the tail variable when it overflows.
+
+57
+00:02:12,000 --> 00:02:15,000
+What we have here is logic that when self.tail
+
+58
+00:02:15,000 --> 00:02:17,000
+is equal to self.max, we reset it back to 0.
+
+59
+00:02:17,000 --> 00:02:19,000
+And I'm going to set it to 1 instead.
+
+60
+00:02:19,000 --> 00:02:21,000
+So let's see what happens when we run the queue now.
+
+61
+00:02:21,000 --> 00:02:24,000
+It failed, and what it did is
+
+62
+00:02:24,000 --> 00:02:28,000
+it failed in an assertion inside the test harness.
+
+63
+00:02:28,000 --> 00:02:30,000
+This was in my test function down here on line 90.
+
+64
+00:02:30,000 --> 00:02:32,000
+See, we only have 40 lines of this code.
+
+65
+00:02:32,000 --> 00:02:35,000
+So way below is my test function, and we failed there.
+
+66
+00:02:35,000 --> 00:02:38,000
+What this means is we've messed with
+
+67
+00:02:38,000 --> 00:02:40,000
+our data structure in such a way that it actually
+
+68
+00:02:40,000 --> 00:02:43,000
+returns a wrong result, so this is the result
+
+69
+00:02:43,000 --> 00:02:45,000
+not be equal to the expected result assertion.
+
+70
+00:02:45,000 --> 00:02:47,000
+And so what we've done is we've created a data structure
+
+71
+00:02:47,000 --> 00:02:49,000
+that's broken, and when it returns wrong results,
+
+72
+00:02:49,000 --> 00:02:51,000
+this is going to be deeply buried in some program
+
+73
+00:02:51,000 --> 00:02:54,000
+that we care about, so it's going to return the wrong results
+
+74
+00:02:54,000 --> 00:02:56,000
+to some deeply buried part of the program, and probably
+
+75
+00:02:56,000 --> 00:02:58,000
+that program is going to keep running for a while.
+
+76
+00:02:58,000 --> 00:03:00,000
+And it's going to start to do very bad things.
+
+77
+00:03:00,000 --> 00:03:03,000
+It's going to lose track of webpages or it's going to
+
+78
+00:03:03,000 --> 00:03:05,000
+start to do other things that we don't like.
+
+79
+00:03:05,000 --> 00:03:07,000
+And so what we want is to write a tighter set of
+
+80
+00:03:07,000 --> 00:03:09,000
+assertions for our queue so that
+
+81
+00:03:09,000 --> 00:03:11,000
+our check rep can catch this before
+
+82
+00:03:11,000 --> 00:03:14,000
+we actually return the wrong thing to the user.
+
+83
+00:03:14,000 --> 00:03:16,000
+And so this is your API quiz.
+
+84
+00:03:16,000 --> 00:03:18,000
+Your API quiz is write an assertion
+
+85
+00:03:18,000 --> 00:03:20,000
+that goes under mine
+
+86
+00:03:20,000 --> 00:03:22,000
+in the check rep which catches
+
+87
+00:03:22,000 --> 00:03:25,000
+the bug in the queue before it can actually misbehave.
+
+88
+00:03:25,000 --> 00:03:27,000
+The trick you're going to have to do is
+
+89
+00:03:27,000 --> 00:03:31,000
+since our buggy code sets self-tail to 1,
+
+90
+00:03:31,000 --> 00:03:34,000
+that's in range, so another invariant besides
+
+91
+00:03:34,000 --> 00:03:39,000
+saying self.size is between 0 and self.max inclusive
+
+92
+00:03:39,000 --> 00:03:41,000
+is we could've asserted the same things for self.head
+
+93
+00:03:41,000 --> 00:03:44,000
+and self.tail, but the bug here
+
+94
+00:03:44,000 --> 00:03:48,000
+is not going to violate those particular checks.
+
+95
+00:03:48,000 --> 00:03:51,000
+Rather, what's going to violate is a relative check
+
+96
+00:03:51,000 --> 00:03:53,000
+between the values of head, tail and size.
+
+97
+00:03:53,000 --> 00:03:55,000
+And so that's what you should be thinking about
+
+98
+00:03:55,000 --> 00:03:57,000
+to add to your assertion here, and so what I want
+
+99
+00:03:57,000 --> 00:03:59,000
+you to do is come up with the correct
+
+100
+00:03:59,000 --> 00:04:01,000
+data structure invariant to assert here,
+
+101
+00:04:01,000 --> 00:04:05,000
+so that that assertion fails when we run our queue tester
+
+102
+00:04:05,000 --> 00:04:07,000
+before we actually return a wrong result.
+
+103
+00:04:07,000 --> 00:04:10,000
+And additionally what we're going to do is
+
+104
+00:04:10,000 --> 00:04:12,000
+we're going to check your assertion against a correct
+
+105
+00:04:12,000 --> 00:04:14,000
+version of the queue, so we're going to take your
+
+106
+00:04:14,000 --> 00:04:16,000
+check rep code and put it in the correct version of the queue
+
+107
+00:04:16,000 --> 00:04:18,000
+and check that it doesn't fail spuriously.
+
+108
+00:04:18,000 --> 00:04:21,000
+So what we want to do is write an assertion
+
+109
+00:04:21,000 --> 00:04:23,000
+that's tight enough that it catches the error that
+
+110
+00:04:23,000 --> 00:04:25,000
+we've introduced here but not so tight
+
+111
+00:04:25,000 --> 00:04:27,000
+that it always fails.
+
+112
+00:04:27,000 --> 99:59:59,999
+Okay. I hope you'll have fun with this.

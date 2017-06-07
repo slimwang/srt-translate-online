@@ -1,0 +1,123 @@
+﻿1
+00:00:00,780 --> 00:00:03,620
+We need to add some code to the table
+view, so that photo messages appear.
+
+2
+00:00:04,620 --> 00:00:08,038
+Here's what the FCViewController
+cellForRowAt indexPath function looks
+
+3
+00:00:08,038 --> 00:00:08,790
+like right now.
+
+4
+00:00:10,050 --> 00:00:13,230
+Again, it only looks for name and
+text, but not for our URL.
+
+5
+00:00:14,269 --> 00:00:16,928
+So let's remove some of our
+existing code and start fresh.
+
+6
+00:00:18,280 --> 00:00:20,859
+Our first step is to add
+code that handles messages
+
+7
+00:00:20,859 --> 00:00:22,530
+when they include an image URL key.
+
+8
+00:00:23,769 --> 00:00:26,519
+If the message snapshot
+contains an image URL,
+
+9
+00:00:26,519 --> 00:00:30,269
+then we assign its value to
+a variable called imageUrl.
+
+10
+00:00:30,269 --> 00:00:34,874
+With the URL we can use the Firebase
+storage to create a reference to that
+
+11
+00:00:34,874 --> 00:00:36,190
+particular image.
+
+12
+00:00:36,189 --> 00:00:38,414
+And then with this
+function call to data,
+
+13
+00:00:38,414 --> 00:00:41,300
+we can download the image
+with its maximum size.
+
+14
+00:00:41,299 --> 00:00:45,084
+And by the way, I apologize if I've
+been swapping between image and photo.
+
+15
+00:00:45,085 --> 00:00:46,310
+I'm just using them interchangeably.
+
+16
+00:00:48,350 --> 00:00:51,880
+Now this function takes a closure
+with the data and error.
+
+17
+00:00:51,880 --> 00:00:53,810
+We'll go ahead and
+get the error check out of the way and
+
+18
+00:00:53,810 --> 00:00:55,190
+then we're ready to display our image.
+
+19
+00:00:56,659 --> 00:00:58,449
+We can create an image from the data.
+
+20
+00:00:59,950 --> 00:01:03,600
+Then we can set the cell's imageView to
+display the image that we've created.
+
+21
+00:01:05,170 --> 00:01:07,769
+Now if no image URL is found,
+that's not a problem.
+
+22
+00:01:10,079 --> 00:01:13,000
+In that case we can safely assume
+that it's a text message and
+
+23
+00:01:13,000 --> 00:01:15,790
+we can use an else block to configure
+the cell like we've done before.
+
+24
+00:01:17,280 --> 00:01:18,620
+All right,
+now I'm going to run the app and
+
+25
+00:01:18,620 --> 00:01:20,930
+see if the photo message
+I sent earlier shows up.
+
+26
+00:01:22,450 --> 00:01:23,189
+And there's our photo.
+

@@ -1,0 +1,913 @@
+﻿1
+00:00:00,210 --> 00:00:03,259
+Can we actually predict stock
+prices with machine learning?
+
+2
+00:00:03,259 --> 00:00:06,900
+Investors make educated
+guesses by analyzing data.
+
+3
+00:00:06,900 --> 00:00:09,190
+They'll read the news,
+study the company history,
+
+4
+00:00:09,189 --> 00:00:13,699
+industry trends, there are lots of data
+points that go into making a prediction.
+
+5
+00:00:13,699 --> 00:00:16,890
+The prevailing theory is that stock
+prices are totally random and
+
+6
+00:00:16,890 --> 00:00:17,740
+unpredictable.
+
+7
+00:00:17,739 --> 00:00:21,969
+A blindfolded monkey throwing dart at a
+newspaper's financial pages could select
+
+8
+00:00:21,969 --> 00:00:26,609
+a portfolio that would do just as well
+as one carefully selected by experts.
+
+9
+00:00:26,609 --> 00:00:30,689
+But that raises the question, why didn't
+top firms like Morgan Stanley and
+
+10
+00:00:30,690 --> 00:00:34,399
+Citi Group hire a quantitative
+analyst to build predictive models?
+
+11
+00:00:34,399 --> 00:00:38,359
+We have this idea of a trading floor
+being filled with adrenaline-infused
+
+12
+00:00:38,359 --> 00:00:42,060
+men with loose ties running around
+yelling something into a phone.
+
+13
+00:00:42,060 --> 00:00:46,000
+But these days you're more likely to
+see rows of machine learning experts
+
+14
+00:00:46,000 --> 00:00:48,380
+quietly sitting in front
+of computer screens.
+
+15
+00:00:48,380 --> 00:00:54,050
+In fact, about 70% of all orders on
+Wall Street are now placed by software.
+
+16
+00:00:54,049 --> 00:00:56,429
+We're now living in
+The Age of the Algorithm.
+
+17
+00:00:56,429 --> 00:00:57,759
+Hello world, it's Raj.
+
+18
+00:00:57,759 --> 00:01:01,933
+And today, we're going to build a deep
+learning model to predict stock prices.
+
+19
+00:01:01,933 --> 00:01:06,534
+Records of prices for traded
+commodities go back thousands of years.
+
+20
+00:01:06,534 --> 00:01:10,744
+Merchants along popular silk routes
+would keep records of traded goods
+
+21
+00:01:10,745 --> 00:01:14,245
+to try and predict price trends, so
+that they could benefit from them.
+
+22
+00:01:14,245 --> 00:01:18,000
+In finance, the field of quantitative
+analysis is about 25 years old and
+
+23
+00:01:18,000 --> 00:01:21,849
+even now, it's still not fully accepted,
+understood or widely used.
+
+24
+00:01:21,849 --> 00:01:23,069
+Just like Google plus.
+
+25
+00:01:23,069 --> 00:01:26,969
+It's the study of how certain variable
+correlate with stock price behavior.
+
+26
+00:01:26,969 --> 00:01:29,679
+One of the first attempts at
+this was made in the 70s by
+
+27
+00:01:29,680 --> 00:01:34,530
+two British Statisticians named Box and
+Jenkins using mainframe computers.
+
+28
+00:01:34,530 --> 00:01:38,510
+The only historical data they had
+access to were prices and volume.
+
+29
+00:01:38,510 --> 00:01:41,469
+They call the model Arima and
+at the time it was slow and
+
+30
+00:01:41,469 --> 00:01:45,579
+expensive to run, but by the 80s
+things started to get interesting.
+
+31
+00:01:45,579 --> 00:01:48,590
+Spreadsheets were invented so that
+firms could model company's financial
+
+32
+00:01:48,590 --> 00:01:51,750
+performance and automated data
+collection became a reality.
+
+33
+00:01:51,750 --> 00:01:53,750
+And with improvements
+in computing power,
+
+34
+00:01:53,750 --> 00:01:58,140
+models could analyze data much faster,
+it was a renaissance on Wall Street,
+
+35
+00:01:58,140 --> 00:02:00,769
+people were excited
+about the possibilities.
+
+36
+00:02:00,769 --> 00:02:03,609
+They started showing up at seminars and
+discussing their techniques.
+
+37
+00:02:03,609 --> 00:02:05,661
+>> You should see what's
+going on at the bigger firms,
+
+38
+00:02:05,661 --> 00:02:07,129
+I mean I know all the information.
+
+39
+00:02:07,129 --> 00:02:10,019
+>> But all this quickly died
+down once people realized that
+
+40
+00:02:10,020 --> 00:02:12,840
+what works is actually
+a very valuable secret.
+
+41
+00:02:12,840 --> 00:02:14,460
+>> All right, get the fuck off my boat.
+
+42
+00:02:14,460 --> 00:02:17,430
+>> Since then the most successful
+quants have gone underground.
+
+43
+00:02:17,430 --> 00:02:21,455
+In the past few years we've seen lots
+of academic papers published using
+
+44
+00:02:21,455 --> 00:02:25,594
+neural nets to predict stock prices
+with varying degrees of success.
+
+45
+00:02:25,594 --> 00:02:29,384
+But until recently, the ability to build
+these models has been restricted to
+
+46
+00:02:29,384 --> 00:02:32,834
+academics who spend their days
+writing very complex code.
+
+47
+00:02:32,835 --> 00:02:35,085
+Now, with libraries like Tensorflow,
+
+48
+00:02:35,085 --> 00:02:39,635
+anyone can build powerful predictive
+models trained on massive data sets.
+
+49
+00:02:39,634 --> 00:02:44,594
+So let's build our own model using
+Keras with a Tensorflow backend.
+
+50
+00:02:44,594 --> 00:02:49,155
+For our training data we'll be using
+the daily closing price of the S&P
+
+51
+00:02:49,155 --> 00:02:52,430
+500 from January 2000 to August 2016.
+
+52
+00:02:52,430 --> 00:02:56,560
+This is a series of data points indexed
+in time order or a time series.
+
+53
+00:02:56,560 --> 00:03:00,289
+Our goal will be to predict the closing
+price for any given date after training.
+
+54
+00:03:00,289 --> 00:03:02,997
+We can load our data using
+a custom load data function.
+
+55
+00:03:02,997 --> 00:03:06,929
+It essentially just reads our CSV
+file into an array of values and
+
+56
+00:03:06,930 --> 00:03:10,670
+normalizes them, rather than feeding
+those values directly into our model,
+
+57
+00:03:10,669 --> 00:03:13,164
+normalizing them improves convergence.
+
+58
+00:03:13,164 --> 00:03:16,519
+We'll use this equation to normalize
+each value to reflect percentage
+
+59
+00:03:16,520 --> 00:03:18,219
+changes from the starting point.
+
+60
+00:03:18,219 --> 00:03:20,979
+So we'll divide each price by
+the initial price and subtract 1.
+
+61
+00:03:20,979 --> 00:03:24,799
+When our model later makes a prediction,
+we'll denormalize the data
+
+62
+00:03:24,800 --> 00:03:27,910
+using this formula to get
+a real world number out of it.
+
+63
+00:03:27,909 --> 00:03:30,859
+To build our model,
+we'll first initialize it as sequential
+
+64
+00:03:30,860 --> 00:03:33,380
+since it will be a linear
+stack of layers.
+
+65
+00:03:33,379 --> 00:03:36,430
+Then we'll add our first
+layer which is an LSTM layer.
+
+66
+00:03:36,430 --> 00:03:37,629
+So what is this?
+
+67
+00:03:37,629 --> 00:03:38,490
+Let's back up for a bit.
+
+68
+00:03:39,610 --> 00:03:41,000
+Recognize this beat?
+
+69
+00:03:41,000 --> 00:03:42,509
+Sing the lyrics with me.
+
+70
+00:03:42,509 --> 00:03:45,530
+You don't have to say what you did.
+
+71
+00:03:45,530 --> 00:03:46,439
+I already know.
+
+72
+00:03:46,439 --> 00:03:48,859
+I found out from him.
+
+73
+00:03:48,860 --> 00:03:53,031
+It's easy to recall the words forward,
+but could we sing them backwards?
+
+74
+00:03:53,031 --> 00:03:55,433
+[MUSIC]
+
+75
+00:03:55,433 --> 00:03:59,750
+No, the reason for this is because
+we learn these words in a sequence.
+
+76
+00:03:59,750 --> 00:04:01,340
+It's conditional memory.
+
+77
+00:04:01,340 --> 00:04:04,509
+We can access a word,
+if we access the words before it.
+
+78
+00:04:04,509 --> 00:04:08,939
+Memory matters when we have sequences,
+our thoughts have persistence but
+
+79
+00:04:08,939 --> 00:04:09,784
+feed forward neural nets don't.
+
+80
+00:04:09,784 --> 00:04:13,579
+They accept a fixed size
+vector as input like an image.
+
+81
+00:04:13,580 --> 00:04:17,225
+So we couldn't use it to say predict
+the next frame in a movie because
+
+82
+00:04:17,225 --> 00:04:20,825
+that would require a sequence
+of image vectors as inputs.
+
+83
+00:04:20,824 --> 00:04:24,550
+Not just one since the probability
+of a certain event happening would
+
+84
+00:04:24,550 --> 00:04:27,530
+depend on what happened
+every frame before it.
+
+85
+00:04:27,529 --> 00:04:30,609
+We need a way to allow
+information to persist and
+
+86
+00:04:30,610 --> 00:04:33,319
+that's why we'll use
+a recurrent neural net.
+
+87
+00:04:33,319 --> 00:04:36,680
+Recurrent nets can accept
+sequences of vectors as inputs.
+
+88
+00:04:36,680 --> 00:04:38,970
+So recall that for
+feed forward neural nets,
+
+89
+00:04:38,970 --> 00:04:42,760
+the hidden layer's weights
+are based only on the input data.
+
+90
+00:04:42,759 --> 00:04:47,009
+But in a recurrent net, the hidden layer
+is a combination of the input data at
+
+91
+00:04:47,009 --> 00:04:50,680
+the current time step and the hidden
+layer at a previous time step.
+
+92
+00:04:50,680 --> 00:04:54,780
+The hidden layer is constantly changing
+as it gets more inputs and the only
+
+93
+00:04:54,779 --> 00:04:58,629
+way to reach these hidden states is
+with the correct sequence of inputs.
+
+94
+00:04:58,629 --> 00:05:01,159
+This is how memory is
+incorporated in and
+
+95
+00:05:01,160 --> 00:05:03,700
+we can model this
+process mathematically.
+
+96
+00:05:03,699 --> 00:05:07,250
+So this hidden state at a given time
+step is a function of the input
+
+97
+00:05:07,250 --> 00:05:10,600
+at that same time step
+modified by a weight matrix,
+
+98
+00:05:10,600 --> 00:05:12,540
+like the ones used in feed forward nets.
+
+99
+00:05:12,540 --> 00:05:16,200
+Added to the hidden state of the
+previous time step, multiplied by its
+
+100
+00:05:16,199 --> 00:05:21,050
+own hidden state to hidden state matrix,
+otherwise known as a transition matrix.
+
+101
+00:05:21,050 --> 00:05:24,085
+And because this feedback loop is
+occurring at every time step in
+
+102
+00:05:24,084 --> 00:05:26,774
+the series,
+each hidden state has traces of
+
+103
+00:05:26,774 --> 00:05:30,924
+not only the previous hidden state but
+also of all of those that preceded it.
+
+104
+00:05:30,925 --> 00:05:32,764
+That's why we call it recurrent.
+
+105
+00:05:32,764 --> 00:05:35,729
+In a way, we can think of it
+as copies of the same network
+
+106
+00:05:35,730 --> 00:05:37,710
+each passing a message to the next.
+
+107
+00:05:37,709 --> 00:05:39,759
+So that's the great thing
+about recurrent nets.
+
+108
+00:05:39,759 --> 00:05:43,159
+They're able to connect previous
+data with the present task.
+
+109
+00:05:43,160 --> 00:05:45,100
+But, we still have a problem.
+
+110
+00:05:45,100 --> 00:05:46,530
+Take a look at this paragraph.
+
+111
+00:05:46,529 --> 00:05:49,089
+It starts off with,
+I hope Senpai will notice me, and
+
+112
+00:05:49,089 --> 00:05:51,859
+ends with, She is my friend,
+He is my Senpai.
+
+113
+00:05:51,860 --> 00:05:55,050
+Let's say we wanted to train a model
+to predict this last work given
+
+114
+00:05:55,050 --> 00:05:56,400
+all the other works.
+
+115
+00:05:56,399 --> 00:05:59,679
+We need the context from the very
+beginning of the sequence to know
+
+116
+00:05:59,680 --> 00:06:04,050
+that this word is probably Senpai,
+not something like buddy, or mate.
+
+117
+00:06:04,050 --> 00:06:05,410
+In a regular recurrent net,
+
+118
+00:06:05,410 --> 00:06:08,630
+memories become more subtle
+as they fade into the past
+
+119
+00:06:08,629 --> 00:06:12,504
+since the error signal from later time
+steps doesn't make it far enough back in
+
+120
+00:06:12,504 --> 00:06:16,944
+time to influence the network at early
+time steps during back propagation.
+
+121
+00:06:16,944 --> 00:06:20,594
+Joshua Bengio called this the vanishing
+gradient problem in one of his
+
+122
+00:06:20,595 --> 00:06:22,685
+most frequently cited papers titled,
+
+123
+00:06:22,685 --> 00:06:26,079
+Learning Long-term Dependencies
+with Gradient Descent Is Difficult.
+
+124
+00:06:26,079 --> 00:06:27,250
+Love the bluntness.
+
+125
+00:06:27,250 --> 00:06:30,230
+A popular solution to this is
+a modification to recurrent nets called
+
+126
+00:06:30,230 --> 00:06:32,300
+long short term memory.
+
+127
+00:06:32,300 --> 00:06:35,435
+Normally, neurons are units that
+apply an activation function,
+
+128
+00:06:35,435 --> 00:06:38,790
+like a sigmoid,
+to a linear combination of their inputs.
+
+129
+00:06:38,790 --> 00:06:40,480
+In an LSTM recurrent net,
+
+130
+00:06:40,480 --> 00:06:44,189
+we instead replace these neurons
+with what are called memory cells.
+
+131
+00:06:44,189 --> 00:06:48,120
+Each cell has an input gate, an output
+gate and an internal state that
+
+132
+00:06:48,120 --> 00:06:51,709
+feeds into itself across time
+steps with a constant weight of 1.
+
+133
+00:06:51,709 --> 00:06:55,469
+This eliminates the banishing gradient
+problem since any gradient that flows
+
+134
+00:06:55,470 --> 00:06:59,475
+into this self-recurring unit during
+back prop is preserved indefinitely,
+
+135
+00:06:59,475 --> 00:07:02,754
+since errors multiplied by 1
+still have the same value.
+
+136
+00:07:02,754 --> 00:07:05,594
+Each gate is an activation
+function like Sigmoid.
+
+137
+00:07:05,595 --> 00:07:09,405
+During the forward pass, the input gate
+learns when to let activation pass into
+
+138
+00:07:09,404 --> 00:07:13,231
+the cell, and the output gate learns
+when to let activation pass out of it.
+
+139
+00:07:13,232 --> 00:07:14,322
+During the backward pass,
+
+140
+00:07:14,322 --> 00:07:18,201
+the output gate learns when to let error
+flow into the cell and the input gate
+
+141
+00:07:18,201 --> 00:07:21,362
+learns when to let it flow out of the
+cell through the rest of the network.
+
+142
+00:07:21,362 --> 00:07:24,770
+So despite everything else in
+a recurrent net staying the same,
+
+143
+00:07:24,769 --> 00:07:28,250
+doing this more powerful update
+equation for our hidden state
+
+144
+00:07:28,250 --> 00:07:32,399
+results in our network being able
+to remember long term dependencies.
+
+145
+00:07:32,399 --> 00:07:35,769
+So for our LSTM layer,
+we'll set our input dimension to 1 and
+
+146
+00:07:35,769 --> 00:07:38,089
+say we want 50 units in this layer.
+
+147
+00:07:38,089 --> 00:07:41,739
+Setting return sequences to true
+means this layer's output is
+
+148
+00:07:41,740 --> 00:07:43,930
+always fed into the next layer.
+
+149
+00:07:43,930 --> 00:07:47,100
+All its activations can be seen
+as a sequence of predictions
+
+150
+00:07:47,100 --> 00:07:49,598
+this first layer has made
+from the input sequence.
+
+151
+00:07:49,598 --> 00:07:53,800
+We'll add 20% drop out to this layer,
+then initialize our second layer as
+
+152
+00:07:53,800 --> 00:07:58,829
+another outlet LSTM with 100 units, and
+set return sequence to False on it since
+
+153
+00:07:58,829 --> 00:08:02,109
+its output is only fed to the next
+layer at the end of the sequence.
+
+154
+00:08:02,110 --> 00:08:03,720
+It doesn't output a prediction for
+
+155
+00:08:03,720 --> 00:08:07,700
+the sequence, instead a prediction
+vector for the whole input sequence.
+
+156
+00:08:07,699 --> 00:08:10,839
+We'll use the linear dense layer to
+aggregate the data from this prediction
+
+157
+00:08:10,839 --> 00:08:12,849
+vector into one single value.
+
+158
+00:08:12,850 --> 00:08:16,310
+Then we can compile our model using
+a popular loss function, called mean
+
+159
+00:08:16,310 --> 00:08:20,740
+squared error, and use gradient descent
+as our optimizer, labeled RMS prop.
+
+160
+00:08:20,740 --> 00:08:22,579
+We'll train our model
+with the fit function,
+
+161
+00:08:22,579 --> 00:08:26,189
+then we can test it to see what it
+predicts for the next 50 steps,
+
+162
+00:08:26,189 --> 00:08:30,449
+at several points in our graph and
+visualize it using MapPlot Live.
+
+163
+00:08:30,449 --> 00:08:34,110
+It seemed that for a lot of the price
+movements, especially the big ones,
+
+164
+00:08:34,110 --> 00:08:37,100
+there is quite the correlation
+between our model's prediction and
+
+165
+00:08:37,100 --> 00:08:38,149
+the actual data.
+
+166
+00:08:38,149 --> 00:08:41,600
+So, time to make some money and
+play some T.I..
+
+167
+00:08:41,600 --> 00:08:44,670
+But will our model be able to correctly
+predict the closing price 100%
+
+168
+00:08:44,669 --> 00:08:46,539
+of the time?
+
+169
+00:08:46,539 --> 00:08:48,169
+Hell to the no.
+
+170
+00:08:48,169 --> 00:08:52,269
+It's an analytical tool to help us make
+educated guesses about the direction of
+
+171
+00:08:52,269 --> 00:08:54,939
+the market that it slightly
+better than random.
+
+172
+00:08:54,940 --> 00:08:59,410
+So to break it down, Recurrent nets can
+model sequential data since at each time
+
+173
+00:08:59,409 --> 00:09:03,419
+step the hidden state is affected by
+the input and the previous hidden state.
+
+174
+00:09:03,419 --> 00:09:06,299
+A solution to the vanishing
+gradient problem for recurrent nets
+
+175
+00:09:06,299 --> 00:09:10,849
+is to use long short term memory cells
+to remember long term dependencies.
+
+176
+00:09:10,850 --> 00:09:13,879
+And we can use LSTM networks
+to make predictions for
+
+177
+00:09:13,879 --> 00:09:17,205
+time series data easily using Keras and
+Tensorflow.
+
+178
+00:09:17,205 --> 00:09:20,575
+The winner of the coding challenge
+from the last video is Vishal Batchu.
+
+179
+00:09:20,575 --> 00:09:24,145
+Vishal used transfer learning to
+create a classifier for cats and dogs.
+
+180
+00:09:24,144 --> 00:09:27,365
+He chose a layer from a pretrained
+Tensorflow model and built his
+
+181
+00:09:27,365 --> 00:09:31,529
+own custom convolutional net on top
+of it to make training much faster.
+
+182
+00:09:31,529 --> 00:09:32,709
+Wizard of the week.
+
+183
+00:09:32,710 --> 00:09:35,090
+And the runner up is Jie Xun See.
+
+184
+00:09:35,090 --> 00:09:37,300
+I loved how he added
+a command line interface for
+
+185
+00:09:37,299 --> 00:09:39,329
+users to input their images.
+
+186
+00:09:39,330 --> 00:09:43,150
+The coding challenge for this video is
+to use three different inputs instead of
+
+187
+00:09:43,149 --> 00:09:47,709
+just one to train your LSTM network to
+predict the price of Google's stock.
+
+188
+00:09:47,710 --> 00:09:49,970
+Details are in the read me, post
+your GitHub link in the comments and
+
+189
+00:09:49,970 --> 00:09:51,379
+I'll announce the winner in a week.
+
+190
+00:09:51,379 --> 00:09:53,019
+Please subscribe for
+more videos like these and
+
+191
+00:09:53,019 --> 00:09:57,789
+for now I gotta count my stacks
+of layers so thanks for watching.
+

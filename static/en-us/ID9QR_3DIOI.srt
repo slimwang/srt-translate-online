@@ -1,0 +1,359 @@
+﻿1
+00:00:00,180 --> 00:00:03,530
+Now that we've coded the insert
+method in our provider class,
+
+2
+00:00:03,529 --> 00:00:07,750
+we can call it from the AddTaskActivity
+using a content resolver.
+
+3
+00:00:07,750 --> 00:00:11,460
+We'll want to link a call to the insert
+method to this add button, so
+
+4
+00:00:11,460 --> 00:00:14,780
+that it's called whenever a user
+inputs a task and clicks add.
+
+5
+00:00:16,410 --> 00:00:21,070
+And in the starter code, in
+the activity_add_task.xml layout file,
+
+6
+00:00:21,070 --> 00:00:24,740
+there's already a method that's
+called when this button is clicked.
+
+7
+00:00:24,739 --> 00:00:29,479
+If you scroll down to the very bottom of
+this XML file, you'll see the XML for
+
+8
+00:00:29,480 --> 00:00:30,070
+the add button.
+
+9
+00:00:31,260 --> 00:00:35,499
+At the end is the OnClick attribute
+which assigns a method to this
+
+10
+00:00:35,499 --> 00:00:37,706
+button called OnClickAddTask.
+
+11
+00:00:37,706 --> 00:00:43,180
+And this corresponds to a method of the
+same name in the add task activity code.
+
+12
+00:00:43,179 --> 00:00:44,899
+So let's go to AddTaskActivity.
+
+13
+00:00:46,020 --> 00:00:49,025
+In here,
+we can see this method onClickAddTask.
+
+14
+00:00:50,299 --> 00:00:54,179
+Right now, we can see that this
+method is empty with some to does, so
+
+15
+00:00:54,179 --> 00:00:56,139
+nothing happens when
+the add button is clicked.
+
+16
+00:00:57,490 --> 00:01:00,500
+We'll have to fill this in
+to get a user's input and
+
+17
+00:01:00,500 --> 00:01:02,606
+insert it into our tasks data base.
+
+18
+00:01:02,606 --> 00:01:06,945
+Let's start by getting the task
+description that a user inputs.
+
+19
+00:01:06,945 --> 00:01:11,527
+To retrieve a user's input description,
+we have to retrieve the text they
+
+20
+00:01:11,527 --> 00:01:14,887
+entered into the edit text
+view in the add task layout.
+
+21
+00:01:14,887 --> 00:01:20,055
+First we'll identify that edit text
+view with a call to find view by ID and
+
+22
+00:01:20,055 --> 00:01:21,340
+its ID passed in.
+
+23
+00:01:22,379 --> 00:01:24,819
+Then we can call getText into string.
+
+24
+00:01:25,909 --> 00:01:28,659
+This retrieve is the input
+task description and
+
+25
+00:01:28,659 --> 00:01:32,189
+then I can store it as a string
+variable, which I've named input.
+
+26
+00:01:33,459 --> 00:01:37,369
+Let's also only create new
+data when there is input text.
+
+27
+00:01:37,370 --> 00:01:39,859
+We don't want any empty
+tasks being created
+
+28
+00:01:39,859 --> 00:01:43,890
+if someone presses the add button
+without typing in a task to do.
+
+29
+00:01:43,890 --> 00:01:47,730
+So we'll just add an if statement that
+checks if the input string has a length
+
+30
+00:01:47,730 --> 00:01:49,180
+equal to 0.
+
+31
+00:01:49,180 --> 00:01:52,020
+If it does,
+we'll break out of this method, and
+
+32
+00:01:52,019 --> 00:01:53,259
+if it doesn't, we'll continue on.
+
+33
+00:01:54,730 --> 00:01:55,359
+After this,
+
+34
+00:01:55,358 --> 00:01:58,799
+we'll create a new ContentValues
+object to place this task data into.
+
+35
+00:02:00,379 --> 00:02:04,409
+Then let's put this string input into
+our contentValues with a call to the put
+
+36
+00:02:04,409 --> 00:02:05,030
+function.
+
+37
+00:02:06,230 --> 00:02:10,325
+You've seen this function before, and
+to review, the put call first takes in
+
+38
+00:02:10,325 --> 00:02:13,365
+a key string that identifies
+the kind of data being input,
+
+39
+00:02:13,366 --> 00:02:16,870
+which will just be the name
+of the column it belongs to.
+
+40
+00:02:16,870 --> 00:02:18,629
+In our case, the description column.
+
+41
+00:02:19,719 --> 00:02:23,780
+Then the second argument is the actual
+value that will be stored in the tasks
+
+42
+00:02:23,780 --> 00:02:27,009
+database, which is the input
+string we retrieved.
+
+43
+00:02:27,009 --> 00:02:30,009
+Great, now we have
+the description of the task, and
+
+44
+00:02:30,009 --> 00:02:32,939
+next, let's put the priority
+into the content values too.
+
+45
+00:02:34,020 --> 00:02:36,290
+This time, the key will be for
+the priority column.
+
+46
+00:02:37,479 --> 00:02:40,612
+And the data we want to save
+is the value one through three
+
+47
+00:02:40,612 --> 00:02:41,887
+that a user selected.
+
+48
+00:02:41,887 --> 00:02:45,810
+And that's already stored in this
+int variable named mPriority.
+
+49
+00:02:46,979 --> 00:02:51,119
+The variable mPriority is actually
+changed in this onComplete method called
+
+50
+00:02:51,120 --> 00:02:53,390
+onPrioritySelected.
+
+51
+00:02:53,389 --> 00:02:57,019
+This method is called whenever
+the priority buttons are clicked.
+
+52
+00:02:57,020 --> 00:03:00,270
+We just need to focus on onClickAddTask.
+
+53
+00:03:00,270 --> 00:03:03,830
+And these two lines of code
+complete our ContentValues object.
+
+54
+00:03:03,830 --> 00:03:07,480
+It now holds a task description and
+a priority.
+
+55
+00:03:07,479 --> 00:03:10,389
+Then we need to insert these
+values into our database with
+
+56
+00:03:10,389 --> 00:03:11,719
+a call to a content resolver.
+
+57
+00:03:12,759 --> 00:03:16,344
+Here's the content resolver,
+and we call insert on it.
+
+58
+00:03:16,344 --> 00:03:21,060
+We then pass in the correct content
+URI for accessing the tasks directory,
+
+59
+00:03:21,060 --> 00:03:24,140
+which is the content URI constant
+we defined in the contract.
+
+60
+00:03:25,169 --> 00:03:29,269
+And the last argument here
+are the content values we just created.
+
+61
+00:03:29,270 --> 00:03:32,480
+This insert method should
+return a URI if it works.
+
+62
+00:03:33,500 --> 00:03:39,099
+So let's actually create a toast so that
+we can see what URI this insert returns.
+
+63
+00:03:39,099 --> 00:03:41,900
+That way, we can see if it
+successfully inserted new data.
+
+64
+00:03:43,030 --> 00:03:48,740
+First we'll check if the URI exists, and
+if it does, we'll display it as a toast.
+
+65
+00:03:48,740 --> 00:03:52,140
+Then at the very end of this method,
+call finish.
+
+66
+00:03:52,139 --> 00:03:55,082
+Finish tells us that this
+activity is over and so
+
+67
+00:03:55,082 --> 00:03:59,213
+we should return to the main activity
+after an insert is complete.
+
+68
+00:03:59,213 --> 00:04:02,923
+And that finish is hooking
+up our insert to the UI.
+
+69
+00:04:02,923 --> 00:04:05,967
+Now our insert should be
+linked to the add button, and
+
+70
+00:04:05,967 --> 00:04:08,880
+it's time to test this out
+on an emulator or phone.
+
+71
+00:04:10,360 --> 00:04:12,410
+So here's what our app
+looks like right now.
+
+72
+00:04:12,409 --> 00:04:17,819
+Let's go to our add task activity, I'll
+select a low priority and click add.
+
+73
+00:04:17,819 --> 00:04:21,689
+And you should see this toast
+pop up with an ID of 1.
+
+74
+00:04:21,689 --> 00:04:23,540
+Next, it'll be your turn to code, and
+
+75
+00:04:23,540 --> 00:04:25,830
+then we'll move on to actually
+displaying this data.
+

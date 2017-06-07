@@ -1,0 +1,135 @@
+1
+00:00:00,150 --> 00:00:03,270
+For a key for the user,
+we want something completely unique.
+
+2
+00:00:03,270 --> 00:00:05,700
+For the same reason that we wanted
+a completely unique key for
+
+3
+00:00:05,700 --> 00:00:07,470
+shopping lists, and shopping list items.
+
+4
+00:00:07,470 --> 00:00:10,380
+We also wanted to be something that's
+easily accessible from AuthData.
+
+5
+00:00:10,380 --> 00:00:13,120
+We also want a piece of data that we
+can have on hand when the user is
+
+6
+00:00:13,120 --> 00:00:13,950
+first created.
+
+7
+00:00:13,950 --> 00:00:18,750
+In relation to the keys uniqueness,
+two users could have the same full name,
+
+8
+00:00:18,750 --> 00:00:21,050
+especially if they have a common
+name and we get tons and
+
+9
+00:00:21,050 --> 00:00:23,200
+tons of users using ShoppingList++.
+
+10
+00:00:23,200 --> 00:00:24,960
+So, this probably not a good option.
+
+11
+00:00:24,960 --> 00:00:28,870
+Now, we've been using push IDs in this
+situation, but given that we have
+
+12
+00:00:28,870 --> 00:00:33,770
+a unique UID and an email, do we really
+need to generate a new unique ID?
+
+13
+00:00:33,770 --> 00:00:34,530
+Not really.
+
+14
+00:00:34,530 --> 00:00:38,310
+If we wanted something like that we
+could use the already generated UID.
+
+15
+00:00:38,310 --> 00:00:39,810
+So push ID is a no.
+
+16
+00:00:39,810 --> 00:00:43,540
+That leaves us with either using
+the user's email or the user's UID.
+
+17
+00:00:43,540 --> 00:00:46,250
+Now, UIDs are usually the go-to choice.
+
+18
+00:00:46,250 --> 00:00:49,350
+They're uniquely generated for
+each user of Firebase.
+
+19
+00:00:49,350 --> 00:00:52,820
+Now, because it's going to generate
+a different UID if a user signs in and
+
+20
+00:00:52,820 --> 00:00:56,100
+makes a user with Password/Email
+versus with Google,
+
+21
+00:00:56,100 --> 00:00:59,630
+the UID is actually not a really
+great option for our scenario.
+
+22
+00:00:59,630 --> 00:01:02,900
+But because the two things that these
+accounts share is an email, and
+
+23
+00:01:02,900 --> 00:01:06,090
+usually an email is only
+associated with one person,
+
+24
+00:01:06,090 --> 00:01:08,160
+email is actually a pretty
+good choice for us.
+
+25
+00:01:08,160 --> 00:01:10,620
+But there is one issue with
+using emails as a key.
+
+26
+00:01:10,620 --> 00:01:13,110
+By nature, emails contain periods.
+
+27
+00:01:13,110 --> 00:01:16,210
+And periods are actually not
+allowed as part of a Firebase key.
+
+28
+00:01:16,210 --> 00:01:18,770
+So I'll give you some advice about
+how to deal with that in the spec
+
+29
+00:01:18,770 --> 00:01:19,970
+that I'm about to send you.

@@ -1,0 +1,151 @@
+1
+00:00:00,130 --> 00:00:02,580
+Now let's consider a second case.
+
+2
+00:00:02,580 --> 00:00:05,630
+Here, the kernel level mask is one, so
+
+3
+00:00:05,630 --> 00:00:09,390
+the kernel thinks that the process overall can handle the signal.
+
+4
+00:00:10,400 --> 00:00:13,680
+However, the user level thread that's currently running on top of
+
+5
+00:00:13,680 --> 00:00:17,200
+the kernel level thread has the signal disabled.
+
+6
+00:00:17,200 --> 00:00:20,320
+So its mask has the bit zero in the signal,
+
+7
+00:00:20,320 --> 00:00:22,180
+in the appropriate place for the signal.
+
+8
+00:00:22,180 --> 00:00:27,500
+But there is another user level thread that's currently in the run queue.
+
+9
+00:00:27,500 --> 00:00:29,270
+So it's not executing.
+
+10
+00:00:29,270 --> 00:00:33,290
+It's runnable but it's not executing at this particular point of time.
+
+11
+00:00:33,290 --> 00:00:35,470
+That one has the mask enabled.
+
+12
+00:00:35,470 --> 00:00:36,560
+The threading library,
+
+13
+00:00:36,560 --> 00:00:41,150
+that manages both of these user level threads, will know about this thread.
+
+14
+00:00:41,150 --> 00:00:45,610
+So now when a signal occurs at the kernel level, the kernel sees that
+
+15
+00:00:45,610 --> 00:00:50,940
+the process overall knows how to handle this particular signal.
+
+16
+00:00:50,940 --> 00:00:53,280
+So it has the bit set as one.
+
+17
+00:00:53,280 --> 00:00:56,770
+But, it should be appropriate for it to interrupt this user level thread,
+
+18
+00:00:56,770 --> 00:00:58,910
+because this particular user level thread,
+
+19
+00:00:58,910 --> 00:01:02,830
+the one that's currently active, has a signal disabled bed.
+
+20
+00:01:02,830 --> 00:01:06,420
+We should figure out a way how to get to the threading library because that's
+
+21
+00:01:06,420 --> 00:01:11,550
+the one that knows about this other runnable thread that would be capable of
+
+22
+00:01:11,550 --> 00:01:13,010
+handling a signal.
+
+23
+00:01:13,010 --> 00:01:16,500
+We said that the way signals are handled is that when they
+
+24
+00:01:16,500 --> 00:01:19,840
+interrupt the process or either a thread that's running in the process.
+
+25
+00:01:20,990 --> 00:01:24,710
+The handling routine that needs to be executed is
+
+26
+00:01:24,710 --> 00:01:28,180
+specified in the signal handler stable.
+
+27
+00:01:28,180 --> 00:01:31,450
+So then one easy thing that we can do is for
+
+28
+00:01:31,450 --> 00:01:36,690
+all the signals in the system, we can have a special library routine that
+
+29
+00:01:36,690 --> 00:01:40,410
+will basically wrap the signal handling routine.
+
+30
+00:01:40,410 --> 00:01:46,390
+So when a signal occurs, we start executing the library provided handler.
+
+31
+00:01:46,390 --> 00:01:49,500
+That library provided handler can see all of
+
+32
+00:01:49,500 --> 00:01:52,070
+the masks of the user level threads.
+
+33
+00:01:52,070 --> 00:01:54,280
+If we have a situation like here,
+
+34
+00:01:54,280 --> 00:01:59,180
+where the currently scheduled user level thread cannot handle the signal.
+
+35
+00:01:59,180 --> 00:02:03,470
+But there is another runnable user level thread that can,
+
+36
+00:02:03,470 --> 00:02:07,800
+the library handling routine can invoke the library scheduler and
+
+37
+00:02:07,800 --> 00:02:12,760
+can now make this user level thread running on the kernel level thread.
+
+38
+00:02:12,760 --> 00:02:14,190
+So then the signal can be handled.

@@ -1,0 +1,127 @@
+1
+00:00:00,200 --> 00:00:04,290
+Another example of OS design is what we call a microkernel.
+
+2
+00:00:04,290 --> 00:00:08,090
+Microkernels only require the most basic primitives at
+
+3
+00:00:08,090 --> 00:00:10,180
+the operating system level.
+
+4
+00:00:10,180 --> 00:00:14,750
+For instance, at the OS level, the microkernel can support some basic
+
+5
+00:00:14,750 --> 00:00:20,180
+services such as to represent an executing application, its address space,
+
+6
+00:00:20,180 --> 00:00:23,160
+and its context, so a thread.
+
+7
+00:00:23,160 --> 00:00:28,990
+Everything else, all other software components, applications like databases,
+
+8
+00:00:28,990 --> 00:00:33,840
+as well as software that we typically think of as an operating system component,
+
+9
+00:00:33,840 --> 00:00:38,550
+like file systems, device drivers, everything else will run
+
+10
+00:00:38,550 --> 00:00:44,100
+outside of the operating system kernel at user level, at unprivileged level.
+
+11
+00:00:44,100 --> 00:00:47,930
+For this reason, this microkernel-based organization of
+
+12
+00:00:47,930 --> 00:00:52,920
+operating systems requires lots of inter-process interactions.
+
+13
+00:00:52,920 --> 00:00:56,055
+So typically, the microkernel itself will support
+
+14
+00:00:56,055 --> 00:01:00,570
+inter-process communications as one of its core abstractions and
+
+15
+00:01:00,570 --> 00:01:04,690
+mechanisms, along with address spaces and threads.
+
+16
+00:01:04,690 --> 00:01:08,840
+The benefits of a microkernel is that it's, it's very small.
+
+17
+00:01:08,840 --> 00:01:13,310
+This can not only lead to lower overheads and better performance, but it may be
+
+18
+00:01:13,310 --> 00:01:19,310
+very easy to, to verify, to test that the code exactly behaves as it should.
+
+19
+00:01:19,310 --> 00:01:23,160
+And this makes microkernels valuable in some environments where
+
+20
+00:01:23,160 --> 00:01:27,450
+it's particularly critical for the operating systems to behave properly,
+
+21
+00:01:27,450 --> 00:01:32,360
+like some embedded devices or certain control systems.
+
+22
+00:01:32,360 --> 00:01:35,140
+These are some examples where microkernels are common.
+
+23
+00:01:35,140 --> 00:01:39,535
+The downsides of the microkernel design are that although it is small,
+
+24
+00:01:39,535 --> 00:01:42,650
+its portability is sort of questionable because it
+
+25
+00:01:42,650 --> 00:01:47,390
+is typically very specialized, very customized to the underlying hardware.
+
+26
+00:01:47,390 --> 00:01:52,670
+The fact that there may be more one-off versions of a microkernel specialized
+
+27
+00:01:52,670 --> 00:01:58,190
+for different platforms makes it maybe harder to find common components of
+
+28
+00:01:58,190 --> 00:02:02,040
+software, and that leads to software complexity as well.
+
+29
+00:02:02,040 --> 00:02:06,440
+And finally, the fact that we have these very frequent interactions between
+
+30
+00:02:06,440 --> 00:02:10,020
+different processes, these different user-level applications,
+
+31
+00:02:10,020 --> 00:02:14,000
+means that there is a need for frequent user/kernel crossings.
+
+32
+00:02:14,000 --> 00:02:16,380
+And we said already that these can get costly.

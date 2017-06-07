@@ -1,0 +1,235 @@
+1
+00:00:00,000 --> 00:00:03,000
+Here's an example of spelling correction in action.
+
+2
+00:00:03,000 --> 00:00:09,000
+Take the word w equals "thew,"
+
+3
+00:00:09,000 --> 00:00:11,000
+and we want to find the correction c
+
+4
+00:00:11,000 --> 00:00:18,000
+that maximizes the probability of w given c times the probability of c.
+
+5
+00:00:18,000 --> 00:00:23,000
+We start searching for the possible corrections c
+
+6
+00:00:23,000 --> 00:00:28,000
+that are close to our target word "thew" in terms of added distance.
+
+7
+00:00:28,000 --> 00:00:34,000
+That is, first we start with all possible c that are one letter away,
+
+8
+00:00:34,000 --> 00:00:42,000
+replacing one letter, swapping two letters, inserting one letter, or transposing two letters.
+
+9
+00:00:42,000 --> 00:00:45,000
+And here we have a list of a few of those possible corrections.
+
+10
+00:00:45,000 --> 00:00:48,000
+So it could be "the" by deleting the "w.
+
+11
+00:00:48,000 --> 00:00:53,000
+We could do no correction at all; we have to consider that as one of the possibilities.
+
+12
+00:00:53,000 --> 00:00:55,000
+We could replace the "e" with an "a."
+
+13
+00:00:55,000 --> 00:00:57,000
+We could add a "r."
+
+14
+00:00:57,000 --> 00:01:01,000
+We could transpose the "w" and the "e."
+
+15
+00:01:01,000 --> 00:01:05,000
+Then we look into our spelling correction tables,
+
+16
+00:01:05,000 --> 00:01:10,000
+and again we reduce them from a word-based to a letter- or edit-based,
+
+17
+00:01:10,000 --> 00:01:15,000
+and we say what's the probability of inserting a "w."
+
+18
+00:01:15,000 --> 00:01:21,000
+Here we've conditioned the insert not just absolutely of inserting a "w" anywhere,
+
+19
+00:01:21,000 --> 00:01:26,000
+but for insertions and deletions, we condition them on the previous letter.
+
+20
+00:01:26,000 --> 00:01:33,000
+So what's the possibility of inserting a "w" given that the previous letter was an "e?"
+
+21
+00:01:33,000 --> 00:01:35,000
+It turns out that's what the probability is,
+
+22
+00:01:35,000 --> 00:01:37,000
+and then we go through the list.
+
+23
+00:01:37,000 --> 00:01:40,000
+Here's replacing an "e" with an "a."
+
+24
+00:01:40,000 --> 00:01:43,000
+That's one of the most common edits made in English,
+
+25
+00:01:43,000 --> 00:01:46,000
+one of the most common spelling corrections.
+
+26
+00:01:46,000 --> 00:01:50,000
+A 10th of a percent of all spelling errors are mistaking an "e" for an "a,"
+
+27
+00:01:50,000 --> 00:01:52,000
+and similarly down the list.
+
+28
+00:01:52,000 --> 00:01:56,000
+So we get this probability for the probability of w given c,
+
+29
+00:01:56,000 --> 00:01:59,000
+and then the probability of the correction word c,
+
+30
+00:01:59,000 --> 00:02:04,000
+that we just get by looking up in our corpus how many times we have seen this word
+
+31
+00:02:04,000 --> 00:02:06,000
+and applying whatever smoothing we're getting.
+
+32
+00:02:06,000 --> 00:02:11,000
+Then we multiply them all out, and I've scaled these by a factor of 1 billion.
+
+33
+00:02:11,000 --> 00:02:21,000
+It turns out with the model I've built that "thew" is most probably corrected to "the."
+
+34
+00:02:21,000 --> 00:02:23,000
+And that makes sense.
+
+35
+00:02:23,000 --> 00:02:26,000
+It's easy to imagine your finger slipping off the "e" key and going over to
+
+36
+00:02:26,000 --> 00:02:28,000
+the "w" since they're next to each other,
+
+37
+00:02:28,000 --> 00:02:33,000
+and "w" is a very common word in English.
+
+38
+00:02:33,000 --> 00:02:37,000
+But it's troubling that the second possibility,
+
+39
+00:02:37,000 --> 00:02:44,000
+namely leaving "thew" alone and keeping it as is has such a high probability.
+
+40
+00:02:44,000 --> 00:02:48,000
+Now, it turns out "thew" is a word.
+
+41
+00:02:48,000 --> 00:02:52,000
+It's rather archaic. It does show up in the Shakespeare corpus.
+
+42
+00:02:52,000 --> 00:02:56,000
+It has to do with muscle tissue,
+
+43
+00:02:56,000 --> 00:02:58,000
+but it's a fairly uncommon word,
+
+44
+00:02:58,000 --> 00:03:04,000
+and how high it ranks depends in large part on the probability that we assign
+
+45
+00:03:04,000 --> 00:03:07,000
+to this edit of doing nothing at all.
+
+46
+00:03:07,000 --> 00:03:11,000
+Here I've assigned it a probability of 0.95.
+
+47
+00:03:11,000 --> 00:03:15,000
+That is, I've said for my probabilistic model,
+
+48
+00:03:15,000 --> 00:03:22,000
+I've made this choice to say I think that about 95% of the words are spelled correctly
+
+49
+00:03:22,000 --> 00:03:24,000
+and 5% are spelled incorrectly.
+
+50
+00:03:24,000 --> 00:03:27,000
+You have to make that choice in order to have a complete model.
+
+51
+00:03:27,000 --> 00:03:31,000
+The probability distribution has to be spread out over all possible,
+
+52
+00:03:31,000 --> 00:03:33,000
+and they have to sum up to one, so I've got to put it somewhere.
+
+53
+00:03:33,000 --> 00:03:37,000
+If I had made another choice, then these two could have been swapped around.
+
+54
+00:03:37,000 --> 00:03:41,000
+So the answer you get depends on the assumptions you make.
+
+55
+00:03:41,000 --> 00:03:46,000
+Still, we can have spelling correcters that are highly accurate.
+
+56
+00:03:46,000 --> 00:03:51,000
+This very simple model of just looking at unigram possibilities
+
+57
+00:03:51,000 --> 00:03:58,000
+and looking at the edits achieves accuracy in the 80% range.
+
+58
+00:03:58,000 --> 00:04:03,000
+If we go beyond that and start dealing with Markov assumptions
+
+59
+00:04:03,000 --> 99:59:59,999
+and looking at multiple word sequences, then we can get up into the high 90%.

@@ -1,0 +1,295 @@
+1
+00:00:00,290 --> 00:00:04,850
+Let's first look at how threads should be represented by an operating system or
+
+2
+00:00:04,850 --> 00:00:07,590
+a system library that provides multithreading support.
+
+3
+00:00:07,590 --> 00:00:10,750
+And also what is necessary for thread creation.
+
+4
+00:00:11,970 --> 00:00:15,350
+Remember, during this lesson we will base our
+
+5
+00:00:15,350 --> 00:00:20,690
+discussion on the primitives that are described and used in Burrell's paper.
+
+6
+00:00:20,690 --> 00:00:24,910
+These don't necessarily correspond to some interfaces that
+
+7
+00:00:24,910 --> 00:00:29,900
+are available in the real threading systems or, or programming languages.
+
+8
+00:00:29,900 --> 00:00:33,360
+And in our next lesson we will talk about Pthreads which is
+
+9
+00:00:33,360 --> 00:00:38,400
+an example of a threading interface supported by most modern operating systems.
+
+10
+00:00:38,400 --> 00:00:41,940
+So that will make the discussion a little bit more concrete.
+
+11
+00:00:41,940 --> 00:00:45,155
+You can think of this lesson and the content of
+
+12
+00:00:45,155 --> 00:00:49,870
+Burrell's paper as explaining this content at a more fundamental level.
+
+13
+00:00:49,870 --> 00:00:54,820
+But first we need some data structure to represent a thread actually.
+
+14
+00:00:54,820 --> 00:00:59,590
+The thread type proposed by Burrell is the data structure that contains all
+
+15
+00:00:59,590 --> 00:01:03,840
+information that's specific to a thread and that can describe a thread.
+
+16
+00:01:03,840 --> 00:01:07,210
+This includes the thread identifier that the threading system will
+
+17
+00:01:07,210 --> 00:01:10,290
+use to identify a specific thread.
+
+18
+00:01:10,290 --> 00:01:15,150
+Register values, in particular the program counter and the stack pointer,
+
+19
+00:01:15,150 --> 00:01:19,790
+the stack of the thread, and any other thread specific data or attributes.
+
+20
+00:01:19,790 --> 00:01:24,050
+These additional attributes for instance could be used by the thread
+
+21
+00:01:24,050 --> 00:01:28,690
+management systems so that it can better decide how to schedule threads or
+
+22
+00:01:28,690 --> 00:01:33,920
+how to debug, errors with threads or other aspects of thread management.
+
+23
+00:01:33,920 --> 00:01:39,470
+For thread creation, Burrell proposes a fork call with two parameters,
+
+24
+00:01:39,470 --> 00:01:41,840
+a proc argument, and
+
+25
+00:01:41,840 --> 00:01:46,320
+that is the procedure that the created thread will start executing.
+
+26
+00:01:46,320 --> 00:01:51,520
+And then args, which are the arguments for this procedure.
+
+27
+00:01:51,520 --> 00:01:56,240
+This fork should not be confused with the Unix system called fork that we
+
+28
+00:01:56,240 --> 00:01:57,940
+previously discussed.
+
+29
+00:01:57,940 --> 00:02:01,380
+The Unix system call creates a new process and
+
+30
+00:02:01,380 --> 00:02:04,350
+is an exact copy of the calling process.
+
+31
+00:02:04,350 --> 00:02:07,860
+And here fork creates a new thread that will
+
+32
+00:02:07,860 --> 00:02:10,710
+execute this procedure with these arguments.
+
+33
+00:02:10,710 --> 00:02:17,240
+When a thread T0 calls a fork a new thread T1 is created.
+
+34
+00:02:17,240 --> 00:02:21,980
+That means that new thread data structure of this type is created and
+
+35
+00:02:21,980 --> 00:02:26,830
+its fields are initialized such that its program counter will point to
+
+36
+00:02:26,830 --> 00:02:30,800
+first instruction of the procedure proc, and
+
+37
+00:02:30,800 --> 00:02:34,970
+these arguments will be available on this stack of the thread.
+
+38
+00:02:34,970 --> 00:02:39,970
+After the fork operation completes, the process as a whole has two threads.
+
+39
+00:02:39,970 --> 00:02:46,760
+T0, the parent thread, and T1, and these can both execute concurrently.
+
+40
+00:02:46,760 --> 00:02:53,120
+T0 will execute the next operation after the fork call, and T1 will start
+
+41
+00:02:53,120 --> 00:02:58,630
+executing with the first instruction in proc, and with the specified arguments.
+
+42
+00:02:58,630 --> 00:03:01,150
+So what happens when T1 finishes?
+
+43
+00:03:01,150 --> 00:03:05,540
+Let's say it computed some result, as a result of proc,
+
+44
+00:03:05,540 --> 00:03:08,890
+and now somehow it needs to return that result.
+
+45
+00:03:08,890 --> 00:03:14,470
+Or, it may be just some, some status of the computation like success or error.
+
+46
+00:03:14,470 --> 00:03:17,600
+One programming practice would be to store the results of
+
+47
+00:03:17,600 --> 00:03:20,690
+the computation in some well-defined location in
+
+48
+00:03:20,690 --> 00:03:23,238
+the address space that's accessible to all the threads.
+
+49
+00:03:23,238 --> 00:03:26,540
+And they have some mechanism to notify either the parent or
+
+50
+00:03:26,540 --> 00:03:29,300
+some other thread that the result is now available.
+
+51
+00:03:29,300 --> 00:03:34,040
+More generally, however, we need some mechanism to determine that a thread is
+
+52
+00:03:34,040 --> 00:03:39,660
+done, and if necessary, to retrieve its result, or at least to determine
+
+53
+00:03:39,660 --> 00:03:43,880
+the status of the computation, the success or the error of its processing.
+
+54
+00:03:43,880 --> 00:03:47,530
+For instance, we can have an application where the parent
+
+55
+00:03:47,530 --> 00:03:50,760
+thread does nothing but create a bunch of
+
+56
+00:03:50,760 --> 00:03:55,180
+child threads that process different portion of an input array.
+
+57
+00:03:55,180 --> 00:03:58,340
+And the parent thread will still have to wait until all of
+
+58
+00:03:58,340 --> 00:04:02,180
+its children finish the processing before it can exit so
+
+59
+00:04:02,180 --> 00:04:06,660
+as not to force their early termination, for instance.
+
+60
+00:04:06,660 --> 00:04:11,810
+To deal with this issue, Burrell proposes a mechanism he calls Join.
+
+61
+00:04:11,810 --> 00:04:14,220
+It has the following semantic.
+
+62
+00:04:14,220 --> 00:04:20,660
+When the parent thread calls join with the thread ID of the child thread,
+
+63
+00:04:20,660 --> 00:04:23,930
+it will be blocked until the child completes.
+
+64
+00:04:23,930 --> 00:04:29,920
+Join will return to the parent the result of the child's computation.
+
+65
+00:04:29,920 --> 00:04:35,000
+At that point the child, for real, exits the system, any allocated data
+
+66
+00:04:35,000 --> 00:04:39,130
+structures saved for the child, all of the resources that were allocated for
+
+67
+00:04:39,130 --> 00:04:43,500
+its execution will be freed and the child is at that point terminated.
+
+68
+00:04:43,500 --> 00:04:48,150
+You should note that other than this mechanism where the parent is
+
+69
+00:04:48,150 --> 00:04:52,820
+the one that's joining the child in all other aspects, the parent and
+
+70
+00:04:52,820 --> 00:04:55,810
+the child thread are completely equivalent.
+
+71
+00:04:55,810 --> 00:04:58,800
+They can all access all resources that are available to
+
+72
+00:04:58,800 --> 00:05:01,570
+the process as a whole and share them.
+
+73
+00:05:01,570 --> 00:05:06,120
+And this is true both, with respect to the hardware resources, CPU memory, or
+
+74
+00:05:06,120 --> 00:05:08,510
+actual state within the process.

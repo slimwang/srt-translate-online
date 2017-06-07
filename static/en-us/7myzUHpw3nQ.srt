@@ -1,0 +1,469 @@
+1
+00:00:00,110 --> 00:00:03,050
+The answer to our storage
+issues relies on the fact that
+
+2
+00:00:03,050 --> 00:00:06,960
+we don't really design page tables
+in this flat manner anymore.
+
+3
+00:00:06,960 --> 00:00:10,960
+Instead, page tables have
+evolved from a flat page map
+
+4
+00:00:10,960 --> 00:00:14,210
+to a more hierarchical
+multi-level structure.
+
+5
+00:00:14,210 --> 00:00:16,700
+This figure here shows
+a two level page table.
+
+6
+00:00:16,700 --> 00:00:20,890
+The outer level here is referred
+to as a page table directory.
+
+7
+00:00:20,890 --> 00:00:24,900
+Its elements are not pointers
+to actual pages, as in here.
+
+8
+00:00:24,900 --> 00:00:28,200
+Instead, they're
+pointers to page tables.
+
+9
+00:00:28,200 --> 00:00:32,870
+The internal page table has proper
+page tables as its components that
+
+10
+00:00:32,870 --> 00:00:34,810
+actually point to page tables.
+
+11
+00:00:34,810 --> 00:00:39,110
+Their entries have the page frame number
+and all the protection that's for
+
+12
+00:00:39,110 --> 00:00:42,330
+the physical addresses that
+are referenced by the corresponding
+
+13
+00:00:42,330 --> 00:00:43,550
+virtual address.
+
+14
+00:00:43,550 --> 00:00:48,710
+An important thing to note is that
+the internal page tables exist only for
+
+15
+00:00:48,710 --> 00:00:52,230
+those virtual memory regions
+that are actually valid.
+
+16
+00:00:52,230 --> 00:00:55,610
+So any kinds of holes in
+the virtual memory space
+
+17
+00:00:55,610 --> 00:00:59,190
+will result in lack of
+internal page tables, so
+
+18
+00:00:59,190 --> 00:01:03,650
+for those holes, there won't be internal
+page tables allocated for them.
+
+19
+00:01:03,650 --> 00:01:07,490
+If a process requests via malloc
+additional virtual memory to be
+
+20
+00:01:07,490 --> 00:01:10,380
+allocated to it, the OS will check and
+
+21
+00:01:10,380 --> 00:01:15,190
+if necessary it will allocate an
+additional internal page table element
+
+22
+00:01:15,190 --> 00:01:19,610
+and set the appropriate page table
+directory to correspond to that entry.
+
+23
+00:01:19,610 --> 00:01:23,870
+That new internal page table entry
+will correspond to some portion of
+
+24
+00:01:23,870 --> 00:01:28,380
+the newly allocated virtual memory
+region that the process has requested.
+
+25
+00:01:28,380 --> 00:01:32,130
+To find the right element in
+this page table structure,
+
+26
+00:01:32,130 --> 00:01:36,680
+the virtual address is split into yet
+another component.
+
+27
+00:01:36,680 --> 00:01:38,310
+Using this address format,
+
+28
+00:01:38,310 --> 00:01:42,380
+this is what we need to perform to
+determine the correct physical address.
+
+29
+00:01:42,380 --> 00:01:45,740
+First the last portion of
+the address is still the offset so
+
+30
+00:01:45,740 --> 00:01:50,320
+that's going to be used to compute
+the offset within the actual page,
+
+31
+00:01:50,320 --> 00:01:52,590
+within the actual physical page.
+
+32
+00:01:52,590 --> 00:01:57,250
+The first two components of the address
+are used as indices into the page
+
+33
+00:01:57,250 --> 00:02:01,010
+tables, into the different levels
+of the page table hierarchy.
+
+34
+00:02:01,010 --> 00:02:05,310
+And they're ultimately going to
+produce the physical frame number
+
+35
+00:02:05,310 --> 00:02:08,520
+that's the starting address
+of the physical region.
+
+36
+00:02:08,520 --> 00:02:12,520
+The first portion is used as in
+index into the outer page table.
+
+37
+00:02:12,520 --> 00:02:15,790
+So, that will determine
+the page table directory entry
+
+38
+00:02:15,790 --> 00:02:18,310
+that points to the actual page table.
+
+39
+00:02:18,310 --> 00:02:22,660
+And then the second index is used
+as an index into this page table,
+
+40
+00:02:22,660 --> 00:02:24,480
+into the internal page table.
+
+41
+00:02:24,480 --> 00:02:28,750
+This will produce the page table entry
+that consists of the physical frame
+
+42
+00:02:28,750 --> 00:02:32,190
+number and then we add that with
+the offset just like before,
+
+43
+00:02:32,190 --> 00:02:34,670
+and compute the physical address.
+
+44
+00:02:34,670 --> 00:02:38,630
+In this page the address format
+is such that it uses ten bits for
+
+45
+00:02:38,630 --> 00:02:41,210
+the internal page table offset.
+
+46
+00:02:41,210 --> 00:02:45,800
+That means that this internal page table
+can address two to the tenth elements.
+
+47
+00:02:45,800 --> 00:02:50,570
+So two to the tenth pages can be
+addressed in the internal page table.
+
+48
+00:02:50,570 --> 00:02:55,060
+Since we used ten bits as the offset
+into the actual page that means
+
+49
+00:02:55,060 --> 00:02:59,180
+that the page itself is also
+two to the tenth in size.
+
+50
+00:02:59,180 --> 00:03:03,750
+Therefore, if we do the math, we see
+that every single internal page table
+
+51
+00:03:03,750 --> 00:03:08,400
+can address two to the tenth, the number
+of entries, times the page size,
+
+52
+00:03:08,400 --> 00:03:12,100
+that's another two to the tenth,
+so one megabyte of memory.
+
+53
+00:03:12,100 --> 00:03:16,520
+What that means is that whenever
+there is a gap in the virtual memory
+
+54
+00:03:16,520 --> 00:03:19,260
+that's one megabyte size.
+
+55
+00:03:19,260 --> 00:03:22,940
+We don't need to allocate
+that internal page table, so
+
+56
+00:03:22,940 --> 00:03:26,850
+that will reduce the overall size of
+the page table that's required for
+
+57
+00:03:26,850 --> 00:03:28,410
+a particular process.
+
+58
+00:03:28,410 --> 00:03:33,100
+This is in contrast with the single
+leve page table design where the page
+
+59
+00:03:33,100 --> 00:03:37,230
+table has to be able to translate
+every single virtual address and
+
+60
+00:03:37,230 --> 00:03:41,140
+it has entries for
+every single virtual page number.
+
+61
+00:03:41,140 --> 00:03:45,750
+So clearly the hierarchical page table
+model helps in reducing the space
+
+62
+00:03:45,750 --> 00:03:47,150
+requirements for a page table.
+
+63
+00:03:48,160 --> 00:03:52,250
+The skin can be further extended
+to use additional layers using
+
+64
+00:03:52,250 --> 00:03:53,800
+the same principle.
+
+65
+00:03:53,800 --> 00:03:55,800
+For instance, we can add another,
+
+66
+00:03:55,800 --> 00:04:00,960
+third level that can consist of
+pointers to page table directories.
+
+67
+00:04:00,960 --> 00:04:03,540
+Adding yet another fourth level to this,
+
+68
+00:04:03,540 --> 00:04:08,390
+which consists of a map of pointers
+to page table directories.
+
+69
+00:04:08,390 --> 00:04:12,580
+This technique is particularly
+important on 64 bit architectures.
+
+70
+00:04:12,580 --> 00:04:16,720
+There, not only that the page
+table requirements are larger,
+
+71
+00:04:16,720 --> 00:04:21,550
+it's also the fact, is that the virtual
+address spaces of processes on
+
+72
+00:04:21,550 --> 00:04:24,530
+these 64 bit architectures
+tend to be more sparse.
+
+73
+00:04:24,530 --> 00:04:25,600
+If it's more sparse,
+
+74
+00:04:25,600 --> 00:04:29,800
+that means that it will have larger gaps
+in the virtual address space region.
+
+75
+00:04:30,820 --> 00:04:34,540
+And the larger the gaps,
+the larger the number of internal page
+
+76
+00:04:34,540 --> 00:04:39,420
+table components that won't be
+necessary as a result of that gap.
+
+77
+00:04:39,420 --> 00:04:44,400
+In fact, with a four level addressing,
+we may end up saving entire page
+
+78
+00:04:44,400 --> 00:04:49,040
+table directories as a result of certain
+gaps in the virtual address space.
+
+79
+00:04:49,040 --> 00:04:50,490
+Let's look at a quick example.
+
+80
+00:04:50,490 --> 00:04:55,220
+These two figures show how a 64-bit
+virtual address can be interpreted
+
+81
+00:04:55,220 --> 00:04:59,700
+to determine which indices are used into
+the different levels of the page table
+
+82
+00:04:59,700 --> 00:05:00,668
+hierarchy.
+
+83
+00:05:00,668 --> 00:05:03,630
+The top figure has two
+page table layers,
+
+84
+00:05:03,630 --> 00:05:06,930
+whereas the bottom one has
+three page table layers.
+
+85
+00:05:06,930 --> 00:05:08,020
+In both of these figures,
+
+86
+00:05:08,020 --> 00:05:12,980
+the offset field is the actual intext
+into the actual physical page table.
+
+87
+00:05:12,980 --> 00:05:15,820
+There is a trade-off
+in supporting multiple
+
+88
+00:05:15,820 --> 00:05:18,460
+levels in the page table hierarchy.
+
+89
+00:05:18,460 --> 00:05:23,140
+As we add multiple levels,
+the internal page tables and page table
+
+90
+00:05:23,140 --> 00:05:29,050
+directories end up covering smaller
+regions of the virtual address space.
+
+91
+00:05:29,050 --> 00:05:32,690
+As a result, it is more likely
+that the virtual address space
+
+92
+00:05:32,690 --> 00:05:36,510
+will have gaps that will
+match that granularity and
+
+93
+00:05:36,510 --> 00:05:39,750
+we will be able to reduce
+the size of the page table.
+
+94
+00:05:39,750 --> 00:05:43,180
+The down side of adding multiple
+levels in the page table
+
+95
+00:05:43,180 --> 00:05:46,670
+is that there will be more memory
+accesses that will be required for
+
+96
+00:05:46,670 --> 00:05:51,400
+translation since we'll have to access
+each of the page table components
+
+97
+00:05:51,400 --> 00:05:54,280
+before we ultimately produce
+the physical address.
+
+98
+00:05:54,280 --> 00:05:56,970
+Therefore, the translation
+latency will be increased.

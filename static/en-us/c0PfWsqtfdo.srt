@@ -1,0 +1,291 @@
+1
+00:00:00,000 --> 00:00:04,000
+[Narrator] Now let's define a function for solving problems.
+
+2
+00:00:04,000 --> 00:00:07,000
+It's called Tree Search because it superimposes
+
+3
+00:00:07,000 --> 00:00:10,000
+a search tree over the state space.
+
+4
+00:00:10,000 --> 00:00:12,000
+Here's how it works: It starts off by
+
+5
+00:00:12,000 --> 00:00:14,000
+initializing the frontier to be the path
+
+6
+00:00:14,000 --> 00:00:16,000
+consisting of only the initial states,
+
+7
+00:00:16,000 --> 00:00:18,000
+and then it goes into a loop
+
+8
+00:00:18,000 --> 00:00:21,000
+in which it first checks to see
+
+9
+00:00:21,000 --> 00:00:23,000
+do we still have anything left in the frontier?
+
+10
+00:00:23,000 --> 00:00:25,000
+If not we fail, there can be no solution.
+
+11
+00:00:25,000 --> 00:00:28,000
+If we do have something, then we make a choice.
+
+12
+00:00:28,000 --> 00:00:31,000
+Tree Search is really a family of functions
+
+13
+00:00:31,000 --> 00:00:33,000
+not a single algorithm which
+
+14
+00:00:33,000 --> 00:00:35,000
+depends on how we make that choice,
+
+15
+00:00:35,000 --> 00:00:38,000
+and we'll see some of the options later.
+
+16
+00:00:38,000 --> 00:00:41,000
+If we go ahead and make a choice of one of
+
+17
+00:00:41,000 --> 00:00:43,000
+the paths on the frontier and remove that
+
+18
+00:00:43,000 --> 00:00:45,000
+path from the frontier, we find the state
+
+19
+00:00:45,000 --> 00:00:47,000
+which is at the end of the path, and if that
+
+20
+00:00:47,000 --> 00:00:49,000
+state's a go then we're done.
+
+21
+00:00:49,000 --> 00:00:51,000
+We found a path to the goal; otherwise,
+
+22
+00:00:51,000 --> 00:00:54,000
+we do what's called expanding that path.
+
+23
+00:00:54,000 --> 00:00:57,000
+We look at all the actions from that state,
+
+24
+00:00:57,000 --> 00:01:00,000
+and we add to the path the actions
+
+25
+00:01:00,000 --> 00:01:03,000
+and the result of that state; so we get
+
+26
+00:01:03,000 --> 00:01:06,000
+a new path that has the old path, the action
+
+27
+00:01:06,000 --> 00:01:09,000
+and the result of that action, and we
+
+28
+00:01:09,000 --> 00:01:17,000
+stick all of those paths back onto the frontier.
+
+29
+00:01:17,000 --> 00:01:19,000
+Now Tree Search represents a whole family
+
+30
+00:01:19,000 --> 00:01:22,000
+of algorithms, and where you get the family
+
+31
+00:01:22,000 --> 00:01:24,000
+resemblance is that they're all looking
+
+32
+00:01:24,000 --> 00:01:26,000
+at the frontier, copying items off and
+
+33
+00:01:26,000 --> 00:01:29,000
+and looking to see if their goal tests,
+
+34
+00:01:29,000 --> 00:01:31,000
+but where you get the difference is right here,
+
+35
+00:01:31,000 --> 00:01:34,000
+in the choice of how you're going to expand
+
+36
+00:01:34,000 --> 00:01:36,000
+the next item on the frontier, which
+
+37
+00:01:36,000 --> 00:01:39,000
+path do we look at first, and we'll go through
+
+38
+00:01:39,000 --> 00:01:42,000
+different sets of algorithms that make
+
+39
+00:01:42,000 --> 00:01:47,000
+different choices for which path to look at first.
+
+40
+00:01:47,000 --> 00:01:49,000
+The first algorithm I want to consider
+
+41
+00:01:49,000 --> 00:01:51,000
+is called Breadth-First Search.
+
+42
+00:01:51,000 --> 00:01:54,000
+Now it could be called shortest-first search
+
+43
+00:01:54,000 --> 00:01:56,000
+because what it does is always choose
+
+44
+00:01:56,000 --> 00:01:59,000
+of the frontier one of the paths that hadn't been
+
+45
+00:01:59,000 --> 00:02:02,000
+considered yet that's the shortest possible.
+
+46
+00:02:02,000 --> 00:02:04,000
+So how does it work?
+
+47
+00:02:04,000 --> 00:02:06,000
+Well we start off with the path of
+
+48
+00:02:06,000 --> 00:02:10,000
+length 0, starting in the start state, and
+
+49
+00:02:10,000 --> 00:02:13,000
+that's the only path in the frontier so
+
+50
+00:02:13,000 --> 00:02:15,000
+it's the shortest one so we pick it,
+
+51
+00:02:15,000 --> 00:02:17,000
+and then we expand it, and we add in
+
+52
+00:02:17,000 --> 00:02:20,000
+all the paths that result from
+
+53
+00:02:20,000 --> 00:02:22,000
+applying all the possible actions.
+
+54
+00:02:22,000 --> 00:02:25,000
+So now we've removed
+
+55
+00:02:25,000 --> 00:02:28,000
+this path from the frontier,
+
+56
+00:02:28,000 --> 00:02:31,000
+but we've added in 3 new paths.
+
+57
+00:02:31,000 --> 00:02:33,000
+This one,
+
+58
+00:02:33,000 --> 00:02:37,000
+this one, and this one.
+
+59
+00:02:37,000 --> 00:02:39,000
+Now we're in a position where
+
+60
+00:02:39,000 --> 00:02:42,000
+we have 3 paths on the frontier, and
+
+61
+00:02:42,000 --> 00:02:45,000
+we have to pick the shortest one.
+
+62
+00:02:45,000 --> 00:02:47,000
+Now in this case all 3 paths
+
+63
+00:02:47,000 --> 00:02:50,000
+have the same length, length 1, so we
+
+64
+00:02:50,000 --> 00:02:52,000
+break the tie at random or using some
+
+65
+00:02:52,000 --> 00:02:56,000
+other technique, and let's suppose that
+
+66
+00:02:56,000 --> 00:02:58,000
+in this case we choose this path
+
+67
+00:02:58,000 --> 00:03:00,000
+from Arad to Sibiu.
+
+68
+00:03:00,000 --> 00:03:03,000
+Now the question I want you to answer
+
+69
+00:03:03,000 --> 00:03:09,000
+is once we remove that from the frontier,
+
+70
+00:03:09,000 --> 00:03:11,000
+what paths are we going to add next?
+
+71
+00:03:11,000 --> 00:03:14,000
+So show me by checking off the cities
+
+72
+00:03:14,000 --> 00:03:16,000
+that ends the paths, which paths
+
+73
+00:03:16,000 --> 99:59:59,999
+are going to be added to the frontier?

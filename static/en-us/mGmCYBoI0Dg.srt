@@ -1,0 +1,635 @@
+1
+00:00:00,280 --> 00:00:04,880
+Okay, so Michael here's some silicone that represents an algorithm
+
+2
+00:00:04,880 --> 00:00:07,420
+of the sort I just described after the last quiz. So
+
+3
+00:00:07,420 --> 00:00:09,270
+here's the basic idea, just see if you can picture
+
+4
+00:00:09,270 --> 00:00:11,790
+this. We have, were in the middle of this process, we
+
+5
+00:00:11,790 --> 00:00:15,700
+have some data at sometimes, step t, and were simply
+
+6
+00:00:15,700 --> 00:00:19,570
+going to generate samples that are consistent with that distribution. So,
+
+7
+00:00:19,570 --> 00:00:22,170
+we're going to shoot our probability distribution is not just something that
+
+8
+00:00:22,170 --> 00:00:25,170
+gives us a probability but something from which we can sample.
+
+9
+00:00:26,210 --> 00:00:29,860
+So, generate samples according to P su theta sub T.
+
+10
+00:00:32,560 --> 00:00:34,030
+Generate a bunch of those samples and now that
+
+11
+00:00:34,030 --> 00:00:36,290
+we have these samples, we're going to come up
+
+12
+00:00:36,290 --> 00:00:39,615
+with a new theta. T plus one. And that
+
+13
+00:00:39,615 --> 00:00:42,120
+theta T plus one is going to be the best samples
+
+14
+00:00:42,120 --> 00:00:44,320
+that we just generated. So, let's say the top
+
+15
+00:00:44,320 --> 00:00:47,330
+half. Now, you'll notice that this should actually remind you
+
+16
+00:00:47,330 --> 00:00:49,360
+of something. Does it remind you of any of
+
+17
+00:00:49,360 --> 00:00:51,570
+the other randomized algorithms that we've looked at so far?
+
+18
+00:00:51,570 --> 00:00:54,650
+>> Maybe a little bit like simulated annealing.
+
+19
+00:00:54,650 --> 00:00:55,720
+>> No. Hm.
+
+20
+00:00:55,720 --> 00:00:57,860
+>> Because it does, you know, change the probability
+
+21
+00:00:57,860 --> 00:01:00,300
+of going up. What we're choosing. Oh, we're
+
+22
+00:01:00,300 --> 00:01:02,590
+choosing different percentile. That's a lot like genetic algorithms.
+
+23
+00:01:02,590 --> 00:01:04,670
+>> Right, it's exactly like genetic algorithms. Except instead
+
+24
+00:01:04,670 --> 00:01:06,790
+of having this population that moves from one bit
+
+25
+00:01:06,790 --> 00:01:10,600
+to other, we generate samples that's like our population.
+
+26
+00:01:10,600 --> 00:01:13,060
+So, we generate a population here. We pick the
+
+27
+00:01:13,060 --> 00:01:17,380
+most fit of that population by retaining only those
+
+28
+00:01:17,380 --> 00:01:19,360
+that are the best ones. And all the stuff
+
+29
+00:01:19,360 --> 00:01:21,330
+that you said before about, well maybe you don't
+
+30
+00:01:21,330 --> 00:01:23,090
+want to pick the best ones. Maybe you want to sample
+
+31
+00:01:23,090 --> 00:01:25,650
+it according to a probability distribution proportional to
+
+32
+00:01:25,650 --> 00:01:27,730
+the fitness. All those things you talked about before
+
+33
+00:01:27,730 --> 00:01:29,450
+would apply here, but let's just stick to the
+
+34
+00:01:29,450 --> 00:01:31,480
+simple case where you, you take the best ones.
+
+35
+00:01:31,480 --> 00:01:34,420
+And, now that we've got this new population, rather
+
+36
+00:01:34,420 --> 00:01:37,960
+than using that population again, we estimate a new
+
+37
+00:01:37,960 --> 00:01:41,230
+distribution that's consistent with those. And then we just
+
+38
+00:01:41,230 --> 00:01:44,690
+lather, rinse, repeat until we come to some conversions.
+
+39
+00:01:44,690 --> 00:01:46,570
+>> Okay, so let me just make sure I'm following.
+
+40
+00:01:46,570 --> 00:01:48,370
+First of all, when you say P sup, you don't
+
+41
+00:01:48,370 --> 00:01:49,140
+mean the food.
+
+42
+00:01:49,140 --> 00:01:51,700
+>> I do not, because I do not like pea soup.
+
+43
+00:01:51,700 --> 00:01:53,700
+>> And you don't mean sup meaning like
+
+44
+00:01:53,700 --> 00:01:55,840
+the largest possible value of theta, because when
+
+45
+00:01:55,840 --> 00:01:59,120
+I was hearing p-sup theta, I was, I kept thinking that you mean the best theta.
+
+46
+00:01:59,120 --> 00:02:02,690
+>> No, soup is short for superscript.
+
+47
+00:02:02,690 --> 00:02:05,780
+[CROSSTALK] When people say p-sub-i, which means subscript.
+
+48
+00:02:05,780 --> 00:02:07,670
+>> Oh, yeah, okay, that, that makes sense.
+
+49
+00:02:07,670 --> 00:02:08,690
+>> Mm-hm.
+
+50
+00:02:08,690 --> 00:02:13,670
+>> And, okay. So now now that's [LAUGH] that's clear. The, this notion
+
+51
+00:02:13,670 --> 00:02:16,700
+of estimating a probability distribution, I guess that's where it
+
+52
+00:02:16,700 --> 00:02:18,770
+feels really fuzzy to me. because if you do the
+
+53
+00:02:18,770 --> 00:02:20,960
+estimate as a kind of, I don't know, sort of
+
+54
+00:02:20,960 --> 00:02:23,500
+particle filtery kind of thing, where you just keep instances.
+
+55
+00:02:23,500 --> 00:02:23,975
+>> Mm-hm.
+
+56
+00:02:23,975 --> 00:02:26,770
+>> Then it feels really, a lot like the genetic algorithm.
+
+57
+00:02:26,770 --> 00:02:28,530
+>> Right. Except, remember, one of the things that
+
+58
+00:02:28,530 --> 00:02:31,420
+we cared about, a structure. So this structure that we're
+
+59
+00:02:31,420 --> 00:02:33,620
+maintaining remember this, this complaint that I had that we
+
+60
+00:02:33,620 --> 00:02:35,770
+weren't somehow keeping track of structure in a nice way?
+
+61
+00:02:35,770 --> 00:02:36,250
+>> Yeah.
+
+62
+00:02:36,250 --> 00:02:38,830
+>> Is all going to be hidden inside the how we
+
+63
+00:02:38,830 --> 00:02:42,330
+represent these probability distributions. That is going to
+
+64
+00:02:42,330 --> 00:02:44,310
+be the structure that moves from time
+
+65
+00:02:44,310 --> 00:02:46,020
+step to time step rather than just
+
+66
+00:02:46,020 --> 00:02:47,810
+the population of points moving from time step
+
+67
+00:02:47,810 --> 00:02:50,410
+to time step. And I'll, I'll get into some details about that in the very
+
+68
+00:02:50,410 --> 00:02:51,840
+next slide, I just want to make certain
+
+69
+00:02:51,840 --> 00:02:53,800
+that you understand. The high level bit here.
+
+70
+00:02:53,800 --> 00:02:56,100
+>> The high level bit.
+
+71
+00:02:56,100 --> 00:02:56,340
+>> And the high.
+
+72
+00:02:56,340 --> 00:02:57,450
+>> Yeah, I mean I am not, I am not
+
+73
+00:02:57,450 --> 00:03:01,786
+connecting it with theta in the sense of the previous slide.
+
+74
+00:03:01,786 --> 00:03:04,110
+>> So theta is our threshold, right?
+
+75
+00:03:04,110 --> 00:03:06,530
+So, basically, we have some distribution. Now, remember what
+
+76
+00:03:06,530 --> 00:03:11,180
+is P superscript theta? It is you know, it is
+
+77
+00:03:11,180 --> 00:03:14,200
+a probability distribution that is uniform over all points that
+
+78
+00:03:14,200 --> 00:03:17,330
+are, have a fitness value that is greater than theta,
+
+79
+00:03:17,330 --> 00:03:20,160
+greater than or equal to theta. Right. So I
+
+80
+00:03:20,160 --> 00:03:22,330
+have some distribution here. If I just generate samples from
+
+81
+00:03:22,330 --> 00:03:24,840
+that distribution then what this means is I'm going to be
+
+82
+00:03:24,840 --> 00:03:29,230
+generating all the points whose value, whose fitness is at
+
+83
+00:03:29,230 --> 00:03:31,820
+least as good as theta. And then I'm going to
+
+84
+00:03:31,820 --> 00:03:33,840
+take from those the set of points that are
+
+85
+00:03:33,840 --> 00:03:37,670
+much higher than theta, hopefully and use that to
+
+86
+00:03:37,670 --> 00:03:40,240
+estimate a new distribution. And I'm just going to keep doing
+
+87
+00:03:40,240 --> 00:03:42,920
+that. And what would should happen is, since I'm
+
+88
+00:03:42,920 --> 00:03:45,890
+consoling taking the best of those, is that theta over
+
+89
+00:03:45,890 --> 00:03:48,290
+time will get higher and higher, and higher, and
+
+90
+00:03:48,290 --> 00:03:54,240
+I'll move from theta min over time, the theta max.
+
+91
+00:03:55,990 --> 00:03:58,420
+And when I get to theta max, I've converged, and I'm done.
+
+92
+00:03:59,790 --> 00:04:02,220
+>> I see. So all right, so the theta right, so
+
+93
+00:04:02,220 --> 00:04:04,620
+I guess I was confused because I, I didn't completely absorb the
+
+94
+00:04:04,620 --> 00:04:08,050
+second line yet. So that we're updating the theta and it's specifically
+
+95
+00:04:08,050 --> 00:04:12,080
+going to be tracking the, I'm not sure what the nth percentile is.
+
+96
+00:04:12,080 --> 00:04:12,835
+>> [INAUDIBLE]
+
+97
+00:04:12,835 --> 00:04:14,815
+>> Adding the number of samples that we draw.
+
+98
+00:04:14,815 --> 00:04:16,214
+>> Oh no. I'm sorry. Nth means you
+
+99
+00:04:16,214 --> 00:04:19,471
+know, 50th percentile or 25th percentile or 75th percentile.
+
+100
+00:04:20,600 --> 00:04:20,930
+>> So, okay.
+
+101
+00:04:20,930 --> 00:04:22,740
+So, if you set that to be the median.
+
+102
+00:04:22,740 --> 00:04:23,143
+>> Mm-hm.
+
+103
+00:04:23,143 --> 00:04:24,560
+>> Which is the 50th percentile. Then
+
+104
+00:04:24,560 --> 00:04:26,710
+what we're doing is we're, we're sampling. We're
+
+105
+00:04:26,710 --> 00:04:29,100
+taking the top half of what's left. We're
+
+106
+00:04:29,100 --> 00:04:31,820
+somehow refitting a distribution into that, set of
+
+107
+00:04:31,820 --> 00:04:34,820
+individuals that were drawn. And repeating in
+
+108
+00:04:34,820 --> 00:04:36,880
+the sense that now, the fitness of those
+
+109
+00:04:36,880 --> 00:04:39,000
+individuals, the median should be higher because we're
+
+110
+00:04:39,000 --> 00:04:41,050
+sampling from kind of a more fit collection.
+
+111
+00:04:41,050 --> 00:04:43,250
+>> Right. That's exactly right.
+
+112
+00:04:43,250 --> 00:04:44,200
+>> Okay.
+
+113
+00:04:44,200 --> 00:04:45,950
+>> So this should work or at least it
+
+114
+00:04:45,950 --> 00:04:49,460
+should match your intuition it would work if there are, sort of two
+
+115
+00:04:49,460 --> 00:04:54,200
+things that are true. The first is that we can actually do this estimate.
+
+116
+00:04:54,200 --> 00:04:56,495
+>> Yeah, that's the part that scares me. Uh-huh.
+
+117
+00:04:56,495 --> 00:04:59,960
+>> Sure. Well given a finite set of data, can we estimate a probability
+
+118
+00:04:59,960 --> 00:05:03,370
+distribution. So that's the first thing that sort of had better be true. And the
+
+119
+00:05:03,370 --> 00:05:06,450
+second thing that needs to be true and this is, I think, a bit
+
+120
+00:05:06,450 --> 00:05:09,240
+more subtle, is that the probability distribution
+
+121
+00:05:09,240 --> 00:05:11,370
+for a piece of theta and a probability
+
+122
+00:05:11,370 --> 00:05:15,820
+distribution for say, piece of theta plus epsilon. That
+
+123
+00:05:15,820 --> 00:05:19,070
+is a slightly higher value of theta, should be kind of
+
+124
+00:05:19,070 --> 00:05:21,010
+close. So in other, and what does that mean?
+
+125
+00:05:21,010 --> 00:05:26,190
+What that means. Is that generating samples from P sub
+
+126
+00:05:26,190 --> 00:05:32,150
+theta of t should give me samples from P sub theta of t plus 1. So I have to
+
+127
+00:05:32,150 --> 00:05:34,070
+that, that means that not only do I have
+
+128
+00:05:34,070 --> 00:05:36,440
+to be able to estimate the distribution, I have to
+
+129
+00:05:36,440 --> 00:05:37,930
+do a good enough job of estimating
+
+130
+00:05:37,930 --> 00:05:40,780
+this distribution such that, when I generate samples
+
+131
+00:05:40,780 --> 00:05:43,000
+from it, I will also generate samples
+
+132
+00:05:43,000 --> 00:05:45,930
+from the next distribution that I'm looking for.
+
+133
+00:05:45,930 --> 00:05:46,230
+>> Okay?
+
+134
+00:05:46,230 --> 00:05:46,770
+>> Okay.
+
+135
+00:05:46,770 --> 00:05:49,094
+>> So if those things are true. Then, I, I hope,
+
+136
+00:05:49,094 --> 00:05:51,308
+you can be sort of imagine that you would be able to
+
+137
+00:05:51,308 --> 00:05:53,468
+move from the part of the space that a theta min,
+
+138
+00:05:53,468 --> 00:05:56,280
+and eventually get to the part of the space, the theta max.
+
+139
+00:05:56,280 --> 00:05:58,950
+>> Yeah, it seems like it should climb right up. Yeah, I
+
+140
+00:05:58,950 --> 00:06:00,330
+agree with that. That's just, assuming
+
+141
+00:06:00,330 --> 00:06:01,860
+that you could represent these distributions
+
+142
+00:06:01,860 --> 00:06:04,050
+in between. Again, the picture I have in my head is
+
+143
+00:06:04,050 --> 00:06:07,890
+an, like a bumpy mountainous landscape. And you put a slice through
+
+144
+00:06:07,890 --> 00:06:11,120
+it. And, in the beginning, yeah, right. So in the beginning
+
+145
+00:06:11,120 --> 00:06:13,560
+it's the whole space, and that should be easy to represent. At
+
+146
+00:06:13,560 --> 00:06:16,450
+the end it's a single point, and that's easy to represent.
+
+147
+00:06:16,450 --> 00:06:20,140
+But in the middle. Yeah, like that. But in the middle, it's
+
+148
+00:06:20,140 --> 00:06:22,960
+this sort of crazy, there's a blob, then there's a space, then
+
+149
+00:06:22,960 --> 00:06:27,880
+there's more blob. Little blob with a hole in it, so like
+
+150
+00:06:27,880 --> 00:06:30,480
+that might be a much harder distribution to represent.
+
+151
+00:06:30,480 --> 00:06:31,660
+>> Right, and that's going to turn out to
+
+152
+00:06:31,660 --> 00:06:34,340
+be an empirical question but as I, as I
+
+153
+00:06:34,340 --> 00:06:36,050
+hope you'll see in a couple of slides
+
+154
+00:06:36,050 --> 00:06:37,660
+it tends to work out pretty well in practice.
+
+155
+00:06:37,660 --> 00:06:38,270
+>> Cool.
+
+156
+00:06:38,270 --> 00:06:41,270
+>> Okay. And by the way when it doesn't work
+
+157
+00:06:41,270 --> 00:06:43,460
+out well in practice, there's all these cute tricks that
+
+158
+00:06:43,460 --> 00:06:44,780
+you can do to make it work out pretty well
+
+159
+00:06:44,780 --> 00:06:46,820
+in practice, and we'll talk about that towards the end, okay

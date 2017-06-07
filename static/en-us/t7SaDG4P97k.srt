@@ -1,0 +1,166 @@
+1
+00:00:00,240 --> 00:00:05,160
+Our first randomized algorithm will be
+one that verifies polynomial identities.
+
+2
+00:00:05,160 --> 00:00:08,840
+Suppose that you're working at a company
+that is building a numerical package for
+
+3
+00:00:08,840 --> 00:00:11,720
+some parallel or distributed system.
+
+4
+00:00:11,720 --> 00:00:14,830
+A colleague claims that he has come
+up with some clever algorithm for
+
+5
+00:00:14,830 --> 00:00:18,540
+expanding polynomial expressions
+into their coefficient form.
+
+6
+00:00:18,540 --> 00:00:22,793
+His algorithm takes in some polynomial
+expression and outputs a supposedly
+
+7
+00:00:22,793 --> 00:00:27,379
+equivalent expression in coefficient
+form, but you're a little skeptical that
+
+8
+00:00:27,379 --> 00:00:31,376
+his algorithm works for the large
+instances that he claims it works on.
+
+9
+00:00:31,376 --> 00:00:33,168
+You decide you want to run a test.
+
+10
+00:00:33,168 --> 00:00:37,683
+That is to say, you want to verify that
+the polynomial represented by the input
+
+11
+00:00:37,683 --> 00:00:43,030
+expression A is equivalent to the one
+represented by the output expression B.
+
+12
+00:00:43,030 --> 00:00:46,700
+Being slightly more general,
+we state the problem like this.
+
+13
+00:00:46,700 --> 00:00:50,980
+Given representations of polynomials
+A and B having degree d,
+
+14
+00:00:50,980 --> 00:00:55,109
+we want to decide whether they
+represent the same polynomial.
+
+15
+00:00:56,360 --> 00:01:00,376
+Note that we're being totally agnostic
+about how A and B are represented.
+
+16
+00:01:00,376 --> 00:01:04,441
+We're just assured that A and
+B are indeed polynomials of degree d and
+
+17
+00:01:04,441 --> 00:01:06,417
+we have a way of evaluating them.
+
+18
+00:01:06,417 --> 00:01:08,577
+Well, here's a fantastically
+simple algorithm for
+
+19
+00:01:08,577 --> 00:01:11,670
+deciding whether these two
+polynomials are equal.
+
+20
+00:01:11,670 --> 00:01:16,270
+Just pick a random integer
+in the range 1 to 100 x d.
+
+21
+00:01:16,270 --> 00:01:19,530
+The value of the polynomials
+at this point and
+
+22
+00:01:19,530 --> 00:01:23,170
+say that the polynomials are equal,
+if they're equal at this point.
+
+23
+00:01:23,170 --> 00:01:23,760
+Why does this work?
+
+24
+00:01:24,798 --> 00:01:29,492
+Well, the so-called fundamental theorem
+of algebra says that any nonzero
+
+25
+00:01:29,492 --> 00:01:31,627
+polynomial can have only d roots.
+
+26
+00:01:31,627 --> 00:01:36,190
+So if A and B are different,
+the bad case is that it has d roots and
+
+27
+00:01:36,190 --> 00:01:41,980
+what's worse is that all of them are in
+this range 1 to 100d in the integers.
+
+28
+00:01:41,980 --> 00:01:42,898
+But even so,
+
+29
+00:01:42,898 --> 00:01:47,584
+the chance that the algorithm
+picks one is still only 1 in 100.
+
+30
+00:01:47,584 --> 00:01:52,293
+So if the polynomials are the same,
+we will always say so.
+
+31
+00:01:52,293 --> 00:01:54,165
+But if they're different,
+
+32
+00:01:54,165 --> 00:01:58,459
+then we will say they're the same
+only with chances 1 in 100.
+
+33
+00:01:58,459 --> 00:02:00,122
+This is pretty effective and
+
+34
+00:02:00,122 --> 00:02:04,134
+if it is found that A is not equal to
+B in some case, your algorithm is so
+
+35
+00:02:04,134 --> 00:02:08,860
+simple, but there can't be much dispute
+over which piece of code is incorrect.

@@ -1,0 +1,413 @@
+1
+00:00:00,660 --> 00:00:01,839
+Let's take a look at the code for
+
+2
+00:00:01,839 --> 00:00:04,470
+making a listener at
+the listening location, then
+
+3
+00:00:04,470 --> 00:00:07,910
+we'll see how to use the data that we
+get from the listener to update the UI.
+
+4
+00:00:07,910 --> 00:00:10,700
+As you said, we're going to need
+to listen to the node list name,
+
+5
+00:00:10,700 --> 00:00:13,320
+which is a child of your root URL.
+
+6
+00:00:13,320 --> 00:00:15,860
+Now these two lines of code
+are basically equivalent.
+
+7
+00:00:15,860 --> 00:00:18,550
+You can either pass in a full URL string
+
+8
+00:00:18,550 --> 00:00:21,420
+specifying the exact node
+that you're interested in, or
+
+9
+00:00:21,420 --> 00:00:25,590
+you can take a reference to any part
+of the database, and then use the child
+
+10
+00:00:25,590 --> 00:00:29,230
+method to drill down to exactly
+the node that you're looking for.
+
+11
+00:00:29,230 --> 00:00:32,540
+Again, these two are interchangeable,
+so use whichever that you like.
+
+12
+00:00:32,540 --> 00:00:34,810
+Now that you have the exact location
+that you want to listen to,
+
+13
+00:00:34,810 --> 00:00:39,030
+you attach a listener using
+the addValueEventListener method.
+
+14
+00:00:39,030 --> 00:00:42,840
+This method takes a ValueEventListener
+object as a parameter, and
+
+15
+00:00:42,840 --> 00:00:47,140
+just like with a click listener, you'll
+usually make a new anonymous subclass.
+
+16
+00:00:47,140 --> 00:00:50,790
+ValueEventListeners have two
+methods that you need to override,
+
+17
+00:00:50,790 --> 00:00:53,040
+onDataChange and onCancelled.
+
+18
+00:00:53,040 --> 00:00:56,130
+OnDataChange is the method
+that's called whenever data
+
+19
+00:00:56,130 --> 00:00:58,230
+at this reference location changes.
+
+20
+00:00:59,280 --> 00:01:01,760
+I'll say it again, whenever it changes.
+
+21
+00:01:01,760 --> 00:01:06,490
+This means that as long as we've got
+this listener attached, JP or myself or
+
+22
+00:01:06,490 --> 00:01:11,140
+Walter, or anyone else in the world,
+could update a value here, and
+
+23
+00:01:11,140 --> 00:01:15,160
+onDataChange would get called for all
+phones on which the app is installed.
+
+24
+00:01:15,160 --> 00:01:18,080
+onCancelled, we'll talk about
+more later, but, basically,
+
+25
+00:01:18,080 --> 00:01:21,980
+it's triggered if you either can't
+attach the listener to something, or
+
+26
+00:01:21,980 --> 00:01:23,740
+if the listener gets detached.
+
+27
+00:01:23,740 --> 00:01:26,210
+All right, so that's the general
+structure, let's write some code.
+
+28
+00:01:26,210 --> 00:01:29,030
+What I want to do is update this view,
+here.
+
+29
+00:01:29,030 --> 00:01:32,520
+This whole part of the app is controlled
+by the shopping list fragment class, so
+
+30
+00:01:32,520 --> 00:01:34,490
+that's where we should
+start looking at the code.
+
+31
+00:01:34,490 --> 00:01:36,920
+So here I am in the shopping
+list fragment class, and
+
+32
+00:01:36,920 --> 00:01:40,070
+specifically I'm in
+the onCreateView method.
+
+33
+00:01:40,070 --> 00:01:41,860
+Since your listeners update your UI,
+
+34
+00:01:41,860 --> 00:01:44,490
+generally you want to put them
+in the onCreateView method, or
+
+35
+00:01:44,490 --> 00:01:48,470
+the onCreate method, so I'll start by
+making my firebase reference object.
+
+36
+00:01:48,470 --> 00:01:51,544
+And then, I will create and
+attach a listener to that reference.
+
+37
+00:01:51,544 --> 00:01:55,962
+Then, in the onDataChange, for now, I'm
+just going to write a log statement, and
+
+38
+00:01:55,962 --> 00:01:59,500
+I'm just going to make an error
+statement so that it's easy to see.
+
+39
+00:01:59,500 --> 00:02:09,500
+[BLANK_AUDIO]
+
+40
+00:02:11,710 --> 00:02:13,940
+Okay, let's try running
+this on my phone.
+
+41
+00:02:13,940 --> 00:02:16,560
+So I know it's super small here,
+but I ran the app on my phone, and
+
+42
+00:02:16,560 --> 00:02:18,170
+it says the data changed.
+
+43
+00:02:18,170 --> 00:02:22,710
+Then, if I go to update the data,
+it says the data changed again, and
+
+44
+00:02:22,710 --> 00:02:25,440
+whenever I do it,
+it'll say the data changes.
+
+45
+00:02:25,440 --> 00:02:29,200
+You might be wondering why the listener
+triggers when the app opens, after all,
+
+46
+00:02:29,200 --> 00:02:30,620
+nothing was getting updated.
+
+47
+00:02:30,620 --> 00:02:32,994
+The reason is that,
+when you first attach the listener,
+
+48
+00:02:32,994 --> 00:02:34,583
+it automatically calls itself once.
+
+49
+00:02:34,583 --> 00:02:37,326
+This is so that you'll have
+some initial data in the app,
+
+50
+00:02:37,326 --> 00:02:40,251
+even if nothing is actively
+changing when you start the app.
+
+51
+00:02:40,251 --> 00:02:42,770
+All right, let's do more than
+just call a log message.
+
+52
+00:02:42,770 --> 00:02:46,500
+If you look at the onDataChange method a
+little bit more closely, you'll see that
+
+53
+00:02:46,500 --> 00:02:51,220
+you'll receive an object called a
+dataSnapshot, so what's a dataSnapshot?
+
+54
+00:02:51,220 --> 00:02:54,950
+So you have your Firebase Database,
+and you have a listener attached to,
+
+55
+00:02:54,950 --> 00:02:56,710
+let's say, this Node B, here.
+
+56
+00:02:56,710 --> 00:03:01,620
+When B or any of B's children nodes
+change, a dataSnapshot is taken.
+
+57
+00:03:01,620 --> 00:03:04,720
+The dataSnapshot is a read-only
+copy of the Firebase state
+
+58
+00:03:04,720 --> 00:03:06,220
+when the data gets changed.
+
+59
+00:03:06,220 --> 00:03:09,410
+Once you have a dataSnapshot,
+just like a photographic snapshot,
+
+60
+00:03:09,410 --> 00:03:13,520
+it won't change, and this snapshot that
+gets sent back includes the node that
+
+61
+00:03:13,520 --> 00:03:16,460
+you were listening to as
+well as the children nodes.
+
+62
+00:03:16,460 --> 00:03:18,990
+So that's the object that
+you have access to here.
+
+63
+00:03:18,990 --> 00:03:21,649
+Now, you can call a lot of different
+methods on a DataSnapshot, and
+
+64
+00:03:21,649 --> 00:03:22,543
+here are some of them.
+
+65
+00:03:22,543 --> 00:03:26,036
+For example, you can call child method
+on a DataSnapshot the same as you would
+
+66
+00:03:26,036 --> 00:03:28,418
+call a child method on
+a Firebase reference object.
+
+67
+00:03:28,418 --> 00:03:31,919
+The DataSnapshot starts where
+you were listening to, and
+
+68
+00:03:31,919 --> 00:03:35,500
+if I were to call child D,
+it would move the child down here.
+
+69
+00:03:35,500 --> 00:03:38,453
+Then I could call something
+like the getValue method,
+
+70
+00:03:38,453 --> 00:03:42,376
+and it would return the value at this
+location, which in this case is 1.
+
+71
+00:03:42,376 --> 00:03:44,356
+I could also call it the getKey method,
+
+72
+00:03:44,356 --> 00:03:47,543
+which would return the key at
+this location, in this case, D.
+
+73
+00:03:47,543 --> 00:03:50,932
+The snapshot includes everything of
+the node that you were listening to and
+
+74
+00:03:50,932 --> 00:03:54,157
+all of its children, but it doesn't
+include the parents of the node you
+
+75
+00:03:54,157 --> 00:03:56,990
+were listening to, so
+you can't transverse the whole tree.
+
+76
+00:03:58,020 --> 00:04:01,260
+Okay, so I'm concealing some code that I
+put here that got me the shopping list
+
+77
+00:04:01,260 --> 00:04:04,440
+name, and here I set the TextView
+that I'm interested in
+
+78
+00:04:04,440 --> 00:04:06,380
+to the list name I just got here.
+
+79
+00:04:06,380 --> 00:04:07,950
+This mTextViewListName,
+
+80
+00:04:07,950 --> 00:04:12,000
+I'm going to scroll down, was
+initialized here in initializeScreen.
+
+81
+00:04:12,000 --> 00:04:14,010
+Okay, but back to this code
+that's hidden from you, so
+
+82
+00:04:14,010 --> 00:04:16,019
+I've got a DataSnapshot of the data.
+
+83
+00:04:16,019 --> 00:04:19,685
+Which method that we just talked about
+do you think I need to call to be able
+
+84
+00:04:19,685 --> 00:04:21,390
+to get the name of the list?
+
+85
+00:04:21,390 --> 00:04:24,750
+Go ahead and change the code in your app
+so that it displays the list name, and
+
+86
+00:04:24,750 --> 00:04:26,140
+then answer that question.
+
+87
+00:04:26,140 --> 00:04:28,800
+Is it getKey(), getValue(),
+or child(), that you call?

@@ -1,0 +1,229 @@
+﻿1
+00:00:00,350 --> 00:00:01,160
+We've been trying to
+
+2
+00:00:01,159 --> 00:00:03,788
+emphasize algorithms that
+are of a particular importance.
+
+3
+00:00:03,787 --> 00:00:08,549
+>> A star and alpha-beta pruning on
+the minimax algorithm are some examples.
+
+4
+00:00:08,550 --> 00:00:12,859
+>> Now we're going to introduce another
+key concept, simulated annealing.
+
+5
+00:00:12,859 --> 00:00:14,500
+>> Hold on, simulated annealing?
+
+6
+00:00:14,500 --> 00:00:16,759
+That implies that there's
+real annealing too.
+
+7
+00:00:16,760 --> 00:00:19,830
+>> That's right, we're going to steal
+some ideas from the physicists for
+
+8
+00:00:19,829 --> 00:00:21,139
+this section.
+
+9
+00:00:21,140 --> 00:00:23,929
+First let's talk about
+energy minimization.
+
+10
+00:00:23,929 --> 00:00:26,589
+External conditions allow
+molecules to be mobile and
+
+11
+00:00:26,589 --> 00:00:29,500
+then mobility of
+the molecules slowly reduces.
+
+12
+00:00:29,500 --> 00:00:33,619
+The molecules then arrange themselves
+into the lowest energy configuration.
+
+13
+00:00:33,619 --> 00:00:36,939
+Often these conditions
+result in regular patterns.
+
+14
+00:00:36,939 --> 00:00:38,689
+>> You mean like mud cracks?
+
+15
+00:00:38,689 --> 00:00:41,589
+>> Yep, that's a common example
+with the decreasing amount of
+
+16
+00:00:41,590 --> 00:00:43,530
+water in the mud reduces
+the molecules and
+
+17
+00:00:43,530 --> 00:00:47,250
+mobility over time the mud
+cracks into regular patterns.
+
+18
+00:00:47,250 --> 00:00:49,649
+>> And
+we see similar structures in honeycombs.
+
+19
+00:00:49,649 --> 00:00:51,850
+Honeybees try to optimize
+their storage space and
+
+20
+00:00:51,850 --> 00:00:54,920
+minimize the building materials for
+the structure that they're building.
+
+21
+00:00:54,920 --> 00:00:57,890
+>> That's an example of
+minimization done by design.
+
+22
+00:00:57,890 --> 00:01:01,740
+But the same affect can happen on the
+Earth, as erupted lava slowly cools and
+
+23
+00:01:01,740 --> 00:01:03,080
+rocks form.
+
+24
+00:01:03,079 --> 00:01:07,299
+Here's an example of columnar basalts,
+from the Devils Postpile in California.
+
+25
+00:01:07,299 --> 00:01:09,129
+As the rock cools, it shrinks and
+
+26
+00:01:09,129 --> 00:01:13,599
+cracks in a hexagonal lattice,
+which is a minimal energy configuration.
+
+27
+00:01:13,599 --> 00:01:16,959
+>> Iron molecules have similar low
+energy states into which they can pack.
+
+28
+00:01:16,959 --> 00:01:20,359
+They can form a lattice with
+other molecules like carbon.
+
+29
+00:01:20,359 --> 00:01:23,049
+Some of these lattices are harder or
+softer than others.
+
+30
+00:01:23,049 --> 00:01:26,379
+For certain applications like sword
+making, a mixture of hardness and
+
+31
+00:01:26,379 --> 00:01:28,079
+ductility is needed.
+
+32
+00:01:28,079 --> 00:01:32,069
+>> Sword makers realize the need to
+heat and cool iron repeatedly to get
+
+33
+00:01:32,069 --> 00:01:36,559
+iron molecules to align in desired
+lattistructures to make swords hard but
+
+34
+00:01:36,560 --> 00:01:37,870
+not brittle.
+
+35
+00:01:37,870 --> 00:01:40,620
+They heated the iron above
+the temperature where atoms could move
+
+36
+00:01:40,620 --> 00:01:44,320
+about, and formed new structures
+with carbon and other atoms.
+
+37
+00:01:44,319 --> 00:01:45,469
+Then they cooled the iron,
+
+38
+00:01:45,469 --> 00:01:48,081
+to preserve the types of
+lattice structures they wanted.
+
+39
+00:01:48,081 --> 00:01:50,889
+This kneeling process was repeated
+
+40
+00:01:50,890 --> 00:01:55,280
+according to closely guarded formulas
+and times to get the desired properties.
+
+41
+00:01:55,280 --> 00:01:57,599
+The best steel makers were treasured.
+
+42
+00:01:57,599 --> 00:02:00,059
+>> Looking at the edge of the blade
+of a finely made sword or
+
+43
+00:02:00,060 --> 00:02:03,969
+cooking knife, shows the process
+of heating and recrystallization.
+
+44
+00:02:03,969 --> 00:02:06,265
+But how does the kneeling
+help our problem?
+
+45
+00:02:06,265 --> 00:02:09,169
+>> We are going to use the idea
+of heating and cooling
+
+46
+00:02:09,169 --> 00:02:13,140
+to help us get out of a local minima,
+on the way to finding a global minimum.
+
+47
+00:02:13,139 --> 00:02:17,899
+For us, high temperature equates to
+more randomness, and gradual cooling
+
+48
+00:02:17,900 --> 00:02:20,689
+will decrease the randomness
+until we converge on a solution.
+

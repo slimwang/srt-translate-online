@@ -1,0 +1,87 @@
+1
+00:00:00,210 --> 00:00:03,870
+Lets now look at some of the interplay between threads and
+
+2
+00:00:03,870 --> 00:00:06,280
+the way signals need to be handled.
+
+3
+00:00:06,280 --> 00:00:09,040
+In the selerious threads implementation as described in
+
+4
+00:00:09,040 --> 00:00:13,560
+the papers there's a signal mask that's associated with each user level done.
+
+5
+00:00:13,560 --> 00:00:15,600
+And that's part of the user level process.
+
+6
+00:00:15,600 --> 00:00:18,610
+It's visible at the user level library level.
+
+7
+00:00:18,610 --> 00:00:23,060
+There is also signal mask that's associated with the kernel level thread or
+
+8
+00:00:23,060 --> 00:00:26,540
+rather the likely process that it's attached to and
+
+9
+00:00:26,540 --> 00:00:29,420
+that kernel level mask is only visible at the kernel level.
+
+10
+00:00:29,420 --> 00:00:34,350
+Now in when a user level thread wants to disable a signal it clears
+
+11
+00:00:34,350 --> 00:00:39,070
+the appropriate bit in the signal mask and this is happening at user level.
+
+12
+00:00:39,070 --> 00:00:41,580
+This mask is not visible to the kernel.
+
+13
+00:00:41,580 --> 00:00:43,410
+Now when a signal occurs,
+
+14
+00:00:43,410 --> 00:00:46,860
+the kernel needs to know what should it do with the signal.
+
+15
+00:00:46,860 --> 00:00:52,110
+It is possible that the kernel visible signal mask has that bit still
+
+16
+00:00:52,110 --> 00:00:57,130
+set at one, so the kernel thinks that the signal is enabled as
+
+17
+00:00:57,130 --> 00:01:01,070
+far as this particular process, this particular thread is concerned.
+
+18
+00:01:01,070 --> 00:01:04,230
+If we don't want to have to make a system call and
+
+19
+00:01:04,230 --> 00:01:08,520
+cross from user into kernel level each time a user-level thread
+
+20
+00:01:08,520 --> 00:01:13,580
+modifies the signal mask, then we need to come up with some kind of policy.
+
+21
+00:01:13,580 --> 00:01:17,630
+The SunOS paper that describes the lightweight user-level threading
+
+22
+00:01:17,630 --> 00:01:21,600
+library proposes a solution of how to handle this situation.

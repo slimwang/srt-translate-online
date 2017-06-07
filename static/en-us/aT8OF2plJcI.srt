@@ -1,0 +1,216 @@
+1
+00:00:00,260 --> 00:00:03,250
+We'll start with one very simple
+description that you've actually
+
+2
+00:00:03,250 --> 00:00:03,920
+already seen.
+
+3
+00:00:03,920 --> 00:00:04,550
+Right?
+
+4
+00:00:04,550 --> 00:00:07,210
+We talked about the Shi-Tomasi
+feature tracker.
+
+5
+00:00:07,210 --> 00:00:11,460
+And basically it's this idea of only
+compute motion where you should.
+
+6
+00:00:12,620 --> 00:00:15,510
+We talked about this when we talked
+about the Harris corners and
+
+7
+00:00:15,510 --> 00:00:18,540
+we talked about how to analyze
+that second moment matrix.
+
+8
+00:00:18,540 --> 00:00:21,840
+And we said well there are other ways
+of analyzing that second moment matrix
+
+9
+00:00:21,840 --> 00:00:25,370
+including the the Eigenvectors and
+Eigenvalues there.
+
+10
+00:00:25,370 --> 00:00:28,190
+And we said that there was
+this Shi-Tomasi thing called
+
+11
+00:00:28,190 --> 00:00:31,460
+good features to track the thing
+that OpenCV made use of.
+
+12
+00:00:31,460 --> 00:00:32,990
+And basically,
+
+13
+00:00:32,990 --> 00:00:36,900
+the idea was that just track points
+that you can track reliably.
+
+14
+00:00:36,900 --> 00:00:39,880
+Their basic algorithm was the following.
+
+15
+00:00:39,880 --> 00:00:43,150
+Basically from frame to frame
+you're going to do Lucas-Kanade,
+
+16
+00:00:43,150 --> 00:00:45,120
+pure little translational motion.
+
+17
+00:00:45,120 --> 00:00:45,880
+Right.
+Remember the,
+
+18
+00:00:45,880 --> 00:00:49,160
+the idea was that we assumed
+that within a given small patch
+
+19
+00:00:49,160 --> 00:00:51,800
+we're going to find some translation.
+
+20
+00:00:51,800 --> 00:00:52,380
+All right.
+
+21
+00:00:52,380 --> 00:00:55,550
+And what's nice about that
+is that's pretty robust for
+
+22
+00:00:55,550 --> 00:00:57,610
+sort of a small neighborhoods, you know,
+
+23
+00:00:57,610 --> 00:01:00,000
+you can basically say that
+they're all translating.
+
+24
+00:01:01,010 --> 00:01:05,400
+Then what you do, and we're not
+going to go into this too much here is
+
+25
+00:01:05,400 --> 00:01:08,440
+we're going to take those
+points that have moved, and
+
+26
+00:01:08,440 --> 00:01:11,130
+look for an affine consistency.
+
+27
+00:01:11,130 --> 00:01:14,760
+So the idea is for each of the, the
+little points that you've tracked using
+
+28
+00:01:14,760 --> 00:01:19,690
+the, the translation,
+is there an affine model that maps the,
+
+29
+00:01:19,690 --> 00:01:22,580
+the tracked points to
+the original points?
+
+30
+00:01:22,580 --> 00:01:25,430
+And then you can compare
+those back to the original.
+
+31
+00:01:25,430 --> 00:01:28,420
+And that's exhibited here.
+
+32
+00:01:28,420 --> 00:01:32,720
+So here's an initial image and you can
+see this little sign in there it says 25
+
+33
+00:01:32,720 --> 00:01:36,850
+miles an hour, and here they're getting
+closer and here you're zooming past.
+
+34
+00:01:36,850 --> 00:01:40,130
+So the, the, the frame,
+the sign is both translating.
+
+35
+00:01:40,130 --> 00:01:40,970
+Right?
+
+36
+00:01:40,970 --> 00:01:44,620
+Its moving to the left in the image and
+its also expanding.
+
+37
+00:01:44,620 --> 00:01:45,420
+All right.
+
+38
+00:01:45,420 --> 00:01:51,230
+And here you can see the frames
+that had been recovered.
+
+39
+00:01:51,230 --> 00:01:53,990
+Or I should say you can see
+the region that has been recovered
+
+40
+00:01:53,990 --> 00:01:55,240
+through the tracking.
+
+41
+00:01:55,240 --> 00:01:58,510
+And the idea is that all the points in
+the sign, remember it's on a plane at
+
+42
+00:01:58,510 --> 00:02:02,220
+moderate distance, which means
+it's a perfect affine transform.
+
+43
+00:02:02,220 --> 00:02:05,530
+All those points are moving in
+a particular affine transform
+
+44
+00:02:05,530 --> 00:02:08,169
+as you move across the,
+the image sequence.
+
+45
+00:02:08,169 --> 00:02:10,630
+And, like I said, that was this,
+good features to track,
+
+46
+00:02:10,630 --> 00:02:15,200
+which later got incorporated into OpenCV
+for, for doing, estimation of motion.

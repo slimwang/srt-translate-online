@@ -1,0 +1,375 @@
+1
+00:00:00,100 --> 00:00:01,910
+>> Okay Micheal. So we've talked about PCA
+
+2
+00:00:01,910 --> 00:00:05,410
+and ICA. And they both work remarkably well
+
+3
+00:00:05,410 --> 00:00:07,760
+in the specific domains that they're designed for.
+
+4
+00:00:07,760 --> 00:00:10,070
+And they've been applied for decades on a
+
+5
+00:00:10,070 --> 00:00:11,762
+wide variety of problems for doing this sort
+
+6
+00:00:11,762 --> 00:00:13,660
+of future transformation. But I'm going to just
+
+7
+00:00:13,660 --> 00:00:16,250
+very briefly describe two other alternatives, and sort
+
+8
+00:00:16,250 --> 00:00:17,660
+of give you a notion of the space, okay?
+
+9
+00:00:17,660 --> 00:00:18,430
+>> Sure.
+
+10
+00:00:18,430 --> 00:00:21,400
+>> Okay, the first one is kind of irritating,
+
+11
+00:00:22,610 --> 00:00:24,275
+but I feel obligated to share it with you.
+
+12
+00:00:24,275 --> 00:00:28,000
+Ad it's called, well it's got many different names, but
+
+13
+00:00:28,000 --> 00:00:32,070
+I'm going to call it RCA just because I like the symmetry.
+
+14
+00:00:33,120 --> 00:00:37,280
+And RCA stands for random components analysis. So what do you
+
+15
+00:00:37,280 --> 00:00:41,440
+think random components analysis does? This is also called random projection.
+
+16
+00:00:41,440 --> 00:00:45,290
+>> I'm going to guess, instead of finding dimensions with,
+
+17
+00:00:45,290 --> 00:00:49,380
+say, high variance, it's just going to pick any direction.
+
+18
+00:00:49,380 --> 00:00:53,570
+>> That's exactly right. What RCA does is it generates random directions.
+
+19
+00:00:53,570 --> 00:00:56,410
+>> Then I guess it projects the data out into those directions.
+
+20
+00:00:56,410 --> 00:00:59,160
+>> That's exactly right. It's like saying it picks a random
+
+21
+00:00:59,160 --> 00:01:05,730
+P to a random matrix to project your data onto. This
+
+22
+00:01:05,730 --> 00:01:09,234
+matrix is, in some sense, just any random linear combination. And
+
+23
+00:01:09,234 --> 00:01:12,780
+you want to know something? It works. It works remarkably well.
+
+24
+00:01:12,780 --> 00:01:15,010
+>> At what though? In terms
+
+25
+00:01:15,010 --> 00:01:16,690
+of like reconstruction?
+
+26
+00:01:16,690 --> 00:01:18,935
+>> At reconstruction. Well not particularly well at
+
+27
+00:01:18,935 --> 00:01:20,070
+reconstruction. But you know what it works really well,
+
+28
+00:01:20,070 --> 00:01:21,940
+it works really well if the next thing
+
+29
+00:01:21,940 --> 00:01:23,550
+you're going to do is some kind of classification.
+
+30
+00:01:23,550 --> 00:01:24,890
+>> Hm,
+
+31
+00:01:24,890 --> 00:01:29,230
+>> Now why is it you think that it actually works? Can you imagine why
+
+32
+00:01:29,230 --> 00:01:31,300
+just picking a bunch of random directions
+
+33
+00:01:31,300 --> 00:01:33,370
+and projecting onto those random directions might work?
+
+34
+00:01:33,370 --> 00:01:36,410
+>> Well, it does mix things together differently. I don't know why the
+
+35
+00:01:36,410 --> 00:01:38,070
+original data wouldn't work. Then this would
+
+36
+00:01:38,070 --> 00:01:40,020
+work better. Unless the original data is
+
+37
+00:01:40,020 --> 00:01:43,620
+somewhow is purposely made to not work.
+
+38
+00:01:43,620 --> 00:01:44,620
+>> Well remember what we're doing here,
+
+39
+00:01:44,620 --> 00:01:46,870
+right. We're starting with N dimensions. And we're
+
+40
+00:01:46,870 --> 00:01:50,490
+projecting down to M dimensions, where M is
+
+41
+00:01:50,490 --> 00:01:53,140
+significantly lower than N. So, I started with
+
+42
+00:01:53,140 --> 00:01:55,160
+a bunch of dimensions. Now remember, the real
+
+43
+00:01:55,160 --> 00:01:56,590
+problem here is not that I can't gather
+
+44
+00:01:56,590 --> 00:01:58,930
+the data from the N dimensions. It''s that
+
+45
+00:01:58,930 --> 00:02:01,070
+there's a whole bunch of them, cursor dimensionality.
+
+46
+00:02:01,070 --> 00:02:01,524
+>> Yes.
+
+47
+00:02:01,524 --> 00:02:03,220
+>> So I need to have a lot of data.
+
+48
+00:02:03,220 --> 00:02:05,219
+So if I don't have a lot of data, at least
+
+49
+00:02:05,219 --> 00:02:09,810
+certainly not an exponential amount of data, so to speak, and I project a
+
+50
+00:02:09,810 --> 00:02:12,000
+lower dimension, why would random projections still
+
+51
+00:02:12,000 --> 00:02:15,110
+give me something that helps with classification?
+
+52
+00:02:15,110 --> 00:02:17,490
+>> So it's, it's as if it's maintaining some
+
+53
+00:02:17,490 --> 00:02:19,600
+of the information from these other dimensions, even though
+
+54
+00:02:19,600 --> 00:02:21,200
+there's fewer of them now. They're all kind of
+
+55
+00:02:21,200 --> 00:02:24,120
+mixed together, but they signal might still be there.
+
+56
+00:02:24,120 --> 00:02:26,730
+>> That's exactly right. And because you project into a
+
+57
+00:02:26,730 --> 00:02:31,080
+lower dimension, you end up dealing with a cursor dimensionality problem,
+
+58
+00:02:31,080 --> 00:02:32,270
+which is sort of the whole point of this, or
+
+59
+00:02:32,270 --> 00:02:34,360
+one of the whole points of this in the first place.
+
+60
+00:02:34,360 --> 00:02:36,220
+And really, a, a way I think of summarizing what you're
+
+61
+00:02:36,220 --> 00:02:39,190
+saying is, that this manages to still pick up some correlations.
+
+62
+00:02:41,350 --> 00:02:44,030
+So if I take random linear combinations of all of my
+
+63
+00:02:44,030 --> 00:02:47,680
+features, then there's still information from all of my features there.
+
+64
+00:02:47,680 --> 00:02:49,960
+So in practice, at least in my experience, Michael, it turns
+
+65
+00:02:49,960 --> 00:02:53,860
+out that M, the number of lower dimensions you project into, for
+
+66
+00:02:53,860 --> 00:02:57,950
+a randomized components analysis, or randomized projections, tends to be bigger
+
+67
+00:02:57,950 --> 00:03:01,150
+than the M that you would get by doing something like PCA.
+
+68
+00:03:01,150 --> 00:03:03,090
+So you don't end up projecting down to sort of the
+
+69
+00:03:03,090 --> 00:03:06,470
+lowest possible dimensional space. But you still project down to a lower
+
+70
+00:03:06,470 --> 00:03:09,590
+dimensional space that happens to capture your correlations, or at
+
+71
+00:03:09,590 --> 00:03:12,620
+least capture some of the correlations, which often ends up
+
+72
+00:03:12,620 --> 00:03:15,610
+working very well for a learner or a classifier down
+
+73
+00:03:15,610 --> 00:03:17,970
+the road. You can actually see how, in this case, you
+
+74
+00:03:17,970 --> 00:03:21,580
+might even project into another set of dimensions M, where
+
+75
+00:03:21,580 --> 00:03:26,230
+those number dimensions are actually bigger than the number of
+
+76
+00:03:26,230 --> 00:03:28,710
+dimensions you started out with. This, in some sense, is
+
+77
+00:03:28,710 --> 00:03:31,580
+almost exactly what we did with perceptons in solving X or.
+
+78
+00:03:31,580 --> 00:03:34,090
+Basically, you're projecting into higher dimensional spaces
+
+79
+00:03:34,090 --> 00:03:35,660
+by doing this. Does that all make sense?
+
+80
+00:03:35,660 --> 00:03:37,700
+>> Yeah, I think so. I mean it makes sense
+
+81
+00:03:37,700 --> 00:03:39,840
+to me that it would be not as efficient in
+
+82
+00:03:39,840 --> 00:03:42,830
+some sense, as PCA, because it sort of reminds me
+
+83
+00:03:42,830 --> 00:03:45,080
+of, you know, if I want to, if I want
+
+84
+00:03:45,080 --> 00:03:47,880
+to paint my wall, I can very carefully paint all
+
+85
+00:03:47,880 --> 00:03:49,970
+the little pieces of it. Or, I could just splatter
+
+86
+00:03:49,970 --> 00:03:52,560
+stuff at it. It generally takes more when you splatter
+
+87
+00:03:52,560 --> 00:03:56,180
+because you're not being as systematic, but it does, ultimately,
+
+88
+00:03:56,180 --> 00:03:57,798
+cover your wall.
+
+89
+00:03:57,798 --> 00:04:02,650
+>> [LAUGH], Yeah. I think that's an interesting analogy, and I'm going to
+
+90
+00:04:02,650 --> 00:04:06,244
+go with an apt one. Okay, so, this sort of thing works. What
+
+91
+00:04:06,244 --> 00:04:10,030
+advantages does it actually have over PCA and ICA? Can you imagine one?
+
+92
+00:04:10,030 --> 00:04:12,550
+There's one in particular which I think sort of jumps out at you.
+
+93
+00:04:12,550 --> 00:04:16,470
+>> RCA? Well, I don't know. Is that, is that a good quiz question maybe?
+
+94
+00:04:16,470 --> 00:04:18,930
+>> Sure, let's make it a quick quiz.

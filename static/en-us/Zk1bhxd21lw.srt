@@ -1,0 +1,148 @@
+1
+00:00:00,270 --> 00:00:02,110
+Here are the answers.
+
+2
+00:00:02,110 --> 00:00:05,220
+The first pair is parallel but
+not orthogonal.
+
+3
+00:00:05,220 --> 00:00:08,370
+In fact,
+they differ by a factor of negative 3.
+
+4
+00:00:08,370 --> 00:00:11,720
+The second pair is neither parallel nor
+orthogonal.
+
+5
+00:00:11,720 --> 00:00:15,780
+The third pair is not parallel but
+it is orthogonal.
+
+6
+00:00:15,780 --> 00:00:19,560
+The last pair is both parallel and
+orthogonal.
+
+7
+00:00:19,560 --> 00:00:23,250
+As stated previously,
+the 0 vector is both parallel and
+
+8
+00:00:23,250 --> 00:00:25,820
+orthogonal to all other vectors.
+
+9
+00:00:25,820 --> 00:00:29,110
+So we didn't need to use
+a program to answer this part.
+
+10
+00:00:29,110 --> 00:00:32,049
+However, it's worthwhile to make
+sure our program can correctly
+
+11
+00:00:32,049 --> 00:00:34,140
+handle the special case.
+
+12
+00:00:34,140 --> 00:00:37,280
+Here's the code I wrote to
+implement these functions.
+
+13
+00:00:37,280 --> 00:00:40,580
+I'll start with the function
+is_orthogonal_to.
+
+14
+00:00:40,580 --> 00:00:41,740
+This one is very short.
+
+15
+00:00:41,740 --> 00:00:45,890
+We should just need to check whether the
+two vectors have a dot product of zero.
+
+16
+00:00:45,890 --> 00:00:49,100
+However, due to precision
+issues we should probably check
+
+17
+00:00:49,100 --> 00:00:52,100
+that the dot product has
+a very small absolute value.
+
+18
+00:00:52,100 --> 00:00:56,000
+Maybe within plus or
+minus 10 to the minus 10.
+
+19
+00:00:56,000 --> 00:00:58,940
+Otherwise you might get a lot of false
+negatives when you check whether
+
+20
+00:00:58,940 --> 00:01:00,448
+two vectors are orthogonal.
+
+21
+00:01:00,448 --> 00:01:04,379
+The function is_parallel_to
+is a bit more complicated.
+
+22
+00:01:04,379 --> 00:01:08,450
+Here I first check whether either
+of the two vectors are zero.
+
+23
+00:01:08,450 --> 00:01:11,850
+To do this I wrote another
+function called is_zero
+
+24
+00:01:11,850 --> 00:01:16,320
+that checks whether a vector's magnitude
+is smaller than some tolerance.
+
+25
+00:01:16,320 --> 00:01:20,450
+If one of the two vectors is zero, then
+I know the two vectors must be parallel,
+
+26
+00:01:20,450 --> 00:01:22,200
+so I go ahead and return True.
+
+27
+00:01:22,200 --> 00:01:27,270
+However, if they're both non-zero then
+that means, to be parallel they must
+
+28
+00:01:27,270 --> 00:01:31,470
+either be pointing in the same direction
+or in completely opposite directions.
+
+29
+00:01:31,470 --> 00:01:36,560
+So the angle between the vectors
+will be either zero or pi radians.
+
+30
+00:01:36,560 --> 00:01:39,460
+Here's the code I ran after
+defining my functions.
+
+31
+00:01:39,460 --> 00:01:43,570
+When I executed, I get the answers
+to the questions asked previously.

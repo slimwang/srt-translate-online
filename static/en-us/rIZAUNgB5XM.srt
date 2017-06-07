@@ -1,0 +1,151 @@
+1
+00:00:00,310 --> 00:00:03,710
+To achieve its role of controlling and managing hardware resources on
+
+2
+00:00:03,710 --> 00:00:08,820
+behalf of applications, the operating system must have special privileges,
+
+3
+00:00:08,820 --> 00:00:13,610
+as the definition pointed out, to have direct access to the hardware.
+
+4
+00:00:13,610 --> 00:00:17,100
+Computer platforms distinguish between at least two modes,
+
+5
+00:00:17,100 --> 00:00:21,140
+privileged kernel mode, and unprivileged or user mode.
+
+6
+00:00:21,140 --> 00:00:25,510
+Because an operating system must have direct hardware access,
+
+7
+00:00:25,510 --> 00:00:30,056
+the operating system must operate in privileged kernel mode.
+
+8
+00:00:30,056 --> 00:00:34,430
+Note the rectangle labeled Mm, this means main memory, and
+
+9
+00:00:34,430 --> 00:00:39,150
+I will use this simplified drawing of memory and CPU throughout this course.
+
+10
+00:00:39,150 --> 00:00:44,430
+The applications in turn operate in unprivileged or user mode.
+
+11
+00:00:44,430 --> 00:00:48,700
+Hardware access can be performed only from kernel mode by
+
+12
+00:00:48,700 --> 00:00:50,220
+the operating system kernel.
+
+13
+00:00:50,220 --> 00:00:54,820
+Crossing from user level into kernel level and the other way around, or
+
+14
+00:00:54,820 --> 00:00:59,950
+in general, distinguishing between the two is supported by the hardware on
+
+15
+00:00:59,950 --> 00:01:01,820
+most modern platforms.
+
+16
+00:01:01,820 --> 00:01:03,630
+For instance, when in kernel mode,
+
+17
+00:01:03,630 --> 00:01:08,590
+a special bit is set in the CPU, and if this bit is set,
+
+18
+00:01:08,590 --> 00:01:13,980
+any instruction that directly manipulates hardware is permitted to execute.
+
+19
+00:01:13,980 --> 00:01:18,590
+When in user mode, this bit is not set, and such instructions that
+
+20
+00:01:18,590 --> 00:01:22,250
+attempt to perform privileged operations will be forbidden.
+
+21
+00:01:22,250 --> 00:01:25,850
+In fact, such attempts to perform a privileged operation when in
+
+22
+00:01:25,850 --> 00:01:28,900
+user mode will cause a trap.
+
+23
+00:01:28,900 --> 00:01:33,860
+The application will be interrupted, and the hardware will switch the control to
+
+24
+00:01:33,860 --> 00:01:36,760
+the operating system at a specific location.
+
+25
+00:01:36,760 --> 00:01:40,640
+At that point, the operating system will have a chance to check what caused that
+
+26
+00:01:40,640 --> 00:01:46,810
+trap to occur, and then to verify if it should grant that access or if it should
+
+27
+00:01:46,810 --> 00:01:51,130
+perhaps terminate the process if it was trying to perform something illegal.
+
+28
+00:01:51,130 --> 00:01:55,290
+In addition to this trap method, the interaction between the applications and
+
+29
+00:01:55,290 --> 00:01:59,150
+the operating system can be via these system call interface.
+
+30
+00:01:59,150 --> 00:02:02,659
+The operating systems export a system call interface.
+
+31
+00:02:02,659 --> 00:02:07,126
+So, the set of operations that the applications can explicitly invoke if
+
+32
+00:02:07,126 --> 00:02:10,871
+they want the operating system to perform certain service and
+
+33
+00:02:10,871 --> 00:02:14,610
+to perform certain privileged access on their behalf.
+
+34
+00:02:14,610 --> 00:02:18,440
+Examples would be open to perform access to a file, or
+
+35
+00:02:18,440 --> 00:02:23,470
+send to perform access to a socket, or malloc to allocate memory, many others.
+
+36
+00:02:23,470 --> 00:02:27,810
+And operating systems also support signals, which is a mechanism for
+
+37
+00:02:27,810 --> 00:02:31,620
+the operating system to pass notifications into the applications.
+
+38
+00:02:31,620 --> 00:02:33,820
+And I will talk about these in a later lesson.

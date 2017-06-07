@@ -1,0 +1,275 @@
+1
+00:00:00,210 --> 00:00:03,120
+Now that we described
+the possible DSM architecture,
+
+2
+00:00:03,120 --> 00:00:06,100
+I'd like to comment on its
+possible implementation.
+
+3
+00:00:06,100 --> 00:00:10,870
+One thing to consider when implementing
+a distributed shared memory system
+
+4
+00:00:10,870 --> 00:00:14,780
+is that the distributed shared
+memory layer has to intercept
+
+5
+00:00:14,780 --> 00:00:17,830
+every single access
+to that shared state.
+
+6
+00:00:17,830 --> 00:00:22,070
+This is needed in order to detect
+whether the access is local or
+
+7
+00:00:22,070 --> 00:00:27,900
+remote and then trigger remote messages
+requesting access, if that's necessary.
+
+8
+00:00:27,900 --> 00:00:32,750
+Or to detect that somebody is
+performing an update operation to
+
+9
+00:00:32,750 --> 00:00:36,480
+a locally controlled portion of
+the distributed shared memory and
+
+10
+00:00:36,480 --> 00:00:39,550
+then to trigger any necessary
+coherence messages.
+
+11
+00:00:39,550 --> 00:00:43,100
+These overheads should be avoided
+whenever we're trying to just
+
+12
+00:00:43,100 --> 00:00:47,130
+access local, non-shared pages,
+or non-shared state.
+
+13
+00:00:47,130 --> 00:00:51,280
+So what we would like to achieve is an
+implementation where it is possible to
+
+14
+00:00:51,280 --> 00:00:56,500
+dynamically engage whether
+the distributed shared memory layer
+
+15
+00:00:56,500 --> 00:01:01,280
+will be triggered, and will be
+intercepting any accesses to memory
+
+16
+00:01:01,280 --> 00:01:03,950
+in order to determine
+what to do about them.
+
+17
+00:01:03,950 --> 00:01:07,180
+Or disengage the distributed
+shared memory layer
+
+18
+00:01:07,180 --> 00:01:11,640
+if we are performing access to pages
+which are really not shared and
+
+19
+00:01:11,640 --> 00:01:15,200
+are just local pages accessed
+on a particular node.
+
+20
+00:01:15,200 --> 00:01:20,180
+To achieve this, a DSM implementation
+can leverage the hardware support that's
+
+21
+00:01:20,180 --> 00:01:23,090
+available at the memory
+management unit level.
+
+22
+00:01:23,090 --> 00:01:28,020
+As we explained earlier, if the hardware
+MMU doesn't find the valid mapping for
+
+23
+00:01:28,020 --> 00:01:31,340
+a particular virtual
+address in the page table,
+
+24
+00:01:31,340 --> 00:01:33,430
+it will trap into the operating system.
+
+25
+00:01:33,430 --> 00:01:38,370
+And similarly, the hardware will also
+cause a trap if it's detected that
+
+26
+00:01:38,370 --> 00:01:43,100
+there is an attempt to modify
+a page that has been protected for
+
+27
+00:01:43,100 --> 00:01:45,640
+a write operation, so
+a write protected page.
+
+28
+00:01:45,640 --> 00:01:50,070
+We can leverage this mechanism
+to implement the DSM system.
+
+29
+00:01:50,070 --> 00:01:54,970
+Whenever we need to perform an access
+to a remote memory, there will not be
+
+30
+00:01:54,970 --> 00:02:00,290
+a valid mapping from the local virtual
+address to the remote physical address.
+
+31
+00:02:00,290 --> 00:02:02,915
+The hardware will generate
+a trap in that case.
+
+32
+00:02:02,915 --> 00:02:07,611
+And at that point, the operating system
+will detect what is the reason for
+
+33
+00:02:07,611 --> 00:02:11,625
+that trap will pass that page
+information to the DSM layer, and
+
+34
+00:02:11,625 --> 00:02:13,990
+the DSM layer will send the message.
+
+35
+00:02:13,990 --> 00:02:18,137
+Similarly, whenever content is
+cached in a particular node,
+
+36
+00:02:18,137 --> 00:02:22,372
+the DSM layer will ensure that
+that content is write protected.
+
+37
+00:02:22,372 --> 00:02:27,347
+And that will cause a trap if anybody
+tries to modify that content that will
+
+38
+00:02:27,347 --> 00:02:30,780
+turn control over to
+the operating system.
+
+39
+00:02:30,780 --> 00:02:35,330
+The operating system can pass relevant
+information to the DSM module.
+
+40
+00:02:35,330 --> 00:02:39,500
+And then that one will trigger all of
+the necessary coherence operations.
+
+41
+00:02:39,500 --> 00:02:44,345
+When implementing a DSM system,
+it is also useful perhaps to leverage
+
+42
+00:02:44,345 --> 00:02:48,550
+additional information that's also
+maintained by the existing memory
+
+43
+00:02:48,550 --> 00:02:53,440
+management that the operating system and
+the underlying hardware provide.
+
+44
+00:02:53,440 --> 00:02:57,360
+For instance, we can track information,
+like whether our page is dirty.
+
+45
+00:02:57,360 --> 00:03:00,160
+We can track information whether
+our page has been accessed in
+
+46
+00:03:00,160 --> 00:03:01,480
+the first place.
+
+47
+00:03:01,480 --> 00:03:05,410
+And this can let us implement
+different coherence mechanisms and
+
+48
+00:03:05,410 --> 00:03:06,778
+consistency policies.
+
+49
+00:03:06,778 --> 00:03:11,360
+For an object-based distributed shared
+memory system that's implemented at
+
+50
+00:03:11,360 --> 00:03:16,600
+the level of the programming language
+run time, the implementation can
+
+51
+00:03:16,600 --> 00:03:20,800
+consider similar types of mechanisms
+that leverage the underlying
+
+52
+00:03:20,800 --> 00:03:25,170
+operating systems services or as
+an alternative, everything can be done
+
+53
+00:03:25,170 --> 00:03:28,300
+completely in software with
+support from the compilers,
+
+54
+00:03:28,300 --> 00:03:33,250
+so tracking whatever particular
+object reference is remote or local.
+
+55
+00:03:33,250 --> 00:03:37,490
+Or whether an object is going to be
+modified or not, we can make sure that
+
+56
+00:03:37,490 --> 00:03:41,800
+we generate code that will perform those
+checks on every single object reference.

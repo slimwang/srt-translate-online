@@ -1,0 +1,296 @@
+﻿1
+00:00:00,850 --> 00:00:05,540
+Remember the libraries we loaded earlier
+to do cool things like draw on the map,
+
+2
+00:00:05,540 --> 00:00:09,500
+we've been saving the best library for
+last, the Places Library.
+
+3
+00:00:09,500 --> 00:00:12,990
+The functionality in the Google Places
+Library enables your application to
+
+4
+00:00:12,990 --> 00:00:17,240
+search for places, like establishments,
+geographic locations or
+
+5
+00:00:17,239 --> 00:00:20,509
+prominent points of interest
+contained within a defined area,
+
+6
+00:00:20,510 --> 00:00:23,880
+such as the bounds of a map or
+around a fixed point.
+
+7
+00:00:23,879 --> 00:00:27,829
+You'll be able to access a crazy amount
+of data on your favorite McDonald's,
+
+8
+00:00:27,829 --> 00:00:31,179
+nail salons, bars, police stations.
+
+9
+00:00:31,179 --> 00:00:33,189
+>> That sounds like a typical night out,
+eh Emily.
+
+10
+00:00:34,420 --> 00:00:37,109
+>> Anyway,
+we'll cover details like that later.
+
+11
+00:00:37,109 --> 00:00:39,859
+Our first usage of this
+data is much simpler.
+
+12
+00:00:39,859 --> 00:00:43,659
+So far we've been typing in addresses or
+locations in order to search for
+
+13
+00:00:43,659 --> 00:00:44,859
+nearby listings in our site.
+
+14
+00:00:45,939 --> 00:00:48,661
+What if we didn't want to have
+to write out the whole thing?
+
+15
+00:00:48,661 --> 00:00:52,170
+>> Google's Place's Library has
+the places auto complete functionality
+
+16
+00:00:52,170 --> 00:00:55,210
+which allows the user to get
+back probable results with
+
+17
+00:00:55,210 --> 00:00:57,920
+each keystroke while
+entering a location.
+
+18
+00:00:57,920 --> 00:01:02,160
+So they can find what they're looking
+for faster and more accurately.
+
+19
+00:01:02,159 --> 00:01:06,180
+Essentially, we know what the user is
+typing before they finish typing it.
+
+20
+00:01:07,299 --> 00:01:08,409
+>> Let's go back into our code and
+
+21
+00:01:08,409 --> 00:01:12,459
+update both of these text input
+areas to use autocomplete.
+
+22
+00:01:12,459 --> 00:01:15,589
+The first thing that we have to
+do is include another library,
+
+23
+00:01:15,590 --> 00:01:16,670
+the Place's Library.
+
+24
+00:01:17,719 --> 00:01:21,739
+This will allow us to use autocomplete
+and also other features of Places later.
+
+25
+00:01:23,290 --> 00:01:26,140
+So, we'll define two
+new places autocomplete
+
+26
+00:01:26,140 --> 00:01:31,420
+instances within our initialize function
+and bind them to our two input boxes.
+
+27
+00:01:31,420 --> 00:01:32,629
+At the simplest level,
+
+28
+00:01:32,629 --> 00:01:36,269
+these will predict what the user
+is typing with each keystroke, and
+
+29
+00:01:36,269 --> 00:01:40,060
+supply the most likely options in
+a pick list below the input box.
+
+30
+00:01:41,439 --> 00:01:44,000
+We can also add more options to these.
+
+31
+00:01:44,000 --> 00:01:48,319
+In addition to specifying which text
+input to execute autocomplete on,
+
+32
+00:01:48,319 --> 00:01:53,869
+we can add bounds, which is a lot long
+area to bias the results towards.
+
+33
+00:01:53,870 --> 00:01:58,510
+This won't restrict the results, but
+it will favor items within those bounds.
+
+34
+00:01:58,510 --> 00:02:00,730
+We can also add a types restriction,
+
+35
+00:02:00,730 --> 00:02:04,570
+which will restrict the types of
+places we get back to for example,
+
+36
+00:02:04,569 --> 00:02:08,698
+addresses for only precise addresses or
+establishments for only business.
+
+37
+00:02:09,750 --> 00:02:13,060
+And we can add a component
+restriction to restrict the results
+
+38
+00:02:13,060 --> 00:02:14,180
+to within a certain country.
+
+39
+00:02:15,360 --> 00:02:18,690
+Let's try biasing the zoom
+to area autocomplete
+
+40
+00:02:18,689 --> 00:02:19,759
+to within the bounds of the map.
+
+41
+00:02:22,139 --> 00:02:23,819
+Let's test it out.
+
+42
+00:02:23,819 --> 00:02:27,789
+This makes it much easier for the user
+and also makes it much more likely that
+
+43
+00:02:27,789 --> 00:02:31,879
+the Geocoder or Distance Matrix Service
+actually finds a location.
+
+44
+00:02:31,879 --> 00:02:35,180
+Let's look at the difference
+between the zoom to area one and
+
+45
+00:02:35,180 --> 00:02:36,219
+the Distance Matrix one.
+
+46
+00:02:37,509 --> 00:02:41,155
+Right now they're both supplying options
+for New York City, that's because we
+
+47
+00:02:41,155 --> 00:02:44,110
+biased the zoom to area one to
+within the bounds of the map.
+
+48
+00:02:45,180 --> 00:02:47,550
+But also because even if
+you don't set any bounds,
+
+49
+00:02:47,550 --> 00:02:50,189
+the API will attempt to
+detect your location and
+
+50
+00:02:50,189 --> 00:02:54,030
+it'll automatically bias
+the results to that location.
+
+51
+00:02:54,030 --> 00:02:56,849
+Thus this one is trying to find me
+a place in New York because I'm
+
+52
+00:02:56,849 --> 00:02:58,069
+currently in New York.
+
+53
+00:02:58,069 --> 00:03:01,009
+Let's change the bounds of the map and
+see if it makes a difference.
+
+54
+00:03:01,009 --> 00:03:03,584
+Okay, I've changed the bounds of the map
+so that we're looking at Detroit.
+
+55
+00:03:03,584 --> 00:03:07,599
+Now, the autocomplete which I
+bound to the area of the map
+
+56
+00:03:07,599 --> 00:03:09,379
+is actually looking for
+places in Detroit.
+
+57
+00:03:10,599 --> 00:03:13,460
+Whereas the one where I
+didn't bind it to anything,
+
+58
+00:03:13,460 --> 00:03:15,550
+still knows that I'm in New York City.
+
+59
+00:03:15,550 --> 00:03:16,050
+Pretty neat.
+
+60
+00:03:17,189 --> 00:03:21,370
+If I don't want any bias, I can also
+specify the bounds of the whole world.
+
+61
+00:03:22,479 --> 00:03:26,115
+Let's take a break before continuing
+to find out how fast autocomplete
+
+62
+00:03:26,116 --> 00:03:26,690
+really is.
+
+

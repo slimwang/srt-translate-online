@@ -1,0 +1,286 @@
+1
+00:00:00,380 --> 00:00:04,560
+I think one of the cool parts about
+D3 is how its APIs design and
+
+2
+00:00:04,560 --> 00:00:06,280
+how it makes you think.
+
+3
+00:00:06,280 --> 00:00:09,330
+Since every method in D3
+returns the element or
+
+4
+00:00:09,330 --> 00:00:12,110
+selection of elements that
+method was called upon,
+
+5
+00:00:12,110 --> 00:00:14,290
+you can naturally chain
+method from one to the next.
+
+6
+00:00:15,440 --> 00:00:17,630
+Keep in mind that any
+changes that we've made so
+
+7
+00:00:17,630 --> 00:00:21,710
+far to the page are client side only and
+they're not permanent.
+
+8
+00:00:21,710 --> 00:00:25,360
+We can refresh the page at any time to
+get back to the original styling and
+
+9
+00:00:25,360 --> 00:00:26,120
+content of the page.
+
+10
+00:00:27,210 --> 00:00:29,980
+All right, let's try something
+a little bit more difficult.
+
+11
+00:00:29,980 --> 00:00:33,090
+Let's see if we can change
+the Udacity logo on the page
+
+12
+00:00:33,090 --> 00:00:34,338
+to a different version of the logo.
+
+13
+00:00:34,338 --> 00:00:36,550
+If I right-click on the element and
+
+14
+00:00:36,550 --> 00:00:39,640
+inspect it,
+I can see that this is an image tag.
+
+15
+00:00:39,640 --> 00:00:44,140
+But wait, there aren't any class names
+on the elements, and the element doesn't
+
+16
+00:00:44,140 --> 00:00:48,350
+have an ID, does this mean that
+we can't select the image?
+
+17
+00:00:48,350 --> 00:00:52,270
+It turns out that we can select the
+image, we just need to look one level
+
+18
+00:00:52,270 --> 00:00:56,790
+higher or multiple levels higher
+at any of the parent elements.
+
+19
+00:00:56,790 --> 00:01:00,170
+This image tag sits within an A tag.
+
+20
+00:01:00,170 --> 00:01:02,590
+So, the A tag is the parent.
+
+21
+00:01:02,590 --> 00:01:05,370
+We can select this parent by
+using the select method and
+
+22
+00:01:05,370 --> 00:01:06,659
+passing in the class name.
+
+23
+00:01:07,740 --> 00:01:10,050
+I'm going to pass in both class names,
+
+24
+00:01:10,050 --> 00:01:13,130
+in case the class names
+are used elsewhere on the page.
+
+25
+00:01:13,130 --> 00:01:18,150
+This makes it so that D3 only selects
+elements with both class names, of nav
+
+26
+00:01:18,150 --> 00:01:23,630
+brand and logo, which, should hopefully
+just be the A tag element on the page.
+
+27
+00:01:23,630 --> 00:01:26,090
+And sure enough this
+returns what I'd like.
+
+28
+00:01:26,090 --> 00:01:30,020
+Now, since the a tag also
+has an ID of header-logo,
+
+29
+00:01:30,020 --> 00:01:32,590
+I could use that to select the element.
+
+30
+00:01:32,590 --> 00:01:36,080
+Remember that when using ID selectors,
+you need to pass in the hash, or
+
+31
+00:01:36,080 --> 00:01:38,280
+pound symbol, before the name.
+
+32
+00:01:38,280 --> 00:01:40,610
+Let's save that selection
+into a variable and
+
+33
+00:01:40,610 --> 00:01:43,590
+call it parent_el,
+short for parent element.
+
+34
+00:01:43,590 --> 00:01:45,590
+Since D3 returned a selection,
+
+35
+00:01:45,590 --> 00:01:49,040
+we can use D3's methods to
+make another selection.
+
+36
+00:01:49,040 --> 00:01:51,790
+So, I can use select
+on the parent element
+
+37
+00:01:51,790 --> 00:01:54,520
+to select the image tag
+that sits within it.
+
+38
+00:01:54,520 --> 00:01:56,887
+This returns the image tag
+that we want to update.
+
+39
+00:01:57,940 --> 00:02:01,790
+To change the source of the image tag,
+we need to change the source attribute.
+
+40
+00:02:02,830 --> 00:02:06,780
+We can use that atter method to do so,
+by passing it an attribute name and
+
+41
+00:02:06,780 --> 00:02:08,639
+the value that we'd like to set.
+
+42
+00:02:08,639 --> 00:02:10,729
+So, if I just look at
+the source attribute,
+
+43
+00:02:10,729 --> 00:02:16,710
+I'll see that it matches what is
+currently there, assets/udacity.svg.
+
+44
+00:02:16,710 --> 00:02:20,120
+If we wanted to change a property
+say like the all text and
+
+45
+00:02:20,120 --> 00:02:24,530
+I would pass in a different value as
+a second perimeter to the method.
+
+46
+00:02:24,530 --> 00:02:29,200
+So we'll change this all
+text of logo to Udacity.
+
+47
+00:02:29,200 --> 00:02:32,430
+Now, again I made this selection
+a little bit more complicated than
+
+48
+00:02:32,430 --> 00:02:36,430
+it needed to be, since I used
+this intermediate parent element.
+
+49
+00:02:36,430 --> 00:02:41,640
+To make the selection simpler I can just
+make one selection using the parent ID
+
+50
+00:02:41,640 --> 00:02:44,940
+and then a space for the name of the
+child element that we want to select.
+
+51
+00:02:46,040 --> 00:02:50,670
+So I'll select the parent a tag
+with the id of header-logo, and
+
+52
+00:02:50,670 --> 00:02:52,340
+then I'll select the child image.
+
+53
+00:02:53,350 --> 00:02:57,650
+And here I'll change the alt
+text from udacity back to logo.
+
+54
+00:02:58,760 --> 00:03:02,470
+There's certainly more than one way
+to select elements on the page, so
+
+55
+00:03:02,470 --> 00:03:05,560
+don't be surprised or confused as
+you work through this course and
+
+56
+00:03:05,560 --> 00:03:08,400
+our answers might be slightly
+different than yours.
+
+57
+00:03:08,400 --> 00:03:11,990
+For example you might've tried
+to use two class names to select
+
+58
+00:03:11,990 --> 00:03:16,170
+that parent element a-tag and
+then change the all-text logo.
+
+59
+00:03:16,170 --> 00:03:19,870
+I find using the ID selection a little
+bit simpler in this case but,
+
+60
+00:03:19,870 --> 00:03:22,980
+just know that there's always more than
+one way to select elements on a page.

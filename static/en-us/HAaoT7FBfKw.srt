@@ -1,0 +1,225 @@
+1
+00:00:00,110 --> 00:00:03,920
+To understand Marshalling,
+lets look at the ad example again.
+
+2
+00:00:03,920 --> 00:00:05,010
+The variables i and
+
+3
+00:00:05,010 --> 00:00:08,940
+j are somewhere in the memory of
+the client processing address space.
+
+4
+00:00:08,940 --> 00:00:10,560
+They're two separate variables so
+
+5
+00:00:10,560 --> 00:00:14,140
+there's absolutely no guarantee that
+they will be next to one another.
+
+6
+00:00:14,140 --> 00:00:17,730
+The client makes a call to
+the RPC procedure rpc.add and
+
+7
+00:00:17,730 --> 00:00:20,410
+passes i and j as arguments to it.
+
+8
+00:00:20,410 --> 00:00:23,050
+At the lowest level of the RPC run time,
+
+9
+00:00:23,050 --> 00:00:28,480
+this will somehow need to result in
+a message that's stored in some buffer
+
+10
+00:00:28,480 --> 00:00:33,320
+that needs to be sent via socket
+API to some remote server.
+
+11
+00:00:33,320 --> 00:00:38,620
+This buffer needs to somehow be some
+contiguous location of bytes that
+
+12
+00:00:38,620 --> 00:00:43,470
+includes the argument as well as some
+information about the actual procedures,
+
+13
+00:00:43,470 --> 00:00:46,570
+some identifier for the procedure,
+so that on the other end.
+
+14
+00:00:46,570 --> 00:00:49,730
+The server can make sense of
+what needs to be done and
+
+15
+00:00:49,730 --> 00:00:53,060
+how the rest of the bytes in this
+packet need to be interpreted.
+
+16
+00:00:53,060 --> 00:00:56,640
+And this buffer gets generated
+by the marshalling code.
+
+17
+00:00:56,640 --> 00:00:59,210
+The marshalling code will
+take these variables i and j,
+
+18
+00:00:59,210 --> 00:01:02,380
+and then it will copy
+them into this buffer.
+
+19
+00:01:02,380 --> 00:01:06,960
+It will serialize the arguments of
+the procedure into a contiguous
+
+20
+00:01:06,960 --> 00:01:09,030
+memory location in this manner.
+
+21
+00:01:09,030 --> 00:01:12,980
+In case the previous example is too
+trivial, here is what would happen if we
+
+22
+00:01:12,980 --> 00:01:19,210
+need to perform a array add procedure,
+which takes as arguments and integer i.
+
+23
+00:01:19,210 --> 00:01:20,230
+And some array,
+
+24
+00:01:20,230 --> 00:01:24,200
+j and then adds this integer to
+all of the elements of the array.
+
+25
+00:01:24,200 --> 00:01:28,710
+Then again, the marshalling code will
+need to serialize the arguments i and j.
+
+26
+00:01:28,710 --> 00:01:31,600
+Serializng the array j can
+be done in different ways.
+
+27
+00:01:31,600 --> 00:01:36,070
+For instance, the agreement can be that
+arrays are serialized in a way that we
+
+28
+00:01:36,070 --> 00:01:38,990
+first place the size of the array.
+
+29
+00:01:38,990 --> 00:01:42,270
+And then we add all of
+the elements of the array.
+
+30
+00:01:42,270 --> 00:01:45,020
+So then the total
+buffer that's produced,
+
+31
+00:01:45,020 --> 00:01:49,290
+as a result of the marshaling process,
+will include both the specification
+
+32
+00:01:49,290 --> 00:01:52,125
+of the procedure, in this case,
+it's a different procedure.
+
+33
+00:01:52,125 --> 00:01:53,570
+Array_add.
+
+34
+00:01:53,570 --> 00:01:57,800
+The first element, i, the first argument
+and then the second argument of
+
+35
+00:01:57,800 --> 00:02:00,930
+the procedure, j,
+that happens to be an array.
+
+36
+00:02:00,930 --> 00:02:03,180
+And in this particular process,
+
+37
+00:02:03,180 --> 00:02:07,880
+the agreement is that the array includes
+the array size and then the elements.
+
+38
+00:02:07,880 --> 00:02:12,290
+Another type of agreement that can
+make sense for a marshal in arrays
+
+39
+00:02:12,290 --> 00:02:15,650
+is that we would just list all
+of the elements of the array.
+
+40
+00:02:15,650 --> 00:02:20,090
+And then we would include some special
+character to denote the end of array.
+
+41
+00:02:20,090 --> 00:02:23,401
+That's, for instance,
+what's typically used for strings, and
+
+42
+00:02:23,401 --> 00:02:26,810
+then the null character is used
+to denote the end of array.
+
+43
+00:02:26,810 --> 00:02:30,700
+Either way, what this means is that
+the marshaling process needs to
+
+44
+00:02:30,700 --> 00:02:34,340
+encode the data into
+some agreed upon format.
+
+45
+00:02:34,340 --> 00:02:38,000
+So that it can be correctly
+interpreted on the receiving side.
+
+46
+00:02:38,000 --> 00:02:42,830
+The encoding specifies the data layout
+when it's serialized to the byte stream
+
+47
+00:02:42,830 --> 00:02:46,610
+so that anybody that looks at it
+can actually make sense of it.

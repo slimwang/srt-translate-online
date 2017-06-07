@@ -1,0 +1,199 @@
+1
+00:00:00,000 --> 00:00:02,000
+So what we have is a fairly difficult testing problem.
+
+2
+00:00:02,000 --> 00:00:05,000
+And in practice, there are a couple of different ways to deal with it.
+
+3
+00:00:05,000 --> 00:00:07,000
+The first way doesn't actually have anything to do with testing,
+
+4
+00:00:07,000 --> 00:00:09,000
+but it's such good advice that I can't resist giving it.
+
+5
+00:00:09,000 --> 00:00:14,000
+And the advice is that you should always try to use low level programming languages
+
+6
+00:00:14,000 --> 00:00:19,000
+or interfaces that are predictable and that return friendly error codes.
+
+7
+00:00:19,000 --> 00:00:22,000
+What I mean is basically given a choice between using the UNIX system call interface
+
+8
+00:00:22,000 --> 00:00:25,000
+which has all of these unfriendly features that we were just talking about
+
+9
+00:00:25,000 --> 00:00:29,000
+and using the Python libraries, you'd almost always choose the Python libraries
+
+10
+00:00:29,000 --> 00:00:34,000
+because they have far friendlier behavior and they have far fewer obscure error codes.
+
+11
+00:00:34,000 --> 00:00:36,000
+Of course we don't always have the option of doing this.
+
+12
+00:00:36,000 --> 00:00:38,000
+We probably can't implement a full size web browser in Python
+
+13
+00:00:38,000 --> 00:00:42,000
+and expect it to run really quickly and be fully featured,
+
+14
+00:00:42,000 --> 00:00:45,000
+so we're forced to use these bad style APIs sometimes.
+
+15
+00:00:45,000 --> 00:00:48,000
+From a testing point of view, we can often use the technique called fault injection
+
+16
+00:00:48,000 --> 00:00:50,000
+to deal with these kind of problems.
+
+17
+00:00:50,000 --> 00:00:55,000
+Let's assume for the moment that we're using the Python library to create a file.
+
+18
+00:00:55,000 --> 00:00:59,000
+We're going to be issuing a call like open /tmp/foo--
+
+19
+00:00:59,000 --> 00:01:01,000
+that's a path to the file we're trying to open--
+
+20
+00:01:01,000 --> 00:01:04,000
+and w specifies that we're opening that file with write permissions.
+
+21
+00:01:04,000 --> 00:01:07,000
+So now if our Python application issues this call,
+
+22
+00:01:07,000 --> 00:01:11,000
+we might have a fairly hard time testing the case where the open call fails
+
+23
+00:01:11,000 --> 00:01:15,000
+because on most machines there's going to be a directory called /tmp,
+
+24
+00:01:15,000 --> 00:01:17,000
+and so this call might almost always succeed.
+
+25
+00:01:17,000 --> 00:01:22,000
+So what we can do instead is call a different function, my_open here in this case,
+
+26
+00:01:22,000 --> 00:01:26,000
+which has an identical interface to the open call.
+
+27
+00:01:26,000 --> 00:01:31,000
+And in fact, not only is the interface identical, but its implementation is also almost identical.
+
+28
+00:01:31,000 --> 00:01:34,000
+So most of the time what my_open is going to do is simply call open.
+
+29
+00:01:34,000 --> 00:01:39,000
+So what we have is a stub function that's almost functionally equivalent to open,
+
+30
+00:01:39,000 --> 00:01:42,000
+but the key difference is we wrote the code for my_open,
+
+31
+00:01:42,000 --> 00:01:46,000
+and what we can do with this is conditionally inside the my_open code
+
+32
+00:01:46,000 --> 00:01:48,000
+we can sometimes cause the open system call to fail.
+
+33
+00:01:48,000 --> 00:01:52,000
+And again, this is called fault injection, and it's a fairly common testing technique.
+
+34
+00:01:52,000 --> 00:01:54,000
+So in practice, you have to be pretty careful with fault injection.
+
+35
+00:01:54,000 --> 00:01:58,000
+One thing that can happen is if you make my_open fail too often,
+
+36
+00:01:58,000 --> 00:02:01,000
+like, for example, it fails 50% of the time,
+
+37
+00:02:01,000 --> 00:02:04,000
+then a program that's using it probably will never get off the ground.
+
+38
+00:02:04,000 --> 00:02:07,000
+A large sized program that opens a lot of files
+
+39
+00:02:07,000 --> 00:02:09,000
+will almost never succeed in opening all of them,
+
+40
+00:02:09,000 --> 00:02:12,000
+and so we're not actually going to get to executing the interesting part of the file.
+
+41
+00:02:12,000 --> 00:02:15,000
+So one thing we might do in my_open is have it initially succeed
+
+42
+00:02:15,000 --> 00:02:17,000
+maybe for the first 100 calls,
+
+43
+00:02:17,000 --> 00:02:20,000
+and after that it might do something like fail 1% of the time.
+
+44
+00:02:20,000 --> 00:02:22,000
+So that's just an example.
+
+45
+00:02:22,000 --> 00:02:26,000
+In practice, we would have to experiment with what kind of failure rates
+
+46
+00:02:26,000 --> 00:02:31,000
+are good at testing the software that's actually under test.
+
+47
+00:02:31,000 --> 00:02:34,000
+And so let's just take a quick quiz over this material.
+
+48
+00:02:34,000 --> 00:02:40,000
+The quiz is faults injected into some software under test should be first, all possible faults;
+
+49
+00:02:40,000 --> 00:02:42,000
+second, none;
+
+50
+00:02:42,000 --> 99:59:59,999
+and third, faults that we want our code to be robust with respect to.

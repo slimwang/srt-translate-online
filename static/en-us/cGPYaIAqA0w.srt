@@ -1,0 +1,458 @@
+﻿1
+00:00:00,570 --> 00:00:01,653
+Before we write any code,
+
+2
+00:00:01,653 --> 00:00:03,929
+I'm going to take just a moment
+to return to the pod file.
+
+3
+00:00:03,930 --> 00:00:07,711
+And remind you that this is when you'd
+want to add the pod to your pod file for
+
+4
+00:00:07,711 --> 00:00:08,449
+Firebase UI.
+
+5
+00:00:08,449 --> 00:00:14,789
+Now, you could add the pod for just
+the Firebase UI Authentication Features.
+
+6
+00:00:14,789 --> 00:00:17,839
+But in our case, we've added the pod for
+all the Firebase UIs, so
+
+7
+00:00:17,839 --> 00:00:18,550
+we'll get everything.
+
+8
+00:00:19,829 --> 00:00:21,069
+Back in our Xcode project,
+
+9
+00:00:21,070 --> 00:00:23,920
+we're going to be making some
+changes to the FCViewController, so
+
+10
+00:00:23,920 --> 00:00:27,990
+that Firebase auth UI presents
+its authentication view for us.
+
+11
+00:00:27,989 --> 00:00:30,560
+First, we'll implement email
+password authentication.
+
+12
+00:00:30,560 --> 00:00:33,301
+And then once we see
+fire-based auth UI in action,
+
+13
+00:00:33,301 --> 00:00:35,480
+we'll add Google authentication too.
+
+14
+00:00:37,070 --> 00:00:39,719
+First, let's make sure we
+import the module necessary for
+
+15
+00:00:39,719 --> 00:00:41,439
+Google auth UI's authentication.
+
+16
+00:00:41,439 --> 00:00:45,039
+And now, let's review the properties
+of this view controller
+
+17
+00:00:45,039 --> 00:00:47,759
+which pertains specifically
+to authentication.
+
+18
+00:00:47,759 --> 00:00:48,929
+We have the auth handle,
+
+19
+00:00:48,929 --> 00:00:53,700
+which is an instance of this
+FIRAuthStateDidChangeListenerHandle,
+
+20
+00:00:53,700 --> 00:00:55,100
+that's a mouthful.
+
+21
+00:00:55,100 --> 00:00:57,929
+We have the user, which is an FIRUser,
+
+22
+00:00:57,929 --> 00:01:01,259
+which represents the currently
+authenticated user.
+
+23
+00:01:01,259 --> 00:01:02,799
+And of course, the displayName.
+
+24
+00:01:02,799 --> 00:01:05,899
+A string that's used for
+the name when a user sends a message.
+
+25
+00:01:07,079 --> 00:01:09,239
+Lets talk more about the auth handle.
+
+26
+00:01:09,239 --> 00:01:12,739
+This handle gives us the ability
+to specify what we want to happen
+
+27
+00:01:12,739 --> 00:01:15,229
+when authorization state changes.
+
+28
+00:01:15,230 --> 00:01:18,060
+And as a user navigates
+the authorization flow,
+
+29
+00:01:18,060 --> 00:01:20,340
+the state will certainly change.
+
+30
+00:01:20,340 --> 00:01:22,189
+The callback that we specify for
+
+31
+00:01:22,189 --> 00:01:26,939
+this listener will be invoked when
+the app registers itself as a listener.
+
+32
+00:01:26,939 --> 00:01:32,469
+When the current user changes, and when
+the current user's access token changes.
+
+33
+00:01:32,469 --> 00:01:35,349
+That may sound confusing now,
+but let's see a concrete example.
+
+34
+00:01:36,359 --> 00:01:39,879
+We want to create our listener handle
+the moment the view controller loads, so
+
+35
+00:01:39,879 --> 00:01:41,739
+we could do this in viewDidLoad.
+
+36
+00:01:41,739 --> 00:01:43,780
+But we've already stubbed
+out a separate function for
+
+37
+00:01:43,780 --> 00:01:46,780
+configuring our authentication
+called configureAuth.
+
+38
+00:01:48,010 --> 00:01:51,340
+Let's remove the call to isSignedIn
+because we no longer want users to be
+
+39
+00:01:51,340 --> 00:01:56,280
+automatically signed in as Anonymous and
+then call configureAuth.
+
+40
+00:01:56,280 --> 00:01:59,750
+Great, now, let's go to that function
+and create our listener there.
+
+41
+00:01:59,750 --> 00:02:02,269
+The code to create
+the listener looks like this.
+
+42
+00:02:02,269 --> 00:02:04,339
+Let's go over it line by line.
+
+43
+00:02:04,340 --> 00:02:09,030
+First, we set the auth handle by using
+the default instance of the FIRAuth and
+
+44
+00:02:09,030 --> 00:02:11,580
+adding a state change listener.
+
+45
+00:02:11,580 --> 00:02:14,390
+This function takes a closure
+which is where we can specify
+
+46
+00:02:14,389 --> 00:02:18,169
+what we want to happen when
+the authorization state changes.
+
+47
+00:02:18,169 --> 00:02:22,449
+The closure takes two parameters,
+FIRAuth and FIRUser.
+
+48
+00:02:24,099 --> 00:02:27,960
+First, we refresh the table data so
+it doesn't contain any previously loaded
+
+49
+00:02:27,960 --> 00:02:31,730
+messages, because this could be out
+of data or from another user's login.
+
+50
+00:02:32,729 --> 00:02:35,139
+Then we check to see if
+there is a current user.
+
+51
+00:02:35,139 --> 00:02:36,839
+And we make sure that the current user,
+
+52
+00:02:36,840 --> 00:02:41,689
+according to Firebase, is the same as
+the user who is currently using the app.
+
+53
+00:02:41,689 --> 00:02:44,979
+If an authenticated user is found,
+we set the SignedIn status to true.
+
+54
+00:02:44,979 --> 00:02:49,009
+And set the displayName to the portion
+of their email before the at sign.
+
+55
+00:02:50,289 --> 00:02:53,590
+If there's no current user,
+we set the SignedIn status to false.
+
+56
+00:02:53,590 --> 00:02:55,395
+And then we call loginSession.
+
+57
+00:02:55,395 --> 00:03:00,409
+Cmd-click, or scroll down to
+the log-in session function.
+
+58
+00:03:00,409 --> 00:03:04,216
+You will see that this function
+instantiates a view controller called
+
+59
+00:03:04,216 --> 00:03:06,750
+authViewController using
+Firebase auth UI.
+
+60
+00:03:06,750 --> 00:03:10,020
+This view controller is simply
+the default view controller provided by
+
+61
+00:03:10,020 --> 00:03:12,659
+the FIRAuthUI.
+
+62
+00:03:12,659 --> 00:03:16,299
+We present this view controller
+whenever a user needs to log-in.
+
+63
+00:03:16,300 --> 00:03:18,000
+Now, that's almost all we need but
+
+64
+00:03:18,000 --> 00:03:21,469
+there's still a few small
+items left to address.
+
+65
+00:03:21,469 --> 00:03:24,050
+Like the other listeners
+we've seen in this project,
+
+66
+00:03:24,050 --> 00:03:27,010
+when it's no longer needed,
+we should remove it.
+
+67
+00:03:27,009 --> 00:03:28,673
+Let's go back to the deinitializer.
+
+68
+00:03:28,674 --> 00:03:31,875
+And using the auth handle,
+we can unregister the listener so
+
+69
+00:03:31,875 --> 00:03:35,469
+the app stops listening for
+authorization changes.
+
+70
+00:03:35,469 --> 00:03:38,400
+And that's all we need to enable
+email password authentication
+
+71
+00:03:38,400 --> 00:03:39,650
+using Firebase auth UI.
+
+72
+00:03:40,830 --> 00:03:42,830
+What was that, five, six lines of code?
+
+73
+00:03:43,849 --> 00:03:46,219
+Let's go ahead and build and
+run the app to see it in action.
+
+74
+00:03:47,449 --> 00:03:50,694
+Now, when the app opens, it presents
+this authView Controller because there's
+
+75
+00:03:50,694 --> 00:03:52,314
+no currently authorized user.
+
+76
+00:03:53,344 --> 00:03:56,935
+If you press cancel,
+the authViewController is dismissed, but
+
+77
+00:03:56,935 --> 00:03:58,769
+the FCViewController is blank.
+
+78
+00:03:58,769 --> 00:04:03,456
+Because it is signed in as false and
+there's still no authenticated user.
+
+79
+00:04:03,455 --> 00:04:07,979
+So let's press sign in and
+bring the log in screen back up, and
+
+80
+00:04:07,979 --> 00:04:09,989
+we'll sign in with email.
+
+81
+00:04:09,990 --> 00:04:14,127
+Now, when you put in an email for the
+first time, Firebase UI recognizes this.
+
+82
+00:04:14,127 --> 00:04:17,100
+And segues to a view that enables
+you to create an account.
+
+83
+00:04:19,069 --> 00:04:20,310
+If I was an existing user,
+
+84
+00:04:20,310 --> 00:04:24,209
+then I would have been segued to a view
+where I just put in my password.
+
+85
+00:04:24,209 --> 00:04:27,694
+We can't see it now, but there's
+also a trouble signing in button,
+
+86
+00:04:27,694 --> 00:04:32,279
+when users can reset their passwords
+using a request that's sent by an email.
+
+87
+00:04:32,279 --> 00:04:35,069
+Let me go ahead and finish filling
+this out, and we'll click Save.
+
+88
+00:04:37,439 --> 00:04:39,050
+Wow, how easy was that?
+
+89
+00:04:39,050 --> 00:04:43,110
+That was all taken care of
+you by Firebase auth UI.
+
+90
+00:04:43,110 --> 00:04:45,050
+Now, that we can see
+the existing messages,
+
+91
+00:04:45,050 --> 00:04:47,899
+let's try sending a new message
+as an authenticated user.
+
+92
+00:04:49,629 --> 00:04:50,790
+Now, when we send a message,
+
+93
+00:04:50,790 --> 00:04:54,460
+it shows the first part of
+your email as the username.
+
+94
+00:04:54,459 --> 00:04:57,259
+We were able to handle authentication
+with multiple views with only
+
+95
+00:04:57,259 --> 00:04:58,060
+a few lines of code.
+
+96
+00:04:59,209 --> 00:05:03,259
+It's easy to see why Firebase UI Auth
+is useful for handling authentication.
+
+97
+00:05:04,300 --> 00:05:07,710
+Next, let's see how easy it is to
+add another authentication provider,
+
+98
+00:05:07,709 --> 00:05:08,949
+Google, to friendly chat.
+

@@ -1,0 +1,147 @@
+1
+00:00:00,150 --> 00:00:05,160
+So to summarize the Tornado features, it's an object oriented design,
+
+2
+00:00:05,160 --> 00:00:09,930
+which promotes scalability. The idea of cluster objects in the proce, protected
+
+3
+00:00:09,930 --> 00:00:15,630
+procedure call is mainly with a view to preserving locality,
+
+4
+00:00:15,630 --> 00:00:20,890
+while ensuring concurrency. And we also saw how reference
+
+5
+00:00:20,890 --> 00:00:25,750
+counting is used in the implementation of the objects
+
+6
+00:00:25,750 --> 00:00:32,180
+so that, you don't have to have hierarchical locking of objects. And the locus
+
+7
+00:00:32,180 --> 00:00:38,000
+of locks held by an object is confined to itself. And doesn't span
+
+8
+00:00:38,000 --> 00:00:41,040
+across objects, or its replicas. That's very
+
+9
+00:00:41,040 --> 00:00:44,780
+important, because that's what promotes concurrency, and
+
+10
+00:00:44,780 --> 00:00:48,160
+that also means that careful management is
+
+11
+00:00:48,160 --> 00:00:51,010
+needed of the reference count mechanism to
+
+12
+00:00:51,010 --> 00:00:54,440
+provide existence guarantee and garbage collection of objects
+
+13
+00:00:54,440 --> 00:00:58,172
+based on reference counts. And multiple implementation are possible
+
+14
+00:00:58,172 --> 00:01:00,910
+for the same operating system object. Now for
+
+15
+00:01:00,910 --> 00:01:05,090
+instance, you may have a low-overhead version when scalability
+
+16
+00:01:05,090 --> 00:01:07,590
+is not important. And then you might decide
+
+17
+00:01:07,590 --> 00:01:11,020
+to know this particular operating system object I am
+
+18
+00:01:11,020 --> 00:01:13,650
+experiencing a lot of contention for this. I
+
+19
+00:01:13,650 --> 00:01:16,770
+want to go for a more scalable implementation of
+
+20
+00:01:16,770 --> 00:01:19,380
+this particular operating system object. So, this
+
+21
+00:01:19,380 --> 00:01:25,230
+is where incremental optimization and dynamic adaptation of
+
+22
+00:01:25,230 --> 00:01:28,560
+the implementation of objects comes into play
+
+23
+00:01:28,560 --> 00:01:31,430
+and the other important principle that is used
+
+24
+00:01:31,430 --> 00:01:34,230
+in Tornado is optimizing the common case.
+
+25
+00:01:34,230 --> 00:01:36,420
+I mentioned that when we talked about page-fall
+
+26
+00:01:36,420 --> 00:01:39,620
+handling, that is something that happens quite often.
+
+27
+00:01:39,620 --> 00:01:41,970
+On the other hand, destroying a portion of
+
+28
+00:01:41,970 --> 00:01:45,040
+the address based because the application does not
+
+29
+00:01:45,040 --> 00:01:47,200
+need it any more, that is called region
+
+30
+00:01:47,200 --> 00:01:50,870
+destruction. That happens fairly infrequently, so if it
+
+31
+00:01:50,870 --> 00:01:53,130
+takes more time, that's okay So that's where the
+
+32
+00:01:53,130 --> 00:01:55,780
+principle of optimizing the common case comes in.
+
+33
+00:01:55,780 --> 00:01:58,830
+And no hierarchical locking through the reference counting
+
+34
+00:01:58,830 --> 00:02:02,330
+mechanism. And limiting the sharing of operating system
+
+35
+00:02:02,330 --> 00:02:07,250
+data structures by replicating critical data structures and managing
+
+36
+00:02:07,250 --> 00:02:09,400
+the replicas under the covers is a creep
+
+37
+00:02:09,400 --> 00:02:13,370
+up property in Tornado to promote scalability and concurrency.

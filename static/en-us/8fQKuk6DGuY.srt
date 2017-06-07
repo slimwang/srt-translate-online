@@ -1,0 +1,372 @@
+1
+00:00:00,210 --> 00:00:03,010
+Now that we have the order summary,
+we need to send it off in an email so
+
+2
+00:00:03,010 --> 00:00:05,270
+that we can actually get our coffee.
+
+3
+00:00:05,270 --> 00:00:07,650
+This is what it would look like
+when we hit the Order button.
+
+4
+00:00:07,650 --> 00:00:11,020
+It opens up an email app on the device
+with a prepopulated message
+
+5
+00:00:11,020 --> 00:00:14,270
+containing the coffee order and
+a custom subject line.
+
+6
+00:00:14,270 --> 00:00:15,690
+In order to accomplish this,
+
+7
+00:00:15,690 --> 00:00:18,519
+we need to understand a new
+topic in Android called intent.
+
+8
+00:00:19,650 --> 00:00:23,580
+And intent is a message that requests
+some type of action to be performed
+
+9
+00:00:23,580 --> 00:00:27,120
+by another app component,
+such as an activity in another app.
+
+10
+00:00:27,120 --> 00:00:29,570
+This is a powerful part
+of the Android framework.
+
+11
+00:00:29,570 --> 00:00:33,340
+Because our app can leverage
+functionality that other apps provide
+
+12
+00:00:33,340 --> 00:00:36,500
+like sending an email,
+opening the camera, reviewing a map.
+
+13
+00:00:37,850 --> 00:00:40,260
+It lets us be efficient and
+smart as developers,
+
+14
+00:00:40,260 --> 00:00:43,740
+because we're not reinventing
+what other apps already do well.
+
+15
+00:00:43,740 --> 00:00:46,750
+Think of sending intents like
+tossing a ball to someone.
+
+16
+00:00:46,750 --> 00:00:50,248
+In the same way that a person can
+toss a ball to another person,
+
+17
+00:00:50,248 --> 00:00:53,767
+an app component can send an intent
+to another app component.
+
+18
+00:00:53,767 --> 00:00:56,840
+Here are some examples from
+apps that you might recognize.
+
+19
+00:00:56,840 --> 00:00:58,700
+In the Google Keep note taking app,
+
+20
+00:00:58,700 --> 00:01:01,610
+a user can hit the camera
+icon to take a photo.
+
+21
+00:01:01,610 --> 00:01:05,910
+While the Google Keep team could have
+written their own camera functionality,
+
+22
+00:01:05,910 --> 00:01:07,000
+instead they get it for
+
+23
+00:01:07,000 --> 00:01:11,050
+free by sending an intent to open
+up the camera app on the device.
+
+24
+00:01:11,050 --> 00:01:12,940
+Similarly, in the Yelp app,
+
+25
+00:01:12,940 --> 00:01:17,860
+clicking on the location of a business
+sends an intent to open up a maps app
+
+26
+00:01:17,860 --> 00:01:21,730
+on the device to provide turn by turn
+navigation instructions to the user.
+
+27
+00:01:22,820 --> 00:01:26,300
+And lastly, for a restaurant
+page in the Google Maps app,
+
+28
+00:01:26,300 --> 00:01:30,340
+clicking on the Call button sends
+an intent to launch the Dialer app so
+
+29
+00:01:30,340 --> 00:01:32,940
+that the user can make a phone
+call to the restaurant.
+
+30
+00:01:32,940 --> 00:01:36,710
+The coolest part about sending intents
+is that you don't have to know precisely
+
+31
+00:01:36,710 --> 00:01:39,610
+which app is capable of handling it.
+
+32
+00:01:39,610 --> 00:01:43,140
+There could be multiple apps on the
+device that could handle the intent, but
+
+33
+00:01:43,140 --> 00:01:45,610
+ultimately only one needs to handle it.
+
+34
+00:01:45,610 --> 00:01:48,940
+Using our analogy, when you throw
+the ball, you don't have to know
+
+35
+00:01:48,940 --> 00:01:51,920
+who you're throwing it at,
+as long as someone catches it.
+
+36
+00:01:51,920 --> 00:01:53,520
+Let me show you what I mean.
+
+37
+00:01:53,520 --> 00:01:56,070
+For a restaurant listing
+in the Google Maps apps,
+
+38
+00:01:56,070 --> 00:02:00,160
+clicking on Websites sends an intent
+to display the restaurant website.
+
+39
+00:02:00,160 --> 00:02:04,309
+Now, the Maps app actually doesn't care
+which web browser handles the request.
+
+40
+00:02:05,460 --> 00:02:08,979
+If the user only has one web
+browser installed on their device,
+
+41
+00:02:08,979 --> 00:02:11,920
+then that app will automatically
+handle the request.
+
+42
+00:02:11,920 --> 00:02:15,700
+However, if the user has four web
+browsers installed on their device,
+
+43
+00:02:15,700 --> 00:02:20,770
+then the Android framework will pop up a
+window to ask the user to just pick one.
+
+44
+00:02:20,770 --> 00:02:22,632
+This is what it looks like.
+
+45
+00:02:22,632 --> 00:02:26,200
+The pop-up window is known
+as a disambiguation dialog.
+
+46
+00:02:26,200 --> 00:02:27,932
+Once the user makes a choice,
+
+47
+00:02:27,932 --> 00:02:32,245
+then the system sends the intent to
+the selected app to handle the action.
+
+48
+00:02:32,245 --> 00:02:35,300
+And in this case the restaurant
+website is displayed.
+
+49
+00:02:35,300 --> 00:02:38,900
+Now let's move on to talking about
+what's contained inside this ball
+
+50
+00:02:38,900 --> 00:02:40,440
+that represent an intent.
+
+51
+00:02:40,440 --> 00:02:44,520
+You can think of an intent as a message
+specifying some operation to be
+
+52
+00:02:44,520 --> 00:02:45,540
+performed.
+
+53
+00:02:45,540 --> 00:02:49,440
+It contains two primary things,
+the general action and
+
+54
+00:02:49,440 --> 00:02:51,010
+some data to act upon.
+
+55
+00:02:51,010 --> 00:02:55,340
+You can also specify additional
+information such as category, component,
+
+56
+00:02:55,340 --> 00:02:58,560
+and extras,
+which is literally extra information.
+
+57
+00:02:58,560 --> 00:03:01,460
+All of these things are used
+by Android to determine which
+
+58
+00:03:01,460 --> 00:03:04,040
+app component can actually
+handle the intent.
+
+59
+00:03:04,040 --> 00:03:09,030
+For example a maps intent would
+contain the action ACTION_VIEW,
+
+60
+00:03:09,030 --> 00:03:10,640
+and the data would be the latitude and
+
+61
+00:03:10,640 --> 00:03:13,800
+longitude coordinates of
+the location that we want to see.
+
+62
+00:03:13,800 --> 00:03:15,610
+The rest of the fields can be blank.
+
+63
+00:03:15,610 --> 00:03:18,720
+Then, any app that's capable
+of displaying latitude and
+
+64
+00:03:18,720 --> 00:03:21,990
+longitude coordinates can be
+used to handle the request,
+
+65
+00:03:21,990 --> 00:03:24,120
+which is probably any maps application.
+
+66
+00:03:24,120 --> 00:03:27,240
+Another example is to use
+an intent to dial a phone number.
+
+67
+00:03:27,240 --> 00:03:32,130
+In this case, you would compose an
+intent where the action is ACTION_DIAL
+
+68
+00:03:32,130 --> 00:03:34,840
+and the corresponding data is
+the telephone number to call.
+
+69
+00:03:34,840 --> 00:03:39,460
+Notice that the format is in the form
+tel, colon, followed by the number.
+
+70
+00:03:39,460 --> 00:03:45,080
+This formatted string is called a URI,
+short for uniform resource identifier.
+
+71
+00:03:45,080 --> 00:03:47,580
+This is a standardized
+way to structure data so
+
+72
+00:03:47,580 --> 00:03:50,480
+that it can be properly
+processed on the receiving end.
+
+73
+00:03:50,480 --> 00:03:53,780
+Think about it like a mailing address,
+it follows a structure so
+
+74
+00:03:53,780 --> 00:03:55,370
+that it can be delivered properly.
+
+75
+00:03:55,370 --> 00:03:58,470
+In case of sending an intent,
+a URI is needed so
+
+76
+00:03:58,470 --> 00:04:02,140
+that the data can be properly passed
+to the receiving app component.
+
+77
+00:04:02,140 --> 00:04:06,159
+Depending on the data encoded in
+the intent the scheme may change,
+
+78
+00:04:06,159 --> 00:04:09,338
+such as this case or
+the geo case that we saw earlier.

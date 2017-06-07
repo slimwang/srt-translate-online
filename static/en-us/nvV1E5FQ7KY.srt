@@ -1,0 +1,255 @@
+1
+00:00:00,260 --> 00:00:02,370
+Here's what my onHandleIntent
+should look like.
+
+2
+00:00:02,370 --> 00:00:05,850
+It of course accepts an Intent that I'm
+just calling intent with a lower case i.
+
+3
+00:00:07,130 --> 00:00:10,780
+From this I'm going to create
+an ActivityRecognitionResult object.
+
+4
+00:00:10,780 --> 00:00:13,630
+And I do this by extracting
+the Result from the Intent.
+
+5
+00:00:14,790 --> 00:00:18,290
+I then create a new Intent
+that I call localIntent and
+
+6
+00:00:18,290 --> 00:00:22,500
+I initialize this with
+Constants.BROADCAST_ACTION.
+
+7
+00:00:22,500 --> 00:00:25,590
+Now what is Constants.BROADCAST_ACTION,
+you may ask?
+
+8
+00:00:25,590 --> 00:00:28,998
+Well, I've created
+a Constants.java file, and
+
+9
+00:00:28,998 --> 00:00:33,880
+in that Constants.java file,
+I create a number of constants.
+
+10
+00:00:33,880 --> 00:00:38,560
+Now when I'm creating the broadcast
+intent, I need to identify that.
+
+11
+00:00:38,560 --> 00:00:41,670
+So I'm using BROADCAST_ACTION
+to identify it.
+
+12
+00:00:41,670 --> 00:00:45,255
+And I set up BROADCAST_ACTION
+as PACKAGE_NAME Plus the string
+
+13
+00:00:45,255 --> 00:00:47,550
+.BROADCAST_ACTION.
+
+14
+00:00:47,550 --> 00:00:49,840
+While package name can
+be anything I want, but
+
+15
+00:00:49,840 --> 00:00:51,710
+of coarse I'm just using
+the full package of my app.
+
+16
+00:00:51,710 --> 00:00:56,630
+And as you can see here I called it
+package lmoroney.com.udacityactivity,
+
+17
+00:00:56,630 --> 00:00:58,140
+and that's what I called it here.
+
+18
+00:00:58,140 --> 00:01:02,210
+So the broadcast action would be
+that with .BROADCAST_ACTION added.
+
+19
+00:01:02,210 --> 00:01:04,069
+So that's my new Intent.
+
+20
+00:01:04,069 --> 00:01:07,140
+Now I'm going to create an array
+list of detected activity.
+
+21
+00:01:07,140 --> 00:01:10,660
+And this array list is
+going to be initialized
+
+22
+00:01:10,660 --> 00:01:14,870
+based on result.getProbableActivities.
+
+23
+00:01:14,870 --> 00:01:19,060
+So this will return to me the results
+that the activity API is saying,
+
+24
+00:01:19,060 --> 00:01:21,220
+this is what I think is going
+on at this moment in time.
+
+25
+00:01:21,220 --> 00:01:24,470
+And if you remember when I
+showed the demo earlier on,
+
+26
+00:01:24,470 --> 00:01:25,940
+it had a number of different options,
+and
+
+27
+00:01:25,940 --> 00:01:28,750
+that's all the different probable
+activities that are available.
+
+28
+00:01:28,750 --> 00:01:31,150
+And they are returned in an array list.
+
+29
+00:01:31,150 --> 00:01:34,040
+And of course its an array
+list of detected activity.
+
+30
+00:01:34,040 --> 00:01:39,190
+So I just log out what I'm doing and
+now in my localIntent I put this data,
+
+31
+00:01:39,190 --> 00:01:42,240
+the detected activities
+as an extra on it.
+
+32
+00:01:42,240 --> 00:01:45,290
+And I just want to identify
+that again using a constant and
+
+33
+00:01:45,290 --> 00:01:47,950
+I call it Constants.ACTIVITY_EXTRA.
+
+34
+00:01:47,950 --> 00:01:51,340
+If we go back to my Constants file,
+you can see ACTIVITY_EXTRA
+
+35
+00:01:51,340 --> 00:01:54,520
+is just the package name with
+ACTIVITY_EXTRA added on the end.
+
+36
+00:01:54,520 --> 00:01:58,800
+And then finally, back in my
+DetectedActivity Intent service.
+
+37
+00:01:58,800 --> 00:02:02,130
+I'm just going to call the Local
+Broadcast Manager, getting an Instance,
+
+38
+00:02:02,130 --> 00:02:04,455
+and then sending
+a Broadcast of this Intent.
+
+39
+00:02:04,455 --> 00:02:07,490
+We;ll be catching that Broadcast
+in the main activity, and
+
+40
+00:02:07,490 --> 00:02:09,889
+in the main activity
+we'll update the UI.
+
+41
+00:02:09,889 --> 00:02:13,740
+With what the activity recognition
+API's detected about the actual device.
+
+42
+00:02:13,740 --> 00:02:18,510
+There's one final thing, we need to tell
+Android about this intent service, and
+
+43
+00:02:18,510 --> 00:02:20,270
+we'll do that in the Android manifest.
+
+44
+00:02:20,270 --> 00:02:23,430
+Here you can see
+the Android manifest and
+
+45
+00:02:23,430 --> 00:02:25,790
+I just have to paste
+the service details in.
+
+46
+00:02:25,790 --> 00:02:29,430
+Now I usually do it here just
+before the closing application tag.
+
+47
+00:02:29,430 --> 00:02:31,820
+And in doing this I just
+create a service tag.
+
+48
+00:02:31,820 --> 00:02:33,710
+I give it the name prefix by a dot.
+
+49
+00:02:33,710 --> 00:02:37,390
+So our service was detected
+activities intent service so
+
+50
+00:02:37,390 --> 00:02:40,470
+the name is
+.DetectedActivitiesIntentService and
+
+51
+00:02:40,470 --> 00:02:43,700
+then to just say android
+exported="false".
+
+52
+00:02:43,700 --> 00:02:46,510
+With this we've now
+created the intent service
+
+53
+00:02:46,510 --> 00:02:47,620
+when we're ready to build the main app.

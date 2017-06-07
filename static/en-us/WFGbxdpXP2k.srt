@@ -1,0 +1,399 @@
+1
+00:00:00,110 --> 00:00:02,750
+Let's see what's required
+from the system software that
+
+2
+00:00:02,750 --> 00:00:04,880
+provides support for RPCs.
+
+3
+00:00:04,880 --> 00:00:08,590
+First, the model of inter-process
+interactions that the RPC model is
+
+4
+00:00:08,590 --> 00:00:12,650
+intended for needs to manage
+client/server interactions.
+
+5
+00:00:12,650 --> 00:00:15,550
+A server supports some
+potentially complex service.
+
+6
+00:00:15,550 --> 00:00:19,380
+Maybe it's running a complex
+computation but really fast, or
+
+7
+00:00:19,380 --> 00:00:23,320
+maybe it's a file service that
+services a remote file content.
+
+8
+00:00:23,320 --> 00:00:26,350
+The clients do not need to
+have the same capabilities or
+
+9
+00:00:26,350 --> 00:00:30,020
+they don't have to be able to
+perform accesses to the same data.
+
+10
+00:00:30,020 --> 00:00:33,200
+They just need to be able to
+issue requests to the server for
+
+11
+00:00:33,200 --> 00:00:34,740
+whatever they need.
+
+12
+00:00:34,740 --> 00:00:38,460
+The second requirement has to do with
+the fact that when RPC was first
+
+13
+00:00:38,460 --> 00:00:41,140
+developed, the state-of-the-art
+programming languages for
+
+14
+00:00:41,140 --> 00:00:45,720
+procedural languages including Basic and
+Pascal, and Fortran and C.
+
+15
+00:00:45,720 --> 00:00:48,180
+So this is what programmers
+were familiar with.
+
+16
+00:00:48,180 --> 00:00:53,160
+One goal of the RPC systems was
+to simplify the development
+
+17
+00:00:53,160 --> 00:00:57,270
+of distributed applications underneath
+a procedure called interface.
+
+18
+00:00:57,270 --> 00:01:01,210
+This is why the term remote
+procedure calls came to be.
+
+19
+00:01:01,210 --> 00:01:06,000
+As a result, RPCs are intended to
+have similar synchronous semantics.
+
+20
+00:01:06,000 --> 00:01:08,370
+Just like regular procedure calls.
+
+21
+00:01:08,370 --> 00:01:13,090
+What that means is that when a process
+makes our remote procedure calls,
+
+22
+00:01:13,090 --> 00:01:16,760
+the calling process or at least
+the calling thread, will block, and
+
+23
+00:01:16,760 --> 00:01:20,698
+wait until the procedure completes,
+and then returns the result.
+
+24
+00:01:20,698 --> 00:01:24,285
+This is the exact same thing that
+happens when we call a procedure in
+
+25
+00:01:24,285 --> 00:01:25,675
+a single address base.
+
+26
+00:01:25,675 --> 00:01:28,465
+The execution of the thread
+will reach the point when
+
+27
+00:01:28,465 --> 00:01:30,065
+the procedure call is made.
+
+28
+00:01:30,065 --> 00:01:30,765
+At that point,
+
+29
+00:01:30,765 --> 00:01:34,582
+we jump somewhere in the address base
+where the procedure is implemented.
+
+30
+00:01:34,582 --> 00:01:39,462
+The actual original thread of
+execution will not advance beyond
+
+31
+00:01:39,462 --> 00:01:43,422
+that procedure called point until we
+get the results from the procedure.
+
+32
+00:01:43,422 --> 00:01:45,412
+And then when we move
+on to the next step,
+
+33
+00:01:45,412 --> 00:01:48,232
+we act,
+actually already have the results.
+
+34
+00:01:48,232 --> 00:01:51,722
+So this is what we mean by
+the synchronous call semantics.
+
+35
+00:01:51,722 --> 00:01:54,880
+And this is what we require
+from the RPC systems as well.
+
+36
+00:01:54,880 --> 00:01:59,090
+RPCs have other useful features that are
+similar to regular procedure calls, and
+
+37
+00:01:59,090 --> 00:02:00,550
+one is type checking.
+
+38
+00:02:00,550 --> 00:02:03,185
+If you pass to a procedure
+an argument of the wrong type,
+
+39
+00:02:03,185 --> 00:02:05,170
+you'll receive some kind of error.
+
+40
+00:02:05,170 --> 00:02:09,090
+This is one useful reason why RPC
+systems would incorporate type
+
+41
+00:02:09,090 --> 00:02:10,680
+checking mechanisms.
+
+42
+00:02:10,680 --> 00:02:14,412
+In addition, type checking mechanisms
+are useful because they allow us,
+
+43
+00:02:14,412 --> 00:02:18,038
+in certain ways, to optimize
+the implementation of the RPC run-time.
+
+44
+00:02:18,038 --> 00:02:20,951
+When packets are being
+sent among two machines,
+
+45
+00:02:20,951 --> 00:02:25,012
+it's just a bunch of bytes that
+reach from one endpoint to another.
+
+46
+00:02:25,012 --> 00:02:29,142
+And some notion about the types of
+the data that's packaged into those
+
+47
+00:02:29,142 --> 00:02:33,202
+bytes can be useful when the RPC
+run-time is trying to interpret what
+
+48
+00:02:33,202 --> 00:02:34,610
+do these bytes mean.
+
+49
+00:02:34,610 --> 00:02:36,880
+Are they integers or they're file.
+
+50
+00:02:36,880 --> 00:02:39,980
+Do I need to put them together so
+as to create some kind of image or
+
+51
+00:02:39,980 --> 00:02:40,980
+some kind of array.
+
+52
+00:02:40,980 --> 00:02:44,490
+This is what the type
+information can be used for.
+
+53
+00:02:44,490 --> 00:02:47,360
+Since the client and the server
+may run on different machines,
+
+54
+00:02:47,360 --> 00:02:50,980
+there may be differences in how
+they represent certain data types.
+
+55
+00:02:50,980 --> 00:02:54,589
+For instance, machines may differ
+in the way they use big endian or
+
+56
+00:02:54,589 --> 00:02:57,113
+little endian format
+to represent integers.
+
+57
+00:02:57,113 --> 00:03:01,406
+This determines whether the most
+significant byte of that integer is in
+
+58
+00:03:01,406 --> 00:03:02,121
+the first or
+
+59
+00:03:02,121 --> 00:03:06,787
+the last position in the sequence of
+bytes that corresponds to the integers.
+
+60
+00:03:06,787 --> 00:03:09,996
+Or machines may differ in their
+representation of floating point
+
+61
+00:03:09,996 --> 00:03:13,930
+numbers, may use different
+representations for negative numbers.
+
+62
+00:03:13,930 --> 00:03:18,330
+The RPC system should hide all of these
+differences from the programmer, and
+
+63
+00:03:18,330 --> 00:03:21,580
+should make sure that data is
+correctly transported, and
+
+64
+00:03:21,580 --> 00:03:24,850
+it must perform any of
+the necessary conversions,
+
+65
+00:03:24,850 --> 00:03:28,700
+any of the necessary translations
+among the two machines.
+
+66
+00:03:28,700 --> 00:03:32,700
+One way to deal with this
+conversion is for the RPC run-time
+
+67
+00:03:32,700 --> 00:03:37,910
+in both endpoints to agree upon a single
+data representation for the data types.
+
+68
+00:03:37,910 --> 00:03:38,680
+For instance,
+
+69
+00:03:38,680 --> 00:03:42,800
+it can agree of that everything will
+be represented in the network format.
+
+70
+00:03:42,800 --> 00:03:46,890
+Then there is no need for the two
+endpoints to negotiate exactly how data
+
+71
+00:03:46,890 --> 00:03:50,520
+should be encoded,
+exactly how data should be represented.
+
+72
+00:03:50,520 --> 00:03:54,060
+Finally, RPCs intended to be
+more than just a transport-level
+
+73
+00:03:54,060 --> 00:03:57,330
+protocol like TCP and
+UDP that worries about
+
+74
+00:03:57,330 --> 00:04:02,225
+sending packets from one endpoint to
+another in an ordered reliable way.
+
+75
+00:04:02,225 --> 00:04:05,790
+RPC should support underneath
+different kinds of protocols, so
+
+76
+00:04:05,790 --> 00:04:10,360
+we should be able to carry out the same
+types of client-server interactions,
+
+77
+00:04:10,360 --> 00:04:14,630
+regardless of whether the two
+machines use UDP or TCP, or
+
+78
+00:04:14,630 --> 00:04:16,800
+some other protocol to communicate.
+
+79
+00:04:16,800 --> 00:04:20,920
+But RPC should also incorporate some
+higher level mechanisms like access
+
+80
+00:04:20,920 --> 00:04:24,390
+control, or authentication,
+or fault tolerance.
+
+81
+00:04:24,390 --> 00:04:28,460
+For instance, if a server is not
+responding, a client can retry and
+
+82
+00:04:28,460 --> 00:04:33,560
+reissue their same request to either the
+same server or it can make an attempt
+
+83
+00:04:33,560 --> 00:04:37,720
+to contact the replica of that original
+server that it was trying to contact.

@@ -1,0 +1,271 @@
+1
+00:00:00,150 --> 00:00:05,490
+One issue with the delay based spinlocks
+is how to pick a good delay value.
+
+2
+00:00:05,490 --> 00:00:07,250
+Two basic strategies make sense.
+
+3
+00:00:08,480 --> 00:00:11,120
+Static delay and a dynamic delay.
+
+4
+00:00:11,120 --> 00:00:14,380
+For static delay, we can use
+some fixed information like for
+
+5
+00:00:14,380 --> 00:00:18,580
+instance the CPU ID,
+where the process is running.
+
+6
+00:00:18,580 --> 00:00:22,120
+In order to determine
+a delay that will be used for
+
+7
+00:00:22,120 --> 00:00:25,550
+any single process that ends up
+running on that particular CPU.
+
+8
+00:00:26,630 --> 00:00:30,830
+The benefits of this is that it's
+a simple approach, and under high loads,
+
+9
+00:00:30,830 --> 00:00:34,980
+likely this static delays will
+sort of nicely spread out
+
+10
+00:00:34,980 --> 00:00:39,640
+all of the atomic references so
+that there's no contention.
+
+11
+00:00:39,640 --> 00:00:42,520
+Clearly, the delay will have to be
+a combination of something that
+
+12
+00:00:42,520 --> 00:00:47,300
+combines this fixed information and
+the length of the critical section.
+
+13
+00:00:47,300 --> 00:00:51,330
+So that one process is delayed
+one times the critical section,
+
+14
+00:00:51,330 --> 00:00:55,760
+another process is delayed twice
+the critical section and so forth.
+
+15
+00:00:55,760 --> 00:01:00,210
+The problem is that this will create
+unnecessary delay under low contention.
+
+16
+00:01:00,210 --> 00:01:02,770
+So what if we have two processes?
+
+17
+00:01:02,770 --> 00:01:06,202
+The first process is running
+on CPU with an ID one.
+
+18
+00:01:06,202 --> 00:01:11,395
+The second process is running
+on a CPU with an ID 32, and so
+
+19
+00:01:11,395 --> 00:01:15,385
+they're the only two that are contending
+for the spin lock, and yet the second
+
+20
+00:01:15,385 --> 00:01:21,455
+process that's running on the CPU with
+ID 32 will be delayed substantially,
+
+21
+00:01:21,455 --> 00:01:24,615
+regardless of the fact that there
+is no contention for the lock.
+
+22
+00:01:24,615 --> 00:01:30,470
+So to avoid this issue, a more popular
+approach is use dynamic delay and
+
+23
+00:01:30,470 --> 00:01:35,500
+that they named the delay such that
+each process will pick a random delay
+
+24
+00:01:35,500 --> 00:01:40,180
+value based on the current perception
+of the contention in the system.
+
+25
+00:01:40,180 --> 00:01:44,290
+The idea is that the system is
+operating in a mode of low contention
+
+26
+00:01:44,290 --> 00:01:49,140
+then it will choose dynamic delay
+value that's within a smaller range.
+
+27
+00:01:49,140 --> 00:01:51,430
+So it will back off just for
+a little bit,
+
+28
+00:01:51,430 --> 00:01:53,390
+it will delay just for a little bit.
+
+29
+00:01:53,390 --> 00:01:57,680
+And if the system is opening
+in a mode of large contention,
+
+30
+00:01:57,680 --> 00:02:01,390
+then this delay range
+will be much larger.
+
+31
+00:02:01,390 --> 00:02:05,790
+So with the random selection, some
+processes will back off a little bit.
+
+32
+00:02:05,790 --> 00:02:07,180
+They'll delay a little bit.
+
+33
+00:02:07,180 --> 00:02:12,220
+Whereas other processes will back off,
+they will delay for quite a bit of time.
+
+34
+00:02:12,220 --> 00:02:16,633
+Theoretically both of these approaches
+under high load will result into
+
+35
+00:02:16,633 --> 00:02:18,388
+the same kind of behaviors.
+
+36
+00:02:18,388 --> 00:02:21,480
+So dynamic will at high load will
+
+37
+00:02:21,480 --> 00:02:25,230
+tend to be equivalent to
+the static delay based approach.
+
+38
+00:02:25,230 --> 00:02:29,060
+The key question is, however,
+in this Dynamic Delay is
+
+39
+00:02:29,060 --> 00:02:32,630
+how do we know how much contention
+is there in the system?
+
+40
+00:02:32,630 --> 00:02:35,540
+That's why we put here
+the term perceived.
+
+41
+00:02:35,540 --> 00:02:38,690
+We don't know exactly what is
+the contention in the system.
+
+42
+00:02:38,690 --> 00:02:42,780
+So each of the processes,
+the implementation of the spinlock.
+
+43
+00:02:42,780 --> 00:02:47,720
+Somehow has to infer whether the system
+is operating in low or high contention,
+
+44
+00:02:47,720 --> 00:02:49,510
+so that it can pick
+an appropriate delay.
+
+45
+00:02:49,510 --> 00:02:53,500
+So a good metric to
+estimate the contention,
+
+46
+00:02:53,500 --> 00:02:57,830
+is to track the number of
+failed test and set operations.
+
+47
+00:02:57,830 --> 00:02:59,694
+If a test and set operation fails,
+
+48
+00:02:59,694 --> 00:03:03,800
+the more likely it is that there
+is a higher degree of contention.
+
+49
+00:03:03,800 --> 00:03:08,390
+The problem with this, however, is if
+we're delaying after every single log
+
+50
+00:03:08,390 --> 00:03:13,980
+reference, then our delay will
+keep growing based on both
+
+51
+00:03:13,980 --> 00:03:18,900
+whether there is indeed contention in
+the system, or if simply the owner
+
+52
+00:03:18,900 --> 00:03:24,060
+of the critical section is delayed or if
+it's executing a long, critical section.
+
+53
+00:03:24,060 --> 00:03:26,940
+So then we may end up with
+the same situation as before.
+
+54
+00:03:26,940 --> 00:03:30,630
+Just because somebody was executing
+a long, critical section while holding
+
+55
+00:03:30,630 --> 00:03:35,130
+the spin log, that doesn't mean
+that we need to bump up the delay.
+
+56
+00:03:35,130 --> 00:03:37,120
+So we need to be able to
+guard against this case.

@@ -1,0 +1,95 @@
+1
+00:00:00,310 --> 00:00:05,330
+We said earlier that threads can exist at both the kernel and the user level.
+
+2
+00:00:05,330 --> 00:00:08,810
+Let's take a look more at what we mean by this distinction.
+
+3
+00:00:08,810 --> 00:00:13,670
+Kernel level threads imply that the operating system itself is multithreaded.
+
+4
+00:00:13,670 --> 00:00:16,660
+Kernel level threads are visible to the kernel, and
+
+5
+00:00:16,660 --> 00:00:21,010
+are managed by kernel level components like the kernel level scheduler.
+
+6
+00:00:21,010 --> 00:00:25,560
+So, it is the operating system scheduler that will decide how these kernel level
+
+7
+00:00:25,560 --> 00:00:29,190
+threads will be mapped onto the underlined physical CPUs, and
+
+8
+00:00:29,190 --> 00:00:31,990
+which one of them will execute at any given point of time.
+
+9
+00:00:31,990 --> 00:00:36,040
+Some of these kernel level threads may be there to directly support some of
+
+10
+00:00:36,040 --> 00:00:36,910
+the processes.
+
+11
+00:00:36,910 --> 00:00:40,120
+So, they may execute some of the user-level threads and
+
+12
+00:00:40,120 --> 00:00:43,550
+other kernel level threads may be there just to run certain OS level
+
+13
+00:00:43,550 --> 00:00:45,890
+services like daemons, for instance.
+
+14
+00:00:45,890 --> 00:00:49,480
+At the user level, the processes themselves, are multi-threaded, and
+
+15
+00:00:49,480 --> 00:00:51,390
+these are the user level threads.
+
+16
+00:00:51,390 --> 00:00:54,680
+For a user level thread to actually execute,
+
+17
+00:00:54,680 --> 00:00:58,940
+first, it must be associated with a kernel level thread.
+
+18
+00:00:58,940 --> 00:00:59,620
+And then,
+
+19
+00:00:59,620 --> 00:01:05,260
+the OS level scheduler must schedule that kernel level thread onto a CPU.
+
+20
+00:01:05,260 --> 00:01:10,530
+So let's investigate a little more, what is the relationship that exists between
+
+21
+00:01:10,530 --> 00:01:13,150
+user level threads and kernel level threads.
+
+22
+00:01:13,150 --> 00:01:16,270
+In fact, there's several possible relationships between the user
+
+23
+00:01:16,270 --> 00:01:18,770
+level threads and the kernel level threads.
+
+24
+00:01:18,770 --> 00:01:20,440
+And we will now look at three such models.

@@ -1,0 +1,162 @@
+1
+00:00:00,090 --> 00:00:03,980
+In addition to paging, we said that
+virtual to physical memory mappings can
+
+2
+00:00:03,980 --> 00:00:06,040
+be performed using segments.
+
+3
+00:00:06,040 --> 00:00:08,930
+So the process is referred
+to as segmentation.
+
+4
+00:00:08,930 --> 00:00:11,510
+With segments the address
+space is divided
+
+5
+00:00:11,510 --> 00:00:16,239
+into components of arbitrary
+granularity, of arbitrary size, and
+
+6
+00:00:16,239 --> 00:00:20,810
+typically the different segments will
+correspond to some logically meaningful
+
+7
+00:00:20,810 --> 00:00:25,070
+components of the address space,
+like the code, the heap data, etc.
+
+8
+00:00:25,070 --> 00:00:28,890
+A virtual address in the segmented
+memory mode includes a segment
+
+9
+00:00:28,890 --> 00:00:31,920
+descriptor, and an actual offset.
+
+10
+00:00:31,920 --> 00:00:36,640
+The segment descriptor is used in
+combination with a descriptor table,
+
+11
+00:00:36,640 --> 00:00:40,530
+to produce information regarding
+the physical address of the segment and
+
+12
+00:00:40,530 --> 00:00:42,130
+the two are combined.
+
+13
+00:00:42,130 --> 00:00:44,300
+That information along with the offset,
+
+14
+00:00:44,300 --> 00:00:48,930
+they're combined to produce the linear
+address of the memory reference.
+
+15
+00:00:48,930 --> 00:00:49,700
+In its pure form,
+
+16
+00:00:49,700 --> 00:00:54,430
+a segment could be represented with
+a contiguous portion of physical memory.
+
+17
+00:00:54,430 --> 00:00:58,380
+In that case, the segment would be
+defined by its base address and
+
+18
+00:00:58,380 --> 00:01:02,120
+its limit registers,
+which implies also the segment size.
+
+19
+00:01:02,120 --> 00:01:06,510
+So we basically can have segments with
+different size using this method.
+
+20
+00:01:06,510 --> 00:01:09,690
+In practice segmentation and
+paging are used together.
+
+21
+00:01:09,690 --> 00:01:14,270
+What this means is that the address
+that's produced using this process and
+
+22
+00:01:14,270 --> 00:01:19,440
+that one we call the linear address,
+is then passed to the paging unit so
+
+23
+00:01:19,440 --> 00:01:23,580
+it will be passed to a multilevel,
+hierarchical page table.
+
+24
+00:01:23,580 --> 00:01:27,510
+To ultimately compute the actual
+physical address that
+
+25
+00:01:27,510 --> 00:01:30,380
+is used to reference
+the appropriate memory location.
+
+26
+00:01:30,380 --> 00:01:34,480
+The type of address translation that's
+possible on a particular platform,
+
+27
+00:01:34,480 --> 00:01:36,440
+that's determined by the hardware.
+
+28
+00:01:36,440 --> 00:01:40,750
+For instance, if you look at the Intel
+platforms, the x86 platforms,
+
+29
+00:01:40,750 --> 00:01:45,598
+on 32 bit hardware both segmentation and
+paging are supported.
+
+30
+00:01:45,598 --> 00:01:49,990
+For these platforms on Linux
+allows up to 8000 segments to be
+
+31
+00:01:49,990 --> 00:01:54,200
+available per process and
+then another 8000 global segments.
+
+32
+00:01:54,200 --> 00:01:58,450
+At the same time, on 64-bit Intel
+platforms, segmentation and
+
+33
+00:01:58,450 --> 00:01:59,900
+paging are supported for
+
+34
+00:01:59,900 --> 00:02:04,560
+backward compatibility, however
+the default mode is to use just paging.

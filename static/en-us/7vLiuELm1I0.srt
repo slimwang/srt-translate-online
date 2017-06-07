@@ -1,0 +1,299 @@
+1
+00:00:00,720 --> 00:00:03,590
+I think this quiz is slightly
+challenging because,
+
+2
+00:00:03,590 --> 00:00:07,300
+though the logic is very simple,
+it's easy to accidentally get lost in
+
+3
+00:00:07,300 --> 00:00:10,910
+a nasty series of nested if
+statements if you're not careful.
+
+4
+00:00:10,910 --> 00:00:14,840
+It was my goal to keep my
+code as clean as possible.
+
+5
+00:00:14,840 --> 00:00:17,030
+I'd love to see your code if
+you think you did better.
+
+6
+00:00:17,030 --> 00:00:19,169
+Because this is by no
+means the best answer.
+
+7
+00:00:20,200 --> 00:00:22,110
+Okay, let's get started.
+
+8
+00:00:22,110 --> 00:00:24,740
+When you look into the script
+tag at the end of the body,
+
+9
+00:00:24,740 --> 00:00:29,330
+one of the first things that you'll come
+across is this, the IssueTracker object.
+
+10
+00:00:29,330 --> 00:00:30,810
+I'm using it to collect and
+
+11
+00:00:30,810 --> 00:00:34,610
+then format the validation
+messages that I want to show.
+
+12
+00:00:34,610 --> 00:00:38,284
+The idea is that I'll eventually call
+retrieve, which returns a string.
+
+13
+00:00:38,284 --> 00:00:43,109
+And this string is the validation
+message that I want to pass to
+
+14
+00:00:43,109 --> 00:00:44,940
+setCustomValidity.
+
+15
+00:00:44,940 --> 00:00:48,380
+And remember that if there are no
+issues with the validation,
+
+16
+00:00:48,380 --> 00:00:51,300
+then setCustomValidity
+expects an empty string.
+
+17
+00:00:51,300 --> 00:00:52,920
+Which is what this case is doing.
+
+18
+00:00:54,140 --> 00:00:57,080
+Next up,
+there is the onclick handler for submit.
+
+19
+00:00:58,350 --> 00:01:01,050
+I start by grabbing the values
+on both of the inputs and
+
+20
+00:01:01,050 --> 00:01:03,600
+then creating two
+different IssueTrackers.
+
+21
+00:01:03,600 --> 00:01:06,400
+One for the first input and
+one for the second input.
+
+22
+00:01:06,400 --> 00:01:09,310
+The reason is that sometimes I
+might want a message to show up
+
+23
+00:01:09,310 --> 00:01:12,410
+on the first input, and
+then sometimes on the second.
+
+24
+00:01:12,410 --> 00:01:15,380
+After that there is
+the checkRequirements method, and
+
+25
+00:01:15,380 --> 00:01:18,120
+it's a pretty legible
+series of if statements.
+
+26
+00:01:19,390 --> 00:01:23,040
+There's no nesting with these if
+statements so, I'm pretty happy.
+
+27
+00:01:23,040 --> 00:01:26,950
+And this is where all of the regular
+expressions are coming into play.
+
+28
+00:01:26,950 --> 00:01:30,770
+The only complicated if statement is
+this last one where i'm looking for
+
+29
+00:01:30,770 --> 00:01:32,210
+illegal characters.
+
+30
+00:01:32,210 --> 00:01:35,010
+Or those symbols that aren't
+explicitly allowed in the password.
+
+31
+00:01:36,050 --> 00:01:39,630
+It's only a little complex because I
+wanted to inform the users exactly
+
+32
+00:01:39,630 --> 00:01:42,380
+which characters they
+use that are illegal.
+
+33
+00:01:42,380 --> 00:01:45,700
+So I have to loop through
+the regex match group to create
+
+34
+00:01:45,700 --> 00:01:47,460
+all the different validation messages.
+
+35
+00:01:48,550 --> 00:01:51,170
+Here's where checkRequirements
+actually gets called.
+
+36
+00:01:51,170 --> 00:01:53,730
+And it only happens after I know
+that the first password and
+
+37
+00:01:53,730 --> 00:01:55,100
+the second password match.
+
+38
+00:01:56,190 --> 00:01:59,750
+After that, it's just a matter of
+retrieving the two messages and
+
+39
+00:01:59,750 --> 00:02:02,699
+then setting them on each
+input with setCustomValidity.
+
+40
+00:02:03,850 --> 00:02:07,300
+All right, not too bad,
+let's see this in action.
+
+41
+00:02:07,300 --> 00:02:09,419
+Okay, now you can see that these
+are now password types, so
+
+42
+00:02:09,419 --> 00:02:11,520
+you can't see what I'm typing.
+
+43
+00:02:11,520 --> 00:02:12,820
+So let me fix that real quick.
+
+44
+00:02:14,010 --> 00:02:18,700
+There, I switched from password to text,
+so now you can see what I'm doing.
+
+45
+00:02:18,700 --> 00:02:22,380
+I'll try to submit this, and
+I see that they don't match.
+
+46
+00:02:22,380 --> 00:02:23,209
+Okay, that's obvious.
+
+47
+00:02:24,260 --> 00:02:28,130
+All right, and these two are too short,
+they're missing an uppercase character,
+
+48
+00:02:28,130 --> 00:02:30,810
+they're missing a number and
+they don't have any symbols.
+
+49
+00:02:30,810 --> 00:02:34,040
+So when i hit submit, I see all of that.
+
+50
+00:02:34,040 --> 00:02:37,787
+Cool, okay so now I added some
+uppercase letters, some numbers, and
+
+51
+00:02:37,787 --> 00:02:40,586
+some symbols and
+I'm pretty sure these match.
+
+52
+00:02:40,586 --> 00:02:45,150
+Nope, and now they're still too short,
+less than 16 characters.
+
+53
+00:02:45,150 --> 00:02:48,880
+Okay, now these two should
+be long enough now, cool.
+
+54
+00:02:48,880 --> 00:02:51,240
+And my password was
+successfully changed.
+
+55
+00:02:51,240 --> 00:02:53,688
+All right now I hope you didn't pay too
+much attention to that because that was
+
+56
+00:02:53,688 --> 00:02:54,340
+my real password.
+
+57
+00:02:55,970 --> 00:02:57,330
+No, I'm just joking.
+
+58
+00:02:57,330 --> 00:02:58,392
+All right, anyway,
+
+59
+00:02:58,392 --> 00:03:02,030
+I hope you had as much fun
+validating these inputs as I did.
+
+60
+00:03:02,030 --> 00:03:05,010
+In the next lesson you'll
+start designing forms with
+
+61
+00:03:05,010 --> 00:03:07,780
+all of the inputs you've
+practiced with so far.
+
+62
+00:03:07,780 --> 00:03:09,750
+With designing comes testing.
+
+63
+00:03:09,750 --> 00:03:13,170
+So in the next video watch Luke
+describe how he likes to test forms.

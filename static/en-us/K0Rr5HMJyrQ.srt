@@ -1,0 +1,173 @@
+﻿1
+00:00:00,300 --> 00:00:03,250
+Now you can insert data
+into you task database, but
+
+2
+00:00:03,250 --> 00:00:07,740
+you have no way of retrieving that data
+to display it all in the main activity.
+
+3
+00:00:07,740 --> 00:00:12,289
+So the next method we need is query,
+which lets us ask for rows of data so
+
+4
+00:00:12,289 --> 00:00:13,829
+that you can display them in the UI.
+
+5
+00:00:15,400 --> 00:00:18,070
+>From our description of
+the content provider methods,
+
+6
+00:00:18,070 --> 00:00:21,079
+you know that the query
+function takes in a URI and
+
+7
+00:00:21,079 --> 00:00:24,669
+these other inputs to select
+data from a database.
+
+8
+00:00:24,670 --> 00:00:28,080
+And then it should return a cursor
+that contains the desired data.
+
+9
+00:00:29,109 --> 00:00:33,299
+The most important parameter is this
+URI which should point to our tasks
+
+10
+00:00:33,299 --> 00:00:37,589
+directory because we will want to
+display all of the tasks we've made.
+
+11
+00:00:37,590 --> 00:00:39,610
+In our task content provider class,
+
+12
+00:00:39,609 --> 00:00:43,019
+we'll start our query method similar
+to how we started our intent method.
+
+13
+00:00:45,200 --> 00:00:48,139
+First by gaining access to
+our underlying database.
+
+14
+00:00:49,340 --> 00:00:52,160
+This time with a call to
+getreadabledatabase since we're
+
+15
+00:00:52,159 --> 00:00:54,919
+just reading from it and
+not changing it.
+
+16
+00:00:54,920 --> 00:00:59,329
+Then using our URI matcher to get a
+match number that identifies the passed
+
+17
+00:00:59,329 --> 00:00:59,899
+in URI.
+
+18
+00:00:59,899 --> 00:01:04,870
+Then we know it will be returning
+the cursor and we can write a switch
+
+19
+00:01:04,870 --> 00:01:07,599
+statement to manage data
+correctly in the cases we want.
+
+20
+00:01:09,129 --> 00:01:11,679
+And for now, we'll start with one case,
+the case for
+
+21
+00:01:11,680 --> 00:01:15,260
+all tasks since that's what we'll
+want to display in our app.
+
+22
+00:01:15,260 --> 00:01:17,480
+And in any other case,
+we'll throw an exception.
+
+23
+00:01:18,775 --> 00:01:22,390
+And this starting code will look pretty
+similar for all of our CRUD functions.
+
+24
+00:01:23,629 --> 00:01:24,909
+Now let's write the query for
+
+25
+00:01:24,909 --> 00:01:29,009
+our tasks case, which should return all
+the rows in our database as a cursor.
+
+26
+00:01:30,260 --> 00:01:35,390
+To query the underlying database, you
+just call db.query and pass in the table
+
+27
+00:01:35,390 --> 00:01:39,460
+name, and projection and selection
+arguments that you've seen before.
+
+28
+00:01:39,459 --> 00:01:42,969
+This will return a cursor that you
+can store in our retCursor variable.
+
+29
+00:01:44,250 --> 00:01:46,379
+Then you'll set another notification,
+but
+
+30
+00:01:46,379 --> 00:01:50,670
+this time it tells the cursor what
+content URI it was created for.
+
+31
+00:01:50,670 --> 00:01:54,159
+This way, if anything changes in
+the URI, the cursor will know.
+
+32
+00:01:55,245 --> 00:01:58,765
+And finally, you'll want to
+delete this last exception and
+
+33
+00:01:58,765 --> 00:02:01,120
+return the cursor that you queried for.
+
+34
+00:02:01,120 --> 00:02:03,234
+And that completes the query method.
+
+35
+00:02:03,234 --> 00:02:05,344
+Next let's hook this up to our UI so
+
+36
+00:02:05,344 --> 00:02:09,564
+that all the tasks in this cursor can
+be displayed in the main recycler view.
+

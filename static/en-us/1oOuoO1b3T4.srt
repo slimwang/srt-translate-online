@@ -1,0 +1,170 @@
+﻿1
+00:00:00,390 --> 00:00:04,110
+Unlike the service class we just talked
+about, IntentService is a service that
+
+2
+00:00:04,110 --> 00:00:07,580
+actually runs in a separate
+background thread altogether.
+
+3
+00:00:07,580 --> 00:00:08,529
+Here's the code for
+
+4
+00:00:08,529 --> 00:00:12,359
+starting an activity using Intent,
+like we've been doing before.
+
+5
+00:00:12,359 --> 00:00:14,219
+The code for starting a service, and
+
+6
+00:00:14,220 --> 00:00:17,600
+in this case an Intent Service,
+looks very similar.
+
+7
+00:00:17,600 --> 00:00:21,478
+First, you create a class that
+extends from IntentService.
+
+8
+00:00:21,478 --> 00:00:24,920
+Inside that class, you will specify
+what your IntentService should do in
+
+9
+00:00:24,920 --> 00:00:28,720
+the background by overwriting
+the onHandleIntent method.
+
+10
+00:00:28,719 --> 00:00:33,369
+Then you simply create an Intent and
+pass in that service class.
+
+11
+00:00:33,369 --> 00:00:34,869
+Finally, to start it,
+
+12
+00:00:34,869 --> 00:00:38,527
+you just call startService
+as opposed to startActivity.
+
+13
+00:00:38,527 --> 00:00:43,439
+You pass in the Intent you just created
+which inside has your IntentService.
+
+14
+00:00:43,439 --> 00:00:48,539
+Yap, that's an IntentService inside
+an Intent, an Intent-ception.
+
+15
+00:00:48,539 --> 00:00:51,012
+Here is a sample, IntentService class.
+
+16
+00:00:51,012 --> 00:00:54,060
+Inside onHandleIntent is where
+you put the code that will run in
+
+17
+00:00:54,060 --> 00:00:54,585
+the background.
+
+18
+00:00:54,585 --> 00:00:59,259
+Once on startService is called,
+it launches an IntentService,
+
+19
+00:00:59,259 --> 00:01:03,099
+runs the code inside the onHandleIntent
+on a background thread, and
+
+20
+00:01:03,100 --> 00:01:05,079
+then stops itself when it's done.
+
+21
+00:01:05,079 --> 00:01:09,069
+Notice that the intent object passed
+into the onHandleIntent method
+
+22
+00:01:09,069 --> 00:01:12,439
+is the same intent you created
+when using the startService.
+
+23
+00:01:12,439 --> 00:01:13,299
+Which means,
+
+24
+00:01:13,299 --> 00:01:17,219
+you could attach extra data to that
+Intent when creating it down here.
+
+25
+00:01:17,219 --> 00:01:20,299
+And then you can access that
+data inside onHandleIntent and
+
+26
+00:01:20,299 --> 00:01:24,370
+use it to say decide what action
+to perform using that Intent.
+
+27
+00:01:24,370 --> 00:01:27,710
+It's important to note that
+all IntentService requests
+
+28
+00:01:27,709 --> 00:01:32,131
+are handled in a single background
+thread, and they are issued in order.
+
+29
+00:01:32,132 --> 00:01:34,920
+Each IntentService will take
+as long as necessary and
+
+30
+00:01:34,920 --> 00:01:37,230
+will not block
+the application's main thread.
+
+31
+00:01:37,230 --> 00:01:40,810
+But only one call to the IntentServices
+onHandleIntent method
+
+32
+00:01:40,810 --> 00:01:42,528
+will be processed at a time.
+
+33
+00:01:42,528 --> 00:01:44,530
+This makes IntentService great for
+
+34
+00:01:44,530 --> 00:01:49,310
+tasks that need to occur in order such
+as updating the counter in our case.
+
+35
+00:01:49,310 --> 00:01:52,384
+Okay enough with all the theory and
+let's start coding our toy app for
+
+36
+00:01:52,384 --> 00:01:53,019
+this lesson.
+

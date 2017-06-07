@@ -1,0 +1,123 @@
+1
+00:00:00,218 --> 00:00:02,778
+So Jake,
+have you got notifications appearing?
+
+2
+00:00:02,778 --> 00:00:05,538
+>> Yep, I mean they're useless,
+but they are appearing.
+
+3
+00:00:05,538 --> 00:00:06,918
+Here's how I did it.
+
+4
+00:00:06,918 --> 00:00:10,078
+First off,
+if the controller is falsely, I bail.
+
+5
+00:00:10,078 --> 00:00:12,887
+The user already has the latest
+version if it wasn't loaded via
+
+6
+00:00:12,887 --> 00:00:13,738
+a service worker.
+
+7
+00:00:13,738 --> 00:00:17,948
+If there's a worker waiting,
+I trigger the notification and return.
+
+8
+00:00:17,948 --> 00:00:21,890
+If there's a worker installing,
+I want to listen to its state changes.
+
+9
+00:00:21,890 --> 00:00:24,728
+I'm going to call another method
+to do that, trackInstalling.
+
+10
+00:00:24,728 --> 00:00:26,528
+You'll see why shortly.
+
+11
+00:00:26,528 --> 00:00:29,481
+In trackInstalling,
+I'm going to take the worker,
+
+12
+00:00:29,481 --> 00:00:32,238
+and I'm going to listen
+to it state change event.
+
+13
+00:00:32,238 --> 00:00:35,764
+When that fires,
+I'm going to look at the state, and
+
+14
+00:00:35,764 --> 00:00:39,208
+if it's installed,
+I'm going to notify the user.
+
+15
+00:00:39,208 --> 00:00:42,798
+If there isn't an installing worker,
+I'm going to listen for updates.
+
+16
+00:00:42,798 --> 00:00:46,138
+Once there's an update,
+I'm going to call trackInstalling again.
+
+17
+00:00:46,138 --> 00:00:48,884
+You can see now why I
+factored that code out.
+
+18
+00:00:48,884 --> 00:00:53,272
+Now I'm going to make a random
+change to the service worker and
+
+19
+00:00:53,272 --> 00:00:55,038
+then refresh the page.
+
+20
+00:00:55,038 --> 00:00:56,858
+And there we have a notification.
+
+21
+00:00:56,858 --> 00:01:00,138
+If we were to deploy this change, we'd
+bump the version number of our static
+
+22
+00:01:00,138 --> 00:01:03,278
+cache, so the old and new version
+wouldn't step on each other's toes.
+
+23
+00:01:03,278 --> 00:01:05,358
+But this isn't really
+worth deploying yet.
+
+24
+00:01:05,358 --> 00:01:08,278
+I mean,
+the notification is kind of useless.
+
+25
+00:01:08,278 --> 00:01:09,868
+But this is an important step.
+
+26
+00:01:09,868 --> 00:01:13,120
+In the next lesson,
+we'll let the user opt into the update.

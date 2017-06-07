@@ -1,0 +1,196 @@
+﻿1
+00:00:00,370 --> 00:00:03,360
+You're now ready to upload
+the file to Firebase storage.
+
+2
+00:00:03,359 --> 00:00:06,740
+And you'll do that using putFile,
+so let's add that here.
+
+3
+00:00:06,740 --> 00:00:09,140
+So this code here will take
+our storage reference and
+
+4
+00:00:09,140 --> 00:00:11,070
+will save the selected image there.
+
+5
+00:00:11,070 --> 00:00:14,080
+And with that,
+we're done sending the photo to storage.
+
+6
+00:00:14,080 --> 00:00:17,440
+One line of code and it doesn't
+even look like networking code.
+
+7
+00:00:17,440 --> 00:00:19,220
+That's the magic of Firebase.
+
+8
+00:00:19,219 --> 00:00:22,070
+Now the putFile method
+returns a upload task and
+
+9
+00:00:22,070 --> 00:00:24,699
+what we'll do is we'll add
+a completion listener to it
+
+10
+00:00:24,699 --> 00:00:29,350
+which takes an activity as its first
+argument and a OnSuccessListener.
+
+11
+00:00:29,350 --> 00:00:34,439
+The OnSuccessListener has one method you
+should override, aptly named onSuccess.
+
+12
+00:00:34,439 --> 00:00:38,339
+The onSuccess method has a taskSnapshot
+parameter, which will be our key to
+
+13
+00:00:38,340 --> 00:00:41,480
+getting the URL of the file
+that was just sent to storage.
+
+14
+00:00:41,479 --> 00:00:48,296
+Here I'll use taskSnapshot
+.getDownloadUrl and I'll save that URL.
+
+15
+00:00:48,296 --> 00:00:51,105
+Now that I have the URL,
+I can save it to the database,
+
+16
+00:00:51,106 --> 00:00:55,439
+just like sending a text message will
+create a FriendlyMessage object.
+
+17
+00:00:55,439 --> 00:01:01,385
+And in that object, I'll pass null,
+the username, and the downloadUrl.
+
+18
+00:01:01,386 --> 00:01:05,995
+And then I'll take this FriendlyMessage
+object and store it in the database and
+
+19
+00:01:05,995 --> 00:01:07,250
+now, let's run it.
+
+20
+00:01:08,670 --> 00:01:12,739
+I've got the app up and running so
+let's if we can add a photo.
+
+21
+00:01:12,739 --> 00:01:16,770
+And Friendly Chat is able to upload a
+photo and show it in the messages list.
+
+22
+00:01:17,829 --> 00:01:18,859
+Awesome work.
+
+23
+00:01:18,859 --> 00:01:22,939
+Just to be clear how we're able to both
+show text messages and photo messages.
+
+24
+00:01:22,939 --> 00:01:25,209
+Let's take a quick look at the adaptor.
+
+25
+00:01:25,209 --> 00:01:28,729
+In the message adaptor class I'm
+going to look at the Get View Method.
+
+26
+00:01:28,730 --> 00:01:32,510
+The way I set up friendly message
+is that it's either text message or
+
+27
+00:01:32,510 --> 00:01:34,990
+a photo message, but it's never both.
+
+28
+00:01:34,989 --> 00:01:39,500
+So what we could do is we could check
+if the message has a photo URL and
+
+29
+00:01:39,500 --> 00:01:41,329
+if it does then it's a photo.
+
+30
+00:01:41,329 --> 00:01:45,060
+Scrolling down,
+I can use a statement here to say,
+
+31
+00:01:45,060 --> 00:01:48,269
+if it's a a photo,
+then show the photoImageView, but
+
+32
+00:01:48,269 --> 00:01:52,539
+don't show the messageTextView, and
+use Glide to load in that photo.
+
+33
+00:01:52,540 --> 00:01:54,410
+On the other hand,
+if it's a text message,
+
+34
+00:01:54,409 --> 00:01:58,189
+then I do not show the photoImageView,
+I do show the photoTextView,
+
+35
+00:01:58,189 --> 00:02:01,560
+and I set that text view
+to the message text.
+
+36
+00:02:01,560 --> 00:02:05,430
+Either way, the author text view will be
+visible with the correct author name,
+
+37
+00:02:05,430 --> 00:02:06,290
+and that's it.
+
+38
+00:02:06,290 --> 00:02:08,650
+You've successfully implemented storage.
+
+39
+00:02:08,650 --> 00:02:13,370
+Storing files with firebase requires
+no server setup, no networking code,
+
+40
+00:02:13,370 --> 00:02:16,030
+has caching out of the box,
+and provides a secure and
+
+41
+00:02:16,030 --> 00:02:18,289
+scalable bucket to
+store your apps files.
+

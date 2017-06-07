@@ -1,0 +1,159 @@
+1
+00:00:00,230 --> 00:00:03,630
+Everything you see on your computer
+screen is just a rectangular grid of
+
+2
+00:00:03,630 --> 00:00:04,900
+colors.
+
+3
+00:00:04,900 --> 00:00:07,010
+This makes perfect sense for
+some things.
+
+4
+00:00:07,010 --> 00:00:07,640
+For instance,
+
+5
+00:00:07,640 --> 00:00:11,360
+a digital photo is captured
+using a rectangular sensor grid.
+
+6
+00:00:11,360 --> 00:00:14,650
+So, the color samples you see on your
+computer are just the colors that were
+
+7
+00:00:14,650 --> 00:00:16,440
+captured by the camera.
+
+8
+00:00:16,440 --> 00:00:18,659
+But what about something else,
+like a line drawing?
+
+9
+00:00:19,820 --> 00:00:21,960
+A smiley face is made up of circles and
+
+10
+00:00:21,960 --> 00:00:25,540
+arcs, it's not made of
+a rectangular grid of colors.
+
+11
+00:00:25,540 --> 00:00:27,780
+So, how do we draw it to the screen?
+
+12
+00:00:27,780 --> 00:00:29,980
+It seems impossible, right?
+
+13
+00:00:29,980 --> 00:00:33,260
+To draw shapes like lines,
+triangles, circles,
+
+14
+00:00:33,260 --> 00:00:36,210
+and other polyhedra,
+they have to be rasterized.
+
+15
+00:00:37,260 --> 00:00:41,140
+To draw a black arc on a yellow
+background, we have to determine for
+
+16
+00:00:41,140 --> 00:00:45,870
+each sample on the raster, whether
+that sample is part of the arc or
+
+17
+00:00:45,870 --> 00:00:48,880
+part of the background and
+then color that sample appropriately.
+
+18
+00:00:50,060 --> 00:00:53,820
+If you want to get super fancy,
+you might determine what percentage of
+
+19
+00:00:53,820 --> 00:00:57,400
+the sample is part of the arc, and what
+percentage is part of the background,
+
+20
+00:00:57,400 --> 00:01:00,630
+and then mix the two colors to
+get your final output color.
+
+21
+00:01:00,630 --> 00:01:04,989
+Doing is this is called antialiasing for
+reasons beyond the scope of this course.
+
+22
+00:01:04,989 --> 00:01:08,280
+Anyway, only once we know
+the color of every pixel,
+
+23
+00:01:08,280 --> 00:01:10,040
+can our shape be drawn to the screen.
+
+24
+00:01:10,040 --> 00:01:11,940
+This process is also called rendering.
+
+25
+00:01:12,950 --> 00:01:16,960
+This presents a huge challenge though,
+which we'll explore by way of a quiz.
+
+26
+00:01:18,340 --> 00:01:21,490
+So, how much work is rasterization?
+
+27
+00:01:21,490 --> 00:01:26,016
+Let's say our raster is 1080 x 1920,
+so that's standard HD.
+
+28
+00:01:26,016 --> 00:01:28,760
+And let's say we're drawing
+20 shapes to this screen.
+
+29
+00:01:29,850 --> 00:01:34,445
+Let's then say for each pixel and each
+shape, it takes 10 processor cycles to
+
+30
+00:01:34,445 --> 00:01:37,805
+determine if the shape changes
+the color of that particular pixel.
+
+31
+00:01:39,055 --> 00:01:41,525
+Then, since we want
+a silky smooth frame rate,
+
+32
+00:01:41,525 --> 00:01:46,565
+we need to do all of this 60 times
+a second, so here's the question.
+
+33
+00:01:46,565 --> 00:01:49,555
+How many processor cores
+running at three gigahertz
+
+34
+00:01:49,555 --> 00:01:50,895
+would we need to render this screen?

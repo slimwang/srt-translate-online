@@ -1,0 +1,234 @@
+1
+00:00:00,250 --> 00:00:03,980
+Finally, I want to point out
+one other aspect of JavaScript.
+
+2
+00:00:03,980 --> 00:00:06,310
+And that is memory management approach.
+
+3
+00:00:06,310 --> 00:00:09,070
+JavaScript is garbage collected,
+which means for
+
+4
+00:00:09,070 --> 00:00:13,830
+us developers, we don't need to worry
+about pointers, deleting objects, or
+
+5
+00:00:13,830 --> 00:00:15,740
+how to handle local variables,
+any of that.
+
+6
+00:00:15,740 --> 00:00:19,360
+We can just declare things like this and
+forget about them.
+
+7
+00:00:19,360 --> 00:00:24,110
+The downside is that the JavaScript
+engine has to handle that itself, and
+
+8
+00:00:24,110 --> 00:00:27,845
+when it decides to run the garbage
+collector, nothing else runs.
+
+9
+00:00:27,845 --> 00:00:31,535
+This can trigger visible
+pauses in rendering the page.
+
+10
+00:00:31,535 --> 00:00:35,105
+Like I said earlier, the JavaScript you
+write isn't the JavaScript that runs,
+
+11
+00:00:35,105 --> 00:00:36,235
+thanks to JIT.
+
+12
+00:00:36,235 --> 00:00:38,890
+So it's not always easy to predict
+whether your code is going to be
+
+13
+00:00:38,890 --> 00:00:40,175
+garbagey.
+
+14
+00:00:40,175 --> 00:00:43,705
+It also depends heavily on the
+frameworks and libraries you use, and
+
+15
+00:00:43,705 --> 00:00:45,435
+how you structure your code.
+
+16
+00:00:45,435 --> 00:00:47,309
+That's why you need to measure first.
+
+17
+00:00:48,430 --> 00:00:52,290
+Well, the good news is that Chrome's
+DevTools will show you memory usage in
+
+18
+00:00:52,290 --> 00:00:53,430
+your projects.
+
+19
+00:00:53,430 --> 00:00:54,450
+Okay, take a look at this.
+
+20
+00:00:54,450 --> 00:00:56,440
+I made this a while ago.
+
+21
+00:00:56,440 --> 00:00:59,130
+Don't ask me, it's pretty weird.
+
+22
+00:00:59,130 --> 00:01:02,110
+I'm not sure what kind of
+mood I was in that day.
+
+23
+00:01:02,110 --> 00:01:02,750
+Yeah.
+
+24
+00:01:02,750 --> 00:01:04,191
+Anyway, what we can do is,
+
+25
+00:01:04,191 --> 00:01:07,348
+we can see the memory usage of
+this demo in Chrome DevTools.
+
+26
+00:01:07,348 --> 00:01:10,842
+You can see up here,
+I've switched on the memory profiler.
+
+27
+00:01:10,842 --> 00:01:14,860
+And I'm going to run it like so,
+and I'm going to stop.
+
+28
+00:01:14,860 --> 00:01:17,950
+What we see is this
+sawtooth pattern here.
+
+29
+00:01:17,950 --> 00:01:19,390
+And that's actually fine.
+
+30
+00:01:19,390 --> 00:01:22,320
+We expect JavaScript to use some memory.
+
+31
+00:01:22,320 --> 00:01:23,090
+And eventually,
+
+32
+00:01:23,090 --> 00:01:26,190
+when this drop-off happens,
+that's the garbage collector running.
+
+33
+00:01:26,190 --> 00:01:27,750
+There are two things we're looking for
+here.
+
+34
+00:01:27,750 --> 00:01:30,350
+Firstly, are there a lot
+of fast climbs here?
+
+35
+00:01:30,350 --> 00:01:33,480
+That can indicate that we're assigning
+a lot of memory very quickly and
+
+36
+00:01:33,480 --> 00:01:34,620
+very often.
+
+37
+00:01:34,620 --> 00:01:38,760
+Secondly, when the garbage collector
+runs, does it take it back to zero?
+
+38
+00:01:38,760 --> 00:01:41,170
+If not, we might have a memory leak.
+
+39
+00:01:41,170 --> 00:01:44,660
+If we're interested in a little more
+detail on the garbage collection, we can
+
+40
+00:01:44,660 --> 00:01:49,730
+switch off the memory profiler here and
+then go to the search down here.
+
+41
+00:01:49,730 --> 00:01:54,540
+If that's not on your screen,
+you can hit Cmd+F or Ctrl+F.
+
+42
+00:01:54,540 --> 00:01:57,170
+Enter GC into the field.
+
+43
+00:01:57,170 --> 00:01:58,660
+And then hit Enter.
+
+44
+00:01:58,660 --> 00:02:01,590
+In my case, I've got seven results.
+
+45
+00:02:01,590 --> 00:02:04,020
+And I can step through
+them with these arrows.
+
+46
+00:02:04,020 --> 00:02:04,630
+And you can see, for
+
+47
+00:02:04,630 --> 00:02:08,500
+example, I'm only spending
+a fraction of a millisecond here.
+
+48
+00:02:08,500 --> 00:02:12,130
+If you find that you're missing frames
+because of garbage collection, then
+
+49
+00:02:12,130 --> 00:02:16,390
+there are some fabulous resources you
+can use to learn more about patterns and
+
+50
+00:02:16,390 --> 00:02:20,260
+practices that will help you
+avoid creating too much garbage.
+
+51
+00:02:20,260 --> 00:02:23,220
+Check out the instructor notes
+if you want more information.

@@ -1,0 +1,119 @@
+1
+00:00:00,360 --> 00:00:05,126
+So the highest port number is 65,535.
+
+2
+00:00:05,126 --> 00:00:07,320
+That's not an arbitrary
+limit by the way.
+
+3
+00:00:07,320 --> 00:00:09,675
+But there were a few more things
+we should talk about before
+
+4
+00:00:09,675 --> 00:00:11,160
+getting into that.
+
+5
+00:00:11,160 --> 00:00:13,870
+We'll talk about it in more
+detail in the next lesson.
+
+6
+00:00:13,870 --> 00:00:19,441
+On most systems the lowest 1,024 ports
+from 0 up to 1,023, are reserved for
+
+7
+00:00:19,441 --> 00:00:24,270
+programs that are started by the system
+superuser account or root on Unix.
+
+8
+00:00:24,270 --> 00:00:28,110
+It's like those ports
+are reserved parking spots.
+
+9
+00:00:28,110 --> 00:00:31,450
+That's why when you start up a web
+server which runs on port 80 you
+
+10
+00:00:31,450 --> 00:00:34,430
+have to do it as root or
+with the sudo command.
+
+11
+00:00:34,430 --> 00:00:38,250
+For security a web server gets rid of
+its root privileges once it starts up.
+
+12
+00:00:38,250 --> 00:00:40,970
+But it needs to start with them so
+it can listen on port 80.
+
+13
+00:00:40,970 --> 00:00:45,197
+So if you use sudo to run nc as root,
+it can listen on port 1,000 just fine.
+
+14
+00:00:45,197 --> 00:00:49,203
+But what happens if you tell it to
+listen on a port where your SSH server's
+
+15
+00:00:49,203 --> 00:00:50,386
+already listening or
+
+16
+00:00:50,386 --> 00:00:54,540
+if you tell two different ncs to
+listen on port 2,000 for that matter?
+
+17
+00:00:55,770 --> 00:00:58,720
+Mark whichever of these you
+think is a reasonable outcome.
+
+18
+00:00:58,720 --> 00:01:01,272
+Is it that the program that
+was previously listening for
+
+19
+00:01:01,272 --> 00:01:03,660
+instance the SSH daemon will exit?
+
+20
+00:01:03,660 --> 00:01:05,960
+Is it that netcat will
+give you an error message?
+
+21
+00:01:07,010 --> 00:01:09,770
+Is it that both can
+listen at the same time?
+
+22
+00:01:09,770 --> 00:01:14,970
+Is it that your computer crashes, or
+is it that the internet explodes?
+
+23
+00:01:14,970 --> 00:01:18,200
+By the way, the result you get may
+be different if you run netcat
+
+24
+00:01:18,200 --> 00:01:20,240
+on an OS other than Linux.
+
+25
+00:01:20,240 --> 00:01:23,000
+Try this out on your Linux system
+to see the intended result here.

@@ -1,0 +1,231 @@
+1
+00:00:00,000 --> 00:00:04,000
+So, why on earth would we ever want to blur an image?
+
+2
+00:00:04,000 --> 00:00:06,000
+There are generally 2 reasons why you might want to do this.
+
+3
+00:00:06,000 --> 00:00:08,000
+One is for down-sampling.
+
+4
+00:00:08,000 --> 00:00:11,000
+If you have an image of super high resolution,
+
+5
+00:00:11,000 --> 00:00:14,000
+maybe 5,000 x 5,000 pixels,
+
+6
+00:00:14,000 --> 00:00:17,000
+and you'd like to go to a web image of much smaller resolution,
+
+7
+00:00:17,000 --> 00:00:21,000
+it's better to blur by Gaussian before down-sampling
+
+8
+00:00:21,000 --> 00:00:24,000
+then picking each nth pixel.
+
+9
+00:00:24,000 --> 00:00:27,000
+And the reason is called aliasing.
+
+10
+00:00:27,000 --> 00:00:30,000
+If you pick each nth pixel without blurring,
+
+11
+00:00:30,000 --> 00:00:33,000
+you sometimes get very, very funny effects
+
+12
+00:00:33,000 --> 00:00:36,000
+because each nth pixel might by chance
+
+13
+00:00:36,000 --> 00:00:39,000
+correspond to something that's somewhat irregular.
+
+14
+00:00:39,000 --> 00:00:43,000
+For example, if you have a checkerboard and you pick each nth pixel,
+
+15
+00:00:43,000 --> 00:00:45,000
+you might only end up with black pixels.
+
+16
+00:00:45,000 --> 00:00:47,000
+The second reason is called noise reduction.
+
+17
+00:00:47,000 --> 00:00:51,000
+In noise reduction, you respond to pixel noise
+
+18
+00:00:51,000 --> 00:00:55,000
+that might otherwise make it hard to compute things like image gradients.
+
+19
+00:00:55,000 --> 00:00:57,000
+If you blur the image first,
+
+20
+00:00:57,000 --> 00:01:02,000
+you get a smoother result that isn't quite as pronounced
+
+21
+00:01:02,000 --> 00:01:05,000
+but has much less noise in the image.
+
+22
+00:01:05,000 --> 00:01:08,000
+Here's the original gradient magnitude image to find edges,
+
+23
+00:01:08,000 --> 00:01:11,000
+and here's the same applied to the blurred image.
+
+24
+00:01:11,000 --> 00:01:16,000
+And you can see the original one is much more succinct,
+
+25
+00:01:16,000 --> 00:01:19,000
+but also it's more subject to noise.
+
+26
+00:01:19,000 --> 00:01:22,000
+Take the area over here, which has lots of image noise,
+
+27
+00:01:22,000 --> 00:01:26,000
+and compare this to the area over here, which has [s/l many few edges.]
+
+28
+00:01:26,000 --> 00:01:28,000
+The same is true over here and over here.
+
+29
+00:01:28,000 --> 00:01:31,000
+I wouldn't really claim this is a much better result.
+
+30
+00:01:31,000 --> 00:01:35,000
+In fact, it looks kind of funny and very coarse,
+
+31
+00:01:35,000 --> 00:01:37,000
+but it does have less noise.
+
+32
+00:01:37,000 --> 00:01:40,000
+Just to complete the issue on blurring,
+
+33
+00:01:40,000 --> 00:01:42,000
+what we just did is we took an image,
+
+34
+00:01:42,000 --> 00:01:44,000
+we blurred it with a Gaussian kernel,
+
+35
+00:01:44,000 --> 00:01:47,000
+and then we applied a gradient kernel.
+
+36
+00:01:47,000 --> 00:01:49,000
+If you dive into the math of convolution,
+
+37
+00:01:49,000 --> 00:01:52,000
+you'll find that convolution is associative,
+
+38
+00:01:52,000 --> 00:01:56,000
+so you could apply this one to the image and then this one over here,
+
+39
+00:01:56,000 --> 00:01:59,000
+or you can combine these 2 guys over here
+
+40
+00:01:59,000 --> 00:02:03,000
+into a Gaussian gradient kernel
+
+41
+00:02:03,000 --> 00:02:07,000
+and apply this Gaussian gradient kernel to the image.
+
+42
+00:02:07,000 --> 00:02:11,000
+So, f convolved with g is this big
+
+43
+00:02:11,000 --> 00:02:15,000
+maybe 9 x 9 Gaussian matrix convolved by a single
+
+44
+00:02:15,000 --> 00:02:18,000
++1, -1 kernel g.
+
+45
+00:02:18,000 --> 00:02:22,000
+And here's what this Gaussian gradient kernel looks like.
+
+46
+00:02:22,000 --> 00:02:24,000
+It's really interesting.
+
+47
+00:02:24,000 --> 00:02:26,000
+It is the same gradient kernel we had before
+
+48
+00:02:26,000 --> 00:02:29,000
+but smooth now and spread out
+
+49
+00:02:29,000 --> 00:02:32,000
+by Gaussian.
+
+50
+00:02:32,000 --> 00:02:37,000
+And it really responds to an area over here similar to a Sobel operator
+
+51
+00:02:37,000 --> 00:02:40,000
+that might have a strong negative value.
+
+52
+00:02:40,000 --> 00:02:42,000
+And the area over here on the right side
+
+53
+00:02:42,000 --> 00:02:44,000
+has a strong positive value,
+
+54
+00:02:44,000 --> 00:02:47,000
+so you can think of Sobel and many other kernels
+
+55
+00:02:47,000 --> 00:02:52,000
+as a combination of smoothing and taking a gradient.
+
+56
+00:02:52,000 --> 00:02:54,000
+I find this really interesting because
+
+57
+00:02:54,000 --> 00:02:58,000
+we can now devise a single, linear kernel that does both smoothing
+
+58
+00:02:58,000 --> 99:59:59,999
+and find gradients at the same time.

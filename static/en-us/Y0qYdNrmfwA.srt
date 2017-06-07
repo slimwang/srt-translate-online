@@ -1,0 +1,242 @@
+1
+00:00:00,250 --> 00:00:03,448
+So when we request audio focus,
+we must specify the stream type.
+
+2
+00:00:03,448 --> 00:00:06,610
+And remember that Android gives
+you these options to choose from.
+
+3
+00:00:06,610 --> 00:00:10,648
+So we found these in the AudioManager
+reference section in the public constant
+
+4
+00:00:10,648 --> 00:00:11,208
+section.
+
+5
+00:00:11,208 --> 00:00:13,364
+But after reading through
+all these descriptions,
+
+6
+00:00:13,364 --> 00:00:15,480
+it looks like none of
+them are a good fit.
+
+7
+00:00:15,480 --> 00:00:17,130
+We just have a short audio file.
+
+8
+00:00:17,130 --> 00:00:18,430
+So it's not an alarm.
+
+9
+00:00:18,430 --> 00:00:21,850
+It's not a DTMF tone, that's used for
+dialing phone numbers.
+
+10
+00:00:21,850 --> 00:00:24,920
+And it's not really music or
+a notification of anything.
+
+11
+00:00:24,920 --> 00:00:28,300
+And it's also not a system sound or
+a voice call.
+
+12
+00:00:28,300 --> 00:00:31,900
+So of these options, it looks like
+STREAM_MUSIC is the best fit.
+
+13
+00:00:31,900 --> 00:00:35,260
+So when you're developing an app that
+plays audio, things like music or
+
+14
+00:00:35,260 --> 00:00:38,740
+a podcast player,
+you'll likely be using this STREAM type.
+
+15
+00:00:38,740 --> 00:00:40,090
+So for the first question,
+
+16
+00:00:40,090 --> 00:00:45,750
+the stream type that we want
+is AudioManager.STREAM_MUSIC.
+
+17
+00:00:45,750 --> 00:00:48,060
+So now let's figure out our third
+parameter, the durationHint.
+
+18
+00:00:49,280 --> 00:00:52,830
+So let's go back to the
+requestAudioFocus method documentation.
+
+19
+00:00:52,830 --> 00:00:55,050
+And reading through
+the parameter descriptions for
+
+20
+00:00:55,050 --> 00:00:57,760
+the durationHint it looks like
+the most appropriate one for us
+
+21
+00:00:57,760 --> 00:01:01,730
+is the AUDIOFOCUS_GAIN_TRANSIENT because
+that means we're requesting audio focus
+
+22
+00:01:01,730 --> 00:01:04,780
+for a brief moment of time because
+our audio files are really short and
+
+23
+00:01:04,780 --> 00:01:06,960
+will be only playing for
+a couple seconds.
+
+24
+00:01:06,960 --> 00:01:09,620
+So the other audio focused states
+wouldn't make too much sense
+
+25
+00:01:09,620 --> 00:01:10,320
+in our case.
+
+26
+00:01:10,320 --> 00:01:13,320
+For example, we're not playing
+a long song or video, so
+
+27
+00:01:13,320 --> 00:01:15,177
+we don't need AUDIOFOCUS_GAIN.
+
+28
+00:01:15,177 --> 00:01:18,029
+Also,
+AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE
+
+29
+00:01:18,029 --> 00:01:20,944
+means that the system sounds,
+like notifications,
+
+30
+00:01:20,944 --> 00:01:23,218
+won't get played when we play our audio.
+
+31
+00:01:23,218 --> 00:01:26,012
+And we don't want our user to miss
+out on those important sounds, so
+
+32
+00:01:26,012 --> 00:01:28,568
+we're not going to be using this option.
+
+33
+00:01:28,568 --> 00:01:29,092
+And lastly,
+
+34
+00:01:29,092 --> 00:01:32,650
+AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK could
+have potentially worked, but
+
+35
+00:01:32,650 --> 00:01:35,190
+using it could have meant there
+would be some background noise.
+
+36
+00:01:35,190 --> 00:01:38,700
+Now to clarify what ducking meant,
+let's click into this documentation.
+
+37
+00:01:38,700 --> 00:01:42,020
+So this first sentence here says that
+it's used to indicate a temporary
+
+38
+00:01:42,020 --> 00:01:45,372
+request of audio focus anticipated
+to last a short amount of time and
+
+39
+00:01:45,372 --> 00:01:46,560
+where it's acceptable for
+
+40
+00:01:46,560 --> 00:01:50,930
+other audio applications to keep playing
+after having lowered their output level.
+
+41
+00:01:50,930 --> 00:01:55,500
+So that's referred to as ducking or like
+ducking under or lowering the level.
+
+42
+00:01:55,500 --> 00:01:58,420
+Now in our case, for example,
+if there's music being played and
+
+43
+00:01:58,420 --> 00:02:02,030
+the user wants to hear a Miwok word, we
+don't want that song playing at the same
+
+44
+00:02:02,030 --> 00:02:06,133
+time the Miwok word is playing, even if
+the song is played at a lower volume.
+
+45
+00:02:06,133 --> 00:02:09,060
+So when want to play our audio,
+we want to temporarily
+
+46
+00:02:09,060 --> 00:02:13,030
+completely silence everything,
+aside from system sounds.
+
+47
+00:02:13,030 --> 00:02:19,448
+So in this case, let's use
+AudioManager.AUDIO_GAIN_TRANSIENT.
+
+48
+00:02:19,448 --> 00:02:20,990
+Great investigative work.
+
+49
+00:02:20,990 --> 00:02:24,260
+You're becoming more familiar with
+AudioManager by reading through those
+
+50
+00:02:24,260 --> 00:02:25,330
+documentations.
+
+51
+00:02:25,330 --> 00:02:27,850
+So let's dive in further, and
+move on to the next quiz.

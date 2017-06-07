@@ -1,0 +1,143 @@
+1
+00:00:00,000 --> 00:00:06,000
+[Male narrator] The answer is that in Sibiu, the action function gives us 4 actions
+
+2
+00:00:06,000 --> 00:00:09,000
+corresponding to traveling along these 4 roads,
+
+3
+00:00:09,000 --> 00:00:15,000
+so we have to add in paths for each of those actions.
+
+4
+00:00:15,000 --> 00:00:17,000
+One of those paths goes here,
+
+5
+00:00:17,000 --> 00:00:21,000
+the other path continues from Arad and goes out here.
+
+6
+00:00:21,000 --> 00:00:25,000
+The third path continues out here
+
+7
+00:00:25,000 --> 00:00:31,000
+and then the fourth path goes from here--from Arad to Sibiu
+
+8
+00:00:31,000 --> 00:00:36,000
+and then backtracks back to Arad.
+
+9
+00:00:36,000 --> 00:00:41,000
+Now, it may seem silly and redundant to have a path that starts in Arad,
+
+10
+00:00:41,000 --> 00:00:44,000
+goes to Sibiu and returns to Arad.
+
+11
+00:00:44,000 --> 00:00:49,000
+How can that help us get to our destination in Bucharest?
+
+12
+00:00:49,000 --> 00:00:52,000
+But we can see if we're dealing with a tree search,
+
+13
+00:00:52,000 --> 00:00:56,000
+why it's natural to have this type of formulation
+
+14
+00:00:56,000 --> 00:01:00,000
+and why the tree search doesn't even notice that it's backtracked.
+
+15
+00:01:00,000 --> 00:01:05,000
+What the tree search does is superimpose on top of the state space
+
+16
+00:01:05,000 --> 00:01:09,000
+a tree of searches, and the tree looks like this.
+
+17
+00:01:09,000 --> 00:01:15,000
+We start off in state A, and in state A, there were 3 actions,
+
+18
+00:01:15,000 --> 00:01:21,000
+so we gave those paths going to Z, S, and T.
+
+19
+00:01:21,000 --> 00:01:34,000
+And from S, there were 4 actions, so that gave us paths going from O, F, R, and A,
+
+20
+00:01:34,000 --> 00:01:37,000
+and then the tree would continue on from here.
+
+21
+00:01:37,000 --> 00:01:40,000
+We'd take one of the next items
+
+22
+00:01:40,000 --> 00:01:48,000
+and we'd move it and continue on, but notice that we returned to the A state
+
+23
+00:01:48,000 --> 00:01:51,000
+in the state space, but in the tree,
+
+24
+00:01:51,000 --> 00:01:55,000
+it's just another item in the tree.
+
+25
+00:01:55,000 --> 00:01:57,000
+Now, here's another representation of the search space
+
+26
+00:01:57,000 --> 00:02:01,000
+and what's happening is as we start to explore the state,
+
+27
+00:02:01,000 --> 00:02:09,000
+we keep track of the frontier, which is the set of states that are at the end of the paths
+
+28
+00:02:09,000 --> 00:02:13,000
+that we haven't explored yet, and behind that frontier
+
+29
+00:02:13,000 --> 00:02:19,000
+is the set of explored states, and ahead of the frontier is the unexplored states.
+
+30
+00:02:19,000 --> 00:02:22,000
+Now the reason we keep track of the explored states
+
+31
+00:02:22,000 --> 00:02:27,000
+is that when we want to expand and we find a duplicate--
+
+32
+00:02:27,000 --> 00:02:33,000
+so say when we expand from here, if we pointed back to state T,
+
+33
+00:02:33,000 --> 00:02:42,000
+if we hadn't kept track of that, we would have to add in a new state for T down here.
+
+34
+00:02:42,000 --> 00:02:47,000
+But because we've already seen it and we know that this is actually a regressive step
+
+35
+00:02:47,000 --> 00:02:51,000
+into the already explored state, now, because we kept track of that,
+
+36
+00:02:51,000 --> 99:59:59,999
+we don't need it anymore.

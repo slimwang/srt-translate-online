@@ -1,0 +1,430 @@
+1
+00:00:00,090 --> 00:00:03,640
+So I'm going to claim this is the last
+relationship that we have to build
+
+2
+00:00:03,640 --> 00:00:05,320
+to prove that there all equivalent.
+
+3
+00:00:05,320 --> 00:00:07,110
+We'll pull that altogether at the end.
+
+4
+00:00:07,110 --> 00:00:09,120
+But this is going to be the hardest one.
+
+5
+00:00:09,120 --> 00:00:11,700
+This ones says that if we
+have an algorithm that
+
+6
+00:00:11,700 --> 00:00:15,740
+does well on average per step,
+right, it's nearly optimal per step.
+
+7
+00:00:16,880 --> 00:00:20,100
+Then we can use that to build
+an algorithm that actually identifies
+
+8
+00:00:20,100 --> 00:00:22,090
+an arm that is nearly optimal.
+
+9
+00:00:22,090 --> 00:00:23,770
+And so this is what we're imagining.
+
+10
+00:00:23,770 --> 00:00:27,280
+We imagine we have an algorithm,
+we were calling it C I think.
+
+11
+00:00:27,280 --> 00:00:31,730
+That gets within epsilon per step of
+optimal after some number of pulls
+
+12
+00:00:31,730 --> 00:00:32,549
+with high probability.
+
+13
+00:00:32,549 --> 00:00:36,090
+So after this tau k epsilon delta pulls,
+
+14
+00:00:36,090 --> 00:00:41,540
+then the average reward that we've
+gotten is close to the average
+
+15
+00:00:41,540 --> 00:00:44,420
+reward that you get if you were
+pulling the optimal arm on every step.
+
+16
+00:00:44,420 --> 00:00:49,060
+What we want is algorithm A,
+which, after some number of pulls,
+
+17
+00:00:49,060 --> 00:00:51,630
+returns an arm that is
+epsilon prime optimal.
+
+18
+00:00:51,630 --> 00:00:55,250
+So someone has to tell us K,
+the number of arms.
+
+19
+00:00:55,250 --> 00:00:57,210
+Epsilon prime and delta prime.
+
+20
+00:00:57,210 --> 00:00:59,450
+Oh and this holds with probably
+one minus delta prime.
+
+21
+00:00:59,450 --> 00:01:04,080
+Then what we get to do is set up this
+other algorithm C, however we want.
+
+22
+00:01:06,130 --> 00:01:09,310
+And run it for how long it runs.
+
+23
+00:01:09,310 --> 00:01:13,100
+And at the end of that, somehow use
+the information that was gathered
+
+24
+00:01:13,100 --> 00:01:15,370
+to pick an arm that is nearly the best.
+
+25
+00:01:15,370 --> 00:01:16,970
+>> Right, and I just realized something.
+
+26
+00:01:16,970 --> 00:01:21,450
+I think was obvious, but I actually
+wasn't thinking much about it.
+
+27
+00:01:21,450 --> 00:01:24,930
+So I should say it out loud, which is,
+we're going to take the epsilon prime,
+
+28
+00:01:24,930 --> 00:01:28,640
+the delta prime, and we're going to
+create some epsilons and deltas.
+
+29
+00:01:28,640 --> 00:01:30,310
+That has to be polynomial.
+
+30
+00:01:30,310 --> 00:01:33,310
+>> Yeah, because if we did 2
+to the 1 over epsilon prime or
+
+31
+00:01:33,310 --> 00:01:36,620
+something like that, then we've
+actually made things really bad.
+
+32
+00:01:36,620 --> 00:01:37,160
+>> Right, right.
+
+33
+00:01:37,160 --> 00:01:37,970
+So it has to be polynomial.
+
+34
+00:01:37,970 --> 00:01:39,080
+Okay, let's worth remembering.
+
+35
+00:01:39,080 --> 00:01:41,490
+>> And that was true in the other
+two examples that we did, and
+
+36
+00:01:41,490 --> 00:01:42,730
+it's going to be true in this one too.
+
+37
+00:01:42,730 --> 00:01:43,410
+>> Right, sure, sure.
+
+38
+00:01:43,410 --> 00:01:46,380
+It just occurred to me that you
+could cheat if you could just do any
+
+39
+00:01:46,380 --> 00:01:48,145
+arbitrary epsilon, epsilon prime.
+
+40
+00:01:48,145 --> 00:01:48,645
+>> [LAUGH] Yes.
+
+41
+00:01:50,660 --> 00:01:53,360
+Just set epsilon to zero and.
+
+42
+00:01:53,360 --> 00:01:55,430
+>> [LAUGH], Yeah.
+
+43
+00:01:55,430 --> 00:01:56,010
+Okay, cool.
+
+44
+00:01:56,010 --> 00:01:57,950
+All right, so I.
+
+45
+00:01:57,950 --> 00:01:59,360
+>> I think I have half an answer here.
+
+46
+00:01:59,360 --> 00:02:01,710
+So maybe half the answer will
+help towards the full answer.
+
+47
+00:02:01,710 --> 00:02:03,560
+So here's the half the answer.
+
+48
+00:02:03,560 --> 00:02:07,530
+If I've run algorithm c and
+I've got a per step,
+
+49
+00:02:07,530 --> 00:02:13,360
+near optimal payoff,
+then one thing I know is that
+
+50
+00:02:13,360 --> 00:02:18,060
+if I were to keep following whatever
+distribution of pulls, of sort of bandit
+
+51
+00:02:18,060 --> 00:02:22,750
+arm pulls that I'd done before, I would
+still have the same per step average.
+
+52
+00:02:22,750 --> 00:02:23,820
+>> So here's what we're going to do.
+
+53
+00:02:23,820 --> 00:02:27,500
+We're going to introduce
+an additional epsilon looking thing.
+
+54
+00:02:27,500 --> 00:02:31,090
+We're going to call it e sub i,
+and that is the sub optimality for
+
+55
+00:02:31,090 --> 00:02:34,830
+the error of the plurality
+arm chosen by algorithm c.
+
+56
+00:02:34,830 --> 00:02:40,960
+So there's going to be some arm that
+gets chosen more than the other arms.
+
+57
+00:02:40,960 --> 00:02:45,560
+Or as much as the other arm, but
+no less than any of the other arms, and
+
+58
+00:02:45,560 --> 00:02:51,610
+we will call that arm I and
+EI is the subabnormality of that arm.
+
+59
+00:02:51,610 --> 00:02:53,730
+So, what do we know?
+
+60
+00:02:53,730 --> 00:02:56,910
+We know that this arm is
+chosen 1 over K of the time,
+
+61
+00:02:56,910 --> 00:03:01,730
+so the total per step error Epsilon
+
+62
+00:03:03,650 --> 00:03:10,070
+has to be at least as big
+as ei times 1 over K.
+
+63
+00:03:10,070 --> 00:03:10,600
+>> Right.
+
+64
+00:03:10,600 --> 00:03:11,140
+>> Yeah?
+Right.
+
+65
+00:03:11,140 --> 00:03:15,030
+Okay, so if we rewrite this in
+terms of a constraint on ei,
+
+66
+00:03:15,030 --> 00:03:19,280
+ei has to be less than or
+equal to epsilon times K.
+
+67
+00:03:19,280 --> 00:03:24,870
+But we want to set epsilon so
+that the suboptimality
+
+68
+00:03:24,870 --> 00:03:28,780
+of the plurality arm is less than or
+equal to epsilon prime, right?
+
+69
+00:03:28,780 --> 00:03:30,550
+So that's the constraint
+that we're given.
+
+70
+00:03:30,550 --> 00:03:33,690
+We need to figure out
+a way of running things so
+
+71
+00:03:33,690 --> 00:03:37,730
+that the plurality arm is
+epsilon prime optimal.
+
+72
+00:03:37,730 --> 00:03:41,160
+So we want this plurality arm to be
+less than or equal to epsilon prime.
+
+73
+00:03:41,160 --> 00:03:47,721
+So if we set epsilon equal to epsilon
+prime over k, then everything holds.
+
+74
+00:03:47,721 --> 00:03:53,760
+Over here, epsilon over k greater
+than or equal to this implies that
+
+75
+00:03:53,760 --> 00:03:59,370
+epsilon is greater than or equal to e
+sub I, which is exactly what we wanted.
+
+76
+00:03:59,370 --> 00:04:00,920
+So this implies the rate thing.
+
+77
+00:04:00,920 --> 00:04:06,280
+>> Right, and in fact, you could get
+the epsilon equals epsilon prime over k
+
+78
+00:04:06,280 --> 00:04:08,090
+just by doing algebra, right?
+
+79
+00:04:08,090 --> 00:04:11,799
+You got e sub i less than or
+equal to epsilon prime, and
+
+80
+00:04:11,799 --> 00:04:15,592
+we know that e sub i is also
+less than epsilon times k, so
+
+81
+00:04:15,592 --> 00:04:20,064
+we want epsilon times k to be less
+than or equal to epsilon prime.
+
+82
+00:04:20,064 --> 00:04:24,250
+Therefore, epsilon is equal to
+epsilon prime divided by k.
+
+83
+00:04:24,250 --> 00:04:24,770
+>> Good.
+
+84
+00:04:24,770 --> 00:04:28,850
+So if we set that epsilon and
+then we run algorithm c for
+
+85
+00:04:28,850 --> 00:04:35,130
+tau steps, then the arm that
+we get at the end of that run,
+
+86
+00:04:35,130 --> 00:04:38,320
+that's chosen most often
+has to be nearly optimal.
+
+87
+00:04:39,330 --> 00:04:41,160
+Right, because if it wasn't
+nearly optimal then we would have
+
+88
+00:04:41,160 --> 00:04:44,040
+actually accrued a lot
+more per step error.
+
+89
+00:04:44,040 --> 00:04:45,350
+So that actually does it.
+
+90
+00:04:45,350 --> 00:04:49,310
+We actually can,
+just the fact we can do arbitrarily well
+
+91
+00:04:49,310 --> 00:04:52,110
+means we can find something
+arbitrarily close to the best arm.
+
+92
+00:04:52,110 --> 00:04:53,720
+>> Wow, so that's brilliant.
+
+93
+00:04:53,720 --> 00:04:56,260
+So whoever came up with that
+proof is one smart, handsome guy.

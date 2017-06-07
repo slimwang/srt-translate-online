@@ -1,0 +1,515 @@
+1
+00:00:00,290 --> 00:00:02,860
+For this first discussion
+of scheduling algorithms
+
+2
+00:00:02,860 --> 00:00:06,290
+I want to focus on what we call
+run-to-completion scheduling.
+
+3
+00:00:06,290 --> 00:00:10,790
+This type of scheduling assumes that
+as soon as a task is assigned to a CPU,
+
+4
+00:00:10,790 --> 00:00:14,410
+it will run until it finishes or
+until it completes.
+
+5
+00:00:14,410 --> 00:00:17,560
+Let me list first some of
+the assumptions we will make.
+
+6
+00:00:17,560 --> 00:00:22,100
+We will consider that we have a group
+of tasks that we need to schedule.
+
+7
+00:00:22,100 --> 00:00:25,670
+I'll refer to these also as threads and
+jobs and similar terms.
+
+8
+00:00:25,670 --> 00:00:26,830
+Let me also, to start with,
+
+9
+00:00:26,830 --> 00:00:31,040
+assume that we will know exactly how
+much time these threads need to execute.
+
+10
+00:00:31,040 --> 00:00:33,950
+So there will be no
+preemption in the system.
+
+11
+00:00:33,950 --> 00:00:37,160
+Once a task starts running
+it will run to completion,
+
+12
+00:00:37,160 --> 00:00:42,150
+it will not be interrupted or preempted
+to start executing some other task.
+
+13
+00:00:42,150 --> 00:00:46,140
+And also to start with, let me assume
+that we only have a single CPU.
+
+14
+00:00:46,140 --> 00:00:50,170
+We will relax these requirements
+further as we go through this lesson.
+
+15
+00:00:50,170 --> 00:00:53,420
+Now since we will be talking about
+different scheduling algorithms,
+
+16
+00:00:53,420 --> 00:00:56,220
+it will be important for
+us to be able to compare them,
+
+17
+00:00:56,220 --> 00:00:59,360
+so we're going to think
+about some useful metrics.
+
+18
+00:00:59,360 --> 00:01:03,326
+When it comes to comparing schedulers,
+some of the metrics that can give
+
+19
+00:01:03,326 --> 00:01:07,303
+meaningful answers regarding those
+comparisons include throughput.
+
+20
+00:01:07,303 --> 00:01:12,429
+The average time it took for tasks to
+complete, the average time the tasks
+
+21
+00:01:12,429 --> 00:01:17,400
+spent waiting before they were
+scheduled, overall CPU utilization.
+
+22
+00:01:17,400 --> 00:01:21,410
+We will use some of these metrics to
+compare some of the algorithms that we
+
+23
+00:01:21,410 --> 00:01:22,900
+will talk about.
+
+24
+00:01:22,900 --> 00:01:23,520
+The first and
+
+25
+00:01:23,520 --> 00:01:27,600
+the simplest algorithm we'll talk
+about is First-Come First-Serve.
+
+26
+00:01:27,600 --> 00:01:28,540
+In this algorithm,
+
+27
+00:01:28,540 --> 00:01:32,690
+tasks are scheduled on the cpu in
+the same order in which they arrive.
+
+28
+00:01:32,690 --> 00:01:37,000
+Regarding of their execution time,
+of loading the system, or anything else.
+
+29
+00:01:37,000 --> 00:01:38,110
+When a task completes,
+
+30
+00:01:38,110 --> 00:01:42,060
+the schedule will pick the next
+task that arrived, in that order.
+
+31
+00:01:42,060 --> 00:01:46,710
+Clearly, a useful way to organize these
+tasks, would be in a queue structure, so
+
+32
+00:01:46,710 --> 00:01:50,260
+that tasks can be picked up
+from it in a FIFO manner.
+
+33
+00:01:50,260 --> 00:01:54,530
+Whenever a new task becomes ready, it
+will be placed at the end of the queue.
+
+34
+00:01:54,530 --> 00:01:58,030
+And then whenever the scheduler needs
+to pick the next task to execute,
+
+35
+00:01:58,030 --> 00:02:00,520
+it will pick from
+the front of the queue.
+
+36
+00:02:00,520 --> 00:02:03,840
+To make this decision, all
+the scheduler will need to know will be
+
+37
+00:02:03,840 --> 00:02:08,110
+the head of the queue structure, and
+how to dequeue tasks from this queue.
+
+38
+00:02:08,110 --> 00:02:11,090
+So basically for
+first come first serve scheduling
+
+39
+00:02:11,090 --> 00:02:15,830
+some FIFO like queue would be
+a great run queue data structure.
+
+40
+00:02:15,830 --> 00:02:19,460
+Now let's take a look at this area
+in which these three tasks T1 T2 and
+
+41
+00:02:19,460 --> 00:02:22,940
+T3 have the following execution times.
+
+42
+00:02:22,940 --> 00:02:27,250
+T1 is one second, T2 is ten seconds,
+and T3 is also one second.
+
+43
+00:02:27,250 --> 00:02:28,970
+And let's assume they
+arrive in this order.
+
+44
+00:02:28,970 --> 00:02:31,900
+So T1 followed by T2 followed by T3.
+
+45
+00:02:31,900 --> 00:02:34,420
+So this is how they'll be
+placed in the runqueue.
+
+46
+00:02:34,420 --> 00:02:36,750
+Now let's look at through
+put asymmetric for
+
+47
+00:02:36,750 --> 00:02:40,690
+this kind of system that uses
+the first come first serve scheduler.
+
+48
+00:02:40,690 --> 00:02:42,380
+We have three tasks.
+
+49
+00:02:42,380 --> 00:02:46,420
+To execute them one after the other
+we will take total of 12 seconds,
+
+50
+00:02:46,420 --> 00:02:47,970
+1 plus 10 plus 1.
+
+51
+00:02:47,970 --> 00:02:53,159
+So the scheduler on average achieves
+a quarter of a task per second.
+
+52
+00:02:53,159 --> 00:02:55,780
+So 0.25 tasks per second.
+
+53
+00:02:55,780 --> 00:02:59,960
+If we are interested in the average
+completion time of these tasks,
+
+54
+00:02:59,960 --> 00:03:04,630
+the first task will complete in one
+second since it will start immediately.
+
+55
+00:03:04,630 --> 00:03:08,095
+The second task,
+it will complete at time T11.
+
+56
+00:03:08,095 --> 00:03:11,435
+It will have to wait one second for
+the first task to complete, and
+
+57
+00:03:11,435 --> 00:03:13,990
+then it will execute for ten seconds.
+
+58
+00:03:13,990 --> 00:03:16,390
+And then the third task it
+will complete at time T12,
+
+59
+00:03:16,390 --> 00:03:20,130
+because it will have to wait for
+the 11 tasks for T1 and
+
+60
+00:03:20,130 --> 00:03:25,070
+T2 to execute until it starts and
+executes for one second.
+
+61
+00:03:25,070 --> 00:03:29,610
+So, if we compute the average completion
+time in the system we see that it
+
+62
+00:03:29,610 --> 00:03:30,870
+is 8 seconds.
+
+63
+00:03:30,870 --> 00:03:33,440
+If we're interested in
+the average wait time for
+
+64
+00:03:33,440 --> 00:03:38,110
+the three tasks in the system,
+then the first task started immediately.
+
+65
+00:03:38,110 --> 00:03:42,230
+The second task started a second later,
+because it had to wait for
+
+66
+00:03:42,230 --> 00:03:45,880
+T1 to complete, and
+then the third task had to wait for
+
+67
+00:03:45,880 --> 00:03:48,250
+11 seconds before it started executing.
+
+68
+00:03:48,250 --> 00:03:52,450
+So, the average wait time for
+these three tasks is four seconds.
+
+69
+00:03:52,450 --> 00:03:55,150
+So we have our simple
+scheduling algorithm, however,
+
+70
+00:03:55,150 --> 00:03:59,680
+probably we can do a little bit better
+in terms of the various metrics that
+
+71
+00:03:59,680 --> 00:04:04,170
+you're able to achieve with this
+algorithm when we try something else.
+
+72
+00:04:04,170 --> 00:04:07,560
+So we see that first come first serve
+is simple, but the wait time for
+
+73
+00:04:07,560 --> 00:04:10,720
+the tasks is poor even if
+there is just one long
+
+74
+00:04:10,720 --> 00:04:14,850
+task in the system that has arrived
+ahead of some shorter tasks.
+
+75
+00:04:14,850 --> 00:04:18,660
+So, to deal with this we can look at
+another algorithm that's called shortest
+
+76
+00:04:18,660 --> 00:04:23,700
+job first, and the goal of this
+algorithm is to schedule the tasks
+
+77
+00:04:23,700 --> 00:04:26,040
+in the order of their execution time.
+
+78
+00:04:26,040 --> 00:04:29,260
+Given the previous example
+with tasks T1, T2 and T3,
+
+79
+00:04:29,260 --> 00:04:34,820
+the order in which we want to execute
+them would be T1 followed by T3 and
+
+80
+00:04:34,820 --> 00:04:36,800
+then T2, the longest task, at the end.
+
+81
+00:04:37,890 --> 00:04:41,030
+And for tasks that take the same
+amount of time to execute,
+
+82
+00:04:41,030 --> 00:04:43,760
+perhaps we break ties arbitrarily.
+
+83
+00:04:43,760 --> 00:04:46,670
+Now if we organize our run
+queue the same way as before,
+
+84
+00:04:46,670 --> 00:04:49,280
+adding new tasks to the run
+queue will be easy,
+
+85
+00:04:49,280 --> 00:04:53,480
+since it will just mean that we have
+to add a task at the tail of the queue.
+
+86
+00:04:53,480 --> 00:04:57,990
+However when we need to schedule a new
+task, we'll need to traverse the entire
+
+87
+00:04:57,990 --> 00:05:02,010
+queue until we find the one with
+the shortest execution time.
+
+88
+00:05:02,010 --> 00:05:06,510
+So run queue won't really be a FIFO run
+queue anymore, since we will need to
+
+89
+00:05:06,510 --> 00:05:12,160
+remove tasks from the queue in a very
+specific order based on execution time.
+
+90
+00:05:12,160 --> 00:05:16,840
+One thing we can do is we can maintain
+the run queue as an ordered queue so
+
+91
+00:05:16,840 --> 00:05:19,720
+that tasks,
+when they're inserted into the queue,
+
+92
+00:05:19,720 --> 00:05:22,750
+are placed in the queue
+in a specific order.
+
+93
+00:05:22,750 --> 00:05:27,410
+It will make the insertion of tasks into
+the queue a little bit more complex, but
+
+94
+00:05:27,410 --> 00:05:32,210
+it will keep the selection of a new
+task as short as it was before.
+
+95
+00:05:32,210 --> 00:05:34,130
+We just need to know
+the head of the queue.
+
+96
+00:05:34,130 --> 00:05:37,130
+Or, our run queue doesn't
+really have to be a queue.
+
+97
+00:05:37,130 --> 00:05:40,230
+It can be some treelike data structure,
+
+98
+00:05:40,230 --> 00:05:44,860
+in which the nodes in this tree are
+ordered based on their execution time.
+
+99
+00:05:44,860 --> 00:05:46,920
+When inserting new nodes in the tree,
+
+100
+00:05:46,920 --> 00:05:50,380
+new tasks in this tree,
+the tree may need to be rebalanced.
+
+101
+00:05:50,380 --> 00:05:53,856
+However, for the scheduler,
+it will be easy, since it will
+
+102
+00:05:53,856 --> 00:05:58,354
+always have to select the left most note
+in the stream, if the tree is ordered,
+
+103
+00:05:58,354 --> 00:06:01,717
+the left most note will have
+the smallest execution time.
+
+104
+00:06:01,717 --> 00:06:03,143
+So we a queue, a tree,
+
+105
+00:06:03,143 --> 00:06:08,150
+this illustrates really that the run
+queue doesn't really have to be a queue.
+
+106
+00:06:08,150 --> 00:06:13,250
+It can be other type of data structure,
+and we'll see that it often is,
+
+107
+00:06:13,250 --> 00:06:16,460
+based on whatever is appropriate for
+the scheduling algorithm

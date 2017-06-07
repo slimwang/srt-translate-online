@@ -1,0 +1,179 @@
+1
+00:00:00,133 --> 00:00:07,432
+Here's an example of translation. And this is a phrase-based translation that doesn't happen to use any syntactic trees.
+
+2
+00:00:07,433 --> 00:00:12,899
+And in this case we're using an example going from German to English.
+
+3
+00:00:12,900 --> 00:00:18,832
+And in this model we break up the probability of the translation into three components.
+
+4
+00:00:18,833 --> 00:00:25,299
+First, a segmentation model of how do we break up the German into phrases?
+
+5
+00:00:25,300 --> 00:00:30,832
+Here the sentence has been broken up into 1-2-3-4-5 phrases.
+
+6
+00:00:30,833 --> 00:00:36,866
+Then a translation model. For each phrase, what's a good translation into English?
+
+7
+00:00:36,867 --> 00:00:45,499
+And then a distortion model, saying, "Each of these phrases, what order would be a good order to put them into?"
+
+8
+00:00:45,500 --> 00:00:50,299
+So let's look at each of those in turn. First, the segmentation model.
+
+9
+00:00:50,300 --> 00:00:59,966
+We have a database of phrases that we picked out--maybe through a similar process to what went on in the Chinese menu,
+
+10
+00:00:59,967 --> 00:01:07,499
+where we looked for coherent phrases that occurred frequently, and so we're able to apply probabilities to them.
+
+11
+00:01:07,500 --> 00:01:14,999
+So now we have a probability. What's the probability that "morgen" is a phrase and that "fliege" is a phrase by itself?
+
+12
+00:01:15,000 --> 00:01:20,266
+We would also consider the probability that they're considered a phrase together,
+
+13
+00:01:20,267 --> 00:01:24,366
+and come up with a high probability segmentation.
+
+14
+00:01:24,367 --> 00:01:29,832
+Next, the translation model. That's going between the two sides of the Chinese menu.
+
+15
+00:01:29,833 --> 00:01:35,999
+How often, when we saw the phrase "morgen", did it correspond to the phrase "tomorrow" in English?
+
+16
+00:01:36,000 --> 00:01:40,266
+And so on for the other phrases. So far, that's all pretty straight-forward.
+
+17
+00:01:40,267 --> 00:01:49,366
+And the we have the distortion model, saying, "In what order should we put these phrases? Should we swap them around in any order?"
+
+18
+00:01:49,367 --> 00:01:54,466
+And we measure that just by looking at the beginning and the ending of each phrase.
+
+19
+00:01:54,467 --> 00:02:06,466
+So Ai is the beginning of the i phrase, and Bi minus one is the ending of the i minus one phrase.
+
+20
+00:02:06,467 --> 00:02:14,532
+But we measure those in the German, but we consider the indexes, the I's, by looking at the English.
+
+21
+00:02:14,533 --> 00:02:21,766
+So we say, "This is the last phrase, is this phrase, 'in Canada,'" but that corresponds to this one here,
+
+22
+00:02:21,767 --> 00:02:31,399
+and so the beginning of that phrase is at number three, and the next to last phrase is this one, that corresponds to "zero confidence."
+
+23
+00:02:31,400 --> 00:02:41,166
+And the end of that phrase is at seven. And so the distortion there from three to seven is a distortion of four.
+
+24
+00:02:41,167 --> 00:02:46,132
+And our distortion model, then, would just be a probability distribution over those integers.
+
+25
+00:02:46,133 --> 00:02:53,366
+So it's not doing anything fancy in terms of saying what type of phrases occur before or after what other types of phrases.
+
+26
+00:02:53,367 --> 00:03:00,166
+It's just saying, "Are they shifted to the right or to the left? And are they shifted a small amount or a large amount?"
+
+27
+00:03:00,167 --> 00:03:06,366
+And I should note that in this model, if we had a one to one translation where things weren't switched--
+
+28
+00:03:06,367 --> 00:03:15,866
+So say, if the original German sentence had "zur Konferenz" before "nach Kanada," and we translated it into English like this,
+
+29
+00:03:15,867 --> 00:03:25,599
+then the Bi minus one would be five, and the Ai--imagine this being swapped over here--would also be five.
+
+30
+00:03:25,600 --> 00:03:30,766
+In that case the distortion would be zero. And so for a language where the words line up
+
+31
+00:03:30,767 --> 00:03:38,166
+very closely between the source and the target language--for those pairs of languages--then we'd have a high probability
+
+32
+00:03:38,167 --> 00:03:42,832
+mass under a zero distortion, and lower probability for other distortions.
+
+33
+00:03:42,833 --> 00:03:50,366
+In a language where lots of things are swapped far, a more volatile type of translation between the language pairs,
+
+34
+00:03:50,367 --> 00:03:57,799
+then we'd expect the probability mass to be lower for zero distortion, and higher for higher distortions.
+
+35
+00:03:57,800 --> 00:04:04,866
+So this is a very simple model. It takes only into account segmentation, translation between phrases,
+
+36
+00:04:04,867 --> 00:04:12,532
+and just the simplest model of distortion. You can imagine a more complex model based on trees and other components.
+
+37
+00:04:12,533 --> 00:04:17,565
+And I should note that this is just the translation part of the model.
+
+38
+00:04:17,567 --> 00:04:22,932
+And then to make the final choice, we would want to multiply out all these probabilities,
+
+39
+00:04:22,933 --> 00:04:28,266
+but we would also want to take into account the probability of the generated English sentence.
+
+40
+00:04:28,267 --> 00:04:33,699
+Is this a good sentence in English? And we have a probability model for that.
+
+41
+00:04:33,700 --> 00:04:40,299
+That's a monolingual model rather than a bilingual model. And the process of coming up with the best translation, then,
+
+42
+00:04:40,300 --> 00:04:48,299
+is just a search through all possible segmentations, all possible translations, all possible distortions,
+
+43
+00:04:48,300 --> 00:04:55,699
+multiply up these probabilities times the monolingual probability, and find the one that gives you the highest value,
+
+44
+00:04:55,700 --> 00:05:02,466
+and that'll be your best translation. And the tricky part is just coming up with a search technique that can enumerate
+
+45
+00:05:02,467 --> 00:05:07,000
+through many of those possibilities quickly, and choose a good one.

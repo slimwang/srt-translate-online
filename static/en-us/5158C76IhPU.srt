@@ -1,0 +1,227 @@
+1
+00:00:00,080 --> 00:00:02,320
+Based on this workload analysis,
+
+2
+00:00:02,320 --> 00:00:05,900
+the author's made the following
+design decisions in Sprite.
+
+3
+00:00:05,900 --> 00:00:10,050
+First, the Sprite will support caching
+and it will use a write back policy.
+
+4
+00:00:10,050 --> 00:00:15,280
+First, every 30 seconds the client
+will write back all the blocks.
+
+5
+00:00:15,280 --> 00:00:19,130
+That have not been modified
+in the past 30 seconds.
+
+6
+00:00:19,130 --> 00:00:23,510
+The intuition behind this is that the
+blocks that are more recently modified
+
+7
+00:00:23,510 --> 00:00:25,070
+will continue being modified,
+
+8
+00:00:25,070 --> 00:00:28,410
+that the client is still working
+on that part of the data.
+
+9
+00:00:28,410 --> 00:00:32,630
+So it does not make sense to force to
+write-back those particular blocks.
+
+10
+00:00:32,630 --> 00:00:36,150
+Instead, wait a little bit until
+the client is done working on that
+
+11
+00:00:36,150 --> 00:00:37,530
+piece of the file.
+
+12
+00:00:37,530 --> 00:00:39,960
+And then right them back to the server.
+
+13
+00:00:39,960 --> 00:00:43,850
+This will avoid repeatedly
+sending the same blocks over and
+
+14
+00:00:43,850 --> 00:00:45,670
+over back to the server.
+
+15
+00:00:45,670 --> 00:00:50,170
+Note that this 30 second threshold
+is directly related to this value 30
+
+16
+00:00:50,170 --> 00:00:54,320
+seconds which is their observation that
+a lot of the data will get deleted
+
+17
+00:00:54,320 --> 00:00:55,320
+within 30 seconds.
+
+18
+00:00:56,350 --> 00:01:01,210
+When a client comes along and wants
+to open a file that's currently being
+
+19
+00:01:01,210 --> 00:01:06,420
+written by another client, the server
+will contact this writer client and
+
+20
+00:01:06,420 --> 00:01:10,120
+will collect all of
+the outstanding dirty blocks.
+
+21
+00:01:10,120 --> 00:01:14,340
+In the system, there is no explicitly
+write-back on close, so it's possible
+
+22
+00:01:14,340 --> 00:01:18,010
+that a client has finished working on
+a file completely, closed the file,
+
+23
+00:01:18,010 --> 00:01:22,800
+and there's still modified blocks
+in that particular client cache.
+
+24
+00:01:22,800 --> 00:01:27,210
+Note that with this policy, Sprite
+allows for a file to be open, modified,
+
+25
+00:01:27,210 --> 00:01:30,530
+closed, open, modified,
+closed multiple times,
+
+26
+00:01:30,530 --> 00:01:34,300
+before any data actually gets
+written back to the server, and
+
+27
+00:01:34,300 --> 00:01:41,700
+this is one way in which Sprite is able
+to optimize this 33% of write accesses.
+
+28
+00:01:41,700 --> 00:01:46,590
+Now, note for this to work, every open
+operation has to go to the server.
+
+29
+00:01:46,590 --> 00:01:50,150
+And what that really means is that
+the directories cannot be cached
+
+30
+00:01:50,150 --> 00:01:51,350
+on the client.
+
+31
+00:01:51,350 --> 00:01:54,880
+So the client can not perform
+a directories related operation,
+
+32
+00:01:54,880 --> 00:01:58,600
+that looks up a file, and opens a file,
+and creates a file directly,
+
+33
+00:01:58,600 --> 00:01:59,660
+using its cache only.
+
+34
+00:01:59,660 --> 00:02:01,410
+It has to go to the server.
+
+35
+00:02:01,410 --> 00:02:06,510
+And finally, in the cases where these
+rare concurrent writes do occur,
+
+36
+00:02:06,510 --> 00:02:10,080
+then Sprite will completely
+disable the caching for that file.
+
+37
+00:02:10,080 --> 00:02:13,840
+And all of the writes will be
+serialized at the server side.
+
+38
+00:02:13,840 --> 00:02:17,090
+In summary, Sprite distinguishes
+between two situations.
+
+39
+00:02:17,090 --> 00:02:20,960
+When the files are accessed in a way
+where the writes don't really happen
+
+40
+00:02:20,960 --> 00:02:25,250
+concurrently, instead over time
+the clients take turns who's
+
+41
+00:02:25,250 --> 00:02:28,720
+writing to the file,
+Sprite allows caching and
+
+42
+00:02:28,720 --> 00:02:32,250
+provides sequential semantics for
+the file sharing.
+
+43
+00:02:32,250 --> 00:02:37,740
+In contrast when Sprite determines
+that a file is shared concurrently for
+
+44
+00:02:37,740 --> 00:02:41,030
+write when multiple clients
+want to write to that file,
+
+45
+00:02:41,030 --> 00:02:43,450
+then Sprite completely forbids caching.
+
+46
+00:02:43,450 --> 00:02:45,070
+It will disable caching.
+
+47
+00:02:45,070 --> 00:02:48,000
+Because this situation doesn't
+happen frequently the penalty on
+
+48
+00:02:48,000 --> 00:02:49,780
+performance will not be significant.

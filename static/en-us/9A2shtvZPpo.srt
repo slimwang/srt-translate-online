@@ -1,0 +1,641 @@
+1
+00:00:00,530 --> 00:00:03,719
+Hopefully, you had a chance to
+experiment with using different intents
+
+2
+00:00:03,719 --> 00:00:06,110
+from the Common Intents guide.
+
+3
+00:00:06,110 --> 00:00:10,090
+For example, I showed you earlier that
+I modified the submitOrder method.
+
+4
+00:00:10,090 --> 00:00:15,000
+I commented out all the existing code
+and then, added the maps intent code.
+
+5
+00:00:15,000 --> 00:00:19,000
+When I run the map on my device, when I
+click on the order button, instead of
+
+6
+00:00:19,000 --> 00:00:23,510
+uploading the order summary, it'll
+actually send an intent to the maps app.
+
+7
+00:00:23,510 --> 00:00:28,250
+The Google Maps app receives the intent
+and then updates the map to show
+
+8
+00:00:28,250 --> 00:00:31,270
+the location that we
+requested in the intent.
+
+9
+00:00:31,270 --> 00:00:34,700
+Even if using these intents doesn't
+make sense in the context of our coffee
+
+10
+00:00:34,700 --> 00:00:38,795
+ordering app, It's a good place
+to practice creating intents.
+
+11
+00:00:38,795 --> 00:00:41,765
+Let's undo this change and
+then get back to our real tasks.
+
+12
+00:00:42,765 --> 00:00:44,645
+In order to add this feature to our app,
+
+13
+00:00:44,645 --> 00:00:48,495
+we need to use an intent to send
+the order summary to an email app.
+
+14
+00:00:48,495 --> 00:00:52,445
+If you had no idea how to accomplish
+this, you could do a web search.
+
+15
+00:00:52,445 --> 00:00:55,345
+I did a search for email intent android.
+
+16
+00:00:55,345 --> 00:00:59,500
+A bunch of useful links pop up like
+a Stack Overflow post and a tutorial.
+
+17
+00:00:59,500 --> 00:01:02,550
+But the common intents guide pops up and
+says it's from the official
+
+18
+00:01:02,550 --> 00:01:05,349
+Android Documentation,
+I'm going to click on that.
+
+19
+00:01:05,349 --> 00:01:08,870
+In the side by here there's a link
+on how to create an email intent,
+
+20
+00:01:08,870 --> 00:01:11,560
+so I'm going to click on that,
+this shows you how to send
+
+21
+00:01:11,560 --> 00:01:14,900
+an intent to compose an email
+with optional attachments.
+
+22
+00:01:14,900 --> 00:01:18,140
+Looking through the documentation
+there are two code examples.
+
+23
+00:01:18,140 --> 00:01:22,230
+After reading this comment we
+want this second code example.
+
+24
+00:01:22,230 --> 00:01:25,750
+This is because we want our intent to
+be handled only by an email app and
+
+25
+00:01:25,750 --> 00:01:28,760
+not by a text messaging or
+social media app.
+
+26
+00:01:28,760 --> 00:01:30,550
+Let's select this code and copy it,
+
+27
+00:01:30,550 --> 00:01:32,390
+and then we're going to
+paste it into our app.
+
+28
+00:01:33,570 --> 00:01:34,520
+Looking at the code for
+
+29
+00:01:34,520 --> 00:01:38,505
+our just Java app where should we
+actually paste this code snippet?
+
+30
+00:01:38,505 --> 00:01:42,005
+Well, we want to send the order
+summary off to the email app
+
+31
+00:01:42,005 --> 00:01:44,695
+as soon as we have
+the complete order summary.
+
+32
+00:01:44,695 --> 00:01:48,175
+And the place that we have the complete
+order summary is after this line of code
+
+33
+00:01:48,175 --> 00:01:49,965
+here which creates the order summary and
+
+34
+00:01:49,965 --> 00:01:53,060
+then stores it in a string
+variable called priceMessage.
+
+35
+00:01:53,060 --> 00:01:56,880
+So I'm going to add a new line here,
+and then insert our code.
+
+36
+00:01:57,890 --> 00:02:00,420
+Notice how we're creating
+a new intent object
+
+37
+00:02:00,420 --> 00:02:03,680
+using the constructor with
+the new keyword in java.
+
+38
+00:02:03,680 --> 00:02:07,090
+We're passing in one argument
+as input into the constructor
+
+39
+00:02:07,090 --> 00:02:09,470
+to initialize this intent object.
+
+40
+00:02:09,470 --> 00:02:14,710
+The argument is this constant
+called Intent.ACTION_SENDTO.
+
+41
+00:02:14,710 --> 00:02:18,510
+Remember the convention is that when
+you see something in all caps in Java
+
+42
+00:02:18,510 --> 00:02:20,140
+it means it's a constant.
+
+43
+00:02:20,140 --> 00:02:24,750
+A constant is a variable who's contents
+should never change once it's set.
+
+44
+00:02:24,750 --> 00:02:27,220
+In this case when we're
+creating our intent
+
+45
+00:02:27,220 --> 00:02:29,370
+we're using official intent action.
+
+46
+00:02:29,370 --> 00:02:34,460
+ACTION_SENDTO which is defined as
+a constant in the intent class.
+
+47
+00:02:34,460 --> 00:02:38,080
+Then we call some methods on this
+newly created intent object.
+
+48
+00:02:38,080 --> 00:02:40,650
+We set the data to be
+a URI of this format,
+
+49
+00:02:40,650 --> 00:02:46,010
+"mailto:", that way all the email
+apps will handle this intent.
+
+50
+00:02:46,010 --> 00:02:49,120
+Then we add some extra
+data into the intent.
+
+51
+00:02:49,120 --> 00:02:52,700
+We don't need to specify
+the two field of this e-mail so
+
+52
+00:02:52,700 --> 00:02:55,000
+I'm just going to delete that line.
+
+53
+00:02:55,000 --> 00:02:58,800
+We do, however, want to specify
+the subject of the e-mail message.
+
+54
+00:02:58,800 --> 00:03:01,680
+So I'm going to replace this
+with actual subject line.
+
+55
+00:03:03,240 --> 00:03:08,440
+Just Java order for, and
+then add the persons name.
+
+56
+00:03:09,440 --> 00:03:12,950
+Then these next couple of lines of
+code check if there's an activity
+
+57
+00:03:12,950 --> 00:03:15,140
+on the device to handle this intent.
+
+58
+00:03:16,210 --> 00:03:18,980
+If there is then it's safe
+to send the intent and
+
+59
+00:03:18,980 --> 00:03:22,400
+recall start activity using this intent.
+
+60
+00:03:22,400 --> 00:03:25,330
+If there's no activity on
+the device to handle the intent,
+
+61
+00:03:25,330 --> 00:03:28,970
+then we skip this block of code and
+we skip sending the intent.
+
+62
+00:03:30,660 --> 00:03:31,900
+Now, let's run the app on our device.
+
+63
+00:03:33,310 --> 00:03:34,890
+Now when I click on the order button,
+
+64
+00:03:34,890 --> 00:03:38,190
+it sends an intent to
+an email app on the device.
+
+65
+00:03:38,190 --> 00:03:42,060
+By default, the Gmail app is
+going to handle this intent.
+
+66
+00:03:42,060 --> 00:03:46,620
+In a code since I specified a custom
+subject line, it shows up here as just
+
+67
+00:03:46,620 --> 00:03:51,900
+Java order for Kaptain Kanal, which is
+the name that I entered into the app.
+
+68
+00:03:51,900 --> 00:03:55,850
+Now, the original quiz question asked
+us to populate the email subject line,
+
+69
+00:03:55,850 --> 00:03:58,490
+as well as the message body
+with the order summary.
+
+70
+00:03:58,490 --> 00:04:00,350
+So let's go do that now.
+
+71
+00:04:00,350 --> 00:04:02,090
+Looking back the the documentation for
+
+72
+00:04:02,090 --> 00:04:06,330
+the email intent, I'm going to scroll
+up to look at the intent extras.
+
+73
+00:04:07,570 --> 00:04:09,520
+We need to add an intent extra for
+
+74
+00:04:09,520 --> 00:04:12,930
+each additional piece of information
+we want to provide about the email.
+
+75
+00:04:12,930 --> 00:04:17,709
+For example, we could have an intent
+extra about the recipients of the email
+
+76
+00:04:17,709 --> 00:04:20,820
+And we can have an Intent.EXTRA
+about the subject line of the email.
+
+77
+00:04:21,820 --> 00:04:23,350
+But this is what we really want.
+
+78
+00:04:23,350 --> 00:04:28,200
+We want to add an Intent.EXTRA to
+specify the body of the email.
+
+79
+00:04:28,200 --> 00:04:34,320
+Again, Intent.EXTRA_TEXT is a constant
+defined in the intent java class.
+
+80
+00:04:34,320 --> 00:04:36,050
+If I click on it you'll
+see more information.
+
+81
+00:04:37,170 --> 00:04:40,730
+It's defined as a string
+in the intent class.
+
+82
+00:04:40,730 --> 00:04:43,480
+And the constant value is
+this string right here.
+
+83
+00:04:44,600 --> 00:04:48,670
+In the Just Java app when we create the
+intent And we're going to populate this
+
+84
+00:04:48,670 --> 00:04:52,540
+extra, containing the body
+of the email message.
+
+85
+00:04:52,540 --> 00:04:55,740
+When the email app receives the intent,
+they'll know to check for
+
+86
+00:04:55,740 --> 00:05:00,410
+this intent extra to find the body of
+email and then they can populate that.
+
+87
+00:05:00,410 --> 00:05:02,440
+Into the user interface.
+
+88
+00:05:02,440 --> 00:05:03,650
+Let's make that code change now.
+
+89
+00:05:03,650 --> 00:05:06,540
+I'm going to select this line of code,
+
+90
+00:05:06,540 --> 00:05:11,440
+that puts one extra into the intent for
+the subject of the email.
+
+91
+00:05:11,440 --> 00:05:13,870
+On the next line,
+I'm going to paste the code.
+
+92
+00:05:13,870 --> 00:05:16,870
+Now we're putting a second
+extra into the intent.
+
+93
+00:05:18,160 --> 00:05:25,530
+The extra is going to correspond
+to Intent.EXTRA_TEXT so
+
+94
+00:05:25,530 --> 00:05:28,810
+that we know that it's for
+the body of the email.
+
+95
+00:05:28,810 --> 00:05:32,360
+The second argument to this
+method is going to be the actual
+
+96
+00:05:32,360 --> 00:05:33,490
+body of the email.
+
+97
+00:05:35,120 --> 00:05:37,780
+The body of the email should just
+contain the order summary and
+
+98
+00:05:37,780 --> 00:05:42,190
+that's sorted in price message so I can
+just copy this variable over to here.
+
+99
+00:05:44,930 --> 00:05:45,980
+To recap, for
+
+100
+00:05:45,980 --> 00:05:50,890
+the intent object we're calling a method
+putExtra to specific the email subject.
+
+101
+00:05:52,380 --> 00:05:55,890
+In the same intent object we're
+calling the put extra method again
+
+102
+00:05:55,890 --> 00:05:57,720
+to specify the body of the email.
+
+103
+00:05:57,720 --> 00:06:01,490
+And the body of the email
+is the order summary.
+
+104
+00:06:01,490 --> 00:06:02,670
+Now let's run the app on our device.
+
+105
+00:06:04,080 --> 00:06:07,610
+once I complete order,
+I can click the button to submit.
+
+106
+00:06:07,610 --> 00:06:11,190
+We send an intent to the email app
+with the email subject populated and
+
+107
+00:06:11,190 --> 00:06:12,270
+the summary shows up now.
+
+108
+00:06:12,270 --> 00:06:13,380
+Woo hoo!
+
+109
+00:06:14,760 --> 00:06:18,110
+For the third step of this task we're
+going to remove the code that displays
+
+110
+00:06:18,110 --> 00:06:20,760
+the order summary in
+the Just Java app because
+
+111
+00:06:20,760 --> 00:06:23,070
+now it's going to show
+up in the email app.
+
+112
+00:06:23,070 --> 00:06:26,604
+I'm going to start by modifying the
+activity main layout to remove the order
+
+113
+00:06:26,604 --> 00:06:28,510
+summary text views.
+
+114
+00:06:28,510 --> 00:06:31,360
+At the bottom of the layout,
+I'm going to delete the header
+
+115
+00:06:31,360 --> 00:06:33,970
+as well as the TextView that would
+show the actual order summary.
+
+116
+00:06:33,970 --> 00:06:36,760
+I'm going to save that and
+switch to the Java file.
+
+117
+00:06:37,820 --> 00:06:42,276
+In the main activity Java file, I no
+longer need this display message method,
+
+118
+00:06:42,276 --> 00:06:46,463
+which would update the order summary
+text view because this view with this
+
+119
+00:06:46,463 --> 00:06:48,101
+ID doesn't exist anymore.
+
+120
+00:06:52,323 --> 00:06:55,970
+Since I deleted the display message
+method, Android studio now gives me
+
+121
+00:06:55,970 --> 00:06:59,870
+an error saying that this method doesn't
+exist, so I'm going to delete this.
+
+122
+00:07:01,130 --> 00:07:04,100
+Looking back at our code, this makes
+sense because when we click on the order
+
+123
+00:07:04,100 --> 00:07:06,680
+button, It's going to call
+the submit order method,
+
+124
+00:07:06,680 --> 00:07:11,610
+we're going to do all this code, which
+also sends an intent to the email app.
+
+125
+00:07:11,610 --> 00:07:16,030
+There's no need to display the order
+summary within our app any more.
+
+126
+00:07:16,030 --> 00:07:18,400
+Let's verify that the app still works.
+
+127
+00:07:18,400 --> 00:07:20,090
+When you delete large amounts of code,
+
+128
+00:07:20,090 --> 00:07:22,710
+it's easier to check
+immediately that it works and
+
+129
+00:07:22,710 --> 00:07:26,480
+undo the changes if there's a mistake,
+rather than trying to find it out later.
+
+130
+00:07:29,120 --> 00:07:30,890
+And the app still works.
+
+131
+00:07:30,890 --> 00:07:31,810
+Nice job.
+
+132
+00:07:31,810 --> 00:07:34,880
+You added an intent
+to the just Java app.
+
+133
+00:07:34,880 --> 00:07:38,560
+Intents are one of the core parts of
+Android, but there are still many more
+
+134
+00:07:38,560 --> 00:07:41,250
+Android components that can
+help you build better apps.
+
+135
+00:07:41,250 --> 00:07:44,570
+I recommend that you check those out on
+your own after you finish this course.

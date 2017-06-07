@@ -1,0 +1,439 @@
+1
+00:00:00,302 --> 00:00:03,950
+So that explains how that first
+condition is satisfied that it's
+
+2
+00:00:03,950 --> 00:00:07,510
+basically taking care of
+the averaging over noisy transitions.
+
+3
+00:00:07,510 --> 00:00:12,140
+This second condition is
+going to turn out to be, well,
+
+4
+00:00:12,140 --> 00:00:13,540
+let's find out what it's
+going to turn out to be.
+
+5
+00:00:13,540 --> 00:00:18,600
+So what we're doing here is we're
+saying let's apply this operator,
+
+6
+00:00:18,600 --> 00:00:22,600
+this BTQ operator, or BTQW operator.
+
+7
+00:00:24,790 --> 00:00:29,900
+And the condition that we need to have
+hold is that for any Q, U, S and A,
+
+8
+00:00:29,900 --> 00:00:35,590
+that if we hold this U fixed, which the
+Q in the equation is going to turn out
+
+9
+00:00:35,590 --> 00:00:41,590
+to be the Q itself, and only vary how
+we're computing our one step look ahead.
+
+10
+00:00:41,590 --> 00:00:44,140
+How we're estimating the Q
+values of states that we
+
+11
+00:00:44,140 --> 00:00:45,690
+are moving to one step from now.
+
+12
+00:00:46,900 --> 00:00:52,547
+That the difference between those two
+Q functions, in this case Q star and
+
+13
+00:00:52,547 --> 00:00:57,831
+Q, is going to get smaller after we
+apply this operator than before,
+
+14
+00:00:57,831 --> 00:01:00,764
+which is an example of what property?
+
+15
+00:01:00,764 --> 00:01:03,815
+What is it about the operator
+that we're counting on, for
+
+16
+00:01:03,815 --> 00:01:06,863
+this to be true, that before
+we do the one step look ahead,
+
+17
+00:01:06,863 --> 00:01:10,060
+there are some distance apart,
+but after they're closer.
+
+18
+00:01:11,340 --> 00:01:11,970
+>> Actually I'm not sure.
+
+19
+00:01:13,020 --> 00:01:18,200
+>> So however far apart the value that
+we're using as a one step look ahead,
+
+20
+00:01:18,200 --> 00:01:19,930
+however far apart it was before,
+
+21
+00:01:19,930 --> 00:01:24,638
+that after we apply this rule
+now it's closer together.
+
+22
+00:01:24,638 --> 00:01:28,180
+>> Right and it will be because you're
+moving in the direction of what the one
+
+23
+00:01:28,180 --> 00:01:30,260
+step look ahead operator said.
+
+24
+00:01:30,260 --> 00:01:33,950
+>> Right and so
+what property the one step operator,
+
+25
+00:01:33,950 --> 00:01:36,870
+what property of this
+equation is giving us that?
+
+26
+00:01:36,870 --> 00:01:39,090
+It's the contraction property.
+
+27
+00:01:40,380 --> 00:01:44,080
+So the fact that this update has
+the form of a contraction is what
+
+28
+00:01:44,080 --> 00:01:45,705
+gives us this property being true,
+
+29
+00:01:45,705 --> 00:01:48,790
+that after we apply an operator
+things get closer together.
+
+30
+00:01:50,210 --> 00:01:52,547
+And then the third condition was just
+the condition on the learning rates,
+
+31
+00:01:52,547 --> 00:01:54,920
+and we need that for
+any kind of Q learning algorithm.
+
+32
+00:01:54,920 --> 00:01:59,140
+Anyway, at the end of the day,
+by separating
+
+33
+00:01:59,140 --> 00:02:04,430
+the Q learning update equation
+into using two different
+
+34
+00:02:04,430 --> 00:02:08,750
+Q functions in two different ways,
+we can prove properties of both of them.
+
+35
+00:02:08,750 --> 00:02:13,650
+One is playing the role of averaging out
+the stochasticity so that we're sort of
+
+36
+00:02:13,650 --> 00:02:19,410
+acting as if there are expected values
+in here, even though there's not.
+
+37
+00:02:19,410 --> 00:02:20,692
+And then given that,
+
+38
+00:02:20,692 --> 00:02:25,539
+the other one is acting like the value
+iteration operator, the one step backup,
+
+39
+00:02:25,539 --> 00:02:29,691
+and is contracting with respect to
+the value function that you used.
+
+40
+00:02:29,691 --> 00:02:34,940
+So again the Q functions are being
+used in two slightly different ways.
+
+41
+00:02:34,940 --> 00:02:39,720
+We proved that both of them hold,
+and therefore this theorem
+
+42
+00:02:39,720 --> 00:02:43,780
+gives us that the whole iterative
+algorithm is going to converge.
+
+43
+00:02:43,780 --> 00:02:46,040
+>> Right.
+>> So this is all really just a long way
+
+44
+00:02:46,040 --> 00:02:51,140
+of saying hey, look, because Q learning
+can be forced to fit into the scheme,
+
+45
+00:02:51,140 --> 00:02:52,960
+it's guaranteed to
+converge in the limit.
+
+46
+00:02:55,320 --> 00:02:56,370
+>> So Q learning converges?
+
+47
+00:02:56,370 --> 00:02:57,250
+>> Q learning converges.
+
+48
+00:02:57,250 --> 00:02:58,390
+>> I guess we knew that.
+
+49
+00:02:58,390 --> 00:03:01,420
+>> Yeah, we knew that, and
+in fact there's lot of literature
+
+50
+00:03:01,420 --> 00:03:04,990
+where people have proven
+essentially this result over and
+
+51
+00:03:04,990 --> 00:03:07,660
+over again in slightly different
+ways using different tools.
+
+52
+00:03:07,660 --> 00:03:10,070
+The thing that I like
+about this proof is, well,
+
+53
+00:03:10,070 --> 00:03:12,535
+first of all I read it because
+it's in a paper that I wrote.
+
+54
+00:03:12,535 --> 00:03:14,250
+>> [LAUGH]
+>> But second of all,
+
+55
+00:03:15,370 --> 00:03:18,360
+it breaks things down in this sort of
+modular way that we're going to be
+
+56
+00:03:18,360 --> 00:03:22,600
+able to reuse to prove the convergence
+of other Q learning like algorithms.
+
+57
+00:03:22,600 --> 00:03:25,340
+And that turned out to be
+important to prove, for
+
+58
+00:03:25,340 --> 00:03:29,600
+example, that Q learning in
+game scenarios also converges.
+
+59
+00:03:30,880 --> 00:03:33,610
+>> Huh, but that's in the future?
+
+60
+00:03:33,610 --> 00:03:34,280
+>> That's in the future.
+
+61
+00:03:36,230 --> 00:03:39,080
+>> Are we going to re-prove this all
+over again when we get to the future?
+
+62
+00:03:40,300 --> 00:03:43,690
+>> No, we don't have to, because the
+generalized theorem holds in both cases.
+
+63
+00:03:43,690 --> 00:03:44,720
+>> Nice, nice.
+
+64
+00:03:44,720 --> 00:03:46,760
+>> That's the beauty of
+the generalized theorem.
+
+65
+00:03:46,760 --> 00:03:48,751
+We never have to look at this again.
+
+66
+00:03:48,751 --> 00:03:49,820
+[LAUGH]
+>> Well played, sir.
+
+67
+00:03:49,820 --> 00:03:53,460
+>> All that's going to matter is,
+well it's going to matter that
+
+68
+00:03:53,460 --> 00:03:56,760
+the operators that we use for
+updates are contraction mappings.
+
+69
+00:03:56,760 --> 00:03:57,340
+>> Okay.
+
+70
+00:03:57,340 --> 00:04:00,570
+>> And as long as we take care of that,
+things are going to be great.
+
+71
+00:04:00,570 --> 00:04:05,387
+Oh, sorry, non-expansions, as long as
+the thing in this position here is
+
+72
+00:04:05,387 --> 00:04:08,740
+a non-expansion, all will be well.
+
+73
+00:04:08,740 --> 00:04:09,940
+>> Good, good, so well played.
+
+74
+00:04:09,940 --> 00:04:11,970
+So we went through all of this so we
+never have to go through it all again.
+
+75
+00:04:11,970 --> 00:04:13,450
+I like that.
+
+76
+00:04:13,450 --> 00:04:14,930
+>> That is exactly the thought, yeah.
+
+77
+00:04:14,930 --> 00:04:17,380
+And in fact,
+even missing all the details of this,
+
+78
+00:04:17,380 --> 00:04:21,130
+I just wanted you to be aware of
+the fact that these details exist.
+
+79
+00:04:21,130 --> 00:04:24,540
+The way that we actually use this is at
+a much higher level of abstraction where
+
+80
+00:04:24,540 --> 00:04:29,280
+we just say, hey, we can write down
+what we think the Bellman equation is.
+
+81
+00:04:29,280 --> 00:04:31,920
+We can prove that
+the operators that we're using
+
+82
+00:04:31,920 --> 00:04:33,930
+here are non-expansions, and we're done.
+
+83
+00:04:33,930 --> 00:04:37,060
+>> And we inherit everything else?
+
+84
+00:04:37,060 --> 00:04:40,870
+Yeah, it's just like knowing that
+the sum of the alphas should go to
+
+85
+00:04:40,870 --> 00:04:43,660
+infinity but the alpha squared
+should not go to infinity.
+
+86
+00:04:44,960 --> 00:04:48,420
+Once we know that, then it helps us to
+decide whether to choose this learning
+
+87
+00:04:48,420 --> 00:04:49,660
+rate or that learning rate.
+
+88
+00:04:49,660 --> 00:04:52,860
+It's the same thing, we can't just
+substitute max with any arbitrary thing
+
+89
+00:04:52,860 --> 00:04:57,740
+we want to because it might be
+expansive instead of non-expansive.
+
+90
+00:04:57,740 --> 00:05:00,510
+But so long as we're smart
+about the things that we pick,
+
+91
+00:05:00,510 --> 00:05:01,770
+we know that things
+are going to converge.
+
+92
+00:05:03,520 --> 00:05:08,460
+>> Exactly and so let's maybe go through
+some examples of that as a quiz.
+
+93
+00:05:09,490 --> 00:05:09,990
+>> Sure.

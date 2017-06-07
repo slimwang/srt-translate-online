@@ -1,0 +1,187 @@
+1
+00:00:00,090 --> 00:00:01,763
+Jake, did you figure this one out?
+
+2
+00:00:01,763 --> 00:00:03,343
+>> I absolutely did.
+
+3
+00:00:03,343 --> 00:00:04,747
+Here goes.
+
+4
+00:00:04,747 --> 00:00:05,930
+We can see the problem here.
+
+5
+00:00:05,930 --> 00:00:08,162
+I've had Wizard running for
+a while now, and
+
+6
+00:00:08,162 --> 00:00:10,997
+I've got almost four hundred
+messages in the database.
+
+7
+00:00:10,997 --> 00:00:14,591
+The code for dealing with this
+is a little bit tricky so,
+
+8
+00:00:14,591 --> 00:00:16,131
+well done if you did it.
+
+9
+00:00:16,131 --> 00:00:20,229
+Over in on socket message, after adding
+that into the database, I'm going to
+
+10
+00:00:20,229 --> 00:00:24,161
+continue using the same transaction and
+the same object store from above.
+
+11
+00:00:24,161 --> 00:00:26,182
+I'm going to get the by-date index,
+
+12
+00:00:26,182 --> 00:00:30,160
+because I want to remove the oldest
+posts, and I'm going to open a cursor,
+
+13
+00:00:30,160 --> 00:00:33,841
+but pass a null and prev, so
+the cursor goes backwards for the index.
+
+14
+00:00:33,841 --> 00:00:35,385
+Starting with the newest post.
+
+15
+00:00:35,385 --> 00:00:39,769
+I don't care about the first 30 posts,
+those are the newest ones,
+
+16
+00:00:39,769 --> 00:00:40,758
+they can stay.
+
+17
+00:00:40,758 --> 00:00:42,441
+I'm going to advance past them.
+
+18
+00:00:45,136 --> 00:00:51,211
+With the posts after that, well if
+the cursor is undefined, we're done.
+
+19
+00:00:51,211 --> 00:00:55,231
+Overwise I'm going to delete the entry,
+then continue the cursor
+
+20
+00:00:55,231 --> 00:00:59,630
+Calling the same function again to
+loop through the remaining entries.
+
+21
+00:00:59,630 --> 00:01:03,020
+This keeps the news 30 post,
+but deletes the rest.
+
+22
+00:01:04,099 --> 00:01:07,616
+Now i can reload the page
+using force reload.
+
+23
+00:01:07,616 --> 00:01:13,299
+And in the resources panel, I've got
+the latest 30 posts, but no more.
+
+24
+00:01:13,299 --> 00:01:16,328
+This is something we want to ship, so
+
+25
+00:01:16,328 --> 00:01:20,140
+I bump the static cache
+of the service worker,
+
+26
+00:01:20,140 --> 00:01:25,839
+disable force update, refresh the page,
+and there's our update.
+
+27
+00:01:25,839 --> 00:01:26,918
+Things are looking great.
+
+28
+00:01:26,918 --> 00:01:30,882
+We've absolutely covered continual
+update of pages and this is huge.
+
+29
+00:01:30,882 --> 00:01:33,262
+Once again,
+this is something we could launch.
+
+30
+00:01:33,262 --> 00:01:34,491
+Here's what we've achieved.
+
+31
+00:01:34,491 --> 00:01:37,968
+Things haven't changed much when
+the connections perfect, but yeah,
+
+32
+00:01:37,968 --> 00:01:39,569
+perfect doesn't really exist.
+
+33
+00:01:39,569 --> 00:01:43,600
+On a slow connection we get to
+render content, much quicker,
+
+34
+00:01:43,600 --> 00:01:45,002
+way quicker in fact.
+
+35
+00:01:45,002 --> 00:01:48,802
+Life our users get content rather
+than an infinite white screen.
+
+36
+00:01:48,802 --> 00:01:52,174
+Even offline users get content.
+
+37
+00:01:52,174 --> 00:01:55,749
+Although, as I'm sure you've noticed,
+things are still a little slow, or
+
+38
+00:01:55,749 --> 00:01:57,239
+broken when it comes to images.
+
+39
+00:01:57,239 --> 00:01:59,898
+That's all we've got left to fix,
+then we're done.
+
+40
+00:01:59,898 --> 00:02:02,792
+You're on the home straight now,
+just those images, and
+
+41
+00:02:02,792 --> 00:02:04,870
+we have a full offline first experience.

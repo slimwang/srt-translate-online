@@ -1,0 +1,115 @@
+1
+00:00:00,700 --> 00:00:03,766
+Now we're going to talk about how to do inference on Bays Net.
+
+2
+00:00:03,767 --> 00:00:14,366
+We'll start with our familiar network, and we'll talk about a method called enumeration, which goes through all the possibilities,
+
+3
+00:00:14,367 --> 00:00:23,999
+adds them up, and comes up with an answer. So what we do is start by stating the problem.
+
+4
+00:00:24,000 --> 00:00:34,066
+We're going to ask the question of, "What is the probability that the burglar alarm occurred, given that John called and Mary called?"
+
+5
+00:00:34,067 --> 00:00:47,132
+We'll use the definition of conditional probability to answer this. So this query is equal to the joint probability distribution
+
+6
+00:00:47,133 --> 00:00:55,266
+of all three variables, divided by the conditionalized variables.
+
+7
+00:00:55,267 --> 00:01:03,199
+Now, note I'm using a notation here where, instead of writing out the probability of some variable equals true,
+
+8
+00:01:03,200 --> 00:01:08,632
+I'm just using the notation, "Plus," and then the variable name in lowercase.
+
+9
+00:01:08,633 --> 00:01:13,566
+And if I wanted the negation, I would use negation sign.
+
+10
+00:01:13,567 --> 00:01:21,299
+Notice there's a different notation where, instead of writing out the plus and negation signs, we just use the variable name itself,
+
+11
+00:01:21,300 --> 00:01:31,899
+P of E, to indicate E is true. That notation works well, but it can get confusing between, "Does P of E mean E is true,
+
+12
+00:01:31,900 --> 00:01:41,099
+"or does it mean E is a variable?" And so we're going to stick to the notation where we explicitly have the pluses and negation signs.
+
+13
+00:01:41,100 --> 00:01:49,566
+To do inference by enumeration, we first take a conditional probability and rewrite it as unconditional probabilities.
+
+14
+00:01:49,567 --> 00:01:56,166
+Now we enumerate all the atomic probabilities and calculate the sum of products.
+
+15
+00:01:56,167 --> 00:02:05,632
+Let's look at just the complex term on the numerator first. The procedure for figuring out the denominator would be similar, and we'll skip that.
+
+16
+00:02:05,633 --> 00:02:17,732
+So, the probability of these three terms together can be determined by enumerating all possible values of the hidden variables.
+
+17
+00:02:17,733 --> 00:02:29,732
+In this case there are two--E and A. So we'll sum over those variables for all values of E, and for all values of A--
+
+18
+00:02:29,733 --> 00:02:34,166
+In this case they're Boolean, so there's only two values of each.
+
+19
+00:02:34,167 --> 00:02:41,299
+We ask, "What's the probability of this unconditional term?"
+
+20
+00:02:41,300 --> 00:02:49,132
+And that we get by summing out over all possibilities, E and A being true or false.
+
+21
+00:02:49,133 --> 00:02:55,966
+Now, to get the values of these atomic events, we'll have to rewrite this equation in a form that corresponds to the
+
+22
+00:02:55,967 --> 00:03:03,832
+conditional probability tables that we have associated with the Bays net. So we'll take this whole expression and rewrite it.
+
+23
+00:03:03,833 --> 00:03:15,232
+It's still a sum over the hidden variables, E and A. But now I'll rewrite this expression in terms of the parents of each of the nodes in the network.
+
+24
+00:03:15,233 --> 00:03:25,032
+So that gives us the product of these five terms, which we then have to sum over all values of E and A.
+
+25
+00:03:25,033 --> 00:03:43,132
+If we call this product F of EA, then the whole answer is the sum of f for all values of E and A.
+
+26
+00:03:43,133 --> 00:03:51,532
+So it's the sum of four terms, where each of the terms is a product of five numbers.
+
+27
+00:03:51,533 --> 00:03:57,999
+Where do we get the numbers to fill in this equation? From the conditional probability tables from our model.
+
+28
+00:03:58,000 --> 00:04:10,099
+So let's put the equation back up, and we'll ask you for the case where both E and A are positive, two look up in the
+
+29
+00:04:10,100 --> 00:04:24,933
+conditional probability tables, and fill in the numbers for each of these five terms, and then multiply them together and fill in the product.

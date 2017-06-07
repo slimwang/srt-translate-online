@@ -1,0 +1,259 @@
+1
+00:00:00,000 --> 00:00:02,000
+[Norvig] Now let's go back to hand_rank.
+
+2
+00:00:02,000 --> 00:00:05,000
+We still have the same specification that the input is a hand
+
+3
+00:00:05,000 --> 00:00:08,000
+and the output is a value indicating the ranking of a hand.
+
+4
+00:00:08,000 --> 00:00:12,000
+But instead of having the value be an integer like it was before,
+
+5
+00:00:12,000 --> 00:00:16,000
+now the value is going to be a tuple where the first element of the tuple
+
+6
+00:00:16,000 --> 00:00:21,000
+is still going to be the single value representing the type of ranking--
+
+7
+00:00:21,000 --> 00:00:23,000
+8 for a straight flush, for example--
+
+8
+00:00:23,000 --> 00:00:28,000
+but then the next element of the tuple serves to break ties.
+
+9
+00:00:28,000 --> 00:00:32,000
+If 8 is the highest compared to any other hand, then that's the winner.
+
+10
+00:00:32,000 --> 00:00:35,000
+But if there are multiple hands that have an 8, they all tie
+
+11
+00:00:35,000 --> 00:00:37,000
+and we have to go on to the first tiebreaker.
+
+12
+00:00:37,000 --> 00:00:40,000
+And what should the tiebreaker be?
+
+13
+00:00:40,000 --> 00:00:44,000
+Well, in this case, we can just look at the high rank.
+
+14
+00:00:44,000 --> 00:00:50,000
+So we can look at the max out of all the ranks breaks the ties.
+
+15
+00:00:50,000 --> 00:01:01,000
+And the idea there is if we had a hand that, say, had ranks 2 3 4 5 6,
+
+16
+00:01:01,000 --> 00:01:05,000
+then the only thing we care about is the 6.
+
+17
+00:01:05,000 --> 00:01:10,000
+We can completely specify this hand because we know it's a straight.
+
+18
+00:01:10,000 --> 00:01:15,000
+So if 6 was the high card, then that tells us everything we need to know
+
+19
+00:01:15,000 --> 00:01:19,000
+about the straight and how it compares to any other straight.
+
+20
+00:01:19,000 --> 00:01:25,000
+So for that kind of hand, we'd get the value (8, 6)
+
+21
+00:01:25,000 --> 00:01:34,000
+and a hand that was, say, 6 7 8 9 T would get the value (8, 10),
+
+22
+00:01:34,000 --> 00:01:40,000
+and we know that this hand would win because (8, 10) is bigger than (8, 6).
+
+23
+00:01:40,000 --> 00:01:45,000
+So this gives us a way to break ties between straight flushes.
+
+24
+00:01:45,000 --> 00:01:50,000
+We can do the same type of thing for all the other rankings.
+
+25
+00:01:50,000 --> 00:01:55,000
+So rank 7 is 4 of a kind. What do we want to put in there to break the tie?
+
+26
+00:01:55,000 --> 00:01:59,000
+The first tiebreaker is the thing that you have 4 of a kind of.
+
+27
+00:01:59,000 --> 00:02:03,000
+So you say, I've got 4 of a kind, 4 kings,
+
+28
+00:02:03,000 --> 00:02:08,000
+and we can just say, what do you have 4 of a kind of?
+
+29
+00:02:08,000 --> 00:02:14,000
+But now I have to firm up the definition of kind.
+
+30
+00:02:14,000 --> 00:02:17,000
+We weren't quite clear on what it returns.
+
+31
+00:02:17,000 --> 00:02:23,000
+We can make it return a value which is the actual rank.
+
+32
+00:02:23,000 --> 00:02:25,000
+So if I have four 7s, it should return 7.
+
+33
+00:02:25,000 --> 00:02:30,000
+If I have four 10s, it should return 10, and that will be the tiebreaker.
+
+34
+00:02:30,000 --> 00:02:36,000
+And then normally, if we're playing a regular game, there would only be 4 of a kind in a deck.
+
+35
+00:02:36,000 --> 00:02:39,000
+So if you had four 10s, nobody else could tie you
+
+36
+00:02:39,000 --> 00:02:41,000
+because there wouldn't be another four 10s.
+
+37
+00:02:41,000 --> 00:02:46,000
+But we want to allow for the possibility of playing a game where there's 2 decks.
+
+38
+00:02:46,000 --> 00:02:48,000
+So we could go to a tiebreaker,
+
+39
+00:02:48,000 --> 00:02:52,000
+and then the tiebreaker would be the remaining card in your hand,
+
+40
+00:02:52,000 --> 00:02:55,000
+which is the card that you have 1 of a kind of.
+
+41
+00:02:55,000 --> 00:03:04,000
+So for example, say if you had a hand that had four 9s and a 3,
+
+42
+00:03:04,000 --> 00:03:08,000
+then our value would be 7, meaning 4 of a kind,
+
+43
+00:03:08,000 --> 00:03:11,000
+9, meaning you have four 9s,
+
+44
+00:03:11,000 --> 00:03:15,000
+and then 3, meaning that's the final tiebreaker.
+
+45
+00:03:15,000 --> 00:03:19,000
+There's something a little bit tricky here that I want to go over and make sure we get right.
+
+46
+00:03:19,000 --> 00:03:24,000
+Here I'm kind of overloading the idea of the function kind.
+
+47
+00:03:24,000 --> 00:03:30,000
+I'm using it to return a value--returns 9 when you have four 9s--
+
+48
+00:03:30,000 --> 00:03:32,000
+but I'm also using it as a Boolean test,
+
+49
+00:03:32,000 --> 00:03:39,000
+saying if you have 4 of a kind at all, then do this.
+
+50
+00:03:39,000 --> 00:03:45,000
+And so I want to arrange kind to return a false value when it doesn't have 4 of a kind
+
+51
+00:03:45,000 --> 00:03:51,000
+and to return a true value, which is a number, when you do have 4 of a kind.
+
+52
+00:03:51,000 --> 00:03:53,000
+And you can do that in Python.
+
+53
+00:03:53,000 --> 00:03:56,000
+In other languages, you would have to decide one or another.
+
+54
+00:03:56,000 --> 00:04:03,000
+In a language like Java, you couldn't have something that returns either a Boolean value
+
+55
+00:04:03,000 --> 00:04:06,000
+or a number, so you'd have to have another way of dealing with that.
+
+56
+00:04:06,000 --> 00:04:08,000
+But in Python you can do that.
+
+57
+00:04:08,000 --> 00:04:11,000
+You can have kind return a number when it's needed
+
+58
+00:04:11,000 --> 00:04:15,000
+and return a false value when it's needed.
+
+59
+00:04:15,000 --> 00:04:19,000
+One thing you have to worry about is it turns out that in Java
+
+60
+00:04:19,000 --> 00:04:23,000
+the value 0 is, in fact, counted as false.
+
+61
+00:04:23,000 --> 00:04:28,000
+So if I was saying I'm going to return either a false value or return a number
+
+62
+00:04:28,000 --> 00:04:32,000
+and if 0 was one of those possible numbers, then I could be in trouble.
+
+63
+00:04:32,000 --> 00:04:35,000
+But in this case, 0 is not a possible number
+
+64
+00:04:35,000 --> 00:04:40,000
+because the ranks go from 2 to 14, so I'm okay.
+
+65
+00:04:40,000 --> 99:59:59,999
+And we'll see more about that when we define the kind function.

@@ -1,0 +1,145 @@
+1
+00:00:00,450 --> 00:00:03,690
+With just basic support from
+an interconnect like PCI and
+
+2
+00:00:03,690 --> 00:00:08,778
+the corresponding PCI controllers on
+the device, a system can access or
+
+3
+00:00:08,778 --> 00:00:13,170
+request an operation from a device
+using a method called programmed I/O.
+
+4
+00:00:13,170 --> 00:00:16,190
+This method requires no
+additional hardware support.
+
+5
+00:00:16,190 --> 00:00:20,510
+It involves the CPU issuing
+constructions by writing into
+
+6
+00:00:20,510 --> 00:00:24,770
+the command registers of the device and
+also controlling
+
+7
+00:00:24,770 --> 00:00:29,670
+the data movement by accessing
+the data registers of the device.
+
+8
+00:00:29,670 --> 00:00:34,320
+So either the data will be written to
+these data registers or read from them.
+
+9
+00:00:34,320 --> 00:00:37,270
+For instance, let's look at
+a network interface card or
+
+10
+00:00:37,270 --> 00:00:42,140
+a NIC as a simple device that's
+accessed via programmed I/O or PIO.
+
+11
+00:00:42,140 --> 00:00:43,590
+Here in the NIC case,
+
+12
+00:00:43,590 --> 00:00:47,720
+when a process that's running from the
+CPU wants to transmit some data that has
+
+13
+00:00:47,720 --> 00:00:52,710
+been formatted into an network packet,
+the following steps need to take place.
+
+14
+00:00:52,710 --> 00:00:57,260
+First, the CPU needs to write to
+a command register on the device.
+
+15
+00:00:57,260 --> 00:01:01,060
+And this command needs to instruct
+the device that it needs to
+
+16
+00:01:01,060 --> 00:01:05,190
+perform a transmission of the data
+that the CPU will provide.
+
+17
+00:01:05,190 --> 00:01:09,720
+The CPU also needs to copy this
+packet into the data registers and
+
+18
+00:01:09,720 --> 00:01:13,690
+then the whole thing will be repeated
+as many times as it's necessary for
+
+19
+00:01:13,690 --> 00:01:16,220
+the entire packets to be sent out.
+
+20
+00:01:16,220 --> 00:01:21,300
+Given that the size of this register
+space that's available on the device
+
+21
+00:01:21,300 --> 00:01:23,820
+may be smaller than the network packet.
+
+22
+00:01:23,820 --> 00:01:30,288
+For instance if they have a 1500-byte
+packet and the device data registers or
+
+23
+00:01:30,288 --> 00:01:35,255
+the bus that connects the device
+with the PCU are 8 bytes long,
+
+24
+00:01:35,255 --> 00:01:40,693
+then the whole operation of performing
+programmed I/O will require
+
+25
+00:01:40,693 --> 00:01:45,754
+one CPU access to the device
+registers to write out the command,
+
+26
+00:01:45,754 --> 00:01:52,730
+and then another 188 accesses, so
+1500 divided by 8, approximately 188.
+
+27
+00:01:52,730 --> 00:01:59,980
+In total, there will be 189 CPU accesses
+to the device-specific registers.
+
+28
+00:01:59,980 --> 00:02:03,620
+And, we said that these look
+like CPU store instruction.
+
+29
+00:02:03,620 --> 00:02:08,550
+This gives us some idea about the costs
+associated with programmed I/O.
+
+30
+00:02:08,550 --> 00:02:09,860
+Let's now look at the alternative.

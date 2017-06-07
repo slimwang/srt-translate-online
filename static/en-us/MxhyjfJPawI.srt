@@ -1,0 +1,316 @@
+1
+00:00:00,770 --> 00:00:04,094
+All right, let's start off, just to
+confirm that we did everything right,
+
+2
+00:00:04,094 --> 00:00:05,896
+in the previous video, by hitting play.
+
+3
+00:00:05,896 --> 00:00:07,941
+[BLANK_AUDIO]
+
+4
+00:00:07,941 --> 00:00:12,760
+You should be able to see the vacation
+block, but you can't click on it.
+
+5
+00:00:12,760 --> 00:00:14,550
+So, how do we make it interactive?
+
+6
+00:00:15,680 --> 00:00:18,030
+To interact with things
+in our VR experiences,
+
+7
+00:00:18,030 --> 00:00:20,690
+we need to use the event
+system in Unity.
+
+8
+00:00:20,690 --> 00:00:21,920
+This system listens for
+
+9
+00:00:21,920 --> 00:00:25,270
+things that are happening in the scene,
+like clicks, hovering and more.
+
+10
+00:00:26,310 --> 00:00:31,539
+To use the event system,
+let's go to Create,
+
+11
+00:00:31,539 --> 00:00:34,630
+UI, Event System, okay.
+
+12
+00:00:34,630 --> 00:00:38,010
+And if you already had an event
+system in your hierarchy,
+
+13
+00:00:38,010 --> 00:00:39,690
+don't worry about that.
+
+14
+00:00:39,690 --> 00:00:41,500
+Unity will often create one for
+
+15
+00:00:41,500 --> 00:00:45,220
+you, when you create certain
+types of UI objects, like, text.
+
+16
+00:00:45,220 --> 00:00:50,470
+This event system object controls which
+type of events we're listening for, and,
+
+17
+00:00:50,470 --> 00:00:53,790
+you can see, it's already added
+a couple of components here.
+
+18
+00:00:53,790 --> 00:00:58,160
+The stand alone input module is
+the default input module for Unity, and
+
+19
+00:00:58,160 --> 00:01:03,580
+it listens to things like a typical game
+would need, things like joystick input.
+
+20
+00:01:03,580 --> 00:01:07,810
+But we aren't making a typical game,
+we're making VR.
+
+21
+00:01:07,810 --> 00:01:10,140
+So for us we want to remove this.
+
+22
+00:01:10,140 --> 00:01:14,640
+So click on the little gear icon,
+and go down to Remove Component.
+
+23
+00:01:14,640 --> 00:01:17,970
+We instead want a new info module,
+
+24
+00:01:17,970 --> 00:01:22,120
+we want one that is going to
+be configured for cardboard.
+
+25
+00:01:22,120 --> 00:01:25,710
+So go to Add Component and search for
+
+26
+00:01:25,710 --> 00:01:31,060
+gaze input module, gaze input module.
+
+27
+00:01:31,060 --> 00:01:34,830
+Okay, there it is and
+then press Enter to select that.
+
+28
+00:01:35,930 --> 00:01:39,900
+The gaze input module is the module
+that considers where you're looking at
+
+29
+00:01:39,900 --> 00:01:43,590
+with the viewer and
+you're pressing the Viewer button.
+
+30
+00:01:43,590 --> 00:01:47,950
+It's the module for the gaze and click
+way of interacting with an environment.
+
+31
+00:01:47,950 --> 00:01:51,460
+So you look at something and
+you click the Viewer and the system will
+
+32
+00:01:51,460 --> 00:01:54,939
+register that the event occurred,
+which we can use with the script.
+
+33
+00:01:56,250 --> 00:01:58,360
+Okay, so in order for
+all of this to work,
+
+34
+00:01:58,360 --> 00:02:02,580
+your clickable objects must have
+a collider attached to them.
+
+35
+00:02:02,580 --> 00:02:06,610
+This can be a sphere collider,
+a box collider, a capsule collider, or
+
+36
+00:02:06,610 --> 00:02:07,770
+anything else.
+
+37
+00:02:07,770 --> 00:02:11,500
+But for our vacation box,
+we're going to use a box collider.
+
+38
+00:02:11,500 --> 00:02:16,360
+So go ahead, click on your vacation
+box over in the hierarchy.
+
+39
+00:02:16,360 --> 00:02:21,040
+Go to Add Component, and
+then search for Box Collider.
+
+40
+00:02:22,610 --> 00:02:24,010
+Okay, great,
+
+41
+00:02:24,010 --> 00:02:29,400
+you'll notice that it is perfectly
+sized to the size of the vacation box.
+
+42
+00:02:29,400 --> 00:02:33,120
+If you resize it you'll
+see that it completely
+
+43
+00:02:33,120 --> 00:02:35,020
+snapped to the edges of this box.
+
+44
+00:02:35,020 --> 00:02:37,720
+So we have a collider
+that is perfectly sized
+
+45
+00:02:37,720 --> 00:02:42,255
+to the size of the vacation box and
+we are ready to go with that, okay.
+
+46
+00:02:42,255 --> 00:02:44,725
+So, now that we have a collider,
+
+47
+00:02:44,725 --> 00:02:49,645
+the next step is we have to get
+something talking to this event system.
+
+48
+00:02:49,645 --> 00:02:51,270
+So, how do we do that?
+
+49
+00:02:51,270 --> 00:02:55,940
+Go ahead and
+add a component called an event trigger.
+
+50
+00:02:55,940 --> 00:02:58,544
+[BLANK_AUDIO]
+
+51
+00:02:58,544 --> 00:03:00,910
+Event trigger.
+
+52
+00:03:00,910 --> 00:03:01,640
+Once you do that,
+
+53
+00:03:01,640 --> 00:03:05,800
+you're going to see a new button
+appear called, Add New Event Type.
+
+54
+00:03:06,910 --> 00:03:08,490
+Go ahead and click on that and
+
+55
+00:03:08,490 --> 00:03:12,560
+then you're going to see a whole bunch
+of different event types pop up.
+
+56
+00:03:13,870 --> 00:03:17,170
+And you'll notice that
+they're all mouse-oriented.
+
+57
+00:03:17,170 --> 00:03:22,900
+The GazeInputModule converts our VR
+reticle into sort of a simulated mouse.
+
+58
+00:03:22,900 --> 00:03:27,270
+So for us, we want to be able
+to click on this vacation box.
+
+59
+00:03:27,270 --> 00:03:33,200
+So go ahead and select PointerClick,
+it's right here.
+
+60
+00:03:33,200 --> 00:03:33,930
+When you do that,
+
+61
+00:03:33,930 --> 00:03:37,430
+you're going to see a little plus
+button appear down at the bottom.
+
+62
+00:03:37,430 --> 00:03:41,800
+And when you click that little
+plus you'll see a new field appear
+
+63
+00:03:41,800 --> 00:03:43,520
+with an empty object holder.
+
+64
+00:03:43,520 --> 00:03:47,030
+Now we're going to talk more about
+this in the next lesson, but for
+
+65
+00:03:47,030 --> 00:03:49,660
+now just now just know that this is
+where we're going to wire in our method
+
+66
+00:03:49,660 --> 00:03:52,500
+that changes to our
+beautiful island scene.
+
+67
+00:03:52,500 --> 00:03:55,190
+And we'll hook this up really soon.
+
+68
+00:03:55,190 --> 00:03:59,980
+Okay, so let's get working in our
+next lesson on wiring up that script.

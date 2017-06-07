@@ -1,0 +1,271 @@
+﻿1
+00:00:00,380 --> 00:00:02,909
+You can make check box preferences for
+days.
+
+2
+00:00:02,910 --> 00:00:07,200
+So, let's add another preference type
+to our repertoire, list preferences.
+
+3
+00:00:07,200 --> 00:00:09,919
+List preferences are preferences
+that look like this.
+
+4
+00:00:09,919 --> 00:00:12,259
+They've a list of options
+that you can pick from.
+
+5
+00:00:12,259 --> 00:00:14,410
+In XML, they look like this.
+
+6
+00:00:14,410 --> 00:00:16,612
+They have a default value,
+a key, and a title.
+
+7
+00:00:16,612 --> 00:00:19,129
+And that's all pretty straight forward.
+
+8
+00:00:19,129 --> 00:00:21,339
+The two new attributes are entries and
+
+9
+00:00:21,339 --> 00:00:26,570
+entry values which, instead of being
+a single value are an array of values.
+
+10
+00:00:26,570 --> 00:00:29,609
+The entries are the labels
+that you'll actually see.
+
+11
+00:00:29,609 --> 00:00:32,179
+For example, red, blue, green.
+
+12
+00:00:33,310 --> 00:00:36,179
+The values are the values that
+are actually stored in the shared
+
+13
+00:00:36,179 --> 00:00:39,759
+preferences file when you
+select one of the options.
+
+14
+00:00:39,759 --> 00:00:43,909
+I'm going to go to my strings.xml file,
+and define all of these.
+
+15
+00:00:43,909 --> 00:00:45,559
+Here are the new strings.
+
+16
+00:00:45,560 --> 00:00:48,960
+We have the label for the entire
+preference, then the labels for
+
+17
+00:00:48,960 --> 00:00:51,280
+each of the values, and then the key.
+
+18
+00:00:51,280 --> 00:00:54,609
+The actual values have already
+been defined down here.
+
+19
+00:00:54,609 --> 00:00:57,789
+I've already defined them for you
+because when you're using the set color
+
+20
+00:00:57,789 --> 00:01:00,210
+method, you have to use
+one of those values.
+
+21
+00:01:00,210 --> 00:01:05,040
+Going back to our XML, I have a default
+value now, a key and a title.
+
+22
+00:01:05,040 --> 00:01:07,160
+But I still need to define these two and
+for
+
+23
+00:01:07,159 --> 00:01:10,530
+that I'm going to need
+a different type called arrays.
+
+24
+00:01:10,530 --> 00:01:13,109
+So, over here, within my values folder,
+
+25
+00:01:13,109 --> 00:01:19,340
+I'm going to make a new values
+resource file of type arrays.
+
+26
+00:01:19,340 --> 00:01:22,939
+And within this file I'm
+going to put two arrays.
+
+27
+00:01:22,939 --> 00:01:26,909
+The first array are the three labels
+that we're going to be using and
+
+28
+00:01:26,909 --> 00:01:28,869
+the second array
+are the associated valued.
+
+29
+00:01:30,159 --> 00:01:33,281
+Keep in mind that the ordering of
+the label has to match the ordering
+
+30
+00:01:33,281 --> 00:01:34,560
+of the value.
+
+31
+00:01:34,560 --> 00:01:38,700
+So, we have red, blue,
+green and here red, blue green.
+
+32
+00:01:38,700 --> 00:01:44,040
+And these arrays are using these strings
+that are found in my strings.xml.
+
+33
+00:01:44,040 --> 00:01:48,400
+Also, note for the keys and the values,
+I'm setting translatable to false.
+
+34
+00:01:48,400 --> 00:01:52,350
+All of this comes together in a
+ListPreference xml that looks like this.
+
+35
+00:01:52,349 --> 00:01:54,169
+Let's see how this looks in the app.
+
+36
+00:01:54,170 --> 00:01:56,469
+Okay, let's check out
+our preference screen.
+
+37
+00:01:56,469 --> 00:01:58,939
+Cool, and
+we see our three different options.
+
+38
+00:01:58,939 --> 00:02:03,649
+I've selected blue but nothing changes
+in the app yet, let's fix that.
+
+39
+00:02:03,650 --> 00:02:05,630
+I'm here in the Visualizer Activity,
+
+40
+00:02:05,629 --> 00:02:08,888
+let me remind you what actually
+changing the color looks like.
+
+41
+00:02:08,889 --> 00:02:12,310
+If I go down here to
+setupSharedPreferences I'll see that
+
+42
+00:02:12,310 --> 00:02:16,028
+the set color method takes one
+of the color preference values.
+
+43
+00:02:16,028 --> 00:02:18,259
+In this case I'm always passing it red.
+
+44
+00:02:18,259 --> 00:02:21,250
+So, what I'm actually going to
+do is make a new method.
+
+45
+00:02:21,250 --> 00:02:25,490
+And I am going to call it
+loadColorFromPreferences and
+
+46
+00:02:25,491 --> 00:02:29,005
+it's going to take in
+a sharedPreferences.
+
+47
+00:02:29,004 --> 00:02:33,213
+And what this method is doing is it's
+calling set color on the visualizer
+
+48
+00:02:33,213 --> 00:02:35,905
+view, it's taking
+the shared preferences,
+
+49
+00:02:35,905 --> 00:02:40,528
+getting a string from shared preferences
+which has the key pref_color_key,
+
+50
+00:02:40,528 --> 00:02:44,930
+which is our color preferences key and
+has a default value of red.
+
+51
+00:02:44,930 --> 00:02:48,280
+Okay, so,
+then I'm going to call that method here.
+
+52
+00:02:48,280 --> 00:02:52,780
+And now that I've got this method, I can
+also call it from our listener, okay?
+
+53
+00:02:52,780 --> 00:02:54,421
+And let's run the code, cool.
+
+54
+00:02:54,421 --> 00:02:56,659
+And I can already see that
+it's changed to blue.
+
+55
+00:02:56,659 --> 00:03:00,865
+And if I go to my preferences screen and
+try to changing it to green,
+
+56
+00:03:00,866 --> 00:03:02,831
+I can see that it does that too.
+
+57
+00:03:02,830 --> 00:03:04,073
+Woo-hoo!
+

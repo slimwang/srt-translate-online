@@ -1,0 +1,301 @@
+﻿1
+00:00:00,610 --> 00:00:04,120
+So Leila's made us this
+MT settings activity.
+
+2
+00:00:04,120 --> 00:00:07,657
+Why don't we make one of those fancy
+preference fragments we've been talking
+
+3
+00:00:07,658 --> 00:00:11,470
+about and populate it with some
+preferences we find in an XML file.
+
+4
+00:00:11,470 --> 00:00:15,540
+We'll be using the Version 7 support
+library of the preference fragments for
+
+5
+00:00:15,539 --> 00:00:18,349
+backwards compatibility to API level 9.
+
+6
+00:00:18,350 --> 00:00:21,050
+Because of that,
+in the Gradle file you'll need to
+
+7
+00:00:21,050 --> 00:00:24,870
+add the library dependency for
+version 7 preferences support.
+
+8
+00:00:24,870 --> 00:00:27,600
+Okay, I've added it now and
+I'm going to sync.
+
+9
+00:00:28,750 --> 00:00:35,409
+And once that's done, let's create a new
+class and call it SettingsFragment.
+
+10
+00:00:35,409 --> 00:00:39,519
+This class will extend from
+the preference fragment compact.
+
+11
+00:00:39,520 --> 00:00:43,730
+Make sure you are using compact, and
+that it's from the Version 7 library.
+
+12
+00:00:43,729 --> 00:00:48,167
+Also notice the red error problem
+because we've extended this class.
+
+13
+00:00:48,167 --> 00:00:51,713
+So to solve this, we can simply
+implement all the methods in it,
+
+14
+00:00:51,713 --> 00:00:54,850
+which is just the one
+onCreatePreferences.
+
+15
+00:00:54,850 --> 00:00:58,120
+Now that we have this fragment,
+let's make an XML preference file,
+
+16
+00:00:58,119 --> 00:01:00,879
+which will define what
+goes inside this fragment.
+
+17
+00:01:00,880 --> 00:01:06,469
+Start by creating a new folder under
+the res directory and call it xml.
+
+18
+00:01:06,469 --> 00:01:09,659
+And this is where our
+preferences XML file will live.
+
+19
+00:01:09,659 --> 00:01:13,869
+Once you've done that, you can
+create a new XML resource file and
+
+20
+00:01:13,870 --> 00:01:15,590
+call it pref_visualizer.
+
+21
+00:01:15,590 --> 00:01:20,270
+Any preference XML's outer tag is
+always a preference screen tag.
+
+22
+00:01:20,269 --> 00:01:24,349
+Within that tag you can nest other
+preferences tags of different types.
+
+23
+00:01:24,349 --> 00:01:27,319
+You can even nest other preference
+screen tags if you want.
+
+24
+00:01:27,319 --> 00:01:30,399
+This will create a nested
+hierarchy of preferences.
+
+25
+00:01:30,400 --> 00:01:33,180
+What do I mean by a nested
+hierarchy of preferences?
+
+26
+00:01:33,180 --> 00:01:35,410
+Well, here,
+I'm in the found settings screen.
+
+27
+00:01:35,409 --> 00:01:37,060
+And if I click on the display,
+
+28
+00:01:37,060 --> 00:01:39,930
+it would actually show me
+another settings screen.
+
+29
+00:01:39,930 --> 00:01:43,930
+But for our visualizer app,
+we only have a handful of preferences.
+
+30
+00:01:43,930 --> 00:01:47,290
+So we will be using only this
+one preference screen tag.
+
+31
+00:01:47,290 --> 00:01:50,252
+I'm going to start by adding
+a preference tag for a checkbox.
+
+32
+00:01:50,251 --> 00:01:54,697
+This checkbox will ultimately determine
+whether or not to show the bass circle.
+
+33
+00:01:54,697 --> 00:01:58,709
+Inside that checkbox preference tag,
+I'll define five attributes,
+
+34
+00:01:58,709 --> 00:02:03,379
+the default value which is true, which
+means show the bass circle by default.
+
+35
+00:02:03,379 --> 00:02:08,167
+The key, just called it show bass,
+and then the title is Show Bass.
+
+36
+00:02:08,167 --> 00:02:11,699
+I'll also provide information
+about the preference summary.
+
+37
+00:02:11,699 --> 00:02:15,383
+A preference summary simply tells
+what the user should expect when
+
+38
+00:02:15,383 --> 00:02:17,231
+they check or uncheck an option.
+
+39
+00:02:17,230 --> 00:02:23,376
+So for that I've set the summary on to
+say Shown and summary off to say Hidden.
+
+40
+00:02:23,376 --> 00:02:27,283
+Now that we have the XML, let's move
+back to the settings fragment file.
+
+41
+00:02:27,283 --> 00:02:32,222
+In the onCreate method, you'll call
+the addPreference from resource method,
+
+42
+00:02:32,223 --> 00:02:34,310
+passing in your XML file.
+
+43
+00:02:34,310 --> 00:02:37,469
+This will generate a preference
+screen from that file.
+
+44
+00:02:37,469 --> 00:02:39,373
+Now that we've had all that sorted out,
+
+45
+00:02:39,373 --> 00:02:42,269
+let's add this preference
+fragment to our activity.
+
+46
+00:02:42,270 --> 00:02:45,850
+To do that, I'm just going to go to
+the activity settings layout and
+
+47
+00:02:45,849 --> 00:02:50,169
+replace this entire relative
+layout tag with a fragment tag.
+
+48
+00:02:50,169 --> 00:02:54,129
+And then point that fragment tag to
+the settings fragment we just created.
+
+49
+00:02:54,129 --> 00:02:57,370
+So we're almost done, just one
+more quick change we need to do.
+
+50
+00:02:57,370 --> 00:03:00,920
+Because we're using a preference
+fragments compact library,
+
+51
+00:03:00,919 --> 00:03:03,519
+we need to add a theme
+to the styles at XML.
+
+52
+00:03:03,520 --> 00:03:09,330
+So browse to the values folder, and then
+open up the styles.xml and add a theme.
+
+53
+00:03:09,330 --> 00:03:11,610
+If you don't add this preference theme,
+and
+
+54
+00:03:11,610 --> 00:03:15,540
+you try to go to the Settings screen,
+your app will crash.
+
+55
+00:03:15,539 --> 00:03:16,900
+And when you check your error log,
+
+56
+00:03:16,900 --> 00:03:20,450
+it will tell you you must
+specify a preferenceTheme.
+
+57
+00:03:20,449 --> 00:03:21,859
+Okay, enough talk now.
+
+58
+00:03:21,860 --> 00:03:24,590
+Let's run this code and
+see if it actually works.
+
+59
+00:03:24,590 --> 00:03:29,140
+Once you launch the app,
+you can go to the Settings screen, and
+
+60
+00:03:29,139 --> 00:03:32,059
+we get to see our new
+checkbox created here.
+
+61
+00:03:32,060 --> 00:03:36,370
+And you can tell that the summary
+changes when you check or
+
+62
+00:03:36,370 --> 00:03:37,990
+uncheck it, sweet.
+

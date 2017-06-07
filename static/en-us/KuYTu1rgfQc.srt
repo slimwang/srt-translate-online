@@ -1,0 +1,453 @@
+1
+00:00:00,360 --> 00:00:03,210
+This was a pretty tricky group
+of features to pull off,
+
+2
+00:00:03,210 --> 00:00:04,980
+it actually had three parts.
+
+3
+00:00:04,980 --> 00:00:08,130
+The first was to make sure that you
+were correctly writing item objects to
+
+4
+00:00:08,130 --> 00:00:09,880
+the Firebase database.
+
+5
+00:00:09,880 --> 00:00:13,540
+The second was to then get those objects
+and make them display in the app.
+
+6
+00:00:13,540 --> 00:00:16,120
+And finally, you had to make
+sure to fix your cleanup so
+
+7
+00:00:16,120 --> 00:00:19,980
+that when you removed a list,
+it also removed the list of items.
+
+8
+00:00:19,980 --> 00:00:22,520
+All right, let's start with the first
+step, which is just making sure that we
+
+9
+00:00:22,520 --> 00:00:25,350
+add items to the right
+place in the back end.
+
+10
+00:00:25,350 --> 00:00:29,310
+So I'm going to go to
+the AddListItemDialogueFragment class.
+
+11
+00:00:29,310 --> 00:00:32,960
+Okay, I'm going to scroll down until
+I'm here in the do list edit method.
+
+12
+00:00:32,960 --> 00:00:35,980
+Now this method is basically
+going to do two things.
+
+13
+00:00:35,980 --> 00:00:38,740
+It's first going to construct
+an item object POJO
+
+14
+00:00:38,740 --> 00:00:40,440
+with the input that the user gave.
+
+15
+00:00:40,440 --> 00:00:43,250
+And, then it's going to send that
+POJO over to the correct location in
+
+16
+00:00:43,250 --> 00:00:45,120
+the Firebase database.
+
+17
+00:00:45,120 --> 00:00:48,360
+Here's where you make the POJO,
+it's pretty straightforward.
+
+18
+00:00:48,360 --> 00:00:51,490
+Right now, I'm just passing
+in this mItemName variable.
+
+19
+00:00:51,490 --> 00:00:56,220
+That's equal to the value that you could
+get from the edit text in the dialogue.
+
+20
+00:00:56,220 --> 00:00:58,440
+Saving it to the correct place is
+a little bit more complicated.
+
+21
+00:00:58,440 --> 00:00:59,930
+I get the reference for
+
+22
+00:00:59,930 --> 00:01:02,730
+where items should be saved
+in the shopping list, here.
+
+23
+00:01:02,730 --> 00:01:05,060
+Let's see what this URL here is.
+
+24
+00:01:05,060 --> 00:01:09,818
+So this is a combination of the base
+FIREBASE_URL and the FIREBASE_LOCATION
+
+25
+00:01:09,818 --> 00:01:14,300
+for SHOPPING_LIST_ITEMS,
+which is the string shoppingListItems.
+
+26
+00:01:14,300 --> 00:01:17,070
+Okay, so we have that base URL and
+
+27
+00:01:17,070 --> 00:01:19,910
+then we go to the child
+that's equal to the ListId.
+
+28
+00:01:19,910 --> 00:01:23,110
+You have to make sure that you're
+setting mListId correctly,
+
+29
+00:01:23,110 --> 00:01:26,380
+it should be the push ID of the shopping
+list that you're adding this item to.
+
+30
+00:01:27,390 --> 00:01:29,301
+Okay so
+now that we have this itemsReference,
+
+31
+00:01:29,301 --> 00:01:31,996
+where do we want to actually want to
+store this particular item, and
+
+32
+00:01:31,996 --> 00:01:34,310
+what methods are we
+going to use to store it?
+
+33
+00:01:34,310 --> 00:01:36,310
+You still need a unique ID.
+
+34
+00:01:36,310 --> 00:01:38,440
+Remember when we were
+mapping this all out and
+
+35
+00:01:38,440 --> 00:01:41,249
+we didn't quite know what ID we
+were going to use for the items?
+
+36
+00:01:42,290 --> 00:01:44,830
+Well there's no reason
+not to use a push ID.
+
+37
+00:01:44,830 --> 00:01:48,080
+Again, it's a unique ID, so it's handy
+for the same reason that using it for
+
+38
+00:01:48,080 --> 00:01:49,710
+the shopping list was handy.
+
+39
+00:01:49,710 --> 00:01:52,600
+Basically, it makes sure that each of
+your shopping list items are definitely
+
+40
+00:01:52,600 --> 00:01:54,550
+unique, separate items.
+
+41
+00:01:54,550 --> 00:01:57,070
+Okay, so I do that here,
+I take my items ref and
+
+42
+00:01:57,070 --> 00:02:00,760
+I get a push ID which makes a new
+Firebase ref for me with that push ID.
+
+43
+00:02:01,950 --> 00:02:05,370
+And I go ahead and
+I save that push ID here in the item ID.
+
+44
+00:02:05,370 --> 00:02:08,780
+Now hopefully you remembered that you
+have to update the time stamp last
+
+45
+00:02:08,780 --> 00:02:11,380
+changed whenever anything about
+the shopping list updates.
+
+46
+00:02:12,430 --> 00:02:15,810
+So that I could bundle the whole
+update together in one fell swoop,
+
+47
+00:02:15,810 --> 00:02:19,650
+I decided to use update
+children instead of set value.
+
+48
+00:02:19,650 --> 00:02:22,370
+This allows me to update something
+in the shopping list object
+
+49
+00:02:22,370 --> 00:02:25,370
+as well as to create a new item
+elsewhere in the database.
+
+50
+00:02:25,370 --> 00:02:27,630
+You can't use POJOs
+with update children so
+
+51
+00:02:27,630 --> 00:02:31,490
+I used an object mapper class to get
+a hash map version of my object.
+
+52
+00:02:31,490 --> 00:02:33,969
+And then I put both
+the updated time stamp and
+
+53
+00:02:33,969 --> 00:02:37,730
+the new item into a hash map and
+push that all with update children.
+
+54
+00:02:39,250 --> 00:02:41,522
+Okay, so let's see what that does.
+
+55
+00:02:41,522 --> 00:02:45,380
+Okay, so I'm going to go into
+movies snacks and add some popcorn.
+
+56
+00:02:46,390 --> 00:02:51,300
+Okay, and we can see here that it
+actually made a shoppingListItems node.
+
+57
+00:02:51,300 --> 00:02:56,280
+And here's the push ID of the shopping
+list that I was adding to,
+
+58
+00:02:56,280 --> 00:02:57,960
+you see that these two match.
+
+59
+00:02:59,110 --> 00:03:02,490
+And here's the push ID for the item,
+so it's the shopping list push ID,
+
+60
+00:03:02,490 --> 00:03:07,130
+the item push ID and
+then here's the actual item itself.
+
+61
+00:03:07,130 --> 00:03:10,230
+Okay, so it looks like we're adding
+items to the back end just fine,
+
+62
+00:03:10,230 --> 00:03:11,500
+so that's great.
+
+63
+00:03:11,500 --> 00:03:14,870
+To get the items to appear here, as you
+can see in this sort of finished version
+
+64
+00:03:14,870 --> 00:03:18,820
+of this step, you also need to
+add a Firebase list adapter.
+
+65
+00:03:18,820 --> 00:03:21,580
+You might have noticed that
+there's a ActiveListItemAdapter
+
+66
+00:03:21,580 --> 00:03:23,670
+meant specifically for this purpose.
+
+67
+00:03:23,670 --> 00:03:28,090
+Within this class you should
+overwrite the populate view method.
+
+68
+00:03:28,090 --> 00:03:31,650
+The code down here is for
+the little delete icon that you see.
+
+69
+00:03:31,650 --> 00:03:35,084
+Right now it just calls this method
+remove item which doesn't do
+
+70
+00:03:35,084 --> 00:03:36,440
+anything yet.
+
+71
+00:03:36,440 --> 00:03:40,247
+Okay, so that's the populate view method
+inside the actual adapter, but then in
+
+72
+00:03:40,247 --> 00:03:44,630
+the active list details activity class,
+you actually need to set up the adapter.
+
+73
+00:03:44,630 --> 00:03:47,730
+So I'm going to scroll down and
+here's where I set up the adapter.
+
+74
+00:03:47,730 --> 00:03:50,650
+It's pretty straightforward and it
+matches how you set up the adapter for
+
+75
+00:03:50,650 --> 00:03:52,130
+the shopping lists.
+
+76
+00:03:52,130 --> 00:03:54,230
+Okay, so
+at this point you've done two things.
+
+77
+00:03:54,230 --> 00:03:57,220
+You've both successfully written
+data to the Firebase database and
+
+78
+00:03:57,220 --> 00:04:01,132
+you're also reading out those
+items into this list adapter here.
+
+79
+00:04:01,132 --> 00:04:03,920
+But there's one more thing that you
+needed to do in this code step and
+
+80
+00:04:03,920 --> 00:04:06,670
+that was to update removing
+the shopping list.
+
+81
+00:04:06,670 --> 00:04:10,370
+So I'm going to go to the remove list
+dialogue fragment, scrolling down.
+
+82
+00:04:10,370 --> 00:04:11,880
+Here's where I remove the list.
+
+83
+00:04:11,880 --> 00:04:16,519
+Now I could've used remove value
+twice instead of update children, but
+
+84
+00:04:16,519 --> 00:04:18,735
+this would make two calls to the server.
+
+85
+00:04:18,735 --> 00:04:22,190
+Using remove value is the same as
+using set value at the same location,
+
+86
+00:04:22,190 --> 00:04:23,580
+and passing null.
+
+87
+00:04:23,580 --> 00:04:27,480
+Similarly you can pass null to
+update children to remove a value.
+
+88
+00:04:27,480 --> 00:04:31,840
+So I'll use update children, and
+pass null to these two locations here,
+
+89
+00:04:31,840 --> 00:04:36,840
+the location of the actual list and
+the location of all the list's items.
+
+90
+00:04:36,840 --> 00:04:40,600
+The mListId is all I need to specify
+which shopping list I'm talking about.
+
+91
+00:04:40,600 --> 00:04:43,000
+And because I used update children,
+
+92
+00:04:43,000 --> 00:04:45,150
+I don't have to make two
+different calls to the server.
+
+93
+00:04:46,170 --> 00:04:48,580
+Whew, well, that was a bit tricky.
+
+94
+00:04:48,580 --> 00:04:51,490
+It's also an accumulation of everything
+you've learned in this version of
+
+95
+00:04:51,490 --> 00:04:53,860
+the app, so really great work for
+sticking it out.

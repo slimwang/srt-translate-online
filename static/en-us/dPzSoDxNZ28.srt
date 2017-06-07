@@ -1,0 +1,256 @@
+﻿1
+00:00:00,360 --> 00:00:04,419
+To optimize your user experience on
+different screen sizes, probably
+
+2
+00:00:04,419 --> 00:00:09,679
+the most useful resource qualifier would
+be the smallest width or sw qualifier.
+
+3
+00:00:09,679 --> 00:00:12,039
+This allows you to create
+different resources for
+
+4
+00:00:12,039 --> 00:00:15,049
+devices based on the smallest dimension.
+
+5
+00:00:15,050 --> 00:00:18,440
+Let's see how this is used in
+an example directory structure.
+
+6
+00:00:18,440 --> 00:00:23,625
+Here you can see that there are three
+different layout folders within our
+
+7
+00:00:23,625 --> 00:00:29,161
+res directory, layout,
+layout-sw600dp, and layout-sw720dp.
+
+8
+00:00:29,161 --> 00:00:31,609
+The first layout folder
+should look familiar.
+
+9
+00:00:31,609 --> 00:00:34,880
+It's the default folder for
+all of our activity layouts.
+
+10
+00:00:34,880 --> 00:00:38,580
+Next, you can see that the sw600dp and
+
+11
+00:00:38,579 --> 00:00:41,879
+720dp folders have layouts
+like detail activity and
+
+12
+00:00:41,880 --> 00:00:45,850
+list item, that have the same name
+as those in our default folder.
+
+13
+00:00:45,850 --> 00:00:50,459
+And these layouts will override
+the default resources if
+
+14
+00:00:50,459 --> 00:00:55,739
+a device has the smallest widths,
+meaning 600dp or larger for
+
+15
+00:00:55,738 --> 00:01:01,708
+layout-sw600dp, and 720dp or
+larger for layout-sw720dp.
+
+16
+00:01:01,709 --> 00:01:07,950
+So, say your app is on a Nexus 5,
+which has dimensions 360 by 640dps.
+
+17
+00:01:07,950 --> 00:01:10,030
+Android knows that the smallest width,
+
+18
+00:01:10,030 --> 00:01:14,299
+no matter the orientation
+of this device, is 360dp.
+
+19
+00:01:14,299 --> 00:01:17,909
+And we use this number to compare
+against the folder names.
+
+20
+00:01:17,909 --> 00:01:22,420
+Since 360dp is smaller than 600 or
+720, this device
+
+21
+00:01:22,420 --> 00:01:27,019
+doesn't satisfy the minimum requirement
+for any of these smallest width folders.
+
+22
+00:01:27,019 --> 00:01:31,659
+And so this device will retrieve all of
+its layouts from our base layout folder.
+
+23
+00:01:31,659 --> 00:01:33,560
+Let's look at a larger device.
+
+24
+00:01:33,560 --> 00:01:39,379
+For the Nexus 7 2013 version,
+the dimensions are 600 by 960dps.
+
+25
+00:01:39,379 --> 00:01:44,659
+Android sees that of the two dimensions,
+the smallest width here is 600dp.
+
+26
+00:01:44,659 --> 00:01:50,359
+This is exactly equal to 600dp, so
+this will go to our layout-sw600dp
+
+27
+00:01:50,359 --> 00:01:54,930
+folder to retrieve the layouts for
+the detail, activity and list item.
+
+28
+00:01:54,930 --> 00:01:59,410
+However, when it comes to the main
+layout, activity_main.xml, it doesn't
+
+29
+00:01:59,409 --> 00:02:04,780
+see a layout in the 600dp folder, and so
+it defaults to a less specific folder,
+
+30
+00:02:04,780 --> 00:02:09,560
+in this case, the base layout folder and
+uses the activity_main file from here.
+
+31
+00:02:09,560 --> 00:02:12,789
+What about for
+an even larger tablet like the Nexus 10?
+
+32
+00:02:12,789 --> 00:02:16,079
+Its dimensions are 1280 by 800dp.
+
+33
+00:02:16,080 --> 00:02:19,710
+Out of these two dimensions,
+the smallest width is 800dp.
+
+34
+00:02:19,710 --> 00:02:23,189
+This is both bigger than 600 and
+720dp, and so
+
+35
+00:02:23,189 --> 00:02:26,319
+it matches the qualifications for
+both of these folders.
+
+36
+00:02:26,319 --> 00:02:30,560
+And the system will choose the most
+specific layout folder to use first.
+
+37
+00:02:30,560 --> 00:02:34,340
+So, this will use the list_item
+layout from inside
+
+38
+00:02:34,340 --> 00:02:38,219
+the layout-720dp folder over
+the two other list item resources.
+
+39
+00:02:38,219 --> 00:02:43,109
+Then, because that's the only one
+defined in the layout-sw720dp folder,
+
+40
+00:02:43,110 --> 00:02:46,630
+it will get less specific when it
+looks for the other two layouts.
+
+41
+00:02:46,629 --> 00:02:49,525
+It will look at the next closest folder,
+
+42
+00:02:49,525 --> 00:02:54,920
+the layout-sw600dp folder,
+for the detail_activity.xml.
+
+43
+00:02:54,919 --> 00:02:55,629
+And finally,
+
+44
+00:02:55,629 --> 00:02:59,900
+it will retrieve its activity main
+layout from the base layout folder.
+
+45
+00:02:59,900 --> 00:03:04,159
+Each time, it gets less specific as
+it tries to find layout resources.
+
+46
+00:03:04,159 --> 00:03:08,280
+So, by using the smallest width
+qualifier on new layout folders,
+
+47
+00:03:08,280 --> 00:03:11,169
+Android lets us create
+alternate layout resources for
+
+48
+00:03:11,169 --> 00:03:13,839
+each of these devices
+based on their size, and
+
+49
+00:03:13,840 --> 00:03:17,289
+it lets us pick which default
+layout resources to override.
+
+50
+00:03:17,289 --> 00:03:20,939
+You can also use the smallest width
+qualifier to create alternate
+
+51
+00:03:20,939 --> 00:03:23,020
+values resource folders.
+
+52
+00:03:23,020 --> 00:03:24,888
+So this is a really useful tool for
+
+53
+00:03:24,888 --> 00:03:29,039
+building responsive layouts that look
+good across all types of devices.
+

@@ -1,0 +1,343 @@
+1
+00:00:00,330 --> 00:00:04,000
+Since we've initialized this array with hl in the
+
+2
+00:00:04,000 --> 00:00:06,190
+first spot and mw in all of the other
+
+3
+00:00:06,190 --> 00:00:08,050
+spots of this array, to enable the queuing what
+
+4
+00:00:08,050 --> 00:00:12,610
+we will do is associate with each lock another
+
+5
+00:00:12,610 --> 00:00:16,410
+variable, which is called a queuelast variable. And this
+
+6
+00:00:16,410 --> 00:00:20,280
+queuelast variable is initialized to zero. And so these
+
+7
+00:00:20,280 --> 00:00:23,720
+two are the two data structures associated with every
+
+8
+00:00:23,720 --> 00:00:26,030
+lock. So every lock that you have in your program,
+
+9
+00:00:26,030 --> 00:00:28,080
+the operating system is going to assign two data structures
+
+10
+00:00:28,080 --> 00:00:31,190
+for you. One, which is the circular queue, represented
+
+11
+00:00:31,190 --> 00:00:33,565
+by the flags array. And the other is the
+
+12
+00:00:33,565 --> 00:00:38,200
+queuelast variable, which is saying, what is this part that
+
+13
+00:00:38,200 --> 00:00:41,790
+is available for you to queue yourself in this,
+
+14
+00:00:41,790 --> 00:00:45,810
+in this particular array? So as you can see, since
+
+15
+00:00:45,810 --> 00:00:47,940
+there is no lock request yet, we just initialized
+
+16
+00:00:47,940 --> 00:00:51,130
+the queue, the first guy that comes around to ask
+
+17
+00:00:51,130 --> 00:00:53,020
+for the lock will get it, and, and he
+
+18
+00:00:53,020 --> 00:00:55,988
+will queue himself here and he will get the lock
+
+19
+00:00:55,988 --> 00:00:58,810
+as well. So let's say some processor came along,
+
+20
+00:00:58,810 --> 00:01:01,400
+and, and made a lock request. It's going to get
+
+21
+00:01:01,400 --> 00:01:05,710
+it immediately because there's no locks request currently pending.
+
+22
+00:01:05,710 --> 00:01:09,350
+And so it's got this position and it's got the
+
+23
+00:01:09,350 --> 00:01:13,100
+lock and what will happen is that the queuelast
+
+24
+00:01:13,100 --> 00:01:16,170
+variable will advance to the next spot to indicate that
+
+25
+00:01:16,170 --> 00:01:18,840
+future requesters have to start queuing up from here. And
+
+26
+00:01:18,840 --> 00:01:20,940
+now this current lock holder has got the lock and he
+
+27
+00:01:20,940 --> 00:01:23,320
+can go off in the critical section and do whatever
+
+28
+00:01:23,320 --> 00:01:26,430
+he wants in terms of managing or messing up with the
+
+29
+00:01:26,430 --> 00:01:31,140
+data structure that is governed by this particular lock. Let's
+
+30
+00:01:31,140 --> 00:01:34,360
+say that at some point of time, I come along and
+
+31
+00:01:34,360 --> 00:01:38,790
+request the same lock. Now depending on who else got
+
+32
+00:01:38,790 --> 00:01:41,350
+ahead of me at the point that I made that lock
+
+33
+00:01:41,350 --> 00:01:43,540
+request, there may be some number of people that are
+
+34
+00:01:43,540 --> 00:01:46,270
+lined up ahead of me and where ever queuelast is
+
+35
+00:01:46,270 --> 00:01:49,390
+pointing is my place. And, and so this is where
+
+36
+00:01:49,390 --> 00:01:52,280
+I'm going to queue myself, waiting for that lock, and of
+
+37
+00:01:52,280 --> 00:01:56,490
+course queuelast will advance to the next open spot for future requesters that
+
+38
+00:01:56,490 --> 00:02:01,270
+come after me. Now the important point that I want you to notice is that since
+
+39
+00:02:01,270 --> 00:02:07,412
+that the array size is N and the number of processes
+
+40
+00:02:07,412 --> 00:02:10,020
+is N, nobody will be denied. [LAUGH] Everybody
+
+41
+00:02:10,020 --> 00:02:12,930
+can come and queue up waiting for this lock.
+
+42
+00:02:12,930 --> 00:02:16,705
+Because since there are N processes at most
+
+43
+00:02:16,705 --> 00:02:19,110
+N simultaneous requests can be there for the lock
+
+44
+00:02:19,110 --> 00:02:20,730
+and everybody will get their unique spot to
+
+45
+00:02:20,730 --> 00:02:23,340
+wait for if in fact the lock is currently
+
+46
+00:02:23,340 --> 00:02:27,550
+in use. Given the timing of my lock
+
+47
+00:02:27,550 --> 00:02:32,320
+request and the position of the current lock holder,
+
+48
+00:02:32,320 --> 00:02:35,350
+you can see that I have some waiting to do, because
+
+49
+00:02:35,350 --> 00:02:37,020
+there are a quite a few requests that are ahead of
+
+50
+00:02:37,020 --> 00:02:40,370
+me, and so I have some waiting to do before I
+
+51
+00:02:40,370 --> 00:02:45,150
+get my turn in in acquiring this particular lock. So now
+
+52
+00:02:45,150 --> 00:02:48,180
+I can tell you how the lock algorithm is going to look
+
+53
+00:02:48,180 --> 00:02:52,338
+like, pretty simple. When I make a lock request what I'm
+
+54
+00:02:52,338 --> 00:02:54,770
+going to do is mark my place in this flags array
+
+55
+00:02:54,770 --> 00:02:57,586
+and the way I do that is by calling fetch and increment
+
+56
+00:02:57,586 --> 00:03:00,394
+on the queuelast variable. And that ensures that I
+
+57
+00:03:00,394 --> 00:03:02,762
+get my unique spot due to the fetch operation
+
+58
+00:03:02,762 --> 00:03:05,130
+and I increment the queuelast to point to the
+
+59
+00:03:05,130 --> 00:03:07,690
+next spot which is available to the next spot for
+
+60
+00:03:07,690 --> 00:03:12,018
+future requesters. And since fetch-and-increment is an atomic operation,
+
+61
+00:03:12,018 --> 00:03:16,302
+remember that we have read modify write operations, fetch-and-increment is
+
+62
+00:03:16,302 --> 00:03:18,951
+one of those. And it's an atomic operation and
+
+63
+00:03:18,951 --> 00:03:22,977
+therefore, even though it's a multiprocessor there could be multiple
+
+64
+00:03:22,977 --> 00:03:24,891
+guys trying to get the same block at
+
+65
+00:03:24,891 --> 00:03:27,130
+the same time. They're all good to be sequenced
+
+66
+00:03:27,130 --> 00:03:31,350
+through this fetch-and-increment atomic operation, and so there is
+
+67
+00:03:31,350 --> 00:03:34,900
+no issue of any risk condition in that sense
+
+68
+00:03:34,900 --> 00:03:37,210
+So, I will get my spot and I'll increment
+
+69
+00:03:37,210 --> 00:03:40,800
+queuelast. And, of course, if the architecture does not
+
+70
+00:03:40,800 --> 00:03:44,920
+support this fancy fetch and increment read modify write
+
+71
+00:03:44,920 --> 00:03:48,430
+operation, then, you know, you have to simulate that
+
+72
+00:03:48,430 --> 00:03:53,940
+operation using, using test and increment instructions. So
+
+73
+00:03:53,940 --> 00:03:57,530
+once I've marked my position in this flags array,
+
+74
+00:03:57,530 --> 00:04:01,890
+then I'm going to basically wait for my turn. So what I do in order to wait is
+
+75
+00:04:01,890 --> 00:04:05,650
+I'm basically waiting for this spot that I've marked
+
+76
+00:04:05,650 --> 00:04:08,130
+myself, it is right now must wait, it has
+
+77
+00:04:08,130 --> 00:04:10,810
+to change to hl. Once it changes to hl,
+
+78
+00:04:10,810 --> 00:04:13,615
+I know I have the lock, and therefore I'm
+
+79
+00:04:13,615 --> 00:04:16,170
+going to do a spin on this particular
+
+80
+00:04:16,170 --> 00:04:19,916
+location. and, and I'm going to wait for this,
+
+81
+00:04:19,916 --> 00:04:25,525
+this location changing its value from mw to hl, so that's the spin loop that you
+
+82
+00:04:25,525 --> 00:04:28,480
+see here. So basically once I have marked
+
+83
+00:04:28,480 --> 00:04:32,540
+my position, I'm going to wait on my position
+
+84
+00:04:32,540 --> 00:04:36,368
+becoming hl to know that I have acquired
+
+85
+00:04:36,368 --> 00:04:38,480
+the lock. And, I will get it eventually,
+
+86
+00:04:38,480 --> 00:04:41,870
+because that's the way this algorithm is supposed to work.

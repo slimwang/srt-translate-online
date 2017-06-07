@@ -1,0 +1,335 @@
+1
+00:00:00,270 --> 00:00:02,969
+To test correlation,
+let's create a new workflow and
+
+2
+00:00:02,969 --> 00:00:05,230
+put our data from the new
+product control data file.
+
+3
+00:00:06,280 --> 00:00:09,910
+Since our data is in a csv file,
+let's use the autofield tool to
+
+4
+00:00:09,910 --> 00:00:13,400
+take care of field types and
+automatically assign them.
+
+5
+00:00:13,400 --> 00:00:15,970
+Now we can perform association analysis
+
+6
+00:00:15,970 --> 00:00:20,090
+to investigate if the number of
+products does in fact drive sales.
+
+7
+00:00:20,090 --> 00:00:23,670
+To perform the analysis we'll drag
+the association analysis tool
+
+8
+00:00:23,670 --> 00:00:26,170
+on to the canvas and
+configure it to check for
+
+9
+00:00:26,170 --> 00:00:29,290
+correlation between product count and
+sales.
+
+10
+00:00:29,290 --> 00:00:33,280
+If the fields window is blank,
+run the workflow to populate the data.
+
+11
+00:00:33,280 --> 00:00:36,740
+We can now select categories Sales and
+Product Count.
+
+12
+00:00:36,740 --> 00:00:40,485
+After adding a browse tool to the I
+output, we can run the workflow and
+
+13
+00:00:40,485 --> 00:00:41,735
+take a look at the results.
+
+14
+00:00:43,385 --> 00:00:47,685
+Expanding the output of the browse tool,
+we can see that category sales is fairly
+
+15
+00:00:47,685 --> 00:00:50,405
+positively correlated
+with product column,
+
+16
+00:00:50,405 --> 00:00:53,150
+with a correlation coefficient of 0.43.
+
+17
+00:00:53,150 --> 00:00:56,480
+This is evidence that product count
+should be controlled in the experiment,
+
+18
+00:00:56,480 --> 00:01:00,590
+since sale is related to the number
+of products sold at the stores.
+
+19
+00:01:00,590 --> 00:01:03,860
+Next let's test to see if
+there's a relationship to sales
+
+20
+00:01:03,860 --> 00:01:05,850
+due to the size of the store.
+
+21
+00:01:05,850 --> 00:01:08,630
+Since the size of the store
+is not a numeric variable but
+
+22
+00:01:08,630 --> 00:01:13,550
+rather categorical variable, we can turn
+to a plot of means analysis to identify
+
+23
+00:01:13,550 --> 00:01:17,990
+if there is a pattern in sales as it
+relates to the size of the store.
+
+24
+00:01:17,990 --> 00:01:20,570
+In Alteryx we can use
+a plot of means tool
+
+25
+00:01:20,570 --> 00:01:24,560
+that simply plots the means of each
+variable in the data set you select.
+
+26
+00:01:24,560 --> 00:01:27,650
+It's a great way to visualize
+how the mean of a variable
+
+27
+00:01:27,650 --> 00:01:29,830
+differs across categories.
+
+28
+00:01:29,830 --> 00:01:33,291
+To read more about the plot of
+means tool, see the note below.
+
+29
+00:01:33,291 --> 00:01:36,195
+We'll select category sales for
+response field and
+
+30
+00:01:36,195 --> 00:01:40,645
+the categorical field that we're
+grouping by is the size of the store.
+
+31
+00:01:40,645 --> 00:01:44,845
+Prior to running the workflow,
+let's add a browse tool to the output.
+
+32
+00:01:44,845 --> 00:01:49,265
+Expanding the browse tool provides us
+with a plotted means of category sales
+
+33
+00:01:49,265 --> 00:01:50,850
+by store size.
+
+34
+00:01:50,850 --> 00:01:52,690
+When viewing a plot of means chart,
+
+35
+00:01:52,690 --> 00:01:56,890
+ensure that your categorical variables
+are ordered in a logical order.
+
+36
+00:01:56,890 --> 00:02:00,503
+In this case, large, medium, and
+small are in logical order, so
+
+37
+00:02:00,503 --> 00:02:01,606
+we're good there.
+
+38
+00:02:01,606 --> 00:02:04,460
+If there was a correlation
+between the size and sales,
+
+39
+00:02:04,460 --> 00:02:07,820
+you would expect to see
+a more linear relationship.
+
+40
+00:02:07,820 --> 00:02:11,380
+In this chart, there does not appear to
+be a pattern that correlates the size of
+
+41
+00:02:11,380 --> 00:02:13,960
+the store with sales, so
+we don't need to control for
+
+42
+00:02:13,960 --> 00:02:16,088
+store size in our experiment.
+
+43
+00:02:16,088 --> 00:02:20,272
+Lastly, we want to look at how many
+stores we have in a specific geography
+
+44
+00:02:20,272 --> 00:02:23,880
+so that we can determine if we can
+use that as a control variable.
+
+45
+00:02:23,880 --> 00:02:27,880
+Let's drag a summarize tool onto the
+canvas, and group by city, state, and
+
+46
+00:02:27,880 --> 00:02:28,770
+zip code.
+
+47
+00:02:28,770 --> 00:02:32,270
+Then we want to perform a distinct
+count on the Store ID field,
+
+48
+00:02:32,270 --> 00:02:34,203
+to count the stores in each area.
+
+49
+00:02:34,203 --> 00:02:37,400
+Let's run the workflow
+to obtain the results.
+
+50
+00:02:37,400 --> 00:02:39,783
+The data shows that most city, state,
+
+51
+00:02:39,783 --> 00:02:42,464
+zip code combinations
+only have one store.
+
+52
+00:02:42,464 --> 00:02:47,110
+There are too few stores in each
+group to have options to control on.
+
+53
+00:02:47,110 --> 00:02:49,660
+Let's try grouping by state and
+city only.
+
+54
+00:02:49,660 --> 00:02:53,570
+We can just highlight the zip code
+field and click on the minus button.
+
+55
+00:02:53,570 --> 00:02:57,160
+Now we'll run the workflow and
+look at the results.
+
+56
+00:02:57,160 --> 00:02:59,880
+Again, too few stores in each state and
+city.
+
+57
+00:02:59,880 --> 00:03:03,140
+We are looking for
+a larger set of units per location.
+
+58
+00:03:03,140 --> 00:03:05,760
+Since 15 is the minimum
+number of observations for
+
+59
+00:03:05,760 --> 00:03:09,720
+students' T test to be applicable,
+that's a great target.
+
+60
+00:03:09,720 --> 00:03:11,670
+If we group only by state,
+
+61
+00:03:11,670 --> 00:03:14,700
+we see that we get a much larger
+number of stores per state.
+
+62
+00:03:14,700 --> 00:03:16,720
+In most cases more than 15.
+
+63
+00:03:16,720 --> 00:03:20,150
+Therefore, our assumption is
+that stores in the same state
+
+64
+00:03:20,150 --> 00:03:23,300
+perform more alike than
+stores in different states.
+
+65
+00:03:23,300 --> 00:03:27,210
+For example, a store in Alaska is
+much more likely to be similar to
+
+66
+00:03:27,210 --> 00:03:31,300
+another store in Alaska than when
+compared to a store in New York.
+
+67
+00:03:31,300 --> 00:03:36,930
+Therefore, since we have enough stores
+per state we can control for state.
+
+68
+00:03:36,930 --> 00:03:39,920
+We've now determined that we're going
+to control for Product Count and
+
+69
+00:03:39,920 --> 00:03:42,640
+State in our experiment,
+as both have ample data and
+
+70
+00:03:42,640 --> 00:03:45,400
+are correlated to category Sales,
+our target variable.

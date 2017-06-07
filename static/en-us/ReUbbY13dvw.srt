@@ -1,0 +1,243 @@
+1
+00:00:00,470 --> 00:00:03,210
+To keep things simple, let's assume that
+
+2
+00:00:03,210 --> 00:00:06,440
+there's a single CPU. Each guest operating
+
+3
+00:00:06,440 --> 00:00:11,110
+system is already multiplexing the processes that
+
+4
+00:00:11,110 --> 00:00:14,350
+it is currently hosting on the CPU
+
+5
+00:00:14,350 --> 00:00:19,910
+in a non-virtualized setting also. So each operating system. Has a ready que of
+
+6
+00:00:19,910 --> 00:00:22,670
+processes, that can be scheduled on the
+
+7
+00:00:22,670 --> 00:00:25,540
+CPU, but there is this hypervisor that is
+
+8
+00:00:25,540 --> 00:00:31,450
+sitting in between a guest operating system. It's already qued and the CPU.
+
+9
+00:00:31,450 --> 00:00:37,500
+So the first part of what the hypervisor has to do is to give an illusion of
+
+10
+00:00:37,500 --> 00:00:40,980
+ownership of the CPU for each of
+
+11
+00:00:40,980 --> 00:00:45,480
+the virtual machines. So that each virtual machine
+
+12
+00:00:45,480 --> 00:00:48,710
+can schedule the processes that it currently has
+
+13
+00:00:48,710 --> 00:00:51,390
+in it's very queue on the CPU. So,
+
+14
+00:00:51,390 --> 00:00:56,830
+if you look at it from the hypervisor's point of view, it has to have a precise
+
+15
+00:00:56,830 --> 00:01:04,700
+way of accounting the time that a particular VM uses on the CPU. From the point
+
+16
+00:01:04,700 --> 00:01:08,120
+of view of billing the different customers, that
+
+17
+00:01:08,120 --> 00:01:10,150
+is the key thing that hypervisor is worried
+
+18
+00:01:10,150 --> 00:01:13,050
+about that it gave the CPU for a
+
+19
+00:01:13,050 --> 00:01:16,460
+certain amount of time to this VM, certain amount
+
+20
+00:01:16,460 --> 00:01:21,280
+of time to this VM and so on. Now for the time that has been allocated for
+
+21
+00:01:21,280 --> 00:01:28,140
+instance this virtual machine. How this virtual machine is using the CPU
+
+22
+00:01:28,140 --> 00:01:31,650
+time, what processes is scheduling on the
+
+23
+00:01:31,650 --> 00:01:34,890
+CPU? The hypervisor doesn't care about that.
+
+24
+00:01:34,890 --> 00:01:37,310
+So commensurate with borderware is a scheduling
+
+25
+00:01:37,310 --> 00:01:41,850
+policy enforced in a particular guest operating system.
+
+26
+00:01:41,850 --> 00:01:44,600
+That guest operating system. Is free to
+
+27
+00:01:44,600 --> 00:01:48,880
+schedule its pool of processes on the CPU
+
+28
+00:01:48,880 --> 00:01:53,420
+for the time that has been given to it by the hypervisor. Now, similar to the
+
+29
+00:01:53,420 --> 00:01:56,610
+policy that we discussed for memory allocation.
+
+30
+00:01:56,610 --> 00:02:00,630
+One straightforward way to share the CPU among
+
+31
+00:02:00,630 --> 00:02:03,000
+the guest operating systems, is to give a
+
+32
+00:02:03,000 --> 00:02:07,680
+share. Of the CPU. A proportional share of
+
+33
+00:02:07,680 --> 00:02:12,590
+the CPU for each guest operating system, demonstrates with the service
+
+34
+00:02:12,590 --> 00:02:17,760
+agreement, that this virtual machine has with the hypervisor. This
+
+35
+00:02:17,760 --> 00:02:22,748
+is called a proportional share scheduler and it is used in the VM-ware
+
+36
+00:02:22,748 --> 00:02:27,990
+ESX server. Another approach is to use a fair share
+
+37
+00:02:27,990 --> 00:02:32,880
+scheduler. Which is going to give a fair share of the CPU for
+
+38
+00:02:32,880 --> 00:02:34,560
+each of the guest operating systems. An
+
+39
+00:02:34,560 --> 00:02:37,070
+equal share to each of the guest operating
+
+40
+00:02:37,070 --> 00:02:40,190
+systems. Running on top of the hypervisor. Most
+
+41
+00:02:40,190 --> 00:02:43,600
+of these strategies, proportion, share scheduler, or a
+
+42
+00:02:43,600 --> 00:02:48,970
+fair share scheduler are straight-forward conceptual mechanisms. And
+
+43
+00:02:48,970 --> 00:02:51,060
+you can learn more about them from the
+
+44
+00:02:51,060 --> 00:02:53,770
+assigned readings for this course. In either of
+
+45
+00:02:53,770 --> 00:02:58,040
+these cases, the hypervisor has to account for
+
+46
+00:02:58,040 --> 00:03:01,760
+the time used on the CPU on behalf
+
+47
+00:03:01,760 --> 00:03:05,870
+of a different guest during the allocated time for
+
+48
+00:03:05,870 --> 00:03:08,460
+a particular guest. And this can happen for
+
+49
+00:03:08,460 --> 00:03:11,280
+instance if there is an external interrupt that is
+
+50
+00:03:11,280 --> 00:03:14,660
+feeded by the CPU that is intended for
+
+51
+00:03:14,660 --> 00:03:17,950
+this VM while a process that belongs to this
+
+52
+00:03:17,950 --> 00:03:20,690
+VM is going to be executing on the CPU.
+
+53
+00:03:20,690 --> 00:03:23,420
+So this is accounting that the hypervisor would keep
+
+54
+00:03:23,420 --> 00:03:30,640
+to make sure that. Any time that was stolen away from a particular
+
+55
+00:03:30,640 --> 00:03:35,610
+VM in order to service an external interrupt that did not belong to this
+
+56
+00:03:35,610 --> 00:03:40,950
+VM, it'll get rewarded for later on by the accounting procedure in the
+
+57
+00:03:40,950 --> 00:03:44,450
+Hypervisor. We have discussed this issue already
+
+58
+00:03:44,450 --> 00:03:47,810
+in the concept of operating system extensibility,
+
+59
+00:03:47,810 --> 00:03:51,310
+specifically when we discussed the [UNKNOWN]
+
+60
+00:03:51,310 --> 00:03:54,400
+approach to extensibility. So, it's not new
+
+61
+00:03:54,400 --> 00:03:58,720
+problem. It is just that this problem occurs in the hypervisor setting also.

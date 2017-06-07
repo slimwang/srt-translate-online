@@ -1,0 +1,201 @@
+﻿1
+00:00:00,200 --> 00:00:02,779
+What about three player games
+like 3-player isolation?
+
+2
+00:00:02,778 --> 00:00:04,609
+>> What's 3-player isolation?
+
+3
+00:00:04,610 --> 00:00:06,240
+>> It's the same as normal isolation,
+but
+
+4
+00:00:06,240 --> 00:00:08,240
+with three players trying
+to be the last to move.
+
+5
+00:00:08,240 --> 00:00:11,070
+>> So do the players form
+alliances against each other?
+
+6
+00:00:11,070 --> 00:00:13,910
+>> They can, but
+there can be only one winner in the end.
+
+7
+00:00:13,910 --> 00:00:16,530
+>> That could make the evaluation
+function difficult.
+
+8
+00:00:16,530 --> 00:00:20,970
+>> Why don't we ignore that for now and
+just #my_moves to make things simple?
+
+9
+00:00:20,969 --> 00:00:22,589
+How would minimax work?
+
+10
+00:00:22,589 --> 00:00:26,009
+>> Well, for multiplayer games
+we don't use minimax anymore.
+
+11
+00:00:26,010 --> 00:00:29,940
+Instead, we evaluate the game board
+from the perspective of each player and
+
+12
+00:00:29,940 --> 00:00:31,490
+propagate the values up the tree.
+
+13
+00:00:31,489 --> 00:00:33,454
+>> How does that work?
+
+14
+00:00:33,454 --> 00:00:35,839
+>> Let's a imagine a three
+player isolation game tree,
+
+15
+00:00:35,840 --> 00:00:38,643
+where we search down to
+the level three of the tree.
+
+16
+00:00:38,643 --> 00:00:39,774
+On the leftmost branch,
+
+17
+00:00:39,774 --> 00:00:43,784
+we evaluate the resulting game board
+from each of the players' perspectives.
+
+18
+00:00:43,784 --> 00:00:47,414
+For player 1,
+the evaluation function returns a 1.
+
+19
+00:00:47,414 --> 00:00:49,964
+For player 2, it's a 2.
+
+20
+00:00:49,965 --> 00:00:53,420
+And for player 3, the evaluation is a 6.
+
+21
+00:00:53,420 --> 00:00:56,149
+>> I guess we evaluate each of
+the board nodes at this level, and
+
+22
+00:00:56,149 --> 00:00:58,229
+then return triplets for each of them.
+
+23
+00:00:58,229 --> 00:01:00,929
+>> Yep, and then we propagate
+the values up the tree.
+
+24
+00:01:00,929 --> 00:01:04,750
+We first choose the max value
+at each of the level 2 branches
+
+25
+00:01:04,750 --> 00:01:06,799
+from the player 3's perspective.
+
+26
+00:01:06,799 --> 00:01:11,697
+In the leftmost node,
+player 3 has a choice between 6 and
+
+27
+00:01:11,697 --> 00:01:14,359
+3, so, of course, we choose 6.
+
+28
+00:01:14,359 --> 00:01:16,750
+In the next branch from
+the right on that level,
+
+29
+00:01:16,750 --> 00:01:21,159
+there's a choice between a 2 and
+a 1, so we chose 2.
+
+30
+00:01:21,159 --> 00:01:27,590
+In the third branch from left, we choose
+between a 2 and a 1, so we choose the 2.
+
+31
+00:01:27,590 --> 00:01:30,540
+And, finally, in the rightmost branch,
+we choose the 5.
+
+32
+00:01:31,609 --> 00:01:33,200
+Okay and for the next level up,
+
+33
+00:01:33,200 --> 00:01:36,070
+I guess we choose the maximum
+value from player 2's perspective?
+
+34
+00:01:36,069 --> 00:01:36,609
+>> Yep.
+>> So
+
+35
+00:01:36,609 --> 00:01:38,480
+on the left branch we choose
+the branch with the 2,
+
+36
+00:01:38,480 --> 00:01:41,280
+and on the left branch we chose the 5.
+
+37
+00:01:41,280 --> 00:01:42,060
+>> Precisely, and
+
+38
+00:01:42,060 --> 00:01:46,140
+at the top level we choose the maximum
+level from player 1's perspective.
+
+39
+00:01:46,140 --> 00:01:49,420
+In this example,
+both options are equally good, so
+
+40
+00:01:49,420 --> 00:01:51,549
+we choose the one on
+the left by default.
+
+41
+00:01:51,549 --> 00:01:55,280
+This version of a game tree,
+which we call a Max N, can work for
+
+42
+00:01:55,280 --> 00:01:58,250
+multiplayer games with
+any number of players.
+
+43
+00:01:58,250 --> 00:01:59,640
+>> Let's try a quiz on this concept.
+

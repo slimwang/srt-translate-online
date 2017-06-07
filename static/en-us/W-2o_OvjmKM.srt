@@ -1,0 +1,171 @@
+1
+00:00:00,140 --> 00:00:05,370
+From the previous example where the threads were inserting elements in the list,
+
+2
+00:00:05,370 --> 00:00:07,672
+how does this list actually get updated?
+
+3
+00:00:07,672 --> 00:00:11,420
+An implementation make look as follows.
+
+4
+00:00:11,420 --> 00:00:15,300
+Each list element has two fields, a value field and
+
+5
+00:00:15,300 --> 00:00:18,850
+then a pointer that points to the next element in the list.
+
+6
+00:00:18,850 --> 00:00:20,400
+We call this one p_next.
+
+7
+00:00:20,400 --> 00:00:23,200
+The first element, we call it the list head.
+
+8
+00:00:23,200 --> 00:00:27,660
+It can be accessed by reading the value of the shared variable list.
+
+9
+00:00:27,660 --> 00:00:30,410
+So in this code sample this is where this is happening,
+
+10
+00:00:30,410 --> 00:00:34,390
+read list, as well as it's list pointer element.
+
+11
+00:00:34,390 --> 00:00:38,310
+Then, each thread that needs to insert a new element in the list,
+
+12
+00:00:38,310 --> 00:00:42,390
+will first create an element and set it's value.
+
+13
+00:00:42,390 --> 00:00:47,430
+And we'll then have to read the value of the head of the list, so
+
+14
+00:00:47,430 --> 00:00:49,090
+this element list.
+
+15
+00:00:49,090 --> 00:00:54,500
+And then it will have to set its pointer field to point to whatever is
+
+16
+00:00:54,500 --> 00:00:55,820
+still in the list.
+
+17
+00:00:55,820 --> 00:00:58,800
+And it will have to set the head of the list to point to
+
+18
+00:00:58,800 --> 00:01:00,390
+the newly created element.
+
+19
+00:01:00,390 --> 00:01:05,280
+What that means is for instance when we are creating this element value X,
+
+20
+00:01:05,280 --> 00:01:08,050
+we will first create this data structure.
+
+21
+00:01:08,050 --> 00:01:11,190
+And then we will first read the pointer of the list,
+
+22
+00:01:11,190 --> 00:01:14,290
+originally this pointed to value Y.
+
+23
+00:01:14,290 --> 00:01:18,410
+Set the new elements pointer to point to value Y.
+
+24
+00:01:18,410 --> 00:01:23,300
+And then set the head pointer to actual point to the newly created element.
+
+25
+00:01:23,300 --> 00:01:28,340
+And in this way, new elements are basically inserted at the head of the list.
+
+26
+00:01:28,340 --> 00:01:30,370
+The end of pointing to the rest of the list and
+
+27
+00:01:30,370 --> 00:01:33,040
+the head of the list points to the newly created element.
+
+28
+00:01:33,040 --> 00:01:36,220
+Clearly there is a problem if two threads that are running on
+
+29
+00:01:36,220 --> 00:01:39,240
+two different CPUs at the same time try to
+
+30
+00:01:39,240 --> 00:01:44,040
+update the pointer field of the first element in the list.
+
+31
+00:01:44,040 --> 00:01:48,200
+We don't know what will be the outcome of this operation if two
+
+32
+00:01:48,200 --> 00:01:50,680
+threads are executing it at the same time and
+
+33
+00:01:50,680 --> 00:01:54,910
+trying to set different values in the p_next field.
+
+34
+00:01:54,910 --> 00:01:58,090
+There is also a problem if two threads are running on the CPU at
+
+35
+00:01:58,090 --> 00:02:02,590
+the same time because their operations are randomly interleaved.
+
+36
+00:02:02,590 --> 00:02:06,300
+For instance, they may both read the initial value of the list.
+
+37
+00:02:06,300 --> 00:02:09,479
+So this is where they're both reading the value of the list.
+
+38
+00:02:09,479 --> 00:02:12,280
+And it's pointer to the next element of the list.
+
+39
+00:02:12,280 --> 00:02:13,500
+In this case null.
+
+40
+00:02:13,500 --> 00:02:18,260
+They were both set the pointers p_next in their elements to be null.
+
+41
+00:02:18,260 --> 00:02:24,070
+And then they will take turns setting the actual list pointer to point to them.
+
+42
+00:02:24,070 --> 00:02:28,260
+Only one element will ultimately be successfully linked to the list.
+
+43
+00:02:28,260 --> 00:02:30,140
+And the other one will simply be lost.

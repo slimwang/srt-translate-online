@@ -1,0 +1,105 @@
+﻿1
+00:00:00,430 --> 00:00:02,790
+Now that we've learned about
+camera calibration and
+
+2
+00:00:02,790 --> 00:00:04,370
+correcting for distortion,
+
+3
+00:00:04,370 --> 00:00:08,609
+we can start to extract really useful
+information from images of the road.
+
+4
+00:00:08,609 --> 00:00:12,279
+One really important piece of
+information is lane curvature.
+
+5
+00:00:12,279 --> 00:00:14,529
+Think about how you drive on a highway,
+
+6
+00:00:14,529 --> 00:00:17,919
+you take a look at the road in
+front of you and cars around you.
+
+7
+00:00:17,920 --> 00:00:20,380
+You press the gas or
+break to go with the flow.
+
+8
+00:00:20,379 --> 00:00:22,539
+And based on how much
+the lane is curving,
+
+9
+00:00:22,539 --> 00:00:25,885
+left or right, you turn the steering
+wheel to stay in that lane.
+
+10
+00:00:25,885 --> 00:00:28,533
+Now, how does this work for
+a self-driving car?
+
+11
+00:00:28,533 --> 00:00:32,890
+Self-driving cars need to be told the
+correct steering angle to turn left or
+
+12
+00:00:32,890 --> 00:00:37,659
+right and we can calculate this angle if
+we know a few things about the speed and
+
+13
+00:00:37,659 --> 00:00:41,159
+dynamics of the car and
+how much the lane is curving.
+
+14
+00:00:41,159 --> 00:00:44,959
+To determine the curvature,
+we'll go through the following steps.
+
+15
+00:00:44,960 --> 00:00:47,870
+First, we'll detect the lane
+lines using some masking and
+
+16
+00:00:47,869 --> 00:00:49,669
+thresholding techniques.
+
+17
+00:00:49,670 --> 00:00:53,859
+Then, perform a perspective transform
+to get a birds eye view of the lane.
+
+18
+00:00:53,859 --> 00:00:56,579
+This let's us fit a polynomial
+to the lane lines.
+
+19
+00:00:56,579 --> 00:00:59,119
+Which we couldn't do very easily before.
+
+20
+00:00:59,119 --> 00:01:02,579
+Then, we can extract the curvature
+the lines from this polynomial
+
+21
+00:01:02,579 --> 00:01:04,390
+with just a little math.
+
+22
+00:01:04,390 --> 00:01:07,060
+So let's start by learning more
+about the perspective transform.
+

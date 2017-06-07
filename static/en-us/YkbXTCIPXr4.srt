@@ -1,0 +1,287 @@
+1
+00:00:00,330 --> 00:00:03,990
+It's time to fix our first bug in the So
+Many Bugs app.
+
+2
+00:00:03,990 --> 00:00:05,680
+Right now I'm in the print
+debugging scene and
+
+3
+00:00:05,680 --> 00:00:09,300
+no spiders are appearing when
+a user taps on the screen.
+
+4
+00:00:09,300 --> 00:00:12,060
+We've already completed the first
+step of figuring out this problem,
+
+5
+00:00:12,060 --> 00:00:16,190
+because we know how to reproduce it,
+by tapping on the screen.
+
+6
+00:00:16,190 --> 00:00:17,780
+But we need more information so
+
+7
+00:00:17,780 --> 00:00:20,270
+that we can determine the root
+cause of the problem.
+
+8
+00:00:20,270 --> 00:00:22,920
+So I'm going to stop the simulator so
+that we can investigate the code.
+
+9
+00:00:24,110 --> 00:00:26,860
+Right now we know that the problem
+could be related to some
+
+10
+00:00:26,860 --> 00:00:30,270
+incorrect behavior when
+a user taps on the screen.
+
+11
+00:00:30,270 --> 00:00:33,110
+And we'll treat this as our starting
+point, like we're solving a code
+
+12
+00:00:33,110 --> 00:00:36,270
+mystery, and we'll trace
+the steps leading up to the crime.
+
+13
+00:00:37,470 --> 00:00:40,845
+Now for this problem instead of
+using specialized debugging tools,
+
+14
+00:00:40,845 --> 00:00:44,565
+we're going to use a simple debugging
+approach called print debugging or
+
+15
+00:00:44,565 --> 00:00:45,515
+cave man debugging.
+
+16
+00:00:45,515 --> 00:00:49,605
+It may also go by some other names, but
+the key is that we're only going to use
+
+17
+00:00:49,605 --> 00:00:52,325
+print statements to inspect
+what's happening in the code.
+
+18
+00:00:53,450 --> 00:00:56,770
+Now this is an extremely simple
+approach, but a really well
+
+19
+00:00:56,770 --> 00:01:00,370
+placed print statement is sometimes all
+you need to determine what's wrong.
+
+20
+00:01:01,470 --> 00:01:05,703
+I'll start by looking at
+the PrintBugViewController.swift file.
+
+21
+00:01:05,703 --> 00:01:10,240
+This is the view controller that's
+on screen when we're tapping.
+
+22
+00:01:10,240 --> 00:01:13,910
+And right now we have reason to believe
+that the problem is related to our code
+
+23
+00:01:13,910 --> 00:01:15,320
+incorrectly handling a tap.
+
+24
+00:01:15,320 --> 00:01:20,230
+Now, it could be the case that our logic
+for handling a tap is not even called.
+
+25
+00:01:20,230 --> 00:01:22,090
+So let's click this drop down so
+
+26
+00:01:22,090 --> 00:01:25,980
+that we can see what this
+particular class contains.
+
+27
+00:01:25,980 --> 00:01:30,430
+And, if we go here to the bottom we
+can see this handle single tap method.
+
+28
+00:01:30,430 --> 00:01:33,100
+Now, this method looks promising and
+I'll go ahead and click on it.
+
+29
+00:01:34,160 --> 00:01:38,670
+Could of also jumped to this method
+by using the Cmd+Shift+O hotkey
+
+30
+00:01:38,670 --> 00:01:39,760
+to bring up a quick search.
+
+31
+00:01:39,760 --> 00:01:43,540
+And then type in handleSingleTap.
+
+32
+00:01:43,540 --> 00:01:48,870
+And we're looking for the one in the
+PrintBugViewController on line 83 here.
+
+33
+00:01:48,870 --> 00:01:51,150
+And tap enter and it will jump us there.
+
+34
+00:01:51,150 --> 00:01:53,930
+Of course, this assumes that we know
+the name of the method before we're
+
+35
+00:01:53,930 --> 00:01:55,480
+actually searching.
+
+36
+00:01:55,480 --> 00:01:57,620
+Anyways, at the beginning
+of this method,
+
+37
+00:01:57,620 --> 00:02:01,160
+let's add a print statement to make sure
+that we actually call the method itself.
+
+38
+00:02:02,250 --> 00:02:06,100
+We can also see that a call's being
+made to the addBugToView method.
+
+39
+00:02:07,320 --> 00:02:09,060
+If I command click on it,
+
+40
+00:02:09,060 --> 00:02:12,650
+Xcode will jump me to the location
+where addBugToView is defined.
+
+41
+00:02:12,650 --> 00:02:15,070
+Let's put another print
+statement here so
+
+42
+00:02:15,070 --> 00:02:17,020
+that we can see if this
+code's being reached as well.
+
+43
+00:02:18,520 --> 00:02:20,680
+And we'll rebuild and
+run the application.
+
+44
+00:02:23,130 --> 00:02:25,340
+I'll go to the print debugging scene and
+then I'll tap.
+
+45
+00:02:26,430 --> 00:02:29,490
+And we can see in the debug area that
+both of our print statements are showing
+
+46
+00:02:29,490 --> 00:02:31,330
+up for each method.
+
+47
+00:02:31,330 --> 00:02:33,530
+This confirms that the methods
+are being called, but
+
+48
+00:02:33,530 --> 00:02:36,580
+the spiders are still not
+being added to the view.
+
+49
+00:02:36,580 --> 00:02:38,630
+So the problem must be something else.
+
+50
+00:02:38,630 --> 00:02:41,420
+I'm going to leave it up to you to
+figure out what the problem is.
+
+51
+00:02:42,770 --> 00:02:47,110
+As an exercise, I want you to use only
+print debugging, like print statements
+
+52
+00:02:47,110 --> 00:02:51,070
+such as print LN, to see if you
+can identify and fix the problem.
+
+53
+00:02:52,190 --> 00:02:53,550
+Then, once you've
+identified the problem,
+
+54
+00:02:53,550 --> 00:02:58,100
+select one of the following statements
+that best describes what it is.
+
+55
+00:02:58,100 --> 00:02:59,090
+Your choices are,
+
+56
+00:02:59,090 --> 00:03:04,820
+the spiders do not appear because bugs
+are never created by the bug factory.
+
+57
+00:03:04,820 --> 00:03:07,380
+Bugs are created, but
+they're not added to the view.
+
+58
+00:03:08,510 --> 00:03:11,170
+The bug maximum restricts
+the creation of bugs.
+
+59
+00:03:12,250 --> 00:03:15,117
+And, bugs are created, but
+they are positioned off screen.
+
+60
+00:03:16,320 --> 00:03:20,210
+Once you fix the problem, select the
+most appropriate answer, and continue.

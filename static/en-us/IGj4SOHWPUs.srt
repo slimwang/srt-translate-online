@@ -1,0 +1,106 @@
+﻿1
+00:00:00,660 --> 00:00:03,140
+All right,
+let's add Firebase Storage to our app.
+
+2
+00:00:03,140 --> 00:00:04,950
+The user flow will look like this.
+
+3
+00:00:04,950 --> 00:00:07,227
+In the app,
+when we press the Photo Picker button,
+
+4
+00:00:07,227 --> 00:00:10,839
+we'll create an intent to Android's
+general image picker activity.
+
+5
+00:00:10,839 --> 00:00:13,744
+We'll launch the intent using
+startActivityForResult.
+
+6
+00:00:13,744 --> 00:00:16,463
+The reason that we're using
+startActivityForResult,
+
+7
+00:00:16,463 --> 00:00:18,047
+instead of just start activity,
+
+8
+00:00:18,047 --> 00:00:21,396
+is because we'll want to do something
+with the user's chosen photo.
+
+9
+00:00:21,396 --> 00:00:24,635
+And the user's chosen photo is
+the result of the activity.
+
+10
+00:00:24,635 --> 00:00:27,890
+After you've chosen a photo from
+the Photo Picker, our app will receive
+
+11
+00:00:27,890 --> 00:00:32,118
+the photo in the onActivityResult
+callback, which we'll then override.
+
+12
+00:00:32,118 --> 00:00:35,740
+In onActivityResult, we'll send
+the photo straight to Firebase Storage.
+
+13
+00:00:35,740 --> 00:00:40,030
+Once the file is stored in Firebase
+Storage, we can refer to it by its URL.
+
+14
+00:00:40,030 --> 00:00:42,370
+In Friendly Chat,
+we'll take that URL and
+
+15
+00:00:42,369 --> 00:00:44,689
+send it directly to
+our messages database.
+
+16
+00:00:44,689 --> 00:00:47,974
+Adding the URL to the messages
+database will then trigger our
+
+17
+00:00:47,975 --> 00:00:49,730
+ChildEventListener.
+
+18
+00:00:49,729 --> 00:00:53,189
+Finally, our adapter is already
+set up to display either text or
+
+19
+00:00:53,189 --> 00:00:54,549
+photo messages.
+
+20
+00:00:54,549 --> 00:00:58,780
+So when we add a friendly message object
+to our adapter that has a photo URL,
+
+21
+00:00:58,780 --> 00:01:01,100
+it'll already know how
+to display that photo.
+
+22
+00:01:01,100 --> 00:01:03,260
+Okay, let's start by setting
+up our Photo Picker.
+

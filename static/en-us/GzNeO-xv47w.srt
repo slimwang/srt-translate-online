@@ -1,0 +1,452 @@
+1
+00:00:00,380 --> 00:00:03,250
+So I finished developing this
+really great application.
+
+2
+00:00:03,250 --> 00:00:06,900
+And what I've noticed is every now and
+then I'm getting in an ANR,
+
+3
+00:00:06,900 --> 00:00:09,160
+an application not responsive.
+
+4
+00:00:09,160 --> 00:00:11,080
+And I have no idea why that's happening.
+
+5
+00:00:11,080 --> 00:00:13,350
+Why do you think that could occur?
+
+6
+00:00:13,350 --> 00:00:16,420
+>> So there's lots of reasons
+that this could happen.
+
+7
+00:00:16,420 --> 00:00:19,797
+Mostly from what I understand,
+it's over, well,
+
+8
+00:00:19,797 --> 00:00:24,650
+okay Android Apps typically run on one
+thread, and that is your UI thread.
+
+9
+00:00:25,890 --> 00:00:30,210
+If you don't declare anything else,
+if you're just running all your methods
+
+10
+00:00:30,210 --> 00:00:35,110
+from on create something like that or
+calling methods from there.
+
+11
+00:00:35,110 --> 00:00:36,940
+It's just running on one thread.
+
+12
+00:00:36,940 --> 00:00:40,660
+And if you're running in
+a really intensive process, or
+
+13
+00:00:40,660 --> 00:00:42,010
+maybe making a network call or
+
+14
+00:00:42,010 --> 00:00:46,020
+something like that, if you don't get
+a different area you could get the ANR.
+
+15
+00:00:47,120 --> 00:00:49,400
+Because you're
+overloading on the thread.
+
+16
+00:00:49,400 --> 00:00:52,250
+>> Yeah.
+So your theory is is that I
+
+17
+00:00:52,250 --> 00:00:56,030
+am sitting on top of the UI thread and
+I'm blocking it for some reason.
+
+18
+00:00:56,030 --> 00:00:57,330
+I'm doing something intensive.
+
+19
+00:00:57,330 --> 00:00:58,110
+That makes sense.
+
+20
+00:00:58,110 --> 00:01:01,140
+And that's exactly why
+it would create an ANR.
+
+21
+00:01:01,140 --> 00:01:05,820
+But it seems like my application so
+far is behaving properly.
+
+22
+00:01:05,820 --> 00:01:07,750
+I don't know why it's triggering that.
+
+23
+00:01:07,750 --> 00:01:10,440
+So what other things could occur?
+
+24
+00:01:10,440 --> 00:01:13,620
+>> It could be related to user input
+as well if it's been waiting for
+
+25
+00:01:13,620 --> 00:01:17,960
+some sort of input that it doesn't get,
+or something like that.
+
+26
+00:01:17,960 --> 00:01:19,050
+That could cause it as well.
+
+27
+00:01:20,460 --> 00:01:22,118
+This I do believe.
+
+28
+00:01:22,118 --> 00:01:26,530
+And otherwise yeah, if it's like you
+said it is just being blocked for
+
+29
+00:01:26,530 --> 00:01:31,380
+some reason by some process that it's
+not going to necessarily be consistent.
+
+30
+00:01:31,380 --> 00:01:33,190
+>> Yeah.
+So let's say in this application,
+
+31
+00:01:33,190 --> 00:01:35,990
+I can kind of tell you more about is,
+
+32
+00:01:35,990 --> 00:01:40,470
+it has kind of a background service so
+as a user is,
+
+33
+00:01:40,470 --> 00:01:44,260
+maybe it fetches content eventually in
+the back and maybe does a few things.
+
+34
+00:01:44,260 --> 00:01:48,290
+But I still can't figure
+out why occasionally it's.
+
+35
+00:01:48,290 --> 00:01:51,180
+>> So are we talking about
+like a network call or?
+
+36
+00:01:51,180 --> 00:01:53,230
+>> Yeah, so it's doing network calls.
+
+37
+00:01:53,230 --> 00:01:55,234
+>> Okay.
+>> And it's doing them periodically.
+
+38
+00:01:55,234 --> 00:01:59,879
+>> Okay are they on schedules or does
+it just sort of wait for user input for
+
+39
+00:01:59,879 --> 00:02:02,600
+those network calls or how does it work?
+
+40
+00:02:02,600 --> 00:02:05,130
+>> Let's say when the applications open,
+
+41
+00:02:05,130 --> 00:02:08,180
+it's doing a network call every
+five minutes or something.
+
+42
+00:02:08,180 --> 00:02:10,050
+>> Okay so it's scheduled
+to run every five minutes.
+
+43
+00:02:11,120 --> 00:02:12,130
+I suppose that,
+
+44
+00:02:12,130 --> 00:02:15,740
+depending on what content it's
+trying to pull, could be an issue.
+
+45
+00:02:15,740 --> 00:02:19,060
+Maybe as the app is open longer
+it's pulling more content.
+
+46
+00:02:19,060 --> 00:02:21,510
+And depends on what you're.
+
+47
+00:02:21,510 --> 00:02:25,330
+>> Well so I don't think it should be
+an issue because I developed it as
+
+48
+00:02:25,330 --> 00:02:26,890
+a service, right?
+
+49
+00:02:26,890 --> 00:02:31,184
+So it's doing a network
+call in the service.
+
+50
+00:02:31,184 --> 00:02:33,946
+>> So you're launching like an intense
+service that should be using
+
+51
+00:02:33,946 --> 00:02:34,461
+[CROSSTALK]
+>> It's
+
+52
+00:02:34,461 --> 00:02:35,010
+not an answering service
+it's just a normal service.
+
+53
+00:02:35,010 --> 00:02:42,358
+>> So the idea of the service is that it
+should be running on the background or
+
+54
+00:02:42,358 --> 00:02:46,581
+in the background on a different thread.
+
+55
+00:02:46,581 --> 00:02:51,369
+So it sounds like it could be that
+you're doing background as maybe taking
+
+56
+00:02:51,369 --> 00:02:56,236
+little bait too long to run, or it's
+taking a significant amount of time or
+
+57
+00:02:56,236 --> 00:03:00,460
+a significant amount of time
+is going on before you call.
+
+58
+00:03:00,460 --> 00:03:04,850
+Well actually are you running a
+broadcast receiver off of this service?
+
+59
+00:03:04,850 --> 00:03:08,917
+So when your service is done
+do you send out a broadcast?
+
+60
+00:03:08,917 --> 00:03:11,020
+>> No I'm not doing that at all.
+
+61
+00:03:11,020 --> 00:03:16,160
+>> Are you calling on task complete
+type thing where once your service
+
+62
+00:03:16,160 --> 00:03:21,010
+is done running, you call something
+that's backed that's on the UI,
+
+63
+00:03:21,010 --> 00:03:24,740
+that's rendered on the UI thread,
+or runs on the UI thread?
+
+64
+00:03:24,740 --> 00:03:27,980
+>> Yes, so I guess what I'm
+trying to say is in the service,
+
+65
+00:03:27,980 --> 00:03:32,890
+it's just a generic extend service,
+I'm doing that recall within there.
+
+66
+00:03:32,890 --> 00:03:37,460
+And I'm starting to isolate the problem
+down to the service being the problem.
+
+67
+00:03:37,460 --> 00:03:40,180
+>> So
+why do you think that could be an issue?
+
+68
+00:03:40,180 --> 00:03:42,010
+>> If I do it from an intense
+everything works great.
+
+69
+00:03:42,010 --> 00:03:43,264
+But if I do it from a service
+
+70
+00:03:43,264 --> 00:03:43,990
+[CROSSTALK]
+>> Okay.
+
+71
+00:03:43,990 --> 00:03:48,209
+Well, I would assume it's
+just because your service
+
+72
+00:03:49,390 --> 00:03:51,875
+maybe is like directly calling that or
+something.
+
+73
+00:03:51,875 --> 00:03:55,220
+It sounds like is not running
+on a UI thread actually whereas
+
+74
+00:03:55,220 --> 00:03:58,200
+the intense service would be
+running off the UI thread.
+
+75
+00:03:58,200 --> 00:04:01,150
+Sorry it's only the intense service
+would be running off the UI thread
+
+76
+00:04:01,150 --> 00:04:04,270
+in the background, and it sounds like
+that's not what's happening here,
+
+77
+00:04:04,270 --> 00:04:07,220
+it's doing some sort
+of intensive service.
+
+78
+00:04:07,220 --> 00:04:10,627
+>> Yeah, so what are some of the
+differences between, I think this comes
+
+79
+00:04:10,627 --> 00:04:14,420
+down to a difference between
+an intense service and a service.
+
+80
+00:04:14,420 --> 00:04:17,140
+And so
+in the intense service it runs okay.
+
+81
+00:04:17,140 --> 00:04:21,120
+I can run the network call and
+it's completely fine.
+
+82
+00:04:21,120 --> 00:04:22,670
+But from the service it's blocking.
+
+83
+00:04:22,670 --> 00:04:25,420
+Why do you think that's different?
+
+84
+00:04:25,420 --> 00:04:26,560
+>> I'm not entirely sure.
+
+85
+00:04:26,560 --> 00:04:29,360
+Because I'm not too familiar
+with the difference between
+
+86
+00:04:29,360 --> 00:04:30,720
+intense service and service.
+
+87
+00:04:30,720 --> 00:04:33,890
+>> Well, so for the service what
+thread does the service run on?
+
+88
+00:04:33,890 --> 00:04:35,655
+>> I'm assuming it
+runs on the UI thread.
+
+89
+00:04:35,655 --> 00:04:39,080
+>> Yeah, so the service runs on UI
+thread, and intense service runs on.
+
+90
+00:04:39,080 --> 00:04:40,690
+>> The background thread.
+
+91
+00:04:40,690 --> 00:04:43,240
+>> Yeah,
+some other thread executor respectively.
+
+92
+00:04:43,240 --> 00:04:45,829
+So that's probably where
+the problems occurring right?
+
+93
+00:04:45,829 --> 00:04:48,280
+Because I'm running it on
+the service thread and
+
+94
+00:04:48,280 --> 00:04:51,107
+which happens to be the UI thread and
+so it's blocking.
+
+95
+00:04:51,107 --> 00:04:52,284
+>> Yes.
+Yeah.
+
+96
+00:04:52,284 --> 00:04:52,784
+>> Yeah.

@@ -1,0 +1,406 @@
+1
+00:00:00,390 --> 00:00:02,670
+Right now this application will
+not do anything on order yet,
+
+2
+00:00:02,670 --> 00:00:04,800
+since it's just a standard Android app.
+
+3
+00:00:04,800 --> 00:00:07,900
+So we need to write a service
+that implements media browsing.
+
+4
+00:00:07,900 --> 00:00:11,423
+So go into Java, and
+in the package here,
+
+5
+00:00:11,423 --> 00:00:14,760
+right click New > Service > Service.
+
+6
+00:00:14,760 --> 00:00:17,190
+And let's call it
+TestMusicBrowserService.
+
+7
+00:00:17,190 --> 00:00:20,140
+Leave all the defaults for
+exporting and enabled selected.
+
+8
+00:00:20,140 --> 00:00:21,670
+Hit Enter to create the service.
+
+9
+00:00:21,670 --> 00:00:25,920
+This will add an entry to your
+Android manifest.XML shown here.
+
+10
+00:00:25,920 --> 00:00:28,995
+We now need to modify the service
+definition to mention that it is to be
+
+11
+00:00:28,995 --> 00:00:30,670
+used as a media browser service.
+
+12
+00:00:30,670 --> 00:00:32,295
+So we add this intent folder for
+
+13
+00:00:32,295 --> 00:00:35,030
+Android.media.browse.mediabrowserserv-
+ice.
+
+14
+00:00:35,030 --> 00:00:37,020
+We're going to download some
+music from the internet so
+
+15
+00:00:37,020 --> 00:00:40,001
+we need to request permission for
+this in manifest file as well.
+
+16
+00:00:40,001 --> 00:00:43,260
+Now, let's open up the test music
+browser service definition and
+
+17
+00:00:43,260 --> 00:00:45,160
+let's replace it with
+the following code.
+
+18
+00:00:45,160 --> 00:00:47,590
+It's a bit long but we'll go through
+it line by line so don't worry.
+
+19
+00:00:47,590 --> 00:00:51,830
+I also have to hit Alt+Enter a bunch
+of times to import necessary packages.
+
+20
+00:00:51,830 --> 00:00:54,290
+Let's walk through the code and
+discuss what it does.
+
+21
+00:00:54,290 --> 00:00:57,190
+Let's minimize the project window
+here so we can see all the code.
+
+22
+00:00:58,250 --> 00:01:01,340
+Here is where we create
+MediaMeta.objects that represent each of
+
+23
+00:01:01,340 --> 00:01:02,680
+the songs we want to play.
+
+24
+00:01:02,680 --> 00:01:05,950
+We can provide URLs and
+they'll be fetched automatically for us.
+
+25
+00:01:05,950 --> 00:01:10,020
+You can set all kinds of information
+such as song title, artist, and
+
+26
+00:01:10,020 --> 00:01:12,880
+duration which will be
+shown on the display.
+
+27
+00:01:12,880 --> 00:01:15,020
+This creates the media player
+which actually decodes and
+
+28
+00:01:15,020 --> 00:01:16,970
+plays back the MP3 file.
+
+29
+00:01:16,970 --> 00:01:18,630
+Here we create a media session.
+
+30
+00:01:18,630 --> 00:01:21,890
+Auto will use the media session object
+to send playback commands requested
+
+31
+00:01:21,890 --> 00:01:23,962
+by the user to your app.
+
+32
+00:01:23,962 --> 00:01:26,500
+Here is where we'll create the callbacks
+that'll execute when the user
+
+33
+00:01:26,500 --> 00:01:27,930
+makes a request.
+
+34
+00:01:27,930 --> 00:01:30,930
+This method searches for
+a song in the music library by ID and
+
+35
+00:01:30,930 --> 00:01:32,180
+starts playing it.
+
+36
+00:01:32,180 --> 00:01:34,910
+This method is called when
+the user presses the Play button.
+
+37
+00:01:34,910 --> 00:01:37,710
+And if we go in here,
+if there's no song currently selected,
+
+38
+00:01:37,710 --> 00:01:40,200
+we'd pick the first one and
+then start playing it.
+
+39
+00:01:40,200 --> 00:01:43,630
+If there's a song already active but
+paused, then we could start playing it.
+
+40
+00:01:43,630 --> 00:01:46,740
+Down here, we also update the UI
+to indicate we're in Play mode and
+
+41
+00:01:46,740 --> 00:01:48,040
+no longer paused.
+
+42
+00:01:48,040 --> 00:01:50,670
+If the paused button is pressed
+we need to do the opposite and
+
+43
+00:01:50,670 --> 00:01:52,420
+stop the song from playing.
+
+44
+00:01:52,420 --> 00:01:54,520
+Now, we activate the media session.
+
+45
+00:01:54,520 --> 00:01:57,590
+And finally, we call the set session
+token from the media browser service
+
+46
+00:01:57,590 --> 00:01:58,940
+class we inherit from.
+
+47
+00:01:58,940 --> 00:02:01,100
+This gives it the token
+from the media session.
+
+48
+00:02:01,100 --> 00:02:04,020
+This token can be used later
+to create a media controller
+
+49
+00:02:04,020 --> 00:02:05,250
+to interact with this session.
+
+50
+00:02:05,250 --> 00:02:06,790
+So, that's basically it.
+
+51
+00:02:06,790 --> 00:02:10,229
+Now, we have some helper methods to make
+the above code a bit easier to read.
+
+52
+00:02:10,229 --> 00:02:13,940
+The buildState method builds up
+a playback state object to tell the UI
+
+53
+00:02:13,940 --> 00:02:17,680
+what icons to show based on whether
+we're stopped, paused and so forth.
+
+54
+00:02:17,680 --> 00:02:20,010
+We can also set the current
+position in the song, but
+
+55
+00:02:20,010 --> 00:02:22,390
+we'll just hide code that
+to keep things simple.
+
+56
+00:02:22,390 --> 00:02:24,810
+Here's some generic code that
+we used many times above it.
+
+57
+00:02:24,810 --> 00:02:27,820
+It just starts playing a song
+using the media player interface.
+
+58
+00:02:27,820 --> 00:02:30,470
+So we tell the media session
+about the current playback state
+
+59
+00:02:30,470 --> 00:02:32,060
+which will update the UI buttons.
+
+60
+00:02:32,060 --> 00:02:35,100
+And here's where we copy over the meta
+data for the song title, artist and
+
+61
+00:02:35,100 --> 00:02:38,830
+background art etc, and give it to
+the media session to update the UI.
+
+62
+00:02:38,830 --> 00:02:41,760
+The reset method stops and
+resets the media player.
+
+63
+00:02:41,760 --> 00:02:44,690
+Then we tell the media player
+the URL of the song we want to play.
+
+64
+00:02:44,690 --> 00:02:47,580
+Now we schedule a call back to run
+when the music has been buffered.
+
+65
+00:02:47,580 --> 00:02:49,200
+And is ready to be played.
+
+66
+00:02:49,200 --> 00:02:51,830
+And once that's ready
+the onPrepared method is called and
+
+67
+00:02:51,830 --> 00:02:55,230
+we call the start method to
+begin the playback of the music.
+
+68
+00:02:55,230 --> 00:02:58,390
+Once we have the onPrepared listener
+created, we then tell media player to
+
+69
+00:02:58,390 --> 00:03:01,270
+schedule the playback,
+which starts the buffering of the URL.
+
+70
+00:03:01,270 --> 00:03:03,260
+Then the onPrepared call back above.
+
+71
+00:03:03,260 --> 00:03:05,960
+And then start the playback
+with mp.style.
+
+72
+00:03:05,960 --> 00:03:09,500
+The onGetRoot method is the first
+method that Android auto calls into.
+
+73
+00:03:09,500 --> 00:03:13,140
+This method is responsible for returning
+the root node of your media hierarchy.
+
+74
+00:03:13,140 --> 00:03:16,020
+It can also implement security
+checks to help prevent other apps
+
+75
+00:03:16,020 --> 00:03:17,420
+from accruing your music.
+
+76
+00:03:17,420 --> 00:03:19,590
+In this case,
+we're doing something super simple, so
+
+77
+00:03:19,590 --> 00:03:22,520
+this does nothing except returning
+a simple root node automatically.
+
+78
+00:03:22,520 --> 00:03:25,612
+If you want to reject a request,
+you'd return null here.
+
+79
+00:03:25,612 --> 00:03:27,769
+Once the remote app is coded onGetRoot,
+
+80
+00:03:27,769 --> 00:03:30,670
+it then uses that to
+return a list of children.
+
+81
+00:03:30,670 --> 00:03:35,210
+This method needs to return that using
+a result list of media item objects.
+
+82
+00:03:35,210 --> 00:03:38,340
+You can see here it is doing a full loop
+over the array created at the side of
+
+83
+00:03:38,340 --> 00:03:41,740
+this code and building them up
+into a list of media item objects.
+
+84
+00:03:41,740 --> 00:03:43,490
+You can implement tree structures, but
+
+85
+00:03:43,490 --> 00:03:45,830
+in this simple example
+we're just doing two songs.
+
+86
+00:03:45,830 --> 00:03:48,070
+So that's everything the code
+is now ready to run.

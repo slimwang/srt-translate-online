@@ -1,0 +1,457 @@
+1
+00:00:00,180 --> 00:00:01,660
+Okay, you've set up an account.
+
+2
+00:00:01,660 --> 00:00:03,650
+And with that, I'm off.
+
+3
+00:00:03,650 --> 00:00:04,886
+>> Wait.
+J.P., where are you going?
+
+4
+00:00:04,886 --> 00:00:07,370
+>> It's 10:00 AM,
+gotta head back to my day job.
+
+5
+00:00:07,370 --> 00:00:09,750
+But I like where this is going.
+
+6
+00:00:12,030 --> 00:00:14,690
+>> Okay, you got it, J.P. I'll check
+in with you after the developer and
+
+7
+00:00:14,690 --> 00:00:16,570
+I figure out how to write
+some data to Firebase.
+
+8
+00:00:18,090 --> 00:00:20,150
+All right, it's just you and
+me for a bit.
+
+9
+00:00:20,150 --> 00:00:24,960
+Okay so you've got your online Firebase
+backend and you've got an Android app so
+
+10
+00:00:24,960 --> 00:00:25,930
+now it's time to connect the two.
+
+11
+00:00:25,930 --> 00:00:28,520
+There are four steps to do this.
+
+12
+00:00:28,520 --> 00:00:29,710
+You'll need to do these steps for
+
+13
+00:00:29,710 --> 00:00:32,640
+any Android app that you
+plan to use Firebase in.
+
+14
+00:00:32,640 --> 00:00:34,380
+Before we start,
+I've linked a quick guide for
+
+15
+00:00:34,380 --> 00:00:38,930
+setting up Android in Firebase if you
+prefer text to me talking to you.
+
+16
+00:00:38,930 --> 00:00:40,450
+Okay step one, install Firebase.
+
+17
+00:00:40,450 --> 00:00:44,150
+So the first thing you're going to do is
+you're going to add the library to your
+
+18
+00:00:44,150 --> 00:00:45,880
+Android apps gradle file.
+
+19
+00:00:45,880 --> 00:00:48,160
+So I'm here in the build.gradle file.
+
+20
+00:00:48,160 --> 00:00:51,040
+Okay and you're going to add two pieces
+of code and they're in the instructor
+
+21
+00:00:51,040 --> 00:00:54,410
+notes so don't worry about copying them
+off the screen or anything like that.
+
+22
+00:00:54,410 --> 00:00:56,730
+First is down here in
+your dependencies and
+
+23
+00:00:56,730 --> 00:00:59,930
+what we're going to do is declare that
+we're using Firebase as part of the app.
+
+24
+00:00:59,930 --> 00:01:02,020
+And that you needed to run the app.
+
+25
+00:01:02,020 --> 00:01:03,810
+Now, let's see what happens if I run,
+
+26
+00:01:03,810 --> 00:01:06,860
+well I get this error here
+about duplicate files.
+
+27
+00:01:06,860 --> 00:01:09,920
+And to avoid that,
+you need to add some packaging options.
+
+28
+00:01:09,920 --> 00:01:14,310
+So to fix this error, I'm going to need
+to exclude those duplicated files and
+
+29
+00:01:14,310 --> 00:01:18,710
+I do that by adding a packaging
+options directive inside of Android.
+
+30
+00:01:18,710 --> 00:01:21,430
+You're doing this with
+the same build.gradle file and
+
+31
+00:01:21,430 --> 00:01:26,420
+I'm just going to scroll up and
+put it right below the signing configs.
+
+32
+00:01:26,420 --> 00:01:30,150
+And as easy as that you've installed the
+Firebase library as part of your app.
+
+33
+00:01:30,150 --> 00:01:33,140
+If you're looking for
+alternative ways to install the library
+
+34
+00:01:33,140 --> 00:01:35,920
+such as if you were using Mavin or
+another build tool
+
+35
+00:01:35,920 --> 00:01:39,770
+those are included in the Android Quick
+Start guide, which is linked below.
+
+36
+00:01:39,770 --> 00:01:40,500
+So step two,
+
+37
+00:01:40,500 --> 00:01:43,960
+you need to add some permissions
+to your Android manifest file.
+
+38
+00:01:43,960 --> 00:01:46,270
+Is there a permission that
+Firebase is likely to need?
+
+39
+00:01:48,060 --> 00:01:52,060
+If you said yes, the Internet
+permission, you are absolutely correct.
+
+40
+00:01:52,060 --> 00:01:54,600
+Your Fire-based data store is online, so
+
+41
+00:01:54,600 --> 00:01:57,000
+you're going to need to be
+able to access the Internet.
+
+42
+00:01:57,000 --> 00:01:59,080
+I'm going to add that permission now.
+
+43
+00:01:59,080 --> 00:02:01,590
+Okay, so
+you've added Firebase to Gradle and
+
+44
+00:02:01,590 --> 00:02:05,560
+you've also added the Internet
+permission to your Android manifest.
+
+45
+00:02:05,560 --> 00:02:08,810
+Next you're going to need to
+initialize Firebase in your app.
+
+46
+00:02:08,810 --> 00:02:12,600
+The Firebase library needs to know about
+your Android context object, so this
+
+47
+00:02:12,600 --> 00:02:16,320
+initialization needs to happen before
+you do anything else with Firebase.
+
+48
+00:02:16,320 --> 00:02:20,470
+And to ensure that I'm going to do
+that in a Android application class.
+
+49
+00:02:20,470 --> 00:02:23,580
+Specifically the shopping
+list application class here.
+
+50
+00:02:23,580 --> 00:02:26,530
+This class is really good for any kind
+of global setup that you need to do.
+
+51
+00:02:26,530 --> 00:02:29,630
+So it's a perfect place to put
+this Firebase initialization code.
+
+52
+00:02:29,630 --> 00:02:31,250
+And that's what the code looks like.
+
+53
+00:02:31,250 --> 00:02:34,070
+Firebase.dryAndroidContext.
+
+54
+00:02:34,070 --> 00:02:36,220
+And you pass the NA context.
+
+55
+00:02:36,220 --> 00:02:38,170
+Now an application is a context.
+
+56
+00:02:38,170 --> 00:02:42,380
+You can also do this in the on
+create of an activity class, but
+
+57
+00:02:42,380 --> 00:02:45,695
+I'm doing it in the application because
+I want to make 100% sure that I can use
+
+58
+00:02:45,695 --> 00:02:47,770
+Firebase anywhere in my code.
+
+59
+00:02:47,770 --> 00:02:51,750
+Okay, and I'm going to do one more sort
+of optional thing to get us ready.
+
+60
+00:02:51,750 --> 00:02:56,130
+As JP mentioned, I'm going to go over
+to the Constance class in utils.
+
+61
+00:02:57,340 --> 00:03:03,650
+Right here under Firebase URL I'm
+just going to make a constant.
+
+62
+00:03:06,270 --> 00:03:07,772
+And I'm going to call it Firebase URL.
+
+63
+00:03:07,772 --> 00:03:11,800
+And what I'm going to set that
+equal to is a string here
+
+64
+00:03:11,800 --> 00:03:14,928
+which represents the URL
+that JP mentioned.
+
+65
+00:03:14,928 --> 00:03:18,680
+Remember every Firebase app has
+a URL associated with it, so
+
+66
+00:03:18,680 --> 00:03:20,160
+you should put yours here.
+
+67
+00:03:20,160 --> 00:03:22,840
+Now I'm actually going to put something
+a little bit different than just
+
+68
+00:03:22,840 --> 00:03:25,680
+the root URL string that
+I was talking about.
+
+69
+00:03:25,680 --> 00:03:29,292
+I'm going to set it equal to this build
+config constant called unique Firebase
+
+70
+00:03:29,292 --> 00:03:29,830
+root URL.
+
+71
+00:03:29,830 --> 00:03:34,010
+And to explain what this is, let's take
+a look at the gradle properties file.
+
+72
+00:03:34,010 --> 00:03:34,668
+Which is right here.
+
+73
+00:03:34,668 --> 00:03:38,470
+So the gradle.properties file is a file
+that sits within the root directory
+
+74
+00:03:38,470 --> 00:03:39,990
+of my project folder.
+
+75
+00:03:39,990 --> 00:03:43,070
+And it basically lets me set
+some config things for the app.
+
+76
+00:03:43,070 --> 00:03:45,680
+And why this is important is
+because I've decided that
+
+77
+00:03:45,680 --> 00:03:48,330
+I'm not going to track
+the gradle.properties file with git.
+
+78
+00:03:48,330 --> 00:03:50,200
+It's included in the git ignore.
+
+79
+00:03:50,200 --> 00:03:54,230
+So you can have a different
+gradle.properties file than I have.
+
+80
+00:03:54,230 --> 00:03:57,490
+So, here I've put my shopping
+list plus plus Firebase URL and
+
+81
+00:03:57,490 --> 00:04:00,390
+you can put your shopping list
+FIrebase plus plus URL and it's
+
+82
+00:04:00,390 --> 00:04:04,970
+going to be fine because the get repo
+is not going to overwrite this file.
+
+83
+00:04:04,970 --> 00:04:08,480
+And then this unique Firebase
+key value point here
+
+84
+00:04:10,120 --> 00:04:16,709
+is read in the build.gradle file,
+right here in this built type section.
+
+85
+00:04:16,709 --> 00:04:19,000
+You can see here that I have
+unique Firebase root URL,
+
+86
+00:04:19,000 --> 00:04:24,620
+and I'm setting that to the unique
+Firebase root URL constant that you saw.
+
+87
+00:04:24,620 --> 00:04:28,290
+And then just going back
+to the constants file.
+
+88
+00:04:28,290 --> 00:04:30,790
+You can see I'm actually
+using the constant here.
+
+89
+00:04:30,790 --> 00:04:33,990
+So you don't need to do this in any app
+that you're not planning on sharing
+
+90
+00:04:33,990 --> 00:04:37,110
+the code with someone else, but
+it's sort of a useful tip if you want to
+
+91
+00:04:37,110 --> 00:04:39,940
+share your Firebase code
+among different people, and
+
+92
+00:04:39,940 --> 00:04:43,230
+they're each going to be using
+a different Firebase database.
+
+93
+00:04:43,230 --> 00:04:44,270
+And that's it.
+
+94
+00:04:44,270 --> 00:04:47,370
+If you haven't been following along,
+take a moment now to go ahead and
+
+95
+00:04:47,370 --> 00:04:50,160
+pause and
+make these changes to your app.
+
+96
+00:04:50,160 --> 00:04:53,680
+The instructor notes have all the little
+snippets and things that you need.
+
+97
+00:04:53,680 --> 00:04:54,960
+And once you're done check this box.

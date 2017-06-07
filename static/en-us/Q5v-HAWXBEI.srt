@@ -1,0 +1,579 @@
+1
+00:00:00,340 --> 00:00:02,740
+>> So actually that was all we were going to talk about in this
+
+2
+00:00:02,740 --> 00:00:05,724
+lesson about computational learning theory. So let's
+
+3
+00:00:05,724 --> 00:00:07,160
+just recap where we went so far.
+
+4
+00:00:07,160 --> 00:00:10,950
+>> Okay. So what? You want me to do it?
+
+5
+00:00:10,950 --> 00:00:12,990
+>> Yeah, that's been our technique all along.
+
+6
+00:00:12,990 --> 00:00:16,219
+>> Fine. So here you're the teacher and I'm the student. I get
+
+7
+00:00:16,219 --> 00:00:19,650
+that. Which is actually one of the things that we talked about. Aha.
+
+8
+00:00:19,650 --> 00:00:21,500
+>> We talked about what it would mean
+
+9
+00:00:21,500 --> 00:00:25,430
+to be a learnerversus being a teacher. And how
+
+10
+00:00:25,430 --> 00:00:29,620
+teachers and learners interact to make learning happen faster or not.
+
+11
+00:00:29,620 --> 00:00:30,710
+>> Okay.
+
+12
+00:00:30,710 --> 00:00:31,710
+>> But that was actually in a larger
+
+13
+00:00:31,710 --> 00:00:34,150
+context which I thought was kind of cool which
+
+14
+00:00:34,150 --> 00:00:36,740
+was this sort of notion of trying to
+
+15
+00:00:36,740 --> 00:00:39,810
+understand what is actually learnable. Right and I think
+
+16
+00:00:39,810 --> 00:00:42,200
+the comparison that made sense to me was
+
+17
+00:00:42,200 --> 00:00:44,380
+that we were trying to do the equivalent to
+
+18
+00:00:44,380 --> 00:00:47,380
+what we do in computer science with complexity theory
+
+19
+00:00:47,380 --> 00:00:50,720
+and algorithms. While here we were bouncing up from
+
+20
+00:00:50,720 --> 00:00:55,430
+a specific algorithm like decision trees or. KNN and asking
+
+21
+00:00:55,430 --> 00:00:59,140
+a question about how fundamentally hard is the problem of learning.
+
+22
+00:00:59,140 --> 00:00:59,630
+>> Good.
+
+23
+00:00:59,630 --> 00:01:03,500
+>> And you know, like that. And we focused on a particular
+
+24
+00:01:03,500 --> 00:01:07,070
+measure of difficulty, which I guess drove everything else, so we talked
+
+25
+00:01:07,070 --> 00:01:10,190
+about which was sampled before it was excepted. Okay, how many examples,
+
+26
+00:01:10,190 --> 00:01:13,190
+how many samples do we need in order to learn some concept?
+
+27
+00:01:13,190 --> 00:01:15,790
+>> Good yeah, that's a really powerful idea because it's
+
+28
+00:01:15,790 --> 00:01:17,220
+a different resource than what's normally
+
+29
+00:01:17,220 --> 00:01:18,660
+studied in computer science, things like
+
+30
+00:01:18,660 --> 00:01:22,430
+time and space. This is now how much data do we need?
+
+31
+00:01:22,430 --> 00:01:24,580
+>> Right, which makes sense because we do machine learning
+
+32
+00:01:24,580 --> 00:01:26,360
+and machine learning people, what we care about is data.
+
+33
+00:01:26,360 --> 00:01:29,210
+>> I, I saw a t-shirt recently that says data is the new bacon.
+
+34
+00:01:29,210 --> 00:01:31,970
+>> Mm. So you're saying data is delicious?
+
+35
+00:01:31,970 --> 00:01:33,540
+>> Yeah, I think we like data a lot.
+
+36
+00:01:33,540 --> 00:01:36,940
+>> I love data. Okay, so that ties us
+
+37
+00:01:36,940 --> 00:01:40,840
+back into a discussion about teachers and students because what
+
+38
+00:01:40,840 --> 00:01:43,990
+we talked about was how If the relationship between the teacher and
+
+39
+00:01:43,990 --> 00:01:47,530
+the student was one way versus another way, we might get different
+
+40
+00:01:47,530 --> 00:01:51,450
+answers about sample complexity. So in particular, we talked about what would
+
+41
+00:01:51,450 --> 00:01:55,460
+happen in a world where the learner had to ask all the questions.
+
+42
+00:01:55,460 --> 00:01:57,750
+>> And that's powerful because the learner knows what
+
+43
+00:01:57,750 --> 00:02:00,430
+the learner doesn't know but the learner doesn't know
+
+44
+00:02:00,430 --> 00:02:03,620
+what the learner needs to know. So that is
+
+45
+00:02:03,620 --> 00:02:06,020
+somewhat powerful. But it may be useful for the teacher
+
+46
+00:02:06,020 --> 00:02:06,820
+to be more involved.
+
+47
+00:02:06,820 --> 00:02:08,570
+>> Right, so that's the other thing, where
+
+48
+00:02:08,570 --> 00:02:13,140
+the teacher, gets to actually pick the questions.
+
+49
+00:02:13,140 --> 00:02:14,370
+>> Great.
+
+50
+00:02:14,370 --> 00:02:19,020
+>> And then the third sort of case was where.
+
+51
+00:02:19,020 --> 00:02:22,430
+The teacher didn't really pick the questions or the teacher
+
+52
+00:02:22,430 --> 00:02:24,580
+didn't have an intent to pick the questions, but the
+
+53
+00:02:24,580 --> 00:02:27,370
+teacher was, in fact, nature, so like a fixed distribution.
+
+54
+00:02:27,370 --> 00:02:28,750
+>> Yeah, good.
+
+55
+00:02:28,750 --> 00:02:30,830
+>> Right. And some of those are,
+
+56
+00:02:30,830 --> 00:02:33,450
+you know, easier to deal with than others, like the teacher, since the
+
+57
+00:02:33,450 --> 00:02:37,020
+teacher knows the answer, can ask exactly the right set of questions and
+
+58
+00:02:37,020 --> 00:02:40,560
+get you there very quickly versus, say, when the teacher is just nature.
+
+59
+00:02:40,560 --> 00:02:42,190
+And, you know, you get it according
+
+60
+00:02:42,190 --> 00:02:44,370
+to whatever distribution there happens to be.
+
+61
+00:02:44,370 --> 00:02:46,600
+>> Sort of oblivious, maybe, is a better word.
+
+62
+00:02:46,600 --> 00:02:47,980
+>> I think unfeeling.
+
+63
+00:02:47,980 --> 00:02:50,410
+>> Nature just doesn't care about me.
+
+64
+00:02:50,410 --> 00:02:53,050
+>> I think nature cares about you just
+
+65
+00:02:53,050 --> 00:02:54,655
+as much as nature cares about everyone else.
+
+66
+00:02:54,655 --> 00:02:55,969
+[LAUGH]
+
+67
+00:02:55,969 --> 00:02:58,410
+>> Yeah, that's exactly what I was afraid of.
+
+68
+00:02:58,410 --> 00:03:01,170
+>> Yeah. Okay so let's see, what else did we cover? So
+
+69
+00:03:01,170 --> 00:03:05,196
+we talked about mistake bounds as a different way of measuring things.
+
+70
+00:03:05,196 --> 00:03:07,440
+>> Hm. You know how many mistakes do you make as opposed
+
+71
+00:03:07,440 --> 00:03:10,330
+to how many samples do you need. That was kind of neat.
+
+72
+00:03:10,330 --> 00:03:10,870
+>> Yeah.
+
+73
+00:03:10,870 --> 00:03:12,970
+>> I know there's some tie-in there. And then
+
+74
+00:03:12,970 --> 00:03:14,330
+the bit that I like a lot is that
+
+75
+00:03:14,330 --> 00:03:17,120
+we started talking about version spaces and PAC learn
+
+76
+00:03:17,120 --> 00:03:19,770
+ability. And what really worked for me with that
+
+77
+00:03:19,770 --> 00:03:23,420
+was this distinction between training error which we talked about a
+
+78
+00:03:23,420 --> 00:03:27,160
+lot. Test error which is how we've been thinking about all
+
+79
+00:03:27,160 --> 00:03:30,710
+of the assignments we've been doing, and true error. And true
+
+80
+00:03:30,710 --> 00:03:34,590
+error in particular got connected back to, to this notion of nature.
+
+81
+00:03:34,590 --> 00:03:36,700
+>> Right, the distribution d.
+
+82
+00:03:36,700 --> 00:03:40,960
+>> Right. And then you introduce the notion of epsilon exhaustion
+
+83
+00:03:40,960 --> 00:03:45,470
+of version spaces, and it gave us an actual sample complexity bound
+
+84
+00:03:45,470 --> 00:03:47,930
+For the case of distributions in nature.
+
+85
+00:03:47,930 --> 00:03:49,640
+>> And the sample complexity bound is
+
+86
+00:03:49,640 --> 00:03:51,730
+pretty cool, because it depends polynomially on the
+
+87
+00:03:51,730 --> 00:03:54,070
+size of the hypothesis space, and the
+
+88
+00:03:54,070 --> 00:03:57,030
+target error bound and the, the failure probability.
+
+89
+00:03:57,030 --> 00:03:59,980
+>> Hm. So actually that reminds me, I had two questions about this one.
+
+90
+00:03:59,980 --> 00:04:01,200
+>> Uh-huh?
+
+91
+00:04:01,200 --> 00:04:03,850
+>> So, the first question was, that equation,
+
+92
+00:04:03,850 --> 00:04:05,620
+m greater than or equal to one over epsilon
+
+93
+00:04:05,620 --> 00:04:08,470
+times the quantity, natural log size of hypothesis space
+
+94
+00:04:08,470 --> 00:04:10,725
+plus natural log of one over delta, close quantity.
+
+95
+00:04:10,725 --> 00:04:11,319
+[LAUGH]
+
+96
+00:04:12,580 --> 00:04:17,450
+>> Assumed that our target concept was in our hypothesis space, didn't it?
+
+97
+00:04:17,450 --> 00:04:18,410
+>> Yes, that's true.
+
+98
+00:04:18,410 --> 00:04:19,890
+>> So, whatever happens if it isn't?
+
+99
+00:04:19,890 --> 00:04:22,950
+>> Then we have a learning scenario that's referred to in the
+
+100
+00:04:22,950 --> 00:04:29,080
+literature as agnostic, that the learner doesn't have to have A hypothesis
+
+101
+00:04:29,080 --> 00:04:32,910
+that is in the target space. And, instead, needs to find the
+
+102
+00:04:32,910 --> 00:04:35,810
+one that fits nearly the best of all the ones in there.
+
+103
+00:04:35,810 --> 00:04:38,770
+So it doesn't have to actually match the true concept. It has
+
+104
+00:04:38,770 --> 00:04:43,110
+to, it has to get close to the best in its own collection.
+
+105
+00:04:43,110 --> 00:04:46,460
+>> Okay, well, so, do we get the bounds?
+
+106
+00:04:46,460 --> 00:04:49,290
+>> It's very similar bound. I think, I think maybe
+
+107
+00:04:49,290 --> 00:04:52,210
+there's an extra epsilon, there's an extra squared on the epsilon.
+
+108
+00:04:52,210 --> 00:04:53,630
+>> Hm. Okay, okay.
+
+109
+00:04:53,630 --> 00:04:54,840
+>> And I think there's maybe slightly
+
+110
+00:04:54,840 --> 00:04:56,560
+different constants in here. So it's, it's
+
+111
+00:04:56,560 --> 00:04:59,140
+a very similar form. It's still polynomial.
+
+112
+00:04:59,140 --> 00:05:00,880
+It is worse though because it, the learner
+
+113
+00:05:00,880 --> 00:05:04,350
+has kind of less strength to depend on.
+
+114
+00:05:04,350 --> 00:05:05,930
+>> Okay, that's fair. Okay, so then my
+
+115
+00:05:05,930 --> 00:05:09,810
+second question was, I just realize staring at this
+
+116
+00:05:09,810 --> 00:05:12,930
+now since you wrote it in red, that the
+
+117
+00:05:12,930 --> 00:05:15,310
+bound depends upon the size of the hypothesis space.
+
+118
+00:05:15,310 --> 00:05:16,270
+>> Indeed.
+
+119
+00:05:16,270 --> 00:05:20,930
+>> So what happens if we have an infinite hypothesis space?
+
+120
+00:05:20,930 --> 00:05:24,610
+>> Well, according to this bound, The technical term is your hosed.
+
+121
+00:05:24,610 --> 00:05:26,050
+>> Oh, is that what
+
+122
+00:05:26,050 --> 00:05:26,780
+the h stand for?
+
+123
+00:05:26,780 --> 00:05:28,510
+>> Yes.
+
+124
+00:05:28,510 --> 00:05:30,980
+>> Hm, so n would be greater than one over epsilon
+
+125
+00:05:30,980 --> 00:05:35,710
+times the natural log of infinite which I'm pretty sure is infinite.
+
+126
+00:05:35,710 --> 00:05:39,010
+>> Yeah, even with the, even once you multiply it by one over epsilon.
+
+127
+00:05:39,010 --> 00:05:43,240
+So yeah, you know, this is a really important issue, and I think it
+
+128
+00:05:43,240 --> 00:05:47,260
+really deserves its own lessons. So let's, let's put this off to lesson eight.
+
+129
+00:05:47,260 --> 00:05:49,380
+You're right that the infinite hypothesis spaces
+
+130
+00:05:49,380 --> 00:05:51,190
+come up all the time. They're really important.
+
+131
+00:05:51,190 --> 00:05:53,590
+They almost everything we've talked about so far
+
+132
+00:05:53,590 --> 00:05:55,940
+in the class, like actually learning algorithms, deal
+
+133
+00:05:55,940 --> 00:05:58,270
+with infinite hypothesis bases, we would really like
+
+134
+00:05:58,270 --> 00:05:59,650
+our bounds to deal with them as well.
+
+135
+00:05:59,650 --> 00:06:01,100
+>> Yeah, I would like that.
+
+136
+00:06:01,100 --> 00:06:03,520
+>> So, I know, anything else to talk here, or should
+
+137
+00:06:03,520 --> 00:06:05,860
+we say, without further ado, let's move on to the next lesson?
+
+138
+00:06:06,930 --> 00:06:08,090
+>> I think we should say, without further
+
+139
+00:06:08,090 --> 00:06:09,290
+ado, let's move on to the next lesson.
+
+140
+00:06:09,290 --> 00:06:12,350
+>> Alright then, without further ado, let's move on to the next lesson.
+
+141
+00:06:12,350 --> 00:06:15,900
+>> Okay, well then I will see you next time, Michael. Sure Dan,
+
+142
+00:06:15,900 --> 00:06:17,370
+thanks, thanks for listening
+
+143
+00:06:17,370 --> 00:06:19,700
+>> Oh well, you know, I, I enjoy doing it so much.
+
+144
+00:06:19,700 --> 00:06:21,201
+>> [LAUGH]
+
+145
+00:06:21,201 --> 00:06:21,620
+>> Bye.

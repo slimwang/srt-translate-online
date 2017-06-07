@@ -1,0 +1,247 @@
+1
+00:00:00,310 --> 00:00:03,820
+In the previous morsel, we talked about the fact that the kernel and
+
+2
+00:00:03,820 --> 00:00:08,635
+the user-level library, don't have insight into each other's activities, and
+
+3
+00:00:08,635 --> 00:00:10,960
+let's talk about that a little bit more now.
+
+4
+00:00:10,960 --> 00:00:15,570
+In the kernel-level, the kernel sees all of the kernel-level threads, the CPUs,
+
+5
+00:00:15,570 --> 00:00:20,190
+and, the kernel-level scheduler is the one that's making decisions.
+
+6
+00:00:20,190 --> 00:00:24,152
+At the user-level, the user-level library sees the user-level threads that
+
+7
+00:00:24,152 --> 00:00:25,608
+are part of that process, and
+
+8
+00:00:25,608 --> 00:00:29,360
+the kernel-level threads that are assigned to that process.
+
+9
+00:00:29,360 --> 00:00:33,558
+If the user-level threads and the kernel-level threads are using the one-to-one
+
+10
+00:00:33,558 --> 00:00:37,696
+model, then every user-level thread will have a kernel-level thread associated
+
+11
+00:00:37,696 --> 00:00:41,366
+with it, so, the user-level library will also essentially see as many,
+
+12
+00:00:41,366 --> 00:00:46,150
+kernel-level threads, but it will be the kernel that will actually manage those.
+
+13
+00:00:46,150 --> 00:00:50,500
+Even if it's not a one-to-one model, the user-level library can
+
+14
+00:00:50,500 --> 00:00:56,390
+request that one of its, user-level threads be bound to a kernel-level thread.
+
+15
+00:00:56,390 --> 00:01:01,090
+This is similar of what we would want to perhaps to in a multi-CPU system,
+
+16
+00:01:01,090 --> 00:01:06,850
+if a particular kernel-level thread, is to be permanently associated with a CPU,
+
+17
+00:01:06,850 --> 00:01:10,460
+except in that case we call it thread pinning, and
+
+18
+00:01:10,460 --> 00:01:13,710
+the term that was introduced with the Solaris threads was
+
+19
+00:01:13,710 --> 00:01:17,370
+that a user-level thread is bound to a kernel-level thread.
+
+20
+00:01:17,370 --> 00:01:19,214
+And clearly, in a one-to-one model,
+
+21
+00:01:19,214 --> 00:01:22,660
+every user-level thread is bound to a kernel-level thread.
+
+22
+00:01:22,660 --> 00:01:27,580
+Now let's have the situation in which, one of the user-level threads has a lock,
+
+23
+00:01:27,580 --> 00:01:30,510
+and so that, basically the kernel-level thread is
+
+24
+00:01:30,510 --> 00:01:34,190
+now supporting the execution of that critical section code.
+
+25
+00:01:34,190 --> 00:01:38,800
+Now let's say, the kernel preempted this kernel-level thread from the CPU to
+
+26
+00:01:38,800 --> 00:01:42,270
+schedule the other one, so that means that the execution of
+
+27
+00:01:42,270 --> 00:01:46,488
+this user-level thread, the execution of this critical section cannot continue.
+
+28
+00:01:46,488 --> 00:01:51,640
+As the user-level library scheduler cycles through the rest of the user-level
+
+29
+00:01:51,640 --> 00:01:56,320
+threads, if they need the lock, none of them will be able to continue.
+
+30
+00:01:56,320 --> 00:02:00,240
+So only after the kernel-level, the schedule of this thread again,
+
+31
+00:02:00,240 --> 00:02:04,160
+will the critical section complete, the lock will be released, and so
+
+32
+00:02:04,160 --> 00:02:09,100
+subsequently the rest of the user-level threads will be able to execute.
+
+33
+00:02:09,100 --> 00:02:12,810
+So to reiterate, this problem that there is lack of visibility between
+
+34
+00:02:12,810 --> 00:02:17,610
+the kernel and the user level-thread management, is because at the user-level,
+
+35
+00:02:17,610 --> 00:02:21,620
+the library, makes scheduling decisions that the kernel is not aware of, and
+
+36
+00:02:21,620 --> 00:02:24,550
+that will change the user to kernel-level mappings.
+
+37
+00:02:24,550 --> 00:02:27,210
+And also data structures, like mutexes and
+
+38
+00:02:27,210 --> 00:02:30,310
+wait queues, that's also invisible to the kernel.
+
+39
+00:02:30,310 --> 00:02:34,800
+So the fact that this lack of visibility causes situations such as the one
+
+40
+00:02:34,800 --> 00:02:39,905
+that we described really leads us to the conclusion that we should look at
+
+41
+00:02:39,905 --> 00:02:42,548
+one-to-one models, to address some of these issues.
+
+42
+00:02:42,548 --> 00:02:45,360
+Since the user-level library plays such
+
+43
+00:02:45,360 --> 00:02:49,310
+an important role in how the user-level threads are managed,
+
+44
+00:02:49,310 --> 00:02:54,242
+we need to understand exactly, when does it get involved in the execution loop.
+
+45
+00:02:54,242 --> 00:02:59,690
+The user-level library is part of user process, part of its address space, and
+
+46
+00:02:59,690 --> 00:03:02,620
+occasionally the execution basically jumps to
+
+47
+00:03:02,620 --> 00:03:06,810
+the appropriate program counter into this address space.
+
+48
+00:03:06,810 --> 00:03:11,310
+There are multiple reasons why the control should be passed to the user-level
+
+49
+00:03:11,310 --> 00:03:16,840
+library scheduler, a user-level thread may explicitly yield, a timer that's set
+
+50
+00:03:16,840 --> 00:03:22,070
+by the user-level threading library may expire, also we jump into the user-level
+
+51
+00:03:22,070 --> 00:03:26,530
+library scheduler whenever some kind of synchronization operation takes place,
+
+52
+00:03:26,530 --> 00:03:31,310
+like, when we call a lock, clearly that thread may not be able to run if it
+
+53
+00:03:31,310 --> 00:03:36,880
+needs to be blocked, when we call an unlock operation, then we need to evaluate
+
+54
+00:03:36,880 --> 00:03:42,400
+what is then new runnable thread that the scheduler should allocate on the CPU.
+
+55
+00:03:42,400 --> 00:03:46,750
+And in general, whenever we have a situation where a blocking user-level thread
+
+56
+00:03:46,750 --> 00:03:50,670
+becomes runnable, we jump into the scheduler code, this is part of
+
+57
+00:03:50,670 --> 00:03:55,000
+the library implementation, this is not something that you will explicitly see.
+
+58
+00:03:55,000 --> 00:03:58,530
+In addition in being invoked on certain operations that
+
+59
+00:03:58,530 --> 00:04:01,210
+are triggered by the user-level threads,
+
+60
+00:04:01,210 --> 00:04:06,245
+the library scheduler is also triggered in response on certain events,
+
+61
+00:04:06,245 --> 00:04:10,408
+certain signals that come either from timer or directly from the kernel.
+
+62
+00:04:10,408 --> 00:04:14,610
+The next morsel should give you an illustration of these interactions.

@@ -1,0 +1,112 @@
+1
+00:00:00,460 --> 00:00:04,046
+So here's where we're executing the
+insert query and the AddPost function.
+
+2
+00:00:05,260 --> 00:00:09,420
+And now if we change this to just
+have a comma and a tuple after here,
+
+3
+00:00:09,420 --> 00:00:12,530
+after this percent s, and
+make sure to have enough parentheses,
+
+4
+00:00:13,660 --> 00:00:16,261
+we should have a forum that's safe
+against the SQL injection attack.
+
+5
+00:00:17,760 --> 00:00:18,460
+Let's try it out.
+
+6
+00:00:19,990 --> 00:00:25,680
+And here's a test post that has
+a single quote in it, and sure enough,
+
+7
+00:00:25,680 --> 00:00:26,200
+that worked.
+
+8
+00:00:27,360 --> 00:00:29,520
+Let's try the attack query again.
+
+9
+00:00:29,520 --> 00:00:37,090
+Single quote, paren, semicolon, delete
+from posts, semicolon, dash, dash.
+
+10
+00:00:39,140 --> 00:00:43,110
+And this time, we're successfully
+treating that as just text and
+
+11
+00:00:43,110 --> 00:00:44,910
+not a piece of SQL.
+
+12
+00:00:44,910 --> 00:00:45,770
+Awesome.
+
+13
+00:00:45,770 --> 00:00:48,790
+With that simple change, we foiled one
+of the most infamous security holes
+
+14
+00:00:48,790 --> 00:00:51,260
+a database-backed web app can have.
+
+15
+00:00:51,260 --> 00:00:54,540
+Just remember that whenever
+you execute an insert query,
+
+16
+00:00:54,540 --> 00:00:58,910
+make sure to use query parameters
+instead of string substitution.
+
+17
+00:00:58,910 --> 00:01:00,080
+In case you forget,
+
+18
+00:01:00,080 --> 00:01:03,060
+here's what the Psycopg 2 documentation
+has to say on the matter.
+
+19
+00:01:03,060 --> 00:01:07,760
+Warning, never, never, never use
+Python string concatenation, plus, or
+
+20
+00:01:07,760 --> 00:01:10,110
+string parameters interpolation,
+percent,
+
+21
+00:01:10,110 --> 00:01:14,340
+to pass variables to an SQL query
+string, not even at gunpoint.
+
+22
+00:01:14,340 --> 00:01:16,309
+And they give the same
+format that we just used.
+
+23
+00:01:17,480 --> 00:01:20,870
+Now personally, I don't think we really
+need to have documentation that tells us
+
+24
+00:01:20,870 --> 00:01:25,360
+what to do at gunpoint, but
+we all do have a right to secure code.

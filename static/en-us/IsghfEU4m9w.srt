@@ -1,0 +1,170 @@
+1
+00:00:00,490 --> 00:00:02,900
+So we've got stuff going
+into the database now, but
+
+2
+00:00:02,900 --> 00:00:05,450
+stockpiling these isn't really useful.
+
+3
+00:00:05,450 --> 00:00:06,610
+We need to show them.
+
+4
+00:00:06,610 --> 00:00:09,290
+We want to get posts that
+are in the database and
+
+5
+00:00:09,290 --> 00:00:14,400
+display them before connecting to
+the web socket that gets us newer posts.
+
+6
+00:00:14,400 --> 00:00:17,670
+And lucky you, I think you're going to
+take it from here because we have
+
+7
+00:00:17,670 --> 00:00:19,770
+an incoming call from Mike.
+
+8
+00:00:19,770 --> 00:00:21,690
+Think you're up to this one?
+
+9
+00:00:21,690 --> 00:00:22,780
+>> Definitely.
+
+10
+00:00:22,780 --> 00:00:24,710
+You should now have
+stuff in the database.
+
+11
+00:00:24,710 --> 00:00:26,910
+But we're going to get it on screen.
+
+12
+00:00:26,910 --> 00:00:28,980
+Some of the methods have
+been stubbed out for you, so
+
+13
+00:00:28,980 --> 00:00:30,850
+you want to check out that code.
+
+14
+00:00:30,850 --> 00:00:35,550
+To do that, run git reset --hard to
+remove any local changes you have.
+
+15
+00:00:35,550 --> 00:00:40,200
+Then git checkout task-show-stored
+to get the stubbed methods.
+
+16
+00:00:40,200 --> 00:00:41,450
+Refresh the wittr page,
+
+17
+00:00:41,450 --> 00:00:45,760
+this should populate the database with
+posts which you can verify in dev tools.
+
+18
+00:00:45,760 --> 00:00:47,480
+Once you've got post in the database,
+
+19
+00:00:47,480 --> 00:00:52,660
+head over to public/JS/main/
+index controller.js.
+
+20
+00:00:52,660 --> 00:00:56,550
+Previously, we were calling
+_opensocket in the constructor.
+
+21
+00:00:56,550 --> 00:01:00,100
+But now we're calling
+_showCachedMessages,
+
+22
+00:01:00,100 --> 00:01:02,075
+then opening the socket.
+
+23
+00:01:02,075 --> 00:01:05,630
+_ShowCachedMessages isn't
+fully implemented yet.
+
+24
+00:01:05,630 --> 00:01:06,830
+That's your job.
+
+25
+00:01:06,830 --> 00:01:09,896
+Get the messages out of the database and
+pass them to this method.
+
+26
+00:01:09,896 --> 00:01:14,238
+Index controller._postview.add post.
+
+27
+00:01:14,238 --> 00:01:17,119
+Make sure they're in date descending
+order which may not be the order
+
+28
+00:01:17,119 --> 00:01:19,050
+they come out of the database.
+
+29
+00:01:19,050 --> 00:01:21,960
+Once you've made changes to your code,
+you need to bump the cached version
+
+30
+00:01:21,960 --> 00:01:25,130
+number in the service worker so
+the changes are picked up.
+
+31
+00:01:25,130 --> 00:01:29,080
+Also if your database gets into
+a bad state, go into dev tools and
+
+32
+00:01:29,080 --> 00:01:33,750
+run indexDB.deletedatabase and
+pass the parameter witter.
+
+33
+00:01:33,750 --> 00:01:35,910
+This will remove the database and
+let you start afresh.
+
+34
+00:01:35,910 --> 00:01:37,800
+If everything's working,
+
+35
+00:01:37,800 --> 00:01:42,040
+you should see posts being displayed
+even when you load the page offline.
+
+36
+00:01:42,040 --> 00:01:45,712
+To double check everything is working,
+head to the settings page and
+
+37
+00:01:45,712 --> 00:01:48,515
+type IDB-show into the test field and
+press enter.

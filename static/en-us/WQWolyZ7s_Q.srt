@@ -1,0 +1,303 @@
+1
+00:00:00,450 --> 00:00:02,969
+So now let's review something
+we had looked at before.
+
+2
+00:00:02,969 --> 00:00:07,400
+We had started a lecture off talking
+about that images best represented
+
+3
+00:00:07,400 --> 00:00:11,180
+in this coordinate frame, x and y,
+but an object in the real world.
+
+4
+00:00:11,180 --> 00:00:14,440
+And I referred to them as capital X,
+Y, and Z.
+
+5
+00:00:14,440 --> 00:00:18,880
+With Z is in the inside the camera
+lens itself, that is the depth.
+
+6
+00:00:18,880 --> 00:00:22,595
+Y and X basically show the width and
+the height of an object.
+
+7
+00:00:22,595 --> 00:00:26,350
+So if I had an object like this, I
+actually would actually capture an image
+
+8
+00:00:26,350 --> 00:00:29,560
+and, of course,
+the coordinate frame X and Y here.
+
+9
+00:00:29,560 --> 00:00:32,610
+We represented that scene in 3D
+this way, where now basically,
+
+10
+00:00:32,610 --> 00:00:33,510
+I've turned it around.
+
+11
+00:00:33,510 --> 00:00:35,010
+Z is going in this direction.
+
+12
+00:00:35,010 --> 00:00:36,340
+Y and X are this way.
+
+13
+00:00:36,340 --> 00:00:39,650
+And of course, the same object is here,
+shown by this arrow.
+
+14
+00:00:39,650 --> 00:00:45,470
+And here, I'm just giving it, you know,
+values of X0, Y0, and Z0 in capitals.
+
+15
+00:00:45,470 --> 00:00:48,790
+Let's build this to kind of see what
+the camera model would look like and
+
+16
+00:00:48,790 --> 00:00:50,360
+how we can compute depth.
+
+17
+00:00:50,360 --> 00:00:53,430
+These are the coordinate frames
+in real-world coordinates.
+
+18
+00:00:53,430 --> 00:00:56,510
+Of course,
+in a camera an image is formed.
+
+19
+00:00:56,510 --> 00:01:01,180
+Here I basically show this image and
+the coordinates X and X and
+
+20
+00:01:01,180 --> 00:01:03,150
+Y, sub i for image.
+
+21
+00:01:03,150 --> 00:01:07,640
+Of course, this image is being
+formed at focal length f.
+
+22
+00:01:07,640 --> 00:01:10,634
+And if you remember when we
+looked at cameras we knew
+
+23
+00:01:10,634 --> 00:01:12,238
+did all of the calculations.
+
+24
+00:01:12,238 --> 00:01:15,853
+That is, the similar triangles
+to figure out that xy,
+
+25
+00:01:15,853 --> 00:01:19,623
+xi over f is equal X0,
+Z0, because you know,
+
+26
+00:01:19,623 --> 00:01:24,680
+focal length is this distance, and
+these are two similar triangles.
+
+27
+00:01:24,680 --> 00:01:27,830
+And of course,
+I want to be able to use this to compute
+
+28
+00:01:27,830 --> 00:01:29,420
+where the x would be in the image.
+
+29
+00:01:29,420 --> 00:01:33,190
+And this would be my equation,
+similarly for y, Y sub i.
+
+30
+00:01:33,190 --> 00:01:34,620
+That is the pixel information.
+
+31
+00:01:34,620 --> 00:01:38,090
+In this image it's basically
+related to both the focal length,
+
+32
+00:01:38,090 --> 00:01:41,780
+how far it is, and
+knowing information like where the Z is,
+
+33
+00:01:41,780 --> 00:01:44,070
+how far away this object
+is from the scene.
+
+34
+00:01:44,070 --> 00:01:47,870
+Notice, this information is not
+contained in this image, that is,
+
+35
+00:01:47,870 --> 00:01:49,530
+where is Z.
+
+36
+00:01:49,530 --> 00:01:52,531
+And that's the point that we want to
+actually now start thinking how to
+
+37
+00:01:52,531 --> 00:01:53,420
+actually compute.
+
+38
+00:01:53,420 --> 00:02:00,180
+So in essence, this equation would
+apply the same if this point was here.
+
+39
+00:02:00,180 --> 00:02:03,090
+So this point here could
+actually be at this location.
+
+40
+00:02:03,090 --> 00:02:04,900
+Same equations would apply.
+
+41
+00:02:04,900 --> 00:02:08,620
+Also if, I can basically find
+any point in this line here,
+
+42
+00:02:08,620 --> 00:02:11,440
+which is the ray of light that's
+going through this point.
+
+43
+00:02:11,440 --> 00:02:14,960
+So, the point I wanted to emphasize
+here is there is a fundamental
+
+44
+00:02:14,960 --> 00:02:16,720
+ambiguity here.
+
+45
+00:02:16,720 --> 00:02:19,630
+That is, any point on this line
+
+46
+00:02:19,630 --> 00:02:24,750
+in the same ray maps to the same
+point on the image plane, right?
+
+47
+00:02:24,750 --> 00:02:27,810
+Any point here, of course,
+the values of Zs are different.
+
+48
+00:02:27,810 --> 00:02:29,940
+The values of X and Y are different.
+
+49
+00:02:29,940 --> 00:02:33,636
+But when it comes down to where there
+are, that is x sub i and y sub i.
+
+50
+00:02:33,636 --> 00:02:36,598
+All of those values of
+any point in this ray
+
+51
+00:02:36,598 --> 00:02:40,530
+of light is going to project
+exactly to this point.
+
+52
+00:02:40,530 --> 00:02:45,030
+In essence, what that suggests is
+I can actually scale any of these
+
+53
+00:02:45,030 --> 00:02:49,780
+three values, X naught, Y naught, or
+Z naught for the world coordinates.
+
+54
+00:02:49,780 --> 00:02:53,020
+Basically that means put the same scale,
+I mean, this, the same equation.
+
+55
+00:02:53,020 --> 00:02:56,860
+So in essence, that suggest is there is
+a scaling factor here between both of
+
+56
+00:02:56,860 --> 00:02:59,770
+these images that will actually
+produce the same x i, y i, and
+
+57
+00:02:59,770 --> 00:03:01,500
+actually make sense, right?
+
+58
+00:03:01,500 --> 00:03:06,056
+As I move closer,
+the object is get, getting smaller.
+
+59
+00:03:06,056 --> 00:03:08,380
+And therefore,
+this would be the scaling factor.
+
+60
+00:03:08,380 --> 00:03:12,040
+So, moving farther in, closer,
+would be the scaling factor, and
+
+61
+00:03:12,040 --> 00:03:15,740
+of course, by multiplying and dividing
+by the same k, we can see that impact.
+
+62
+00:03:15,740 --> 00:03:17,210
+So this is the ambiguity.
+
+63
+00:03:17,210 --> 00:03:20,540
+This is the one we want to resolve
+in variety of different ways, and
+
+64
+00:03:20,540 --> 00:03:25,240
+that resolution of that ambiguity will
+give us depth or structure of a scene.

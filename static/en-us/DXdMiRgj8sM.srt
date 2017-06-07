@@ -1,0 +1,31 @@
+1
+00:00:00,380 --> 00:00:04,010
+This time, the answer is dead lock. We now have
+
+2
+00:00:04,010 --> 00:00:06,380
+the potential for all the threads could be waiting for
+
+3
+00:00:06,380 --> 00:00:10,050
+a condition that will not happen. Specifically, if the tracker
+
+4
+00:00:10,050 --> 00:00:13,420
+were to find that bufavail were equal to MAX, then the
+
+5
+00:00:13,420 --> 00:00:16,230
+thread would stage in this loop, waiting for bufavail to
+
+6
+00:00:16,230 --> 00:00:19,060
+change. But it wouldn't be able to change because the other
+
+7
+00:00:19,060 --> 00:00:22,860
+thread is waiting for it to give the lock back.
+
+8
+00:00:22,860 --> 00:00:26,210
+It might be stuck on this mutex lock call right here.

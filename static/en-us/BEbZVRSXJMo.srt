@@ -1,0 +1,139 @@
+1
+00:00:00,000 --> 00:00:05,000
+In Python 2.x, version 2.6, 2.7, and so on,
+
+2
+00:00:05,000 --> 00:00:13,000
+if you do integer division in Python 2.7, say, 3 divided by 2 evaluates to 1.
+
+3
+00:00:13,000 --> 00:00:17,000
+And 1 divided by 2 evaluates to 0.
+
+4
+00:00:17,000 --> 00:00:22,000
+The reason is in their wisdom the designers of Python said, well,
+
+5
+00:00:22,000 --> 00:00:26,000
+if you're going integer division, you probably want an integer answer,
+
+6
+00:00:26,000 --> 00:00:30,000
+and we'll do the best we can, and we'll have to truncate to give you the answer.
+
+7
+00:00:30,000 --> 00:00:34,000
+In Python 3, the designers decided, well, that's really confusing.
+
+8
+00:00:34,000 --> 00:00:40,000
+What you really want when you divide 3 over 2 is 1.5,
+
+9
+00:00:40,000 --> 00:00:45,000
+and when you divide 1 over 2 you want 0.5.
+
+10
+00:00:45,000 --> 00:00:51,000
+That's what Python 3 does, so it says let's change the result from an integer
+
+11
+00:00:51,000 --> 00:00:55,000
+to a floating point number if that's the best you can do.
+
+12
+00:00:55,000 --> 00:01:00,000
+Now, if you want this kind of behavior in Python 2, then you say
+
+13
+00:01:00,000 --> 00:01:06,000
+from the "<u><u>future</u></u>" with two underscores on either side of it import division.
+
+14
+00:01:06,000 --> 00:01:11,000
+I want that because in my cryptarithmetic problems
+
+15
+00:01:11,000 --> 00:01:16,000
+I really prefer this type of answer and not that type of answer.
+
+16
+00:01:16,000 --> 00:01:20,000
+Now I'm done, and I got a pretty concise program.
+
+17
+00:01:20,000 --> 00:01:23,000
+It followed by plan very nicely and easily.
+
+18
+00:01:23,000 --> 00:01:29,000
+I like this design of the three pieces that I've tried to divide it up into.
+
+19
+00:01:29,000 --> 00:01:31,000
+Look how simple the solve function is.
+
+20
+00:01:31,000 --> 00:01:36,000
+It just says iterate over all possible ways of filling it in, ask if it's valid,
+
+21
+00:01:36,000 --> 00:01:39,000
+and if it is, return. Can't get much more clear than that.
+
+22
+00:01:39,000 --> 00:01:42,000
+Valid is pretty simple.
+
+23
+00:01:42,000 --> 00:01:46,000
+Valid is almost like asking is eval f True.
+
+24
+00:01:46,000 --> 00:01:49,000
+If it were that simple, I would just put it in line up here,
+
+25
+00:01:49,000 --> 00:01:51,000
+but it's not quite that simple.
+
+26
+00:01:51,000 --> 00:01:54,000
+I need the try and except, and I need to catch the arithmetic error,
+
+27
+00:01:54,000 --> 00:01:56,000
+and then there's this little trick with the leading zero digits.
+
+28
+00:01:56,000 --> 00:02:00,000
+I like having a separate function for valid to break that out.
+
+29
+00:02:00,000 --> 00:02:03,000
+Then I like having fill_in as a generator.
+
+30
+00:02:03,000 --> 00:02:08,000
+To make the logic of the main function simple but not to slow me down
+
+31
+00:02:08,000 --> 00:02:12,000
+by requiring me to generate all the possible answers at once,
+
+32
+00:02:12,000 --> 00:02:15,000
+the generator comes up with up the answers one at a time.
+
+33
+00:02:15,000 --> 00:02:18,000
+It's separating out the flow of control from the logic.
+
+34
+00:02:18,000 --> 00:02:21,000
+Now, am I done at this point?
+
+35
+00:02:21,000 --> 99:59:59,999
+Well, no, because what I have to do next is convince myself that I've got it right.

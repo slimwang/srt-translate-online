@@ -1,0 +1,697 @@
+1
+00:00:00,670 --> 00:00:04,054
+Before we add a CursorLoader to our app,
+let's first take a look on an example.
+
+2
+00:00:04,054 --> 00:00:06,258
+Here in the Android
+developer documentation,
+
+3
+00:00:06,258 --> 00:00:08,736
+in the Running A Query with
+a CursorLoader tutorial,
+
+4
+00:00:08,736 --> 00:00:11,445
+there's a quick example about
+how to use CursorLoaders.
+
+5
+00:00:11,445 --> 00:00:14,910
+Our first step, is that when you
+say define the activity that uses
+
+6
+00:00:14,910 --> 00:00:18,690
+CursorLoader and this means that we
+need to modify the activity class so
+
+7
+00:00:18,690 --> 00:00:21,750
+that implements
+the loaderManager.LoaderCallback.
+
+8
+00:00:21,750 --> 00:00:24,860
+Loader callbacks is a generic class and
+that's why we need to specify
+
+9
+00:00:24,860 --> 00:00:27,460
+cursor here in between these
+two angle brackets, and
+
+10
+00:00:27,460 --> 00:00:31,110
+that's because we're expecting a cursor
+back as the result of the loader.
+
+11
+00:00:31,110 --> 00:00:32,990
+Next we need to initialize the query,
+and
+
+12
+00:00:32,990 --> 00:00:37,030
+this can be done on either onCreate,
+or inside the onCreateView methods.
+
+13
+00:00:37,030 --> 00:00:40,370
+This example shows it being
+done inside onCreateView.
+
+14
+00:00:40,370 --> 00:00:41,705
+Inside this method,
+
+15
+00:00:41,705 --> 00:00:46,490
+we initialize the CursorLoader
+using getLoaderManager.initLoader.
+
+16
+00:00:46,490 --> 00:00:48,830
+This method takes in the loader ID.
+
+17
+00:00:48,830 --> 00:00:52,380
+And this loader ID is simply
+an integer that defines the loader.
+
+18
+00:00:52,380 --> 00:00:54,740
+In this case we define
+the loader to have the value 0.
+
+19
+00:00:54,740 --> 00:00:57,570
+We could have used any
+value in this situation.
+
+20
+00:00:57,570 --> 00:00:59,460
+Next up, we need to start the query.
+
+21
+00:00:59,460 --> 00:01:00,440
+In order to do so,
+
+22
+00:01:00,440 --> 00:01:04,129
+we need to implement the loader callback
+methods required by that interface.
+
+23
+00:01:04,129 --> 00:01:07,590
+Remember that interfaces have certain
+methods that need to be implemented
+
+24
+00:01:07,590 --> 00:01:11,410
+if we are to use them, and so far,
+the set that we've seen looks
+
+25
+00:01:11,410 --> 00:01:14,170
+really similar to setting
+up the AsyncTaskLoader.
+
+26
+00:01:14,170 --> 00:01:17,040
+Now the major difference Lies
+in discreeting a loader.
+
+27
+00:01:17,040 --> 00:01:21,065
+Back in our AsyncTaskLoader example we
+had a custom loader class that extended
+
+28
+00:01:21,065 --> 00:01:22,200
+AsyncTaskLoader.
+
+29
+00:01:22,200 --> 00:01:24,840
+And that's because it was a framework
+class that was abstract and
+
+30
+00:01:24,840 --> 00:01:26,480
+that meant we need to extend from it.
+
+31
+00:01:26,480 --> 00:01:29,480
+Well in this situation,
+works using CursorLoader.
+
+32
+00:01:29,480 --> 00:01:32,540
+And luckily the CursorLoader class
+is not an abstract class and
+
+33
+00:01:32,540 --> 00:01:35,790
+that means we can directly use
+it without subclassing it.
+
+34
+00:01:35,790 --> 00:01:37,730
+All we need to do here, is to create and
+
+35
+00:01:37,730 --> 00:01:40,700
+return a new CursorLoader
+object instance inside
+
+36
+00:01:40,700 --> 00:01:44,740
+the onCreate loader call back method,
+so similar to the code that's done here.
+
+37
+00:01:44,740 --> 00:01:48,100
+The input to the CursorLoader
+constructor, this code here
+
+38
+00:01:48,100 --> 00:01:51,000
+looks a lot like the input to
+the contact resolver query method.
+
+39
+00:01:51,000 --> 00:01:53,429
+Notice that we pass then a UI,
+a projection, and
+
+40
+00:01:53,429 --> 00:01:56,900
+we could even pass in selection
+details and assort order.
+
+41
+00:01:56,900 --> 00:01:59,790
+All this information is used
+to define the exact data
+
+42
+00:01:59,790 --> 00:02:02,210
+that your CursorLoader
+will eventually load.
+
+43
+00:02:02,210 --> 00:02:06,240
+What happens after concrete loaders
+column and the query has started and
+
+44
+00:02:06,240 --> 00:02:07,380
+we get the information back.
+
+45
+00:02:07,380 --> 00:02:08,539
+Well it says down here.
+
+46
+00:02:08,539 --> 00:02:11,250
+Once the background framework has
+the object, it starts a query in
+
+47
+00:02:11,250 --> 00:02:14,390
+the background and when the query is
+done, the background framework class
+
+48
+00:02:14,390 --> 00:02:18,530
+calls onLoadFinished and this is
+further described in the next lesson.
+
+49
+00:02:18,530 --> 00:02:21,780
+As noted down here, after the loader
+has finished querying the data,
+
+50
+00:02:21,780 --> 00:02:24,140
+then this system will
+call on load finish and
+
+51
+00:02:24,140 --> 00:02:28,220
+one of its inputs to onLoadFinished
+is the cursor result from the query.
+
+52
+00:02:28,220 --> 00:02:30,340
+Let's take a look at what
+happens when the query is done.
+
+53
+00:02:30,340 --> 00:02:32,930
+I'll click down here to
+handling the results.
+
+54
+00:02:32,930 --> 00:02:36,111
+Earlier we just discussed how
+an activity uses a CursorLoader using
+
+55
+00:02:36,111 --> 00:02:39,197
+the loader callbacks interface to
+run a query in the background.
+
+56
+00:02:39,197 --> 00:02:43,056
+Now when that query is done, the cursor
+result is returned back to the activity
+
+57
+00:02:43,056 --> 00:02:45,510
+via our onLoadFinished method.
+
+58
+00:02:45,510 --> 00:02:49,830
+Now, more specifically, if there's
+an adaptor and a view in the activity,
+
+59
+00:02:49,830 --> 00:02:53,492
+the cursor is returned to the adaptor
+to be displayed in the view.
+
+60
+00:02:53,492 --> 00:02:56,180
+This is what this code shows here.
+
+61
+00:02:56,180 --> 00:02:59,669
+Now, the last part of all this,
+is deleting old cursor references So
+
+62
+00:02:59,669 --> 00:03:03,040
+the last part of this whole sequence
+is that the CursorLoader needs
+
+63
+00:03:03,040 --> 00:03:05,900
+to be reset whenever its
+cursor becomes invalid.
+
+64
+00:03:05,900 --> 00:03:06,950
+When does it become invalid?
+
+65
+00:03:06,950 --> 00:03:09,770
+Well it happens whenever
+the cursor's changed.
+
+66
+00:03:09,770 --> 00:03:11,970
+For example,
+if a pets weight is updated or
+
+67
+00:03:11,970 --> 00:03:13,800
+maybe a pet is deleted from the table.
+
+68
+00:03:13,800 --> 00:03:18,140
+Now before we query for the data,
+onLoaderReset must be called and
+
+69
+00:03:18,140 --> 00:03:21,340
+this method removes any references
+to the current cursor and
+
+70
+00:03:21,340 --> 00:03:22,980
+prevents memory leaks.
+
+71
+00:03:22,980 --> 00:03:25,250
+Remember that we need to
+set up onLoaderReset so
+
+72
+00:03:25,250 --> 00:03:28,480
+that it can be called and it clears out
+the adopters reference to the current
+
+73
+00:03:28,480 --> 00:03:30,750
+cursor helping to prevent
+any memory leaks.
+
+74
+00:03:30,750 --> 00:03:34,619
+Now after onLoaderReset finishes
+the framework can happily recreate its
+
+75
+00:03:34,619 --> 00:03:35,870
+data again.
+
+76
+00:03:35,870 --> 00:03:38,940
+Let's discuss everything we just
+covered in a visual manner,
+
+77
+00:03:38,940 --> 00:03:42,130
+by summarizing how we run a query
+with the CursorLoader and
+
+78
+00:03:42,130 --> 00:03:44,210
+handle the results
+once we get them back.
+
+79
+00:03:44,210 --> 00:03:48,028
+Now, given an activity that implements
+the LoaderCallbacks interface,
+
+80
+00:03:48,028 --> 00:03:52,010
+inside its onCreate method,
+we're going to call initLoader.
+
+81
+00:03:52,010 --> 00:03:55,600
+The getLoaderManager.initLoader method
+
+82
+00:03:55,600 --> 00:03:59,140
+is put inside the onCreate method
+when you want the load to start.
+
+83
+00:04:00,350 --> 00:04:04,080
+As a result, the onCreateLoader
+callback method is called and this
+
+84
+00:04:04,080 --> 00:04:07,170
+is where you make a loader specifically
+designed to return the correct cursor.
+
+85
+00:04:08,410 --> 00:04:11,080
+So, onCreateLoader creates
+the CursorLoader for us and
+
+86
+00:04:11,080 --> 00:04:15,310
+in doing so, defines the data that we
+want to query from the content provider.
+
+87
+00:04:15,310 --> 00:04:19,767
+This loading is actually done for
+us off the main thread.
+
+88
+00:04:19,767 --> 00:04:22,818
+Now, after this happens, and
+when the loading is done,
+
+89
+00:04:22,818 --> 00:04:24,550
+we trigger onLoadFinished.
+
+90
+00:04:24,550 --> 00:04:28,220
+This callback method, returns back to us
+the cursor containing the loaded data.
+
+91
+00:04:30,240 --> 00:04:34,190
+From here, the cursor that we get back
+can be passed into the cursor adaptor
+
+92
+00:04:34,190 --> 00:04:35,912
+using the swapCursor method.
+
+93
+00:04:35,912 --> 00:04:38,580
+So, swapCursor allows
+you to change the cursor
+
+94
+00:04:38,580 --> 00:04:39,960
+that the adaptor gets it's data from.
+
+95
+00:04:41,070 --> 00:04:44,900
+And lastly, remember you need
+to implement onLoaderReset.
+
+96
+00:04:44,900 --> 00:04:48,080
+This method is called when the current
+loader is being destroyed and
+
+97
+00:04:48,080 --> 00:04:51,160
+the data in the most recently
+provided cursor is invalid.
+
+98
+00:04:52,390 --> 00:04:55,140
+Hence, inside of onLoaderReset
+
+99
+00:04:55,140 --> 00:04:58,320
+you should call swapCursor
+passing a null reference, so
+
+100
+00:04:58,320 --> 00:05:01,800
+that way the adaptor isn't left pointing
+to a cursor left with old data.
+
+101
+00:05:03,630 --> 00:05:06,560
+Now it's your turn, and I want you to
+make a CursorLoader for your pets app.
+
+102
+00:05:06,560 --> 00:05:08,210
+Here's how you get started.
+
+103
+00:05:08,210 --> 00:05:11,870
+In the CatalogActivity, after
+extending from the AppCompatActivity,
+
+104
+00:05:11,870 --> 00:05:15,810
+use the implements keyword and
+implement the LoaderCallback interface.
+
+105
+00:05:15,810 --> 00:05:17,540
+Now, after you implement this interface,
+
+106
+00:05:17,540 --> 00:05:19,900
+you might see Android Studio
+throwing this error.
+
+107
+00:05:19,900 --> 00:05:23,230
+And remember this is because we are
+implementing an interface which means
+
+108
+00:05:23,230 --> 00:05:27,720
+contractually we're tied to building out
+certain methods from that interface.
+
+109
+00:05:27,720 --> 00:05:29,400
+And we haven't done that just yet.
+
+110
+00:05:29,400 --> 00:05:32,140
+To find those methods,
+click on this red light bulb here.
+
+111
+00:05:32,140 --> 00:05:33,610
+Go to implement methods and
+
+112
+00:05:33,610 --> 00:05:36,680
+then this pulls in a list of
+all the required methods.
+
+113
+00:05:36,680 --> 00:05:38,930
+Select those defaults and click OK.
+
+114
+00:05:38,930 --> 00:05:42,612
+What that did for us was pull in these
+three methods here; onCreateLoader,
+
+115
+00:05:42,612 --> 00:05:45,000
+onLoadFinished, and onLoaderReset.
+
+116
+00:05:45,000 --> 00:05:47,180
+Now these are currently blank and
+I'll leave these for
+
+117
+00:05:47,180 --> 00:05:48,830
+you to fill out in this quiz.
+
+118
+00:05:48,830 --> 00:05:51,010
+Now before I move on to
+discuss the exact steps for
+
+119
+00:05:51,010 --> 00:05:52,570
+this quiz, let me go ahead and
+
+120
+00:05:52,570 --> 00:05:56,540
+show you what this finished product will
+look like by the end of this exercise.
+
+121
+00:05:56,540 --> 00:05:59,600
+When we finish with this exercise,
+this is what the app will look like.
+
+122
+00:05:59,600 --> 00:06:01,420
+Now I want to call it a certain thing.
+
+123
+00:06:01,420 --> 00:06:03,950
+When the app is running and
+you go to the Menu, and you go to
+
+124
+00:06:03,950 --> 00:06:07,860
+insert dummy data, if you click on it,
+the list won't automatically update.
+
+125
+00:06:07,860 --> 00:06:10,580
+This is because we'll need
+to do a few more things
+
+126
+00:06:10,580 --> 00:06:14,410
+which we'll cover in the next
+task to make sure that our loader
+
+127
+00:06:14,410 --> 00:06:17,570
+is smart enough to know when
+to actually reload the data.
+
+128
+00:06:17,570 --> 00:06:18,920
+Currently in this state,
+
+129
+00:06:18,920 --> 00:06:22,580
+the list will only rerun if we
+kill off the app and rerun it.
+
+130
+00:06:22,580 --> 00:06:23,431
+Let me show you.
+
+131
+00:06:23,431 --> 00:06:31,254
+[BLANK_AUDIO]
+
+132
+00:06:31,254 --> 00:06:35,428
+Notice the dummy data was only inserted
+after I killed off our app, and
+
+133
+00:06:35,428 --> 00:06:36,362
+then we run it.
+
+134
+00:06:36,362 --> 00:06:37,480
+And then this list updated.
+
+135
+00:06:38,780 --> 00:06:41,280
+Now for this quiz exercise,
+I you go ahead and
+
+136
+00:06:41,280 --> 00:06:44,400
+switch to using a cursor loader
+to help us load the data.
+
+137
+00:06:44,400 --> 00:06:46,830
+In order to do that,
+follow these three steps.
+
+138
+00:06:46,830 --> 00:06:49,440
+First, modify the CatalogActivity so
+
+139
+00:06:49,440 --> 00:06:53,224
+that it implements the
+loadermanager.loadercallbacks interface.
+
+140
+00:06:53,224 --> 00:06:56,640
+And remember to pass in
+cursor as the generic type.
+
+141
+00:06:56,640 --> 00:07:01,290
+Secondly, implement these three loader
+callback methods: onCreateLoader,
+
+142
+00:07:01,290 --> 00:07:04,280
+onLoadFinished, and onLoaderReset.
+
+143
+00:07:04,280 --> 00:07:09,340
+Also when creating a loader,
+remember to use the pet content URI and
+
+144
+00:07:09,340 --> 00:07:12,780
+remember that projection should include
+the id, name, and breed columns.
+
+145
+00:07:14,340 --> 00:07:17,491
+Lastly, I could modify
+the CatalogActivity by
+
+146
+00:07:17,491 --> 00:07:20,487
+removing the displayDatabaseInfo method,
+
+147
+00:07:20,487 --> 00:07:24,680
+and initializing the loader
+directly from the onCreate method

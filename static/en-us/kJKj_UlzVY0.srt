@@ -1,0 +1,839 @@
+1
+00:00:00,240 --> 00:00:02,574
+Alright. So having gone through that exercise, Michael, I think it's,
+
+2
+00:00:02,574 --> 00:00:05,260
+it's worthwhile to step back a little bit and think about
+
+3
+00:00:05,260 --> 00:00:08,020
+the assumptions that we've been making that have been mostly unspoken.
+
+4
+00:00:08,020 --> 00:00:11,400
+And I'm going to say that the main assumption that we've been
+
+5
+00:00:11,400 --> 00:00:13,920
+making in some sense boils down to a single word. And
+
+6
+00:00:13,920 --> 00:00:16,910
+that word is stationary. So let me tell you what I
+
+7
+00:00:16,910 --> 00:00:19,280
+mean by that and why by kind of illustrating what it
+
+8
+00:00:19,280 --> 00:00:21,290
+is we've been sort of doing for a little while. Okay?
+
+9
+00:00:21,290 --> 00:00:21,900
+>> Sure.
+
+10
+00:00:21,900 --> 00:00:26,060
+>> Okay. So the first thing I'm going to say is that we've actually been.
+
+11
+00:00:26,060 --> 00:00:29,280
+Kind of assuming infinite horizons. So what do I
+
+12
+00:00:29,280 --> 00:00:31,790
+mean by that. When, when we think about the last
+
+13
+00:00:32,790 --> 00:00:35,120
+grid world that we were playing with, we basically said
+
+14
+00:00:35,120 --> 00:00:37,600
+well, you know, I want to avoid going to the
+
+15
+00:00:37,600 --> 00:00:39,980
+end as quickly as possible if I have rewards of
+
+16
+00:00:39,980 --> 00:00:43,940
+a certain value or whatever. Because, you know, the game
+
+17
+00:00:43,940 --> 00:00:47,160
+doesn't end until I get to an absorbing state. Well,
+
+18
+00:00:47,160 --> 00:00:51,970
+that sort of implies. That you basically can live forever.
+
+19
+00:00:51,970 --> 00:00:54,170
+That you have an infinite time horizon to work
+
+20
+00:00:54,170 --> 00:00:57,350
+with. Now can you, can you imagine why if
+
+21
+00:00:57,350 --> 00:00:59,230
+you didn't have an infinite time horizon to work
+
+22
+00:00:59,230 --> 00:01:01,610
+with you might end up doing something very different?
+
+23
+00:01:01,610 --> 00:01:05,860
+>> Different then what, what we're doing in the grid world?
+
+24
+00:01:05,860 --> 00:01:07,560
+>> Right, so here let me let me show you the
+
+25
+00:01:07,560 --> 00:01:10,120
+game that we were, the grid world that we were doing before.
+
+26
+00:01:10,120 --> 00:01:11,850
+Might help you think about it. So here's the grid world
+
+27
+00:01:11,850 --> 00:01:17,940
+we had before. And as you recall. We had a particular policy
+
+28
+00:01:17,940 --> 00:01:19,520
+that sort of made sense. Here, I'll, I'll
+
+29
+00:01:19,520 --> 00:01:21,600
+write it out for you again. And this was
+
+30
+00:01:21,600 --> 00:01:23,200
+with a case where we had a reward
+
+31
+00:01:23,200 --> 00:01:28,790
+of minus 0.04. Remember? We just did this. Remember?
+
+32
+00:01:28,790 --> 00:01:29,890
+>> Yep.
+
+33
+00:01:29,890 --> 00:01:31,840
+>> Okay, and this was the policy that turned out to be
+
+34
+00:01:31,840 --> 00:01:34,070
+optimal, and in the future I want you to pay attention to
+
+35
+00:01:34,070 --> 00:01:38,850
+here is that when you're over right here near possible end state,
+
+36
+00:01:38,850 --> 00:01:43,388
+rather than going up, it made sense to take the long way around.
+
+37
+00:01:43,388 --> 00:01:45,560
+Because you're going to get some negative
+
+38
+00:01:45,560 --> 00:01:47,830
+reward but it's a small enough negative
+
+39
+00:01:47,830 --> 00:01:52,740
+reward compared to where you might end up. Okay with a positive one.
+
+40
+00:01:52,740 --> 00:01:53,920
+>> Yeah, I see.
+
+41
+00:01:53,920 --> 00:01:56,870
+>> And that makes some sense. Well, that only makes sense if you're
+
+42
+00:01:56,870 --> 00:02:00,940
+going to be living long enough that you can take the long route around.
+
+43
+00:02:00,940 --> 00:02:04,810
+What if I told you you only had say three times steps left,
+
+44
+00:02:04,810 --> 00:02:07,790
+and then the game is going to end no matter where you end up?
+
+45
+00:02:07,790 --> 00:02:09,220
+>> Well, it might be,
+
+46
+00:02:09,220 --> 00:02:12,660
+it might make more sense to take some risk than just try
+
+47
+00:02:12,660 --> 00:02:16,150
+to take the short way because there's really no chance you're going to
+
+48
+00:02:16,150 --> 00:02:19,150
+get to the plus1. I'm entirely convinced of that though because there's
+
+49
+00:02:19,150 --> 00:02:21,590
+still a chance you'll fall into the minus 1 along the way.
+
+50
+00:02:21,590 --> 00:02:24,320
+>> Right, so the exact val, whether it makes sense to take the risk
+
+51
+00:02:24,320 --> 00:02:27,140
+or not is going to depend upon two things, we've already talked about one of
+
+52
+00:02:27,140 --> 00:02:31,250
+them which is the actual word that you get. If this reward were, you
+
+53
+00:02:31,250 --> 00:02:34,410
+know, negative enough, then clearly it makes sense to just try to end things
+
+54
+00:02:34,410 --> 00:02:37,810
+quickly, right? We just showed that in the last quiz. But
+
+55
+00:02:37,810 --> 00:02:39,810
+another thing that it's going to depend upon is how much time you
+
+56
+00:02:39,810 --> 00:02:42,270
+have in order to get to where you're going. If you've
+
+57
+00:02:42,270 --> 00:02:47,620
+only got one or two time steps before everything's going to end. You
+
+58
+00:02:47,620 --> 00:02:50,550
+can imagine that there are cases where, without changing the reward
+
+59
+00:02:50,550 --> 00:02:53,050
+too much it makes a lot of sense to try to go
+
+60
+00:02:53,050 --> 00:02:55,230
+ahead and quickly get to this plus 1, even though you
+
+61
+00:02:55,230 --> 00:02:59,500
+have some chance of falling into the minus 1. As opposed to,
+
+62
+00:02:59,500 --> 00:03:03,330
+trying to move away, where you're then kind of, all but guaranteed that
+
+63
+00:03:03,330 --> 00:03:06,720
+you're never going to reach the plus 1. So. Whether it makes sense to
+
+64
+00:03:06,720 --> 00:03:09,585
+take the risk or not will depend upon the reward but it's also
+
+65
+00:03:09,585 --> 00:03:12,920
+going to depend upon whether you have an infinite amount of time to get
+
+66
+00:03:12,920 --> 00:03:15,150
+to where you want to get to or whether you have a finite
+
+67
+00:03:15,150 --> 00:03:17,920
+amount of time. And the real major thing I want you to get
+
+68
+00:03:17,920 --> 00:03:20,580
+out of that is that if you don't have an infinite horizon but
+
+69
+00:03:20,580 --> 00:03:24,500
+you have a finite horizon then two things happen. One is the policy might
+
+70
+00:03:24,500 --> 00:03:27,300
+change because things might end. But secondly, and more
+
+71
+00:03:27,300 --> 00:03:32,430
+importantly, the policy can change, or will changee., even
+
+72
+00:03:32,430 --> 00:03:34,960
+though you're in the same state. So, if I
+
+73
+00:03:34,960 --> 00:03:37,540
+told you, if you're in this state right here, and
+
+74
+00:03:37,540 --> 00:03:40,020
+I told you you didn't have an infinite amount
+
+75
+00:03:40,020 --> 00:03:43,780
+of time, but you still had 100 million time steps
+
+76
+00:03:43,780 --> 00:03:46,500
+then, it, I think it's clear that it still
+
+77
+00:03:46,500 --> 00:03:49,618
+makes sense to go the long way around, right? Yeah,
+
+78
+00:03:49,618 --> 00:03:51,553
+I mean the, the probability that this policy is going to
+
+79
+00:03:51,553 --> 00:03:53,340
+last for a million timesteps has got to be tiny.
+
+80
+00:03:53,340 --> 00:03:55,995
+>> Right. So, I might as well. It's 100
+
+81
+00:03:55,995 --> 00:03:59,060
+million timesteps might as well be infinity. But if
+
+82
+00:03:59,060 --> 00:04:03,450
+I make that number not 100 million but I make it 2, or 3, or 4. Then suddenly
+
+83
+00:04:03,450 --> 00:04:07,110
+your calculus might change. In particular, your caluculus will
+
+84
+00:04:07,110 --> 00:04:11,220
+change even though I'm in the same state. Right?
+
+85
+00:04:11,220 --> 00:04:13,425
+So maybe this state right here, if I've got
+
+86
+00:04:13,425 --> 00:04:14,830
+a million, 100 million timesteps I still want got
+
+87
+00:04:14,830 --> 00:04:18,950
+to go the long way around, but if I've only got a few time steps, the only
+
+88
+00:04:18,950 --> 00:04:21,540
+way I'm ever going to get a positive reward
+
+89
+00:04:21,540 --> 00:04:24,440
+is to go this way. Does that make sense?
+
+90
+00:04:24,440 --> 00:04:26,790
+>> I guess so. So, you're saying, for
+
+91
+00:04:26,790 --> 00:04:29,470
+example, even within the single run, it could be
+
+92
+00:04:29,470 --> 00:04:32,920
+that I'm in a state and I try an action and maybe it doesn't work and I
+
+93
+00:04:32,920 --> 00:04:35,380
+stay where I am. And I try it again, and maybe it doesn't work and I stay
+
+94
+00:04:35,380 --> 00:04:37,270
+where I am. It might then switch to a
+
+95
+00:04:37,270 --> 00:04:39,870
+different action, not because the other one wasn't working,
+
+96
+00:04:39,870 --> 00:04:43,280
+but because now it's running out of time. Right, exactly. So
+
+97
+00:04:43,280 --> 00:04:46,100
+we talked about this notion of a policy which maps states to
+
+98
+00:04:46,100 --> 00:04:50,710
+actions, we talked about this notion about stationarity. So you believe
+
+99
+00:04:50,710 --> 00:04:54,000
+that this sort of Markovian thing said, it doesn't matter where I've
+
+100
+00:04:54,000 --> 00:04:55,940
+been it only matters where I am. And so if i'm
+
+101
+00:04:55,940 --> 00:04:58,640
+in this state, since it only matters where I am, I'm always
+
+102
+00:04:58,640 --> 00:05:01,170
+going to want to take the same action. Well that's only true in this
+
+103
+00:05:01,170 --> 00:05:05,200
+kind of infinite horizon case. If you're in a finite horizon case.
+
+104
+00:05:05,200 --> 00:05:07,530
+And that finite horizon, of course, is going
+
+105
+00:05:07,530 --> 00:05:10,220
+to keep counting down, every time you take a
+
+106
+00:05:10,220 --> 00:05:14,090
+step. Well then suddenly, depending upon the time
+
+107
+00:05:14,090 --> 00:05:16,770
+step that's left, you might take a different action.
+
+108
+00:05:16,770 --> 00:05:19,700
+So we could write that I think, just for the sake of kind of seeing it as
+
+109
+00:05:19,700 --> 00:05:22,560
+some thing like, your policy is a function both
+
+110
+00:05:22,560 --> 00:05:24,700
+the stature and, and the time step you're in.
+
+111
+00:05:24,700 --> 00:05:27,520
+>> Hm. And that might lead you to a different set of
+
+112
+00:05:27,520 --> 00:05:30,570
+actions. So this is important, this is important, I mean were not,
+
+113
+00:05:30,570 --> 00:05:33,230
+we are not, for, for this course going to talk about this
+
+114
+00:05:33,230 --> 00:05:36,270
+case at all, where you're in a finite horizon, but I think
+
+115
+00:05:36,270 --> 00:05:40,190
+it's important for you to understand that the, without this infinite horizon
+
+116
+00:05:40,190 --> 00:05:44,730
+assumption here. You loose this function of stationarity in your policies. Okay?
+
+117
+00:05:44,730 --> 00:05:45,890
+>> Yeah. Interesting.
+
+118
+00:05:45,890 --> 00:05:48,920
+>> Okay. So, that all, I think is, you
+
+119
+00:05:48,920 --> 00:05:51,930
+know, making our something that's obvious, but becomes obvious
+
+120
+00:05:51,930 --> 00:05:54,330
+after someone points it out to you. So, the
+
+121
+00:05:54,330 --> 00:05:55,710
+second thing that I want to talk about, I think,
+
+122
+00:05:55,710 --> 00:05:57,810
+is a little bit more subtle. And, and this notion
+
+123
+00:05:57,810 --> 00:06:01,720
+of utility of sequences. So, as we've been talking, Michael, we
+
+124
+00:06:01,720 --> 00:06:06,680
+have been sort of. Implicitly discussing not just the rewards we
+
+125
+00:06:06,680 --> 00:06:09,580
+get in a single state, but the rewards that we get
+
+126
+00:06:09,580 --> 00:06:12,270
+through a sequences of states that we take. And so
+
+127
+00:06:12,270 --> 00:06:15,390
+I just want to point out a little fact that that comes
+
+128
+00:06:15,390 --> 00:06:17,750
+from that, and where that ends up leading us. And then
+
+129
+00:06:17,750 --> 00:06:21,250
+we'll get to some nice little cute series of math. So.
+
+130
+00:06:21,250 --> 00:06:23,350
+Here's what I want to point what utilities, what we mean by
+
+131
+00:06:23,350 --> 00:06:26,010
+utilities sequences. It means we have some function I'm going to call
+
+132
+00:06:26,010 --> 00:06:30,000
+U for utility over the state, the sequence, sorry. Of states
+
+133
+00:06:30,000 --> 00:06:32,940
+that we're going to see lets call them, S0, S1, S2 and
+
+134
+00:06:32,940 --> 00:06:34,800
+so on and so forth. Well, I think an assumption that
+
+135
+00:06:34,800 --> 00:06:38,250
+we've been making even if we haven't been very explicit about
+
+136
+00:06:38,250 --> 00:06:41,700
+it is that if we had two sequences of states. S0,
+
+137
+00:06:41,700 --> 00:06:46,526
+S1, S2, dot dot dot. And a different sequence S0, then S1
+
+138
+00:06:46,526 --> 00:06:49,750
+prime and S2 prime, that is two sequences that
+
+139
+00:06:49,750 --> 00:06:53,280
+might differ from S1 on, but all start in
+
+140
+00:06:53,280 --> 00:06:55,960
+the same start state. Okay? If we have a
+
+141
+00:06:55,960 --> 00:06:58,570
+utility for the first, and that utility happens to be
+
+142
+00:06:58,570 --> 00:07:01,310
+greater than the utility for the second, then it
+
+143
+00:07:01,310 --> 00:07:04,420
+also turns out that we believe. That the utility
+
+144
+00:07:04,420 --> 00:07:07,790
+for S1, S2, dot dot dot, is greater than
+
+145
+00:07:07,790 --> 00:07:11,005
+the utility for S1 prime, S2 prime dot dot dot.
+
+146
+00:07:11,005 --> 00:07:11,710
+>> Alright
+
+147
+00:07:11,710 --> 00:07:14,440
+so these are two different sequences, S one, the
+
+148
+00:07:14,440 --> 00:07:16,650
+S's and the S prime's are two different sequences.
+
+149
+00:07:16,650 --> 00:07:17,550
+>> Yes.
+
+150
+00:07:17,550 --> 00:07:20,310
+>> And in the beginning we're comparing them with S0 stuck in
+
+151
+00:07:20,310 --> 00:07:25,150
+front of both of them. And we're saying if I prefer the
+
+152
+00:07:25,150 --> 00:07:28,850
+S0 followed by all the S's, to S0 followed by the S
+
+153
+00:07:28,850 --> 00:07:33,270
+primes, then I have that same preference even with those S0s missing.
+
+154
+00:07:33,270 --> 00:07:38,230
+>> Right, and so this is called stationarity of preferences.
+
+155
+00:07:38,230 --> 00:07:41,410
+And, another way of saying it is. That
+
+156
+00:07:41,410 --> 00:07:45,940
+if I prefer one sequence of states today over
+
+157
+00:07:45,940 --> 00:07:48,690
+another sequence of states, then I prefer that sequence
+
+158
+00:07:48,690 --> 00:07:51,120
+of states over the same sequence of states tomorrow.
+
+159
+00:07:51,120 --> 00:07:53,130
+>> So isn't, isn't this just obvious?
+
+160
+00:07:53,130 --> 00:07:55,980
+Because the whatever the rewards for those two
+
+161
+00:07:55,980 --> 00:07:58,080
+cases, we're just adding the reward we get
+
+162
+00:07:58,080 --> 00:08:01,630
+for S0. So. It's going to be the same.
+
+163
+00:08:02,830 --> 00:08:03,280
+>> But listen to what
+
+164
+00:08:03,280 --> 00:08:07,150
+you just said. You just said, well, it'll be the same, because all we're doing
+
+165
+00:08:07,150 --> 00:08:12,430
+is adding the reward for S0. But what did we ever say about adding up rewards?
+
+166
+00:08:12,430 --> 00:08:14,840
+>> I thought, I thought that's what we were doing.
+
+167
+00:08:14,840 --> 00:08:18,790
+>> That's right, that is what we were doing. But we
+
+168
+00:08:18,790 --> 00:08:21,390
+never actually sat down and wrote that down and said, this is
+
+169
+00:08:21,390 --> 00:08:24,140
+what it means. To talk about the utility of a sequence of
+
+170
+00:08:24,140 --> 00:08:26,750
+states as opposed to the reward that you get in one state.
+
+171
+00:08:26,750 --> 00:08:28,390
+>> Okay, so you're saying that if
+
+172
+00:08:28,390 --> 00:08:30,650
+we, if we are adding rewards, then this follows.
+
+173
+00:08:30,650 --> 00:08:31,900
+>> Right.
+
+174
+00:08:31,900 --> 00:08:32,150
+>> Okay.
+
+175
+00:08:32,150 --> 00:08:33,830
+>> And then I've actually been saying something even stronger,
+
+176
+00:08:33,830 --> 00:08:35,610
+which is, I will show you on the next slide,
+
+177
+00:08:35,610 --> 00:08:38,808
+which is if you believe that this is true, that
+
+178
+00:08:38,808 --> 00:08:41,280
+the utility of one sequence of states is greater than the
+
+179
+00:08:41,280 --> 00:08:44,590
+utility of another sequence of states. Both today and tomorrow.
+
+180
+00:08:44,590 --> 00:08:47,430
+Then it actually forces you to do some variation of what
+
+181
+00:08:47,430 --> 00:08:50,260
+you said which is just adding sequences of states. Or
+
+182
+00:08:50,260 --> 00:08:53,800
+adding the rewards of the sequence of states that we see.
+
+183
+00:08:53,800 --> 00:08:55,680
+>> That's really interesting. So then, so the adding isn't
+
+184
+00:08:55,680 --> 00:08:59,780
+really an arbitrary thing it follows from this, this deeper assumption.
+
+185
+00:08:59,780 --> 00:09:01,930
+>> Right, and the reason I bring this up is
+
+186
+00:09:01,930 --> 00:09:03,940
+because. It would make sense if you were to just to
+
+187
+00:09:03,940 --> 00:09:06,380
+grab someone off the street and start talking about Marco Decision
+
+188
+00:09:06,380 --> 00:09:09,130
+Processes. One of two things will happened. Either they'd run screaming
+
+189
+00:09:09,130 --> 00:09:11,000
+from you like you're a crazy person or they would
+
+190
+00:09:11,000 --> 00:09:13,820
+sit and they would listen and if they listen they would
+
+191
+00:09:13,820 --> 00:09:16,050
+just completely buy into the idea that you just add up
+
+192
+00:09:16,050 --> 00:09:19,120
+sequences of rewards. You know, sequences of rewards that you see
+
+193
+00:09:19,120 --> 00:09:21,280
+as a way of talking about how good the states are because
+
+194
+00:09:21,280 --> 00:09:24,070
+that's a very natural thing to do. But it turns out that mathematicall
+
+195
+00:09:24,070 --> 00:09:28,090
+if you have this notion. A sort of stationary of preferences and this
+
+196
+00:09:28,090 --> 00:09:31,800
+sort of infinite arise in world. You really are in a case where
+
+197
+00:09:31,800 --> 00:09:34,520
+this has to be true. And it has to be the case
+
+198
+00:09:34,520 --> 00:09:37,640
+if you have to do some form of addition. Because nothing else sort
+
+199
+00:09:37,640 --> 00:09:39,520
+of can be guaranteed to maintain
+
+200
+00:09:39,520 --> 00:09:41,890
+this property over stationary preferences. I mean,
+
+201
+00:09:41,890 --> 00:09:44,120
+as you said, if I got one sequences of states and another sequnce
+
+202
+00:09:44,120 --> 00:09:47,570
+of states and by just prepending or appending another
+
+203
+00:09:47,570 --> 00:09:49,750
+set of states to it, I'm still going to always
+
+204
+00:09:49,750 --> 00:09:51,960
+guarantee that one's greater than the other. You kind
+
+205
+00:09:51,960 --> 00:09:55,310
+of have to do some form of adding the reward
+
+206
+00:09:55,310 --> 00:09:57,205
+that you see in the states in both cases.
+
+207
+00:09:57,205 --> 00:09:59,990
+because if you don't do that, then eventually this inequality
+
+208
+00:09:59,990 --> 00:10:02,290
+will not hold. So, let me write that down
+
+209
+00:10:02,290 --> 00:10:04,750
+in math terms. And see where that gets us, okay?
+
+210
+00:10:04,750 --> 00:10:05,560
+>> Cool.

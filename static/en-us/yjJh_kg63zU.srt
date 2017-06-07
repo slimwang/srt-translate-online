@@ -1,0 +1,282 @@
+1
+00:00:00,380 --> 00:00:02,000
+Hello again.
+
+2
+00:00:02,000 --> 00:00:06,920
+So Colt just talked about Rado's phone
+suffering from sleep deprivation.
+
+3
+00:00:06,920 --> 00:00:10,630
+Now this refers to the sad situation
+where Rado's favorite apps would
+
+4
+00:00:10,630 --> 00:00:15,215
+continually drain his device's battery
+by preventing it from going to sleep.
+
+5
+00:00:15,215 --> 00:00:18,085
+Now here's an example of what this
+kind of hyper-active app behavior
+
+6
+00:00:18,085 --> 00:00:20,275
+looks like in battery storing and
+output.
+
+7
+00:00:20,275 --> 00:00:24,815
+This is a screenshot from a Google IO
+2014 talk called Project Volta,
+
+8
+00:00:24,815 --> 00:00:27,960
+that shows the activity
+of 50 simulated apps.
+
+9
+00:00:27,960 --> 00:00:29,720
+Now I want you to notice a few things.
+
+10
+00:00:29,720 --> 00:00:31,690
+Notice the frequent wake lock activity.
+
+11
+00:00:31,690 --> 00:00:34,830
+Lots of gaps usually mean lots of
+wake up cycles for the device.
+
+12
+00:00:35,880 --> 00:00:38,720
+Also notice the bursty network activity.
+
+13
+00:00:38,720 --> 00:00:41,619
+As we know, all these things contribute
+to significant battery drain.
+
+14
+00:00:42,670 --> 00:00:45,960
+By the way, I strongly recommend
+that you watch The Talk.
+
+15
+00:00:45,960 --> 00:00:49,850
+It's linked in the instructor notes and
+it's a good 30 minutes well-spent.
+
+16
+00:00:49,850 --> 00:00:50,640
+All right.
+
+17
+00:00:50,640 --> 00:00:54,050
+Let's look at some code that might
+contribute to a graph looking like this.
+
+18
+00:00:54,050 --> 00:00:55,650
+If you'd like to follow along,
+go ahead and
+
+19
+00:00:55,650 --> 00:00:59,640
+check out the 3.21 wake locks
+branch in the sample app.
+
+20
+00:01:00,750 --> 00:01:04,170
+Traditionally, if you want to keep
+the device awake we would implement
+
+21
+00:01:04,170 --> 00:01:04,800
+a Wake Lock.
+
+22
+00:01:05,980 --> 00:01:08,770
+Now just an FYI,
+when you build the code and run it,
+
+23
+00:01:08,770 --> 00:01:13,030
+you'll notice a new button in your
+sample app called Release the Wake Lock.
+
+24
+00:01:13,030 --> 00:01:16,170
+Now this launches a new activity
+with a button to trigger some code.
+
+25
+00:01:16,170 --> 00:01:19,080
+This code models what it might be
+like for an app to poll a server for
+
+26
+00:01:19,080 --> 00:01:20,530
+an update of some kind.
+
+27
+00:01:20,530 --> 00:01:23,630
+Perhaps retrieving some new news
+data on some periodic basis.
+
+28
+00:01:25,470 --> 00:01:26,442
+So let's look deeper into the code.
+
+29
+00:01:26,442 --> 00:01:27,760
+All right so
+
+30
+00:01:27,760 --> 00:01:30,769
+we're going to start looking at the free
+the wake clock activity source.
+
+31
+00:01:32,710 --> 00:01:33,400
+Now as we can see,
+
+32
+00:01:33,400 --> 00:01:36,260
+we have a set onClickListener that
+basically is going to call this
+
+33
+00:01:36,260 --> 00:01:38,860
+function called pollServer when
+we press that button on our app.
+
+34
+00:01:38,860 --> 00:01:40,320
+Let's look into that code.
+
+35
+00:01:40,320 --> 00:01:43,940
+Now this method writes
+some code to mimic
+
+36
+00:01:43,940 --> 00:01:47,090
+what it's like to poll a server for
+some type of uptake.
+
+37
+00:01:47,090 --> 00:01:49,470
+Now this method is going
+to use a wake lock.
+
+38
+00:01:49,470 --> 00:01:52,870
+Now, in code the first thing that's done
+is you require a wake lock to keep your
+
+39
+00:01:52,870 --> 00:01:54,130
+device awake.
+
+40
+00:01:54,130 --> 00:01:56,880
+So that you can then proceed
+to do the network update.
+
+41
+00:01:56,880 --> 00:01:59,550
+We then check to see if
+the network is connected.
+
+42
+00:01:59,550 --> 00:02:02,900
+Now in real life if it's not connected
+the app might just retry until it is.
+
+43
+00:02:04,020 --> 00:02:06,530
+If it is connected,
+we use an async task to retrieve
+
+44
+00:02:06,530 --> 00:02:08,799
+new data from the server away
+from the main UI thread.
+
+45
+00:02:10,160 --> 00:02:11,780
+Now, for demonstration purposes.
+
+46
+00:02:11,780 --> 00:02:15,495
+Within our simple download task, we
+basically open up an HTTP connection to
+
+47
+00:02:15,495 --> 00:02:17,440
+google.com and get a simple get request.
+
+48
+00:02:17,440 --> 00:02:21,500
+And, when our background thread finishes
+executing, we then go ahead and
+
+49
+00:02:21,500 --> 00:02:22,720
+we release the wake lock.
+
+50
+00:02:24,240 --> 00:02:27,840
+The inherent problem with wake locks is
+that they're manually held and released.
+
+51
+00:02:27,840 --> 00:02:29,817
+So if you hold onto the wake locks for
+too long,
+
+52
+00:02:29,817 --> 00:02:33,050
+you could be draining
+the user's battery needlessly.
+
+53
+00:02:33,050 --> 00:02:36,412
+Maybe it's okay if one app is doing
+this, but if multiple apps are using
+
+54
+00:02:36,412 --> 00:02:40,170
+wake locks inefficiently,
+that's a recipe for sleep deprivation.
+
+55
+00:02:40,170 --> 00:02:43,700
+So the moral of the story is,
+make sure to release your wake lock
+
+56
+00:02:43,700 --> 00:02:45,190
+as soon as you are finished
+doing your work.
+
+57
+00:02:46,200 --> 00:02:46,850
+In the next video,
+
+58
+00:02:46,850 --> 00:02:49,720
+we're going to see how we can still
+achieve periodic background updates.
+
+59
+00:02:49,720 --> 00:02:52,930
+Its but implement them in a way that
+will help conserve more of your devices
+
+60
+00:02:52,930 --> 00:02:53,490
+battery power.

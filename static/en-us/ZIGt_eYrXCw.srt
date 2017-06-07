@@ -1,0 +1,179 @@
+1
+00:00:00,240 --> 00:00:06,550
+So, using the stripe group for a long segment avoids first of all the small-ray
+
+2
+00:00:06,550 --> 00:00:13,460
+pitfall. So for instance here, we might decide for certain log segments x, y,
+
+3
+00:00:13,460 --> 00:00:18,990
+and z the stripe group is this. And for another set of log segments, say p,
+
+4
+00:00:18,990 --> 00:00:24,460
+q, and r the stripe group is this. And for another set of log
+
+5
+00:00:24,460 --> 00:00:27,090
+segments, L, M, and N, the stripe group
+
+6
+00:00:27,090 --> 00:00:29,810
+is this. So we're subsetting the servers into these
+
+7
+00:00:29,810 --> 00:00:33,370
+stripe groups, and what that allows is parallel client
+
+8
+00:00:33,370 --> 00:00:36,910
+activities. If the log segments X,Y, and Z, belong
+
+9
+00:00:36,910 --> 00:00:39,070
+to a particular client. And if the log
+
+10
+00:00:39,070 --> 00:00:42,460
+segments P, Q, and R, belong to, a different
+
+11
+00:00:42,460 --> 00:00:46,060
+client, and L, M, and N, belong to, a
+
+12
+00:00:46,060 --> 00:00:49,540
+different client then you can see that the client
+
+13
+00:00:49,540 --> 00:00:53,250
+activity corresponding to this, this particular stripe group
+
+14
+00:00:53,250 --> 00:00:56,780
+can go on and parallel with this. And similarly
+
+15
+00:00:56,780 --> 00:00:58,970
+this activity can go on and parallel with
+
+16
+00:00:58,970 --> 00:01:01,330
+other stripe groups that exist in the system and
+
+17
+00:01:01,330 --> 00:01:04,519
+so on. And so it increases the availability
+
+18
+00:01:04,519 --> 00:01:07,710
+of the server in saying that not all the
+
+19
+00:01:07,710 --> 00:01:11,140
+servers has to be working on the same client
+
+20
+00:01:11,140 --> 00:01:14,860
+request. Different subset of servers are working on different
+
+21
+00:01:14,860 --> 00:01:18,670
+client requests and that results in higher throughput
+
+22
+00:01:18,670 --> 00:01:22,370
+for overall client processing. And also. When it
+
+23
+00:01:22,370 --> 00:01:25,170
+comes to cleaning the logs, remember that I
+
+24
+00:01:25,170 --> 00:01:28,760
+mentioned earlier that every once in a while, you
+
+25
+00:01:28,760 --> 00:01:31,630
+have to clean the logs because the logs
+
+26
+00:01:31,630 --> 00:01:34,210
+may have been overwritten by new rights to
+
+27
+00:01:34,210 --> 00:01:36,990
+files on a particular client machine, in which
+
+28
+00:01:36,990 --> 00:01:40,970
+case there are logs that Have to be recycled.
+
+29
+00:01:40,970 --> 00:01:42,730
+And if you don't recycle them, you're filling up
+
+30
+00:01:42,730 --> 00:01:46,520
+the discs with junk. And therefore, every once in a
+
+31
+00:01:46,520 --> 00:01:48,750
+while, we have to go and clean up the
+
+32
+00:01:48,750 --> 00:01:52,510
+log. And so efficient log cleaning is again facilitated by
+
+33
+00:01:52,510 --> 00:01:55,280
+the fact that you have different stripe groups, so
+
+34
+00:01:55,280 --> 00:02:00,870
+you can assign different. Cleaning service for different stripe groups
+
+35
+00:02:00,870 --> 00:02:04,030
+that increases the parallelism in the management of all
+
+36
+00:02:04,030 --> 00:02:06,070
+the things that need to be done in a distributed
+
+37
+00:02:06,070 --> 00:02:09,580
+file system. An increased availability also means
+
+38
+00:02:09,580 --> 00:02:13,610
+that you can survive multiple server failures.
+
+39
+00:02:13,610 --> 00:02:18,450
+So let's say that these two disks fail for some reason. You can still
+
+40
+00:02:18,450 --> 00:02:21,910
+serve the clients who are being served
+
+41
+00:02:21,910 --> 00:02:24,450
+by this particular strip group. That's the
+
+42
+00:02:24,450 --> 00:02:27,920
+idea of sub-setting the server group for
+
+43
+00:02:27,920 --> 00:02:31,910
+striping so that you increase the availability and
+
+44
+00:02:31,910 --> 00:02:37,390
+allow incremental satisfaction of the user community in spite of
+
+45
+00:02:37,390 --> 00:02:40,080
+failures that may be happening in the system as a whole.

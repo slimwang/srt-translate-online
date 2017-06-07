@@ -1,0 +1,410 @@
+﻿1
+00:00:00,230 --> 00:00:02,989
+We have Friendly Trap up and
+running now, and it's great, but
+
+2
+00:00:02,990 --> 00:00:04,310
+it's pretty bare bones.
+
+3
+00:00:04,309 --> 00:00:08,669
+The basic interface is showing up,
+but there's no real functionality yet.
+
+4
+00:00:08,669 --> 00:00:12,080
+But this is awesome, there's plenty
+to do, so let's get to work.
+
+5
+00:00:12,080 --> 00:00:14,699
+To start,
+let me give you a quick tour of the app.
+
+6
+00:00:14,699 --> 00:00:17,390
+Down here we have a text box and
+a send button.
+
+7
+00:00:17,390 --> 00:00:21,969
+But when I type in a message and
+press send, send clears the text box.
+
+8
+00:00:21,969 --> 00:00:24,460
+But our message isn't
+really going anywhere.
+
+9
+00:00:24,460 --> 00:00:27,120
+On the left,
+there's also this little image icon.
+
+10
+00:00:27,120 --> 00:00:30,960
+Clicking on this image icon should open
+an ImagePicker so that we can choose
+
+11
+00:00:30,960 --> 00:00:34,320
+an image to send in the app, but
+that doesn't quite work yet.
+
+12
+00:00:34,320 --> 00:00:38,420
+We've also got an overflow menu up here,
+which has one option, sign out, but
+
+13
+00:00:38,420 --> 00:00:40,500
+the sign out button doesn't
+do anything either.
+
+14
+00:00:40,500 --> 00:00:44,159
+You'll be working with me to make this
+app a lot friendlier than it is now.
+
+15
+00:00:44,159 --> 00:00:46,469
+And of course to do that, we're
+going to need to work with the code.
+
+16
+00:00:46,469 --> 00:00:47,609
+So let's jump over there.
+
+17
+00:00:47,609 --> 00:00:51,149
+I'm going to start by opening
+up the AndroidManifest file.
+
+18
+00:00:51,149 --> 00:00:55,092
+We can see that the app has a single
+activity, which is called MainActivity.
+
+19
+00:00:55,093 --> 00:00:58,370
+The MainActivity is what's
+opened when you launch the app.
+
+20
+00:00:58,369 --> 00:01:01,349
+This is a pretty simple app, so
+you'll be fully implementing
+
+21
+00:01:01,350 --> 00:01:04,959
+all of the features from this
+single activity during this course.
+
+22
+00:01:04,959 --> 00:01:08,150
+Next, let's check out what we
+currently have in the dependencies.
+
+23
+00:01:08,150 --> 00:01:11,480
+I'm going to open up this tab and
+go over to our gradle files.
+
+24
+00:01:11,480 --> 00:01:14,070
+I'm going to check out
+the app's build.gradle.
+
+25
+00:01:14,069 --> 00:01:15,459
+If I scroll down to the bottom,
+
+26
+00:01:15,459 --> 00:01:18,539
+I can see the place where all of our
+app's library dependencies live.
+
+27
+00:01:18,540 --> 00:01:21,180
+Right now we have standard
+ones like appcompat and
+
+28
+00:01:21,180 --> 00:01:22,780
+the design support library.
+
+29
+00:01:22,780 --> 00:01:26,549
+We've also included glide, which is an
+image loading library that we'll use to
+
+30
+00:01:26,549 --> 00:01:28,879
+help us display images
+in our message list.
+
+31
+00:01:28,879 --> 00:01:31,500
+You're going to learn more about
+that during Sunday's lesson.
+
+32
+00:01:31,500 --> 00:01:33,405
+Next, let's head over to
+the res directory and
+
+33
+00:01:33,405 --> 00:01:34,905
+take a look at our layouts.
+
+34
+00:01:34,905 --> 00:01:36,844
+Here we have two layout files.
+
+35
+00:01:36,844 --> 00:01:39,334
+I'll start by opening up
+the main activity layout file,
+
+36
+00:01:39,334 --> 00:01:41,064
+this activity.main.xml.
+
+37
+00:01:41,064 --> 00:01:45,045
+This is the screen that we first see
+when we run the app code at this moment.
+
+38
+00:01:45,045 --> 00:01:47,109
+We just don't see this
+message list here and
+
+39
+00:01:47,109 --> 00:01:49,829
+that's because we haven't
+implemented that functionality yet.
+
+40
+00:01:49,829 --> 00:01:53,469
+The layout is a relative layout made
+up of a ListView to display all
+
+41
+00:01:53,469 --> 00:01:57,900
+the messages, an ImageButton to open
+up the photo picker to send a picture,
+
+42
+00:01:57,900 --> 00:02:02,175
+an EditText, which is again the text box
+that you send your message from, and
+
+43
+00:02:02,174 --> 00:02:04,194
+a button, which is our send button.
+
+44
+00:02:04,194 --> 00:02:08,370
+The second layout of importance to
+us is this item_message.xml layout,
+
+45
+00:02:08,370 --> 00:02:09,568
+I'll open it up now.
+
+46
+00:02:09,568 --> 00:02:12,675
+This is the layout for
+each individual message.
+
+47
+00:02:12,675 --> 00:02:15,955
+And scrolling down I can see that
+it contains an ImageView for
+
+48
+00:02:15,955 --> 00:02:18,405
+photo messages and two TextViews.
+
+49
+00:02:18,405 --> 00:02:21,134
+One of these is a TextView for
+a text message, and
+
+50
+00:02:21,134 --> 00:02:24,019
+the other one is a TextView for
+the author of the message.
+
+51
+00:02:24,020 --> 00:02:27,239
+For each message in our app,
+only the messageTextView or
+
+52
+00:02:27,239 --> 00:02:30,599
+the photoImageView will
+be displayed at one time.
+
+53
+00:02:30,599 --> 00:02:33,228
+The logic for
+whether to display an ImageView or
+
+54
+00:02:33,228 --> 00:02:37,170
+a TextView is done in the adapter which
+we'll work with later in the course.
+
+55
+00:02:37,169 --> 00:02:39,309
+And speaking of the adapter,
+let's go ahead and
+
+56
+00:02:39,310 --> 00:02:41,140
+take a look at those Java classes.
+
+57
+00:02:41,139 --> 00:02:43,639
+We have three classes in our project.
+
+58
+00:02:43,639 --> 00:02:46,060
+Let's open up the first one,
+the FriendlyMessage class.
+
+59
+00:02:46,061 --> 00:02:50,980
+The FriendlyMessage class is a plain
+Java object that just has three fields,
+
+60
+00:02:50,979 --> 00:02:54,019
+a text, a name, and a photoUrl.
+
+61
+00:02:54,020 --> 00:02:55,689
+We'll be using this
+class when we actually
+
+62
+00:02:55,689 --> 00:02:57,439
+start to implement the database.
+
+63
+00:02:57,439 --> 00:02:59,569
+Next let's take a look
+at the MainActivity.
+
+64
+00:02:59,569 --> 00:03:02,019
+Our MainActivity is
+where the magic happens.
+
+65
+00:03:02,020 --> 00:03:05,640
+It's the class that handles the logic
+for the main messages list screen.
+
+66
+00:03:05,639 --> 00:03:08,279
+Let's take a look at a couple
+notable parts of this class.
+
+67
+00:03:08,280 --> 00:03:10,997
+Here I've defined a ListView for
+the messages list and
+
+68
+00:03:10,997 --> 00:03:14,780
+if I scroll down to my onCreate, I see
+that we're creating an ArrayList here
+
+69
+00:03:14,780 --> 00:03:17,949
+that's filled with those
+FriendlyMessages objects.
+
+70
+00:03:17,949 --> 00:03:21,676
+And this ArrayList is going to be
+the data source for our MessageAdapter,
+
+71
+00:03:21,676 --> 00:03:24,060
+which is called mMessageAdapter.
+
+72
+00:03:24,060 --> 00:03:27,389
+Right now the ArrayList is empty,
+so we don't see any messages.
+
+73
+00:03:27,389 --> 00:03:30,724
+Another interesting part of
+the MainActivity deals with the EditText
+
+74
+00:03:30,723 --> 00:03:31,068
+view.
+
+75
+00:03:31,068 --> 00:03:32,106
+Let me scroll down.
+
+76
+00:03:32,106 --> 00:03:33,775
+Here we have our EditText view and
+
+77
+00:03:33,775 --> 00:03:36,890
+we're adding something to
+it called a TextWatcher.
+
+78
+00:03:36,889 --> 00:03:39,868
+This makes it so that we can't
+press send for empty messages,
+
+79
+00:03:39,868 --> 00:03:41,945
+which is what we'd
+expect from a chat app.
+
+80
+00:03:41,945 --> 00:03:46,050
+We don't want to fill up our database or
+our messages list with blank messages.
+
+81
+00:03:46,050 --> 00:03:49,650
+Okay, so that was a very quick deep
+dive into some of the starter code.
+
+82
+00:03:49,650 --> 00:03:51,740
+Again, we'll talk about
+the adapter later.
+
+83
+00:03:51,740 --> 00:03:52,463
+Following this,
+
+84
+00:03:52,463 --> 00:03:55,026
+I have a quick quiz to make sure
+that you were paying attention.
+
+85
+00:03:55,026 --> 00:03:58,907
+And then after that, you'll get to start
+working on your first Firebase feature,
+
+86
+00:03:58,907 --> 00:04:00,189
+the real-time database.
+

@@ -1,0 +1,877 @@
+1
+00:00:00,920 --> 00:00:03,410
+Let's go back to the JustJava app for
+just a moment.
+
+2
+00:00:03,410 --> 00:00:07,260
+Let's look at the MainActivity
+class displayMessage method.
+
+3
+00:00:07,260 --> 00:00:09,950
+Things are starting to make
+a little more sense in here.
+
+4
+00:00:09,950 --> 00:00:14,350
+We already recognize that we're creating
+a variable called orderSummaryTextView.
+
+5
+00:00:14,350 --> 00:00:16,760
+The data type of this
+variable was TextView.
+
+6
+00:00:17,790 --> 00:00:19,610
+We didn't understand this part yet
+though.
+
+7
+00:00:20,740 --> 00:00:23,290
+On the next line, we call a method
+on this text view object.
+
+8
+00:00:24,650 --> 00:00:28,070
+We use the same variable
+name as declared up here.
+
+9
+00:00:28,070 --> 00:00:31,830
+So we call orderSummaryTextView.setText.
+
+10
+00:00:31,830 --> 00:00:34,290
+Then we pass a string as
+an input to the method.
+
+11
+00:00:35,300 --> 00:00:38,790
+This string message originally
+came as an input parameter
+
+12
+00:00:38,790 --> 00:00:40,200
+to the display message method.
+
+13
+00:00:41,720 --> 00:00:45,250
+Now let's dig in to this part of
+the code, which we don't understand yet.
+
+14
+00:00:45,250 --> 00:00:48,210
+It looks like findViewById
+is a method call, though.
+
+15
+00:00:48,210 --> 00:00:53,530
+Because its preceding these parenthesis
+with what looks like an input argument.
+
+16
+00:00:53,530 --> 00:00:57,458
+But, what's weird is that this method
+isn't defined anywhere in this class.
+
+17
+00:00:57,458 --> 00:01:02,355
+If I double-click on this name and
+then hit command F, or
+
+18
+00:01:02,355 --> 00:01:07,560
+control-F if you're on Windows, then
+we can try to do a search in this file.
+
+19
+00:01:07,560 --> 00:01:10,780
+I only see two occurrences
+of findViewById, and
+
+20
+00:01:10,780 --> 00:01:12,790
+they're used in similar ways.
+
+21
+00:01:12,790 --> 00:01:15,160
+But I don't see any method
+that's called findViewById.
+
+22
+00:01:16,190 --> 00:01:19,640
+Speaking of which,
+earlier in the main activity class,
+
+23
+00:01:19,640 --> 00:01:23,450
+we see a call to setContentView,
+but if you search for
+
+24
+00:01:23,450 --> 00:01:26,280
+this in the file, it's also not
+defined in the main activity.
+
+25
+00:01:27,820 --> 00:01:29,620
+So, where are these methods defined?
+
+26
+00:01:30,620 --> 00:01:33,610
+Well, MainActivity is
+actually a pretty short file.
+
+27
+00:01:33,610 --> 00:01:35,150
+It's only about 90 lines long,
+
+28
+00:01:35,150 --> 00:01:38,790
+but there's actually more to
+this class than meets the eye.
+
+29
+00:01:38,790 --> 00:01:42,200
+The code says,
+extends AppCompatActivity.
+
+30
+00:01:42,200 --> 00:01:45,710
+This means that the main
+activity is an extension
+
+31
+00:01:45,710 --> 00:01:49,290
+of the functionality in
+the AppCompatActivity class.
+
+32
+00:01:49,290 --> 00:01:52,790
+On your computer if you see action
+bar activity here, that's okay,
+
+33
+00:01:52,790 --> 00:01:55,450
+that's just an older version of this.
+
+34
+00:01:55,450 --> 00:01:58,770
+The latest version that you should
+be using is AppCompatActivity.
+
+35
+00:01:58,770 --> 00:02:02,420
+And AppCompatActivity gives us
+backward compatibility support
+
+36
+00:02:02,420 --> 00:02:04,460
+on older Android devices.
+
+37
+00:02:04,460 --> 00:02:07,980
+The AppCompatActivity is part
+of the Android support library.
+
+38
+00:02:07,980 --> 00:02:11,740
+It allows us to use the latest
+UI features on Android,
+
+39
+00:02:11,740 --> 00:02:15,420
+while still working on
+older Android devices.
+
+40
+00:02:15,420 --> 00:02:17,940
+By extending
+the AppCompatActivity class,
+
+41
+00:02:17,940 --> 00:02:20,620
+we're getting all the functionality,
+all the state and
+
+42
+00:02:20,620 --> 00:02:24,490
+the methods from here within
+the MainActivity for free.
+
+43
+00:02:24,490 --> 00:02:26,980
+We don't have to copy and
+paste any code from here.
+
+44
+00:02:26,980 --> 00:02:28,800
+We can just simply extend that class.
+
+45
+00:02:30,090 --> 00:02:31,020
+If you're interested,
+
+46
+00:02:31,020 --> 00:02:35,880
+you can find out more information on
+AppCompatActivity by googling for it.
+
+47
+00:02:35,880 --> 00:02:39,700
+Here's the reference doc for
+the AppCompatActivity class.
+
+48
+00:02:39,700 --> 00:02:41,920
+Since I have the Chrome
+extension installed,
+
+49
+00:02:41,920 --> 00:02:43,120
+I can view the source as well.
+
+50
+00:02:43,120 --> 00:02:47,890
+And this is the code for where
+the AppCompatActivity class is defined.
+
+51
+00:02:47,890 --> 00:02:50,360
+You can see that there's a lot
+of functionality here, but
+
+52
+00:02:50,360 --> 00:02:54,510
+the key message is that you don't have
+to understand how it's implemented.
+
+53
+00:02:54,510 --> 00:02:58,350
+All you need to know is that when
+you extend AppCompatActivity,
+
+54
+00:02:58,350 --> 00:03:01,010
+you get all of this functionality for
+free.
+
+55
+00:03:01,010 --> 00:03:03,580
+At a high level you can
+visualize it like this.
+
+56
+00:03:03,580 --> 00:03:05,900
+This is a class definition for
+MainActivity.
+
+57
+00:03:05,900 --> 00:03:08,000
+And say you have some
+methods defined here.
+
+58
+00:03:08,000 --> 00:03:12,350
+When you extend AppCompatActivity
+then we can access the state and
+
+59
+00:03:12,350 --> 00:03:14,200
+then the methods from AppCompatActivity.
+
+60
+00:03:14,200 --> 00:03:17,870
+Now, they're not physically added
+to the main activity class, but
+
+61
+00:03:17,870 --> 00:03:19,280
+you can imagine that they're there,
+
+62
+00:03:19,280 --> 00:03:22,930
+because you can still reference
+the state and the methods as well.
+
+63
+00:03:22,930 --> 00:03:26,540
+And that's how our code can refer
+to things like setContentView or
+
+64
+00:03:26,540 --> 00:03:27,840
+findViewById.
+
+65
+00:03:27,840 --> 00:03:32,240
+Because we inherited those methods, we
+didn't define them in the MainActivity.
+
+66
+00:03:32,240 --> 00:03:35,110
+The MainActivity is shown as
+a screen on the device, but
+
+67
+00:03:35,110 --> 00:03:39,520
+we didn't write the code for that in the
+MainActivity, we inherited that as well.
+
+68
+00:03:39,520 --> 00:03:42,750
+We don't have the state and the methods
+from AppCompatActivity directly
+
+69
+00:03:42,750 --> 00:03:46,840
+in the class, but now we know that
+they're there and we can refer to them.
+
+70
+00:03:46,840 --> 00:03:50,260
+Speaking of inheriting things,
+there's good and bad parts about that.
+
+71
+00:03:50,260 --> 00:03:52,540
+Sometimes we'll want to
+inherit behavior but
+
+72
+00:03:52,540 --> 00:03:54,980
+other times we might want
+to modify it slightly.
+
+73
+00:03:55,980 --> 00:03:59,900
+If you want to change some of
+the behavior from this inherited class,
+
+74
+00:03:59,900 --> 00:04:02,230
+you can override certain methods.
+
+75
+00:04:02,230 --> 00:04:07,360
+You can add this @override text on top
+of a method so that the computer knows
+
+76
+00:04:07,360 --> 00:04:12,100
+that you don't want the version of
+the method from the AppCompatActivity.
+
+77
+00:04:12,100 --> 00:04:15,830
+But instead, you want this
+version that you've defined here.
+
+78
+00:04:15,830 --> 00:04:18,620
+This is a tricky topic, and
+it requires a lot of practice.
+
+79
+00:04:18,620 --> 00:04:21,660
+But we have seen one example
+of overriding a method
+
+80
+00:04:21,660 --> 00:04:23,640
+from the AppCompatActivity class.
+
+81
+00:04:23,640 --> 00:04:26,380
+And that method is the on create method.
+
+82
+00:04:26,380 --> 00:04:31,170
+By overriding the on create method in
+the MainActivity, we're specifying our
+
+83
+00:04:31,170 --> 00:04:35,380
+own implementation for what should
+happen when that method is called.
+
+84
+00:04:35,380 --> 00:04:37,180
+Don't worry if you don't
+understand this right away.
+
+85
+00:04:37,180 --> 00:04:40,534
+I'm just giving you a brief overview
+of a bunch of object-oriented
+
+86
+00:04:40,534 --> 00:04:42,350
+programming concepts.
+
+87
+00:04:42,350 --> 00:04:46,160
+It's absolutely expected that you
+would still have lingering questions.
+
+88
+00:04:46,160 --> 00:04:49,370
+And still need to read up more
+these topics in order to fully
+
+89
+00:04:49,370 --> 00:04:50,860
+understands them.
+
+90
+00:04:50,860 --> 00:04:53,771
+Another way to visualize the
+relationship between the MainActivity
+
+91
+00:04:53,771 --> 00:04:58,220
+and the AppCompatActivity classes is
+to draw a Class Hierarchy Diagram.
+
+92
+00:04:58,220 --> 00:05:00,930
+This is different from
+a View Hierarchy Diagram, because
+
+93
+00:05:00,930 --> 00:05:05,340
+the View Hierarchy Diagram shows a tree
+of views that are shown on a screen.
+
+94
+00:05:05,340 --> 00:05:07,810
+The Class Hierarchy Diagram
+shows the relationship
+
+95
+00:05:07,810 --> 00:05:09,990
+between different Java classes.
+
+96
+00:05:09,990 --> 00:05:12,860
+We have AppCompatActivity as superclass.
+
+97
+00:05:12,860 --> 00:05:15,868
+Since MainActivity extends
+from AppCompatActivity,
+
+98
+00:05:15,868 --> 00:05:18,560
+then this is known as the subclass.
+
+99
+00:05:18,560 --> 00:05:22,200
+So whenever you see this class
+definition whatever you extend is known
+
+100
+00:05:22,200 --> 00:05:23,970
+as the superclass.
+
+101
+00:05:23,970 --> 00:05:25,770
+This would be the subclass.
+
+102
+00:05:25,770 --> 00:05:29,070
+So if you created another activity
+called detail activity and
+
+103
+00:05:29,070 --> 00:05:32,340
+you extended AppCompatActivity,
+this would be the subclass, and
+
+104
+00:05:32,340 --> 00:05:33,409
+this would be the superclass.
+
+105
+00:05:34,720 --> 00:05:37,840
+Here's another example of
+Java class inheritance.
+
+106
+00:05:37,840 --> 00:05:40,520
+If you think about it,
+the text view, image view, and
+
+107
+00:05:40,520 --> 00:05:44,460
+button views all have some
+common aspects to them.
+
+108
+00:05:44,460 --> 00:05:48,070
+All of these views have a width and
+a height on the screen.
+
+109
+00:05:48,070 --> 00:05:51,330
+We haven't learned this yet, but
+they also have a visibility state.
+
+110
+00:05:51,330 --> 00:05:54,400
+So they can all be made invisible or
+visible.
+
+111
+00:05:54,400 --> 00:05:58,650
+There are a couple of other properties
+as well, that are common among them.
+
+112
+00:05:58,650 --> 00:06:02,370
+Instead of writing out code for these
+properties within the text view class,
+
+113
+00:06:02,370 --> 00:06:05,590
+and then copying it over to image view,
+and then button class.
+
+114
+00:06:05,590 --> 00:06:07,610
+We can do something a little smarter.
+
+115
+00:06:07,610 --> 00:06:09,980
+We can create a view class.
+
+116
+00:06:09,980 --> 00:06:14,110
+We can extract the common properties
+among all of these views and then put
+
+117
+00:06:14,110 --> 00:06:19,730
+them inside this view class that way
+the code only has to be written once.
+
+118
+00:06:19,730 --> 00:06:22,610
+But then how do we make the connection
+between the text view class and
+
+119
+00:06:22,610 --> 00:06:24,000
+the view class?
+
+120
+00:06:24,000 --> 00:06:26,548
+If you're thinking inheritance,
+you're correct.
+
+121
+00:06:26,548 --> 00:06:30,080
+In the TextView java file we're
+going to define the text view class.
+
+122
+00:06:30,080 --> 00:06:33,240
+That way we'll inherit all this data and
+the methods from the view class.
+
+123
+00:06:34,270 --> 00:06:37,520
+Then we won't have to have as
+much code in the TextView class
+
+124
+00:06:37,520 --> 00:06:41,860
+because part of the functionality is
+already written in the view class.
+
+125
+00:06:41,860 --> 00:06:43,730
+The same would apply for
+the ImageView and
+
+126
+00:06:43,730 --> 00:06:46,800
+Button classes,
+we don't have to write as much code.
+
+127
+00:06:46,800 --> 00:06:49,690
+In these files, we only have to
+write about what's different
+
+128
+00:06:49,690 --> 00:06:53,090
+about the ImageView
+compared to the View class.
+
+129
+00:06:53,090 --> 00:06:57,720
+I think of this as specifying a delta,
+so the ImageView class only has to
+
+130
+00:06:57,720 --> 00:07:01,890
+specify what's different about the
+ImageView compared to the View class.
+
+131
+00:07:03,840 --> 00:07:06,960
+If we don't want to inherit certain
+behavior from the View class,
+
+132
+00:07:06,960 --> 00:07:11,760
+we can just specify the updated
+behavior within the ImageView class, or
+
+133
+00:07:11,760 --> 00:07:12,820
+any of these classes.
+
+134
+00:07:14,070 --> 00:07:16,680
+To remind you of the terminology,
+in this case,
+
+135
+00:07:16,680 --> 00:07:20,039
+TextView would be the subclass,
+and View would be the superclass.
+
+136
+00:07:21,430 --> 00:07:23,280
+If we go back to the documentation for
+
+137
+00:07:23,280 --> 00:07:27,310
+the TextView class,
+we actually understand this part now.
+
+138
+00:07:27,310 --> 00:07:30,000
+It says TextView extends view.
+
+139
+00:07:30,000 --> 00:07:33,330
+Now we know that it means that
+we're inheriting the state and
+
+140
+00:07:33,330 --> 00:07:35,280
+the methods from the ViewClass.
+
+141
+00:07:35,280 --> 00:07:38,330
+And down here is a class
+hierarchy diagram.
+
+142
+00:07:38,330 --> 00:07:41,884
+It shows that the TextView class
+is inheriting from the ViewClass.
+
+143
+00:07:43,730 --> 00:07:46,530
+And in turn, the View class
+inherits from the Object class.
+
+144
+00:07:47,650 --> 00:07:50,060
+If you explore around,
+you can find other classes,
+
+145
+00:07:50,060 --> 00:07:54,780
+like the EditText class, which actually
+extends from the TextView class.
+
+146
+00:07:54,780 --> 00:07:57,570
+So it takes the behavior
+form the TextView class and
+
+147
+00:07:57,570 --> 00:08:00,120
+then adds a little more
+specific functionality to it.
+
+148
+00:08:01,290 --> 00:08:03,590
+So EditText extends from TextView.
+
+149
+00:08:03,590 --> 00:08:06,720
+And TextView extends from View,
+and View extends from Object.
+
+150
+00:08:06,720 --> 00:08:09,830
+And this is the class hierarchy diagram.
+
+151
+00:08:11,370 --> 00:08:13,950
+There's a lot going on, and
+you can look at it for hours.
+
+152
+00:08:13,950 --> 00:08:17,010
+But let me just show you one thing
+on the TextView documentation page.
+
+153
+00:08:17,010 --> 00:08:20,820
+I want to show you the method for
+SetVisibility.
+
+154
+00:08:20,820 --> 00:08:24,350
+Here's the Java method for
+SetVisibility within the TextView class.
+
+155
+00:08:24,350 --> 00:08:26,860
+This changes whether
+the view is visible or not.
+
+156
+00:08:28,000 --> 00:08:33,240
+If I click on this method,
+it actually brings me to the View class.
+
+157
+00:08:33,240 --> 00:08:36,010
+And then it describes
+what this method does.
+
+158
+00:08:36,010 --> 00:08:39,860
+So you can see that a TextView
+object has a set visibility method.
+
+159
+00:08:39,860 --> 00:08:43,659
+But it was actually inherited
+from the View class.
+
+160
+00:08:43,659 --> 00:08:47,470
+So we got this functionality for
+free, from the View class.
+
+161
+00:08:47,470 --> 00:08:50,930
+Okay, we just covered
+a ton of new concepts.
+
+162
+00:08:50,930 --> 00:08:56,040
+Normally this would be spread out over
+a semester of a computer science course.
+
+163
+00:08:56,040 --> 00:08:58,260
+We're going to do a little
+bit of practice now and
+
+164
+00:08:58,260 --> 00:09:01,170
+hopefully it will start to
+connect the dots for you.
+
+165
+00:09:01,170 --> 00:09:03,010
+But know that it will
+take a lot more time and
+
+166
+00:09:03,010 --> 00:09:06,610
+practice until you fully
+grasp these concepts.
+
+167
+00:09:06,610 --> 00:09:09,700
+Okay, first exercise, I want you
+to create another new Android app,
+
+168
+00:09:09,700 --> 00:09:11,530
+because we don't want to
+mess up the just Java app.
+
+169
+00:09:13,070 --> 00:09:14,640
+Once you create the project,
+then run the app.
+
+170
+00:09:15,790 --> 00:09:18,630
+Once you create your app,
+you're going to see a MainActivity file.
+
+171
+00:09:18,630 --> 00:09:22,530
+That MainActivity file will
+extend from AppCompatActivity.
+
+172
+00:09:22,530 --> 00:09:26,060
+In your version of Android Studio,
+if the MainActivity extends from
+
+173
+00:09:26,060 --> 00:09:28,760
+ActionBarActivity instead,
+that's okay too.
+
+174
+00:09:28,760 --> 00:09:32,200
+That's just an older version
+of AppCompatActivity.
+
+175
+00:09:32,200 --> 00:09:35,650
+By removing this method override,
+we're going to fall back to
+
+176
+00:09:35,650 --> 00:09:40,280
+the way that onCreate method appeared
+in the AppCompatActivity class.
+
+177
+00:09:40,280 --> 00:09:44,540
+The presence of this method says we want
+different behavior in the MainActivity
+
+178
+00:09:44,540 --> 00:09:46,230
+for the onCreate.
+
+179
+00:09:46,230 --> 00:09:49,540
+So removing it brings us back
+to the original behavior in
+
+180
+00:09:49,540 --> 00:09:52,040
+the AppCompatActivity class.
+
+181
+00:09:52,040 --> 00:09:53,380
+When you run the app,
+
+182
+00:09:53,380 --> 00:09:57,250
+what do you notice is different
+compared to when you first ran the app?
+
+183
+00:09:57,250 --> 00:09:58,510
+Write your answer in this text box.

@@ -1,0 +1,287 @@
+1
+00:00:00,140 --> 00:00:05,900
+The main way in which PCI interconnects
+devices to the CPUs is by making
+
+2
+00:00:05,900 --> 00:00:11,100
+devices accessible in a manner that's
+similar to how CPUs access memory.
+
+3
+00:00:11,100 --> 00:00:15,050
+The device registers appear to
+the CPU as memory locations
+
+4
+00:00:15,050 --> 00:00:17,370
+at a specific physical address.
+
+5
+00:00:17,370 --> 00:00:20,130
+So then when the CPU
+writes to these locations,
+
+6
+00:00:20,130 --> 00:00:25,890
+the integrated memory PCI controller
+realizes that this access, the access
+
+7
+00:00:25,890 --> 00:00:30,740
+to this physical location, should be
+routed to the appropriate device.
+
+8
+00:00:30,740 --> 00:00:35,840
+What this means is that a portion of the
+physical memory on that computing system
+
+9
+00:00:35,840 --> 00:00:39,220
+is dedicated for
+interactions with the device.
+
+10
+00:00:39,220 --> 00:00:41,670
+We call this memory-mapped I/O.
+
+11
+00:00:41,670 --> 00:00:45,870
+And the portion of the memory that's
+reserved for these interactions is
+
+12
+00:00:45,870 --> 00:00:51,160
+controlled by a specific set of
+registers, the Base Address Registers.
+
+13
+00:00:51,160 --> 00:00:53,550
+So how much memory in starting it,
+which address,
+
+14
+00:00:53,550 --> 00:00:55,410
+will be used by a particular device.
+
+15
+00:00:55,410 --> 00:00:58,660
+This gets configured during
+the boot process and
+
+16
+00:00:58,660 --> 00:01:03,650
+it's determined how exactly it's done
+by the PCI configuration protocol.
+
+17
+00:01:03,650 --> 00:01:07,980
+In addition, the CPU can access
+devices via special instructions.
+
+18
+00:01:07,980 --> 00:01:09,710
+For instance, in x86 platforms,
+
+19
+00:01:09,710 --> 00:01:14,640
+there are special in/out instructions
+that are used for accessing devices.
+
+20
+00:01:14,640 --> 00:01:17,560
+Each of the instructions has to
+specify the target device, so
+
+21
+00:01:17,560 --> 00:01:21,330
+the I/O port, and some value that's
+going to be stored in registers.
+
+22
+00:01:21,330 --> 00:01:24,090
+That's the value that needs to
+be written out to device or
+
+23
+00:01:24,090 --> 00:01:26,620
+the value that will be
+read out of the device.
+
+24
+00:01:26,620 --> 00:01:29,020
+This model is called the I/O port model.
+
+25
+00:01:29,020 --> 00:01:33,520
+The path from the device to the CPUs
+complex can take two routes.
+
+26
+00:01:33,520 --> 00:01:38,270
+Devices can generate interrupts to
+the CPU, or the other option is for
+
+27
+00:01:38,270 --> 00:01:42,550
+the CPU to poll the device by
+reading its status register
+
+28
+00:01:42,550 --> 00:01:46,380
+in order to determine, does the device
+have some data for the CPU?
+
+29
+00:01:46,380 --> 00:01:51,100
+Does the device have a response to
+a request that was sent to the CPU?
+
+30
+00:01:51,100 --> 00:01:52,900
+Or some other information.
+
+31
+00:01:52,900 --> 00:01:56,212
+There are overheads associated with
+both of these methods, and as always,
+
+32
+00:01:56,212 --> 00:01:57,985
+there are trade-offs between the two.
+
+33
+00:01:57,985 --> 00:02:02,407
+With interrupts, the problem is due to
+the handling of the interrupt routine,
+
+34
+00:02:02,407 --> 00:02:03,812
+the interrupt handler.
+
+35
+00:02:03,812 --> 00:02:08,173
+There are the actual steps involved in
+the handling of the interrupt routine.
+
+36
+00:02:08,173 --> 00:02:10,888
+There's several operations
+like setting and
+
+37
+00:02:10,888 --> 00:02:15,553
+resetting the interrupt mask depending
+on what kinds of interrupts are allowed
+
+38
+00:02:15,553 --> 00:02:19,230
+to interrupt the interrupt
+handling routine or not.
+
+39
+00:02:19,230 --> 00:02:23,029
+And also some indirect effects due
+to cache pollution that's related to
+
+40
+00:02:23,029 --> 00:02:25,400
+the execution of this handler.
+
+41
+00:02:25,400 --> 00:02:29,940
+So all of these are overheads, but
+on the flip side, it is possible
+
+42
+00:02:29,940 --> 00:02:33,740
+to trigger an interrupt as soon as
+the device has something to do,
+
+43
+00:02:33,740 --> 00:02:37,190
+some kind of notification,
+some kind of data for the CPU.
+
+44
+00:02:37,190 --> 00:02:41,190
+For polling, the operating system
+has a possibility to choose
+
+45
+00:02:41,190 --> 00:02:44,090
+when it will poll at
+some convenient times,
+
+46
+00:02:44,090 --> 00:02:48,720
+when at least some of the cache
+pollution effect won't be too bad.
+
+47
+00:02:48,720 --> 00:02:51,270
+If that is the case, then that's great.
+
+48
+00:02:51,270 --> 00:02:54,620
+Some of those overheads will be removed,
+but potentially
+
+49
+00:02:54,620 --> 00:02:59,150
+this will introduce some delays in
+the way that event is observed and
+
+50
+00:02:59,150 --> 00:03:01,230
+in the way that the event is handled.
+
+51
+00:03:01,230 --> 00:03:06,190
+The opposite of just continuously
+polling will clearly introduce some
+
+52
+00:03:06,190 --> 00:03:09,790
+CPU overheads that may simply not
+be affordable if there aren't
+
+53
+00:03:09,790 --> 00:03:14,156
+enough CPUs in the system or the system
+is busy otherwise doing other things.
+
+54
+00:03:14,156 --> 00:03:18,550
+But our interrupt or polling
+mechanism should be selected will
+
+55
+00:03:18,550 --> 00:03:23,370
+really depend on the kind of device that
+we're dealing with on the objectives,
+
+56
+00:03:23,370 --> 00:03:25,770
+whether we want to maximize
+things like throughput or
+
+57
+00:03:25,770 --> 00:03:30,010
+latency, on the complexity of
+the interrupt handling routine, and
+
+58
+00:03:30,010 --> 00:03:32,220
+the characteristics of
+the load of the device.
+
+59
+00:03:32,220 --> 00:03:36,310
+So, what is the input data rate,
+the output data rate that needs to met,
+
+60
+00:03:36,310 --> 00:03:37,720
+and number of other factors.

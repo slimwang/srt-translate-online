@@ -1,0 +1,540 @@
+1
+00:00:00,230 --> 00:00:02,660
+Maybe you can apply the same
+approach as last time.
+
+2
+00:00:02,660 --> 00:00:06,860
+So previously we had a list of English
+words that we want to store in a certain
+
+3
+00:00:06,860 --> 00:00:11,802
+sequence from one through ten and now we
+have a list of ten Miwok words that we
+
+4
+00:00:11,802 --> 00:00:15,990
+want to store and maybe you should
+store them in an ArrayList as well.
+
+5
+00:00:15,990 --> 00:00:17,850
+So that seems like
+it'll all workout well.
+
+6
+00:00:17,850 --> 00:00:21,140
+Now we just need to make sure
+that the ArrayAdapter constructor
+
+7
+00:00:21,140 --> 00:00:24,150
+allows us to pass in two lists.
+
+8
+00:00:24,150 --> 00:00:28,320
+So one list for the English words and
+one list for the Miwok words.
+
+9
+00:00:28,320 --> 00:00:31,600
+So here we are in
+the numbers activity and so
+
+10
+00:00:31,600 --> 00:00:34,168
+let's take a step back and
+think about our strategy.
+
+11
+00:00:34,168 --> 00:00:37,960
+So we want to pass in our new
+layout into the ArrayAdapter, so
+
+12
+00:00:37,960 --> 00:00:43,260
+instead of
+android.R.layout.simple_list_item_1 I'm
+
+13
+00:00:43,260 --> 00:00:47,600
+just going to replace it with the layout
+that we created the list item layout.
+
+14
+00:00:48,870 --> 00:00:50,530
+So this third input is wrong.
+
+15
+00:00:50,530 --> 00:00:54,340
+So we're passing in words but the words
+list is only composed of English words
+
+16
+00:00:54,340 --> 00:00:56,960
+and we want to pass in the corresponding
+Miwok words as well so
+
+17
+00:00:56,960 --> 00:00:59,800
+that each list item
+displays both translations.
+
+18
+00:00:59,800 --> 00:01:01,440
+So let's go back to
+the documentation for
+
+19
+00:01:01,440 --> 00:01:04,550
+the ArrayAdapter then go down to
+the public constructor section.
+
+20
+00:01:04,550 --> 00:01:07,915
+And again we see that these are ways
+to create a new ArrayAdapter.
+
+21
+00:01:09,180 --> 00:01:13,720
+So we've been using the second to last
+constructor, where we pass in a context
+
+22
+00:01:13,720 --> 00:01:18,720
+which refers to the numbers activity,
+the layout file and list of objects.
+
+23
+00:01:18,720 --> 00:01:21,730
+But it doesn't look like there's
+another constructor here that has
+
+24
+00:01:21,730 --> 00:01:23,580
+to lists as the input.
+
+25
+00:01:23,580 --> 00:01:25,620
+This one only takes in one list.
+
+26
+00:01:25,620 --> 00:01:27,320
+And so that's the same with
+this constructor as well.
+
+27
+00:01:27,320 --> 00:01:30,800
+It only takes in one
+list as its last input.
+
+28
+00:01:32,530 --> 00:01:34,660
+So remember we talked about generics?
+
+29
+00:01:34,660 --> 00:01:36,790
+So the data types of
+the object is marked as T.
+
+30
+00:01:36,790 --> 00:01:40,090
+but this is just a place holder
+that you can substitute in
+
+31
+00:01:40,090 --> 00:01:41,970
+any other object out of type.
+
+32
+00:01:41,970 --> 00:01:45,520
+So we're currently replacing
+T with a string data type and
+
+33
+00:01:45,520 --> 00:01:48,375
+so we're passing in a ArrayList
+of strings to the ArrayAdapter.
+
+34
+00:01:49,490 --> 00:01:54,010
+So the constructor here above
+requires an array of objects and
+
+35
+00:01:54,010 --> 00:01:58,230
+T here is a placeholder for
+any object data type that you want.
+
+36
+00:01:58,230 --> 00:02:01,440
+Well so far we've been unlucky
+we can't find a constructor
+
+37
+00:02:01,440 --> 00:02:04,960
+that allows us to pass into
+list to create an ArrayAdapter.
+
+38
+00:02:04,960 --> 00:02:08,610
+But we can take advantage of the fact
+that ArrayAdapter can take in a list
+
+39
+00:02:08,610 --> 00:02:10,400
+of any type of object.
+
+40
+00:02:10,400 --> 00:02:13,140
+So how about instead of
+passing in a list of strings,
+
+41
+00:02:13,140 --> 00:02:14,920
+we create our own object type.
+
+42
+00:02:14,920 --> 00:02:16,290
+So a Word object.
+
+43
+00:02:17,300 --> 00:02:21,510
+Now we can define our own Word class and
+create word objects from it, and
+
+44
+00:02:21,510 --> 00:02:24,570
+then we can create a whole
+list of Word objects.
+
+45
+00:02:24,570 --> 00:02:26,385
+Remember from the last course.
+
+46
+00:02:26,385 --> 00:02:30,660
+Tha a class definition contains
+both state and methods.
+
+47
+00:02:30,660 --> 00:02:32,142
+In the upcoming quiz.
+
+48
+00:02:32,142 --> 00:02:35,230
+I'm going to ask you how we
+should define a Word class.
+
+49
+00:02:35,230 --> 00:02:37,650
+What state and method should it contain?
+
+50
+00:02:37,650 --> 00:02:39,870
+So before we jump into the Word class.
+
+51
+00:02:39,870 --> 00:02:44,280
+I'm going to show you some other
+apps that have used custom classes.
+
+52
+00:02:44,280 --> 00:02:47,210
+So here's a screenshot from
+a popular flight booking app.
+
+53
+00:02:47,210 --> 00:02:47,840
+Called Kayak.
+
+54
+00:02:49,080 --> 00:02:52,898
+So a user selects the departing and
+arriving cities and
+
+55
+00:02:52,898 --> 00:02:56,970
+the date and the app presents
+a list of potential options.
+
+56
+00:02:56,970 --> 00:02:59,627
+Notice that the information
+is presented in a list view.
+
+57
+00:02:59,627 --> 00:03:01,459
+And each list item has a flight and
+
+58
+00:03:01,459 --> 00:03:05,425
+then information is always
+presented in the same pattern.
+
+59
+00:03:05,425 --> 00:03:10,410
+Kayak has likely created a custom flight
+class and each of these list items
+
+60
+00:03:10,410 --> 00:03:15,130
+represents information about a single
+flight object from that class.
+
+61
+00:03:15,130 --> 00:03:18,400
+So using our box analogy
+we can represent
+
+62
+00:03:18,400 --> 00:03:22,320
+each of these flight objects
+as a big box that holds state.
+
+63
+00:03:22,320 --> 00:03:26,500
+So state in this case is made up of
+different fields such as airline,
+
+64
+00:03:26,500 --> 00:03:30,261
+departure time, arrival time,
+cost, and length the flight.
+
+65
+00:03:31,340 --> 00:03:34,030
+Now we can also add
+methods to this class and
+
+66
+00:03:34,030 --> 00:03:37,000
+other parts of the app can
+call on these methods.
+
+67
+00:03:37,000 --> 00:03:40,460
+So all this together is
+called encapsulation because
+
+68
+00:03:40,460 --> 00:03:45,310
+all the logic is being encapsulated or
+combined into this class.
+
+69
+00:03:45,310 --> 00:03:49,580
+Now other parts of the trial up can
+know that a flat object exists and
+
+70
+00:03:49,580 --> 00:03:54,015
+that it's possible to call these
+methods, such as cancel on that object.
+
+71
+00:03:54,015 --> 00:03:57,530
+But outside callers don't
+need to worry about
+
+72
+00:03:57,530 --> 00:04:01,180
+the internal details of how
+these methods actually work.
+
+73
+00:04:01,180 --> 00:04:03,250
+The caller just knows the contract, but
+
+74
+00:04:03,250 --> 00:04:07,080
+they can expect the fight to be
+canceled when the method is called.
+
+75
+00:04:07,080 --> 00:04:10,980
+They could care less about how it's
+actually accomplished under the hood.
+
+76
+00:04:10,980 --> 00:04:14,930
+So this concept is called abstracting
+away the details of what goes
+
+77
+00:04:14,930 --> 00:04:16,510
+inside the class.
+
+78
+00:04:16,510 --> 00:04:18,100
+Now let's take a look
+at another example.
+
+79
+00:04:19,110 --> 00:04:22,800
+Here's a music app called SoundCloud
+that allows users to save their
+
+80
+00:04:22,800 --> 00:04:25,490
+favorite music tracks in a playlist.
+
+81
+00:04:25,490 --> 00:04:28,060
+The tracks are displayed in a list and
+
+82
+00:04:28,060 --> 00:04:31,590
+each track is a list item
+displaying the same information.
+
+83
+00:04:31,590 --> 00:04:36,170
+So we have album name, album art,
+song title, song length,
+
+84
+00:04:36,170 --> 00:04:39,659
+number of listens and all of this is
+always presented in the same pattern.
+
+85
+00:04:41,220 --> 00:04:44,470
+So all the information
+can be stored as fields
+
+86
+00:04:44,470 --> 00:04:46,910
+in a state of a custom song class.
+
+87
+00:04:47,910 --> 00:04:51,020
+In addition to the states we
+can encapsulate methods into
+
+88
+00:04:51,020 --> 00:04:52,710
+this class as well.
+
+89
+00:04:52,710 --> 00:04:57,960
+So this song object could have different
+methods such as getSongTitle or
+
+90
+00:04:57,960 --> 00:04:59,370
+getAlbumName.
+
+91
+00:04:59,370 --> 00:05:00,680
+So similar to the flight class,
+
+92
+00:05:00,680 --> 00:05:03,860
+here we're abstracting away
+the details of the class so
+
+93
+00:05:03,860 --> 00:05:08,310
+outside callers can use these methods
+without knowing the details of them.
+
+94
+00:05:08,310 --> 00:05:13,140
+So as you can tell from these examples,
+there are advantages to encapsulating or
+
+95
+00:05:13,140 --> 00:05:16,770
+grouping information into
+the classes that you've defined.
+
+96
+00:05:16,770 --> 00:05:19,460
+So now it's your turn to think
+about the problem at hand.
+
+97
+00:05:20,590 --> 00:05:24,750
+I want you to show the English and
+Miwok words in the list and
+
+98
+00:05:24,750 --> 00:05:25,940
+how can you model that data?
+
+99
+00:05:27,190 --> 00:05:30,510
+Now this is a data structure question
+because you have to decide how to
+
+100
+00:05:30,510 --> 00:05:32,250
+structure the data in your app.
+
+101
+00:05:32,250 --> 00:05:36,100
+If all that information is stored as
+individual global variables in the app,
+
+102
+00:05:36,100 --> 00:05:38,560
+it would become really hard to manage.
+
+103
+00:05:38,560 --> 00:05:42,660
+Instead we want to organize the data so
+it's easier to retrieve.
+
+104
+00:05:42,660 --> 00:05:44,600
+And display onto the screen.
+
+105
+00:05:44,600 --> 00:05:49,070
+So you've already started doing this,
+being familiar with data structures.
+
+106
+00:05:49,070 --> 00:05:52,645
+For example, putting the list
+of English words in an Array or
+
+107
+00:05:52,645 --> 00:05:56,030
+ArrayList was an example
+of picking a data structure
+
+108
+00:05:56,030 --> 00:05:59,040
+to organize information
+better in a sequential list.
+
+109
+00:06:00,988 --> 00:06:02,900
+Now we're going to take
+it one step further and
+
+110
+00:06:02,900 --> 00:06:04,758
+create our own data structure for words.
+
+111
+00:06:04,758 --> 00:06:10,128
+Because the built-in solutions for Java
+just aren't sufficient for our needs.
+
+112
+00:06:10,128 --> 00:06:13,580
+So we're going to give you a hint
+that you create a Word class.
+
+113
+00:06:13,580 --> 00:06:17,000
+We're going to leave it up to
+you to determine what state and
+
+114
+00:06:17,000 --> 00:06:18,050
+methods it should contain.

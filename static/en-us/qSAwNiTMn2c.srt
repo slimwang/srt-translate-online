@@ -1,0 +1,222 @@
+1
+00:00:00,150 --> 00:00:04,100
+The first distributed file system
+mechanism we will look at is caching.
+
+2
+00:00:04,100 --> 00:00:07,800
+Caching is a general optimization
+techniques in distributed systems,
+
+3
+00:00:07,800 --> 00:00:12,800
+where the clients are permitted to
+locally maintain a portion of the state.
+
+4
+00:00:12,800 --> 00:00:17,310
+In this case,
+portions of the files or file blocks.
+
+5
+00:00:17,310 --> 00:00:19,920
+And also the clients
+are permitted to perform some
+
+6
+00:00:19,920 --> 00:00:22,760
+operations on that cached state locally.
+
+7
+00:00:22,760 --> 00:00:26,280
+For instance, some of the open or
+read or write operations
+
+8
+00:00:26,280 --> 00:00:30,230
+can be issued against the locally
+cached files or file portions.
+
+9
+00:00:30,230 --> 00:00:33,010
+This can be done potentially
+without contacting, and
+
+10
+00:00:33,010 --> 00:00:35,308
+overloading the actual file servers.
+
+11
+00:00:35,308 --> 00:00:39,620
+Keeping the cached portions of
+the file consistent with the on server
+
+12
+00:00:39,620 --> 00:00:44,350
+representation of that file, requires
+that we have some coherence mechanisms.
+
+13
+00:00:44,350 --> 00:00:46,970
+For instance, in this illustration,
+clients one and
+
+14
+00:00:46,970 --> 00:00:50,348
+two both cache a portion of the file F.
+
+15
+00:00:50,348 --> 00:00:54,422
+However, Client 2 has
+subsequently modified that file,
+
+16
+00:00:54,422 --> 00:00:59,620
+F prime, and has also updated the file
+server to reflect those changes.
+
+17
+00:00:59,620 --> 00:01:02,350
+The question then is, how and
+
+18
+00:01:02,350 --> 00:01:07,530
+when will Client 1 find out that
+Client 2 has performed these changes?
+
+19
+00:01:07,530 --> 00:01:11,210
+The problem here is similar to
+maintaining cache coherence in shared
+
+20
+00:01:11,210 --> 00:01:12,830
+memory multi processors.
+
+21
+00:01:12,830 --> 00:01:17,220
+There we said that we use mechanisms
+like write-update and write-invalidate,
+
+22
+00:01:17,220 --> 00:01:21,020
+and these mechanisms get triggered
+whenever a particular variable, or
+
+23
+00:01:21,020 --> 00:01:23,830
+a particular memory
+location gets written to.
+
+24
+00:01:23,830 --> 00:01:28,310
+What this would mean in the context of
+this example that whenever Client 2
+
+25
+00:01:28,310 --> 00:01:33,470
+performs any kind of update to some
+portion of file F in its cache,
+
+26
+00:01:33,470 --> 00:01:36,930
+that, that would be
+propagated to Client 1.
+
+27
+00:01:36,930 --> 00:01:39,470
+Either as a write-invalidation
+message or
+
+28
+00:01:39,470 --> 00:01:42,840
+a write-update,
+the actual change will be visible here.
+
+29
+00:01:42,840 --> 00:01:46,560
+But given the very different
+communication costs, and also latencies
+
+30
+00:01:46,560 --> 00:01:51,510
+that exist in distributed systems,
+achieving this may not be realistic.
+
+31
+00:01:51,510 --> 00:01:53,960
+And also, it may not even be necessary,
+
+32
+00:01:53,960 --> 00:01:56,970
+given the ways that
+files are being shared.
+
+33
+00:01:56,970 --> 00:02:00,170
+Instead for distributed file systems,
+things that make sense would
+
+34
+00:02:00,170 --> 00:02:04,340
+be to trigger some of these coherence
+mechanisms on demand when the client
+
+35
+00:02:04,340 --> 00:02:09,008
+needs to access a file or periodically
+whenever the client is open.
+
+36
+00:02:09,008 --> 00:02:13,890
+And when exactly get executed will
+also depend on whether the coherence
+
+37
+00:02:13,890 --> 00:02:18,510
+mechanism is something that is client
+driven so the client initiates.
+
+38
+00:02:18,510 --> 00:02:20,680
+I need to find out if
+the file is updated.
+
+39
+00:02:20,680 --> 00:02:23,690
+I need to see the new
+version of this file.
+
+40
+00:02:23,690 --> 00:02:24,730
+Or, server-driven,
+
+41
+00:02:24,730 --> 00:02:29,300
+where the server notifies the clients
+who have cached the file, in this case,
+
+42
+00:02:29,300 --> 00:02:33,600
+Client 1, that something has
+changed about their cached state.
+
+43
+00:02:33,600 --> 00:02:38,480
+The exact details of how and when the
+coherence mechanisms are executed have
+
+44
+00:02:38,480 --> 00:02:43,810
+to be such so that the file system
+can maintain consistence guarantees.
+
+45
+00:02:43,810 --> 00:02:48,020
+However, what those details will
+be will depend on the file sharing
+
+46
+00:02:48,020 --> 00:02:51,290
+semantics that this distributed
+file system needs to support.

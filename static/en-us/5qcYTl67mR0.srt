@@ -1,0 +1,738 @@
+1
+00:00:00,230 --> 00:00:03,870
+So earlier when I said
+the CursorAdapter contains instructions
+
+2
+00:00:03,870 --> 00:00:08,500
+on how to make a list item view,
+well, what exactly does that entail?
+
+3
+00:00:08,500 --> 00:00:10,990
+Well, let's dive in and
+explore this area in more detail.
+
+4
+00:00:10,990 --> 00:00:13,490
+So let's assume that the list
+view just requested for
+
+5
+00:00:13,490 --> 00:00:15,500
+the list item at position 0.
+
+6
+00:00:15,500 --> 00:00:20,150
+So now the Cursor Adapter needs to
+first create a blank list item.
+
+7
+00:00:20,150 --> 00:00:23,250
+And this involves inflating
+one from the XML Layout.
+
+8
+00:00:23,250 --> 00:00:26,350
+So the layout that we want
+contains a vertical linear layout
+
+9
+00:00:26,350 --> 00:00:27,470
+with two text views.
+
+10
+00:00:27,470 --> 00:00:29,680
+One that looks like this.
+
+11
+00:00:29,680 --> 00:00:32,159
+Then we'll need to populate
+these two text views
+
+12
+00:00:32,159 --> 00:00:33,900
+with the correct data from the cursor.
+
+13
+00:00:35,530 --> 00:00:38,520
+So since we're interested in
+the pet at position zero,
+
+14
+00:00:38,520 --> 00:00:40,570
+we'll move the cursor to row zero.
+
+15
+00:00:41,640 --> 00:00:45,650
+And then we extract out the name column,
+which turns out to be Tommy, and
+
+16
+00:00:45,650 --> 00:00:47,390
+set that to the first text view.
+
+17
+00:00:47,390 --> 00:00:50,300
+Afterwards, we'll extract
+the breed column, and
+
+18
+00:00:50,300 --> 00:00:53,130
+get the breed to be Pomeranian, and
+set that to our second text view.
+
+19
+00:00:54,470 --> 00:00:57,090
+Now in the list view requests for
+the list item at position one,
+
+20
+00:00:58,300 --> 00:01:00,221
+we'll also need to create
+another blank list item.
+
+21
+00:01:01,290 --> 00:01:04,209
+Then we'll also move
+the cursor to position one and
+
+22
+00:01:04,209 --> 00:01:08,310
+then again bind the data from
+this cursor on to the views.
+
+23
+00:01:08,310 --> 00:01:11,900
+So say we have a name of Garfield and
+a breed of Tabby.
+
+24
+00:01:13,398 --> 00:01:17,722
+So in code, this two steps can
+be separated into two methods,
+
+25
+00:01:17,722 --> 00:01:21,646
+first the newView method and
+then the bindView method.
+
+26
+00:01:21,646 --> 00:01:24,805
+So the cursor adapter class is
+actually an abstract class,
+
+27
+00:01:24,805 --> 00:01:27,533
+which means that not all
+the methods are complete.
+
+28
+00:01:27,533 --> 00:01:30,489
+And that also means that we need
+to create our own custom class.
+
+29
+00:01:30,489 --> 00:01:33,469
+So, for example, we could call
+it the pet cursor adapter and
+
+30
+00:01:33,469 --> 00:01:35,637
+extend that from
+the cursor adapter class.
+
+31
+00:01:35,637 --> 00:01:39,354
+Then we'll need to write code that
+implements the logic for the newView and
+
+32
+00:01:39,354 --> 00:01:41,050
+bindView methods.
+
+33
+00:01:41,050 --> 00:01:44,900
+So sometimes the newView method
+might not even be called.
+
+34
+00:01:44,900 --> 00:01:46,150
+And in those cases,
+
+35
+00:01:46,150 --> 00:01:50,650
+the bindView method is called using
+an old view from a previous pet.
+
+36
+00:01:50,650 --> 00:01:54,770
+For example, the user may have scrolled
+the Tommy list item view off the screen.
+
+37
+00:01:54,770 --> 00:01:58,880
+And that means that we can recycle
+that list item view, and use it for
+
+38
+00:01:58,880 --> 00:02:02,560
+another pet in this list that is
+about to be scrolled onto the screen.
+
+39
+00:02:02,560 --> 00:02:05,400
+So we set different values
+onto these text views, and
+
+40
+00:02:05,400 --> 00:02:08,289
+then show this view on screen again.
+
+41
+00:02:08,289 --> 00:02:10,749
+And so that's why it's
+useful to have a newView and
+
+42
+00:02:10,749 --> 00:02:14,170
+bindView method be two separate methods.
+
+43
+00:02:14,170 --> 00:02:15,220
+So in our case,
+
+44
+00:02:15,220 --> 00:02:18,780
+we're going to be creating a class
+called the PetCursorAdapter class,
+
+45
+00:02:18,780 --> 00:02:22,630
+which, like I mentioned before, will
+extend from the CursorAdapter class.
+
+46
+00:02:22,630 --> 00:02:25,370
+Notice that it contains a constructor,
+which just calls
+
+47
+00:02:25,370 --> 00:02:28,200
+the superclass constructor in
+order to initialize itself.
+
+48
+00:02:28,200 --> 00:02:33,090
+Then, we as developers need to fill in
+the newView method, which creates and
+
+49
+00:02:33,090 --> 00:02:35,670
+returns a blank new list item for
+
+50
+00:02:35,670 --> 00:02:38,540
+the current row being
+pointed to by the cursor.
+
+51
+00:02:38,540 --> 00:02:42,700
+And we also need to fill in the bindView
+method in order to read data from
+
+52
+00:02:42,700 --> 00:02:48,340
+the current row in the cursor and set it
+to the views within this list item view.
+
+53
+00:02:48,340 --> 00:02:51,480
+So the cursor adapter class
+handles some of the logic for
+
+54
+00:02:51,480 --> 00:02:56,000
+us, such as moving the cursor to the
+correct position, so that we don't need
+
+55
+00:02:56,000 --> 00:02:59,810
+to move the cursor to the correct
+position within these two methods.
+
+56
+00:02:59,810 --> 00:03:03,303
+So to show you an example of
+a fully implemented cursor adapter,
+
+57
+00:03:03,303 --> 00:03:05,580
+let's take a look at an online tutorial.
+
+58
+00:03:05,580 --> 00:03:07,761
+[BLANK_AUDIO]
+
+59
+00:03:07,761 --> 00:03:09,892
+So this tutorial is from code path and
+
+60
+00:03:09,892 --> 00:03:13,340
+explains how to populate a list
+view with a cursor adapter.
+
+61
+00:03:14,930 --> 00:03:17,560
+So the goal of the example
+that will be shown below
+
+62
+00:03:17,560 --> 00:03:20,510
+is to show a to-do list
+in the Adapter View.
+
+63
+00:03:20,510 --> 00:03:24,430
+So in this situation, the Adapter View
+is a List View, and it's using
+
+64
+00:03:24,430 --> 00:03:29,680
+the Adapter to pool information from
+a data source, which will be a cursor.
+
+65
+00:03:29,680 --> 00:03:31,938
+So let's assume that
+the cursor looks like this.
+
+66
+00:03:31,938 --> 00:03:35,590
+So each to-do item has a body for
+
+67
+00:03:35,590 --> 00:03:39,320
+the task description,
+as well as a numerical priority.
+
+68
+00:03:39,320 --> 00:03:42,170
+So to start, we need to find
+what a list item looks like.
+
+69
+00:03:42,170 --> 00:03:43,970
+So we create a list item layout,
+
+70
+00:03:43,970 --> 00:03:48,300
+which here is referred to as a template,
+in order to display a single to-do item.
+
+71
+00:03:48,300 --> 00:03:51,720
+We define the layout in
+a file called itemtodo.xml,
+
+72
+00:03:51,720 --> 00:03:55,580
+and this is defined within
+the resource's layout folder.
+
+73
+00:03:55,580 --> 00:03:58,340
+Now the convention is
+to use the word Item
+
+74
+00:03:58,340 --> 00:04:02,396
+in the file name itself to indicate that
+it's a layout for a single list item.
+
+75
+00:04:02,396 --> 00:04:04,480
+Now in the XML file,
+
+76
+00:04:04,480 --> 00:04:09,130
+we can see that this list item layout
+consists of a horizontal linear layout,
+
+77
+00:04:09,130 --> 00:04:12,680
+so this outer view out here,
+which contains two text views.
+
+78
+00:04:12,680 --> 00:04:16,190
+So one for the body, and
+then one for the priority.
+
+79
+00:04:16,190 --> 00:04:19,329
+So here's a screenshot of what
+the app will eventually look like.
+
+80
+00:04:19,329 --> 00:04:23,270
+We see that each list item, so
+each row here, shows the task body and
+
+81
+00:04:23,270 --> 00:04:24,320
+the priority.
+
+82
+00:04:24,320 --> 00:04:27,620
+Now, to make all this work,
+we need to find a custom cursor adapter,
+
+83
+00:04:27,620 --> 00:04:30,060
+which we're going to
+call TodoCursorAdapter.
+
+84
+00:04:30,060 --> 00:04:32,280
+And this adapter will be responsible for
+
+85
+00:04:32,280 --> 00:04:36,100
+changing each row of the cursor
+into a list item view
+
+86
+00:04:36,100 --> 00:04:40,070
+using the item to-do template
+layout that we created in the file.
+
+87
+00:04:40,070 --> 00:04:44,050
+So now, let's take a look at the code
+for the to-do cursor adapter class.
+
+88
+00:04:44,050 --> 00:04:46,610
+So let's scroll down here to
+the defining the adapter section.
+
+89
+00:04:47,770 --> 00:04:51,340
+So we notice that the to-do cursor
+adapter extends from the framework class
+
+90
+00:04:51,340 --> 00:04:52,360
+cursor adapter.
+
+91
+00:04:52,360 --> 00:04:54,330
+And notice there are two important
+methods that are required
+
+92
+00:04:54,330 --> 00:04:58,250
+to be implemented, the newView
+method and the bindView method.
+
+93
+00:04:58,250 --> 00:05:01,540
+So the newView method inflates,
+which means that it creates
+
+94
+00:05:01,540 --> 00:05:05,068
+a new list item view object
+from our item to-do XML file.
+
+95
+00:05:05,068 --> 00:05:07,130
+So the list view item it
+creates is blank, and
+
+96
+00:05:07,130 --> 00:05:10,500
+it doesn't contain any information
+about the to do item just yet.
+
+97
+00:05:10,500 --> 00:05:13,200
+Doing so
+will be the job of the bindView method.
+
+98
+00:05:13,200 --> 00:05:19,030
+Instead, the newView method returns a
+blank list item as its return value and
+
+99
+00:05:19,030 --> 00:05:22,210
+with that, we're done setting
+up the newView method.
+
+100
+00:05:22,210 --> 00:05:25,030
+So the bindView method actually
+takes the data from the cursor,
+
+101
+00:05:25,030 --> 00:05:30,190
+and then assigns it to the text
+views within the list item view.
+
+102
+00:05:30,190 --> 00:05:32,420
+Now, notice that a cursor and
+
+103
+00:05:32,420 --> 00:05:35,960
+a list item view,
+are passed into the bindView method.
+
+104
+00:05:35,960 --> 00:05:39,730
+So the view is the list item view which
+is generated from our new view method.
+
+105
+00:05:39,730 --> 00:05:43,710
+And the cursor is a cursor that's
+pointing to a particular row
+
+106
+00:05:43,710 --> 00:05:45,410
+you're interested in making a view for.
+
+107
+00:05:45,410 --> 00:05:48,870
+But for example, it might be
+pointing at this row up here.
+
+108
+00:05:48,870 --> 00:05:52,170
+So the get milk body,
+with a priority of 2.
+
+109
+00:05:52,170 --> 00:05:54,450
+Now, back down to the bindView method.
+
+110
+00:05:54,450 --> 00:05:57,978
+So the first thing I want to do in
+this code is to find the two TextViews
+
+111
+00:05:57,978 --> 00:05:59,745
+using the findViewById method.
+
+112
+00:05:59,745 --> 00:06:02,624
+[BLANK_AUDIO]
+
+113
+00:06:02,624 --> 00:06:04,700
+And into it we pass the view IDs.
+
+114
+00:06:06,590 --> 00:06:09,870
+From there, we have the references
+to our two TextView objects.
+
+115
+00:06:09,870 --> 00:06:13,100
+Next, we want to get the value
+of the priority and the body for
+
+116
+00:06:13,100 --> 00:06:15,880
+the current row from the cursor,
+so these two lines.
+
+117
+00:06:17,280 --> 00:06:19,480
+After that, we take the text
+views that we got up here,
+
+118
+00:06:19,480 --> 00:06:23,320
+and then set their text to
+the values of the priority and
+
+119
+00:06:23,320 --> 00:06:26,380
+body from the cursor, so
+these two lines here.
+
+120
+00:06:28,090 --> 00:06:32,320
+So after that, we have our cursor
+adapter, list item layout, and
+
+121
+00:06:32,320 --> 00:06:33,950
+ListView all set up.
+
+122
+00:06:33,950 --> 00:06:36,260
+And now we need to
+hook them all together.
+
+123
+00:06:36,260 --> 00:06:39,700
+So let's scroll down here to
+the attaching the adapter
+
+124
+00:06:39,700 --> 00:06:40,570
+to a ListView section.
+
+125
+00:06:41,720 --> 00:06:44,590
+So doing so
+will be done in the activity class.
+
+126
+00:06:44,590 --> 00:06:49,000
+And usually we set it up in the UI,
+usually in the onCreate method.
+
+127
+00:06:49,000 --> 00:06:53,070
+So attaching the adapter to the ListView
+requires these three steps.
+
+128
+00:06:53,070 --> 00:06:55,290
+So first, we need to get
+a reference to the ListView.
+
+129
+00:06:55,290 --> 00:06:58,550
+And you need to have a ListView as
+part of the layout for your activity.
+
+130
+00:06:58,550 --> 00:07:02,720
+Next, we need to create a new adapter by
+calling the TodoAdaptor constructor and
+
+131
+00:07:02,720 --> 00:07:06,510
+then passing in the current activity
+context, which we reference with this,
+
+132
+00:07:06,510 --> 00:07:09,390
+as well as the cursor
+containing the to-do items.
+
+133
+00:07:09,390 --> 00:07:13,040
+And then finally, we set
+the adapter on to the list view so
+
+134
+00:07:13,040 --> 00:07:16,430
+they can begin populating it with
+this line here, set adapter.
+
+135
+00:07:18,280 --> 00:07:21,000
+Now, it's your turn to do the same for
+the pets app.
+
+136
+00:07:21,000 --> 00:07:24,240
+So the first thing we need you to
+do is to create a new layout file
+
+137
+00:07:24,240 --> 00:07:28,590
+called listitem.xml for
+the list item layout.
+
+138
+00:07:28,590 --> 00:07:31,560
+And since you are already familiar with
+creating layouts, I went ahead and
+
+139
+00:07:31,560 --> 00:07:34,530
+defined the item layout for
+you in the code just linked below.
+
+140
+00:07:34,530 --> 00:07:37,660
+And that means you can just copy and
+paste from there.
+
+141
+00:07:37,660 --> 00:07:41,450
+Afterwards, you need to create
+a new pet cursor adapter class.
+
+142
+00:07:41,450 --> 00:07:44,380
+So the provided gist also
+includes some starter code for
+
+143
+00:07:44,380 --> 00:07:46,210
+you as well for this task.
+
+144
+00:07:46,210 --> 00:07:50,430
+And be sure to fill in the logic for
+the newView and the bindView methods.
+
+145
+00:07:50,430 --> 00:07:53,990
+So once you're done with that, I want
+you to modify the CatalogActivity, so
+
+146
+00:07:53,990 --> 00:07:56,170
+that you can hook all
+these pieces up together.
+
+147
+00:07:56,170 --> 00:07:59,630
+Start by modifying
+the activity_catalog.xml layout file
+
+148
+00:07:59,630 --> 00:08:04,090
+to include a ListView instead
+of the existing TextView.
+
+149
+00:08:04,090 --> 00:08:08,570
+Then in the displayDatabaseInfo method
+of the catalog activity, you'll need to
+
+150
+00:08:08,570 --> 00:08:13,180
+setup a PetCursorAdapter using
+the cursor returned from the provider.
+
+151
+00:08:13,180 --> 00:08:17,160
+Remember to set the adapter onto the
+ListView, and at this time you can also
+
+152
+00:08:17,160 --> 00:08:20,890
+remove all code related to displaying
+any pet information in the TextView.
+
+153
+00:08:20,890 --> 00:08:23,010
+Can use some help?
+
+154
+00:08:23,010 --> 00:08:25,440
+Feel free to reference the tutorial,
+which we've linked down below.

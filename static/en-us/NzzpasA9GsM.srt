@@ -1,0 +1,446 @@
+1
+00:00:01,050 --> 00:00:04,589
+For this next question, I would like
+you to do what every machine learning
+
+2
+00:00:04,589 --> 00:00:07,601
+engineer is doing these days,
+image categorization, all right?
+
+3
+00:00:08,990 --> 00:00:12,717
+So let's image that you have images,
+
+4
+00:00:12,717 --> 00:00:19,237
+[BLANK_AUDIO]
+
+5
+00:00:19,236 --> 00:00:20,337
+Like that.
+
+6
+00:00:20,338 --> 00:00:25,819
+[BLANK_AUDIO]
+
+7
+00:00:25,818 --> 00:00:28,958
+These images are HD quality, so
+
+8
+00:00:28,958 --> 00:00:34,670
+they're 1920 pixels wide and
+1080 pixels high.
+
+9
+00:00:34,670 --> 00:00:36,562
+And say we have,
+
+10
+00:00:36,561 --> 00:00:41,158
+[BLANK_AUDIO]
+
+11
+00:00:41,158 --> 00:00:45,172
+Three channels, for RGB.
+
+12
+00:00:45,171 --> 00:00:49,091
+That's red, green, and
+blue colors, okay?
+
+13
+00:00:49,091 --> 00:00:52,274
+[BLANK_AUDIO]
+
+14
+00:00:52,274 --> 00:00:54,370
+All right, so,
+
+15
+00:00:54,369 --> 00:00:56,739
+[BLANK_AUDIO]
+
+16
+00:00:56,740 --> 00:01:01,234
+Given an image of whatever,
+
+17
+00:01:01,234 --> 00:01:05,409
+[BLANK_AUDIO]
+
+18
+00:01:05,409 --> 00:01:13,746
+You need to classify whether
+this is a cat, a dog,
+
+19
+00:01:13,745 --> 00:01:15,493
+[BLANK_AUDIO]
+
+20
+00:01:15,493 --> 00:01:16,588
+A human,
+
+21
+00:01:16,588 --> 00:01:19,400
+[BLANK_AUDIO]
+
+22
+00:01:19,400 --> 00:01:21,609
+Or none of these, right?
+
+23
+00:01:21,609 --> 00:01:23,269
+This is your overall task.
+
+24
+00:01:24,269 --> 00:01:30,109
+And somebody has already written
+a machine learning algorithm,
+
+25
+00:01:30,109 --> 00:01:32,010
+implemented it for you.
+
+26
+00:01:32,010 --> 00:01:37,200
+But it turns out that it's
+taking a long time to run.
+
+27
+00:01:37,200 --> 00:01:40,420
+Your data set has, say,
+around a million images.
+
+28
+00:01:40,420 --> 00:01:42,250
+So that's a lot of data to process.
+
+29
+00:01:43,250 --> 00:01:47,670
+Can you help speed up
+this overall pipeline?
+
+30
+00:01:47,670 --> 00:01:49,900
+What can you do to improve this?
+
+31
+00:01:49,900 --> 00:01:53,150
+>> Okay, so
+just to better understand the question.
+
+32
+00:01:53,150 --> 00:01:57,600
+Right now, I have millions of
+these pictures, all 920 by 1080,
+
+33
+00:01:57,599 --> 00:02:00,099
+with three channels.
+
+34
+00:02:00,099 --> 00:02:02,780
+And I'm feeding them directly
+into my machine learning algorithm, and
+
+35
+00:02:02,780 --> 00:02:05,670
+the performance is slow.
+
+36
+00:02:05,670 --> 00:02:06,548
+>> It's slow, correct.
+
+37
+00:02:06,548 --> 00:02:08,608
+>> Okay, so,
+
+38
+00:02:08,608 --> 00:02:11,092
+[BLANK_AUDIO]
+
+39
+00:02:11,092 --> 00:02:16,782
+One thing we could do is
+to perform a transformation
+
+40
+00:02:16,782 --> 00:02:24,338
+on this data before we feed it into
+the machine learning algorithm.
+
+41
+00:02:24,338 --> 00:02:28,974
+A transformation that I'm thinking
+of may be something like a Fourier
+
+42
+00:02:28,974 --> 00:02:33,926
+transform, that will look for
+frequencies of different color patterns,
+
+43
+00:02:33,926 --> 00:02:38,769
+which could dramatically reduce
+the dimensionality of our data.
+
+44
+00:02:38,770 --> 00:02:39,320
+>> Okay.
+
+45
+00:02:39,319 --> 00:02:42,019
+>> And then feed that into
+the machine learning algorithm.
+
+46
+00:02:42,020 --> 00:02:46,930
+And by having a much smaller
+feature space that doesn't lose too
+
+47
+00:02:46,930 --> 00:02:52,730
+much of the information, we might be
+able to get a higher performance.
+
+48
+00:02:52,729 --> 00:02:54,030
+>> Okay.
+
+49
+00:02:54,030 --> 00:03:01,199
+Do you anticipate any changes in how
+accurately the model would perform?
+
+50
+00:03:01,199 --> 00:03:06,839
+Or the number of errors it would
+make if you chose to go that route?
+
+51
+00:03:08,430 --> 00:03:13,170
+>> Yes, so
+by using a Fourier transform, we are,
+
+52
+00:03:15,000 --> 00:03:19,960
+instead of counting every pixel by
+pixel, we're looking for the patterns.
+
+53
+00:03:19,960 --> 00:03:24,890
+And so we don't see where in
+the picture those patterns occurred.
+
+54
+00:03:24,889 --> 00:03:27,409
+We're just checking to see if
+the pattern occurred somewhere
+
+55
+00:03:27,409 --> 00:03:28,520
+in the picture.
+
+56
+00:03:28,520 --> 00:03:32,850
+So there is a loss of information
+that happens in this transformation.
+
+57
+00:03:34,960 --> 00:03:38,277
+But by setting up a simple
+experiment using both ways,
+
+58
+00:03:38,276 --> 00:03:40,736
+we can see how the accuracy is affected.
+
+59
+00:03:40,736 --> 00:03:44,808
+And if it's not too big of a hit,
+and the performance gain is really
+
+60
+00:03:44,808 --> 00:03:49,719
+worthwhile, we might be better off
+using some of these transformations.
+
+61
+00:03:49,719 --> 00:03:52,120
+>> Okay, that's a really good point.
+
+62
+00:03:52,120 --> 00:03:56,280
+Are they any other ways of
+speeding up this process
+
+63
+00:03:56,280 --> 00:03:59,602
+besides a transformation like
+the one you just mentioned?
+
+64
+00:03:59,602 --> 00:04:06,259
+>> Yeah, so in the actual hardware that
+we're using to perform this analysis,
+
+65
+00:04:06,259 --> 00:04:11,319
+maybe implementing a multi-threaded
+
+66
+00:04:11,319 --> 00:04:17,338
+parallel processing solution would allow
+us to process these images much faster.
+
+67
+00:04:19,170 --> 00:04:24,850
+>> That's going to be quite
+a task if the algorithm is
+
+68
+00:04:24,850 --> 00:04:30,677
+already not quoted up to
+be able to perform that.
+
+69
+00:04:30,677 --> 00:04:35,359
+Like, some algorithms might be
+bottle-necked by some sort of sequential
+
+70
+00:04:35,358 --> 00:04:36,209
+processes.
+
+71
+00:04:36,209 --> 00:04:40,519
+But I can see that in some cases you
+might be able to parallelize a lot of
+
+72
+00:04:40,519 --> 00:04:41,389
+the operations.
+
+73
+00:04:43,660 --> 00:04:47,960
+So what do you think about
+the nature of the data?
+
+74
+00:04:50,459 --> 00:04:55,449
+In this case, you said you might
+use dimensionality reduction,
+
+75
+00:04:55,449 --> 00:04:57,639
+like a Fourier transform.
+
+76
+00:04:57,639 --> 00:05:00,539
+Are there any other kinds of data where
+
+77
+00:05:00,540 --> 00:05:05,360
+a transformation like that might not
+be applicable or reasonable to use?
+
+78
+00:05:05,360 --> 00:05:07,227
+Can you think of something like that?
+
+79
+00:05:07,226 --> 00:05:09,465
+[BLANK_AUDIO]
+
+80
+00:05:09,466 --> 00:05:11,398
+>> A transform like,
+
+81
+00:05:11,398 --> 00:05:13,181
+[BLANK_AUDIO]
+
+82
+00:05:13,180 --> 00:05:16,046
+Fourier series works really well on,
+
+83
+00:05:16,047 --> 00:05:18,083
+[BLANK_AUDIO]
+
+84
+00:05:18,083 --> 00:05:20,610
+On audio and on video.
+
+85
+00:05:20,610 --> 00:05:23,449
+Sort of these devices that are capturing
+
+86
+00:05:24,930 --> 00:05:28,900
+wavelengths and
+transferring those into frequencies.
+
+87
+00:05:28,899 --> 00:05:33,365
+But something that doesn't really
+follow a sort of wavelength type,
+
+88
+00:05:33,365 --> 00:05:35,825
+[BLANK_AUDIO]
+
+89
+00:05:35,826 --> 00:05:40,576
+Something that doesn't come in
+the form of expressing wavelengths and
+
+90
+00:05:40,576 --> 00:05:44,930
+intensities of these wavelengths
+would not be a good solution for
+
+91
+00:05:44,930 --> 00:05:46,459
+a Fourier transform.
+
+92
+00:05:46,459 --> 00:05:51,229
+So something like user input from
+a survey, a Fourier transform
+
+93
+00:05:51,230 --> 00:05:56,660
+would not be an optimal solution,
+because it would be
+
+94
+00:05:56,660 --> 00:06:01,939
+cutting out a lot of the user behavior
+which doesn't operate on a wavelength.
+
+95
+00:06:01,939 --> 00:06:02,969
+>> That's a very good point.
+
+96
+00:06:02,970 --> 00:06:07,581
+Yeah, it's very important to realize
+that some dimensional reduction
+
+97
+00:06:07,581 --> 00:06:11,144
+techniques only can be applied
+in certain situations.
+
+98
+00:06:11,144 --> 00:06:12,922
+So that's a very good answer.
+
+99
+00:06:12,922 --> 00:06:13,330
+>> Thank you.
+

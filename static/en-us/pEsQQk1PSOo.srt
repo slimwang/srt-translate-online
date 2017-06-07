@@ -1,0 +1,79 @@
+1
+00:00:00,000 --> 00:00:02,773
+So let's go over some of how actually you program this stuff.
+
+2
+00:00:02,773 --> 00:00:04,848
+From the programming perspective it's pretty simple.
+
+3
+00:00:04,848 --> 00:00:08,545
+You just use all of the CUDA you've learned so far, except inside a kernel.
+
+4
+00:00:08,545 --> 00:00:12,682
+So the kernel launches, streams, events, synchronization,
+
+5
+00:00:12,682 --> 00:00:16,085
+all that kind of stuff as normal from inside a kernel,
+
+6
+00:00:16,085 --> 00:00:21,460
+so your CUDA from the GP program looks pretty much exactly like your CUDA from the CPU program as well.
+
+7
+00:00:21,460 --> 00:00:25,895
+So what I've got here is a typical hello world in CUDA.
+
+8
+00:00:25,895 --> 00:00:32,848
+What you can see with this version of hello world, I'm launching a kernel to print hello from the GPU,
+
+9
+00:00:32,848 --> 00:00:36,470
+and then I'm following it up with a print of world from the CPU.
+
+10
+00:00:36,470 --> 00:00:42,644
+Note how I need the synchronization here after the launch to ensure that the hello happens first,
+
+11
+00:00:42,644 --> 00:00:45,650
+that it's flushed out to the screen, and then the world will print.
+
+12
+00:00:45,650 --> 00:00:49,049
+And here's the equivalent code for dynamic parallelism.
+
+13
+00:00:49,049 --> 00:00:51,788
+You can see it looks pretty much exactly the same.
+
+14
+00:00:51,788 --> 00:00:57,794
+I have moved the code that was on the CPU directly to the GPU, and the same rules apply.
+
+15
+00:00:57,794 --> 00:01:03,533
+I'm calling hello to be printed from another kernel, I'm synchronizing so that the output completes,
+
+16
+00:01:03,533 --> 00:01:05,803
+and then I'm printing world from the GPU kernel.
+
+17
+00:01:05,803 --> 00:01:09,606
+I would end up launching this just trivially as a single kernel launch of hello world
+
+18
+00:01:09,606 --> 00:01:11,608
+from the CPU to make all of this work.
+
+19
+00:01:11,608 --> 00:01:16,143
+So as you can see, the basic idea is that all the CUDA that you already know how to use from the CPU,
+
+20
+00:01:16,143 --> 00:01:19,913
+you just use it directly from the GPU in exactly the same way you've learned.

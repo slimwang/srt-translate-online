@@ -1,0 +1,297 @@
+1
+00:00:00,270 --> 00:00:01,060
+Here's some code and
+
+2
+00:00:01,060 --> 00:00:04,010
+it's also from the Firebase
+documentation on how to log a user in.
+
+3
+00:00:04,010 --> 00:00:07,080
+And you might notice that this is
+incredibly similar to the code for
+
+4
+00:00:07,080 --> 00:00:08,180
+making a new user.
+
+5
+00:00:08,180 --> 00:00:09,840
+We start by making a reference.
+
+6
+00:00:09,840 --> 00:00:13,630
+We then call the authWithPassword method
+on that reference, and we can pass in
+
+7
+00:00:13,630 --> 00:00:17,660
+data from the UI, such as the email
+here and the password over here.
+
+8
+00:00:17,660 --> 00:00:21,590
+Now as our third parameter
+we have a authResultHandler.
+
+9
+00:00:21,590 --> 00:00:26,250
+And instead of calling on Success or
+on Error, we have onAuthenticated or
+
+10
+00:00:26,250 --> 00:00:27,880
+onAuthenticationError.
+
+11
+00:00:27,880 --> 00:00:31,220
+Now onAuthenticated gets called when
+everything just sort of goes fine
+
+12
+00:00:31,220 --> 00:00:32,610
+with your authenticating.
+
+13
+00:00:32,610 --> 00:00:34,300
+The user gets signed in and
+
+14
+00:00:34,300 --> 00:00:38,660
+at this point you have access
+to this fancy authData object.
+
+15
+00:00:38,660 --> 00:00:41,260
+And besides just having access
+to the authData object,
+
+16
+00:00:41,260 --> 00:00:44,190
+Firebase also knows that you're
+logged in, which is important for
+
+17
+00:00:44,190 --> 00:00:46,690
+the permissioning rules which
+we'll talk about in version .5.
+
+18
+00:00:46,690 --> 00:00:50,210
+The AuthData object has a bunch
+of really useful methods.
+
+19
+00:00:50,210 --> 00:00:51,750
+I'll talk about a few of them here.
+
+20
+00:00:51,750 --> 00:00:55,950
+You can use AuthData.getUid
+to get a unique user ID
+
+21
+00:00:55,950 --> 00:00:58,090
+that is associated
+with your user account.
+
+22
+00:00:58,090 --> 00:01:01,100
+The user ID is the first thing you
+should think of if you're trying to
+
+23
+00:01:01,100 --> 00:01:03,590
+exactly identify who this user is.
+
+24
+00:01:03,590 --> 00:01:08,460
+Now, email is also good for the purposes
+of identifying exactly who the user is,
+
+25
+00:01:08,460 --> 00:01:11,980
+at least in our case,
+because both Google Login and
+
+26
+00:01:11,980 --> 00:01:16,050
+the email password provider accounts
+will have emails associated with them.
+
+27
+00:01:16,050 --> 00:01:19,020
+So you might be wondering how you get a
+hold of email from the AuthData object.
+
+28
+00:01:19,020 --> 00:01:22,860
+Well, the getProvider data method
+returns a map of data specific to
+
+29
+00:01:22,860 --> 00:01:24,310
+the provider that you're using.
+
+30
+00:01:24,310 --> 00:01:26,050
+And for the email password provider,
+
+31
+00:01:26,050 --> 00:01:28,250
+that includes the email
+the user inputted.
+
+32
+00:01:28,250 --> 00:01:34,580
+So you could get the email by doing
+AuthData.getProviderData.getEmail.
+
+33
+00:01:34,580 --> 00:01:37,548
+So when you're using
+the email password provider,
+
+34
+00:01:37,548 --> 00:01:40,995
+you can get the email by using
+getProviderData.getEmail.
+
+35
+00:01:40,995 --> 00:01:44,209
+You can also get other things
+from the getProvider data map,
+
+36
+00:01:44,209 --> 00:01:46,650
+such as a link to
+a gravatar profile image.
+
+37
+00:01:46,650 --> 00:01:49,390
+I've included some information about
+Gravatar images in the instructor
+
+38
+00:01:49,390 --> 00:01:50,360
+notes below.
+
+39
+00:01:50,360 --> 00:01:54,330
+But basically it'll give you a link to
+a generic profile image of the user.
+
+40
+00:01:54,330 --> 00:01:57,750
+And it'll give a sort of pixelated
+face if they haven't set a Gravatar
+
+41
+00:01:57,750 --> 00:01:58,770
+profile pic.
+
+42
+00:01:58,770 --> 00:02:01,040
+So in your app, if you ever
+wanted to use profile pictures,
+
+43
+00:02:01,040 --> 00:02:03,150
+this would be a way to
+get ahold of something.
+
+44
+00:02:03,150 --> 00:02:05,460
+And getProvider is another method
+that you might need to use.
+
+45
+00:02:05,460 --> 00:02:07,480
+It tells you how the user logged in.
+
+46
+00:02:07,480 --> 00:02:10,169
+Right now you're going to be setting
+up login through a email and
+
+47
+00:02:10,169 --> 00:02:11,820
+password provider.
+
+48
+00:02:11,820 --> 00:02:14,700
+But there's also Google,
+Twitter, Facebook, and GitHub.
+
+49
+00:02:14,700 --> 00:02:17,710
+But you only get access to all
+of this AuthData information
+
+50
+00:02:17,710 --> 00:02:19,420
+if your login went successfully.
+
+51
+00:02:19,420 --> 00:02:20,600
+If there was an error,
+
+52
+00:02:20,600 --> 00:02:24,920
+such as the extremely common one of
+accidentally typing either your email or
+
+53
+00:02:24,920 --> 00:02:28,610
+password wrong, onAuthenticatedError
+would get called instead.
+
+54
+00:02:28,610 --> 00:02:31,540
+And you can handle this in a similar
+way to how you handled errors with
+
+55
+00:02:31,540 --> 00:02:32,500
+user creation.
+
+56
+00:02:32,500 --> 00:02:35,603
+What I'd like for the shopping list plus
+plus app is that you do the same thing
+
+57
+00:02:35,603 --> 00:02:38,515
+where you call set error on one of
+these input texts over here to instruct
+
+58
+00:02:38,515 --> 00:02:40,795
+the user how to correct
+whatever they've done wrong.
+
+59
+00:02:40,795 --> 00:02:44,290
+Okay, I'm drafting up the spec and
+we'll send it over right away.
+
+60
+00:02:44,290 --> 00:02:46,810
+But in the mean time,
+could you do me a favor and
+
+61
+00:02:46,810 --> 00:02:51,510
+look up what Firebase error is returned
+if the user mistypes their password?
+
+62
+00:02:51,510 --> 00:02:54,340
+Also, what errors return if
+they mistype their email?
+
+63
+00:02:54,340 --> 00:02:57,370
+You can find a link to the Firebase
+errors Java doc in the instructor notes.

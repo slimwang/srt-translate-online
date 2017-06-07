@@ -1,0 +1,287 @@
+1
+00:00:00,000 --> 00:00:06,000
+What we want then is a probabilistic model P over a word sequence,
+
+2
+00:00:06,000 --> 00:00:14,000
+and we can write that sequence word 1, word 2, word 3, all the way up to word n,
+
+3
+00:00:14,000 --> 00:00:19,000
+and we can use an abbreviation for that and write that the sequence of
+
+4
+00:00:19,000 --> 00:00:23,000
+words 1 through n, using the colon.
+
+5
+00:00:23,000 --> 00:00:29,000
+Now the next step is to say we can factor this and take these individual variables
+
+6
+00:00:29,000 --> 00:00:33,000
+write that in terms of conditional probabilities.
+
+7
+00:00:33,000 --> 00:00:43,000
+So, this probability is equal to the product over all i of the probability of words of i
+
+8
+00:00:43,000 --> 00:00:46,000
+given all the subsequent words.
+
+9
+00:00:46,000 --> 00:00:51,000
+So that would be from word 1 up to word i - 1.
+
+10
+00:00:51,000 --> 00:00:55,000
+The is just the definition of conventional probability--
+
+11
+00:00:55,000 --> 00:01:02,000
+the joint probability of a set of variables can be factored out as the conditional probability
+
+12
+00:01:02,000 --> 00:01:05,000
+of one variable given all the others,
+
+13
+00:01:05,000 --> 00:01:09,000
+and then we can recursively do that until we've got all the variables accounted for.
+
+14
+00:01:09,000 --> 00:01:12,000
+We can make the Markov assumption
+
+15
+00:01:12,000 --> 00:01:17,000
+and that's the assumption that the effect of one variable on another will be local.
+
+16
+00:01:17,000 --> 00:01:21,000
+That is, if we're looking at the nth word, the words that are relevant to that
+
+17
+00:01:21,000 --> 00:01:25,000
+are the ones that have occurred recently and not the ones occurred a long time ago.
+
+18
+00:01:25,000 --> 00:01:32,000
+What the Markov assumption means is that the probability of a word i,
+
+19
+00:01:32,000 --> 00:01:38,000
+given the words all the was from 1 up to word i minus 1,
+
+20
+00:01:38,000 --> 00:01:45,000
+we can assume that that's equal or approximately equal to the probability
+
+21
+00:01:45,000 --> 00:01:52,000
+of the word given only the words from i minus k up to i minus 1.
+
+22
+00:01:52,000 --> 00:01:58,000
+Instead of going all the way back to number 1, we only go back k steps.
+
+23
+00:01:58,000 --> 00:02:04,000
+For order 1 Markov model, for an order k equals one, then this would be equal to
+
+24
+00:02:04,000 --> 00:02:10,000
+the probability of word i given only word i minus 1.
+
+25
+00:02:10,000 --> 00:02:16,000
+Now, the next thing we want to do is in our mode is called the Stationarity Assumption.
+
+26
+00:02:16,000 --> 00:02:23,000
+What that says is that the probability of each variable is going to be the same.
+
+27
+00:02:23,000 --> 00:02:27,000
+So the probability distribution over the first word is going to be same
+
+28
+00:02:27,000 --> 00:02:31,000
+as the probability distribution over the nth word.
+
+29
+00:02:31,000 --> 00:02:35,000
+Another way to look at that is if I keep saying sentences,
+
+30
+00:02:35,000 --> 00:02:38,000
+the words that show up in my sentence depend on what the surrounding words are
+
+31
+00:02:38,000 --> 00:02:42,000
+in the sentence, but they don't depend on whether I'm on the first sentence
+
+32
+00:02:42,000 --> 00:02:45,000
+or the second sentence or the third sentence.
+
+33
+00:02:45,000 --> 00:02:51,000
+Stationarity assumption we can write as the probability of a word given
+
+34
+00:02:51,000 --> 00:02:56,000
+the previous word is the same for all variables.
+
+35
+00:02:56,000 --> 00:03:02,000
+For all values of i and j, the probability of word i given the previous word
+
+36
+00:03:02,000 --> 00:03:06,000
+as the same as the probability of word j given the previous word.
+
+37
+00:03:06,000 --> 00:03:11,000
+That gives us all the formalism we need to talk about these word sequence models--
+
+38
+00:03:11,000 --> 00:03:14,000
+probabilistic word sequence models.
+
+39
+00:03:14,000 --> 00:03:16,000
+In practice there are many tricks.
+
+40
+00:03:16,000 --> 00:03:21,000
+One thing we talked about before, when we were doing the spam filterings and so on,
+
+41
+00:03:21,000 --> 00:03:24,000
+is a necessity of smoothing.
+
+42
+00:03:24,000 --> 00:03:27,000
+That is, if we're going to learn these probabilities from counts,
+
+43
+00:03:27,000 --> 00:03:31,000
+we go out into the world, we observe some data,
+
+44
+00:03:31,000 --> 00:03:38,000
+we figure out how often word i occurs given word i - 1 was the previous word,
+
+45
+00:03:38,000 --> 00:03:41,000
+we're going to find out that a lot of these counts are going to be zero
+
+46
+00:03:41,000 --> 00:03:44,000
+or going to be some small number, and the estimates are not going to be good.
+
+47
+00:03:44,000 --> 00:03:46,000
+And therefore we need some type of smoothing,
+
+48
+00:03:46,000 --> 00:03:48,000
+like the Laplace smoothing that we talked about,
+
+49
+00:03:48,000 --> 00:03:53,000
+and there are many other techniques for doing smoothing to come up good estimates.
+
+50
+00:03:53,000 --> 00:03:57,000
+Another thing we can do is augment these models to say
+
+51
+00:03:57,000 --> 00:04:01,000
+maybe we want to deal not just with words but with other data as well.
+
+52
+00:04:01,000 --> 00:04:04,000
+We saw that in the spam-filtering model also.
+
+53
+00:04:04,000 --> 00:04:07,000
+So there you might want to think about who the sender is,
+
+54
+00:04:07,000 --> 00:04:10,000
+what the time of day is and so on,
+
+55
+00:04:10,000 --> 00:04:15,000
+these auxiliary fields like in the header fields of the email messages
+
+56
+00:04:15,000 --> 00:04:20,000
+as well as the words in the message, and that's true for other applications as well.
+
+57
+00:04:20,000 --> 00:04:25,000
+You may want to go beyond the words and consider variables that have to do with context of the words.
+
+58
+00:04:25,000 --> 00:04:29,000
+We may also want to have other properties of words.
+
+59
+00:04:29,000 --> 00:04:33,000
+The great thing about just dealing with an individual word like "dog"
+
+60
+00:04:33,000 --> 00:04:36,000
+is that it's observable in the world.
+
+61
+00:04:36,000 --> 00:04:41,000
+We see this spoken or written text, and we can figure out what it means,
+
+62
+00:04:41,000 --> 00:04:45,000
+and we can start making counts about it and start estimating probabilities,
+
+63
+00:04:45,000 --> 00:04:52,000
+but we also might want to know that, say, "dog" is being used as a noun,
+
+64
+00:04:52,000 --> 00:04:55,000
+and that's not immediately observable in the world, but it is inferable.
+
+65
+00:04:55,000 --> 00:05:01,000
+It's a hidden variable, and we may want to try to recover these hidden variables like parts of speech.
+
+66
+00:05:01,000 --> 00:05:06,000
+We may also want to go to bigger sequences than just individual words,
+
+67
+00:05:06,000 --> 00:05:10,000
+so rather than treat "New York City" as three separate words,
+
+68
+00:05:10,000 --> 00:05:15,000
+we may want to a model that allows us to think of it as a single phrase.
+
+69
+00:05:15,000 --> 00:05:21,000
+Or we may want to go smaller than that and look at a model that deals with individual letters
+
+70
+00:05:21,000 --> 00:05:23,000
+rather than dealing with words.
+
+71
+00:05:23,000 --> 00:05:28,000
+So these are all variations, and the type of model you choose depends on the application,
+
+72
+00:05:28,000 --> 99:59:59,999
+but they all follow from this idea of a probabilistic model over sequences.

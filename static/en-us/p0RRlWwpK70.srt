@@ -1,0 +1,397 @@
+1
+00:00:00,320 --> 00:00:04,640
+Now let's talk more specifically about
+what happens with each method call.
+
+2
+00:00:04,640 --> 00:00:05,800
+So in our pets app,
+
+3
+00:00:05,800 --> 00:00:09,530
+the catalog activity calls on the
+content resolver using the query method.
+
+4
+00:00:09,530 --> 00:00:13,230
+In order to help the content resolver
+know which provider to eventually
+
+5
+00:00:13,230 --> 00:00:17,710
+resolve to, we'll be passing a content
+Uri inside the query method.
+
+6
+00:00:17,710 --> 00:00:21,070
+And remember, the Uri here helps
+us specify the resource that we're
+
+7
+00:00:21,070 --> 00:00:23,570
+interested in, inside the data base.
+
+8
+00:00:23,570 --> 00:00:26,560
+So next up, the content resolver having
+gotten the information from the query
+
+9
+00:00:26,560 --> 00:00:31,150
+method has an identical query method of
+its own which it uses on the appropriate
+
+10
+00:00:31,150 --> 00:00:35,360
+provider and in this case,
+it knows to check out the pet provider.
+
+11
+00:00:35,360 --> 00:00:37,040
+Next, in order to get the data,
+
+12
+00:00:37,040 --> 00:00:42,150
+the query method essentially translates
+the parameters that was passed into SQL,
+
+13
+00:00:42,150 --> 00:00:44,890
+and using this,
+it will act on the database.
+
+14
+00:00:44,890 --> 00:00:49,000
+So for example, in order to query all
+the pets back from the pets table,
+
+15
+00:00:49,000 --> 00:00:53,530
+we pass the appropriate query method
+parameters equivalent to this statement.
+
+16
+00:00:53,530 --> 00:00:57,400
+So once the information is queried,
+what's returned is a cursor and
+
+17
+00:00:57,400 --> 00:01:01,320
+this cursor contains the rows of
+interest and this goes all the way back
+
+18
+00:01:01,320 --> 00:01:04,870
+to our catalog activity, that
+originally called for the information.
+
+19
+00:01:04,870 --> 00:01:08,540
+So in our second kind of example,
+let's take a look at the insert method.
+
+20
+00:01:08,540 --> 00:01:11,730
+So the insert method is very
+similar to the query method, but
+
+21
+00:01:11,730 --> 00:01:15,020
+with an additional parameter here,
+our content values.
+
+22
+00:01:15,020 --> 00:01:17,840
+So this parameter contains what
+we actually want to insert
+
+23
+00:01:17,840 --> 00:01:22,370
+into the database, whereas the URI
+tells us where it should be inserted.
+
+24
+00:01:22,370 --> 00:01:26,350
+So the catalog activity again
+calls the Content Resolver
+
+25
+00:01:26,350 --> 00:01:30,840
+using this insert method and then
+the Content Resolver has an identically
+
+26
+00:01:30,840 --> 00:01:34,900
+named insert method of its own which
+it uses only appropriate provider.
+
+27
+00:01:34,900 --> 00:01:37,580
+And in this case again, it's going to
+be the pet provider in order to
+
+28
+00:01:37,580 --> 00:01:40,820
+insert our specified
+value into the database.
+
+29
+00:01:40,820 --> 00:01:44,100
+So to actually insert the data into
+the database, the information that
+
+30
+00:01:44,100 --> 00:01:48,230
+were passed in the insert method
+are translated to SQL, and this is
+
+31
+00:01:48,230 --> 00:01:53,030
+used to determine what values should
+be inserted where Into the database.
+
+32
+00:01:53,030 --> 00:01:56,310
+Now this time for the insert method
+rather than a cursor being return.
+
+33
+00:01:56,310 --> 00:02:00,960
+The insert method returns a content
+URI telling us exactly where
+
+34
+00:02:00,960 --> 00:02:04,080
+the specific pet was
+inserted in our database.
+
+35
+00:02:04,080 --> 00:02:06,280
+Now next up, is the update method.
+
+36
+00:02:06,280 --> 00:02:08,949
+So the update method
+situation as you see,
+
+37
+00:02:08,949 --> 00:02:11,960
+looks very similar to our insert
+method because both of them need
+
+38
+00:02:11,960 --> 00:02:16,640
+the information of where to update and
+what information to update it with.
+
+39
+00:02:16,640 --> 00:02:19,150
+So the URI and the ContentValues.
+
+40
+00:02:19,150 --> 00:02:22,790
+And so again, the catalog activity
+calls on the content resolver
+
+41
+00:02:22,790 --> 00:02:27,710
+using this update method which contains
+the URI and the ContentValues parameter.
+
+42
+00:02:27,710 --> 00:02:31,610
+And again, we see that the content
+resolver has an identically named
+
+43
+00:02:31,610 --> 00:02:34,530
+update method which it uses
+on the appropriate provider
+
+44
+00:02:34,530 --> 00:02:37,228
+to update the specific
+value in our database.
+
+45
+00:02:37,228 --> 00:02:39,240
+Now as we actually update the database,
+
+46
+00:02:39,240 --> 00:02:43,310
+the information that was passed in the
+update method is translated to SQL and
+
+47
+00:02:43,310 --> 00:02:47,840
+that helps us determine what should be
+inserted and where inside this database.
+
+48
+00:02:47,840 --> 00:02:49,230
+Now for the update method,
+
+49
+00:02:49,230 --> 00:02:53,670
+what we get back is the number of rows
+that were inserted into the database and
+
+50
+00:02:53,670 --> 00:02:56,680
+this is different from what we
+got back from query and insert.
+
+51
+00:02:56,680 --> 00:03:00,040
+All right so on to our last CRUD method,
+our delete method.
+
+52
+00:03:00,040 --> 00:03:03,830
+So notice that this input looks
+really similar to our query method
+
+53
+00:03:03,830 --> 00:03:05,360
+where we only pass in the Uri.
+
+54
+00:03:05,360 --> 00:03:09,480
+And this is because we don't need to
+pass in content values because that
+
+55
+00:03:09,480 --> 00:03:12,710
+information is not needed to actually
+delete anything from the table.
+
+56
+00:03:12,710 --> 00:03:16,750
+So next you know the drill by now, where
+the content resolver has an identically
+
+57
+00:03:16,750 --> 00:03:21,040
+named delete method which we will use
+to find the appropriate provider and
+
+58
+00:03:21,040 --> 00:03:23,210
+help us act on the database.
+
+59
+00:03:23,210 --> 00:03:25,730
+So once that information is
+passed into the delete method,
+
+60
+00:03:25,730 --> 00:03:27,420
+it's translated to SQL so
+
+61
+00:03:27,420 --> 00:03:32,140
+we can determine more specifically, what
+needs to be deleted from the database.
+
+62
+00:03:32,140 --> 00:03:34,850
+So similar to the update method,
+the delete methods
+
+63
+00:03:34,850 --> 00:03:39,300
+returns the value of the number of rows
+that were deleted in our situation, and
+
+64
+00:03:39,300 --> 00:03:42,780
+this goes back to the catalog
+activity that originally called it.
+
+65
+00:03:42,780 --> 00:03:45,790
+So here's a concrete example
+of how we'll be using one
+
+66
+00:03:45,790 --> 00:03:47,300
+of those CRUD methods.
+
+67
+00:03:47,300 --> 00:03:51,050
+So in this case,
+in order to display a list of pets, so
+
+68
+00:03:51,050 --> 00:03:55,390
+here in the catalog activity, we'll need
+to use the query method on the whole
+
+69
+00:03:55,390 --> 00:04:00,800
+pets table, and this will help us query
+the provider for all the pets data.
+
+70
+00:04:00,800 --> 00:04:02,380
+Now here's another example.
+
+71
+00:04:02,380 --> 00:04:06,050
+In order to insert dummy data from
+the menu item, we'll need to call
+
+72
+00:04:06,050 --> 00:04:11,130
+the provider's insert method to
+insert a new pet into the database.
+
+73
+00:04:11,130 --> 00:04:13,350
+All right, so
+here's your chance to give it a try.
+
+74
+00:04:13,350 --> 00:04:17,149
+So given the discussion we just had
+about the flow of each of the four CRUD
+
+75
+00:04:17,149 --> 00:04:20,410
+methods, so query, insert,
+update and delete,
+
+76
+00:04:20,410 --> 00:04:25,120
+I want you to finish identifying which
+provider method should be called for
+
+77
+00:04:25,120 --> 00:04:28,710
+each piece of UI
+functionality listed here.
+
+78
+00:04:28,710 --> 00:04:32,730
+So in the EditorActivity,
+we'll have these four functionalities.
+
+79
+00:04:32,730 --> 00:04:36,254
+We'll need to save a new pet,
+display an existing pet,
+
+80
+00:04:36,254 --> 00:04:40,450
+update an existing pet, and
+then delete an existing pet.
+
+81
+00:04:40,450 --> 00:04:44,600
+Similarly in the catalog activity,
+we'll need to delete all the pets.
+
+82
+00:04:44,600 --> 00:04:48,790
+So which method corresponds to
+each of these functionalities?

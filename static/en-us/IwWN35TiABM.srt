@@ -1,0 +1,671 @@
+1
+00:00:00,270 --> 00:00:03,820
+Okay, so let's go through this.
+
+2
+00:00:03,820 --> 00:00:04,700
+>> Good.
+>> So let's look
+
+3
+00:00:04,700 --> 00:00:07,140
+at the outcome based estimate.
+
+4
+00:00:07,140 --> 00:00:08,400
+>> Good.
+>> I think you kind of gave me
+
+5
+00:00:08,400 --> 00:00:10,525
+everything I need here.
+
+6
+00:00:10,525 --> 00:00:11,210
+>> [LAUGH]
+>> So-
+
+7
+00:00:11,210 --> 00:00:12,440
+>> Yeah, it's possible I spelled it out
+
+8
+00:00:12,440 --> 00:00:13,470
+too detailed.
+
+9
+00:00:13,470 --> 00:00:15,750
+>> You can never spell that
+out in too detailed way.
+
+10
+00:00:15,750 --> 00:00:20,460
+So if I look at it,
+we encounter S2 exactly once!
+
+11
+00:00:20,460 --> 00:00:21,440
+Exactly once.
+
+12
+00:00:21,440 --> 00:00:24,370
+>> And so
+the average of one is pretty easy.
+
+13
+00:00:24,370 --> 00:00:25,710
+It's that thing.
+
+14
+00:00:25,710 --> 00:00:27,470
+>> Okay, and
+what is the estimate for that one?
+
+15
+00:00:27,470 --> 00:00:31,180
+>> Well, 2 plus 0 plus 10 which is 12.
+
+16
+00:00:31,180 --> 00:00:32,060
+Because gamma's one.
+
+17
+00:00:32,060 --> 00:00:32,825
+>> Yeah.
+
+18
+00:00:32,825 --> 00:00:33,975
+Because gamma's one.
+
+19
+00:00:33,975 --> 00:00:34,947
+So, good.
+
+20
+00:00:34,947 --> 00:00:38,676
+So, this is saying, because we only ever
+encountered S2 once and the one time
+
+21
+00:00:38,676 --> 00:00:42,565
+that we saw it we ended up with a reward
+of 12 getting to the final state.
+
+22
+00:00:42,565 --> 00:00:43,805
+That's going to be our estimate.
+
+23
+00:00:43,805 --> 00:00:48,590
+That's what TD one would actually
+do moduled learning rate and
+
+24
+00:00:48,590 --> 00:00:50,560
+how you initialize the values and
+so forth, but
+
+25
+00:00:50,560 --> 00:00:53,200
+that's sort of what it's trying
+to be like given this data.
+
+26
+00:00:53,200 --> 00:00:53,870
+>> Right.
+
+27
+00:00:53,870 --> 00:00:56,990
+>> All right, so now, does that match
+with the maximum likelihood estimate,
+
+28
+00:00:56,990 --> 00:01:00,250
+the estimate that we'd get if you
+use the data to build a model and
+
+29
+00:01:00,250 --> 00:01:01,430
+then solved it?
+
+30
+00:01:01,430 --> 00:01:03,910
+>> So for
+the maximum likelihood estimate,
+
+31
+00:01:03,910 --> 00:01:06,176
+>> All I really need to do is to
+
+32
+00:01:06,176 --> 00:01:12,151
+compute, let's see, the probability
+from going from S3 to S4 and
+
+33
+00:01:12,151 --> 00:01:15,771
+the probability of going from S3 to S5.
+
+34
+00:01:15,771 --> 00:01:18,298
+Because everything else
+is deterministic, and
+
+35
+00:01:18,298 --> 00:01:22,250
+in all five of those transitions, I get
+to see every state and every reward.
+
+36
+00:01:22,250 --> 00:01:24,450
+So I have everything that I need.
+
+37
+00:01:24,450 --> 00:01:26,220
+>> So let's just go ahead and
+estimate the probability.
+
+38
+00:01:26,220 --> 00:01:32,290
+So looking it through I go
+from S3 to S4 three times.
+
+39
+00:01:32,290 --> 00:01:35,520
+>> 2, 3 out of 5 times we're in S3,
+good.
+
+40
+00:01:35,520 --> 00:01:36,060
+>> Right.
+
+41
+00:01:36,060 --> 00:01:37,578
+So that would be .6.
+
+42
+00:01:37,578 --> 00:01:39,240
+3/5 is .6 yes, got it.
+
+43
+00:01:41,780 --> 00:01:44,940
+>> And by process of subtracting
+
+44
+00:01:44,940 --> 00:01:47,570
+that means that going from S3
+to S5 happens .4 of the time.
+
+45
+00:01:48,910 --> 00:01:51,650
+Yeah.
+And we could compute that directly too
+
+46
+00:01:51,650 --> 00:01:55,690
+by just counting,
+we get twice out of five times.
+
+47
+00:01:55,690 --> 00:01:58,694
+>> So those aren't right.
+
+48
+00:01:58,694 --> 00:02:02,795
+It should be 0.1 not 0.4, and
+it should be 0.9 not 0.6, but hey,
+
+49
+00:02:02,795 --> 00:02:04,850
+that's the data that we've got.
+
+50
+00:02:04,850 --> 00:02:05,710
+>> Yeah, you're right.
+
+51
+00:02:05,710 --> 00:02:09,210
+It's much more even, but
+S4 is more common than S5.
+
+52
+00:02:10,470 --> 00:02:11,008
+Right.
+
+53
+00:02:11,008 --> 00:02:11,680
+Okay.
+Good.
+
+54
+00:02:11,680 --> 00:02:17,720
+So with that I can just propagate
+values backwards through the NDP,
+
+55
+00:02:17,720 --> 00:02:21,830
+just like we did on the final exam for
+7641.
+
+56
+00:02:21,830 --> 00:02:22,440
+Okay.
+So.
+
+57
+00:02:22,440 --> 00:02:23,090
+>> Good.
+
+58
+00:02:23,090 --> 00:02:23,800
+>> So let's see.
+
+59
+00:02:23,800 --> 00:02:26,370
+The value of SF is 0.
+
+60
+00:02:26,370 --> 00:02:30,480
+The value of S4 is 1.
+
+61
+00:02:30,480 --> 00:02:32,870
+1 more.
+
+62
+00:02:32,870 --> 00:02:33,690
+>> 1 plus 0.
+
+63
+00:02:33,690 --> 00:02:35,900
+And the value of S5 is 10.
+
+64
+00:02:35,900 --> 00:02:37,270
+>> Good.
+
+65
+00:02:37,270 --> 00:02:39,630
+>> Plus 0.
+>> All right.
+
+66
+00:02:39,630 --> 00:02:41,710
+So, and that's all actually correct.
+
+67
+00:02:41,710 --> 00:02:42,662
+>> Yeah, that is actually correct.
+
+68
+00:02:42,662 --> 00:02:45,136
+Thank you determinism.
+
+69
+00:02:45,136 --> 00:02:48,605
+Okay.
+[LAUGH] So S3 then.
+
+70
+00:02:48,605 --> 00:02:52,229
+.6 of the time we'll get a value of 1,
+and
+
+71
+00:02:52,229 --> 00:02:55,110
+.4 of the time we'll get a value of 10.
+
+72
+00:02:55,110 --> 00:02:58,482
+So that would be .6 plus 4.
+
+73
+00:02:58,482 --> 00:02:59,916
+>> 4.6?
+
+74
+00:02:59,916 --> 00:03:02,100
+>> That is indeed 4.6.
+
+75
+00:03:02,100 --> 00:03:03,290
+Cool.
+>> All right, so
+
+76
+00:03:03,290 --> 00:03:06,420
+who cares what S1 is but
+I guess we can go ahead and compute it.
+
+77
+00:03:06,420 --> 00:03:07,899
+It would be 5.6.
+
+78
+00:03:07,899 --> 00:03:08,424
+>> Good.
+
+79
+00:03:08,424 --> 00:03:11,050
+>> because it's plus 1, 4.6.
+
+80
+00:03:11,050 --> 00:03:14,530
+>> But the actual question was about S2,
+dun dun dun.
+
+81
+00:03:14,530 --> 00:03:16,285
+>> And so it is 6.6.
+
+82
+00:03:16,285 --> 00:03:17,220
+>> 6.6, all right.
+
+83
+00:03:17,220 --> 00:03:20,593
+>> Truth by addition
+>> And it works out pretty well.
+
+84
+00:03:20,593 --> 00:03:24,960
+Okay, so 6.6 is very different from 12.
+
+85
+00:03:24,960 --> 00:03:25,660
+>> Sure.
+
+86
+00:03:25,660 --> 00:03:29,410
+I'm not sure either one of
+them is right, so let's see.
+
+87
+00:03:29,410 --> 00:03:33,826
+If I recall when we went over this MVP
+before using the actual transition
+
+88
+00:03:33,826 --> 00:03:35,899
+probabilities, .9 and .1.
+
+89
+00:03:35,899 --> 00:03:39,509
+We figured out that
+the value of S3 was 1.9?
+
+90
+00:03:39,509 --> 00:03:40,148
+>> Yep.
+
+91
+00:03:40,148 --> 00:03:41,960
+>> Yeah, and we can check that.
+
+92
+00:03:41,960 --> 00:03:45,840
+That would be 0.9 times
+1 plus 0.1 times 10.
+
+93
+00:03:45,840 --> 00:03:50,700
+So yeah, that'd be 1.9, which means
+the value of S2 would be 3.9.
+
+94
+00:03:50,700 --> 00:03:54,120
+>> All right, so the actual value's 3.9.
+
+95
+00:03:54,120 --> 00:03:58,050
+The maximum likelihood estimate is 6.6,
+which is more.
+
+96
+00:03:58,050 --> 00:04:01,163
+But the outcome-based estimate is 12,
+which is a lot more.
+
+97
+00:04:01,163 --> 00:04:06,275
+Right, so
+everybody's wrong except for 3.9.
+
+98
+00:04:06,275 --> 00:04:08,860
+But maximum likelihood
+estimate is less wrong.
+
+99
+00:04:08,860 --> 00:04:11,280
+>> Right, and so why in this case?
+
+100
+00:04:11,280 --> 00:04:13,390
+What's the difference
+between these cases?
+
+101
+00:04:13,390 --> 00:04:15,830
+First of all, why are these so far off?
+
+102
+00:04:15,830 --> 00:04:16,430
+And second of all,
+
+103
+00:04:16,430 --> 00:04:21,010
+why is the outcome-based one even
+further off than the maximum likelihood?
+
+104
+00:04:21,010 --> 00:04:22,790
+>> Well,
+I think it’s pretty simple, right?
+
+105
+00:04:22,790 --> 00:04:27,160
+When we computed the outcome-based one,
+we basically only used one of the five
+
+106
+00:04:27,160 --> 00:04:29,715
+trajectories to propagate
+information back.
+
+107
+00:04:29,715 --> 00:04:30,320
+>> Mm-hm.
+>> But
+
+108
+00:04:30,320 --> 00:04:32,180
+when we did the maximum
+likelihood estimate,
+
+109
+00:04:32,180 --> 00:04:35,510
+we used information from all
+five of the trajectories.
+
+110
+00:04:35,510 --> 00:04:37,855
+Even though we only encountered S2 once.
+
+111
+00:04:37,855 --> 00:04:39,590
+>> Mm-hm.
+
+112
+00:04:39,590 --> 00:04:43,241
+>> And so that's just more information
+and it's more accurate, and
+
+113
+00:04:43,241 --> 00:04:47,216
+you would imagine that if I triple
+the amount of data the 6.6 would very
+
+114
+00:04:47,216 --> 00:04:48,926
+quickly get closer to 3.9.
+
+115
+00:04:48,926 --> 00:04:54,340
+And the 12 might not move at
+all if I never see S2 again.
+
+116
+00:04:54,340 --> 00:04:54,840
+Hm.
+
+117
+00:04:56,230 --> 00:04:57,250
+Good.
+So
+
+118
+00:04:57,250 --> 00:05:00,370
+this maximum likelihood estimate is
+actually using more of the data.
+
+119
+00:05:00,370 --> 00:05:01,600
+I think that's accurate.
+
+120
+00:05:01,600 --> 00:05:04,620
+The reason it's higher than it should
+be is because we got, I don't know,
+
+121
+00:05:04,620 --> 00:05:10,160
+lucky I guess, and had a bunch more
+transitions to the high reward state,
+
+122
+00:05:10,160 --> 00:05:13,340
+S5, than we would expect on average.
+
+123
+00:05:13,340 --> 00:05:16,290
+And we got really unlucky,
+or really lucky,
+
+124
+00:05:16,290 --> 00:05:20,720
+depending on how you think about it
+from this one trajectory we did from S2,
+
+125
+00:05:20,720 --> 00:05:24,750
+we got the unlikely outcome
+which is high reward and so
+
+126
+00:05:24,750 --> 00:05:28,350
+we ended up with an estimate that is
+way higher than it really should be.
+
+127
+00:05:28,350 --> 00:05:29,140
+>> Yeah, but look.
+
+128
+00:05:29,140 --> 00:05:32,993
+Let's imagine that we had
+gotten lucky the other way,
+
+129
+00:05:32,993 --> 00:05:37,952
+there's only one other possibility,
+right, S2 to S3 to S4 to SF.
+
+130
+00:05:37,952 --> 00:05:42,396
+And if that had happened then we would
+have seen the value of 1 instead of
+
+131
+00:05:42,396 --> 00:05:44,880
+a value of 10 and we would have had 3.
+
+132
+00:05:44,880 --> 00:05:45,430
+>> That's right, and
+
+133
+00:05:45,430 --> 00:05:48,610
+on average it's going to turn out
+to be the right answer, this 3.9.
+
+134
+00:05:48,610 --> 00:05:51,960
+But this estimate is based on
+the limited data that we've got.
+
+135
+00:05:51,960 --> 00:05:52,690
+>> Right.
+
+136
+00:05:52,690 --> 00:05:54,140
+Okay, fair enough.
+
+137
+00:05:54,140 --> 00:05:57,150
+All right, but the punch line
+here is that this TD(1) idea,
+
+138
+00:05:57,150 --> 00:06:01,320
+it's not using all the data,
+it's using just individual runs.
+
+139
+00:06:01,320 --> 00:06:04,510
+And so when a rare thing happens on
+a run, you could end up with an estimate
+
+140
+00:06:04,510 --> 00:06:07,920
+that's quite far off, and it could
+maybe stay that way for a long time.
+
+141
+00:06:07,920 --> 00:06:12,040
+Whereas the maximum likelihood estimate
+seemed to push you in the direction
+
+142
+00:06:12,040 --> 00:06:15,800
+of using the data that you've
+got to do the best you can.
+
+143
+00:06:15,800 --> 00:06:20,313
+And so what this is pointing out is that
+maybe we don't want to just do TD(1).
+
+144
+00:06:20,313 --> 00:06:23,765
+There's some nice things about TD(1),
+but maybe we can shore up some of these
+
+145
+00:06:23,765 --> 00:06:26,620
+other issues and
+come up with something even better.
+
+146
+00:06:26,620 --> 00:06:28,400
+>> What, without actually
+building an entire model?
+
+147
+00:06:29,600 --> 00:06:30,870
+>> Yes!
+
+148
+00:06:30,870 --> 00:06:31,970
+>> Okay, well I look forward to that.

@@ -1,0 +1,183 @@
+1
+00:00:00,000 --> 00:00:04,000
+[Thrun] So let's talk about robot path planning or robot motion planning,
+
+2
+00:00:04,000 --> 00:00:08,000
+which is a rich field in itself, and I can't give you a complete survey
+
+3
+00:00:08,000 --> 00:00:10,000
+of all the algorithms involved.
+
+4
+00:00:10,000 --> 00:00:14,000
+But one of the key differences to the planning algorithms we talked about before
+
+5
+00:00:14,000 --> 00:00:17,000
+is that now the world is continuous.
+
+6
+00:00:17,000 --> 00:00:21,000
+For example, we learned about A* in which we discretize the world.
+
+7
+00:00:21,000 --> 00:00:24,000
+We might have a goal location, we might have obstacles,
+
+8
+00:00:24,000 --> 00:00:28,000
+and then A*, a valid action sequence, might look like this.
+
+9
+00:00:28,000 --> 00:00:32,000
+And even though this is a valid solution to the planning problem,
+
+10
+00:00:32,000 --> 00:00:35,000
+a car can't really follow these discrete choices.
+
+11
+00:00:35,000 --> 00:00:39,000
+There is a number of very sharp turns over here that are just irreconcilable
+
+12
+00:00:39,000 --> 00:00:42,000
+with the motion of a car.
+
+13
+00:00:42,000 --> 00:00:45,000
+So the fundamental problem here is A* is discrete,
+
+14
+00:00:45,000 --> 00:00:48,000
+whereas the robotic world is continuous.
+
+15
+00:00:48,000 --> 00:00:52,000
+So the question arises, is there a version of A* that can deal with the continuous nature
+
+16
+00:00:52,000 --> 00:00:56,000
+and give us provably executable paths?
+
+17
+00:00:56,000 --> 00:00:59,000
+This is a big, big question in robot motion planning.
+
+18
+00:00:59,000 --> 00:01:02,000
+Let me just discuss it for this one example
+
+19
+00:01:02,000 --> 00:01:07,000
+and show you what we've done to solve this problem in the DARPA Urban Challenge.
+
+20
+00:01:07,000 --> 00:01:12,000
+The key to solving this with A* has to do with the state transition function.
+
+21
+00:01:12,000 --> 00:01:17,000
+Suppose we have a cell like this and we apply a sequence of very small step simulations
+
+22
+00:01:17,000 --> 00:01:20,000
+using our continuous math from before.
+
+23
+00:01:20,000 --> 00:01:27,000
+Then a state over here might find itself right here in the corner of the next discrete state.
+
+24
+00:01:27,000 --> 00:01:29,000
+Instead of assigning this just to the grid cell,
+
+25
+00:01:29,000 --> 00:01:34,000
+in the algorithm called hybrid A*, it memorizes the exact x prime, y prime,
+
+26
+00:01:34,000 --> 00:01:38,000
+and theta prime and associates it with this grid cell over here
+
+27
+00:01:38,000 --> 00:01:40,000
+the first time the grid cell is expanded.
+
+28
+00:01:40,000 --> 00:01:45,000
+Then when expanding from this cell it uses a specific starting point over here
+
+29
+00:01:45,000 --> 00:01:47,000
+to figure out what the next cell might be.
+
+30
+00:01:47,000 --> 00:01:51,000
+It might happen that the same cell is reached again in A*, maybe from over here,
+
+31
+00:01:51,000 --> 00:01:55,000
+leading to a different continuous amortization of x, y, and theta,
+
+32
+00:01:55,000 --> 00:01:59,000
+but because in A* we tend to expand cells along the shortest path
+
+33
+00:01:59,000 --> 00:02:03,000
+before we look at the longer paths, we now just cut this off
+
+34
+00:02:03,000 --> 00:02:06,000
+and never consider the state over here again.
+
+35
+00:02:06,000 --> 00:02:09,000
+This leads to a lack of completeness,
+
+36
+00:02:09,000 --> 00:02:12,000
+which means there might be solutions to the navigation problem
+
+37
+00:02:12,000 --> 00:02:14,000
+that this algorithm doesn't capture,
+
+38
+00:02:14,000 --> 00:02:16,000
+but it does give us correctness.
+
+39
+00:02:16,000 --> 00:02:21,000
+So as long as our motion equations are correct, the resulting paths can be executed.
+
+40
+00:02:21,000 --> 00:02:23,000
+Now here is a caveat.
+
+41
+00:02:23,000 --> 00:02:26,000
+This is an approximation and is only correct to the point
+
+42
+00:02:26,000 --> 00:02:28,000
+that these motions equations are correct that are not correct.
+
+43
+00:02:28,000 --> 00:02:34,000
+But nevertheless, our paths that come out are nice, smooth, and curved paths,
+
+44
+00:02:34,000 --> 00:02:36,000
+and every time we expand a grid cell
+
+45
+00:02:36,000 --> 00:02:40,000
+we memorize explicitly the continuous values of x prime, y prime,
+
+46
+00:02:40,000 --> 99:59:59,999
+and theta with this grid cell.

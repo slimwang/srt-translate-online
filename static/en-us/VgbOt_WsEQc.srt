@@ -1,0 +1,109 @@
+1
+00:00:00,450 --> 00:00:04,170
+The correct answer is when we handle
+a tap and when we animate the bugs.
+
+2
+00:00:05,330 --> 00:00:07,480
+Let's see how we can use
+Stack Traces to prove it.
+
+3
+00:00:07,480 --> 00:00:10,410
+I already have a breakpoint set and
+
+4
+00:00:10,410 --> 00:00:13,660
+the create bug method of
+the bug factory class.
+
+5
+00:00:13,660 --> 00:00:14,910
+And we'll run the application.
+
+6
+00:00:16,110 --> 00:00:19,650
+I'll select the breakpoint debugging
+scene, and then Alt+tab on screen.
+
+7
+00:00:20,780 --> 00:00:25,630
+And as we can see from the stack traces,
+the createBug method is being called by
+
+8
+00:00:25,630 --> 00:00:30,010
+addBugToView, which in turn was
+called by handleSingleTap, and
+
+9
+00:00:30,010 --> 00:00:32,380
+the breakpointBugViewController.
+
+10
+00:00:32,380 --> 00:00:35,560
+So we know that create bug
+is called when we tap.
+
+11
+00:00:35,560 --> 00:00:37,790
+But what about when we animate?
+
+12
+00:00:37,790 --> 00:00:41,725
+If we continue the app's execution,
+we're dropped right back into the same
+
+13
+00:00:41,725 --> 00:00:45,180
+breakpoint, and we can see that
+the stack frames have changed.
+
+14
+00:00:45,180 --> 00:00:48,370
+This time it looks like we're
+calling adbug to view again,
+
+15
+00:00:48,370 --> 00:00:50,920
+which in turns calling create bug.
+
+16
+00:00:50,920 --> 00:00:55,790
+If we keep clicking Continue,
+the stack frames just keep increasing.
+
+17
+00:00:55,790 --> 00:00:59,200
+And the culprit seems to be
+the move bugs to animation method.
+
+18
+00:01:00,280 --> 00:01:05,250
+If we click on it, then we can see that
+after bugs finish animating here in
+
+19
+00:01:05,250 --> 00:01:11,410
+the UIView.animateWithDuration,
+we have the other add bug to view call.
+
+20
+00:01:11,410 --> 00:01:15,450
+This probably explains why so many
+spiders are being drawn to the screen.
+
+21
+00:01:15,450 --> 00:01:17,150
+For now we're going to
+leave this call here,
+
+22
+00:01:17,150 --> 00:01:20,660
+even though it's not the behavior that
+we want, because in the next lesson,
+
+23
+00:01:20,660 --> 00:01:24,050
+I'm going to show you another way
+to troubleshoot this same problem.

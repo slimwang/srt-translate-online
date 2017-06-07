@@ -1,0 +1,429 @@
+1
+00:00:00,125 --> 00:00:03,960
+Then finally, let's take a look at one
+of the results from the performance
+
+2
+00:00:03,960 --> 00:00:07,200
+measurements that are shown
+in the Anderson's paper.
+
+3
+00:00:07,200 --> 00:00:10,760
+This is Figure 3 from that paper
+if you're following along.
+
+4
+00:00:10,760 --> 00:00:13,810
+This figure shows measurements
+that were gathered from
+
+5
+00:00:13,810 --> 00:00:17,200
+executing a program with
+multiple processes.
+
+6
+00:00:17,200 --> 00:00:20,880
+And each process executed
+a critical section,
+
+7
+00:00:20,880 --> 00:00:25,280
+the critical section was executed
+in a loop 1 million times.
+
+8
+00:00:25,280 --> 00:00:28,280
+The number of processes
+in the system was varied
+
+9
+00:00:28,280 --> 00:00:32,049
+such that there is only
+one process per processor.
+
+10
+00:00:32,049 --> 00:00:33,850
+In the platform that was used,
+
+11
+00:00:33,850 --> 00:00:37,660
+was a Sequence Symmetry
+that had 20 processors.
+
+12
+00:00:37,660 --> 00:00:41,740
+So that's why the maximum number
+of processes was also kept to 20.
+
+13
+00:00:41,740 --> 00:00:45,850
+Also this platform was cache
+coherent with write and validate.
+
+14
+00:00:45,850 --> 00:00:50,720
+The metric that was computed based
+on the experiments was the overhead
+
+15
+00:00:50,720 --> 00:00:55,370
+that was measured compared to
+in a case of ideal performance.
+
+16
+00:00:55,370 --> 00:00:57,930
+An ideal performance corresponded in
+
+17
+00:00:57,930 --> 00:01:00,850
+these measurements to
+a theoretical limit.
+
+18
+00:01:00,850 --> 00:01:05,580
+How long it takes to execute that
+fixed number of critical sections.
+
+19
+00:01:05,580 --> 00:01:09,570
+So basically there is no contention,
+no effects due to the fact that
+
+20
+00:01:09,570 --> 00:01:13,060
+each of these critical sections
+needs to be locked and unlocked.
+
+21
+00:01:13,060 --> 00:01:16,870
+Then how long would it take to run
+these number of critical sections.
+
+22
+00:01:16,870 --> 00:01:20,830
+The measured difference between that
+theoretical limit and whatever it
+
+23
+00:01:20,830 --> 00:01:24,710
+actually took to perform this
+experiment was considered the overhead.
+
+24
+00:01:24,710 --> 00:01:26,980
+And this is what these graphs represent.
+
+25
+00:01:26,980 --> 00:01:29,130
+These experiments were performed for
+
+26
+00:01:29,130 --> 00:01:33,460
+every one of the different spinlock
+implementations we discussed.
+
+27
+00:01:33,460 --> 00:01:37,280
+From the spin on read,
+the test_and_test_and_set,
+
+28
+00:01:37,280 --> 00:01:39,990
+all the way to the queuing
+implementation.
+
+29
+00:01:39,990 --> 00:01:42,850
+These results don't include
+that the basic test and
+
+30
+00:01:42,850 --> 00:01:45,710
+set when we're spinning on
+the atomic construction.
+
+31
+00:01:45,710 --> 00:01:49,230
+Basically that implementation would
+result in something that would just
+
+32
+00:01:49,230 --> 00:01:50,600
+completely be off the charts.
+
+33
+00:01:50,600 --> 00:01:54,040
+It would be the highest overhead
+the worst performance measurement.
+
+34
+00:01:54,040 --> 00:01:56,210
+And then, notice how we have for
+
+35
+00:01:56,210 --> 00:02:01,980
+the different variations of the delay
+both the static and the dynamic delay.
+
+36
+00:02:01,980 --> 00:02:04,110
+So let's see what
+happens under high load.
+
+37
+00:02:04,110 --> 00:02:08,669
+This is where we have lots of processors
+and lots of processes running on those
+
+38
+00:02:08,669 --> 00:02:11,260
+processors that are contending for
+the log.
+
+39
+00:02:11,260 --> 00:02:15,980
+We see from these measurements that
+the queuing log, it's the best one.
+
+40
+00:02:15,980 --> 00:02:20,260
+It is the most scalable and as we add
+more and more processors, more and
+
+41
+00:02:20,260 --> 00:02:22,550
+more load, it performs best.
+
+42
+00:02:22,550 --> 00:02:26,340
+The test_and_test_and_set log,
+that's this line here,
+
+43
+00:02:26,340 --> 00:02:28,370
+that one will perform worst.
+
+44
+00:02:28,370 --> 00:02:32,500
+That isn't particular the case, because
+here we have an architecture that's
+
+45
+00:02:32,500 --> 00:02:34,850
+cache coherent with right invalidate.
+
+46
+00:02:34,850 --> 00:02:39,222
+And we said that in that case,
+on release of the test_and_test_and_set
+
+47
+00:02:39,222 --> 00:02:42,990
+log, we have an order of n
+squared memory references.
+
+48
+00:02:42,990 --> 00:02:46,650
+So a very high contention
+on the shared bus and
+
+49
+00:02:46,650 --> 00:02:48,900
+that's going to really hurt performance.
+
+50
+00:02:48,900 --> 00:02:53,410
+After delay based alternatives,
+we see that the static implementations
+
+51
+00:02:53,410 --> 00:02:56,984
+are a little bit better than
+their dynamic counterparts.
+
+52
+00:02:56,984 --> 00:02:59,470
+Since under high loads with static,
+
+53
+00:02:59,470 --> 00:03:03,410
+we end up nicely balancing
+out the atomic constructions.
+
+54
+00:03:03,410 --> 00:03:06,820
+First with dynamic,
+we still end up with some randomness,
+
+55
+00:03:06,820 --> 00:03:08,540
+with some number of collisions.
+
+56
+00:03:08,540 --> 00:03:10,670
+Those are avoided in the static case.
+
+57
+00:03:10,670 --> 00:03:15,250
+Also note that delaying after every
+single memory reference is slightly
+
+58
+00:03:15,250 --> 00:03:20,100
+better than delaying after the log
+is freed only, it's only on release.
+
+59
+00:03:20,100 --> 00:03:22,930
+Because when we avoid
+after every reference,
+
+60
+00:03:22,930 --> 00:03:26,770
+we end up avoiding some
+additional invalidations
+
+61
+00:03:26,770 --> 00:03:31,290
+that come from the fact that sequence
+is a right invalidate architecture.
+
+62
+00:03:31,290 --> 00:03:36,360
+Under light loads, when we have few
+processes then few processors as well,
+
+63
+00:03:36,360 --> 00:03:38,280
+we can make couple of observations.
+
+64
+00:03:38,280 --> 00:03:43,370
+First we see that test_and_set performs
+really pretty well in this case.
+
+65
+00:03:43,370 --> 00:03:47,110
+And that's because this implementation
+of a spinlock has low latency.
+
+66
+00:03:47,110 --> 00:03:48,650
+We were just performing a check,
+
+67
+00:03:48,650 --> 00:03:53,020
+if lock equal busy and then we were
+moving on to the atomic test_and_set.
+
+68
+00:03:53,020 --> 00:03:56,470
+We also see that in terms
+of the delay alternatives,
+
+69
+00:03:56,470 --> 00:03:57,930
+the dynamic delay alternatives.
+
+70
+00:03:57,930 --> 00:04:01,940
+The backup delay alternatives
+perform better than the static ones.
+
+71
+00:04:01,940 --> 00:04:05,020
+And that is because with
+the dynamic alternatives,
+
+72
+00:04:05,020 --> 00:04:06,546
+we end up with lower delay.
+
+73
+00:04:06,546 --> 00:04:11,950
+But we said that static alternatives
+can lead to situations in which the two
+
+74
+00:04:11,950 --> 00:04:16,640
+processors that have the extreme,
+the smallest and the largest delay.
+
+75
+00:04:16,640 --> 00:04:21,070
+Are the only ones that are contending on
+the lock and so we have wasted cycles.
+
+76
+00:04:21,070 --> 00:04:25,715
+We also see that under light loads,
+the queueing lock performs the worst.
+
+77
+00:04:25,715 --> 00:04:28,250
+This is the performance
+of the queueing lock.
+
+78
+00:04:28,250 --> 00:04:31,890
+And the reason for that is we
+explain that with the queuing clock,
+
+79
+00:04:31,890 --> 00:04:33,820
+we have pretty high latency.
+
+80
+00:04:33,820 --> 00:04:37,168
+Because we need to implement
+the read and increment and
+
+81
+00:04:37,168 --> 00:04:39,150
+the modular processing, etc.
+
+82
+00:04:39,150 --> 00:04:43,450
+So this is what hurts the performance
+of the queueing lock under light loads.
+
+83
+00:04:43,450 --> 00:04:47,100
+One final comment regarding
+the performance results that
+
+84
+00:04:47,100 --> 00:04:50,220
+we just discussed is that
+this points to the fact.
+
+85
+00:04:50,220 --> 00:04:53,970
+That with system design, there isn't
+really a single good answer that
+
+86
+00:04:53,970 --> 00:04:58,530
+the design points should be driven
+based on the expected workload.
+
+87
+00:04:58,530 --> 00:05:01,090
+Light loads, high loads,
+architectural features,
+
+88
+00:05:01,090 --> 00:05:05,860
+number of processors,
+write invalidate, write update, etc.
+
+89
+00:05:05,860 --> 00:05:09,440
+The paper includes additional
+results that point to some of
+
+90
+00:05:09,440 --> 00:05:10,995
+these trade offs in more detail.spi

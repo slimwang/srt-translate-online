@@ -1,0 +1,377 @@
+1
+00:00:00,430 --> 00:00:03,840
+Quick look is a visual debugging feature
+that was introduced in Xcode five.
+
+2
+00:00:03,840 --> 00:00:07,360
+You may have seen it before if you
+pressed space when you selected
+
+3
+00:00:07,360 --> 00:00:09,330
+a variable in the variables view.
+
+4
+00:00:09,330 --> 00:00:10,758
+Let's take a quick look now.
+
+5
+00:00:10,758 --> 00:00:14,000
+So I'm going to run the application and
+
+6
+00:00:14,000 --> 00:00:16,800
+this time instead of selecting
+the Break point Debugging scene.
+
+7
+00:00:16,800 --> 00:00:19,030
+Let's go to the visual debugging scene.
+
+8
+00:00:19,030 --> 00:00:20,150
+And tap.
+
+9
+00:00:20,150 --> 00:00:20,740
+And that's strange.
+
+10
+00:00:20,740 --> 00:00:22,710
+It looks like something's
+being added to the screen.
+
+11
+00:00:22,710 --> 00:00:26,750
+It looks like our spider, but
+it's not crawling onto the web.
+
+12
+00:00:26,750 --> 00:00:30,010
+So let's add a breakpoint,
+and addBugToView for
+
+13
+00:00:30,010 --> 00:00:32,284
+the visual BugViewController.
+
+14
+00:00:32,284 --> 00:00:33,695
+Go back and tap.
+
+15
+00:00:33,695 --> 00:00:35,525
+Let it fall into our breakpoint.
+
+16
+00:00:35,525 --> 00:00:37,135
+If we go to the variables view.
+
+17
+00:00:37,135 --> 00:00:40,215
+We can bring up a quick look
+by selecting a variable and
+
+18
+00:00:40,215 --> 00:00:42,555
+then pressing the space key.
+
+19
+00:00:42,555 --> 00:00:44,875
+I'll select self and press space.
+
+20
+00:00:44,875 --> 00:00:46,885
+The quick look for
+this object's fairly limited.
+
+21
+00:00:46,885 --> 00:00:49,175
+It gives us the same information
+that we've seen before.
+
+22
+00:00:49,175 --> 00:00:50,795
+It tells us the type and
+
+23
+00:00:50,795 --> 00:00:53,720
+just gives us this value which
+is a raw memory address.
+
+24
+00:00:53,720 --> 00:00:56,930
+But lets try something that's
+more visually oriented.
+
+25
+00:00:56,930 --> 00:00:59,320
+So lets go the bugs array, and
+
+26
+00:00:59,320 --> 00:01:01,170
+we'll take the first
+element in the bugs array.
+
+27
+00:01:01,170 --> 00:01:04,730
+Since it's a UI image view,
+and press space.
+
+28
+00:01:04,730 --> 00:01:05,590
+And this is much nicer.
+
+29
+00:01:05,590 --> 00:01:10,460
+It actually shows us the image that
+is displayed in the UI image view.
+
+30
+00:01:10,460 --> 00:01:11,930
+So lets have a little fun with this.
+
+31
+00:01:11,930 --> 00:01:15,300
+And we can actually change
+the image in LLDB and
+
+32
+00:01:15,300 --> 00:01:17,680
+see how it affects the quick look.
+
+33
+00:01:17,680 --> 00:01:20,210
+So I'll type expression and then bugs.
+
+34
+00:01:20,210 --> 00:01:20,980
+Element zero.
+
+35
+00:01:20,980 --> 00:01:27,632
+And then for the image we'll change it
+using UIImage name, named: settings.
+
+36
+00:01:27,632 --> 00:01:28,570
+Enter.
+
+37
+00:01:28,570 --> 00:01:31,110
+And this command updates
+the element at index zero to
+
+38
+00:01:31,110 --> 00:01:34,400
+use the settings image
+instead of the spider image.
+
+39
+00:01:34,400 --> 00:01:37,570
+And if we go back to the quick look,
+hit space.
+
+40
+00:01:37,570 --> 00:01:40,210
+We can see that that
+image has indeed updated.
+
+41
+00:01:40,210 --> 00:01:43,430
+And if we run, it's hard to tell, but
+
+42
+00:01:43,430 --> 00:01:46,270
+it could be the case that that's also
+changed, and that's our second bug.
+
+43
+00:01:46,270 --> 00:01:49,827
+Now we're going to fix this crawling
+issue in the next exercise.
+
+44
+00:01:49,827 --> 00:01:53,483
+But for fun I want to show you how
+to make a custom quick look for
+
+45
+00:01:53,483 --> 00:01:55,690
+any class that you may have.
+
+46
+00:01:55,690 --> 00:01:57,783
+So i'll go ahead and stop the app, and
+
+47
+00:01:57,783 --> 00:02:01,851
+let's scroll down to the bottom of
+the VisualBugViewController class.
+
+48
+00:02:01,851 --> 00:02:06,710
+And the process for creating a custom
+Quick Look is the same for every class.
+
+49
+00:02:06,710 --> 00:02:08,449
+It just depends on your implementation.
+
+50
+00:02:08,449 --> 00:02:13,120
+So you have to implement this
+method called debugQuickLookObject.
+
+51
+00:02:13,120 --> 00:02:15,770
+So I've gone ahead and we're
+going to do this in an extension for
+
+52
+00:02:15,770 --> 00:02:17,180
+the "VisualBugViewController".
+
+53
+00:02:17,180 --> 00:02:20,310
+We're implementing
+the debugQuickLookObject method.
+
+54
+00:02:20,310 --> 00:02:22,590
+And it returns an AnyObject?
+
+55
+00:02:22,590 --> 00:02:23,656
+Optional.
+
+56
+00:02:23,656 --> 00:02:27,740
+The key is, is that this any object that
+we return is something that X code knows
+
+57
+00:02:27,740 --> 00:02:28,450
+how to display.
+
+58
+00:02:28,450 --> 00:02:31,760
+So for instance it was able
+to display a UI image view.
+
+59
+00:02:31,760 --> 00:02:33,450
+We saw that just a second ago.
+
+60
+00:02:33,450 --> 00:02:35,680
+So that's one type that we could return.
+
+61
+00:02:35,680 --> 00:02:39,490
+But for the other types, I've posted a
+link to Apple's listing of all the other
+
+62
+00:02:39,490 --> 00:02:42,060
+supported types that you
+can use in this case.
+
+63
+00:02:42,060 --> 00:02:45,620
+For this particular example we're
+going to return a UI image.
+
+64
+00:02:45,620 --> 00:02:47,950
+I've written this code ahead of time,
+and
+
+65
+00:02:47,950 --> 00:02:50,940
+what is essentially does is it
+loops through our bugs array.
+
+66
+00:02:50,940 --> 00:02:54,670
+And it creates an image with
+colored squares indicating
+
+67
+00:02:54,670 --> 00:02:56,650
+each bug that's in the bugs array.
+
+68
+00:02:56,650 --> 00:02:59,070
+Now you can step through
+this code if you like, but
+
+69
+00:02:59,070 --> 00:03:02,590
+the purpose here is to show you
+that we can actually do this.
+
+70
+00:03:02,590 --> 00:03:06,370
+So disregarding this code, we return
+an image at the end of the day.
+
+71
+00:03:06,370 --> 00:03:08,050
+And that's going to be our quick look.
+
+72
+00:03:08,050 --> 00:03:10,300
+So let's run the app and
+see what this looks like.
+
+73
+00:03:10,300 --> 00:03:12,790
+So we'll go to the visual
+debugging scene.
+
+74
+00:03:12,790 --> 00:03:15,960
+And let's go ahead and
+spawn a couple spiders.
+
+75
+00:03:15,960 --> 00:03:19,050
+Whoops.
+So let's deactivate that first.
+
+76
+00:03:19,050 --> 00:03:19,860
+Create some blue ones.
+
+77
+00:03:21,110 --> 00:03:23,340
+Create a red one or two.
+
+78
+00:03:23,340 --> 00:03:29,265
+Green one, black one, and
+we'll re-enable this.
+
+79
+00:03:31,381 --> 00:03:36,740
+And now if we press space on the self,
+we can see our image.
+
+80
+00:03:36,740 --> 00:03:40,470
+And this image gets it's colors
+corresponding to the bugs that
+
+81
+00:03:40,470 --> 00:03:41,700
+are in the array.
+
+82
+00:03:41,700 --> 00:03:43,600
+And there you go.
+
+83
+00:03:43,600 --> 00:03:45,110
+That's a custom quick look.

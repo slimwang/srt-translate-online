@@ -1,0 +1,391 @@
+1
+00:00:00,180 --> 00:00:02,840
+I had a ton of fun implementing the real time visualization in D3,
+
+2
+00:00:02,840 --> 00:00:04,939
+and I hope you explore and
+
+3
+00:00:04,939 --> 00:00:08,140
+extend this functionality in your final project if you're interested.
+
+4
+00:00:08,140 --> 00:00:11,320
+Also, remember that Udacity's course visualization using D3
+
+5
+00:00:11,320 --> 00:00:16,070
+could be super useful to take if you want to expand on this brief introduction.
+
+6
+00:00:16,070 --> 00:00:20,790
+Let's explore the basic D3 implementation by navigating to the the app.pi file.
+
+7
+00:00:20,790 --> 00:00:26,114
+Scrolling down note that the decorator function, @app.route(*/basic*).
+
+8
+00:00:26,114 --> 00:00:31,957
+And function shom_basic calls the render_template method,
+
+9
+00:00:31,957 --> 00:00:34,350
+on the basic.html file.
+
+10
+00:00:34,350 --> 00:00:36,100
+Navigating to the Templates folder,
+
+11
+00:00:36,100 --> 00:00:38,790
+you see a few files that you should be familiar with if
+
+12
+00:00:38,790 --> 00:00:42,530
+you completed the optional personalization exercise in Lesson 1.
+
+13
+00:00:42,530 --> 00:00:46,590
+We navigate to the basic.html file, and
+
+14
+00:00:46,590 --> 00:00:52,000
+inspecting further we see that our D3 files are loaded via this source file, and
+
+15
+00:00:52,000 --> 00:00:56,690
+our second source file is under static/app.js.
+
+16
+00:00:56,690 --> 00:00:58,790
+We scroll down further to the body and
+
+17
+00:00:58,790 --> 00:01:03,290
+script tags, where I've defined a variable colors, and
+
+18
+00:01:03,290 --> 00:01:08,140
+variable svgContainer which stands for scalable vector graphics container.
+
+19
+00:01:08,140 --> 00:01:11,760
+This uses D3 methods to select the body, and
+
+20
+00:01:11,760 --> 00:01:16,250
+appends an svg element with the given attributes.
+
+21
+00:01:16,250 --> 00:01:20,050
+This is the svg container that is updated in our app.js script,
+
+22
+00:01:20,050 --> 00:01:21,920
+to visualize our tweets.
+
+23
+00:01:21,920 --> 00:01:25,510
+Remember, if this HTML and JavaScript section is interesting to you,
+
+24
+00:01:25,510 --> 00:01:30,460
+you can always explore this in much more detail in an HTML and CSS class.
+
+25
+00:01:30,460 --> 00:01:35,490
+JavaScript course or our data visualization, with D3 course, here, Udacity.
+
+26
+00:01:35,490 --> 00:01:37,920
+We then navigate to the static folder, and
+
+27
+00:01:37,920 --> 00:01:42,510
+open the file app.js, sourced in our basic.html file.
+
+28
+00:01:42,510 --> 00:01:46,940
+Well, since here, a familiar stream path that was defined in app.pie.
+
+29
+00:01:46,940 --> 00:01:49,980
+And if we navigate quickly to app.pie,
+
+30
+00:01:49,980 --> 00:01:54,650
+we see the stream path, and function response and event.stream.
+
+31
+00:01:54,650 --> 00:01:57,874
+And finally, the event.stream is connecting to retis and
+
+32
+00:01:57,874 --> 00:02:02,590
+the pubsub.subscribe function to the WordCountTopology,
+
+33
+00:02:02,590 --> 00:02:08,590
+connected to our publish function in our storm.report bolt.
+
+34
+00:02:08,590 --> 00:02:11,170
+Navigating back to app.js.
+
+35
+00:02:11,170 --> 00:02:14,490
+Notice that I'm using an event source constructor.
+
+36
+00:02:14,490 --> 00:02:18,160
+You can read about event source further by clicking on the Mozilla link
+
+37
+00:02:18,160 --> 00:02:20,600
+provided in the instructor notes.
+
+38
+00:02:20,600 --> 00:02:24,130
+And you can search for the on message, attribute.
+
+39
+00:02:24,130 --> 00:02:27,100
+This takes an event which is again a message received from our
+
+40
+00:02:27,100 --> 00:02:30,800
+redis subscribe method, and splits the method by a pipe character.
+
+41
+00:02:30,800 --> 00:02:32,900
+Let's again link this back to the syntax,
+
+42
+00:02:32,900 --> 00:02:36,000
+that we used in our report bolt Storm topology.
+
+43
+00:02:36,000 --> 00:02:37,980
+Navigating to any report bolt,
+
+44
+00:02:37,980 --> 00:02:43,650
+we see that the we have a word separated by the pipe character and the count.
+
+45
+00:02:43,650 --> 00:02:50,190
+Navigating back to app.js, we see that at position 0 we define our word,
+
+46
+00:02:50,190 --> 00:02:53,110
+and at position 1 we set our count.
+
+47
+00:02:53,110 --> 00:02:58,420
+Next using the JavaScript associative array which I've named hash,
+
+48
+00:02:58,420 --> 00:03:01,560
+I simply set the word =count.
+
+49
+00:03:01,560 --> 00:03:03,630
+Notice that I have another skip word check but
+
+50
+00:03:03,630 --> 00:03:08,340
+be removed after completing lesson three top and words filter, and by now you
+
+51
+00:03:08,340 --> 00:03:12,900
+should see that filter at this late stage in our data flow is very inefficient.
+
+52
+00:03:12,900 --> 00:03:16,140
+Remember to always filter as early as possible in your topology.
+
+53
+00:03:17,240 --> 00:03:21,570
+Scrolling down further, we finally come to the real D3 syntax,
+
+54
+00:03:21,570 --> 00:03:25,339
+that I've entered into an updateViz function for timing purposes.
+
+55
+00:03:26,340 --> 00:03:30,380
+We define a new variable text, that takes in the svg container and
+
+56
+00:03:30,380 --> 00:03:33,940
+the D3 selectAll, with text attribute.
+
+57
+00:03:33,940 --> 00:03:38,120
+Notice there are none to begin with, but the will be created by D3.
+
+58
+00:03:38,120 --> 00:03:44,040
+We then bind our data, using the D3 entries function on hash.
+
+59
+00:03:44,040 --> 00:03:49,250
+This entry function is great in that it takes a word count association, and
+
+60
+00:03:49,250 --> 00:03:54,560
+transforms it into a keyword value count association.
+
+61
+00:03:54,560 --> 00:03:59,870
+And this is the form that we are using throughout the rest of our D3, functions.
+
+62
+00:03:59,870 --> 00:04:02,760
+Additional information, along with a great tutorial, can be
+
+63
+00:04:02,760 --> 00:04:07,430
+found in Michael Bostock's selection page, included in the instructor notes.
+
+64
+00:04:07,430 --> 00:04:11,960
+Next, we enter this data by calling the text.enter function, and
+
+65
+00:04:11,960 --> 00:04:15,330
+append text with the given attributes.
+
+66
+00:04:15,330 --> 00:04:17,769
+Again following Michael Bostock's example,
+
+67
+00:04:17,769 --> 00:04:21,290
+I followed the selection.text with value.
+
+68
+00:04:21,290 --> 00:04:28,897
+Syntax by calling the text with an added word by using the d.key
+
+69
+00:04:28,897 --> 00:04:34,358
+notation, and remember that key maps to word coming from Storm.
+
+70
+00:04:34,358 --> 00:04:41,041
+Now that our text is the word coming from Storm, I added a few fun transitions,
+
+71
+00:04:41,041 --> 00:04:47,219
+delays, and explicitly tried to demonstrate how the x and y positions,
+
+72
+00:04:47,219 --> 00:04:54,790
+can be set using the d.value, which is again our account coming from storm.
+
+73
+00:04:54,790 --> 00:04:58,650
+Along with the position order that the word count comes,
+
+74
+00:04:58,650 --> 00:05:00,660
+in our associated array.
+
+75
+00:05:00,660 --> 00:05:02,060
+Next, again for fun,
+
+76
+00:05:02,060 --> 00:05:08,200
+I updated the font size, to be linked to again the value which is the count.
+
+77
+00:05:08,200 --> 00:05:12,760
+And finally the fill color, using our colors variable,
+
+78
+00:05:12,760 --> 00:05:15,530
+again linked to count and now position.
+
+79
+00:05:15,530 --> 00:05:17,545
+A fun demonstration of this,
+
+80
+00:05:17,545 --> 00:05:21,670
+can be seen by going to the forward /basic location.
+
+81
+00:05:21,670 --> 00:05:24,620
+And I'm running the solution from lesson two, stage four.
+
+82
+00:05:24,620 --> 00:05:29,830
+Notice that in the random sentence word count, as each word count is updated.
+
+83
+00:05:29,830 --> 00:05:34,830
+We see them moving in the y direction, changing colors with transitions, and
+
+84
+00:05:34,830 --> 00:05:36,050
+growing in size.
+
+85
+00:05:36,050 --> 00:05:41,880
+We can play along with this more by going into our app.js, and commenting out
+
+86
+00:05:41,880 --> 00:05:46,820
+the previous line and uncommenting out, a different fill function.
+
+87
+00:05:46,820 --> 00:05:49,270
+We save our app.js file, but
+
+88
+00:05:49,270 --> 00:05:54,420
+we don't need to recompile our storm topology, and refreshing the page we
+
+89
+00:05:54,420 --> 00:05:59,840
+see that the color palette has changed, to be a smooth transition to a dark red.
+
+90
+00:05:59,840 --> 00:06:03,750
+We can play along with this further by removing the dependencies in the order
+
+91
+00:06:03,750 --> 00:06:09,960
+that the words show up in our associative array by deleting, our I variables.
+
+92
+00:06:09,960 --> 00:06:14,350
+And we see now that x and y position is controlled only by the count, and
+
+93
+00:06:14,350 --> 00:06:18,920
+the two words in the lead are and and seven which are overlapping.
+
+94
+00:06:18,920 --> 00:06:20,800
+Notice that it's really simple to simply save and
+
+95
+00:06:20,800 --> 00:06:24,750
+refresh in chrome, and we don't need to rebuild our Storm topology.
+
+96
+00:06:24,750 --> 00:06:28,860
+This makes iterating on visualization super fast and easy, so.
+
+97
+00:06:28,860 --> 00:06:31,990
+Play along with this if you like, and maybe use some of these ideas in
+
+98
+00:06:31,990 --> 00:06:34,450
+your final project visualization if this interests you.

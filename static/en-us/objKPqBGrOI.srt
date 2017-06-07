@@ -1,0 +1,250 @@
+1
+00:00:00,790 --> 00:00:03,350
+Let's make an app with a free and
+a paid version.
+
+2
+00:00:03,350 --> 00:00:06,540
+We're starting out with the base
+template, everything absolutely vanilla,
+
+3
+00:00:06,540 --> 00:00:08,430
+if we run it, it looks just like normal.
+
+4
+00:00:09,782 --> 00:00:13,750
+Unlike buildTypes, the Android plugin
+doesn't create any for us by default.
+
+5
+00:00:13,750 --> 00:00:15,850
+If we want to declare product flavors,
+we do so
+
+6
+00:00:15,850 --> 00:00:17,040
+just like we do with buildTypes,
+
+7
+00:00:17,040 --> 00:00:21,410
+except we put them in a productFlavors
+block instead of a buildTypes block.
+
+8
+00:00:21,410 --> 00:00:24,660
+Here, we've gone ahead and
+created our free and paid flavors.
+
+9
+00:00:24,660 --> 00:00:26,630
+Along with unique applicationIds for
+both.
+
+10
+00:00:27,670 --> 00:00:30,040
+Now, if we open up
+the Build Variants tab.
+
+11
+00:00:30,040 --> 00:00:32,630
+We see, we have options not
+just between Release and Debug.
+
+12
+00:00:32,630 --> 00:00:36,140
+But freeDebug, freeRelease,
+paidDebug, and paidRelease.
+
+13
+00:00:36,140 --> 00:00:38,900
+Of course, these different flavors don't
+actually do anything different yet.
+
+14
+00:00:40,168 --> 00:00:41,860
+By default, source and
+
+15
+00:00:41,860 --> 00:00:46,820
+resources in the main source set,
+is included in all app variants.
+
+16
+00:00:46,820 --> 00:00:48,780
+However, when we declare
+additional flavors,
+
+17
+00:00:48,780 --> 00:00:51,830
+the android plugin automatically
+creates new source sets for
+
+18
+00:00:51,830 --> 00:00:55,490
+us, where we can place flavor
+specific code and resources.
+
+19
+00:00:55,490 --> 00:00:58,310
+So if we want to include
+code specifically for
+
+20
+00:00:58,310 --> 00:01:03,760
+the paid version, we can have
+src/paid/java and src/paid/res.
+
+21
+00:01:03,760 --> 00:01:07,440
+Similarly we can have
+src/free/java and src/free/res.
+
+22
+00:01:07,440 --> 00:01:10,900
+When gradle builds each app variant, it
+will automatically bundle the additional
+
+23
+00:01:10,900 --> 00:01:14,070
+source in each of the flavor
+specific folders.
+
+24
+00:01:14,070 --> 00:01:16,240
+The new app template in
+Android Studio makes an app that
+
+25
+00:01:16,240 --> 00:01:18,030
+just displays a string.
+
+26
+00:01:18,030 --> 00:01:21,885
+Let's open up the res >
+values > strings.xml file and
+
+27
+00:01:21,885 --> 00:01:25,420
+here's the Hello World
+string that will display.
+
+28
+00:01:26,610 --> 00:01:29,990
+Let's create new strings in our free and
+paid versions, so that the free and
+
+29
+00:01:29,990 --> 00:01:32,800
+paid versions display
+different messages.
+
+30
+00:01:32,800 --> 00:01:36,750
+The easiest way to do this is first,
+we'll copy the hello world string.
+
+31
+00:01:36,750 --> 00:01:38,410
+Then we'll right click
+on the app directory.
+
+32
+00:01:39,890 --> 00:01:42,930
+And I know it's a little bit off screen,
+but if you navigate up to the very top,
+
+33
+00:01:42,930 --> 00:01:45,510
+there's New > Android resource file.
+
+34
+00:01:46,730 --> 00:01:49,480
+We'll name the file strings.
+
+35
+00:01:49,480 --> 00:01:51,110
+Resource type is values, and
+
+36
+00:01:51,110 --> 00:01:53,720
+here's the interesting part,
+where we choose the source set.
+
+37
+00:01:53,720 --> 00:01:55,560
+We'll make this part of
+the free source set.
+
+38
+00:01:56,710 --> 00:01:57,210
+Okay.
+
+39
+00:01:58,500 --> 00:02:00,584
+Now if we look at the src folder,
+
+40
+00:02:00,584 --> 00:02:03,860
+we'll find src > free
+> res > values > strings.
+
+41
+00:02:03,860 --> 00:02:04,920
+That's what we're editing right now.
+
+42
+00:02:06,260 --> 00:02:07,560
+Let's put in our new message.
+
+43
+00:02:09,570 --> 00:02:11,660
+And we've also done the same thing for
+the paid flavor.
+
+44
+00:02:12,820 --> 00:02:15,150
+Now if we open up the gradle pane, and
+
+45
+00:02:15,150 --> 00:02:19,260
+go to the install section, let's try
+installing the free debug version.
+
+46
+00:02:20,850 --> 00:02:23,389
+And we can also go ahead and
+install the paid debug version.
+
+47
+00:02:24,660 --> 00:02:26,600
+One more thing that's useful to know,
+
+48
+00:02:26,600 --> 00:02:29,360
+in addition to including additional
+sources in a flavor variant,
+
+49
+00:02:29,360 --> 00:02:33,270
+we can place flavor-specific
+configuration in our gradle build file.
+
+50
+00:02:33,270 --> 00:02:36,792
+Basically, any configuration that we can
+put in the defaultConfig script block,
+
+51
+00:02:36,792 --> 00:02:39,960
+can also be placed in
+the flavor configuration block.
+
+52
+00:02:39,960 --> 00:02:44,000
+For example, let's say the paid version
+of our app requires a new Android SDK,
+
+53
+00:02:44,000 --> 00:02:45,070
+we can enforce that like so.

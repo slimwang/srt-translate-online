@@ -1,0 +1,655 @@
+1
+00:00:00,140 --> 00:00:02,990
+Okay Michael, so what are our features? When we
+
+2
+00:00:02,990 --> 00:00:04,900
+have a bunch of documents let's say full of words?
+
+3
+00:00:06,450 --> 00:00:10,920
+>> I'm not sure, it could be things like the numer of words in the document?
+
+4
+00:00:10,920 --> 00:00:13,540
+>> That could be, but what sort of,
+
+5
+00:00:13,540 --> 00:00:15,550
+and that's actually perfectly reasonable thing but what's the
+
+6
+00:00:15,550 --> 00:00:18,350
+simpliest set of features that you might start with
+
+7
+00:00:18,350 --> 00:00:21,520
+form which you might then compute more interesting features?
+
+8
+00:00:21,520 --> 00:00:24,390
+>> Well there's a super, duper big set of features which are the words.
+
+9
+00:00:24,390 --> 00:00:25,190
+>> Right, so in
+
+10
+00:00:25,190 --> 00:00:27,380
+fact that is exactly what we have, is we have words.
+
+11
+00:00:27,380 --> 00:00:30,340
+Maybe we have punctuation and, you know. Words are sort of the
+
+12
+00:00:30,340 --> 00:00:32,580
+obvious thing to do. I typed in machine learning, why don't
+
+13
+00:00:32,580 --> 00:00:36,350
+I just return every single document that has machine followed by learning.
+
+14
+00:00:36,350 --> 00:00:37,360
+>> Maybe you should.
+
+15
+00:00:37,360 --> 00:00:38,480
+>> Maybe I should and maybe that's a
+
+16
+00:00:38,480 --> 00:00:40,700
+perfectly reasonable thing to do. In the case of
+
+17
+00:00:40,700 --> 00:00:43,840
+machine learning, should I return documents that contain
+
+18
+00:00:43,840 --> 00:00:45,460
+the word Machine but don't contain the word learning?
+
+19
+00:00:45,460 --> 00:00:48,250
+>> I wouldn't score them very highly.
+
+20
+00:00:48,250 --> 00:00:50,220
+>> I might not score them as highly, but I might still return
+
+21
+00:00:50,220 --> 00:00:51,970
+them as being at least more relevant
+
+22
+00:00:51,970 --> 00:00:54,170
+than documents that contain neither Machine nor Learning.
+
+23
+00:00:54,170 --> 00:00:56,680
+>> Right, that are just about turtles, say.
+
+24
+00:00:56,680 --> 00:00:59,170
+>> Right exactly, although it's turtles all the way down Michael.
+
+25
+00:00:59,170 --> 00:01:00,320
+>> I see.
+
+26
+00:01:00,320 --> 00:01:03,600
+>> OK. So if our features are words, which are the sort of the most
+
+27
+00:01:03,600 --> 00:01:05,410
+obvious things to get at, we can compute
+
+28
+00:01:05,410 --> 00:01:07,250
+other things like the number of words or
+
+29
+00:01:07,250 --> 00:01:09,120
+whatever. But basically our features are going to be
+
+30
+00:01:09,120 --> 00:01:11,140
+words or counts of words or something like
+
+31
+00:01:11,140 --> 00:01:12,710
+that. As it's sort of a. Reasonable first
+
+32
+00:01:12,710 --> 00:01:15,840
+step. And, in fact, the very early retrieval
+
+33
+00:01:15,840 --> 00:01:19,670
+systems, which, you know, predate both of us, actually Michael,
+
+34
+00:01:19,670 --> 00:01:23,290
+used simple things like words. Now, there's a lot of
+
+35
+00:01:23,290 --> 00:01:25,810
+way, details to this you could imagine. Like maybe you'd
+
+36
+00:01:25,810 --> 00:01:29,510
+want to transform all plurals into their singular version, get
+
+37
+00:01:29,510 --> 00:01:31,140
+rid of words like the. And there's a bunch of
+
+38
+00:01:31,140 --> 00:01:33,720
+complicated stuff you might want to do. But, it's not particularly
+
+39
+00:01:33,720 --> 00:01:36,570
+relevant for this discussion. So, just assume whatever you want
+
+40
+00:01:36,570 --> 00:01:38,630
+to assume about the kind of words that you have. Okay?
+
+41
+00:01:38,630 --> 00:01:39,510
+>> Okay.
+
+42
+00:01:39,510 --> 00:01:41,460
+>> Okay. So, what's the problem
+
+43
+00:01:41,460 --> 00:01:44,310
+with using words? Can you think of any problems with using words?
+
+44
+00:01:44,310 --> 00:01:45,480
+>> Well, there's a lot of them.
+
+45
+00:01:45,480 --> 00:01:47,320
+>> Right. That's actually the first thing.
+
+46
+00:01:47,320 --> 00:01:49,180
+There's a lot of words. Which means there
+
+47
+00:01:49,180 --> 00:01:51,140
+are a lot of features. Which means
+
+48
+00:01:51,140 --> 00:01:52,910
+the curse of dimensionality is going to hurt us.
+
+49
+00:01:52,910 --> 00:01:54,180
+>> I would think that they'd be
+
+50
+00:01:54,180 --> 00:01:58,600
+pretty good indicators of meaning, except I guess
+
+51
+00:01:58,600 --> 00:02:00,710
+there's kind of two complimentary problems. One is
+
+52
+00:02:00,710 --> 00:02:02,900
+that some words mean more than one thing.
+
+53
+00:02:02,900 --> 00:02:06,420
+>> Mm. I like that. So we have good indicators.
+
+54
+00:02:06,420 --> 00:02:08,560
+Words are good indicators of meaning because, you
+
+55
+00:02:08,560 --> 00:02:11,810
+know. The words, but, you could be in the
+
+56
+00:02:11,810 --> 00:02:14,790
+case where you have words mean multiple things. You
+
+57
+00:02:14,790 --> 00:02:16,295
+said there were two problems, what's the second one.
+
+58
+00:02:16,295 --> 00:02:18,830
+>> Sort of the opposite, which is, you
+
+59
+00:02:18,830 --> 00:02:23,048
+can say the same thing using completely different words.
+
+60
+00:02:23,048 --> 00:02:27,720
+>> yes. So that's that many words mean the same thing. In
+
+61
+00:02:27,720 --> 00:02:29,510
+particular, words, the fact that words
+
+62
+00:02:29,510 --> 00:02:31,830
+can have multiple meanings. It's called polysemy.
+
+63
+00:02:34,040 --> 00:02:38,370
+The fact that many words can mean the same thing is called synonymy. So, can
+
+64
+00:02:38,370 --> 00:02:40,200
+you think of a word that might have
+
+65
+00:02:40,200 --> 00:02:44,570
+multiple meanings? That indicates the problem of polysemy?
+
+66
+00:02:44,570 --> 00:02:48,230
+>> Well, so, you know, learning, in the machine learning example,
+
+67
+00:02:48,230 --> 00:02:53,190
+learning. Sometimes refers to, this statistical process that we've been talking
+
+68
+00:02:53,190 --> 00:02:56,160
+about. But it also refers to the thing that, people do.
+
+69
+00:02:56,160 --> 00:02:59,780
+And in some, in some scenarios, it actually means to teach. Like,
+
+70
+00:02:59,780 --> 00:03:00,810
+I'm going to learn you something.
+
+71
+00:03:00,810 --> 00:03:03,250
+>> That's true, but that's just too on point.
+
+72
+00:03:03,250 --> 00:03:05,830
+I'm going to pick something else. That I think you
+
+73
+00:03:05,830 --> 00:03:07,700
+will appreciate at the end. Let's think of a
+
+74
+00:03:07,700 --> 00:03:12,060
+word like car. So car has multiple meanings, Michael.
+
+75
+00:03:12,060 --> 00:03:13,560
+>> Hmm.
+
+76
+00:03:13,560 --> 00:03:14,530
+>> Can you think of them?
+
+77
+00:03:14,530 --> 00:03:17,740
+>> I'm mostly stuck on one at the moment. Unless you're thinking of.
+
+78
+00:03:17,740 --> 00:03:18,070
+>> Which one is that?
+
+79
+00:03:18,070 --> 00:03:20,600
+>> I'm thinking of the vehicle that you drive around.
+
+80
+00:03:20,600 --> 00:03:21,140
+>> Yes.
+
+81
+00:03:21,140 --> 00:03:24,050
+>> But I guess one could also be referring to
+
+82
+00:03:26,240 --> 00:03:28,150
+a list deconstruct or in LISP.
+
+83
+00:03:28,150 --> 00:03:31,340
+>> Yes, exactly. It's the first in what are those things called?
+
+84
+00:03:31,340 --> 00:03:33,160
+>> CON, CON cells?
+
+85
+00:03:33,160 --> 00:03:35,200
+>> CON. Thank you. Right, so car is
+
+86
+00:03:35,200 --> 00:03:37,360
+either an automobile or it's the first element
+
+87
+00:03:37,360 --> 00:03:41,510
+in a cons cell, which all of you people who've heard of lisp knows is an awesome
+
+88
+00:03:41,510 --> 00:03:44,450
+reference. [LAUGH] For those of you who've never
+
+89
+00:03:44,450 --> 00:03:46,898
+used lisp, which is clearly the greatest language every
+
+90
+00:03:46,898 --> 00:03:48,581
+written in all of history, or that ever
+
+91
+00:03:48,581 --> 00:03:51,580
+will be written. Because it is a superset and
+
+92
+00:03:51,580 --> 00:03:55,870
+subsumes all other languages, including natural languages. Imagine this
+
+93
+00:03:55,870 --> 00:03:58,330
+word, instead, is apple. And so apple can refer
+
+94
+00:03:58,330 --> 00:04:00,360
+to a fruit, or it can refer to a
+
+95
+00:04:00,360 --> 00:04:02,530
+computer company, or to a music company for that matter.
+
+96
+00:04:02,530 --> 00:04:03,450
+>> Hm.
+
+97
+00:04:03,450 --> 00:04:06,210
+>> But, I prefer car. So, car can mean
+
+98
+00:04:06,210 --> 00:04:08,430
+automobile, or it can mean the first element in
+
+99
+00:04:08,430 --> 00:04:12,140
+a cons cell. If you're using Lisp. Now sticking
+
+100
+00:04:12,140 --> 00:04:17,240
+to this car example synonymy is a similar problem
+
+101
+00:04:17,240 --> 00:04:22,810
+in that car and automobile often refer to the same thing. So
+
+102
+00:04:22,810 --> 00:04:26,280
+you see this. So polysemy is a problem multiple things and synonymy
+
+103
+00:04:26,280 --> 00:04:29,740
+is a problem meaning the same thing. And a paticular word like
+
+104
+00:04:29,740 --> 00:04:33,830
+car in this case. Can cause both polysemy problems and synonymy problems.
+
+105
+00:04:33,830 --> 00:04:35,230
+>> Yeah, I can see that. So in the
+
+106
+00:04:35,230 --> 00:04:37,860
+example you gave before about machine learning, you would,
+
+107
+00:04:37,860 --> 00:04:40,610
+if you'd just returned documents that had machine and
+
+108
+00:04:40,610 --> 00:04:42,430
+learning right after each other, then you'd miss all
+
+109
+00:04:42,430 --> 00:04:46,410
+the stuff on, for example, data mining. Right, in fact, that's
+
+110
+00:04:46,410 --> 00:04:49,650
+a very good example so, there's a huge split in the community
+
+111
+00:04:49,650 --> 00:04:51,970
+between those who care about data mining and those who care about
+
+112
+00:04:51,970 --> 00:04:55,520
+machine learning. And often the people in one camp don't believe the
+
+113
+00:04:55,520 --> 00:04:58,560
+people in the other camp are doing what they're doing. But for
+
+114
+00:04:58,560 --> 00:05:02,310
+the person who isn't religiously commited to one of those camps or
+
+115
+00:05:02,310 --> 00:05:05,060
+the others, when you talk about machine learning you probably also care
+
+116
+00:05:05,060 --> 00:05:07,460
+about data mining. When you talk about data mining you probably also
+
+117
+00:05:07,460 --> 00:05:09,980
+care about what people inside the field might call it instead
+
+118
+00:05:09,980 --> 00:05:13,140
+of machine learning. And so you would be missing out on
+
+119
+00:05:13,140 --> 00:05:16,810
+a whole swath of papers or interetinst discussions if you happend
+
+120
+00:05:16,810 --> 00:05:19,880
+to put in the word machine learning. But similarly if you put
+
+121
+00:05:19,880 --> 00:05:21,840
+in the word like data mining you might end up getting
+
+122
+00:05:21,840 --> 00:05:25,900
+all kinds of documents that are about the data or about the
+
+123
+00:05:25,900 --> 00:05:29,020
+data than you get when you literally mine for ocal. Who
+
+124
+00:05:29,020 --> 00:05:33,170
+knows? And it would cause you huge problems for getting the exactly
+
+125
+00:05:33,170 --> 00:05:34,850
+relelvant set of documents that you want. So we
+
+126
+00:05:34,850 --> 00:05:37,240
+can actually talk about this in terms of, the
+
+127
+00:05:37,240 --> 00:05:39,970
+kind of errors that you get in say supervised
+
+128
+00:05:39,970 --> 00:05:43,990
+learning, what kind of errors do polysemy give you, Michael?
+
+129
+00:05:43,990 --> 00:05:48,390
+>> False, well there's false positive and false negative and
+
+130
+00:05:48,390 --> 00:05:50,840
+this one of the things where we, its going to return
+
+131
+00:05:50,840 --> 00:05:54,070
+things that aren't relevant, its going to say they're positive when
+
+132
+00:05:54,070 --> 00:05:57,210
+they're not. So you've given me the answer, false positive. Okay.
+
+133
+00:05:57,210 --> 00:05:58,530
+>> Looks like false positive.
+
+134
+00:05:58,530 --> 00:06:00,130
+By contrast synonymy gives you what?
+
+135
+00:06:00,130 --> 00:06:01,900
+>> True positives.
+
+136
+00:06:01,900 --> 00:06:02,320
+>> No,
+
+137
+00:06:02,320 --> 00:06:04,800
+>> No wait, I negated the wrong word, false negatives.
+
+138
+00:06:04,800 --> 00:06:05,370
+>> Exactly.
+
+139
+00:06:05,370 --> 00:06:10,320
+>> In other words it's going to, wait is that right? Does the, so false
+
+140
+00:06:10,320 --> 00:06:12,230
+negative means, oh it's going to tell you
+
+141
+00:06:12,230 --> 00:06:13,940
+something's not there, when actually it really is.
+
+142
+00:06:13,940 --> 00:06:15,810
+>> Right, so
+
+143
+00:06:15,810 --> 00:06:17,950
+>> Typing in car will not just give me the automobile
+
+144
+00:06:17,950 --> 00:06:23,385
+articles about my Tesla, which is a black P85. With black leather,
+
+145
+00:06:23,385 --> 00:06:26,420
+[LAUGH] fully loaded and is like the greatest car on
+
+146
+00:06:26,420 --> 00:06:29,440
+the planet, but it will also give me really awesome, but
+
+147
+00:06:29,440 --> 00:06:32,690
+in this case not what I'm looking for, documents about LISP.
+
+148
+00:06:32,690 --> 00:06:36,690
+Meanwhile, when I type in car, I will actually get all
+
+149
+00:06:36,690 --> 00:06:39,870
+these things on automobiles. But I won't get articles that
+
+150
+00:06:39,870 --> 00:06:43,600
+talk about automobiles without actually using the word car. So you
+
+151
+00:06:43,600 --> 00:06:45,760
+can imagine that these sorts of problems come up all the
+
+152
+00:06:45,760 --> 00:06:49,110
+time. You've got a set of features, in this case words,
+
+153
+00:06:49,110 --> 00:06:51,995
+which have this problem that although they're good indicators. They
+
+154
+00:06:51,995 --> 00:06:54,860
+are insufficient, that is we have a set of features
+
+155
+00:06:54,860 --> 00:06:57,270
+that will generate false positives and false negatives on their
+
+156
+00:06:57,270 --> 00:07:01,040
+own and more to the point, doing feature selection will
+
+157
+00:07:01,040 --> 00:07:03,950
+not solve this problem. I can throw away a bunch
+
+158
+00:07:03,950 --> 00:07:06,640
+of irelivent words and even useless words, but I am
+
+159
+00:07:06,640 --> 00:07:10,210
+still going this problem of generating false positives. For our
+
+160
+00:07:10,210 --> 00:07:14,240
+polysemy and false negatives, or synonomy. And this goes beyond
+
+161
+00:07:14,240 --> 00:07:19,080
+simply, information retrieval and text retrieval into
+
+162
+00:07:19,080 --> 00:07:21,080
+any generic problem where you have possibly
+
+163
+00:07:21,080 --> 00:07:23,010
+a large set of features that have
+
+164
+00:07:23,010 --> 00:07:24,720
+this problem with false negatives and false positives.

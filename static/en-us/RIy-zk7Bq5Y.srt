@@ -1,0 +1,180 @@
+1
+00:00:00,330 --> 00:00:04,760
+To solve this problem, I started where
+attach event listeners gets called.
+
+2
+00:00:04,760 --> 00:00:09,230
+It's generally it occurs inside an event
+listener for dom content loaded.
+
+3
+00:00:09,230 --> 00:00:12,810
+When attach event listeners gets
+called there is a flag that's set for
+
+4
+00:00:12,810 --> 00:00:17,990
+sliding and that indicates whether or
+not the toggle's actually sliding.
+
+5
+00:00:17,990 --> 00:00:21,550
+I'm going to take advantage of this
+flag to figure out when I should use
+
+6
+00:00:21,550 --> 00:00:23,950
+events on the window to move the toggle.
+
+7
+00:00:23,950 --> 00:00:27,290
+You'll see,
+inside attach event listeners
+
+8
+00:00:27,290 --> 00:00:31,930
+I set the touch start event
+listener on the toggle itself.
+
+9
+00:00:31,930 --> 00:00:35,010
+This is because I wanted to make sure
+that sliding starts when somebody is
+
+10
+00:00:35,010 --> 00:00:39,450
+actually touching the toggle,
+not some random place on the screen.
+
+11
+00:00:39,450 --> 00:00:43,050
+Inside the event listener I set sliding
+to true because at this point the toggle
+
+12
+00:00:43,050 --> 00:00:44,680
+should be able to slide.
+
+13
+00:00:44,680 --> 00:00:48,280
+And I added the first movement
+to the toggle tracker.
+
+14
+00:00:48,280 --> 00:00:52,670
+Remember add movement is expecting
+the x position of either a mouse or
+
+15
+00:00:52,670 --> 00:00:56,480
+a finger on the screen, so in order to
+get that I'm using the event object.
+
+16
+00:00:56,480 --> 00:01:01,220
+The event object contains a touches
+array and there's only one touch.
+
+17
+00:01:01,220 --> 00:01:05,430
+And it has a property pageX which
+is exactly what I'm looking for.
+
+18
+00:01:05,430 --> 00:01:07,000
+Next up, here comes the move.
+
+19
+00:01:07,000 --> 00:01:10,760
+So on touchmove, I look for
+if the toggle is (sliding) already.
+
+20
+00:01:11,890 --> 00:01:14,990
+I need to look for (sliding) because I
+attached touchmove to the whole window.
+
+21
+00:01:14,990 --> 00:01:19,680
+And that's because somebody's finger
+can pretty easily slip off the toggle.
+
+22
+00:01:19,680 --> 00:01:21,820
+And so if the toggle should
+actually be (sliding),
+
+23
+00:01:21,820 --> 00:01:24,590
+I add the movement
+the same way I did before.
+
+24
+00:01:24,590 --> 00:01:28,260
+And then i request an animation
+frame using the slide callback.
+
+25
+00:01:28,260 --> 00:01:30,740
+And this is what actually
+makes the toggle move.
+
+26
+00:01:30,740 --> 00:01:34,450
+And lastly, I want to watch out for
+any touchend events, whether or
+
+27
+00:01:34,450 --> 00:01:36,520
+not they occur on the toggle itself.
+
+28
+00:01:36,520 --> 00:01:39,690
+So, in that case,
+I add toucnend to the window.
+
+29
+00:01:39,690 --> 00:01:42,580
+It doesn't matter where the finger
+gets let up on the screen.
+
+30
+00:01:42,580 --> 00:01:45,180
+In that case, sliding is done.
+
+31
+00:01:45,180 --> 00:01:49,600
+I then did basically the same thing for
+mousedown, mousemove and mouseup.
+
+32
+00:01:49,600 --> 00:01:53,850
+The only difference is now I don't have
+a touches object on the event objects
+
+33
+00:01:53,850 --> 00:01:56,620
+and I can simply go straight to pageX.
+
+34
+00:01:56,620 --> 00:01:58,610
+Cool, okay, that's enough code.
+
+35
+00:01:58,610 --> 00:02:00,480
+Let me show you what this looks like.
+
+36
+00:02:00,480 --> 00:02:03,690
+Just like before,
+touch events seem to be working and
+
+37
+00:02:03,690 --> 00:02:04,850
+mouse events work as well.
+
+38
+00:02:04,850 --> 00:02:09,090
+I can slide off and keeps going but
+as soon as I let up, no more sliding.

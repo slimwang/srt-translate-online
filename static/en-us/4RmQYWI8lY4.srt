@@ -1,0 +1,192 @@
+1
+00:00:00,260 --> 00:00:03,469
+I'll start with the same function I
+wrote before for NumPy arrays, and
+
+2
+00:00:03,469 --> 00:00:07,370
+then I'll try each line to see whether
+it works on data frames as well.
+
+3
+00:00:07,370 --> 00:00:09,210
+First I'll try out
+the first line of code,
+
+4
+00:00:09,210 --> 00:00:13,130
+which is meant to take the argmax
+of the first row in the data frame.
+
+5
+00:00:13,130 --> 00:00:15,660
+This gives me a pretty scary
+looking error message,
+
+6
+00:00:15,660 --> 00:00:19,510
+starting with type error and
+ending with unhashable type.
+
+7
+00:00:20,720 --> 00:00:24,040
+Now, it can be really hard to figure out
+why you're getting error messages like
+
+8
+00:00:24,040 --> 00:00:24,540
+this, and
+
+9
+00:00:24,540 --> 00:00:28,460
+I find that in general Panda's error
+messages aren't always very helpful.
+
+10
+00:00:28,460 --> 00:00:31,950
+Usually what I do is try to double
+check the codes that I just wrote.
+
+11
+00:00:31,950 --> 00:00:36,040
+So for example, if I was modifying some
+code from a documentation page, I'll
+
+12
+00:00:36,040 --> 00:00:39,700
+make sure that I used exactly the same
+code as the documentation page used.
+
+13
+00:00:40,750 --> 00:00:41,440
+In this case,
+
+14
+00:00:41,440 --> 00:00:45,255
+the problem is that to access a row
+of a dataframe, I need to use i loc.
+
+15
+00:00:46,380 --> 00:00:49,287
+I also don't need this colon
+anymore to specify all columns.
+
+16
+00:00:50,340 --> 00:00:55,335
+And this time when I run
+the code I get the value R006.
+
+17
+00:00:55,335 --> 00:01:00,278
+It looks like R006 is the fourth station
+which is indeed the one with the maximum
+
+18
+00:01:00,278 --> 00:01:01,790
+riders on the first day.
+
+19
+00:01:03,020 --> 00:01:07,030
+Note that for a numpy array the argmax
+function returned to the position.
+
+20
+00:01:07,030 --> 00:01:11,180
+But for a series, the argmax function
+is returning the index of the series.
+
+21
+00:01:11,180 --> 00:01:13,980
+Or in this case the column
+name from the data frame.
+
+22
+00:01:13,980 --> 00:01:16,830
+So I'll update this line
+within my function.
+
+23
+00:01:16,830 --> 00:01:19,690
+Next I'll try out the second
+line of code from the function.
+
+24
+00:01:19,690 --> 00:01:21,920
+I've used R006 here as the max station.
+
+25
+00:01:23,570 --> 00:01:26,230
+Again, I get a scary
+looking error message and
+
+26
+00:01:26,230 --> 00:01:30,630
+again this is because this is not how
+you access a column of a data frame.
+
+27
+00:01:30,630 --> 00:01:31,820
+I don't need the colon here.
+
+28
+00:01:32,930 --> 00:01:35,890
+So trying again it looks
+like it worked this time.
+
+29
+00:01:37,010 --> 00:01:39,280
+I'll go ahead and make that
+update in the function as well.
+
+30
+00:01:40,700 --> 00:01:43,610
+And finally I'll try out the last
+line of code from the function.
+
+31
+00:01:44,690 --> 00:01:46,970
+And this line of code does work but
+
+32
+00:01:46,970 --> 00:01:50,330
+it provides a series containing
+the mean for each column.
+
+33
+00:01:50,330 --> 00:01:53,530
+Rather than the overall mean,
+which is what I wanted.
+
+34
+00:01:53,530 --> 00:01:55,080
+Like I mentioned before,
+
+35
+00:01:55,080 --> 00:01:58,980
+there's no way to directly calculate
+the overall mean of the dataframe, so
+
+36
+00:01:58,980 --> 00:02:02,040
+instead I'll use .values to take
+the mean of the NumPy array.
+
+37
+00:02:03,190 --> 00:02:07,680
+And trying this out, I can see that it
+gives a single number, like I expected.
+
+38
+00:02:07,680 --> 00:02:11,220
+And once again, I'll update
+the corresponding part of the function.
+
+39
+00:02:11,220 --> 00:02:14,270
+Now I'll try calling this function
+on my ridership data frame and
+
+40
+00:02:14,270 --> 00:02:17,490
+I get the same answer that I got before
+with an NumPy array, which is good.

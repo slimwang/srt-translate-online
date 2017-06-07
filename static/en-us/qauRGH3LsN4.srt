@@ -1,0 +1,431 @@
+1
+00:00:00,120 --> 00:00:02,750
+To illustrate the structure
+of the RPC system
+
+2
+00:00:02,750 --> 00:00:04,520
+I will walk you through an example.
+
+3
+00:00:04,520 --> 00:00:06,700
+Consider a client and server system.
+
+4
+00:00:06,700 --> 00:00:09,780
+The client wants to perform
+some arithmetic operations,
+
+5
+00:00:09,780 --> 00:00:14,120
+let's say addition, subtraction,
+multiplication, but doesn't know how to.
+
+6
+00:00:14,120 --> 00:00:16,760
+The server is the calculator process,
+and
+
+7
+00:00:16,760 --> 00:00:19,790
+it knows how to perform
+all of these operations.
+
+8
+00:00:19,790 --> 00:00:21,030
+In this scenario,
+
+9
+00:00:21,030 --> 00:00:24,700
+whenever the client needs to
+perform some arithmetic operation.
+
+10
+00:00:24,700 --> 00:00:27,990
+It needs to send the message
+over to the server that
+
+11
+00:00:27,990 --> 00:00:31,970
+specifies what is the operation it wants
+performed, as well as the arguments.
+
+12
+00:00:31,970 --> 00:00:35,940
+The server is the one that has
+the implementation of that operation.
+
+13
+00:00:35,940 --> 00:00:38,880
+So it will take those arguments,
+perform the operation, and
+
+14
+00:00:38,880 --> 00:00:40,340
+then return the results.
+
+15
+00:00:40,340 --> 00:00:44,370
+To simplify all the communications
+related aspects of the programming, like
+
+16
+00:00:44,370 --> 00:00:48,400
+creating sockets, allocating managing
+the buffers, for the arguments and for
+
+17
+00:00:48,400 --> 00:00:53,500
+the results, and all the other detail,
+this communication pattern will use RPC.
+
+18
+00:00:53,500 --> 00:00:57,450
+Let's consider in this example
+the client wants to perform an addition.
+
+19
+00:00:57,450 --> 00:00:59,070
+It wants to add i and
+
+20
+00:00:59,070 --> 00:01:03,760
+j and it wants to obtain the results
+of this computation in k.
+
+21
+00:01:03,760 --> 00:01:07,430
+The client doesn't have the
+implementation of the addition process,
+
+22
+00:01:07,430 --> 00:01:09,430
+only the server knows how to do it.
+
+23
+00:01:09,430 --> 00:01:13,340
+However, with RPC the client is still
+allowed to call something that looks
+
+24
+00:01:13,340 --> 00:01:17,660
+just like a regular procedure
+k equals add of i and j.
+
+25
+00:01:17,660 --> 00:01:20,330
+In a regular program,
+when a procedure call is made
+
+26
+00:01:20,330 --> 00:01:23,980
+the execution jumps to some
+other point in the address space
+
+27
+00:01:23,980 --> 00:01:27,230
+where the implementation of that
+procedure is actually stored.
+
+28
+00:01:27,230 --> 00:01:31,180
+So the program counter will be set to
+some value in that address space that
+
+29
+00:01:31,180 --> 00:01:33,790
+corresponds to the first
+instruction of the procedure.
+
+30
+00:01:33,790 --> 00:01:38,250
+In this example, when the RPC add is
+called the execution of the program will
+
+31
+00:01:38,250 --> 00:01:40,980
+also jump to another location
+in the address space.
+
+32
+00:01:40,980 --> 00:01:44,630
+But it won't be where the real
+implementation of add is,
+
+33
+00:01:44,630 --> 00:01:48,380
+instead it will be in
+a stub implementation.
+
+34
+00:01:48,380 --> 00:01:52,550
+From the rest of the client's process it
+will look just like the real add, but
+
+35
+00:01:52,550 --> 00:01:56,080
+internally what this stuff does
+is something entirely different.
+
+36
+00:01:56,080 --> 00:01:59,880
+The responsibility of the client's
+stub is to create a buffer and
+
+37
+00:01:59,880 --> 00:02:03,480
+populate that buffer with all
+of the appropriate information.
+
+38
+00:02:03,480 --> 00:02:06,760
+In this case, it's the descriptor of
+the function that the client wants
+
+39
+00:02:06,760 --> 00:02:10,949
+the server to perform, the add, as well
+as its arguments, the integers i and j.
+
+40
+00:02:10,949 --> 00:02:15,680
+The stop code itself is automatically
+generated via some tools that are part
+
+41
+00:02:15,680 --> 00:02:19,710
+of the RPC package so the programmer
+doesn't have to write this code.
+
+42
+00:02:19,710 --> 00:02:24,270
+So when the client makes the call at
+here the call takes the execution of
+
+43
+00:02:24,270 --> 00:02:28,820
+the client process into a portion
+of the RPC run time, and
+
+44
+00:02:28,820 --> 00:02:33,910
+by that we mean the system software that
+implements all of the RPC functionality.
+
+45
+00:02:33,910 --> 00:02:37,400
+In the first step here is
+that stub implementation.
+
+46
+00:02:37,400 --> 00:02:38,950
+After the buffer is created,
+
+47
+00:02:38,950 --> 00:02:42,320
+the RPC run time will send
+a message to the server process.
+
+48
+00:02:42,320 --> 00:02:46,610
+This may be the TCP/IP sockets or
+some other transport protocol.
+
+49
+00:02:46,610 --> 00:02:49,310
+What we're not showing in this
+figure is that there is some
+
+50
+00:02:49,310 --> 00:02:52,820
+information about the server
+machine like the IP address and
+
+51
+00:02:52,820 --> 00:02:55,720
+the port number where this
+server process is running.
+
+52
+00:02:55,720 --> 00:02:57,700
+That is available to the client.
+
+53
+00:02:57,700 --> 00:03:01,940
+And that information is used by the RPC
+run time to establish the connection,
+
+54
+00:03:01,940 --> 00:03:04,350
+and to carry out all
+of the communication.
+
+55
+00:03:04,350 --> 00:03:06,800
+On the server side when
+the packets are received for
+
+56
+00:03:06,800 --> 00:03:10,130
+disconnection they will be
+handed off to the server stub.
+
+57
+00:03:10,130 --> 00:03:12,280
+This is a code that will
+know how to parse and
+
+58
+00:03:12,280 --> 00:03:17,420
+interpret all the received bytes in the
+packets that were delivered to the stub
+
+59
+00:03:17,420 --> 00:03:20,930
+and it will also know how to determine
+that this is an RPC request for
+
+60
+00:03:20,930 --> 00:03:24,160
+the procedure add with arguments i and
+j.
+
+61
+00:03:24,160 --> 00:03:27,680
+The servers stop once it sees that
+it needs to perform this act.
+
+62
+00:03:27,680 --> 00:03:31,220
+It will know that the remaining bytes
+need to be interpreted like two
+
+63
+00:03:31,220 --> 00:03:32,850
+integers i and j.
+
+64
+00:03:32,850 --> 00:03:36,460
+So it will know how many bytes
+to copy from the packet stream,
+
+65
+00:03:36,460 --> 00:03:40,040
+how to allocate data structures for
+these particular
+
+66
+00:03:40,040 --> 00:03:44,480
+integer variables to be created in
+the address piece of the server process.
+
+67
+00:03:44,480 --> 00:03:47,950
+Once all this information is
+extracted on the server side
+
+68
+00:03:47,950 --> 00:03:51,200
+these local variables are created
+in the address space.
+
+69
+00:03:51,200 --> 00:03:56,270
+The stub is ready to make a call in
+the user level server process that has
+
+70
+00:03:56,270 --> 00:04:01,010
+the actual implementation of all of
+the operations, including the add.
+
+71
+00:04:01,010 --> 00:04:04,820
+Only at that point did the actual
+implementation of the add procedure will
+
+72
+00:04:04,820 --> 00:04:08,800
+be called and the results of the edition
+of i and j will be computed and
+
+73
+00:04:08,800 --> 00:04:12,930
+stored in a variable in the server
+process address space at that point.
+
+74
+00:04:12,930 --> 00:04:15,940
+Once the result is computed,
+it will take the reverse path.
+
+75
+00:04:15,940 --> 00:04:19,370
+It will go through the server step
+that will first create a buffer for
+
+76
+00:04:19,370 --> 00:04:20,720
+that result and
+
+77
+00:04:20,720 --> 00:04:25,170
+then it will send the response back
+via the appropriate client connection.
+
+78
+00:04:25,170 --> 00:04:28,680
+That will arrive on the client
+side into the RPC run time.
+
+79
+00:04:28,680 --> 00:04:30,420
+The packets will be received.
+
+80
+00:04:30,420 --> 00:04:35,100
+The result will be extracted from
+those packets by the client side stub,
+
+81
+00:04:35,100 --> 00:04:39,440
+be placed somewhere in memory
+in the client address space, and
+
+82
+00:04:39,440 --> 00:04:43,420
+then ultimately the procedure will
+return to the client process.
+
+83
+00:04:43,420 --> 00:04:47,050
+For the entire time while this
+is happening, the client process
+
+84
+00:04:47,050 --> 00:04:51,290
+will be blocked on this add
+operation will be suspended here.
+
+85
+00:04:51,290 --> 00:04:53,140
+It will not be able to continue.
+
+86
+00:04:53,140 --> 00:04:55,870
+Which is exactly what
+happens when a client process
+
+87
+00:04:55,870 --> 00:04:58,130
+makes a local procedure call.
+
+88
+00:04:58,130 --> 00:05:00,980
+The execution of the client
+process will continue
+
+89
+00:05:00,980 --> 00:05:04,330
+only once the results of that
+procedure call are available.

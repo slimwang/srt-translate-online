@@ -1,0 +1,207 @@
+1
+00:00:00,320 --> 00:00:02,360
+So, how do we compute disparity?
+
+2
+00:00:02,360 --> 00:00:05,689
+Let's take the simple example here and
+we know disparity is, in essence,
+
+3
+00:00:05,689 --> 00:00:09,190
+the difference of Xr and Xl.
+
+4
+00:00:09,190 --> 00:00:10,425
+We need correspondence.
+
+5
+00:00:10,425 --> 00:00:11,495
+It, basically means is,
+
+6
+00:00:11,495 --> 00:00:15,980
+in both those images, I need to
+know exactly the locations Xr and
+
+7
+00:00:15,980 --> 00:00:18,840
+it's the same point that should
+be visible in the other image.
+
+8
+00:00:18,840 --> 00:00:21,580
+In essence,
+what we need is each pixel, or
+
+9
+00:00:21,580 --> 00:00:25,100
+any pixel, has to be corresponding to
+the other pixel in the left image.
+
+10
+00:00:25,100 --> 00:00:27,695
+So, any point that's in the right one
+should also be appearing in the left
+
+11
+00:00:27,695 --> 00:00:28,430
+one.
+
+12
+00:00:28,430 --> 00:00:29,190
+Now of course,
+
+13
+00:00:29,190 --> 00:00:33,140
+we have learned how to do feature
+matching at stuff like that already.
+
+14
+00:00:33,140 --> 00:00:37,170
+Of course, you can imagine that any
+point I find in the right image,
+
+15
+00:00:37,170 --> 00:00:40,240
+I can search for it and
+match for it in the left image.
+
+16
+00:00:40,240 --> 00:00:42,110
+And, many different
+methods we have looked at,
+
+17
+00:00:42,110 --> 00:00:46,543
+including even just simple correlation
+methods, and normalized corel,
+
+18
+00:00:46,543 --> 00:00:49,940
+cross-correlation methods that we've
+looked at, could be used to find
+
+19
+00:00:49,940 --> 00:00:54,320
+a feature in one image and find that
+same feature by doing again as I said,
+
+20
+00:00:54,320 --> 00:00:57,571
+you know,
+cross-correlation does is basically,
+
+21
+00:00:57,571 --> 00:01:01,430
+a inner product or dot product, and
+it will find the most similar pixels.
+
+22
+00:01:01,430 --> 00:01:04,950
+Computationally, you can imagine
+this gets to be pretty complicated.
+
+23
+00:01:04,950 --> 00:01:08,312
+Similarly, the other method we can
+actually do is sum of squared difference
+
+24
+00:01:08,312 --> 00:01:10,900
+measure errors take any pixel region and
+neighborhoods.
+
+25
+00:01:10,900 --> 00:01:13,770
+Remember, the kinds of stuff we've
+looked at already when we've talked
+
+26
+00:01:13,770 --> 00:01:17,160
+about just neighborhoods, and pixels and
+how to do kinds of filtering and
+
+27
+00:01:17,160 --> 00:01:18,210
+comparisons.
+
+28
+00:01:18,210 --> 00:01:20,400
+Well, that all could be applied here.
+
+29
+00:01:20,400 --> 00:01:24,030
+But, you can imagine, this is going to
+get pretty complicated if I have to do
+
+30
+00:01:24,030 --> 00:01:28,340
+pixel by pixel region by region matching
+and also perhaps a different scales.
+
+31
+00:01:28,340 --> 00:01:28,860
+To help us,
+
+32
+00:01:28,860 --> 00:01:32,110
+we can actually rely on something
+called the epipolar constraint.
+
+33
+00:01:32,110 --> 00:01:36,790
+Basically, that says is, you don't
+need to search the whole 2D image.
+
+34
+00:01:36,790 --> 00:01:40,430
+When I actually found something, I want
+to match to from the left to the right.
+
+35
+00:01:40,430 --> 00:01:41,420
+Basically, what it does,
+
+36
+00:01:41,420 --> 00:01:45,770
+is it reduces the search space
+to one dimensional line.
+
+37
+00:01:45,770 --> 00:01:49,810
+Let me show you what that means, but
+the idea really remains is in this case,
+
+38
+00:01:49,810 --> 00:01:53,130
+there is no change in the y-axis.
+
+39
+00:01:53,130 --> 00:01:54,480
+So, why should I search for
+
+40
+00:01:54,480 --> 00:01:58,060
+everything that is in this
+point across the whole image?
+
+41
+00:01:58,060 --> 00:02:00,430
+I should search for
+it just across that line.
+
+42
+00:02:00,430 --> 00:02:03,225
+Remember the interesting things
+about stereo imaging, right?
+
+43
+00:02:03,225 --> 00:02:07,810
+Both eyes are on the same y-axis,
+most of the time we want to use that
+
+44
+00:02:07,810 --> 00:02:12,335
+constraint for two cameras on,
+basically being at the same axis.

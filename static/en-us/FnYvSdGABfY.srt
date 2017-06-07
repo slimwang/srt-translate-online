@@ -1,0 +1,186 @@
+1
+00:00:00,220 --> 00:00:05,130
+So, the first is, we're going to
+play either the beeping noise, or
+
+2
+00:00:05,130 --> 00:00:09,560
+we're going to play the radio depending
+on, I think that we had that setting
+
+3
+00:00:09,560 --> 00:00:14,570
+from earlier, from the other
+system of which mode we're in.
+
+4
+00:00:14,570 --> 00:00:19,270
+>> So we have a state machine
+indicating whether we're in a mode
+
+5
+00:00:19,270 --> 00:00:22,040
+that we expect to hear beeps or
+we expect to hear radio.
+
+6
+00:00:22,040 --> 00:00:25,399
+And depending upon which of
+those two states we're in,
+
+7
+00:00:25,399 --> 00:00:29,484
+we would expect to hear different
+things coming out of the speaker.
+
+8
+00:00:29,484 --> 00:00:30,230
+>> Right.
+
+9
+00:00:30,230 --> 00:00:31,150
+>> Okay.
+What else?
+
+10
+00:00:31,150 --> 00:00:35,236
+>> And then we are going to be working
+with our two other internal state
+
+11
+00:00:35,236 --> 00:00:36,000
+machines.
+
+12
+00:00:36,000 --> 00:00:40,510
+The one for starting the snooze
+timer that'll run up to ten minutes.
+
+13
+00:00:40,510 --> 00:00:42,640
+>> But that's only if the user
+has hit the snooze button.
+
+14
+00:00:43,660 --> 00:00:44,200
+>> That's right.
+Okay.
+
+15
+00:00:44,200 --> 00:00:45,300
+>> So we don't expect,
+
+16
+00:00:45,300 --> 00:00:48,540
+as a response to the times matching-
+>> Right, right.
+
+17
+00:00:48,540 --> 00:00:50,740
+>> That that one happens.
+
+18
+00:00:50,740 --> 00:00:55,510
+>> Okay, well then, just that one
+system then, of the internal system for
+
+19
+00:00:55,510 --> 00:01:00,270
+our alarm in which,
+after an hour, it'll go off.
+
+20
+00:01:00,270 --> 00:01:03,190
+>> So we have to start
+counting that hour up in order
+
+21
+00:01:03,190 --> 00:01:04,769
+to know when to turn it off.
+
+22
+00:01:04,769 --> 00:01:07,070
+So to deal with this,
+we've invented a new event,
+
+23
+00:01:07,070 --> 00:01:10,070
+event twenty, when the clock
+time reaches the alarm time.
+
+24
+00:01:10,070 --> 00:01:14,750
+And we need to list as the responses for
+
+25
+00:01:14,750 --> 00:01:17,650
+that event what Jared
+was just talking about.
+
+26
+00:01:18,830 --> 00:01:22,875
+>> So while we're on the topic
+of setting the internal timers,
+
+27
+00:01:22,875 --> 00:01:25,860
+we said the snooze one, this won't be
+effected unless we're talking about
+
+28
+00:01:25,860 --> 00:01:28,130
+the specific event where
+we press the snooze button.
+
+29
+00:01:28,130 --> 00:01:29,610
+If you were to press the snooze button,
+
+30
+00:01:29,610 --> 00:01:34,450
+will that reset the alarm,
+the internal alarm timer, back to zero?
+
+31
+00:01:34,450 --> 00:01:39,300
+>> So, recall that we have this timer
+which is timing up to an hour, for
+
+32
+00:01:39,300 --> 00:01:41,910
+how long the radio's going to play or
+the beeper's going to beep.
+
+33
+00:01:42,970 --> 00:01:48,350
+And Jerod's question is if during that
+time the user hits the snooze button to
+
+34
+00:01:48,350 --> 00:01:50,969
+shut them off,
+whether that timer resets.
+
+35
+00:01:52,620 --> 00:01:55,330
+I don't personally know, but
+that's an excellent question that
+
+36
+00:01:55,330 --> 00:01:58,800
+the developer would
+actually have an answer to.
+
+37
+00:01:58,800 --> 00:02:04,550
+My intuitive reaction is that no,
+it doesn't reset the timer,
+
+38
+00:02:04,550 --> 00:02:07,900
+it just allows you to snooze
+a little while longer.
+
+39
+00:02:07,900 --> 00:02:08,400
+>> Okay.

@@ -1,0 +1,123 @@
+1
+00:00:00,300 --> 00:00:04,030
+So now that we have the Fundamental matrix, well, so what?
+
+2
+00:00:04,030 --> 00:00:08,050
+Well as we said, it relates between the pixel coordinates in the two views.
+
+3
+00:00:08,050 --> 00:00:11,840
+And it's much more general then the in, then the essential matrix,
+
+4
+00:00:11,840 --> 00:00:16,410
+because we've removed the need to know the intrinsic parameters.
+
+5
+00:00:16,410 --> 00:00:19,250
+If you told me the intrinsics, okay,
+
+6
+00:00:19,250 --> 00:00:21,530
+then I could figure out the rays that correspond.
+
+7
+00:00:21,530 --> 00:00:24,070
+And if I know the rays that correspond in,
+
+8
+00:00:24,070 --> 00:00:27,930
+in the, the 3D camera coordinates, I can compute the essential matrix.
+
+9
+00:00:27,930 --> 00:00:30,660
+I could figure out the real rotation of translation.
+
+10
+00:00:30,660 --> 00:00:34,130
+But if I have two arbitrary cameras that aren't even necessarily the same,
+
+11
+00:00:34,130 --> 00:00:36,970
+the fundamental matrix allows me to relate them without worrying about
+
+12
+00:00:36,970 --> 00:00:39,230
+the intrinsics or the extrinsics.
+
+13
+00:00:39,230 --> 00:00:42,890
+So the bottom line is if we estimate the fundamental matrix from
+
+14
+00:00:42,890 --> 00:00:47,000
+the correspondences, then we can reconstruct our epipolar geometry without
+
+15
+00:00:47,000 --> 00:00:50,810
+having to worry at all about the intrinsics or extrinsics of the camera.
+
+16
+00:00:50,810 --> 00:00:51,900
+And that's what's done here.
+
+17
+00:00:51,900 --> 00:00:53,230
+Here you see two pictures.
+
+18
+00:00:53,230 --> 00:00:56,390
+I think this is also courtesy of stealing from Andrew's instrument.
+
+19
+00:00:56,390 --> 00:00:58,400
+And you have some pixels on the left and
+
+20
+00:00:58,400 --> 00:01:01,600
+some pixels on the right and then they were put into correspondence.
+
+21
+00:01:01,600 --> 00:01:05,430
+The idea is I gave you corresponding points, and now the lines that
+
+22
+00:01:05,430 --> 00:01:08,980
+are drawn on here, those are the corresponding epipolar lines.
+
+23
+00:01:08,980 --> 00:01:11,310
+So, in fact if you take a look real quick.
+
+24
+00:01:11,310 --> 00:01:15,310
+So you'll notice that, you know, here's a point right on the bottom edge of
+
+25
+00:01:15,310 --> 00:01:18,790
+that window, and this line lands right on the bottom edge of that window.
+
+26
+00:01:18,790 --> 00:01:21,780
+So these are corresponding epipolar lines.
+
+27
+00:01:21,780 --> 00:01:25,990
+Any point that's along this line, is also going to be along that line.
+
+28
+00:01:25,990 --> 00:01:27,520
+Let's see, does that really work.
+
+29
+00:01:27,520 --> 00:01:30,352
+Let's see, it goes across this chimney thing, yep there it is right there.
+
+30
+00:01:30,352 --> 00:01:33,553
+Okay, so that's finding the epipolar lines by
+
+31
+00:01:33,553 --> 00:01:38,450
+giving the correspondences through solving for the fundamental matrix.

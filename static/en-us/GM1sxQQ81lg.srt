@@ -1,0 +1,147 @@
+1
+00:00:01,000 --> 00:00:07,000
+[Norvig] There's a convention in situation calculus that predicates like At--
+
+2
+00:00:07,000 --> 00:00:14,000
+we said plane P was at airport X in situation S--
+
+3
+00:00:14,000 --> 00:00:19,000
+these types of predicates that can vary from 1 situation to another are called fluents,
+
+4
+00:00:19,000 --> 00:00:25,000
+from the word fluent, having to do with fluidity or change over time.
+
+5
+00:00:25,000 --> 00:00:29,000
+And the convention is that they refer to a specific situation,
+
+6
+00:00:29,000 --> 00:00:35,000
+and we always put that situation argument as the last in the predicate.
+
+7
+00:00:35,000 --> 00:00:41,000
+Now, the trickiest part about situation calculus is describing what changes
+
+8
+00:00:41,000 --> 00:00:44,000
+and what doesn't change as a result of an action.
+
+9
+00:00:44,000 --> 00:00:48,000
+Remember in classical planning we had action schemas
+
+10
+00:00:48,000 --> 00:00:53,000
+where we described 1 action at a time and said what changed.
+
+11
+00:00:53,000 --> 00:00:57,000
+For situation calculus it turns out to be easier to do it the other way around.
+
+12
+00:00:57,000 --> 00:01:03,000
+Instead of writing 1 action or 1 schema or 1 axiom for each action,
+
+13
+00:01:03,000 --> 00:01:07,000
+we do 1 for each fluent, for each predicate that can change.
+
+14
+00:01:07,000 --> 00:01:12,000
+We use the convention called successor state axioms.
+
+15
+00:01:12,000 --> 00:01:15,000
+These are used to describe what happens in the state
+
+16
+00:01:15,000 --> 00:01:19,000
+that's a successor of executing an action.
+
+17
+00:01:19,000 --> 00:01:26,000
+And in general, a successor state axiom will have the form of saying
+
+18
+00:01:26,000 --> 00:01:35,000
+for all actions and states, if it's possible to execute action A in state S,
+
+19
+00:01:35,000 --> 00:01:42,000
+then--and I'll show in general what they look like here--
+
+20
+00:01:42,000 --> 00:01:54,000
+the fluent is true if and only if action A made it true
+
+21
+00:01:54,000 --> 00:02:03,000
+or action A didn't undo it.
+
+22
+00:02:03,000 --> 00:02:08,000
+So that is, either it wasn't true before and A made it be true,
+
+23
+00:02:08,000 --> 00:02:14,000
+or it was true before and A didn't do something to stop it being true.
+
+24
+00:02:14,000 --> 00:02:18,000
+For example, I'll show you the successor state axiom for the In predicate.
+
+25
+00:02:18,000 --> 00:02:23,000
+And just to make it a little bit simpler, I'll leave out all the For All quantifiers.
+
+26
+00:02:23,000 --> 00:02:28,000
+So wherever you see a variable without a quantifier, assume that there's a For All.
+
+27
+00:02:28,000 --> 00:02:38,000
+What we'll say is it's possible to execute A in situation S.
+
+28
+00:02:38,000 --> 00:02:48,000
+If that's true, then the In predicate holds between some cargo C
+
+29
+00:02:48,000 --> 00:03:01,000
+and some plane in the state, which is the result of executing action A in state S.
+
+30
+00:03:01,000 --> 00:03:12,000
+So that In predicate will hold if and only if either A was a load action--
+
+31
+00:03:12,000 --> 00:03:19,000
+so if we load the cargo into the plane, then the result of executing that action A
+
+32
+00:03:19,000 --> 00:03:23,000
+is that the cargo is in the plane--
+
+33
+00:03:23,000 --> 00:03:30,000
+or it might be that it was already true that the cargo was in the plane in situation S
+
+34
+00:03:30,000 --> 00:03:38,000
+and A is not equal to an unload action.
+
+35
+00:03:38,000 --> 00:03:45,000
+So for all A and S for which it's possible to execute A in situation S,
+
+36
+00:03:45,000 --> 00:03:50,000
+the In predicate holds if and only if the action was a load
+
+37
+00:03:50,000 --> 99:59:59,999
+or the In predicate used to hold in the previous state and the action is not an unload.

@@ -1,0 +1,283 @@
+1
+00:00:00,232 --> 00:00:02,420
+So Firebase provides us with
+a bunch of features for
+
+2
+00:00:02,420 --> 00:00:06,480
+free so, is it doing anything
+automatically to protect our data?
+
+3
+00:00:06,480 --> 00:00:09,060
+>> Not anything automatically
+that I know of.
+
+4
+00:00:09,060 --> 00:00:10,440
+But why don't you check it out.
+
+5
+00:00:10,440 --> 00:00:11,950
+>> Yeah, check it out.
+
+6
+00:00:11,950 --> 00:00:14,950
+Okay, well about the security and
+rules tab of the dashboard.
+
+7
+00:00:16,090 --> 00:00:19,110
+Well, this seems pretty unsecured.
+
+8
+00:00:19,110 --> 00:00:21,080
+It's a little bit troubling.
+
+9
+00:00:21,080 --> 00:00:22,340
+Why do you say that?
+
+10
+00:00:22,340 --> 00:00:23,630
+What about all that permissioning and
+
+11
+00:00:23,630 --> 00:00:26,540
+log in flow stuff you talked about
+when designing version point three.
+
+12
+00:00:27,670 --> 00:00:29,470
+>> That was client side security.
+
+13
+00:00:29,470 --> 00:00:32,409
+So, here we have the Firebase server and
+the client side app.
+
+14
+00:00:32,409 --> 00:00:35,280
+Anyone using the shopping list plus
+plus Android app will get any of
+
+15
+00:00:35,280 --> 00:00:38,530
+the security and permissioning
+that I built into the app itself.
+
+16
+00:00:38,530 --> 00:00:42,160
+Things like needing to be logged in
+before seeing any data in the app, or
+
+17
+00:00:42,160 --> 00:00:45,440
+needing to be the owner of the shopping
+list before seeing the share icon to
+
+18
+00:00:45,440 --> 00:00:47,320
+share your shopping list with friends.
+
+19
+00:00:47,320 --> 00:00:50,640
+But again, this is all client side
+logic the server knows nothing about.
+
+20
+00:00:50,640 --> 00:00:53,010
+By default,
+the server itself is wide open,
+
+21
+00:00:53,010 --> 00:00:56,250
+allowing our data to be
+written by anyone or anything.
+
+22
+00:00:56,250 --> 00:00:59,410
+Now if all communication is done via
+the Android app things are okay.
+
+23
+00:00:59,410 --> 00:01:03,274
+But say in hopefully the near future
+we make a iOS app and a web app for
+
+24
+00:01:03,274 --> 00:01:04,794
+Shopping List plus plus.
+
+25
+00:01:04,794 --> 00:01:08,518
+And as a team what we probably do is try
+to implement the same security features
+
+26
+00:01:08,518 --> 00:01:11,150
+in the Android app in
+both of these other apps.
+
+27
+00:01:11,150 --> 00:01:14,260
+Now I'm not iOS programmer or
+a web app programmer.
+
+28
+00:01:14,260 --> 00:01:16,940
+So I just kind of have to hope that
+who's ever making these two apps
+
+29
+00:01:16,940 --> 00:01:18,200
+knows what they're doing.
+
+30
+00:01:18,200 --> 00:01:20,690
+Let's say that the iOS girl
+knows what she's doing.
+
+31
+00:01:20,690 --> 00:01:23,125
+But whoever made the web
+app was a little sloppy and
+
+32
+00:01:23,125 --> 00:01:24,640
+introduced some security bugs.
+
+33
+00:01:24,640 --> 00:01:27,020
+So even though these clients
+were implemented correctly.
+
+34
+00:01:27,020 --> 00:01:31,260
+One client being implemented incorrectly
+jeopardizes the entire database.
+
+35
+00:01:31,260 --> 00:01:34,120
+This is where you might be wishing that
+there was just one place where you could
+
+36
+00:01:34,120 --> 00:01:36,770
+enforce what can and
+can't be done with the data.
+
+37
+00:01:36,770 --> 00:01:40,000
+Because otherwise again we're relying
+on every single client to implement
+
+38
+00:01:40,000 --> 00:01:42,440
+security perfectly and in the same way.
+
+39
+00:01:42,440 --> 00:01:45,690
+>> Right and
+that's the purpose of server side rules.
+
+40
+00:01:45,690 --> 00:01:48,870
+Namely those Firebased security
+rules I've been hounding you about.
+
+41
+00:01:48,870 --> 00:01:50,660
+>> All right, all right JP you're right.
+
+42
+00:01:50,660 --> 00:01:52,560
+We should do something about security.
+
+43
+00:01:52,560 --> 00:01:53,825
+Come to think of it.
+
+44
+00:01:53,825 --> 00:01:54,812
+Jeez.
+
+45
+00:01:54,812 --> 00:01:55,800
+>> What?
+
+46
+00:01:55,800 --> 00:01:58,720
+>> Well I just realized there's an even
+bigger security flaw than just writing
+
+47
+00:01:58,720 --> 00:02:00,370
+a web app with a bug in it.
+
+48
+00:02:00,370 --> 00:02:03,670
+Remember when we first wrote our Android
+app I didn't have to do anything to
+
+49
+00:02:03,670 --> 00:02:07,520
+verify that the app was owned by
+the same person that owned the Firebase.
+
+50
+00:02:07,520 --> 00:02:11,042
+So going back to my data
+here is a JS fiddle and
+
+51
+00:02:11,042 --> 00:02:14,670
+it's just some arbitrary
+JavaScript here.
+
+52
+00:02:14,670 --> 00:02:18,111
+And basically I just copied this
+from the quick start guide for
+
+53
+00:02:18,111 --> 00:02:20,295
+writing JavaScript for Firebase, and
+
+54
+00:02:20,295 --> 00:02:23,480
+if I run this it actually
+affects my Firebase over here.
+
+55
+00:02:23,480 --> 00:02:25,610
+And this could have been run by anybody,
+I mean,
+
+56
+00:02:25,610 --> 00:02:28,960
+there is nothing that required me to
+verify where this code was coming from.
+
+57
+00:02:28,960 --> 00:02:31,670
+So it looks like, basically anywhere.
+
+58
+00:02:31,670 --> 00:02:35,050
+Anyone in the world can write,
+read data to our database.
+
+59
+00:02:35,050 --> 00:02:38,840
+Okay JP, it looks like we kind
+of are open to security threats.
+
+60
+00:02:38,840 --> 00:02:41,730
+So why don't you tell me what we can
+do with Firebase security rules?
+
+61
+00:02:41,730 --> 00:02:42,230
+>> You got it.

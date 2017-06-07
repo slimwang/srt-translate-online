@@ -1,0 +1,525 @@
+1
+00:00:00,100 --> 00:00:04,240
+We said earlier that the runqueue
+is only logically a queue.
+
+2
+00:00:04,240 --> 00:00:08,100
+It could also be represented as multiple
+queues, like when dealing with different
+
+3
+00:00:08,100 --> 00:00:13,330
+priorities, or it could be a tree, or
+some other type of data structure.
+
+4
+00:00:13,330 --> 00:00:14,920
+Regardless of the data structure,
+
+5
+00:00:14,920 --> 00:00:17,430
+what is important is that
+it should be easy for
+
+6
+00:00:17,430 --> 00:00:22,700
+the scheduler to find the next thread
+to run, given the scheduling criteria.
+
+7
+00:00:22,700 --> 00:00:27,030
+If we want the I/O and CPU bound
+tasks in the system to have different
+
+8
+00:00:27,030 --> 00:00:30,190
+timeslice values, we have two options.
+
+9
+00:00:30,190 --> 00:00:34,300
+The first option is to maintain
+a single runqueue structure, but
+
+10
+00:00:34,300 --> 00:00:37,810
+to make it easy for
+the scheduler to figure out easy
+
+11
+00:00:37,810 --> 00:00:43,220
+what type of task is being scheduled, so
+that it can apply the different policy.
+
+12
+00:00:43,220 --> 00:00:45,920
+Another option is to
+completely separate I/O and
+
+13
+00:00:45,920 --> 00:00:49,640
+CPU bound tasks into two
+different data structures,
+
+14
+00:00:49,640 --> 00:00:54,420
+two different runqueues, and then with
+each runqueue associate a different kind
+
+15
+00:00:54,420 --> 00:00:58,970
+of policy that's suitable for
+CPU versus for I/O bound tasks.
+
+16
+00:00:58,970 --> 00:01:02,820
+One solution for this, is this type of
+data structure that we will explain now.
+
+17
+00:01:02,820 --> 00:01:05,491
+It is a multi queue data structure,
+
+18
+00:01:05,491 --> 00:01:09,970
+that internally it has
+multiple separate cues.
+
+19
+00:01:09,970 --> 00:01:13,380
+Let's say in the first round of queue
+we'll place the most I/O intensive
+
+20
+00:01:13,380 --> 00:01:14,700
+tasks, and
+
+21
+00:01:14,700 --> 00:01:18,720
+we will assign with this round queue
+a timeslice of 8 milliseconds.
+
+22
+00:01:18,720 --> 00:01:22,100
+Let's say for the tasks that
+are of medium I/O intensity, so
+
+23
+00:01:22,100 --> 00:01:23,500
+they have a mix of I/O and
+
+24
+00:01:23,500 --> 00:01:28,550
+CPU processing, we have a separate queue
+in this multi-queue data structure.
+
+25
+00:01:28,550 --> 00:01:32,880
+And here we assign with this queue,
+a timeslice of 16 milliseconds.
+
+26
+00:01:32,880 --> 00:01:35,490
+And then for
+all of our CPU intensive tasks,
+
+27
+00:01:35,490 --> 00:01:39,200
+we'll use another queue in
+the multi-queue data structure.
+
+28
+00:01:39,200 --> 00:01:42,800
+And here we'll associate with this
+timeslice, basically that's infinite.
+
+29
+00:01:42,800 --> 00:01:45,910
+So this will be like the first come,
+first serve policy.
+
+30
+00:01:45,910 --> 00:01:47,640
+From the scheduler's perspective,
+
+31
+00:01:47,640 --> 00:01:50,630
+the I/O intensive tasks
+have the highest priority,
+
+32
+00:01:50,630 --> 00:01:54,910
+which means that the scheduler will
+always check on, on this queue first.
+
+33
+00:01:54,910 --> 00:01:57,910
+The queue that's associated
+with the I/O Intensive Tasks.
+
+34
+00:01:57,910 --> 00:02:01,840
+And the CPU-bound tasks will be
+treated as tasks with lowest priority.
+
+35
+00:02:01,840 --> 00:02:06,760
+So, this queue will be the last one to
+be checked when trying to figure out
+
+36
+00:02:06,760 --> 00:02:09,340
+what is the next task to be scheduled.
+
+37
+00:02:09,340 --> 00:02:11,770
+So, depending on the type
+of task that we have,
+
+38
+00:02:11,770 --> 00:02:14,370
+we place it in the appropriate queue.
+
+39
+00:02:14,370 --> 00:02:18,840
+And on the other side, the scheduler
+selects which task to run next.
+
+40
+00:02:18,840 --> 00:02:22,500
+Based on highest priority,
+medium, and then lowest.
+
+41
+00:02:22,500 --> 00:02:26,820
+So in this way we both provide
+the time slicing benefits for
+
+42
+00:02:26,820 --> 00:02:30,450
+those tasks that benefit for
+the I/O bound tasks, and
+
+43
+00:02:30,450 --> 00:02:35,330
+avoid the time slicing overhead for
+the CPU bound tasks.
+
+44
+00:02:35,330 --> 00:02:40,010
+But how do we know if a task is CPU or
+I/O intensive?
+
+45
+00:02:40,010 --> 00:02:43,330
+How do we know how I/O
+intensive is the task?
+
+46
+00:02:43,330 --> 00:02:46,460
+Now we can use for
+that some history based heuristics,
+
+47
+00:02:46,460 --> 00:02:49,830
+like slide the task run and
+then decide what to do with it.
+
+48
+00:02:49,830 --> 00:02:53,940
+Sort of like what we explained with
+the shortest job first algorithm.
+
+49
+00:02:53,940 --> 00:02:55,820
+But, what about new tasks, or
+
+50
+00:02:55,820 --> 00:03:00,470
+what about tasks that have dynamic
+changes in their behavior?
+
+51
+00:03:00,470 --> 00:03:04,450
+To deal with those problems, we will
+treat these three queues not as three
+
+52
+00:03:04,450 --> 00:03:08,800
+separate runqueues, but as one
+single multi-queue data structure.
+
+53
+00:03:08,800 --> 00:03:11,650
+This is how this data
+structure will be used.
+
+54
+00:03:11,650 --> 00:03:13,810
+When a task first enters the system,
+
+55
+00:03:13,810 --> 00:03:17,640
+so a newly created task will
+enter it in the topmost queue.
+
+56
+00:03:17,640 --> 00:03:21,270
+The one that has the lowest
+timeslice associated with it.
+
+57
+00:03:21,270 --> 00:03:25,485
+It's like we're expecting that
+it's the most demanding task.
+
+58
+00:03:25,485 --> 00:03:28,335
+When it comes to these scheduling
+operations that it will need
+
+59
+00:03:28,335 --> 00:03:30,685
+to be context which most often.
+
+60
+00:03:30,685 --> 00:03:35,485
+If the task stops executing before these
+8 milliseconds, so whether it yields
+
+61
+00:03:35,485 --> 00:03:39,990
+voluntarily or it stops, because
+it needs to wait an I/O operation.
+
+62
+00:03:39,990 --> 00:03:42,180
+That means we made a good choice.
+
+63
+00:03:42,180 --> 00:03:45,680
+The task is indeed fairly
+I/O interactive, and so
+
+64
+00:03:45,680 --> 00:03:47,860
+we want to keep the task in this level.
+
+65
+00:03:47,860 --> 00:03:50,060
+So next time around,
+when it becomes runnable,
+
+66
+00:03:50,060 --> 00:03:54,900
+after that I/O operation completes, it
+will be placed in this exact same queue.
+
+67
+00:03:54,900 --> 00:03:58,870
+However, if the task ends up
+using up its entire timeslice.
+
+68
+00:03:58,870 --> 00:04:03,160
+That means that it was more CPU
+intensive than we originally thought.
+
+69
+00:04:03,160 --> 00:04:05,340
+So we will push it down the next level.
+
+70
+00:04:05,340 --> 00:04:09,760
+It will be preempted from over here, but
+then the next time it needs to run, it
+
+71
+00:04:09,760 --> 00:04:13,830
+will actually be pushed into this queue,
+so it will be scheduled from this queue.
+
+72
+00:04:13,830 --> 00:04:18,940
+If the task ends up getting preempted
+when it was scheduled from this queue,
+
+73
+00:04:18,940 --> 00:04:22,880
+so it used up its entire
+60 millisecond time slice.
+
+74
+00:04:22,880 --> 00:04:25,420
+That means that it's
+even more CPU intensive.
+
+75
+00:04:25,420 --> 00:04:29,030
+So in that case it will even get
+pushed down to the bottom queue.
+
+76
+00:04:29,030 --> 00:04:33,820
+So we basically have a mechanism
+to push the task down these levels
+
+77
+00:04:33,820 --> 00:04:36,180
+based on its historic information.
+
+78
+00:04:36,180 --> 00:04:40,070
+Although we didn't know if a task
+is I/O CPU intensive to start with.
+
+79
+00:04:40,070 --> 00:04:43,040
+We made an assumption, and
+then we were able to correct it.
+
+80
+00:04:43,040 --> 00:04:44,940
+So we assume that it's I/O intensive.
+
+81
+00:04:44,940 --> 00:04:48,190
+And we were able to correct and
+push it down these levels,
+
+82
+00:04:48,190 --> 00:04:52,310
+down to the lowest most level,
+in case it's CPU intensive.
+
+83
+00:04:52,310 --> 00:04:56,840
+Now if a task that's in one of the lower
+queues all of a sudden starts getting
+
+84
+00:04:56,840 --> 00:04:59,500
+repeatedly releasing in the CPU earlier,
+
+85
+00:04:59,500 --> 00:05:05,230
+then whatever the timeslice specifies,
+because it is waiting on our operation.
+
+86
+00:05:05,230 --> 00:05:07,850
+There will be a hintto
+the scheduler to say, oh, well,
+
+87
+00:05:07,850 --> 00:05:11,500
+this task is more I/O intensive
+than I originally thought.
+
+88
+00:05:11,500 --> 00:05:15,740
+And it can push it up at one of the
+queues that are on the higher levels.
+
+89
+00:05:15,740 --> 00:05:20,770
+This resulting data structure is
+called the multilevel feedback queue.
+
+90
+00:05:20,770 --> 00:05:25,020
+And for the design of this data
+structure, along with other work on time
+
+91
+00:05:25,020 --> 00:05:28,800
+sharing system, Ferdando Corbato
+received the Turing Award,
+
+92
+00:05:28,800 --> 00:05:31,900
+which is like the highest
+award in computer science.
+
+93
+00:05:31,900 --> 00:05:34,330
+It's the equivalent of
+the Nobel Prize for computing.
+
+94
+00:05:35,370 --> 00:05:39,730
+I want to make sure you don't trivialize
+the contribution of this data structure,
+
+95
+00:05:39,730 --> 00:05:42,580
+and say that it's equivalent
+to priority queues.
+
+96
+00:05:42,580 --> 00:05:46,090
+First of all, there are different
+scheduling policies that are associated
+
+97
+00:05:46,090 --> 00:05:50,090
+with each of the different levels
+that are part of this data structure.
+
+98
+00:05:50,090 --> 00:05:53,010
+More uniquely, however,
+this data structure incorporates
+
+99
+00:05:53,010 --> 00:05:57,810
+this feedback mechanism,
+that allows us over time to adjust
+
+100
+00:05:57,810 --> 00:06:02,560
+which one of these levels will be place
+a task, and when we're trying to figure
+
+101
+00:06:02,560 --> 00:06:08,090
+out what is the best time sharing
+schedule for the subtask in the system.
+
+102
+00:06:08,090 --> 00:06:12,380
+The Linux, so called O of one scheduler,
+that we will talk about next,
+
+103
+00:06:12,380 --> 00:06:17,320
+that uses some of the mechanism borrowed
+from this data structure as well.
+
+104
+00:06:17,320 --> 00:06:20,330
+And we won't describe the Solari
+scheduling mechanism.
+
+105
+00:06:20,330 --> 00:06:25,430
+But I just want to mention that that's
+pretty much a multi-level feedback queue
+
+106
+00:06:25,430 --> 00:06:26,760
+with 60 levels.
+
+107
+00:06:26,760 --> 00:06:28,280
+So 60 subqueues.
+
+108
+00:06:28,280 --> 00:06:31,880
+And also some fancy feedback
+rules that determine how and
+
+109
+00:06:31,880 --> 00:06:34,890
+when a thread gets pushed up and
+down these different levels

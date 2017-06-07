@@ -1,0 +1,265 @@
+1
+00:00:00,130 --> 00:00:02,460
+All right, so
+I've got a long list of these metrics.
+
+2
+00:00:02,460 --> 00:00:06,600
+I'm not sure how many you would actually
+think of, but let me list some and
+
+3
+00:00:06,600 --> 00:00:09,120
+then maybe you can riff with me.
+
+4
+00:00:09,120 --> 00:00:09,780
+>> Okay.
+>> So
+
+5
+00:00:09,780 --> 00:00:13,000
+one metric that we could use is,
+if we have an algorithm,
+
+6
+00:00:13,000 --> 00:00:15,928
+does that algorithm identify
+the optimal arm in the limit?
+
+7
+00:00:15,928 --> 00:00:17,710
+If you ran this infinitely long,
+
+8
+00:00:17,710 --> 00:00:21,240
+would at the end of infinity, you know
+which arm has the highest payoff.
+
+9
+00:00:21,240 --> 00:00:21,910
+>> Okay.
+
+10
+00:00:21,910 --> 00:00:23,380
+>> So that's good.
+
+11
+00:00:23,380 --> 00:00:24,260
+>> Yes.
+
+12
+00:00:24,260 --> 00:00:26,690
+>> because it's good to know
+what the highest arm is, right?
+
+13
+00:00:26,690 --> 00:00:32,030
+But it's kind of bad because this is,
+this metric is actually achieved
+
+14
+00:00:32,030 --> 00:00:36,090
+quite well by an algorithm that just
+round robin chooses all the arms.
+
+15
+00:00:36,090 --> 00:00:37,740
+Pull the first one, pull the second,
+pull the third one.
+
+16
+00:00:37,740 --> 00:00:40,980
+So in the limit, we'll all the data that
+we need to estimate them as accurately
+
+17
+00:00:40,980 --> 00:00:44,530
+as we want, but we'll actually not
+have taken advantage of it ever.
+
+18
+00:00:44,530 --> 00:00:45,280
+>> Right.
+And so
+
+19
+00:00:45,280 --> 00:00:48,650
+I think it's important to say then that
+this is like the normal reinforcement
+
+20
+00:00:48,650 --> 00:00:50,450
+learning setting, so
+while you're learning and
+
+21
+00:00:50,450 --> 00:00:52,330
+doing whatever you're doing,
+you're still accumulating reward.
+
+22
+00:00:52,330 --> 00:00:52,840
+>> Yes.
+
+23
+00:00:52,840 --> 00:00:54,230
+>> Or not.
+>> Right,
+
+24
+00:00:54,230 --> 00:00:58,620
+so it would be nice to have a metric
+that actually paid attention to not just
+
+25
+00:00:58,620 --> 00:01:01,680
+how much we're learning, but how much
+reward we're getting in the process.
+
+26
+00:01:01,680 --> 00:01:03,500
+So we could just make that the goal.
+
+27
+00:01:03,500 --> 00:01:05,760
+>> Sure, but
+is that the original problem?
+
+28
+00:01:05,760 --> 00:01:06,710
+I mean, how do you do that?
+
+29
+00:01:06,710 --> 00:01:07,380
+>> No, no, no.
+
+30
+00:01:07,380 --> 00:01:10,260
+I mean we were phrasing the original
+problem as figuring out which arm has
+
+31
+00:01:10,260 --> 00:01:11,060
+the highest payoff.
+
+32
+00:01:11,060 --> 00:01:12,090
+>> Okay.
+>> So this
+
+33
+00:01:12,090 --> 00:01:13,630
+is kind of different than that, right?
+
+34
+00:01:13,630 --> 00:01:16,800
+This is maximizing
+the discounted expected reward,
+
+35
+00:01:16,800 --> 00:01:19,590
+which is going to do that well.
+
+36
+00:01:19,590 --> 00:01:21,750
+You should do some amount
+of exploration, but
+
+37
+00:01:21,750 --> 00:01:23,310
+also some amount of exploitation.
+
+38
+00:01:23,310 --> 00:01:24,430
+You're getting reward, but
+
+39
+00:01:24,430 --> 00:01:29,320
+you also need opportunities to get high
+reward by identifying high scoring arms.
+
+40
+00:01:30,450 --> 00:01:30,990
+>> Yeah.
+Sure.
+
+41
+00:01:30,990 --> 00:01:31,560
+That makes sense.
+
+42
+00:01:31,560 --> 00:01:33,430
+>> Okay.
+So this is totally doable,
+
+43
+00:01:33,430 --> 00:01:37,080
+except it's not so doable in that it
+ends up being the computation for
+
+44
+00:01:37,080 --> 00:01:38,660
+this ends up being somewhat intractable.
+
+45
+00:01:38,660 --> 00:01:39,280
+>> Oh, of course.
+
+46
+00:01:39,280 --> 00:01:42,730
+>> We could talk about how you
+can actually do this in practice.
+
+47
+00:01:42,730 --> 00:01:44,990
+There's some special cases that
+actually work out beautifully.
+
+48
+00:01:44,990 --> 00:01:46,810
+There's a thing called a Gittms index.
+
+49
+00:01:46,810 --> 00:01:51,630
+So Gittms index is a way of saying, all
+right, here's an arm, and I've pulled it
+
+50
+00:01:52,660 --> 00:01:55,610
+some number of times, in the
+denominator, and I've gotten some number
+
+51
+00:01:55,610 --> 00:02:01,660
+of successes, these two numbers can be
+mapped to a value called the index.
+
+52
+00:02:01,660 --> 00:02:04,330
+Such that, if you do that for
+all their arms,
+
+53
+00:02:04,330 --> 00:02:08,380
+compute all their indices, and
+always take the maximum one,
+
+54
+00:02:08,380 --> 00:02:11,320
+you actually maximize
+discounted expected reward.
+
+55
+00:02:11,320 --> 00:02:14,550
+So it's this really clever mapping
+from the number of successes and
+
+56
+00:02:14,550 --> 00:02:16,530
+the number of pulls, to a number,
+
+57
+00:02:16,530 --> 00:02:19,970
+such that always greedily choosing with
+respect to that number is optimal.

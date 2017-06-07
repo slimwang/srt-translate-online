@@ -1,0 +1,193 @@
+1
+00:00:00,180 --> 00:00:05,460
+Typical ways in which user processes
+interact with a device is as follows.
+
+2
+00:00:05,460 --> 00:00:09,440
+A process needs to perform an operation
+that requires access from a hardware
+
+3
+00:00:09,440 --> 00:00:14,200
+device, for instance, to perform
+a send operation to transmit a network
+
+4
+00:00:14,200 --> 00:00:17,920
+packet or to read a file from disk.
+
+5
+00:00:17,920 --> 00:00:20,760
+The process will perform
+a system call in which it will
+
+6
+00:00:20,760 --> 00:00:23,155
+specify the appropriate operation.
+
+7
+00:00:23,155 --> 00:00:27,010
+With this, the process is requesting
+this operation from the operating
+
+8
+00:00:27,010 --> 00:00:28,410
+system, from the kernel.
+
+9
+00:00:28,410 --> 00:00:31,110
+The operating system then
+will run the in-kernel
+
+10
+00:00:31,110 --> 00:00:33,690
+stack related to this particular device.
+
+11
+00:00:33,690 --> 00:00:38,450
+Like, for instance, the TCPIP stack
+to form the appropriate packet
+
+12
+00:00:38,450 --> 00:00:43,170
+before the data is sent out to the
+network or the file system that's needed
+
+13
+00:00:43,170 --> 00:00:48,310
+to determine the particular disk
+block that stores the file data.
+
+14
+00:00:48,310 --> 00:00:52,210
+And the operating system will invoke
+the appropriate device driver for
+
+15
+00:00:52,210 --> 00:00:56,855
+the network or for the block device for
+the disk, and then the device driver
+
+16
+00:00:56,855 --> 00:01:02,115
+will actually perform the configuration
+of the request to the device.
+
+17
+00:01:02,115 --> 00:01:03,015
+On the network side,
+
+18
+00:01:03,015 --> 00:01:07,580
+this means that the device driver will
+write out a record that configures
+
+19
+00:01:07,580 --> 00:01:12,060
+the device to perform a transmission
+of the appropriate pack of data.
+
+20
+00:01:12,060 --> 00:01:15,440
+Or on the disk side, this means that
+the device driver will issue certain
+
+21
+00:01:15,440 --> 00:01:19,610
+commands to the disk that configure
+the disk head movement or
+
+22
+00:01:19,610 --> 00:01:22,330
+where the data should be read from,
+et cetera.
+
+23
+00:01:22,330 --> 00:01:26,230
+The device drivers will issue these
+commands using the appropriate
+
+24
+00:01:26,230 --> 00:01:28,940
+programmed IO or DMA operations, and
+
+25
+00:01:28,940 --> 00:01:30,930
+this will be that in
+a device-specific manner.
+
+26
+00:01:30,930 --> 00:01:35,060
+So that driver sort of wants that
+are understand the available memory
+
+27
+00:01:35,060 --> 00:01:37,270
+registers on the device.
+
+28
+00:01:37,270 --> 00:01:39,840
+They understand the other
+pending requests.
+
+29
+00:01:39,840 --> 00:01:43,940
+So the driver is the one that will
+need to make sure that the requests
+
+30
+00:01:43,940 --> 00:01:47,570
+aren't somehow overwritten or
+undelivered to the device.
+
+31
+00:01:47,570 --> 00:01:49,130
+So, all of this configuration and
+
+32
+00:01:49,130 --> 00:01:53,120
+control will be performed at this level,
+at the driver level.
+
+33
+00:01:53,120 --> 00:01:55,080
+And finally,
+once the device is configured,
+
+34
+00:01:55,080 --> 00:01:57,480
+it will perform the actual request.
+
+35
+00:01:57,480 --> 00:01:58,980
+In the case of the network card,
+
+36
+00:01:58,980 --> 00:02:01,870
+this device will perform
+the transmission of the data.
+
+37
+00:02:01,870 --> 00:02:03,410
+In the case of the disk device,
+
+38
+00:02:03,410 --> 00:02:08,000
+the device will perform the block
+read operation from disk.
+
+39
+00:02:08,000 --> 00:02:10,600
+And finally,
+any results from the request or
+
+40
+00:02:10,600 --> 00:02:13,260
+in general any events
+that are originating
+
+41
+00:02:13,260 --> 00:02:17,550
+on the devices will traverse this
+coal chain in a reverse manner.

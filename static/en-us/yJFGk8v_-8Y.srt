@@ -1,0 +1,446 @@
+1
+00:00:00,230 --> 00:00:03,550
+On the server side, I must create a
+function that handles the code sent back
+
+2
+00:00:03,550 --> 00:00:05,220
+from the callback method.
+
+3
+00:00:05,220 --> 00:00:08,880
+But before I can do that, I need to
+import a few libraries in my project.pie
+
+4
+00:00:08,880 --> 00:00:11,150
+file that will be necessary for
+this function.
+
+5
+00:00:11,150 --> 00:00:13,207
+The flow_from_clientsecrets method,
+
+6
+00:00:13,207 --> 00:00:16,840
+creates a flow object from
+the clientssecrets JSON file.
+
+7
+00:00:16,840 --> 00:00:20,930
+This JSON formatted style stores
+your client ID, client secret and
+
+8
+00:00:20,930 --> 00:00:22,729
+other OAuth 2.0 parameters.
+
+9
+00:00:22,729 --> 00:00:25,740
+We will use this
+FlowExchangeError method if we
+
+10
+00:00:25,740 --> 00:00:29,920
+run into an error trying to exchange an
+authorization code for an access token.
+
+11
+00:00:29,920 --> 00:00:32,340
+We can use this FlowExchangeError
+method to catch it.
+
+12
+00:00:33,430 --> 00:00:36,080
+We will also use the httplib2,
+
+13
+00:00:36,080 --> 00:00:39,180
+a comprehensive HTTP
+client library in Python.
+
+14
+00:00:39,180 --> 00:00:42,980
+The JSON module provides an API for
+converting in memory Python objects
+
+15
+00:00:42,980 --> 00:00:48,022
+to a serialized representation, known as
+JSON, or Java Script Object Notation.
+
+16
+00:00:48,022 --> 00:00:51,770
+The make_response method converts
+the return value from a function
+
+17
+00:00:51,770 --> 00:00:54,150
+into a real response object that
+we can send off to our client.
+
+18
+00:00:55,280 --> 00:00:59,680
+And requests is an Apache 2.0 licensed
+HTTP library written in Python,
+
+19
+00:00:59,680 --> 00:01:02,530
+similar to urllib2, but
+with a few improvements.
+
+20
+00:01:02,530 --> 00:01:06,384
+Now, going back to
+the console.developers.google.com page,
+
+21
+00:01:06,384 --> 00:01:10,630
+and opening the Credentials menu, I
+will click the Download JSON object and
+
+22
+00:01:10,630 --> 00:01:13,850
+rename this file to client_secrets.json.
+
+23
+00:01:13,850 --> 00:01:17,000
+And store it in the same
+directory as my project.pi file.
+
+24
+00:01:17,000 --> 00:01:21,180
+I will then declare my client ID by
+referencing this client secrets file.
+
+25
+00:01:21,180 --> 00:01:23,590
+Now I'm ready to create
+my server-side function.
+
+26
+00:01:23,590 --> 00:01:26,700
+I will make a route and
+function that accepts post requests, and
+
+27
+00:01:26,700 --> 00:01:28,305
+call it gconnect.
+
+28
+00:01:28,305 --> 00:01:30,915
+I now confirm that the token that
+the client sends to the server
+
+29
+00:01:30,915 --> 00:01:33,465
+matches the token that
+the server sent to the client.
+
+30
+00:01:33,465 --> 00:01:36,375
+This round trip verification helps
+ensure that the user is making
+
+31
+00:01:36,375 --> 00:01:38,013
+the request and not a malicious script.
+
+32
+00:01:38,013 --> 00:01:42,457
+Using the request.args.get method,
+my code examines the state token
+
+33
+00:01:42,457 --> 00:01:46,280
+passed in and compares it to
+the state of the login session.
+
+34
+00:01:46,280 --> 00:01:50,190
+If these two do not match, then I create
+a response of an invalid state token and
+
+35
+00:01:50,190 --> 00:01:52,340
+return this message to the client.
+
+36
+00:01:52,340 --> 00:01:55,380
+No further authentication will occur on
+the server side if there's a mismatch
+
+37
+00:01:55,380 --> 00:01:57,180
+between these state tokens.
+
+38
+00:01:57,180 --> 00:01:59,610
+If this statement is not true,
+then I can proceed and
+
+39
+00:01:59,610 --> 00:02:03,820
+collect the one time code from my
+server with the request.data function.
+
+40
+00:02:03,820 --> 00:02:06,920
+Next I will try and use this one
+time code and exchange it for
+
+41
+00:02:06,920 --> 00:02:10,690
+a credentials object which will contain
+the access token for my server.
+
+42
+00:02:10,690 --> 00:02:12,800
+This line creates
+an oauth flow object and
+
+43
+00:02:12,800 --> 00:02:15,148
+adds my client's secret
+key information to it.
+
+44
+00:02:15,148 --> 00:02:18,520
+Here I specify with post message
+that this is the one time code
+
+45
+00:02:18,520 --> 00:02:20,360
+flow my server will be sending off.
+
+46
+00:02:20,360 --> 00:02:24,020
+Finally, I initiate the exchange
+with the step two exchange function,
+
+47
+00:02:24,020 --> 00:02:26,590
+passing in my one-time code as input.
+
+48
+00:02:26,590 --> 00:02:29,140
+This step to exchange
+function of the flow class
+
+49
+00:02:29,140 --> 00:02:32,220
+exchanges an authorization code for
+a credentials object.
+
+50
+00:02:32,220 --> 00:02:34,830
+If all goes well, then the response
+from Google will be an object
+
+51
+00:02:34,830 --> 00:02:37,140
+I am storing under the name credentials.
+
+52
+00:02:37,140 --> 00:02:40,810
+If an error happens along the way, then
+I will throw this flow exchange error
+
+53
+00:02:40,810 --> 00:02:43,630
+and send the response as JSON object.
+
+54
+00:02:43,630 --> 00:02:45,100
+Now that I have this credentials object,
+
+55
+00:02:45,100 --> 00:02:48,440
+I will check and see if there's
+a valid access token inside of it.
+
+56
+00:02:48,440 --> 00:02:52,640
+I will store credentials.access_token
+in a variable called access_token.
+
+57
+00:02:52,640 --> 00:02:55,310
+If I append this token to
+the following Google URL,
+
+58
+00:02:55,310 --> 00:02:59,090
+the Google API server can verify
+that this is a valid token for use.
+
+59
+00:02:59,090 --> 00:03:02,700
+In these two lines of code, I create a
+json GET request containing the URL and
+
+60
+00:03:02,700 --> 00:03:04,150
+access token.
+
+61
+00:03:04,150 --> 00:03:07,380
+I store the results of this request
+in a variable called result.
+
+62
+00:03:07,380 --> 00:03:09,020
+If my result contains any errors,
+
+63
+00:03:09,020 --> 00:03:12,020
+then I send the 500
+Internal Server Error to my client.
+
+64
+00:03:12,020 --> 00:03:13,800
+If this if statement isn't true,
+
+65
+00:03:13,800 --> 00:03:16,230
+then we know that we have
+a working access token.
+
+66
+00:03:16,230 --> 00:03:19,310
+But now let's make sure that we
+have the right access token.
+
+67
+00:03:19,310 --> 00:03:22,500
+Here I grab the ID of the token
+in my credentials object and
+
+68
+00:03:22,500 --> 00:03:25,770
+compare it to the ID returned
+by the Google API server.
+
+69
+00:03:25,770 --> 00:03:28,960
+If these two IDs do not match then
+I do not have the correct token and
+
+70
+00:03:28,960 --> 00:03:30,360
+should return an error.
+
+71
+00:03:30,360 --> 00:03:34,460
+Similarly if the client IDs do not match
+my app is trying to use a client ID
+
+72
+00:03:34,460 --> 00:03:37,670
+that does not belong to it so
+I shouldn't allow for this.
+
+73
+00:03:37,670 --> 00:03:41,600
+Lastly I will check and see if a user
+is already logged into the system.
+
+74
+00:03:41,600 --> 00:03:44,864
+This will return a 200 successful
+authentication without resetting all
+
+75
+00:03:44,864 --> 00:03:47,210
+of the login session variables again.
+
+76
+00:03:47,210 --> 00:03:51,250
+So, assuming none of these if statements
+were true, I have a valid access token
+
+77
+00:03:51,250 --> 00:03:54,480
+and my user is successfully
+able to login into my server.
+
+78
+00:03:54,480 --> 00:03:57,130
+In this user's login session I
+will store their credentials in
+
+79
+00:03:57,130 --> 00:03:58,580
+Google Plus ID.
+
+80
+00:03:58,580 --> 00:04:01,430
+Next, I will use the Google Plus API
+to get some more information
+
+81
+00:04:01,430 --> 00:04:02,960
+about the user.
+
+82
+00:04:02,960 --> 00:04:06,880
+Here, I will send off a message to the
+Google API server with my access token.
+
+83
+00:04:06,880 --> 00:04:09,920
+Requesting the user info
+allowed by my token scope and
+
+84
+00:04:09,920 --> 00:04:12,090
+stored in an object I will call Data.
+
+85
+00:04:12,090 --> 00:04:14,950
+Now, Data should have all of
+these values filled in, so
+
+86
+00:04:14,950 --> 00:04:17,490
+long as the user specified
+them in their account.
+
+87
+00:04:17,490 --> 00:04:20,220
+So I will store the ones I am
+interested in, such as the user's name,
+
+88
+00:04:20,220 --> 00:04:24,010
+picture, and e-mail address, and
+store it in my login session.
+
+89
+00:04:24,010 --> 00:04:27,210
+If this worked, then I should be able to
+create a response that knows the user's
+
+90
+00:04:27,210 --> 00:04:29,140
+name and can return their picture.
+
+91
+00:04:29,140 --> 00:04:32,650
+I can even add a flash message to let
+the user know that they are logged in.
+
+92
+00:04:32,650 --> 00:04:35,070
+Let me save my changes and
+try logging in again.
+
+93
+00:04:35,070 --> 00:04:38,780
+And look, my user now sees a login
+page and is then redirected to
+
+94
+00:04:38,780 --> 00:04:40,771
+the restaurants page once they
+know that they're signed in.

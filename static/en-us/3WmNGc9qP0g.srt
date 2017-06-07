@@ -1,0 +1,255 @@
+1
+00:00:00,200 --> 00:00:02,320
+Lets now discuss why are threads useful.
+
+2
+00:00:02,320 --> 00:00:06,050
+We will do that by looking at an example on a multiprocessor or
+
+3
+00:00:06,050 --> 00:00:07,420
+a multicore system.
+
+4
+00:00:07,420 --> 00:00:10,250
+At any given point of time when running a single process,
+
+5
+00:00:10,250 --> 00:00:13,300
+there may be multiple threads belonging to the process,
+
+6
+00:00:13,300 --> 00:00:15,720
+each running concurrently on a different processor.
+
+7
+00:00:15,720 --> 00:00:19,830
+One possibility is that each thread executes the same code, but for
+
+8
+00:00:19,830 --> 00:00:21,850
+a different subset of the input.
+
+9
+00:00:21,850 --> 00:00:26,260
+For instance for a different portion of input array or an input matrix.
+
+10
+00:00:26,260 --> 00:00:30,250
+For instance, T1 processes this portion of the input matrix.
+
+11
+00:00:30,250 --> 00:00:32,700
+T2 processes the next one and so forth.
+
+12
+00:00:32,700 --> 00:00:36,260
+Now, although the threads execute the exact same code, they're not
+
+13
+00:00:36,260 --> 00:00:40,580
+necessarily executing the exact same instruction at a single point in time.
+
+14
+00:00:40,580 --> 00:00:44,320
+So, every single one of them will still need to have its own private copy of
+
+15
+00:00:44,320 --> 00:00:47,530
+the stack, registers, program counters, et cetera.
+
+16
+00:00:47,530 --> 00:00:52,110
+By parallelizing the program in this manner we achieve speed up.
+
+17
+00:00:52,110 --> 00:00:57,160
+We can process the input much faster than if only a single thread on
+
+18
+00:00:57,160 --> 00:01:00,630
+a single CPU had to process the entire matrix.
+
+19
+00:01:00,630 --> 00:01:05,340
+Next, threads may execute completely different portions of the program.
+
+20
+00:01:05,340 --> 00:01:07,990
+For instance you may designate certain threads for
+
+21
+00:01:07,990 --> 00:01:13,400
+certain input/output tasks like input processing or display rendering.
+
+22
+00:01:13,400 --> 00:01:17,940
+Or another option is to have different threads operate on different portions of
+
+23
+00:01:17,940 --> 00:01:20,710
+the code that correspond to specific functions.
+
+24
+00:01:20,710 --> 00:01:25,210
+For instance in a large web service application different threads can
+
+25
+00:01:25,210 --> 00:01:28,060
+handle different types of customer requests.
+
+26
+00:01:28,060 --> 00:01:32,260
+By specializing different threads to run different tasks or different
+
+27
+00:01:32,260 --> 00:01:36,720
+portions of the program, we can differentiate how we manage those threads.
+
+28
+00:01:36,720 --> 00:01:40,910
+So, for instance, we can give higher priority to those threads that
+
+29
+00:01:40,910 --> 00:01:44,780
+handle more important tasks or more important customers.
+
+30
+00:01:44,780 --> 00:01:50,520
+Another important benefit of partitioning what exactly are the operations
+
+31
+00:01:50,520 --> 00:01:57,070
+executed by each thread, and on each CPU, comes from the fact that performance
+
+32
+00:01:57,070 --> 00:02:01,750
+is dependent on how much state can be present in the processor cache.
+
+33
+00:02:01,750 --> 00:02:04,660
+In this picture, each thread running on
+
+34
+00:02:04,660 --> 00:02:08,820
+a different processor has access to its own processor cache.
+
+35
+00:02:08,820 --> 00:02:13,260
+If the thread repeatedly executes a smaller portion of the code, so
+
+36
+00:02:13,260 --> 00:02:15,230
+just one task,
+
+37
+00:02:15,230 --> 00:02:20,310
+more of that state than of that program will be actually present in the cache.
+
+38
+00:02:20,310 --> 00:02:24,460
+So one benefit from specialization is that we end up executing with
+
+39
+00:02:24,460 --> 00:02:25,730
+a hotter cache.
+
+40
+00:02:25,730 --> 00:02:28,560
+And that translates to gains in performance.
+
+41
+00:02:28,560 --> 00:02:33,450
+You may ask, why not just write a multi-process application where every
+
+42
+00:02:33,450 --> 00:02:36,910
+single processor runs a separate process?
+
+43
+00:02:36,910 --> 00:02:37,870
+If we do that,
+
+44
+00:02:37,870 --> 00:02:42,870
+since the processes do not share an address space we have to allocate for
+
+45
+00:02:42,870 --> 00:02:48,760
+every single one of these contacts address space and execution context.
+
+46
+00:02:48,760 --> 00:02:53,560
+So, the memory requirements, if this were a multi-process implementation,
+
+47
+00:02:53,560 --> 00:02:58,220
+would be that we have to have four address space allocations and
+
+48
+00:02:58,220 --> 00:03:00,730
+four execution context allocations.
+
+49
+00:03:00,730 --> 00:03:06,290
+A multi-threaded implementation results in threads sharing an address space so
+
+50
+00:03:06,290 --> 00:03:10,860
+we don't need to allocate memory for all of the address space information for
+
+51
+00:03:10,860 --> 00:03:13,190
+these remaining execution contexts.
+
+52
+00:03:13,190 --> 00:03:17,180
+This implies that a multi-threaded application is more memory efficient.
+
+53
+00:03:17,180 --> 00:03:21,670
+It has lower memory requirements than its multiprocessor alternative.
+
+54
+00:03:21,670 --> 00:03:26,540
+As a result of that, the application is more likely to fit in memory and
+
+55
+00:03:26,540 --> 00:03:31,920
+not required as many swaps from disk compared to a multi-processed alternative.
+
+56
+00:03:31,920 --> 00:03:37,980
+Another issue is that communicating data, passing data among processes or among
+
+57
+00:03:37,980 --> 00:03:43,900
+processes requires interprocess communication mechanisms that are more costly.
+
+58
+00:03:43,900 --> 00:03:46,560
+As we'll see later in this lecture, communication and
+
+59
+00:03:46,560 --> 00:03:50,680
+synchronization among threads in a single process is performed via
+
+60
+00:03:50,680 --> 00:03:53,860
+shared variables in that same process address spaced.
+
+61
+00:03:53,860 --> 00:03:58,340
+So it does not require that same kind of costly interprocess communication.
+
+62
+00:03:58,340 --> 00:04:02,280
+In summary, multithreaded programs are more efficient in their resource
+
+63
+00:04:02,280 --> 00:04:07,850
+requirements than multiprocess programs and incur lower overheads for their
+
+64
+00:04:07,850 --> 00:04:12,528
+inter thread communication then the corresponding interprocess alternatives.

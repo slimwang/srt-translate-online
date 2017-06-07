@@ -1,0 +1,301 @@
+﻿1
+00:00:00,340 --> 00:00:04,660
+Now that we know all this cool history
+about notifications in Android,
+
+2
+00:00:04,660 --> 00:00:07,240
+let's go ahead and add some to our app.
+
+3
+00:00:07,240 --> 00:00:10,519
+We'd like to get our Hydration app to
+launch a notification every now and
+
+4
+00:00:10,519 --> 00:00:13,980
+then to remind us to drink our
+much needed glasses of water.
+
+5
+00:00:13,980 --> 00:00:17,730
+We also want the notification to
+launch the app when we click on it, so
+
+6
+00:00:17,730 --> 00:00:21,300
+that we can click on the cup and update
+the count when we're done drinking.
+
+7
+00:00:21,300 --> 00:00:23,850
+Creating notifications
+are pretty straightforward,
+
+8
+00:00:23,850 --> 00:00:25,770
+as we will see very soon.
+
+9
+00:00:25,769 --> 00:00:28,900
+But to get the notification to
+launch the app when clicked,
+
+10
+00:00:28,900 --> 00:00:32,539
+we have first need to learn about
+something called PendingIntents.
+
+11
+00:00:32,539 --> 00:00:36,265
+You've already seen and
+used intents a couple of times before.
+
+12
+00:00:36,265 --> 00:00:40,707
+Intents allows your application to
+launch various activities within
+
+13
+00:00:40,707 --> 00:00:44,396
+the same app, or
+launch other applications altogether,
+
+14
+00:00:44,396 --> 00:00:47,347
+either explicitly or
+implicitly using URIs.
+
+15
+00:00:47,347 --> 00:00:50,873
+Launching other apps or services
+from your own application requires
+
+16
+00:00:50,874 --> 00:00:54,400
+the manifest to include
+the appropriate permissions.
+
+17
+00:00:54,399 --> 00:00:58,810
+But, what if we want another application
+to launch an activity in your own
+
+18
+00:00:58,810 --> 00:00:59,840
+application?
+
+19
+00:00:59,840 --> 00:01:02,130
+Like in the case with notifications.
+
+20
+00:01:02,130 --> 00:01:05,379
+Any notification in Android is
+displayed by a system service
+
+21
+00:01:05,379 --> 00:01:07,710
+called NotificationManager.
+
+22
+00:01:07,709 --> 00:01:12,009
+A system service is a service that
+starts by the Android system itself, and
+
+23
+00:01:12,010 --> 00:01:15,469
+is not part of your application
+processes at all, which means,
+
+24
+00:01:15,469 --> 00:01:18,920
+if you want the NotificationManager
+to be to launch an activity
+
+25
+00:01:18,920 --> 00:01:21,960
+in your application, you needed
+to have the permissions to do so.
+
+26
+00:01:22,980 --> 00:01:26,390
+And since you can't modify
+the system's service permissions,
+
+27
+00:01:26,390 --> 00:01:28,861
+pending intents come to play.
+
+28
+00:01:28,861 --> 00:01:32,030
+A PendingIntent is a wrapper
+around a regular intent,
+
+29
+00:01:32,030 --> 00:01:34,951
+that is designed to be used
+by another application.
+
+30
+00:01:34,951 --> 00:01:38,640
+The PendingIntent gives that
+application the ability to perform
+
+31
+00:01:38,640 --> 00:01:41,450
+the included action,
+as if it was your application,
+
+32
+00:01:41,450 --> 00:01:44,960
+with all the permissions your
+application has been granted.
+
+33
+00:01:44,959 --> 00:01:48,189
+It can launch services,
+private activities, and
+
+34
+00:01:48,189 --> 00:01:53,109
+broadcast protected intents, even if
+your application is no longer running.
+
+35
+00:01:53,109 --> 00:01:54,390
+This works great for
+
+36
+00:01:54,390 --> 00:01:58,209
+the notification service, because we
+want to be able to launch the hydration
+
+37
+00:01:58,209 --> 00:02:02,719
+activity from the notification
+pop-up even if the app was closed.
+
+38
+00:02:02,719 --> 00:02:05,219
+To create a PendingIntent instance,
+
+39
+00:02:05,219 --> 00:02:09,228
+you can use one of those static
+methods in the PendingIntent class.
+
+40
+00:02:09,229 --> 00:02:12,830
+Either getActivity or
+getService or getBroadcast,
+
+41
+00:02:12,830 --> 00:02:17,860
+depending on what intent you want
+to wrap in the PendingIntent.
+
+42
+00:02:17,860 --> 00:02:20,747
+All of those calls require
+four parameters when called.
+
+43
+00:02:20,747 --> 00:02:25,120
+In the getActivity for example,
+the four parameters are as follows.
+
+44
+00:02:25,120 --> 00:02:27,360
+The first one is the context.
+
+45
+00:02:27,360 --> 00:02:30,618
+The first one is the context in
+which the PendingIntent should start
+
+46
+00:02:30,617 --> 00:02:31,859
+the activity.
+
+47
+00:02:31,860 --> 00:02:35,815
+The second is a requestCode integer that
+helps you if you need to cancel that
+
+48
+00:02:35,814 --> 00:02:37,599
+PendingIntent in any time.
+
+49
+00:02:37,599 --> 00:02:41,629
+So make sure that this is a unique for
+each PendingIntent you create.
+
+50
+00:02:41,629 --> 00:02:45,727
+Then, the actual intent you want
+the other application to launch, and
+
+51
+00:02:45,727 --> 00:02:49,551
+then finally one of those flag
+options to handle creating multiple
+
+52
+00:02:49,550 --> 00:02:51,752
+PendingIntents for the same intent.
+
+53
+00:02:51,752 --> 00:02:55,977
+If you plan to just create a single
+PendingIntent for an intent, then you
+
+54
+00:02:55,978 --> 00:03:00,290
+could use either FLAG_UPDATE_CURRENT,
+or FLAG_CANCEL_CURRENT.
+
+55
+00:03:00,289 --> 00:03:01,689
+Here's a sample code for
+
+56
+00:03:01,689 --> 00:03:05,289
+creating PendingIntents
+using the getService method.
+
+57
+00:03:05,289 --> 00:03:08,069
+Notice that this method
+call returns an actual
+
+58
+00:03:08,069 --> 00:03:11,780
+instance of the PendingIntent that
+you will pass to another app,
+
+59
+00:03:11,780 --> 00:03:14,539
+which in our case will be
+the NotificationManager.
+
+60
+00:03:14,539 --> 00:03:17,491
+And then you can expect
+the NotificationManager to launch our
+
+61
+00:03:17,491 --> 00:03:20,689
+activity when the user
+clicks on the notification.
+
+62
+00:03:20,689 --> 00:03:21,543
+Okay, enough talk.
+
+63
+00:03:21,543 --> 00:03:24,670
+Let's get back to coding and
+get this notification up and running.
+

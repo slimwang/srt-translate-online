@@ -1,0 +1,127 @@
+1
+00:00:00,460 --> 00:00:03,420
+Now, let's say we have multiple such processes.
+
+2
+00:00:03,420 --> 00:00:07,680
+Clearly we will need copies of these user-level thread structures,
+
+3
+00:00:07,680 --> 00:00:10,860
+process control blocks, and kernel-level thread structures to
+
+4
+00:00:10,860 --> 00:00:15,360
+represent every single aspect of every one of these processes.
+
+5
+00:00:15,360 --> 00:00:19,280
+So, we'll need to start maintaining certain relationships among them.
+
+6
+00:00:19,280 --> 00:00:23,390
+With respect to the user-level threads within the threading library, it keeps
+
+7
+00:00:23,390 --> 00:00:27,350
+track of all of the user-level threads that represent the single process.
+
+8
+00:00:27,350 --> 00:00:29,990
+So, there is a relationship between them and
+
+9
+00:00:29,990 --> 00:00:33,950
+the process control block that represents that address space.
+
+10
+00:00:33,950 --> 00:00:38,040
+For each process we need to keep track of what are the kernel-level threads that
+
+11
+00:00:38,040 --> 00:00:41,560
+execute on behalf of this process, and vice versa, for
+
+12
+00:00:41,560 --> 00:00:44,300
+each kernel-level thread we have to make sure we
+
+13
+00:00:44,300 --> 00:00:48,690
+know what is the address space within which that thread executes.
+
+14
+00:00:48,690 --> 00:00:50,800
+If the system has multiple CPUs,
+
+15
+00:00:50,800 --> 00:00:53,360
+we need to have a data structure to represent the CPU.
+
+16
+00:00:53,360 --> 00:00:57,520
+And then we need to maintain a relationship between the kernel-level threads and
+
+17
+00:00:57,520 --> 00:00:58,540
+the CPU.
+
+18
+00:00:58,540 --> 00:01:03,620
+So what is the CPU that a kernel level thread has affinity to, last strand it
+
+19
+00:01:03,620 --> 00:01:08,190
+was scheduled on, and then for a CPU, a pointer to its current thread or
+
+20
+00:01:08,190 --> 00:01:12,660
+a pointer to the threads that typically run there, and similar information.
+
+21
+00:01:12,660 --> 00:01:15,340
+When the kernel itself is multithreaded, we said we
+
+22
+00:01:15,340 --> 00:01:19,960
+can have multiple kernel-level threads supporting a single user-level process.
+
+23
+00:01:19,960 --> 00:01:22,070
+When the kernel needs to schedule, or
+
+24
+00:01:22,070 --> 00:01:26,930
+context switch, among kernel-level threads that belong to different processes,
+
+25
+00:01:26,930 --> 00:01:32,390
+it can quickly determine that they point to a different process control block.
+
+26
+00:01:32,390 --> 00:01:35,680
+So they will have different virtual address mappings, and
+
+27
+00:01:35,680 --> 00:01:38,650
+therefore can easily decide that it needs to
+
+28
+00:01:38,650 --> 00:01:44,040
+completely invalidate the existing address mappings and restore new ones.
+
+29
+00:01:44,040 --> 00:01:47,390
+In the process, it will save the entire process control block
+
+30
+00:01:47,390 --> 00:01:51,350
+structure of the first kernel-level thread, and
+
+31
+00:01:51,350 --> 00:01:53,880
+then if it's context switching to the second one,
+
+32
+00:01:53,880 --> 00:01:57,790
+it will restore the entire process control block structure of the second one.

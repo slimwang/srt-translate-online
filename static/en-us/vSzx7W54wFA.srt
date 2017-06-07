@@ -1,0 +1,209 @@
+1
+00:00:00,310 --> 00:00:02,503
+All right. Let's get serious now.
+
+2
+00:00:02,803 --> 00:00:05,746
+We need to move to using a real task
+to fetch the weather.
+
+3
+00:00:06,136 --> 00:00:09,134
+After all, weather is serious business.
+
+4
+00:00:09,514 --> 00:00:11,402
+Let's create a separate FetchWeatherTask
+
+5
+00:00:11,402 --> 00:00:13,520
+to populate our content provider database.
+
+6
+00:00:14,270 --> 00:00:16,420
+And we'll start by moving our existing task
+
+7
+00:00:16,420 --> 00:00:18,103
+over to this new one.
+
+8
+00:00:18,103 --> 00:00:19,786
+Wow. It's good to get that big task
+out of ForecastFragment.
+
+9
+00:00:21,030 --> 00:00:24,950
+And we're going to change the parameters
+to string void, void.
+
+10
+00:00:25,740 --> 00:00:29,210
+Oh, we've got a lot of compile errors to fix.
+That's okay.
+
+11
+00:00:29,770 --> 00:00:32,409
+For now, we're going
+to delete everything except for
+
+12
+00:00:32,409 --> 00:00:34,930
+the do in background part
+of the AsyncTask.
+
+13
+00:00:34,930 --> 00:00:38,753
+Let's give it a constructor
+and pass in a context.
+
+14
+00:00:38,753 --> 00:00:42,576
+(keyboard clicking)
+
+15
+00:00:47,396 --> 00:00:49,989
+In doing background,
+let's save off the locationQuery
+
+16
+00:00:49,989 --> 00:00:52,348
+as a string to make the code
+easier to understand.
+
+17
+00:00:52,568 --> 00:00:56,550
+And for fun, let's fetch the maximum
+14 days of forecast data.
+
+18
+00:00:56,822 --> 00:00:59,805
+Since we temporarily deleted
+getWeatherDataFromJson,
+
+19
+00:00:59,805 --> 00:01:01,760
+we can remove from the try catch
+at the bottom.
+
+20
+00:01:02,670 --> 00:01:06,000
+We're going to look for lots of additional data
+from the openweather API.
+
+21
+00:01:08,060 --> 00:01:10,590
+To make this easy,
+here are the strings we'll use.
+
+22
+00:01:11,500 --> 00:01:14,180
+We'll also get the city name,
+the latitude and longitude
+
+23
+00:01:14,180 --> 00:01:15,753
+returned by OpenWeather.
+
+24
+00:01:15,973 --> 00:01:19,440
+Now, we do have to wrap this in a try
+in order to make sure
+
+25
+00:01:19,440 --> 00:01:21,220
+that we handle the exception.
+
+26
+00:01:21,450 --> 00:01:24,320
+All right. Now we've handled the exceptions,
+so everything compiles.
+
+27
+00:01:24,550 --> 00:01:27,110
+And, hey, look, we've
+got the city name and coordinates.
+
+28
+00:01:27,620 --> 00:01:30,440
+Hmm, we've now gotten the location
+
+29
+00:01:30,630 --> 00:01:33,010
+that we can use to insert things
+into the database.
+
+30
+00:01:33,260 --> 00:01:37,190
+And we haven't done this in a while,
+so it's time for a programming exercise
+
+31
+00:01:37,610 --> 00:01:40,120
+but before we can do that let's actually
+
+32
+00:01:40,140 --> 00:01:41,940
+make sure that your app
+can really compile.
+
+33
+00:01:44,460 --> 00:01:48,180
+Let's go back to ForecastFragment,
+and take a look at how
+
+34
+00:01:48,180 --> 00:01:50,380
+FetchWeatherTask is working.
+
+35
+00:01:50,950 --> 00:01:53,040
+One is that FetchWeatherTask
+is going to require
+
+36
+00:01:53,040 --> 00:01:55,760
+that we get an activity
+or some other context,
+
+37
+00:01:55,760 --> 00:01:57,460
+and pass that in there.
+
+38
+00:01:57,620 --> 00:02:00,960
+Another thing we can do
+is remove these pesky shared preferences.
+
+39
+00:02:01,780 --> 00:02:03,290
+And there we have it.
+
+40
+00:02:03,290 --> 00:02:06,070
+A utility function that gets us
+our preferred location.
+
+41
+00:02:06,752 --> 00:02:09,619
+All right, so now, we're ready
+to run the applications
+
+42
+00:02:09,619 --> 00:02:12,650
+we can actually do the next exercise.
+
+43
+00:02:12,650 --> 00:02:17,080
+Once again, we're going to be calling
+into our very new fetch weather task,
+
+44
+00:02:17,080 --> 00:02:20,560
+but it's not going to do anything
+other than try and read some JSON.
+
+45
+00:02:21,146 --> 00:02:23,750
+So we've got to make it
+do something beyond that.

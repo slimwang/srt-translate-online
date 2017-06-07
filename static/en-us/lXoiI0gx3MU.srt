@@ -1,0 +1,207 @@
+1
+00:00:00,340 --> 00:00:03,690
+Okay, so let's go back to the zoo
+with the gorillas and llamas.
+
+2
+00:00:03,690 --> 00:00:05,280
+Remember these tables?
+
+3
+00:00:05,280 --> 00:00:09,790
+In this one, we have animals' names,
+species and birthdates.
+
+4
+00:00:09,790 --> 00:00:13,310
+In this other one, we have species and
+the foods that they eat.
+
+5
+00:00:13,310 --> 00:00:18,200
+Suppose that we wanted to find out,
+how many individual animals eat fish.
+
+6
+00:00:18,200 --> 00:00:20,760
+Well, that's a how many question.
+
+7
+00:00:20,760 --> 00:00:24,760
+So we'd need a count aggregation,
+but, what are we aggregating?
+
+8
+00:00:24,760 --> 00:00:27,630
+The animals table doesn't
+talk about food and
+
+9
+00:00:27,630 --> 00:00:30,880
+the food table doesn't say how
+many of each species we have.
+
+10
+00:00:30,880 --> 00:00:34,250
+But suppose that we could get
+a table that added the food column,
+
+11
+00:00:34,250 --> 00:00:35,780
+to the animals table.
+
+12
+00:00:35,780 --> 00:00:38,280
+Then we would have something
+that we could count up.
+
+13
+00:00:38,280 --> 00:00:42,000
+We saw earlier that we can derive a new
+result table from existing tables by
+
+14
+00:00:42,000 --> 00:00:44,310
+doing a join between those tables.
+
+15
+00:00:44,310 --> 00:00:45,896
+That will give us something like this.
+
+16
+00:00:45,896 --> 00:00:51,986
+Select animals.name, animals.species,
+
+17
+00:00:51,986 --> 00:00:56,825
+diet.food from animals join diet,
+
+18
+00:00:56,825 --> 00:01:02,930
+on animals.species equals diet.species.
+
+19
+00:01:02,930 --> 00:01:05,670
+But we just want
+the animals that eat fish.
+
+20
+00:01:05,670 --> 00:01:08,450
+We saw earlier, that we can
+ask the database for just rows
+
+21
+00:01:08,450 --> 00:01:13,160
+matching a particular criterion,
+with a row restriction like this one.
+
+22
+00:01:13,160 --> 00:01:17,250
+The same query, but now it ends with,
+where food equals fish.
+
+23
+00:01:17,250 --> 00:01:21,175
+So to answer the question,
+how many individual animals eat fish?
+
+24
+00:01:21,175 --> 00:01:23,910
+Our query will have to do three things.
+
+25
+00:01:23,910 --> 00:01:29,640
+First, it will join animals with diet,
+using species as the match.
+
+26
+00:01:29,640 --> 00:01:31,460
+Then, it will do a restriction,
+
+27
+00:01:31,460 --> 00:01:34,039
+selecting only rows
+where food equals fish.
+
+28
+00:01:35,070 --> 00:01:38,230
+And finally, we'll do
+an aggregation to count the rows,
+
+29
+00:01:38,230 --> 00:01:42,460
+something to think about, how many
+rows will be in each of these tables?
+
+30
+00:01:42,460 --> 00:01:46,810
+Just as the tables are related to each
+other, so too are the row counts.
+
+31
+00:01:46,810 --> 00:01:50,440
+Let's imagine that we have
+100 animals in the zoo and
+
+32
+00:01:50,440 --> 00:01:55,360
+that the final answer that we get from
+our query, is that 20 of them eat fish.
+
+33
+00:01:55,360 --> 00:01:59,330
+Remember that every result we get back
+from a database query, is a table.
+
+34
+00:01:59,330 --> 00:02:02,260
+That includes the result
+of this count aggregation.
+
+35
+00:02:02,260 --> 00:02:06,090
+The count table has just one row and one
+column and it contains the number 20.
+
+36
+00:02:06,090 --> 00:02:10,639
+Well that means that the result of
+filtering for food equals fish.
+
+37
+00:02:10,639 --> 00:02:12,310
+Must have had 20 rows.
+
+38
+00:02:12,310 --> 00:02:16,850
+Now we don't actually know how many rows
+this join has, but it's got to be at
+
+39
+00:02:16,850 --> 00:02:21,860
+least 100 rows, since each animal,
+eats at least one kind of food.
+
+40
+00:02:21,860 --> 00:02:25,220
+But some animals eat more than one,
+like bears which eat fish, and
+
+41
+00:02:25,220 --> 00:02:26,960
+meat, and fruit, too.
+
+42
+00:02:26,960 --> 00:02:30,380
+And we don't know how many rows
+the diet table has, but it'll be at
+
+43
+00:02:30,380 --> 00:02:34,570
+least as many as the number of
+distinct species in the animals table.
+
+44
+00:02:34,570 --> 00:02:37,870
+Again, that's because each species,
+eats at least one kind of food.

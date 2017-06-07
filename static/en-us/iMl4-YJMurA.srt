@@ -1,0 +1,239 @@
+1
+00:00:00,390 --> 00:00:03,530
+So now let me actually go into the details of how we're going to
+
+2
+00:00:03,530 --> 00:00:05,939
+do point processing with an example.
+
+3
+00:00:05,939 --> 00:00:07,820
+Here, I've basically come up with a,
+
+4
+00:00:07,820 --> 00:00:11,970
+an illustrative example using a small image, a small matrix here.
+
+5
+00:00:11,970 --> 00:00:13,580
+Basically, it's a six by six.
+
+6
+00:00:13,580 --> 00:00:16,630
+And if you notice, it's filled in with various grey values or
+
+7
+00:00:16,630 --> 00:00:19,390
+values from zero to 255.
+
+8
+00:00:19,390 --> 00:00:24,290
+120 intensity value, 121, 122, 125, 126, and so on.
+
+9
+00:00:24,290 --> 00:00:26,590
+Again, it's basically a small image.
+
+10
+00:00:26,590 --> 00:00:28,580
+We can of course now to do point arithmetic.
+
+11
+00:00:28,580 --> 00:00:32,210
+Let's also consider another image, the second image which is shown here.
+
+12
+00:00:32,210 --> 00:00:34,810
+So now I have two different images, image one and image two.
+
+13
+00:00:34,810 --> 00:00:38,830
+What I'm interested in is now doing a simple addition of
+
+14
+00:00:38,830 --> 00:00:41,310
+the intensity values of these two images.
+
+15
+00:00:41,310 --> 00:00:45,310
+So for example take the first one and the second one and add it together.
+
+16
+00:00:45,310 --> 00:00:46,930
+Here is what the result would look like.
+
+17
+00:00:46,930 --> 00:00:50,290
+And again just to kind of look at it we can go through the math here.
+
+18
+00:00:50,290 --> 00:00:55,090
+120 plus 120 results in 240.
+
+19
+00:00:55,090 --> 00:00:56,880
+121 plus 121 results in 242, 244, 250, 252.
+
+20
+00:00:56,880 --> 00:01:03,150
+You know, basically, again these things are repeated,
+
+21
+00:01:03,150 --> 00:01:05,160
+so they're just multiplied by 2 here.
+
+22
+00:01:05,160 --> 00:01:08,335
+And you can see the same kind of impact here on this row.
+
+23
+00:01:08,335 --> 00:01:10,535
+Let's actually look at this example.
+
+24
+00:01:10,535 --> 00:01:11,730
+140, and 140.
+
+25
+00:01:11,730 --> 00:01:17,710
+Well, when you do these types of additions, the answer is 280.
+
+26
+00:01:17,710 --> 00:01:20,730
+And similarly, 142 and, and 142 results in 284.
+
+27
+00:01:20,730 --> 00:01:24,650
+And 143 and 143 times results in 286.
+
+28
+00:01:24,650 --> 00:01:33,920
+So if you notice, there's an interesting problem here with these three pixels.
+
+29
+00:01:33,920 --> 00:01:36,780
+All of their values are greater than 255.
+
+30
+00:01:36,780 --> 00:01:43,900
+So we need to now actually do some other types of processes to help with this.
+
+31
+00:01:43,900 --> 00:01:46,750
+Because one, I cannot, as we've learned about it,
+
+32
+00:01:46,750 --> 00:01:50,389
+image can only have values from 0 to 255.
+
+33
+00:01:51,790 --> 00:01:54,750
+So we need to start thinking about what to do with images when you
+
+34
+00:01:54,750 --> 00:01:58,250
+start getting values like this, and part of the secret is to be able to
+
+35
+00:01:58,250 --> 00:02:02,910
+kind of scale this up to basically these values become 255, i.e.,
+
+36
+00:02:02,910 --> 00:02:05,860
+white, and the rest of them get reduced appropriately.
+
+37
+00:02:05,860 --> 00:02:09,490
+And the scale from whatever is the lowest value to the highest one,
+
+38
+00:02:09,490 --> 00:02:12,920
+to be able to capture the change of the ramp of the image.
+
+39
+00:02:12,920 --> 00:02:16,450
+Same example, but now let's look at it another direction.
+
+40
+00:02:16,450 --> 00:02:18,340
+So again, I have the same two images,
+
+41
+00:02:19,340 --> 00:02:22,090
+except now I'm going to subtract one from the other.
+
+42
+00:02:22,090 --> 00:02:28,100
+So in this case, of course, if you notice, 120 subtracted by 120, so this whole.
+
+43
+00:02:28,100 --> 00:02:30,600
+Our column of pixels is 0.
+
+44
+00:02:30,600 --> 00:02:33,750
+And similarly since these two pixels are exactly the same,
+
+45
+00:02:33,750 --> 00:02:35,220
+here again we get 0's.
+
+46
+00:02:35,220 --> 00:02:38,250
+Except now, you get an interesting problem here.
+
+47
+00:02:38,250 --> 00:02:40,880
+So the values here are 11, 10, 13.
+
+48
+00:02:40,880 --> 00:02:44,600
+Here are 151, 152 and 153.
+
+49
+00:02:44,600 --> 00:02:47,629
+Which basically means these are negative values.
+
+50
+00:02:48,700 --> 00:02:51,400
+Again, remember from the example we looked at before.
+
+51
+00:02:51,400 --> 00:02:54,430
+We can only have values from 0 to 255.
+
+52
+00:02:54,430 --> 00:02:57,160
+I cannot have negative values.
+
+53
+00:02:57,160 --> 00:03:00,500
+So these are black, which means that they are no information, so
+
+54
+00:03:00,500 --> 00:03:02,450
+I want to replace these with 0's, but
+
+55
+00:03:02,450 --> 00:03:06,260
+I will also have to do an adjustment on all of the other ones.
+
+56
+00:03:06,260 --> 00:03:08,200
+To go from 0 to 255.
+
+57
+00:03:08,200 --> 00:03:10,930
+So in this case the range would be, this is 0,
+
+58
+00:03:10,930 --> 00:03:13,600
+this is actually a very high number.
+
+59
+00:03:13,600 --> 00:03:15,970
+So, of course, either we could lose the information or
+
+60
+00:03:15,970 --> 00:03:19,540
+still capture it by doing some sort internal scaling of these images.

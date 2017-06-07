@@ -1,0 +1,198 @@
+1
+00:00:00,240 --> 00:00:03,130
+So here is an example of video
+that actually has been tested for
+
+2
+00:00:03,130 --> 00:00:03,870
+these kinds of things.
+
+3
+00:00:03,870 --> 00:00:07,720
+I'm just showing example, so this is the
+first at one of the earlier attempts at
+
+4
+00:00:07,720 --> 00:00:11,690
+trying to do rolling shutter removal,
+so this was the original video they had.
+
+5
+00:00:11,690 --> 00:00:13,930
+This is known as the helicopter
+data and, of course,
+
+6
+00:00:13,930 --> 00:00:16,520
+you notice lots of non-rigid warps.
+
+7
+00:00:16,520 --> 00:00:19,350
+So this is our original footage that we
+want to actually start playing around
+
+8
+00:00:19,350 --> 00:00:22,550
+with, see a lot of non-rigid
+deformations everywhere.
+
+9
+00:00:22,550 --> 00:00:27,180
+So when we applied the first system, the
+one basically found a crop window, and
+
+10
+00:00:27,180 --> 00:00:29,860
+tried to do this as a global shutter
+
+11
+00:00:29,860 --> 00:00:32,580
+we also could not actually
+stabilize it very well.
+
+12
+00:00:32,580 --> 00:00:35,280
+We see a lot of non-rigid
+warping going on.
+
+13
+00:00:35,280 --> 00:00:37,570
+So what we basically have to do
+is go back to drawing board and
+
+14
+00:00:37,570 --> 00:00:40,300
+start thinking about how
+we can actually do this
+
+15
+00:00:40,300 --> 00:00:43,540
+knowing a little bit more about
+how a rolling shutter works.
+
+16
+00:00:43,540 --> 00:00:45,760
+Not going to go into a lot
+of detail right now.
+
+17
+00:00:45,760 --> 00:00:49,060
+I'm just going to kind of say is what
+we basically did was we actually
+
+18
+00:00:49,060 --> 00:00:53,830
+took the whole image and
+kind of dissected it into small regions.
+
+19
+00:00:53,830 --> 00:00:57,470
+Almost the scan rates that are coming
+down as I move the camera, and
+
+20
+00:00:57,470 --> 00:01:00,330
+applied the same kinds of processing
+of computing the homography and
+
+21
+00:01:00,330 --> 00:01:03,900
+all of that for different regions and
+different slices itself and
+
+22
+00:01:03,900 --> 00:01:08,280
+used that to figure out, what is the
+likelihood of this region moving here.
+
+23
+00:01:08,280 --> 00:01:10,030
+Use that as an estimate, and then,
+
+24
+00:01:10,030 --> 00:01:15,470
+of course, unwarp it, knowing more about
+how each and every region would move.
+
+25
+00:01:15,470 --> 00:01:19,533
+So, the problem we had was we didn't
+know exactly what the readout dor each
+
+26
+00:01:19,533 --> 00:01:20,870
+and every camera was.
+
+27
+00:01:20,870 --> 00:01:25,602
+We basically kind of said is, well,
+let's look at multiple motion models.
+
+28
+00:01:25,602 --> 00:01:28,790
+So I basically had a different motion
+model for each one of them and
+
+29
+00:01:28,790 --> 00:01:31,410
+then blend them back using
+a mixture of Gaussians.
+
+30
+00:01:31,410 --> 00:01:35,960
+So, in essence, we took two of them
+this way, another two and basically did
+
+31
+00:01:35,960 --> 00:01:39,870
+a blend between those and then I
+did a blend between the other two.
+
+32
+00:01:39,870 --> 00:01:43,880
+Remember the kinds of blend concepts
+we've looked at similar in this context
+
+33
+00:01:43,880 --> 00:01:47,310
+and what we did was basically use
+a mixture of Gaussians to kind of take
+
+34
+00:01:47,310 --> 00:01:51,750
+all of the homography information for
+each integral region and use that and
+
+35
+00:01:51,750 --> 00:01:56,830
+unblend it or unmerge or unwarp the
+image to correct for all of the motion.
+
+36
+00:01:56,830 --> 00:01:58,740
+So here is the original video again.
+
+37
+00:01:58,740 --> 00:02:01,580
+Lot of non-rigid warping
+going on in the middle.
+
+38
+00:02:01,580 --> 00:02:04,370
+This is basically the solution
+using our newer approach now,
+
+39
+00:02:04,370 --> 00:02:07,400
+we actually look at
+the rolling shutter also.
+
+40
+00:02:07,400 --> 00:02:10,130
+Now you may be noticing that
+the input thing is moving around.
+
+41
+00:02:10,130 --> 00:02:12,560
+That's partly the artifact
+of our cropping algorithm.

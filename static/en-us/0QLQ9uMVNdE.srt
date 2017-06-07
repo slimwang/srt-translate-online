@@ -1,0 +1,279 @@
+1
+00:00:00,120 --> 00:00:04,220
+In lesson 2, stage 1, you'll implement the Count Bolt methods execute and
+
+2
+00:00:04,220 --> 00:00:07,520
+declare output fields to complete the word count topology.
+
+3
+00:00:07,520 --> 00:00:10,800
+We've also implemented a reporter bolt to connect your Redis database, and
+
+4
+00:00:10,800 --> 00:00:12,130
+D3 visualization.
+
+5
+00:00:12,130 --> 00:00:16,088
+You must link the reporter bolt viewer topology to visualize your results.
+
+6
+00:00:16,088 --> 00:00:19,620
+In part 1, on your local machine, in your favorite text editor, and again,
+
+7
+00:00:19,620 --> 00:00:20,980
+I'm using Atom.
+
+8
+00:00:20,980 --> 00:00:26,613
+Navigate to lesson two >stage one > source >jvm >udacity > storm and
+
+9
+00:00:26,613 --> 00:00:29,590
+open up the word count topology.
+
+10
+00:00:29,590 --> 00:00:31,900
+Switch over to your virtual machine and
+
+11
+00:00:31,900 --> 00:00:34,540
+make sure you are in lesson two stage one.
+
+12
+00:00:34,540 --> 00:00:38,380
+You can check that to make sure that you're in your virtual machine.
+
+13
+00:00:38,380 --> 00:00:42,948
+Folder /vagrant/lesson2/stage1.
+
+14
+00:00:42,948 --> 00:00:43,560
+In part 2,
+
+15
+00:00:43,560 --> 00:00:49,500
+implement the CountBolt method execute, scroll down to the class CountBolt, and
+
+16
+00:00:49,500 --> 00:00:54,790
+scroll down further to the method execute, execute takes in a tuple.
+
+17
+00:00:54,790 --> 00:00:59,220
+Begin by filling in the missing code labelled part 1 of 3.
+
+18
+00:00:59,220 --> 00:01:04,510
+This code takes in a tuple, extracts the word using the syntax provided,
+
+19
+00:01:04,510 --> 00:01:08,150
+which you will have to uncomment, that takes in a tuple,
+
+20
+00:01:08,150 --> 00:01:12,880
+uses the getString method at position 0 to extract the word.
+
+21
+00:01:12,880 --> 00:01:16,850
+Next, write code to check if the word is present in the map declared in
+
+22
+00:01:16,850 --> 00:01:18,470
+the prepare method.
+
+23
+00:01:18,470 --> 00:01:24,220
+CountMap that is a HashMap with key string and value integer.
+
+24
+00:01:24,220 --> 00:01:27,100
+Right code to check if the word is present in the map.
+
+25
+00:01:27,100 --> 00:01:31,300
+If the word already exists in the countMap increment the count by one.
+
+26
+00:01:31,300 --> 00:01:35,590
+If not add the word to the HashMap with a value of one.
+
+27
+00:01:35,590 --> 00:01:39,212
+Finally after your countMap is updated, admit the word and
+
+28
+00:01:39,212 --> 00:01:44,300
+count out the collector by simply un-commenting the provided code.
+
+29
+00:01:44,300 --> 00:01:50,190
+Notice that the collector method.admit is being called with the word and
+
+30
+00:01:50,190 --> 00:01:55,610
+the countMap.get word which will return the value count.
+
+31
+00:01:55,610 --> 00:01:58,146
+In part 3, since we are emmitting the word and
+
+32
+00:01:58,146 --> 00:02:01,868
+count, we need to declare output fields, word and count.
+
+33
+00:02:01,868 --> 00:02:06,780
+In part two of three, un-comment the line that calls the declare method on
+
+34
+00:02:06,780 --> 00:02:12,170
+the output fields declarer that declares the field word and count.
+
+35
+00:02:12,170 --> 00:02:14,510
+This completes the count bolt implementation.
+
+36
+00:02:14,510 --> 00:02:16,470
+Remember to package your program in maven,
+
+37
+00:02:16,470 --> 00:02:19,208
+submit the program to storm to view on your command line.
+
+38
+00:02:19,208 --> 00:02:22,720
+In part 4 of this lesson, once your program is running correctly to
+
+39
+00:02:22,720 --> 00:02:27,000
+the command line, the report bolt must be connected to the topology.
+
+40
+00:02:27,000 --> 00:02:29,360
+Scroll down to your TopologyBuilder.
+
+41
+00:02:29,360 --> 00:02:34,580
+In the mean method you'll see the TopologyBuilder declaration builder.
+
+42
+00:02:34,580 --> 00:02:37,570
+The syntax we used in our quiz is here.
+
+43
+00:02:37,570 --> 00:02:41,920
+Here the Spout word-spout is connected to the count bolt
+
+44
+00:02:41,920 --> 00:02:45,040
+using the fields grouping on field word.
+
+45
+00:02:45,040 --> 00:02:49,930
+And finally, in part 3 of 3 use the set bolt method to add the provided report
+
+46
+00:02:49,930 --> 00:02:56,180
+bolt with an id report bolt and global grouping with parallelism of one.
+
+47
+00:02:56,180 --> 00:02:59,010
+After implementing the count bolt and implementing the report bolt to
+
+48
+00:02:59,010 --> 00:03:03,400
+your topology, you are ready to run your Storm word count with visualization.
+
+49
+00:03:03,400 --> 00:03:07,150
+In part five of the written instructions, scroll up to the report bolt.
+
+50
+00:03:07,150 --> 00:03:11,670
+Just to review the syntax we've used to publish the word in count.
+
+51
+00:03:11,670 --> 00:03:15,400
+Here we have a redis instance that we call the method publish.
+
+52
+00:03:15,400 --> 00:03:17,920
+Here's our word, here's our count.
+
+53
+00:03:17,920 --> 00:03:21,190
+And here we use a pipe character to separate the two.
+
+54
+00:03:21,190 --> 00:03:24,170
+The visualization takes in the string published by redis,
+
+55
+00:03:24,170 --> 00:03:28,160
+splits according to the pipe and loads the word in count.
+
+56
+00:03:28,160 --> 00:03:31,330
+Finally, in part six of the written instructions, at the command line,
+
+57
+00:03:31,330 --> 00:03:32,910
+run maven package.
+
+58
+00:03:32,910 --> 00:03:35,100
+Remember the syntax is mvn package.
+
+59
+00:03:35,100 --> 00:03:41,096
+And once you see BUILD SUCCESS, run your topology by submitting to storm.
+
+60
+00:03:41,096 --> 00:03:47,610
+Storm jar target/udacity, remember to use tab,-
+
+61
+00:03:47,610 --> 00:03:48,682
+tab to get
+
+62
+00:03:48,682 --> 00:03:58,490
+the package jar-with-dependencies.jar udacity.storm.wordCountTopology.
+
+63
+00:03:58,490 --> 00:03:59,090
+Remember that for
+
+64
+00:03:59,090 --> 00:04:02,330
+your visualization to run, your Flask server needs to be running.
+
+65
+00:04:02,330 --> 00:04:08,780
+If it's not running already, go into the viz directory and type python app.py.
+
+66
+00:04:08,780 --> 00:04:12,050
+As your program runs, refresh your page, and you can see Storm running in
+
+67
+00:04:12,050 --> 00:04:15,420
+the background, and your visualization should appear.
+
+68
+00:04:15,420 --> 00:04:18,680
+Notice that the size of the words is linked to the count, so
+
+69
+00:04:18,680 --> 00:04:22,270
+as the topology runs longer, our names increase in size.
+
+70
+00:04:22,270 --> 00:04:23,350
+Good luck with the exercise.

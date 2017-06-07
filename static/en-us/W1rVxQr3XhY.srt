@@ -1,0 +1,261 @@
+1
+00:00:00,310 --> 00:00:06,460
+In shared memory IPC, processes read and
+write into a shared memory region.
+
+2
+00:00:06,460 --> 00:00:11,220
+The operating system is involved in
+establishing the shared memory channel
+
+3
+00:00:11,220 --> 00:00:13,010
+between the processes.
+
+4
+00:00:13,010 --> 00:00:17,500
+What this means is that the operating
+system will map certain physical pages
+
+5
+00:00:17,500 --> 00:00:22,030
+of memory into the virtual
+address spaces of both processes,
+
+6
+00:00:22,030 --> 00:00:24,480
+the virtual addresses in P1 and
+
+7
+00:00:24,480 --> 00:00:29,880
+the virtual addresses in P2 will
+map to the same physical addresses.
+
+8
+00:00:29,880 --> 00:00:30,710
+At the same time,
+
+9
+00:00:30,710 --> 00:00:34,965
+the virtual address regions that
+correspond to that shared memory buffer.
+
+10
+00:00:34,965 --> 00:00:39,565
+in the two processes, they don't need
+to have the same virtual addresses.
+
+11
+00:00:39,565 --> 00:00:43,795
+Also the physical memory that's
+backing the shared memory buffer
+
+12
+00:00:43,795 --> 00:00:47,832
+does not have to be a contiguous
+portion of physical memory.
+
+13
+00:00:47,832 --> 00:00:51,922
+All of this leverages the memory
+management support that's available in
+
+14
+00:00:51,922 --> 00:00:54,832
+operating systems in
+our modern hardware.
+
+15
+00:00:54,832 --> 00:00:58,862
+The big benefit of this approach is that
+once the physical memory is mapped into
+
+16
+00:00:58,862 --> 00:01:02,462
+both address spaces,
+the operating system is out of the way.
+
+17
+00:01:02,462 --> 00:01:05,370
+The system calls are used
+only in the setup phase.
+
+18
+00:01:05,370 --> 00:01:07,750
+Now, data copies
+are potentially reduced, but
+
+19
+00:01:07,750 --> 00:01:10,130
+not necessarily completely avoided.
+
+20
+00:01:10,130 --> 00:01:14,620
+Note that for data to be visible to both
+processes, it actually must explicitly
+
+21
+00:01:14,620 --> 00:01:20,800
+be allocated from the virtual addresses
+that belong to the shared memory region.
+
+22
+00:01:20,800 --> 00:01:23,700
+So if that's not the case,
+then data within the same address
+
+23
+00:01:23,700 --> 00:01:27,520
+space has to be copied in and
+out of the shared memory region.
+
+24
+00:01:27,520 --> 00:01:31,720
+In some cases however, the number
+of required copies can be reduced.
+
+25
+00:01:31,720 --> 00:01:35,650
+For instance, if P2 needs to
+compute the sum of two arguments,
+
+26
+00:01:35,650 --> 00:01:40,010
+that were passed to it from P1 via
+the shared memory region, then P2
+
+27
+00:01:40,010 --> 00:01:44,450
+can only read these arguments, it
+doesn't actually need to copy them into
+
+28
+00:01:44,450 --> 00:01:48,800
+other portions of its address space,
+compute the sum, and then pass it back.
+
+29
+00:01:48,800 --> 00:01:50,770
+However, there are some drawbacks.
+
+30
+00:01:50,770 --> 00:01:55,780
+Since the shared memory area can be
+concurrently accessed by both processes,
+
+31
+00:01:55,780 --> 00:01:59,960
+this means that the processes
+must explicitly synchronize
+
+32
+00:01:59,960 --> 00:02:02,160
+their shared memory operations.
+
+33
+00:02:02,160 --> 00:02:06,760
+Just as what you would have with threads
+operating within a single address space.
+
+34
+00:02:06,760 --> 00:02:10,145
+Also, it is the developer's
+responsibility to determine
+
+35
+00:02:10,145 --> 00:02:13,193
+any communication protocol
+related issues such as,
+
+36
+00:02:13,193 --> 00:02:15,510
+how are messages going to be formatted?
+
+37
+00:02:15,510 --> 00:02:17,270
+How will they be delimited?
+
+38
+00:02:17,270 --> 00:02:20,200
+What are their headers
+going to look like?
+
+39
+00:02:20,200 --> 00:02:23,590
+And also, how this shared memory
+buffer will be allocated?
+
+40
+00:02:23,590 --> 00:02:28,700
+When which process, we'll be able to use
+a portion of this buffer for its needs.
+
+41
+00:02:28,700 --> 00:02:31,340
+So this adds some complexity, obviously.
+
+42
+00:02:31,340 --> 00:02:37,210
+Unix based systems, including Linux,
+support two popular shared memory APIs.
+
+43
+00:02:37,210 --> 00:02:40,700
+One of these was originally
+developed as part of System V and
+
+44
+00:02:40,700 --> 00:02:44,040
+the other one is the official
+POSIX shared memory API.
+
+45
+00:02:44,040 --> 00:02:47,500
+In addition, shared memory based
+communication can be established between
+
+46
+00:02:47,500 --> 00:02:50,630
+processes using a file based interface.
+
+47
+00:02:50,630 --> 00:02:54,670
+So the memory wrapped files
+in both address spaces.
+
+48
+00:02:54,670 --> 00:02:59,020
+This API's essentially analogous
+to the POSIX shared memory API.
+
+49
+00:02:59,020 --> 00:03:02,960
+Also the Android operating system
+uses a form of shared memory IPC
+
+50
+00:03:02,960 --> 00:03:03,990
+that's called Ashmem.
+
+51
+00:03:03,990 --> 00:03:08,630
+There are a number of differences in the
+details of how Ashmem behaves compared
+
+52
+00:03:08,630 --> 00:03:11,470
+to the system files POSIX APIs, but
+
+53
+00:03:11,470 --> 00:03:14,750
+I'm just providing it
+here as a reference only.
+
+54
+00:03:14,750 --> 00:03:16,160
+For the remainder of this lesson,
+
+55
+00:03:16,160 --> 00:03:20,200
+we will focus on briefly describing
+the Unix space shared memory APIs

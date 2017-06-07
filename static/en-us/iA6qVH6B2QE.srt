@@ -1,0 +1,518 @@
+1
+00:00:00,460 --> 00:00:06,160
+So in this case, first question
+to ask is if we are trying to
+
+2
+00:00:06,160 --> 00:00:10,600
+come up with a constraint for
+this operation, what's its context?
+
+3
+00:00:11,990 --> 00:00:13,770
+>> It is the patron class.
+
+4
+00:00:13,770 --> 00:00:20,390
+>> So it's in the patron class with
+constraints that talk about operations.
+
+5
+00:00:20,390 --> 00:00:23,380
+We can go a step further and
+say which operations.
+
+6
+00:00:24,490 --> 00:00:28,590
+So, we're going to essentially
+have Patron, and in this case,
+
+7
+00:00:28,590 --> 00:00:30,060
+there's going to be double colon,
+
+8
+00:00:30,060 --> 00:00:34,900
+separating Patron from the name
+of the particular operation.
+
+9
+00:00:36,180 --> 00:00:39,850
+And we're allowed to go one step further
+and actually have the signature there.
+
+10
+00:00:41,060 --> 00:00:47,210
+Now the signature was expressed within
+just the UML diagram part of things.
+
+11
+00:00:47,210 --> 00:00:52,890
+So to fill in this part of the
+constraint, we're going to say context.
+
+12
+00:00:52,890 --> 00:00:55,570
+We're going to have a patron colon,
+colon.
+
+13
+00:00:55,570 --> 00:00:58,290
+And then the items
+currently checked out.
+
+14
+00:00:58,290 --> 00:01:03,990
+And in this case there's no arguments or
+at least there's no explicit argument.
+
+15
+00:01:03,990 --> 00:01:08,274
+In object-oriented languages there's
+always an implicit argument of
+
+16
+00:01:08,274 --> 00:01:10,390
+the object receiving the request.
+
+17
+00:01:10,390 --> 00:01:12,020
+>> So the Patron itself.
+
+18
+00:01:12,020 --> 00:01:14,539
+>> So
+the Patron itself is an argument and
+
+19
+00:01:14,539 --> 00:01:17,460
+we're going to qualify
+with respect to it.
+
+20
+00:01:19,180 --> 00:01:22,070
+And so there's no explicit
+argument listed in the signature,
+
+21
+00:01:22,070 --> 00:01:24,430
+however there is a return value.
+
+22
+00:01:24,430 --> 00:01:28,640
+Given the diagram,
+what do you think would be the type
+
+23
+00:01:28,640 --> 00:01:32,010
+of the return value of
+this CheckedOut operation?
+
+24
+00:01:32,010 --> 00:01:35,220
+>> It would be a LoanableItem.
+
+25
+00:01:35,220 --> 00:01:41,840
+>> Okay, but the requirement
+says the LoanableItems, plural.
+
+26
+00:01:41,840 --> 00:01:46,510
+>> Well, okay, yeah, so a list or
+some group of some LoanableItems.
+
+27
+00:01:46,510 --> 00:01:50,336
+>> Okay.
+>> Where that association becomes,
+
+28
+00:01:50,336 --> 00:01:53,920
+when you actually program it in.
+
+29
+00:01:53,920 --> 00:01:57,100
+>> Okay, in this case because there's
+a plural in the expression of things,
+
+30
+00:01:57,100 --> 00:01:59,850
+we know there's going
+to be more than one.
+
+31
+00:01:59,850 --> 00:02:04,940
+And OCL provides us various,
+what it calls collection classes,
+
+32
+00:02:04,940 --> 00:02:07,060
+ways of organizing things.
+
+33
+00:02:07,060 --> 00:02:11,790
+And it's important in deciding
+exactly which collection class to use,
+
+34
+00:02:11,790 --> 00:02:16,060
+to think about the properties
+that are required.
+
+35
+00:02:16,060 --> 00:02:20,940
+So I use the word list and
+list tends to have an order.
+
+36
+00:02:20,940 --> 00:02:22,470
+In this case do we care about the order?
+
+37
+00:02:24,220 --> 00:02:25,440
+>> Not particularly, I don't think.
+
+38
+00:02:25,440 --> 00:02:27,840
+>> Okay, so what other data structure
+
+39
+00:02:29,380 --> 00:02:32,390
+is a collection class but
+doesn't care about order?
+
+40
+00:02:34,010 --> 00:02:37,390
+>> A set or an array or?
+
+41
+00:02:37,390 --> 00:02:42,610
+>> So OCL does have a set operation,
+so in this case the return value for
+
+42
+00:02:42,610 --> 00:02:45,280
+this operation is a set
+of loanable items.
+
+43
+00:02:46,570 --> 00:02:48,305
+>> Is it okay,
+because when you use the word set,
+
+44
+00:02:48,305 --> 00:02:51,430
+it makes me think that you're implying
+we can only check out one of a certain
+
+45
+00:02:51,430 --> 00:02:53,265
+type of book which may be a requirement,
+but
+
+46
+00:02:53,265 --> 00:02:56,020
+I don't think that was explicit
+in the requirements statement.
+
+47
+00:02:56,020 --> 00:03:01,410
+You can check out multiple copies
+of the same book, couldn't you?
+
+48
+00:03:01,410 --> 00:03:08,090
+>> There's nothing about either
+the requirements or this
+
+49
+00:03:08,090 --> 00:03:14,745
+OCL that prevents you from checking
+out multiple copies of the same book,
+
+50
+00:03:14,745 --> 00:03:17,219
+because each of those is going
+to be a separate loanable item.
+
+51
+00:03:18,450 --> 00:03:19,215
+>> Okay so-
+>> But
+
+52
+00:03:19,215 --> 00:03:22,710
+what it is preventing you from
+doing is checking out the same book
+
+53
+00:03:22,710 --> 00:03:23,680
+twice at the same time.
+
+54
+00:03:23,680 --> 00:03:25,190
+>> Right, that's what I mean.
+
+55
+00:03:25,190 --> 00:03:25,850
+>> Right.
+
+56
+00:03:25,850 --> 00:03:28,340
+>> So we can't do that, even.
+
+57
+00:03:28,340 --> 00:03:30,997
+Is that specified in the requirements,
+or is that just something we're now
+
+58
+00:03:30,997 --> 00:03:32,850
+implying-
+>> Okay, so great point.
+
+59
+00:03:34,350 --> 00:03:39,470
+So we call one of the subtleties of
+the original requirements analysis had
+
+60
+00:03:39,470 --> 00:03:44,710
+to do with what happens if you
+check out a book, hold it overdue,
+
+61
+00:03:44,710 --> 00:03:49,740
+you have money due on it, you return
+it so it's not accruing any extra
+
+62
+00:03:51,040 --> 00:03:55,120
+as far as the fine is concerned, but
+the system has to remember that, right?
+
+63
+00:03:55,120 --> 00:03:59,500
+So in a sense that CheckedOut
+record has to still be there
+
+64
+00:03:59,500 --> 00:04:00,980
+to hold that information.
+
+65
+00:04:00,980 --> 00:04:04,520
+Now what happens if you
+try to check it out again?
+
+66
+00:04:04,520 --> 00:04:05,760
+If we use a set here
+
+67
+00:04:07,460 --> 00:04:12,350
+we run the risk of clobbering
+the record and breaking things.
+
+68
+00:04:12,350 --> 00:04:18,600
+So I think you've pointed out
+a place where we have to be very,
+
+69
+00:04:18,600 --> 00:04:21,660
+very careful about doing this right.
+
+70
+00:04:21,660 --> 00:04:23,690
+And in this case it looks like yes,
+
+71
+00:04:23,690 --> 00:04:25,830
+we would clobber things in
+that particular situation.
+
+72
+00:04:27,410 --> 00:04:29,970
+For operations that we're
+trying to model in OCL,
+
+73
+00:04:29,970 --> 00:04:33,290
+the next question typically is
+what are the preconditions.
+
+74
+00:04:33,290 --> 00:04:36,320
+And that means the circumstances
+under which it is meaningful for
+
+75
+00:04:36,320 --> 00:04:38,570
+the operation to execute.
+
+76
+00:04:38,570 --> 00:04:40,740
+In the case of items
+currently checked out,
+
+77
+00:04:40,740 --> 00:04:43,530
+as with most operations
+that provide a value
+
+78
+00:04:44,840 --> 00:04:49,850
+without affecting any change in
+state there are no preconditions.
+
+79
+00:04:49,850 --> 00:04:53,910
+In OCL we have two ways
+of dealing with that.
+
+80
+00:04:53,910 --> 00:04:58,310
+We could have a precondition
+which has the Boolean value
+
+81
+00:04:58,310 --> 00:05:03,480
+true which says it always is the case
+that it's okay to run this operation.
+
+82
+00:05:03,480 --> 00:05:06,610
+Or we can leave out
+the precondition entirely
+
+83
+00:05:06,610 --> 00:05:09,960
+which has the same implications.
+
+84
+00:05:09,960 --> 00:05:13,980
+And so for readability purposes
+you may want to do that to make
+
+85
+00:05:13,980 --> 00:05:16,139
+the overall constraint a little shorter.
+
+86
+00:05:17,390 --> 00:05:20,980
+The third part in specifying
+operations is to specify
+
+87
+00:05:20,980 --> 00:05:24,100
+which value is returned
+by the operation.
+
+88
+00:05:24,100 --> 00:05:28,370
+To compute the items that are currently
+checked out, we merely navigate along
+
+89
+00:05:28,370 --> 00:05:32,650
+the CheckedOut association to
+the corresponding loanable items.
+
+90
+00:05:32,650 --> 00:05:36,000
+So here's what the overall
+constraint looks like.
+
+91
+00:05:36,000 --> 00:05:38,930
+We have the context which
+had our signature, and
+
+92
+00:05:38,930 --> 00:05:41,420
+then we had a post condition.
+
+93
+00:05:41,420 --> 00:05:47,090
+And now the post condition lists
+another OCL keyword, which is result.
+
+94
+00:05:47,090 --> 00:05:51,920
+And that stands in for whatever it is
+that's computed by that operation.
+
+95
+00:05:51,920 --> 00:05:56,789
+And what needs to be computed
+in this case is those
+
+96
+00:05:58,240 --> 00:06:03,249
+links in the CheckedOut association
+
+97
+00:06:03,249 --> 00:06:08,046
+which correspond to items checked
+out by this particular patron.
+
+98
+00:06:08,046 --> 00:06:13,290
+Now we already are restricted by
+
+99
+00:06:13,290 --> 00:06:18,749
+our context to just the patron
+of interest for the query.
+
+100
+00:06:20,000 --> 00:06:24,826
+And that patron is then
+going to be a partner in
+
+101
+00:06:24,826 --> 00:06:29,220
+certain of the links in the association
+and we want to get the partners at
+
+102
+00:06:29,220 --> 00:06:32,880
+the other end, the loanable items
+that belong to that patron.
+
+103
+00:06:32,880 --> 00:06:36,780
+So we navigate from Patron,
+which is our context,
+
+104
+00:06:36,780 --> 00:06:41,770
+through CheckedOut to LoanableItem,
+and that will be the set of loanable
+
+105
+00:06:41,770 --> 00:06:46,620
+items that are currently
+associated with that patron.
+
+106
+00:06:46,620 --> 00:06:51,950
+It once again leave us in the situation,
+what does checked out mean?
+
+107
+00:06:51,950 --> 00:06:57,170
+It means either you currently have them
+checked out, and haven't returned them.
+
+108
+00:06:57,170 --> 00:07:01,130
+Or you checked them out, you held
+them too long, you returned them, and
+
+109
+00:07:01,130 --> 00:07:05,200
+the system is remembering that
+you still owe something on them.

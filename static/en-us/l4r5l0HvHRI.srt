@@ -1,0 +1,514 @@
+﻿1
+00:00:00,350 --> 00:00:00,990
+All right, so.
+
+2
+00:00:00,990 --> 00:00:03,650
+Presumably you kind of took a stab
+at validating our theory that
+
+3
+00:00:03,649 --> 00:00:06,669
+words are predictive of labels.
+
+4
+00:00:06,669 --> 00:00:09,289
+So now I'm going to show you how
+I would attack this problem, and
+
+5
+00:00:09,289 --> 00:00:11,359
+then we can kind of compare notes.
+
+6
+00:00:11,359 --> 00:00:12,639
+This learning style,
+I really, really like.
+
+7
+00:00:12,640 --> 00:00:14,830
+Because I think that
+it's most beneficial for
+
+8
+00:00:14,830 --> 00:00:20,160
+people to sort of attack a problem in
+their head first and really realize what
+
+9
+00:00:20,160 --> 00:00:24,990
+their kind of go-to set of tools is, and
+then see how another person might do it.
+
+10
+00:00:24,989 --> 00:00:29,820
+I find that to be a really fulfilling
+and educational way to go about things
+
+11
+00:00:29,820 --> 00:00:34,429
+and to really know where you're at,
+as far as, how you tackle a problem
+
+12
+00:00:34,429 --> 00:00:37,019
+like you would in the real world,
+when you're not in the classroom.
+
+13
+00:00:37,020 --> 00:00:40,600
+And then compare that to how
+someone else might do it.
+
+14
+00:00:40,600 --> 00:00:43,310
+So yeah, let's tackle this problem.
+
+15
+00:00:43,310 --> 00:00:47,460
+So I've got a couple of go-to tools I
+always like to use from collections,
+
+16
+00:00:47,460 --> 00:00:48,539
+import Counter.
+
+17
+00:00:48,539 --> 00:00:50,539
+So we're going to be counting words.
+
+18
+00:00:50,539 --> 00:00:53,405
+And I find that the counter
+object is just so fast and so
+
+19
+00:00:53,405 --> 00:00:55,512
+much easier than using dictionaries.
+
+20
+00:00:55,512 --> 00:00:57,320
+And I'll show you how to use it.
+
+21
+00:00:57,320 --> 00:01:00,539
+And then numpy for
+whenever we do numerical calculations.
+
+22
+00:01:00,539 --> 00:01:05,789
+So the first thing that we're going
+to do is we're going to just count
+
+23
+00:01:05,790 --> 00:01:07,602
+sort of words that
+show up positively and
+
+24
+00:01:07,602 --> 00:01:10,750
+words that show up
+negatively in various views.
+
+25
+00:01:10,750 --> 00:01:19,444
+So for i range((len(reviews)), I-E-W-S.
+
+26
+00:01:19,444 --> 00:01:20,969
+Gotta create our counter.
+
+27
+00:01:20,969 --> 00:01:25,326
+So positive counts equals counter.
+
+28
+00:01:25,326 --> 00:01:26,129
+This is how the counter objects work.
+
+29
+00:01:26,129 --> 00:01:29,929
+So you create an empty counter and
+it acts a little bit like a dictionary.
+
+30
+00:01:29,930 --> 00:01:33,190
+And we'll just do total_counts so
+it's cached.
+
+31
+00:01:33,189 --> 00:01:37,006
+You could use the other
+ones to create it, okay.
+
+32
+00:01:37,006 --> 00:01:38,808
+[BLANK_AUDIO]
+
+33
+00:01:38,808 --> 00:01:40,000
+So they act like a dictionary, but
+
+34
+00:01:40,000 --> 00:01:41,900
+you don't have to actually
+create the original keys.
+
+35
+00:01:41,900 --> 00:01:44,490
+You can just start incrementing them as
+
+36
+00:01:44,489 --> 00:01:46,769
+if you had every key that you put
+in as you're in a position to.
+
+37
+00:01:46,769 --> 00:01:50,039
+You'll see what I mean here in a second.
+
+38
+00:01:50,040 --> 00:01:52,056
+So for i in range(len(reviews)).
+
+39
+00:01:52,055 --> 00:01:58,481
+So for every review and label,
+if(labels[i) is a POSITIVE label,
+
+40
+00:01:58,481 --> 00:02:00,147
+[BLANK_AUDIO]
+
+41
+00:02:00,147 --> 00:02:05,594
+Then we're going to basically count all
+the words that are in that review and
+
+42
+00:02:05,594 --> 00:02:08,919
+add them to our positive counts.
+
+43
+00:02:08,919 --> 00:02:11,597
+So for word in reviews[i].split,
+
+44
+00:02:11,597 --> 00:02:15,740
+[BLANK_AUDIO]
+
+45
+00:02:15,740 --> 00:02:20,266
+And positive_counts[word] += 1,
+
+46
+00:02:20,265 --> 00:02:24,021
+total_counts(word) += 1.
+
+47
+00:02:24,021 --> 00:02:26,554
+else:
+
+48
+00:02:26,555 --> 00:02:29,411
+[BLANK_AUDIO]
+
+49
+00:02:29,411 --> 00:02:31,289
+We'll do the same thing here.
+
+50
+00:02:31,289 --> 00:02:36,840
+Just we're going to add it to
+negative_counts and total_counts.
+
+51
+00:02:36,840 --> 00:02:37,780
+Okay, let's check that out.
+
+52
+00:02:37,780 --> 00:02:38,498
+So we run that.
+
+53
+00:02:39,599 --> 00:02:42,150
+Takes a second to run because
+we have 25,000 reviews.
+
+54
+00:02:42,150 --> 00:02:43,969
+Next thing we're going to do is
+just sort of take a look at it.
+
+55
+00:02:43,969 --> 00:02:47,150
+So the counter gives you this
+nice little convenient function.
+
+56
+00:02:47,150 --> 00:02:50,650
+So I can say positive counts,
+most common, and there you go.
+
+57
+00:02:50,650 --> 00:02:53,230
+So all right,
+whenever you count any words at all,
+
+58
+00:02:53,229 --> 00:02:54,729
+the most frequent ones you get here.
+
+59
+00:02:54,729 --> 00:02:59,619
+This doesn't really tell me if these are
+indicative of things that are positive.
+
+60
+00:02:59,620 --> 00:03:02,340
+These are just telling me whether
+they're frequent words or not.
+
+61
+00:03:02,340 --> 00:03:04,159
+So what we need to do is something
+that's called normalization.
+
+62
+00:03:04,159 --> 00:03:08,299
+So we're not really interested in
+what's the most frequent positive word.
+
+63
+00:03:08,300 --> 00:03:10,700
+We're interested in the word
+that is most frequently
+
+64
+00:03:10,699 --> 00:03:12,437
+positive versus negative, right?
+
+65
+00:03:12,437 --> 00:03:18,060
+because if I look at negative counts,
+[LAUGH] it's the same words, right?
+
+66
+00:03:18,061 --> 00:03:22,400
+So we want to kind of come up with some
+sort of ratio that is more comparative
+
+67
+00:03:22,400 --> 00:03:26,760
+between these two lists as opposed to
+just these two lists by themselves.
+
+68
+00:03:26,759 --> 00:03:29,729
+So to speed things up a little bit, I'm
+going to show you how I would calculate
+
+69
+00:03:29,729 --> 00:03:34,149
+this ratio,
+which I also put into a counter.
+
+70
+00:03:34,150 --> 00:03:37,409
+And if we look at positive and
+negative ratios, so
+
+71
+00:03:37,409 --> 00:03:40,299
+words with a positive ratio
+looks kind of like this.
+
+72
+00:03:40,300 --> 00:03:43,100
+So starting to see
+a little bit of signal.
+
+73
+00:03:43,099 --> 00:03:45,180
+These are mostly names, so
+
+74
+00:03:45,180 --> 00:03:47,550
+what I'm going to guess is that
+these are movie reviews, right?
+
+75
+00:03:47,550 --> 00:03:52,570
+So people have some favorite actors, and
+they like to talk about them positively.
+
+76
+00:03:52,569 --> 00:03:55,359
+So I guess it's probably good
+if your last name is Caruso or
+
+77
+00:03:55,360 --> 00:03:57,400
+Gino or something like that, right?
+
+78
+00:03:57,400 --> 00:04:01,360
+I'm going to guess there are not
+very well favored actors.
+
+79
+00:04:01,360 --> 00:04:05,250
+But I'm also guessing that my
+theory about work relation's right.
+
+80
+00:04:05,250 --> 00:04:08,318
+So maybe this isn't true,
+but actors names happen.
+
+81
+00:04:08,318 --> 00:04:13,060
+If this actor's name was only mentioned
+once, or I guess at least ten times,
+
+82
+00:04:13,060 --> 00:04:16,910
+then if it was just in one positive
+review, it might show up here.
+
+83
+00:04:16,910 --> 00:04:20,519
+When we're looking for correlation,
+we kind of want things
+
+84
+00:04:20,519 --> 00:04:22,660
+that happen very frequently and
+have an affinity somewhere.
+
+85
+00:04:22,660 --> 00:04:25,280
+Somebody that's just mentioned once,
+100% of them will be positive, but
+
+86
+00:04:25,279 --> 00:04:29,029
+it's not really indicative
+of being a positive feature.
+
+87
+00:04:29,029 --> 00:04:31,000
+So let's up this to 50 and check it out.
+
+88
+00:04:31,000 --> 00:04:33,029
+See a bunch of names, ooh, excellently.
+
+89
+00:04:35,529 --> 00:04:36,089
+Interesting, okay.
+
+90
+00:04:36,089 --> 00:04:37,529
+So we the name delightfully, okay.
+
+91
+00:04:37,529 --> 00:04:40,469
+Well, let's up this a little bit more.
+
+92
+00:04:40,470 --> 00:04:42,799
+As you can see,
+I'm investigating the data.
+
+93
+00:04:42,798 --> 00:04:45,286
+I'm taking a look and
+looking for patterns and
+
+94
+00:04:45,286 --> 00:04:49,506
+refining how I'm looking and just trying
+to get a feel what the day is like.
+
+95
+00:04:49,505 --> 00:04:51,008
+Wow, so now I'm really seeing stuff.
+
+96
+00:04:51,009 --> 00:04:54,610
+I see a few names, I see flawless,
+superbly, perfection, astaire, captures,
+
+97
+00:04:54,610 --> 00:04:55,186
+wonderful.
+
+98
+00:04:55,185 --> 00:04:58,526
+Okay, so now I'm really seeing words
+that I would expect to be positive
+
+99
+00:04:58,526 --> 00:05:01,771
+words, being positively
+indicative of these labels.
+
+100
+00:05:01,771 --> 00:05:06,250
+Let's see if I look for
+negative, how's that look?
+
+101
+00:05:06,250 --> 00:05:09,810
+Pointless, atrocious,
+drivel, laughable, awful.
+
+102
+00:05:09,810 --> 00:05:10,620
+Okay, great.
+
+103
+00:05:10,620 --> 00:05:14,079
+So at this point, I'm feeling
+pretty good about the theory.
+
+104
+00:05:14,079 --> 00:05:18,079
+It's clear that the words that
+I would expect to be predictive
+
+105
+00:05:18,079 --> 00:05:21,949
+seem to be predictive, or
+at least correlative with the kind
+
+106
+00:05:21,949 --> 00:05:25,839
+of the labels that I think they
+should be correlated with.
+
+107
+00:05:25,839 --> 00:05:29,389
+So in the kind of the next section,
+we're going to be talking about how we
+
+108
+00:05:29,389 --> 00:05:33,149
+can leverage this predictive theory
+to create an input and output data so
+
+109
+00:05:33,149 --> 00:05:36,899
+our network can sort of refine this
+correlative power into a classifier,
+
+110
+00:05:36,899 --> 00:05:37,269
+right?
+
+111
+00:05:37,269 --> 00:05:40,889
+So stay tuned kind of for the next
+section, and I'll see you there.
+

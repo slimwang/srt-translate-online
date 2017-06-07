@@ -1,0 +1,119 @@
+1
+00:00:00,200 --> 00:00:02,690
+There are four constraints involved.
+
+2
+00:00:02,690 --> 00:00:08,039
+The first one has to do with the deposit operation, and the precondition, as
+
+3
+00:00:08,039 --> 00:00:12,540
+was stated in the requirements, is that the amount being deposited is possible.
+
+4
+00:00:12,540 --> 00:00:15,370
+But the post condition is a little bit more subtle.
+
+5
+00:00:15,370 --> 00:00:19,410
+In particular, we decided to keep a record of the deposits and
+
+6
+00:00:19,410 --> 00:00:22,370
+withdrawals in terms of a sequence of integer values.
+
+7
+00:00:22,370 --> 00:00:26,910
+The order of the sequence corresponds to the order in which those deposits and
+
+8
+00:00:26,910 --> 00:00:28,450
+withdrawals are made.
+
+9
+00:00:28,450 --> 00:00:32,830
+So the post condition for the deposit operation is that whatever sequence you
+
+10
+00:00:32,830 --> 00:00:37,940
+had of transactions at the start of the operation, at the end will have one more
+
+11
+00:00:37,940 --> 00:00:44,850
+added to it, which has as its value the amount that was deposited in that step.
+
+12
+00:00:44,850 --> 00:00:49,950
+Similarly, for the withdrawal operation the precondition is the same,
+
+13
+00:00:49,950 --> 00:00:54,230
+however it had better be the case that, as the requirements stated,
+
+14
+00:00:54,230 --> 00:00:57,660
+that the amount being withdrawn if the account has enough money in
+
+15
+00:00:57,660 --> 00:00:59,540
+it that you can make that withdrawal.
+
+16
+00:00:59,540 --> 00:01:04,670
+The way that we express that part of it is that the sum of the transactions made
+
+17
+00:01:04,670 --> 00:01:08,800
+so far is greater than or equal to the amount being withdrawn.
+
+18
+00:01:08,800 --> 00:01:11,830
+Post condition is similar to the post condition for
+
+19
+00:01:11,830 --> 00:01:14,560
+the deposit except the amount being appended will
+
+20
+00:01:14,560 --> 00:01:19,840
+be the negative of the argument indicating that the amount has been withdrawn.
+
+21
+00:01:19,840 --> 00:01:23,380
+The third operation is the balance query.
+
+22
+00:01:23,380 --> 00:01:29,030
+This has no precondition, but the post condition is the results returned by
+
+23
+00:01:29,030 --> 00:01:34,470
+the operation are equal to the sum of all the transactions so far.
+
+24
+00:01:34,470 --> 00:01:38,920
+That is, we go through them and add and subtract as appropriate to get
+
+25
+00:01:38,920 --> 00:01:44,280
+to the current balance, and return that value as the results of this operation.
+
+26
+00:01:44,280 --> 00:01:48,320
+Finally, one other constraint to be aware of, and this is the case for
+
+27
+00:01:48,320 --> 00:01:53,670
+all such models that you produce, you have to set up the initial conditions.
+
+28
+00:01:53,670 --> 00:01:56,960
+OCL has the keyword in it to indicate that, and
+
+29
+00:01:56,960 --> 00:02:01,240
+in our case the initial condition is that the list of transactions or
+
+30
+00:02:01,240 --> 00:02:03,530
+sequence of transactions is empty to start with.

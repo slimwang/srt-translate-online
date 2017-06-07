@@ -1,0 +1,283 @@
+1
+00:00:00,260 --> 00:00:02,760
+Let's check in with Jake and
+see how he did this.
+
+2
+00:00:02,760 --> 00:00:04,420
+Did you get the service
+worker registered?
+
+3
+00:00:04,420 --> 00:00:05,410
+>> I certainly did.
+
+4
+00:00:05,410 --> 00:00:06,050
+Here's how I did it.
+
+5
+00:00:07,510 --> 00:00:11,466
+I'm going to call
+navigator.serviceWorker.register,
+
+6
+00:00:11,466 --> 00:00:14,530
+passing in the URL of the script.
+
+7
+00:00:14,530 --> 00:00:17,260
+I don't need to pass in the scope
+because the default is correct here.
+
+8
+00:00:18,370 --> 00:00:21,130
+Of course this will throw an error
+in browsers that don't support
+
+9
+00:00:21,130 --> 00:00:22,760
+service worker.
+
+10
+00:00:22,760 --> 00:00:24,540
+I could wrap this whole
+thing in an if statement,
+
+11
+00:00:24,540 --> 00:00:27,518
+but instead I'm just going to return
+if service worker isn't supported.
+
+12
+00:00:27,518 --> 00:00:30,340
+And since .register returns a promise,
+
+13
+00:00:30,340 --> 00:00:32,390
+I'm going to log a message
+if everything worked out.
+
+14
+00:00:34,100 --> 00:00:36,750
+And just in case it didn't,
+I'm going to log a failure message.
+
+15
+00:00:38,840 --> 00:00:42,020
+Of course if you did this differently,
+that doesn't mean it's wrong as long as
+
+16
+00:00:42,020 --> 00:00:45,400
+the service worker is registered and
+you avoid errors in older browsers.
+
+17
+00:00:45,400 --> 00:00:46,690
+That's it.
+
+18
+00:00:46,690 --> 00:00:50,740
+So once that's done, over in
+the browser if I refresh the page,
+
+19
+00:00:50,740 --> 00:00:53,200
+yep, my service worker is registered.
+
+20
+00:00:53,200 --> 00:00:55,900
+We don't get any logging yet and
+we'll find out why later on.
+
+21
+00:00:55,900 --> 00:00:59,670
+But if I refresh a second time,
+yep, there they are.
+
+22
+00:00:59,670 --> 00:01:02,280
+I've got a log for
+every request made by the page.
+
+23
+00:01:02,280 --> 00:01:04,910
+All the JavaScript, CSS, images,
+
+24
+00:01:04,910 --> 00:01:09,160
+including requests that go to other
+origins such as this one for the font.
+
+25
+00:01:09,160 --> 00:01:12,200
+The scope of the service worker
+restricts the pages it controls.
+
+26
+00:01:12,200 --> 00:01:15,580
+But it will intercept pretty much any
+request made by controlled pages,
+
+27
+00:01:15,580 --> 00:01:17,290
+regardless of URL.
+
+28
+00:01:17,290 --> 00:01:19,510
+Not only that, but
+as we'll start playing with soon,
+
+29
+00:01:19,510 --> 00:01:22,390
+you can mess around with these requests,
+changing headers or
+
+30
+00:01:22,390 --> 00:01:25,040
+responding with something
+entirely different.
+
+31
+00:01:25,040 --> 00:01:29,540
+This is pretty powerful, but with great
+power comes great responsibility.
+
+32
+00:01:29,540 --> 00:01:32,870
+Because of this,
+service workers are limited to HTTPS,
+
+33
+00:01:32,870 --> 00:01:34,560
+the securer form of HTTP.
+
+34
+00:01:35,700 --> 00:01:38,930
+Remember when we looked at the path
+requests take through the network?
+
+35
+00:01:38,930 --> 00:01:41,820
+Well when you're serving
+across plain unencrypted HTTP,
+
+36
+00:01:41,820 --> 00:01:47,250
+any one of these things in the middle
+can remove, modify, or even add content.
+
+37
+00:01:47,250 --> 00:01:50,030
+This is bad, this is really bad.
+
+38
+00:01:50,030 --> 00:01:52,830
+You could request a news story
+from a reputable source and
+
+39
+00:01:52,830 --> 00:01:55,830
+without encryption,
+what you actually receive could be
+
+40
+00:01:55,830 --> 00:01:58,320
+very different from what
+the journalist wrote.
+
+41
+00:01:58,320 --> 00:02:02,120
+Malicious scripts could also capture
+data you input, alter databases,
+
+42
+00:02:02,120 --> 00:02:04,660
+read cookies,
+entirely without your knowledge.
+
+43
+00:02:04,660 --> 00:02:08,020
+So all around,
+not such a good thing really.
+
+44
+00:02:08,020 --> 00:02:10,440
+But service workers
+live longer than pages.
+
+45
+00:02:10,440 --> 00:02:12,960
+So they could be used to persist
+an attack like this, and
+
+46
+00:02:12,960 --> 00:02:14,500
+that would be really bad.
+
+47
+00:02:14,500 --> 00:02:18,000
+In fact, it's unacceptable to
+let a potentially evil middleman
+
+48
+00:02:18,000 --> 00:02:19,580
+get control of your service worker.
+
+49
+00:02:19,580 --> 00:02:23,632
+And that's why it only runs on HTTPS.
+
+50
+00:02:23,632 --> 00:02:25,660
+Thankfully, localhost is
+exempt from this rule,
+
+51
+00:02:25,660 --> 00:02:29,120
+which is why things work
+fine on with his def server.
+
+52
+00:02:29,120 --> 00:02:33,650
+Although it did take two refreshes to
+start seeing those console logs, and
+
+53
+00:02:33,650 --> 00:02:35,090
+that's actually by design.
+
+54
+00:02:35,090 --> 00:02:38,470
+The service worker has
+a different life cycle to pages.
+
+55
+00:02:38,470 --> 00:02:41,560
+For example I'm going to change
+this console log here to just
+
+56
+00:02:41,560 --> 00:02:42,530
+say hello world.
+
+57
+00:02:43,710 --> 00:02:45,570
+And if we look back in
+the browser now and
+
+58
+00:02:45,570 --> 00:02:49,010
+hit refresh,
+we're not getting those changes.
+
+59
+00:02:50,350 --> 00:02:52,930
+It's okay,
+don't flip the table over just yet.
+
+60
+00:02:52,930 --> 00:02:55,472
+We need to learn more about
+service worker's life cycle.

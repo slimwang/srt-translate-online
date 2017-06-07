@@ -1,0 +1,504 @@
+1
+00:00:00,710 --> 00:00:01,255
+So by now,
+
+2
+00:00:01,255 --> 00:00:04,180
+you're probably starting to get
+the hang of what the Uri matcher does.
+
+3
+00:00:05,630 --> 00:00:08,498
+Let me give you the formal
+definition of what it is.
+
+4
+00:00:08,498 --> 00:00:12,890
+And it said the URI matcher matches
+an URI with an integer code.
+
+5
+00:00:14,180 --> 00:00:19,025
+And this means it helps us ensure the
+content provider doesn't have to handle
+
+6
+00:00:19,025 --> 00:00:22,840
+unexpected content URIs such
+as this gibberish right here.
+
+7
+00:00:24,580 --> 00:00:28,680
+So there are two steps that we'll need
+to implement to use the URI matcher
+
+8
+00:00:28,680 --> 00:00:29,610
+in a ContentProvider.
+
+9
+00:00:31,360 --> 00:00:36,260
+So first step is to setup the UriMatcher
+with the URI patterns your
+
+10
+00:00:36,260 --> 00:00:40,590
+ContentProvider will accept and then
+assign each pattern an integer code.
+
+11
+00:00:42,530 --> 00:00:47,487
+Secondly, we'll need to call
+the UriMatcher.match method,
+
+12
+00:00:47,487 --> 00:00:48,870
+passing in a URI.
+
+13
+00:00:48,870 --> 00:00:52,680
+And this will return
+the corresponding integer code.
+
+14
+00:00:53,730 --> 00:00:55,830
+That is if it matches a valid pattern.
+
+15
+00:00:55,830 --> 00:00:58,660
+And if not,
+well it's going to tell us so.
+
+16
+00:01:00,870 --> 00:01:05,191
+So let's see an example of those two
+subs implemented in our contacts
+
+17
+00:01:05,191 --> 00:01:06,230
+example.
+
+18
+00:01:06,230 --> 00:01:09,240
+So in the contacts provider,
+this is what the code will look like.
+
+19
+00:01:10,940 --> 00:01:15,384
+So assume that the UriMatcher was
+already declared as a global variable
+
+20
+00:01:15,384 --> 00:01:17,910
+which we've called here sUriMatcher.
+
+21
+00:01:19,500 --> 00:01:25,150
+Well on that we can call addURI and
+the pass in the URI
+
+22
+00:01:26,260 --> 00:01:31,517
+which will be comprised of the
+Contract.Authority and slash contacts
+
+23
+00:01:31,517 --> 00:01:37,100
+slash path and then the integer code
+which is the constant contacts here.
+
+24
+00:01:38,960 --> 00:01:42,238
+So assume that these integer constants
+where early declared as global
+
+25
+00:01:42,238 --> 00:01:43,190
+variables as well.
+
+26
+00:01:44,430 --> 00:01:48,310
+And then we'll repeat the same thing
+down below here for the other pattern.
+
+27
+00:01:51,860 --> 00:01:56,230
+And here's step 2 of how we'll
+call the UriMatcher.match method.
+
+28
+00:01:58,490 --> 00:02:03,454
+So then later in the query method for
+example, we'll want to make use of
+
+29
+00:02:03,454 --> 00:02:08,020
+the UriMatcher by calling
+UriMatcher.match such as we do here.
+
+30
+00:02:09,539 --> 00:02:13,660
+The return value of this method is
+an integer that we store in a variable
+
+31
+00:02:13,660 --> 00:02:14,330
+called match.
+
+32
+00:02:16,180 --> 00:02:20,590
+So if the value of match is
+equal to any of these constants
+
+33
+00:02:21,850 --> 00:02:23,190
+then we'll act accordingly.
+
+34
+00:02:24,430 --> 00:02:30,270
+For example,
+If the value returned matches CONTACTS,
+
+35
+00:02:30,270 --> 00:02:31,930
+then we act on the contacts table.
+
+36
+00:02:33,350 --> 00:02:38,457
+If the value of match is equal
+to the CONTACT_ID variable,
+
+37
+00:02:38,457 --> 00:02:42,246
+then we act on a single
+contact in the table.
+
+38
+00:02:42,246 --> 00:02:45,445
+[BLANK_AUDIO]
+
+39
+00:02:45,445 --> 00:02:50,124
+And the last case, is that, if it
+doesn't match anything up above here,
+
+40
+00:02:50,124 --> 00:02:54,935
+we also check for that, and
+handle it accordingly down here.
+
+41
+00:02:54,935 --> 00:02:57,605
+Now notice that we've used if and
+
+42
+00:02:57,605 --> 00:03:00,695
+else if statements to handle
+these matching validations.
+
+43
+00:03:02,900 --> 00:03:04,325
+Well a more common way to do it,
+
+44
+00:03:04,325 --> 00:03:07,705
+is to express the syntax using
+switch case statements instead.
+
+45
+00:03:08,775 --> 00:03:11,725
+So we learned about switch case
+statements earlier in the networking
+
+46
+00:03:11,725 --> 00:03:13,971
+course when building out
+the quick report app.
+
+47
+00:03:15,220 --> 00:03:19,120
+And basically, a switch case schema
+is useful when we fork off into
+
+48
+00:03:19,120 --> 00:03:24,280
+different behaviors for different cases
+based on the value of a single variable,
+
+49
+00:03:24,280 --> 00:03:26,190
+which in this case is
+our match variable.
+
+50
+00:03:27,622 --> 00:03:30,840
+So if the value of
+match equals CONTACTS,
+
+51
+00:03:30,840 --> 00:03:32,000
+then we'll fall into this case.
+
+52
+00:03:33,600 --> 00:03:36,910
+If the value of match matches
+the CONTACTS_ID variable,
+
+53
+00:03:36,910 --> 00:03:39,092
+then we'll fall into this next case.
+
+54
+00:03:39,092 --> 00:03:43,670
+However if the match variable doesn't
+equal any of these above cases,
+
+55
+00:03:44,710 --> 00:03:49,160
+we'll fall into this default case,
+which we technically treat as
+
+56
+00:03:49,160 --> 00:03:52,900
+no match was found meaning
+that the URI is not valid.
+
+57
+00:03:54,940 --> 00:03:57,770
+Now to see where we would add
+those code snippets I just covered
+
+58
+00:03:57,770 --> 00:03:59,624
+in the context of
+an existing provider class,
+
+59
+00:03:59,624 --> 00:04:02,510
+let's hop over into this
+Android documentation site.
+
+60
+00:04:03,870 --> 00:04:07,460
+So here I'm in an article called
+Creating a Content Provider.
+
+61
+00:04:07,460 --> 00:04:11,180
+And I want to head over to this
+section called Designing Content URIs.
+
+62
+00:04:14,410 --> 00:04:17,630
+So down here we've actually covered
+all of this information already.
+
+63
+00:04:17,630 --> 00:04:23,796
+[BLANK_AUDIO]
+
+64
+00:04:23,796 --> 00:04:29,569
+And so let's take a look at
+this example ContentProvider.
+
+65
+00:04:29,569 --> 00:04:33,948
+So here assume we have an example
+ContentProvider with these URIs that
+
+66
+00:04:33,948 --> 00:04:35,735
+point to different tables.
+
+67
+00:04:35,735 --> 00:04:42,220
+[BLANK_AUDIO]
+
+68
+00:04:42,220 --> 00:04:46,031
+And let's take a look at the code
+snippet here of how how to add these URI
+
+69
+00:04:46,031 --> 00:04:47,658
+patterns to the UriMatcher.
+
+70
+00:04:47,658 --> 00:04:51,056
+[BLANK_AUDIO]
+
+71
+00:04:51,056 --> 00:04:54,292
+Now, in the example
+provider class up here,
+
+72
+00:04:54,292 --> 00:04:57,197
+we extend from ContentProvider class.
+
+73
+00:04:59,020 --> 00:05:02,547
+Then we're going to define
+the UriMatcher global
+
+74
+00:05:02,547 --> 00:05:06,170
+variable which we see
+here called sUriMatcher.
+
+75
+00:05:08,000 --> 00:05:11,140
+So it starts with the lower
+case letter s because it's
+
+76
+00:05:11,140 --> 00:05:13,190
+denoting that it's a static variable.
+
+77
+00:05:14,290 --> 00:05:18,599
+Then next in this static block here,
+
+78
+00:05:18,599 --> 00:05:26,804
+these two lines of code will be
+executed to setup the global variable.
+
+79
+00:05:26,804 --> 00:05:34,151
+[BLANK_AUDIO]
+
+80
+00:05:34,151 --> 00:05:36,720
+So we'll add these two URIs.
+
+81
+00:05:36,720 --> 00:05:42,126
+So the first line of code here
+calls sUriMatcher.addURI and
+
+82
+00:05:42,126 --> 00:05:48,812
+passes in the content authority
+which is com.example.app.provider.
+
+83
+00:05:48,812 --> 00:05:50,970
+In the path is table3.
+
+84
+00:05:50,970 --> 00:05:54,920
+And then we also give it
+an integer code of 1.
+
+85
+00:05:54,920 --> 00:06:01,730
+So, the second line here,
+calls sUriMatcher.addURI and
+
+86
+00:06:01,730 --> 00:06:06,930
+passes in the same content authority
+we had up here, as well as the path.
+
+87
+00:06:06,930 --> 00:06:10,668
+In this case, we'll have table3/#,
+
+88
+00:06:10,668 --> 00:06:15,880
+meaning we're interested in
+a specific row in this table.
+
+89
+00:06:15,880 --> 00:06:21,320
+And then we're going to give this
+whole URI and integer code of 2.
+
+90
+00:06:21,320 --> 00:06:27,640
+So this first URI pattern represents
+the whole table 3 table database.
+
+91
+00:06:27,640 --> 00:06:30,650
+So the second URI pattern here
+
+92
+00:06:30,650 --> 00:06:35,510
+focuses on just a single row
+of the table 3 database table.
+
+93
+00:06:35,510 --> 00:06:38,030
+And we do that by adding
+this /# at the end.
+
+94
+00:06:40,140 --> 00:06:43,540
+So with that example situation
+I want you to go ahead and
+
+95
+00:06:43,540 --> 00:06:46,122
+set up the UriMatcher
+in your PetProvider.
+
+96
+00:06:47,770 --> 00:06:49,930
+And here's some initial
+code to get you started.
+
+97
+00:06:51,070 --> 00:06:54,050
+So within the PetProvider.java file,
+
+98
+00:06:54,050 --> 00:06:58,740
+we define the class and extend
+ContentProvider, which you already have.
+
+99
+00:07:00,270 --> 00:07:05,294
+Then we're going to define constant
+integer values by using the static
+
+100
+00:07:05,294 --> 00:07:09,710
+final modifiers and
+we call them PETS and PET_ID cases, and
+
+101
+00:07:09,710 --> 00:07:14,750
+these will map to the integer
+codes 100 and 101 respectively.
+
+102
+00:07:16,940 --> 00:07:21,310
+Next we are going to define
+a UriMatcher as a global variable for
+
+103
+00:07:21,310 --> 00:07:22,347
+the PerProvider class.
+
+104
+00:07:26,190 --> 00:07:31,350
+And after which, we can actually
+add URI patterns to this Matcher.
+
+105
+00:07:32,630 --> 00:07:37,640
+So this code snippet is provided as a
+gist down below for you to build off of.
+
+106
+00:07:38,780 --> 00:07:42,810
+And what I want you to do is to
+go ahead and fill in these blanks
+
+107
+00:07:42,810 --> 00:07:46,260
+to help build out the URI patterns
+in order to add them to our Matcher.

@@ -1,0 +1,400 @@
+1
+00:00:00,380 --> 00:00:02,540
+Right now we have the same
+problem as we did before,
+
+2
+00:00:02,540 --> 00:00:05,590
+where spiders are not appearing
+on the screen when we tap.
+
+3
+00:00:05,590 --> 00:00:08,890
+We're already able to reproduce
+the problem by tapping on the screen.
+
+4
+00:00:08,890 --> 00:00:12,430
+So the first step of our
+debugging process is complete.
+
+5
+00:00:12,430 --> 00:00:15,760
+So let's begin gathering information
+about the problem at the most likely
+
+6
+00:00:15,760 --> 00:00:20,360
+candidate for what could be causing
+this, the handleSingleTap method.
+
+7
+00:00:20,360 --> 00:00:24,230
+So instead of our print statement,
+we'll use our Breakpoint here.
+
+8
+00:00:24,230 --> 00:00:27,110
+And if handleSingleTap is called
+at any point then our Breakpoint
+
+9
+00:00:27,110 --> 00:00:31,160
+should pause the execution of
+the app when it reaches this method.
+
+10
+00:00:31,160 --> 00:00:33,960
+But if handleSingleTap is not
+being called then the Breakpoint
+
+11
+00:00:33,960 --> 00:00:36,990
+will never be triggered and
+our app will not pause.
+
+12
+00:00:36,990 --> 00:00:40,250
+So we'll run our app and
+as we saw a second ago,
+
+13
+00:00:40,250 --> 00:00:43,210
+when we tap we are reaching
+the Breakpoint.
+
+14
+00:00:43,210 --> 00:00:44,630
+So it does work.
+
+15
+00:00:44,630 --> 00:00:47,810
+That was more of just a verification
+step in how you might work through
+
+16
+00:00:47,810 --> 00:00:50,790
+the problem if you were
+starting from a clean slate.
+
+17
+00:00:50,790 --> 00:00:53,610
+So let's talk more about what
+Xcode is displaying to us when our
+
+18
+00:00:53,610 --> 00:00:55,300
+application's paused.
+
+19
+00:00:55,300 --> 00:00:58,170
+Right now on the left side
+in the navigator panel
+
+20
+00:00:58,170 --> 00:00:59,990
+we're seeing the Debug Navigator.
+
+21
+00:00:59,990 --> 00:01:04,360
+If you don't see if right away,
+you can use the hot key, Cmd+6.
+
+22
+00:01:04,360 --> 00:01:09,500
+In the Debug Navigator, the first thing
+we see are gauges which represent
+
+23
+00:01:09,500 --> 00:01:12,860
+the CPU, memory, disk and network usage.
+
+24
+00:01:12,860 --> 00:01:15,820
+You can toggle the gauges on and
+off by clicking this icon here.
+
+25
+00:01:16,990 --> 00:01:18,290
+If you click on any of the gauges,
+
+26
+00:01:18,290 --> 00:01:22,200
+you'll get some really valuable insight
+about of the app's resource usage.
+
+27
+00:01:22,200 --> 00:01:25,850
+But we're not going to focus on
+those diagnostics in this course.
+
+28
+00:01:25,850 --> 00:01:28,970
+So let's go ahead and
+turn the gauges off for now.
+
+29
+00:01:28,970 --> 00:01:32,170
+The next thing that we see is a list
+of threads associated with our
+
+30
+00:01:32,170 --> 00:01:33,730
+running application.
+
+31
+00:01:33,730 --> 00:01:37,490
+So right now we have one, two,
+three, four, five, six threads.
+
+32
+00:01:37,490 --> 00:01:41,190
+And the thread that's handling the code
+where the Breakpoint was triggered
+
+33
+00:01:41,190 --> 00:01:42,100
+is Thread 1.
+
+34
+00:01:42,100 --> 00:01:44,660
+We can see that by this arrow here.
+
+35
+00:01:44,660 --> 00:01:47,490
+If we look at the drop down
+list under this thread,
+
+36
+00:01:47,490 --> 00:01:49,110
+we'll see what's known as a stack trace.
+
+37
+00:01:49,110 --> 00:01:53,590
+It's also commonly referred to as
+a call stack or the back trace.
+
+38
+00:01:53,590 --> 00:01:56,340
+A stack trace is a report
+of all the available stack
+
+39
+00:01:56,340 --> 00:01:59,460
+frames which lead up to
+a point of execution.
+
+40
+00:01:59,460 --> 00:02:02,890
+And yes, as the name implies,
+the stack trace is literally a stack
+
+41
+00:02:02,890 --> 00:02:08,020
+like structure where stack frames
+are pushed and popped off of the stack.
+
+42
+00:02:08,020 --> 00:02:11,880
+In each stack frame, that's what we're
+seeing in these lines here, is a record
+
+43
+00:02:11,880 --> 00:02:15,960
+of all the program state available at
+the point in which the frame was active.
+
+44
+00:02:15,960 --> 00:02:19,470
+So typically there are stacked
+frames for each time a method or
+
+45
+00:02:19,470 --> 00:02:21,660
+a function is invoked.
+
+46
+00:02:21,660 --> 00:02:25,540
+In each frame with black text includes
+code that we've written while everything
+
+47
+00:02:25,540 --> 00:02:30,620
+else, these gray ones, is either
+library code or some other framework.
+
+48
+00:02:30,620 --> 00:02:32,470
+Where we don't have access
+to the actual source.
+
+49
+00:02:33,510 --> 00:02:36,380
+So if you look at this full stack trace,
+we can see that we're currently
+
+50
+00:02:36,380 --> 00:02:40,800
+examining the state available when we
+called the handleSingleTap method.
+
+51
+00:02:40,800 --> 00:02:43,680
+So, go ahead and tap on that.
+
+52
+00:02:43,680 --> 00:02:44,410
+And we'll drag back.
+
+53
+00:02:44,410 --> 00:02:48,330
+And the state that we can see
+includes what's present here and
+
+54
+00:02:48,330 --> 00:02:49,870
+the variables view.
+
+55
+00:02:49,870 --> 00:02:54,750
+So if we look we have a
+UiTapGestureRecognizer that's in scope.
+
+56
+00:02:54,750 --> 00:02:58,050
+And we have
+the BreakpointBugViewController.
+
+57
+00:02:58,050 --> 00:03:01,320
+If we click down on
+the UiTapGestureRecognizer,
+
+58
+00:03:01,320 --> 00:03:03,835
+we can see its current property values.
+
+59
+00:03:03,835 --> 00:03:06,795
+You'll notice that Xcode tries
+its best to display the values
+
+60
+00:03:06,795 --> 00:03:09,815
+in a format that we can
+understand as developers.
+
+61
+00:03:09,815 --> 00:03:10,775
+So for some properties,
+
+62
+00:03:10,775 --> 00:03:15,305
+like this _ButtonType,
+we see that it's value is currently 0.
+
+63
+00:03:15,305 --> 00:03:21,210
+And for other values like the _Imp,
+we see a raw memory address.
+
+64
+00:03:21,210 --> 00:03:22,580
+Now you may be thinking to yourself,
+
+65
+00:03:22,580 --> 00:03:24,460
+what am I going to do
+with the memory address?
+
+66
+00:03:24,460 --> 00:03:26,750
+I mean it's just a raw address
+that's not very useful.
+
+67
+00:03:26,750 --> 00:03:29,170
+But there's actually a couple
+things that you can do.
+
+68
+00:03:29,170 --> 00:03:31,950
+I'm going to show you some of
+those later in the course.
+
+69
+00:03:31,950 --> 00:03:35,990
+Right now let's just focus on what
+we've learned from this Breakpoint.
+
+70
+00:03:35,990 --> 00:03:40,310
+We know that the handleSingleTap method
+is being reached when we tap the screen.
+
+71
+00:03:40,310 --> 00:03:41,840
+And if we look at the stack trace,
+
+72
+00:03:41,840 --> 00:03:46,280
+we see that our method handleSingleTap
+is indeed being called.
+
+73
+00:03:46,280 --> 00:03:51,870
+And if we click on the main stack frame,
+we can see that the main application.
+
+74
+00:03:51,870 --> 00:03:53,300
+Or the app delegate, I'm sorry.
+
+75
+00:03:53,300 --> 00:03:56,390
+Is in sub class of UIResponder.
+
+76
+00:03:56,390 --> 00:04:00,210
+And it appears that this particular
+class is sending an action.
+
+77
+00:04:00,210 --> 00:04:01,990
+Some kind of gesture.
+
+78
+00:04:01,990 --> 00:04:04,930
+To our BreakpointBugViewController.
+
+79
+00:04:06,060 --> 00:04:07,840
+And if you didn't catch that,
+
+80
+00:04:07,840 --> 00:04:11,520
+I can jump around between the frames
+by just clicking on them.
+
+81
+00:04:11,520 --> 00:04:15,670
+You can see the variables
+update based on the context for
+
+82
+00:04:15,670 --> 00:04:16,800
+that particular stack frame.
+
+83
+00:04:16,800 --> 00:04:19,510
+And this is a really
+powerful way to debug.
+
+84
+00:04:19,510 --> 00:04:25,590
+It allows us to, by clicking, trace the
+steps which led to our particular error,
+
+85
+00:04:25,590 --> 00:04:26,960
+or to our particular Breakpoint.

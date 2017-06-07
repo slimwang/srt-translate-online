@@ -1,0 +1,208 @@
+1
+00:00:00,440 --> 00:00:03,610
+Now, it's important for performance
+that each individual function
+
+2
+00:00:03,610 --> 00:00:06,970
+runs as efficiently as possible,
+but equally important for
+
+3
+00:00:06,970 --> 00:00:11,400
+performance is when and where in
+your code that function executes.
+
+4
+00:00:11,400 --> 00:00:15,580
+See, whenever you first start an Android
+application, the main thread of
+
+5
+00:00:15,580 --> 00:00:19,680
+execution is created, this main thread
+is very important because it's in charge
+
+6
+00:00:19,680 --> 00:00:23,080
+of running your code, dispatching
+events at the appropriate views, and
+
+7
+00:00:23,080 --> 00:00:26,430
+executing your drawing functions, which
+we've kind of already talked about.
+
+8
+00:00:26,430 --> 00:00:30,695
+Basically, this main thread is
+where your application was.
+
+9
+00:00:30,695 --> 00:00:34,235
+Now the main thread is also
+sometimes called the UI thread,
+
+10
+00:00:34,235 --> 00:00:37,105
+because this is also the thread
+your users interact with.
+
+11
+00:00:37,105 --> 00:00:39,685
+For instance,
+if you touch a button on the screen,
+
+12
+00:00:39,685 --> 00:00:43,715
+then the UI thread dispatches a touch
+event to the view, the view sets
+
+13
+00:00:43,715 --> 00:00:47,735
+the button state to pressed, and posts
+a validate request to the event queue,
+
+14
+00:00:47,735 --> 00:00:49,855
+then, the UI thread
+processes the request and
+
+15
+00:00:49,855 --> 00:00:53,440
+notifies the button to draw
+itself in a pressed state.
+
+16
+00:00:53,440 --> 00:00:56,060
+Whew!
+Now if you have any on touch event
+
+17
+00:00:56,060 --> 00:00:59,260
+handlers, those will be executed
+in the middle of that huge flow,
+
+18
+00:00:59,260 --> 00:01:01,790
+and the longer it takes your
+on touch functions to process,
+
+19
+00:01:01,790 --> 00:01:04,500
+the longer it will take, before your
+draw function is ticked off, and
+
+20
+00:01:04,500 --> 00:01:08,160
+the view is updated visually for
+your users to see.
+
+21
+00:01:08,160 --> 00:01:11,830
+The takeaway here is that your input
+handling code is sharing cycles with
+
+22
+00:01:11,830 --> 00:01:14,920
+your rendering and
+update code on this same thread.
+
+23
+00:01:14,920 --> 00:01:18,150
+This means the UI can't draw while
+you're updating in the middle
+
+24
+00:01:18,150 --> 00:01:21,960
+of a computation that may be dealing
+with touch events, network access, or
+
+25
+00:01:21,960 --> 00:01:23,300
+database queries.
+
+26
+00:01:23,300 --> 00:01:26,720
+In simple situations, this can cause
+you to miss the 16 millisecond window
+
+27
+00:01:26,720 --> 00:01:30,790
+dropping a rendering frame and letting
+your user experience annoying lag.
+
+28
+00:01:30,790 --> 00:01:33,450
+However if you end up pausing
+the rendering of your UI thread for
+
+29
+00:01:33,450 --> 00:01:35,170
+more than five seconds,
+
+30
+00:01:35,170 --> 00:01:39,680
+the users presented with the infamous
+application not responding dialogue.
+
+31
+00:01:39,680 --> 00:01:42,910
+Which basically asks the user if
+they'd like to close your application,
+
+32
+00:01:42,910 --> 00:01:45,430
+which I'm not sure is ideal
+in terms of user attention.
+
+33
+00:01:45,430 --> 00:01:46,570
+Right?
+
+34
+00:01:46,570 --> 00:01:47,810
+So how do you fix this?
+
+35
+00:01:47,810 --> 00:01:51,770
+Well, you identify any pieces of work
+that do not need to be done on the main
+
+36
+00:01:51,770 --> 00:01:54,930
+thread that is the work doesn't
+need to be completed in order for
+
+37
+00:01:54,930 --> 00:01:56,270
+the draw to occur.
+
+38
+00:01:56,270 --> 00:01:59,110
+And then you move that work onto
+a separate independent thread of
+
+39
+00:01:59,110 --> 00:02:02,240
+execution, where it doesn't
+block the UI thread.
+
+40
+00:02:02,240 --> 00:02:05,820
+For example, if pressing the submit
+button completes an order, then
+
+41
+00:02:05,820 --> 00:02:10,710
+composing and sending the confirmation
+e-mail can be done on a separate thread.
+
+42
+00:02:10,710 --> 00:02:12,190
+Now that may sound daunting but
+
+43
+00:02:12,190 --> 00:02:16,200
+don't worry, Android has a cool set of
+APIs to make this easy for you to do.

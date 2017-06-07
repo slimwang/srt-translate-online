@@ -1,0 +1,118 @@
+1
+00:00:00,440 --> 00:00:03,540
+My preferred way of tracking down this
+problem is to set a breakpoint in
+
+2
+00:00:03,540 --> 00:00:06,190
+the add book to view method of
+the breakpoint of the breakpoint
+
+3
+00:00:06,190 --> 00:00:07,280
+bug view controller.
+
+4
+00:00:07,280 --> 00:00:13,560
+Then, if we run the application, we
+notice that when we tap the screen and
+
+5
+00:00:13,560 --> 00:00:17,920
+we hit play, it seems like the add bug
+to view is just being called over and
+
+6
+00:00:17,920 --> 00:00:20,750
+over again,
+almost in a recursive fashion.
+
+7
+00:00:20,750 --> 00:00:24,070
+And by recursive I mean that
+the frames keep adding and
+
+8
+00:00:24,070 --> 00:00:28,860
+they don't decrease until we've
+reached some large number of bugs.
+
+9
+00:00:28,860 --> 00:00:31,740
+And if we drag out the navigator,
+we can see that after our first
+
+10
+00:00:31,740 --> 00:00:36,060
+add bug to view call, we have this
+move bugs animation,that's then
+
+11
+00:00:36,060 --> 00:00:41,390
+calling addBugToView again and it just
+continues all the way up the stack.
+
+12
+00:00:41,390 --> 00:00:46,850
+So let's tap this one and we can see
+that we are making an extra call or
+
+13
+00:00:46,850 --> 00:00:50,620
+what appears to be an extra call here so
+we'll delete that.
+
+14
+00:00:50,620 --> 00:00:54,870
+Whoops, I shouldn't have stopped
+the application because now I'm missin
+
+15
+00:00:54,870 --> 00:00:57,120
+any debug information I have.
+
+16
+00:00:57,120 --> 00:00:59,200
+So my bad, let's do this again.
+
+17
+00:00:59,200 --> 00:01:04,750
+We'll hit play and now it just,
+oh, now we just have two bugs.
+
+18
+00:01:04,750 --> 00:01:07,700
+So how are we hitting this?
+
+19
+00:01:07,700 --> 00:01:09,690
+Let's run it one more time.
+
+20
+00:01:09,690 --> 00:01:13,090
+So we hit it once from
+handleSingleTap and there we go.
+
+21
+00:01:13,090 --> 00:01:16,370
+We have an extra call here,
+that's why we're getting two bugs.
+
+22
+00:01:16,370 --> 00:01:20,830
+So let's go ahead and
+blow that one away and we'll try again.
+
+23
+00:01:22,610 --> 00:01:25,708
+This time, when we tap,
+we'll disable that, play,
+
+24
+00:01:25,708 --> 00:01:28,970
+just one bug crawls onto
+the screen at a time.
+
+25
+00:01:30,070 --> 00:01:31,220
+And that's the behavior that we want.

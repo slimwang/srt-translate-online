@@ -1,0 +1,303 @@
+1
+00:00:00,350 --> 00:00:03,469
+Now that you've gotten overdraw under
+control, it's time to bubble up a bit
+
+2
+00:00:03,469 --> 00:00:06,780
+and start looking at the CPU
+portion of the rendering pipeline.
+
+3
+00:00:06,780 --> 00:00:09,610
+In order to draw something on
+the screen, Android generally needs to
+
+4
+00:00:09,610 --> 00:00:13,390
+convert that high-level XML into
+something that the GPU can accept and
+
+5
+00:00:13,390 --> 00:00:15,340
+use to render to the screen.
+
+6
+00:00:15,340 --> 00:00:19,880
+This is done with the help of a internal
+Android object called a display list.
+
+7
+00:00:19,880 --> 00:00:23,550
+A display list basically holds all
+the information needed to render a view
+
+8
+00:00:23,550 --> 00:00:24,462
+on the GPU.
+
+9
+00:00:24,462 --> 00:00:28,272
+It contains a list of any GPU
+resident assets that might be needed,
+
+10
+00:00:28,272 --> 00:00:32,433
+as well as a list of commands to execute
+with OpenGL in order to render it.
+
+11
+00:00:32,433 --> 00:00:34,530
+The first time a view
+needs to be rendered,
+
+12
+00:00:34,530 --> 00:00:36,404
+a display list will be created for it.
+
+13
+00:00:36,404 --> 00:00:40,733
+And when we need to render that view to
+the screen, we execute that display list
+
+14
+00:00:40,733 --> 00:00:43,370
+by submitting its drawing
+commands to the GPU.
+
+15
+00:00:43,370 --> 00:00:46,629
+If we want to render that view in
+the future again, like if its position
+
+16
+00:00:46,629 --> 00:00:50,570
+changed on screen, we simply need
+to execute that display list again.
+
+17
+00:00:50,570 --> 00:00:54,050
+However, in the future, if some
+visual part of this view changes,
+
+18
+00:00:54,050 --> 00:00:56,590
+the previous display list
+may no longer be valid.
+
+19
+00:00:56,590 --> 00:00:58,870
+As such, we'll need to
+recreate the display list and
+
+20
+00:00:58,870 --> 00:01:01,670
+then re-execute them
+to update the screen.
+
+21
+00:01:01,670 --> 00:01:02,635
+Now, remember this.
+
+22
+00:01:02,635 --> 00:01:06,720
+Anytime the drawing content of your
+view changes, it will repeat the process
+
+23
+00:01:06,720 --> 00:01:10,810
+of recreating the display list and then
+re-executing it to get it to the screen.
+
+24
+00:01:10,810 --> 00:01:12,650
+The performance of these
+operations varies,
+
+25
+00:01:12,650 --> 00:01:15,400
+depending on how complex
+your view actually is.
+
+26
+00:01:15,400 --> 00:01:17,190
+And depending on the type
+of visual change,
+
+27
+00:01:17,190 --> 00:01:20,065
+there's other impacts on
+the rendering pipeline as well.
+
+28
+00:01:20,065 --> 00:01:23,115
+For example, let's say that a text
+box suddenly doubles in size,
+
+29
+00:01:23,115 --> 00:01:26,505
+causing the parent container to
+reposition other sibling views
+
+30
+00:01:26,505 --> 00:01:28,615
+before updating its own size.
+
+31
+00:01:28,615 --> 00:01:30,315
+In this case, we've updated one view and
+
+32
+00:01:30,315 --> 00:01:33,045
+it cascaded to other work
+that needed to be done.
+
+33
+00:01:33,045 --> 00:01:36,615
+These types of visual changes require
+additional stages of the rendering
+
+34
+00:01:36,615 --> 00:01:37,910
+pipeline to occur.
+
+35
+00:01:37,910 --> 00:01:39,980
+See, when the sizing
+of your view changes,
+
+36
+00:01:39,980 --> 00:01:42,300
+the measure phase will be kicked off.
+
+37
+00:01:42,300 --> 00:01:43,810
+And it will walk through
+your view hierarchy,
+
+38
+00:01:43,810 --> 00:01:46,360
+asking each view what its new sizes are.
+
+39
+00:01:46,360 --> 00:01:49,770
+Basically, this happens anytime you
+change the size of a view, for example,
+
+40
+00:01:49,770 --> 00:01:54,200
+padding, drawable size, set text's
+scale, width, height, et cetera.
+
+41
+00:01:54,200 --> 00:01:57,400
+And if you change the position of
+things or call request layout, or
+
+42
+00:01:57,400 --> 00:02:01,810
+a view group repositions its children,
+then the layout phase will kick off,
+
+43
+00:02:01,810 --> 00:02:04,720
+traversing the hierarchy and determining
+where all the new locations of
+
+44
+00:02:04,720 --> 00:02:06,750
+the objects should
+actually be on the screen.
+
+45
+00:02:06,750 --> 00:02:08,839
+Now, the Android runner
+system is really,
+
+46
+00:02:08,839 --> 00:02:12,790
+really efficient at handling the record
+and execute phases of the pipeline.
+
+47
+00:02:12,790 --> 00:02:15,430
+And unless you're doing something
+crazy with custom views, or
+
+48
+00:02:15,430 --> 00:02:17,785
+suddenly a ton of views
+are getting drawn at once,
+
+49
+00:02:17,785 --> 00:02:20,360
+these shouldn't account for
+much of your frame time.
+
+50
+00:02:20,360 --> 00:02:24,180
+Measure and layout phases are also
+pretty performant, but are more prone to
+
+51
+00:02:24,180 --> 00:02:28,170
+run into performance problems when
+your view hierarchy gets out of hand.
+
+52
+00:02:28,170 --> 00:02:31,870
+See, the time taken to execute these
+functions is proportional to the amount
+
+53
+00:02:31,870 --> 00:02:35,540
+of nodes in your view hierarchy that
+have to be processed as a result.
+
+54
+00:02:35,540 --> 00:02:39,060
+The more views that this system has
+to touch, the longer it takes, and
+
+55
+00:02:39,060 --> 00:02:42,090
+some views may have worse
+overhead than others.
+
+56
+00:02:42,090 --> 00:02:46,210
+And the number one overhead for this
+operation is having a lot of redundant
+
+57
+00:02:46,210 --> 00:02:49,145
+unneeded views lying around
+in your view hierarchy.
+
+58
+00:02:49,145 --> 00:02:52,045
+See, these views don't visually
+contribute to the final scene, and
+
+59
+00:02:52,045 --> 00:02:55,005
+generally end up just eating up
+your performance when a measure or
+
+60
+00:02:55,005 --> 00:02:57,395
+layout phase actually kicks off.
+
+61
+00:02:57,395 --> 00:02:59,985
+Thankfully, there's a great tool
+available to help you find and
+
+62
+00:02:59,985 --> 00:03:03,105
+fix these rogue views
+called Hierarchy Viewer.
+
+63
+00:03:03,105 --> 00:03:03,605
+Let's take a look.

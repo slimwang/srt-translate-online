@@ -1,0 +1,268 @@
+1
+00:00:00,380 --> 00:00:02,880
+So let's take a look at
+the solution to that exercise.
+
+2
+00:00:02,880 --> 00:00:03,570
+So first,
+
+3
+00:00:03,570 --> 00:00:07,050
+since we'll be using the database helper
+throughout this catalog activity,
+
+4
+00:00:07,050 --> 00:00:10,710
+let's start by making an instance
+variable for the database helper.
+
+5
+00:00:10,710 --> 00:00:14,450
+Let's do that up here, right,
+under the catalog activity declaration.
+
+6
+00:00:14,450 --> 00:00:18,040
+So I might create a private
+PetDbHelper instance.
+
+7
+00:00:18,040 --> 00:00:21,350
+I'm going to call that MdbHelper.
+
+8
+00:00:21,350 --> 00:00:26,020
+Now I need to instantiate it and
+let's do that in the OnCreate method.
+
+9
+00:00:26,020 --> 00:00:33,240
+So down here,
+let's have mdbHelper = new PetDbHelper.
+
+10
+00:00:34,550 --> 00:00:40,208
+And we'll pass in the context which will
+be this, which is our current activity.
+
+11
+00:00:40,208 --> 00:00:44,290
+Now step 2, is I need to go ahead and
+call both insert pet method and
+
+12
+00:00:44,290 --> 00:00:47,250
+our display database info method.
+
+13
+00:00:47,250 --> 00:00:52,240
+And I want to do that down here in
+our onOptionsItemSeleted method.
+
+14
+00:00:52,240 --> 00:00:54,694
+So I already have the first
+one inside this case and
+
+15
+00:00:54,694 --> 00:00:56,930
+then let's add the second one.
+
+16
+00:00:56,930 --> 00:01:00,210
+So that means when the user clicks
+on the insert dummy data option.
+
+17
+00:01:00,210 --> 00:01:02,540
+Both of these methods will be triggered.
+
+18
+00:01:02,540 --> 00:01:05,300
+Now to actually build out
+our insertPet method.
+
+19
+00:01:05,300 --> 00:01:08,520
+I'll start by getting
+a writable database.
+
+20
+00:01:08,520 --> 00:01:13,210
+So what I've done here is create an
+object of the SQLite database class and
+
+21
+00:01:13,210 --> 00:01:19,120
+we do so by calling this instance of
+PetDbHelper and using this method.
+
+22
+00:01:19,120 --> 00:01:21,480
+Now next I'm going to
+make the content values.
+
+23
+00:01:21,480 --> 00:01:24,940
+But first off let me create
+a content values object.
+
+24
+00:01:24,940 --> 00:01:29,250
+So content values,
+let's name the object just values.
+
+25
+00:01:29,250 --> 00:01:31,540
+And then call that instantiator.
+
+26
+00:01:31,540 --> 00:01:32,240
+Now next,
+
+27
+00:01:32,240 --> 00:01:37,380
+let's use the content values put method
+to store each of the key value pairs.
+
+28
+00:01:37,380 --> 00:01:41,470
+As we discussed earlier, remember
+that the key is the column header and
+
+29
+00:01:41,470 --> 00:01:44,510
+the value is whatever the correct
+value information is for
+
+30
+00:01:44,510 --> 00:01:46,030
+the pet we want to enter.
+
+31
+00:01:46,030 --> 00:01:49,080
+In our case, notice here we're
+hard-coding information specifically
+
+32
+00:01:49,080 --> 00:01:54,560
+about Toto our pet, so information about
+his name, breed, gender, and weight.
+
+33
+00:01:54,560 --> 00:01:57,970
+After we've created our content values
+object, we will actually insert
+
+34
+00:01:57,970 --> 00:02:00,730
+the information into database
+by using the insert method.
+
+35
+00:02:01,750 --> 00:02:05,345
+So down below,
+let's use our SQLite database object,
+
+36
+00:02:05,345 --> 00:02:07,342
+DB calling the insert method.
+
+37
+00:02:07,342 --> 00:02:11,015
+And the first parameter will
+be the name of the table,
+
+38
+00:02:11,015 --> 00:02:14,710
+followed by null and
+then the content values object.
+
+39
+00:02:14,710 --> 00:02:19,017
+Now I want to capture the value that's
+returned by this insert method and
+
+40
+00:02:19,017 --> 00:02:22,053
+I want to capture it in
+a variable called newRowId.
+
+41
+00:02:22,053 --> 00:02:25,450
+And let's have that be of type long.
+
+42
+00:02:25,450 --> 00:02:29,320
+So creating this variable allows
+us to add an optional log message
+
+43
+00:02:29,320 --> 00:02:31,460
+at the end of our insert pet method.
+
+44
+00:02:31,460 --> 00:02:34,500
+And doing so
+can help us catch any potential errors.
+
+45
+00:02:34,500 --> 00:02:36,790
+So with those steps completed,
+let's run it on our device.
+
+46
+00:02:38,480 --> 00:02:39,890
+So with the app running on our device,
+
+47
+00:02:39,890 --> 00:02:42,380
+here in our catalog activity,
+let's test it out.
+
+48
+00:02:42,380 --> 00:02:44,105
+Click on the overflow menu.
+
+49
+00:02:44,105 --> 00:02:46,512
+And then click
+the Insert Dummy Data option.
+
+50
+00:02:46,512 --> 00:02:47,474
+[BLANK_AUDIO]
+
+51
+00:02:47,474 --> 00:02:48,360
+Woot!
+
+52
+00:02:48,360 --> 00:02:51,730
+So notice here the number
+of rows increased by one.
+
+53
+00:02:51,730 --> 00:02:56,160
+And in our log, we should be able to
+see all the totals that we've added.
+
+54
+00:02:56,160 --> 00:03:00,340
+So the log message here that we put
+into our insert pet method shows up.
+
+55
+00:03:00,340 --> 00:03:01,420
+Let's see if we can add a couple more.
+
+56
+00:03:05,700 --> 00:03:07,920
+So now I should have three
+Toto's in my database.
+
+57
+00:03:09,000 --> 00:03:12,440
+All right, so if I click my heels three
+times, let's go on to the next quiz.

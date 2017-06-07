@@ -1,0 +1,305 @@
+﻿1
+00:00:00,570 --> 00:00:01,935
+Well that's interesting stuff.
+
+2
+00:00:01,935 --> 00:00:03,540
+[LAUGH] What is an activity?
+
+3
+00:00:04,559 --> 00:00:08,529
+Well first, it's important to understand
+what an Android application is.
+
+4
+00:00:08,529 --> 00:00:11,849
+A collection of components
+that work with each other, and
+
+5
+00:00:11,849 --> 00:00:13,859
+with the Android framework.
+
+6
+00:00:13,859 --> 00:00:16,719
+There are four types of
+components that make up apps.
+
+7
+00:00:16,719 --> 00:00:21,699
+Activities, services, broadcast
+receivers and content providers.
+
+8
+00:00:22,789 --> 00:00:25,429
+Android knows about each of
+these components because they
+
+9
+00:00:25,429 --> 00:00:28,329
+are registered in the Android manifest.
+
+10
+00:00:28,329 --> 00:00:31,859
+We'll ultimately cover all of these
+components to some degree, but for
+
+11
+00:00:31,859 --> 00:00:33,990
+now, we'll focus on the activity.
+
+12
+00:00:35,679 --> 00:00:38,240
+An activity is the Android
+component responsible for
+
+13
+00:00:38,240 --> 00:00:40,789
+most app user interaction.
+
+14
+00:00:40,789 --> 00:00:44,570
+The developer guide describes it using
+almost a dictionary definition of
+
+15
+00:00:44,570 --> 00:00:49,689
+the word activity, as a single
+focused thing that the user can do.
+
+16
+00:00:49,689 --> 00:00:51,329
+And that is a pretty
+good design principle.
+
+17
+00:00:52,520 --> 00:00:56,359
+Since the user is doing something,
+they're interacting with the device.
+
+18
+00:00:56,359 --> 00:00:58,089
+So activities are responsible for
+
+19
+00:00:58,090 --> 00:01:01,390
+creating the window that your
+application uses to draw and
+
+20
+00:01:01,390 --> 00:01:04,159
+receive events,
+such as touch events from the system.
+
+21
+00:01:05,739 --> 00:01:09,699
+>From a user perspective, a typical
+application looks like a series
+
+22
+00:01:09,700 --> 00:01:13,650
+of linked activities beginning with
+one that is started from the launcher.
+
+23
+00:01:14,890 --> 00:01:18,980
+The system maintains these activities
+on a stack to help preserve context for
+
+24
+00:01:18,980 --> 00:01:19,469
+the users.
+
+25
+00:01:20,659 --> 00:01:25,049
+When you exit an activity using the back
+button the system displays the previous
+
+26
+00:01:25,049 --> 00:01:29,161
+activity on the stack, or returns
+the launcher if the stack is empty.
+
+27
+00:01:30,879 --> 00:01:32,265
+So, how does a Launcher fit in?
+
+28
+00:01:32,265 --> 00:01:36,750
+Well taking a look at the Android
+Manifest, we can see a tag for
+
+29
+00:01:36,750 --> 00:01:38,250
+our application.
+
+30
+00:01:38,250 --> 00:01:42,090
+Inside that application tag
+is the activity component.
+
+31
+00:01:42,090 --> 00:01:47,290
+And inside of our activity component is
+an intent filter tag that contains a tag
+
+32
+00:01:47,290 --> 00:01:49,130
+mentioning the launcher.
+
+33
+00:01:49,129 --> 00:01:51,619
+We'll talk about intents,
+intent filters,
+
+34
+00:01:51,620 --> 00:01:55,590
+and get in to lots more details
+about activities in future lessons.
+
+35
+00:01:55,590 --> 00:01:58,520
+For now, the important thing
+to know is this is how
+
+36
+00:01:58,519 --> 00:02:00,500
+your activity is registered
+with the launcher.
+
+37
+00:02:02,439 --> 00:02:05,579
+The Android Framework has a large
+toolkit to help build the user
+
+38
+00:02:05,579 --> 00:02:09,210
+interface, which is the visible part of
+the application that the user interacts
+
+39
+00:02:09,210 --> 00:02:10,199
+with.
+
+40
+00:02:10,199 --> 00:02:14,370
+Each activity contains a layout that
+provides the system with detailed
+
+41
+00:02:14,370 --> 00:02:19,740
+information about what to display and
+how to display it, such as text views.
+
+42
+00:02:19,740 --> 00:02:21,990
+Let's go to the res folder.
+
+43
+00:02:21,990 --> 00:02:25,360
+That's where Android stores
+application resources.
+
+44
+00:02:25,360 --> 00:02:29,520
+Separating out resources makes it easy
+to update the way an application looks,
+
+45
+00:02:29,520 --> 00:02:33,000
+feels, and sounds, allowing you
+to optimize the application for
+
+46
+00:02:33,000 --> 00:02:36,009
+different device configurations,
+such as screen sizes and
+
+47
+00:02:36,009 --> 00:02:38,929
+languages without modifying code.
+
+48
+00:02:38,930 --> 00:02:41,819
+This is an important aspect of
+developing Android applications
+
+49
+00:02:41,819 --> 00:02:44,599
+that are compatible on
+different types of devices.
+
+50
+00:02:44,599 --> 00:02:47,759
+Resources contain things like images,
+strings and
+
+51
+00:02:47,759 --> 00:02:53,389
+styles, as well as what we're
+going to cover now, layouts.
+
+52
+00:02:54,560 --> 00:02:59,120
+The Android studio template
+has created activity_main.xml.
+
+53
+00:02:59,120 --> 00:03:02,659
+Android stores all of its
+layout files in XML format, and
+
+54
+00:03:02,659 --> 00:03:07,479
+these XML tags refer to types of view
+objects in the Android UI framework.
+
+55
+00:03:08,919 --> 00:03:14,209
+As you can see, some view objects
+can contain other view objects, and
+
+56
+00:03:14,210 --> 00:03:17,830
+their primary purpose is to
+arrange other views on the screen.
+
+57
+00:03:17,830 --> 00:03:21,340
+Which is why they are called layout or
+container views.
+
+58
+00:03:21,340 --> 00:03:25,490
+Looking at the onCreate function
+inside of the activity,
+
+59
+00:03:25,490 --> 00:03:29,991
+we can see setContentView
+with R.layout.activity.main.
+
+60
+00:03:29,991 --> 00:03:33,803
+Looking at the onCreate function
+inside of the activity,
+
+61
+00:03:33,802 --> 00:03:38,159
+we can see setContentView
+with R.layout.activity_main.
+
+62
+00:03:38,159 --> 00:03:41,402
+That will cause the XML layout
+resource to be inflated,
+
+63
+00:03:41,402 --> 00:03:46,032
+converting everything in the XML file to
+a hierarchy of view objects in memory.
+
+64
+00:03:46,032 --> 00:03:50,178
+[BLANK_AUDIO]
+

@@ -1,0 +1,634 @@
+1
+00:00:00,260 --> 00:00:03,370
+So, now that we've got utility fine,
+and we've got this pi star to fine,
+
+2
+00:00:03,370 --> 00:00:07,510
+we can actually do an even better
+job of writing out pi star.
+
+3
+00:00:07,510 --> 00:00:09,010
+And let me do that.
+
+4
+00:00:09,010 --> 00:00:10,810
+All right, so
+does this equation make sense, Michael?
+
+5
+00:00:10,810 --> 00:00:14,830
+>> Let's see, so the policy,
+is that a star again, or is that a K.
+
+6
+00:00:14,830 --> 00:00:16,079
+>> That's a star.
+
+7
+00:00:16,079 --> 00:00:17,110
+So it's the optimal policy.
+
+8
+00:00:17,110 --> 00:00:18,750
+>> All right.
+
+9
+00:00:18,750 --> 00:00:23,840
+The optimal action to take at a state
+is, well, look over all the actions,
+
+10
+00:00:23,840 --> 00:00:28,870
+and sum up overall the next states,
+the transition probability,
+
+11
+00:00:28,870 --> 00:00:33,460
+so that's the probability
+we end up in state s prime.
+
+12
+00:00:33,460 --> 00:00:35,890
+And now we have the utility of s prime,
+
+13
+00:00:35,890 --> 00:00:38,650
+the problem being that
+that's not defined.
+
+14
+00:00:38,650 --> 00:00:39,590
+>> Well, it sort of is,
+
+15
+00:00:39,590 --> 00:00:42,717
+we defined it immediately above,
+at least with respect to some policy.
+
+16
+00:00:44,240 --> 00:00:46,280
+>> But
+that's concerning because we don't know.
+
+17
+00:00:46,280 --> 00:00:49,497
+The policy that you want to put in there
+is gotta be the policy that you're
+
+18
+00:00:49,497 --> 00:00:50,625
+trying to find.
+
+19
+00:00:50,625 --> 00:00:54,805
+>> Right, so in fact implicitly
+what I mean here is pi star.
+
+20
+00:00:54,805 --> 00:00:59,660
+So, in fact, let me write that down that
+whenever you see me write from now on,
+
+21
+00:01:01,130 --> 00:01:06,560
+the utility of a state,
+I'm almost always going to actually mean
+
+22
+00:01:06,560 --> 00:01:10,420
+the utility of the state if
+I follow the optimal policy.
+
+23
+00:01:10,420 --> 00:01:13,581
+We might call this the true
+utility of the state.
+
+24
+00:01:13,581 --> 00:01:15,190
+>> I see.
+>> So I'm just going to write this off
+
+25
+00:01:15,190 --> 00:01:17,960
+to the side here as something for
+you to remember.
+
+26
+00:01:17,960 --> 00:01:21,940
+So this this says then that the optimal
+policy is the one that, for
+
+27
+00:01:21,940 --> 00:01:27,180
+every state, returns the action
+that maximizes my expected utility.
+
+28
+00:01:27,180 --> 00:01:29,780
+>> With regard to the optimal policy,
+it feels rather circular.
+
+29
+00:01:29,780 --> 00:01:33,280
+>> It is rather circular, but
+you're a computationalist.
+
+30
+00:01:33,280 --> 00:01:34,650
+You're a big fan of recursion.
+
+31
+00:01:34,650 --> 00:01:37,640
+We just went through a whole exercise
+where we figured out the geometric
+
+32
+00:01:37,640 --> 00:01:39,870
+series by effectively doing recursion.
+
+33
+00:01:39,870 --> 00:01:42,170
+>> It's a similar kind of situation,
+for this?
+
+34
+00:01:42,170 --> 00:01:42,820
+>> It kind of is.
+
+35
+00:01:42,820 --> 00:01:44,480
+So, let me write one
+more equation down and
+
+36
+00:01:44,480 --> 00:01:47,680
+then you'll be one step
+closer to actually seeing it.
+
+37
+00:01:47,680 --> 00:01:50,520
+Of course, if we're in an infinite
+horizon with a discounted state,
+
+38
+00:01:50,520 --> 00:01:53,780
+even though you're one step closer
+you won't actually be any closer.
+
+39
+00:01:53,780 --> 00:01:55,450
+Well let's worry about
+that when we get there.
+
+40
+00:01:55,450 --> 00:01:57,900
+So let me write one more equation down.
+
+41
+00:01:57,900 --> 00:01:59,020
+>> We're never going to get there.
+
+42
+00:01:59,020 --> 00:01:59,945
+It's infinitely long.
+
+43
+00:01:59,945 --> 00:02:01,800
+>> [LAUGH] Yeah.
+
+44
+00:02:01,800 --> 00:02:03,160
+>> Wait are you
+demonstrating something with
+
+45
+00:02:03,160 --> 00:02:05,055
+this lesson by making
+it infinitely long?
+
+46
+00:02:05,055 --> 00:02:08,310
+>> [LAUGH] I'm certainly demonstrating
+something with this lesson.
+
+47
+00:02:08,310 --> 00:02:09,220
+I don't know what it is.
+
+48
+00:02:09,220 --> 00:02:10,639
+So let me write this next equation down.
+
+49
+00:02:10,639 --> 00:02:14,600
+So then the true utility
+of a state s is then,
+
+50
+00:02:14,600 --> 00:02:17,630
+I'm just basically going to
+unroll the equation for utility.
+
+51
+00:02:17,630 --> 00:02:22,700
+It's the reward that I get for
+being in that state, plus I'm now
+
+52
+00:02:22,700 --> 00:02:26,910
+going to discount all of the reward that
+I'm going to get from that point on.
+
+53
+00:02:28,030 --> 00:02:28,750
+Got it?
+
+54
+00:02:28,750 --> 00:02:31,620
+>> All right, so
+once we go to our new state s prime,
+
+55
+00:02:31,620 --> 00:02:34,420
+we're going to look at
+the utility of that state.
+
+56
+00:02:34,420 --> 00:02:37,842
+Okay, that's sort of fine,
+modular recursion.
+
+57
+00:02:37,842 --> 00:02:40,150
+We're going to look at overall actions,
+
+58
+00:02:40,150 --> 00:02:42,500
+which action gives us
+the highest value of that.
+
+59
+00:02:42,500 --> 00:02:45,250
+Oh I see, that's kind of like
+the pi star expression just above.
+
+60
+00:02:45,250 --> 00:02:45,750
+>> Yup.
+
+61
+00:02:46,770 --> 00:02:48,920
+All right, so once we figure that out,
+
+62
+00:02:48,920 --> 00:02:52,250
+we know what action we're going
+to take in state s prime.
+
+63
+00:02:52,250 --> 00:02:54,310
+We're going to discount that,
+because why?
+
+64
+00:02:54,310 --> 00:02:58,340
+Because I guess that just
+kind of ups the gamma
+
+65
+00:02:58,340 --> 00:03:00,520
+factor on all the rewards in the future.
+
+66
+00:03:00,520 --> 00:03:01,020
+>> Right.
+
+67
+00:03:01,020 --> 00:03:03,080
+>> And then we're going to add
+to that our immediate reward.
+
+68
+00:03:04,440 --> 00:03:06,790
+Yes, okay I think I follow that.
+
+69
+00:03:06,790 --> 00:03:08,858
+>> In some sense all I've done is
+I kept substituting pieces back
+
+70
+00:03:08,858 --> 00:03:09,507
+into one another.
+
+71
+00:03:09,507 --> 00:03:12,752
+So the true utility being in a state
+is the reward you get in that state,
+
+72
+00:03:12,752 --> 00:03:15,887
+plus the discount of all the reward
+you're going to get at that point,
+
+73
+00:03:15,887 --> 00:03:18,967
+which, of course, is defined as
+the utility you're going to get for
+
+74
+00:03:18,967 --> 00:03:22,162
+the states that you see, but
+each one of those is defined similarly.
+
+75
+00:03:22,162 --> 00:03:26,182
+And so the utility you will get for
+s double prime say will also be further
+
+76
+00:03:26,182 --> 00:03:30,537
+discounted but since it's multiplied
+by gamma that will be gamma squared and
+
+77
+00:03:30,537 --> 00:03:33,016
+then s triple prime will be gamma cubed,
+and
+
+78
+00:03:33,016 --> 00:03:36,935
+so that's basically just unrolling
+this notion of utility up here.
+
+79
+00:03:36,935 --> 00:03:39,375
+>> Okay so now it seems like all
+the pieces are in one place.
+
+80
+00:03:39,375 --> 00:03:40,185
+>> Right.
+
+81
+00:03:40,185 --> 00:03:42,845
+And so it would be nice if we were done.
+
+82
+00:03:42,845 --> 00:03:45,770
+And I'm going to say that we're
+not just one step closer, but
+
+83
+00:03:45,770 --> 00:03:50,130
+you can see an oncoming light and
+it is not an oncoming train, okay.
+
+84
+00:03:50,130 --> 00:03:50,680
+So
+>> Yeah,
+
+85
+00:03:50,680 --> 00:03:52,070
+this seems like a really
+important equation.
+
+86
+00:03:52,070 --> 00:03:54,390
+>> It is, in fact, it's so
+important, it's got a name.
+
+87
+00:03:54,390 --> 00:03:55,910
+You want to guess what the name is?
+
+88
+00:03:55,910 --> 00:03:58,120
+>> Bill
+>> That's actually very close.
+
+89
+00:03:58,120 --> 00:03:59,760
+It's Bellman Equation.
+
+90
+00:03:59,760 --> 00:04:03,156
+>> Bellman equation
+>> Esquire.
+
+91
+00:04:03,156 --> 00:04:07,960
+This equation was invented by a guy
+named Bellman, and it turns out to be in
+
+92
+00:04:07,960 --> 00:04:12,856
+some sense the key equation for
+solving MDPs and reinforcement learning.
+
+93
+00:04:12,856 --> 00:04:14,410
+>> Wow.
+
+94
+00:04:14,410 --> 00:04:16,610
+>> And it's actually even more
+[INAUDIBLE] than it looks.
+
+95
+00:04:16,610 --> 00:04:21,680
+But basically, this is the fundamental
+recursive equation that defines
+
+96
+00:04:21,680 --> 00:04:24,730
+the true value of being
+in some particular state.
+
+97
+00:04:24,730 --> 00:04:27,770
+And it accounts for everything
+that we care about in the MDP.
+
+98
+00:04:27,770 --> 00:04:31,723
+The utilities themselves deal with
+the policy that we want to have,
+
+99
+00:04:31,723 --> 00:04:35,260
+the gammas are discount, and
+all the rewards are here.
+
+100
+00:04:35,260 --> 00:04:37,128
+The transition matrix is here,
+and the actions or
+
+101
+00:04:37,128 --> 00:04:38,610
+all the actions we're going to take.
+
+102
+00:04:38,610 --> 00:04:43,790
+So basically the whole MDP is
+referenced inside of here and allows
+
+103
+00:04:43,790 --> 00:04:47,670
+us by determining utilities, to always
+know what's the best action to take.
+
+104
+00:04:47,670 --> 00:04:49,610
+What's the one that's going to
+maximize the utility?
+
+105
+00:04:49,610 --> 00:04:52,480
+So if we can figure out
+the answer to this equation,
+
+106
+00:04:52,480 --> 00:04:57,150
+the utilities of all the states, we per
+force know what the optimal policy is.
+
+107
+00:04:57,150 --> 00:04:58,490
+It becomes very easy.
+
+108
+00:04:58,490 --> 00:05:01,550
+So we've sort of taken all
+that neat stuff about NDPs and
+
+109
+00:05:01,550 --> 00:05:02,920
+stuck it in a single equation.
+
+110
+00:05:02,920 --> 00:05:05,040
+Bellman was a very smart guy.
+
+111
+00:05:06,050 --> 00:05:10,080
+>> So was he the same Bellman
+from the curse of dimensionality?
+
+112
+00:05:10,080 --> 00:05:10,930
+>> Yes.
+
+113
+00:05:10,930 --> 00:05:13,190
+>> Cool.
+>> There can be only one Bellman.
+
+114
+00:05:13,190 --> 00:05:14,800
+>> [LAUGH]
+>> Actually,
+
+115
+00:05:14,800 --> 00:05:15,580
+are there any more Bellmans?
+
+116
+00:05:15,580 --> 00:05:18,610
+I don't think so, I think that they
+retired, like retiring a jersey.
+
+117
+00:05:18,610 --> 00:05:20,310
+They retired his name.
+
+118
+00:05:20,310 --> 00:05:22,530
+I could've sworn that I saw one
+at the last hotel that I went to.
+
+119
+00:05:22,530 --> 00:05:23,980
+>> It was probably the same one.
+
+120
+00:05:23,980 --> 00:05:24,700
+Oh, I get it.
+
+121
+00:05:24,700 --> 00:05:26,450
+Hotel, Bellman, that's really good.
+
+122
+00:05:26,450 --> 00:05:27,140
+>> Very good.
+
+123
+00:05:27,140 --> 00:05:27,880
+>> Okay good.
+
+124
+00:05:27,880 --> 00:05:30,670
+Well, so now that we've killed
+that as much as we could,
+
+125
+00:05:30,670 --> 00:05:32,460
+let's see if we can actually
+solve this equation,
+
+126
+00:05:32,460 --> 00:05:36,310
+which since this is clearly the key
+equation since it has a name, okay?
+
+127
+00:05:36,310 --> 00:05:37,070
+>> Yeah, that would be cool.
+
+128
+00:05:37,070 --> 00:05:39,040
+Especially because it looks like,
+if you could solve this,
+
+129
+00:05:39,040 --> 00:05:40,695
+you could solve it, right?
+
+130
+00:05:40,695 --> 00:05:41,440
+because then you have u.
+
+131
+00:05:41,440 --> 00:05:43,350
+You could just plug the u in and
+get the u out.
+
+132
+00:05:43,350 --> 00:05:44,320
+>> Right.
+And once you have the u in, and
+
+133
+00:05:44,320 --> 00:05:47,080
+you get the u out,
+then you got the policy.
+
+134
+00:05:47,080 --> 00:05:48,310
+>> Right.
+>> For u.
+
+135
+00:05:48,310 --> 00:05:49,635
+>> It's always been for u.
+
+136
+00:05:49,635 --> 00:05:51,390
+>> [LAUGH] It's for us,
+Michael, it's for us.

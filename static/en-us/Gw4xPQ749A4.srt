@@ -1,0 +1,345 @@
+1
+00:00:00,210 --> 00:00:02,550
+So, we'll talk about the pros and
+cons of SVMs.
+
+2
+00:00:02,550 --> 00:00:06,820
+I mentioned before that nobody
+writes their own SVM code.
+
+3
+00:00:06,820 --> 00:00:08,240
+This is both good and bad.
+
+4
+00:00:08,240 --> 00:00:10,090
+We'll talk about why
+it's bad in a minute.
+
+5
+00:00:10,090 --> 00:00:13,150
+But what's nice is their variety of
+libraries, whatever language you happen
+
+6
+00:00:13,150 --> 00:00:18,900
+to use, everything from MATLAB
+to higher speed languages.
+
+7
+00:00:18,900 --> 00:00:20,550
+And you can use that.
+
+8
+00:00:20,550 --> 00:00:23,680
+And because of your choice of kernels.
+
+9
+00:00:23,680 --> 00:00:26,220
+And then we can choose all sorts of,
+it's a very flexible system.
+
+10
+00:00:26,220 --> 00:00:28,930
+So you can pull,
+look at a variety of representations,
+
+11
+00:00:28,930 --> 00:00:31,250
+then given your representation,
+a choice of kernels.
+
+12
+00:00:31,250 --> 00:00:33,060
+And then even then,
+there's a bunch of parameters.
+
+13
+00:00:33,060 --> 00:00:35,750
+So, it's a very flexible,
+way of doing things.
+
+14
+00:00:35,750 --> 00:00:39,310
+What's very nice is, after you do
+the training, so the training,
+
+15
+00:00:39,310 --> 00:00:40,800
+you don't care how long
+the training takes.
+
+16
+00:00:40,800 --> 00:00:43,260
+You can drink lattes all day
+at Starbucks, all right?
+
+17
+00:00:43,260 --> 00:00:44,340
+But after the training,
+
+18
+00:00:44,340 --> 00:00:48,210
+you often come back with you only have
+a modest number of support vectors, and
+
+19
+00:00:48,210 --> 00:00:51,175
+that means that at testing time,
+it's going to be very fast.
+
+20
+00:00:51,175 --> 00:00:52,620
+You're taking your new value.
+
+21
+00:00:52,620 --> 00:00:56,510
+You compute the kernel function of
+it in each of the support vectors,
+
+22
+00:00:56,510 --> 00:01:00,420
+sum up the weights, and
+if it's greater than 0, it's a positive.
+
+23
+00:01:00,420 --> 00:01:01,940
+If it's less than 0, it's a negative.
+
+24
+00:01:01,940 --> 00:01:02,770
+All right.
+
+25
+00:01:02,770 --> 00:01:03,700
+And then the one,
+
+26
+00:01:03,700 --> 00:01:08,350
+the biggest pro is it just tends to
+work extremely well in practice.
+
+27
+00:01:08,350 --> 00:01:10,220
+I will tell you that there
+was a while that boosting,
+
+28
+00:01:10,220 --> 00:01:11,560
+remember the Viola-Jones thing?
+
+29
+00:01:11,560 --> 00:01:13,290
+Lots of people like the boosting.
+
+30
+00:01:13,290 --> 00:01:15,890
+It's clear, it's elegant.
+
+31
+00:01:15,890 --> 00:01:17,280
+You can understand what's going on.
+
+32
+00:01:18,440 --> 00:01:23,750
+My understanding is that for an awful
+lot of systems, SVMs just beat boosting.
+
+33
+00:01:23,750 --> 00:01:26,030
+There are of course some cons to it.
+
+34
+00:01:26,030 --> 00:01:28,770
+Remember we said there's
+no direct multi class.
+
+35
+00:01:28,770 --> 00:01:33,040
+You combine these two binary things
+in sort of an unsatisfying way.
+
+36
+00:01:33,040 --> 00:01:36,070
+It's hard to know what
+the right kernel is,
+
+37
+00:01:36,070 --> 00:01:40,880
+and it's dismaying to say which
+kernel did you use, use this one.
+
+38
+00:01:40,880 --> 00:01:43,030
+Why?
+Because it gave me the best results.
+
+39
+00:01:43,030 --> 00:01:44,820
+It, it's, it's very unsatisfying.
+
+40
+00:01:44,820 --> 00:01:47,300
+And yet we don't have a lot of the,
+there is some theory but
+
+41
+00:01:47,300 --> 00:01:49,930
+not a lot of theory about why
+you use some particular kernel.
+
+42
+00:01:49,930 --> 00:01:52,890
+I will tell you that the radio
+basis function kernel.
+
+43
+00:01:52,890 --> 00:01:55,310
+The two kernels I see used more of,
+
+44
+00:01:55,310 --> 00:01:57,910
+actually three,
+are exactly the ones we talked about.
+
+45
+00:01:57,910 --> 00:02:00,140
+Linear where you just have
+a large feature vector and
+
+46
+00:02:00,140 --> 00:02:01,420
+you don't do any kernel trick at all.
+
+47
+00:02:01,420 --> 00:02:03,890
+because you're already in
+a high dimensional space.
+
+48
+00:02:03,890 --> 00:02:06,860
+The Gaussian one which
+essentially lets your surface,
+
+49
+00:02:06,860 --> 00:02:10,449
+move nicely near their support vectors.
+
+50
+00:02:10,449 --> 00:02:13,480
+And then this third one is this
+histogram intersection kernel.
+
+51
+00:02:13,480 --> 00:02:16,280
+Because we have a lot of histograms
+that are used as features.
+
+52
+00:02:16,280 --> 00:02:19,315
+Then I put down as a con that
+nobody writes their own SVMs.
+
+53
+00:02:21,220 --> 00:02:22,630
+So that's both good and bad.
+
+54
+00:02:22,630 --> 00:02:23,550
+Good, there's a lot of libraries.
+
+55
+00:02:23,550 --> 00:02:26,560
+Bad is I've had students,
+they're doing SVM and
+
+56
+00:02:26,560 --> 00:02:27,760
+they're getting certain behavior.
+
+57
+00:02:29,040 --> 00:02:30,830
+And all they can do is
+tweak the parameters and
+
+58
+00:02:30,830 --> 00:02:33,840
+they don't have a good intuition for
+what's going on underneath.
+
+59
+00:02:33,840 --> 00:02:37,030
+And part of that is that
+they're using a package and
+
+60
+00:02:37,030 --> 00:02:39,200
+they're sort of at
+the mercy of the package.
+
+61
+00:02:39,200 --> 00:02:41,170
+So it's good that they're
+using a package, but you're,
+
+62
+00:02:41,170 --> 00:02:44,610
+but you lose a certain intuition
+of to what's actually going on.
+
+63
+00:02:44,610 --> 00:02:49,100
+It is sort of very compute heavy
+during training, all right?
+
+64
+00:02:49,100 --> 00:02:52,682
+You're basically computing a matrix
+of kernel values between every pair,
+
+65
+00:02:52,682 --> 00:02:53,700
+all right?
+
+66
+00:02:53,700 --> 00:02:59,210
+So if you've got you know, tens of
+thousands of training examples, right?
+
+67
+00:02:59,210 --> 00:03:01,780
+Let's suppose you had
+10,000 training examples.
+
+68
+00:03:01,780 --> 00:03:04,230
+That's a matrix,
+that's a 100 million big.
+
+69
+00:03:04,230 --> 00:03:08,830
+Now, you might not do it quite that way,
+but the, in, in principle, you,
+
+70
+00:03:08,830 --> 00:03:11,560
+you have the entire pair-wise thing.
+
+71
+00:03:11,560 --> 00:03:14,350
+I guess the matrix is diagonal,
+so you only need half of it.
+
+72
+00:03:14,350 --> 00:03:15,540
+That's fine.
+
+73
+00:03:15,540 --> 00:03:19,260
+So learning, the training and learning
+part, that can take a long time for
+
+74
+00:03:19,260 --> 00:03:21,060
+our large scale problems.

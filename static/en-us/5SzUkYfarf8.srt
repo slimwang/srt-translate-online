@@ -1,0 +1,369 @@
+1
+00:00:00,090 --> 00:00:04,019
+As we said, when problem with
+the O of 1 scheduler in Linux
+
+2
+00:00:04,019 --> 00:00:08,660
+is that once tasks are placed on the
+expired list, they wouldn't be scheduled
+
+3
+00:00:08,660 --> 00:00:14,030
+until all remaining tasks from the
+active list have a chance to execute for
+
+4
+00:00:14,030 --> 00:00:16,800
+whatever their timeslice
+amount of time is.
+
+5
+00:00:16,800 --> 00:00:20,900
+As a result, the performance of
+interactive tasks is affected.
+
+6
+00:00:20,900 --> 00:00:22,770
+There is a lot of jitter.
+
+7
+00:00:22,770 --> 00:00:27,870
+In addition, the scheduler in general
+doesn't make any fairness guarantees.
+
+8
+00:00:27,870 --> 00:00:31,830
+There are multiple formal definitions of
+fairness, but intuitively you can think
+
+9
+00:00:31,830 --> 00:00:37,460
+of it that in a given time interval, all
+of the tasks should be able to run for
+
+10
+00:00:37,460 --> 00:00:40,820
+an amount of time that is
+proportional to their priority.
+
+11
+00:00:40,820 --> 00:00:44,760
+And for the O of 1 scheduler, it's
+really hard to make any claims that it
+
+12
+00:00:44,760 --> 00:00:47,700
+makes some kind of fairness guarantees.
+
+13
+00:00:47,700 --> 00:00:51,620
+As we said, Ingo Molnar proposed
+the completely fair scheduler,
+
+14
+00:00:51,620 --> 00:00:55,650
+CFS, to address the problems
+with the O of 1 scheduler.
+
+15
+00:00:55,650 --> 00:01:01,430
+And CFS is the default scheduler
+in Linux since the 2.6.23 kernel.
+
+16
+00:01:01,430 --> 00:01:05,200
+It's the default scheduler for
+all of the non-real time tasks.
+
+17
+00:01:05,200 --> 00:01:09,260
+The real time tasks are scheduled
+by a real time scheduler.
+
+18
+00:01:09,260 --> 00:01:12,230
+The main idea behind
+the Completely Fair Scheduler
+
+19
+00:01:12,230 --> 00:01:16,410
+is that it uses a so-called a Red-Black
+Tree as a Runqueue structure.
+
+20
+00:01:16,410 --> 00:01:21,200
+Red-black trees belong to this family
+of dynamic tree structures that have
+
+21
+00:01:21,200 --> 00:01:25,880
+a property that as nodes are added or
+removed from the tree.
+
+22
+00:01:25,880 --> 00:01:30,910
+The tree will self balance itself,
+so that all the paths from the root
+
+23
+00:01:30,910 --> 00:01:34,610
+to the leaves of the tree
+are approximately of the same size.
+
+24
+00:01:34,610 --> 00:01:37,020
+You can look at the instructor notes for
+a link for
+
+25
+00:01:37,020 --> 00:01:39,910
+more information about this
+type of data structure.
+
+26
+00:01:39,910 --> 00:01:44,090
+Tasks are ordered in the tree based
+on the amount of time that they spend
+
+27
+00:01:44,090 --> 00:01:47,970
+running on the CPU, and
+that's called virtual runtime.
+
+28
+00:01:47,970 --> 00:01:52,770
+CFS tracks this virtual runtime
+in a nanosecond granularity.
+
+29
+00:01:52,770 --> 00:01:54,512
+As we can see in this figure,
+
+30
+00:01:54,512 --> 00:01:58,220
+each of the internal nodes in
+the tree corresponds to a task.
+
+31
+00:01:58,220 --> 00:02:02,789
+And the nodes to the left of
+the task correspond to those tasks
+
+32
+00:02:02,789 --> 00:02:05,126
+which had less time on the CPU.
+
+33
+00:02:05,126 --> 00:02:06,994
+They had spent less virtual time.
+
+34
+00:02:06,994 --> 00:02:10,080
+And therefore,
+they need to be scheduled sooner.
+
+35
+00:02:10,080 --> 00:02:14,280
+The children to the right of a node are
+those that have consumed more virtual
+
+36
+00:02:14,280 --> 00:02:15,810
+time, more CPU time.
+
+37
+00:02:15,810 --> 00:02:21,460
+And therefore, they don't have to be
+scheduled as quickly as the other ones.
+
+38
+00:02:21,460 --> 00:02:25,100
+The leaves in the tree, really don't
+play any role in the scheduler.
+
+39
+00:02:25,100 --> 00:02:29,140
+The CFS scheduling algorithm
+can be summarized as follows.
+
+40
+00:02:29,140 --> 00:02:33,475
+CFS always schedules the task which had
+the least amount of time on the CPU, so
+
+41
+00:02:33,475 --> 00:02:36,557
+that typically would be
+the left most node in the tree.
+
+42
+00:02:36,557 --> 00:02:41,417
+Periodically CFS will increment
+the vruntime of the task that's
+
+43
+00:02:41,417 --> 00:02:43,898
+currently executing on the CPU.
+
+44
+00:02:43,898 --> 00:02:48,639
+And at that point, it will compare
+the virtual runtime of the currently
+
+45
+00:02:48,639 --> 00:02:53,500
+running task to the vruntime of
+the leftmost task in the tree.
+
+46
+00:02:53,500 --> 00:02:57,950
+If the currently running task has
+a smaller vruntime compared to
+
+47
+00:02:57,950 --> 00:03:00,810
+the one that's in the leftmost
+node in the tree,
+
+48
+00:03:00,810 --> 00:03:04,380
+the currently running task
+will continue executing.
+
+49
+00:03:04,380 --> 00:03:06,090
+Otherwise, it will be preempted, and
+
+50
+00:03:06,090 --> 00:03:09,200
+it will be placed in the appropriate
+location in the tree.
+
+51
+00:03:09,200 --> 00:03:13,200
+Obviously, the task that's corresponding
+to the leftmost node in the tree will be
+
+52
+00:03:13,200 --> 00:03:15,930
+the one that will be
+selected to run next.
+
+53
+00:03:15,930 --> 00:03:20,938
+To account for differences in the task
+priorities or in their niceness value.
+
+54
+00:03:20,938 --> 00:03:26,840
+CFS changes the effective rate at which
+the task's virtual time progresses.
+
+55
+00:03:26,840 --> 00:03:30,940
+For lower priority tasks,
+time passes more quickly.
+
+56
+00:03:30,940 --> 00:03:34,360
+Their virtual run time
+value progresses faster.
+
+57
+00:03:34,360 --> 00:03:39,000
+And therefore, they will likely lose
+their CPU more quickly, because their
+
+58
+00:03:39,000 --> 00:03:43,960
+virtual run time will increase,
+compared to other tasks in the system.
+
+59
+00:03:43,960 --> 00:03:48,580
+On the contrary, for high priority
+tasks, time passes more slowly.
+
+60
+00:03:48,580 --> 00:03:53,170
+Their virtual runtime value will
+progress at a much slower rate, and
+
+61
+00:03:53,170 --> 00:03:57,060
+therefore, they will get to
+execute on the CPU longer.
+
+62
+00:03:57,060 --> 00:04:00,480
+You should take note of
+the fact that CFS uses
+
+63
+00:04:00,480 --> 00:04:04,330
+really one run queue structure for
+all of the priority levels,
+
+64
+00:04:04,330 --> 00:04:07,940
+unlike what we saw with some of
+the other scheduler examples.
+
+65
+00:04:07,940 --> 00:04:14,722
+In summary, selecting a task from this
+run queue to execute takes O of 1 time.
+
+66
+00:04:14,722 --> 00:04:18,257
+Takes constant amount of time since
+it's typically just a matter of
+
+67
+00:04:18,257 --> 00:04:21,019
+selecting the leftmost node in the tree.
+
+68
+00:04:21,019 --> 00:04:25,660
+At the same time, adding a task to
+the run queue takes logarithmic time
+
+69
+00:04:25,660 --> 00:04:29,060
+relative to the total number
+of tasks in the system.
+
+70
+00:04:29,060 --> 00:04:32,050
+Given the typical levels
+of load in current system,
+
+71
+00:04:32,050 --> 00:04:35,840
+this log of n time is acceptable.
+
+72
+00:04:35,840 --> 00:04:39,980
+However, as the computer capacity of
+the nodes continues to increase and
+
+73
+00:04:39,980 --> 00:04:43,060
+systems are able to support more and
+more tasks.
+
+74
+00:04:43,060 --> 00:04:47,080
+It is possible that at some point
+the CFS scheduler will be replaced by
+
+75
+00:04:47,080 --> 00:04:50,030
+something else that
+will be able to perform
+
+76
+00:04:50,030 --> 00:04:53,260
+better when it comes to this
+second performance criteria.

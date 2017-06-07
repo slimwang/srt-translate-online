@@ -1,0 +1,63 @@
+1
+00:00:00,140 --> 00:00:01,950
+The answer here is false.
+
+2
+00:00:01,950 --> 00:00:06,939
+You cannot do the sharing by sharing the
+file descriptor numbers because those
+
+3
+00:00:06,939 --> 00:00:12,850
+descriptors point into a per
+process table we're talking about.
+
+4
+00:00:12,850 --> 00:00:17,190
+Descriptor five value FD
+being five means the fifth
+
+5
+00:00:17,190 --> 00:00:22,340
+entry in process one's open
+file table points to something.
+
+6
+00:00:22,340 --> 00:00:26,930
+Okay, but process P2s open file
+tables is entirely separate.
+
+7
+00:00:26,930 --> 00:00:30,210
+So fifth entry in there may
+be pointing to nothing or
+
+8
+00:00:30,210 --> 00:00:32,280
+may be pointing to
+altogether different file.
+
+9
+00:00:32,280 --> 00:00:36,760
+So if you try to use the descriptor,
+it won't take you to the right place,
+
+10
+00:00:36,760 --> 00:00:40,420
+in particular the file that process
+P one is trying to share it.
+
+11
+00:00:40,420 --> 00:00:44,750
+Well it has the operating system data
+structure set up to get to it, and
+
+12
+00:00:44,750 --> 00:00:49,900
+these are per process, so the same thing
+as done for P2, it's not meaningful
+
+13
+00:00:49,900 --> 00:00:54,250
+to share file descriptors in Unix based
+systems, so the answer here is false.

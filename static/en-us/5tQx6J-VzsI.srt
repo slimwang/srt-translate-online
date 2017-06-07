@@ -1,0 +1,126 @@
+﻿1
+00:00:00,420 --> 00:00:04,889
+As noted before, it's not necessary
+to use only one kind of feature for
+
+2
+00:00:04,889 --> 00:00:06,419
+object detection.
+
+3
+00:00:06,419 --> 00:00:10,580
+You can combine both color-based and
+shape-based features.
+
+4
+00:00:10,580 --> 00:00:14,539
+After all, they complement each other
+in the information they capture about
+
+5
+00:00:14,539 --> 00:00:16,149
+a desired object.
+
+6
+00:00:16,149 --> 00:00:16,780
+In fact,
+
+7
+00:00:16,780 --> 00:00:21,300
+a variety of features can help you
+design a more robust detection system.
+
+8
+00:00:21,300 --> 00:00:25,269
+However, you do need to be
+careful about how you use them.
+
+9
+00:00:25,269 --> 00:00:30,250
+For example, assume that we are using
+HSV values as one input feature
+
+10
+00:00:30,250 --> 00:00:33,560
+with the flatten vector
+containing a elements.
+
+11
+00:00:33,560 --> 00:00:37,080
+And HOG as the other
+feature with b elements.
+
+12
+00:00:37,079 --> 00:00:40,350
+The simplest way of combining
+them is to concatenate the two.
+
+13
+00:00:40,350 --> 00:00:45,460
+HSV and
+HOG into a long a + b element vector.
+
+14
+00:00:45,460 --> 00:00:49,520
+If you visualize this vector as
+a simple bar plot, you might notice
+
+15
+00:00:49,520 --> 00:00:54,080
+a difference in magnitude between the
+color-based and gradient-based features.
+
+16
+00:00:54,079 --> 00:00:57,399
+This is because they represent
+different quantities.
+
+17
+00:00:57,399 --> 00:01:01,219
+A normalization step may prevent
+one type from dominating the other
+
+18
+00:01:01,219 --> 00:01:02,879
+in later stages.
+
+19
+00:01:02,880 --> 00:01:07,450
+Also note that there might be a lot more
+elements of one type than the other.
+
+20
+00:01:07,450 --> 00:01:11,180
+This may or may not be a problem in
+itself, but it's generally a good idea
+
+21
+00:01:11,180 --> 00:01:15,770
+to see if there are any redundancies
+in the combined feature vector.
+
+22
+00:01:15,769 --> 00:01:19,599
+For instance, you could use a decision
+tree to analyze the relative importance
+
+23
+00:01:19,599 --> 00:01:23,489
+of features, and drop the ones
+that are not contributing much.
+
+24
+00:01:23,489 --> 00:01:26,729
+But hey,
+let's not get ahead of ourselves.
+
+25
+00:01:26,730 --> 00:01:29,340
+How you use this final
+feature vector to look for
+
+26
+00:01:29,340 --> 00:01:33,130
+objects is the subject of our next
+section on building a classifier.
+

@@ -1,0 +1,414 @@
+1
+00:00:00,180 --> 00:00:05,190
+Awesome, now that we understand the key
+value structure of JSON and are able
+
+2
+00:00:05,190 --> 00:00:10,140
+to identify individual JSON components,
+we can use this knowledge to help us
+
+3
+00:00:10,140 --> 00:00:14,690
+navigate through the JSON response to
+extract fields we're interested in.
+
+4
+00:00:14,690 --> 00:00:18,510
+In other words, we'll use this
+knowledge to find a path from the root
+
+5
+00:00:18,510 --> 00:00:22,300
+of the JSON response all the way down
+to the value we're interested in,
+
+6
+00:00:22,300 --> 00:00:24,560
+traversing nodes along the way.
+
+7
+00:00:24,560 --> 00:00:27,541
+Let's revisit this Twitter
+response from the last quiz.
+
+8
+00:00:27,541 --> 00:00:31,530
+Let's say we wanted to extract
+the hashtags associated with Chris'
+
+9
+00:00:31,530 --> 00:00:33,869
+fourth most recently favorited tweet,
+
+10
+00:00:33,869 --> 00:00:38,170
+which is about a basketball shot
+made from a stadium hallway.
+
+11
+00:00:38,170 --> 00:00:41,910
+I've gone ahead and formatted
+the response to be more human-readable
+
+12
+00:00:41,910 --> 00:00:46,620
+by throwing it into
+jsonformatter.curiousconcept.com.
+
+13
+00:00:46,620 --> 00:00:48,320
+With everything expanded,
+
+14
+00:00:48,320 --> 00:00:53,770
+we notice that at the root we have a
+JSON array as indicated by this bracket.
+
+15
+00:00:53,770 --> 00:00:57,390
+Then if I collapse all the nodes,
+I can see that
+
+16
+00:00:57,390 --> 00:01:01,650
+this array contains JSONObjects
+with data that we can interpret.
+
+17
+00:01:01,650 --> 00:01:04,900
+This array most likely holds
+the most recent tweets
+
+18
+00:01:04,900 --> 00:01:06,930
+in reverse chronological order.
+
+19
+00:01:06,930 --> 00:01:11,590
+If we expand one of these entries, we
+can confirm that there is a JSONObject
+
+20
+00:01:11,590 --> 00:01:14,750
+that holds data representing
+a single tweet.
+
+21
+00:01:14,750 --> 00:01:17,610
+In order to get the fourth
+most recent tweet,
+
+22
+00:01:17,610 --> 00:01:22,360
+we'd have to access the fourth element
+of the array using index three.
+
+23
+00:01:22,360 --> 00:01:29,140
+So if we count through the indices,
+we have index zero, one, two, and three.
+
+24
+00:01:29,140 --> 00:01:33,600
+At this index, we have the single
+JSONObject which we can navigate
+
+25
+00:01:33,600 --> 00:01:38,580
+deeper into by getting the JSONObject
+referenced by the entities key.
+
+26
+00:01:38,580 --> 00:01:42,960
+Then we can extract the value of
+the hashtags key which is a JSON
+
+27
+00:01:42,960 --> 00:01:45,329
+array holding all the hashtags.
+
+28
+00:01:45,329 --> 00:01:50,488
+Once we're here, we need to start
+processing each entry one at a time.
+
+29
+00:01:50,488 --> 00:01:54,490
+For each JSONObject in the array
+we'll need to extract the text string
+
+30
+00:01:54,490 --> 00:01:56,470
+referenced by the text key.
+
+31
+00:01:56,470 --> 00:02:01,760
+In this case, the first hashtag
+being nba, the next being knicks.
+
+32
+00:02:01,760 --> 00:02:05,920
+In summary, we had to traverse
+a sequence of the JSON components to get
+
+33
+00:02:05,920 --> 00:02:08,080
+the values we were interested in.
+
+34
+00:02:08,080 --> 00:02:09,370
+Let's take another look at the path.
+
+35
+00:02:10,380 --> 00:02:14,720
+Starting at the root,
+JSON array, three, zero,
+
+36
+00:02:14,720 --> 00:02:18,620
+one, two, three, returns a JSONObject,
+
+37
+00:02:18,620 --> 00:02:23,540
+then we use the entities key
+to get another JSONObject.
+
+38
+00:02:23,540 --> 00:02:28,455
+Then we use the hashtags key to
+get a JSON array that contains
+
+39
+00:02:28,455 --> 00:02:31,021
+the hashtags as JSONObjects.
+
+40
+00:02:31,021 --> 00:02:33,016
+Finally, for each JSONObject,
+
+41
+00:02:33,016 --> 00:02:37,840
+we use the text key to extract
+the individual name from each hashtag.
+
+42
+00:02:37,840 --> 00:02:39,810
+So what's the point of all this?
+
+43
+00:02:39,810 --> 00:02:43,658
+What we just did was to isolate
+a path through the JSON components
+
+44
+00:02:43,658 --> 00:02:48,590
+of this response in order to get to
+the data we care to extract for our app.
+
+45
+00:02:48,590 --> 00:02:53,220
+The same logic that we used to traverse
+this response is the same path
+
+46
+00:02:53,220 --> 00:02:57,610
+traversal that our code should follow
+in programming the steps to parsing or
+
+47
+00:02:57,610 --> 00:02:59,570
+deconstructing the JSON response.
+
+48
+00:03:00,820 --> 00:03:03,870
+In this next quiz,
+you'll practice traversing a JSONObject
+
+49
+00:03:03,870 --> 00:03:06,170
+tree to find the nodes
+you're interested in.
+
+50
+00:03:06,170 --> 00:03:09,520
+To expose you to the other
+examples of JSON responses,
+
+51
+00:03:09,520 --> 00:03:13,390
+we'll look at a sample response
+from the Instagram API.
+
+52
+00:03:13,390 --> 00:03:17,720
+Instagram is a popular photo and
+video sharing social media app.
+
+53
+00:03:17,720 --> 00:03:21,660
+They expose an API where you can
+programmatically access information
+
+54
+00:03:21,660 --> 00:03:22,455
+about the media files.
+
+55
+00:03:23,810 --> 00:03:28,810
+This URL gives us access to information
+about a specific media file.
+
+56
+00:03:28,810 --> 00:03:31,430
+Click on the RESPONSE button
+to see a sample response.
+
+57
+00:03:31,430 --> 00:03:34,785
+[BLANK_AUDIO]
+
+58
+00:03:34,785 --> 00:03:37,850
+Chris posted this image
+to his Instagram account.
+
+59
+00:03:38,960 --> 00:03:42,510
+And we made a request for this specific
+image to the Instagram API and
+
+60
+00:03:42,510 --> 00:03:45,360
+received this JSON response back.
+
+61
+00:03:45,360 --> 00:03:50,360
+This includes information about
+the image, such as tags, filters,
+
+62
+00:03:50,360 --> 00:03:53,570
+the time it was taken, and a link.
+
+63
+00:03:53,570 --> 00:03:57,381
+In this quiz, you'll take a closer
+look at this response and
+
+64
+00:03:57,381 --> 00:03:58,960
+answer some questions.
+
+65
+00:03:58,960 --> 00:04:00,803
+So what I want you to do for this quiz,
+
+66
+00:04:00,803 --> 00:04:04,420
+is to determine the traversal path
+to certain fields of interest.
+
+67
+00:04:04,420 --> 00:04:08,540
+For example, find the traversal path of
+which nodes you must cross in order to
+
+68
+00:04:08,540 --> 00:04:10,950
+find the number of likes for an image.
+
+69
+00:04:10,950 --> 00:04:12,940
+Let's do the first one together.
+
+70
+00:04:12,940 --> 00:04:16,560
+So if I scan this real quick,
+it looks like there's a count key
+
+71
+00:04:16,560 --> 00:04:19,820
+inside of a likes key, that's
+probably the number I'm looking for.
+
+72
+00:04:21,019 --> 00:04:24,330
+To find the traversal path we need to
+specify how to get from the very root,
+
+73
+00:04:24,330 --> 00:04:30,080
+top of the JSONObject, all the way
+down to the likes key value pair.
+
+74
+00:04:30,080 --> 00:04:33,410
+In fact, the count key value
+pair inside of the likes.
+
+75
+00:04:33,410 --> 00:04:35,402
+First, we start at the root,
+
+76
+00:04:35,402 --> 00:04:39,002
+then we traverse to
+the JSONObject with the key data.
+
+77
+00:04:39,002 --> 00:04:41,333
+There are a bunch of
+attributes within here but
+
+78
+00:04:41,333 --> 00:04:44,130
+the one we're interested
+in is the key likes.
+
+79
+00:04:44,130 --> 00:04:48,690
+We know that the key likes maps to a
+JSONObject because of the curly braces.
+
+80
+00:04:48,690 --> 00:04:53,650
+Within there, we want the count key,
+which maps to an integer of 5.
+
+81
+00:04:53,650 --> 00:04:57,990
+So going back to our quiz, we type this
+out to express the path we need to
+
+82
+00:04:57,990 --> 00:05:00,950
+follow in order to get
+the count key value pair.
+
+83
+00:05:02,060 --> 00:05:05,720
+Repeat a similar process for
+the rest of these fields of interest.
+
+84
+00:05:05,720 --> 00:05:09,590
+Write out how you can traverse from
+the root JSONObject all the way to
+
+85
+00:05:09,590 --> 00:05:11,870
+the appropriate key value pair.
+
+86
+00:05:11,870 --> 00:05:13,700
+You can use the dash symbol and
+
+87
+00:05:13,700 --> 00:05:15,840
+right angle bracket to
+type in an arrow symbol.
+
+88
+00:05:16,920 --> 00:05:18,320
+When you're done, click Continue.

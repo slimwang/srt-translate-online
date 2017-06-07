@@ -1,0 +1,146 @@
+1
+00:00:00,350 --> 00:00:04,550
+Let's illustrate synchronization and
+synchronization mechanisms using our toy
+
+2
+00:00:04,550 --> 00:00:09,610
+shop example, synchronization in
+operating systems is like waiting for
+
+3
+00:00:09,610 --> 00:00:14,400
+a co-worker in the toy shop to finish so
+that you can continue working.
+
+4
+00:00:14,400 --> 00:00:19,220
+When an elf is waiting on a co-worker
+to finish, several things can happen,
+
+5
+00:00:19,220 --> 00:00:23,760
+the elf can continuously check
+whether the other elf is done or
+
+6
+00:00:23,760 --> 00:00:26,630
+they can ask the co-worker to
+signal them once they are done.
+
+7
+00:00:27,660 --> 00:00:32,070
+At any rate, the time that an elf spends
+waiting will hurt the performance of
+
+8
+00:00:32,070 --> 00:00:37,490
+the toy shop, for instance the elf
+may repeatedly check the other
+
+9
+00:00:37,490 --> 00:00:41,840
+elf whether it's completed the work,
+asking questions like, are you done now?
+
+10
+00:00:41,840 --> 00:00:42,570
+What about now?
+
+11
+00:00:42,570 --> 00:00:44,450
+Are you still working?
+
+12
+00:00:44,450 --> 00:00:47,020
+This can have a negative
+impact on the elf
+
+13
+00:00:47,020 --> 00:00:51,050
+that is working because it will delay
+its processing, he will be annoyed.
+
+14
+00:00:51,050 --> 00:00:55,420
+The second approach of hey, I'm done
+you can come and do your work now
+
+15
+00:00:55,420 --> 00:01:00,400
+is maybe a little bit more laid back but
+this other guy may have gone out for
+
+16
+00:01:00,400 --> 00:01:04,900
+lunch in the meantime so it may take
+it longer to actually come back and
+
+17
+00:01:04,900 --> 00:01:08,180
+precede with the execution with
+the processing of the toy.
+
+18
+00:01:08,180 --> 00:01:12,610
+So regardless, in both of these cases
+the workers are wasting some productive
+
+19
+00:01:12,610 --> 00:01:15,110
+time during this wait period,
+
+20
+00:01:15,110 --> 00:01:20,250
+similar analogies to these exist in
+synchronization in operating systems.
+
+21
+00:01:20,250 --> 00:01:24,390
+Processes may repeatedly check
+whether it's okay for them to continue
+
+22
+00:01:24,390 --> 00:01:29,020
+using a construct called spinlocks
+that's supported in operating systems.
+
+23
+00:01:29,020 --> 00:01:32,280
+We already talked about mutexes and
+condition variables and
+
+24
+00:01:32,280 --> 00:01:37,260
+we saw that they can be used in order to
+implement this behavior where a process
+
+25
+00:01:37,260 --> 00:01:42,210
+waits for a signal from another process
+before it can continue working.
+
+26
+00:01:42,210 --> 00:01:46,300
+Regardless of how we wait, and
+which synchronization mechanism we use,
+
+27
+00:01:46,300 --> 00:01:51,120
+this will affect performance, this can
+result in CPU cycles that are wasted
+
+28
+00:01:51,120 --> 00:01:55,470
+when we're performing this checking or
+performance may be lost due to
+
+29
+00:01:55,470 --> 00:01:59,010
+certain cache effects when
+we are signalling another
+
+30
+00:01:59,010 --> 00:02:03,590
+process that was periodically blocked
+to come back and start executing again.

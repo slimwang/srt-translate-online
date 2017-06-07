@@ -1,0 +1,277 @@
+1
+00:00:00,140 --> 00:00:03,790
+Let's look at this simple spinlock
+implementation we showed earlier in this
+
+2
+00:00:03,790 --> 00:00:06,720
+lesson that uses
+the test-and-set instruction.
+
+3
+00:00:06,720 --> 00:00:11,224
+In this one and in all of the other
+examples that we will show, we will
+
+4
+00:00:11,224 --> 00:00:15,887
+assume that the lock initialization
+step sets the lock to be free, and
+
+5
+00:00:15,887 --> 00:00:20,650
+that 0 indicates free and 1 indicates
+busy, that the lock is locked.
+
+6
+00:00:20,650 --> 00:00:24,613
+The nice thing about this lock is that
+the test-and-set instruction is a very
+
+7
+00:00:24,613 --> 00:00:28,229
+common atomic construction that
+most hardware platforms support it.
+
+8
+00:00:28,229 --> 00:00:30,450
+So, as code, it will be very portable.
+
+9
+00:00:30,450 --> 00:00:34,698
+We will be able to have the exact
+same code run on different hardware
+
+10
+00:00:34,698 --> 00:00:35,350
+platforms.
+
+11
+00:00:35,350 --> 00:00:36,890
+From a latency perspective,
+
+12
+00:00:36,890 --> 00:00:40,750
+this spinlock implementation
+performs as good as it gets.
+
+13
+00:00:40,750 --> 00:00:43,351
+We only execute the atomic operation and
+
+14
+00:00:43,351 --> 00:00:46,340
+there's no way we can do
+any better than this.
+
+15
+00:00:46,340 --> 00:00:48,926
+Note the lock was originally free.
+
+16
+00:00:48,926 --> 00:00:49,740
+Say it was 0.
+
+17
+00:00:49,740 --> 00:00:54,073
+And then as soon as we execute
+this spinlock_lock operation,
+
+18
+00:00:54,073 --> 00:00:57,355
+we make an attempt to
+execute test_and_set.
+
+19
+00:00:57,355 --> 00:01:00,860
+The lock is free, so this will return 0.
+
+20
+00:01:00,860 --> 00:01:04,239
+As a result of that,
+we will come out of this while loop.
+
+21
+00:01:04,239 --> 00:01:09,010
+And also the test_and_set will
+change the value of lock to 1, so
+
+22
+00:01:09,010 --> 00:01:10,460
+the lock is busy.
+
+23
+00:01:10,460 --> 00:01:13,660
+So at that point, we have clearly
+come out of the while loop.
+
+24
+00:01:13,660 --> 00:01:15,830
+We're not spinning,
+and we have the lock,
+
+25
+00:01:15,830 --> 00:01:18,310
+and we have marked
+that the lock is busy.
+
+26
+00:01:18,310 --> 00:01:19,500
+Regarding delay,
+
+27
+00:01:19,500 --> 00:01:24,300
+this particular implementation
+potentially could perform well
+
+28
+00:01:24,300 --> 00:01:29,110
+because we see that we're continuously
+just spinning on the atomic instruction.
+
+29
+00:01:29,110 --> 00:01:33,390
+As long as the lock is busy,
+test_and_set will return a 1,
+
+30
+00:01:33,390 --> 00:01:37,830
+will return busy, so
+we will remain in this while loop.
+
+31
+00:01:37,830 --> 00:01:42,700
+However, whenever the lock does become
+freed, this test_and_set will, or
+
+32
+00:01:42,700 --> 00:01:45,890
+at least one of them,
+will immediately detect that and
+
+33
+00:01:45,890 --> 00:01:47,670
+will come out of the while loop.
+
+34
+00:01:47,670 --> 00:01:53,170
+That single successful test_and_set
+operation also will again set the value
+
+35
+00:01:53,170 --> 00:01:58,960
+of lock to 1, so any other test_and_set
+attempts will result in spinning again.
+
+36
+00:01:58,960 --> 00:02:02,520
+Now, we already said there is a conflict
+between latency and delay and
+
+37
+00:02:02,520 --> 00:02:03,510
+contention, so
+
+38
+00:02:03,510 --> 00:02:07,670
+clearly this lock will not perform
+well from a contention perspective.
+
+39
+00:02:07,670 --> 00:02:09,150
+As long as they're spinning,
+
+40
+00:02:09,150 --> 00:02:13,750
+every single processor will repeatedly
+go on the shared interconnect,
+
+41
+00:02:13,750 --> 00:02:17,870
+on the shared bus to the memory
+location where the log is stored,
+
+42
+00:02:17,870 --> 00:02:21,900
+given that it's repeatedly trying
+to execute the atomic instruction.
+
+43
+00:02:21,900 --> 00:02:23,671
+This will create contention,
+
+44
+00:02:23,671 --> 00:02:26,950
+delay the processing that's
+carried out on other CPUs.
+
+45
+00:02:26,950 --> 00:02:30,951
+It will delay the processing that
+the lock owner needs to perform,
+
+46
+00:02:30,951 --> 00:02:34,030
+who's trying to execute
+the critical selection.
+
+47
+00:02:34,030 --> 00:02:35,219
+And so, therefore,
+
+48
+00:02:35,219 --> 00:02:39,300
+it will also delay the time when
+the lock actually becomes freed.
+
+49
+00:02:39,300 --> 00:02:41,290
+So it's just bad all over.
+
+50
+00:02:41,290 --> 00:02:44,840
+The real problem with this
+implementation is that it continuously
+
+51
+00:02:44,840 --> 00:02:47,270
+spins on the atomic construction.
+
+52
+00:02:47,270 --> 00:02:51,720
+If we don't have cache coherence,
+we will really have to go to memory in
+
+53
+00:02:51,720 --> 00:02:54,650
+order to check what is
+the value of the lock.
+
+54
+00:02:54,650 --> 00:02:59,070
+But with this implementation,
+even if we do have coherent caches,
+
+55
+00:02:59,070 --> 00:03:02,600
+they will be bypassed because
+we're using an atomic instruction.
+
+56
+00:03:02,600 --> 00:03:04,020
+So in every single spin,
+
+57
+00:03:04,020 --> 00:03:07,370
+we will go to memory regardless
+of the cache coherence.
+
+58
+00:03:07,370 --> 00:03:11,260
+That clearly is not the most
+efficient use of atomics or
+
+59
+00:03:11,260 --> 00:03:14,380
+of hardware that does have support for
+caches and cache coherence.

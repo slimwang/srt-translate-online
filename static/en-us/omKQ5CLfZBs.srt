@@ -1,0 +1,156 @@
+1
+00:00:00,120 --> 00:00:03,440
+Distributed shared memory can be
+supported either in hardware, or
+
+2
+00:00:03,440 --> 00:00:04,710
+by software.
+
+3
+00:00:04,710 --> 00:00:08,480
+The key component of the hardware
+supported distributed shared memories,
+
+4
+00:00:08,480 --> 00:00:11,630
+is that they rely on some
+high end interconnect.
+
+5
+00:00:11,630 --> 00:00:14,830
+The operating system running
+on each individual node,
+
+6
+00:00:14,830 --> 00:00:20,530
+is under the impression that it has much
+larger physical memory, constituting
+
+7
+00:00:20,530 --> 00:00:25,880
+memory that spans multiple memory nodes,
+multiple physical nodes in the system.
+
+8
+00:00:25,880 --> 00:00:30,390
+So, the OS is allowed to establish
+virtual to physical memory mappings that
+
+9
+00:00:30,390 --> 00:00:33,740
+correspond to memory locations
+that are in other nodes.
+
+10
+00:00:33,740 --> 00:00:38,080
+The memory accesses that reference
+memory locations that don't correspond
+
+11
+00:00:38,080 --> 00:00:43,260
+to the local physical memory are then
+passed to the network interconnect card
+
+12
+00:00:43,260 --> 00:00:46,210
+and this is a NIC that
+corresponds to this advanced
+
+13
+00:00:46,210 --> 00:00:48,480
+high end interconnect technology.
+
+14
+00:00:48,480 --> 00:00:53,770
+So, these NICs know how to translate
+that memory operation, into
+
+15
+00:00:53,770 --> 00:00:59,650
+an actual message that gets sent to the
+correct remote node, the correct NIC.
+
+16
+00:00:59,650 --> 00:01:03,440
+The NICs in these nodes will
+participate in al aspects
+
+17
+00:01:03,440 --> 00:01:06,960
+that are necessary to deal
+with memory accesses,
+
+18
+00:01:06,960 --> 00:01:11,890
+and management of memory consistency and
+we'll also support certain
+
+19
+00:01:11,890 --> 00:01:17,610
+atomic operations just like the atomics
+that we saw in shared memory systems.
+
+20
+00:01:17,610 --> 00:01:21,700
+Now while it's very convenient to rely
+on the hardware to do everything,
+
+21
+00:01:21,700 --> 00:01:25,920
+this type of hardware is typically
+very expensive and it's used only for
+
+22
+00:01:25,920 --> 00:01:30,130
+the ultra high end machines or for
+the super computing platforms.
+
+23
+00:01:30,130 --> 00:01:34,520
+Instead, distributed shared memory
+systems can be realized in software.
+
+24
+00:01:34,520 --> 00:01:38,300
+Here the software would have to detect
+which memory accesses are local
+
+25
+00:01:38,300 --> 00:01:43,090
+versus remote to create and send those
+messages to the appropriate note,
+
+26
+00:01:43,090 --> 00:01:46,030
+whenever that's what, what's necessary.
+
+27
+00:01:46,030 --> 00:01:49,660
+The software would also have to
+accept messages from other notes and
+
+28
+00:01:49,660 --> 00:01:54,450
+perform the specific memory operations
+for them and also be involved in all of
+
+29
+00:01:54,450 --> 00:01:57,930
+the aspects of memory sharing and
+consistency support.
+
+30
+00:01:57,930 --> 00:02:00,970
+This can be done at the level
+of the operating system or
+
+31
+00:02:00,970 --> 00:02:03,910
+it can be done with support
+of a programming language and
+
+32
+00:02:03,910 --> 00:02:05,580
+the runtime product
+programming language.

@@ -1,0 +1,179 @@
+1
+00:00:00,000 --> 00:00:05,000
+Now, let me back up just for a minute and talk about software engineering in general
+
+2
+00:00:05,000 --> 00:00:08,000
+rather than talking about specific AI techniques.
+
+3
+00:00:08,000 --> 00:00:13,000
+What I'm showing here is a small excerpt from the spelling correction code
+
+4
+00:00:13,000 --> 00:00:18,000
+from a project called Htdig, which is an open-source search engine. It's a great search engine.
+
+5
+00:00:18,000 --> 00:00:22,000
+If you ever have need of one, you might want to check it out.
+
+6
+00:00:22,000 --> 00:00:26,000
+All the code is very straightforward and easy to deal with.
+
+7
+00:00:26,000 --> 00:00:32,000
+It has several thousand lines of code dealing with spelling correction.
+
+8
+00:00:32,000 --> 00:00:34,000
+Here we see a little bit of code.
+
+9
+00:00:34,000 --> 00:00:40,000
+It has the good idea of saying one word might be misspelled for another if they sound alike,
+
+10
+00:00:40,000 --> 00:00:44,000
+and so let's go through each word and figure out what each letter is sounding like
+
+11
+00:00:44,000 --> 00:00:47,000
+and see if there are other words that sound similar.
+
+12
+00:00:47,000 --> 00:00:51,000
+So for example, here it's saying what does a "c" sound like.
+
+13
+00:00:51,000 --> 00:00:54,000
+Well, "c" is ambiguous in English.
+
+14
+00:00:54,000 --> 00:00:59,000
+It has this "x" sound, the "ch" sound, this "s" or "k" sound,
+
+15
+00:00:59,000 --> 00:01:03,000
+and there's all these possibilities about how it can have one sound or another.
+
+16
+00:01:03,000 --> 00:01:06,000
+Now imagine you're in charge of maintaining this program.
+
+17
+00:01:06,000 --> 00:01:10,000
+In order for you to make sure that it's right you have to do several things.
+
+18
+00:01:10,000 --> 00:01:13,000
+First, you could look at this comment and say, well, does this comment
+
+19
+00:01:13,000 --> 00:01:17,000
+accurately reflect the rules for English pronunciation?
+
+20
+00:01:17,000 --> 00:01:24,000
+Here, it's talking about pronouncing a "c" as an "s" in the context of an "i," "e," or "y."
+
+21
+00:01:24,000 --> 00:01:26,000
+What about the other vowels--"a" and "o?"
+
+22
+00:01:26,000 --> 00:01:29,000
+Were they left out by accident or is this correct?
+
+23
+00:01:29,000 --> 00:01:31,000
+So you'd have to do some work to check that out.
+
+24
+00:01:31,000 --> 00:01:35,000
+Then you'd have to do more work to say if this comment correct,
+
+25
+00:01:35,000 --> 00:01:39,000
+is the comment correctly implemented in this code here?
+
+26
+00:01:39,000 --> 00:01:43,000
+In fact, just this sort of one page of code just dealing with a couple letters
+
+27
+00:01:43,000 --> 00:01:50,000
+is about the same as all the code that we use to implement the probabilistic model.
+
+28
+00:01:50,000 --> 00:01:55,000
+But I think the most important difficulty in maintaining code like this
+
+29
+00:01:55,000 --> 00:01:59,000
+is that it's so specific to the English language.
+
+30
+00:01:59,000 --> 00:02:05,000
+Imagine you're in charge of maintaining it, and you're boss or professor comes to you and says,
+
+31
+00:02:05,000 --> 00:02:09,000
+"Great job. Now I'd like you to make this work for
+
+32
+00:02:09,000 --> 00:02:13,000
+German and French and Azerbaijani and 50 other languages."
+
+33
+00:02:13,000 --> 00:02:18,000
+You'd have to go through and understand the pronunciation rules in each of those languages
+
+34
+00:02:18,000 --> 00:02:22,000
+and edit a version of this code for each particular language.
+
+35
+00:02:22,000 --> 00:02:24,000
+That would be quite tedious.
+
+36
+00:02:24,000 --> 00:02:28,000
+But if you were dealing with a probabilistic model
+
+37
+00:02:28,000 --> 00:02:30,000
+and you were asked to work in another language,
+
+38
+00:02:30,000 --> 00:02:35,000
+all you would have to do is go out and collect a large corpus of words in that language.
+
+39
+00:02:35,000 --> 00:02:38,000
+Then you'd have the probability of the individuals words.
+
+40
+00:02:38,000 --> 00:02:41,000
+And then find a corpus of spelling errors.
+
+41
+00:02:41,000 --> 00:02:44,000
+Then you'd have the probability of the spelling edits.
+
+42
+00:02:44,000 --> 00:02:50,000
+And so gathering that data is much faster, much easier software engineering process
+
+43
+00:02:50,000 --> 00:02:52,000
+than writing this code by hand.
+
+44
+00:02:52,000 --> 00:02:58,000
+In sense, you could say that machine learning over probabilistic models
+
+45
+00:02:58,000 --> 99:59:59,999
+is the ultimate in agile programming.

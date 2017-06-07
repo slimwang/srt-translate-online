@@ -1,0 +1,299 @@
+﻿1
+00:00:00,000 --> 00:00:01,949
+So I'm back looking at the RecordSoundsViewController
+
+2
+00:00:01,949 --> 00:00:03,899
+and the audioRecorderDidFinishRecording
+
+3
+00:00:03,899 --> 00:00:06,990
+function. If we were
+and the audioRecorderDidFinishRecording
+
+4
+00:00:06,990 --> 00:00:08,879
+to run this code right now, the Segue
+function. If we were
+
+5
+00:00:08,879 --> 00:00:08,880
+to run this code right now, the Segue
+
+6
+00:00:08,880 --> 00:00:10,888
+would be triggered, we send the recorded
+to run this code right now, the Segue
+
+7
+00:00:10,888 --> 00:00:13,048
+audio URL and the RecordSoundsViewController
+would be triggered, we send the recorded
+
+8
+00:00:13,048 --> 00:00:15,869
+would be displayed. And let's
+audio URL and the RecordSoundsViewController
+
+9
+00:00:15,869 --> 00:00:16,858
+just test that.
+would be displayed. And let's
+
+10
+00:00:16,859 --> 00:00:22,410
+Now despite our best efforts here,
+just test that.
+
+11
+00:00:22,410 --> 00:00:24,000
+the RecordSoundsViewController still
+Now despite our best efforts here,
+
+12
+00:00:24,000 --> 00:00:25,559
+doesn't have a clue about what to do
+the RecordSoundsViewController still
+
+13
+00:00:25,559 --> 00:00:27,509
+when the Segue being triggered and the
+doesn't have a clue about what to do
+
+14
+00:00:27,509 --> 00:00:27,510
+when the Segue being triggered and the
+
+15
+00:00:27,510 --> 00:00:29,879
+audio URL that we're sending it.
+when the Segue being triggered and the
+
+16
+00:00:29,879 --> 00:00:32,219
+Lucky for us, when a Segue is called,
+audio URL that we're sending it.
+
+17
+00:00:32,219 --> 00:00:33,659
+there's a function that's triggered on
+Lucky for us, when a Segue is called,
+
+18
+00:00:33,659 --> 00:00:35,399
+the existing View Controller to help
+there's a function that's triggered on
+
+19
+00:00:35,399 --> 00:00:37,709
+prepare it for a Segue. It's called
+the existing View Controller to help
+
+20
+00:00:37,709 --> 00:00:37,710
+prepare it for a Segue. It's called
+
+21
+00:00:37,710 --> 00:00:40,739
+prepareForSegue. Remember it's called
+prepare it for a Segue. It's called
+
+22
+00:00:40,738 --> 00:00:42,539
+on the existing View Controller. So in
+prepareForSegue. Remember it's called
+
+23
+00:00:42,539 --> 00:00:44,429
+this case, it's the RecordSoundsViewController,
+on the existing View Controller. So in
+
+24
+00:00:44,429 --> 00:00:46,350
+not the PlaySoundsViewController.
+this case, it's the RecordSoundsViewController,
+
+25
+00:00:46,350 --> 00:00:49,769
+so it's going to be called on
+not the PlaySoundsViewController.
+
+26
+00:00:49,769 --> 00:00:49,770
+so it's going to be called on
+
+27
+00:00:49,770 --> 00:00:52,530
+this View Controller. So let's try to
+so it's going to be called on
+
+28
+00:00:52,530 --> 00:00:55,590
+implement this function. If we start
+this View Controller. So let's try to
+
+29
+00:00:55,590 --> 00:00:57,750
+typing prepare, we see auto-completion
+implement this function. If we start
+
+30
+00:00:57,750 --> 00:00:59,699
+for the function that we want prepareForSegue.
+typing prepare, we see auto-completion
+
+31
+00:00:59,698 --> 00:01:03,899
+Let's select it. In this function,
+for the function that we want prepareForSegue.
+
+32
+00:01:03,899 --> 00:01:05,368
+we only need a few lines of code.
+Let's select it. In this function,
+
+33
+00:01:05,368 --> 00:01:08,310
+First we check if this is the
+we only need a few lines of code.
+
+34
+00:01:08,310 --> 00:01:10,500
+Segue that we want, that it has the
+First we check if this is the
+
+35
+00:01:10,500 --> 00:01:12,239
+stopRecording identifier that we set up in
+Segue that we want, that it has the
+
+36
+00:01:12,239 --> 00:01:12,240
+storyboard. Then we grab the View
+stopRecording identifier that we set up in
+Segue that we want, that it has the
+
+37
+00:01:12,240 --> 00:01:15,269
+stopRecording identifier that we set up in
+storyboard. Then we grab the View
+
+38
+00:01:15,269 --> 00:01:16,949
+Controller that were transitioning to,
+storyboard. Then we grab the View
+
+39
+00:01:16,949 --> 00:01:16,950
+Controller that were transitioning to,
+
+40
+00:01:16,950 --> 00:01:19,019
+the destination from this handy
+Controller that were transitioning to,
+
+41
+00:01:19,019 --> 00:01:20,728
+destination property that's part of the Segue.
+the destination from this handy
+
+42
+00:01:20,728 --> 00:01:23,459
+Because this property is of type
+destination property that's part of the Segue.
+
+43
+00:01:23,459 --> 00:01:25,679
+UIViewController, but we know it's a
+Because this property is of type
+
+44
+00:01:25,679 --> 00:01:25,680
+UIViewController, but we know it's a
+
+45
+00:01:25,680 --> 00:01:28,079
+PlaySoundsViewController, we can up
+UIViewController, but we know it's a
+
+46
+00:01:28,079 --> 00:01:29,400
+cast it to a PlaySoundsViewController
+PlaySoundsViewController, we can up
+
+47
+00:01:29,400 --> 00:01:34,920
+using a forced up cast.
+cast it to a PlaySoundsViewController
+
+48
+00:01:34,920 --> 00:01:36,209
+And that's what's happening here.
+using a forced up cast.
+
+49
+00:01:36,209 --> 00:01:36,210
+Next we grab the sender, which is the
+And that's what's happening here.
+using a forced up cast.
+
+50
+00:01:36,210 --> 00:01:38,519
+And that's what's happening here.
+Next we grab the sender, which is the
+
+51
+00:01:38,519 --> 00:01:41,219
+recorded audio URL.
+Next we grab the sender, which is the
+
+52
+00:01:41,219 --> 00:01:43,078
+This may seem a little strange, but if we
+recorded audio URL.
+
+53
+00:01:43,078 --> 00:01:44,489
+look back to where we're performing the Segue,
+This may seem a little strange, but if we
+
+54
+00:01:44,489 --> 00:01:47,129
+our sender is indeed the recorded
+look back to where we're performing the Segue,
+
+55
+00:01:47,129 --> 00:01:50,669
+audio URL. And lastly we set the recorded
+our sender is indeed the recorded
+
+56
+00:01:50,669 --> 00:01:50,670
+audio URL. And lastly we set the recorded
+
+57
+00:01:50,670 --> 00:01:52,798
+audio URL in the PlaySoundsViewController.
+audio URL. And lastly we set the recorded
+
+58
+00:01:52,799 --> 00:01:55,649
+Now the PlaySoundsViewController
+audio URL in the PlaySoundsViewController.
+
+59
+00:01:55,649 --> 00:01:57,359
+is receiving the recorded
+Now the PlaySoundsViewController
+
+60
+00:01:57,359 --> 00:01:57,360
+audio URL and we're ready for playback.
+is receiving the recorded
+Now the PlaySoundsViewController
+
+61
+00:01:57,360 --> 00:02:04,640
+is receiving the recorded
+audio URL and we're ready for playback.
+

@@ -1,0 +1,466 @@
+1
+00:00:00,820 --> 00:00:01,680
+All right, you're done.
+
+2
+00:00:02,730 --> 00:00:04,760
+Let's take a look at how I did it.
+
+3
+00:00:04,760 --> 00:00:09,680
+Now we only want this parallax scrolling
+to work in phones in landscape mode.
+
+4
+00:00:09,680 --> 00:00:11,430
+So we're going to edit
+fragment_main in landscape.
+
+5
+00:00:12,460 --> 00:00:16,490
+And what we did is we took app_bar and
+renamed it to parallax_bar.
+
+6
+00:00:16,490 --> 00:00:17,810
+This way our code will find that,
+
+7
+00:00:17,810 --> 00:00:22,530
+and only actually do parallax scrolling
+when in the landscape orientation.
+
+8
+00:00:22,530 --> 00:00:25,970
+Everything else we're going to
+do is going to be inside of our
+
+9
+00:00:25,970 --> 00:00:27,800
+actual fragment.
+
+10
+00:00:27,800 --> 00:00:29,940
+So, inside of onCreateView, so
+
+11
+00:00:29,940 --> 00:00:34,400
+inside of forecastfragment, we're going
+to look for that parallaxView, which is
+
+12
+00:00:34,400 --> 00:00:39,416
+the view that we just renamed that's in
+that layout landscape for our fragment.
+
+13
+00:00:39,416 --> 00:00:42,310
+And then, if we're on that end,
+we're on Honeycomb or
+
+14
+00:00:42,310 --> 00:00:46,960
+greater because what we're going
+to use this setTranslationY,
+
+15
+00:00:46,960 --> 00:00:49,860
+is only available on builds
+greater than Honeycomb.
+
+16
+00:00:51,000 --> 00:00:54,560
+And we really have two options here,
+we could actually use
+
+17
+00:00:54,560 --> 00:00:59,020
+these very very cool classes
+that do view compatibility.
+
+18
+00:01:00,270 --> 00:01:02,808
+So I could have actually
+done this in here and said.
+
+19
+00:01:02,808 --> 00:01:07,927
+You know, ViewCompat.setTranslationY,
+
+20
+00:01:07,927 --> 00:01:13,070
+and then put parallaxView
+inside of this.
+
+21
+00:01:13,070 --> 00:01:15,750
+But, since I don't want
+this code to run at all and
+
+22
+00:01:15,750 --> 00:01:18,700
+waste any time for
+running anything less than Honeycomb,
+
+23
+00:01:18,700 --> 00:01:22,630
+I'm just going check to see whether
+this build version is greater than or
+
+24
+00:01:22,630 --> 00:01:26,900
+equal, and then if it is then
+we add the onScrollListener.
+
+25
+00:01:26,900 --> 00:01:28,200
+So pretty straight forward.
+
+26
+00:01:28,200 --> 00:01:30,730
+And then what we do, is we get
+onScrolled here and this actually one of
+
+27
+00:01:30,730 --> 00:01:34,960
+the beautiful advantages of RecyclerView
+for us, is that it actually gives us dx
+
+28
+00:01:34,960 --> 00:01:40,480
+and dy, for our scrolling which is much
+much better than what ListView does.
+
+29
+00:01:40,480 --> 00:01:44,540
+ListView just tells us which list
+item we're scrolled on and then
+
+30
+00:01:44,540 --> 00:01:48,800
+makes it rather challenging to actually
+calculate the dx and dy correctly.
+
+31
+00:01:48,800 --> 00:01:50,990
+And so what we're going to
+do is set a max here.
+
+32
+00:01:50,990 --> 00:01:52,770
+And we're calculating this every time.
+
+33
+00:01:52,770 --> 00:01:54,180
+This isn't really necessary.
+
+34
+00:01:54,180 --> 00:01:55,110
+A little bit expensive.
+
+35
+00:01:55,110 --> 00:01:56,800
+But, not too bad.
+
+36
+00:01:56,800 --> 00:01:59,240
+And that's going to be the max
+we're going to scroll.
+
+37
+00:01:59,240 --> 00:02:04,030
+Max is here, so we just scroll it just
+off the screen when we're scrolling up.
+
+38
+00:02:04,030 --> 00:02:07,880
+And this actually causes a little bit,
+because we set
+
+39
+00:02:07,880 --> 00:02:12,450
+the max to the exact type, you'll notice
+this causes a slight bit of artifacting.
+
+40
+00:02:12,450 --> 00:02:14,980
+Because you'll actually
+see the shadow is
+
+41
+00:02:14,980 --> 00:02:18,200
+actually going to be still slightly
+visible on screen when we scroll up.
+
+42
+00:02:18,200 --> 00:02:21,780
+So setting it exactly to match,
+probably not the best idea, but
+
+43
+00:02:21,780 --> 00:02:23,360
+it works pretty well.
+
+44
+00:02:23,360 --> 00:02:25,780
+And then we're going to take advantage
+of this function that again was added in
+
+45
+00:02:25,780 --> 00:02:27,510
+Honeycomb called setTranslationY.
+
+46
+00:02:27,510 --> 00:02:31,190
+Now you'll notice that these deltas
+
+47
+00:02:31,190 --> 00:02:33,640
+are actually going to be
+in positive quantities, but
+
+48
+00:02:33,640 --> 00:02:37,470
+we're actually going to be setting our
+translation in negative quantities.
+
+49
+00:02:37,470 --> 00:02:41,110
+So positive means we're scrolling up,
+negative means we're scrolling down,
+
+50
+00:02:41,110 --> 00:02:46,540
+in terms of the onScrolledListener,
+but in the case of our translation,
+
+51
+00:02:46,540 --> 00:02:49,740
+we're actually going to be translating
+it the opposite direction.
+
+52
+00:02:49,740 --> 00:02:53,820
+Not that that's particularly confusing,
+but you'll see what we actually do here.
+
+53
+00:02:53,820 --> 00:02:57,860
+And just to make it a little easier I'm
+going to add some very nice spacing.
+
+54
+00:02:57,860 --> 00:03:03,232
+So we're going to setTranslationY to
+do that, and in that case, and again,
+
+55
+00:03:03,232 --> 00:03:08,435
+if we're greater than zero,
+it means we're actually scrolling it up,
+
+56
+00:03:08,435 --> 00:03:13,680
+and so what we're going to want to
+do is scroll the reverse of that.
+
+57
+00:03:13,680 --> 00:03:18,330
+So we're going to take the existing
+translation, subtract dy, then in order
+
+58
+00:03:18,330 --> 00:03:23,450
+to get it to scroll half the speed of
+the outer view, we're going to say
+
+59
+00:03:23,450 --> 00:03:26,710
+that divided by 2, and because of order
+of operations, this is actually going to
+
+60
+00:03:26,710 --> 00:03:31,258
+turn into parallaxView.getTranslationY
+minus half of dy.
+
+61
+00:03:31,258 --> 00:03:35,050
+And then when we're going in the other
+direction when dy is less than zero.
+
+62
+00:03:36,160 --> 00:03:37,980
+We do the same thing, we subtract dy.
+
+63
+00:03:37,980 --> 00:03:40,530
+Except that we're only going
+to scroll until we hit zero.
+
+64
+00:03:40,530 --> 00:03:44,210
+And here we're going to scroll
+until we hit negative max.
+
+65
+00:03:44,210 --> 00:03:45,470
+Pretty straight forward.
+
+66
+00:03:45,470 --> 00:03:46,150
+And that's it.
+
+67
+00:03:46,150 --> 00:03:49,073
+That's all the code we need to do
+this whole parallax scrolling, so
+
+68
+00:03:49,073 --> 00:03:50,260
+it's actually really really simple.
+
+69
+00:03:50,260 --> 00:03:54,940
+It looks really pretty, and this is one
+of the nice things about RecyclerView,
+
+70
+00:03:54,940 --> 00:03:57,090
+again, is that it gives us the ability
+to do this kind of thing really,
+
+71
+00:03:57,090 --> 00:03:57,830
+really easily.
+
+72
+00:03:57,830 --> 00:04:01,000
+And on destroy, I do go and
+clear all on scroll listeners.
+
+73
+00:04:01,000 --> 00:04:04,850
+And it's important to do this in general
+when we have any listener going on.
+
+74
+00:04:04,850 --> 00:04:07,030
+It can prevent the garbage collector
+from being able to clean up our whole
+
+75
+00:04:07,030 --> 00:04:09,640
+activity if we don't do this on destroy.
+
+76
+00:04:09,640 --> 00:04:11,710
+So it's kind of important to do this.
+
+77
+00:04:11,710 --> 00:04:15,790
+I don't know if it was really needed
+here, but put it there anyways.
+
+78
+00:04:15,790 --> 00:04:17,019
+And that's it.
+That's all we have to do and
+
+79
+00:04:17,019 --> 00:04:20,610
+we have beautiful parallax scrolling and
+let's bring that up in the emulator to
+
+80
+00:04:20,610 --> 00:04:23,330
+take a quick look at what that
+should look like for you.
+
+81
+00:04:24,760 --> 00:04:25,430
+There we are.
+
+82
+00:04:25,430 --> 00:04:28,400
+This is the cool version of sunshine,
+as you can see.
+
+83
+00:04:28,400 --> 00:04:32,980
+We now have exciting parallax
+scrolling which is really cool.
+
+84
+00:04:32,980 --> 00:04:40,658
+And, you also notice we have the margin
+here at the top, nicely done now.
+
+85
+00:04:40,658 --> 00:04:45,450
+That's because RecyclerView actually
+will respect those margins that we put
+
+86
+00:04:45,450 --> 00:04:47,020
+into an element.
+
+87
+00:04:47,020 --> 00:04:50,210
+So that's also kind of a nice
+little advantage we get there.
+
+88
+00:04:50,210 --> 00:04:51,030
+And that's it.
+
+89
+00:04:51,030 --> 00:04:53,130
+That is parallax scrolling.
+
+90
+00:04:53,130 --> 00:04:54,310
+You can see it works very nicely.
+
+91
+00:04:54,310 --> 00:04:57,900
+We scroll off, we scroll on and
+it actually scrolls at half the speed.
+
+92
+00:04:57,900 --> 00:04:59,670
+Follows it quite nicely.
+
+93
+00:04:59,670 --> 00:05:03,330
+So, pretty easy to do that kind of
+effect, and it's nice that we have these
+
+94
+00:05:03,330 --> 00:05:07,040
+toolbars where we're actually scrolling
+the toolbar on and off as well.
+
+95
+00:05:07,040 --> 00:05:07,650
+I'll be doing this.
+
+96
+00:05:07,650 --> 00:05:10,550
+And actually if you notice,
+because translationY actually translates
+
+97
+00:05:10,550 --> 00:05:13,990
+everything correctly, we're actually
+maintaining the correct position there.
+
+98
+00:05:13,990 --> 00:05:16,850
+So then we scroll that off,
+we really can't click there anymore.
+
+99
+00:05:16,850 --> 00:05:19,700
+It really is truly scrolled off,
+which is pretty nice.

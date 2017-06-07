@@ -1,0 +1,131 @@
+1
+00:00:00,960 --> 00:00:03,210
+Okay, so let's look at the solution.
+
+2
+00:00:03,210 --> 00:00:07,001
+First of all, you can see that I
+created a ToastAdListener class here.
+
+3
+00:00:08,020 --> 00:00:09,622
+And if we open up this file,
+
+4
+00:00:09,622 --> 00:00:14,460
+you see the ToastAdListener
+extends the base class AdListener.
+
+5
+00:00:14,460 --> 00:00:18,346
+Then you can see we have a
+ToastAdListener that takes a Context as
+
+6
+00:00:18,346 --> 00:00:22,870
+an argument because this Context object
+would be required later on when we send
+
+7
+00:00:22,870 --> 00:00:24,030
+the Toasts.
+
+8
+00:00:24,030 --> 00:00:27,850
+Then we have our implementation
+of the AdListener methods.
+
+9
+00:00:27,850 --> 00:00:31,953
+onAdLoaded, sending a Toast
+with the message onAdLoaded.
+
+10
+00:00:31,953 --> 00:00:36,825
+onAdOpen, sending a Toast
+with the message onAdOpened.
+
+11
+00:00:36,825 --> 00:00:42,225
+onAdClosed which sends a Toast
+with the message onAdClosed.
+
+12
+00:00:42,225 --> 00:00:46,600
+onAdLeftApplication, also sending
+a Toast with this message.
+
+13
+00:00:46,600 --> 00:00:51,720
+And then the onAdFailedToLoad,
+that takes an errorCode as the argument.
+
+14
+00:00:51,720 --> 00:00:54,400
+And we're performing
+a switch on this errorCode
+
+15
+00:00:54,400 --> 00:00:57,320
+to see what the error actually was.
+
+16
+00:00:57,320 --> 00:01:01,000
+And for each of the error cases, you can
+see that we assigned a human readable
+
+17
+00:01:01,000 --> 00:01:04,370
+string to the field mErrorReason.
+
+18
+00:01:04,370 --> 00:01:08,020
+And, at the end of the switch, you can
+see that we're also sending a toast
+
+19
+00:01:08,020 --> 00:01:14,030
+message with the onAdFailedToLoad
+plus the reason in parenthesis.
+
+20
+00:01:14,030 --> 00:01:15,310
+And finally, for this class,
+
+21
+00:01:15,310 --> 00:01:19,420
+we create the getErrorReason method
+that returns the error reason.
+
+22
+00:01:19,420 --> 00:01:23,060
+Now, let's see how we can add
+this adListener to our view.
+
+23
+00:01:23,060 --> 00:01:25,360
+So, we go to BannerActivity.
+
+24
+00:01:25,360 --> 00:01:30,840
+And you can see here that before we
+build a request and we load the ad,
+
+25
+00:01:30,840 --> 00:01:35,590
+we're doing setAdListener on our
+View object with an instance of our
+
+26
+00:01:35,590 --> 00:01:40,420
+newly created class ToastAdListener,
+passing the context as an argument.
+
+27
+00:01:41,500 --> 00:01:43,820
+And that's how easy it is
+to get these callbacks.
+
+28
+00:01:43,820 --> 00:01:44,700
+Let's check out the demo.

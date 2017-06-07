@@ -1,0 +1,115 @@
+1
+00:00:00,370 --> 00:00:01,609
+Before we move forward,
+
+2
+00:00:01,609 --> 00:00:05,290
+we need to consider how I/O operations affect scheduling.
+
+3
+00:00:06,300 --> 00:00:11,280
+So far, we know the operating system manages how processes access resources on
+
+4
+00:00:11,280 --> 00:00:12,910
+the hardware platform.
+
+5
+00:00:12,910 --> 00:00:17,150
+And this in addition to the CPU and memory will include I/O devices,
+
+6
+00:00:17,150 --> 00:00:20,527
+peripherals like keyboards, network cards, disks, et cetera.
+
+7
+00:00:21,700 --> 00:00:26,200
+So in this diagram, imagine a process had made an I/O request.
+
+8
+00:00:26,200 --> 00:00:28,830
+The operating system delivered that request.
+
+9
+00:00:28,830 --> 00:00:31,920
+For instance, it was a read request to disk.
+
+10
+00:00:31,920 --> 00:00:36,588
+And then plays the process on the I/O queue that's associated with that
+
+11
+00:00:36,588 --> 00:00:39,130
+particular disk device.
+
+12
+00:00:39,130 --> 00:00:42,700
+So the process is now waiting in the I/O queue.
+
+13
+00:00:42,700 --> 00:00:45,810
+The process will remain waiting in the queue until the device
+
+14
+00:00:45,810 --> 00:00:47,395
+completes the operations, so
+
+15
+00:00:47,395 --> 00:00:52,400
+the I/O event is complete, and responds to that particular request.
+
+16
+00:00:52,400 --> 00:00:57,010
+So once the I/O request is met, the process is ready to run again, and depending
+
+17
+00:00:57,010 --> 00:01:01,180
+on the current load in the system, it may be placed in the ready queue.
+
+18
+00:01:01,180 --> 00:01:04,239
+Or it may be actually scheduled on
+
+19
+00:01:04,239 --> 00:01:09,080
+the CPU if there's nothing else waiting in the ready queue before it.
+
+20
+00:01:09,080 --> 00:01:10,130
+So to summarize,
+
+21
+00:01:10,130 --> 00:01:14,190
+a process can make its way into the ready queue in a number of ways.
+
+22
+00:01:14,190 --> 00:01:18,820
+A process which was waiting on an I/O event ultimately found its way
+
+23
+00:01:18,820 --> 00:01:20,480
+into the ready queue.
+
+24
+00:01:20,480 --> 00:01:22,890
+A process which was running on the CPU, but
+
+25
+00:01:22,890 --> 00:01:27,260
+its time slice expired goes back on the ready queue.
+
+26
+00:01:27,260 --> 00:01:30,200
+When a new process is created via the fork call,
+
+27
+00:01:30,200 --> 00:01:33,560
+it ultimately ends its way on the ready queue.
+
+28
+00:01:33,560 --> 00:01:35,600
+Or a process which is waiting for an interrupt,
+
+29
+00:01:35,600 --> 00:01:39,250
+once the interrupt occurs, it will also be placed on the ready queue.

@@ -1,0 +1,550 @@
+1
+00:00:00,130 --> 00:00:02,640
+So you want to help us
+through what this could be?
+
+2
+00:00:02,640 --> 00:00:05,120
+>> Yeah so I think I know the answer
+because I think I know how to get the
+
+3
+00:00:05,120 --> 00:00:09,400
+answer because I think it's like other
+times we've done this sort of trick.
+
+4
+00:00:09,400 --> 00:00:12,470
+And the key part is noticing
+that we are adding and
+
+5
+00:00:12,470 --> 00:00:14,480
+then subtracting off
+the things that we just added.
+
+6
+00:00:14,480 --> 00:00:18,130
+And then adding the thing we just got
+and then subtracting that off and so
+
+7
+00:00:18,130 --> 00:00:21,180
+every time we go through
+a state action reward,
+
+8
+00:00:21,180 --> 00:00:24,970
+state action reward, we're going to
+end up adding a potential and
+
+9
+00:00:24,970 --> 00:00:28,160
+then subtracting the same
+potential on the next step.
+
+10
+00:00:28,160 --> 00:00:29,790
+>> So
+here's a useful way to visualize that.
+
+11
+00:00:29,790 --> 00:00:33,460
+So we're going to go through some
+sequence of states, S, S prime,
+
+12
+00:00:33,460 --> 00:00:39,168
+S double prime, S triple prime,S
+quadruple prime, and so on.
+
+13
+00:00:39,168 --> 00:00:44,850
+And in this Q version of the Q function,
+
+14
+00:00:44,850 --> 00:00:47,980
+we're getting the sum of the rewards for
+those states.
+
+15
+00:00:47,980 --> 00:00:51,300
+So we have like a reward
+that happens here, and
+
+16
+00:00:51,300 --> 00:00:53,160
+a reward that happens here and
+a reward that happens here, but
+
+17
+00:00:53,160 --> 00:00:57,830
+these are going to be discounted and
+summed up to get our Q.
+
+18
+00:00:57,830 --> 00:01:01,430
+And now we're wondering well what
+happens if we replace this R with this
+
+19
+00:01:01,430 --> 00:01:02,093
+new R prime.
+
+20
+00:01:02,093 --> 00:01:06,798
+It still has R in it but now it's
+going to have this take away psi,
+
+21
+00:01:06,798 --> 00:01:09,390
+give me some gamma psi prime.
+
+22
+00:01:09,390 --> 00:01:11,170
+>> Give me some psi, give me some psi.
+
+23
+00:01:11,170 --> 00:01:11,950
+Yeah exactly.
+
+24
+00:01:13,040 --> 00:01:14,260
+High, low, on the side.
+
+25
+00:01:14,260 --> 00:01:15,430
+All right.
+
+26
+00:01:15,430 --> 00:01:18,730
+So, this first reward in addition to the
+R part we're also going to get the minus
+
+27
+00:01:18,730 --> 00:01:23,350
+side and the plus gamma side, so
+let's just add that in here for
+
+28
+00:01:23,350 --> 00:01:26,250
+the transition from S to S prime, but
+we'll also have to add it in there for
+
+29
+00:01:26,250 --> 00:01:29,970
+the transition from S
+prime to S double prime.
+
+30
+00:01:29,970 --> 00:01:33,330
+So, the second reward Is gamma
+times whatever that reward is,
+
+31
+00:01:33,330 --> 00:01:37,610
+which is what it used to be,
+minus the psi S prime plus the gamma psi
+
+32
+00:01:37,610 --> 00:01:40,280
+S double prime, and so on for
+each of these rewards,
+
+33
+00:01:40,280 --> 00:01:45,360
+is going to get replaced by what it was
+plus the discounted psi minus the psi.
+
+34
+00:01:45,360 --> 00:01:47,470
+>> Right.
+So if we look at that, so good, so
+
+35
+00:01:47,470 --> 00:01:50,950
+writing that down
+confirmed my thought so.
+
+36
+00:01:52,760 --> 00:01:56,970
+First thing you notice is that things
+start cancelling each other out.
+
+37
+00:01:56,970 --> 00:01:58,000
+>> Right.
+
+38
+00:01:58,000 --> 00:02:01,310
+So in particular this
+gamma psi S prime and
+
+39
+00:02:01,310 --> 00:02:06,810
+this gamma times negative
+psi S prime disappear.
+
+40
+00:02:06,810 --> 00:02:08,710
+>> Right and
+then that's going to happen again.
+
+41
+00:02:08,710 --> 00:02:10,030
+>> It's going to happen
+again on the double prime.
+
+42
+00:02:10,030 --> 00:02:11,324
+Right.
+[SOUND] [SOUND] And
+
+43
+00:02:11,324 --> 00:02:15,910
+the triple prime [SOUND] [SOUND],
+and the quadruple prime, [SOUND].
+
+44
+00:02:15,910 --> 00:02:18,991
+And so forth, and then all we're
+going to be left with are the R's
+
+45
+00:02:18,991 --> 00:02:21,850
+themselves, which we are writing as Q.
+
+46
+00:02:21,850 --> 00:02:25,720
+And this weird little extra-
+psi(s) in the very beginning.
+
+47
+00:02:25,720 --> 00:02:30,255
+>> Right, so
+then I think that we can write
+
+48
+00:02:30,255 --> 00:02:34,960
+Q'(s,a) = Q(s,a)-Psi(s).
+
+49
+00:02:34,960 --> 00:02:35,460
+>> Nice.
+
+50
+00:02:36,840 --> 00:02:40,190
+>> And there's only one little
+bit of bookkeeping we have to
+
+51
+00:02:40,190 --> 00:02:41,400
+argue our way out of.
+
+52
+00:02:41,400 --> 00:02:46,740
+And that's the fact that we are getting
+rid of everything in the middle
+
+53
+00:02:46,740 --> 00:02:48,560
+except the things at the beginning and
+
+54
+00:02:48,560 --> 00:02:51,400
+the things at the very end,
+the thing at the very, very end.
+
+55
+00:02:51,400 --> 00:02:54,390
+>> Right, so there's some
+kind of gamma to the infinity
+
+56
+00:02:57,330 --> 00:03:00,090
+psi of S infinity kind
+of thing at the end.
+
+57
+00:03:00,090 --> 00:03:00,660
+>> Right.
+
+58
+00:03:00,660 --> 00:03:03,070
+But, if gamma's less than one,
+
+59
+00:03:03,070 --> 00:03:05,470
+then something less than one
+to the infinity is just 0.
+
+60
+00:03:05,470 --> 00:03:09,810
+>> Right, as long as our psi guess
+is bounded, which we didn't say,
+
+61
+00:03:09,810 --> 00:03:10,820
+but it's true.
+
+62
+00:03:10,820 --> 00:03:14,080
+>> It better be bounded, so then it's 0,
+so we can ignore it [SOUND].
+
+63
+00:03:14,080 --> 00:03:14,919
+And that's cool,
+
+64
+00:03:14,919 --> 00:03:18,870
+because that's what always happens
+whenever you have a telescoping sum.
+
+65
+00:03:18,870 --> 00:03:19,700
+>> Yes.
+
+66
+00:03:19,700 --> 00:03:22,330
+Even though this was
+an infinite telescoping sum.
+
+67
+00:03:22,330 --> 00:03:23,380
+Very cool.
+
+68
+00:03:23,380 --> 00:03:27,450
+Does this make some intuitive
+sense at the end of the day?
+
+69
+00:03:27,450 --> 00:03:31,850
+Are New Q function is just like our
+old Q function except it shifted
+
+70
+00:03:31,850 --> 00:03:33,560
+downward by psi s.
+
+71
+00:03:33,560 --> 00:03:35,650
+Like this downward kind of
+bothers me a little bit.
+
+72
+00:03:35,650 --> 00:03:37,290
+>> Well, it's bothering me too, but
+
+73
+00:03:37,290 --> 00:03:39,620
+actually I think it
+doesn't bother me now.
+
+74
+00:03:39,620 --> 00:03:44,550
+So what your saying is the true value of
+being in a state and taking an action is
+
+75
+00:03:44,550 --> 00:03:50,360
+actually whatever the value is minus
+the potential you're going to lose.
+
+76
+00:03:50,360 --> 00:03:52,840
+Because you need to account for
+everything.
+
+77
+00:03:52,840 --> 00:03:56,640
+You need to account for not just the
+reward you get for being in a state and
+
+78
+00:03:56,640 --> 00:03:59,150
+all the discounted reward you're
+going to get thereafter, but for
+
+79
+00:03:59,150 --> 00:04:01,160
+any potential that you're
+going to lose along the way.
+
+80
+00:04:01,160 --> 00:04:04,760
+So psi is that potential that you're
+going to lose by leaving this state.
+
+81
+00:04:04,760 --> 00:04:07,720
+So Q basically captures what you're
+getting for being in a state and
+
+82
+00:04:07,720 --> 00:04:09,560
+then what you're going to
+get from that point on.
+
+83
+00:04:09,560 --> 00:04:12,540
+Right?
+Assuming you behave in a particular way.
+
+84
+00:04:12,540 --> 00:04:14,000
+Well what's going to
+happen from this point on?
+
+85
+00:04:14,000 --> 00:04:16,959
+Well you're going to get the reward
+that you got in the state, like before.
+
+86
+00:04:16,959 --> 00:04:20,940
+But then you're going to lose
+whatever magic psi we gave you for
+
+87
+00:04:20,940 --> 00:04:22,260
+entering into the state.
+
+88
+00:04:22,260 --> 00:04:25,380
+So we have to account for not just
+the present, but also the future.
+
+89
+00:04:26,410 --> 00:04:26,920
+>> Right.
+
+90
+00:04:26,920 --> 00:04:31,390
+>> So the future requires getting rid of
+the potential, so I think that's fine.
+
+91
+00:04:31,390 --> 00:04:34,950
+It kind of makes sense to me,
+I kind of wish it weren't that way but
+
+92
+00:04:34,950 --> 00:04:37,970
+it does makes sense if
+the reward is actually,
+
+93
+00:04:37,970 --> 00:04:40,510
+you're going to get a little
+bit of extra bump in bonus.
+
+94
+00:04:41,930 --> 00:04:47,542
+Another way of thinking about
+it is you got R' (s,a,s')
+
+95
+00:04:47,542 --> 00:04:51,960
+= R(s,s)- psi(s) + gamma psi(S').
+
+96
+00:04:51,960 --> 00:04:55,990
+Well if you were to write
+down what R'(s,a) was,
+
+97
+00:04:55,990 --> 00:05:01,480
+it would just be R(s,a)- psi(S) if
+you were to ignore the S prime part.
+
+98
+00:05:01,480 --> 00:05:04,560
+because the S prime part only
+matters with the discounted future.
+
+99
+00:05:04,560 --> 00:05:07,880
+So then Q prime is just
+the rewards that you would get,
+
+100
+00:05:07,880 --> 00:05:09,540
+minus the potential that
+you're about to lose.
+
+101
+00:05:09,540 --> 00:05:10,968
+So I think it works out just fine.
+
+102
+00:05:10,968 --> 00:05:12,760
+It makes
+>> I guess so.
+
+103
+00:05:12,760 --> 00:05:16,565
+I guess I just wondered,
+why wouldn't it be plus?
+
+104
+00:05:16,565 --> 00:05:21,060
+[LAUGH] Why wouldn't it be
+the case that the Q value for
+
+105
+00:05:21,060 --> 00:05:22,660
+being in a state is what it used to be?
+
+106
+00:05:22,660 --> 00:05:26,100
+But we got this extra bonus for
+having gotten to s in the first place.
+
+107
+00:05:26,100 --> 00:05:27,690
+>> Because we're
+going to lose the bonus.
+
+108
+00:05:27,690 --> 00:05:30,260
+We're going to lose the bonus,
+and so we have to pre-lose it?
+
+109
+00:05:30,260 --> 00:05:31,530
+>> Well I don't think you're
+really pre-losing it.
+
+110
+00:05:31,530 --> 00:05:34,180
+I mean what's really kind of
+happening I think is that you've
+
+111
+00:05:34,180 --> 00:05:36,430
+kind of got a new R of s of a.
+
+112
+00:05:36,430 --> 00:05:37,920
+And that R is including the psi, and so
+
+113
+00:05:37,920 --> 00:05:40,820
+you've gotta subtract it off to
+get back the original R you had.
+
+114
+00:05:40,820 --> 00:05:42,220
+>> All right, so let's just,
+
+115
+00:05:42,220 --> 00:05:45,280
+just to be certain that we're
+comfortable with this, maybe we should
+
+116
+00:05:45,280 --> 00:05:48,160
+do the algebra to make sure that
+this all really does balance out.

@@ -1,0 +1,332 @@
+﻿1
+00:00:00,610 --> 00:00:03,259
+Now that we've explored how
+to display points on the map,
+
+2
+00:00:03,259 --> 00:00:05,629
+we can give the user more
+information about those points.
+
+3
+00:00:06,820 --> 00:00:10,550
+Info windows are pop-up displays
+which are shown at a given location,
+
+4
+00:00:10,550 --> 00:00:12,560
+either with or without a marker.
+
+5
+00:00:12,560 --> 00:00:16,228
+They're great for giving contexts,
+such as text describing a location,
+
+6
+00:00:16,228 --> 00:00:18,849
+or showing images related to it.
+
+7
+00:00:18,849 --> 00:00:22,429
+Creating an info window works
+very similarly to the marker
+
+8
+00:00:22,429 --> 00:00:25,949
+in that we'll use an object and
+several basic parameters.
+
+9
+00:00:25,949 --> 00:00:29,910
+Creating a new info window instance only
+requires that we put some content into
+
+10
+00:00:29,910 --> 00:00:34,730
+the info window, a string or
+a pre-defined set of elements.
+
+11
+00:00:34,729 --> 00:00:39,079
+The info window though, unlike
+the marker, won't open automatically.
+
+12
+00:00:39,079 --> 00:00:42,339
+We need to add one more thing to
+tell it when and where to open.
+
+13
+00:00:43,399 --> 00:00:44,740
+We're adding an event listener so
+
+14
+00:00:44,740 --> 00:00:47,800
+that the info window only opens
+when we click on the market.
+
+15
+00:00:48,840 --> 00:00:52,950
+Within the event listener,
+we'll call the info window.open method.
+
+16
+00:00:52,950 --> 00:00:55,240
+Passing in the map on which to open, and
+
+17
+00:00:55,240 --> 00:00:57,590
+optionally, the marker
+on which to anchor it.
+
+18
+00:00:58,679 --> 00:01:01,740
+If we didn't pass in a marker,
+we would need to give the info window
+
+19
+00:01:01,740 --> 00:01:05,120
+a position property so
+that it has a place to open.
+
+20
+00:01:05,120 --> 00:01:08,587
+So if we click on the marker,
+we can see our lonely info window.
+
+21
+00:01:09,670 --> 00:01:12,108
+But we want to show a whole
+bunch of locations.
+
+22
+00:01:12,108 --> 00:01:15,207
+We don't want to show
+the user just one house.
+
+23
+00:01:15,207 --> 00:01:18,959
+I'm going to delete our single
+point marker and info window.
+
+24
+00:01:18,959 --> 00:01:22,719
+So here we've created an array of
+objects with some listing titles, and
+
+25
+00:01:22,719 --> 00:01:25,599
+a bunch of lat longs in
+the initialize function, so
+
+26
+00:01:25,599 --> 00:01:28,899
+that we have all of the information
+we need in the browser.
+
+27
+00:01:28,900 --> 00:01:31,609
+In your own projects,
+we'd recommend using a database, and
+
+28
+00:01:31,609 --> 00:01:33,780
+serving the information to your site.
+
+29
+00:01:33,780 --> 00:01:36,710
+There are a bunch of features of
+the API that allow you to easily render
+
+30
+00:01:36,709 --> 00:01:39,119
+large amounts of data onto your map.
+
+31
+00:01:39,120 --> 00:01:42,150
+You can read more about them in
+the link, in the instructor notes.
+
+32
+00:01:42,150 --> 00:01:43,800
+For now,
+since we only have a few points,
+
+33
+00:01:43,799 --> 00:01:45,980
+we're just going to keep
+the data in the browser.
+
+34
+00:01:45,980 --> 00:01:47,760
+Now instead of creating one marker,
+
+35
+00:01:47,760 --> 00:01:50,609
+we'll make a whole bunch of
+them out of this information.
+
+36
+00:01:50,609 --> 00:01:54,290
+We'll add a blank marker array globally,
+since we'll have only one of these for
+
+37
+00:01:54,290 --> 00:01:55,201
+the listings in our site.
+
+38
+00:01:56,319 --> 00:02:01,106
+Then we'll loop through the locations
+we created in order to create one
+
+39
+00:02:01,106 --> 00:02:02,632
+marker per location.
+
+40
+00:02:02,632 --> 00:02:07,591
+We'll keep each newly created marker
+instance in the markers array to keep
+
+41
+00:02:07,591 --> 00:02:08,900
+them organized.
+
+42
+00:02:08,900 --> 00:02:12,210
+Now, we want an info window to appear
+when any one of the markers is clicked,
+
+43
+00:02:12,210 --> 00:02:15,240
+and we want the content
+to reflect that marker.
+
+44
+00:02:15,240 --> 00:02:17,740
+So we'll add an on click
+event to each marker.
+
+45
+00:02:18,810 --> 00:02:20,110
+We'll make a separate function,
+
+46
+00:02:20,110 --> 00:02:23,640
+passing in the marker that was clicked,
+which is, this.
+
+47
+00:02:23,639 --> 00:02:26,909
+And the info window that we
+created on initialize here.
+
+48
+00:02:26,909 --> 00:02:29,460
+This function is essentially
+going to tell the info window to
+
+49
+00:02:29,460 --> 00:02:34,140
+open at that marker, and populate with
+information specific to that marker.
+
+50
+00:02:34,139 --> 00:02:36,500
+We'll create this function below.
+
+51
+00:02:36,500 --> 00:02:39,090
+Each time one of our
+listing markers is clicked,
+
+52
+00:02:39,090 --> 00:02:42,370
+this populate info window
+function is going to be called.
+
+53
+00:02:42,370 --> 00:02:46,730
+Essentially, all this is doing is
+setting the content of the info window
+
+54
+00:02:46,729 --> 00:02:50,959
+to the marker's title, and
+opening the info window on that marker.
+
+55
+00:02:52,419 --> 00:02:56,469
+Finally, we may have listings that
+are outside the initial zoom area and
+
+56
+00:02:56,469 --> 00:03:00,073
+we want to be able to adjust the
+boundaries of the map to fit everything
+
+57
+00:03:00,073 --> 00:03:01,245
+that we want the user to see.
+
+58
+00:03:02,469 --> 00:03:05,669
+So we'll create a new
+lat long bounds instance
+
+59
+00:03:05,669 --> 00:03:09,149
+which captures the southwest and
+northeast corners of the view port.
+
+60
+00:03:11,009 --> 00:03:13,639
+Then we'll extend it for
+every marker that we make.
+
+61
+00:03:14,729 --> 00:03:17,780
+And finally, we'll tell the map
+to fit itself to those bounds.
+
+62
+00:03:19,120 --> 00:03:22,430
+Voila, we have a very
+basic listings app.
+
+63
+00:03:22,430 --> 00:03:23,710
+If I click each marker,
+
+64
+00:03:23,710 --> 00:03:26,310
+a brief description of the listing
+shows above that marker.
+
+65
+00:03:27,370 --> 00:03:30,849
+Once you can do that, there's
+a crazy number of things you can do.
+
+66
+00:03:30,849 --> 00:03:34,699
+Change your markers to be custom icons,
+put images, links,
+
+67
+00:03:34,699 --> 00:03:37,069
+and other information into
+the info windows, and more.
+
+68
+00:03:38,069 --> 00:03:41,500
+If I wanted to, I could change all of my
+markers to be pictures of Ajays head.
+
+69
+00:03:42,979 --> 00:03:46,109
+But on a serious note, let's make one
+more improvement before we move on
+
+

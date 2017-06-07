@@ -1,0 +1,371 @@
+1
+00:00:00,870 --> 00:00:03,840
+So we know that the Phrases
+activity screen broke
+
+2
+00:00:03,840 --> 00:00:06,150
+with the most recent code changes.
+
+3
+00:00:06,150 --> 00:00:08,150
+So let's go back and
+review what we just did.
+
+4
+00:00:09,336 --> 00:00:11,250
+In the WordAdapter class,
+
+5
+00:00:11,250 --> 00:00:14,550
+we added this block of code to display
+the correct image in a list item.
+
+6
+00:00:17,130 --> 00:00:21,410
+So it's probably acting weird when we
+called the setImageResource because
+
+7
+00:00:21,410 --> 00:00:22,660
+phrases don't have an image.
+
+8
+00:00:23,830 --> 00:00:26,200
+So here's the answer
+to the first question.
+
+9
+00:00:26,200 --> 00:00:29,392
+The problem with the Phrases activity
+is that the screen is blank.
+
+10
+00:00:29,392 --> 00:00:33,320
+The WordAdapter assumes that
+the word has an image, but
+
+11
+00:00:33,320 --> 00:00:35,470
+phrases don't have images.
+
+12
+00:00:35,470 --> 00:00:37,000
+So, moving on to the second question.
+
+13
+00:00:37,000 --> 00:00:40,150
+There are several possible
+solutions on how we could describe
+
+14
+00:00:40,150 --> 00:00:43,400
+the way we should modify or
+code to fix the problem.
+
+15
+00:00:43,400 --> 00:00:47,350
+We could have written a specific adapter
+called PhraseAdapter that would know
+
+16
+00:00:47,350 --> 00:00:52,670
+exactly how to create list item views
+that contain just two text views and
+
+17
+00:00:52,670 --> 00:00:54,110
+no ImageView.
+
+18
+00:00:54,110 --> 00:00:58,640
+So the PhraseAdapter would have been
+just used in the PhrasesActivity.
+
+19
+00:00:58,640 --> 00:01:03,070
+Whereas the WordAdapter could have been
+used in the other three activities.
+
+20
+00:01:03,070 --> 00:01:07,920
+However, this solution involves a lot
+of duplicate logic in both adapters.
+
+21
+00:01:07,920 --> 00:01:11,390
+We would have the same logic to handle
+displaying both the English and
+
+22
+00:01:11,390 --> 00:01:13,070
+Miwok translations.
+
+23
+00:01:13,070 --> 00:01:17,230
+So, why don't we just stick with
+the single WordAdapter class.
+
+24
+00:01:17,230 --> 00:01:20,460
+So we can modify the WordAdapter
+class just slightly so
+
+25
+00:01:20,460 --> 00:01:25,590
+they can create list items both
+without an image and with an image.
+
+26
+00:01:25,590 --> 00:01:30,010
+And then we can use the single
+adapter in all other activities.
+
+27
+00:01:30,010 --> 00:01:32,870
+So you'll notice that the
+PhrasesActivity has the same layout for
+
+28
+00:01:32,870 --> 00:01:35,580
+list items as the other
+three activities,
+
+29
+00:01:35,580 --> 00:01:37,980
+except that there's no ImageView.
+
+30
+00:01:37,980 --> 00:01:41,240
+So the text just shifts
+slightly over to the left.
+
+31
+00:01:41,240 --> 00:01:44,690
+I also gave you a hint in the quiz
+that said that you can hide or
+
+32
+00:01:44,690 --> 00:01:48,100
+show a view in Android
+while the app is running.
+
+33
+00:01:48,100 --> 00:01:51,180
+So knowing that, does that mean that we
+can show an ImageView in a list item in
+
+34
+00:01:51,180 --> 00:01:55,270
+some cases, and
+hide the ImageView in other cases?
+
+35
+00:01:55,270 --> 00:01:56,220
+Here I am in Android for
+
+36
+00:01:56,220 --> 00:02:00,000
+All documentation looking
+at the if/else statements.
+
+37
+00:02:00,000 --> 00:02:02,940
+Now, if you remember from lesson
+three in the last course,
+
+38
+00:02:02,940 --> 00:02:05,570
+we learned that our code can
+behave in different ways
+
+39
+00:02:05,570 --> 00:02:08,130
+using something called
+control flow statements.
+
+40
+00:02:08,130 --> 00:02:10,919
+This means that we can go
+down different paths of code,
+
+41
+00:02:10,919 --> 00:02:15,180
+depicted here as the train tracks,
+based on certain test conditions, so
+
+42
+00:02:15,180 --> 00:02:17,300
+depicted here as the switches.
+
+43
+00:02:17,300 --> 00:02:21,100
+Now for the number, family and
+color words, we can go down one path.
+
+44
+00:02:22,470 --> 00:02:26,010
+But for the phrases,
+we can go down another path.
+
+45
+00:02:26,010 --> 00:02:28,750
+More specifically, how does that
+translate to our code or for
+
+46
+00:02:28,750 --> 00:02:31,020
+the number family and color words?
+
+47
+00:02:31,020 --> 00:02:33,650
+We want to execute this block
+of code that's used for
+
+48
+00:02:33,650 --> 00:02:35,930
+setting the correct
+image on an ImageView.
+
+49
+00:02:35,930 --> 00:02:39,190
+But for phrases, we want to go ahead and
+just skip this logic and
+
+50
+00:02:39,190 --> 00:02:42,600
+instead hide the ImageView so
+it doesn't show anything at all.
+
+51
+00:02:42,600 --> 00:02:45,520
+So let's write that answer into
+the second question on our quiz.
+
+52
+00:02:45,520 --> 00:02:49,430
+So asked to describe how to modify
+our code to fix this problem.
+
+53
+00:02:49,430 --> 00:02:54,160
+We can modify the WordAdapter so that we
+only assign an image to the ImageView
+
+54
+00:02:54,160 --> 00:02:56,840
+for number, color, and family words.
+
+55
+00:02:56,840 --> 00:03:00,150
+But for
+phrases we can just hide the ImageView.
+
+56
+00:03:00,150 --> 00:03:03,720
+Well, I don't know about you but I'm
+not too happy with this answer just yet
+
+57
+00:03:04,860 --> 00:03:07,560
+it's still really hard
+to translate into code.
+
+58
+00:03:07,560 --> 00:03:11,210
+We need to think more about how we can
+determine which category a word is in.
+
+59
+00:03:12,410 --> 00:03:13,090
+Now, if we go ahead and
+
+60
+00:03:13,090 --> 00:03:16,480
+take a look at the word class, one way
+to go about this is that we could add
+
+61
+00:03:16,480 --> 00:03:19,770
+a new variable that keeps track
+of the category for each word.
+
+62
+00:03:19,770 --> 00:03:22,109
+But ultimately,
+we just need to know whether or
+
+63
+00:03:22,109 --> 00:03:23,868
+not we should hide this ImageView.
+
+64
+00:03:23,868 --> 00:03:27,004
+Now, remember in the word class
+we already have a field for
+
+65
+00:03:27,004 --> 00:03:28,285
+the image resource ID.
+
+66
+00:03:28,285 --> 00:03:30,435
+And when I say field,
+that's just another word for
+
+67
+00:03:30,435 --> 00:03:32,470
+global variable of a class.
+
+68
+00:03:32,470 --> 00:03:35,420
+So in order to determine whether we
+should hide or show the ImageView in
+
+69
+00:03:35,420 --> 00:03:39,985
+a list item, we can check whether or not
+the constructor has set this ImageView.
+
+70
+00:03:41,530 --> 00:03:45,090
+So I'm going to go back and
+update my answer to this quiz question.
+
+71
+00:03:45,090 --> 00:03:47,960
+So instead,
+we can modify the WordAdapter so
+
+72
+00:03:47,960 --> 00:03:50,160
+we use and if/else statement.
+
+73
+00:03:50,160 --> 00:03:54,190
+If there is an image associated with
+the word object, show the ImageView.
+
+74
+00:03:54,190 --> 00:03:56,510
+Otherwise, hide the ImageView.
+
+75
+00:03:56,510 --> 00:03:58,120
+And there we go.
+That's a lot more helpful
+
+76
+00:03:58,120 --> 00:04:01,020
+when we need to write
+the code to make this change.
+
+77
+00:04:01,020 --> 00:04:03,622
+So the previous answer
+was just too vague.
+
+78
+00:04:03,622 --> 00:04:06,170
+All right, so knowing this,
+let's move on to the next step now.

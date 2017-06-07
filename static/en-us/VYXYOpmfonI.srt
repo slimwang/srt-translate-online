@@ -1,0 +1,370 @@
+1
+00:00:00,000 --> 00:00:03,881
+Let's now illustrate the policies that
+are used in Sprite by walking through
+
+2
+00:00:03,881 --> 00:00:06,340
+what happens in different
+types of file axises.
+
+3
+00:00:06,340 --> 00:00:10,290
+In the process, we will also look at
+what are the different pieces of stale
+
+4
+00:00:10,290 --> 00:00:13,861
+that the Sprite distributed file
+system would have to maintain and
+
+5
+00:00:13,861 --> 00:00:16,982
+the server, and at the client's
+side in order to be able to
+
+6
+00:00:16,982 --> 00:00:19,620
+maintain the required
+file sharing semantics.
+
+7
+00:00:19,620 --> 00:00:24,400
+Let's say, initially we have n clients
+that are a, accessing the files for
+
+8
+00:00:24,400 --> 00:00:26,427
+reading and one writer client.
+
+9
+00:00:26,427 --> 00:00:29,801
+All open operations will
+go through the server and
+
+10
+00:00:29,801 --> 00:00:32,299
+the server will allow all accesses.
+
+11
+00:00:32,299 --> 00:00:34,306
+All of the clients, readers and
+
+12
+00:00:34,306 --> 00:00:38,839
+writers will be allowed to cache blocks
+of this file and the writer client
+
+13
+00:00:38,839 --> 00:00:43,370
+will have to keep track of when was
+each block of the file modified in order
+
+14
+00:00:43,370 --> 00:00:47,902
+to be able to enforce the write back
+policy in Sprite every 30 seconds,
+
+15
+00:00:47,902 --> 00:00:51,886
+the blogs that have not been
+modified in the past 30 seconds.
+
+16
+00:00:51,886 --> 00:00:54,856
+So we'll have to keep
+track of some timestamps.
+
+17
+00:00:54,856 --> 00:00:57,664
+The Sprite writer can
+keep closing the file and
+
+18
+00:00:57,664 --> 00:01:00,694
+then deciding to reopen it
+to modify it some more.
+
+19
+00:01:00,694 --> 00:01:05,093
+When it decides to do this, the contents
+of the file are cached locally in
+
+20
+00:01:05,093 --> 00:01:09,003
+the writer's cache, but
+the open still has to go to the server.
+
+21
+00:01:09,003 --> 00:01:13,109
+At this point, the writer will need to
+check quickly with the server whether
+
+22
+00:01:13,109 --> 00:01:15,943
+its cached value is the same
+as what the server sees.
+
+23
+00:01:15,943 --> 00:01:20,047
+And because of that, they'll need to
+keep some sort of version number.
+
+24
+00:01:20,047 --> 00:01:21,861
+To support these operations,
+
+25
+00:01:21,861 --> 00:01:25,986
+the client would need to keep track
+of some information for each file.
+
+26
+00:01:25,986 --> 00:01:30,606
+This includes some status whether or
+not the file is in the cache or not,
+
+27
+00:01:30,606 --> 00:01:33,928
+then what are all the cached
+blocks from that file.
+
+28
+00:01:33,928 --> 00:01:37,398
+For all of the dirty blocks,
+when were they modified last?
+
+29
+00:01:37,398 --> 00:01:42,169
+So that we can run the write back
+mechanism and then also version number.
+
+30
+00:01:42,169 --> 00:01:45,555
+The server will also keep track of
+some information for each file,
+
+31
+00:01:45,555 --> 00:01:47,374
+like what are the current readers?
+
+32
+00:01:47,374 --> 00:01:49,310
+What is the current writer of the file?
+
+33
+00:01:49,310 --> 00:01:51,980
+And also what is the current
+version of this file?
+
+34
+00:01:51,980 --> 00:01:56,361
+Now let's say,
+at some point after the writer W1
+
+35
+00:01:56,361 --> 00:02:00,855
+has closed the file,
+another writer W2 shows up.
+
+36
+00:02:00,855 --> 00:02:03,791
+And this is what you refer
+to as a sequential writer.
+
+37
+00:02:03,791 --> 00:02:06,760
+They're not trying to write
+the file at the same time.
+
+38
+00:02:06,760 --> 00:02:08,767
+When a situation like this happens,
+
+39
+00:02:08,767 --> 00:02:11,365
+this is what we refer to
+as sequential sharing.
+
+40
+00:02:11,365 --> 00:02:14,638
+What needs to happen in that
+case is the server needs to
+
+41
+00:02:14,638 --> 00:02:17,338
+contact the last writer
+that it is aware of.
+
+42
+00:02:17,338 --> 00:02:22,051
+In this case, that's going to be W1 and
+to gather all of the dirty blocks and
+
+43
+00:02:22,051 --> 00:02:26,046
+it's very convenient that W1
+keeps track of the dirty blocks.
+
+44
+00:02:26,046 --> 00:02:29,049
+If W1 has closed the file,
+the server will update.
+
+45
+00:02:29,049 --> 00:02:31,218
+The new version will
+update the new writer.
+
+46
+00:02:31,218 --> 00:02:34,963
+The W2 is the current writer
+of the file and at that point,
+
+47
+00:02:34,963 --> 00:02:38,259
+W2 can proceed and
+it can actually cache the file.
+
+48
+00:02:38,259 --> 00:02:41,353
+And now while W2 is still
+modifying the file,
+
+49
+00:02:41,353 --> 00:02:45,966
+it still has the file open and
+is accessing it and it's writing to it.
+
+50
+00:02:45,966 --> 00:02:50,920
+We have that unfortunate situation that
+rare situation where W3 appears and
+
+51
+00:02:50,920 --> 00:02:54,743
+it wants to concurrently at
+the same time write to the file.
+
+52
+00:02:54,743 --> 00:02:58,045
+So this is what Sprite refers
+to as concurrent sharing.
+
+53
+00:02:58,045 --> 00:03:03,117
+There are two writers, W3 and W2 trying
+to write to the file at the same time.
+
+54
+00:03:03,117 --> 00:03:07,896
+When the write request comes, the server
+will just like before, contact the last
+
+55
+00:03:07,896 --> 00:03:11,926
+writer to gather the dirty blocks and
+that's going to W2 in this case.
+
+56
+00:03:11,926 --> 00:03:14,136
+Now, once the server contacts W2,
+
+57
+00:03:14,136 --> 00:03:17,998
+it will also realize that W2
+hasn't actually closed the file.
+
+58
+00:03:17,998 --> 00:03:22,810
+What will happen in that case is that
+W2 will write back all of the dirty
+
+59
+00:03:22,810 --> 00:03:27,460
+blocks and then the server will mark
+this file as it is not cachable,
+
+60
+00:03:27,460 --> 00:03:31,312
+it will disable the caching
+of this file for everybody.
+
+61
+00:03:31,312 --> 00:03:35,523
+Both W3 and W2 will continue
+to have access to the file,
+
+62
+00:03:35,523 --> 00:03:40,350
+except they will not be able to
+use their client's side caches and
+
+63
+00:03:40,350 --> 00:03:44,325
+all of the file accesses will
+have to go to the server.
+
+64
+00:03:44,325 --> 00:03:47,631
+For this reason,
+it makes sense on the server side to
+
+65
+00:03:47,631 --> 00:03:52,533
+maintain some information for each file
+whether or not the file is cachable.
+
+66
+00:03:52,533 --> 00:03:56,360
+When one of the two writers,
+W2 or W3, closed the file,
+
+67
+00:03:56,360 --> 00:03:59,408
+the server will now see
+that close operation,
+
+68
+00:03:59,408 --> 00:04:03,811
+because every single operation in
+this case will go to the server.
+
+69
+00:04:03,811 --> 00:04:05,980
+The file is not cached, otherwise.
+
+70
+00:04:05,980 --> 00:04:11,271
+When the server sees that one of the
+clients closes the file, at that point,
+
+71
+00:04:11,271 --> 00:04:16,490
+it will change this cacheable flag to
+point to yes, the file is cacheable.
+
+72
+00:04:16,490 --> 00:04:19,773
+And so the remaining clients
+can start caching the file and
+
+73
+00:04:19,773 --> 00:04:22,796
+can enjoy the performance
+optimization of caching.
+
+74
+00:04:22,796 --> 00:04:27,128
+So, one unique feature of Sprite
+is that it dynamically enables and
+
+75
+00:04:27,128 --> 00:04:31,764
+disables caching depending on whether or
+not there is a sequential write
+
+76
+00:04:31,764 --> 00:04:36,560
+sharing versus concurrent write sharing
+among the clients in the system.

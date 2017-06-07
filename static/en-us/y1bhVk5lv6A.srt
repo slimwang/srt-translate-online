@@ -1,0 +1,255 @@
+﻿1
+00:00:00,740 --> 00:00:02,274
+When I'm searching for
+a new place to live,
+
+2
+00:00:02,274 --> 00:00:04,698
+I want to make sure it's within
+a reasonable distance from my office.
+
+3
+00:00:04,698 --> 00:00:08,028
+Obviously, I don't want to travel
+50 miles every day to work.
+
+4
+00:00:08,028 --> 00:00:11,731
+Especially in the Big Apple, a few miles
+can quickly turn in to a few hours.
+
+5
+00:00:11,731 --> 00:00:14,858
+Maybe it's also important to me
+that I can get to work via public
+
+6
+00:00:14,859 --> 00:00:15,804
+transportation.
+
+7
+00:00:15,804 --> 00:00:20,132
+Within our site, we want to give users
+the option to enter their work location,
+
+8
+00:00:20,132 --> 00:00:23,347
+daycare, mom's house, or
+other important places, and
+
+9
+00:00:23,347 --> 00:00:27,496
+only show real estate listings within
+a certain distance of those places.
+
+10
+00:00:27,496 --> 00:00:29,004
+How can we do this?
+
+11
+00:00:29,004 --> 00:00:32,743
+We'll use a magical service
+called the Distance Matrix API.
+
+12
+00:00:32,743 --> 00:00:36,960
+Google's Distance Matrix Service
+computes travel distance and journey
+
+13
+00:00:36,960 --> 00:00:41,666
+duration, between multiple origins and
+destinations, given a mode of travel.
+
+14
+00:00:41,665 --> 00:00:46,458
+Once again, we'll use an HTTP
+request to talk about the input and
+
+15
+00:00:46,459 --> 00:00:49,170
+output for the Distance Matrix API.
+
+16
+00:00:49,170 --> 00:00:52,823
+The request has the same format
+as the geocoding request.
+
+17
+00:00:52,823 --> 00:00:59,820
+We'll specify the service and the output
+format, which can be either JSON or XML.
+
+18
+00:00:59,820 --> 00:01:02,668
+Then, we'll define the input parameters.
+
+19
+00:01:02,668 --> 00:01:08,185
+For the distance matrix API, the only
+required parameters are the key,
+
+20
+00:01:08,186 --> 00:01:11,723
+and at least one origin and
+destination pair.
+
+21
+00:01:11,722 --> 00:01:16,716
+Here, I'm calculating the distance and
+duration of travel between New York,
+
+22
+00:01:16,716 --> 00:01:19,412
+New York and San Francisco, California.
+
+23
+00:01:19,412 --> 00:01:21,274
+Let's take a look at the output.
+
+24
+00:01:21,274 --> 00:01:25,272
+Again, we see the status and
+then we see the distance and
+
+25
+00:01:25,272 --> 00:01:27,153
+duration of the journey.
+
+26
+00:01:27,153 --> 00:01:30,276
+We can see here that we
+only have one element.
+
+27
+00:01:30,275 --> 00:01:34,168
+An element is an origin and
+destination pair.
+
+28
+00:01:34,168 --> 00:01:39,212
+Since we only have one origin and one
+destination, we only have one element.
+
+29
+00:01:39,212 --> 00:01:43,591
+If we specify, let's say,
+two origins and two destinations,
+
+30
+00:01:43,590 --> 00:01:46,590
+we'd have four elements
+with a distance and
+
+31
+00:01:46,590 --> 00:01:50,256
+duration between each origin and
+each destination.
+
+32
+00:01:50,257 --> 00:01:55,757
+Since we didn't specify any travel mode
+in this request, it defaults to driving.
+
+33
+00:01:55,757 --> 00:02:00,624
+It's telling me that it's
+a 4,676 km drive which will
+
+34
+00:02:00,623 --> 00:02:03,165
+take me one day and 18 hours.
+
+35
+00:02:03,165 --> 00:02:07,456
+Note that the distance value
+defaults to meters and
+
+36
+00:02:07,456 --> 00:02:10,960
+the duration value defaults to seconds.
+
+37
+00:02:10,961 --> 00:02:13,559
+Let's add in some optional parameters.
+
+38
+00:02:13,558 --> 00:02:16,543
+I'm adding in a mode here.
+
+39
+00:02:16,543 --> 00:02:20,753
+We can use driving walking,
+bicycling, or transit.
+
+40
+00:02:20,752 --> 00:02:22,836
+Let's see how long will
+take me to bike there.
+
+41
+00:02:22,836 --> 00:02:26,161
+Also, I probably want to avoid
+biking on a freeway, so,
+
+42
+00:02:26,161 --> 00:02:30,068
+I will include the avoid parameter and
+tell it to avoid highways.
+
+43
+00:02:30,068 --> 00:02:34,006
+Specifying bicycling should you do
+that though, as it favors bike pass or
+
+44
+00:02:34,007 --> 00:02:35,161
+preferred streets.
+
+45
+00:02:35,161 --> 00:02:35,777
+All right,
+
+46
+00:02:35,777 --> 00:02:39,615
+it would take me over 11 days to bike
+from New York City to San Francisco.
+
+47
+00:02:39,616 --> 00:02:42,719
+Actually, it would probably take me
+several weeks and I might not make it.
+
+48
+00:02:42,718 --> 00:02:46,608
+We're Googlers and we love biking and
+all that, but that's a long way for
+
+49
+00:02:46,608 --> 00:02:47,686
+me to go to visit RJ.
+
+50
+00:02:47,686 --> 00:02:50,367
+Probably more realistic would be for
+me to take transit.
+
+51
+00:02:50,366 --> 00:02:56,752
+For transit, I can even specify transit
+mode such as rail, bus, subway etc.
+
+52
+00:02:56,752 --> 00:02:59,550
+Let's avoid long bus rides and
+specify rail.
+
+53
+00:02:59,550 --> 00:03:02,661
+Okay so three days, that's not that bad.
+
+54
+00:03:02,662 --> 00:03:04,455
+I think I'll stick to flying though.
+
+

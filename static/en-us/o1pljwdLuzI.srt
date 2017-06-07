@@ -1,0 +1,413 @@
+﻿1
+00:00:00,520 --> 00:00:03,770
+We'll focus on the Drawing library so
+we can fulfill Audrey's business need.
+
+2
+00:00:05,349 --> 00:00:08,259
+We'll load the drawing library
+in the libraries parameter.
+
+3
+00:00:09,400 --> 00:00:10,592
+After loading the library,
+
+4
+00:00:10,592 --> 00:00:12,980
+we'll need to tell the map that
+we plan to draw all over it.
+
+5
+00:00:14,140 --> 00:00:17,480
+So we'll create a new object
+called the drawingManager
+
+6
+00:00:17,480 --> 00:00:18,609
+in our initialize function.
+
+7
+00:00:19,809 --> 00:00:22,609
+This allows us to specify
+multiple drawing modes and
+
+8
+00:00:22,609 --> 00:00:24,699
+the position of the controls on the map.
+
+9
+00:00:25,870 --> 00:00:28,410
+I'm copying this right from our
+developer site linked in the notes.
+
+10
+00:00:30,010 --> 00:00:34,340
+At first, we aren't going to set the map
+on the drawingManager, so essentially
+
+11
+00:00:34,340 --> 00:00:37,680
+we're initializing it, but we aren't
+going to have it appear right away.
+
+12
+00:00:37,679 --> 00:00:40,340
+We're telling it that our
+default drawing mode and
+
+13
+00:00:40,340 --> 00:00:42,731
+our only drawing mode
+is going to be polygon.
+
+14
+00:00:43,990 --> 00:00:47,480
+Other drawing modes are rectangle,
+circle, polyline, and marker.
+
+15
+00:00:48,670 --> 00:00:50,527
+These require slightly different
+handling than a polygon.
+
+16
+00:00:50,527 --> 00:00:54,060
+But polygons are the hardest, so if you
+can do this one, you can do anything.
+
+17
+00:00:55,200 --> 00:00:57,790
+Next, we'll create a button
+to allow the user to
+
+18
+00:00:57,789 --> 00:00:59,509
+toggle the drawing tools on and off.
+
+19
+00:01:01,079 --> 00:01:05,209
+We'll call it toggle-drawing and
+we'll prompt the user to use it.
+
+20
+00:01:05,209 --> 00:01:06,510
+We'll also add in some more CSS.
+
+21
+00:01:08,230 --> 00:01:12,040
+Next we'll add in an event listener so
+that when this button is clicked,
+
+22
+00:01:12,040 --> 00:01:14,780
+the drawing tools are either hidden or
+shown.
+
+23
+00:01:14,780 --> 00:01:17,239
+We'll create a toggleDrawing
+function for that and
+
+24
+00:01:17,239 --> 00:01:21,079
+pass in the drawingManager that we
+created in the initialize function.
+
+25
+00:01:21,079 --> 00:01:24,325
+With this function, we're essentially
+saying that when the user clicks on
+
+26
+00:01:24,325 --> 00:01:28,840
+toggle-drawing, check the map
+property on the drawingManager.
+
+27
+00:01:28,840 --> 00:01:31,710
+If it's map, set it to null or
+hide the drawingManager.
+
+28
+00:01:32,769 --> 00:01:35,094
+Or set it to map or
+show the drawingManager.
+
+29
+00:01:37,109 --> 00:01:40,310
+Okay cool, now we can create
+geometric overlays on our map.
+
+30
+00:01:41,590 --> 00:01:43,180
+So this still begs the question,
+
+31
+00:01:43,180 --> 00:01:47,040
+how do I actually use this to
+search within it for listings?
+
+32
+00:01:47,040 --> 00:01:47,579
+Back to the code.
+
+33
+00:01:48,640 --> 00:01:52,409
+The next order of business is to add an
+event listener so that when a polygon is
+
+34
+00:01:52,409 --> 00:01:56,359
+drawn on the map, we capture those
+points into a polygon and use them.
+
+35
+00:01:57,819 --> 00:02:00,329
+I'm going to create
+a global polygon variable
+
+36
+00:02:00,329 --> 00:02:03,870
+which is changed every time
+a user draws a new polygon.
+
+37
+00:02:03,870 --> 00:02:06,290
+Next, we'll add the event listener.
+
+38
+00:02:06,290 --> 00:02:09,330
+The goal of this event listener is
+that when the polygon is complete,
+
+39
+00:02:09,330 --> 00:02:13,360
+we're going to iterate through our
+markers array, show all of the markers
+
+40
+00:02:13,360 --> 00:02:17,510
+that are within the shape and hide all
+of the markers that are outside of it.
+
+41
+00:02:17,509 --> 00:02:21,019
+The first thing we're going to do is
+check on our polygon variable to see if
+
+42
+00:02:21,020 --> 00:02:22,770
+it already has a value.
+
+43
+00:02:22,770 --> 00:02:24,580
+If it does,
+we're going to hide it off the map.
+
+44
+00:02:25,639 --> 00:02:28,649
+By doing this, we're limiting
+the user to one polygon at a time.
+
+45
+00:02:29,650 --> 00:02:33,689
+We could certainly allow multiple,
+to let them select different zones.
+
+46
+00:02:33,689 --> 00:02:37,039
+For a better user experience, we're
+going to assume that the user's done
+
+47
+00:02:37,039 --> 00:02:41,349
+drawing when the polygon is completed
+and switch the pointer back to normal,
+
+48
+00:02:41,349 --> 00:02:44,229
+so that they can click on
+the markers after they see them.
+
+49
+00:02:44,229 --> 00:02:47,019
+Then we'll capture the overlay
+which was drawn and
+
+50
+00:02:47,020 --> 00:02:49,600
+assign it to our polygon variable.
+
+51
+00:02:49,599 --> 00:02:52,960
+We want the polygon to be editable,
+so we'll set this to true.
+
+52
+00:02:52,960 --> 00:02:55,040
+We could make it draggable as well.
+
+53
+00:02:55,039 --> 00:02:58,039
+And finally, we'll call our
+searchWithinPolygon function,
+
+54
+00:02:58,039 --> 00:02:59,759
+which we'll create below.
+
+55
+00:02:59,759 --> 00:03:02,349
+We also want to make sure
+that the search is redone if
+
+56
+00:03:02,349 --> 00:03:04,000
+the polygon is edited.
+
+57
+00:03:04,000 --> 00:03:07,467
+So we'll add more event listeners
+on the polygon itself, checking for
+
+58
+00:03:07,467 --> 00:03:09,448
+changes and re-executing the search.
+
+59
+00:03:09,448 --> 00:03:13,670
+Let's create our
+searchWithinPolygon function.
+
+60
+00:03:13,669 --> 00:03:16,973
+This function uses the polygon
+that was drawn by the user and
+
+61
+00:03:16,973 --> 00:03:21,161
+the marker's position and
+uses more geometry library
+
+62
+00:03:21,161 --> 00:03:26,215
+functionality to check to see if
+the polygon contains the marker.
+
+63
+00:03:26,215 --> 00:03:31,175
+If it does, we'll set the map property
+to map on each marker, which shows it.
+
+64
+00:03:31,175 --> 00:03:34,275
+And if it doesn't,
+we'll set it to null, which hides it.
+
+65
+00:03:34,275 --> 00:03:37,245
+This is going to result in only
+the markers that are within the polygon
+
+66
+00:03:37,245 --> 00:03:39,064
+showing on the map.
+
+67
+00:03:39,064 --> 00:03:41,905
+Finally we'll add a little bit more
+into our toggleDrawing function.
+
+68
+00:03:43,069 --> 00:03:46,319
+When the user is done drawing and
+turns off the drawing tools,
+
+69
+00:03:46,319 --> 00:03:48,799
+we'll assume that they don't want to
+see their polygon anymore, so
+
+70
+00:03:48,800 --> 00:03:51,780
+we'll remove the overlay, but
+we'll keep the markers that appeared.
+
+71
+00:03:53,340 --> 00:03:54,640
+So let's test this out.
+
+72
+00:03:54,639 --> 00:03:59,819
+I'm going to turn on the drawing tools
+and draw a quick polygon, there we go.
+
+73
+00:03:59,819 --> 00:04:01,659
+If the user wants to limit
+the search to one or
+
+74
+00:04:01,659 --> 00:04:04,250
+two city blocks,
+we'll see the listings there.
+
+75
+00:04:04,250 --> 00:04:08,264
+If they then decide to redraw the shape,
+the search will be re-executed.
+
+76
+00:04:10,300 --> 00:04:13,600
+If I then turn off the drawing tools,
+the shape will disappear, but
+
+77
+00:04:13,599 --> 00:04:14,620
+my markers will remain.
+
+78
+00:04:15,677 --> 00:04:20,660
+Never fear Ajay, you can do it however
+you want with the Google Maps APIs.
+
+79
+00:04:20,660 --> 00:04:22,150
+>> Thanks for that Emily.
+
+80
+00:04:22,149 --> 00:04:23,279
+I would feel better, but
+
+81
+00:04:23,279 --> 00:04:27,500
+I just realized that we keep using lat
+longs, and none of our students would
+
+82
+00:04:27,500 --> 00:04:30,560
+know the coordinates of
+the places they want to use.
+
+83
+00:04:30,560 --> 00:04:31,196
+Also, I'm hungry.
+
+84
+00:04:31,196 --> 00:04:32,900
+>> You're right.
+
+85
+00:04:32,899 --> 00:04:35,225
+We better teach them about
+geocoding after the next quiz.
+
+86
+00:04:35,225 --> 00:04:37,024
+And here.
+
+87
+00:04:37,024 --> 00:04:39,071
+>> Thank you.
+
+

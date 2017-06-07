@@ -1,0 +1,412 @@
+1
+00:00:00,080 --> 00:00:01,690
+>> We've got a simple
+write example up and
+
+2
+00:00:01,690 --> 00:00:04,820
+running where we know that we're
+creating one shopping list.
+
+3
+00:00:04,820 --> 00:00:08,630
+And that shopping list is stored as
+JSON data in the Firebase database.
+
+4
+00:00:08,630 --> 00:00:10,250
+But that's only half of the story.
+
+5
+00:00:10,250 --> 00:00:12,740
+Let's see how we can get data
+from the Firebase database and
+
+6
+00:00:12,740 --> 00:00:14,170
+display it in our app.
+
+7
+00:00:14,170 --> 00:00:15,840
+In the standard database model,
+
+8
+00:00:15,840 --> 00:00:19,330
+you might think of your data storage
+as a resource to get data from.
+
+9
+00:00:19,330 --> 00:00:22,930
+If I wanted to display, say, the name
+of a shopping list, I'd probably start
+
+10
+00:00:22,930 --> 00:00:26,330
+a different thread in the app that's
+requesting the shopping list.
+
+11
+00:00:26,330 --> 00:00:27,552
+Something like an asynch task.
+
+12
+00:00:27,552 --> 00:00:31,110
+And I'd use this separate thread
+to connect to the data storage and
+
+13
+00:00:31,110 --> 00:00:33,430
+ask it for
+the data that I'm interested in.
+
+14
+00:00:33,430 --> 00:00:36,670
+Then, that thread would wait a bit and
+the server would respond.
+
+15
+00:00:36,670 --> 00:00:40,010
+Finally, the app would then take the
+response that it got from the database
+
+16
+00:00:40,010 --> 00:00:41,480
+and update the UI.
+
+17
+00:00:41,480 --> 00:00:43,280
+Now, if I expect this value to change,
+
+18
+00:00:43,280 --> 00:00:47,230
+I might regularly ping the data storage
+to see if the value has changed.
+
+19
+00:00:47,230 --> 00:00:48,340
+And then, I'd wait.
+
+20
+00:00:48,340 --> 00:00:51,490
+And each time I'd wait a little bit and
+the server would respond back to me.
+
+21
+00:00:51,490 --> 00:00:52,760
+And to make things a little bit simpler,
+
+22
+00:00:52,760 --> 00:00:55,120
+I could do this with something
+like a sync adapter.
+
+23
+00:00:55,120 --> 00:00:58,740
+Now, this model of making a request,
+waiting, and then receiving data and
+
+24
+00:00:58,740 --> 00:01:02,670
+putting into the UI is known
+as the request response model.
+
+25
+00:01:02,670 --> 00:01:05,694
+The issue with this model is that,
+because you're constantly pinging
+
+26
+00:01:05,694 --> 00:01:09,130
+the server, it can create a lot of
+unnecessary network traffic and
+
+27
+00:01:09,130 --> 00:01:10,380
+be a bit annoying to manage.
+
+28
+00:01:11,380 --> 00:01:13,330
+Firebase takes a much
+different approach.
+
+29
+00:01:13,330 --> 00:01:15,560
+Instead of constantly refreshing data,
+
+30
+00:01:15,560 --> 00:01:19,470
+you tell the server once let me know
+if anything about this data changes.
+
+31
+00:01:19,470 --> 00:01:22,370
+Then, let's say,
+something about the data does change.
+
+32
+00:01:22,370 --> 00:01:25,620
+Once Firebase gets the change it'll
+send it out to all of the apps that
+
+33
+00:01:25,620 --> 00:01:27,210
+are connected to it.
+
+34
+00:01:27,210 --> 00:01:30,500
+And then, it's up to your app to
+take this data and update the UI.
+
+35
+00:01:30,500 --> 00:01:33,410
+So, the Firebase steps are,
+you set up a listener once and
+
+36
+00:01:33,410 --> 00:01:37,050
+then whenever the data changes you
+receive the data and put it into the UI.
+
+37
+00:01:37,050 --> 00:01:38,950
+So, in Firebase data ping you.
+
+38
+00:01:40,170 --> 00:01:42,790
+So, what does this
+look like in practice?
+
+39
+00:01:42,790 --> 00:01:45,140
+Here I have drawing of
+a table in Firebase.
+
+40
+00:01:45,140 --> 00:01:46,142
+This is the root node.
+
+41
+00:01:46,142 --> 00:01:48,410
+It has children a and b.
+
+42
+00:01:48,410 --> 00:01:51,010
+And it has a children c,
+which has some value.
+
+43
+00:01:51,010 --> 00:01:53,470
+B has a children d and e.
+
+44
+00:01:53,470 --> 00:01:54,420
+E has some value.
+
+45
+00:01:54,420 --> 00:01:57,550
+And d has one child f
+which has some value.
+
+46
+00:01:57,550 --> 00:02:00,120
+Reading a Firebase database
+is all about listeners.
+
+47
+00:02:00,120 --> 00:02:00,800
+Okay.
+So, this is
+
+48
+00:02:00,800 --> 00:02:02,790
+my best attempt to represent a listener.
+
+49
+00:02:02,790 --> 00:02:04,920
+It is a drawing of an ear.
+
+50
+00:02:04,920 --> 00:02:08,000
+And the listener will be attached to
+a specific node in your database.
+
+51
+00:02:08,000 --> 00:02:10,699
+And it will also be connected
+back to the app itself.
+
+52
+00:02:10,699 --> 00:02:13,540
+And that's this first step
+where we attach a listener.
+
+53
+00:02:13,540 --> 00:02:17,730
+When the data changes, this listener
+will trigger part of your Android code.
+
+54
+00:02:17,730 --> 00:02:21,930
+It's a lot like how, if you press
+a button, a on-click listener is called.
+
+55
+00:02:21,930 --> 00:02:25,190
+It's just the button press is
+changing a piece of data somewhere.
+
+56
+00:02:25,190 --> 00:02:29,260
+When your Android code is triggered,
+it's actually also passed an argument
+
+57
+00:02:29,260 --> 00:02:32,240
+which is the updated data
+which was in Firebase.
+
+58
+00:02:32,240 --> 00:02:35,300
+You can then use this updated
+data to change the UI.
+
+59
+00:02:35,300 --> 00:02:38,274
+In this way, you've got a connection
+with some sort of data in Firebase
+
+60
+00:02:38,274 --> 00:02:41,620
+that'll immediately update
+the UI whenever it changes.
+
+61
+00:02:41,620 --> 00:02:44,430
+I should mention that the listener
+doesn't need to attach with the location
+
+62
+00:02:44,430 --> 00:02:46,050
+with a single piece of data.
+
+63
+00:02:46,050 --> 00:02:47,310
+It can actually be attached
+
+64
+00:02:47,310 --> 00:02:49,680
+to a location with multiple children,
+like B here.
+
+65
+00:02:49,680 --> 00:02:52,410
+The location can even have grandchild.
+
+66
+00:02:52,410 --> 00:02:53,260
+And so on.
+
+67
+00:02:53,260 --> 00:02:57,370
+Then, if any part of this tree changes,
+the listener here will be triggered.
+
+68
+00:02:57,370 --> 00:03:00,890
+So, if this value here changed to nine,
+the listener here would trigger.
+
+69
+00:03:00,890 --> 00:03:02,590
+And it wouldn't just
+send b back to the app.
+
+70
+00:03:02,590 --> 00:03:05,930
+It would sent b and
+all of it's children, including d and
+
+71
+00:03:05,930 --> 00:03:08,040
+f, even though f and d did not change.
+
+72
+00:03:08,040 --> 00:03:11,740
+What's neat is that the Firebase SDK
+deals with all of the threading and
+
+73
+00:03:11,740 --> 00:03:13,050
+all of the asynchronicity.
+
+74
+00:03:13,050 --> 00:03:15,300
+So, you'll notice that I
+didn't make an async task.
+
+75
+00:03:15,300 --> 00:03:16,830
+I don't have sync adaptors.
+
+76
+00:03:16,830 --> 00:03:20,140
+Basically, the only things that I need
+to worry about are choosing which data
+
+77
+00:03:20,140 --> 00:03:22,950
+to listen to, and
+then providing a method that can
+
+78
+00:03:22,950 --> 00:03:25,320
+handle the data that comes
+back from the listener.
+
+79
+00:03:25,320 --> 00:03:28,580
+Which will usually change something
+that the user sees or experiences.
+
+80
+00:03:28,580 --> 00:03:31,080
+Okay.
+So, here I am in my apps dashboard.
+
+81
+00:03:31,080 --> 00:03:32,680
+My data tree is right here.
+
+82
+00:03:32,680 --> 00:03:37,170
+It has a root node, and then one child,
+listName, with one piece of data.
+
+83
+00:03:37,170 --> 00:03:39,700
+In this case,
+I want to know when listName changes.
+
+84
+00:03:39,700 --> 00:03:44,210
+So, what URL location do you think that
+we should be listening to for changes?
+
+85
+00:03:44,210 --> 00:03:47,830
+And when that location changes,
+what should we do with the data?
+
+86
+00:03:47,830 --> 00:03:49,630
+Here's a box to enter the URL.
+
+87
+00:03:49,630 --> 00:03:51,570
+And here you can describe,
+in your own words,
+
+88
+00:03:51,570 --> 00:03:53,460
+what you want to do when
+the listener is triggered.

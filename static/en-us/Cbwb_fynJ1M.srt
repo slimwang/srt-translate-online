@@ -1,0 +1,367 @@
+1
+00:00:00,090 --> 00:00:02,630
+To address the free
+space fragmentation and
+
+2
+00:00:02,630 --> 00:00:05,830
+aggregation issues we mentioned
+in the previous morsel,
+
+3
+00:00:05,830 --> 00:00:10,020
+the Linux kernel relies on two
+basic allocation mechanisms.
+
+4
+00:00:10,020 --> 00:00:12,250
+The first one is called
+the buddy allocator and
+
+5
+00:00:12,250 --> 00:00:14,980
+the second one is called
+the slab allocator.
+
+6
+00:00:14,980 --> 00:00:19,940
+The buddy allocator starts with some
+consecutive memory region that's free
+
+7
+00:00:19,940 --> 00:00:22,460
+that's of a size that's a power of two.
+
+8
+00:00:22,460 --> 00:00:27,470
+Whenever a request comes in, the
+allocator will subdivide this large area
+
+9
+00:00:27,470 --> 00:00:32,740
+into smaller chunks such that every
+one of them is also a power of two.
+
+10
+00:00:32,740 --> 00:00:37,370
+And it will continue subdividing until
+it finds the smallest chunk that's of
+
+11
+00:00:37,370 --> 00:00:40,874
+a size that's a power of two
+that can satisfy the request.
+
+12
+00:00:40,874 --> 00:00:46,486
+For instance, in this figure, when the
+first request of eight pages came in,
+
+13
+00:00:46,486 --> 00:00:50,653
+the buddy allocator subdivided
+the region that was 64,
+
+14
+00:00:50,653 --> 00:00:54,753
+the original area,
+first into two chunks of 32 pages.
+
+15
+00:00:54,753 --> 00:00:57,572
+Then it subdivided one
+of these 32 page chunks
+
+16
+00:00:57,572 --> 00:01:00,045
+into chunks that were 16 pages in each.
+
+17
+00:01:01,046 --> 00:01:07,200
+Then it subdivided this 16 page chunk
+into chunks that were eight pages each.
+
+18
+00:01:07,200 --> 00:01:11,425
+And it turned out that this eight page
+chunk satisfied the request that was for
+
+19
+00:01:11,425 --> 00:01:12,290
+eight pages.
+
+20
+00:01:12,290 --> 00:01:13,650
+So that was great.
+
+21
+00:01:13,650 --> 00:01:16,810
+Subsequently, another request for
+eight pages came in,
+
+22
+00:01:16,810 --> 00:01:21,480
+and then a request for
+four pages came in, and for that reason,
+
+23
+00:01:21,480 --> 00:01:26,320
+this chunk of eight pages was
+subdivided into two chunks of four.
+
+24
+00:01:26,320 --> 00:01:28,500
+Now when this eight
+page region is freed,
+
+25
+00:01:28,500 --> 00:01:30,850
+there will be some fragmentation here.
+
+26
+00:01:30,850 --> 00:01:35,660
+However, when the next eight page region
+is freed, the algorithm will quickly be
+
+27
+00:01:35,660 --> 00:01:40,770
+able to combine these two to
+produce a 16 page free space.
+
+28
+00:01:40,770 --> 00:01:44,255
+So fragmentation still exists
+in the buddy allocator, but
+
+29
+00:01:44,255 --> 00:01:47,720
+its benefits are that
+when a request is freed,
+
+30
+00:01:47,720 --> 00:01:51,416
+it has a way to quickly find
+out how to aggregate data.
+
+31
+00:01:51,416 --> 00:01:56,655
+When this allocation of eight pages
+was freed, with the buddy allocator,
+
+32
+00:01:56,655 --> 00:02:02,045
+it was very easy to figure out what is
+the start of the adjacent allocation.
+
+33
+00:02:02,045 --> 00:02:05,903
+Where does the buddy of this
+eight page region start?
+
+34
+00:02:05,903 --> 00:02:10,684
+If we didn't have this information, if
+we didn't know that the adjacent region
+
+35
+00:02:10,684 --> 00:02:14,971
+is also an eight page region, we would
+have had to potentially scan all of
+
+36
+00:02:14,971 --> 00:02:18,801
+these pages to determine which
+one is free and which one isn't.
+
+37
+00:02:18,801 --> 00:02:23,026
+So as to figure out whether we can
+increase this free space to nine, ten,
+
+38
+00:02:23,026 --> 00:02:26,630
+11, 12, or some other number of pages.
+
+39
+00:02:26,630 --> 00:02:30,990
+So the benefit of the buddy algorithm
+is that the aggregation of the free
+
+40
+00:02:30,990 --> 00:02:34,900
+areas can be performed really well and
+really fast.
+
+41
+00:02:34,900 --> 00:02:40,080
+The checking of what are the free areas
+in the system can further be propagated
+
+42
+00:02:40,080 --> 00:02:45,130
+up the tree to check the buddies
+of this 16 page free area,
+
+43
+00:02:45,130 --> 00:02:49,250
+and then the buddy of the 32
+page free area, and so forth.
+
+44
+00:02:49,250 --> 00:02:53,190
+The reason why these areas
+are the power of two is so
+
+45
+00:02:53,190 --> 00:02:58,420
+that the addresses of each of
+the buddies differ only by 1 bit.
+
+46
+00:02:58,420 --> 00:03:02,120
+This makes it easier to perform
+the necessary checks when combining or
+
+47
+00:03:02,120 --> 00:03:03,530
+splitting chunks.
+
+48
+00:03:03,530 --> 00:03:07,700
+Define that allocations using
+the buddy algorithm have to be made
+
+49
+00:03:07,700 --> 00:03:10,640
+in a granularity of a power of two,
+
+50
+00:03:10,640 --> 00:03:15,280
+means that there will be some internal
+fragmentation using the buddy allocator.
+
+51
+00:03:15,280 --> 00:03:19,162
+This is particularly a problem because
+there are a lot of data structures that
+
+52
+00:03:19,162 --> 00:03:22,506
+are common in the Linux kernel that
+are not of a size that's close to
+
+53
+00:03:22,506 --> 00:03:24,030
+a power of two.
+
+54
+00:03:24,030 --> 00:03:28,770
+For instance, the task data structure,
+task_struct, is 1.7k.
+
+55
+00:03:28,770 --> 00:03:34,120
+To fix this issue, Linux also uses
+the slab allocator in the kernel.
+
+56
+00:03:34,120 --> 00:03:39,310
+The allocator builds custom
+object caches on top of slabs.
+
+57
+00:03:39,310 --> 00:03:44,070
+The slabs themselves represent
+contiguously allocated physical memory.
+
+58
+00:03:44,070 --> 00:03:47,020
+When the kernel starts,
+it will pre-create caches for
+
+59
+00:03:47,020 --> 00:03:48,300
+the different object types.
+
+60
+00:03:48,300 --> 00:03:51,590
+For instance, it will have a cache for
+a task_struct or for
+
+61
+00:03:51,590 --> 00:03:54,128
+the directory entry objects.
+
+62
+00:03:54,128 --> 00:03:58,390
+Therein, when an allocation comes from
+a particular object type, then it will
+
+63
+00:03:58,390 --> 00:04:03,590
+go straight to the cache and it will
+use one of the elements in this cache.
+
+64
+00:04:03,590 --> 00:04:05,570
+If none of the entries is available,
+
+65
+00:04:05,570 --> 00:04:10,450
+then the kernel will create another slab
+and it will preallocate an additional
+
+66
+00:04:10,450 --> 00:04:15,760
+portion of contiguous physical memory
+to be managed by this slab allocator.
+
+67
+00:04:15,760 --> 00:04:20,360
+The benefit of this slab allocator is
+that it avoids internal fragmentation.
+
+68
+00:04:20,360 --> 00:04:23,500
+These entities that
+are allocated in the slab,
+
+69
+00:04:23,500 --> 00:04:27,315
+they're of the exact same size
+as the common kernel objects.
+
+70
+00:04:27,315 --> 00:04:30,525
+Also, external fragmentation
+is not really an issue.
+
+71
+00:04:30,525 --> 00:04:35,547
+Even if we free objects in this
+object cache, future requests will
+
+72
+00:04:35,547 --> 00:04:40,491
+be of a matching size and then they
+can be made to fit in these gaps.
+
+73
+00:04:40,491 --> 00:04:45,029
+So the combination of the slab allocator
+and the buddy allocator that are used in
+
+74
+00:04:45,029 --> 00:04:49,095
+the Linux kernel, these are really
+effective methods to deal with both
+
+75
+00:04:49,095 --> 00:04:53,162
+the fragmentation and also the free
+memory management challenges that
+
+76
+00:04:53,162 --> 00:04:56,920
+are present regarding memory
+management in operating systems.

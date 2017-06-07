@@ -1,0 +1,508 @@
+1
+00:00:00,110 --> 00:00:03,730
+So, I'm pretty sure we showed this
+before when we were talking about motion
+
+2
+00:00:03,730 --> 00:00:05,620
+and perceptual organization.
+
+3
+00:00:05,620 --> 00:00:06,760
+And as it says here,
+
+4
+00:00:06,760 --> 00:00:10,940
+even an impoverished motion
+data can evoke a percept, and
+
+5
+00:00:10,940 --> 00:00:15,350
+presumably, you all see these moving
+dots as a person walking, right?
+
+6
+00:00:15,350 --> 00:00:22,180
+So, you're not recognizing this as a
+person from the appearance of the dots.
+
+7
+00:00:22,180 --> 00:00:27,020
+You're recognizing this as motion and
+then you see that it's a person.
+
+8
+00:00:27,020 --> 00:00:30,900
+And in fact, I can prove that to you
+looking at some work that was done by
+
+9
+00:00:30,900 --> 00:00:35,640
+myself and
+Jim Davis now professor at in Ohio.
+
+10
+00:00:35,640 --> 00:00:37,170
+And so I'm going to show you here.
+
+11
+00:00:37,170 --> 00:00:38,790
+So when you take a look at this picture,
+
+12
+00:00:38,790 --> 00:00:43,200
+unless you've seen this demo before,
+you probably don't know what that is.
+
+13
+00:00:43,200 --> 00:00:45,830
+When I put this thing in motion,
+what do you see?
+
+14
+00:00:45,830 --> 00:00:50,380
+What you all probably saw,
+was somebody sitting down.
+
+15
+00:00:50,380 --> 00:00:55,900
+And what's interesting is, now when the
+video is done, you can sort of see that,
+
+16
+00:00:55,900 --> 00:01:00,410
+oh, this is a person standing
+up right here, right?
+
+17
+00:01:00,410 --> 00:01:03,331
+In fact, there's some sort of
+a blackboard behind them, and
+
+18
+00:01:03,331 --> 00:01:06,533
+then once they sit down, they're
+head is here and the body is here,
+
+19
+00:01:06,533 --> 00:01:09,050
+because there's actually
+a chair over here.
+
+20
+00:01:09,050 --> 00:01:13,780
+But until that motion happens,
+you can't actually recognize that.
+
+21
+00:01:13,780 --> 00:01:17,090
+So we did a little bit of work on
+some technology that would let you
+
+22
+00:01:17,090 --> 00:01:20,900
+recognize this, and we created this
+thing called motion energy images.
+
+23
+00:01:20,900 --> 00:01:24,140
+So here you see a picture of a person,
+this is a clear video,
+
+24
+00:01:24,140 --> 00:01:26,548
+all right,
+where the person is sitting down.
+
+25
+00:01:26,548 --> 00:01:30,220
+That's, by the way, Claudio Pinhanez,
+who also got a PhD in Computer Vision,
+
+26
+00:01:30,220 --> 00:01:32,510
+now doing great stuff down in Brazil.
+
+27
+00:01:32,510 --> 00:01:38,500
+And what these are representing
+are cumulative images of how,
+
+28
+00:01:38,500 --> 00:01:41,610
+of where stuff has moved, okay?
+
+29
+00:01:41,610 --> 00:01:46,830
+So the idea is, when you're all done,
+this is area in which stuff has moved.
+
+30
+00:01:46,830 --> 00:01:50,557
+And, you know, the question is,
+that's somehow indicative,
+
+31
+00:01:50,557 --> 00:01:52,727
+that something about that pattern and
+
+32
+00:01:52,727 --> 00:01:56,882
+how it moved in there is indicative
+of the actual motion pattern itself.
+
+33
+00:01:56,882 --> 00:02:00,040
+So, can we recognize that explicitly?
+
+34
+00:02:00,040 --> 00:02:05,287
+So we created this thing called
+motion history images which
+
+35
+00:02:05,287 --> 00:02:08,720
+becomes the motion energy images also.
+
+36
+00:02:08,720 --> 00:02:12,640
+Which are a function of
+the temporal volume, and
+
+37
+00:02:12,640 --> 00:02:16,135
+what I mean by temporal volume is
+that same thing, right, x, y, and t.
+
+38
+00:02:16,135 --> 00:02:18,285
+So I've got a collection of video.
+
+39
+00:02:18,285 --> 00:02:21,374
+And it's really a very simple
+recursive computation.
+
+40
+00:02:21,374 --> 00:02:23,916
+This is an MHI image,
+motion history image, and
+
+41
+00:02:23,916 --> 00:02:25,658
+the way it works is quite simple.
+
+42
+00:02:25,658 --> 00:02:30,500
+As each new frame comes in, in this
+particular case you run some algorithm
+
+43
+00:02:30,500 --> 00:02:33,872
+to tell me,
+which pixels are moving in that frame.
+
+44
+00:02:33,872 --> 00:02:36,942
+Now, of course, this is under
+the assumption of a static camera.
+
+45
+00:02:36,942 --> 00:02:40,102
+And if you're not using a static camera,
+you'd have to compensate for the motion
+
+46
+00:02:40,102 --> 00:02:44,092
+of the camera, threshold out the motion
+of the person, all the usual caveats.
+
+47
+00:02:44,092 --> 00:02:47,792
+But then when you do that,
+you get this very simple operation.
+
+48
+00:02:48,840 --> 00:02:53,290
+If a pixel is moving,
+set that location at time t,
+
+49
+00:02:53,290 --> 00:02:56,520
+to some maximum value tau,
+and you're going to pick tau.
+
+50
+00:02:56,520 --> 00:02:58,440
+Maybe tau is 15.
+
+51
+00:02:58,440 --> 00:03:01,160
+I'll tell you why 15 in a minute, right?
+
+52
+00:03:01,160 --> 00:03:04,760
+And if it's not moving, that's the
+otherwise, I'm just going to decrement,
+
+53
+00:03:04,760 --> 00:03:09,030
+whoops, over here,
+decrement the value, okay,
+
+54
+00:03:09,030 --> 00:03:13,070
+from the previous time, but
+I don't go any less than 0.
+
+55
+00:03:13,070 --> 00:03:15,300
+So the image on the right is an example.
+
+56
+00:03:15,300 --> 00:03:19,870
+The brighter pixels like over here,
+they've moved more recently.
+
+57
+00:03:19,870 --> 00:03:23,570
+So this is time t,
+maybe they've moved at time t minus 1,
+
+58
+00:03:23,570 --> 00:03:24,890
+they just moved before.
+
+59
+00:03:24,890 --> 00:03:26,720
+So they started out as tau.
+
+60
+00:03:26,720 --> 00:03:29,602
+So maybe tau is 15x, let's make it 30,
+that example will work better.
+
+61
+00:03:29,602 --> 00:03:31,850
+It was 30, so now it would be 29.
+
+62
+00:03:31,850 --> 00:03:38,910
+But the pixels up here, they move, the
+last time they moved is 15 frames ago.
+
+63
+00:03:38,910 --> 00:03:43,560
+So its value would be now,
+tau minus 15, so if tau were 15,
+
+64
+00:03:43,560 --> 00:03:46,180
+it would be 0, so that would be black,
+that's why it didn't work so well.
+
+65
+00:03:46,180 --> 00:03:50,820
+But if tau were 30t minus 15,
+it would be now down to 15, right?
+
+66
+00:03:50,820 --> 00:03:52,930
+It would have counted down to 15.
+
+67
+00:03:52,930 --> 00:03:57,070
+So these areas are nice and
+bright white because they just moved.
+
+68
+00:03:57,070 --> 00:04:01,560
+These areas are darker gray because, it
+was a longer time ago that they moved.
+
+69
+00:04:01,560 --> 00:04:04,460
+And so the way you can think
+about this motion history image,
+
+70
+00:04:04,460 --> 00:04:08,100
+is that it both shows you
+sort of where stuff is moved.
+
+71
+00:04:08,100 --> 00:04:10,480
+And it also shows you sort
+of how stuff is moved,
+
+72
+00:04:10,480 --> 00:04:14,690
+because you can tell that the stuff
+up here moved a long time ago, and
+
+73
+00:04:14,690 --> 00:04:17,500
+stuff down here is moving more recently.
+
+74
+00:04:17,500 --> 00:04:19,399
+It's a recursive filter, that is,
+
+75
+00:04:19,399 --> 00:04:25,490
+I only have to keep track of i of
+tau of x, y, and t minus, of t.
+
+76
+00:04:25,490 --> 00:04:28,250
+And I can create the new one
+when the next frame comes in.
+
+77
+00:04:28,250 --> 00:04:31,300
+So I don't have to
+remember my old frames.
+
+78
+00:04:31,300 --> 00:04:33,370
+The other thing is,
+where did tau come from?
+
+79
+00:04:33,370 --> 00:04:37,520
+Well, the pixels go from tau down to 0.
+
+80
+00:04:37,520 --> 00:04:41,280
+So, let's suppose I'm bringing
+in 30 frames a second.
+
+81
+00:04:41,280 --> 00:04:46,580
+So if I set tau to 30, then from 30
+to 0 is the range over a second.
+
+82
+00:04:46,580 --> 00:04:47,760
+And what that would mean it that
+
+83
+00:04:48,940 --> 00:04:51,640
+anything that happened longer than
+a second ago, I'm not worrying about.
+
+84
+00:04:51,640 --> 00:04:54,510
+So I'm recognizing action
+that's length of a second.
+
+85
+00:04:54,510 --> 00:04:57,680
+Suppose you wanted to check whether
+something could happen slowly, right?
+
+86
+00:04:57,680 --> 00:04:59,370
+Like, he sits down slowly,
+
+87
+00:04:59,370 --> 00:05:03,400
+it takes him a full second to sit
+down because he's really slow.
+
+88
+00:05:03,400 --> 00:05:05,890
+Or somebody sits down quickly,
+right, because they go like this and
+
+89
+00:05:05,890 --> 00:05:07,720
+they, it's not Megan
+playing with the video.
+
+90
+00:05:07,720 --> 00:05:11,900
+Anyway so they can do it in a tenth
+of second, so sorry, in a, in, in a,
+
+91
+00:05:11,900 --> 00:05:15,960
+a third of a second, so
+that'd be tau of ten, right, 10 frames.
+
+92
+00:05:15,960 --> 00:05:19,930
+Well one of the kind of cool
+things about motion history images
+
+93
+00:05:19,930 --> 00:05:24,690
+is if you give me the motion
+history of image of tau, right?
+
+94
+00:05:24,690 --> 00:05:28,590
+So everything goes
+from let's say 30 to 0.
+
+95
+00:05:28,590 --> 00:05:31,800
+I can just, if I wanted the motion
+history image for tau equal to 20,
+
+96
+00:05:31,800 --> 00:05:36,780
+I could just subtract 10 from it,
+right, so 30 becomes 20.
+
+97
+00:05:36,780 --> 00:05:39,930
+And anything that's less
+than 10 just becomes 0.
+
+98
+00:05:39,930 --> 00:05:42,980
+So it only looks back 20 frames.
+
+99
+00:05:42,980 --> 00:05:47,840
+So it's trivial to compute I I of tau 20
+
+100
+00:05:47,840 --> 00:05:52,530
+from motion history tau 20
+from motion history tau 30.
+
+101
+00:05:52,530 --> 00:05:56,070
+So I only have to keep one around,
+whichever one's the longest one, and
+
+102
+00:05:56,070 --> 00:05:59,410
+I can check all of those time
+windows at the same time.
+
+103
+00:05:59,410 --> 00:06:02,100
+And then also as should be clear,
+
+104
+00:06:02,100 --> 00:06:05,600
+if this is the motion history image
+that goes from white to dark.
+
+105
+00:06:05,600 --> 00:06:09,850
+If I just wanted the motion energy
+image where anything has changed,
+
+106
+00:06:09,850 --> 00:06:12,740
+all I can do is just threshold
+that picture, right?
+
+107
+00:06:12,740 --> 00:06:15,570
+Anything greater than 0,
+make a 1, otherwise it's a 0.

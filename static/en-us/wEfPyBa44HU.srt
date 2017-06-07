@@ -1,0 +1,306 @@
+﻿1
+00:00:00,370 --> 00:00:03,750
+A responsive UI is simply a UI
+that reacts to the amount of
+
+2
+00:00:03,750 --> 00:00:04,900
+available space in the screen.
+
+3
+00:00:04,900 --> 00:00:08,580
+We will talk a lot more about how to
+update our designs to match different
+
+4
+00:00:08,580 --> 00:00:10,509
+screen sizes in the next lesson.
+
+5
+00:00:10,509 --> 00:00:13,699
+But for now let's at least look at
+what happens when you simply turn
+
+6
+00:00:13,699 --> 00:00:15,157
+the phone into landscape mode.
+
+7
+00:00:16,250 --> 00:00:20,079
+Well, it seems like when we turn
+the phone into landscape, everything
+
+8
+00:00:20,079 --> 00:00:24,579
+stretches out smoothly following
+the restraints that we created earlier.
+
+9
+00:00:24,579 --> 00:00:27,579
+However, this seems like
+a huge waste of space.
+
+10
+00:00:27,579 --> 00:00:31,389
+Actually, we should be able to
+fit everything in the same screen
+
+11
+00:00:31,390 --> 00:00:34,490
+if we made better use of
+those blank spaces here.
+
+12
+00:00:34,490 --> 00:00:38,380
+But that means a totally different
+layout for landscape mode.
+
+13
+00:00:38,380 --> 00:00:42,359
+This is why Android offers
+something called alternate layouts.
+
+14
+00:00:42,359 --> 00:00:47,619
+Basically, you can create an entire new
+XML layout file only for landscape mode.
+
+15
+00:00:48,920 --> 00:00:54,121
+To do that, simply create a new folder
+called layout-land for landscape,
+
+16
+00:00:54,121 --> 00:01:00,100
+and then copy the activity_main, and
+then place a copy inside layout-land.
+
+17
+00:01:00,100 --> 00:01:05,849
+This will appear as another new XML file
+in Android Studio with the label land,
+
+18
+00:01:05,849 --> 00:01:07,359
+as in landscape.
+
+19
+00:01:07,359 --> 00:01:10,299
+Now you can try to
+modify this XML to fit
+
+20
+00:01:10,299 --> 00:01:13,590
+everything in the same screen
+when it's in landscape mode.
+
+21
+00:01:13,590 --> 00:01:16,950
+For example, this looks like a much
+better layout for landscape.
+
+22
+00:01:17,959 --> 00:01:20,689
+Notice that all we did was
+just change things around and
+
+23
+00:01:20,689 --> 00:01:22,939
+maybe change the font for
+some text views a little bit.
+
+24
+00:01:24,280 --> 00:01:25,750
+But this blue table down here,
+
+25
+00:01:25,750 --> 00:01:30,819
+for example, is identical between
+the two landscape and portrait modes.
+
+26
+00:01:30,819 --> 00:01:33,759
+Same goes for
+the flight information up here.
+
+27
+00:01:33,760 --> 00:01:38,100
+So instead of recreating them in both
+layouts, it's wise to move each of them
+
+28
+00:01:38,099 --> 00:01:42,549
+into a separate small layout themselves,
+and then use Android's include tag
+
+29
+00:01:42,549 --> 00:01:45,819
+to combine them in the default and
+landscape layout.
+
+30
+00:01:45,819 --> 00:01:48,429
+That way if you need to update
+the blue table, say for
+
+31
+00:01:48,430 --> 00:01:51,700
+example, you only need to
+do that in one location.
+
+32
+00:01:51,700 --> 00:01:54,859
+So, let's start by updating
+the default layout first, and
+
+33
+00:01:54,859 --> 00:01:59,519
+then we will work on reusing those small
+layouts to create the landscape version.
+
+34
+00:01:59,519 --> 00:02:04,125
+So first, let's create a new constraint
+layout for the boarding table.
+
+35
+00:02:04,126 --> 00:02:08,632
+So let's call it boarding_table.xml,
+and we'll change the type to
+
+36
+00:02:08,632 --> 00:02:13,510
+ConstraintLayout, and then we will move
+anything that has to do with the blue
+
+37
+00:02:13,510 --> 00:02:17,735
+table from the default layout
+into that boarding_table layout.
+
+38
+00:02:17,735 --> 00:02:22,506
+So the activity_main.xml,
+let's just copy everything that has
+
+39
+00:02:22,507 --> 00:02:27,191
+to do with the blue table,
+including the text field inside it, and
+
+40
+00:02:27,191 --> 00:02:30,801
+then copy that over to
+the boarding_table.xml.
+
+41
+00:02:30,800 --> 00:02:33,771
+Now make sure that there are no
+views that are still constrained to
+
+42
+00:02:33,771 --> 00:02:37,169
+some of the views that don't
+exist in this boarding table.
+
+43
+00:02:37,169 --> 00:02:40,309
+Like, for example, the HeaderImage
+should not be constrained to
+
+44
+00:02:40,310 --> 00:02:42,300
+the DepartureTime any more.
+
+45
+00:02:42,300 --> 00:02:45,430
+Now if we open that
+boarding_table XML in design view,
+
+46
+00:02:45,430 --> 00:02:49,060
+you can see that it contains
+everything in the table all by itself.
+
+47
+00:02:49,060 --> 00:02:51,360
+Okay, let's do the same for
+the flight information.
+
+48
+00:02:52,430 --> 00:02:57,689
+Let's call it flight_info, and then set
+the type to ConstraintLayout again.
+
+49
+00:02:57,689 --> 00:03:02,171
+And then move everything that has to
+do with the flight information like
+
+50
+00:03:02,171 --> 00:03:06,289
+the rectangles, the divider,
+and the origin_codes and so on.
+
+51
+00:03:07,639 --> 00:03:11,339
+Now to update the default
+activity_main layout,
+
+52
+00:03:11,340 --> 00:03:15,430
+simply replace all those tags
+that we've copied over already
+
+53
+00:03:15,430 --> 00:03:20,080
+with an include tag that just points
+to the new layout that we just created.
+
+54
+00:03:20,080 --> 00:03:26,430
+To point to another layout, you just
+set the layout="@layout/flight_info".
+
+55
+00:03:26,430 --> 00:03:31,270
+And then the same goes for
+the header and body tables.
+
+56
+00:03:31,270 --> 00:03:34,550
+And then also make sure that if there's
+any other views that are depending on
+
+57
+00:03:34,550 --> 00:03:38,980
+those tags that we've just removed, that
+the constraints are updated accordingly.
+
+58
+00:03:38,979 --> 00:03:40,129
+Perfect.
+
+59
+00:03:40,129 --> 00:03:43,569
+Now it should be really easy to go
+to the landscape version of our
+
+60
+00:03:43,569 --> 00:03:44,859
+main activity layout,
+
+61
+00:03:44,860 --> 00:03:49,750
+and then just move things around using
+those two layouts that we created
+
+62
+00:03:49,750 --> 00:03:53,409
+to create the landscape design that
+fits everything in the same screen.
+
+63
+00:03:53,409 --> 00:03:54,729
+So go ahead and try it yourself.
+

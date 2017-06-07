@@ -1,0 +1,499 @@
+1
+00:00:00,410 --> 00:00:02,590
+So Jake, what's your favorite animal?
+
+2
+00:00:02,590 --> 00:00:03,960
+Well, let me show you.
+
+3
+00:00:05,140 --> 00:00:07,730
+I'm going to create a read write
+transaction with access to
+
+4
+00:00:07,730 --> 00:00:08,560
+the keyval store.
+
+5
+00:00:09,570 --> 00:00:12,640
+Then I'm going to get the store and
+call.put on it.
+
+6
+00:00:13,960 --> 00:00:17,590
+Now I know it's a cliche these days,
+but cats are actually my favorite.
+
+7
+00:00:17,590 --> 00:00:21,700
+So I'm going to pass in cats as the
+value and favorite animal as the key.
+
+8
+00:00:21,700 --> 00:00:25,770
+I'm going to wait on completion
+of this transaction.
+
+9
+00:00:25,770 --> 00:00:27,830
+Then log out a little
+confirmation message.
+
+10
+00:00:29,620 --> 00:00:32,189
+Over in the browser, let's refresh.
+
+11
+00:00:32,189 --> 00:00:36,530
+And there's the Console Log and
+over in resources, there it is as well.
+
+12
+00:00:37,965 --> 00:00:42,950
+Okay, so if you're still alive at this
+point, you're doing really well but
+
+13
+00:00:42,950 --> 00:00:47,830
+take my hand as we dive deeper into this
+API, it's time for another crash course.
+
+14
+00:00:49,100 --> 00:00:51,520
+So far we've created a key
+value objects store but
+
+15
+00:00:51,520 --> 00:00:55,820
+what if I wanted to create a different
+store with objects all of the same kind?
+
+16
+00:00:55,820 --> 00:00:57,920
+People, for instance.
+
+17
+00:00:57,920 --> 00:01:01,570
+To do that, I'll need to create another
+object store, as I mentioned earlier,
+
+18
+00:01:01,570 --> 00:01:03,500
+to maintain database integrity.
+
+19
+00:01:03,500 --> 00:01:07,980
+You can only create objects stores and
+indexes within the upgrade function.
+
+20
+00:01:07,980 --> 00:01:10,270
+But this upgrade function
+isn't getting called,
+
+21
+00:01:10,270 --> 00:01:13,520
+because it's already been called for
+version one of the database.
+
+22
+00:01:13,520 --> 00:01:15,775
+So, I'm going to start by
+bumping the version up to 2.
+
+23
+00:01:17,740 --> 00:01:20,830
+Then I'm going to create a new
+object store called People.
+
+24
+00:01:21,890 --> 00:01:23,670
+And this isn't going
+to have separate keys.
+
+25
+00:01:23,670 --> 00:01:26,920
+I'm going to make the name property of
+the objects inside the stall be the key.
+
+26
+00:01:28,020 --> 00:01:31,250
+Okay, sure in the real world you
+can have more than one person with
+
+27
+00:01:31,250 --> 00:01:31,890
+the same name.
+
+28
+00:01:31,890 --> 00:01:34,460
+But we're going to assume names
+are unique for the sake of this demo.
+
+29
+00:01:34,460 --> 00:01:38,560
+Now we've actually created a bug here.
+
+30
+00:01:38,560 --> 00:01:41,090
+And we can see it if we
+try loading the page.
+
+31
+00:01:41,090 --> 00:01:43,260
+We get all of these nasty errors.
+
+32
+00:01:43,260 --> 00:01:46,770
+Because the browser hasn't seen version
+2 yet, it will call this function, and
+
+33
+00:01:46,770 --> 00:01:48,890
+unfortunately it will fail.
+
+34
+00:01:48,890 --> 00:01:50,950
+This is because the browser
+hits this line.
+
+35
+00:01:50,950 --> 00:01:52,966
+It tries to create the key file store,
+and
+
+36
+00:01:52,966 --> 00:01:55,050
+errors because it's already created it.
+
+37
+00:01:56,060 --> 00:01:59,240
+Thankfully the upgradeDb object
+has this old version property
+
+38
+00:01:59,240 --> 00:02:01,430
+telling us the version
+the browser already knows about.
+
+39
+00:02:02,830 --> 00:02:05,620
+We can use a switch statement to make
+the browser skip the bits it already
+
+40
+00:02:05,620 --> 00:02:06,160
+knows about.
+
+41
+00:02:07,370 --> 00:02:11,590
+So we switch on the old version number,
+if it's 0, we set up the key file store.
+
+42
+00:02:11,590 --> 00:02:14,390
+If it's 1, we set up the people store.
+
+43
+00:02:14,390 --> 00:02:17,960
+Usually with switch statements you
+have a break after each case, but
+
+44
+00:02:17,960 --> 00:02:20,370
+we specifically don't
+want to do that here.
+
+45
+00:02:20,370 --> 00:02:21,290
+So with this code,
+
+46
+00:02:21,290 --> 00:02:24,630
+if the browser hasn't set up this
+database at all, it'll start here.
+
+47
+00:02:24,630 --> 00:02:27,570
+Create the key file objects store but
+it will continue and
+
+48
+00:02:27,570 --> 00:02:29,630
+create the person object store.
+
+49
+00:02:29,630 --> 00:02:31,350
+If the browser already has version 1,
+
+50
+00:02:31,350 --> 00:02:35,480
+it'll start here and
+only set up the new person object store.
+
+51
+00:02:35,480 --> 00:02:38,750
+If we refresh the browser now,
+the errors are gone.
+
+52
+00:02:38,750 --> 00:02:41,580
+And the store has appeared
+in the resources panel.
+
+53
+00:02:42,760 --> 00:02:43,600
+Let's put some stuff in it.
+
+54
+00:02:44,800 --> 00:02:48,176
+Now we have this object store set up,
+I'm going to create a transaction for
+
+55
+00:02:48,176 --> 00:02:50,280
+the person store and
+I want it to be read write.
+
+56
+00:02:50,280 --> 00:02:54,130
+Then I get the object store and
+I'm going to add a person to it
+
+57
+00:02:54,130 --> 00:02:57,380
+including the name, age,
+and favorite animal.
+
+58
+00:02:57,380 --> 00:03:00,400
+I'm really having to fight spelling
+favorite the British way here so
+
+59
+00:03:00,400 --> 00:03:01,930
+I hope you appreciate that.
+
+60
+00:03:01,930 --> 00:03:06,175
+Anyway, in this model a person
+is just a JavaScript object.
+
+61
+00:03:06,175 --> 00:03:09,710
+Notice that I'm calling put but
+I'm not providing a key this time.
+
+62
+00:03:09,710 --> 00:03:13,370
+This is because we've told the store
+to treat the name property as the key.
+
+63
+00:03:13,370 --> 00:03:15,885
+I'm going to wait on
+the transaction completing and
+
+64
+00:03:15,885 --> 00:03:18,430
+logout a little success message.
+
+65
+00:03:18,430 --> 00:03:20,220
+One person isn't enough of course.
+
+66
+00:03:20,220 --> 00:03:23,020
+So here are a few more
+that I prepared earlier.
+
+67
+00:03:23,020 --> 00:03:26,880
+If I refresh the browser we can see in
+the console the operation completed.
+
+68
+00:03:26,880 --> 00:03:29,660
+But also in the resources panel,
+you can see all the people.
+
+69
+00:03:32,490 --> 00:03:34,590
+If I want to read
+the people in the store,
+
+70
+00:03:34,590 --> 00:03:36,085
+I create a transaction for people.
+
+71
+00:03:36,085 --> 00:03:39,420
+I get hold of the object store and
+
+72
+00:03:39,420 --> 00:03:43,390
+I call get all which returns a promise
+for all the objects in the store.
+
+73
+00:03:44,800 --> 00:03:45,780
+And then I'll log those out.
+
+74
+00:03:47,100 --> 00:03:51,340
+If we run that code in a browser we
+can see all the people are logged in
+
+75
+00:03:51,340 --> 00:03:54,590
+alphabetical order of their
+name since that's the key.
+
+76
+00:03:54,590 --> 00:03:58,030
+But what if I wanted to group them
+together by their favorite animal.
+
+77
+00:03:58,030 --> 00:03:59,190
+This is where indexes come in.
+
+78
+00:04:00,360 --> 00:04:02,480
+Like other modifications
+to the database,
+
+79
+00:04:02,480 --> 00:04:05,480
+indexes can only be created
+as part of a version upgrade.
+
+80
+00:04:06,620 --> 00:04:10,010
+So we bump the version number and
+start adding to our switch clause.
+
+81
+00:04:11,160 --> 00:04:13,530
+Now we're going to add
+an index to the person store.
+
+82
+00:04:13,530 --> 00:04:16,200
+And at this point, we need to get
+ahold of the person object store.
+
+83
+00:04:17,850 --> 00:04:21,160
+In other places we've called
+transaction.objectStore to do this.
+
+84
+00:04:21,160 --> 00:04:22,650
+And there's no exception here.
+
+85
+00:04:22,650 --> 00:04:26,750
+Database upgrades have their own
+transaction object found @ upgradeDB
+
+86
+00:04:26,750 --> 00:04:27,630
+transaction.
+
+87
+00:04:29,330 --> 00:04:30,510
+So now we have to store.
+
+88
+00:04:30,510 --> 00:04:32,460
+I'm going to create
+an index called animal.
+
+89
+00:04:32,460 --> 00:04:34,210
+Which sorts by the favorite
+animal property.
+
+90
+00:04:35,410 --> 00:04:37,880
+To use this index,
+I'm going to modify this code.
+
+91
+00:04:37,880 --> 00:04:40,090
+Where I'm listing all the people.
+
+92
+00:04:40,090 --> 00:04:43,005
+I'm going to get the index from
+the object store by name, animal.
+
+93
+00:04:43,005 --> 00:04:46,840
+An index has a very similar
+API to the object store.
+
+94
+00:04:46,840 --> 00:04:48,468
+So instead of calling
+get all in the store,
+
+95
+00:04:48,468 --> 00:04:50,260
+I'm going to call it on the index.
+
+96
+00:04:51,780 --> 00:04:54,230
+If I refresh the browser,
+the people are logged out.
+
+97
+00:04:54,230 --> 00:04:58,179
+But this time, all the cat people are
+logged first, and then the dog people.
+
+98
+00:04:59,640 --> 00:05:01,270
+In def tools we can
+see the index as well.
+
+99
+00:05:02,500 --> 00:05:05,150
+I can even execute queries on the index.
+
+100
+00:05:05,150 --> 00:05:06,300
+For instance,
+
+101
+00:05:06,300 --> 00:05:10,410
+I'm going to pass cats into get
+all just to return the cat people.
+
+102
+00:05:11,435 --> 00:05:15,745
+If I refresh the browser, there they
+are, just the two people who love cats.
+
+103
+00:05:17,225 --> 00:05:20,945
+And I think there's a task coming
+your way as the micphone is ringing.
+
+104
+00:05:20,945 --> 00:05:21,615
+Hey, mike.
+
+105
+00:05:21,615 --> 00:05:24,035
+Got some IDB for the student to do.
+
+106
+00:05:24,035 --> 00:05:25,085
+>> I certainly do.
+
+107
+00:05:25,085 --> 00:05:25,965
+>> Brilliant, take it away.

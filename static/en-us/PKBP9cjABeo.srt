@@ -1,0 +1,343 @@
+1
+00:00:00,370 --> 00:00:04,050
+Let me show you one of
+the earlier examples using this
+
+2
+00:00:04,050 --> 00:00:06,140
+in a way that was kind of intriguing.
+
+3
+00:00:06,140 --> 00:00:10,300
+Moghaddam and Yang, they did some nice
+work on gender classification, okay?
+
+4
+00:00:10,300 --> 00:00:14,520
+So given a face, can you tell me
+whether it's a man or a woman?
+
+5
+00:00:14,520 --> 00:00:16,680
+That's it, that's it basically.
+
+6
+00:00:16,680 --> 00:00:19,550
+And what they were doing is you can
+see they were just cropping out
+
+7
+00:00:19,550 --> 00:00:21,020
+sort of the center of the face here.
+
+8
+00:00:22,520 --> 00:00:26,530
+In order to do that, they had some they
+had some machinery to take this image.
+
+9
+00:00:26,530 --> 00:00:30,480
+I think this is still the the old Mayor,
+I think it's Mayor White of
+
+10
+00:00:30,480 --> 00:00:35,270
+Boston a while back, and essentially
+finds the face, scales it, finds the,
+
+11
+00:00:35,270 --> 00:00:38,850
+the, the features, can warp it and
+straighten it out and
+
+12
+00:00:38,850 --> 00:00:42,000
+then cut out just the part of
+the face that they want, okay?
+
+13
+00:00:42,000 --> 00:00:45,240
+So they can automatically go gener,
+remember, generate the candidate?
+
+14
+00:00:45,240 --> 00:00:48,620
+They can automatically generate
+the candidates, all right?
+
+15
+00:00:48,620 --> 00:00:49,380
+So they trained it.
+
+16
+00:00:49,380 --> 00:00:51,492
+Their training examples
+had about 1000 men,
+
+17
+00:00:51,492 --> 00:00:56,510
+700 women which is a pretty
+reasonable ratio in academic labs,
+
+18
+00:00:56,510 --> 00:00:59,460
+but really, they should have tried to,
+to balance it.
+
+19
+00:00:59,460 --> 00:01:04,560
+The images were shrunk down to
+being only 21 by 12 pixels, okay?
+
+20
+00:01:04,560 --> 00:01:07,625
+So, it's a relatively small feature.
+
+21
+00:01:07,625 --> 00:01:12,089
+It's still got, whatever,
+21 times 12 is, let's see, 210 and
+
+22
+00:01:12,089 --> 00:01:14,900
+42 times, so 252 numbers, right?
+
+23
+00:01:14,900 --> 00:01:17,760
+But, they're not just
+going to base it on that.
+
+24
+00:01:17,760 --> 00:01:22,193
+They actually used a Gaussian kernel,
+okay?
+
+25
+00:01:22,193 --> 00:01:23,988
+A Gaussian RBF.
+
+26
+00:01:23,988 --> 00:01:28,240
+So that's defined as xi and xj, and
+when you compute some new input,
+
+27
+00:01:28,240 --> 00:01:32,180
+x against your support vectors,
+so here is kx,
+
+28
+00:01:32,180 --> 00:01:36,230
+so x is your new input, and
+the xj is each of the support vector.
+
+29
+00:01:36,230 --> 00:01:40,530
+So you have to compute this
+quantity at testing time,
+
+30
+00:01:40,530 --> 00:01:45,110
+in order to determine whether
+it's a man or a woman, okay?
+
+31
+00:01:45,110 --> 00:01:47,070
+What's interesting is,
+
+32
+00:01:47,070 --> 00:01:50,642
+remember we had support vectors
+which were actually the points.
+
+33
+00:01:50,642 --> 00:01:53,340
+All right, and these are the points
+that are sort of the harder points.
+
+34
+00:01:53,340 --> 00:01:55,240
+Right?
+They're the ones near the boundary.
+
+35
+00:01:55,240 --> 00:01:57,060
+Well, we still have support vectors.
+
+36
+00:01:57,060 --> 00:02:00,480
+But now,
+you can call these things support faces.
+
+37
+00:02:00,480 --> 00:02:01,770
+Remember eigenfaces?
+
+38
+00:02:01,770 --> 00:02:04,300
+And by the way, Babock Magadon
+was a student of Sandy Pendleton.
+
+39
+00:02:04,300 --> 00:02:06,370
+Sandy Pendleton, Matt Terk,
+the people who do the eigenface,
+
+40
+00:02:06,370 --> 00:02:10,651
+and then Babock did his own thing
+on parts of faces and face space.
+
+41
+00:02:10,651 --> 00:02:15,370
+All right, but what you can do is you
+can now find the support vectors which
+
+42
+00:02:15,370 --> 00:02:20,480
+in some sense, are the the faces that
+are closest to the boundary, right?
+
+43
+00:02:20,480 --> 00:02:21,260
+In some sense they sh,
+
+44
+00:02:21,260 --> 00:02:25,530
+not in some sense, they are the faces
+that are sort of harder to, to label.
+
+45
+00:02:25,530 --> 00:02:26,140
+Okay?
+
+46
+00:02:26,140 --> 00:02:28,832
+So male versus female,
+you can see these are pretty similar,
+
+47
+00:02:28,832 --> 00:02:33,855
+all right, these are pretty similar, and
+yet, one is, one is male, one is female.
+
+48
+00:02:33,855 --> 00:02:35,165
+Here's another example.
+
+49
+00:02:35,165 --> 00:02:36,465
+Maybe this one's not so hard.
+
+50
+00:02:36,465 --> 00:02:40,655
+So, this is just some of
+the support vector's faces.
+
+51
+00:02:40,655 --> 00:02:41,925
+Well, what's kind of nice about this,
+
+52
+00:02:41,925 --> 00:02:45,225
+is that they trained a variety
+of classifiers, all right?
+
+53
+00:02:45,225 --> 00:02:47,355
+Here they are,
+some simple nearest neighbor,
+
+54
+00:02:47,355 --> 00:02:48,705
+which you could see down at the bottom.
+
+55
+00:02:50,145 --> 00:02:54,315
+A Fisher linear discriminant, which
+says, let me try to find a single line
+
+56
+00:02:54,315 --> 00:03:00,100
+that separates things the best, but
+in the original, dimensional space.
+
+57
+00:03:00,100 --> 00:03:05,260
+Then they tried a variety of methods,
+and what's really cool is the SVM, all
+
+58
+00:03:06,430 --> 00:03:11,120
+right, the Sport Vector Machine with the
+radial basis function, the Gaussian one,
+
+59
+00:03:11,120 --> 00:03:16,810
+only had an error rate of like 3.4%,
+which is pretty good.
+
+60
+00:03:16,810 --> 00:03:19,810
+In fact, how good is it?
+
+61
+00:03:19,810 --> 00:03:23,285
+Well, you should see what,
+how well can humans do on this data set?
+
+62
+00:03:23,285 --> 00:03:26,770
+'because remember, they just cropped
+the middle of the face, all right?
+
+63
+00:03:26,770 --> 00:03:29,320
+So, they did a test with people,
+
+64
+00:03:29,320 --> 00:03:33,590
+where they had 30 subjects 22 male,
+eight female.
+
+65
+00:03:33,590 --> 00:03:35,800
+That's also closer to an academic lab,
+typically.
+
+66
+00:03:38,760 --> 00:03:41,668
+And their test data was 254 faces.
+
+67
+00:03:41,668 --> 00:03:43,860
+60% male, 40% female.
+
+68
+00:03:43,860 --> 00:03:47,810
+I don't know why they wouldn't use
+50 50, but that's what they did.
+
+69
+00:03:47,810 --> 00:03:50,700
+They used low-res versions and
+high-res versions.
+
+70
+00:03:50,700 --> 00:03:51,710
+We'll get to that in a minute.
+
+71
+00:03:52,740 --> 00:03:55,160
+And then the task was,
+is it male or female?
+
+72
+00:03:55,160 --> 00:03:57,410
+We'll give you all day to decide,
+but you have to make a choice.
+
+73
+00:03:57,410 --> 00:03:59,510
+You can't say I don't know, and
+you can take as long as you want.

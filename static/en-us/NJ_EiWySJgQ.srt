@@ -1,0 +1,319 @@
+1
+00:00:00,200 --> 00:00:02,930
+Let's look now at the data structures that are described in
+
+2
+00:00:02,930 --> 00:00:05,610
+the two reference papers of this lesson.
+
+3
+00:00:05,610 --> 00:00:08,313
+The two papers describe the kernel and
+
+4
+00:00:08,313 --> 00:00:14,582
+user-level implementations of threads in the SunOS 5.0 kernel of Solaris 2.0.
+
+5
+00:00:14,582 --> 00:00:17,420
+So Solaris is the operating system.
+
+6
+00:00:17,420 --> 00:00:18,700
+Sun, where this work was done,
+
+7
+00:00:18,700 --> 00:00:22,910
+no longer exists; it was bought by Oracle in 2010.
+
+8
+00:00:22,910 --> 00:00:25,170
+But it was very well known for the quality and
+
+9
+00:00:25,170 --> 00:00:28,100
+stability of its UNIX distributions.
+
+10
+00:00:28,100 --> 00:00:31,420
+It was also one of the leader in introducing new and
+
+11
+00:00:31,420 --> 00:00:33,970
+revolutionary features into the kernel.
+
+12
+00:00:33,970 --> 00:00:36,860
+And this is why we are looking at its threading model.
+
+13
+00:00:36,860 --> 00:00:39,975
+This is a diagram from figure one in the Stein and
+
+14
+00:00:39,975 --> 00:00:42,110
+Shah paper, Implementing Lightweight Threads.
+
+15
+00:00:43,110 --> 00:00:45,890
+And it illustrates quickly the threading model supported in
+
+16
+00:00:45,890 --> 00:00:47,310
+the operating system.
+
+17
+00:00:47,310 --> 00:00:51,970
+Going from the bottom up, the OS is intended for multi-processor systems,
+
+18
+00:00:51,970 --> 00:00:55,500
+with multiple CPUs and the kernel itself is multi-threaded.
+
+19
+00:00:55,500 --> 00:00:57,820
+There are multiple kernel-level threads.
+
+20
+00:00:57,820 --> 00:01:01,520
+At user level, the processes can be single or multithreaded.
+
+21
+00:01:01,520 --> 00:01:05,510
+Both many-to-many as well as one-to-one mappings are supported.
+
+22
+00:01:05,510 --> 00:01:09,325
+Each kernel-level thread that's executing a user-level thread,
+
+23
+00:01:09,325 --> 00:01:13,250
+has a lightweight process data structure associated with it.
+
+24
+00:01:13,250 --> 00:01:18,060
+From the user-level libraries perspective, these lightweight processes represent
+
+25
+00:01:18,060 --> 00:01:23,150
+the virtual CPUs onto which it's going to be scheduling the user-level threads.
+
+26
+00:01:23,150 --> 00:01:26,800
+At the kernel level, there will be a kernel-level scheduler that will be
+
+27
+00:01:26,800 --> 00:01:31,810
+managing the kernel-level threads and scheduling them onto the physical CPUs.
+
+28
+00:01:31,810 --> 00:01:36,640
+We will now look a little more closely at the user-level thread data structures.
+
+29
+00:01:36,640 --> 00:01:40,470
+They are described in the implementing lightweight threads paper by
+
+30
+00:01:40,470 --> 00:01:41,560
+Stein & Shah.
+
+31
+00:01:41,560 --> 00:01:44,480
+This does not describe pthreads, the POSIX threads, but
+
+32
+00:01:44,480 --> 00:01:47,460
+it's a similar type of user-level threading library.
+
+33
+00:01:47,460 --> 00:01:51,580
+When a thread is created, the library returns a thread ID.
+
+34
+00:01:51,580 --> 00:01:56,460
+And this is not a direct pointer to the actual thread data structure like we've
+
+35
+00:01:56,460 --> 00:01:57,990
+implied before.
+
+36
+00:01:57,990 --> 00:02:01,290
+Instead, it's an index in a table of pointers.
+
+37
+00:02:01,290 --> 00:02:06,320
+It is the table pointers that in turn point to the actual thread data structure.
+
+38
+00:02:06,320 --> 00:02:10,750
+The nice thing about this is that if there is a problem with the thread,
+
+39
+00:02:10,750 --> 00:02:12,305
+if the thread ID were a pointer,
+
+40
+00:02:12,305 --> 00:02:15,500
+then that pointer would just point to some corrupt memory.
+
+41
+00:02:15,500 --> 00:02:17,850
+And we can't really figure out what's going on.
+
+42
+00:02:17,850 --> 00:02:22,420
+Whereas here, by having the thread ID index into a table entry,
+
+43
+00:02:22,420 --> 00:02:25,910
+we can encode some information into the table entry that can
+
+44
+00:02:25,910 --> 00:02:28,980
+provide some meaningful feedback or an error message.
+
+45
+00:02:28,980 --> 00:02:31,276
+The thread data structure, we said,
+
+46
+00:02:31,276 --> 00:02:35,456
+contains a number of fields, registers, signal mask, priority.
+
+47
+00:02:35,456 --> 00:02:39,152
+There's also the stack pointer, of course, that points to the stack, and
+
+48
+00:02:39,152 --> 00:02:41,680
+then there is the thread local storage area.
+
+49
+00:02:41,680 --> 00:02:45,290
+This area, this includes the, variables that are defined in
+
+50
+00:02:45,290 --> 00:02:49,520
+the thread functions that are known at compile time, so the compiler can
+
+51
+00:02:49,520 --> 00:02:54,060
+allocate private storage on a per-thread basis for each of them.
+
+52
+00:02:54,060 --> 00:02:59,040
+The stack itself, its size, it may be defined based on some library defaults or
+
+53
+00:02:59,040 --> 00:03:01,000
+the user can provide a stack.
+
+54
+00:03:01,000 --> 00:03:05,610
+But basically the size of a lot of this information, is known up front at
+
+55
+00:03:05,610 --> 00:03:10,060
+compile time, so we can create these thread data structures and
+
+56
+00:03:10,060 --> 00:03:15,860
+sort of layer them in a continuous way, and that can help us achieve locality.
+
+57
+00:03:15,860 --> 00:03:20,200
+It can make it easy for the scheduler to find the next thread.
+
+58
+00:03:20,200 --> 00:03:24,400
+It just has to basically multiply the thread integs with the size of
+
+59
+00:03:24,400 --> 00:03:25,830
+the data structure.
+
+60
+00:03:25,830 --> 00:03:29,350
+The problem however is that the threading library doesn't really
+
+61
+00:03:29,350 --> 00:03:32,170
+control the stack growth, so it doesn't in,
+
+62
+00:03:32,170 --> 00:03:37,370
+inject itself between any kind of update and what gets written on the stack.
+
+63
+00:03:37,370 --> 00:03:39,080
+And then the operating system itself,
+
+64
+00:03:39,080 --> 00:03:41,940
+it doesn't know that there are multiple user-level threads.
+
+65
+00:03:41,940 --> 00:03:45,040
+So it's possible that as the stack is growing,
+
+66
+00:03:45,040 --> 00:03:49,520
+that one thread will end up overwriting the data structure of another thread.
+
+67
+00:03:49,520 --> 00:03:52,520
+If this happens, the tricky part is that the error,
+
+68
+00:03:52,520 --> 00:03:56,850
+the problem will be detected when that other thread gets to run.
+
+69
+00:03:56,850 --> 00:04:00,320
+However, the cause of the problem is a completely different thread.
+
+70
+00:04:00,320 --> 00:04:03,400
+So, so this makes debugging a little bit tricky.
+
+71
+00:04:03,400 --> 00:04:06,150
+The solution that was introduced in this paper was to
+
+72
+00:04:06,150 --> 00:04:11,180
+separate the information about different threads with a so-called red zone.
+
+73
+00:04:11,180 --> 00:04:14,480
+This really refers to a portion of the virtual address space
+
+74
+00:04:14,480 --> 00:04:16,339
+that's not allocated.
+
+75
+00:04:16,339 --> 00:04:20,269
+So if a thread, it's running, and its stack is increasing,
+
+76
+00:04:20,269 --> 00:04:26,060
+if it tries to write to an address that basically falls in this red zone region,
+
+77
+00:04:26,060 --> 00:04:28,620
+then the operating system will cause a fault.
+
+78
+00:04:28,620 --> 00:04:32,690
+Now it's however much easier to reason about what happened because the fault,
+
+79
+00:04:32,690 --> 00:04:36,510
+the problem, was directly caused by the thread that was executing.
+
+80
+00:04:36,510 --> 00:04:39,770
+So it's easier to do root cause analysis and to fix the problem.

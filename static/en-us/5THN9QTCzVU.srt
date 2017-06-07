@@ -1,0 +1,536 @@
+1
+00:00:00,050 --> 00:00:03,820
+AsyncTasks are great for a lot of
+things, but they're not the best choice
+
+2
+00:00:03,820 --> 00:00:08,230
+for updating data in a user interface,
+for that we need a Loader.
+
+3
+00:00:08,230 --> 00:00:11,000
+Loaders solved the problems
+introduced in the previous video.
+
+4
+00:00:11,000 --> 00:00:14,460
+First, no matter how many times
+you request data from a loader,
+
+5
+00:00:14,460 --> 00:00:17,520
+by default the Loader will
+only fetch the data once.
+
+6
+00:00:17,520 --> 00:00:20,820
+No spawning zillions of AsyncTasks and
+activities.
+
+7
+00:00:20,820 --> 00:00:24,570
+Second, when an activity is shut down,
+it'll automatically tell
+
+8
+00:00:24,570 --> 00:00:28,680
+all its Loaders to quit what they're
+doing, since the data won't be used.
+
+9
+00:00:28,680 --> 00:00:33,990
+Finally, Loaders persist across activity
+configuration changes like rotations.
+
+10
+00:00:33,990 --> 00:00:37,790
+So if we kick off a Loader to go
+fetch data and the phone is rotated,
+
+11
+00:00:37,790 --> 00:00:41,980
+the loader will automatically return its
+data to the new activity when it's done.
+
+12
+00:00:41,980 --> 00:00:44,390
+Let's look at the developer guide for
+Loaders.
+
+13
+00:00:44,390 --> 00:00:47,380
+These components in the Android
+framework are specifically designed for
+
+14
+00:00:47,380 --> 00:00:50,950
+loading up data for display and
+activities or fragments.
+
+15
+00:00:50,950 --> 00:00:52,490
+I've included a link below so
+
+16
+00:00:52,490 --> 00:00:54,750
+you can read it through in
+more detailed on your own.
+
+17
+00:00:54,750 --> 00:00:56,910
+We'll begin with the section
+called Starting a Loader.
+
+18
+00:00:58,550 --> 00:00:59,350
+Within your activity,
+
+19
+00:00:59,350 --> 00:01:02,830
+you can start a Loader with
+the help of the LoaderManager.
+
+20
+00:01:02,830 --> 00:01:06,689
+Every intro activity comes equipped
+with a LoaderManager which takes care of
+
+21
+00:01:06,689 --> 00:01:10,683
+creating, reusing, and destroying a set
+of loaders at the appropriate time.
+
+22
+00:01:10,683 --> 00:01:13,040
+Once we get a reference
+to the LoaderManager,
+
+23
+00:01:13,040 --> 00:01:15,780
+we can now call the initLoader method.
+
+24
+00:01:15,780 --> 00:01:18,931
+This first input is unique
+integer identifier.
+
+25
+00:01:18,931 --> 00:01:20,275
+In this case, we use 0,
+
+26
+00:01:20,275 --> 00:01:24,115
+this idea can be any random number as
+it only really matters when you have
+
+27
+00:01:24,115 --> 00:01:28,225
+multiple loaders in an app and
+need to distinguish between them.
+
+28
+00:01:28,225 --> 00:01:32,205
+The other two parameters are one, and
+additional bundle of inputs to Loader
+
+29
+00:01:32,205 --> 00:01:35,465
+which is null in this case,
+and a loader call back object.
+
+30
+00:01:35,465 --> 00:01:38,228
+Now, we specify this for
+the LoaderCallbacks object,
+
+31
+00:01:38,228 --> 00:01:41,755
+because it's common for the current
+activity, which this refers to,
+
+32
+00:01:41,755 --> 00:01:44,137
+to implement
+the LoaderCallbacks interface.
+
+33
+00:01:44,137 --> 00:01:47,905
+So the activity itself is the
+LoaderCallback object that we want to
+
+34
+00:01:47,905 --> 00:01:48,860
+pass in.
+
+35
+00:01:48,860 --> 00:01:51,300
+We'll talk more about
+the LoaderCallbacks later, but
+
+36
+00:01:51,300 --> 00:01:54,160
+I want you to understand
+that the initLoader call
+
+37
+00:01:54,160 --> 00:01:57,670
+ensures that the loader is
+both initialized and active.
+
+38
+00:01:57,670 --> 00:02:02,110
+So if a Loader with a given ID,
+say this ID's 0 already exists,
+
+39
+00:02:02,110 --> 00:02:04,350
+then we will reuse that last Loader.
+
+40
+00:02:04,350 --> 00:02:08,347
+Now, if the Loader with the ID doesn't
+already exist, then the LoaderCallback,
+
+41
+00:02:08,347 --> 00:02:10,900
+onCreateLoader() method
+will be triggered,
+
+42
+00:02:10,900 --> 00:02:12,930
+which will return a new Loader.
+
+43
+00:02:12,930 --> 00:02:17,283
+Now, it's this behavior of reusing
+existing Loaders that's completely
+
+44
+00:02:17,283 --> 00:02:18,050
+essential.
+
+45
+00:02:18,050 --> 00:02:21,726
+So when we rotate the device over and
+over again, the same
+
+46
+00:02:21,726 --> 00:02:26,720
+Loader will be used instead of creating
+a new one on each orientation change.
+
+47
+00:02:26,720 --> 00:02:29,370
+So how does the Loader get created?
+
+48
+00:02:29,370 --> 00:02:33,160
+Well we as the developer are the lucky
+ones that need to define this behavior.
+
+49
+00:02:33,160 --> 00:02:35,830
+By implementing
+the LoaderCallbacks interface.
+
+50
+00:02:35,830 --> 00:02:39,420
+Our activity needs to override
+the following three callback methods
+
+51
+00:02:39,420 --> 00:02:41,798
+in order to interact
+with the LoaderManager.
+
+52
+00:02:41,798 --> 00:02:44,950
+When the onCreateLoader() method is
+called, we need to create and return
+
+53
+00:02:44,950 --> 00:02:48,790
+a new Loader object which will fetch
+the earthquake data from the web server.
+
+54
+00:02:48,790 --> 00:02:52,350
+The onLoadFinished() method is called
+when the Loader is finished loading data
+
+55
+00:02:52,350 --> 00:02:53,680
+on the background thread.
+
+56
+00:02:53,680 --> 00:02:56,980
+This is a good place to update
+UI with the list of earthquakes.
+
+57
+00:02:56,980 --> 00:03:00,320
+The onLoaderReset() method gets called
+when the previous created loader
+
+58
+00:03:00,320 --> 00:03:01,970
+is being reset.
+
+59
+00:03:01,970 --> 00:03:04,590
+So in this case the data from
+the last load is now invalid and
+
+60
+00:03:04,590 --> 00:03:06,110
+should not be use anymore.
+
+61
+00:03:06,110 --> 00:03:06,821
+For example,
+
+62
+00:03:06,821 --> 00:03:10,327
+the loader maybe reset if we decide
+to fetch data from a different URL.
+
+63
+00:03:10,327 --> 00:03:14,940
+In this case, then the existing
+earthquake data is no longer valid.
+
+64
+00:03:14,940 --> 00:03:18,610
+So in this method, we typically clear
+out the data from the last load,
+
+65
+00:03:18,610 --> 00:03:21,190
+which means we should clear out
+the earthquakes from the list.
+
+66
+00:03:21,190 --> 00:03:24,750
+Just as a little reminder, when you
+see callback methods like these,
+
+67
+00:03:24,750 --> 00:03:27,400
+this is a sign that there
+is asynchronous behavior.
+
+68
+00:03:27,400 --> 00:03:31,000
+So remember that asynchronous means
+that the system can move on to do other
+
+69
+00:03:31,000 --> 00:03:34,310
+work before the data is fully
+loaded from the Loader.
+
+70
+00:03:34,310 --> 00:03:38,200
+Now, we create a Loader only
+when the system calls us back
+
+71
+00:03:38,200 --> 00:03:42,390
+via the onCreateLoader() method,
+then the system can go to do other work.
+
+72
+00:03:42,390 --> 00:03:45,580
+We only update the UI when the system
+calls us on the onLoadFinished()
+
+73
+00:03:45,580 --> 00:03:47,570
+with the Loader result.
+
+74
+00:03:47,570 --> 00:03:49,160
+There can be a short amount of time or
+
+75
+00:03:49,160 --> 00:03:52,230
+a lot amount of time in between
+each of these callbacks.
+
+76
+00:03:52,230 --> 00:03:55,840
+In the next video, we'll get into
+the nitty gritty details of the code
+
+77
+00:03:55,840 --> 00:03:57,920
+as well as how to
+actually create a Loader.
+
+78
+00:03:57,920 --> 00:04:00,560
+But for now, I just want to make sure
+that you understand the high level
+
+79
+00:04:00,560 --> 00:04:02,170
+benefits of Loaders.
+
+80
+00:04:02,170 --> 00:04:04,930
+In this blog post by Google
+eDveloper Advocate Ian Lake,
+
+81
+00:04:04,930 --> 00:04:08,060
+he talks about the best practice for
+loading data into an app.
+
+82
+00:04:08,060 --> 00:04:11,540
+In this section, he highlights What's so
+special about Loaders?
+
+83
+00:04:11,540 --> 00:04:14,873
+Upon device rotation,
+even though your activity is recreated,
+
+84
+00:04:14,873 --> 00:04:18,644
+a Loader will survive and the data you
+just fetched will stick around too.
+
+85
+00:04:18,644 --> 00:04:21,339
+So you don't have to do another
+expensive network call.
+
+86
+00:04:21,339 --> 00:04:24,630
+And even better,
+Loaders won't stay around forever.
+
+87
+00:04:24,630 --> 00:04:28,570
+If the activity is destroyed, the Loader
+will be automatically cleaned up.
+
+88
+00:04:28,570 --> 00:04:30,410
+They're actually tied to
+the activity life cycle,
+
+89
+00:04:30,410 --> 00:04:34,740
+and are much more appropriate for
+fetching data that
+
+90
+00:04:34,740 --> 00:04:39,810
+needs to be displayed on-screen
+even if the activity dies.
+
+91
+00:04:39,810 --> 00:04:43,506
+A Loader though lives as long
+as the activity lives so
+
+92
+00:04:43,506 --> 00:04:45,274
+a Loader is what we need.
+
+93
+00:04:45,274 --> 00:04:49,010
+>> Okay, whew,
+that was a fire hose of information.
+
+94
+00:04:49,010 --> 00:04:51,510
+Now, I know it's hard to keep all
+of that straight in your head.
+
+95
+00:04:51,510 --> 00:04:54,900
+So I've summarized the key points in
+this quiz, but left the blanks for
+
+96
+00:04:54,900 --> 00:04:56,040
+you to fill in.
+
+97
+00:04:56,040 --> 00:04:57,849
+Go ahead and help me fill in the blanks.
+
+98
+00:04:59,210 --> 00:05:02,790
+What interacts with an activity to
+manage one or more Loader instances?
+
+99
+00:05:04,970 --> 00:05:08,780
+In order for an Activity to be a client
+that interacts with the LoaderManager,
+
+100
+00:05:08,780 --> 00:05:12,080
+we need the EarthquakeActivity to
+implement the blank interface.
+
+101
+00:05:13,650 --> 00:05:17,678
+Then the Activity must override
+the blank method to create and
+
+102
+00:05:17,678 --> 00:05:19,695
+return a new Loader instance.
+
+103
+00:05:19,695 --> 00:05:23,320
+The blank method to receive the data
+once the Loader has finished loading it.
+
+104
+00:05:24,590 --> 00:05:28,420
+And lastly, the blank method to handle
+when the previously created Loader
+
+105
+00:05:28,420 --> 00:05:31,890
+is no longer needed, unless
+the existing data can be discarded.
+
+106
+00:05:33,100 --> 00:05:35,310
+And lastly, to start a Loader, and
+
+107
+00:05:35,310 --> 00:05:38,550
+trigger the Loader callback methods,
+when the app is launched,
+
+108
+00:05:38,550 --> 00:05:41,810
+in the EarthquakeActivity onCreate()
+method, we should call, what?
+
+109
+00:05:44,310 --> 00:05:47,090
+If you need a hint, I've included
+possible answer choices that you can
+
+110
+00:05:47,090 --> 00:05:49,690
+pick from in the notes below the quiz.
+
+111
+00:05:49,690 --> 00:05:52,270
+So feel free to reference
+the documentation links, and
+
+112
+00:05:52,270 --> 00:05:53,690
+the Loader's development guide as well.

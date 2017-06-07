@@ -1,0 +1,308 @@
+1
+00:00:00,090 --> 00:00:04,870
+We'll now take a look at the various
+components of Sun RPC using an example.
+
+2
+00:00:04,870 --> 00:00:08,900
+The client again will be contacting
+a server that can perform calculations
+
+3
+00:00:08,900 --> 00:00:13,190
+except this time the client will
+pass a single argument x for
+
+4
+00:00:13,190 --> 00:00:17,110
+which it will warn the server to
+compute the squared value, x squared.
+
+5
+00:00:17,110 --> 00:00:18,840
+Here's the .x file for
+
+6
+00:00:18,840 --> 00:00:23,388
+this example with which the server
+specifies its interface.
+
+7
+00:00:23,388 --> 00:00:29,140
+In the .x file, the server specifies
+all the data types that are needed for
+
+8
+00:00:29,140 --> 00:00:33,880
+the arguments, or the results of
+the procedures that it supports.
+
+9
+00:00:33,880 --> 00:00:38,110
+In this case, the server supports one
+procedure, square underscore proc.
+
+10
+00:00:38,110 --> 00:00:42,390
+That has one argument of
+the type square underscore in.
+
+11
+00:00:42,390 --> 00:00:46,390
+And the returns are resolved of
+the type square underscore out.
+
+12
+00:00:46,390 --> 00:00:50,570
+The data type square in, and square out,
+are both defined in the .x file.
+
+13
+00:00:50,570 --> 00:00:52,370
+If we take a look at them,
+
+14
+00:00:52,370 --> 00:00:57,780
+it turns out that both of them have
+a single element and that's an int.
+
+15
+00:00:57,780 --> 00:01:02,810
+And in XDR an int, is an integer
+just like the integers in C.
+
+16
+00:01:02,810 --> 00:01:03,900
+So it's a 32-bit integer.
+
+17
+00:01:05,110 --> 00:01:10,320
+Also note that this notation under
+square_in, square_out is not any part of
+
+18
+00:01:10,320 --> 00:01:15,285
+the required syntax for specifying the
+input and the output data types in XDR.
+
+19
+00:01:16,370 --> 00:01:21,160
+Other than the data types, the .x file
+describes the actual RPC service and
+
+20
+00:01:21,160 --> 00:01:23,120
+all of the procedure it supports.
+
+21
+00:01:23,120 --> 00:01:25,860
+First there is the name
+of the RPC service.
+
+22
+00:01:25,860 --> 00:01:28,660
+In our case that's square_prog.
+
+23
+00:01:28,660 --> 00:01:33,270
+And this is the name that will be used
+by clients when they're trying to find
+
+24
+00:01:33,270 --> 00:01:36,050
+an appropriate service to bind with.
+
+25
+00:01:36,050 --> 00:01:39,880
+A single RPC server can support one or
+more procedures.
+
+26
+00:01:39,880 --> 00:01:40,569
+For instance,
+
+27
+00:01:40,569 --> 00:01:44,530
+a calculator server can support all
+sorts of arithmetic operations.
+
+28
+00:01:44,530 --> 00:01:49,190
+In our case, the square proc service
+supports exactly one procedure and
+
+29
+00:01:49,190 --> 00:01:52,300
+that's square underscore proc,
+procedure.
+
+30
+00:01:52,300 --> 00:01:55,320
+There is an ID number
+that's associated with it.
+
+31
+00:01:55,320 --> 00:01:57,190
+This is one in this case.
+
+32
+00:01:57,190 --> 00:01:59,520
+This number is not
+used by the programmer.
+
+33
+00:01:59,520 --> 00:02:02,750
+This will be used internally
+by the RPC run time.
+
+34
+00:02:02,750 --> 00:02:07,930
+When it's trying to identify which
+particular procedure is being called.
+
+35
+00:02:07,930 --> 00:02:11,520
+So it's not going to pass between the
+client and the server in the packets.
+
+36
+00:02:11,520 --> 00:02:16,400
+The name SQUARE_PROC, instead it will
+use this value 1 as a reference.
+
+37
+00:02:16,400 --> 00:02:19,380
+In addition to this ID number and
+the input and
+
+38
+00:02:19,380 --> 00:02:24,320
+output data types, each procedure
+is also identified by a version.
+
+39
+00:02:24,320 --> 00:02:29,110
+And in fact the version may apply to
+an entire collection of procedures.
+
+40
+00:02:29,110 --> 00:02:32,350
+We see that in this case,
+the version number for a service is 1.
+
+41
+00:02:32,350 --> 00:02:37,600
+Over time, however,
+we may choose to refine
+
+42
+00:02:37,600 --> 00:02:42,510
+that SQUARE_PROC procedure or
+add additional procedures.
+
+43
+00:02:42,510 --> 00:02:46,840
+And as we're doing that, we don't want
+to be forced to immediately go ahead and
+
+44
+00:02:46,840 --> 00:02:51,660
+update all of the clients with this
+perhaps semantically different or
+
+45
+00:02:51,660 --> 00:02:55,630
+syntactically different
+square_proc procedure.
+
+46
+00:02:55,630 --> 00:03:00,340
+In that case, what makes sense is that
+whenever clients and servers interact,
+
+47
+00:03:00,340 --> 00:03:04,860
+they reference the version number of
+the procedure that they're requesting.
+
+48
+00:03:04,860 --> 00:03:09,320
+When a client contacts a server that
+does not support a procedure with
+
+49
+00:03:09,320 --> 00:03:13,500
+the appropriate version number,
+then the communication can be rejected.
+
+50
+00:03:13,500 --> 00:03:16,390
+What this also illustrates
+is that it's possible for
+
+51
+00:03:16,390 --> 00:03:21,250
+a single server to support multiple
+versions of the same procedure, and
+
+52
+00:03:21,250 --> 00:03:24,970
+this helps with, in general,
+the evolution of the system.
+
+53
+00:03:24,970 --> 00:03:28,770
+We don't have to coordinate
+an upgrade of all the servers and
+
+54
+00:03:28,770 --> 00:03:30,908
+all the clients at the exact same time.
+
+55
+00:03:30,908 --> 00:03:35,168
+Finally, the .x file also
+specifies service ID.
+
+56
+00:03:35,168 --> 00:03:39,430
+This id is a number that's used by
+the RPC runtime to differentiate among
+
+57
+00:03:39,430 --> 00:03:40,910
+the different services.
+
+58
+00:03:40,910 --> 00:03:45,030
+So the client will use things like
+service name, and procedure name, and
+
+59
+00:03:45,030 --> 00:03:50,700
+the version number, whereas the RPC
+runtime will refer to the service id,
+
+60
+00:03:50,700 --> 00:03:54,980
+the procedure id, and again,
+it has to know the version id.
+
+61
+00:03:54,980 --> 00:03:59,350
+For the service ID, you're allowed
+to specify a value in this range.
+
+62
+00:03:59,350 --> 00:04:00,510
+The remaining values for
+
+63
+00:04:00,510 --> 00:04:04,680
+service ID's either have some predefined
+values like for instance, for
+
+64
+00:04:04,680 --> 00:04:07,900
+the network file system, or
+they're reserved for future use.

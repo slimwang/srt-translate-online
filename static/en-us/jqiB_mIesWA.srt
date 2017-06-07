@@ -1,0 +1,388 @@
+1
+00:00:00,110 --> 00:00:03,490
+Here are the conclusions that
+we can draw from these results.
+
+2
+00:00:03,490 --> 00:00:07,900
+If we look at the cases for a and b, if
+we remember from the table that we saw
+
+3
+00:00:07,900 --> 00:00:12,290
+with the actual experiments,
+in these cases we had a fairly
+
+4
+00:00:12,290 --> 00:00:17,450
+nice mix of tasks with different
+CPI values on each of the cores.
+
+5
+00:00:17,450 --> 00:00:21,790
+So in these cases, the processor
+pipeline was well utilized and
+
+6
+00:00:21,790 --> 00:00:24,650
+we're obtaining a high IPC.
+
+7
+00:00:24,650 --> 00:00:29,190
+It is not the maximum IPC of 4, so
+the maximum performance that one can
+
+8
+00:00:29,190 --> 00:00:34,160
+obtain on the processor that they will
+be simulating, but it's fairly high.
+
+9
+00:00:34,160 --> 00:00:39,100
+If we'll look at the cases for c and d,
+in these experiments each of the cores
+
+10
+00:00:39,100 --> 00:00:43,680
+was assigned tasks that have
+much more similar CPI values.
+
+11
+00:00:43,680 --> 00:00:45,670
+In fact, in the case of d,
+
+12
+00:00:45,670 --> 00:00:51,520
+every single one of the cores ran tasks
+that had the exact same CPI value.
+
+13
+00:00:51,520 --> 00:00:54,143
+So if we take a look at these results,
+
+14
+00:00:54,143 --> 00:00:59,319
+we see that the total IPC is much lower
+than what we saw for the case a and b.
+
+15
+00:00:59,319 --> 00:01:04,675
+The reason for that is that on some
+cores, like on core zero in particular,
+
+16
+00:01:04,675 --> 00:01:09,791
+but also on core one, there is a lot
+of contention for the CPU pipeline.
+
+17
+00:01:09,791 --> 00:01:13,852
+So these are the cores that mostly
+had tasks with a low CPI, so
+
+18
+00:01:13,852 --> 00:01:17,360
+mostly the compute
+intensive tasks were here.
+
+19
+00:01:17,360 --> 00:01:19,256
+On the other hand, cores two and
+
+20
+00:01:19,256 --> 00:01:23,785
+three, they contribute very little
+to the aggregate IPC metrics.
+
+21
+00:01:23,785 --> 00:01:29,215
+So basically, they really execute only
+very few instructions per cycle or
+
+22
+00:01:29,215 --> 00:01:32,395
+a few, small percentage of
+an instruction per cycle rather,
+
+23
+00:01:32,395 --> 00:01:34,705
+given that a maximum is one.
+
+24
+00:01:34,705 --> 00:01:38,755
+The reason for that is that we
+mostly have memory intensive tasks
+
+25
+00:01:38,755 --> 00:01:43,270
+on these two cores and
+that leads to wasted cycles on them.
+
+26
+00:01:43,270 --> 00:01:48,115
+So by running this experiment,
+Fedorova confirmed her hypothesis
+
+27
+00:01:48,115 --> 00:01:52,535
+that a running tasks that have
+mixed CPI value is a good thing,
+
+28
+00:01:52,535 --> 00:01:57,221
+that that will lead to an overall
+high performance of the system.
+
+29
+00:01:57,221 --> 00:02:00,936
+So the conclusion from these results
+is that CPI's a great metric.
+
+30
+00:02:00,936 --> 00:02:01,841
+And therefore,
+
+31
+00:02:01,841 --> 00:02:05,718
+we should go ahead and build hardware
+that has a CPI hardware counter and
+
+32
+00:02:05,718 --> 00:02:09,852
+tracks this value so that we can then go
+ahead and also build operating system
+
+33
+00:02:09,852 --> 00:02:14,790
+schedulers that use this value in order
+to schedule the right workload mix.
+
+34
+00:02:14,790 --> 00:02:15,891
+Not so fast.
+
+35
+00:02:15,891 --> 00:02:20,333
+In our discussions so
+far in the experimental analysis,
+
+36
+00:02:20,333 --> 00:02:25,620
+we used a workloads that had CPI
+values of one, six, 11 and 16.
+
+37
+00:02:25,620 --> 00:02:31,139
+And the results showed that if we have
+such a hypothetical workload that has
+
+38
+00:02:31,139 --> 00:02:38,020
+such distinct and widely spread out CPI
+values, the scheduler can be effective.
+
+39
+00:02:38,020 --> 00:02:42,590
+But the question is, do realistic
+workloads have CPI values that
+
+40
+00:02:42,590 --> 00:02:47,000
+exhibit anything that we used
+in the synthetic workload?
+
+41
+00:02:47,000 --> 00:02:49,650
+To answer this,
+Fedorova profiled a number of
+
+42
+00:02:49,650 --> 00:02:52,500
+applications from several
+benchmark suites.
+
+43
+00:02:52,500 --> 00:02:56,660
+And these benchmark suites are widely
+recognized in industry and
+
+44
+00:02:56,660 --> 00:03:01,540
+in academia as well that they include
+workloads that are representative of
+
+45
+00:03:01,540 --> 00:03:04,490
+real world, relevant applications.
+
+46
+00:03:04,490 --> 00:03:09,279
+And let's look at the CPI values for
+all of these benchmarks.
+
+47
+00:03:09,279 --> 00:03:12,274
+We see that they're all
+sort of cluttered together.
+
+48
+00:03:12,274 --> 00:03:17,308
+They are in such distinct CPI
+values like one, six, 11,
+
+49
+00:03:17,308 --> 00:03:22,050
+and 16 as what she used in
+her experimental analysis.
+
+50
+00:03:22,050 --> 00:03:26,778
+What this tells us is that although
+in theory it seems like a great
+
+51
+00:03:26,778 --> 00:03:31,248
+idea to use cycles for
+instruction as a scheduling metric for
+
+52
+00:03:31,248 --> 00:03:36,418
+hyperthread of platforms, in practice,
+real workloads don't have
+
+53
+00:03:36,418 --> 00:03:41,502
+behavior that exhibit significant
+differences in their CPI value,
+
+54
+00:03:41,502 --> 00:03:46,220
+and therefore CPI really
+won't be a useful metric.
+
+55
+00:03:46,220 --> 00:03:49,490
+So I showed you a paper about
+something that doesn't work.
+
+56
+00:03:49,490 --> 00:03:53,274
+There's still some very important
+takeaways from this paper.
+
+57
+00:03:53,274 --> 00:03:57,790
+First, you learn about SMTs and some of
+the resource contention issues there,
+
+58
+00:03:57,790 --> 00:04:01,630
+specifically regarding the processor
+pipeline as a resource.
+
+59
+00:04:01,630 --> 00:04:06,800
+Next, you learn how to think about the
+use of hardware counters to establish
+
+60
+00:04:06,800 --> 00:04:11,340
+some kind of characteristics about
+the workload, to understand it better so
+
+61
+00:04:11,340 --> 00:04:16,000
+that you can better inform the operating
+system level resource management.
+
+62
+00:04:16,000 --> 00:04:20,430
+In addition, you learn that it is
+important to design schedulers that will
+
+63
+00:04:20,430 --> 00:04:25,600
+also think about resource contention,
+not just about load balancing.
+
+64
+00:04:25,600 --> 00:04:26,250
+For instance,
+
+65
+00:04:26,250 --> 00:04:30,490
+a scheduler should think about choosing
+a set of tasks that are not going to
+
+66
+00:04:30,490 --> 00:04:35,350
+cause a resource contention with
+respect to the processor pipeline, or
+
+67
+00:04:35,350 --> 00:04:40,700
+the hardware cache, or the memory
+controller, or some type of I/O device.
+
+68
+00:04:40,700 --> 00:04:44,470
+So these principles generalize
+to other types of resources,
+
+69
+00:04:44,470 --> 00:04:49,240
+not just to the processor pipeline
+in hardware multithreaded platforms.
+
+70
+00:04:49,240 --> 00:04:53,700
+And by the way, in Fedorova's follow-on
+work, as well as several other efforts,
+
+71
+00:04:53,700 --> 00:04:58,935
+it's been established that particularly
+important contributor to performance
+
+72
+00:04:58,935 --> 00:05:03,366
+degradation when you're running
+multiple tasks on a single hardware,
+
+73
+00:05:03,366 --> 00:05:06,110
+multithreaded or multi-core platform,
+
+74
+00:05:06,110 --> 00:05:10,670
+is the use of the cache resource,
+in particular the last level cache.
+
+75
+00:05:10,670 --> 00:05:13,849
+So what that has told us is to,
+for instance,
+
+76
+00:05:13,849 --> 00:05:18,532
+keep track of how a set of threads
+is using the cache as a resource and
+
+77
+00:05:18,532 --> 00:05:23,655
+pick a mix that doesn't cause contention
+on the last level cache usage.
+
+78
+00:05:23,655 --> 00:05:25,326
+And this is just for your information.
+
+79
+00:05:25,326 --> 00:05:28,778
+We're not going to look in any
+additional papers that really further
+
+80
+00:05:28,778 --> 00:05:31,290
+explore this issue,
+not in this course at least.

@@ -1,0 +1,302 @@
+﻿1
+00:00:00,440 --> 00:00:03,419
+We just created a variable or
+parameter in Remote Config,
+
+2
+00:00:03,419 --> 00:00:06,560
+called friendly_msg_length
+in the Firebase console.
+
+3
+00:00:06,559 --> 00:00:09,559
+Now we'll configure our app,
+to fetch that parameter.
+
+4
+00:00:09,560 --> 00:00:13,160
+RemoteConfig requires its own
+pod to bring in dependencies.
+
+5
+00:00:13,160 --> 00:00:17,740
+In the pod file, make sure you
+have the Firebase/RemotConfig pod.
+
+6
+00:00:17,739 --> 00:00:21,279
+If the pod isn't there,
+you can add it now, and run pod install.
+
+7
+00:00:21,280 --> 00:00:24,460
+We have all the pods we need,
+so let's go back to Xcode.
+
+8
+00:00:24,460 --> 00:00:28,670
+Here I am in the FC view controller,
+at the signedInStatus function.
+
+9
+00:00:28,670 --> 00:00:31,490
+When a user logs in,
+I want the app to set the message length
+
+10
+00:00:31,489 --> 00:00:34,699
+equal to the value we've set
+in the remote configuration.
+
+11
+00:00:34,700 --> 00:00:35,410
+I'm going to add a call,
+
+12
+00:00:35,409 --> 00:00:39,369
+to configureRemoteConfig,
+here in signedInStatus.
+
+13
+00:00:39,369 --> 00:00:43,059
+This function will be responsible for
+instantiating the Remote Config.
+
+14
+00:00:43,060 --> 00:00:45,660
+I'm also going to add a call,
+to fetchConfig.
+
+15
+00:00:45,659 --> 00:00:48,639
+This function will assign the most
+recent message length value
+
+16
+00:00:48,640 --> 00:00:49,869
+from our remote configuration.
+
+17
+00:00:51,170 --> 00:00:53,980
+Now let's dive into,
+configureRemoteConfig.
+
+18
+00:00:53,979 --> 00:00:56,809
+We'll create a reference to
+the singleton Remote Config object.
+
+19
+00:00:57,939 --> 00:01:01,189
+The Remote Config object stores default
+parameter values that are found in
+
+20
+00:01:01,189 --> 00:01:01,820
+the app.
+
+21
+00:01:01,820 --> 00:01:04,260
+Fetches new parameter
+values from the server, and
+
+22
+00:01:04,260 --> 00:01:07,340
+determines when those fetch values,
+are implemented in the app.
+
+23
+00:01:08,420 --> 00:01:12,980
+I'm also going to create an instance
+of the FIRRemmoteConfigSettings object,
+
+24
+00:01:12,980 --> 00:01:14,424
+with developerModeEnabled.
+
+25
+00:01:15,590 --> 00:01:17,880
+We can then assign those
+settings to our Remote Config.
+
+26
+00:01:19,180 --> 00:01:22,120
+This will give us the ability to create
+a set of conditions that only apply
+
+27
+00:01:22,120 --> 00:01:24,640
+in developer mode, so
+we can automatically pull in
+
+28
+00:01:24,640 --> 00:01:27,441
+any changes we make to
+the Remote Config while testing.
+
+29
+00:01:29,010 --> 00:01:32,219
+Specifically, it will let us change
+the length of time, that the app waits
+
+30
+00:01:32,219 --> 00:01:35,349
+to fetch a new configuration, so
+that we can see results right away.
+
+31
+00:01:36,500 --> 00:01:38,250
+Now, let's implement
+the fetch config function,
+
+32
+00:01:38,250 --> 00:01:40,549
+to show you what change in
+the wait time looks like.
+
+33
+00:01:42,268 --> 00:01:47,090
+First, I'm going to set the default,
+expiration duration to 3600 seconds, or
+
+34
+00:01:47,090 --> 00:01:47,510
+60 minutes.
+
+35
+00:01:49,280 --> 00:01:51,590
+The expiration duration
+is the amount of time,
+
+36
+00:01:51,590 --> 00:01:54,950
+that goes by before the app
+fetches a new config, in seconds.
+
+37
+00:01:56,230 --> 00:01:59,240
+Then I'll add a condition that if
+the developer mode is enabled,
+
+38
+00:01:59,239 --> 00:02:01,719
+the expiration duration is zero seconds.
+
+39
+00:02:02,859 --> 00:02:05,510
+As in the configuration
+immediately expires, so
+
+40
+00:02:05,510 --> 00:02:07,030
+it's always looking to fetch a new one.
+
+41
+00:02:08,080 --> 00:02:11,290
+This condition's what's going to help
+us try out configurations quickly,
+
+42
+00:02:11,289 --> 00:02:12,280
+while developing the app.
+
+43
+00:02:13,759 --> 00:02:16,429
+Then we'll call
+fetch(withDurationExpiration)
+
+44
+00:02:16,430 --> 00:02:17,909
+using the Remote Config object.
+
+45
+00:02:19,430 --> 00:02:21,599
+If the configuration is
+successfully fetched,
+
+46
+00:02:21,599 --> 00:02:23,979
+then it prints that it was successful.
+
+47
+00:02:23,979 --> 00:02:27,750
+We call activateFetched, which replaces
+the current cached configuration value,
+
+48
+00:02:27,750 --> 00:02:29,127
+with the one that was just fetched.
+
+49
+00:02:29,127 --> 00:02:32,848
+We set friendly_msg_length to
+the value from the Remote Config.
+
+50
+00:02:33,969 --> 00:02:36,830
+Then we check to ensure that the
+friendly_msg_length came from the remote
+
+51
+00:02:36,830 --> 00:02:40,270
+configuration, instead of
+the default variable in the app.
+
+52
+00:02:40,270 --> 00:02:43,454
+And if that's the case, we finally set
+the message length here in the app.
+
+53
+00:02:43,454 --> 00:02:45,631
+[BLANK_AUDIO]
+
+54
+00:02:45,631 --> 00:02:47,764
+Otherwise, if the config
+can not be fetched,
+
+55
+00:02:47,764 --> 00:02:50,959
+then we'll just print the error for
+now ,but we'd want to handle it.
+
+56
+00:02:50,960 --> 00:02:52,830
+And if the configuration
+can't be fetched,
+
+57
+00:02:52,830 --> 00:02:55,040
+then the else statement will just
+print out the error for now.
+
+58
+00:02:56,069 --> 00:02:58,274
+Okay, we set up the remote
+configuration and
+
+59
+00:02:58,274 --> 00:03:02,909
+we set friendly_msg_length to 140 in the
+Remote Config tab of Firebase console.
+
+60
+00:03:02,909 --> 00:03:04,349
+Let's see what our messages,
+look like now.
+
+61
+00:03:06,330 --> 00:03:08,360
+I've tried typing the longest
+message I can, and
+
+62
+00:03:08,360 --> 00:03:10,780
+it will not exceed 140 characters.
+
+63
+00:03:10,780 --> 00:03:12,400
+So it looks like our
+Remote Config is working.
+

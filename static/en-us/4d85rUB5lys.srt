@@ -1,0 +1,690 @@
+1
+00:00:00,110 --> 00:00:02,070
+So in the last two
+individuals coding tasks,
+
+2
+00:00:02,070 --> 00:00:06,455
+you implemented the content providers
+query method, so this one down here and
+
+3
+00:00:06,455 --> 00:00:10,160
+modified the UI code to use
+the provider query method.
+
+4
+00:00:10,160 --> 00:00:13,943
+Now in this task, you'll be implementing
+the content provider insert method,
+
+5
+00:00:15,005 --> 00:00:17,265
+as well as update the UI
+code in order to use it.
+
+6
+00:00:18,355 --> 00:00:20,485
+Now I know this might be
+a little bit of a challenge but
+
+7
+00:00:20,485 --> 00:00:22,535
+you are definitely ready for it.
+
+8
+00:00:22,535 --> 00:00:24,905
+So before we get started,
+let's take a look at the insert method.
+
+9
+00:00:25,955 --> 00:00:27,865
+So from this documentation,
+let's click into here.
+
+10
+00:00:29,715 --> 00:00:33,085
+And we see that the insert method
+takes in two parameters, so
+
+11
+00:00:33,085 --> 00:00:36,495
+it has the Uri and the ContentValues.
+
+12
+00:00:36,495 --> 00:00:38,500
+So let's explore those in more detail.
+
+13
+00:00:38,500 --> 00:00:42,000
+So here's a review of the end-to-end
+diagram of the insert method
+
+14
+00:00:42,000 --> 00:00:44,120
+before we dive into coding it.
+
+15
+00:00:44,120 --> 00:00:47,825
+Now, when we start off and click
+the Save button in the Editor Activity,
+
+16
+00:00:47,825 --> 00:00:49,341
+in order to save off a new pet,
+
+17
+00:00:49,341 --> 00:00:51,985
+we're going to call
+the resolver's insert method.
+
+18
+00:00:51,985 --> 00:00:55,433
+Passing in the URI and
+the ContentValues object.
+
+19
+00:00:55,433 --> 00:01:00,854
+Now the URI indicates where to
+insert the data such as what table.
+
+20
+00:01:00,854 --> 00:01:05,111
+And the ContentValues indicates what
+should be inserted into that row.
+
+21
+00:01:05,111 --> 00:01:09,211
+Then the Content Resolver over passes
+on the request to our provider and
+
+22
+00:01:09,211 --> 00:01:12,912
+the Uri matcher, then helps us
+determine what type of Uri it is.
+
+23
+00:01:14,032 --> 00:01:19,486
+From there, we decide that we want to
+insert a new row into the pets table.
+
+24
+00:01:19,486 --> 00:01:21,535
+And so this new row gets added.
+
+25
+00:01:21,535 --> 00:01:26,211
+Now the result of all this is a pet
+content Uri with the row ID of
+
+26
+00:01:26,211 --> 00:01:27,880
+the newly added pet.
+
+27
+00:01:29,430 --> 00:01:33,090
+And so this newly added row is
+added at the end of the Uri.
+
+28
+00:01:33,090 --> 00:01:37,340
+The Uri will then get returned to
+the pet provider's insert method.
+
+29
+00:01:37,340 --> 00:01:40,750
+Which gets returned by the resolver
+back to our editor activity.
+
+30
+00:01:41,830 --> 00:01:44,750
+So this here is the end to end
+flow of our insert method.
+
+31
+00:01:45,960 --> 00:01:49,117
+So the Uri and
+content values goes in and
+
+32
+00:01:49,117 --> 00:01:53,430
+a new row gets added and
+the Uri for that row comes out.
+
+33
+00:01:53,430 --> 00:01:55,381
+[BLANK_AUDIO]
+
+34
+00:01:55,381 --> 00:01:59,780
+Now to implement the insert method,
+I'll be providing you some starter code.
+
+35
+00:01:59,780 --> 00:02:03,635
+As I did before with the query method
+to help give you some structure.
+
+36
+00:02:03,635 --> 00:02:06,210
+And I'm going to give you
+two methods this time.
+
+37
+00:02:06,210 --> 00:02:11,430
+So first, the insert method as well as
+another helper method called insertPet.
+
+38
+00:02:12,510 --> 00:02:15,700
+So this insertPet is one
+that we've created and
+
+39
+00:02:15,700 --> 00:02:18,270
+it's called by the insert
+method inside of here.
+
+40
+00:02:19,842 --> 00:02:21,370
+Now in the quiz associated
+with this video,
+
+41
+00:02:21,370 --> 00:02:25,910
+you will be adding this code
+here to your pet provider.
+
+42
+00:02:25,910 --> 00:02:29,790
+As well as finishing out this to do,
+which we have left behind.
+
+43
+00:02:29,790 --> 00:02:32,330
+So I know this might look
+like a lot of code and
+
+44
+00:02:32,330 --> 00:02:35,170
+it might be a little bit scary,
+but don't be intimidated.
+
+45
+00:02:35,170 --> 00:02:38,510
+Let's take a look at a high level
+picture of what's going on here first,
+
+46
+00:02:38,510 --> 00:02:39,709
+and then dive into the details.
+
+47
+00:02:41,580 --> 00:02:45,900
+So what's happening is that we'll
+be taking in the incoming URI and
+
+48
+00:02:45,900 --> 00:02:49,760
+using the URI matcher to figure
+out what pattern matches.
+
+49
+00:02:49,760 --> 00:02:51,240
+So similar to what we
+do at the query method.
+
+50
+00:02:52,540 --> 00:02:55,330
+However insertion won't be possible for
+
+51
+00:02:55,330 --> 00:02:58,770
+the PET_ID case in
+this insert situation.
+
+52
+00:03:00,190 --> 00:03:04,930
+So this situation is not supported
+in the URIMatcher insert method.
+
+53
+00:03:04,930 --> 00:03:09,880
+And this is because it doesn't
+make sense to insert a new method
+
+54
+00:03:09,880 --> 00:03:12,380
+into a single row where
+a pet already exists.
+
+55
+00:03:13,450 --> 00:03:18,570
+So hence, we'll only be inserting
+a new pet in the pets case.
+
+56
+00:03:18,570 --> 00:03:21,140
+Because we're performing this
+operation on the whole table.
+
+57
+00:03:22,210 --> 00:03:26,870
+Now within this case, we'll be
+getting back a database object, and
+
+58
+00:03:26,870 --> 00:03:29,660
+then perform the insertion
+on that object.
+
+59
+00:03:31,130 --> 00:03:34,060
+So with that high-level step in mind,
+let's walk through the code.
+
+60
+00:03:35,490 --> 00:03:37,138
+Now, within the provider's
+insert method,
+
+61
+00:03:37,138 --> 00:03:40,850
+we'll first use the URI matcher
+to check if there's a match.
+
+62
+00:03:42,710 --> 00:03:45,490
+Next we're going to use the switch
+statements to determine
+
+63
+00:03:45,490 --> 00:03:46,670
+which case it falls into.
+
+64
+00:03:48,050 --> 00:03:53,120
+Now, as I mentioned earlier, only the
+PETS case is supported for insertion.
+
+65
+00:03:53,120 --> 00:03:56,500
+So any other match, or perhaps no match,
+
+66
+00:03:56,500 --> 00:04:00,210
+will just fall into the default case,
+and an exception will be thrown.
+
+67
+00:04:01,700 --> 00:04:05,350
+So within the pets case, we'll be
+calling the insert pet helper method.
+
+68
+00:04:06,380 --> 00:04:09,870
+Now we didn't necessarily need
+an extra helper method out here.
+
+69
+00:04:09,870 --> 00:04:15,350
+We could've as easily put all this
+logic up here inside the insert method,
+
+70
+00:04:15,350 --> 00:04:17,040
+inside the pets case.
+
+71
+00:04:17,040 --> 00:04:20,940
+But since we'll be adding
+more code in this TODO line.
+
+72
+00:04:20,940 --> 00:04:22,380
+It's going to get pretty long in here.
+
+73
+00:04:23,890 --> 00:04:26,110
+So to make it easier to read,
+
+74
+00:04:26,110 --> 00:04:28,940
+we've pulled out this code
+into a separate helper method,
+
+75
+00:04:28,940 --> 00:04:33,000
+and now we have two shorter methods
+instead of just one long one.
+
+76
+00:04:34,140 --> 00:04:37,080
+Now within the insert pet method,
+for this to do,
+
+77
+00:04:37,080 --> 00:04:39,410
+you're going to be responsible for
+
+78
+00:04:39,410 --> 00:04:43,570
+interacting with SQLite database to do
+the insertion where the new pet will
+
+79
+00:04:43,570 --> 00:04:47,090
+have the attributes contained
+within that contentValues subject.
+
+80
+00:04:49,485 --> 00:04:53,340
+Now the last sort of code of our
+insertPet method will return to us
+
+81
+00:04:53,340 --> 00:04:55,680
+the URI for the newly inserted Pet.
+
+82
+00:04:56,860 --> 00:04:58,880
+Now let's walk through an example
+to make all this clear.
+
+83
+00:04:59,940 --> 00:05:04,282
+So in this example, say the provider
+insert( ) method Is called with
+
+84
+00:05:04,282 --> 00:05:07,870
+the General Pet URI, so ending in /pets.
+
+85
+00:05:07,870 --> 00:05:10,297
+As well as a content value subject.
+
+86
+00:05:10,297 --> 00:05:14,840
+Now say this content values object
+contains these key value pairs.
+
+87
+00:05:14,840 --> 00:05:18,776
+Where the name is Tommy,
+the breed is Pomeranian,
+
+88
+00:05:18,776 --> 00:05:21,623
+the gender is 1 and the weight is 4.
+
+89
+00:05:21,623 --> 00:05:25,513
+So note that we don't specify the ID
+here because the row ID will be
+
+90
+00:05:25,513 --> 00:05:30,800
+auto-generated in increasing order as
+we insert new pets into the table.
+
+91
+00:05:30,800 --> 00:05:32,991
+Now within the insert() method,
+
+92
+00:05:32,991 --> 00:05:36,430
+we're going to detect that
+the Uri matches our pets case.
+
+93
+00:05:37,670 --> 00:05:40,780
+And from there we can proceed
+with the database change.
+
+94
+00:05:40,780 --> 00:05:44,920
+So the Java code that you'll write in
+the TODO section down in insert pet.
+
+95
+00:05:44,920 --> 00:05:48,700
+It will ultimately translate
+into this SQLite statement.
+
+96
+00:05:49,730 --> 00:05:56,910
+Where we insert into pets for the
+columns name, breed, gender, and weight.
+
+97
+00:05:56,910 --> 00:06:02,449
+And then we use the values Tommy,
+Pomeranian, 1, and 4.
+
+98
+00:06:02,449 --> 00:06:07,783
+So the result of this database insertion
+will be a new row ID which could be
+
+99
+00:06:07,783 --> 00:06:12,950
+6 for example if there are already
+five pets already in the database.
+
+100
+00:06:14,010 --> 00:06:17,970
+Notice that the ID number is
+automatically returned as the returned
+
+101
+00:06:17,970 --> 00:06:20,490
+value for our insert method.
+
+102
+00:06:20,490 --> 00:06:27,141
+Instead what we need to do is call
+ContentUris.withAppendedId and
+
+103
+00:06:27,141 --> 00:06:31,060
+use this method to generate
+the proper pet Uri for us.
+
+104
+00:06:32,120 --> 00:06:35,050
+So taking a closer look at
+this line of code, see that
+
+105
+00:06:35,050 --> 00:06:41,560
+the contentUris.withAppendedId method
+knows how to take our pet content URI.
+
+106
+00:06:41,560 --> 00:06:43,740
+So this here shown here in green and
+
+107
+00:06:43,740 --> 00:06:47,080
+add the number 6 shown in
+purple at the end of it.
+
+108
+00:06:48,240 --> 00:06:55,060
+So the return value of this
+method would be this URI.
+
+109
+00:06:55,060 --> 00:07:00,740
+So zooming back to this diagram,
+we see that the return value is our URI.
+
+110
+00:07:00,740 --> 00:07:03,740
+And this will go all the way
+back to our Editor Activity.
+
+111
+00:07:04,940 --> 00:07:06,020
+Now I want you to go ahead and
+
+112
+00:07:06,020 --> 00:07:10,820
+help implement the insert method
+into your PetProvider class.
+
+113
+00:07:10,820 --> 00:07:13,590
+So start by replacing the insert
+method already in there, but
+
+114
+00:07:13,590 --> 00:07:15,200
+the code link below in the Gist.
+
+115
+00:07:16,960 --> 00:07:19,730
+Also remember to add
+the insert pet helper method
+
+116
+00:07:19,730 --> 00:07:23,720
+which we've provided in the Gist and
+finish out the TODO marked in the code.
+
+117
+00:07:24,960 --> 00:07:27,320
+Also for the second half of this quiz,
+
+118
+00:07:27,320 --> 00:07:30,850
+I want you to update the UI code
+to use the provider insert method.
+
+119
+00:07:31,960 --> 00:07:35,310
+And now what you can ensure that your
+code from the first half of this quiz,
+
+120
+00:07:35,310 --> 00:07:36,080
+is acting correctly.
+
+121
+00:07:37,530 --> 00:07:40,700
+So by that I mean there
+are two places with an app
+
+122
+00:07:40,700 --> 00:07:43,520
+that we need to insert a new
+pet into the provider.
+
+123
+00:07:43,520 --> 00:07:48,446
+So the first one is in the catalog
+activity where we insert dummy data via
+
+124
+00:07:48,446 --> 00:07:50,754
+the Insert Dummy Data menu item.
+
+125
+00:07:50,754 --> 00:07:54,825
+And second place is in our Editor
+Activity when we hit the Save button to
+
+126
+00:07:54,825 --> 00:07:55,930
+save off a new pet.
+
+127
+00:07:57,230 --> 00:07:58,371
+So in this coding exercise,
+
+128
+00:07:58,371 --> 00:08:03,530
+you will need to modify both the catalog
+activity and the editor activity to
+
+129
+00:08:03,530 --> 00:08:08,000
+take advantage of the provider's insert
+functionality that you just added.
+
+130
+00:08:08,000 --> 00:08:13,010
+So to recap what I just said, remove
+any old code in the two activities
+
+131
+00:08:13,010 --> 00:08:15,460
+that query the database directly.
+
+132
+00:08:15,460 --> 00:08:19,451
+And instead I want you to call the
+ContentResolver's insert( ) method which
+
+133
+00:08:19,451 --> 00:08:22,070
+in turn calls the provider's
+insert( ) method.
+
+134
+00:08:22,070 --> 00:08:24,570
+You may also want to update the text
+message that gets displayed
+
+135
+00:08:24,570 --> 00:08:25,990
+in the EditorActivity,
+
+136
+00:08:25,990 --> 00:08:28,460
+letting the user know that the pet
+has been successfully saved or not.
+
+137
+00:08:28,460 --> 00:08:32,460
+And it's because there's no need
+to show the user the row ID or
+
+138
+00:08:32,460 --> 00:08:34,669
+the content URI of the new pet.
+
+139
+00:08:34,669 --> 00:08:39,246
+And lastly as a tip, move the user
+visible friendly text in the text
+
+140
+00:08:39,246 --> 00:08:42,539
+message into the strings.xml
+resource file.
+
+141
+00:08:42,539 --> 00:08:44,080
+Remember this is good practice, so
+
+142
+00:08:44,080 --> 00:08:47,380
+we're not hard coding this
+information into the Java file.
+
+143
+00:08:48,560 --> 00:08:51,880
+So here's an example of what the updated
+text message would look like.
+
+144
+00:08:51,880 --> 00:08:54,960
+So once the pet is entered
+into the EditorActivity and
+
+145
+00:08:54,960 --> 00:08:59,200
+saved off, this new text message could
+simply just say that the pet is saved.

@@ -1,0 +1,175 @@
+1
+00:00:00,000 --> 00:00:04,000
+[Norvig] We've seen how to do enumeration to solve the inference problem
+
+2
+00:00:04,000 --> 00:00:06,000
+on belief networks.
+
+3
+00:00:06,000 --> 00:00:10,000
+For a simple network like the alarm network, that's all we need to know.
+
+4
+00:00:10,000 --> 00:00:14,000
+There's only 5 variables, so even if all 5 of them were hidden,
+
+5
+00:00:14,000 --> 00:00:20,000
+there would only be 32 rows in the table to sum up.
+
+6
+00:00:20,000 --> 00:00:22,000
+From a theoretical point of view, we're done.
+
+7
+00:00:22,000 --> 00:00:26,000
+But from a practical point of view, other networks could give us trouble.
+
+8
+00:00:26,000 --> 00:00:35,000
+Consider this network, which is one for determining insurance for car owners.
+
+9
+00:00:35,000 --> 00:00:38,000
+There are 27 different variables.
+
+10
+00:00:38,000 --> 00:00:44,000
+If each of the variables were boolean, that would give us over 100 million rows to sum out.
+
+11
+00:00:44,000 --> 00:00:46,000
+But in fact, some of the variables are non-boolean,
+
+12
+00:00:46,000 --> 00:00:52,000
+they have multiple values, and it turns out that representing this entire network
+
+13
+00:00:52,000 --> 00:00:57,000
+and doing enumeration we'd have to sum over a quadrillion rows.
+
+14
+00:00:57,000 --> 00:01:01,000
+That's just not practical, so we're going to have to come up with methods
+
+15
+00:01:01,000 --> 00:01:04,000
+that are faster than enumerating everything.
+
+16
+00:01:04,000 --> 00:01:09,000
+The first technique we can use to get a speed-up in doing inference on Bayes nets
+
+17
+00:01:09,000 --> 00:01:13,000
+is to pull out terms from the enumeration.
+
+18
+00:01:13,000 --> 00:01:20,000
+For example, here the probability of b is going to be the same for all values of E and a.
+
+19
+00:01:20,000 --> 00:01:26,000
+So we can take that term and move it out of the summation,
+
+20
+00:01:26,000 --> 00:01:28,000
+and now we have a little bit less work to do.
+
+21
+00:01:28,000 --> 00:01:33,000
+We can multiply by that term once rather than having it in each row of the table.
+
+22
+00:01:33,000 --> 00:01:40,000
+We can also move this term, the P of e, to the left of the summation over a,
+
+23
+00:01:40,000 --> 00:01:43,000
+because it doesn't depend on a.
+
+24
+00:01:43,000 --> 00:01:45,000
+By doing this, we're doing less work.
+
+25
+00:01:45,000 --> 00:01:50,000
+The inner loop of the summation now has only 3 terms rather than 5 terms.
+
+26
+00:01:50,000 --> 00:01:53,000
+So we've reduced the cost of doing each row of the table.
+
+27
+00:01:53,000 --> 00:01:57,000
+But we still have the same number of rows in the table,
+
+28
+00:01:57,000 --> 00:02:00,000
+so we're going to have to do better than that.
+
+29
+00:02:00,000 --> 00:02:08,000
+The next technique for efficient inference is to maximize independence of variables.
+
+30
+00:02:08,000 --> 00:02:12,000
+The structure of a Bayes net determines how efficient it is to do inference on it.
+
+31
+00:02:12,000 --> 00:02:17,000
+For example, a network that's a linear string of variables,
+
+32
+00:02:17,000 --> 00:02:27,000
+X1 through Xn, can have inference done in time proportional to the number n,
+
+33
+00:02:27,000 --> 00:02:31,000
+whereas a network that's a complete network
+
+34
+00:02:31,000 --> 00:02:40,000
+where every node points to every other node and so on could take time 2 to the n
+
+35
+00:02:40,000 --> 00:02:45,000
+if all n variables are boolean variables.
+
+36
+00:02:45,000 --> 00:02:50,000
+In the alarm network we saw previously, we took care
+
+37
+00:02:50,000 --> 00:02:54,000
+to make sure that we had all the independence relations represented
+
+38
+00:02:54,000 --> 00:02:57,000
+in the structure of the network.
+
+39
+00:02:57,000 --> 00:03:00,000
+But if we put the nodes together in a different order,
+
+40
+00:03:00,000 --> 00:03:03,000
+we would end up with a different structure.
+
+41
+00:03:03,000 --> 00:03:09,000
+Let's start by ordering the node John calls first
+
+42
+00:03:09,000 --> 00:03:13,000
+and then adding in the node Mary calls.
+
+43
+00:03:13,000 --> 00:03:19,000
+The question is, given just these 2 nodes and looking at the node for Mary calls,
+
+44
+00:03:19,000 --> 99:59:59,999
+is that node dependent or independent of the node for John calls?

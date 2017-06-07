@@ -1,0 +1,111 @@
+1
+00:00:00,360 --> 00:00:03,820
+As we said before, we have to figure out the dependencies.
+
+2
+00:00:03,820 --> 00:00:06,920
+Even though this problem has output [UNKNOWN] dependencies, again for
+
+3
+00:00:06,920 --> 00:00:09,980
+ILP all we care about is the true dependencies so
+
+4
+00:00:09,980 --> 00:00:13,730
+we could rename this program and give us the true dependencies or
+
+5
+00:00:13,730 --> 00:00:18,770
+we could just look at where the true dependencies are here. So we have here,
+
+6
+00:00:18,770 --> 00:00:22,960
+this is using R1,. This is using R2 and R1.
+
+7
+00:00:22,960 --> 00:00:28,250
+But it doesn't matter because this is going to be longer. R7 and
+
+8
+00:00:28,250 --> 00:00:34,840
+R8 are not depending on anything yet. R3 and R7, there is a dependence here.
+
+9
+00:00:34,840 --> 00:00:40,270
+R1 and R1, were dependant on this instruction here,
+
+10
+00:00:40,270 --> 00:00:45,110
+for both of them really. And then R7 and R7 we are not using any of them.
+
+11
+00:00:45,110 --> 00:00:49,640
+Again, we are overwriting R1 here. We are overwriting R1 here. And so on but
+
+12
+00:00:49,640 --> 00:00:53,330
+that doesn't matter because after renaming all of that will be gone. So,
+
+13
+00:00:53,330 --> 00:00:57,950
+now it's time to figure out what can execute in which cycle. In the first cycle
+
+14
+00:00:57,950 --> 00:01:02,260
+we can execute this one. We cannot execute this one because it depends on that.
+
+15
+00:01:02,260 --> 00:01:04,680
+We cannot execute this one because it has to wait for
+
+16
+00:01:04,680 --> 00:01:08,860
+the second instruction. We can execute this one, it doesn't depend on anything.
+
+17
+00:01:08,860 --> 00:01:14,190
+We cannot execute this one yet, because it has a dependence, this one also, but
+
+18
+00:01:14,190 --> 00:01:17,619
+this one can execute. So in the first cycle, we managed to do, 3 instructions.
+
+19
+00:01:18,780 --> 00:01:22,340
+Now this instruction only depends on instruction that is done after cycle 1, so
+
+20
+00:01:22,340 --> 00:01:26,240
+this can be done in second cycle. This one actually depends on instruction that
+
+21
+00:01:26,240 --> 00:01:29,620
+is done in second cycle so it will have to wait until the third cycle.
+
+22
+00:01:30,980 --> 00:01:34,750
+This one depends on an instruction that is done in the third cycle so
+
+23
+00:01:34,750 --> 00:01:39,040
+this is going to be executed in the fourth cycle. This one can actually execute
+
+24
+00:01:39,040 --> 00:01:42,370
+in the second cycle, depends on instruction that executes in the first cycle,
+
+25
+00:01:42,370 --> 00:01:44,580
+and that's it. So,it can be done in the second cycle.
+
+26
+00:01:44,580 --> 00:01:49,400
+So what we have is the last instruction that finishes in cycle 4 and
+
+27
+00:01:49,400 --> 00:01:57,400
+we managed to execute seven instructions over that time. So we have 7 over 4,
+
+28
+00:01:57,400 --> 00:02:02,949
+which if you want to calculate it out it's going to end up being 1.75.

@@ -1,0 +1,848 @@
+1
+00:00:00,230 --> 00:00:04,200
+We're going to be implementing the
+methods of a pet provider shortly but
+
+2
+00:00:04,200 --> 00:00:06,590
+let's recap what we've
+learned about URIs so far.
+
+3
+00:00:08,010 --> 00:00:11,920
+So we've decided that there are two
+types of content URIs in our pets app.
+
+4
+00:00:11,920 --> 00:00:15,510
+So there will be one that
+operates on the whole pets table.
+
+5
+00:00:16,850 --> 00:00:20,450
+And another one that operates just
+on a single row of the pets table.
+
+6
+00:00:20,450 --> 00:00:23,260
+And we do so
+by appending the row id to the URI.
+
+7
+00:00:25,390 --> 00:00:29,080
+And most recently you've
+modified that to add contents for
+
+8
+00:00:29,080 --> 00:00:31,550
+these URIs in the pet content file.
+
+9
+00:00:32,990 --> 00:00:35,510
+Now to start figuring out how
+to implement the provider,
+
+10
+00:00:35,510 --> 00:00:37,769
+we're going to zoom
+into the details here.
+
+11
+00:00:38,880 --> 00:00:42,040
+Of exactly how the provider
+interacts with the data source.
+
+12
+00:00:43,120 --> 00:00:45,455
+In our case our data
+source is the data base.
+
+13
+00:00:45,455 --> 00:00:48,959
+[BLANK_AUDIO]
+
+14
+00:00:48,959 --> 00:00:54,192
+All we know that the URI code, so
+in this case the catalog activity will
+
+15
+00:00:54,192 --> 00:00:59,523
+perform an action such as try the query
+the content resolver for a pet URI
+
+16
+00:00:59,523 --> 00:01:03,205
+[BLANK_AUDIO]
+
+17
+00:01:03,205 --> 00:01:07,537
+The content resolver will realized
+that the pet URI has the pet content
+
+18
+00:01:07,537 --> 00:01:12,384
+authority and then send the request over
+to the correct pet provider in order to
+
+19
+00:01:12,384 --> 00:01:13,280
+handle this.
+
+20
+00:01:14,590 --> 00:01:18,260
+Now at this point it's up to our
+provider to determine how to handle
+
+21
+00:01:18,260 --> 00:01:23,930
+request by either fetching or
+modifying the data source as needed.
+
+22
+00:01:26,370 --> 00:01:29,220
+So for
+to figure out how to handle request,
+
+23
+00:01:29,220 --> 00:01:32,210
+the pet provider utilizes
+the URI matcher.
+
+24
+00:01:33,770 --> 00:01:37,260
+So the URI matcher determines what
+kind of URI was passed to it.
+
+25
+00:01:39,420 --> 00:01:42,530
+And so that we can use that to figure
+out which path we need to follow.
+
+26
+00:01:45,110 --> 00:01:49,820
+For example, if the URI is of this
+first format then we go down path one,
+
+27
+00:01:50,850 --> 00:01:53,220
+meaning that we perform an action
+on the whole pets table.
+
+28
+00:01:55,100 --> 00:01:59,290
+Whereas if the URI is of another format,
+then we go down this path
+
+29
+00:01:59,290 --> 00:02:02,400
+where we perform an action on just
+a single pet from the pets table.
+
+30
+00:02:04,840 --> 00:02:06,629
+Now here's another way
+to think about all this.
+
+31
+00:02:07,730 --> 00:02:10,810
+So the URI is use by the activity,
+
+32
+00:02:10,810 --> 00:02:15,435
+the content resolver as
+well as the pet provider.
+
+33
+00:02:15,435 --> 00:02:18,560
+And it's use as a signal for what part
+of the data that we're interested in.
+
+34
+00:02:20,000 --> 00:02:22,420
+Now once we hit the URI matcher,
+
+35
+00:02:22,420 --> 00:02:25,240
+we use the URI to determine
+which path we need to go down.
+
+36
+00:02:26,470 --> 00:02:30,600
+And once we make this decision,
+the URI has served its purpose and
+
+37
+00:02:30,600 --> 00:02:31,430
+we don't need it anymore.
+
+38
+00:02:32,980 --> 00:02:37,650
+So from then we know exactly what
+database table we're interested in and
+
+39
+00:02:37,650 --> 00:02:40,700
+we can interact with
+SQLite database object
+
+40
+00:02:40,700 --> 00:02:42,170
+directly to help us interact with it.
+
+41
+00:02:43,280 --> 00:02:47,792
+Now in order to separate the behavior
+for the different pads in the provider
+
+42
+00:02:47,792 --> 00:02:50,808
+we should list out all
+the possible URI patterns.
+
+43
+00:02:50,808 --> 00:02:57,190
+So here we have the general content URI
+for the pets table which ends in /pets.
+
+44
+00:02:57,190 --> 00:03:00,462
+And we also have have
+the specific content URI just for
+
+45
+00:03:00,462 --> 00:03:03,665
+a single pet which ends in
+/pets/ some row number.
+
+46
+00:03:07,055 --> 00:03:09,725
+So we were able to turn
+this into a general pattern
+
+47
+00:03:09,725 --> 00:03:11,903
+by adding this # symbol here.
+
+48
+00:03:11,903 --> 00:03:16,297
+And this # symbol replaces
+the number that should be expected.
+
+49
+00:03:16,297 --> 00:03:18,987
+[BLANK_AUDIO]
+
+50
+00:03:18,987 --> 00:03:23,418
+So this # symbol is known as wild
+card character where any length
+
+51
+00:03:23,418 --> 00:03:26,618
+integer can be replaced
+into this spot here and
+
+52
+00:03:26,618 --> 00:03:30,000
+the URI will still be able
+to match this pattern.
+
+53
+00:03:32,260 --> 00:03:36,630
+So now all the pet URIs will fall into
+either one of these two patterns.
+
+54
+00:03:37,840 --> 00:03:42,790
+Anything else would not be recognized
+by our pet provider as a valid URI.
+
+55
+00:03:44,280 --> 00:03:49,067
+So if the URI ends in something
+like /petowner instead of /pet
+
+56
+00:03:49,067 --> 00:03:51,789
+then the URI won't be recognized.
+
+57
+00:03:51,789 --> 00:03:56,117
+[BLANK_AUDIO]
+
+58
+00:03:56,117 --> 00:03:59,849
+So just to make it easy to refer to
+these two patterns I went ahead and
+
+59
+00:03:59,849 --> 00:04:02,860
+picked out a unique integer code for
+each one of them.
+
+60
+00:04:04,320 --> 00:04:08,220
+So here I have 100 associated
+with this pattern and
+
+61
+00:04:08,220 --> 00:04:09,710
+101 associated with this pattern.
+
+62
+00:04:11,490 --> 00:04:14,560
+But I just randomly decided
+to choose 100 and 101.
+
+63
+00:04:14,560 --> 00:04:19,459
+You could've easily started off
+with one and labeled this one two.
+
+64
+00:04:21,180 --> 00:04:24,603
+So the only caveat is to make
+sure these values are unique.
+
+65
+00:04:24,603 --> 00:04:28,279
+[BLANK_AUDIO]
+
+66
+00:04:28,279 --> 00:04:31,400
+Now instead of having to
+remember the integer number.
+
+67
+00:04:31,400 --> 00:04:36,960
+Let's also assign an easily recognizable
+name to each of these patterns and
+
+68
+00:04:36,960 --> 00:04:39,680
+that means you can call
+it anything you want.
+
+69
+00:04:39,680 --> 00:04:43,680
+So I decided to call it PETS and PET_ID.
+
+70
+00:04:43,680 --> 00:04:48,077
+Now in our code, this means that
+we've created a constant integer
+
+71
+00:04:48,077 --> 00:04:51,544
+variable called PETS,
+which has the value 100.
+
+72
+00:04:51,544 --> 00:04:54,888
+And there's also a constant
+integer value called PET_ID and
+
+73
+00:04:54,888 --> 00:04:57,146
+it's associated with the value 101.
+
+74
+00:04:57,146 --> 00:05:01,551
+[BLANK_AUDIO]
+
+75
+00:05:01,551 --> 00:05:05,980
+So now that we have the names for
+each of the paths we fork off into.
+
+76
+00:05:05,980 --> 00:05:10,117
+So in this case, the PETS case and
+the PET_ID case,
+
+77
+00:05:10,117 --> 00:05:15,118
+we can go in either direction
+based on the URI that we received.
+
+78
+00:05:15,118 --> 00:05:18,898
+[BLANK_AUDIO]
+
+79
+00:05:18,898 --> 00:05:21,962
+So let's walk through
+exactly how that works and
+
+80
+00:05:21,962 --> 00:05:24,960
+here's an end to end flow
+using an example URI.
+
+81
+00:05:27,550 --> 00:05:31,850
+So say that the activity calls
+the resolver query method,
+
+82
+00:05:31,850 --> 00:05:39,230
+with the general pet URI,
+so ending in /pets.
+
+83
+00:05:39,230 --> 00:05:42,428
+So this request is passed
+off into the provider, and
+
+84
+00:05:42,428 --> 00:05:45,851
+is passing the same URI here,
+the one that ends in /pets
+
+85
+00:05:45,851 --> 00:05:48,796
+[BLANK_AUDIO]
+
+86
+00:05:48,796 --> 00:05:53,754
+Now within the provider query method we
+send the URI into the URI matcher and
+
+87
+00:05:53,754 --> 00:05:58,162
+it successfully finds a match with
+one of the valid patterns our pet
+
+88
+00:05:58,162 --> 00:05:59,750
+provider knows about.
+
+89
+00:06:01,450 --> 00:06:04,975
+So thus the output of the match will be
+
+90
+00:06:04,975 --> 00:06:09,656
+the code 100 which equals
+the constant PETS.
+
+91
+00:06:09,656 --> 00:06:15,291
+Knowing this we can query
+the entire pets table.
+
+92
+00:06:15,291 --> 00:06:17,839
+So you see here how we use the URI to
+
+93
+00:06:17,839 --> 00:06:22,311
+determine what part of the data
+source we needed to act on.
+
+94
+00:06:22,311 --> 00:06:26,514
+[BLANK_AUDIO]
+
+95
+00:06:26,514 --> 00:06:28,698
+All right, here's the second example.
+
+96
+00:06:28,698 --> 00:06:32,060
+So what if the activity
+passed in a different URI?
+
+97
+00:06:32,060 --> 00:06:35,354
+For example,
+this pet URI that ends with the id 3.
+
+98
+00:06:35,354 --> 00:06:37,571
+[BLANK_AUDIO]
+
+99
+00:06:37,571 --> 00:06:41,977
+Now, within the query method of
+the provider we send the same URI,
+
+100
+00:06:41,977 --> 00:06:45,609
+the one ends with /3 and
+send this URI to URI matcher.
+
+101
+00:06:45,609 --> 00:06:48,476
+[BLANK_AUDIO]
+
+102
+00:06:48,476 --> 00:06:53,165
+So URI matcher recognizes that
+this URI follows this valid
+
+103
+00:06:53,165 --> 00:06:56,290
+pattern that we do accept.
+
+104
+00:06:56,290 --> 00:07:00,206
+And it returns back to us,
+the integer 101.
+
+105
+00:07:00,206 --> 00:07:04,835
+And this integer number maps
+to our PET_ID constant.
+
+106
+00:07:04,835 --> 00:07:09,653
+Now having this information we know that
+we should be querying a specific row of
+
+107
+00:07:09,653 --> 00:07:10,675
+the pets table.
+
+108
+00:07:10,675 --> 00:07:13,962
+[BLANK_AUDIO]
+
+109
+00:07:13,962 --> 00:07:17,738
+So to help solidify what we just
+learned, let's take a look at another
+
+110
+00:07:17,738 --> 00:07:21,520
+example of how the URI matcher works
+within the contacts app example.
+
+111
+00:07:22,560 --> 00:07:24,130
+So as a heads up,
+
+112
+00:07:24,130 --> 00:07:27,530
+the contacts app example will
+have a more complex database.
+
+113
+00:07:27,530 --> 00:07:30,740
+But no worries, we'll be walking
+you through exactly how that works.
+
+114
+00:07:32,410 --> 00:07:35,810
+So say in the contacts provider
+there's a lot of data about
+
+115
+00:07:35,810 --> 00:07:38,120
+all the viewpoint on contacts list.
+
+116
+00:07:38,120 --> 00:07:42,415
+And as a result, the provider offers
+many different content URIs to access
+
+117
+00:07:42,415 --> 00:07:44,061
+specific parts of the data.
+
+118
+00:07:44,061 --> 00:07:46,485
+[BLANK_AUDIO]
+
+119
+00:07:46,485 --> 00:07:48,712
+So observe the formats
+of these patterns and
+
+120
+00:07:48,712 --> 00:07:51,791
+note how they are similar to
+the pet URIs that we saw earlier.
+
+121
+00:07:53,370 --> 00:07:58,180
+So this first URI here ends in
+/contacts meaning the contacts table.
+
+122
+00:07:59,430 --> 00:08:04,410
+The second one here ends with
+the exact same /contacts but
+
+123
+00:08:04,410 --> 00:08:06,150
+it has the /# sign at the end.
+
+124
+00:08:07,780 --> 00:08:11,650
+I remember earlier I said that the pound
+symbol is a wild card character
+
+125
+00:08:11,650 --> 00:08:15,410
+that can be placed with
+an integer of any length and
+
+126
+00:08:15,410 --> 00:08:17,380
+the URI will still be able
+to match this pattern.
+
+127
+00:08:19,170 --> 00:08:23,230
+So this integer will represent
+a specific row in our contacts table.
+
+128
+00:08:25,050 --> 00:08:28,590
+Now this next line here
+we see an asterisks.
+
+129
+00:08:28,590 --> 00:08:30,000
+So as an aside,
+
+130
+00:08:30,000 --> 00:08:33,600
+this new wildcard character is
+something we haven't seen before.
+
+131
+00:08:33,600 --> 00:08:37,520
+But all it means is that we can replace
+it with a string character of any length
+
+132
+00:08:37,520 --> 00:08:39,679
+as opposed to an integer,
+which is what the pound sign was for.
+
+133
+00:08:41,440 --> 00:08:46,220
+Now some example URIs that would match
+this pattern in the context URI would
+
+134
+00:08:46,220 --> 00:08:51,320
+end up being, /lookup/Adam,
+so the name Adam.
+
+135
+00:08:51,320 --> 00:08:56,800
+Or perhaps /lookup/Diana if
+the name Diana will inserted here.
+
+136
+00:08:57,920 --> 00:09:00,850
+However, for out pets case, we won't
+need to worry about this symbol.
+
+137
+00:09:02,190 --> 00:09:06,490
+So I'll leave it up to you to finish
+reviewing of these patterns here, but
+
+138
+00:09:06,490 --> 00:09:10,170
+they're just essentially combinations
+of patterns that we've seen earlier.
+
+139
+00:09:11,290 --> 00:09:16,130
+All right, so moving on, let's assign
+each of these URIs an integer code
+
+140
+00:09:16,130 --> 00:09:17,850
+as well as a constant value so
+
+141
+00:09:17,850 --> 00:09:19,960
+it's going to be easier for
+us to refer to these code values.
+
+142
+00:09:19,960 --> 00:09:23,210
+So when we refer to the contacts case,
+
+143
+00:09:23,210 --> 00:09:25,330
+we know that the URI pattern
+will be of this format.
+
+144
+00:09:26,460 --> 00:09:29,210
+And we'll be querying
+specifically the CONTACTS table.
+
+145
+00:09:31,750 --> 00:09:34,630
+And if say we were to
+refer to the DATA case,
+
+146
+00:09:34,630 --> 00:09:36,650
+we know that the URI is of this format.
+
+147
+00:09:37,950 --> 00:09:41,770
+And we'll be creating the data table,
+which will contain details such as
+
+148
+00:09:41,770 --> 00:09:46,080
+the phone number, email addresses and
+so on of our different contacts.
+
+149
+00:09:47,460 --> 00:09:50,959
+So given that information
+that table when each type of
+
+150
+00:09:50,959 --> 00:09:54,070
+content URI is passed to
+our content provider,
+
+151
+00:09:54,070 --> 00:09:59,144
+the URI matcher can help us determine
+which database table we need to talk to.
+
+152
+00:09:59,144 --> 00:10:03,401
+[BLANK_AUDIO]
+
+153
+00:10:03,401 --> 00:10:06,257
+So save the contact the editor activity,
+
+154
+00:10:06,257 --> 00:10:11,280
+calls the resolve query method
+with the general contacts URI.
+
+155
+00:10:11,280 --> 00:10:13,455
+So here ending in /contacts.
+
+156
+00:10:13,455 --> 00:10:16,891
+[BLANK_AUDIO]
+
+157
+00:10:16,891 --> 00:10:20,943
+Well, this URI gets passed to
+the contacts provider within
+
+158
+00:10:20,943 --> 00:10:22,247
+the query method.
+
+159
+00:10:22,247 --> 00:10:26,014
+And we use the URI matcher to
+determine what kind of URI it is.
+
+160
+00:10:26,014 --> 00:10:30,120
+[BLANK_AUDIO]
+
+161
+00:10:30,120 --> 00:10:36,885
+So the URI has a contacts authority
+which ends in slash contacts.
+
+162
+00:10:36,885 --> 00:10:44,120
+So the URI matcher returns the code
+1,000, which is the contacts case.
+
+163
+00:10:44,120 --> 00:10:50,291
+And this means that will return
+a query on the whole context table.
+
+164
+00:10:50,291 --> 00:10:56,898
+So say we have another example, where
+the content URI ends in /contacts/5.
+
+165
+00:10:56,898 --> 00:11:00,965
+So this URI pattern ends with a row ID.
+
+166
+00:11:00,965 --> 00:11:05,273
+Thus the URI matcher will
+return the code to us 1000,
+
+167
+00:11:05,273 --> 00:11:07,799
+which is the CONTACTS_ID case.
+
+168
+00:11:09,030 --> 00:11:09,917
+And from this,
+
+169
+00:11:09,917 --> 00:11:13,746
+we know that we'll be creating
+a single row in the contacts table.
+
+170
+00:11:13,746 --> 00:11:18,447
+[BLANK_AUDIO]
+
+171
+00:11:18,447 --> 00:11:22,547
+Now for the content URI that
+ends with /data while the URI
+
+172
+00:11:22,547 --> 00:11:27,161
+matcher returns to us the code
+3000 which is the DATAcase and
+
+173
+00:11:27,161 --> 00:11:31,623
+this means we end up querying
+the database table called data.
+
+174
+00:11:31,623 --> 00:11:35,401
+[BLANK_AUDIO]
+
+175
+00:11:35,401 --> 00:11:40,049
+Now for this last example,
+where the content URI ends with /data/4,
+
+176
+00:11:40,049 --> 00:11:43,490
+we're going to substitute 4
+with any other id number.
+
+177
+00:11:44,690 --> 00:11:49,266
+Well, given this the URI matcher
+actually returns to us 3001
+
+178
+00:11:49,266 --> 00:11:51,280
+which is the DATA_ID case.
+
+179
+00:11:51,280 --> 00:11:55,060
+And we know that we were creating
+a single row of the data table.
+
+180
+00:11:55,060 --> 00:11:56,569
+[BLANK_AUDIO]

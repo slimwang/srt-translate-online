@@ -1,0 +1,177 @@
+1
+00:00:00,380 --> 00:00:05,110
+I mentioned in the last video that data
+frames also have an apply function, so
+
+2
+00:00:05,110 --> 00:00:06,770
+what does it do?
+
+3
+00:00:06,770 --> 00:00:08,210
+Well, in some sense,
+
+4
+00:00:08,210 --> 00:00:12,900
+apply on data frames actually is
+the direct analog of apply on a series.
+
+5
+00:00:12,900 --> 00:00:16,400
+It depends on what you consider
+a single piece of a data frame.
+
+6
+00:00:16,400 --> 00:00:20,960
+You could say that a single piece is
+a column, rather than a single element.
+
+7
+00:00:22,670 --> 00:00:27,390
+The function you pass to apply, which
+I'll call f, takes in a panda series,
+
+8
+00:00:27,390 --> 00:00:29,970
+which is an entire column
+of the data frame.
+
+9
+00:00:29,970 --> 00:00:34,670
+And it returns a new panda series,
+which is a new column of the data frame.
+
+10
+00:00:34,670 --> 00:00:36,886
+Then when you call df.apply(f),
+
+11
+00:00:36,886 --> 00:00:40,537
+apply calls your function f on
+each column of the data frame.
+
+12
+00:00:43,714 --> 00:00:47,790
+You might be wondering why you would
+do this, instead of using apply map.
+
+13
+00:00:48,940 --> 00:00:51,550
+And the answer is that
+the operation you want to do to
+
+14
+00:00:51,550 --> 00:00:54,620
+each element of the data frame
+might depend on the entire column.
+
+15
+00:00:55,710 --> 00:00:58,780
+Consider the example
+of grading on a curve.
+
+16
+00:00:58,780 --> 00:01:04,569
+Suppose I want to give an A to the 20%
+of students with the highest grades,
+
+17
+00:01:04,569 --> 00:01:09,470
+B to the next 30%, C to 30%,
+D to 10%, and F to 10%.
+
+18
+00:01:09,470 --> 00:01:13,210
+Let's not debate whether this
+is a reasonable grading policy.
+
+19
+00:01:13,210 --> 00:01:15,290
+Instead, let's talk about
+the code I would write.
+
+20
+00:01:16,350 --> 00:01:19,450
+I could store the numerical scores in
+a data frame just like I did before,
+
+21
+00:01:19,450 --> 00:01:23,340
+with one exam in each column and
+one student in each row.
+
+22
+00:01:23,340 --> 00:01:25,880
+But this time I can't use apply map.
+
+23
+00:01:25,880 --> 00:01:28,960
+If I just look at one score, I don't
+know what letter grade it should get
+
+24
+00:01:28,960 --> 00:01:31,890
+without looking at the other scores for
+that exam.
+
+25
+00:01:31,890 --> 00:01:34,160
+For example, is a score of 70 an A?
+
+26
+00:01:35,170 --> 00:01:39,980
+If the other scores on the exam are all
+high, then 70 would not be an A.
+
+27
+00:01:39,980 --> 00:01:43,950
+But if the other scores on the exam are
+all low because this was a harder exam,
+
+28
+00:01:43,950 --> 00:01:45,050
+than a 70 might be an A.
+
+29
+00:01:46,330 --> 00:01:50,310
+So what I would do is write a function
+f that takes in the scores for
+
+30
+00:01:50,310 --> 00:01:53,900
+a single exam, and
+returns converted scores for that exam.
+
+31
+00:01:55,080 --> 00:02:00,670
+Then I would call df.apply(f) to apply
+that function to the entire data frame.
+
+32
+00:02:00,670 --> 00:02:04,160
+Apply also takes an access argument so
+you can also write a function that
+
+33
+00:02:04,160 --> 00:02:07,420
+operates on one row at a time
+if that's what you need.
+
+34
+00:02:07,420 --> 00:02:11,210
+Last lesson you wrote a function to
+standardize a single panda series.
+
+35
+00:02:11,210 --> 00:02:14,636
+That is, convert each value to
+the number of standard deviations
+
+36
+00:02:14,636 --> 00:02:17,520
+that value is above or below the mean.
+
+37
+00:02:17,520 --> 00:02:20,890
+Now, I'd like you to use apply to
+standardize each column of a data frame.

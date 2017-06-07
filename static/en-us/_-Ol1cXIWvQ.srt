@@ -1,0 +1,143 @@
+1
+00:00:00,000 --> 00:00:03,000
+[Thrun] One of the remaining open questions pertains to the number of clusters.
+
+2
+00:00:03,000 --> 00:00:06,000
+So far I've assumed it's simply constant and you know it.
+
+3
+00:00:06,000 --> 00:00:08,000
+But in reality, you don't know it.
+
+4
+00:00:08,000 --> 00:00:12,000
+Practical implementations often guess the number of clusters along with the parameters.
+
+5
+00:00:12,000 --> 00:00:17,000
+And the way this works is that you periodically evaluate which data is poorly covered
+
+6
+00:00:17,000 --> 00:00:21,000
+by the existing mixture, you generate new cluster centers
+
+7
+00:00:21,000 --> 00:00:25,000
+at random near unexplained points, and then you run the algorithm for a while
+
+8
+00:00:25,000 --> 00:00:29,000
+to see whether the existence of your clusters is still justified.
+
+9
+00:00:29,000 --> 00:00:33,000
+And the justification test is based on a memorization of a criterion
+
+10
+00:00:33,000 --> 00:00:37,000
+that combines the negative log likelihood of your data itself
+
+11
+00:00:37,000 --> 00:00:40,000
+and a penalty for each cluster.
+
+12
+00:00:40,000 --> 00:00:43,000
+In particular, you're going to minimize the negative log likelihood of your data
+
+13
+00:00:43,000 --> 00:00:46,000
+given the model plus a constant penalty per cluster.
+
+14
+00:00:46,000 --> 00:00:51,000
+If we look at this expression, this is the expression that EM already minimizes.
+
+15
+00:00:51,000 --> 00:00:53,000
+We maximized the posterior probability of data
+
+16
+00:00:53,000 --> 00:00:57,000
+logarithmic is a monotonic function, and I put a minus sign over here
+
+17
+00:00:57,000 --> 00:01:00,000
+so the optimization problem becomes a minimization problem.
+
+18
+00:01:00,000 --> 00:01:04,000
+This one over here, we have a constant cost per cluster is new.
+
+19
+00:01:04,000 --> 00:01:07,000
+If you increase the number of clusters, you would pay a penalty
+
+20
+00:01:07,000 --> 00:01:10,000
+that is in the way of your attempted minimization.
+
+21
+00:01:10,000 --> 00:01:14,000
+Typically, this expression balances out at a certain number of clusters,
+
+22
+00:01:14,000 --> 00:01:16,000
+and it is generically the best explanation for your data.
+
+23
+00:01:16,000 --> 00:01:18,000
+So the algorithm looks as follows.
+
+24
+00:01:18,000 --> 00:01:22,000
+Guess an initial K, run EM, remove unnecessary clusters
+
+25
+00:01:22,000 --> 00:01:24,000
+that will make this quote over here go up,
+
+26
+00:01:24,000 --> 00:01:27,000
+create some new random clusters, and go back and run EM.
+
+27
+00:01:27,000 --> 00:01:30,000
+There is all kinds of variants of this algorithm.
+
+28
+00:01:30,000 --> 00:01:33,000
+One of the nice things here is this algorithm also overcomes local minima problems
+
+29
+00:01:33,000 --> 00:01:35,000
+to some extent.
+
+30
+00:01:35,000 --> 00:01:39,000
+If, for example, 2 clusters end up grabbing the same data,
+
+31
+00:01:39,000 --> 00:01:42,000
+then your tests would show you that 1 of the clusters can be omitted;
+
+32
+00:01:42,000 --> 00:01:44,000
+thereby the score can be improved.
+
+33
+00:01:44,000 --> 00:01:47,000
+That cluster can later be restarted somewhere else,
+
+34
+00:01:47,000 --> 00:01:51,000
+and by randomly restarting clusters, you tend to get a much, much better solution
+
+35
+00:01:51,000 --> 00:01:54,000
+than if you run EM just once with a fixed number of clusters.
+
+36
+00:01:54,000 --> 99:59:59,999
+So this trick is highly recommended for any implementation of expectation maximization.

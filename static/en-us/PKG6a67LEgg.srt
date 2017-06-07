@@ -1,0 +1,244 @@
+1
+00:00:00,390 --> 00:00:02,560
+Okay let's talk about the answers.
+
+2
+00:00:02,560 --> 00:00:06,280
+Remember the quiz was
+about what is the source.
+
+3
+00:00:06,280 --> 00:00:11,860
+What did you or did not you do
+when tried to write the code for
+
+4
+00:00:11,860 --> 00:00:16,670
+that password checking program
+that resulted in a vulnerability?
+
+5
+00:00:16,670 --> 00:00:19,660
+So, the target password was too short,
+
+6
+00:00:19,660 --> 00:00:22,010
+this made it easy to
+overflow the buffer.
+
+7
+00:00:22,010 --> 00:00:24,360
+That's not the vulnerability, isn't it?
+
+8
+00:00:24,360 --> 00:00:27,680
+It doesn't matter how long
+the password is going to be.
+
+9
+00:00:27,680 --> 00:00:32,520
+Maybe you can expect people to have
+passwords that are 100 characters long.
+
+10
+00:00:32,520 --> 00:00:36,970
+But if you assumed the password was not
+going to be more than 100 characters,
+
+11
+00:00:36,970 --> 00:00:41,380
+and someone gave it 110 characters,
+the overflow would still happen.
+
+12
+00:00:41,380 --> 00:00:45,970
+So it's not the absolute length of
+the password that is the Issue.
+
+13
+00:00:45,970 --> 00:00:50,330
+The issue is that we allocate
+a certain amount of space for
+
+14
+00:00:50,330 --> 00:00:53,440
+the maximum, and
+the maximum could be anything.
+
+15
+00:00:53,440 --> 00:00:57,050
+So, it being too short is not the issue.
+
+16
+00:00:57,050 --> 00:01:00,120
+The code did not check the input and
+reject.
+
+17
+00:01:00,120 --> 00:01:02,510
+This actually is the source
+of the vulnerability.
+
+18
+00:01:02,510 --> 00:01:05,840
+Later we're going to remind
+you that secure coding,
+
+19
+00:01:05,840 --> 00:01:08,750
+golden rule is check your inputs.
+
+20
+00:01:08,750 --> 00:01:09,810
+We didn't check our inputs.
+
+21
+00:01:09,810 --> 00:01:13,270
+We made an assumption that the input
+will never be more than 12 bytes.
+
+22
+00:01:13,270 --> 00:01:15,820
+Because that's how much
+space we allocated for
+
+23
+00:01:15,820 --> 00:01:17,760
+the password string variable.
+
+24
+00:01:17,760 --> 00:01:20,640
+That's where we're going to store
+the input the user provides.
+
+25
+00:01:20,640 --> 00:01:24,220
+We made that assumption,
+what could have we done beyond that?
+
+26
+00:01:24,220 --> 00:01:27,480
+We could have, when we received
+the input, actually checked it.
+
+27
+00:01:27,480 --> 00:01:31,480
+If the input string is more than
+12 bytes that's an overflow.
+
+28
+00:01:31,480 --> 00:01:36,030
+And we should have rejected and
+not gone on and done the comparison and
+
+29
+00:01:36,030 --> 00:01:36,750
+things like that.
+
+30
+00:01:36,750 --> 00:01:39,610
+So the code did not check input and
+
+31
+00:01:39,610 --> 00:01:42,120
+reject password strings
+that are longer than 12.
+
+32
+00:01:42,120 --> 00:01:44,160
+That is the vulnerability.
+
+33
+00:01:44,160 --> 00:01:45,320
+Correct answer here is,
+
+34
+00:01:45,320 --> 00:01:50,210
+the vulnerability arises because
+the input is not checked.
+
+35
+00:01:50,210 --> 00:01:53,370
+And when the input is not checked
+that results in overflow.
+
+36
+00:01:53,370 --> 00:01:57,330
+Over the last answer, the last answer
+says the code did not add extra,
+
+37
+00:01:57,330 --> 00:01:58,940
+unused variables.
+
+38
+00:01:58,940 --> 00:02:01,830
+First of all, there's no reason why
+you should add dummy variables, but
+
+39
+00:02:01,830 --> 00:02:06,020
+even if you did by making that
+input string longer and longer,
+
+40
+00:02:06,020 --> 00:02:10,680
+we can always sort of go past those
+local with the additional variables.
+
+41
+00:02:10,680 --> 00:02:13,060
+So, just adding additional variables.
+
+42
+00:02:13,060 --> 00:02:16,030
+Now, create some distance
+between the return address, and
+
+43
+00:02:16,030 --> 00:02:18,450
+where the password string
+variable is stored.
+
+44
+00:02:18,450 --> 00:02:21,470
+But, by giving longer input,
+we can go past those.
+
+45
+00:02:21,470 --> 00:02:23,610
+So that is not, again, a correct answer,
+
+46
+00:02:23,610 --> 00:02:27,560
+so the vulnerability here really
+is in that code that we have.
+
+47
+00:02:27,560 --> 00:02:29,270
+It's poor programming practice,
+
+48
+00:02:29,270 --> 00:02:31,690
+a lot of people unfortunately
+make that kind of mistake,
+
+49
+00:02:31,690 --> 00:02:37,340
+is the code did not check its input and
+because of that there was an overflow.
+
+50
+00:02:37,340 --> 00:02:40,450
+And overflow running
+into the return address.
+
+51
+00:02:40,450 --> 00:02:44,590
+And that gives the attacker a way to
+direct program control to some other
+
+52
+00:02:44,590 --> 00:02:49,080
+place where attacker crafted
+code may be available.

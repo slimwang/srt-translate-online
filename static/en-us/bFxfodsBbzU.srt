@@ -1,0 +1,462 @@
+﻿1
+00:00:00,500 --> 00:00:05,150
+Now I'll be introducing you to
+TFLearn; a Python network for
+
+2
+00:00:05,150 --> 00:00:07,009
+building neural networks.
+
+3
+00:00:07,009 --> 00:00:08,179
+It does a lot of the work for you,
+
+4
+00:00:08,179 --> 00:00:11,336
+such as initializing weights and
+running back propagation.
+
+5
+00:00:11,336 --> 00:00:16,184
+As an introduction to TFLearn,
+you'll be working through this notebook.
+
+6
+00:00:16,184 --> 00:00:19,045
+You can find the download link
+at the bottom of the page.
+
+7
+00:00:19,045 --> 00:00:21,835
+By the end of the notebook,
+you'll have built your own network for
+
+8
+00:00:21,835 --> 00:00:26,114
+predicting sentiment from the data
+you saw in Andrew Trask's lesson, but
+
+9
+00:00:26,114 --> 00:00:28,905
+using TFLearn instead of NumPy.
+
+10
+00:00:28,905 --> 00:00:33,204
+And next I'll walk you through my
+solutions so you can see how I did it.
+
+11
+00:00:33,204 --> 00:00:36,118
+First off, you'll import the data here.
+
+12
+00:00:36,118 --> 00:00:39,250
+I'm using pandas to read the data
+because I find it makes working with
+
+13
+00:00:39,250 --> 00:00:41,270
+the data super easy.
+
+14
+00:00:41,270 --> 00:00:44,939
+Here you see the reviews and the labels.
+
+15
+00:00:44,939 --> 00:00:48,740
+Once the data is loaded, you'll need
+to build the bag of words dictionary.
+
+16
+00:00:48,740 --> 00:00:50,710
+This is left out for you to do.
+
+17
+00:00:50,710 --> 00:00:52,659
+I've imported the counter class here for
+you to use.
+
+18
+00:00:52,659 --> 00:00:58,719
+You can read the documentation for
+counter by clicking this link.
+
+19
+00:00:58,719 --> 00:01:03,369
+Be sure to assign the variable
+total counts to your bag of words.
+
+20
+00:01:03,369 --> 00:01:08,640
+If you did it right you should have
+about 74,000 words in the bag of words.
+
+21
+00:01:08,640 --> 00:01:11,359
+As you might remember
+from Andrew's notebooks,
+
+22
+00:01:11,359 --> 00:01:14,540
+most of the words show up very
+few times in the reviews.
+
+23
+00:01:14,540 --> 00:01:17,780
+We can make our network train faster
+by using a subset of the data without
+
+24
+00:01:17,780 --> 00:01:19,370
+losing accuracy.
+
+25
+00:01:19,370 --> 00:01:21,760
+So here I sorted the bag
+of words by count and
+
+26
+00:01:21,760 --> 00:01:25,390
+kept the first 10,000
+most frequent words.
+
+27
+00:01:25,390 --> 00:01:27,109
+Now that we have our vocabulary,
+
+28
+00:01:27,109 --> 00:01:30,280
+you'll need to make a dictionary
+that maps the words to numbers.
+
+29
+00:01:30,280 --> 00:01:32,959
+This dictionary will be
+called word to index.
+
+30
+00:01:32,959 --> 00:01:35,230
+This is left for you to do.
+
+31
+00:01:35,230 --> 00:01:36,959
+With the word to index dictionary,
+
+32
+00:01:36,959 --> 00:01:40,969
+now you can write a function that
+converts text into a word vector.
+
+33
+00:01:40,969 --> 00:01:44,250
+The idea is that each element in
+the vector corresponds to a word
+
+34
+00:01:44,250 --> 00:01:45,900
+in the vocabulary.
+
+35
+00:01:45,900 --> 00:01:47,659
+With a word to index dictionary,
+
+36
+00:01:47,659 --> 00:01:51,569
+now you can write a function that
+converts text into a word vector.
+
+37
+00:01:51,569 --> 00:01:54,870
+The idea is that each element in
+the vector corresponds to a word in
+
+38
+00:01:54,870 --> 00:01:56,159
+the vocabulary.
+
+39
+00:01:56,159 --> 00:02:01,049
+So the most frequent word is at index
+zero, the second most index one, and so
+
+40
+00:02:01,049 --> 00:02:02,120
+on.
+
+41
+00:02:02,120 --> 00:02:05,962
+Then to build a vector you count up the
+number of times a word exist in the text
+
+42
+00:02:05,962 --> 00:02:08,840
+and set the index for
+that word to that count.
+
+43
+00:02:08,840 --> 00:02:10,710
+Here is the general method to do this.
+
+44
+00:02:10,710 --> 00:02:13,780
+This function is up to you to implement.
+
+45
+00:02:13,780 --> 00:02:20,009
+If you did it right, you should
+get this vector for this text.
+
+46
+00:02:20,009 --> 00:02:23,729
+This cell uses your text to vector
+function to run through the data set and
+
+47
+00:02:23,729 --> 00:02:27,129
+convert each review into word vectors.
+
+48
+00:02:27,129 --> 00:02:29,509
+Okay, now that we have
+the input data ready,
+
+49
+00:02:29,509 --> 00:02:32,669
+it's time to create our training
+validation and test data.
+
+50
+00:02:32,669 --> 00:02:35,110
+We use the training data
+to train the network and
+
+51
+00:02:35,110 --> 00:02:38,550
+the validation data to find
+the best hyper parameters.
+
+52
+00:02:38,550 --> 00:02:41,574
+We actually won't be creating
+the validation data here.
+
+53
+00:02:41,574 --> 00:02:43,759
+TFLearn will do it for us later.
+
+54
+00:02:43,759 --> 00:02:46,860
+After you're satisfied that the network
+has been trained well enough,
+
+55
+00:02:46,860 --> 00:02:50,039
+you use the test data to
+measure the final performance.
+
+56
+00:02:50,039 --> 00:02:55,530
+It's really important that you only run
+the network on this test data once.
+
+57
+00:02:55,530 --> 00:03:01,479
+Okay, now after all that data prep,
+it's time to get into some TFLearn.
+
+58
+00:03:01,479 --> 00:03:06,139
+With TFLearn you build networks by
+defining the layers you want to use.
+
+59
+00:03:06,139 --> 00:03:10,810
+For example, to create the input layer,
+you use tflearn.inputdata.
+
+60
+00:03:10,810 --> 00:03:17,669
+Here you set the batch size and
+the number of input units.
+
+61
+00:03:17,669 --> 00:03:22,110
+Remember that the input units should
+match the size of your input data.
+
+62
+00:03:22,110 --> 00:03:26,409
+Set this variable net, and
+that's your input layer.
+
+63
+00:03:26,409 --> 00:03:31,430
+To add in hidden layers you
+use tflearn.fullyConnected.
+
+64
+00:03:31,430 --> 00:03:34,509
+FullyConnected here means
+all the units in this layer
+
+65
+00:03:34,509 --> 00:03:37,090
+are connected to all the units
+in the previously layer.
+
+66
+00:03:37,090 --> 00:03:41,319
+It's synonymous with the term hidden
+layer that we've been using before.
+
+67
+00:03:41,319 --> 00:03:45,370
+Fully connected takes net as an input
+automatically using the output of
+
+68
+00:03:45,370 --> 00:03:49,319
+the input layer as the input
+to this hidden layer.
+
+69
+00:03:49,319 --> 00:03:55,310
+Here you set the number of units,
+and here is the activation function.
+
+70
+00:03:55,310 --> 00:03:56,599
+So for example.
+
+71
+00:03:56,599 --> 00:04:02,840
+You can add more hidden units by calling
+this fully connected function again and
+
+72
+00:04:02,840 --> 00:04:08,270
+chaining the layers together by passing
+net from one layer to the next.
+
+73
+00:04:08,270 --> 00:04:14,210
+So then for the output layer, you just
+add another fully connected layer.
+
+74
+00:04:14,210 --> 00:04:17,980
+Since we are trying to predict positive
+versus negative sentiment here,
+
+75
+00:04:17,980 --> 00:04:21,750
+we have two classes, and so
+we have two output units.
+
+76
+00:04:21,750 --> 00:04:24,240
+One for positive and one for negative.
+
+77
+00:04:24,240 --> 00:04:27,639
+We'll use the soft max function on
+the output to get our prediction
+
+78
+00:04:27,639 --> 00:04:28,170
+probabilities.
+
+79
+00:04:28,170 --> 00:04:34,699
+And finally, to define how you'll train
+the network you use Tf.regression.
+
+80
+00:04:34,699 --> 00:04:37,759
+You pass in net again and
+set the optimizer.
+
+81
+00:04:37,759 --> 00:04:41,680
+So cast a gradient dissent here, and the
+learning function and the loss function
+
+82
+00:04:41,680 --> 00:04:47,209
+which is cross entropy in the case
+of using a softmax for activation.
+
+83
+00:04:47,209 --> 00:04:51,805
+With all that set you can create
+the model with Tflearn.dnn.
+
+84
+00:04:51,805 --> 00:04:55,720
+I'll leave it up to you to
+put all these pieces together
+
+85
+00:04:55,720 --> 00:04:57,779
+to build the network itself.
+
+86
+00:04:57,779 --> 00:05:00,569
+Write the code in this
+build model function.
+
+87
+00:05:00,569 --> 00:05:03,990
+You'll initialize the model below and
+then train it.
+
+88
+00:05:03,990 --> 00:05:08,240
+So this is how you train
+the network with model.fit.
+
+89
+00:05:08,240 --> 00:05:13,511
+The fit method takes the training
+inputs, trainX, and the labels, trainY.
+
+90
+00:05:13,511 --> 00:05:16,420
+You can set how much data to
+reserve as a validation data.
+
+91
+00:05:16,420 --> 00:05:21,370
+You can also set the batch size and
+the number of epochs to run.
+
+92
+00:05:21,370 --> 00:05:26,350
+After going through the epochs
+you'll see the validation score.
+
+93
+00:05:26,350 --> 00:05:29,240
+Once you're happy with the performance
+on the validation set,
+
+94
+00:05:29,240 --> 00:05:32,779
+run the model on the test set and
+check out the final accuracy.
+
+95
+00:05:32,779 --> 00:05:37,649
+Try it out with your own text and
+see how well it does predicting this.
+
+96
+00:05:37,649 --> 00:05:40,850
+All right, once you're done with this,
+or if you're having problems
+
+97
+00:05:40,850 --> 00:05:44,150
+getting it to work, check out my
+solution to see how I built the network.
+

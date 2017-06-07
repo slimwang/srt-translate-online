@@ -1,0 +1,428 @@
+1
+00:00:00,170 --> 00:00:02,710
+In the consistency models
+we discussed so far,
+
+2
+00:00:02,710 --> 00:00:06,730
+the memory was accessed via read and
+write operations only.
+
+3
+00:00:06,730 --> 00:00:10,090
+In the weak consistency models,
+it's possible to have something
+
+4
+00:00:10,090 --> 00:00:13,740
+beyond just read and
+write operations when memory's accessed.
+
+5
+00:00:13,740 --> 00:00:18,090
+In the models we've described so far,
+the underlying memory managers, or state
+
+6
+00:00:18,090 --> 00:00:23,530
+managers in general, had to determine or
+infer what are important updates and
+
+7
+00:00:23,530 --> 00:00:28,000
+then how to order and propagate
+the information regarding those updates.
+
+8
+00:00:28,000 --> 00:00:31,730
+For instance, there's no way for
+the distributed memory managers
+
+9
+00:00:31,730 --> 00:00:35,510
+to understand whether or
+not indeed the value of
+
+10
+00:00:35,510 --> 00:00:40,360
+y was somehow computed based on
+this value x that was read from m1.
+
+11
+00:00:41,390 --> 00:00:46,420
+So it's perfectly possible that p2
+really just completely randomly came up
+
+12
+00:00:46,420 --> 00:00:51,730
+with this value y that was written in
+m2, and that had nothing to do with this
+
+13
+00:00:51,730 --> 00:00:56,900
+fact that it previously read
+the value of x from location m1.
+
+14
+00:00:56,900 --> 00:00:59,440
+So it saw this particular update.
+
+15
+00:00:59,440 --> 00:01:02,080
+However, with the causal
+consistency model,
+
+16
+00:01:02,080 --> 00:01:06,860
+it will be forced that every process,
+every processor in the system
+
+17
+00:01:06,860 --> 00:01:12,430
+has to observe that the value of the
+memory location m1 has been updated to
+
+18
+00:01:12,430 --> 00:01:17,180
+x before the value of the memory
+location was updated to y.
+
+19
+00:01:17,180 --> 00:01:21,450
+However, for instance, in the same
+process, p2, maybe at a later
+
+20
+00:01:21,450 --> 00:01:24,720
+time there is another update that's
+happening to memory location m3,
+
+21
+00:01:24,720 --> 00:01:28,240
+and the value z is written there.
+
+22
+00:01:28,240 --> 00:01:32,080
+And perhaps this particular value,
+z, was directly computed,
+
+23
+00:01:32,080 --> 00:01:35,500
+based on the value that was
+read from memory location 1.
+
+24
+00:01:35,500 --> 00:01:39,280
+So there maybe is a dependence
+between this particular write, and
+
+25
+00:01:39,280 --> 00:01:42,920
+the value that was read here,
+but not between these two.
+
+26
+00:01:42,920 --> 00:01:45,520
+How can a memory system
+distinguish these?
+
+27
+00:01:45,520 --> 00:01:50,360
+To do this, the memory system
+introduces synchronization points.
+
+28
+00:01:50,360 --> 00:01:54,770
+The synchronization points are
+operations that the underlying memory
+
+29
+00:01:54,770 --> 00:01:58,440
+system makes available to
+the upper layers of the software.
+
+30
+00:01:58,440 --> 00:02:02,035
+So, in addition to being able to
+read and write a memory location,
+
+31
+00:02:02,035 --> 00:02:06,100
+you'll also be able to tell
+the distributed shared memory sync.
+
+32
+00:02:06,100 --> 00:02:08,365
+What a synchronization point does,
+
+33
+00:02:08,365 --> 00:02:12,674
+it makes sure that all of the updates
+that have happened prior to sync,
+
+34
+00:02:12,674 --> 00:02:17,560
+the synchronization point will
+become visible at other processors.
+
+35
+00:02:17,560 --> 00:02:22,225
+And also, synchronization point makes
+sure that all of the updates that
+
+36
+00:02:22,225 --> 00:02:24,749
+have happened on other processors will
+
+37
+00:02:24,749 --> 00:02:29,583
+become visible subsequently at this
+particular processor in the future.
+
+38
+00:02:29,583 --> 00:02:34,509
+If p1 performs a synchronization
+operation at this particular
+
+39
+00:02:34,509 --> 00:02:39,434
+point after this write was performed,
+that doesn't guarantee
+
+40
+00:02:39,434 --> 00:02:43,838
+that p2 will see that particular
+update at this moment.
+
+41
+00:02:43,838 --> 00:02:48,300
+Although this read operation is
+happening according to some real time,
+
+42
+00:02:48,300 --> 00:02:52,370
+some external observer,
+at a later point in time than
+
+43
+00:02:52,370 --> 00:02:55,750
+the synchronization point
+in the preceding write, p2
+
+44
+00:02:55,750 --> 00:03:01,250
+has not made an attempt to synchronize
+with the distributed shared memory.
+
+45
+00:03:01,250 --> 00:03:07,290
+So p2 has no guarantees that it will
+see the updates performed by others.
+
+46
+00:03:07,290 --> 00:03:12,180
+So this synchronization point, it has
+to be called both by the process that's
+
+47
+00:03:12,180 --> 00:03:16,700
+performing the updates, and also by
+the processes that want to see, and
+
+48
+00:03:16,700 --> 00:03:19,790
+want to see the guarantee
+that they will see updates.
+
+49
+00:03:19,790 --> 00:03:22,980
+However, once the synchronization
+operation is performed in p2,
+
+50
+00:03:24,270 --> 00:03:28,950
+afterwards, p2 will be guaranteed
+that it will see all of the previous
+
+51
+00:03:28,950 --> 00:03:32,850
+updates that have happened to any
+memory location in the system.
+
+52
+00:03:32,850 --> 00:03:37,500
+So if we perform a read operation of
+the memory location m1 at this point in
+
+53
+00:03:37,500 --> 00:03:43,510
+time, after the synchronization, we're
+guaranteed that p2 will see this update.
+
+54
+00:03:43,510 --> 00:03:48,810
+In this case, in this model, we use
+a single synchronization operation for
+
+55
+00:03:48,810 --> 00:03:52,620
+all of the variables in the system,
+for the entire shared memory.
+
+56
+00:03:52,620 --> 00:03:56,740
+It is possible to have solutions where
+different synchronization operations
+
+57
+00:03:56,740 --> 00:03:59,380
+are associated with some
+subset of the state.
+
+58
+00:03:59,380 --> 00:04:02,570
+For instance,
+with a granularity of individual pages.
+
+59
+00:04:02,570 --> 00:04:07,990
+It is also possible to separate the
+steps when a particular process requires
+
+60
+00:04:07,990 --> 00:04:14,000
+that all of the updates performed by
+other processors are visible to it.
+
+61
+00:04:14,000 --> 00:04:16,260
+We call that the entry point, or
+
+62
+00:04:16,260 --> 00:04:20,380
+the point when we are acquiring
+the updates made by others.
+
+63
+00:04:20,380 --> 00:04:23,260
+For instance,
+at this particular synchronization point
+
+64
+00:04:23,260 --> 00:04:28,170
+we can perform an entry operation and
+synchronize with all the updates that
+
+65
+00:04:28,170 --> 00:04:31,980
+were performed on others,
+in this case on p1.
+
+66
+00:04:31,980 --> 00:04:35,250
+And then we can have a separate
+synchronization primitive,
+
+67
+00:04:35,250 --> 00:04:40,410
+that's the exit point or this is
+the point where we release to all
+
+68
+00:04:40,410 --> 00:04:46,110
+other processes or processors the fact
+that we have performed certain updates.
+
+69
+00:04:46,110 --> 00:04:48,950
+So for instance,
+at this synchronization point,
+
+70
+00:04:48,950 --> 00:04:54,840
+only the updates made by p1 will
+be forced to other processes.
+
+71
+00:04:54,840 --> 00:04:57,540
+The idea with these finer
+grained operations or
+
+72
+00:04:57,540 --> 00:05:01,440
+these mechanisms to
+really directly control
+
+73
+00:05:01,440 --> 00:05:05,950
+what kinds of messages will be sent by
+the underlying state management system,
+
+74
+00:05:05,950 --> 00:05:11,760
+by the DSM layer at a particular point
+of time, is to make sure that the system
+
+75
+00:05:11,760 --> 00:05:16,860
+controls the amount of overheads
+that are imposed by the DSM layer.
+
+76
+00:05:16,860 --> 00:05:21,960
+The idea is to limit the required data
+movement, the required messages and
+
+77
+00:05:21,960 --> 00:05:27,460
+coherence separations, that will be
+exchanged among the nodes in the system.
+
+78
+00:05:27,460 --> 00:05:31,560
+But the downside of this is that
+the distributed shared memory layer
+
+79
+00:05:31,560 --> 00:05:35,530
+will have to maintain some
+additional state to keep track of
+
+80
+00:05:35,530 --> 00:05:39,960
+exactly what are all the different
+operations that it needs to support and
+
+81
+00:05:39,960 --> 00:05:43,810
+how it needs to behave when it
+sees a particular type of request.
+
+82
+00:05:43,810 --> 00:05:48,370
+In summary, all of these models that,
+in addition to just pure read and
+
+83
+00:05:48,370 --> 00:05:53,082
+write operations, introduce some
+types of synchronization primitives
+
+84
+00:05:53,082 --> 00:05:56,046
+are referred to as weak
+consistency models and
+
+85
+00:05:56,046 --> 00:06:00,461
+they allow us to control the overheads
+of the system from one aspect.
+
+86
+00:06:00,461 --> 00:06:05,253
+However, they introduce some additional
+overheads that are necessary in order to
+
+87
+00:06:05,253 --> 00:06:07,385
+support that the added operations.

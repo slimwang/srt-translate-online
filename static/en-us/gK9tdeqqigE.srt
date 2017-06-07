@@ -1,0 +1,452 @@
+1
+00:00:00,390 --> 00:00:03,580
+Now as you may know, when you're
+building a user interface for Android,
+
+2
+00:00:03,580 --> 00:00:06,360
+it's generally good practice to
+keep your layouts as simple and
+
+3
+00:00:06,360 --> 00:00:08,140
+as flat as possible.
+
+4
+00:00:08,140 --> 00:00:09,680
+Fredo had some good advice.
+
+5
+00:00:09,680 --> 00:00:12,920
+Remember that inflating your
+layouts is an expensive process.
+
+6
+00:00:12,920 --> 00:00:15,930
+Each additional nested layout and
+included view directly impacts
+
+7
+00:00:15,930 --> 00:00:19,130
+the performance and
+responsiveness of your application.
+
+8
+00:00:19,130 --> 00:00:22,900
+So remember, gain information and then
+gain insight into your app's behavior.
+
+9
+00:00:24,000 --> 00:00:26,820
+All right, so here I am back
+in Android Device Monitor and
+
+10
+00:00:26,820 --> 00:00:28,660
+I've got the hierarchy
+view perspective open.
+
+11
+00:00:28,660 --> 00:00:31,530
+And as before,
+let's go over to our windows pane here,
+
+12
+00:00:31,530 --> 00:00:36,060
+select our device, and choose
+the activity we'd like to inspect.
+
+13
+00:00:36,060 --> 00:00:38,910
+In this case, we're going to look at the
+mobile perf compare layouts activity.
+
+14
+00:00:38,910 --> 00:00:41,410
+So I'm going to go ahead and
+double click that to load it up.
+
+15
+00:00:42,820 --> 00:00:46,240
+All right, so I want to zoom in on
+the particular area of the layout here.
+
+16
+00:00:46,240 --> 00:00:49,210
+In particular this root node
+here which is our linear layout.
+
+17
+00:00:50,410 --> 00:00:54,000
+This is the root view group that's
+going to be displaying these two lines
+
+18
+00:00:54,000 --> 00:00:55,230
+that we're looking at right here.
+
+19
+00:00:56,420 --> 00:00:59,300
+Now I want you to notice the two
+different childs that come off of this
+
+20
+00:00:59,300 --> 00:01:01,180
+parent linear layout.
+
+21
+00:01:01,180 --> 00:01:05,730
+One of them represents the first
+line here of our chat interface, but
+
+22
+00:01:05,730 --> 00:01:08,780
+it's implemented using
+a nested linear layout.
+
+23
+00:01:08,780 --> 00:01:13,030
+Now the second child here corresponds
+to our second line in our layout.
+
+24
+00:01:13,030 --> 00:01:16,020
+And instead of using a nested design,
+
+25
+00:01:16,020 --> 00:01:20,450
+we've used a flat design using
+the relative layout view group.
+
+26
+00:01:20,450 --> 00:01:25,270
+So, if we hop back into Android Studio,
+this is what it corresponds to in XML.
+
+27
+00:01:25,270 --> 00:01:28,370
+We're back in Android Studio, looking
+at our source, and we're down in our
+
+28
+00:01:28,370 --> 00:01:32,560
+layouts folder, and we're looking at
+the activity compare layouts XML file.
+
+29
+00:01:32,560 --> 00:01:36,680
+Now, let me bring the phone back
+on the screen so we can compare.
+
+30
+00:01:38,010 --> 00:01:41,390
+All right so we have a parent
+container that's a linear layout
+
+31
+00:01:41,390 --> 00:01:43,070
+of vertically oriented items.
+
+32
+00:01:43,070 --> 00:01:47,690
+So the parent container here is a linear
+layout and the orientation is for
+
+33
+00:01:47,690 --> 00:01:51,480
+vertical items, so items that are
+going to be listed from top to bottom.
+
+34
+00:01:51,480 --> 00:01:53,990
+So what I want to draw your
+attention to here is for
+
+35
+00:01:53,990 --> 00:01:57,260
+our first chat line right about here,
+
+36
+00:01:57,260 --> 00:02:03,182
+we have one type of implementation using
+more of a structured or nested layout.
+
+37
+00:02:03,182 --> 00:02:06,520
+This is little bit more intuitive and
+might be similar to a way when you build
+
+38
+00:02:06,520 --> 00:02:09,080
+an application in steps and
+it's very logical.
+
+39
+00:02:09,080 --> 00:02:13,440
+So, for example, we start with a parent
+linear layout that's horizontal
+
+40
+00:02:13,440 --> 00:02:17,470
+in nature and on the left,
+we're going to set up a our ImageView.
+
+41
+00:02:17,470 --> 00:02:18,110
+And on the right,
+
+42
+00:02:18,110 --> 00:02:22,030
+we're going to create another nested
+linear container to contain our text.
+
+43
+00:02:22,030 --> 00:02:22,790
+But in this case,
+
+44
+00:02:22,790 --> 00:02:26,990
+the orientation is going to be
+vertical instead of horizontal.
+
+45
+00:02:26,990 --> 00:02:29,210
+So that represents the first slide.
+
+46
+00:02:29,210 --> 00:02:30,970
+Now as I mentioned in hierarchy viewer,
+
+47
+00:02:30,970 --> 00:02:35,140
+we also have the second line
+of our chat template here.
+
+48
+00:02:35,140 --> 00:02:39,760
+And instead of using a nested structure,
+we've decided to take the same
+
+49
+00:02:39,760 --> 00:02:44,210
+visual design and instead of
+build it in terms of a hierarchy,
+
+50
+00:02:44,210 --> 00:02:49,000
+we've decided to look at all
+the elements in terms of boxes and
+
+51
+00:02:49,000 --> 00:02:52,300
+see if we can describe them with their
+relative positions to one another.
+
+52
+00:02:53,390 --> 00:02:56,420
+Now what this gives us
+is a flattened layout.
+
+53
+00:02:56,420 --> 00:02:58,820
+So instead of two layers of depth,
+we have one or
+
+54
+00:02:58,820 --> 00:03:01,590
+a flattened layout using
+this relative design.
+
+55
+00:03:01,590 --> 00:03:08,760
+Now, what we've done here is a relative
+layout and we've specified our text now
+
+56
+00:03:08,760 --> 00:03:14,460
+in relation to the image view or
+the placeholder for our avatar here.
+
+57
+00:03:14,460 --> 00:03:19,080
+For example, this first line on the top
+is going to be the right of the avatar,
+
+58
+00:03:19,080 --> 00:03:23,660
+and then similarly the second line of
+text is also going to be the right of
+
+59
+00:03:23,660 --> 00:03:25,040
+the avatar.
+
+60
+00:03:25,040 --> 00:03:30,560
+Now, we can also delineate which order
+we want the text items to follow.
+
+61
+00:03:30,560 --> 00:03:35,300
+In this case we use the attribute
+layout below and this specifies that
+
+62
+00:03:35,300 --> 00:03:39,270
+this particular text view actual comes
+below this particular one up here.
+
+63
+00:03:39,270 --> 00:03:42,520
+All right, so
+what does that really mean?
+
+64
+00:03:42,520 --> 00:03:44,600
+What does that gain for
+us in terms of performance?
+
+65
+00:03:44,600 --> 00:03:46,000
+So let's hop back the hierarchy viewer.
+
+66
+00:03:46,000 --> 00:03:49,100
+All right, so
+here we are back in our layout.
+
+67
+00:03:49,100 --> 00:03:51,820
+Again, we've got the linear
+layout design up top and
+
+68
+00:03:51,820 --> 00:03:55,480
+then the flattened relative
+layout design on the bottom.
+
+69
+00:03:55,480 --> 00:03:57,900
+Now we can use the rendering/profiling
+feature of hierarchy viewer.
+
+70
+00:03:57,900 --> 00:04:01,250
+We kind of get a sense of
+how each design behaves.
+
+71
+00:04:01,250 --> 00:04:03,000
+So let's select the root node here.
+
+72
+00:04:03,000 --> 00:04:05,840
+And we're going to click on
+the profile rendering button
+
+73
+00:04:05,840 --> 00:04:07,590
+represented by this Venn diagram here.
+
+74
+00:04:07,590 --> 00:04:09,300
+So let's go ahead and click it.
+
+75
+00:04:09,300 --> 00:04:10,790
+And as you can immediately see,
+
+76
+00:04:10,790 --> 00:04:14,420
+what I want you to notice is
+via the yellow color here.
+
+77
+00:04:14,420 --> 00:04:19,200
+The linear layout design is slower than
+the relative layout design in terms of
+
+78
+00:04:19,200 --> 00:04:23,260
+its rendering process measure layout and
+draw.
+
+79
+00:04:23,260 --> 00:04:25,080
+So let's go ahead and
+click that a few more times.
+
+80
+00:04:26,380 --> 00:04:29,740
+Again this linear layout design is
+imposing a bit more overhead on
+
+81
+00:04:29,740 --> 00:04:33,970
+the rendering pipeline compared to the
+relative layout which is all green here.
+
+82
+00:04:33,970 --> 00:04:35,300
+Let's sample it a few more times.
+
+83
+00:04:36,930 --> 00:04:38,420
+All right, they're about even here.
+
+84
+00:04:38,420 --> 00:04:39,270
+Let's try one more time.
+
+85
+00:04:39,270 --> 00:04:42,490
+All right now, so it should be clear
+that when we profile this parent
+
+86
+00:04:42,490 --> 00:04:46,550
+node here, and we look and inspect
+at the two distinct layout designs,
+
+87
+00:04:46,550 --> 00:04:50,880
+we notice that the linear layout, or the
+nested version, is quite a bit slower,
+
+88
+00:04:50,880 --> 00:04:54,657
+or at least clearly slower than our
+flat and relative layout version.
+
+89
+00:04:54,657 --> 00:04:58,450
+So again, when you can see these
+opportunities to flatten in your layout
+
+90
+00:04:58,450 --> 00:05:00,680
+design or when you are re-factoring,
+
+91
+00:05:00,680 --> 00:05:03,500
+see if you can take steps to
+flatten your design when possible.
+
+92
+00:05:03,500 --> 00:05:07,040
+So let's go ahead and apply this best
+practice to our Chattinum Lattinum
+
+93
+00:05:07,040 --> 00:05:09,260
+design that we looked at earlier.
+
+94
+00:05:09,260 --> 00:05:11,230
+Let's see if we can find
+some inefficiencies and
+
+95
+00:05:11,230 --> 00:05:13,130
+flatten that layout to see if
+we can gain some performance.

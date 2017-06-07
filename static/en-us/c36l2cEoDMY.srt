@@ -1,0 +1,277 @@
+1
+00:00:00,340 --> 00:00:04,660
+So currently the work class contains
+two string variables, one for
+
+2
+00:00:04,660 --> 00:00:07,910
+the default translation and
+one for the Miwok translation.
+
+3
+00:00:07,910 --> 00:00:12,140
+And both of these variables are private,
+but we have public methods
+
+4
+00:00:12,140 --> 00:00:16,720
+that other classes can call to get
+access to the state of the object.
+
+5
+00:00:16,720 --> 00:00:19,340
+So now to add support for
+images, we're going to need to
+
+6
+00:00:19,340 --> 00:00:24,430
+add a new variable to keep track of the
+image associated with each word object.
+
+7
+00:00:24,430 --> 00:00:26,716
+Well what should the data
+type of this new variable be?
+
+8
+00:00:26,716 --> 00:00:30,627
+Well we could store the actual image but
+that actually takes up a lot of
+
+9
+00:00:30,627 --> 00:00:34,640
+memory because all our illustrations
+are not trivial in size.
+
+10
+00:00:34,640 --> 00:00:35,170
+Plus for
+
+11
+00:00:35,170 --> 00:00:38,570
+a really long list of words, if we
+ever scroll to the bottom of the list.
+
+12
+00:00:38,570 --> 00:00:41,840
+It would be a waste to store
+each image in the word list
+
+13
+00:00:41,840 --> 00:00:43,780
+if the images have strolled off screen.
+
+14
+00:00:43,780 --> 00:00:47,910
+Plus it would blot the amount of memory
+resources that the word list would use.
+
+15
+00:00:47,910 --> 00:00:53,040
+Now, a more efficient way is to just
+store the resource ID for each image.
+
+16
+00:00:53,040 --> 00:00:57,859
+A resource ID something like
+R.drawable.number_one is
+
+17
+00:00:57,859 --> 00:00:59,697
+actually an integer.
+
+18
+00:00:59,697 --> 00:01:01,974
+So instead of storing an actual image,
+
+19
+00:01:01,974 --> 00:01:05,780
+we just store the name of the resource
+so that we can find it later.
+
+20
+00:01:06,930 --> 00:01:10,070
+So we can think of that
+situation like an address book.
+
+21
+00:01:10,070 --> 00:01:13,890
+You don't need to store someone's
+whole house into your address book.
+
+22
+00:01:13,890 --> 00:01:17,210
+Instead you can just store
+someone's mailing address.
+
+23
+00:01:17,210 --> 00:01:18,550
+And in case you need it later.
+
+24
+00:01:18,550 --> 00:01:22,050
+You can look up that mailing address and
+go find their house.
+
+25
+00:01:22,050 --> 00:01:24,670
+So back to our situation,
+when the list view asked for
+
+26
+00:01:24,670 --> 00:01:27,070
+a list item layout for this word.
+
+27
+00:01:27,070 --> 00:01:31,287
+It's the word adapter's responsibility
+to return the resource ID, so
+
+28
+00:01:31,287 --> 00:01:33,994
+something like R.drawable.number_one.
+
+29
+00:01:33,994 --> 00:01:37,721
+And turn it into an actual image of
+an acorn that will be displayed onto
+
+30
+00:01:37,721 --> 00:01:39,310
+the screen.
+
+31
+00:01:39,310 --> 00:01:43,940
+So we see here that each word class
+holds two strings and one integer for
+
+32
+00:01:43,940 --> 00:01:45,830
+the image resource ID.
+
+33
+00:01:45,830 --> 00:01:47,100
+So to follow the convention for
+
+34
+00:01:47,100 --> 00:01:50,580
+the other variables in this class,
+we want these state variables
+
+35
+00:01:50,580 --> 00:01:54,840
+to be declared with the private
+access modifier and not public.
+
+36
+00:01:54,840 --> 00:01:59,558
+So this means that only methods
+within this class can access these
+
+37
+00:01:59,558 --> 00:02:01,114
+private variables.
+
+38
+00:02:01,114 --> 00:02:04,802
+So, we can trust that methods within
+this class will modify the image
+
+39
+00:02:04,802 --> 00:02:06,710
+resource ID properly.
+
+40
+00:02:06,710 --> 00:02:10,060
+We don't want the variable to be public,
+because other classes
+
+41
+00:02:10,060 --> 00:02:14,520
+could change the image resource ID into
+something invalid, which would cause our
+
+42
+00:02:14,520 --> 00:02:19,760
+app to crash when we try to translate
+the resource ID into an actual image.
+
+43
+00:02:19,760 --> 00:02:22,120
+Now back to the first
+question of the quiz
+
+44
+00:02:22,120 --> 00:02:25,340
+which asked what additional state
+what a word object contain?
+
+45
+00:02:25,340 --> 00:02:29,790
+Well we'll need a private integer
+variable for the image resource ID.
+
+46
+00:02:29,790 --> 00:02:33,740
+And since this variable's private,
+we need a public method so
+
+47
+00:02:33,740 --> 00:02:38,130
+that other classes can access the image
+associated with this word object.
+
+48
+00:02:38,130 --> 00:02:39,260
+And by the way,
+
+49
+00:02:39,260 --> 00:02:44,040
+only create public access modifiers
+to access private variables.
+
+50
+00:02:44,040 --> 00:02:47,950
+If you intend for
+other classes to need those methods.
+
+51
+00:02:47,950 --> 00:02:49,810
+If we created additional variables for
+
+52
+00:02:49,810 --> 00:02:53,020
+ourselves to manage
+the word object internally.
+
+53
+00:02:53,020 --> 00:02:55,320
+They don't need to be external facing.
+
+54
+00:02:55,320 --> 00:02:58,090
+We don't need to create
+public get methods
+
+55
+00:02:58,090 --> 00:03:01,450
+to expose those variables
+to outside callers.
+
+56
+00:03:01,450 --> 00:03:03,720
+So back to the second question
+of the quiz that asked,
+
+57
+00:03:03,720 --> 00:03:05,620
+what additional method should we have?
+
+58
+00:03:05,620 --> 00:03:09,330
+We would need a public method
+called getImageResourceId
+
+59
+00:03:09,330 --> 00:03:11,450
+to return the integer image resource ID.

@@ -1,0 +1,311 @@
+1
+00:00:00,000 --> 00:00:05,000
+Let me tell you about a truly magical algorithm called value iteration.
+
+2
+00:00:05,000 --> 00:00:08,000
+In value iteration, we recursively calculate the value function
+
+3
+00:00:08,000 --> 00:00:12,000
+so that in the end, we get what's called the optimal value function.
+
+4
+00:00:12,000 --> 00:00:14,000
+And from that, we can derive,
+
+5
+00:00:14,000 --> 00:00:18,000
+look up, the optimal policy.
+
+6
+00:00:18,000 --> 00:00:20,000
+Here's how it goes.
+
+7
+00:00:20,000 --> 00:00:26,000
+Suppose we start with a value function of 0 everywhere
+
+8
+00:00:26,000 --> 00:00:30,000
+except for the 2 absorbing states, whose value is +100 and -100.
+
+9
+00:00:30,000 --> 00:00:33,000
+Then we can ask ourselves the question is, for example,
+
+10
+00:00:33,000 --> 00:00:37,000
+for the field A3, 0 a good value.
+
+11
+00:00:37,000 --> 00:00:40,000
+And the answer is no, it isn't. It is somewhat inconsistent.
+
+12
+00:00:40,000 --> 00:00:42,000
+We can compute a better value.
+
+13
+00:00:42,000 --> 00:00:46,000
+In particular, we can understand that
+
+14
+00:00:46,000 --> 00:00:50,000
+if we're in A3 and we choose to go east,
+
+15
+00:00:50,000 --> 00:00:55,000
+then with 0.8 chance we should expect a value of 100.
+
+16
+00:00:55,000 --> 00:00:58,000
+With 0.1 chance, we'll stay in the same state,
+
+17
+00:00:58,000 --> 00:01:01,000
+in which case the value is -3.
+
+18
+00:01:01,000 --> 00:01:05,000
+And with 0.1 chance, we're going to stay down here for -3.
+
+19
+00:01:05,000 --> 00:01:08,000
+With the appropriate definition of value,
+
+20
+00:01:08,000 --> 00:01:11,000
+we would get the following formula,
+
+21
+00:01:11,000 --> 00:01:13,000
+which is 77.
+
+22
+00:01:13,000 --> 00:01:18,000
+So, 77 is a better estimate of value
+
+23
+00:01:18,000 --> 00:01:20,000
+for the state over here.
+
+24
+00:01:20,000 --> 00:01:22,000
+And now that we've done it, we can ask ourselves the question
+
+25
+00:01:22,000 --> 00:01:25,000
+is this a good value, or this a good value, or this a good value?
+
+26
+00:01:25,000 --> 00:01:27,000
+And we can propagate value backwards
+
+27
+00:01:27,000 --> 00:01:30,000
+in reverse order of action execution
+
+28
+00:01:30,000 --> 00:01:34,000
+from the positive absorbing state through this grid world
+
+29
+00:01:34,000 --> 00:01:38,000
+and fill every single state with a better value estimate
+
+30
+00:01:38,000 --> 00:01:42,000
+then the one we assumed initially.
+
+31
+00:01:42,000 --> 00:01:46,000
+If we do this for the grid over here and run value iteration
+
+32
+00:01:46,000 --> 00:01:50,000
+through convergence, then we get the following value function.
+
+33
+00:01:50,000 --> 00:01:53,000
+We get 93 over here. We're very close to the goal.
+
+34
+00:01:53,000 --> 00:01:58,000
+89, 85, 81, 77, 73, 70, over here.
+
+35
+00:01:58,000 --> 00:02:02,000
+This state will be worth 68, and this state is worth 47,
+
+36
+00:02:02,000 --> 00:02:04,000
+and the reason why these are not so good is because
+
+37
+00:02:04,000 --> 00:02:06,000
+we might stay quite a while in those
+
+38
+00:02:06,000 --> 00:02:09,000
+before we'll be able to execute an action
+
+39
+00:02:09,000 --> 00:02:12,000
+that gets us outside the state.
+
+40
+00:02:12,000 --> 00:02:15,000
+Let me give you an algorithm that defines value iteration.
+
+41
+00:02:15,000 --> 00:02:20,000
+We wish to estimate recursively the value of state S.
+
+42
+00:02:20,000 --> 00:02:23,000
+And we do this based on a possible successor state
+
+43
+00:02:23,000 --> 00:02:27,000
+as prime that we look up in the existing table.
+
+44
+00:02:27,000 --> 00:02:30,000
+Now, actions A are non-deterministic.
+
+45
+00:02:30,000 --> 00:02:34,000
+Therefore, we have to go through all possible as primes
+
+46
+00:02:34,000 --> 00:02:37,000
+and weigh each outcome with the associated probability.
+
+47
+00:02:37,000 --> 00:02:40,000
+The probability of reaching S prime given that we started state S
+
+48
+00:02:40,000 --> 00:02:42,000
+and apply action A.
+
+49
+00:02:42,000 --> 00:02:46,000
+This expression is usually discounted by gamma,
+
+50
+00:02:46,000 --> 00:02:51,000
+and we also add the reward or the costs of the state.
+
+51
+00:02:51,000 --> 00:02:54,000
+And because there's multiple actions and it's up to us
+
+52
+00:02:54,000 --> 00:03:00,000
+to choose the right action, we will maximize over all possible actions.
+
+53
+00:03:00,000 --> 00:03:03,000
+See, we look at this equation, and it looks really complicated,
+
+54
+00:03:03,000 --> 00:03:06,000
+but it's actually really simple.
+
+55
+00:03:06,000 --> 00:03:11,000
+We compute a value recursively based on successor values
+
+56
+00:03:11,000 --> 00:03:15,000
+plus the reward and minus the cost that it takes us to get us there.
+
+57
+00:03:15,000 --> 00:03:20,000
+Because Mother Nature picks a successor state for us for any given action,
+
+58
+00:03:20,000 --> 00:03:25,000
+if you compute an expectation over the value of the successor state
+
+59
+00:03:25,000 --> 00:03:29,000
+weighted by the corresponding probabilities which is happening over here,
+
+60
+00:03:29,000 --> 00:03:32,000
+and because we can choose our action,
+
+61
+00:03:32,000 --> 00:03:35,000
+we maximize over all possible actions.
+
+62
+00:03:35,000 --> 00:03:39,000
+Therefore, the max as opposed to the expectation on the left side over here.
+
+63
+00:03:39,000 --> 00:03:43,000
+This is an equation that's called backup.
+
+64
+00:03:43,000 --> 00:03:48,000
+In terminal states, we just assign R(s),
+
+65
+00:03:48,000 --> 00:03:52,000
+and obviously, in the beginning of value iteration,
+
+66
+00:03:52,000 --> 00:03:55,000
+these expressions are different, and we have to update.
+
+67
+00:03:55,000 --> 00:03:58,000
+But as Bellman has shown a while ago,
+
+68
+00:03:58,000 --> 00:04:01,000
+this process of updates converges.
+
+69
+00:04:01,000 --> 00:04:05,000
+After convergence, this assignment over here
+
+70
+00:04:05,000 --> 00:04:07,000
+is replaced by the equality sign,
+
+71
+00:04:07,000 --> 00:04:10,000
+and when this equality holds true,
+
+72
+00:04:10,000 --> 00:04:16,000
+we have what is called a Bellman equality or Bellman equation.
+
+73
+00:04:16,000 --> 00:04:19,000
+And that's all there is to know to compute values.
+
+74
+00:04:19,000 --> 00:04:24,000
+If you assign this specific equation over and over again to each state,
+
+75
+00:04:24,000 --> 00:04:27,000
+eventually you get a value function that looks just like this,
+
+76
+00:04:27,000 --> 00:04:30,000
+where the value really corresponds to what's the optimal future
+
+77
+00:04:30,000 --> 00:04:33,000
+cost reward trade off that you can achieve
+
+78
+00:04:33,000 --> 99:59:59,999
+if you act optimally in any given state over here.

@@ -1,0 +1,171 @@
+1
+00:00:00,250 --> 00:00:04,019
+Now to tie everything together, we will look at an implementation of
+
+2
+00:00:04,019 --> 00:00:08,800
+the classic producer-consumer problem that uses the pthreads library.
+
+3
+00:00:08,800 --> 00:00:12,180
+We will look at the source code section by section.
+
+4
+00:00:12,180 --> 00:00:16,510
+In this first, for instance, section this is the global scope where all of
+
+5
+00:00:16,510 --> 00:00:18,650
+the different variables are defined.
+
+6
+00:00:18,650 --> 00:00:22,370
+If you happen to get lost as I trace through this code, then please
+
+7
+00:00:22,370 --> 00:00:26,330
+reference the source code link that’s provided in the instructor’s notes.
+
+8
+00:00:26,330 --> 00:00:27,968
+So let’s take a look at this.
+
+9
+00:00:27,968 --> 00:00:30,280
+In this producer-consumer example,
+
+10
+00:00:30,280 --> 00:00:35,528
+we have a shared buffer of size buffer size, and it happens to be three.
+
+11
+00:00:35,528 --> 00:00:40,210
+There are three also shared variables where num refers to the number of
+
+12
+00:00:40,210 --> 00:00:43,030
+elements in the buffer, and then add and
+
+13
+00:00:43,030 --> 00:00:50,050
+rem refer to the indices that point to the element in this buffer
+
+14
+00:00:50,050 --> 00:00:54,930
+where we need to add the next element or to remove the next element from.
+
+15
+00:00:54,930 --> 00:00:58,100
+For instance if this is our shared buffer initially all of
+
+16
+00:00:58,100 --> 00:01:00,350
+these variables would be zero.
+
+17
+00:01:00,350 --> 00:01:06,600
+When we add one element, that means that the total number of elements is one.
+
+18
+00:01:06,600 --> 00:01:11,930
+Adding new elements will have to happen in the next field in the buffer array.
+
+19
+00:01:11,930 --> 00:01:15,360
+And removing an element still remains to be zero,
+
+20
+00:01:15,360 --> 00:01:18,400
+because this is the element we need to remove.
+
+21
+00:01:18,400 --> 00:01:23,770
+Adding a second element changes the values of these shared variables as follows.
+
+22
+00:01:23,770 --> 00:01:25,820
+So the total number will be two.
+
+23
+00:01:25,820 --> 00:01:31,260
+And then new additions should be placed in the buffers of two element.
+
+24
+00:01:31,260 --> 00:01:33,190
+And we still haven't removed anything.
+
+25
+00:01:33,190 --> 00:01:36,980
+When we remove one element from the buffer, the x,
+
+26
+00:01:36,980 --> 00:01:41,960
+that means that the total number of elements in the buffer is now one.
+
+27
+00:01:41,960 --> 00:01:45,430
+Still, the next available slot in the buffer,
+
+28
+00:01:45,430 --> 00:01:48,850
+that we can use to add an element, is two.
+
+29
+00:01:48,850 --> 00:01:53,940
+And the slot that contains the next valid entry in the buffer that we
+
+30
+00:01:53,940 --> 00:01:57,280
+should be removing next is one, the y.
+
+31
+00:01:57,280 --> 00:01:59,600
+So, this illustrates how this buffer and
+
+32
+00:01:59,600 --> 00:02:05,310
+these three shared variables are used to manage the producer consumer data.
+
+33
+00:02:05,310 --> 00:02:10,654
+The shared variables are used in conjunction with a mutex, and we use this mutex
+
+34
+00:02:10,654 --> 00:02:17,270
+initializer statement, that this basically automatically initializes the mutex.
+
+35
+00:02:17,270 --> 00:02:21,070
+So it does the function of attribute init, essentially.
+
+36
+00:02:21,070 --> 00:02:23,680
+And we're going to use two condition variables.
+
+37
+00:02:25,160 --> 00:02:29,080
+One, c_cons, which will be used by the consumers, so
+
+38
+00:02:29,080 --> 00:02:32,460
+the consumers will be waiting on this condition variable.
+
+39
+00:02:32,460 --> 00:02:36,370
+And then the other one, c_prod, and this one will be used by the producers.
+
+40
+00:02:36,370 --> 00:02:39,030
+The producers will be waiting on this variable.
+
+41
+00:02:39,030 --> 00:02:41,050
+There are also two functions, two procedures,
+
+42
+00:02:41,050 --> 00:02:45,110
+the producer operation that will be executed by our producer threads, and
+
+43
+00:02:45,110 --> 00:02:48,220
+the consumer operation and that will be executed by our consumer threads.

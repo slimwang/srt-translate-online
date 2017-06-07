@@ -1,0 +1,261 @@
+1
+00:00:00,330 --> 00:00:03,370
+So now that we've seen how
+regular notifications work,
+
+2
+00:00:03,370 --> 00:00:07,540
+how do we go about extending this
+application to work with Android Auto?
+
+3
+00:00:07,540 --> 00:00:09,790
+These are the same steps
+you would have to take,
+
+4
+00:00:09,790 --> 00:00:12,810
+if you had an existing messaging
+app that you wanted to modify.
+
+5
+00:00:12,810 --> 00:00:15,290
+So this would be very useful for
+you to understand.
+
+6
+00:00:15,290 --> 00:00:18,650
+When a user connects their phone
+to an Android Auto head unit,
+
+7
+00:00:18,650 --> 00:00:22,810
+a companion app runs on the phone which
+implements the Android Auto experience.
+
+8
+00:00:22,810 --> 00:00:23,770
+Shown here.
+
+9
+00:00:23,770 --> 00:00:25,650
+This Auto Companion app looks for
+
+10
+00:00:25,650 --> 00:00:30,370
+apps on the device, such as these here,
+that declare Android Auto support, and
+
+11
+00:00:30,370 --> 00:00:34,650
+so our messaging app needs to declare
+this in the AndroidManifest.xml file.
+
+12
+00:00:34,650 --> 00:00:36,420
+So let's open that file up.
+
+13
+00:00:36,420 --> 00:00:40,550
+So we go to manifests,
+AndroidManfest.xml, and here it is.
+
+14
+00:00:40,550 --> 00:00:43,870
+We need to declare an XML file that will
+contain the Android Auto information.
+
+15
+00:00:43,870 --> 00:00:47,850
+So let's add something like this
+inside of the application tag.
+
+16
+00:00:47,850 --> 00:00:50,040
+Now we need to create
+this reference file.
+
+17
+00:00:50,040 --> 00:00:53,880
+So if we go over here and select res,
+you won't have an XML directory so
+
+18
+00:00:53,880 --> 00:00:55,320
+we need to create that.
+
+19
+00:00:55,320 --> 00:01:00,700
+So right click New, Directory,
+type the word XML and hit OK.
+
+20
+00:01:02,700 --> 00:01:06,159
+Right click on the XML directory,
+select New File,
+
+21
+00:01:06,159 --> 00:01:10,700
+and type in automotive_app_desc.xml,
+and hit OK.
+
+22
+00:01:10,700 --> 00:01:13,130
+Inside this new file,
+you then need to declare support for
+
+23
+00:01:13,130 --> 00:01:15,230
+notifications, like this.
+
+24
+00:01:15,230 --> 00:01:18,140
+The next step is to create broadcast
+receivers that will be called,
+
+25
+00:01:18,140 --> 00:01:22,610
+whenever an Android auto message has
+been heard by the user or replied to.
+
+26
+00:01:22,610 --> 00:01:25,750
+So we can use Android Studio to
+create these receivers very easily.
+
+27
+00:01:25,750 --> 00:01:28,960
+And it'll up the AndroidManfest.xml
+file for us as well.
+
+28
+00:01:28,960 --> 00:01:34,900
+So to do this, click on File,
+New, Other, Broadcast Receiver,
+
+29
+00:01:34,900 --> 00:01:38,750
+and for the name, we're going to
+type my message heard receiver and
+
+30
+00:01:38,750 --> 00:01:40,880
+we'll leave all the defaults
+as they are, and hit finish.
+
+31
+00:01:42,050 --> 00:01:44,970
+You can see now,
+we have sub class created for us.
+
+32
+00:01:44,970 --> 00:01:49,030
+And you can see the AndroidManifest.xml
+changes here, as well.
+
+33
+00:01:49,030 --> 00:01:50,680
+You need to add an intent filter, so
+
+34
+00:01:50,680 --> 00:01:54,540
+that this receiver will only
+respond to specific actions.
+
+35
+00:01:54,540 --> 00:01:55,960
+Note that we include
+the package name here.
+
+36
+00:01:55,960 --> 00:01:58,610
+You should change this package
+name to whatever the name is for
+
+37
+00:01:58,610 --> 00:01:59,700
+your application.
+
+38
+00:01:59,700 --> 00:02:03,480
+Ours is defined here, at the top
+of the AndroidManifest.xml and so
+
+39
+00:02:03,480 --> 00:02:05,260
+we're going to use that here, too.
+
+40
+00:02:05,260 --> 00:02:08,229
+We also need to create a receiver for
+message replies as well, so
+
+41
+00:02:08,229 --> 00:02:13,280
+let's do the same thing File,
+New, Other,
+
+42
+00:02:13,280 --> 00:02:16,790
+Broadcast Receiver, and this time we're
+going to use MyMessageReplyReceiver.
+
+43
+00:02:17,870 --> 00:02:20,630
+Once again with the same default and
+then finish.
+
+44
+00:02:20,630 --> 00:02:23,320
+If we go back to
+the AndroidManifest.xml file,
+
+45
+00:02:23,320 --> 00:02:26,340
+we need to make sure we add
+a similar intent-filter as before.
+
+46
+00:02:26,340 --> 00:02:27,580
+And so we put that in like this.
+
+47
+00:02:29,080 --> 00:02:31,870
+You'll see here that
+the action is a reply,
+
+48
+00:02:31,870 --> 00:02:34,150
+instead of heard like we used before.
+
+49
+00:02:34,150 --> 00:02:36,760
+We also need to double check that
+we're including the Android support
+
+50
+00:02:36,760 --> 00:02:37,350
+library as well.
+
+51
+00:02:37,350 --> 00:02:40,710
+This is defined in the build.gradle
+file for the application module.
+
+52
+00:02:40,710 --> 00:02:42,370
+We can find that here.
+
+53
+00:02:42,370 --> 00:02:43,710
+Here, and then we load it up.
+
+54
+00:02:44,830 --> 00:02:48,160
+And if we scroll here,
+you can see that we're already including
+
+55
+00:02:48,160 --> 00:02:50,470
+the support-v4 library here,
+so we're good to go.

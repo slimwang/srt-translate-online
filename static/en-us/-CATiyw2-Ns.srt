@@ -1,0 +1,191 @@
+1
+00:00:00,000 --> 00:00:05,113
+[BLANK_AUDIO]
+
+2
+00:00:05,113 --> 00:00:07,171
+>> All right. So the DOM captures the content
+
+3
+00:00:07,171 --> 00:00:08,850
+of the page. But we also need to know
+
+4
+00:00:08,850 --> 00:00:12,370
+how to display the actual page itself. And to
+
+5
+00:00:12,370 --> 00:00:14,680
+do that, we need to build a CSS Object Model.
+
+6
+00:00:14,680 --> 00:00:18,360
+>> Mm. And judging by its name, I guess it's similar to the DOM?
+
+7
+00:00:18,360 --> 00:00:23,260
+>> It's very close. Let's take a look. Ok. Let's say we've received the
+
+8
+00:00:23,260 --> 00:00:25,920
+following CSS. The first thing the browser
+
+9
+00:00:25,920 --> 00:00:28,530
+has to do is identify the correct tokens.
+
+10
+00:00:28,530 --> 00:00:30,040
+>> But there's no angle brackets here,
+
+11
+00:00:30,040 --> 00:00:30,730
+right?
+
+12
+00:00:30,730 --> 00:00:32,810
+>> Yeah. CSS has its own set of rules
+
+13
+00:00:32,810 --> 00:00:36,070
+for how to identify valid tokens. The details are not
+
+14
+00:00:36,070 --> 00:00:37,940
+that important. If you're curious, you can check out
+
+15
+00:00:37,940 --> 00:00:42,040
+the CSS specification link in the instructor notes. The important
+
+16
+00:00:42,040 --> 00:00:44,870
+part is that the parser would convert the tokens
+
+17
+00:00:44,870 --> 00:00:47,910
+to nodes, and in this case, the first would be
+
+18
+00:00:47,910 --> 00:00:51,580
+the body, with its font size property. Next, we would
+
+19
+00:00:51,580 --> 00:00:55,420
+get the paragraph node, and this is the important part.
+
+20
+00:00:55,420 --> 00:01:00,660
+It is a child of body because all of visible content is part of body.
+
+21
+00:01:00,660 --> 00:01:03,820
+>> Wait- Is that some CSS specification rule?
+
+22
+00:01:03,820 --> 00:01:05,040
+>> Yeah. Exactly.
+
+23
+00:01:05,040 --> 00:01:06,610
+>> Also note that the children of the
+
+24
+00:01:06,610 --> 00:01:10,280
+body node, inherit it's parent's styling rules of
+
+25
+00:01:10,280 --> 00:01:12,670
+sixteen pixel font size. This is what we
+
+26
+00:01:12,670 --> 00:01:16,030
+mean by cascading rules and cascading style sheets.
+
+27
+00:01:16,030 --> 00:01:18,540
+>> Interesting. So it's similar to, but not
+
+28
+00:01:18,540 --> 00:01:20,770
+quite the same as, the DOM construction because
+
+29
+00:01:20,770 --> 00:01:24,880
+CSS rules cascade down. Hm curious. Let's see I got
+
+30
+00:01:24,880 --> 00:01:27,050
+a style sheet with a lot of rules. Could we also
+
+31
+00:01:27,050 --> 00:01:30,010
+apply the same incremental processing trick, like we do with HTML,
+
+32
+00:01:30,010 --> 00:01:34,100
+to make the page display faster? That's a great question. Unfortunately,
+
+33
+00:01:34,100 --> 00:01:36,950
+we can't. We can't use a partial CSS tree. Let
+
+34
+00:01:36,950 --> 00:01:39,730
+me show you why. Let's say we just received the first
+
+35
+00:01:39,730 --> 00:01:42,860
+view bites of our CSS and it contains the two rules
+
+36
+00:01:42,860 --> 00:01:46,160
+we have here. So, we go ahead and build the CSS
+
+37
+00:01:46,160 --> 00:01:49,240
+object model. It's tempting to use this tree
+
+38
+00:01:49,240 --> 00:01:51,620
+to render a page, but there's a problem. Let's
+
+39
+00:01:51,620 --> 00:01:56,500
+say we now get the next chunk of CSS and it contains more rules. In this case,
+
+40
+00:01:56,500 --> 00:02:01,710
+we have the paragraph font weight normal. CSS allows us to redefine
+
+41
+00:02:01,710 --> 00:02:07,040
+and refine the style properties. This is perfectly valid. But notice
+
+42
+00:02:07,040 --> 00:02:11,910
+that this rule would allow us to change our CSS on tree.
+
+43
+00:02:11,910 --> 00:02:16,640
+And make the text in paragraph node display with normal weight.
+
+44
+00:02:16,640 --> 00:02:20,208
+>> So that's a gotcha. So, you're saying we can't really use a partial C-S-S on
+
+45
+00:02:20,208 --> 00:02:22,050
+tree. Because then it could lead us to
+
+46
+00:02:22,050 --> 00:02:24,070
+use the wrong styles when we render the page.
+
+47
+00:02:24,070 --> 00:02:27,760
+>> Exactly, the browser blocks page rendering, until it receives
+
+48
+00:02:27,760 --> 00:02:31,790
+and processes all of the CSS. CSS is render blocking.

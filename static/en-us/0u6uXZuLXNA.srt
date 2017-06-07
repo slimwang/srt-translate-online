@@ -1,0 +1,309 @@
+1
+00:00:00,250 --> 00:00:01,780
+So basically planning is hard.
+
+2
+00:00:01,780 --> 00:00:04,460
+So I assume reinforcement
+learning is also hard.
+
+3
+00:00:04,460 --> 00:00:06,500
+>> So the results that we have for
+
+4
+00:00:06,500 --> 00:00:10,430
+reinforcement learning in POMDPs are
+more empirical and algorithmic results,
+
+5
+00:00:10,430 --> 00:00:11,900
+they're not really formal results.
+
+6
+00:00:11,900 --> 00:00:14,070
+But still something that
+people try to do sometimes.
+
+7
+00:00:14,070 --> 00:00:16,460
+If you have some kind
+of robotic system or
+
+8
+00:00:16,460 --> 00:00:19,710
+agent system that's trying to figure
+out what to do, and the world
+
+9
+00:00:19,710 --> 00:00:24,025
+that it's in is partially observable,
+then you have to do something like this.
+
+10
+00:00:24,025 --> 00:00:25,720
+>> Yes, solve the halting problem.
+
+11
+00:00:25,720 --> 00:00:28,650
+>> Well, no, no,
+getting the exact optimal answer
+
+12
+00:00:28,650 --> 00:00:29,970
+is undecidable
+>> Well,
+
+13
+00:00:29,970 --> 00:00:32,350
+then is it decidable that
+you can get it near optimal?
+
+14
+00:00:32,350 --> 00:00:33,880
+>> Yes
+>> Okay, well, I feel better.
+
+15
+00:00:33,880 --> 00:00:36,360
+Why don't you stop depressing me and
+tell me what to do, so
+
+16
+00:00:36,360 --> 00:00:38,930
+that I can sort of feel better
+about this whole approach?
+
+17
+00:00:38,930 --> 00:00:41,450
+Sure, no problem,
+I'm going to to ask you what to do.
+
+18
+00:00:41,450 --> 00:00:44,430
+Okay, so in particular, do you remember
+we had kind of two main flavors of
+
+19
+00:00:44,430 --> 00:00:46,270
+reinforcement learning algorithms for
+MDPs.
+
+20
+00:00:46,270 --> 00:00:47,690
+Do you remember what those were?
+
+21
+00:00:47,690 --> 00:00:49,730
+>> There's value iteration and
+policy iteration, right?
+
+22
+00:00:49,730 --> 00:00:53,666
+>> Yeah, those are planning algorithms,
+but for reinforcement learning in
+
+23
+00:00:53,666 --> 00:00:57,700
+an MDP, the two main branches,
+model-based RL and model-free RL.
+
+24
+00:00:57,700 --> 00:00:58,730
+>> Yeah, sure, right.
+
+25
+00:00:58,730 --> 00:00:59,555
+Well, that was obvious.
+
+26
+00:00:59,555 --> 00:01:02,180
+>> Uh-huh, and do you remember
+[LAUGH] the distinction between them?
+
+27
+00:01:02,180 --> 00:01:04,379
+>> Well, one used the model and
+one didn't.
+
+28
+00:01:04,379 --> 00:01:06,250
+>> One learned a model and one didn't.
+
+29
+00:01:06,250 --> 00:01:07,200
+>> Okay, well, same thing.
+
+30
+00:01:07,200 --> 00:01:09,460
+You can't use a model if you don't
+learn it if you didn't know it.
+
+31
+00:01:09,460 --> 00:01:11,680
+>> [LAUGH] That's true,
+that's very well said.
+
+32
+00:01:11,680 --> 00:01:13,680
+>> So you learn a model and
+then you use it.
+
+33
+00:01:13,680 --> 00:01:16,230
+Versus don't bother to learn
+the model and just do it.
+
+34
+00:01:16,230 --> 00:01:19,790
+I think the little quip was,
+the world is your model.
+
+35
+00:01:19,790 --> 00:01:20,540
+>> Whose quip is that?
+
+36
+00:01:20,540 --> 00:01:21,860
+>> Probably Rob Brooks.
+
+37
+00:01:21,860 --> 00:01:24,526
+>> All right, so we can actually use
+this same kind of distinction, this
+
+38
+00:01:24,526 --> 00:01:29,769
+model-based RL and model-free based RL,
+or model-free RL, in the POMDP setting.
+
+39
+00:01:29,769 --> 00:01:34,900
+Where in model-based RL you actually
+try to learn the POMDP and then
+
+40
+00:01:34,900 --> 00:01:40,674
+you plan in it, and in model-free RL
+we try to map observations to actions.
+
+41
+00:01:40,674 --> 00:01:44,021
+And we do that iteratively over time, so
+we don't actually build the model, but
+
+42
+00:01:44,021 --> 00:01:47,180
+we do try to figure out, okay, when I
+see this, this is a good thing to do.
+
+43
+00:01:47,180 --> 00:01:49,760
+>> Well can I ask you a question
+while where here before we jump in?
+
+44
+00:01:49,760 --> 00:01:54,810
+So, one of the things that we know
+we learned in AI class 150 years ago
+
+45
+00:01:54,810 --> 00:01:57,580
+is that if you don't
+know what's going on,
+
+46
+00:01:57,580 --> 00:02:01,710
+you can often figure out what's going
+on by taking specific actions that
+
+47
+00:02:01,710 --> 00:02:05,730
+guarantee you end up in some
+state that you actually know.
+
+48
+00:02:05,730 --> 00:02:06,320
+>> Sure.
+
+49
+00:02:06,320 --> 00:02:10,479
+>> So even if you're blind and
+you're trying to get to
+
+50
+00:02:10,479 --> 00:02:13,290
+a particular place in the room,
+you could do stuff like, well,
+
+51
+00:02:13,290 --> 00:02:17,010
+I'm just going to go left for 15 minutes
+and then I know no matter what happens,
+
+52
+00:02:17,010 --> 00:02:19,420
+I'm going to be against the left wall,
+then I know where I am.
+
+53
+00:02:19,420 --> 00:02:20,030
+>> Yes.
+
+54
+00:02:20,030 --> 00:02:21,172
+>> And then I can do things.
+
+55
+00:02:21,172 --> 00:02:24,557
+Do either of these methods
+do the equivalent of that or
+
+56
+00:02:24,557 --> 00:02:25,930
+an analogue of that?
+
+57
+00:02:25,930 --> 00:02:27,370
+>> Either could, in fact.
+
+58
+00:02:27,370 --> 00:02:29,430
+>> Well, okay, well, that's good.
+
+59
+00:02:29,430 --> 00:02:32,712
+>> Again, the guarantees on whether
+things actually work in this space
+
+60
+00:02:32,712 --> 00:02:35,985
+are nonexistent, so it's not the case
+that we can always say, yeah,
+
+61
+00:02:35,985 --> 00:02:37,035
+it's always going to do the right thing.
+
+62
+00:02:37,035 --> 00:02:40,085
+It's going to figure out the simplest
+way of getting to a known state and
+
+63
+00:02:40,085 --> 00:02:41,035
+then behave from there.
+
+64
+00:02:41,035 --> 00:02:43,685
+But yeah, I mean I've seen both
+these kinds of algorithms do
+
+65
+00:02:43,685 --> 00:02:44,625
+that kind of thing.
+
+66
+00:02:44,625 --> 00:02:46,016
+>> Okay, good, good,
+well, that's promising.

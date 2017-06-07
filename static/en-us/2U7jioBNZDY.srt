@@ -1,0 +1,414 @@
+1
+00:00:00,070 --> 00:00:03,320
+Let's now look at scheduling
+on multi-CPU systems.
+
+2
+00:00:03,320 --> 00:00:05,990
+However, before we start
+talking about scheduling,
+
+3
+00:00:05,990 --> 00:00:08,900
+let's look a little bit at
+some architecture detail.
+
+4
+00:00:08,900 --> 00:00:12,330
+First we will look at shared
+memory multiprocessors.
+
+5
+00:00:12,330 --> 00:00:16,059
+And then we will also take a look
+at how this compares to multi-core
+
+6
+00:00:16,059 --> 00:00:17,440
+architectures.
+
+7
+00:00:17,440 --> 00:00:22,724
+In a shared memory multiprocessors,
+or SMPs, there are multiple CPUs.
+
+8
+00:00:22,724 --> 00:00:27,928
+Each of them have their maybe own
+private caches, like L1 and L2.
+
+9
+00:00:27,928 --> 00:00:33,270
+There are last level caches that may or
+may not be shared among the CPUs.
+
+10
+00:00:33,270 --> 00:00:39,040
+And there is a system memory, DRAM,
+that is shared across all of the CPUs.
+
+11
+00:00:39,040 --> 00:00:41,590
+Here we show just one memory component,
+but
+
+12
+00:00:41,590 --> 00:00:44,640
+it is possible that there would
+be multiple memory components.
+
+13
+00:00:44,640 --> 00:00:48,880
+But the point is that all of the memory
+in the system is shared among all
+
+14
+00:00:48,880 --> 00:00:50,200
+of the CPUs.
+
+15
+00:00:50,200 --> 00:00:54,922
+In the current multicore world,
+each of these CPUs can have
+
+16
+00:00:54,922 --> 00:00:59,560
+multiple internal cores, so
+multiple CPUs internally.
+
+17
+00:00:59,560 --> 00:01:02,888
+Each of those cores will
+have private caches, and
+
+18
+00:01:02,888 --> 00:01:08,135
+then overall the entire multicore CPU
+will have some shared last level cache.
+
+19
+00:01:08,135 --> 00:01:11,920
+And then again,
+there will be some shared system memory.
+
+20
+00:01:11,920 --> 00:01:15,760
+Here in this picture, we have a CPU
+with two cores, so that's a dual-core
+
+21
+00:01:15,760 --> 00:01:20,510
+processor, and this is more common for
+client devices like laptops, for
+
+22
+00:01:20,510 --> 00:01:24,560
+instance, or even cell phones
+today can have two CPUs.
+
+23
+00:01:24,560 --> 00:01:26,400
+Whereas on the server and platforms,
+
+24
+00:01:26,400 --> 00:01:30,425
+it's more common to have CPUs
+that have six or eight cores and
+
+25
+00:01:30,425 --> 00:01:35,975
+to also have multiple such CPUs, so
+we'll have multiple multicore CPUs.
+
+26
+00:01:35,975 --> 00:01:38,655
+As far as the operating
+system is concerned,
+
+27
+00:01:38,655 --> 00:01:43,527
+it sees all of these CPUs as
+well as the cores in the CPU as
+
+28
+00:01:43,527 --> 00:01:47,917
+entities onto which it can schedule
+all execution context, so threads.
+
+29
+00:01:47,917 --> 00:01:51,907
+All of these are, as far as
+the operating system is concerned,
+
+30
+00:01:51,907 --> 00:01:55,960
+possible CPUs for
+it can schedule some of its workload.
+
+31
+00:01:55,960 --> 00:01:59,830
+So to make our discussion more concrete,
+we will first start talking about
+
+32
+00:01:59,830 --> 00:02:04,640
+scheduling on multi-CPU systems in
+the context of SMP systems, and
+
+33
+00:02:04,640 --> 00:02:08,300
+a lot of these things will apply to
+the multicore world because again,
+
+34
+00:02:08,300 --> 00:02:12,058
+the scheduler just
+sees the cores as CPUs.
+
+35
+00:02:12,058 --> 00:02:15,230
+And we'll make some comments that
+are more exclusively applied
+
+36
+00:02:15,230 --> 00:02:18,800
+to multicores towards
+the end of this lesson.
+
+37
+00:02:18,800 --> 00:02:22,260
+We said in our earlier lectures
+that the performance of threads and
+
+38
+00:02:22,260 --> 00:02:26,940
+processes is highly dependent on
+whether the state that the thread needs
+
+39
+00:02:26,940 --> 00:02:30,070
+is in the cache or in memory.
+
+40
+00:02:30,070 --> 00:02:33,770
+Let's say a thread was
+executing on CPU one first.
+
+41
+00:02:33,770 --> 00:02:38,182
+Over time this thread was slightly able
+to bring a lot of the state that it
+
+42
+00:02:38,182 --> 00:02:42,030
+needs both into the last level of
+cache that's associated with this CPU,
+
+43
+00:02:42,030 --> 00:02:46,370
+as well as in the private caches
+that are available on the CPU.
+
+44
+00:02:46,370 --> 00:02:50,950
+And in this case, when the caches are
+hot, this helps with the performance.
+
+45
+00:02:50,950 --> 00:02:52,210
+Now, the next time around,
+
+46
+00:02:52,210 --> 00:02:56,040
+if the thread is scheduled
+to execute on the other CPU,
+
+47
+00:02:56,040 --> 00:03:00,340
+none of its state will be there so the
+thread will operate with a cold cache.
+
+48
+00:03:00,340 --> 00:03:03,640
+We'll have to bring all
+of the state back in and
+
+49
+00:03:03,640 --> 00:03:05,810
+that will affect performance.
+
+50
+00:03:05,810 --> 00:03:10,770
+Therefore, what we want to achieve
+with a scheduling on multi-CPU systems
+
+51
+00:03:10,770 --> 00:03:14,820
+is to try to schedule the thread
+back on the same CPU where it
+
+52
+00:03:14,820 --> 00:03:20,310
+executed before because it is more
+likely that its cache will be hot.
+
+53
+00:03:20,310 --> 00:03:24,670
+We call this cache affinity and
+that is clearly important.
+
+54
+00:03:24,670 --> 00:03:28,400
+To achieve this, we basically
+want the scheduler to keep a task
+
+55
+00:03:28,400 --> 00:03:30,830
+on the same CPU as much as possible.
+
+56
+00:03:30,830 --> 00:03:35,130
+To achieve this, we can maintain
+a hierarchical scheduler architecture,
+
+57
+00:03:35,130 --> 00:03:41,580
+where at the top level, a load balancing
+component divides the tasks among CPUs.
+
+58
+00:03:41,580 --> 00:03:46,666
+And then a per-CPU scheduler with
+a per CPU runqueue repeatedly
+
+59
+00:03:46,666 --> 00:03:51,198
+schedules those tasks on a given
+CPU as much as possible.
+
+60
+00:03:51,198 --> 00:03:56,810
+To balance the load across the different
+CPUs and their per-CPU runqueue, the top
+
+61
+00:03:56,810 --> 00:04:02,100
+level entity in the scheduler can look
+at information such as the length of ea,
+
+62
+00:04:02,100 --> 00:04:06,620
+of each of these queues to decide
+how to balance tasks across them.
+
+63
+00:04:06,620 --> 00:04:11,009
+Or potentially when a CPU is idle,
+it can at that point start looking
+
+64
+00:04:11,009 --> 00:04:15,420
+at the other CPUs and
+try to get some more work from them.
+
+65
+00:04:15,420 --> 00:04:18,209
+In addition to having
+multiple processors,
+
+66
+00:04:18,209 --> 00:04:21,640
+it is possible to also have
+multiple memory nodes.
+
+67
+00:04:21,640 --> 00:04:22,421
+The CPUs and
+
+68
+00:04:22,421 --> 00:04:27,201
+the memory nodes will be interconnected
+via some type of interconnect.
+
+69
+00:04:27,201 --> 00:04:29,654
+For instance, on modern Intel platforms,
+
+70
+00:04:29,654 --> 00:04:33,841
+there is a interconnect that's called
+QuickPath Interconnect, or QPI.
+
+71
+00:04:33,841 --> 00:04:38,425
+One way in which these memory nodes can
+be configured is that a memory node
+
+72
+00:04:38,425 --> 00:04:43,084
+can be technically connected to some
+subset of the CPU, so for instance,
+
+73
+00:04:43,084 --> 00:04:46,500
+to a socket that has
+multiple processors.
+
+74
+00:04:46,500 --> 00:04:51,490
+If that is the case,
+then the access from that set of CPUs
+
+75
+00:04:51,490 --> 00:04:56,120
+to the memory node will be faster
+versus from that particular
+
+76
+00:04:56,120 --> 00:05:01,540
+processor to a memory node that's
+associated with another set of CPUs.
+
+77
+00:05:01,540 --> 00:05:05,650
+Both types of accesses will be made
+possible because of the interconnect
+
+78
+00:05:05,650 --> 00:05:08,180
+that's connecting all
+of these components.
+
+79
+00:05:08,180 --> 00:05:11,220
+However, they will take
+different amount of time.
+
+80
+00:05:11,220 --> 00:05:15,540
+We call these types of platforms
+non-uniform memory access platforms, or
+
+81
+00:05:15,540 --> 00:05:17,150
+NUMA platforms.
+
+82
+00:05:17,150 --> 00:05:21,350
+So then clearly, from a scheduling
+perspective, what would make sense is
+
+83
+00:05:21,350 --> 00:05:26,460
+for the scheduler to divide tasks in
+such a way that tasks are bound to
+
+84
+00:05:26,460 --> 00:05:32,110
+those CPUs that are closer to the memory
+node where the state of those tasks is.
+
+85
+00:05:32,110 --> 00:05:34,950
+We call this type of scheduling
+NUMA-aware scheduling.

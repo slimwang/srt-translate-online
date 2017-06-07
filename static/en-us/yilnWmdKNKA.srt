@@ -1,0 +1,229 @@
+1
+00:00:01,020 --> 00:00:03,830
+Let me show you the solution
+that we came up with.
+
+2
+00:00:03,830 --> 00:00:06,970
+We start by using this
+series of guard statements.
+
+3
+00:00:06,970 --> 00:00:09,646
+First we check that no
+error's been returned.
+
+4
+00:00:09,646 --> 00:00:13,220
+And then we check to see if we have
+a status code that begins with 200 here.
+
+5
+00:00:14,840 --> 00:00:16,700
+And then we check if
+the data is not nil here.
+
+6
+00:00:17,720 --> 00:00:20,326
+Now I know some of these guard
+statements are a little redundant.
+
+7
+00:00:20,326 --> 00:00:23,828
+If we remember the documentation
+it says that if the error is nil,
+
+8
+00:00:23,828 --> 00:00:26,057
+then we're guaranteed to have the data,
+
+9
+00:00:26,057 --> 00:00:29,370
+or if the data is nil then we're
+guaranteed to have an error.
+
+10
+00:00:29,370 --> 00:00:33,360
+But we decided to put each of these
+guard statements in here just to be
+
+11
+00:00:33,360 --> 00:00:34,930
+extra clear about what's going on.
+
+12
+00:00:36,710 --> 00:00:38,360
+So if we pass all these
+guard statements,
+
+13
+00:00:38,360 --> 00:00:41,110
+then we use
+the NSJSONSerialization class
+
+14
+00:00:41,110 --> 00:00:44,220
+to convert the data into
+a dictionary that we can use.
+
+15
+00:00:44,220 --> 00:00:47,420
+Next, we start checking for those key
+value pairs that we're interested in.
+
+16
+00:00:48,510 --> 00:00:51,679
+Remember, the response that we
+expect looks something like this.
+
+17
+00:00:52,830 --> 00:00:56,440
+We have this top level
+photos dictionary, and
+
+18
+00:00:56,440 --> 00:01:01,835
+within photos we have the photo, which
+is the array of photo dictionaries.
+
+19
+00:01:01,835 --> 00:01:05,900
+And we also have this stack key
+that gives us some indication
+
+20
+00:01:05,900 --> 00:01:07,070
+of how the response went.
+
+21
+00:01:08,320 --> 00:01:12,140
+And what we want to do is select
+a random photo out of this array, and
+
+22
+00:01:12,140 --> 00:01:19,300
+then we want to get its title and
+the url_m values.
+
+23
+00:01:19,300 --> 00:01:21,770
+So back in the code,
+the first thing we actually check for
+
+24
+00:01:21,770 --> 00:01:23,450
+is that stat key value pair.
+
+25
+00:01:23,450 --> 00:01:26,650
+We want to make sure that the status,
+stat, is okay.
+
+26
+00:01:27,740 --> 00:01:28,710
+And you don't have to do this,
+
+27
+00:01:28,710 --> 00:01:33,570
+this is just an implementation detail
+that we like for extra security I guess.
+
+28
+00:01:34,630 --> 00:01:37,480
+Then we get the top level
+photosDictionary and we also get
+
+29
+00:01:37,480 --> 00:01:42,627
+the photosArray, which remember, is the
+array of individual photo dictionaries.
+
+30
+00:01:44,510 --> 00:01:46,492
+We also make one more check here.
+
+31
+00:01:46,492 --> 00:01:51,201
+We want to see if the number of photo
+dictionaries, the account of the photos
+
+32
+00:01:51,201 --> 00:01:56,305
+array, is equal to 0, because then we
+know that the search returned no images.
+
+33
+00:01:56,305 --> 00:01:57,605
+And we account for that here.
+
+34
+00:02:00,602 --> 00:02:05,823
+Otherwise we go ahead and generate
+a random index, so our randomPhotoIndex.
+
+35
+00:02:05,823 --> 00:02:10,332
+And then we can use that to select
+a random photoDictionary, here.
+
+36
+00:02:10,332 --> 00:02:14,909
+With our random photoDictionary chosen,
+we get the title,
+
+37
+00:02:14,909 --> 00:02:18,059
+and then we get the url_m, that string.
+
+38
+00:02:18,059 --> 00:02:22,126
+And then we can use them to make
+our UI updates inside of this
+
+39
+00:02:22,126 --> 00:02:24,120
+performUIUpdatesOnMain.
+
+40
+00:02:25,200 --> 00:02:27,150
+So this all looks pretty good.
+
+41
+00:02:27,150 --> 00:02:28,424
+And we'll give it a shot.
+
+42
+00:02:32,632 --> 00:02:36,172
+And let's search for something sweet,
+I'm going to search for
+
+43
+00:02:36,172 --> 00:02:38,563
+my wife's favorite, French macaroon.
+
+44
+00:02:44,568 --> 00:02:45,280
+Yummy.
+
+45
+00:02:45,280 --> 00:02:47,214
+This is quite the search image.
+
+46
+00:02:47,214 --> 00:02:51,360
+We have have a macaroon and
+we have typography, how fancy.
+
+47
+00:02:52,770 --> 00:02:55,100
+Now at this point we're almost
+done with Flick Finder,
+
+48
+00:02:55,100 --> 00:02:58,210
+but there's one more
+optimization that we can make.
+
+49
+00:02:58,210 --> 00:02:58,990
+We'll look at this next.

@@ -1,0 +1,193 @@
+1
+00:00:00,320 --> 00:00:02,190
+Let's take a broader
+view of what we just did.
+
+2
+00:00:02,190 --> 00:00:05,370
+We have two ingredients here that
+are going to lead to an interesting and
+
+3
+00:00:05,370 --> 00:00:07,560
+crucial abstraction called map.
+
+4
+00:00:07,560 --> 00:00:10,830
+First we have a set of elements
+that we'd like to process.
+
+5
+00:00:10,830 --> 00:00:14,080
+In our example of this set
+is an array of 64 floats.
+
+6
+00:00:14,080 --> 00:00:17,440
+Second, we have the ability to write
+an arbitrary function that runs on one
+
+7
+00:00:17,440 --> 00:00:19,310
+element in our example.
+
+8
+00:00:19,310 --> 00:00:23,410
+Our function squared each of its and put
+elements producing an output element.
+
+9
+00:00:23,410 --> 00:00:28,240
+Generically, what we did was apply our
+function to each element in the set.
+
+10
+00:00:28,240 --> 00:00:31,170
+This is a powerful parallel operation.
+
+11
+00:00:31,170 --> 00:00:33,020
+So, to be precise,
+when we talk about this.
+
+12
+00:00:33,020 --> 00:00:36,840
+We say that we have
+an abstraction named map.
+
+13
+00:00:36,840 --> 00:00:38,430
+It takes two arguments.
+
+14
+00:00:38,430 --> 00:00:39,970
+A set of elements and
+
+15
+00:00:39,970 --> 00:00:43,440
+a function that will be applied
+to each of those elements.
+
+16
+00:00:43,440 --> 00:00:46,320
+Map is a key building
+block of GPU computing.
+
+17
+00:00:46,320 --> 00:00:49,100
+Many of the problems you will
+solve as a GPU programmer, and
+
+18
+00:00:49,100 --> 00:00:53,100
+certainly many of the ones in
+this class use map operations.
+
+19
+00:00:53,100 --> 00:00:55,740
+GPUs are good at map for
+two main reasons.
+
+20
+00:00:55,740 --> 00:00:58,960
+One, GPUs have many parallel processors.
+
+21
+00:00:58,960 --> 00:01:01,830
+The GPU is efficient at
+delegating the computation of
+
+22
+00:01:01,830 --> 00:01:04,370
+individual elements to those processors.
+
+23
+00:01:04,370 --> 00:01:06,800
+We're going to find out
+more about that soon.
+
+24
+00:01:06,800 --> 00:01:10,980
+Second, GPU is optimized for
+throughput rather than latency.
+
+25
+00:01:10,980 --> 00:01:14,240
+So as a programmer you're probably more
+interested in optimizing the rate at
+
+26
+00:01:14,240 --> 00:01:16,900
+which entire map
+operations can complete.
+
+27
+00:01:16,900 --> 00:01:20,760
+Instead of the time it takes for
+any individual element to complete.
+
+28
+00:01:20,760 --> 00:01:22,450
+And the GPU agrees with you.
+
+29
+00:01:23,470 --> 00:01:26,220
+Let's also take a look at
+the communication pattern for
+
+30
+00:01:26,220 --> 00:01:27,530
+a map operation.
+
+31
+00:01:27,530 --> 00:01:29,070
+Maps model is straightforward.
+
+32
+00:01:29,070 --> 00:01:31,240
+One element in, one element out.
+
+33
+00:01:31,240 --> 00:01:34,180
+Of the computation of
+output element number n,
+
+34
+00:01:34,180 --> 00:01:37,020
+only dependent on input
+element number n.
+
+35
+00:01:37,020 --> 00:01:40,420
+This is a very simple and
+straightforward communication pattern.
+
+36
+00:01:40,420 --> 00:01:44,110
+Other computations might require
+a more complex communication pattern.
+
+37
+00:01:44,110 --> 00:01:47,530
+And we'll learn about those
+patterns over the next few units.
+
+38
+00:01:47,530 --> 00:01:50,310
+So to make sure we understand
+map let's do a little quiz.
+
+39
+00:01:50,310 --> 00:01:54,600
+Check the problems that can be solved
+using a map operation on an input array.
+
+40
+00:01:54,600 --> 00:01:59,380
+Sort, add one to each element in
+the array, sum up all the elements in
+
+41
+00:01:59,380 --> 00:02:03,520
+the array or compute the average of
+the elements in the input array.

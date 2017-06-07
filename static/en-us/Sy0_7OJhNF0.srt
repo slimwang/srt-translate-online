@@ -1,0 +1,279 @@
+1
+00:00:00,050 --> 00:00:02,930
+To generalize from the example
+that we saw in the previous video.
+
+2
+00:00:02,930 --> 00:00:06,120
+We will now summarize the steps
+that have to take place
+
+3
+00:00:06,120 --> 00:00:09,220
+in an RPC interaction between
+a client and a server.
+
+4
+00:00:09,220 --> 00:00:12,270
+The first step, a server binding occurs.
+
+5
+00:00:12,270 --> 00:00:13,640
+Here the client finds and
+
+6
+00:00:13,640 --> 00:00:17,430
+discovers the server that supports
+the desired functionality.
+
+7
+00:00:17,430 --> 00:00:19,320
+And that it will need to connect to.
+
+8
+00:00:19,320 --> 00:00:22,460
+For connection oriented protocols,
+like TCP/IP
+
+9
+00:00:22,460 --> 00:00:25,860
+that require that a connection be
+established between the client and
+
+10
+00:00:25,860 --> 00:00:30,630
+the server process, that connection will
+actually be established in this step.
+
+11
+00:00:30,630 --> 00:00:33,890
+Then, the client makes the actual
+Remote Procedure Call.
+
+12
+00:00:33,890 --> 00:00:36,850
+This results in a call
+into the user stub, and
+
+13
+00:00:36,850 --> 00:00:39,660
+at that point the rest of
+the client code will block.
+
+14
+00:00:39,660 --> 00:00:44,620
+Next, the client stub will create
+a data buffer, and it will populate it
+
+15
+00:00:44,620 --> 00:00:48,600
+with the values of the arguments that
+are passed to the procedure call.
+
+16
+00:00:48,600 --> 00:00:51,200
+We call this process,
+marshalling the arguments.
+
+17
+00:00:51,200 --> 00:00:54,530
+The arguments may be located
+at arbitrary non-contiguous
+
+18
+00:00:54,530 --> 00:00:56,680
+locations in the client under space.
+
+19
+00:00:56,680 --> 00:01:01,990
+But the RPC runtime will need to send
+a contiguous buffer to the sockets for
+
+20
+00:01:01,990 --> 00:01:02,986
+transmission.
+
+21
+00:01:02,986 --> 00:01:05,570
+So the marshal link process
+will take care of this and
+
+22
+00:01:05,570 --> 00:01:10,080
+replace all the arguments into a buffer
+that will be passed to the sockets.
+
+23
+00:01:10,080 --> 00:01:14,690
+Once the buffer is available,
+the RPC run time will send the message
+
+24
+00:01:14,690 --> 00:01:18,390
+in the sending will involve
+whatever transmission protocol that
+
+25
+00:01:18,390 --> 00:01:21,720
+both sides have agreed upon
+during the binding process.
+
+26
+00:01:21,720 --> 00:01:26,680
+This may be TCP, UDP, or even shared
+memory based IPC if the client and
+
+27
+00:01:26,680 --> 00:01:28,770
+the server are in the same machine.
+
+28
+00:01:28,770 --> 00:01:33,370
+When the data is transferred onto
+the server machine, it's received by
+
+29
+00:01:33,370 --> 00:01:38,300
+the RPC runtime and all of the necessary
+checks are performed to determine what
+
+30
+00:01:38,300 --> 00:01:42,210
+is the correct server step that
+this message needs to be passed to.
+
+31
+00:01:42,210 --> 00:01:42,780
+And in addition,
+
+32
+00:01:42,780 --> 00:01:47,480
+it's possible to include certain access
+control checks at this particular step.
+
+33
+00:01:47,480 --> 00:01:50,220
+The server stop will unmarshal the data.
+
+34
+00:01:50,220 --> 00:01:53,610
+Umarshalling is clearly
+the reverse of marshalling.
+
+35
+00:01:53,610 --> 00:01:58,580
+So this will take the byte stream
+that's coming from the receive buffers.
+
+36
+00:01:58,580 --> 00:02:02,540
+It will extract the arguments and
+it will create whatever data structures
+
+37
+00:02:02,540 --> 00:02:06,030
+are needed to hold the values
+of those arguments.
+
+38
+00:02:06,030 --> 00:02:07,710
+One of the arguments are allocated and
+
+39
+00:02:07,710 --> 00:02:12,010
+set to appropriate values the actual
+procedure call can be made.
+
+40
+00:02:12,010 --> 00:02:15,360
+This calls the implementation
+of this procedure that's part
+
+41
+00:02:15,360 --> 00:02:16,990
+of the server process.
+
+42
+00:02:16,990 --> 00:02:21,280
+The server will computed the result of
+the operation, or potentially it will
+
+43
+00:02:21,280 --> 00:02:24,770
+conclude that there is some kind of
+error message that needs to be returned.
+
+44
+00:02:24,770 --> 00:02:27,540
+The result will be passed to
+the server side stub, and
+
+45
+00:02:27,540 --> 00:02:32,510
+it will follow a similar reverse path in
+order to be returned back to the client.
+
+46
+00:02:32,510 --> 00:02:35,260
+One more step is needed for
+all of this to work.
+
+47
+00:02:35,260 --> 00:02:38,280
+Here we have as the zero initial step.
+
+48
+00:02:38,280 --> 00:02:42,160
+That the client will need to find or
+discover the server, so
+
+49
+00:02:42,160 --> 00:02:43,650
+that it can bind with it.
+
+50
+00:02:43,650 --> 00:02:48,090
+But before that can happen somehow
+the server needs to do some things so
+
+51
+00:02:48,090 --> 00:02:49,110
+that it can be found.
+
+52
+00:02:50,170 --> 00:02:53,460
+The server will need to announce
+to the rest of the world
+
+53
+00:02:53,460 --> 00:02:56,100
+what is the procedure that
+it knows how to perform,
+
+54
+00:02:56,100 --> 00:02:59,810
+what are the argument types that
+are required for that procedure.
+
+55
+00:02:59,810 --> 00:03:01,170
+What is its location?
+
+56
+00:03:01,170 --> 00:03:05,440
+The IP address, the port number,
+any information that's necessary for
+
+57
+00:03:05,440 --> 00:03:09,710
+that server to be discovered and
+so that somebody can bind with it.
+
+58
+00:03:09,710 --> 00:03:13,790
+What that means is that the server
+also executes some registration step
+
+59
+00:03:13,790 --> 00:03:15,290
+when this operation happens.

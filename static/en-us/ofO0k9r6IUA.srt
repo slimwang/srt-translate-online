@@ -1,0 +1,167 @@
+1
+00:00:00,250 --> 00:00:03,922
+We've kept talking about warping images from one to another.
+
+2
+00:00:03,922 --> 00:00:07,500
+That is we take an image, we pump it through is the phrase I'm using or we
+
+3
+00:00:07,500 --> 00:00:11,830
+transform it by homography, which means we have to go and transform this image.
+
+4
+00:00:11,830 --> 00:00:13,640
+We have to warp this image.
+
+5
+00:00:13,640 --> 00:00:16,140
+So the question is, how do we do that?
+
+6
+00:00:16,140 --> 00:00:17,610
+The answer is, there are two ways.
+
+7
+00:00:17,610 --> 00:00:19,060
+The forward and the backward.
+
+8
+00:00:19,060 --> 00:00:22,400
+And theres another word for those, the wrong way and the right way.
+
+9
+00:00:23,620 --> 00:00:25,400
+Image warping can be thought of this way.
+
+10
+00:00:25,400 --> 00:00:30,580
+Suppose I have an image transformation and I have some source image f of x,y and
+
+11
+00:00:30,580 --> 00:00:33,550
+I know how that maps to x prime y prime.
+
+12
+00:00:33,550 --> 00:00:35,280
+Or, or another way of thinking about it,
+
+13
+00:00:35,280 --> 00:00:38,660
+I know how that maps in the other image I'm going to create some new image g and
+
+14
+00:00:38,660 --> 00:00:43,750
+for every x prime y prime in it, or call it a and b or ij.
+
+15
+00:00:43,750 --> 00:00:46,090
+What value should go there.
+
+16
+00:00:46,090 --> 00:00:51,620
+And this t of x,y is the transformation that says, given x,y in one image.
+
+17
+00:00:51,620 --> 00:00:56,090
+That value should go to x prime y prime in the second image.
+
+18
+00:00:56,090 --> 00:00:59,880
+So forward warping works as follows.
+
+19
+00:00:59,880 --> 00:01:02,830
+You basically send every pixel f of x,y.
+
+20
+00:01:02,830 --> 00:01:05,870
+So I've got the first image it's at x,y.
+
+21
+00:01:05,870 --> 00:01:09,410
+I send it to its corresponding location in the second image.
+
+22
+00:01:09,410 --> 00:01:11,670
+So I have some pixel here, a little red dot.
+
+23
+00:01:11,670 --> 00:01:12,920
+I know where it goes and
+
+24
+00:01:12,920 --> 00:01:19,070
+I put that same color that was down on the first image down in the second image.
+
+25
+00:01:19,070 --> 00:01:21,350
+And that's okay but you might ask the question, well,
+
+26
+00:01:21,350 --> 00:01:26,250
+what happens if this pixel lands between pixels in the new image.
+
+27
+00:01:26,250 --> 00:01:27,000
+Lets take a look at that.
+
+28
+00:01:27,000 --> 00:01:27,730
+So.
+
+29
+00:01:27,730 --> 00:01:31,850
+Here's a, a picture and I credit Alyosha about this.
+
+30
+00:01:31,850 --> 00:01:36,750
+And in this picture, let's assume that the lines are exactly,
+
+31
+00:01:36,750 --> 00:01:40,021
+you know, y equals 2, y equals 3 and x equals 14, and
+
+32
+00:01:40,021 --> 00:01:44,690
+x equals 15, so the intersections of the lines are the precise pixels.
+
+33
+00:01:44,690 --> 00:01:48,310
+So if I have a pixel here and I map it across.
+
+34
+00:01:48,310 --> 00:01:52,120
+I may land somewhere between a pixel, okay?
+
+35
+00:01:52,120 --> 00:01:53,660
+And somehow, what I have to do is,
+
+36
+00:01:53,660 --> 00:01:57,530
+I have to take the color that came from this location and
+
+37
+00:01:57,530 --> 00:02:02,750
+I have to distribute it among all the pixels that are around where I landed.
+
+38
+00:02:02,750 --> 00:02:05,700
+In graphics, that's known as splatting, that's the technical term.
+
+39
+00:02:05,700 --> 00:02:08,410
+I mean, I guess it's the idea if you threw some paint down there and all
+
+40
+00:02:08,410 --> 00:02:12,850
+the paint had to drain out to its neighbors, where would that paint all land.
+
+41
+00:02:12,850 --> 00:02:16,110
+And that's sort of an annoying way of doing things, and
+
+42
+00:02:16,110 --> 00:02:18,590
+that's why I said that, that was the wrong way of doing warping.

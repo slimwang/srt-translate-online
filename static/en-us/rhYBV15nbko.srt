@@ -1,0 +1,287 @@
+1
+00:00:00,510 --> 00:00:04,130
+The easiest way to do this
+is using cumulative sums.
+
+2
+00:00:04,130 --> 00:00:10,190
+You can call cumsum with a matrix and
+a dimension specified.
+
+3
+00:00:10,190 --> 00:00:12,750
+Here 1 tells it to sum up rows.
+
+4
+00:00:12,750 --> 00:00:15,230
+So the first row gets
+added to the second.
+
+5
+00:00:15,230 --> 00:00:19,010
+And then that result gets
+added to the third and so on.
+
+6
+00:00:19,010 --> 00:00:21,100
+Let's see what this looks like.
+
+7
+00:00:21,100 --> 00:00:25,300
+I'll comment out the rest of the code,
+since it's of no use right now.
+
+8
+00:00:25,300 --> 00:00:27,670
+You can see the effect
+of rules being summed.
+
+9
+00:00:27,670 --> 00:00:30,550
+Getting brighter and
+brighter as you go down.
+
+10
+00:00:30,550 --> 00:00:32,400
+Here is the original image for
+reference.
+
+11
+00:00:33,680 --> 00:00:36,340
+And here is the row-wise
+cumulative sum result again.
+
+12
+00:00:38,480 --> 00:00:41,600
+All right, so this takes care
+of summation in one dimension.
+
+13
+00:00:42,820 --> 00:00:46,410
+As you might have guessed, we can take
+the cumulative sum along the other
+
+14
+00:00:46,410 --> 00:00:52,200
+dimension of this intermediate result
+in order to get our integral image.
+
+15
+00:00:52,200 --> 00:00:54,080
+Let's clean up and do that.
+
+16
+00:00:54,080 --> 00:00:58,780
+So, as we said, the first cumulative
+sum is an intermediate result.
+
+17
+00:00:58,780 --> 00:01:01,620
+Now we summed this up
+along the other dimension.
+
+18
+00:01:01,620 --> 00:01:03,720
+That is, along the columns.
+
+19
+00:01:03,720 --> 00:01:06,250
+The first column gets
+added to the second and
+
+20
+00:01:06,250 --> 00:01:09,610
+that result gets added to the third,
+and so on.
+
+21
+00:01:09,610 --> 00:01:10,350
+And that's it.
+
+22
+00:01:10,350 --> 00:01:12,730
+This is our integral image.
+
+23
+00:01:12,730 --> 00:01:14,230
+Lets see what the result looks like.
+
+24
+00:01:15,360 --> 00:01:18,710
+You can clearly see a gradual
+monotonic increase in
+
+25
+00:01:18,710 --> 00:01:20,920
+brightness from top
+left to bottom right.
+
+26
+00:01:22,000 --> 00:01:24,290
+That is to be expected, isn't it?
+
+27
+00:01:24,290 --> 00:01:27,940
+Lets check if the two computed
+values were the same.
+
+28
+00:01:27,940 --> 00:01:29,150
+And yes, they are indeed.
+
+29
+00:01:30,180 --> 00:01:33,010
+Okay.
+So what about this crazy formula?
+
+30
+00:01:33,010 --> 00:01:38,010
+Within the larger image, we've
+defined a window using x1, y1, x2, y2.
+
+31
+00:01:38,010 --> 00:01:42,500
+The top left corner has coordinates x1,
+y1.
+
+32
+00:01:42,500 --> 00:01:46,482
+And the bottom right has x2, y2.
+
+33
+00:01:46,482 --> 00:01:49,204
+The first value, I(y2, x2),
+
+34
+00:01:49,204 --> 00:01:54,287
+is the integral image value here
+in the bottom right corner, which
+
+35
+00:01:54,287 --> 00:02:01,010
+is basically the sum of the original
+image from the top left till that point.
+
+36
+00:02:01,010 --> 00:02:02,100
+We call this A.
+
+37
+00:02:03,210 --> 00:02:06,590
+Remember B was this rectangle up here?
+
+38
+00:02:06,590 --> 00:02:11,000
+Note that it needs to go to
+the column value x2 on the right.
+
+39
+00:02:11,000 --> 00:02:14,880
+But needs to stop one short of y1,
+
+40
+00:02:14,880 --> 00:02:20,310
+otherwise the values at row y1 will
+get subtracted from our final result.
+
+41
+00:02:20,310 --> 00:02:23,100
+This is why you have a minus 1 here.
+
+42
+00:02:23,100 --> 00:02:24,780
+Again this was B.
+
+43
+00:02:24,780 --> 00:02:28,710
+Similarly for c,
+it needs to go down to y2.
+
+44
+00:02:28,710 --> 00:02:33,230
+But needs to stop one short of x1.
+
+45
+00:02:33,230 --> 00:02:35,500
+Hence, x1 minus 1.
+
+46
+00:02:35,500 --> 00:02:39,430
+Note that the region d that
+has been subtracted twice
+
+47
+00:02:39,430 --> 00:02:43,740
+is only up to x1 minus 1, y1 minus 1.
+
+48
+00:02:43,740 --> 00:02:46,920
+And that's exactly what we add back in.
+
+49
+00:02:46,920 --> 00:02:48,220
+Clear?
+
+50
+00:02:48,220 --> 00:02:53,040
+Now think of an edge case
+where x1,y1 equals 1,1.
+
+51
+00:02:53,040 --> 00:02:56,400
+That is the top left corner
+of our desired region
+
+52
+00:02:56,400 --> 00:03:00,380
+is at the top left corner
+of the image itself.
+
+53
+00:03:00,380 --> 00:03:04,370
+These minus 1s can then
+result in invalid indices.
+
+54
+00:03:04,370 --> 00:03:09,880
+To overcome this problem, Matlab for
+instance, pads 0s on the left and
+
+55
+00:03:09,880 --> 00:03:13,190
+top, that is a single row of 0s.
+
+56
+00:03:13,190 --> 00:03:16,490
+It increases the resulting width and
+height by 1,
+
+57
+00:03:16,490 --> 00:03:21,940
+and it requires you to change
+the final computation expression.
+
+58
+00:03:21,940 --> 00:03:24,740
+But this is just
+an implementation detail.
+
+59
+00:03:24,740 --> 00:03:30,035
+Overall, I hope you can appreciate how
+vastly significant integral images are.
+
+60
+00:03:30,035 --> 00:03:34,965
+Once you've computed an integral image,
+you can replace each of these summation
+
+61
+00:03:34,965 --> 00:03:40,885
+operations, which involves probably
+hundreds or thousands of additions,
+
+62
+00:03:40,885 --> 00:03:45,015
+with just two subtractions and
+one addition right here.

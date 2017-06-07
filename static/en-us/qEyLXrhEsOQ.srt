@@ -1,0 +1,274 @@
+1
+00:00:00,130 --> 00:00:04,600
+So far we glossed over any discussion
+of what is the appropriate page size or
+
+2
+00:00:04,600 --> 00:00:06,550
+how large is a page.
+
+3
+00:00:06,550 --> 00:00:10,760
+In the examples that we showed so
+far, regarding the address formats,
+
+4
+00:00:10,760 --> 00:00:14,810
+we use 10-bit for the offset or
+12-bit for the offset.
+
+5
+00:00:14,810 --> 00:00:20,130
+Well, this offset determined what is the
+total amount of addresses in the page.
+
+6
+00:00:20,130 --> 00:00:20,770
+And therefore,
+
+7
+00:00:20,770 --> 00:00:24,850
+it determined the page size that we
+were discussing in those examples.
+
+8
+00:00:24,850 --> 00:00:29,550
+So in the examples in which we had
+a 10-bit offset in the address field,
+
+9
+00:00:29,550 --> 00:00:34,140
+that meant that these 10 bits could be
+used to address 2 to the 10th bytes
+
+10
+00:00:34,140 --> 00:00:35,350
+in the page.
+
+11
+00:00:35,350 --> 00:00:38,750
+And therefore it meant that
+the page size is 1 kilobyte.
+
+12
+00:00:38,750 --> 00:00:44,210
+Similarly, the examples that had
+a 12-bit offset for the address format.
+
+13
+00:00:44,210 --> 00:00:47,302
+That means that they could have
+addressed 4 kilobyte pages,
+
+14
+00:00:47,302 --> 00:00:48,830
+2 to the 12th.
+
+15
+00:00:48,830 --> 00:00:50,970
+But what are the page
+sizes in real systems?
+
+16
+00:00:50,970 --> 00:00:53,450
+These are some examples
+that we cooked up.
+
+17
+00:00:53,450 --> 00:00:57,150
+In practice,
+systems support different page sizes.
+
+18
+00:00:57,150 --> 00:01:01,472
+For Linux and x86 platform,
+there's several common page sizes.
+
+19
+00:01:01,472 --> 00:01:05,060
+4 kilobyte page size is pretty popular,
+and
+
+20
+00:01:05,060 --> 00:01:07,560
+that's the default in
+the Linux x86 environment.
+
+21
+00:01:08,910 --> 00:01:12,820
+However, page sizes can be much larger,
+2 megabytes, 1 gigabyte.
+
+22
+00:01:13,940 --> 00:01:17,232
+The 2 megabyte pages
+are referred to as large pages,
+
+23
+00:01:17,232 --> 00:01:19,948
+as opposed to the regular
+4 kilobyte ones.
+
+24
+00:01:19,948 --> 00:01:26,280
+In addition, x86 supports huge pages and
+these are 1 gigabyte in size.
+
+25
+00:01:26,280 --> 00:01:29,970
+In the first case, to address 2
+megabyte of content in a page,
+
+26
+00:01:29,970 --> 00:01:33,740
+we need 21 bit for the page offset.
+
+27
+00:01:33,740 --> 00:01:36,040
+And in the case of a huge page,
+
+28
+00:01:36,040 --> 00:01:40,580
+we need 30 bits as an offset to
+compute that physical address.
+
+29
+00:01:40,580 --> 00:01:44,360
+So one benefit of using these
+larger page sizes is that
+
+30
+00:01:44,360 --> 00:01:48,640
+more bits in the address are used for
+these offset bits.
+
+31
+00:01:48,640 --> 00:01:53,590
+And therefore fewer bids are used to
+represent the virtual page number, so
+
+32
+00:01:53,590 --> 00:01:57,000
+there will be fewer entries that
+are needed in the page table.
+
+33
+00:01:57,000 --> 00:02:01,300
+In fact, use of these large page
+sizes will significantly reduce
+
+34
+00:02:01,300 --> 00:02:03,730
+the size of the page table.
+
+35
+00:02:03,730 --> 00:02:08,119
+Compared to the page table size that's
+needed when we're working with 4
+
+36
+00:02:08,119 --> 00:02:09,196
+kilobyte pages.
+
+37
+00:02:09,196 --> 00:02:15,300
+Large pages will reduce the page table
+size by a factor of 512, and then
+
+38
+00:02:15,300 --> 00:02:21,909
+switching to huge page sizes will reduce
+the page table size by another 512.
+
+39
+00:02:21,909 --> 00:02:25,444
+So in summary, the benefits of
+larger page sizes are the fact that
+
+40
+00:02:25,444 --> 00:02:27,372
+they require smaller page tables,
+
+41
+00:02:27,372 --> 00:02:31,119
+due to the fact that there are few
+page table entries that are needed.
+
+42
+00:02:31,119 --> 00:02:34,960
+And we can have additional benefits,
+often such as, for instance,
+
+43
+00:02:34,960 --> 00:02:39,201
+increased number of TLB hits, just
+because we'll be able to translate more
+
+44
+00:02:39,201 --> 00:02:42,320
+of the physical memory
+using the TLB cache.
+
+45
+00:02:42,320 --> 00:02:46,560
+The down side of the larger
+pages is the actual page size.
+
+46
+00:02:47,680 --> 00:02:51,520
+If this large virtual memory
+page is not densely populated,
+
+47
+00:02:51,520 --> 00:02:55,770
+there will be a larger unused
+gaps within the page itself, and
+
+48
+00:02:55,770 --> 00:02:58,740
+that will lead to,
+to what we call internal fragmentation.
+
+49
+00:02:58,740 --> 00:03:04,450
+There will be basically wasted memory
+in these allocated regions of memory,
+
+50
+00:03:04,450 --> 00:03:06,360
+depending on the page size.
+
+51
+00:03:06,360 --> 00:03:12,080
+So because of this issue, smaller page
+sizes of 4 kilobytes are commonly used.
+
+52
+00:03:12,080 --> 00:03:16,740
+There are some settings like databases
+or in memory data stores, where these
+
+53
+00:03:16,740 --> 00:03:22,330
+large or huge page sizes are absolutely
+necessary and make most sense.
+
+54
+00:03:22,330 --> 00:03:26,710
+I should note that on different systems,
+depending on the operating system and
+
+55
+00:03:26,710 --> 00:03:30,480
+the hardware architecture,
+different page sizes may be supported.
+
+56
+00:03:30,480 --> 00:03:33,999
+So, for instance,
+on Solaris 10 on SPARC architecture,
+
+57
+00:03:33,999 --> 00:03:38,280
+the page size options are 8 kilobytes,
+4 megabytes, or 2 gigabytes.

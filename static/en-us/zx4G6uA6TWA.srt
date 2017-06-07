@@ -1,0 +1,155 @@
+1
+00:00:00,025 --> 00:00:02,420
+Let's see now what is a Process Control Block.
+
+2
+00:00:03,760 --> 00:00:07,420
+A Process Control Block is a data structure that the operating system
+
+3
+00:00:07,420 --> 00:00:11,080
+maintains for every one of the processes that it manages.
+
+4
+00:00:11,080 --> 00:00:12,350
+From what we saw so far,
+
+5
+00:00:12,350 --> 00:00:16,910
+the Process Control Block must contain process state like the program counter,
+
+6
+00:00:16,910 --> 00:00:22,520
+the stack pointer, really, all of the CPU registers, their values,uh, as they
+
+7
+00:00:22,520 --> 00:00:27,740
+relate to the particular process, various memory mappings that are necessary for
+
+8
+00:00:27,740 --> 00:00:32,586
+the virtual to physical address translation for the process, and other things.
+
+9
+00:00:32,586 --> 00:00:36,910
+Some of the other useful information includes a list of open files, for
+
+10
+00:00:36,910 --> 00:00:39,300
+instance, information that's useful for
+
+11
+00:00:39,300 --> 00:00:43,790
+scheduling, like how much time this particular process had executed in a CPU,
+
+12
+00:00:43,790 --> 00:00:46,920
+how much time it should be allocated in the future.
+
+13
+00:00:46,920 --> 00:00:49,590
+This depends on the process priority, etc.
+
+14
+00:00:50,600 --> 00:00:52,890
+The Process Control Block data structure, or
+
+15
+00:00:52,890 --> 00:00:58,700
+PCB as we call it, is created when the process is initially created itself.
+
+16
+00:00:58,700 --> 00:01:00,510
+And it's also initialized at that time.
+
+17
+00:01:00,510 --> 00:01:03,220
+For instance, the program counter will be set to point to
+
+18
+00:01:03,220 --> 00:01:05,750
+the very first instruction in that process.
+
+19
+00:01:05,750 --> 00:01:10,550
+Certain fields of the process are updated whenever the process state changes.
+
+20
+00:01:10,550 --> 00:01:13,420
+For instance, when a process requests more memory,
+
+21
+00:01:13,420 --> 00:01:16,120
+the operating system will allocate more memory and
+
+22
+00:01:16,120 --> 00:01:20,980
+will establish new valid virtual to physical memory mappings for this process.
+
+23
+00:01:20,980 --> 00:01:24,180
+This will reflect the memory limits information as well as
+
+24
+00:01:24,180 --> 00:01:28,650
+the information regarding the valid virtual address regions for this process.
+
+25
+00:01:28,650 --> 00:01:31,050
+And this perhaps doesn't happen too often.
+
+26
+00:01:31,050 --> 00:01:35,362
+Other fields of this PCB structure change pretty frequently.
+
+27
+00:01:35,362 --> 00:01:38,410
+For instance, during the execution of the program,
+
+28
+00:01:38,410 --> 00:01:42,800
+the program counter changes on every single instruction.
+
+29
+00:01:42,800 --> 00:01:45,630
+We certainly don't want the operating system for
+
+30
+00:01:45,630 --> 00:01:48,460
+every instruction that the process executes to
+
+31
+00:01:48,460 --> 00:01:54,050
+have to spend time to write this new PCB value for the program counter.
+
+32
+00:01:54,050 --> 00:01:59,270
+The way this is handled is that the CPU has a dedicated register, which it
+
+33
+00:01:59,270 --> 00:02:04,470
+uses to track the current program counter for the currently executing process.
+
+34
+00:02:04,470 --> 00:02:08,550
+This PC register will get automatically updated by the CPU on
+
+35
+00:02:08,550 --> 00:02:10,130
+every new instruction.
+
+36
+00:02:10,130 --> 00:02:13,860
+It is the operating system's job, however, to make sure to collect and
+
+37
+00:02:13,860 --> 00:02:16,870
+save all the information that the CPU maintains for
+
+38
+00:02:16,870 --> 00:02:21,960
+a process, and to store it in the Process Control Block structure whenever that
+
+39
+00:02:21,960 --> 00:02:24,650
+particular process is no longer running on the CPU.

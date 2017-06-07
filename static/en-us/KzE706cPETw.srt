@@ -1,0 +1,325 @@
+1
+00:00:00,370 --> 00:00:02,790
+Now I've gone ahead and
+made the changes required for this quiz.
+
+2
+00:00:02,790 --> 00:00:04,250
+So let's talk through them.
+
+3
+00:00:04,250 --> 00:00:08,250
+So starting off in our catalog activity,
+I'll need to add code to start up
+
+4
+00:00:08,250 --> 00:00:12,030
+a new activity whenever the user
+clicks on an item in the list view.
+
+5
+00:00:12,030 --> 00:00:15,520
+So I've done that here In the onCreate
+method I've added this block of code.
+
+6
+00:00:16,520 --> 00:00:21,080
+And what this does is it sets up an item
+click listener that opens up the editor
+
+7
+00:00:21,080 --> 00:00:25,020
+activity whenever the user clicks
+on a pet in the list view.
+
+8
+00:00:25,020 --> 00:00:27,730
+So notice the code here to set
+up an onItemClickListener.
+
+9
+00:00:27,730 --> 00:00:32,759
+It is just our typical code to make an
+intent and then pass it to the activity.
+
+10
+00:00:32,759 --> 00:00:36,475
+Now prior to starting the activity
+I actually need to make a URI so
+
+11
+00:00:36,475 --> 00:00:40,230
+that I can add it to the intent
+that's sent to the next activity.
+
+12
+00:00:40,230 --> 00:00:44,635
+So to make our URI,
+I'm going to use this line here,
+
+13
+00:00:44,635 --> 00:00:47,570
+contentUris.withAppendedId.
+
+14
+00:00:47,570 --> 00:00:51,013
+So what this method does is it forms
+the content URI that represents
+
+15
+00:00:51,013 --> 00:00:55,084
+the specific pet that was clicked on,
+specifically appending the id onto it.
+
+16
+00:00:55,084 --> 00:01:00,111
+So for example, we're passing in
+a content URI, which is this one here.
+
+17
+00:01:00,111 --> 00:01:03,027
+And then depending on which
+item the user clicks on,
+
+18
+00:01:03,027 --> 00:01:05,291
+it appends the id of that specific item.
+
+19
+00:01:05,291 --> 00:01:08,157
+So once I have this URI,
+I can call setData and
+
+20
+00:01:08,157 --> 00:01:11,350
+pass in the URI that
+was created up here.
+
+21
+00:01:11,350 --> 00:01:15,730
+Now all this should be done before
+the activity is started down here.
+
+22
+00:01:15,730 --> 00:01:19,358
+So once this information is passed
+through the intent to the next activity,
+
+23
+00:01:19,358 --> 00:01:21,859
+then we can go on to
+the receiving end of the message.
+
+24
+00:01:21,859 --> 00:01:26,062
+So the editor activity is what's
+receiving our message intent.
+
+25
+00:01:26,062 --> 00:01:29,723
+Now in the onCreate method
+of the editor activity,
+
+26
+00:01:29,723 --> 00:01:32,040
+I'm going to get the intent here.
+
+27
+00:01:32,040 --> 00:01:34,510
+Also I'll get the data
+from the intent and
+
+28
+00:01:34,510 --> 00:01:36,899
+remember our data was the URI
+that we attached to it.
+
+29
+00:01:38,420 --> 00:01:40,150
+So now we're kind of
+at a fork in the road.
+
+30
+00:01:40,150 --> 00:01:43,730
+because remember, there are two ways
+that this editor activity can be opened.
+
+31
+00:01:43,730 --> 00:01:47,090
+So the first way is if the pet is
+clicked on in the list view, and
+
+32
+00:01:47,090 --> 00:01:51,600
+the second way is if the user clicks on
+the floating action button, or the FAB.
+
+33
+00:01:51,600 --> 00:01:53,390
+Now if the FAB were to be clicked on,
+
+34
+00:01:53,390 --> 00:01:56,350
+then we wouldn't actually receive
+a URI through the intent.
+
+35
+00:01:56,350 --> 00:02:00,450
+So that means we need to check whether
+there is or is not a URI passed in.
+
+36
+00:02:01,500 --> 00:02:04,350
+Now this if else block here
+helps us take care of that.
+
+37
+00:02:04,350 --> 00:02:07,350
+So that means if there is no
+URI passed in with intent,
+
+38
+00:02:07,350 --> 00:02:09,919
+then I know we're coming from
+the FAB button being pressed.
+
+39
+00:02:09,919 --> 00:02:12,860
+So I should set my title to Add a Pet.
+
+40
+00:02:12,860 --> 00:02:15,237
+However, if there is a URI
+passed in with intent,
+
+41
+00:02:15,237 --> 00:02:18,360
+I know I'm coming from clicking
+a pet in the Listview.
+
+42
+00:02:18,360 --> 00:02:21,490
+And that means, I need to
+change the title to Edit a Pet.
+
+43
+00:02:21,490 --> 00:02:23,279
+So if we expand on
+this by clicking on it,
+
+44
+00:02:23,279 --> 00:02:25,131
+notice that the title
+should be a string.
+
+45
+00:02:25,131 --> 00:02:30,192
+And the string here is a new one that
+I've added into my string resource file.
+
+46
+00:02:30,192 --> 00:02:31,975
+So let's see where that's set up.
+
+47
+00:02:31,975 --> 00:02:35,625
+I'm going to right click,
+head to Go To, and go to Declaration.
+
+48
+00:02:36,665 --> 00:02:40,895
+So my strings XML file, I added this
+new line, which is the title for
+
+49
+00:02:40,895 --> 00:02:44,040
+the activity to edit an existing pet.
+
+50
+00:02:44,040 --> 00:02:46,530
+And lastly,
+in order to accommodate this,
+
+51
+00:02:46,530 --> 00:02:50,390
+remember that in our Android manifest
+file, we setup the activity.
+
+52
+00:02:50,390 --> 00:02:54,080
+For our editor activity we've
+given it a label for new_pet.
+
+53
+00:02:54,080 --> 00:02:57,762
+But because it can be a variable name
+now, either edit pet or add a pet.
+
+54
+00:02:57,762 --> 00:03:00,060
+I'm going to go ahead and delete this.
+
+55
+00:03:00,060 --> 00:03:04,080
+And this way the title of
+the editor activity is dependent on
+
+56
+00:03:04,080 --> 00:03:05,570
+what URI is passed in.
+
+57
+00:03:05,570 --> 00:03:07,690
+So whether a URI was passed in or not.
+
+58
+00:03:07,690 --> 00:03:09,119
+So now let's check whether this worked.
+
+59
+00:03:09,119 --> 00:03:11,311
+I'm going to go ahead and
+run it on my emulator.
+
+60
+00:03:11,311 --> 00:03:13,609
+[BLANK_AUDIO]
+
+61
+00:03:13,609 --> 00:03:15,956
+So first let's click on the FAB.
+
+62
+00:03:15,956 --> 00:03:18,350
+So this opens up the activity.
+
+63
+00:03:18,350 --> 00:03:21,140
+And the editor says Add a Pet,
+which looks good.
+
+64
+00:03:21,140 --> 00:03:21,880
+Now let's head back.
+
+65
+00:03:23,730 --> 00:03:25,870
+And now let's insert our dummy pet.
+
+66
+00:03:25,870 --> 00:03:28,760
+So from here, let's try editing
+this pet and see what the title is.
+
+67
+00:03:30,390 --> 00:03:34,390
+So clicking on a pet from the list view,
+I pull up the editor activity, but
+
+68
+00:03:34,390 --> 00:03:36,860
+now the title of it is Edit Pet instead.
+
+69
+00:03:36,860 --> 00:03:37,970
+So it looks like it all works.

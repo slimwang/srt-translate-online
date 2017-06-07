@@ -1,0 +1,83 @@
+1
+00:00:00,260 --> 00:00:03,310
+The answer, is that the threads will eventually agree on
+
+2
+00:00:03,310 --> 00:00:06,520
+who's better. Before, each method had its own copy of
+
+3
+00:00:06,520 --> 00:00:09,690
+the variable in its stack. Now, the threads share the
+
+4
+00:00:09,690 --> 00:00:14,160
+variable via the global memory. In fact, this is a common
+
+5
+00:00:14,160 --> 00:00:16,950
+way for threads to communicate. Because who's better is a
+
+6
+00:00:16,950 --> 00:00:19,620
+shared variable, it must have the same value in all the
+
+7
+00:00:19,620 --> 00:00:22,990
+threads. Looking back at the code, we see that this
+
+8
+00:00:22,990 --> 00:00:25,480
+sets off a race condition, only in this case, the winner
+
+9
+00:00:25,480 --> 00:00:29,150
+is the second thread to reach the assignment statement. Suppose
+
+10
+00:00:29,150 --> 00:00:32,290
+that thread one reaches the assignment first. Then he sets
+
+11
+00:00:32,290 --> 00:00:34,690
+who's better to one, and it's possible that he gets
+
+12
+00:00:34,690 --> 00:00:37,670
+to print out that he's better a few times. But eventually
+
+13
+00:00:37,670 --> 00:00:40,840
+thread two will seize control, change the value of who's
+
+14
+00:00:40,840 --> 00:00:44,090
+better to two, and then from then on, they will
+
+15
+00:00:44,090 --> 00:00:47,880
+both agree. That thread two is better. Now I've treated
+
+16
+00:00:47,880 --> 00:00:50,600
+this as all fun, and games, but in reality this situation
+
+17
+00:00:50,600 --> 00:00:53,780
+where we have two threads trying to write to the same memory can create
+
+18
+00:00:53,780 --> 00:00:56,150
+some very serious [INAUDIBLE]. And it's particularly
+
+19
+00:00:56,150 --> 00:00:57,980
+bad when the order in which rights happen
+
+20
+00:00:57,980 --> 00:01:01,800
+is indeterminate as it depends on the choices of the schedulers, and the library
+
+21
+00:01:01,800 --> 00:01:05,880
+library, and the OS make, and maybe let that affect the output of our program

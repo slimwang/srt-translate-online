@@ -1,0 +1,283 @@
+1
+00:00:00,190 --> 00:00:04,380
+Now let's see how mutexes and condition variables can be combined for
+
+2
+00:00:04,380 --> 00:00:08,080
+use in a scenario that's common in multithreading systems,
+
+3
+00:00:08,080 --> 00:00:13,230
+multithreading applications, as well as at the operating system level.
+
+4
+00:00:13,230 --> 00:00:16,200
+And this is a scenario where there're multiple threads.
+
+5
+00:00:16,200 --> 00:00:17,450
+But of two different kinds.
+
+6
+00:00:17,450 --> 00:00:21,820
+Some subset of threads that want to perform read operation to
+
+7
+00:00:21,820 --> 00:00:25,190
+access the shared state for reading.
+
+8
+00:00:25,190 --> 00:00:28,880
+And other set of threads that want to perform write operations or
+
+9
+00:00:28,880 --> 00:00:33,130
+that want to access that same shared variable, shared state, and modify it.
+
+10
+00:00:33,130 --> 00:00:36,852
+We call these types of problems the readers/writer problem.
+
+11
+00:00:36,852 --> 00:00:41,940
+The readers/writer problem is such that at any given point of time, zero or
+
+12
+00:00:41,940 --> 00:00:48,080
+more of the reader's threads can access this resource, but only zero or
+
+13
+00:00:48,080 --> 00:00:53,350
+one writer threads can access the resource concurrently at the same time.
+
+14
+00:00:53,350 --> 00:00:56,550
+And clearly we cannot have a situation in which a reader and
+
+15
+00:00:56,550 --> 00:01:00,050
+a writer thread are accessing the shared resource at the same time.
+
+16
+00:01:00,050 --> 00:01:02,760
+One naive approach to solving this problem would be
+
+17
+00:01:02,760 --> 00:01:08,180
+to simply protect the entire resource, let's say this is a file, with a mutex.
+
+18
+00:01:08,180 --> 00:01:11,990
+And put a lock and unlock operations around it.
+
+19
+00:01:11,990 --> 00:01:15,690
+So whenever anyone of these types of threads is accessing the resource,
+
+20
+00:01:15,690 --> 00:01:19,090
+they will lock the mutex, perform their respective access, and
+
+21
+00:01:19,090 --> 00:01:20,570
+then release the mutex.
+
+22
+00:01:20,570 --> 00:01:24,812
+This is, however, too restrictive for the readers/writer problem.
+
+23
+00:01:24,812 --> 00:01:31,060
+Mutexes allow only one thread at a time to access the critical section.
+
+24
+00:01:31,060 --> 00:01:36,180
+So they have a binary state, either zero and the resource is free and
+
+25
+00:01:36,180 --> 00:01:40,130
+accessible, or one and the resource is locked and you have to wait.
+
+26
+00:01:40,130 --> 00:01:41,420
+This is perfectly fine for
+
+27
+00:01:41,420 --> 00:01:46,580
+the writers, since that's exactly the kind of semantic that we want to achieve.
+
+28
+00:01:46,580 --> 00:01:52,360
+But for readers, with mutexes, we cannot express that multiple readers
+
+29
+00:01:52,360 --> 00:01:56,290
+can be performing access to the shared resource at the same time.
+
+30
+00:01:56,290 --> 00:01:58,330
+So how can we solve this problem?
+
+31
+00:01:58,330 --> 00:02:03,510
+Well, we can start by trying to come up with the situations in which it
+
+32
+00:02:03,510 --> 00:02:08,530
+is okay versus it is not okay to perform certain type of access to the resource.
+
+33
+00:02:08,530 --> 00:02:12,600
+So we'll start enumerating these things and we'll try to express this based
+
+34
+00:02:12,600 --> 00:02:17,040
+on the number of readers and writers that are also performing an operation.
+
+35
+00:02:17,040 --> 00:02:22,310
+In the simple case when there are no readers and no writers accessing this
+
+36
+00:02:22,310 --> 00:02:27,060
+resource, both a read operation can be granted, so an upcoming read operation,
+
+37
+00:02:27,060 --> 00:02:30,780
+as well as a upcoming or pending write operation can be granted.
+
+38
+00:02:30,780 --> 00:02:35,560
+As we describe the problem, if the read counter is greater than zero, so
+
+39
+00:02:35,560 --> 00:02:39,640
+if there are more readers already accessing this file,
+
+40
+00:02:39,640 --> 00:02:44,558
+it's perfectly fine to allow another reader to access the file concurrently.
+
+41
+00:02:44,558 --> 00:02:46,410
+Since readers are not modifying it, so
+
+42
+00:02:46,410 --> 00:02:48,860
+it's perfectly okay to grant that request.
+
+43
+00:02:48,860 --> 00:02:53,090
+And then finally, if there is a writer that's performing an access to
+
+44
+00:02:53,090 --> 00:02:57,840
+the resource, then we cannot allow neither the reads nor the writes.
+
+45
+00:02:57,840 --> 00:03:03,180
+So, given these statements, we can express the state in which the shared file or
+
+46
+00:03:03,180 --> 00:03:05,300
+the shared resource is as follows.
+
+47
+00:03:05,300 --> 00:03:09,330
+If the resource is free, then some resource_counter variable,
+
+48
+00:03:09,330 --> 00:03:12,200
+we can say well that will be zero in that case.
+
+49
+00:03:12,200 --> 00:03:13,570
+If the resource is accessed for
+
+50
+00:03:13,570 --> 00:03:18,120
+reading, then this resource_counter variable will be greater than zero.
+
+51
+00:03:18,120 --> 00:03:21,420
+And so it will be actually equal to the number of readers that
+
+52
+00:03:21,420 --> 00:03:23,440
+are currently reading this file.
+
+53
+00:03:23,440 --> 00:03:27,670
+And let's say we can encode the fact that currently there is a writer,
+
+54
+00:03:27,670 --> 00:03:31,590
+somebody's writing to this resource, by choosing that, in that case,
+
+55
+00:03:31,590 --> 00:03:35,540
+the resource_counter variable should take the value negative 1.
+
+56
+00:03:35,540 --> 00:03:39,520
+And of course, this will indicate that there is exactly one writer currently
+
+57
+00:03:39,520 --> 00:03:40,980
+accessing the resource.
+
+58
+00:03:40,980 --> 00:03:43,550
+So there is a saying in computer science that,
+
+59
+00:03:43,550 --> 00:03:47,560
+all problems can be solved with one level of indirection.
+
+60
+00:03:47,560 --> 00:03:49,030
+And here, basically,
+
+61
+00:03:49,030 --> 00:03:55,030
+we produce a proxy resource, a helper variable or a helper expression.
+
+62
+00:03:55,030 --> 00:03:59,112
+In this case, it is this resource_counter variable.
+
+63
+00:03:59,112 --> 00:04:03,280
+This resource_counter variable reflects the state in
+
+64
+00:04:03,280 --> 00:04:06,050
+which the current resource already is.
+
+65
+00:04:06,050 --> 00:04:11,830
+But what we will do, as opposed to controlling the updates to the file,
+
+66
+00:04:11,830 --> 00:04:17,089
+so controlling, with a mutex, who gets to access the file,
+
+67
+00:04:17,089 --> 00:04:23,440
+we will control who gets to update this proxy variable, this proxy expression.
+
+68
+00:04:23,440 --> 00:04:29,454
+So as long as any access to the file is first reflected via an update to this
+
+69
+00:04:29,454 --> 00:04:35,976
+proxy expression, we can use a mutex to control how this counter is accessed.
+
+70
+00:04:35,976 --> 00:04:40,097
+And in that way, basically monitor, control and coordinate among
+
+71
+00:04:40,097 --> 00:04:44,450
+the different accesses that we want to allow to the actual shared file.

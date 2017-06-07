@@ -1,0 +1,227 @@
+1
+00:00:00,000 --> 00:00:02,603
+The model of expectation maximization
+
+2
+00:00:02,603 --> 00:00:04,638
+is that each data point
+
+3
+00:00:04,638 --> 00:00:06,507
+is generated from what's called a mixture.
+
+4
+00:00:06,507 --> 00:00:08,942
+The sum of all possible classes
+
+5
+00:00:08,942 --> 00:00:10,978
+or clusters, of which there are K
+
+6
+00:00:10,978 --> 00:00:13,313
+we draw a class at random
+
+7
+00:00:13,313 --> 00:00:17,284
+with a prior probability of p of the class C = i
+
+8
+00:00:17,284 --> 00:00:19,586
+and then we draw data point X
+
+9
+00:00:19,586 --> 00:00:22,156
+from the distribution correspondent with its class over here.
+
+10
+00:00:22,156 --> 00:00:28,095
+The way to think about this if there is K different cluster centers shown over here
+
+11
+00:00:28,095 --> 00:00:30,898
+each one of those has a generic Gaussian attached.
+
+12
+00:00:30,898 --> 00:00:34,067
+In the generative version of expectation maximization
+
+13
+00:00:34,067 --> 00:00:36,067
+you first draw a cluster center
+
+14
+00:00:36,067 --> 00:00:39,206
+and then we draw from the Gaussian attached to this cluster center.
+
+15
+00:00:39,206 --> 00:00:43,443
+The unknowns here are the prior probabilities for each cluster center
+
+16
+00:00:43,443 --> 00:00:49,383
+should we call P-i and the Mu-i and in the general case Sigma-i
+
+17
+00:00:49,383 --> 00:00:51,455
+for each of the individual Gaussian.
+
+18
+00:00:51,455 --> 00:00:54,788
+Where i = 1 all the way to K.
+
+19
+00:00:54,788 --> 00:00:59,226
+Expectation maximization iterates 2 steps just like K-means.
+
+20
+00:00:59,226 --> 00:01:01,962
+One is called the E-step or expectation step
+
+21
+00:01:01,962 --> 00:01:08,202
+for which we assume that we know the Gaussian parameters and the P-i.
+
+22
+00:01:08,202 --> 00:01:11,812
+With those known values calculating the sum over here
+
+23
+00:01:11,812 --> 00:01:13,841
+is a fairly trivial exercise.
+
+24
+00:01:13,841 --> 00:01:17,346
+This is our known formula for a Gaussian
+
+25
+00:01:17,346 --> 00:01:21,582
+we just plug that in and this is a fixed probability.
+
+26
+00:01:21,582 --> 00:01:24,892
+The sum of all possible classes.
+
+27
+00:01:24,892 --> 00:01:27,033
+So you get for e-ij
+
+28
+00:01:27,033 --> 00:01:30,627
+the probability that the j-th data point
+
+29
+00:01:30,627 --> 00:01:32,993
+corresponds to cluster center number i
+
+30
+00:01:32,993 --> 00:01:36,363
+P-i times the normalizer
+
+31
+00:01:36,363 --> 00:01:38,799
+times the Gaussian expression.
+
+32
+00:01:38,799 --> 00:01:42,402
+Where we have a quadratic of Xj minus Mu-i
+
+33
+00:01:42,402 --> 00:01:47,474
+times Sigma-i to the -1 times the same thing again over here.
+
+34
+00:01:47,474 --> 00:01:49,743
+These are the probabilities
+
+35
+00:01:49,743 --> 00:01:52,045
+that the j-th data point
+
+36
+00:01:52,045 --> 00:01:54,882
+corresponds to the i-th cluster center
+
+37
+00:01:54,882 --> 00:01:57,117
+under the assumption that we do know
+
+38
+00:01:57,117 --> 00:02:00,954
+the parameters P-i, Mu-i, and Sigma-i.
+
+39
+00:02:00,954 --> 00:02:03,925
+In the M-step we now figure out where these parameters should have been.
+
+40
+00:02:03,925 --> 00:02:06,927
+For the prior probability of each cluster center
+
+41
+00:02:06,927 --> 00:02:11,365
+we just take the sum over all the e-ijs, over all data points
+
+42
+00:02:11,365 --> 00:02:14,401
+divided by the total number of data points.
+
+43
+00:02:14,401 --> 00:02:21,008
+The mean is obtained by the weighted mean of the x-js
+
+44
+00:02:21,008 --> 00:02:25,846
+normalized by the sum over e-ijs
+
+45
+00:02:25,846 --> 00:02:30,083
+and finally the sigma is obtained as a sum
+
+46
+00:02:30,083 --> 00:02:33,012
+over the weighted expression like this
+
+47
+00:02:33,012 --> 00:02:35,255
+and this is the same expression as before
+
+48
+00:02:35,255 --> 00:02:40,427
+and now again we are normalizing over the sum over all e-ijs.
+
+49
+00:02:40,427 --> 00:02:42,429
+And these are exactly the same calculations
+
+50
+00:02:42,429 --> 00:02:46,007
+as before when we fit a Gaussian but just weighted by
+
+51
+00:02:46,007 --> 00:02:51,271
+the soft correspondence of a data point to each Gaussian.
+
+52
+00:02:51,271 --> 00:02:55,776
+And this weighting is relatively straightforward to apply in Gaussian fitting.
+
+53
+00:02:55,776 --> 00:02:58,212
+Let's do a very quick quiz for EM.
+
+54
+00:02:58,212 --> 00:03:01,648
+Suppose we're given 3 data points and 2 cluster centers.
+
+55
+00:03:01,648 --> 00:03:04,718
+And the question is, does this point over here
+
+56
+00:03:04,718 --> 00:03:09,127
+called X1 correspond to C1 or C2 or both of them?
+
+57
+00:03:09,127 --> 99:59:59,999
+Please check exactly one of these 3 different check boxes here.

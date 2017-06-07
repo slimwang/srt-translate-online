@@ -1,0 +1,513 @@
+1
+00:00:00,270 --> 00:00:03,230
+Let's now look at couple of
+concrete examples of schedulers
+
+2
+00:00:03,230 --> 00:00:05,780
+that are part of an actual
+operating system.
+
+3
+00:00:05,780 --> 00:00:09,591
+First, we will look at the so
+called O(1) scheduler in Linux.
+
+4
+00:00:09,591 --> 00:00:14,440
+The O(1) scheduler receives it's name
+because it is able to perform task
+
+5
+00:00:14,440 --> 00:00:19,059
+management operations, such as
+selecting a task from the run queue, or
+
+6
+00:00:19,059 --> 00:00:21,577
+adding a task to it, in constant time.
+
+7
+00:00:21,577 --> 00:00:25,738
+Regardless of the total number
+of active tasks in the system.
+
+8
+00:00:25,738 --> 00:00:31,021
+It's a preemptive and priority-based
+scheduler, which has total of 140
+
+9
+00:00:31,021 --> 00:00:36,080
+priority levels, with zero being
+the highest and then 139 the lowest.
+
+10
+00:00:36,080 --> 00:00:40,400
+These priority levels are organized
+into two different classes, the tasks,
+
+11
+00:00:40,400 --> 00:00:45,490
+the priority levels from zero to 99
+fall into a class of real time tasks,
+
+12
+00:00:45,490 --> 00:00:49,780
+and then all others fall into a so
+called time sharing class.
+
+13
+00:00:49,780 --> 00:00:54,620
+All user processes have one of
+the time sharing priority levels.
+
+14
+00:00:54,620 --> 00:01:00,590
+Their default priority is 120 but it can
+be adjusted with a so called nice value.
+
+15
+00:01:00,590 --> 00:01:03,910
+There's a system call that
+can be used to do this.
+
+16
+00:01:03,910 --> 00:01:07,410
+And the nice values can be
+between negative 20 and
+
+17
+00:01:07,410 --> 00:01:12,078
+19, so as to span the entire
+set of time sharing priorities.
+
+18
+00:01:12,078 --> 00:01:17,270
+The O(1) scheduler borrows from the
+multilevel feedback queue scheduler, in
+
+19
+00:01:17,270 --> 00:01:22,380
+that it associates different timeslice
+values with different priority levels.
+
+20
+00:01:22,380 --> 00:01:27,590
+And it also uses some kind of feedback
+from how the tasks behaved in the past,
+
+21
+00:01:27,590 --> 00:01:31,290
+to determine how to adjust their
+priority levels in the future.
+
+22
+00:01:31,290 --> 00:01:35,890
+It differs, however, in how it assigns
+the timeslice values to priorities and
+
+23
+00:01:35,890 --> 00:01:37,128
+how it uses the feedback.
+
+24
+00:01:37,128 --> 00:01:41,760
+It assigns timeslice values based
+on the priority level of the task,
+
+25
+00:01:41,760 --> 00:01:46,180
+similar to what we saw in the multilevel
+feedback queues in the scheduling.
+
+26
+00:01:46,180 --> 00:01:51,048
+However, it assigns smallest
+timeslice values to the low priority,
+
+27
+00:01:51,048 --> 00:01:52,368
+CPU bound tasks and
+
+28
+00:01:52,368 --> 00:01:58,800
+it assigns high timeslice values to the
+more interactive high priority tasks.
+
+29
+00:01:58,800 --> 00:02:02,840
+The feedback it uses for the time
+sharing tasks is based on the time that
+
+30
+00:02:02,840 --> 00:02:08,220
+the task spends sleeping, the time that
+it was waiting for something or idling.
+
+31
+00:02:08,220 --> 00:02:12,270
+Longer sleep times indicate that
+the task is interactive, it's spent
+
+32
+00:02:12,270 --> 00:02:16,700
+more time waiting, for instance,
+on user input or in some type of events.
+
+33
+00:02:16,700 --> 00:02:20,680
+Therefore, when longer sleeps
+are detected, we need to increase
+
+34
+00:02:20,680 --> 00:02:25,420
+the priority of the task and
+we do that by actually subtracting five,
+
+35
+00:02:25,420 --> 00:02:28,570
+in particular from the priority
+level of the task.
+
+36
+00:02:28,570 --> 00:02:32,663
+In this way, we're essentially boosting
+the priority, so next time around,
+
+37
+00:02:32,663 --> 00:02:36,160
+this interactive task will
+execute bit higher priority.
+
+38
+00:02:36,160 --> 00:02:40,022
+Smaller sleep times are indicative
+of the fact that the task is compute
+
+39
+00:02:40,022 --> 00:02:40,970
+intensive.
+
+40
+00:02:40,970 --> 00:02:45,470
+Therefore, we want to lower its priority
+and we do that by incrementing it by
+
+41
+00:02:45,470 --> 00:02:49,510
+adding the number five to it up
+to a maximum, and essentially,
+
+42
+00:02:49,510 --> 00:02:52,935
+the task next time around will
+execute in a lower priority class.
+
+43
+00:02:52,935 --> 00:02:58,620
+The runqueue in the O(1) scheduler is
+organized as two arrays of task queues.
+
+44
+00:02:58,620 --> 00:03:02,539
+Each array element points to
+the first runnable task at
+
+45
+00:03:02,539 --> 00:03:05,190
+the corresponding priority level.
+
+46
+00:03:06,300 --> 00:03:09,156
+These two arrays are called Active and
+Expired.
+
+47
+00:03:09,156 --> 00:03:14,150
+The active list is the primary
+one that the scheduler uses to
+
+48
+00:03:14,150 --> 00:03:15,930
+pick the next task to run.
+
+49
+00:03:17,030 --> 00:03:20,420
+It takes constant time to
+add a task since you simply
+
+50
+00:03:20,420 --> 00:03:24,840
+need to index into this array based
+on the priority level of the task and
+
+51
+00:03:24,840 --> 00:03:30,090
+then follow the pointer to the end of
+the task list to enqueue the task there.
+
+52
+00:03:30,090 --> 00:03:34,470
+It takes constant time to select a task
+because the scheduler relies on certain
+
+53
+00:03:34,470 --> 00:03:40,310
+instructions that return the position of
+the first set bit in a sequence of bits.
+
+54
+00:03:41,400 --> 00:03:45,770
+So, if the sequence of bits
+corresponds to the priority levels and
+
+55
+00:03:45,770 --> 00:03:51,250
+a bit value of one indicates that there
+are tasks at that priority level.
+
+56
+00:03:51,250 --> 00:03:55,530
+Then, it will take a constant amount
+of time to run those instructions to
+
+57
+00:03:55,530 --> 00:04:01,040
+detect what is the first priority
+level that has certain tasks on it.
+
+58
+00:04:01,040 --> 00:04:03,350
+And then, once that position is known,
+
+59
+00:04:03,350 --> 00:04:07,520
+it also takes a constant time
+to index in to this array and
+
+60
+00:04:07,520 --> 00:04:11,890
+select the first task from the runqueue
+that's associated with that level.
+
+61
+00:04:11,890 --> 00:04:15,410
+If tasks yield the CPU
+to wait on an event or
+
+62
+00:04:15,410 --> 00:04:18,927
+are preempted due to higher
+priority task becoming runnable.
+
+63
+00:04:18,927 --> 00:04:23,710
+The time they spent on the CPU is
+subtracted from the total amount of
+
+64
+00:04:23,710 --> 00:04:27,200
+time, and
+if it is less than the timeslice,
+
+65
+00:04:27,200 --> 00:04:30,570
+they're still placed on the
+corresponding queue in the active list.
+
+66
+00:04:31,740 --> 00:04:37,280
+Only after a task consumes its entire
+timeslice will it be removed from
+
+67
+00:04:37,280 --> 00:04:43,530
+the active list and placed on the
+appropriate queue in the expired array.
+
+68
+00:04:43,530 --> 00:04:48,380
+The expired array that contains the
+tasks that are not currently active in
+
+69
+00:04:48,380 --> 00:04:53,220
+the sense that the scheduler will not
+select tasks from the expired array
+
+70
+00:04:53,220 --> 00:04:57,410
+as long as there are still tasks on
+any of the queues in the active array.
+
+71
+00:04:57,410 --> 00:05:01,730
+When there are no more tasks left
+in the active array, at that point,
+
+72
+00:05:01,730 --> 00:05:05,180
+the pointers of these two
+list will be swapped and
+
+73
+00:05:05,180 --> 00:05:09,290
+the expired array will become
+the new active one and vice versa.
+
+74
+00:05:09,290 --> 00:05:13,230
+The active array will start
+holding all of the tasks that
+
+75
+00:05:13,230 --> 00:05:16,830
+are removed from the active array and
+are becoming inactive.
+
+76
+00:05:16,830 --> 00:05:20,590
+This also explains the rationale
+why in the O(1) scheduler,
+
+77
+00:05:20,590 --> 00:05:24,720
+the low priority tasks
+are given low timeslices, and
+
+78
+00:05:24,720 --> 00:05:28,040
+the high priority tasks
+are given high timeslices.
+
+79
+00:05:28,040 --> 00:05:32,520
+As long as the high priority tasks
+have any time left in their timeslice,
+
+80
+00:05:32,520 --> 00:05:34,100
+they will keep getting scheduled,
+
+81
+00:05:34,100 --> 00:05:38,430
+they will remain in the one of
+the queues in the active array.
+
+82
+00:05:38,430 --> 00:05:42,910
+Once they get placed on the expired
+array, they will not be scheduled.
+
+83
+00:05:42,910 --> 00:05:48,040
+And therefore, we want the low priority
+tasks to have a low timeslice value so
+
+84
+00:05:48,040 --> 00:05:52,830
+that, yes they will get a chance to run,
+however they won't disrupt the higher
+
+85
+00:05:52,830 --> 00:05:56,690
+priority tasks,
+they won't delay them by too much.
+
+86
+00:05:56,690 --> 00:06:01,079
+Also note that the fact that we have
+these two arrays also serves like
+
+87
+00:06:01,079 --> 00:06:05,780
+an aging mechanism so these high
+priority tasks will ultimately consume
+
+88
+00:06:05,780 --> 00:06:09,941
+their timeslice be placed on
+the expired array and ultimately,
+
+89
+00:06:09,941 --> 00:06:14,819
+the low priority tasks will get a chance
+to run for their small time amount.
+
+90
+00:06:14,819 --> 00:06:20,464
+The O(1) scheduler was introduced in
+the Linux kernel 2.5 by Ingo Molnar.
+
+91
+00:06:20,464 --> 00:06:25,530
+In spite of its really nice property of
+being able to operate in constant time,
+
+92
+00:06:25,530 --> 00:06:30,525
+the O(1) scheduler really affected
+the performance of interactive tasks
+
+93
+00:06:30,525 --> 00:06:31,696
+significantly.
+
+94
+00:06:31,696 --> 00:06:36,741
+And as the work loads changed as typical
+applications in the Linux environment
+
+95
+00:06:36,741 --> 00:06:41,876
+were becoming more time sensitive,
+think Skype, movie streaming, gaming.
+
+96
+00:06:41,876 --> 00:06:46,115
+The jitter that was introduced by
+the O(1) scheduler was becoming
+
+97
+00:06:46,115 --> 00:06:47,146
+unacceptable.
+
+98
+00:06:47,146 --> 00:06:51,327
+For that reason,
+the O(1) scheduler was replaced with
+
+99
+00:06:51,327 --> 00:06:55,764
+the completely fair scheduler,
+and the CFS scheduler became
+
+100
+00:06:55,764 --> 00:07:00,646
+the default scheduler starting
+in the Linus 2.6.23 kernel.
+
+101
+00:07:00,646 --> 00:07:05,990
+Ironically, both of these scheduler's
+are developed by the same person.
+
+102
+00:07:05,990 --> 00:07:08,460
+You should note that both the O(1) and
+
+103
+00:07:08,460 --> 00:07:13,160
+the CFS scheduler are part of
+the standard Linux distribution.
+
+104
+00:07:13,160 --> 00:07:17,270
+This one is the default, however,
+if you wish, you can switch and
+
+105
+00:07:17,270 --> 00:07:20,750
+choose the Linux O(1) scheduler
+to execute your tasks.

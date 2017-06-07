@@ -1,0 +1,518 @@
+1
+00:00:00,350 --> 00:00:03,660
+After all that practice, hopefully
+you understand how to identify JSON
+
+2
+00:00:03,660 --> 00:00:06,890
+components and
+how to traverse the JSON object tree, so
+
+3
+00:00:06,890 --> 00:00:08,920
+you can extract that
+the values that we care about.
+
+4
+00:00:10,220 --> 00:00:13,490
+Transforming a string of JSON
+into a live JSON object or
+
+5
+00:00:13,490 --> 00:00:16,370
+JSON array requires parsing.
+
+6
+00:00:16,370 --> 00:00:20,180
+Now parsing is a deep part of computer
+science and it basically means that
+
+7
+00:00:20,180 --> 00:00:23,130
+the computer reads some text
+written in a language it knows, and
+
+8
+00:00:23,130 --> 00:00:28,380
+then transforms it into another more
+useful representation like a JSON object
+
+9
+00:00:28,380 --> 00:00:32,229
+that we can call methods on, and then
+extract the data that we need from it.
+
+10
+00:00:33,500 --> 00:00:36,440
+Now we know how to
+parse JSON in our heads
+
+11
+00:00:36,440 --> 00:00:40,060
+by identifying the key value pairs and
+traversing them, but
+
+12
+00:00:40,060 --> 00:00:44,030
+we need to learn how to apply that
+same process in our Java code.
+
+13
+00:00:44,030 --> 00:00:47,260
+So, let's talk about it.
+
+14
+00:00:47,260 --> 00:00:49,904
+So, I've switched over
+to my web browser and
+
+15
+00:00:49,904 --> 00:00:54,854
+I'm looking at the official Android
+documentation at developer.android.com.
+
+16
+00:00:54,854 --> 00:00:58,160
+Fortunately, there's
+a class called JSONObject.
+
+17
+00:00:58,160 --> 00:01:01,420
+That makes it easy to convert
+a simple string of JSON into a much
+
+18
+00:01:01,420 --> 00:01:05,600
+more intelligent object, an object that
+knows about the keys it contains and
+
+19
+00:01:05,600 --> 00:01:08,100
+how to access their accompanying values.
+
+20
+00:01:08,100 --> 00:01:12,088
+If we scroll down to the summary
+section, we can review the available
+
+21
+00:01:12,088 --> 00:01:15,183
+constructors that can be used
+to create an instance or
+
+22
+00:01:15,183 --> 00:01:17,136
+object of the JSON object class.
+
+23
+00:01:17,136 --> 00:01:18,228
+Here we go.
+
+24
+00:01:18,228 --> 00:01:21,040
+This is the specific
+constructor that we want.
+
+25
+00:01:21,040 --> 00:01:25,270
+It allows us to construct a JSON object
+by passing in a single string of JSON
+
+26
+00:01:25,270 --> 00:01:26,600
+containing the raw JSON.
+
+27
+00:01:28,410 --> 00:01:32,000
+Now, we see that we have a rather large
+set of getter methods that we can call
+
+28
+00:01:32,000 --> 00:01:36,860
+in a JSONObject instance to retrieve
+the values associated with certain keys.
+
+29
+00:01:36,860 --> 00:01:38,594
+Now as you already know,
+
+30
+00:01:38,594 --> 00:01:43,053
+there are various JSON components
+ranging from basic data types
+
+31
+00:01:43,053 --> 00:01:48,024
+like integer to larger data types,
+like JSONObjects and JSONArrays.
+
+32
+00:01:48,024 --> 00:01:52,944
+So for example, if you wanted to extract
+an integer you could call the getInt get
+
+33
+00:01:52,944 --> 00:01:56,407
+in method passing in the name
+of the key here as a string.
+
+34
+00:01:56,407 --> 00:02:01,250
+Now, we have a similar pattern for
+getting a double or getting a string.
+
+35
+00:02:02,820 --> 00:02:07,120
+For the larger JSON components, you
+could call something like getJSONArray.
+
+36
+00:02:07,120 --> 00:02:09,513
+So, you get the JSON
+already mapped by its key.
+
+37
+00:02:09,513 --> 00:02:14,800
+Notice that the data type returned by
+the getter method is a JSONArray type.
+
+38
+00:02:14,800 --> 00:02:18,929
+And likewise, you can call
+getJSONObject to get a JSONObject back.
+
+39
+00:02:18,929 --> 00:02:22,330
+Notice again, that the data type
+returned here is a JSONObject.
+
+40
+00:02:24,310 --> 00:02:26,020
+Let's click in a little deeper.
+
+41
+00:02:26,020 --> 00:02:29,353
+Now note that any time we try
+a get request on a JSONObject,
+
+42
+00:02:29,353 --> 00:02:31,400
+the requested key might not exist.
+
+43
+00:02:31,400 --> 00:02:34,739
+In which case, the request will
+actually result in a JSONException,
+
+44
+00:02:34,739 --> 00:02:37,690
+which we'll need to catch and deal with.
+
+45
+00:02:37,690 --> 00:02:40,940
+Alternatively, there are these
+opt methods that can be called on
+
+46
+00:02:40,940 --> 00:02:45,290
+a JSONObject where opt stands for
+optional key value pair.
+
+47
+00:02:45,290 --> 00:02:48,170
+These methods get the corresponding
+value for a given key, but
+
+48
+00:02:48,170 --> 00:02:50,100
+return null if the value doesn't exist.
+
+49
+00:02:52,100 --> 00:02:54,440
+Let's parse this little snippet of JSON.
+
+50
+00:02:54,440 --> 00:02:58,161
+We've got this root object
+with one key called candies.
+
+51
+00:02:58,161 --> 00:03:03,507
+The key corresponds to an array here,
+because of those square brackets,
+
+52
+00:03:03,507 --> 00:03:09,030
+which contains another JSON object
+here within this curl braces.
+
+53
+00:03:09,030 --> 00:03:11,529
+Now, this inner object
+contains two keys.
+
+54
+00:03:11,529 --> 00:03:16,311
+One of which is name, which correspond
+to the string value Jelly Beans and
+
+55
+00:03:16,311 --> 00:03:21,261
+another key called count, which
+corresponds to the integer value of 10.
+
+56
+00:03:21,261 --> 00:03:24,400
+Now let's review what
+the traversal parse will look like,
+
+57
+00:03:24,400 --> 00:03:27,300
+if we want to extract out
+the data mapped by these keys.
+
+58
+00:03:27,300 --> 00:03:32,389
+So for the data Jelly Beans, we want to
+start at the root of the JSON payload
+
+59
+00:03:32,389 --> 00:03:37,562
+here at the root, then we're going to
+go and index in using the key candies,
+
+60
+00:03:37,562 --> 00:03:41,636
+which is going to be
+returning us a JSON array.
+
+61
+00:03:41,636 --> 00:03:44,482
+Then we want to get the first
+element of the array,
+
+62
+00:03:44,482 --> 00:03:46,990
+which is going to be
+this single JSONObject.
+
+63
+00:03:46,990 --> 00:03:50,247
+And then we simply get the string
+value for the name key,
+
+64
+00:03:50,247 --> 00:03:52,270
+which in this case is jelly beans.
+
+65
+00:03:53,920 --> 00:03:57,660
+Now, the traversal path to
+get the value for count.
+
+66
+00:03:57,660 --> 00:04:01,320
+Similarly, we start at the root,
+then we're going to go and
+
+67
+00:04:01,320 --> 00:04:05,440
+key value index using the key candies,
+back into the JSON array.
+
+68
+00:04:05,440 --> 00:04:08,366
+And then we want to get that
+first element out of the array,
+
+69
+00:04:08,366 --> 00:04:10,370
+which is a JSON object.
+
+70
+00:04:10,370 --> 00:04:14,863
+And then we going to key guide you index
+to grab the value represented by the key
+
+71
+00:04:14,863 --> 00:04:18,515
+count, which in this case is
+an integer with the value 10.
+
+72
+00:04:18,515 --> 00:04:21,613
+Now, we want to take this
+traversal path process and
+
+73
+00:04:21,613 --> 00:04:25,100
+map it to statements that
+we can write in job code.
+
+74
+00:04:25,100 --> 00:04:26,010
+So, let's go and take a look.
+
+75
+00:04:27,480 --> 00:04:31,390
+So let's say, we were given a string
+containing this JSON here on the left.
+
+76
+00:04:31,390 --> 00:04:35,904
+Well, actually more likely, we'd receive
+a compacted version, which is exactly
+
+77
+00:04:35,904 --> 00:04:39,861
+the same just with all the white space
+removed and all the quotes escaped.
+
+78
+00:04:39,861 --> 00:04:41,505
+What do we mean by escaped?
+
+79
+00:04:41,505 --> 00:04:44,703
+It means by adding a backslash character
+in front of it since you can't have
+
+80
+00:04:44,703 --> 00:04:46,920
+quote marks in the middle of a string.
+
+81
+00:04:46,920 --> 00:04:48,737
+Otherwise, how would you know
+when the string was done?
+
+82
+00:04:48,737 --> 00:04:53,518
+Now we can turn this candy JSON string
+variable into a live JSONObject by
+
+83
+00:04:53,518 --> 00:04:57,195
+passing the string into
+the JSONObject constructor.
+
+84
+00:04:57,195 --> 00:05:01,435
+Now, this JSONObject has done all the
+work of parsing the JSON string for us.
+
+85
+00:05:01,435 --> 00:05:05,697
+It now knows what keys it contains and
+all sorts of useful methods, for
+
+86
+00:05:05,697 --> 00:05:07,801
+instance, on this route object.
+
+87
+00:05:07,801 --> 00:05:12,617
+Let's call getJSONArray to find the
+array nested within the root object with
+
+88
+00:05:12,617 --> 00:05:13,735
+the candies key.
+
+89
+00:05:14,975 --> 00:05:19,770
+Now, we can store this in a variable
+named candiesArray with data type
+
+90
+00:05:19,770 --> 00:05:20,380
+JSONArray.
+
+91
+00:05:21,600 --> 00:05:24,820
+Now, the JSONArray
+class exposes a method
+
+92
+00:05:24,820 --> 00:05:30,230
+called getJSONobject to access an object
+at a specified index position.
+
+93
+00:05:30,230 --> 00:05:33,150
+So we can get this zero
+JSON object in that array,
+
+94
+00:05:33,150 --> 00:05:37,290
+which means the very first in the list
+and then we can store this first element
+
+95
+00:05:37,290 --> 00:05:41,250
+in the firstCandy variable
+of type JSONObject.
+
+96
+00:05:43,090 --> 00:05:46,960
+Since we want to find the attributes
+within the firstCandy JSONObject,
+
+97
+00:05:46,960 --> 00:05:50,920
+we can call the method getString to
+extract the primitive value associated
+
+98
+00:05:50,920 --> 00:05:52,270
+with the key name.
+
+99
+00:05:52,270 --> 00:05:53,810
+In this case, "Jelly Beans".
+
+100
+00:05:54,860 --> 00:05:58,920
+Similarly, we can call the getInt
+method on the firstCandy JSONObject
+
+101
+00:05:58,920 --> 00:06:02,382
+to extract the primitive integer
+value with they key count.
+
+102
+00:06:02,382 --> 00:06:04,293
+In this case, the value 10.
+
+103
+00:06:04,293 --> 00:06:05,533
+In this next quiz,
+
+104
+00:06:05,533 --> 00:06:10,581
+I'd like you to read through the linked
+tutorial on JSON parsing in Android.
+
+105
+00:06:10,581 --> 00:06:14,185
+Now this example will be a little more
+complicated than the candies example we
+
+106
+00:06:14,185 --> 00:06:16,513
+walked through together,
+but I want you to try and
+
+107
+00:06:16,513 --> 00:06:17,968
+understand as much as you can.
+
+108
+00:06:17,968 --> 00:06:22,415
+Specifically, trying to read and
+understand the MainActivity.java code.
+
+109
+00:06:22,415 --> 00:06:23,730
+Check here when you're done.

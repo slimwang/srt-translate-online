@@ -1,0 +1,255 @@
+﻿1
+00:00:00,300 --> 00:00:03,169
+Now let's define a function for
+solving problems.
+
+2
+00:00:03,169 --> 00:00:07,570
+It's called Tree.Search because
+it superimposes a search tree
+
+3
+00:00:07,570 --> 00:00:09,169
+over the state's base.
+
+4
+00:00:09,169 --> 00:00:10,419
+Here's how it works.
+
+5
+00:00:10,419 --> 00:00:13,410
+Starts off by initializing
+the frontier to be the path
+
+6
+00:00:13,410 --> 00:00:15,880
+which consisting of
+only the initial state.
+
+7
+00:00:15,880 --> 00:00:19,960
+And then it goes into a loop
+in which it first tracks, see,
+
+8
+00:00:19,960 --> 00:00:22,060
+do we still have anything
+left in the frontier?
+
+9
+00:00:22,059 --> 00:00:23,250
+If not, we fail.
+
+10
+00:00:23,250 --> 00:00:24,871
+There can be no solution.
+
+11
+00:00:24,871 --> 00:00:27,957
+If we do have something,
+then we make a choice.
+
+12
+00:00:27,957 --> 00:00:32,036
+And Tree.Search is really a family
+of functions not a single algorithm
+
+13
+00:00:32,036 --> 00:00:35,619
+which typically depends on
+how we make that choice.
+
+14
+00:00:35,619 --> 00:00:38,070
+And we'll see some of the options later.
+
+15
+00:00:38,070 --> 00:00:40,799
+We go ahead and make a choice of one
+of the paths of the frontier and
+
+16
+00:00:40,799 --> 00:00:43,079
+remove that path from the frontier.
+
+17
+00:00:43,079 --> 00:00:45,750
+We find the state which is
+at the end of the path.
+
+18
+00:00:45,750 --> 00:00:47,990
+And if that state's a goal,
+then we're done.
+
+19
+00:00:47,990 --> 00:00:50,020
+We've found a path to the goal.
+
+20
+00:00:50,020 --> 00:00:54,080
+Otherwise, we do what's
+called expanding that path.
+
+21
+00:00:54,079 --> 00:00:56,809
+We look at all the actions
+from that state, and
+
+22
+00:00:56,810 --> 00:01:02,340
+we add to the path the actions and
+the result of that state.
+
+23
+00:01:02,340 --> 00:01:06,465
+So we get a new path that has
+the old path, the action and
+
+24
+00:01:06,465 --> 00:01:08,540
+the result of that action.
+
+25
+00:01:08,540 --> 00:01:12,579
+And we stick all of those
+paths back onto the frontier.
+
+26
+00:01:12,578 --> 00:01:16,927
+Now, Tree.Search represents
+a whole family of algorithms.
+
+27
+00:01:16,927 --> 00:01:20,176
+And where you get the family resemblance
+is that they're all looking at
+
+28
+00:01:20,176 --> 00:01:23,960
+the frontier, popping items off and
+looking to see if their Goal Test.
+
+29
+00:01:23,959 --> 00:01:27,789
+But where you get the difference
+is right here in the choice
+
+30
+00:01:27,790 --> 00:01:31,440
+of how your going to expand
+the next item on the frontier,
+
+31
+00:01:31,439 --> 00:01:33,810
+which path would you look at first.
+
+32
+00:01:33,810 --> 00:01:37,310
+And we'll go through
+the different sets of algorithms
+
+33
+00:01:37,310 --> 00:01:40,150
+that make different choices for
+which path to look at first.
+
+34
+00:01:41,430 --> 00:01:45,450
+The first algorithm we want to consider
+is called Breadth- First Search.
+
+35
+00:01:45,450 --> 00:01:49,852
+Now it could be called Shortest First
+Search because what it does is always
+
+36
+00:01:49,852 --> 00:01:54,183
+choose off the frontier one of the paths
+that hasn't been considered yet
+
+37
+00:01:54,183 --> 00:01:56,182
+that's the shortest possible.
+
+38
+00:01:56,182 --> 00:01:57,201
+So how does it work?
+
+39
+00:01:57,200 --> 00:02:02,619
+Well, we start off with the path of
+length zero starting in the start state.
+
+40
+00:02:02,620 --> 00:02:08,449
+And that's the only path in the frontier
+so its the shortest one, so we pick it.
+
+41
+00:02:08,449 --> 00:02:10,298
+And then we expand it and
+
+42
+00:02:10,298 --> 00:02:15,856
+we add in all the paths that result
+from applying the possible actions.
+
+43
+00:02:15,856 --> 00:02:20,852
+So now we've removed this
+path from the frontier, but
+
+44
+00:02:20,852 --> 00:02:23,906
+we've added in three new paths.
+
+45
+00:02:23,906 --> 00:02:30,099
+This one, this one, and this one.
+
+46
+00:02:30,099 --> 00:02:35,099
+Now we're in a position where we have
+three paths on the frontier, and
+
+47
+00:02:35,099 --> 00:02:37,629
+we have to pick the shortest one.
+
+48
+00:02:37,629 --> 00:02:41,930
+Now, in this case, all three paths
+have the same length, length one, so
+
+49
+00:02:41,930 --> 00:02:45,390
+we break the tie at random, or
+using some other technique.
+
+50
+00:02:46,397 --> 00:02:52,740
+And let's suppose that in this case,
+we choose this path from here to Sibiu.
+
+51
+00:02:52,740 --> 00:02:57,070
+Now, the question I
+want you to answer is,
+
+52
+00:02:57,069 --> 00:03:03,539
+once we remove that from the frontier,
+what pass are we going to add next?
+
+53
+00:03:03,539 --> 00:03:07,669
+So show me by checking off
+the cities that ends the paths,
+
+54
+00:03:07,669 --> 00:03:09,839
+which paths are going to
+be added to the frontier?
+

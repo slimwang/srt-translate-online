@@ -1,0 +1,271 @@
+1
+00:00:00,090 --> 00:00:05,230
+Another interesting case when we have multi CPU systems and threading
+
+2
+00:00:05,230 --> 00:00:09,860
+support at the user and the kernel level is related to synchronization.
+
+3
+00:00:09,860 --> 00:00:11,820
+Consider the following situation.
+
+4
+00:00:11,820 --> 00:00:14,650
+We have one user level thread T1 running on
+
+5
+00:00:14,650 --> 00:00:18,310
+top of one kernel level thread on one CPU.
+
+6
+00:00:18,310 --> 00:00:20,900
+And this thread currently has a mutex.
+
+7
+00:00:20,900 --> 00:00:23,700
+A number of user level threads may be blocked, but
+
+8
+00:00:23,700 --> 00:00:29,870
+then on another CPU, currently a user level thread T4 is scheduled.
+
+9
+00:00:29,870 --> 00:00:34,270
+Let's say this thread T4 actually needs to log the same mutex that's
+
+10
+00:00:34,270 --> 00:00:35,940
+currently held by T1.
+
+11
+00:00:35,940 --> 00:00:38,990
+Now the normal behavior would be to place T4
+
+12
+00:00:38,990 --> 00:00:43,760
+in that case on the queue that's associated with this mutex.
+
+13
+00:00:43,760 --> 00:00:47,920
+That's what we saw during our earlier discussion about threads and concurrency.
+
+14
+00:00:47,920 --> 00:00:53,080
+However, on a multi-CPU system, it's possible to have this situation.
+
+15
+00:00:53,080 --> 00:00:54,840
+The owner of the mutex,
+
+16
+00:00:54,840 --> 00:00:59,820
+the one that's currently executing the critical section, is running on one CPU.
+
+17
+00:01:00,940 --> 00:01:05,580
+And when we request that same mutex from the other CPU,
+
+18
+00:01:05,580 --> 00:01:10,080
+it is possible that by the time we take this thread, T4, and
+
+19
+00:01:10,080 --> 00:01:15,660
+context switch it and place it on the queue that's associated with this mutex.
+
+20
+00:01:15,660 --> 00:01:20,165
+In that amount of cycles maybe the critical section here is very short and
+
+21
+00:01:20,165 --> 00:01:22,590
+T1 will actually complete its execution.
+
+22
+00:01:22,590 --> 00:01:26,410
+If that is the case if the critical section is short then we
+
+23
+00:01:26,410 --> 00:01:30,080
+are better off if the thread that needs the mutex.
+
+24
+00:01:30,080 --> 00:01:33,040
+Actually just ends up spinning on this CPU.
+
+25
+00:01:33,040 --> 00:01:34,750
+Just burning a few cycles,
+
+26
+00:01:34,750 --> 00:01:39,070
+waiting a little bit until T1 actually releases the mutex.
+
+27
+00:01:39,070 --> 00:01:42,850
+If it takes less time for T1 to release the mutex.
+
+28
+00:01:42,850 --> 00:01:47,720
+Were better off spinning than actually picking a thread, context switching it,
+
+29
+00:01:47,720 --> 00:01:50,180
+and queueing it up on a mutex queue.
+
+30
+00:01:50,180 --> 00:01:53,590
+Super short critical sections don't block spin.
+
+31
+00:01:53,590 --> 00:01:58,490
+For long critical sections we will have the default behavior where a thread is
+
+32
+00:01:58,490 --> 00:02:01,200
+actually properly blocked placed on
+
+33
+00:02:01,200 --> 00:02:05,110
+a queue that's associated with a mutex until the mutex is freed.
+
+34
+00:02:05,110 --> 00:02:10,820
+We call these kinds of mutexes which sometimes result in the thread to spin and
+
+35
+00:02:10,820 --> 00:02:14,870
+other times it result in the thread to block adaptive mutexes.
+
+36
+00:02:14,870 --> 00:02:19,670
+Clearly these only make sense on multi-CPU systems, since whether or
+
+37
+00:02:19,670 --> 00:02:25,020
+not we spin is going to depend on whether the owner of the mutex,
+
+38
+00:02:25,020 --> 00:02:28,760
+like in this case, is actually running on the other CPU.
+
+39
+00:02:28,760 --> 00:02:31,750
+In a single CPU system, that definitely won't be the case,
+
+40
+00:02:31,750 --> 00:02:36,130
+so then it doesn't make sence to consider the use of adaptive mutexes.
+
+41
+00:02:36,130 --> 00:02:40,100
+Early on, when we first introduced mutexes, we said that it is useful to
+
+42
+00:02:40,100 --> 00:02:43,740
+maintain some information about the owner of the mutex.
+
+43
+00:02:43,740 --> 00:02:48,610
+These adaptive mutexes are one example of how such information can be useful.
+
+44
+00:02:48,610 --> 00:02:50,620
+When we try to lock a mutex.
+
+45
+00:02:50,620 --> 00:02:56,140
+If the mutex is currently busy, we can look quickly who the owner of the mutex
+
+46
+00:02:56,140 --> 00:03:01,180
+is, and then verify whether that other thread is running on another cpu.
+
+47
+00:03:01,180 --> 00:03:04,680
+That will tell us whether or not we should spin or block.
+
+48
+00:03:04,680 --> 00:03:07,500
+Clearly we'll also need to have some idea about the kinds of
+
+49
+00:03:07,500 --> 00:03:12,230
+critical sections that are used with this mutex, so as to determine whether it's
+
+50
+00:03:12,230 --> 00:03:16,590
+likely that the owner of the mutex will release it quickly so
+
+51
+00:03:16,590 --> 00:03:20,060
+we can spin, or not, and in that case we need to block.
+
+52
+00:03:20,060 --> 00:03:24,240
+And at the end, I want to make some final points about destroying threads.
+
+53
+00:03:24,240 --> 00:03:28,380
+Once a thread is no longer needed, so once it actually exits,
+
+54
+00:03:28,380 --> 00:03:31,690
+it should be destroyed and its data structure, stack, etc.,
+
+55
+00:03:31,690 --> 00:03:32,990
+should be freed.
+
+56
+00:03:32,990 --> 00:03:35,840
+However, since thread creation takes some time,
+
+57
+00:03:35,840 --> 00:03:40,530
+like data structures need to be created and initialized, it makes sense to
+
+58
+00:03:40,530 --> 00:03:45,630
+reuse these data structures, essentially as if we're reusing the actual threads.
+
+59
+00:03:45,630 --> 00:03:50,750
+The way this is done is when a thread exits it's not immediately destroyed,
+
+60
+00:03:50,750 --> 00:03:53,390
+the data structures are not immediately freed.
+
+61
+00:03:53,390 --> 00:03:57,370
+Instead the thread is marked as it's on a death row.
+
+62
+00:03:57,370 --> 00:04:00,820
+And periodically a special reaper thread will perform garbage
+
+63
+00:04:00,820 --> 00:04:05,520
+collection which means that it will actually go ahead and free up all of
+
+64
+00:04:05,520 --> 00:04:09,280
+the data structures that are associated with the threads on the death row.
+
+65
+00:04:09,280 --> 00:04:13,370
+If a request for a thread comes in before the thread has been properly destroyed
+
+66
+00:04:13,370 --> 00:04:18,000
+from the death row then its data structure and stack can be reused.
+
+67
+00:04:18,000 --> 00:04:21,279
+And this will lead to performance gains since we don't have to wait for
+
+68
+00:04:21,279 --> 00:04:22,150
+all the allocations.

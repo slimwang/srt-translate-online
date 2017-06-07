@@ -1,0 +1,271 @@
+1
+00:00:00,370 --> 00:00:03,980
+There a few key challenges in implementing
+
+2
+00:00:03,980 --> 00:00:06,280
+this Andrew system, which is intended for
+
+3
+00:00:06,280 --> 00:00:10,440
+campus environment. User community consisting of students,
+
+4
+00:00:10,440 --> 00:00:13,420
+who can login to work stations anywhere
+
+5
+00:00:13,420 --> 00:00:17,170
+on campus and those workstation are connected
+
+6
+00:00:17,170 --> 00:00:20,990
+by insecure network links to central server.
+
+7
+00:00:20,990 --> 00:00:25,670
+And a simple server is a depository for all the files of the entire
+
+8
+00:00:25,670 --> 00:00:31,220
+user community. So the challenges include authenticating a user.
+
+9
+00:00:31,220 --> 00:00:36,030
+That is, when a user says I'm Kishore, the system has to
+
+10
+00:00:36,030 --> 00:00:41,610
+verify unambiguously, that the user indeed is Kishore.
+
+11
+00:00:41,610 --> 00:00:46,750
+A second challenge is authenticating the server. That is, if
+
+12
+00:00:46,750 --> 00:00:51,790
+I, as a user, log into a work station and I get
+
+13
+00:00:51,790 --> 00:00:54,170
+a message from the server, I have to
+
+14
+00:00:54,170 --> 00:00:57,520
+be assured that this message is actually coming
+
+15
+00:00:57,520 --> 00:01:00,510
+from the server. And not some Trojan horse
+
+16
+00:01:00,510 --> 00:01:03,160
+that is pretending to be the server. The third
+
+17
+00:01:03,160 --> 00:01:07,600
+challenge is preventing replay attacks. And what that
+
+18
+00:01:07,600 --> 00:01:11,690
+means, is that even though we using encryption
+
+19
+00:01:11,690 --> 00:01:13,790
+to secure the data that is going on
+
+20
+00:01:13,790 --> 00:01:18,110
+the wire, someone that is sniffing the wire Could
+
+21
+00:01:18,110 --> 00:01:23,000
+grab a packet and then resend that same packet, and that should
+
+22
+00:01:23,000 --> 00:01:27,950
+not fool either the sender or the receiver. That's what is meant by
+
+23
+00:01:27,950 --> 00:01:33,040
+replay attack, and the [UNKNOWN] challenge is of course ensuring that the user
+
+24
+00:01:33,040 --> 00:01:38,840
+community is shielded from one another. Either due to unintended
+
+25
+00:01:38,840 --> 00:01:44,650
+interference of user or another, or malicious interference.
+
+26
+00:01:44,650 --> 00:01:46,700
+Both of those situations have to be avoided.
+
+27
+00:01:46,700 --> 00:01:49,610
+So that is what I meant by isolating
+
+28
+00:01:49,610 --> 00:01:52,630
+users. So these are the design challenges for
+
+29
+00:01:52,630 --> 00:01:55,270
+the Andrew system. So in the Andrew file
+
+30
+00:01:55,270 --> 00:01:58,400
+system, they decided in order to make sure
+
+31
+00:01:58,400 --> 00:02:01,290
+that all of these challenges are met, they
+
+32
+00:02:01,290 --> 00:02:04,410
+have to use a secure rpc as the
+
+33
+00:02:04,410 --> 00:02:09,690
+basis for client server communication. And, in implementing the
+
+34
+00:02:09,690 --> 00:02:12,960
+secure rpc, they also decided to use private
+
+35
+00:02:12,960 --> 00:02:17,000
+key cryptosystem, and I mentioned. That the public key
+
+36
+00:02:17,000 --> 00:02:19,720
+crypto system does not have the key distribution
+
+37
+00:02:19,720 --> 00:02:22,750
+problem, but on the other hand, for a closed
+
+38
+00:02:22,750 --> 00:02:25,730
+community like a campus environment, the key distribution
+
+39
+00:02:25,730 --> 00:02:29,420
+problem is not as big a challenge, so therefore,
+
+40
+00:02:29,420 --> 00:02:31,660
+the design of the Andrew file system decided to
+
+41
+00:02:31,660 --> 00:02:34,720
+use private key crypto system. And as I mentioned
+
+42
+00:02:34,720 --> 00:02:37,960
+earlier in the private key crypto key system
+
+43
+00:02:37,960 --> 00:02:40,870
+in order to identify what key to use
+
+44
+00:02:40,870 --> 00:02:43,390
+to decrypt a message that is coming in,
+
+45
+00:02:43,390 --> 00:02:46,450
+the identity of the sender has to be known.
+
+46
+00:02:46,450 --> 00:02:52,140
+So this has to be sent in clear text. If you take a traditional operating system
+
+47
+00:02:52,140 --> 00:02:56,040
+like Unix you have username and password which
+
+48
+00:02:56,040 --> 00:02:59,910
+is the way you authenticate yourself for the system.
+
+49
+00:02:59,910 --> 00:03:03,000
+But, in a campus environment if you're going
+
+50
+00:03:03,000 --> 00:03:07,220
+to use, Secure RPC as a mechanism for
+
+51
+00:03:07,220 --> 00:03:09,860
+communication between the client and the server. There
+
+52
+00:03:09,860 --> 00:03:13,290
+can be lots of communication that is happening between
+
+53
+00:03:13,290 --> 00:03:16,410
+individual clients and the servers. And if you're
+
+54
+00:03:16,410 --> 00:03:18,480
+going to use, use a name and password all
+
+55
+00:03:18,480 --> 00:03:22,040
+the time for such communication. Such overuse will
+
+56
+00:03:22,040 --> 00:03:24,998
+result in a security hold. One of the things
+
+57
+00:03:24,998 --> 00:03:29,028
+that I mentioned, as a principle proposed by Jerome Salser is you publish the
+
+58
+00:03:29,028 --> 00:03:33,160
+design but protect the keys, but you publish the design but protect the keys.
+
+59
+00:03:38,410 --> 00:03:43,850
+And what is meant by protecting the keys is making it competitionally hard to
+
+60
+00:03:43,850 --> 00:03:50,130
+break the key but over exposing the key. Allows someone to take a long
+
+61
+00:03:50,130 --> 00:03:52,240
+time to crack the key, and therefore
+
+62
+00:03:52,240 --> 00:03:55,770
+overusing username and password as the basis
+
+63
+00:03:55,770 --> 00:04:00,110
+for all communications, in a circular RPC,
+
+64
+00:04:00,110 --> 00:04:03,730
+will pose a security hole. So the dilemma
+
+65
+00:04:03,730 --> 00:04:08,270
+that the Andrew Fine system designers had to face, was what to
+
+66
+00:04:08,270 --> 00:04:13,060
+use as the identity. That needs to be sent in cleartext, and
+
+67
+00:04:13,060 --> 00:04:16,890
+what to use as the private key so that we don't always
+
+68
+00:04:16,890 --> 00:04:21,440
+use any pair of identity and private keys for a long time.

@@ -1,0 +1,349 @@
+1
+00:00:00,320 --> 00:00:04,000
+Let's start by taking a look at
+the requestActivityUpdatesButtonHandler.
+
+2
+00:00:04,000 --> 00:00:05,480
+You can see the code here.
+
+3
+00:00:05,480 --> 00:00:09,375
+First, I just want to check if
+the Google API Client is connected, and
+
+4
+00:00:09,375 --> 00:00:10,167
+if it isn't,
+
+5
+00:00:10,167 --> 00:00:14,080
+just send a notification to the user
+to say that we're not connected.
+
+6
+00:00:14,080 --> 00:00:14,836
+Then, using
+
+7
+00:00:14,836 --> 00:00:19,588
+ActivityRecognition.ActivityRecognition-
+Api.requestActivityUpdates,
+
+8
+00:00:19,588 --> 00:00:23,350
+I'm going to start the activity
+updates process going.
+
+9
+00:00:23,350 --> 00:00:25,540
+I pass it the Google API client.
+
+10
+00:00:25,540 --> 00:00:28,720
+I pass it my detection interval in
+milliseconds which I've just stored
+
+11
+00:00:28,720 --> 00:00:30,020
+as a constant.
+
+12
+00:00:30,020 --> 00:00:33,839
+And then I pass it this function,
+getActivityDetectionPendingIntent(),
+
+13
+00:00:33,839 --> 00:00:35,891
+which will return a PendingIntent for
+me.
+
+14
+00:00:35,891 --> 00:00:38,820
+I haven't written this function yet
+which is why it shows up in red.
+
+15
+00:00:38,820 --> 00:00:40,740
+We'll see that in a few minutes.
+
+16
+00:00:40,740 --> 00:00:44,510
+Now once I've done all this,
+I just set its ResultCallback to this.
+
+17
+00:00:44,510 --> 00:00:47,780
+And then I'm just enabling and
+disabling the relevant buttons.
+
+18
+00:00:47,780 --> 00:00:51,960
+So similarly, now let's take a look at
+the removeActivityUpdatesButton, and
+
+19
+00:00:51,960 --> 00:00:52,980
+it's very similar.
+
+20
+00:00:52,980 --> 00:00:56,291
+We're going to say, if the Google API
+client isn't yet connected,
+
+21
+00:00:56,291 --> 00:00:58,431
+we'll just throw
+an error to the message.
+
+22
+00:00:58,431 --> 00:01:02,110
+And now, using
+ActivityRecognition.ActivityRecognition-
+
+23
+00:01:02,110 --> 00:01:06,361
+Api, I'm going to removeActivityUpdates,
+passing it the API Client and
+
+24
+00:01:06,361 --> 00:01:09,997
+the same PendingIntent function
+handler that we had earlier.
+
+25
+00:01:09,997 --> 00:01:12,710
+I'm then setting
+the ResultCallback to this.
+
+26
+00:01:12,710 --> 00:01:16,170
+And then just enabling and
+disabling the buttons as appropriate.
+
+27
+00:01:16,170 --> 00:01:19,390
+And now as you can see, because I
+set the ResultCallbacks to this,
+
+28
+00:01:19,390 --> 00:01:22,480
+I have to enable
+the callbacks on this class.
+
+29
+00:01:22,480 --> 00:01:25,370
+And I do this on the class level itself.
+
+30
+00:01:25,370 --> 00:01:29,270
+If I come here where I'm implementing,
+I want to implement the callbacks.
+
+31
+00:01:29,270 --> 00:01:32,725
+And what we get in this
+case is a ResultCallback.
+
+32
+00:01:32,725 --> 00:01:34,565
+So I'm just going to paste it in here.
+
+33
+00:01:34,565 --> 00:01:37,385
+Okay, we get a ResultCallback of Status.
+
+34
+00:01:37,385 --> 00:01:39,435
+So then I just set up the callback here,
+and
+
+35
+00:01:39,435 --> 00:01:42,905
+it's going to be
+a ResultCallback of type Status.
+
+36
+00:01:42,905 --> 00:01:45,525
+Now as you can see,
+this is triggering an error for
+
+37
+00:01:45,525 --> 00:01:50,185
+us because it's expecting us to
+implement this abstract method onResult.
+
+38
+00:01:50,185 --> 00:01:52,780
+So let's go ahead and
+implement this now.
+
+39
+00:01:52,780 --> 00:01:54,270
+So I'm just going to paste it in here.
+
+40
+00:01:55,380 --> 00:01:58,480
+Again, all this code will
+be in the speaker notes.
+
+41
+00:01:58,480 --> 00:02:00,370
+And onResult just takes a Status, and
+
+42
+00:02:00,370 --> 00:02:03,030
+what I should do in this case
+is just to log something.
+
+43
+00:02:03,030 --> 00:02:04,670
+I haven't specified my tag yet.
+
+44
+00:02:04,670 --> 00:02:06,340
+That should just be a string for this.
+
+45
+00:02:07,530 --> 00:02:09,828
+So let's go ahead and
+implement the onResult now.
+
+46
+00:02:09,828 --> 00:02:11,510
+I'm going to paste it in here.
+
+47
+00:02:11,510 --> 00:02:14,950
+And it's just going to take a Status,
+and if the Status is success, I just
+
+48
+00:02:14,950 --> 00:02:19,190
+want to say that we've successfully
+added activity detection in my logs.
+
+49
+00:02:19,190 --> 00:02:22,160
+Otherwise, I'm just going to say there
+was an error adding or removing activity
+
+50
+00:02:22,160 --> 00:02:26,820
+detection and qualify that with
+a status message for the status.
+
+51
+00:02:26,820 --> 00:02:28,280
+So now, you can see my class.
+
+52
+00:02:28,280 --> 00:02:31,932
+There's no more red underlines,
+and I'm good to go to compile.
+
+53
+00:02:31,932 --> 00:02:34,250
+But there's one more thing
+that I need to implement.
+
+54
+00:02:34,250 --> 00:02:35,150
+And that was,
+
+55
+00:02:35,150 --> 00:02:40,210
+if we remember, we had created this
+getActivityDetectionPendingIntent()
+
+56
+00:02:40,210 --> 00:02:43,380
+function which returns
+a PendingIntent to us.
+
+57
+00:02:43,380 --> 00:02:46,010
+So let's go ahead and
+just implement that quickly.
+
+58
+00:02:46,010 --> 00:02:48,730
+So I'm just going to go ahead and
+paste the code for that in.
+
+59
+00:02:48,730 --> 00:02:51,180
+In this function, I'm just going
+to return a PendingIntent, and
+
+60
+00:02:51,180 --> 00:02:54,130
+how I'm going to do that is I'm
+going to create a new Intent.
+
+61
+00:02:55,140 --> 00:02:59,975
+And this is a new Intent based on the
+DetectedActivitiesIntentService class
+
+62
+00:02:59,975 --> 00:03:01,770
+that we created earlier on.
+
+63
+00:03:01,770 --> 00:03:05,243
+And then I'm going to return
+a PendingIntent by calling the abstract
+
+64
+00:03:05,243 --> 00:03:08,841
+class PendingIntent.getService,
+passing this intent to it, and
+
+65
+00:03:08,841 --> 00:03:11,610
+just saying I want to
+flag update current.
+
+66
+00:03:11,610 --> 00:03:15,929
+And the idea behind FLAG_UPDATE_CURRENT
+means I'm just going to return the same
+
+67
+00:03:15,929 --> 00:03:18,222
+instance of the class
+if I have one already.
+
+68
+00:03:18,222 --> 00:03:22,128
+I know this is pretty complex stuff, but
+just check out how PendingIntents work
+
+69
+00:03:22,128 --> 00:03:25,569
+and how Intents work by checking
+the Android fundamentals courses and
+
+70
+00:03:25,569 --> 00:03:27,160
+by reading the documentation.
+
+71
+00:03:28,390 --> 00:03:28,940
+And that's it.
+
+72
+00:03:28,940 --> 00:03:31,100
+I now have everything I need
+to be able to build and
+
+73
+00:03:31,100 --> 00:03:33,740
+run the application
+that we saw earlier on.
+
+74
+00:03:33,740 --> 00:03:36,850
+Congratulations, you've just built
+your first activity recognition app.

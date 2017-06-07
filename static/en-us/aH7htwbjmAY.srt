@@ -1,0 +1,163 @@
+1
+00:00:00,170 --> 00:00:01,600
+All right.
+I hope you're all stretched out
+
+2
+00:00:01,600 --> 00:00:04,380
+because it's time to step
+up to the perf plate again.
+
+3
+00:00:04,380 --> 00:00:06,510
+Let's take another look
+at an overdraw situation,
+
+4
+00:00:06,510 --> 00:00:08,820
+this time involving custom views.
+
+5
+00:00:08,820 --> 00:00:09,820
+Now as a developer,
+
+6
+00:00:09,820 --> 00:00:13,040
+these are custom situations where you
+want to create a unique experience or
+
+7
+00:00:13,040 --> 00:00:16,750
+behavior that isn't quite covered
+by Android's built in views.
+
+8
+00:00:16,750 --> 00:00:20,060
+For example, in the following code,
+some of the UI elements or
+
+9
+00:00:20,060 --> 00:00:23,550
+at least portions of them may be
+invisible to the final scene, and
+
+10
+00:00:23,550 --> 00:00:25,240
+thus the app probably
+doesn't need to draw them.
+
+11
+00:00:26,320 --> 00:00:29,170
+So, as Cole mentioned, these
+are situations where you might want to
+
+12
+00:00:29,170 --> 00:00:32,198
+employ clipping to prevent
+unnecessary use of GPU resources.
+
+13
+00:00:33,510 --> 00:00:38,280
+So, let's hop back to the render app and
+take a look at Droid cards.
+
+14
+00:00:38,280 --> 00:00:39,410
+All right.
+
+15
+00:00:39,410 --> 00:00:41,780
+Now in the background here, I've
+brought up some of the source files for
+
+16
+00:00:41,780 --> 00:00:43,310
+this activity.
+
+17
+00:00:43,310 --> 00:00:47,380
+Now as you can see in this
+DroidCardsView Java file, the UI for
+
+18
+00:00:47,380 --> 00:00:50,390
+this activity is implemented
+using a custom view
+
+19
+00:00:50,390 --> 00:00:54,400
+that displays a stack of
+overlapping Droid playing cards.
+
+20
+00:00:54,400 --> 00:00:56,340
+Now, we don't have time
+to cover it now but
+
+21
+00:00:56,340 --> 00:00:59,460
+if you'd like to review creating custom
+views, feel free to check out some of
+
+22
+00:00:59,460 --> 00:01:01,240
+the useful resources in
+the instructor notes.
+
+23
+00:01:01,240 --> 00:01:05,120
+All right, so let's gather some
+information about our app.
+
+24
+00:01:05,120 --> 00:01:08,450
+Let's turn on GPU overdraw debug again
+and see how this activity looks.
+
+25
+00:01:09,700 --> 00:01:10,720
+Whoa!
+
+26
+00:01:10,720 --> 00:01:13,180
+There's clearly lots of
+overdraw happening here.
+
+27
+00:01:13,180 --> 00:01:15,470
+Particularly these red
+areas right in the center.
+
+28
+00:01:16,600 --> 00:01:18,320
+Now, I have a question for you.
+
+29
+00:01:19,390 --> 00:01:22,080
+What could possibly be
+causing this much overdraw?
+
+30
+00:01:22,080 --> 00:01:25,690
+Is it, we've inadvertently
+declared extraneous backgrounds,
+
+31
+00:01:25,690 --> 00:01:28,640
+we're drawing cards to the screen in
+a way in which they overlap leaving
+
+32
+00:01:28,640 --> 00:01:32,550
+some portions hidden, we shouldn't be
+using a custom view in this scenario?
+
+33
+00:01:33,560 --> 00:01:36,260
+Or is it the frustration that builds
+up from developers who chose not to
+
+34
+00:01:36,260 --> 00:01:37,820
+address rendering
+problems like overdraw?

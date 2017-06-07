@@ -1,0 +1,227 @@
+﻿1
+00:00:00,190 --> 00:00:03,940
+The next question is whether alpha
+beta can work with multi-player games.
+
+2
+00:00:03,940 --> 00:00:07,199
+>> Well according to a paper by Korff,
+pruning can work as long as some of
+
+3
+00:00:07,200 --> 00:00:10,490
+the values the players' validation
+functions has an upper bound and
+
+4
+00:00:10,490 --> 00:00:12,570
+each player's value,
+you have lower bound.
+
+5
+00:00:12,570 --> 00:00:16,890
+>> Well for our number of mine moves the
+valuation function for isolation zero
+
+6
+00:00:16,890 --> 00:00:21,929
+is a natural lower bound, but what would
+make a good upper bound for the sum?
+
+7
+00:00:21,929 --> 00:00:24,780
+>> If an evaluation function could
+estimate the number of total moves
+
+8
+00:00:24,780 --> 00:00:28,060
+remaining for each player, it would work
+because the sum of the number of total
+
+9
+00:00:28,059 --> 00:00:31,554
+moves should not exceed the number of
+empty squares of the isolation board.
+
+10
+00:00:31,554 --> 00:00:35,844
+For example, with this board, the limit
+should be 22 or around 7 per player.
+
+11
+00:00:35,844 --> 00:00:37,324
+>> That's fine in theory but
+
+12
+00:00:37,325 --> 00:00:40,725
+the upper bound would change with
+each level of the game tree.
+
+13
+00:00:40,725 --> 00:00:43,632
+Can't we simplify things for
+illustration purposes?
+
+14
+00:00:43,631 --> 00:00:47,292
+>> Okay, we'll say that the sum of
+players' scores can't exceed ten and,
+
+15
+00:00:47,292 --> 00:00:50,822
+to make things even easier, we'll say
+that the sum has to equal exactly ten.
+
+16
+00:00:50,822 --> 00:00:52,452
+>> And that's going to allow pruning?
+
+17
+00:00:52,451 --> 00:00:52,991
+>> Yep.
+
+18
+00:00:52,991 --> 00:00:55,621
+And we'll show you an example that
+allows both immediate pruning and
+
+19
+00:00:55,621 --> 00:00:56,900
+shallow pruning.
+
+20
+00:00:56,901 --> 00:00:59,771
+>> Does that mean we can't
+do deep pruning like before?
+
+21
+00:00:59,771 --> 00:01:01,591
+>> Unfortunately that's correct.
+
+22
+00:01:01,591 --> 00:01:02,861
+While some pruning is possible,
+
+23
+00:01:02,860 --> 00:01:06,161
+deep pruning like what alpha beta
+allowed before isn't possible.
+
+24
+00:01:06,161 --> 00:01:09,239
+>> Okay so
+show me an example of immediate pruning.
+
+25
+00:01:09,239 --> 00:01:12,390
+Let's look at the left most
+bottom branch of the search tree.
+
+26
+00:01:12,390 --> 00:01:15,590
+Since we know that the maximum value
+is ten there is no point in evaluating
+
+27
+00:01:15,590 --> 00:01:17,350
+the next two branches to the right.
+
+28
+00:01:17,349 --> 00:01:20,849
+They can return at most ten and
+we already have that option.
+
+29
+00:01:20,849 --> 00:01:23,829
+We can safely ignore them and
+propagate the values of the tree.
+
+30
+00:01:23,829 --> 00:01:24,329
+>> Great.
+
+31
+00:01:24,329 --> 00:01:28,359
+And I guess we can put limits on what
+values will be at the top most node.
+
+32
+00:01:28,359 --> 00:01:30,189
+However, in this case it doesn't help.
+
+33
+00:01:30,189 --> 00:01:33,549
+The value of player one could
+be anywhere from zero to ten.
+
+34
+00:01:33,549 --> 00:01:35,439
+The other ones will be less than ten.
+
+35
+00:01:35,439 --> 00:01:37,590
+>> But the middle branch
+would limit things a bit and
+
+36
+00:01:37,590 --> 00:01:40,634
+we will see an example of shallow
+pruning for the right branch.
+
+37
+00:01:40,634 --> 00:01:42,459
+At the bottom level
+of the middle branch,
+
+38
+00:01:42,459 --> 00:01:44,849
+player two will pick
+the left most option.
+
+39
+00:01:44,849 --> 00:01:48,379
+Now we see player one will have a value
+greater than or equal to three.
+
+40
+00:01:48,379 --> 00:01:49,859
+And since the sum has to be ten,
+
+41
+00:01:49,859 --> 00:01:52,599
+each of the others are limited to
+values less than or equal to seven.
+
+42
+00:01:54,209 --> 00:01:58,530
+>> But in the next branch over,
+player two will get a seven or better.
+
+43
+00:01:58,530 --> 00:02:01,189
+Which means that player one
+will get a three or less.
+
+44
+00:02:02,439 --> 00:02:06,409
+Since we already have a three,
+we can prune this last branch.
+
+45
+00:02:06,409 --> 00:02:07,829
+It's values will not matter,
+
+46
+00:02:07,829 --> 00:02:10,090
+because we're going to choose
+the option we already have.
+
+47
+00:02:10,090 --> 00:02:12,150
+>> Now you see it.
+
+48
+00:02:12,150 --> 00:02:13,950
+Let's have a quiz and
+work another example.
+

@@ -1,0 +1,144 @@
+1
+00:00:00,008 --> 00:00:04,230
+When an I/O request is made the user
+process typically requires some
+
+2
+00:00:04,230 --> 00:00:07,820
+type of a response from the device
+even if it's just a status that,
+
+3
+00:00:07,820 --> 00:00:11,900
+yes I got it I'll do this for you, so
+what happens with the user process or
+
+4
+00:00:11,900 --> 00:00:14,890
+the user thread once
+the I/O call is made?
+
+5
+00:00:14,890 --> 00:00:18,490
+What will happen to the thread will
+depend on whether the I/O operations
+
+6
+00:00:18,490 --> 00:00:22,450
+are synchronous or asynchronous,
+for synchronous I/O operations,
+
+7
+00:00:22,450 --> 00:00:25,720
+the process or the calling
+thread at least will be blocked.
+
+8
+00:00:25,720 --> 00:00:29,500
+The OS kernel will place that thread on
+the wait queue that's associated with
+
+9
+00:00:29,500 --> 00:00:33,890
+the corresponding device and then the
+thread will eventually become runable
+
+10
+00:00:33,890 --> 00:00:37,270
+when the response from this
+request becomes available so
+
+11
+00:00:37,270 --> 00:00:39,870
+in the mean time it will be blocked,
+it will be waiting,
+
+12
+00:00:39,870 --> 00:00:42,210
+it will not be able to
+perform anything else.
+
+13
+00:00:42,210 --> 00:00:46,570
+But asynchronous operations the user
+process is allowed to continue
+
+14
+00:00:46,570 --> 00:00:50,500
+as soon as it issues the I/O call,
+at some later time
+
+15
+00:00:50,500 --> 00:00:55,340
+the user process can be allowed to come
+in and check are the results ready for
+
+16
+00:00:55,340 --> 00:00:58,790
+this operation and at that point
+it will retrieve the results.
+
+17
+00:00:58,790 --> 00:01:04,660
+Or perhaps at a later point the process
+itself will be notified by the device,
+
+18
+00:01:04,660 --> 00:01:08,460
+or by the operating system,
+that the operation has completed and
+
+19
+00:01:08,460 --> 00:01:12,950
+that any results are ready and are
+available at the particular location.
+
+20
+00:01:12,950 --> 00:01:17,250
+The benefit of this is that the process
+doesn't have to go and periodically
+
+21
+00:01:17,250 --> 00:01:21,420
+check to see whether the results are
+available, this is somewhat analogous
+
+22
+00:01:21,420 --> 00:01:26,480
+to the polling versus interrupt base
+interface that we talked about earlier.
+
+23
+00:01:26,480 --> 00:01:30,420
+Remember that we talked about the
+asynchronous I operations when we talked
+
+24
+00:01:30,420 --> 00:01:34,570
+about the flash paper in the lesson
+on thread performance consideration.
+
+25
+00:01:34,570 --> 00:01:38,680
+In there, the solution was for
+the kernel to avoid blocking the user
+
+26
+00:01:38,680 --> 00:01:43,240
+process by creating separate threads
+that will perform I/O operations,
+
+27
+00:01:43,240 --> 00:01:46,520
+in that case synchronous
+operations that will block.
+
+28
+00:01:46,520 --> 00:01:50,060
+Here, we're really talking about
+asynchronous I/O operations
+
+29
+00:01:50,060 --> 00:01:52,330
+truly being supported within
+the operating system.

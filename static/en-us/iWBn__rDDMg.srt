@@ -1,0 +1,86 @@
+1
+00:00:00,210 --> 00:00:03,735
+Another design question is how
+large should a segment be?
+
+2
+00:00:03,735 --> 00:00:08,295
+That will work really well if the size
+of the data is known up front and
+
+3
+00:00:08,295 --> 00:00:08,938
+static.
+
+4
+00:00:08,938 --> 00:00:10,099
+It doesn't change.
+
+5
+00:00:10,099 --> 00:00:14,089
+However, in addition to the fact
+that data sizes may not be static,
+
+6
+00:00:14,089 --> 00:00:18,429
+that they may be dynamic, the other
+problem with this is that it will limit
+
+7
+00:00:18,429 --> 00:00:22,981
+what is the maximum data that could be
+transferred between processes because
+
+8
+00:00:22,981 --> 00:00:27,560
+typically an operating system will have
+a limit on the maximum segment size.
+
+9
+00:00:28,710 --> 00:00:32,470
+If you want to potentially support
+arbitrary message sizes that are much
+
+10
+00:00:32,470 --> 00:00:34,600
+larger than the segment size,
+
+11
+00:00:34,600 --> 00:00:38,350
+then one option can be that you
+can transfer the data in rounds.
+
+12
+00:00:38,350 --> 00:00:42,620
+Portion of the data gets written into
+the segment, and then once P2 picks it,
+
+13
+00:00:42,620 --> 00:00:46,730
+up P2's ready to move in
+the next round of that data item.
+
+14
+00:00:46,730 --> 00:00:50,618
+However, in this case, the programmer
+will have to include some protocol
+
+15
+00:00:50,618 --> 00:00:54,410
+to track the progress of the data
+movement through the rounds.
+
+16
+00:00:54,410 --> 00:00:59,250
+In this case, you will likely end up
+casting the shared memory area as some
+
+17
+00:00:59,250 --> 00:01:04,349
+data structure that has the actual data
+buffer, some synchronization construct,
+
+18
+00:01:04,349 --> 00:01:06,970
+as well as some additional
+flags to track the progress.

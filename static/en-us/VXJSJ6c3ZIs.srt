@@ -1,0 +1,115 @@
+1
+00:00:00,630 --> 00:00:03,540
+One of the most common design patterns for multithreaded applications is
+
+2
+00:00:03,540 --> 00:00:06,600
+the producer consumer model. This can be viewed as a special case
+
+3
+00:00:06,600 --> 00:00:08,950
+of one of the models discussed before, if you like. To
+
+4
+00:00:08,950 --> 00:00:10,460
+motivate our discussion, we'll use a
+
+5
+00:00:10,460 --> 00:00:13,180
+tracking application. Here's our camera. Maybe
+
+6
+00:00:13,180 --> 00:00:15,600
+it's monitoring the number of people on a subway platform to
+
+7
+00:00:15,600 --> 00:00:18,320
+help route trains, or something like that. You can then break the
+
+8
+00:00:18,320 --> 00:00:22,100
+computation down into two pieces. One, is to get the picture
+
+9
+00:00:22,100 --> 00:00:26,410
+from the camera into the memory. We'll call this the producer task.
+
+10
+00:00:26,410 --> 00:00:28,540
+And the other task, is to analyze the picture to figure
+
+11
+00:00:28,540 --> 00:00:31,180
+out where all the people are, and pass this information on to
+
+12
+00:00:31,180 --> 00:00:34,300
+the training planner, or whoever may need it. We'll call this, the
+
+13
+00:00:34,300 --> 00:00:38,410
+consumer task. Now for this scenario, suppose the images are available from
+
+14
+00:00:38,410 --> 00:00:42,020
+the camera every 33 milliseconds. We want to get all of them,
+
+15
+00:00:42,020 --> 00:00:44,180
+so we're going to have a thread whose job is just to copy
+
+16
+00:00:44,180 --> 00:00:47,700
+the frame from the camera, into computer memory. And let's say that
+
+17
+00:00:47,700 --> 00:00:51,890
+the image processing to find the people is variable, taking somewhere between
+
+18
+00:00:51,890 --> 00:00:54,600
+20 and 40 milliseconds. But on average, less than 33. If
+
+19
+00:00:54,600 --> 00:00:58,770
+it were more than 33, we could put more consumer threads here
+
+20
+00:00:58,770 --> 00:01:01,620
+to do the work. Because of the variability in the time
+
+21
+00:01:01,620 --> 00:01:04,095
+it takes to process the image, we need a place in which
+
+22
+00:01:04,095 --> 00:01:06,680
+to store images that our consumer thread is not yet ready
+
+23
+00:01:06,680 --> 00:01:10,670
+to handle. And for this, we use a ring buffer. Each division
+
+24
+00:01:10,670 --> 00:01:13,910
+here represents memory for our frame from the camera. The ones that
+
+25
+00:01:13,910 --> 00:01:17,220
+haven't been consumed yet, I've colored in red. Now we should imagine
+
+26
+00:01:17,220 --> 00:01:22,290
+the producer and consumer threads chasing each other around this ring,
+
+27
+00:01:22,290 --> 00:01:26,190
+with the producer one writing frames, making them red, and the consumer
+
+28
+00:01:26,190 --> 00:01:30,080
+one running behind, turning them back to white. That is, empty
+
+29
+00:01:30,080 --> 00:01:33,310
+or processed. Though of course the consumer will never pass the producer.

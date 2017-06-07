@@ -1,0 +1,217 @@
+1
+00:00:00,480 --> 00:00:02,220
+So we're going to create two buttons.
+
+2
+00:00:02,220 --> 00:00:04,150
+One with the text load interstitial, and
+
+3
+00:00:04,150 --> 00:00:06,900
+one with the text
+interstitial not ready.
+
+4
+00:00:06,900 --> 00:00:10,210
+Let's first look at the layout
+file where these are defined.
+
+5
+00:00:10,210 --> 00:00:13,340
+So this is going to be in
+the interstitial activity.
+
+6
+00:00:13,340 --> 00:00:17,400
+So we open the activity_interstitial
+layout file here.
+
+7
+00:00:17,400 --> 00:00:21,050
+Here you can see a linear
+layout that has two buttons.
+
+8
+00:00:21,050 --> 00:00:23,750
+The first button is our load button.
+
+9
+00:00:23,750 --> 00:00:26,660
+It has the text Load Interstitial.
+
+10
+00:00:26,660 --> 00:00:30,920
+And when we click on the button the
+loadInterstitial method will be called.
+
+11
+00:00:30,920 --> 00:00:35,390
+The second button is the one
+showing Interstitial Not Ready.
+
+12
+00:00:35,390 --> 00:00:39,780
+And when this button is called, the
+showInterstitial method will be called.
+
+13
+00:00:39,780 --> 00:00:42,980
+And as you can see, I haven't
+really hard coded the text here.
+
+14
+00:00:42,980 --> 00:00:45,890
+These are actually string
+resources that we'll define in
+
+15
+00:00:45,890 --> 00:00:47,020
+our string resource file.
+
+16
+00:00:48,230 --> 00:00:50,900
+So if we look at the definition
+of these constants,
+
+17
+00:00:50,900 --> 00:00:53,120
+we go into our Strings resource file.
+
+18
+00:00:53,120 --> 00:00:57,352
+The interstitial_load constant
+is set to Load Interstitial.
+
+19
+00:00:57,352 --> 00:01:01,360
+The interstitial_not_ready constant
+is set to Interstitial Not Ready.
+
+20
+00:01:01,360 --> 00:01:05,780
+I've also defined a constant called
+interstitial_loading that I set to
+
+21
+00:01:05,780 --> 00:01:07,270
+Loading Interstitial.
+
+22
+00:01:07,270 --> 00:01:09,380
+We'll use that later in our code.
+
+23
+00:01:09,380 --> 00:01:14,490
+Here you can also see that we have
+defined the interstitial_ad_unit_id.
+
+24
+00:01:14,490 --> 00:01:18,170
+This will be the ad unit id that
+we use for our interstitial ad.
+
+25
+00:01:19,270 --> 00:01:22,950
+And as you can see,
+I've hard coded it to this string here,
+
+26
+00:01:22,950 --> 00:01:27,750
+which is the string you can use
+to display test interstitial ads.
+
+27
+00:01:27,750 --> 00:01:33,820
+Similar to this constant up here which
+is the test ad unit id for banner ads.
+
+28
+00:01:33,820 --> 00:01:35,400
+All right, so
+
+29
+00:01:35,400 --> 00:01:39,390
+now when we have our layout file in
+order, lets look at the actual code.
+
+30
+00:01:39,390 --> 00:01:41,960
+So we go into the interstitial
+activity java file.
+
+31
+00:01:43,680 --> 00:01:47,035
+So first of all you can see that
+we've added a member, mShowButton.
+
+32
+00:01:48,080 --> 00:01:51,450
+And in onCreate we call
+our parent's onCreate.
+
+33
+00:01:51,450 --> 00:01:54,370
+Then, we set the content
+view to the layout file
+
+34
+00:01:54,370 --> 00:01:57,660
+of the interstitial activity,
+the one we just looked at.
+
+35
+00:01:57,660 --> 00:01:58,840
+We find the button using,
+
+36
+00:01:58,840 --> 00:02:03,820
+findViewById, providing the showButton
+in the layout file as an argument.
+
+37
+00:02:03,820 --> 00:02:05,570
+And then we disable this button.
+
+38
+00:02:07,360 --> 00:02:10,080
+When the Load Interstitial
+button is clicked, we,
+
+39
+00:02:10,080 --> 00:02:13,120
+again, disable the show button.
+
+40
+00:02:13,120 --> 00:02:16,770
+And then we change its text
+to Loading Interstitial.
+
+41
+00:02:16,770 --> 00:02:20,440
+And, as you can see, this text is also
+something we've defined in our resource
+
+42
+00:02:20,440 --> 00:02:23,890
+file, the interstitial_loading
+resource we just looked at.
+
+43
+00:02:23,890 --> 00:02:28,205
+So we get this string resource
+using getResources and getString.
+
+44
+00:02:28,205 --> 00:02:31,775
+And for now the show interstitial
+callback will be empty.
+
+45
+00:02:31,775 --> 00:02:35,715
+We will add code to this callback later,
+but as you can see, this callback
+
+46
+00:02:35,715 --> 00:02:40,215
+can't even be called right now because
+this button is always disabled.

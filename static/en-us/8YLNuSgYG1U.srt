@@ -1,0 +1,173 @@
+1
+00:00:00,460 --> 00:00:02,730
+So here we are on the Jenkins console,
+
+2
+00:00:02,730 --> 00:00:05,700
+and this is a build pipeline with
+a bunch of automatic steps in it.
+
+3
+00:00:06,770 --> 00:00:09,500
+If this build, starts whether
+automatically or manually,
+
+4
+00:00:09,500 --> 00:00:12,090
+it will run each of
+these steps in order.
+
+5
+00:00:12,090 --> 00:00:14,910
+But let's say we want to add
+a manual step, for instance,
+
+6
+00:00:14,910 --> 00:00:17,810
+this might a be a point at which
+a human QA tester will need
+
+7
+00:00:17,810 --> 00:00:20,540
+to approve a particular build for
+release.
+
+8
+00:00:20,540 --> 00:00:23,030
+To do that,
+we'll need to do a few things.
+
+9
+00:00:23,030 --> 00:00:27,280
+First, we need to decide where that step
+will be inserted into this pipeline.
+
+10
+00:00:27,280 --> 00:00:28,530
+We might decide, for instance,
+
+11
+00:00:28,530 --> 00:00:33,400
+that we want it to after tasks
+are run but before their release.
+
+12
+00:00:33,400 --> 00:00:36,078
+Second, we need to
+write the step itself.
+
+13
+00:00:36,078 --> 00:00:41,900
+We'll set it up to just echo a message
+to the logs, just as a demonstration.
+
+14
+00:00:41,900 --> 00:00:45,680
+So in the new step,
+in the build trigger section, well,
+
+15
+00:00:45,680 --> 00:00:48,430
+we want this to be a manual step,
+so it isn't triggered by anything.
+
+16
+00:00:50,510 --> 00:00:54,364
+Then we go to the step that we
+want to be before the manual step.
+
+17
+00:00:58,902 --> 00:01:01,595
+And we set it to have
+a post build action,
+
+18
+00:01:01,595 --> 00:01:04,924
+which will build other
+projects manual step, and
+
+19
+00:01:04,924 --> 00:01:08,745
+we specify the downstream
+project as being our new step.
+
+20
+00:01:09,865 --> 00:01:14,617
+Now, in the pipeline view, we can see
+the new step, but we want the release
+
+21
+00:01:14,617 --> 00:01:18,628
+step to be after the manual QA step,
+so let's change that too.
+
+22
+00:01:24,351 --> 00:01:26,962
+Instead of being triggered
+by the Test step,
+
+23
+00:01:26,962 --> 00:01:29,924
+the release will now be
+triggered by the ManualQA.
+
+24
+00:01:29,924 --> 00:01:30,950
+Save that.
+
+25
+00:01:32,070 --> 00:01:33,000
+Go back to the Pipeline.
+
+26
+00:01:33,000 --> 00:01:35,660
+And now we have them in the right order.
+
+27
+00:01:35,660 --> 00:01:37,599
+And when we run it, well,
+let's see what happens.
+
+28
+00:01:39,370 --> 00:01:43,080
+So you can see, the later steps turn
+blue and the first one turns yellow,
+
+29
+00:01:43,080 --> 00:01:47,630
+then green, and
+the colors change on down the pipeline.
+
+30
+00:01:47,630 --> 00:01:51,090
+And when it gets to the manual step,
+it'll wait for
+
+31
+00:01:51,090 --> 00:01:54,620
+us to manually run it,
+and it's all green.
+
+32
+00:01:54,620 --> 00:01:56,030
+So, now it's your turn.
+
+33
+00:01:56,030 --> 00:02:00,510
+In your Jenkins instance, add a step
+to a pipeline, set the preceding step
+
+34
+00:02:00,510 --> 00:02:04,160
+to have it as a post-build manual step,
+change the following step
+
+35
+00:02:04,160 --> 00:02:07,970
+to have the manual step as a build
+trigger, and then run the pipeline.
+
+36
+00:02:07,970 --> 00:02:10,100
+What do you think all those
+different colors actually mean?

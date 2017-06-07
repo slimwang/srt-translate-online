@@ -1,0 +1,544 @@
+1
+00:00:00,250 --> 00:00:03,650
+So funny you should say that because
+we have a thing that I'm going to
+
+2
+00:00:03,650 --> 00:00:06,060
+call the fundamental theorem of PSRs,
+but
+
+3
+00:00:06,060 --> 00:00:08,840
+we can just call it the PSR theorem,
+that says specifically,
+
+4
+00:00:08,840 --> 00:00:12,830
+any end state POMDP can be represented
+by a predictive state representation.
+
+5
+00:00:12,830 --> 00:00:13,580
+>> Or PSR.
+
+6
+00:00:13,580 --> 00:00:17,612
+>> With no more than n tests, each of
+which is no longer than n steps long.
+
+7
+00:00:17,612 --> 00:00:18,602
+>> So that's good.
+
+8
+00:00:18,602 --> 00:00:22,850
+But also you just introduced something,
+the number of steps.
+
+9
+00:00:22,850 --> 00:00:25,650
+I guess I didn't think about that
+before, since both of those tests were
+
+10
+00:00:25,650 --> 00:00:27,360
+sort of ones-
+>> They were very short, right, yeah.
+
+11
+00:00:27,360 --> 00:00:29,790
+But it's not hard to come up with
+an example like that, right.
+
+12
+00:00:29,790 --> 00:00:33,940
+I'm writing it as a POMDP because I
+am a limited beast and it's hard for
+
+13
+00:00:33,940 --> 00:00:35,360
+me to think about PSRs.
+
+14
+00:00:35,360 --> 00:00:39,450
+So what might a test be that you'd need
+to represent POMDP written like this?
+
+15
+00:00:39,450 --> 00:00:42,890
+So we've got white state, white state,
+black state, black state.
+
+16
+00:00:42,890 --> 00:00:46,190
+So one step test would be
+things like if I go, well,
+
+17
+00:00:46,190 --> 00:00:50,050
+there's only that one action, and I see
+white, what's the probability of that?
+
+18
+00:00:50,050 --> 00:00:52,864
+That's not enough information
+to know where we are, right,
+
+19
+00:00:52,864 --> 00:00:55,600
+and in fact, seeing back is
+also not enough in this case.
+
+20
+00:00:55,600 --> 00:00:58,610
+We actually have to think about
+what happens in two steps from now.
+
+21
+00:00:58,610 --> 00:01:02,620
+>> Right, so yeah, yeah, so you could
+say if your test is two steps away then
+
+22
+00:01:02,620 --> 00:01:06,730
+I could, for example, figure out
+>> If I see a white and
+
+23
+00:01:06,730 --> 00:01:10,240
+then I see a black, then I know I
+must have been in the bottom state.
+
+24
+00:01:10,240 --> 00:01:13,578
+>> Right.
+>> If I see black after making one move,
+
+25
+00:01:13,578 --> 00:01:17,403
+then I had to be in one
+of the two middle states.
+
+26
+00:01:17,403 --> 00:01:17,983
+>> Right.
+
+27
+00:01:17,983 --> 00:01:21,267
+>> And I guess if I took two steps and
+I saw white twice,
+
+28
+00:01:21,267 --> 00:01:25,060
+then I know I had to be in
+the top state, for example.
+
+29
+00:01:25,060 --> 00:01:28,510
+>> So are you saying that you think
+we need another test to make this go?
+
+30
+00:01:28,510 --> 00:01:29,030
+>> Well, I don't know.
+
+31
+00:01:29,030 --> 00:01:32,710
+It just occurs to me that
+I can figure out that
+
+32
+00:01:32,710 --> 00:01:34,980
+I'm in the top state if I see
+two white ones, that's all.
+
+33
+00:01:34,980 --> 00:01:35,960
+I'm just pointing that out.
+
+34
+00:01:35,960 --> 00:01:39,556
+>> Wouldn't it be enough to just know,
+okay, if I go up, will I see white, and
+
+35
+00:01:39,556 --> 00:01:41,330
+then go up and see black?
+
+36
+00:01:41,330 --> 00:01:44,005
+If the probability of that is 0 and
+going up and eeying black,
+
+37
+00:01:44,005 --> 00:01:45,349
+the probability of that is 0.
+
+38
+00:01:45,349 --> 00:01:50,500
+>> So if going up I see black,
+the probability is 0.
+
+39
+00:01:50,500 --> 00:01:53,205
+Then I have to be in either
+the top state or the bottom state.
+
+40
+00:01:53,205 --> 00:01:57,211
+And if it's also the case if I
+will not be able to see white and
+
+41
+00:01:57,211 --> 00:02:01,420
+then black then that tells
+me what state I must be in.
+
+42
+00:02:01,420 --> 00:02:02,290
+>> Yeah, that was the thought.
+
+43
+00:02:02,290 --> 00:02:03,860
+>> Right, yeah, yeah,
+sure, sure, sure, sure.
+
+44
+00:02:03,860 --> 00:02:05,960
+>> But these longer tests
+are really important here.
+
+45
+00:02:05,960 --> 00:02:08,280
+Just having the single step doesn't
+give you enough information,
+
+46
+00:02:08,280 --> 00:02:09,580
+doesn't give you enough constraint.
+
+47
+00:02:09,580 --> 00:02:11,790
+>> With those two tests,
+can I alone figure out everything?
+
+48
+00:02:11,790 --> 00:02:12,730
+Can I completely-
+>> So
+
+49
+00:02:12,730 --> 00:02:16,610
+I think it's like the other example that
+we looked at, which is if we know that
+
+50
+00:02:16,610 --> 00:02:21,580
+we're in one of these states, top,
+second, third, fourth, then I
+
+51
+00:02:21,580 --> 00:02:24,720
+think these two tests are enough to tell
+us which of those four things are in.
+
+52
+00:02:24,720 --> 00:02:27,974
+But in general, a belief state
+might be something like well,
+
+53
+00:02:27,974 --> 00:02:33,170
+0.6 of the top one and 0.2 of the second
+one and 0.1 and point something else.
+
+54
+00:02:33,170 --> 00:02:37,270
+So in that case,
+we've got a four dimensional vector,
+
+55
+00:02:37,270 --> 00:02:39,780
+actually a three dimensional vector,
+because it has to add up to 1,
+
+56
+00:02:39,780 --> 00:02:42,580
+that we're trying to specify
+in term by way of two numbers.
+
+57
+00:02:42,580 --> 00:02:45,420
+And we get that same kind of
+indeterminacy that you worked us
+
+58
+00:02:45,420 --> 00:02:47,070
+through in the other example.
+
+59
+00:02:47,070 --> 00:02:47,980
+>> I see, okay.
+
+60
+00:02:47,980 --> 00:02:51,370
+So this kind of makes me
+want to ask a question.
+
+61
+00:02:51,370 --> 00:02:52,820
+>> Okay.
+
+62
+00:02:52,820 --> 00:02:54,060
+>> Why does this help?
+
+63
+00:02:54,060 --> 00:02:58,010
+Why should I bother going to PSR,
+other than the mathematical niceties?
+
+64
+00:02:58,010 --> 00:03:00,590
+>> There are some examples
+where it helps, and
+
+65
+00:03:00,590 --> 00:03:02,100
+part of it is a philosophical thing.
+
+66
+00:03:02,100 --> 00:03:03,630
+It's got to be better for
+
+67
+00:03:03,630 --> 00:03:06,760
+us in the long run to represent our
+world in terms of things that we can
+
+68
+00:03:06,760 --> 00:03:09,350
+actually observe instead of things
+that we can never, ever observe.
+
+69
+00:03:09,350 --> 00:03:12,410
+So that's kind of the philosophical
+point that this answers.
+
+70
+00:03:12,410 --> 00:03:16,070
+There is, as far as I'm aware,
+the literature that I'm familiar with in
+
+71
+00:03:16,070 --> 00:03:19,580
+terms of learning a POMDP,
+you can learn a PSR representation.
+
+72
+00:03:19,580 --> 00:03:22,250
+It may be easier than learning
+a POMDP representation.
+
+73
+00:03:22,250 --> 00:03:24,780
+But the thing that I find
+interesting is that there's
+
+74
+00:03:24,780 --> 00:03:28,210
+POMDPs that are easy to learn, and
+there's POMDPs that are hard to learn.
+
+75
+00:03:28,210 --> 00:03:32,040
+And the POMDPs that are easy to
+learn are easy to learn as PSRs and
+
+76
+00:03:32,040 --> 00:03:35,230
+the POMDP that are hard to learn
+are hard to learn as PSRs.
+
+77
+00:03:35,230 --> 00:03:39,430
+So there's almost sort of this
+underlying toughness of the POMDP itself
+
+78
+00:03:39,430 --> 00:03:45,349
+or the environment itself that switching
+to PSRs doesn't seem to exactly help.
+
+79
+00:03:46,470 --> 00:03:51,170
+There is a case, though, when certain
+of the attributes of the problem
+
+80
+00:03:51,170 --> 00:03:54,390
+are continuous, where in fact,
+it can be shown
+
+81
+00:03:54,390 --> 00:03:58,557
+that a PSR representation can actually
+be learned efficiently when the POMDP
+
+82
+00:03:58,557 --> 00:04:01,360
+representation's not clearly
+learned efficiently.
+
+83
+00:04:01,360 --> 00:04:04,090
+>> I mean, I suppose one nice
+thing about the test model,
+
+84
+00:04:04,090 --> 00:04:09,016
+at least in a particular
+case where there's some 1 or
+
+85
+00:04:09,016 --> 00:04:12,580
+0 probability of a test coming
+out under certain circumstances,
+
+86
+00:04:12,580 --> 00:04:15,840
+it might be easier to think about what
+you ought to do in order to figure out
+
+87
+00:04:15,840 --> 00:04:17,920
+exactly where you are.
+
+88
+00:04:17,920 --> 00:04:21,575
+Like the set of tests you might run so
+that you can completely determine
+
+89
+00:04:21,575 --> 00:04:24,215
+where it is you are in the real,
+sort of underlying world.
+
+90
+00:04:24,215 --> 00:04:26,005
+>> Just knowing that
+might be a useful thing.
+
+91
+00:04:26,005 --> 00:04:28,435
+>> Yeah.
+>> Yeah, for control and yeah,
+
+92
+00:04:28,435 --> 00:04:29,275
+discovery.
+
+93
+00:04:29,275 --> 00:04:29,785
+>> Right.
+>> Yeah,
+
+94
+00:04:29,785 --> 00:04:32,595
+I mean, I'm not familiar with
+papers that do that exactly.
+
+95
+00:04:32,595 --> 00:04:33,155
+>> Yes, you are.
+>> Do
+
+96
+00:04:33,155 --> 00:04:34,765
+you have a paper that does that exactly?
+
+97
+00:04:34,765 --> 00:04:35,445
+>> Holmes and Isabel.
+
+98
+00:04:35,445 --> 00:04:36,945
+>> I guess I wouldn't
+think of it that way.
+
+99
+00:04:36,945 --> 00:04:38,325
+>> I always thought of it that way.
+
+100
+00:04:38,325 --> 00:04:42,165
+Or at least so Tinder told me that
+I should think about it, though.
+
+101
+00:04:42,165 --> 00:04:44,910
+[LAUGH] I didn't think about it
+that way until he told me I should.
+
+102
+00:04:44,910 --> 00:04:48,330
+>> And in particular, that's
+Tinder Singh who, his group did a lot of
+
+103
+00:04:48,330 --> 00:04:52,940
+the pioneering work on PSRs and had some
+very nice analyses for how they work.
+
+104
+00:04:52,940 --> 00:04:55,690
+So yeah, okay, but I just wanted
+to give kind of a sense of this.
+
+105
+00:04:55,690 --> 00:04:58,560
+There is some more
+recent work using least
+
+106
+00:04:58,560 --> 00:05:02,650
+squares methods instead of probabilistic
+methods that actually can lean on this
+
+107
+00:05:02,650 --> 00:05:05,600
+PSR idea to learn efficiently actually.
+
+108
+00:05:05,600 --> 00:05:09,020
+If you have enough data, it can actually
+turn it into a model that predicts well,
+
+109
+00:05:09,020 --> 00:05:11,220
+and the model has elements
+in common with PSR.
+
+110
+00:05:11,220 --> 00:05:12,890
+So it has gotten some leverage.
+
+111
+00:05:12,890 --> 00:05:14,360
+I think the jury's still
+out as to whether or
+
+112
+00:05:14,360 --> 00:05:16,950
+not this is really the way we want to
+represent our environments, but
+
+113
+00:05:16,950 --> 00:05:18,660
+it's a useful tool for the toolbox.
+
+114
+00:05:18,660 --> 00:05:19,480
+>> Yeah, I can see that.

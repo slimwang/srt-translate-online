@@ -1,0 +1,270 @@
+1
+00:00:00,150 --> 00:00:03,710
+Before moving on with the discussion
+of the spin lock alternatives that
+
+2
+00:00:03,710 --> 00:00:08,270
+are presented in Anderson's paper,
+let's do a refresh on multiprocessor
+
+3
+00:00:08,270 --> 00:00:11,130
+systems and
+our cache coherence mechanisms.
+
+4
+00:00:11,130 --> 00:00:14,450
+This is necessary in order to
+understand the design trade-offs and
+
+5
+00:00:14,450 --> 00:00:17,632
+the performance trends that will
+be discussed in this paper.
+
+6
+00:00:17,632 --> 00:00:21,950
+A multiprocessor system
+consists of more than one CPU.
+
+7
+00:00:21,950 --> 00:00:25,740
+In some memory that is
+accessible to all of these CPUs.
+
+8
+00:00:25,740 --> 00:00:28,510
+The shared memory may be
+a single memory component that's
+
+9
+00:00:28,510 --> 00:00:30,920
+equidistant from all of the CPUs.
+
+10
+00:00:30,920 --> 00:00:33,460
+Or there will be multiple
+memory components.
+
+11
+00:00:33,460 --> 00:00:35,690
+Regardless of the number
+of memory components,
+
+12
+00:00:35,690 --> 00:00:38,730
+they are somehow
+interconnected to the CPUs.
+
+13
+00:00:38,730 --> 00:00:42,710
+And in this figure, I'm showing
+an interconnect based connection.
+
+14
+00:00:42,710 --> 00:00:45,148
+And this is more common
+in current systems.
+
+15
+00:00:45,148 --> 00:00:49,120
+Or a bus-based connection, which
+was really more common in the past.
+
+16
+00:00:49,120 --> 00:00:52,650
+Also note, here I'm drawing
+the bus-based connection to apply to
+
+17
+00:00:52,650 --> 00:00:55,820
+a configuration where there is
+only a single memory module.
+
+18
+00:00:55,820 --> 00:00:59,870
+However, the bus-based configuration can
+apply to both of these situations and
+
+19
+00:00:59,870 --> 00:01:00,940
+vice versa.
+
+20
+00:01:00,940 --> 00:01:04,510
+The one difference is that in
+the interconnect base configuration,
+
+21
+00:01:04,510 --> 00:01:07,880
+I can have multiple memory
+references in flight.
+
+22
+00:01:07,880 --> 00:01:11,600
+Where one memory reference is
+applied to this memory module and
+
+23
+00:01:11,600 --> 00:01:13,830
+another one to the other memory module.
+
+24
+00:01:13,830 --> 00:01:17,390
+Whereas if I have a bus-based
+configuration in this case,
+
+25
+00:01:17,390 --> 00:01:21,530
+the shared bus, only one memory
+reference at a time can be in flight.
+
+26
+00:01:21,530 --> 00:01:25,847
+Regardless of whether these references
+are addressing a single memory module or
+
+27
+00:01:25,847 --> 00:01:28,880
+are spread out across
+multiple memory modules.
+
+28
+00:01:28,880 --> 00:01:31,870
+So the bus is basically shared
+across all the modules.
+
+29
+00:01:31,870 --> 00:01:36,150
+Because of this property that
+the memory's accessible to all CPUs,
+
+30
+00:01:36,150 --> 00:01:39,720
+these systems are called
+shared memory multiprocessors.
+
+31
+00:01:39,720 --> 00:01:43,630
+Other terms used to refer to shared
+memory multiprocessors are also
+
+32
+00:01:43,630 --> 00:01:47,690
+symmetric multiprocessors,
+or for short, SMPs.
+
+33
+00:01:47,690 --> 00:01:52,070
+In addition, each of the CPUs in these
+kinds of systems can have caches.
+
+34
+00:01:52,070 --> 00:01:54,510
+Access to the cached data is faster so
+
+35
+00:01:54,510 --> 00:01:57,760
+caches are useful to
+hide the memory latency.
+
+36
+00:01:57,760 --> 00:02:02,430
+The memory latency is even more of
+an issue in shared memory systems
+
+37
+00:02:02,430 --> 00:02:05,580
+because there is contention
+on the memory module.
+
+38
+00:02:05,580 --> 00:02:09,870
+Because of this contention, certain
+memory references have to be delayed.
+
+39
+00:02:09,870 --> 00:02:14,090
+And that adds to the memory
+latency even more so than before.
+
+40
+00:02:14,090 --> 00:02:18,510
+So it is as if the memory is
+further away from the CPUs
+
+41
+00:02:18,510 --> 00:02:20,590
+because of this contention effect.
+
+42
+00:02:20,590 --> 00:02:24,700
+So when data is present in the cache,
+the CPUs will read data from the cache
+
+43
+00:02:24,700 --> 00:02:28,070
+instead of memory, and
+that will have an impact on performance.
+
+44
+00:02:28,070 --> 00:02:31,570
+Now when CPUs perform a write,
+several things can happen.
+
+45
+00:02:31,570 --> 00:02:34,810
+First, you may not even allow
+a write to happen to the cache.
+
+46
+00:02:34,810 --> 00:02:37,240
+A write will directly go to memory and
+
+47
+00:02:37,240 --> 00:02:41,730
+any cached copy of that particular
+memory location will be invalidated.
+
+48
+00:02:41,730 --> 00:02:45,240
+Second, the CPU write may be
+applied both to the cached
+
+49
+00:02:45,240 --> 00:02:48,410
+location as well as directly in memory.
+
+50
+00:02:48,410 --> 00:02:50,001
+So this technique is
+called write-through.
+
+51
+00:02:50,001 --> 00:02:53,200
+We write both in the cache,
+as well as in memory.
+
+52
+00:02:53,200 --> 00:02:57,410
+And finally, on some architectures
+the write can be applied in cache.
+
+53
+00:02:57,410 --> 00:03:01,510
+But the actual update to the appropriate
+memory location can be delayed and
+
+54
+00:03:01,510 --> 00:03:02,940
+applied later.
+
+55
+00:03:02,940 --> 00:03:06,380
+For instance, when that
+particular cache line is evicted.
+
+56
+00:03:06,380 --> 00:03:10,701
+We call this the write-back.

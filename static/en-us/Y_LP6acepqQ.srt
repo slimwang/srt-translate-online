@@ -1,0 +1,159 @@
+1
+00:00:00,000 --> 00:00:02,000
+So we can represent a state,
+
+2
+00:00:02,000 --> 00:00:05,000
+not by an exhaustive listing of everything that's true in the state--
+
+3
+00:00:05,000 --> 00:00:07,000
+every single dot, and so on.
+
+4
+00:00:07,000 --> 00:00:11,000
+But rather, by a collection of important features.
+
+5
+00:00:11,000 --> 00:00:15,000
+So we can say that a state is this collection
+
+6
+00:00:15,000 --> 00:00:18,000
+of Feature 1, Feature 2, and so on.
+
+7
+00:00:18,000 --> 00:00:20,000
+And what are the features?
+
+8
+00:00:20,000 --> 00:00:22,000
+Well, they don't have to be the exact position
+
+9
+00:00:22,000 --> 00:00:25,000
+of every piece in the board.
+
+10
+00:00:25,000 --> 00:00:28,000
+They could be things like the distance to the nearest Ghost
+
+11
+00:00:28,000 --> 00:00:31,000
+or maybe the square of the distance--or the inverse square;
+
+12
+00:00:31,000 --> 00:00:34,000
+or the distance to a dot or food--
+
+13
+00:00:34,000 --> 00:00:36,000
+or the number of Ghosts remaining.
+
+14
+00:00:36,000 --> 00:00:39,000
+And then we can represent the utility of a state,
+
+15
+00:00:39,000 --> 00:00:43,000
+or let's go with a Q value, of a state action pair
+
+16
+00:00:43,000 --> 00:00:51,000
+and represent that as the sum over some set of waits times the value of each feature.
+
+17
+00:00:51,000 --> 00:00:55,000
+And then our task, then, is to learn good values of these waits--
+
+18
+00:00:55,000 --> 00:01:00,000
+how important is each feature, whether they're positive or negative, and so on.
+
+19
+00:01:00,000 --> 00:01:05,000
+This formulation will be good to the extent that similar states have the same value.
+
+20
+00:01:05,000 --> 00:01:08,000
+So if these 2 states have the same value, that would be good
+
+21
+00:01:08,000 --> 00:01:12,000
+because we could learn that, in both cases, Pacman is trapped.
+
+22
+00:01:12,000 --> 00:01:18,000
+It would be bad, to the extent that dissimilar states have the same value--
+
+23
+00:01:18,000 --> 00:01:20,000
+say, if we're ignoring something important.
+
+24
+00:01:20,000 --> 00:01:25,000
+So, for example, if one of the features was:
+
+25
+00:01:25,000 --> 00:01:27,000
+Is Pacman in a tunnel?
+
+26
+00:01:27,000 --> 00:01:31,000
+It would probably be important to know: is that tunnel a dead end or not?
+
+27
+00:01:31,000 --> 00:01:35,000
+And if we represented all tunnels the same, we'd probably be making a mistake.
+
+28
+00:01:35,000 --> 00:01:42,000
+Now, the great thing is that we can make a small modification to our Q learning algorithm
+
+29
+00:01:42,000 --> 00:01:48,000
+where, when we were updating, the Q of S, A got updated
+
+30
+00:01:48,000 --> 00:01:53,000
+in terms of a small change to the existing Q of S, A values.
+
+31
+00:01:53,000 --> 00:01:59,000
+We can do the same thing with the wait's sub-i values.
+
+32
+00:01:59,000 --> 00:02:02,000
+We can update them as we make each change to the Q values.
+
+33
+00:02:02,000 --> 00:02:05,000
+And they're both driven by the amount of error.
+
+34
+00:02:05,000 --> 00:02:09,000
+If the Q values are off by a lot, we have to make a big change;
+
+35
+00:02:09,000 --> 00:02:11,000
+if they're not, we make a small change--
+
+36
+00:02:11,000 --> 00:02:13,000
+the same thing with the Wi values.
+
+37
+00:02:13,000 --> 00:02:17,000
+And that looks just like what we did when we
+
+38
+00:02:17,000 --> 00:02:20,000
+used supervised machine learning to update our waits.
+
+39
+00:02:20,000 --> 00:02:24,000
+So we can apply that same process, even though it's not supervised.
+
+40
+00:02:24,000 --> 99:59:59,999
+It's as if we're bringing our own supervision to reinforcement learning.

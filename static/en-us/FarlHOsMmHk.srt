@@ -1,0 +1,620 @@
+1
+00:00:00,620 --> 00:00:05,020
+In the comparison table we showed you,
+we said that ArrayList is a class and
+
+2
+00:00:05,020 --> 00:00:08,600
+you need to call methods to access and
+modify elements of the list.
+
+3
+00:00:08,600 --> 00:00:11,490
+So now let's discuss the ArrayList
+class in more detail and
+
+4
+00:00:11,490 --> 00:00:12,810
+how you interact with it in code.
+
+5
+00:00:13,940 --> 00:00:17,660
+So we start by opening up the
+documentation page for the ArrayList,
+
+6
+00:00:17,660 --> 00:00:23,090
+and at the top it says public class
+ArrayList extends AbstractList.
+
+7
+00:00:23,090 --> 00:00:26,360
+This extends keywords means that we
+inherit a bunch of behavior from
+
+8
+00:00:26,360 --> 00:00:28,760
+the AbstractList class for free.
+
+9
+00:00:28,760 --> 00:00:31,620
+So let's click open
+the AbstractList class.
+
+10
+00:00:31,620 --> 00:00:36,030
+This page says that the AbstractList
+class is an abstract class.
+
+11
+00:00:36,030 --> 00:00:39,620
+And remember that an abstract class is
+partially implemented, meaning that it
+
+12
+00:00:39,620 --> 00:00:43,380
+has some methods implemented and
+some methods that are left blank.
+
+13
+00:00:43,380 --> 00:00:46,810
+Looking at the class definition further
+we see that it extends another class.
+
+14
+00:00:46,810 --> 00:00:49,480
+Here it says,
+extends AbstractCollection.
+
+15
+00:00:49,480 --> 00:00:51,380
+But we won't go into those details now.
+
+16
+00:00:51,380 --> 00:00:54,140
+What I do want to point out is
+that AbstractList implements
+
+17
+00:00:54,140 --> 00:00:55,112
+the list interface.
+
+18
+00:00:55,112 --> 00:00:59,010
+I'm going to click that link
+to open up the list interface.
+
+19
+00:00:59,010 --> 00:01:02,840
+So through these long chain of
+inheritances I want you to know
+
+20
+00:01:02,840 --> 00:01:07,870
+that the initial ArrayList actually
+implements the list interface.
+
+21
+00:01:07,870 --> 00:01:13,200
+The list interface was defined in Java
+as some general behavior about lists.
+
+22
+00:01:13,200 --> 00:01:16,710
+Reading through the description, it says
+that a List is a collection of elements
+
+23
+00:01:16,710 --> 00:01:18,094
+that maintains an ordering amongst them.
+
+24
+00:01:19,160 --> 00:01:20,750
+Each element has an index, so
+
+25
+00:01:20,750 --> 00:01:22,750
+you can access the element
+based on the index position.
+
+26
+00:01:24,090 --> 00:01:27,790
+In the last class, we talked about
+interfaces, and how they can be used to
+
+27
+00:01:27,790 --> 00:01:34,140
+find a contract with expected methods,
+inputs, return values and method names.
+
+28
+00:01:34,140 --> 00:01:38,436
+But the interface doesn't specify how
+each method should be implemented.
+
+29
+00:01:38,436 --> 00:01:40,760
+So the List interface
+has abstract methods,
+
+30
+00:01:40,760 --> 00:01:46,520
+like the add method, the get method for
+accessing elements at specific indexes.
+
+31
+00:01:46,520 --> 00:01:50,530
+It also has the remove method and
+many others that you see here.
+
+32
+00:01:51,710 --> 00:01:54,655
+Well since the realist class implements
+Implements this list interface
+
+33
+00:01:54,655 --> 00:01:57,825
+it has to provide an implementation for
+each of these methods.
+
+34
+00:01:57,825 --> 00:01:59,375
+And as you'll see shortly,
+
+35
+00:01:59,375 --> 00:02:03,425
+you can call all these methods
+on an ArrayList object.
+
+36
+00:02:03,425 --> 00:02:06,285
+Now the reason it's useful for
+a list to be an interface
+
+37
+00:02:06,285 --> 00:02:09,133
+is because there are many
+other types of lists in Java.
+
+38
+00:02:09,133 --> 00:02:11,415
+Now we won't cover all of
+them in this course, but
+
+39
+00:02:11,415 --> 00:02:18,080
+to name a few there's linked lists,
+stacks, vectors and others.
+
+40
+00:02:18,080 --> 00:02:19,680
+So hence there is a purpose for
+
+41
+00:02:19,680 --> 00:02:23,030
+having a predefined contract
+in the list interface.
+
+42
+00:02:23,030 --> 00:02:26,210
+So to map out what we just talked about,
+here's an updated version of that
+
+43
+00:02:26,210 --> 00:02:32,190
+diagram with the ArrayList class,
+abstract class and List interface.
+
+44
+00:02:32,190 --> 00:02:34,330
+So List here is an interface and
+
+45
+00:02:34,330 --> 00:02:37,765
+there's no implementation
+of any of it's methods.
+
+46
+00:02:37,765 --> 00:02:43,490
+AbstractList is an abstract class and it
+has some methods partially implemented.
+
+47
+00:02:43,490 --> 00:02:46,840
+ArrayList is a concrete class and
+
+48
+00:02:46,840 --> 00:02:51,110
+it has state and implementation for
+all of its methods.
+
+49
+00:02:51,110 --> 00:02:55,120
+So we can create an object instance of
+the ArrayList and use it in our app.
+
+50
+00:02:55,120 --> 00:02:58,070
+However we can't create instances
+of the abstract class or
+
+51
+00:02:58,070 --> 00:03:01,060
+the interface because those
+are proper complete classes.
+
+52
+00:03:02,170 --> 00:03:05,390
+When using anything that implements
+the list interface such as
+
+53
+00:03:05,390 --> 00:03:09,040
+the ArrayList class you'll notice
+something about the method signatures.
+
+54
+00:03:09,040 --> 00:03:11,640
+So let's scroll down and
+take a look at one.
+
+55
+00:03:11,640 --> 00:03:15,203
+For example in the add method, you'll
+see a call for something called E,
+
+56
+00:03:15,203 --> 00:03:20,155
+for the ArrayList add method it says
+the input should be an object of type E.
+
+57
+00:03:20,155 --> 00:03:23,105
+And if you take a look at
+the get method we see that
+
+58
+00:03:23,105 --> 00:03:27,215
+it accesses an element of the list
+at a given index position, and
+
+59
+00:03:27,215 --> 00:03:30,515
+it returns the value
+of an object type E.
+
+60
+00:03:30,515 --> 00:03:32,825
+So, what is this E that is referring to?
+
+61
+00:03:32,825 --> 00:03:36,465
+Well, this brings us to a topic of
+generics and generic types in Java.
+
+62
+00:03:37,620 --> 00:03:39,590
+The E is just a placeholder.
+
+63
+00:03:39,590 --> 00:03:42,680
+Officially E is called a type parameter.
+
+64
+00:03:42,680 --> 00:03:46,100
+Which means that when we actually create
+an instance of the ArrayList, and
+
+65
+00:03:46,100 --> 00:03:50,540
+call these methods say add or
+get on that object.
+
+66
+00:03:50,540 --> 00:03:53,890
+We can replace the E with
+a particular data type.
+
+67
+00:03:53,890 --> 00:03:56,030
+So this would give
+developers more information,
+
+68
+00:03:56,030 --> 00:03:59,060
+than if we just used a question
+mark in place of the E.
+
+69
+00:03:59,060 --> 00:04:02,210
+So in this case,
+E is short for element, and
+
+70
+00:04:02,210 --> 00:04:04,030
+where does the word element come from?
+
+71
+00:04:04,030 --> 00:04:06,980
+Well individual parts of
+the collection are called elements.
+
+72
+00:04:06,980 --> 00:04:09,566
+Since these methods such as get and
+
+73
+00:04:09,566 --> 00:04:12,320
+add deal with elements
+in a collection of data.
+
+74
+00:04:12,320 --> 00:04:13,988
+This is an appropriate substitution.
+
+75
+00:04:13,988 --> 00:04:18,070
+This E can be replaced by any
+non-primitive data type that you'd like.
+
+76
+00:04:18,070 --> 00:04:23,436
+So instead of creating an ArrayList you
+can create an ArrayList angle bracket,
+
+77
+00:04:23,436 --> 00:04:25,769
+E angle bracket of a certain type.
+
+78
+00:04:25,769 --> 00:04:29,450
+For example, you couldn't
+create an ArrayList, of string.
+
+79
+00:04:29,450 --> 00:04:32,550
+Which means that everywhere you
+see the E in the documentation.
+
+80
+00:04:32,550 --> 00:04:36,070
+In your case it will be replaced
+with the String object data type.
+
+81
+00:04:36,070 --> 00:04:39,060
+So if you call the add
+method on a string ArrayList
+
+82
+00:04:39,060 --> 00:04:41,165
+it expects a string as an input.
+
+83
+00:04:41,165 --> 00:04:43,985
+If you call the get method
+on a string ArrayList it
+
+84
+00:04:43,985 --> 00:04:45,995
+will return a string data type.
+
+85
+00:04:45,995 --> 00:04:49,635
+So as a result the ArrayList
+class is a generic class,
+
+86
+00:04:49,635 --> 00:04:53,445
+where the places that have a E specified
+can be swapped out for a specific
+
+87
+00:04:53,445 --> 00:04:57,830
+object data type, when you actually
+create an instance of the ArrayList.
+
+88
+00:04:57,830 --> 00:05:01,210
+There are other common type
+parameter such as T, N and V.
+
+89
+00:05:01,210 --> 00:05:03,210
+And to see more check
+out the text below.
+
+90
+00:05:03,210 --> 00:05:06,970
+All right, so I know we've covered
+a lot of theory about how and
+
+91
+00:05:06,970 --> 00:05:08,770
+why the ArrayList came to be.
+
+92
+00:05:08,770 --> 00:05:10,900
+So now comes the relevant
+practical information.
+
+93
+00:05:11,930 --> 00:05:14,830
+We've put together a condensed
+list of commonly used
+
+94
+00:05:14,830 --> 00:05:17,050
+ArrayList method calls you can use, and
+
+95
+00:05:17,050 --> 00:05:21,160
+we're showing an example where we
+use string as a parameterized type.
+
+96
+00:05:21,160 --> 00:05:23,380
+So everywhere you see
+a string in this example,
+
+97
+00:05:23,380 --> 00:05:26,680
+you could potentially replace
+with a different object type.
+
+98
+00:05:26,680 --> 00:05:29,640
+Notice the one difference compared to
+creating an array is that when you
+
+99
+00:05:29,640 --> 00:05:33,350
+create a new ArrayList you don't need
+to specify the link to the list.
+
+100
+00:05:33,350 --> 00:05:36,830
+To add and remove elements of
+the ArrayList, we use the add and
+
+101
+00:05:36,830 --> 00:05:38,380
+remove methods respectively.
+
+102
+00:05:39,440 --> 00:05:43,180
+Now notice the difference of how to
+retrieve information from an ArrayList.
+
+103
+00:05:43,180 --> 00:05:46,770
+The ArrayList doesn't use the bracket
+notation that we used in arrays,
+
+104
+00:05:46,770 --> 00:05:51,040
+instead it uses the get method and
+the index that we're interested in.
+
+105
+00:05:51,040 --> 00:05:54,109
+Remember for arrays we used array.length
+to retrieve information about
+
+106
+00:05:54,109 --> 00:05:56,000
+the array's length attribute.
+
+107
+00:05:56,000 --> 00:05:59,510
+However, for ArrayList objects
+we need to use the size method.
+
+108
+00:05:59,510 --> 00:06:03,940
+Note that there's no input parameters,
+so it just uses empty parentheses, and
+
+109
+00:06:03,940 --> 00:06:07,040
+the return value of this will be
+the number of elements in the list.
+
+110
+00:06:07,040 --> 00:06:11,290
+Now in the next exercise, I want you to
+read through each line of comment and
+
+111
+00:06:11,290 --> 00:06:14,460
+write the code that would be used
+to either create the ArrayList or
+
+112
+00:06:14,460 --> 00:06:16,500
+modify the ArrayList
+according to the comment.
+
+113
+00:06:17,630 --> 00:06:20,610
+So here's an exercise to help you
+understand how to better work with
+
+114
+00:06:20,610 --> 00:06:21,790
+an ArrayList.
+
+115
+00:06:21,790 --> 00:06:24,600
+Assume that these lines of code
+live within a Restaurant App where
+
+116
+00:06:24,600 --> 00:06:27,620
+each user can maintain a list
+of restaurants they want to try.
+
+117
+00:06:27,620 --> 00:06:30,070
+So write out the correct code
+statements underneath each comment.
+
+118
+00:06:31,260 --> 00:06:33,952
+The first comment asked to create
+a new ArrayList object called
+
+119
+00:06:33,952 --> 00:06:34,880
+restaurantsToTry.
+
+120
+00:06:34,880 --> 00:06:38,220
+And it will contain a list of Strings.
+
+121
+00:06:38,220 --> 00:06:41,280
+The next comment is to add
+a restaurant called Morning Cafe
+
+122
+00:06:41,280 --> 00:06:42,740
+to the ArrayList that you created above.
+
+123
+00:06:43,960 --> 00:06:46,660
+The third comment is to add
+another restaurant called
+
+124
+00:06:46,660 --> 00:06:48,850
+Barbecue Time to the ArrayList.
+
+125
+00:06:48,850 --> 00:06:52,400
+Fourth comment, is that the user has
+just tried the Morning Cafe restaurant,
+
+126
+00:06:52,400 --> 00:06:55,570
+but we'd like you to remove that
+restaurant from the ArrayList.
+
+127
+00:06:55,570 --> 00:06:59,000
+And the fifth comment says,
+get the length of the ArrayList, and
+
+128
+00:06:59,000 --> 00:07:02,670
+then store as an integer variable
+called numbersOfRestaurants.
+
+129
+00:07:02,670 --> 00:07:04,010
+All right, now go ahead and
+give these a try.
+
+130
+00:07:04,010 --> 00:07:05,520
+And I'll see you back in the classroom.

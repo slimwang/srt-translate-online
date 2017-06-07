@@ -1,0 +1,321 @@
+1
+00:00:00,090 --> 00:00:02,890
+So what I'd like to do is kind of talk
+you through the process by which we
+
+2
+00:00:02,890 --> 00:00:07,500
+could show that these different metrics,
+at least these three metrics that I was
+
+3
+00:00:07,500 --> 00:00:10,260
+claiming are equivalent,
+can be reduced to each other.
+
+4
+00:00:10,260 --> 00:00:13,550
+That if we have a solution to one,
+we can use it to solve the others.
+
+5
+00:00:13,550 --> 00:00:18,120
+So the first step of this that I
+want to show is that, if we have
+
+6
+00:00:18,120 --> 00:00:22,920
+an algorithm that can find the best arm,
+or lets say the epsilon best arm,
+
+7
+00:00:22,920 --> 00:00:26,050
+with high probability in some
+bounded number of pulls,
+
+8
+00:00:26,050 --> 00:00:29,970
+then we can use that to build an
+algorithm, that will have low mistakes.
+
+9
+00:00:29,970 --> 00:00:33,510
+And by low mistakes, I mean the number
+of trials at which it pulls
+
+10
+00:00:33,510 --> 00:00:38,720
+a non epsilon prime close arm is small,
+is bounded.
+
+11
+00:00:38,720 --> 00:00:41,040
+>> Okay, so by low mistakes,
+you mean few mistakes?
+
+12
+00:00:41,040 --> 00:00:42,690
+>> Low mistakes, I mean few mistakes.
+
+13
+00:00:42,690 --> 00:00:43,790
+I can change it to few mistakes.
+
+14
+00:00:43,790 --> 00:00:44,880
+>> Yeah, that's your choice.
+
+15
+00:00:44,880 --> 00:00:47,180
+>> That's just one of my many mistakes.
+
+16
+00:00:47,180 --> 00:00:50,890
+So we want to construct an algorithm
+that if we give it epsilon prime and
+
+17
+00:00:50,890 --> 00:00:56,060
+delta prime, that it can choose a tau
+prime K epsilon prime delta prime,
+
+18
+00:00:56,060 --> 00:01:04,379
+that is going to choose an epsilon
+prime close arm on all pulls except for
+
+19
+00:01:04,379 --> 00:01:07,750
+this bounded number, this tau prime
+number, with high probability.
+
+20
+00:01:07,750 --> 00:01:10,730
+And all we've got to work with
+is this first algorithm that
+
+21
+00:01:13,300 --> 00:01:17,380
+finds the epsilon best arm in
+tau K epsilon delta pulls.
+
+22
+00:01:17,380 --> 00:01:20,170
+So what we have to do is to find,
+if we had that algorithm,
+
+23
+00:01:20,170 --> 00:01:23,800
+what epsilon do we give it, what delta
+do we give it, and how do we use it so
+
+24
+00:01:23,800 --> 00:01:25,230
+we have this guarantee?
+
+25
+00:01:25,230 --> 00:01:28,620
+>> Wait, why can't you just use the
+original algorithm to find the epsilon
+
+26
+00:01:28,620 --> 00:01:31,220
+best one, and
+now you can do an epsilon close arm?
+
+27
+00:01:31,220 --> 00:01:35,560
+>> Okay, so we are going to
+set epsilon to epsilon prime.
+
+28
+00:01:35,560 --> 00:01:37,160
+Delta to delta prime.
+
+29
+00:01:37,160 --> 00:01:42,170
+Then we're going to run algorithm A and
+what do we do?
+
+30
+00:01:42,170 --> 00:01:47,890
+So, after tau K, epsilon, delta,
+
+31
+00:01:47,890 --> 00:01:53,010
+pulls, we know an epsilon or
+epsilon prime nearly optimal arm.
+
+32
+00:01:53,010 --> 00:01:54,700
+And we just pull it then forever, right?
+
+33
+00:01:54,700 --> 00:01:57,110
+>> Yeah.
+>> And how many mistakes do we make?
+
+34
+00:01:57,110 --> 00:01:58,130
+>> From which point?
+
+35
+00:01:58,130 --> 00:02:00,290
+Once we've chosen the epsilon prime arm.
+
+36
+00:02:00,290 --> 00:02:01,810
+>> Well, no.
+In the whole run, right?
+
+37
+00:02:01,810 --> 00:02:03,800
+because the idea is that
+we have the bound the total
+
+38
+00:02:03,800 --> 00:02:05,130
+number of mistakes that are made.
+
+39
+00:02:05,130 --> 00:02:09,240
+So the total number of mistakes,
+this tau prime is equal to what?
+
+40
+00:02:09,240 --> 00:02:12,400
+>> Well whatever number of
+mistakes algorithm A would have
+
+41
+00:02:12,400 --> 00:02:13,280
+made in finding it.
+
+42
+00:02:13,280 --> 00:02:16,550
+>> We have a bound for the number of
+steps before we have identified, or
+
+43
+00:02:16,550 --> 00:02:19,370
+before this algorithm is
+going to find a near optimal arm.
+
+44
+00:02:19,370 --> 00:02:21,050
+>> Oh, I guess it's in fact tao.
+
+45
+00:02:21,050 --> 00:02:21,630
+>> Yeah.
+So
+
+46
+00:02:21,630 --> 00:02:24,220
+we just run the original algorithm
+until it finds a best arm and
+
+47
+00:02:24,220 --> 00:02:25,330
+we pull it there after.
+
+48
+00:02:25,330 --> 00:02:28,820
+The maximum number of mistakes it will
+make is exactly the number of steps that
+
+49
+00:02:28,820 --> 00:02:30,420
+it took to identify that arm.
+
+50
+00:02:30,420 --> 00:02:33,600
+It may be that on some of those trials
+it actually was taking the best arm, but
+
+51
+00:02:33,600 --> 00:02:34,830
+this is just a nice upper bound.
+
+52
+00:02:34,830 --> 00:02:37,150
+>> You don't have to worry about
+the mistakes that I'm going to make at
+
+53
+00:02:37,150 --> 00:02:37,707
+that point on?
+
+54
+00:02:37,707 --> 00:02:42,016
+>> No, because we're not going to make
+any more because with high probability,
+
+55
+00:02:42,016 --> 00:02:43,780
+we found an epsilon close arm.
+
+56
+00:02:43,780 --> 00:02:46,360
+So with high probability,
+we'll never make another mistake.
+
+57
+00:02:46,360 --> 00:02:48,700
+Now there's some probability
+that it fails, but
+
+58
+00:02:48,700 --> 00:02:52,080
+that probability will match across
+these two problems, so it's okay.
+
+59
+00:02:52,080 --> 00:02:52,610
+>> Right.
+
+60
+00:02:52,610 --> 00:02:58,220
+So the mistake is having pulled the
+wrong, a non-epsilon prime close arm.
+
+61
+00:02:58,220 --> 00:03:00,240
+>> Yes.
+>> Not some other notion of the state.
+
+62
+00:03:00,240 --> 00:03:01,380
+>> Exactly so, right.
+
+63
+00:03:01,380 --> 00:03:05,950
+So we'll say that a mistake means we
+pulled an arm that wasn't very close
+
+64
+00:03:05,950 --> 00:03:06,580
+to optimal.
+
+65
+00:03:06,580 --> 00:03:07,800
+>> Right.
+>> And so we just whittled down
+
+66
+00:03:07,800 --> 00:03:09,540
+the total number of
+mistakes that we make.
+
+67
+00:03:09,540 --> 00:03:10,130
+>> Okay.
+Well yes,
+
+68
+00:03:10,130 --> 00:03:11,020
+that was pretty straight forward.
+
+69
+00:03:11,020 --> 00:03:11,740
+>> Good, that was an easy one.

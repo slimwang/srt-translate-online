@@ -1,0 +1,315 @@
+﻿1
+00:00:00,320 --> 00:00:02,659
+To understand why
+the code is not updating,
+
+2
+00:00:02,660 --> 00:00:04,960
+we can refer back to
+our life cycle diagram.
+
+3
+00:00:06,379 --> 00:00:07,900
+In the Android life cycle,
+
+4
+00:00:07,900 --> 00:00:11,949
+when you navigate away from an activity,
+onPause and onStop are called.
+
+5
+00:00:13,480 --> 00:00:16,920
+When you come back, onStart and
+onResume are called.
+
+6
+00:00:16,920 --> 00:00:20,590
+OnCreate is never called unless
+you rotate the activity or
+
+7
+00:00:20,589 --> 00:00:23,460
+reopen the activity after being closed.
+
+8
+00:00:23,460 --> 00:00:26,039
+So one option for
+loading up our preferences
+
+9
+00:00:26,039 --> 00:00:30,869
+would be to read from shared preferences
+in the OnResume or OnStart call back.
+
+10
+00:00:30,870 --> 00:00:32,469
+But there's a better way.
+
+11
+00:00:32,469 --> 00:00:35,609
+The shared preferences object allows
+you to register an object that
+
+12
+00:00:35,609 --> 00:00:38,869
+implements an OnShared
+preference change listener.
+
+13
+00:00:38,869 --> 00:00:42,669
+This object that gets called whenever
+a value in the shared preferences file
+
+14
+00:00:42,670 --> 00:00:43,630
+changes.
+
+15
+00:00:43,630 --> 00:00:47,510
+In this way, you can actually be
+triggered to update the UI if and
+
+16
+00:00:47,509 --> 00:00:50,199
+only if a preference
+is actually changed.
+
+17
+00:00:50,200 --> 00:00:52,440
+Setting this up will take four steps.
+
+18
+00:00:52,439 --> 00:00:55,320
+First, we determine the activity
+that needs to get called
+
+19
+00:00:55,320 --> 00:00:56,939
+when the preferences changed.
+
+20
+00:00:56,939 --> 00:00:59,769
+In this case,
+that's going to be Visualizer Activity.
+
+21
+00:00:59,770 --> 00:01:03,570
+This is because Visualizer Activity
+is the one whose UI needs to change.
+
+22
+00:01:03,570 --> 00:01:06,704
+Second we're going to need
+Visualizer Activity to implement
+
+23
+00:01:06,704 --> 00:01:09,069
+an on shared preference change listener.
+
+24
+00:01:09,069 --> 00:01:11,639
+This will then require
+that Visualizer Activity
+
+25
+00:01:11,640 --> 00:01:14,849
+implement a method called
+OnShared preference change.
+
+26
+00:01:14,849 --> 00:01:17,539
+Which will be triggered whenever
+a preference is changed.
+
+27
+00:01:17,540 --> 00:01:21,010
+Third, you need to link
+the onSharedPreferenceChangeListener
+
+28
+00:01:21,010 --> 00:01:24,100
+with the sharedPreferenceObject
+it should be listening to.
+
+29
+00:01:24,099 --> 00:01:27,312
+You can do this using
+registerOnSharedPreferenceChangeListe-
+
+30
+00:01:27,313 --> 00:01:27,519
+ner.
+
+31
+00:01:27,519 --> 00:01:28,780
+And then fourth,
+
+32
+00:01:28,780 --> 00:01:32,450
+you also need to unregister the listener
+when the activity is shut down.
+
+33
+00:01:32,450 --> 00:01:35,996
+You can do this, using the
+.unregisterOnSharedPreferenceListener.
+
+34
+00:01:35,995 --> 00:01:37,568
+[SOUND] That was a mouthful.
+
+35
+00:01:37,569 --> 00:01:39,109
+Okay, let's do this.
+
+36
+00:01:39,109 --> 00:01:42,060
+I'll start in Visualizer Activity
+by implementing
+
+37
+00:01:42,060 --> 00:01:44,969
+the OnSharedPreferenceChangeListener.
+
+38
+00:01:44,969 --> 00:01:49,689
+This is red now because I actually have
+to override onSharedPreferenceChange.
+
+39
+00:01:49,689 --> 00:01:51,200
+So I will go ahead and do that.
+
+40
+00:01:52,329 --> 00:01:55,219
+Here, I'm going to check
+what preference changed and
+
+41
+00:01:55,219 --> 00:01:58,250
+then I'm going to update my
+VizualizerView accordingly.
+
+42
+00:01:58,250 --> 00:02:01,680
+This is a lot like what I'm doing
+in the current onCreate method.
+
+43
+00:02:01,680 --> 00:02:06,190
+Note, that up here, I'm passed both
+a reference to sharePreferences and
+
+44
+00:02:06,189 --> 00:02:08,780
+the key of the preference
+that was changed.
+
+45
+00:02:08,780 --> 00:02:11,569
+So I don't actually need to
+use the preference manager to
+
+46
+00:02:11,569 --> 00:02:14,579
+get a reference to shared preferences
+because I already have one.
+
+47
+00:02:14,580 --> 00:02:16,950
+This also makes taking
+shared preferences and
+
+48
+00:02:16,949 --> 00:02:19,119
+getting the Boolean from it pretty easy.
+
+49
+00:02:19,120 --> 00:02:23,099
+Now that I've made Visualizer Activity
+implement onSharedPreferenceChange,
+
+50
+00:02:23,099 --> 00:02:24,889
+I'm going to register the listener.
+
+51
+00:02:24,889 --> 00:02:28,119
+I'll want to do this in onCreate,
+when the activity's created.
+
+52
+00:02:28,120 --> 00:02:31,620
+So I'm going to do it in
+the setupSharedPreferences method.
+
+53
+00:02:31,620 --> 00:02:33,450
+I'm going to take
+the SharedPreferences object.
+
+54
+00:02:34,460 --> 00:02:37,841
+And call
+registerOnSharedPreferenceChangeListe-
+
+55
+00:02:37,841 --> 00:02:38,768
+ner.
+
+56
+00:02:38,768 --> 00:02:43,430
+Passing in this,
+remember Visualizer Activity implements
+
+57
+00:02:43,430 --> 00:02:46,000
+shared preference on shared
+preference change listener.
+
+58
+00:02:46,000 --> 00:02:49,210
+Which is why, I can pass in this.
+
+59
+00:02:49,210 --> 00:02:52,890
+Now that I've registered the listener,
+I also have to unregister the listener.
+
+60
+00:02:52,889 --> 00:02:56,899
+And I'll do that in OnCreates
+corresponding on destroy method.
+
+61
+00:02:56,900 --> 00:02:59,330
+So I'm going to override on destroy.
+
+62
+00:02:59,330 --> 00:03:01,930
+And in that method, I'm going to
+just get my PreferenceManager,
+
+63
+00:03:01,930 --> 00:03:05,170
+and I'm going to get
+the DefaultSharedPreferences.
+
+64
+00:03:05,169 --> 00:03:08,169
+And I'm going to unregister
+the OnSharedPreferenceChangeListener.
+
+65
+00:03:08,169 --> 00:03:09,647
+Great, let's run the app and
+see what happens.
+
+66
+00:03:09,647 --> 00:03:15,046
+[BLANK_AUDIO]
+
+67
+00:03:15,046 --> 00:03:16,199
+And it updated.
+

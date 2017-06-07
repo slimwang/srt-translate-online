@@ -1,0 +1,367 @@
+1
+00:00:00,550 --> 00:00:06,160
+So here I'm showing you a set of accesses, memory accesses down on processor P1
+
+2
+00:00:07,210 --> 00:00:09,350
+read access, and write access and so on,
+
+3
+00:00:09,350 --> 00:00:11,110
+and these are the memory location being touched
+
+4
+00:00:11,110 --> 00:00:17,141
+by these accesses on P1. And on P2 I'm showing some real set of accesses to
+
+5
+00:00:17,141 --> 00:00:22,080
+shared memory locations, and we know that Processor
+
+6
+00:00:22,080 --> 00:00:25,530
+P1 accessing memory and processor P2 accessing memory,
+
+7
+00:00:25,530 --> 00:00:30,590
+are completely independent of one another And therefore it is possible that
+
+8
+00:00:30,590 --> 00:00:35,030
+in one execution of P1 and P2 this particular
+
+9
+00:00:35,030 --> 00:00:40,140
+access of of writing it to memory location
+
+10
+00:00:40,140 --> 00:00:45,430
+A Happens after reading a memory location, a happens
+
+11
+00:00:45,430 --> 00:00:50,790
+on P1 in one execution. And if you run the same program again,
+
+12
+00:00:50,790 --> 00:00:55,470
+P2 and P1 constituting the program run it again. It's possible that
+
+13
+00:00:55,470 --> 00:00:59,800
+another execution of the same program the write of a happens before the
+
+14
+00:00:59,800 --> 00:01:04,280
+read of a. It's perfectly feasible for this to happen because there
+
+15
+00:01:04,280 --> 00:01:08,260
+is no guarantee on the ordering of these axises going to main memory.
+
+16
+00:01:10,460 --> 00:01:12,340
+And if you think about it, both of
+
+17
+00:01:12,340 --> 00:01:15,740
+these executions, whether it is earlier execution where write
+
+18
+00:01:15,740 --> 00:01:18,700
+happened after this read, or this execution in
+
+19
+00:01:18,700 --> 00:01:21,150
+which the write is happening before the read. Both
+
+20
+00:01:21,150 --> 00:01:26,220
+these executions are reasonable and correct and something that the programmer
+
+21
+00:01:26,220 --> 00:01:31,140
+can live with. It's acceptable to the programmer. Now in other
+
+22
+00:01:31,140 --> 00:01:36,700
+words, what the programmer needs to know is what to expect from
+
+23
+00:01:36,700 --> 00:01:42,810
+the system in terms of the behaviour of shared memory reads and writes that
+
+24
+00:01:42,810 --> 00:01:45,770
+can be emanating from several different processors.
+
+25
+00:01:47,340 --> 00:01:48,890
+And this is what is called the memory
+
+26
+00:01:48,890 --> 00:01:51,780
+consistency model. So the expectation of the
+
+27
+00:01:51,780 --> 00:01:55,090
+programmer is, is, is what is engrained
+
+28
+00:01:55,090 --> 00:01:58,230
+in this memory consistency model. As a
+
+29
+00:01:58,230 --> 00:02:01,810
+programmer, you don't want any surprises. And there's
+
+30
+00:02:01,810 --> 00:02:04,370
+a purpose of the memory consistency model to
+
+31
+00:02:04,370 --> 00:02:07,960
+sort of satisfy the expectation of the programmer.
+
+32
+00:02:07,960 --> 00:02:09,410
+So I'm going to talk to you about one
+
+33
+00:02:09,410 --> 00:02:13,080
+particular memory consistency model, which is called a sequential
+
+34
+00:02:13,080 --> 00:02:16,450
+consistency memory model. And you consider the axises
+
+35
+00:02:16,450 --> 00:02:20,140
+from P1 and P2. Well. One expectation that you
+
+36
+00:02:20,140 --> 00:02:23,090
+have of the programmer is that the accesses
+
+37
+00:02:23,090 --> 00:02:26,830
+that you have on a particular processor, is going
+
+38
+00:02:26,830 --> 00:02:29,470
+to be exactly in the order in which your radiant
+
+39
+00:02:29,470 --> 00:02:31,950
+or in other words, if you look at these sequences
+
+40
+00:02:31,950 --> 00:02:34,290
+of accesses, you have the right of b here and
+
+41
+00:02:34,290 --> 00:02:38,390
+the need of b here. You know that your one expect
+
+42
+00:02:38,390 --> 00:02:41,850
+to see when you do this V, whatever you wrote
+
+43
+00:02:41,850 --> 00:02:43,930
+here is what you expect to see. That's what's called
+
+44
+00:02:43,930 --> 00:02:47,650
+a program order. What you expect is the program order
+
+45
+00:02:47,650 --> 00:02:51,960
+to be maintained, namely the order in which you've generated memory
+
+46
+00:02:51,960 --> 00:02:55,410
+axises should be maintained by the execution on
+
+47
+00:02:55,410 --> 00:02:59,280
+that processor. That's program order. And in addition to
+
+48
+00:02:59,280 --> 00:03:02,830
+that, there is this interleaving of memory accesses between
+
+49
+00:03:02,830 --> 00:03:05,580
+P1 and P2. And this is where we said,
+
+50
+00:03:05,580 --> 00:03:08,510
+we have no way of controlling the, the
+
+51
+00:03:08,510 --> 00:03:10,210
+order in which these accesses are going to be
+
+52
+00:03:10,210 --> 00:03:13,200
+satisfied by the memory. Because it depends on the
+
+53
+00:03:13,200 --> 00:03:17,220
+execution of P1 on processor P1. And the execution
+
+54
+00:03:17,220 --> 00:03:21,780
+on P2 and how that each memory and so on. And so this interleving can be
+
+55
+00:03:21,780 --> 00:03:25,810
+arbatrary. That is, interleaving between axises that you
+
+56
+00:03:25,810 --> 00:03:28,021
+see here and the axises that you see here
+
+57
+00:03:28,021 --> 00:03:31,210
+can be arbitrary. So, that's the sequencal consistency
+
+58
+00:03:31,210 --> 00:03:34,550
+memory model, which has two parts to it.
+
+59
+00:03:34,550 --> 00:03:37,130
+One is the program order. That is the
+
+60
+00:03:37,130 --> 00:03:42,730
+order that you see, textually, in every individual processes.
+
+61
+00:03:42,730 --> 00:03:44,760
+I' m showing you two here, but you can have
+
+62
+00:03:44,760 --> 00:03:47,390
+any of these processes. But in each one of these
+
+63
+00:03:47,390 --> 00:03:51,960
+processes, the textual order in which memory axises are generated,
+
+64
+00:03:51,960 --> 00:03:54,860
+they're going to be satisfied. That's the program order. On the
+
+65
+00:03:54,860 --> 00:03:58,510
+other hand, the interleaving of these memory access has occurred
+
+66
+00:03:58,510 --> 00:04:01,400
+all of the processes is going to be obituary. So
+
+67
+00:04:01,400 --> 00:04:04,450
+those are the two properties of the sequential memory consistency
+
+68
+00:04:04,450 --> 00:04:07,730
+model. In order an analogy that will drive home the
+
+69
+00:04:07,730 --> 00:04:10,670
+point about the sequential consistency and what you
+
+70
+00:04:10,670 --> 00:04:13,780
+might see In a casino and if you,
+
+71
+00:04:13,780 --> 00:04:19,370
+if you watch a, a casino card shark shuffle cards. He might take a card deck
+
+72
+00:04:20,390 --> 00:04:26,900
+and split it into two halves, and then he'll do a merge shuffle of two splits,
+
+73
+00:04:26,900 --> 00:04:30,280
+and, and, and create a complete deck. Exactly
+
+74
+00:04:30,280 --> 00:04:33,570
+what's going on with sequential consistency. You have
+
+75
+00:04:33,570 --> 00:04:36,560
+Splits of memory axis's on serveral
+
+76
+00:04:36,560 --> 00:04:40,450
+different processors, and they're getting interlinked in
+
+77
+00:04:40,450 --> 00:04:43,290
+some fashion. Just like card shuffler is
+
+78
+00:04:43,290 --> 00:04:47,020
+interweaving the cards from two decks and
+
+79
+00:04:47,020 --> 00:04:50,450
+creating one card deck. All of it.
+
+80
+00:04:50,450 --> 00:04:52,430
+By the way, this particular memory consistency
+
+81
+00:04:52,430 --> 00:04:55,460
+model's sequential consistency Was proposed by Leslie
+
+82
+00:04:55,460 --> 00:04:58,490
+Lamport and, this is a popular guy.
+
+83
+00:04:58,490 --> 00:05:00,040
+You're going to see him again later on when
+
+84
+00:05:00,040 --> 00:05:03,320
+we talk about distributor systems. But he came
+
+85
+00:05:03,320 --> 00:05:06,580
+up with this idea of sequential consisting memory
+
+86
+00:05:06,580 --> 00:05:10,370
+model back in 1977. And since then there have
+
+87
+00:05:10,370 --> 00:05:12,480
+been a lot of different consistency models that
+
+88
+00:05:12,480 --> 00:05:15,040
+have been proposed. And in future lessons on
+
+89
+00:05:15,040 --> 00:05:18,410
+distributed systems, we will see other forms of
+
+90
+00:05:18,410 --> 00:05:23,990
+memory consistency models such as release consistency and lazy
+
+91
+00:05:23,990 --> 00:05:28,130
+release consistency and eventual consistency. But hold on.
+
+92
+00:05:28,130 --> 00:05:29,220
+We will come back to that later. on.

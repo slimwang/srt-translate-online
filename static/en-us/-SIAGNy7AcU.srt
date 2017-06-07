@@ -1,0 +1,388 @@
+﻿1
+00:00:00,460 --> 00:00:04,059
+So far, we've created the contract that
+will define what the database looks like
+
+2
+00:00:04,059 --> 00:00:08,509
+for the rest of the application, but we
+haven't really created a database yet.
+
+3
+00:00:08,509 --> 00:00:11,669
+To do that, we need to create
+a new class known as DBHelper.
+
+4
+00:00:11,669 --> 00:00:21,670
+[BLANK_AUDIO]
+
+5
+00:09:22,905 --> 00:09:26,332
+Because we will be using
+SQLite as our database,
+
+6
+00:09:26,332 --> 00:09:31,731
+we'll extend the Android Class
+SQLiteOpenHelper to create our DBHelper.
+
+7
+00:09:31,731 --> 00:09:35,759
+SQLiteOpenHelper exists mainly to take
+care of creating the database for
+
+8
+00:09:35,759 --> 00:09:39,111
+the first time, and
+upgrading it when the schema changes.
+
+9
+00:09:39,111 --> 00:09:43,329
+The DBHelper also provides other classes
+with a reference to the database,
+
+10
+00:09:43,330 --> 00:09:46,509
+giving them a way to access its
+information through queries.
+
+11
+00:09:47,679 --> 00:09:52,809
+SQLiteOpenHelper provides us with
+two important methods, onCreate and
+
+12
+00:09:52,809 --> 00:09:53,889
+onUpgrade.
+
+13
+00:09:53,889 --> 00:09:57,029
+OnCreate is responsible for
+creating the actual database for
+
+14
+00:09:57,029 --> 00:10:00,629
+the first time,
+while onUpgrade is responsible for
+
+15
+00:10:00,629 --> 00:10:03,509
+making sure the database
+schema is up to date.
+
+16
+00:10:03,509 --> 00:10:07,590
+We'll be overriding both onCreate and
+onUpgrade in our DBHelper class.
+
+17
+00:10:08,639 --> 00:10:11,750
+In exercise two, create the database.
+
+18
+00:10:11,750 --> 00:10:14,972
+Open up WaitListDBHelper.java, and
+
+19
+00:10:14,972 --> 00:10:20,939
+modify the class declaration
+to extend SQLiteOpenHelper.
+
+20
+00:10:20,940 --> 00:10:26,053
+Inside the DBHelper class, create
+a final string called DATABASE_NAME
+
+21
+00:10:26,052 --> 00:10:30,705
+to specify the database file name,
+let's call it waitlist.db.
+
+22
+00:10:30,705 --> 00:10:34,415
+This will be the name of a local file
+on the Android device that will store
+
+23
+00:10:34,414 --> 00:10:35,974
+all our data.
+
+24
+00:10:35,975 --> 00:10:40,098
+Then create another final integer to
+store the current database version
+
+25
+00:10:40,097 --> 00:10:41,076
+number.
+
+26
+00:10:41,076 --> 00:10:44,586
+This should always start from one,
+and anytime you decide to modify
+
+27
+00:10:44,586 --> 00:10:48,037
+the database schema in your code,
+you should increment it.
+
+28
+00:10:48,037 --> 00:10:50,596
+This will force users to
+upgrade their databases,
+
+29
+00:10:50,596 --> 00:10:53,317
+whenever you release
+a new version of the app.
+
+30
+00:10:53,317 --> 00:10:55,986
+Also, don't forget to
+change the contract if you
+
+31
+00:10:55,986 --> 00:10:58,495
+ever do change the database schema.
+
+32
+00:10:58,495 --> 00:11:02,736
+The constructor shouldn't do anything
+special here, so let's just simply call
+
+33
+00:11:02,736 --> 00:11:06,899
+the parents constructor, and let the
+parent class handle everything for us.
+
+34
+00:11:06,899 --> 00:11:11,049
+To call the parent constructor,
+call super and pass through the context,
+
+35
+00:11:11,049 --> 00:11:14,870
+which is usually the calling activity,
+the database name, and
+
+36
+00:11:14,870 --> 00:11:16,190
+the version number.
+
+37
+00:11:16,190 --> 00:11:20,220
+This null argument is supposed to be
+something called a CursorFactory, but
+
+38
+00:11:20,220 --> 00:11:24,759
+we won't be using one in the scope of
+this app, so let's just pass null.
+
+39
+00:11:24,759 --> 00:11:27,799
+Now it's time to override
+the onCreate method that will
+
+40
+00:11:27,799 --> 00:11:30,839
+actually create the database
+file when called.
+
+41
+00:11:30,840 --> 00:11:34,759
+Start by writing the SQL statement that
+will describe the database schema.
+
+42
+00:11:34,759 --> 00:11:38,934
+Remember to follow the contract that
+we created in the previous exercise.
+
+43
+00:11:38,934 --> 00:11:43,139
+And SQL CREATE TABLE statement
+starts with CREATE TABLE,
+
+44
+00:11:43,139 --> 00:11:46,250
+followed by the TABLE_NAME and
+the table description.
+
+45
+00:11:46,250 --> 00:11:48,970
+That is a comma-separated
+list of each column name,
+
+46
+00:11:48,970 --> 00:11:52,529
+followed by its type,
+all in a set of parenthesis.
+
+47
+00:11:52,529 --> 00:11:55,754
+Here's what our SQL CREATE
+statement should look like.
+
+48
+00:11:55,754 --> 00:11:59,814
+The ID column is our primary
+key with autoincrement,
+
+49
+00:11:59,815 --> 00:12:04,625
+meaning that it should generate its own
+values each time we insert a new row.
+
+50
+00:12:04,625 --> 00:12:08,504
+The GUEST_NAME is just the text
+field that cannot be null.
+
+51
+00:12:08,504 --> 00:12:13,154
+The PARTY_SIZE is an integer
+that is also not null.
+
+52
+00:12:13,154 --> 00:12:16,414
+Finally, the TIMESTAMP field
+is of type TIMESTAMP, and
+
+53
+00:12:16,414 --> 00:12:20,469
+the default value is TIMESTAMP,
+which means the SQL database system
+
+54
+00:12:20,470 --> 00:12:25,170
+will automatically assign the current
+time, every time a new row is added.
+
+55
+00:12:25,169 --> 00:12:27,889
+Notice how we've used the constant
+strings from the contract to
+
+56
+00:12:27,889 --> 00:12:30,600
+programmatically generate
+this SQL String.
+
+57
+00:12:30,600 --> 00:12:34,690
+This is because if we decide to rename a
+column in the future, we'll only need to
+
+58
+00:12:34,690 --> 00:12:38,530
+do so in the contract and every time
+we reference that column in the app,
+
+59
+00:12:38,529 --> 00:12:40,799
+it will automatically be updated.
+
+60
+00:12:40,799 --> 00:12:45,404
+Once we get our string variable
+SQL_CREATE_WAITLIST_TABLE ready,
+
+61
+00:12:45,404 --> 00:12:49,554
+we can now call execSQL on our database,
+passing in that string,
+
+62
+00:12:49,554 --> 00:12:51,488
+which creates the database.
+
+63
+00:12:51,489 --> 00:12:55,090
+The last step is to override
+the onUpgrade method,
+
+64
+00:12:55,090 --> 00:12:57,670
+this is only called when
+the version number we defined
+
+65
+00:12:57,669 --> 00:13:02,299
+earlier becomes larger than the version
+number of the database on the device.
+
+66
+00:13:02,299 --> 00:13:07,019
+It's meant to update the database
+schema, without losing any user data.
+
+67
+00:13:07,019 --> 00:13:10,370
+So ideally, this should include
+a schema update statement.
+
+68
+00:13:10,370 --> 00:13:14,884
+Since we only have one version so far,
+all we'll do here is drop the current
+
+69
+00:13:14,884 --> 00:13:17,620
+database if it exists and
+create a fresh one.
+
+70
+00:13:17,620 --> 00:13:21,610
+But say later on you decide to add
+a new column to the WaitList_Table.
+
+71
+00:13:21,610 --> 00:13:25,370
+Then you should change
+the version number up here to 2,
+
+72
+00:13:25,370 --> 00:13:29,289
+and implement onUpgrade with an SQL
+statement that would append that
+
+73
+00:13:29,289 --> 00:13:31,669
+column to the database
+without having to drop it.
+
+74
+00:13:32,779 --> 00:13:35,475
+Perfect, if everything
+is done correctly,
+
+75
+00:13:35,475 --> 00:13:39,840
+then you should be able to pass all
+the test that we've created for you.
+
+76
+00:13:39,840 --> 00:13:44,399
+Try to follow these steps yourself and
+see if you can pass all the tests,
+
+77
+00:13:44,399 --> 00:13:48,048
+then you can run those tests
+by doing a right-click, and
+
+78
+00:13:48,048 --> 00:13:50,496
+going down to Run 'Database Test'.
+
+79
+00:13:50,496 --> 00:13:51,603
+And when it comes up,
+
+80
+00:13:51,604 --> 00:13:54,440
+it will ask you which device
+you want to run the test on.
+

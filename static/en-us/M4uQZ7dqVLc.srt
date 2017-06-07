@@ -1,0 +1,183 @@
+1
+00:00:00,000 --> 00:00:03,000
+Now I'm going to show you the solution to the search problem
+
+2
+00:00:03,000 --> 00:00:05,000
+rather than try to make you do it yourself,
+
+3
+00:00:05,000 --> 00:00:10,000
+because there are still a few tricks here that are different from the previous search problem.
+
+4
+00:00:10,000 --> 00:00:16,000
+I'm going to define problem, which takes a sequence of elements here.
+
+5
+00:00:16,000 --> 00:00:21,000
+If you want, you can pass in a frozen set of {1, 2, 5, 10} or whatever,
+
+6
+00:00:21,000 --> 00:00:24,000
+but if you didn't I'm going to go ahead and do that kind of version for you.
+
+7
+00:00:24,000 --> 00:00:28,000
+I'm going to make it into a frozen set, and I'm going to add in the light
+
+8
+00:00:28,000 --> 00:00:30,000
+in case you forgot to specify that.
+
+9
+00:00:30,000 --> 00:00:36,000
+You can just ask bridge_problem of the list 1, 2, 5, 10. I'll take care of it all for you.
+
+10
+00:00:36,000 --> 00:00:41,000
+Like before, the explored set starts off being the empty set.
+
+11
+00:00:41,000 --> 00:00:44,000
+The frontier starts off being the one initial state,
+
+12
+00:00:44,000 --> 00:00:50,000
+which is the frozen set we just made up for everything that's on the here side,
+
+13
+00:00:50,000 --> 00:00:55,000
+and empty set for everything that's on the there side, and 0 for the elapsed time.
+
+14
+00:00:55,000 --> 00:00:59,000
+The idea is to get everybody away from here onto the other side.
+
+15
+00:00:59,000 --> 00:01:03,000
+If we were given a trival problem where there was already nobody here,
+
+16
+00:01:03,000 --> 00:01:06,000
+then we're done and we return that initial state.
+
+17
+00:01:06,000 --> 00:01:10,000
+Otherwise, just like before, we start popping things off the frontier.
+
+18
+00:01:10,000 --> 00:01:13,000
+Just like before we're looking at our successors,
+
+19
+00:01:13,000 --> 00:01:16,000
+and the only difference is down here.
+
+20
+00:01:16,000 --> 00:01:23,000
+Whereas before we put a path on the end, and we were expanding our our frontier
+
+21
+00:01:23,000 --> 00:01:26,000
+and taking off the shortest path first from our frontier,
+
+22
+00:01:26,000 --> 00:01:30,000
+because in the previous problem, in the water-pouring problem,
+
+23
+00:01:30,000 --> 00:01:36,000
+the best solution was to find as the solution that was shortest, with the smallest number of steps.
+
+24
+00:01:36,000 --> 00:01:42,000
+In this problem, the best solution is defined as the one with the smallest elapsed time
+
+25
+00:01:42,000 --> 00:01:46,000
+where the elapsed time of a path is the second element.
+
+26
+00:01:46,000 --> 00:01:51,000
+That's the t element here of the final element of the path.
+
+27
+00:01:51,000 --> 00:01:54,000
+That would be the total elapsed time of a path.
+
+28
+00:01:54,000 --> 00:01:58,000
+So we sort the frontier by the total elapsed time.
+
+29
+00:01:58,000 --> 00:02:02,000
+Now it is a little bit wasteful here that we're going through this loop,
+
+30
+00:02:02,000 --> 00:02:05,000
+we only added in one new element, and we sorted the whole thing.
+
+31
+00:02:05,000 --> 00:02:08,000
+Python's actually pretty good at that type of sort.
+
+32
+00:02:08,000 --> 00:02:11,000
+There are other ways to make that more efficient,
+
+33
+00:02:11,000 --> 00:02:13,000
+but just conceptually that's what we're doing.
+
+34
+00:02:13,000 --> 00:02:19,000
+We always want to have the frontier sorted, so that we're taking the fastest time first.
+
+35
+00:02:19,000 --> 00:02:22,000
+I typed that program in, and I ran it for the very first time.
+
+36
+00:02:22,000 --> 00:02:24,000
+Bridge_problem([1, 2, 5, 10]).
+
+37
+00:02:24,000 --> 00:02:26,000
+I got an answer back.
+
+38
+00:02:26,000 --> 00:02:32,000
+Remember, the answer is a path, which is an alternation of states and actions.
+
+39
+00:02:32,000 --> 00:02:34,000
+We can pick out just the actions, like this,
+
+40
+00:02:34,000 --> 00:02:39,000
+by asking for the path and then taking a slice of that path,
+
+41
+00:02:39,000 --> 00:02:43,000
+starting at element number 1, going to the end,
+
+42
+00:02:43,000 --> 00:02:45,000
+and giving us every other element.
+
+43
+00:02:45,000 --> 00:02:47,000
+That'll be just the actions.
+
+44
+00:02:47,000 --> 00:02:49,000
+Those are these three actions.
+
+45
+00:02:49,000 --> 00:02:52,000
+That's my proposed solution that my program came up with.
+
+46
+00:02:52,000 --> 99:59:59,999
+My question is is that correct? Yes or no?

@@ -1,0 +1,183 @@
+1
+00:00:00,000 --> 00:00:05,000
+[Thrun] I want to show you a little animation of hidden Markov models
+
+2
+00:00:05,000 --> 00:00:07,000
+used for robot localization.
+
+3
+00:00:07,000 --> 00:00:12,000
+This is obviously a little toy robot over here that lives in the grid world,
+
+4
+00:00:12,000 --> 00:00:16,000
+and the grid world is composed of discrete cells where the robot may be located.
+
+5
+00:00:16,000 --> 00:00:20,000
+This robot happens to know where north is at all times.
+
+6
+00:00:20,000 --> 00:00:24,000
+It's given 4 sensors, a wall sensor to the left, to the right, to the top
+
+7
+00:00:24,000 --> 00:00:30,000
+and the bottom over here, and it can sense whether in the adjacent cell there's a wall or not.
+
+8
+00:00:30,000 --> 00:00:37,000
+Initially this robot has no clue where it is. It faces what we call a global localization problem.
+
+9
+00:00:37,000 --> 00:00:43,000
+It now uses its sensors and its actuators to localize itself.
+
+10
+00:00:43,000 --> 00:00:49,000
+So in the very first episode the robot senses a wall north and south of it
+
+11
+00:00:49,000 --> 00:00:52,000
+but none west or east.
+
+12
+00:00:52,000 --> 00:00:56,000
+And look what this does to the probabilities.
+
+13
+00:00:56,000 --> 00:00:58,000
+The posterior probability is now increased
+
+14
+00:00:58,000 --> 00:01:01,000
+in places that are consistent with this measurement,
+
+15
+00:01:01,000 --> 00:01:06,000
+like all of those places have a wall in north and east, like these guys over here,
+
+16
+00:01:06,000 --> 00:01:09,000
+and free space in the left and the right,
+
+17
+00:01:09,000 --> 00:01:14,000
+yet they have been decreased in places that are inconsistent, like this guy over here.
+
+18
+00:01:14,000 --> 00:01:18,000
+These states over here are interesting. They are shaded gray and lighter gray.
+
+19
+00:01:18,000 --> 00:01:21,000
+What this means is they still have a significant probability
+
+20
+00:01:21,000 --> 00:01:24,000
+but yet not as much as over here,
+
+21
+00:01:24,000 --> 00:01:29,000
+the reason being that this measurement over here would be characteristic
+
+22
+00:01:29,000 --> 00:01:33,000
+for the state over here if there had been exactly 1 measurement error--
+
+23
+00:01:33,000 --> 00:01:39,000
+if the bottom sensor had erred and erroneously detected a wall.
+
+24
+00:01:39,000 --> 00:01:43,000
+Errors are less likely than no errors, and as a result, the cell over here
+
+25
+00:01:43,000 --> 00:01:47,000
+which is completely consistent ends up to be more likely than the cell over here,
+
+26
+00:01:47,000 --> 00:01:53,000
+yet you can see the HMM does a nice job in understanding the posterior probability.
+
+27
+00:01:53,000 --> 00:01:57,000
+Let's assume the robot moves right and senses again
+
+28
+00:01:57,000 --> 00:01:59,000
+and gets the exact same measurement.
+
+29
+00:01:59,000 --> 00:02:02,000
+Of course it has no clue that it is exactly over here.
+
+30
+00:02:02,000 --> 00:02:04,000
+It can see the probability as being decayed.
+
+31
+00:02:04,000 --> 00:02:08,000
+Interestingly enough, this guy over here has a lower probability,
+
+32
+00:02:08,000 --> 00:02:12,000
+and the reason is by itself it is very consistent with the most recent measurement,
+
+33
+00:02:12,000 --> 00:02:17,000
+but it's less consistent with the idea of having moved right and measured before
+
+34
+00:02:17,000 --> 00:02:19,000
+a wall to the north and the south.
+
+35
+00:02:19,000 --> 00:02:23,000
+And similarly, these places over here become less consistent.
+
+36
+00:02:23,000 --> 00:02:26,000
+The only ones that are completely consistent are these 3 states over here
+
+37
+00:02:26,000 --> 00:02:28,000
+and the 3 states over here.
+
+38
+00:02:28,000 --> 00:02:30,000
+The robot keeps moving to the right,
+
+39
+00:02:30,000 --> 00:02:34,000
+and now we get to the point where the sequence of measurement
+
+40
+00:02:34,000 --> 00:02:36,000
+really makes 2 states equally likely--the ones over here.
+
+41
+00:02:36,000 --> 00:02:38,000
+They are equally likely with symmetry.
+
+42
+00:02:38,000 --> 00:02:44,000
+Those are still pretty likely, and those are gradually and likely over here to the left.
+
+43
+00:02:44,000 --> 00:02:48,000
+As the robot now moves, it moves into a distinguishing state.
+
+44
+00:02:48,000 --> 00:02:52,000
+It sees a wall in the north but free space in the 3 other directions,
+
+45
+00:02:52,000 --> 00:02:55,000
+and that renders the state over here relatively unlikely,
+
+46
+00:02:55,000 --> 99:59:59,999
+and now it has localized itself.

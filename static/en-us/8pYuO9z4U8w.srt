@@ -1,0 +1,383 @@
+1
+00:00:00,230 --> 00:00:03,980
+This was a complex but, in my opinion, authentic exercise using open
+
+2
+00:00:03,980 --> 00:00:07,040
+source bolts to implement some pretty cool functionality.
+
+3
+00:00:07,040 --> 00:00:10,980
+I hope the process was useful, and I walk through my solution.
+
+4
+00:00:10,980 --> 00:00:14,940
+I broke my approach up into 3 major stages, imports or
+
+5
+00:00:14,940 --> 00:00:17,310
+Part 1 of the written instructions.
+
+6
+00:00:17,310 --> 00:00:22,280
+Linking to Topology, which is also Part 1 of the routine instructions, and
+
+7
+00:00:22,280 --> 00:00:24,310
+incorporates a lot of the syntax hints.
+
+8
+00:00:24,310 --> 00:00:26,164
+And finally, filtering and emitting.
+
+9
+00:00:26,164 --> 00:00:27,760
+Which is Part 2 through 5.
+
+10
+00:00:27,760 --> 00:00:31,100
+You can skip ahead to solution sections that you had difficulties with.
+
+11
+00:00:31,100 --> 00:00:33,700
+And let's begin with imports for my approach.
+
+12
+00:00:33,700 --> 00:00:36,880
+In part zero of the written instructions we simply add our credentials to
+
+13
+00:00:36,880 --> 00:00:40,740
+the TweeTopology, and rename to TopNTweeTopology.
+
+14
+00:00:40,740 --> 00:00:42,910
+So we navigate to lesson three stage four.
+
+15
+00:00:42,910 --> 00:00:45,566
+Rename TweetTopology to TopNTweetTopology and
+
+16
+00:00:45,566 --> 00:00:49,518
+remember to change your class name to TopNTweetTopology.
+
+17
+00:00:49,518 --> 00:00:53,060
+In Part 1, we remove the rolling count bolt and use the count bolt.
+
+18
+00:00:53,060 --> 00:00:55,158
+And in code we can simply comment out our rolling count,
+
+19
+00:00:55,158 --> 00:00:57,850
+un-comment our count-bolt and
+
+20
+00:00:57,850 --> 00:01:01,620
+remember to update the connection to count-bolt instead of rolling count-bolt.
+
+21
+00:01:01,620 --> 00:01:04,640
+And once your visualization's working, you can move on to importing and
+
+22
+00:01:04,640 --> 00:01:08,010
+connecting the total ranking's bolt to the required dependencies.
+
+23
+00:01:08,010 --> 00:01:08,790
+Once we're at this stage,
+
+24
+00:01:08,790 --> 00:01:11,670
+we simply navigate to the total rankings bolt using the link.
+
+25
+00:01:11,670 --> 00:01:15,795
+And this will begin the process of a fairly tedious cycle to.
+
+26
+00:01:15,795 --> 00:01:19,100
+copy>create>update import statements,
+
+27
+00:01:19,100 --> 00:01:24,330
+build using Maven, which leads to more copying, creating, updating and building.
+
+28
+00:01:24,330 --> 00:01:26,020
+So, let's get started.
+
+29
+00:01:26,020 --> 00:01:28,540
+We first copy the TotalRankingsBolt.
+
+30
+00:01:28,540 --> 00:01:30,990
+We navigate to the storm folder, not the tools and
+
+31
+00:01:30,990 --> 00:01:34,370
+create our file name TotalRankingsBolt.java.
+
+32
+00:01:34,370 --> 00:01:37,050
+We then look at the package structure and update.
+
+33
+00:01:37,050 --> 00:01:41,520
+And our package structure again is udacity.storm, because udacity and storm.
+
+34
+00:01:41,520 --> 00:01:44,150
+We see that there's another dependency from storm, starter,
+
+35
+00:01:44,150 --> 00:01:49,110
+tools rankings, and we update the import statement and plan to.
+
+36
+00:01:49,110 --> 00:01:52,160
+Copy Rankings into Tools.
+
+37
+00:01:52,160 --> 00:01:56,920
+We navigate to storm starter tools, and find Rankings.
+
+38
+00:01:56,920 --> 00:02:02,160
+We copy and past the Rankings.java file, create them in our Tools folder,
+
+39
+00:02:02,160 --> 00:02:04,330
+paste and remember to update again.
+
+40
+00:02:04,330 --> 00:02:06,810
+Now at this point without looking too deeply at the code,
+
+41
+00:02:06,810 --> 00:02:08,530
+we might be ready to build.
+
+42
+00:02:08,530 --> 00:02:11,050
+I'll just walk through this to show the types of errors that come up,
+
+43
+00:02:11,050 --> 00:02:15,070
+and how you can use these errors to then repeat this entire cycle.
+
+44
+00:02:15,070 --> 00:02:16,970
+We first Maven package.
+
+45
+00:02:16,970 --> 00:02:18,460
+And we see a build failure.
+
+46
+00:02:18,460 --> 00:02:23,050
+And build failure is that Rankable is not in our dependencies.
+
+47
+00:02:23,050 --> 00:02:25,130
+And if we search for
+
+48
+00:02:25,130 --> 00:02:30,450
+Rankable in our Rankings file, we see that we're creating a list of Rankables.
+
+49
+00:02:30,450 --> 00:02:33,630
+Therefore Rankable should be in our dependencies.
+
+50
+00:02:33,630 --> 00:02:38,575
+And we'll go through the process again of copy > create > update,
+
+51
+00:02:38,575 --> 00:02:40,759
+using these build failures.
+
+52
+00:02:40,759 --> 00:02:47,010
+We find rankable, copy > create > update, and finally try to build again.
+
+53
+00:02:47,010 --> 00:02:48,470
+And now when we see the BUILD FAILURE,
+
+54
+00:02:48,470 --> 00:02:52,520
+we see that there's an abstract ranker bolt that we're also missing.
+
+55
+00:02:52,520 --> 00:02:54,600
+Navigating to the total rankings bolt.
+
+56
+00:02:54,600 --> 00:02:58,180
+We see that TotalRankings extends an AbstractRankerBolt.
+
+57
+00:02:58,180 --> 00:03:01,980
+We could have discovered this dependency if we walk through the code more in
+
+58
+00:03:01,980 --> 00:03:07,690
+detail, which you could have done, but this approach is simply using the Maven
+
+59
+00:03:07,690 --> 00:03:11,400
+life cycle, and build-cycle, in order to discover our dependencies.
+
+60
+00:03:11,400 --> 00:03:13,690
+We navigate to storm > starter > bolt.
+
+61
+00:03:13,690 --> 00:03:16,000
+And we find the AbstractRankerBolt.
+
+62
+00:03:16,000 --> 00:03:20,010
+Again we copy > create in storm folder not tools.
+
+63
+00:03:20,010 --> 00:03:23,670
+And paste the AbstractRankerBolt, in the AbstractRankerBolt file.
+
+64
+00:03:23,670 --> 00:03:27,230
+We then update our package, and again check our dependencies and
+
+65
+00:03:27,230 --> 00:03:29,610
+see that we have Rankings and TupletteHelpers.
+
+66
+00:03:29,610 --> 00:03:32,930
+Which we already have as ranking and TupletteHelpers.
+
+67
+00:03:32,930 --> 00:03:35,810
+But remember to update this import statement as well.
+
+68
+00:03:35,810 --> 00:03:39,660
+And notice that I put TupletteHelpers not in util but in tools.
+
+69
+00:03:39,660 --> 00:03:42,080
+An after our Maven package, we finally get our BUILD SUCCESS.
+
+70
+00:03:42,080 --> 00:03:44,410
+So, great job importing.
+
+71
+00:03:44,410 --> 00:03:46,200
+Next, let's check our connections, and
+
+72
+00:03:46,200 --> 00:03:50,060
+notice that we haven't yet connected any of our components to our topology.
+
+73
+00:03:50,060 --> 00:03:53,340
+Since our aim is to connect the TotalRankingsBolt to our topology,
+
+74
+00:03:53,340 --> 00:03:55,030
+let's navigate there now.
+
+75
+00:03:55,030 --> 00:03:56,600
+And if you've seen in hint two, or
+
+76
+00:03:56,600 --> 00:04:00,540
+simply read the documentation, or the comments really.
+
+77
+00:04:00,540 --> 00:04:03,590
+We see the intermediate rankings is necessary, and
+
+78
+00:04:03,590 --> 00:04:05,530
+we configure this bolt with a GlobalGrouping.
+
+79
+00:04:06,530 --> 00:04:09,660
+Therefor, we'll need to import intermediate rankings.
+
+80
+00:04:09,660 --> 00:04:13,710
+We navigate to Storm Starter Bolt, and see intermediate rankings.
+
+81
+00:04:13,710 --> 00:04:16,170
+We copy, create again in Storm, and
+
+82
+00:04:16,170 --> 00:04:20,350
+not Storm tools, create IntermediateRankingsBolt.java.
+
+83
+00:04:20,350 --> 00:04:23,950
+Update our package, and again look at our input statements.
+
+84
+00:04:23,950 --> 00:04:26,190
+We see that we have Rankable.
+
+85
+00:04:26,190 --> 00:04:29,260
+But we don't have RankableObjectWithFields.
+
+86
+00:04:29,260 --> 00:04:33,790
+So let's first update our import statement, and once updated, let's go and
+
+87
+00:04:33,790 --> 00:04:35,910
+get RankableObjectWithFields.
+
+88
+00:04:35,910 --> 00:04:38,530
+This is in Stormstarter tools.
+
+89
+00:04:38,530 --> 00:04:40,260
+And Rankableobjects with fields.
+
+90
+00:04:40,260 --> 00:04:42,596
+We complete our cycle again by copy, creating, and
+
+91
+00:04:42,596 --> 00:04:44,970
+updating with RankableObjects with field.java.
+
+92
+00:04:44,970 --> 00:04:48,600
+Paste, and finally update the package structure.
+
+93
+00:04:48,600 --> 00:04:50,940
+And notice that we don't have any further dependencies.
+
+94
+00:04:52,610 --> 00:04:55,480
+Finally let's build, and hope this works.
+
+95
+00:04:55,480 --> 00:04:57,940
+Great, and now that we have a BUILD SUCCESS.
+
+96
+00:04:57,940 --> 00:05:01,340
+We should be done with imports, and we can move on to Linking to Topology.

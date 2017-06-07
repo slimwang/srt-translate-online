@@ -1,0 +1,294 @@
+1
+00:00:00,240 --> 00:00:02,700
+My application has a ListView in it.
+
+2
+00:00:02,700 --> 00:00:06,340
+And I've notice as I start
+scrolling things just
+
+3
+00:00:06,340 --> 00:00:08,210
+tend to not become very smooth.
+
+4
+00:00:09,230 --> 00:00:11,530
+I notice that I'm scrolling along and
+
+5
+00:00:11,530 --> 00:00:14,280
+like it's just taking a while or
+it gets stuck.
+
+6
+00:00:14,280 --> 00:00:17,870
+Like all these things happen
+where it just feels quite janky.
+
+7
+00:00:17,870 --> 00:00:19,480
+You see that quite a bit.
+
+8
+00:00:19,480 --> 00:00:23,700
+What are some things I could do
+to start to debug those issues?
+
+9
+00:00:23,700 --> 00:00:25,870
+Where are some possible causes for that?
+
+10
+00:00:25,870 --> 00:00:29,180
+>> One cause could be that the data is
+just not loading into your ListView
+
+11
+00:00:29,180 --> 00:00:32,229
+fast enough as you're swiping.
+
+12
+00:00:33,830 --> 00:00:36,680
+>> So
+that's certainly a possible reason, but
+
+13
+00:00:36,680 --> 00:00:39,960
+let's suppose I have
+all the data in memory.
+
+14
+00:00:39,960 --> 00:00:42,610
+So it's just a bunch of text fields or
+something.
+
+15
+00:00:42,610 --> 00:00:44,850
+I have the data in memory.
+
+16
+00:00:45,900 --> 00:00:48,120
+What else could cause the issue?
+
+17
+00:00:48,120 --> 00:00:51,720
+>> Well, you say you have it in memory.
+
+18
+00:00:51,720 --> 00:00:55,560
+But if you're loading up all those
+ListViews at once, it may not
+
+19
+00:00:55,560 --> 00:00:58,835
+necessarily populate all those-
+>> Well the model I have in memory.
+
+20
+00:00:58,835 --> 00:01:05,862
+>> Okay, so let me think, your ListView.
+
+21
+00:01:05,862 --> 00:01:11,297
+Yeah, it seem that you are, I mean,
+are you loading any sort of
+
+22
+00:01:11,297 --> 00:01:16,531
+memory intensive or like images or
+high resolution images or
+
+23
+00:01:16,531 --> 00:01:22,355
+anything like in ListView that
+would normally take a long time to?
+
+24
+00:01:22,355 --> 00:01:23,515
+>> I guess I could.
+
+25
+00:01:23,515 --> 00:01:25,345
+I mean, let's say it does.
+
+26
+00:01:25,345 --> 00:01:28,970
+I guess where you're getting at
+is that I could have an image.
+
+27
+00:01:28,970 --> 00:01:33,990
+And then somehow, loading those images
+is taking time and could cause a delay.
+
+28
+00:01:33,990 --> 00:01:35,950
+Yeah, that's certainly possible.
+
+29
+00:01:35,950 --> 00:01:38,140
+But, let's say,
+that's not happening in this case.
+
+30
+00:01:38,140 --> 00:01:40,020
+>> I think another possibility is that
+
+31
+00:01:41,120 --> 00:01:44,870
+your views are just not
+getting reused fast enough.
+
+32
+00:01:44,870 --> 00:01:47,050
+You can't load everything all at once.
+
+33
+00:01:47,050 --> 00:01:51,130
+Typically, you would want to load
+an item above and an item below, and
+
+34
+00:01:51,130 --> 00:01:54,590
+then the items on the screen,
+and then reuse those.
+
+35
+00:01:54,590 --> 00:01:58,650
+>> So that's a common pattern that
+you would use with like a ListView.
+
+36
+00:01:58,650 --> 00:02:01,030
+What is that commonly referred to as?
+
+37
+00:02:02,260 --> 00:02:04,220
+>> I know it as RecyclerView.
+
+38
+00:02:04,220 --> 00:02:06,910
+>> Yeah, so I mean I think that's
+why RecyclerView has that name is
+
+39
+00:02:06,910 --> 00:02:09,050
+because it forces you to recycle views.
+
+40
+00:02:09,050 --> 00:02:10,110
+>> Right.
+
+41
+00:02:10,110 --> 00:02:14,280
+>> In ListView before it wasn't
+enforced by the system and so
+
+42
+00:02:14,280 --> 00:02:15,680
+you just had to implement yourself.
+
+43
+00:02:15,680 --> 00:02:17,130
+That's something that people missed.
+
+44
+00:02:17,130 --> 00:02:18,280
+So yeah, that's perfect and
+
+45
+00:02:18,280 --> 00:02:21,140
+I think that's a lot of
+cases where you'd have that.
+
+46
+00:02:21,140 --> 00:02:25,590
+Suppose for instance I'm recycling my
+views, images are loading off the UI
+
+47
+00:02:25,590 --> 00:02:29,940
+thread, like the model seems to be
+consuming a reasonable amount of memory,
+
+48
+00:02:29,940 --> 00:02:32,650
+do you have any other
+ideas what could cause it?
+
+49
+00:02:32,650 --> 00:02:36,940
+>> So if you're using RecyclerView,
+I know, RecyclerView is really good for
+
+50
+00:02:36,940 --> 00:02:41,700
+a lot of things and a lot of transitions
+and things like that and unique things.
+
+51
+00:02:41,700 --> 00:02:48,070
+But one thing it's not good
+at is views that are too
+
+52
+00:02:48,070 --> 00:02:53,350
+customized or things that are too high,
+like images that are too high quality.
+
+53
+00:02:53,350 --> 00:02:57,040
+It can't process them very fast it's
+doing other stuff in the background and
+
+54
+00:02:57,040 --> 00:02:59,140
+that makes it hang up
+a little bit longer.
+
+55
+00:02:59,140 --> 00:03:02,670
+>> So think of your hinting at is that
+I could have a very complex layout
+
+56
+00:03:02,670 --> 00:03:06,660
+that just takes a long time
+to actually layout and draw.
+
+57
+00:03:06,660 --> 00:03:10,350
+So yeah that could be an issue possibly
+the other thing you're thinking with
+
+58
+00:03:10,350 --> 00:03:14,040
+images could be that they're occupying
+a larger memory footprint and
+
+59
+00:03:14,040 --> 00:03:16,090
+there's process of that has to be done.
+
+60
+00:03:16,090 --> 00:03:18,260
+So suppose for
+instance I have a crop type.
+
+61
+00:03:18,260 --> 00:03:20,900
+I'm saying to center crop or
+do whatever.
+
+62
+00:03:20,900 --> 00:03:24,040
+If the image is too large, then yeah
+that could also take some time.
+
+63
+00:03:24,040 --> 00:03:24,580
+So yeah.
+
+64
+00:03:24,580 --> 00:03:25,920
+Those are all very good reasons.

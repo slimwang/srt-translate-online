@@ -1,0 +1,404 @@
+﻿1
+00:00:00,050 --> 00:00:03,699
+Here's an image of a STOP sign
+that's viewed from an angle.
+
+2
+00:00:03,700 --> 00:00:07,240
+And I'll show you how to create and
+apply a Perspective Transform so
+
+3
+00:00:07,240 --> 00:00:10,199
+that it looks like we're viewing
+this sign from the front.
+
+4
+00:00:10,199 --> 00:00:14,449
+Remember, we care about the perspective
+transform because the software
+
+5
+00:00:14,449 --> 00:00:17,730
+we write will eventually do
+this to images of a road, so
+
+6
+00:00:17,730 --> 00:00:19,629
+that you can find the lane curvature.
+
+7
+00:00:19,629 --> 00:00:23,619
+We're using a traffic sign as
+an example here mainly because it's
+
+8
+00:00:23,620 --> 00:00:27,330
+easiest to see that you've performed
+a perspective transform correctly
+
+9
+00:00:27,329 --> 00:00:30,696
+on images with text or
+other distinct reference points.
+
+10
+00:00:30,696 --> 00:00:35,420
+To create a perspective transform, we'll
+first select four points that define
+
+11
+00:00:35,420 --> 00:00:38,039
+a rectangle on a plane in this image.
+
+12
+00:00:38,039 --> 00:00:41,200
+Four points are enough to
+define a linear transformation
+
+13
+00:00:41,200 --> 00:00:43,170
+from one perspective to another.
+
+14
+00:00:43,170 --> 00:00:44,210
+And in this case,
+
+15
+00:00:44,210 --> 00:00:48,469
+we're selecting point that define
+a plane on the surface of the STOP sign.
+
+16
+00:00:48,469 --> 00:00:52,240
+And we'll also select where we want
+those same four points to appear and
+
+17
+00:00:52,240 --> 00:00:55,530
+are transformed,
+often called warped image.
+
+18
+00:00:55,530 --> 00:00:59,340
+Then, we can use open CV functions
+to calculate the transform
+
+19
+00:00:59,340 --> 00:01:01,790
+that maps the points
+in the original image
+
+20
+00:01:01,789 --> 00:01:03,960
+to the warped image with
+the different perspective.
+
+21
+00:01:05,090 --> 00:01:08,450
+In this notebook,
+I've written a STOP sign image.
+
+22
+00:01:08,450 --> 00:01:11,200
+Here it is displayed in
+an interactive window.
+
+23
+00:01:11,200 --> 00:01:14,500
+You can see that the image has been
+taken at a bit of an angle, and
+
+24
+00:01:14,500 --> 00:01:17,150
+I want to apply a transform
+to make it look as if we're
+
+25
+00:01:17,150 --> 00:01:19,000
+viewing the sign from the front.
+
+26
+00:01:19,000 --> 00:01:23,340
+First, I'll manually create my four
+points on this original source image,
+
+27
+00:01:23,340 --> 00:01:26,969
+and on my warped destination
+image that doesn't exist yet.
+
+28
+00:01:26,969 --> 00:01:29,929
+These points will define
+the perspective transform.
+
+29
+00:01:29,930 --> 00:01:32,690
+I'll do the source image points first.
+
+30
+00:01:32,689 --> 00:01:34,480
+And I'll choose them by
+looking at the X and
+
+31
+00:01:34,480 --> 00:01:37,160
+Y coordinate values for
+each point I want.
+
+32
+00:01:37,159 --> 00:01:39,289
+This interactive window
+lets me see the X and
+
+33
+00:01:39,290 --> 00:01:42,359
+Y value of each point
+where I place my mouse.
+
+34
+00:01:42,359 --> 00:01:44,579
+So let's zoom in on the STOP
+sign to get a better look.
+
+35
+00:01:46,750 --> 00:01:50,280
+I'll define my first point at this
+top-right corner on the sign.
+
+36
+00:01:50,280 --> 00:01:53,040
+The second one right
+to the bottom of that.
+
+37
+00:01:53,040 --> 00:01:56,780
+Then, to the left of that, and
+finally, my top left corner here.
+
+38
+00:01:58,280 --> 00:02:01,980
+Here are the four X, Y coordinates for
+the points I selected.
+
+39
+00:02:01,980 --> 00:02:05,310
+These four points define
+a rectangle plane on the sign, and
+
+40
+00:02:05,310 --> 00:02:08,969
+I can even display them on my image,
+just to see that they're where I want,
+
+41
+00:02:08,969 --> 00:02:12,770
+using plt.plot, the X, Y coordinates,
+and this top character.
+
+42
+00:02:14,340 --> 00:02:17,377
+So here are the four points all
+displayed, and they look pretty good.
+
+43
+00:02:17,377 --> 00:02:19,302
+[BLANK_AUDIO]
+
+44
+00:02:19,301 --> 00:02:20,709
+This was the first step.
+
+45
+00:02:20,710 --> 00:02:23,980
+But applying a Perspective Transform
+takes a couple of steps.
+
+46
+00:02:23,979 --> 00:02:27,169
+So I'm going to put these
+coordinates on a function named warp
+
+47
+00:02:27,169 --> 00:02:30,586
+that takes in an image and
+will return the warped image.
+
+48
+00:02:30,586 --> 00:02:33,484
+So here's our work function
+that takes in an image.
+
+49
+00:02:33,485 --> 00:02:35,945
+In here those same four
+coordinates I chose above
+
+50
+00:02:35,944 --> 00:02:39,935
+placed into an array of points
+named source for source image.
+
+51
+00:02:39,935 --> 00:02:44,055
+Next, I'll define a desired rectangle
+plane for the warped image and
+
+52
+00:02:44,055 --> 00:02:47,155
+I'll choose four different points that
+are where I want the source points to
+
+53
+00:02:47,155 --> 00:02:48,224
+end up.
+
+54
+00:02:48,224 --> 00:02:51,504
+This time I choose my points
+by just eyeballing a rectangle
+
+55
+00:02:51,504 --> 00:02:52,740
+in that same image.
+
+56
+00:02:52,740 --> 00:02:54,770
+And picking the four
+points that define it.
+
+57
+00:02:54,770 --> 00:02:58,210
+>From the top-right corner,
+around to the top left.
+
+58
+00:02:58,210 --> 00:03:02,770
+So these four points define a desired
+rectangle and I'm putting these points
+
+59
+00:03:02,770 --> 00:03:07,550
+in my work function in a point
+array named dst for destination.
+
+60
+00:03:07,550 --> 00:03:09,080
+Now that I have my source and
+
+61
+00:03:09,080 --> 00:03:12,810
+destination points,
+I can compute the Perspective Transform,
+
+62
+00:03:12,810 --> 00:03:17,310
+which is a matrix that's returned by
+the function Get Perspective Transform.
+
+63
+00:03:17,310 --> 00:03:21,259
+The function Get Perspective Transform
+just takes in our four source points,
+
+64
+00:03:21,259 --> 00:03:23,219
+and our destination points, and
+
+65
+00:03:23,219 --> 00:03:27,659
+it returns the mapping perspective
+matrix which I'll call M.
+
+66
+00:03:27,659 --> 00:03:31,194
+You could also get the Inverse
+Perspective Transform to unwarp
+
+67
+00:03:31,194 --> 00:03:35,875
+the image, by just switching the source
+and destination points in this function.
+
+68
+00:03:35,875 --> 00:03:37,530
+This would just reverse the transform.
+
+69
+00:03:38,719 --> 00:03:43,376
+Next I just need to transform M to
+the original image to get the warped
+
+70
+00:03:43,376 --> 00:03:47,066
+image and I do that with
+a call to warped perspective.
+
+71
+00:03:47,066 --> 00:03:51,606
+Warped perspective takes inner image the
+perspective matrix M the size we want
+
+72
+00:03:51,606 --> 00:03:56,144
+the warped image to be which I'll leave
+as the same size of the original image,
+
+73
+00:03:56,144 --> 00:04:00,408
+and how to interpolate points which is
+just filling in missing points as it
+
+74
+00:04:00,407 --> 00:04:04,449
+warps an image and
+I'll put that as linear interpolation.
+
+75
+00:04:04,449 --> 00:04:08,179
+So this returns a perspective warped
+image based on this matrix M and
+
+76
+00:04:08,180 --> 00:04:09,890
+the given image.
+
+77
+00:04:09,889 --> 00:04:12,129
+And finally,
+I'll just return that warped image.
+
+78
+00:04:13,159 --> 00:04:17,439
+Now, let's see what happens when I
+apply a warp function to an image.
+
+79
+00:04:17,439 --> 00:04:19,269
+And here's code to plot the original and
+
+80
+00:04:19,269 --> 00:04:21,588
+the transformed image
+next to one another.
+
+81
+00:04:21,588 --> 00:04:23,810
+So here's the original and
+the warped image.
+
+82
+00:04:23,810 --> 00:04:24,519
+It looks pretty good,
+
+83
+00:04:24,519 --> 00:04:28,469
+I can see the stop sign as if I
+were standing right in front of it.
+
+84
+00:04:28,470 --> 00:04:31,340
+Now, it's your turn to apply
+a perspective transform to a new image.
+

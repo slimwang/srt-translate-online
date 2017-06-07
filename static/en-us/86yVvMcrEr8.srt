@@ -1,0 +1,211 @@
+1
+00:00:00,200 --> 00:00:03,743
+This is a pretty involved lesson. And I don't expect you to absorb it all at
+
+2
+00:00:03,743 --> 00:00:07,918
+once. But I do want you to at least heard of the idea. I know it's taken me
+
+3
+00:00:07,918 --> 00:00:12,152
+about 20 years to really grasp this whole concept. Let's get started. In
+
+4
+00:00:12,152 --> 00:00:15,568
+previous lessons we've seen that the order of transforms for an object is
+
+5
+00:00:15,568 --> 00:00:19,640
+usually rotate and then translate. For example, we start with the letter F, at
+
+6
+00:00:19,640 --> 00:00:24,892
+the origin. If we rotate it negative 45 degrees, we get a tilted F. We then
+
+7
+00:00:24,892 --> 00:00:29,477
+translate it by one unit vertically, and it moves up. This we write out as TR,
+
+8
+00:00:29,477 --> 00:00:33,954
+with the matrices applied in reverse order. However, we're now able to use
+
+9
+00:00:33,954 --> 00:00:38,358
+matrices which ever way we want. So say we reverse the order. If instead we
+
+10
+00:00:38,358 --> 00:00:43,881
+first translate up a unit, then rotate, we get this, the notation RT. Clearly
+
+11
+00:00:43,881 --> 00:00:48,408
+different, with T changing the origin we then rotate around. Here is another way
+
+12
+00:00:48,408 --> 00:00:53,503
+to look at it. Say we first just rotate the F. We express this by the notation
+
+13
+00:00:53,503 --> 00:00:58,302
+R. We could add a translation matrix before or after this rotation. If we add it
+
+14
+00:00:58,302 --> 00:01:02,654
+before the R this means we translate the object after the rotation and so move
+
+15
+00:01:02,654 --> 00:01:07,257
+it with respect to the world. Whatever happens before this translation was
+
+16
+00:01:07,257 --> 00:01:11,472
+applied is said and done. The object is in whatever orientation that has already
+
+17
+00:01:11,472 --> 00:01:17,096
+been set. Ancient history, so TR is this top case as before. If we put the T
+
+18
+00:01:17,096 --> 00:01:21,884
+after the R, it says to apply the translation first so everything is rotated
+
+19
+00:01:21,884 --> 00:01:26,464
+around the origin. So finally I haven't said anything new. However, another way
+
+20
+00:01:26,464 --> 00:01:29,866
+to look at all this is you're changing the frame of reference by each of these
+
+21
+00:01:29,866 --> 00:01:34,336
+transforms. Instead of rotating or translating the object, we can think about it
+
+22
+00:01:34,336 --> 00:01:38,752
+as changing this frame of reference. By taking this new path, we can think of
+
+23
+00:01:38,752 --> 00:01:43,238
+the transforms in these terms. First the rotation changes the frame of reference
+
+24
+00:01:43,238 --> 00:01:48,126
+that any transforms to the right of it will use. Then the translation moves the
+
+25
+00:01:48,126 --> 00:01:52,312
+object with respect to this new frame of reference. Any point of space is given
+
+26
+00:01:52,312 --> 00:01:56,238
+some x y z coordinate only with respect to something. We started off by thinking
+
+27
+00:01:56,238 --> 00:01:59,748
+of this something as world space, but notice that we have actually been making
+
+28
+00:01:59,748 --> 00:02:03,484
+things in what we call model space, and then transforming them to world space.
+
+29
+00:02:03,485 --> 00:02:07,676
+For example, when we have a parent child relationship, the child is oriented
+
+30
+00:02:07,676 --> 00:02:11,860
+with respect for the parent, not the world. So it's all about respect. Just a
+
+31
+00:02:11,860 --> 00:02:16,660
+little bit. When we put the T matrix after the R, we're saying to translate with
+
+32
+00:02:16,660 --> 00:02:21,515
+respect to the view of the world of the R matrix. So putting the T here, moves
+
+33
+00:02:21,515 --> 00:02:26,610
+the objects with the respect to the R matrices frame of reference. That is, the
+
+34
+00:02:26,610 --> 00:02:31,380
+translation is done with respect to the R's y axis. Putting the T in front of
+
+35
+00:02:31,380 --> 00:02:35,220
+the R means that the translation is not done in the R's frame of reference, but
+
+36
+00:02:35,220 --> 00:02:39,202
+in the world's frame of reference. The R itself is now influenced by the T's
+
+37
+00:02:39,202 --> 00:02:43,168
+frame of reference. Another way to say this is that the first matrix to the
+
+38
+00:02:43,168 --> 00:02:47,328
+right of some given set of matrices is transforming the object with respect to
+
+39
+00:02:47,328 --> 00:02:51,344
+that set. In other words, everything to the left of it. For example, on the top
+
+40
+00:02:51,344 --> 00:02:56,360
+here, the rotation is transforming the F with respect to the frame of reference
+
+41
+00:02:56,360 --> 00:03:00,436
+of the T translation to its left. This all may sound obtuse, but think of
+
+42
+00:03:00,436 --> 00:03:04,468
+someone looking at a hubcap in your model, he wants to know where it's located
+
+43
+00:03:04,468 --> 00:03:08,816
+and what angle it's at. You might describe it as well, I moved the hubcap so
+
+44
+00:03:08,816 --> 00:03:13,541
+it'd be properly attached to the wheel, and then I moved the wheel so that. But
+
+45
+00:03:13,541 --> 00:03:17,808
+he cuts you off, I don't care how it got there, where is it now. When you
+
+46
+00:03:17,808 --> 00:03:22,096
+position the hubcap you weren't really moving the hubcap to its position you are
+
+47
+00:03:22,096 --> 00:03:26,043
+positioning it with respect to wheel's frame of reference. And then you are
+
+48
+00:03:26,043 --> 00:03:29,462
+positioning the wheel with respect to the car's frame of reference. It's more
+
+49
+00:03:29,462 --> 00:03:33,554
+like the car's location and the wheel's location were maps for where the hubcap
+
+50
+00:03:33,554 --> 00:03:37,578
+should go. Different frames of reference are just like you might use latitude
+
+51
+00:03:37,578 --> 00:03:41,070
+and longitude to fly somewhere. Then use a street map, a different frame of
+
+52
+00:03:41,070 --> 00:03:44,720
+reference, to get from the airport to the office. Then use a map of the building
+
+53
+00:03:44,720 --> 00:03:49,334
+to find the room you want. Each frame of reference takes you to the next.

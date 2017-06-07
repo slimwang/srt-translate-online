@@ -1,0 +1,315 @@
+1
+00:00:00,300 --> 00:00:02,570
+You've already downloaded Vagrant in VirtualBox.
+
+2
+00:00:02,570 --> 00:00:04,280
+Two technologies used to provision, and
+
+3
+00:00:04,280 --> 00:00:09,920
+run Ubuntu 14.04 LTS virtual machine used throughout this course.
+
+4
+00:00:09,920 --> 00:00:13,340
+Follow along with the links provided in instructor notes and you'll see that
+
+5
+00:00:13,340 --> 00:00:18,670
+VirtualBox is virtualization software developed and maintained by Oracle.
+
+6
+00:00:18,670 --> 00:00:22,070
+Virtualization refers to the creation of a virtual machine that acts like
+
+7
+00:00:22,070 --> 00:00:24,920
+a real computer with an operating system.
+
+8
+00:00:24,920 --> 00:00:28,780
+For example, your computer could be running Microsoft Windows.
+
+9
+00:00:28,780 --> 00:00:30,980
+And for this course we've given you a virtual machine that
+
+10
+00:00:30,980 --> 00:00:34,690
+has the functionality of a computer with Ubuntu Linux.
+
+11
+00:00:34,690 --> 00:00:37,689
+This is possible using the virtualization software VirtualBox.
+
+12
+00:00:38,860 --> 00:00:42,670
+Next, we use Vagrant, a free and open source software, for creating and
+
+13
+00:00:42,670 --> 00:00:45,610
+configuring virtual development environments.
+
+14
+00:00:45,610 --> 00:00:49,000
+This can be seen as a wrapper around virtualization software such as
+
+15
+00:00:49,000 --> 00:00:54,500
+VirtualBox and around configuration management software such as Puppet or Chef.
+
+16
+00:00:54,500 --> 00:00:56,830
+In our setup we pull a base image or
+
+17
+00:00:56,830 --> 00:01:01,370
+virtual machine disc image from the Vagrant cloud and if you recall from
+
+18
+00:01:01,370 --> 00:01:06,440
+lesson 1 this step required about 15 to 20 minutes during your first run.
+
+19
+00:01:06,440 --> 00:01:10,050
+If you recall from lesson 1 I promised to demonstrate modifying the Vagrant
+
+20
+00:01:10,050 --> 00:01:14,130
+file and the privison.sh file to provision the machine for
+
+21
+00:01:14,130 --> 00:01:16,740
+the Python beautiful suit package.
+
+22
+00:01:16,740 --> 00:01:19,330
+Let's walk through this simple modification now.
+
+23
+00:01:19,330 --> 00:01:21,232
+From lesson 3, stage 3,
+
+24
+00:01:21,232 --> 00:01:26,710
+recall that we needed to enter a command, pseudo app get install Python BS4.
+
+25
+00:01:27,850 --> 00:01:29,244
+You may have noticed in lesson 3,
+
+26
+00:01:29,244 --> 00:01:33,930
+stage 2 that if you failed to do the install step and you submit your topology,
+
+27
+00:01:33,930 --> 00:01:38,670
+your process dies, where no module named bs4 exists on your machine.
+
+28
+00:01:38,670 --> 00:01:41,640
+To modify your box at the provisioning stage,
+
+29
+00:01:41,640 --> 00:01:44,300
+step 1 is to destroy your current box.
+
+30
+00:01:44,300 --> 00:01:46,620
+First close any connected web pages.
+
+31
+00:01:46,620 --> 00:01:50,470
+Next, stop your Python flat server, if you followed my directions for
+
+32
+00:01:50,470 --> 00:01:54,810
+setup you'll have another tab where your flat server exists.
+
+33
+00:01:54,810 --> 00:01:58,901
+Use Ctrl+Z, so Ctrl+Z to send it to the background, and
+
+34
+00:01:58,901 --> 00:02:03,860
+next kill %1, which will kill the program in the background.
+
+35
+00:02:03,860 --> 00:02:07,540
+Next, log out of your Ubuntu box in both tabs.
+
+36
+00:02:07,540 --> 00:02:10,610
+Log out and in your second tab, log out.
+
+37
+00:02:10,610 --> 00:02:12,910
+Now that you've logged out of your Ubuntu virtual machine,
+
+38
+00:02:12,910 --> 00:02:17,340
+in your local machine, make sure that you're still the original ud381 folder.
+
+39
+00:02:17,340 --> 00:02:20,310
+Type Vagrant destroy in your local machine.
+
+40
+00:02:20,310 --> 00:02:21,740
+Followed by yes.
+
+41
+00:02:21,740 --> 00:02:24,060
+And notice that the virtual machine is now destroyed.
+
+42
+00:02:24,060 --> 00:02:27,980
+Once your VirtualBox is destroyed, you can navigate to vagrantup.com and
+
+43
+00:02:27,980 --> 00:02:30,590
+follow along by clicking on the documentation.
+
+44
+00:02:30,590 --> 00:02:34,060
+Once in documentation, click on the Vagrantfile link.
+
+45
+00:02:34,060 --> 00:02:38,650
+In the Vagrantfile link, notice that the syntax of Vagrantfile is in Ruby.
+
+46
+00:02:38,650 --> 00:02:41,120
+Next, click on the Provisioning link.
+
+47
+00:02:41,120 --> 00:02:43,170
+And scroll down to the shell link.
+
+48
+00:02:43,170 --> 00:02:45,300
+We use a simple shell provisioner, and
+
+49
+00:02:45,300 --> 00:02:49,970
+scrolling down, and scrolling down you'll find the syntax for external script.
+
+50
+00:02:49,970 --> 00:02:55,150
+We use the Ruby syntax config.vm.provision with option shell, and
+
+51
+00:02:55,150 --> 00:03:00,730
+specify the path to our provision.sh instead of script.sh.
+
+52
+00:03:00,730 --> 00:03:03,030
+So, navigating to our text editor.
+
+53
+00:03:03,030 --> 00:03:05,510
+And navigating to the Vagrant file.
+
+54
+00:03:05,510 --> 00:03:10,600
+We simply add in the config.vm.provision with the shell option and
+
+55
+00:03:10,600 --> 00:03:13,230
+our path is provision.sh.
+
+56
+00:03:13,230 --> 00:03:18,110
+We then navigate to the provision.sh file and we see a number of Ubuntu
+
+57
+00:03:18,110 --> 00:03:23,390
+commands to install when the virtual machine is being provisioned.
+
+58
+00:03:23,390 --> 00:03:26,110
+We add in the python-bs4 package.
+
+59
+00:03:27,730 --> 00:03:30,750
+And remember to save your provision.sh file.
+
+60
+00:03:30,750 --> 00:03:34,960
+Once saved, we come back to our Vagrant up command in our terminal.
+
+61
+00:03:34,960 --> 00:03:39,880
+And notice now the new package of Python-ps4 is being updated.
+
+62
+00:03:39,880 --> 00:03:42,970
+We also see that our provisioning script fails because some of
+
+63
+00:03:42,970 --> 00:03:45,160
+the files already exist.
+
+64
+00:03:45,160 --> 00:03:49,270
+Notice that the provision machine only takes about 20 to 30 seconds to start up.
+
+65
+00:03:49,270 --> 00:03:52,120
+And this is much, much faster than the 15 or
+
+66
+00:03:52,120 --> 00:03:54,970
+20 minutes that it took during our initial run.
+
+67
+00:03:54,970 --> 00:03:58,330
+This is the because the base image has already been downloaded from Vagrant
+
+68
+00:03:58,330 --> 00:04:03,100
+cloud and now with our Vagrant and provision files we're simply provisioning or
+
+69
+00:04:03,100 --> 00:04:08,350
+installing our required software and starting services needed for the course.
+
+70
+00:04:08,350 --> 00:04:11,590
+After provisioning our machine we Vagrant SSH.
+
+71
+00:04:11,590 --> 00:04:15,810
+And now we can check if our Python bs4 package has been installed correctly.
+
+72
+00:04:15,810 --> 00:04:21,024
+We can do that dpkg-l and let's search for
+
+73
+00:04:21,024 --> 00:04:26,600
+python-* to look for all Python packages with a dash.
+
+74
+00:04:27,800 --> 00:04:31,840
+And scrolling up we see that the python-bs4 package,
+
+75
+00:04:31,840 --> 00:04:35,070
+the beautiful suit package, has been installed correctly.
+
+76
+00:04:35,070 --> 00:04:38,640
+Finally, if you're interested in building more virtual machines, or
+
+77
+00:04:38,640 --> 00:04:41,150
+playing around with provisioning machines.
+
+78
+00:04:41,150 --> 00:04:44,830
+I encourage you to explore the Vagrant documentation further, and
+
+79
+00:04:44,830 --> 00:04:45,570
+have some fun doing it.

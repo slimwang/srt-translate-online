@@ -1,0 +1,426 @@
+﻿1
+00:00:00,230 --> 00:00:01,940
+Now, that we've created the contract and
+
+2
+00:00:01,940 --> 00:00:05,370
+the database, we should be
+ready to add and retrieve data.
+
+3
+00:00:05,370 --> 00:00:08,720
+Let's start by implementing a query,
+that will retrieve all our guests and
+
+4
+00:00:08,720 --> 00:00:10,470
+display them in the UI.
+
+5
+00:00:10,470 --> 00:00:12,270
+But how will we retrieve anything,
+
+6
+00:00:12,269 --> 00:00:15,129
+when we haven't even added any
+guests to the database yet.
+
+7
+00:00:15,130 --> 00:00:17,300
+Well that's why provided
+you with some code,
+
+8
+00:00:17,300 --> 00:00:20,260
+that will insert fake data
+directly into the database.
+
+9
+00:00:20,260 --> 00:00:22,130
+This way you can test your own query,
+and
+
+10
+00:00:22,129 --> 00:00:24,609
+check if your code works as expected.
+
+11
+00:00:24,609 --> 00:00:27,070
+Soon afterwards,
+we will be implementing adding and
+
+12
+00:00:27,070 --> 00:00:28,519
+removing guests to complete our app.
+
+13
+00:00:29,519 --> 00:00:33,019
+>> This exercise we'll be using
+the project titled exercise get
+
+14
+00:00:33,020 --> 00:00:34,080
+all the data.
+
+15
+00:00:34,079 --> 00:00:36,210
+To retrieve all the data in a database,
+
+16
+00:00:36,210 --> 00:00:40,570
+we need to run an SQL query that will
+select everything in the waitlist table.
+
+17
+00:00:40,570 --> 00:00:43,939
+And to be able to run SQL
+queries in Android, we will be
+
+18
+00:00:43,939 --> 00:00:47,530
+using the DB helper clause, that we
+created in the previous exercise.
+
+19
+00:00:47,530 --> 00:00:50,320
+So, the first thing to
+do is in main activity.
+
+20
+00:00:50,320 --> 00:00:51,070
+So the first thing to do,
+
+21
+00:00:51,070 --> 00:00:56,219
+in main activity is to declare
+a variable of type SQL like database.
+
+22
+00:00:56,219 --> 00:01:00,560
+This will be our reference to the actual
+SQL database linked into this App.
+
+23
+00:01:00,560 --> 00:01:04,469
+And then, inside the main activities
+onCreate method declare and
+
+24
+00:01:04,469 --> 00:01:09,640
+initialize a dbHelper object from
+the waitlistDbHelper class and
+
+25
+00:01:09,640 --> 00:01:12,120
+pass in this as the context.
+
+26
+00:01:12,120 --> 00:01:17,850
+Then, set the NDB database to
+dbHelper.getWritetable database.
+
+27
+00:01:17,849 --> 00:01:22,519
+If we weren't inserting any data but
+just interested in reading data,
+
+28
+00:01:22,519 --> 00:01:27,269
+we could use a getReadableDatabase
+instead of getWritableDatabase here.
+
+29
+00:01:27,269 --> 00:01:30,519
+But because in a minute, we'll be
+filling the database with fake data
+
+30
+00:01:30,519 --> 00:01:33,619
+We actually need
+a WritableDatabase reference.
+
+31
+00:01:33,620 --> 00:01:38,480
+To fill a database with fake data, we've
+provided you with a TestUtil clause.
+
+32
+00:01:38,480 --> 00:01:41,240
+Inside, there's a method
+called insert fake data.
+
+33
+00:01:41,239 --> 00:01:44,099
+That just takes a database
+reference as an input, and
+
+34
+00:01:44,099 --> 00:01:47,689
+it will automatically add
+five guests to the database.
+
+35
+00:01:47,689 --> 00:01:52,149
+Awesome, now let's create a new
+method called get all guests
+
+36
+00:01:52,150 --> 00:01:54,850
+that will actually return
+everything in the database.
+
+37
+00:01:54,849 --> 00:01:59,849
+Our method get all guests, returns
+the result in a type called cursor.
+
+38
+00:01:59,849 --> 00:02:03,219
+An cursor is what any SQL query
+result will be stored in.
+
+39
+00:02:03,219 --> 00:02:06,840
+The cursor clause allows you to iterate,
+over the query result in a very easy and
+
+40
+00:02:06,840 --> 00:02:08,659
+simple way, as we'll see soon.
+
+41
+00:02:08,659 --> 00:02:12,060
+So, now it's time to create and
+run the actual SQL query.
+
+42
+00:02:12,060 --> 00:02:15,860
+To do that, we called the query method
+in the database instance was created
+
+43
+00:02:15,860 --> 00:02:17,960
+earlier MDB.
+
+44
+00:02:17,960 --> 00:02:20,689
+This method can take quite
+a number of parameters.
+
+45
+00:02:20,689 --> 00:02:23,189
+Here are only sitting the first and
+the last one.
+
+46
+00:02:23,189 --> 00:02:24,389
+The first being the table name,
+
+47
+00:02:24,389 --> 00:02:28,429
+and the last being the order by
+column that we're interested in.
+
+48
+00:02:28,430 --> 00:02:31,650
+And we can get both of those from
+the contract constance that we declared
+
+49
+00:02:31,650 --> 00:02:32,530
+before.
+
+50
+00:02:32,530 --> 00:02:35,890
+Notice that we're ordering
+by the time stamp column,
+
+51
+00:02:35,889 --> 00:02:38,319
+because that's the order that we
+want to display the guests with.
+
+52
+00:02:38,319 --> 00:02:43,000
+The second parameter here,
+is something called a projection array.
+
+53
+00:02:43,000 --> 00:02:45,710
+Here you can specify
+an array of columns,
+
+54
+00:02:45,710 --> 00:02:47,939
+that you're interested in
+returning in your query.
+
+55
+00:02:47,939 --> 00:02:50,990
+But because we're interested
+in everything in the table,
+
+56
+00:02:50,990 --> 00:02:52,480
+we'll just passing a null.
+
+57
+00:02:52,479 --> 00:02:54,679
+The same goes for
+the rest of the parameters.
+
+58
+00:02:54,680 --> 00:02:57,439
+If you want to know more,
+if you're interested,
+
+59
+00:02:57,439 --> 00:03:01,680
+check out the intro documentation for
+SQLite Database query method.
+
+60
+00:03:01,680 --> 00:03:04,240
+So now our all guests function is ready.
+
+61
+00:03:04,240 --> 00:03:06,590
+Since we just returned
+the results of that query.
+
+62
+00:03:06,590 --> 00:03:10,500
+So let's go back and call it right
+after we insert our fake data, and
+
+63
+00:03:10,500 --> 00:03:14,210
+so we can install the results and
+cursor variables.
+
+64
+00:03:14,210 --> 00:03:18,147
+But to test the all guest work,
+we need to update the adapter to
+
+65
+00:03:18,146 --> 00:03:23,094
+accept an integer representing the count
+of guest is in the returned cursor.
+
+66
+00:03:23,094 --> 00:03:27,473
+This will reflect in the recycle view
+showing a list of guests that is as long
+
+67
+00:03:27,473 --> 00:03:32,079
+as the count specify So let's open
+our guest list adapter and modify it.
+
+68
+00:03:32,080 --> 00:03:36,350
+First thing, declare an integer
+called mCount, that will store and
+
+69
+00:03:36,349 --> 00:03:38,989
+remember the count that's
+passed in to the adapter.
+
+70
+00:03:38,990 --> 00:03:43,680
+Then update the adapter, to accept
+this integer as a new argument.
+
+71
+00:03:43,680 --> 00:03:45,250
+And inside the adapter,
+
+72
+00:03:45,250 --> 00:03:48,379
+make sure you set this local
+member to the past mCount.
+
+73
+00:03:48,379 --> 00:03:52,750
+And then finally, scroll down and
+make sure you update the getItemCount
+
+74
+00:03:52,750 --> 00:03:56,840
+method to return the actual count
+rather than just 0, perfect.
+
+75
+00:03:56,840 --> 00:03:59,770
+Now, let's go back to our main activity,
+and make sure that
+
+76
+00:03:59,770 --> 00:04:04,340
+we're passing the cursor.getCount
+as another input to our adapter.
+
+77
+00:04:04,340 --> 00:04:07,009
+This way depending on
+the result in the cursor,
+
+78
+00:04:07,009 --> 00:04:11,649
+the adapter would let the RecyclerView
+display a list that's that long.
+
+79
+00:04:11,650 --> 00:04:16,389
+When you run the application,
+it does show five guests in the list.
+
+80
+00:04:16,389 --> 00:04:20,159
+But it only shows the default name and
+the party size.
+
+81
+00:04:20,160 --> 00:04:22,870
+That's because we're only passing
+in the count to the adapter,
+
+82
+00:04:22,870 --> 00:04:25,439
+not the actual names or the party sizes.
+
+83
+00:04:25,439 --> 00:04:27,920
+However, there seems to be
+only five of them in the list,
+
+84
+00:04:27,920 --> 00:04:30,580
+which is exactly what we expected.
+
+85
+00:04:30,579 --> 00:04:33,979
+Cool, looks like we're
+getting at least closer now.
+
+86
+00:04:33,980 --> 00:04:37,710
+Next, we'll see how to fix this default
+text and show the actual names and
+
+87
+00:04:37,709 --> 00:04:39,089
+party sizes.
+
+88
+00:04:39,089 --> 00:04:43,299
+But before that, just make sure you've
+tried what we've done yourself, and
+
+89
+00:04:43,300 --> 00:04:45,079
+see if you can get the same
+results when you run it.
+

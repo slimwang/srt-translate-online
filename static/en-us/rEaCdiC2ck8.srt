@@ -1,0 +1,311 @@
+1
+00:00:00,270 --> 00:00:02,880
+Great job completing the Twitter word count topology.
+
+2
+00:00:02,880 --> 00:00:06,120
+Hopefully you were able to access live tweets using your own oath,
+
+3
+00:00:06,120 --> 00:00:11,430
+oath credentials using the Twitter 4AJPI and run your visualization.
+
+4
+00:00:11,430 --> 00:00:12,720
+I'll walk you through my solution here.
+
+5
+00:00:13,800 --> 00:00:16,430
+First after entering my credentials I asked you to
+
+6
+00:00:16,430 --> 00:00:18,859
+simply run topology using mvn package.
+
+7
+00:00:20,130 --> 00:00:24,010
+And once you had a build success, you could look at your structure,
+
+8
+00:00:24,010 --> 00:00:28,480
+here's your TweetTopology and your jar-with-dependencies.
+
+9
+00:00:28,480 --> 00:00:32,580
+And submit using storm jar target/udacity,again using tab.
+
+10
+00:00:33,630 --> 00:00:39,090
+And we have udacity .storm.TweetTopology.
+
+11
+00:00:39,090 --> 00:00:41,740
+Finally I asked you to update the topology.
+
+12
+00:00:41,740 --> 00:00:45,870
+First in part one we attached the parsed tweet bolt with a parallelism of 10.
+
+13
+00:00:45,870 --> 00:00:49,360
+I also asked what grouping is needed.
+
+14
+00:00:49,360 --> 00:00:52,400
+Remember our builder syntax is builder.setBolt.
+
+15
+00:00:52,400 --> 00:00:56,140
+We want this to be the parse-tweet-bolt.
+
+16
+00:00:56,140 --> 00:00:58,560
+And that's a new ParseTweetBolt.
+
+17
+00:00:58,560 --> 00:01:00,430
+And a parallelism of 10.
+
+18
+00:01:00,430 --> 00:01:03,310
+Finally, the grouping that's needed in the parse tweet bolt is
+
+19
+00:01:03,310 --> 00:01:05,710
+simply a shuffle grouping.
+
+20
+00:01:05,710 --> 00:01:08,200
+And we connect that to the tweet spout.
+
+21
+00:01:08,200 --> 00:01:10,090
+Using the component ID tweet-spout.
+
+22
+00:01:10,090 --> 00:01:12,920
+And remember to end with a semicolon.
+
+23
+00:01:14,590 --> 00:01:19,130
+Next, we want to attach the count bolt with a parallelism of 15, and again,
+
+24
+00:01:19,130 --> 00:01:19,990
+what grouping is needed?
+
+25
+00:01:21,010 --> 00:01:23,350
+Syntax here is, builder.setBolt.
+
+26
+00:01:23,350 --> 00:01:26,505
+This is the component ID,
+
+27
+00:01:26,505 --> 00:01:32,240
+count-bolt, a new CountBolt, and a parallelism of 15.
+
+28
+00:01:32,240 --> 00:01:35,820
+Next, the grouping nets needed is a field grouping,
+
+29
+00:01:35,820 --> 00:01:40,240
+because we want to parse each word coming out of the parse-tweet Bolt.
+
+30
+00:01:40,240 --> 00:01:44,530
+And hash it on the unique word that's coming in order to be counted.
+
+31
+00:01:44,530 --> 00:01:46,470
+So we have fieldsGrouping.
+
+32
+00:01:46,470 --> 00:01:49,510
+Connect to the parse-tweet-bolt.
+
+33
+00:01:49,510 --> 00:01:50,820
+And for our fieldsGrouping,
+
+34
+00:01:50,820 --> 00:01:55,650
+we need to declare the new field with the name of the field.
+
+35
+00:01:55,650 --> 00:01:57,820
+The name of the field is something that we need to check.
+
+36
+00:01:58,880 --> 00:02:00,350
+Let's go to the ParseTweetBolt now.
+
+37
+00:02:01,350 --> 00:02:03,830
+I'm doing that by searching ParseTweetBolt.
+
+38
+00:02:03,830 --> 00:02:07,560
+And we can scroll down to the declare output field where I
+
+39
+00:02:07,560 --> 00:02:11,008
+declare the output field, tweet word.
+
+40
+00:02:11,008 --> 00:02:12,660
+That's the field we need.
+
+41
+00:02:12,660 --> 00:02:17,980
+Let's jump back to our topology and enter in the new field, tweet word.
+
+42
+00:02:17,980 --> 00:02:20,200
+And finally end with a semicolon.
+
+43
+00:02:20,200 --> 00:02:24,270
+In part three we want to attach the report bolt with a parallelism of one, and
+
+44
+00:02:24,270 --> 00:02:26,100
+again I ask what grouping is needed.
+
+45
+00:02:26,100 --> 00:02:28,500
+Here we have builder dot set bolt.
+
+46
+00:02:28,500 --> 00:02:32,460
+Report bolt is our component I.D. It's a new report bolt.
+
+47
+00:02:32,460 --> 00:02:34,160
+Parallelism of one.
+
+48
+00:02:34,160 --> 00:02:37,080
+Again the question is what grouping do we need?
+
+49
+00:02:37,080 --> 00:02:40,860
+We want all of the streams coming from the count bolt to go one
+
+50
+00:02:40,860 --> 00:02:43,790
+report bolt in order to connect with our visualization.
+
+51
+00:02:43,790 --> 00:02:46,890
+Therefore we need a global grouping and
+
+52
+00:02:46,890 --> 00:02:50,010
+the syntax here is simply to connect to the count bolt.
+
+53
+00:02:50,010 --> 00:02:53,490
+With the component ID component ending with the semicolon.
+
+54
+00:02:53,490 --> 00:02:56,130
+Let's check our solution by maven package.
+
+55
+00:02:56,130 --> 00:03:00,980
+So notice I get a build failure and it turns out that I have a syntax error.
+
+56
+00:03:00,980 --> 00:03:03,650
+So I'll leave this in just because this is very common.
+
+57
+00:03:03,650 --> 00:03:07,420
+In maven it's a good check for your syntax and simply put.
+
+58
+00:03:07,420 --> 00:03:11,380
+I have an extra parentheses, right there, in the ParseTweetBolt.
+
+59
+00:03:11,380 --> 00:03:16,400
+So, I want to declare the ParseTweetBolt, but have the parallelism of 10,
+
+60
+00:03:16,400 --> 00:03:20,090
+and that's how I can tell that my topology was incorrect.
+
+61
+00:03:21,390 --> 00:03:24,590
+So, let's clear this, and repackage.
+
+62
+00:03:24,590 --> 00:03:27,760
+And I leave this one in too because we see another build failure, and
+
+63
+00:03:27,760 --> 00:03:30,740
+it's new FieldsGrouping, with s.
+
+64
+00:03:30,740 --> 00:03:34,550
+let's repackage again, and finally we have a build success.
+
+65
+00:03:34,550 --> 00:03:38,960
+Now let's submit our program using storm jar target again using our tab, and
+
+66
+00:03:38,960 --> 00:03:43,200
+this is udacity dot storm tweet topology.
+
+67
+00:03:44,240 --> 00:03:48,400
+Finally as our program's running, we can bring our visualization.
+
+68
+00:03:48,400 --> 00:03:52,140
+And we see that as the tweets are coming in through our live tweet spout,
+
+69
+00:03:52,140 --> 00:03:56,580
+the tweets are parsed, counted and displayed using our visualization.
+
+70
+00:03:56,580 --> 00:04:00,100
+The longer the topology runs, we see that the words grow in size.
+
+71
+00:04:00,100 --> 00:04:06,580
+We can hover over a word, and we see that there is 158 instances of.
+
+72
+00:04:06,580 --> 00:04:08,000
+This http word.
+
+73
+00:04:08,000 --> 00:04:11,590
+We'll clean this up in further exercises using different filters.
+
+74
+00:04:11,590 --> 00:04:15,810
+But, for now, it's pretty cool to see that our tweet topology
+
+75
+00:04:15,810 --> 00:04:18,800
+is counting words correctly in real time.
+
+76
+00:04:18,800 --> 00:04:19,310
+Great job.
+
+77
+00:04:19,310 --> 00:04:22,210
+And, hopefully, you're able to take a screenshot or video and
+
+78
+00:04:22,210 --> 00:04:23,200
+post this to the forum.

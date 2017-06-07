@@ -1,0 +1,179 @@
+1
+00:00:00,160 --> 00:00:03,020
+The two models are two extremes,
+but in reality,
+
+2
+00:00:03,020 --> 00:00:05,980
+what makes sense is to
+have something in between.
+
+3
+00:00:05,980 --> 00:00:10,060
+First, we should allow clients to
+benefit from using their local memories
+
+4
+00:00:10,060 --> 00:00:11,710
+and their local disk, and
+
+5
+00:00:11,710 --> 00:00:15,350
+to store at least some parts of
+the file they're working on.
+
+6
+00:00:15,350 --> 00:00:16,860
+For instance, it makes sense for
+
+7
+00:00:16,860 --> 00:00:20,560
+clients to download some blocks of
+the file that they're accessing.
+
+8
+00:00:20,560 --> 00:00:25,052
+Or even to apply certain prefetching
+techniques just like what regular file
+
+9
+00:00:25,052 --> 00:00:29,334
+systems do when they're trying to
+prefetch blocks from disks into their
+
+10
+00:00:29,334 --> 00:00:30,256
+memory cache.
+
+11
+00:00:30,256 --> 00:00:35,125
+This will lead both to lower latencies
+for those file operations that acts
+
+12
+00:00:35,125 --> 00:00:38,824
+as these locally stored or
+cached portions of the file.
+
+13
+00:00:38,824 --> 00:00:42,211
+And by doing this, also some
+load is removed from the server
+
+14
+00:00:42,211 --> 00:00:46,570
+since some operations can be fully
+performed on the client machines.
+
+15
+00:00:46,570 --> 00:00:49,300
+And thus the server
+becomes more scalable.
+
+16
+00:00:49,300 --> 00:00:53,920
+Now, once we allow the clients to store
+portions of this file locally and
+
+17
+00:00:53,920 --> 00:00:56,020
+to perform operations on the file,
+
+18
+00:00:56,020 --> 00:00:59,150
+including modifications,
+it becomes necessary for
+
+19
+00:00:59,150 --> 00:01:03,145
+the clients to start interacting
+with the server for two reasons.
+
+20
+00:01:03,145 --> 00:01:05,695
+First, the clients need
+to notify the server of
+
+21
+00:01:05,695 --> 00:01:08,525
+any modifications to the file
+that they have made.
+
+22
+00:01:08,525 --> 00:01:13,212
+And also, the clients need to find out
+from the server if any of the files that
+
+23
+00:01:13,212 --> 00:01:17,032
+they have locally cached has
+been modified by someone else.
+
+24
+00:01:17,032 --> 00:01:21,332
+These interactions have to happen
+with some reasonable frequency so
+
+25
+00:01:21,332 --> 00:01:25,292
+that it's not too late by the time
+that we discover that certain changes
+
+26
+00:01:25,292 --> 00:01:26,380
+have been made.
+
+27
+00:01:26,380 --> 00:01:30,920
+This is beneficial because unlike
+in the upload-download model,
+
+28
+00:01:30,920 --> 00:01:33,360
+with this,
+the server is still in the loop.
+
+29
+00:01:33,360 --> 00:01:37,200
+It has insights into what exactly
+are the clients doing, and
+
+30
+00:01:37,200 --> 00:01:41,960
+it has some control over which accesses
+should be permitted versus not.
+
+31
+00:01:41,960 --> 00:01:45,080
+So it becomes easier to
+maintain consistency.
+
+32
+00:01:45,080 --> 00:01:49,740
+However, the problem with this is that
+it makes the file server more complex.
+
+33
+00:01:49,740 --> 00:01:54,110
+It means that the server would have to
+perform additional tasks and maintain
+
+34
+00:01:54,110 --> 00:01:59,700
+additional state so as to make sure that
+it can provide consistency guarantees.
+
+35
+00:01:59,700 --> 00:02:03,900
+And achieving a practical solution of
+this model means that the clients would
+
+36
+00:02:03,900 --> 00:02:07,630
+have to understand somewhat
+different file sharing semantics
+
+37
+00:02:07,630 --> 00:02:11,560
+compared to what they are used to
+in a typical local file system.

@@ -1,0 +1,331 @@
+1
+00:00:00,350 --> 00:00:03,500
+There is a danger in the previous example that the parent and
+
+2
+00:00:03,500 --> 00:00:07,810
+the child thread will try to update the shared list at the same time,
+
+3
+00:00:07,810 --> 00:00:10,170
+potentially overriding the list elements.
+
+4
+00:00:10,170 --> 00:00:14,230
+This illustrates a key challenge with multi-threading that there is a need for
+
+5
+00:00:14,230 --> 00:00:18,580
+a mechanism to enable mutual exclusion among the execution of
+
+6
+00:00:18,580 --> 00:00:19,710
+concurrent threads.
+
+7
+00:00:19,710 --> 00:00:21,830
+To do this, operating systems and
+
+8
+00:00:21,830 --> 00:00:25,960
+threading libraries in general support a construct called mutex.
+
+9
+00:00:25,960 --> 00:00:30,710
+A mutex is like a lock that should be used whenever accessing data or
+
+10
+00:00:30,710 --> 00:00:33,450
+stayed that's shared among threads.
+
+11
+00:00:33,450 --> 00:00:38,390
+When a thread locks a mutex, it has exclusive access to the shared resource.
+
+12
+00:00:38,390 --> 00:00:42,760
+Other threads attempting to lock the same mutex are not going to be successful.
+
+13
+00:00:42,760 --> 00:00:45,700
+We also use the term, acquire the lock or
+
+14
+00:00:45,700 --> 00:00:48,580
+acquire the mutex, to refer to this operation.
+
+15
+00:00:48,580 --> 00:00:53,550
+So these unsuccessful threads, they will be what we call blocked on
+
+16
+00:00:53,550 --> 00:00:58,150
+the lock operation, meaning they'll be suspended here, they will not be able to
+
+17
+00:00:58,150 --> 00:01:03,460
+proceed until the mutex owner, the lock holder, releases it.
+
+18
+00:01:03,460 --> 00:01:06,300
+This means that as a data structure the mutex should at
+
+19
+00:01:06,300 --> 00:01:09,460
+least contain information about its status.
+
+20
+00:01:09,460 --> 00:01:10,600
+Is it locked or free?
+
+21
+00:01:10,600 --> 00:01:15,700
+And it will have to have some type of list that doesn't necessarily have to
+
+22
+00:01:15,700 --> 00:01:18,090
+be guaranteed to be ordered, but
+
+23
+00:01:18,090 --> 00:01:22,100
+it has to be a some sort of list of all the threads that are blocked on
+
+24
+00:01:22,100 --> 00:01:24,690
+the mutex and that are waiting for it to be free.
+
+25
+00:01:24,690 --> 00:01:29,590
+Another common element that's part of this mutex data structure is to maintain
+
+26
+00:01:29,590 --> 00:01:35,070
+some information about the owner of the mutex, who currently has the lock.
+
+27
+00:01:35,070 --> 00:01:39,490
+A thread that has successfully locked the mutex, has exclusive rights to it,
+
+28
+00:01:39,490 --> 00:01:42,050
+and can proceed with its execution.
+
+29
+00:01:42,050 --> 00:01:47,770
+In this example, T1 gets access to the mutex and thus continues executing.
+
+30
+00:01:47,770 --> 00:01:51,310
+Two other threads, T2 and T3, that are also trying to
+
+31
+00:01:51,310 --> 00:01:55,630
+log the mutex will not be successful with that operation.
+
+32
+00:01:55,630 --> 00:01:57,770
+They will be blocked on the mutex, and
+
+33
+00:01:57,770 --> 00:02:01,930
+they will have to wait until thread one releases the mutex.
+
+34
+00:02:01,930 --> 00:02:06,700
+The portion of the code protected by the mutex, is called critical section.
+
+35
+00:02:06,700 --> 00:02:10,699
+In paper, this is any code within the curly brackets of
+
+36
+00:02:10,699 --> 00:02:14,750
+the lock operating that he proposes to be used with mutexes.
+
+37
+00:02:14,750 --> 00:02:17,930
+The critical section code should correspond with any kind of
+
+38
+00:02:17,930 --> 00:02:23,750
+operation that requires that only one thread at a time performs this operation.
+
+39
+00:02:23,750 --> 00:02:28,060
+For instance, it can be updated to shared variable like the list or
+
+40
+00:02:28,060 --> 00:02:29,370
+increment a counter.
+
+41
+00:02:30,900 --> 00:02:35,580
+Or performing any type of operation that requires mutual execution between
+
+42
+00:02:35,580 --> 00:02:36,490
+the threads.
+
+43
+00:02:36,490 --> 00:02:38,370
+Other than the critical section code,
+
+44
+00:02:38,370 --> 00:02:42,270
+the rest of the code in the program, the threads execution concurrently.
+
+45
+00:02:42,270 --> 00:02:45,940
+So using the same example, imagine that the three threads need to
+
+46
+00:02:45,940 --> 00:02:52,080
+execute a sequence of code among block A fold by the critical section.
+
+47
+00:02:52,080 --> 00:02:56,460
+And then some other portions of code, blocks B, C, and D.
+
+48
+00:02:56,460 --> 00:02:59,750
+All the code blocks with a letter can be executed concurrently.
+
+49
+00:02:59,750 --> 00:03:04,810
+The critical sections, however, can be executed only by one thread at a time.
+
+50
+00:03:04,810 --> 00:03:08,780
+So thread two cannot start the critical section until after thread
+
+51
+00:03:08,780 --> 00:03:10,738
+one finishes them.
+
+52
+00:03:10,738 --> 00:03:15,260
+Thread three cannot start its critical section until any prior thread
+
+53
+00:03:15,260 --> 00:03:17,930
+exits the critical section, or releases the lock.
+
+54
+00:03:17,930 --> 00:03:21,840
+All of the remaining portions of the code can be executed concurrently.
+
+55
+00:03:21,840 --> 00:03:25,910
+So in summary, the threads are mutually exclusive with one another,
+
+56
+00:03:25,910 --> 00:03:29,400
+with respect to their execution of the critical section code.
+
+57
+00:03:29,400 --> 00:03:33,180
+In the lock construct proposed by Burrell, again,
+
+58
+00:03:33,180 --> 00:03:37,670
+the critical section is the code between the curly brackets.
+
+59
+00:03:37,670 --> 00:03:42,440
+And the semantics are such that upon acquiring a mutex,
+
+60
+00:03:42,440 --> 00:03:44,990
+a thread enters the locked block.
+
+61
+00:03:44,990 --> 00:03:49,970
+And then when exiting the block with the closing of the curly bracket the owner
+
+62
+00:03:49,970 --> 00:03:54,150
+of the thread releases this mutex, frees the lock.
+
+63
+00:03:54,150 --> 00:03:58,190
+So the critical section code in this example, that's the code between the curly
+
+64
+00:03:58,190 --> 00:04:03,210
+brackets and the closing of the curly bracket implicitly frees the lock.
+
+65
+00:04:03,210 --> 00:04:07,870
+When a lock is freed, at this point any one of the threads that are waiting on
+
+66
+00:04:07,870 --> 00:04:13,360
+the log, or even a brand new thread that's just reaching the lock construct,
+
+67
+00:04:13,360 --> 00:04:16,570
+can start executing the lock operation.
+
+68
+00:04:16,570 --> 00:04:22,260
+For instance, if T3's lock statement coincides with the release of the lock,
+
+69
+00:04:22,260 --> 00:04:23,530
+of thread one.
+
+70
+00:04:23,530 --> 00:04:28,330
+T3 may be the one, to be the first one to execute, to acquire the lock and
+
+71
+00:04:28,330 --> 00:04:32,990
+execute the critical section although T2 was already waiting on in it.
+
+72
+00:04:32,990 --> 00:04:37,100
+Who will use Burrell's lock construct throughout this lecture.
+
+73
+00:04:37,100 --> 00:04:41,430
+However, you should know that most common APIs have two separate calls,
+
+74
+00:04:41,430 --> 00:04:43,090
+lock and unlock.
+
+75
+00:04:43,090 --> 00:04:46,580
+So, in contrast to Burrell's lock API,
+
+76
+00:04:46,580 --> 00:04:51,430
+in this other interface, the lock/unlock interface, both the lock and
+
+77
+00:04:51,430 --> 00:04:56,060
+the unlock operations must be used both explicitly and
+
+78
+00:04:56,060 --> 00:05:01,210
+carefully when requesting a mutex, and when accessing a critical section.
+
+79
+00:05:01,210 --> 00:05:05,560
+What that means is that we must explicitly lock a mutex before
+
+80
+00:05:05,560 --> 00:05:07,660
+entering a critical section.
+
+81
+00:05:07,660 --> 00:05:11,300
+And then we also must explicitly unlock the mutex when we
+
+82
+00:05:11,300 --> 00:05:13,270
+finish the critical session.
+
+83
+00:05:13,270 --> 00:05:15,330
+Otherwise nobody else will be able to proceed.

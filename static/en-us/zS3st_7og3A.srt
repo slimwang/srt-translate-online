@@ -1,0 +1,179 @@
+1
+00:00:00,000 --> 00:00:03,000
+[Thrun] Now here is an actual result of applying this A* algorithm
+
+2
+00:00:03,000 --> 00:00:05,000
+for our vehicle that sits over here.
+
+3
+00:00:05,000 --> 00:00:09,000
+Real obstacles--these are laser scans of parked cars--
+
+4
+00:00:09,000 --> 00:00:11,000
+and a target location over here.
+
+5
+00:00:11,000 --> 00:00:14,000
+And while the curve isn't super smooth,
+
+6
+00:00:14,000 --> 00:00:18,000
+you can still see it is able to find a continuous and drivable curve
+
+7
+00:00:18,000 --> 00:00:20,000
+to the parking location over here
+
+8
+00:00:20,000 --> 00:00:24,000
+by this small but important modification of A*.
+
+9
+00:00:24,000 --> 00:00:30,000
+There are a few other modifications of A* which I can't go into detail,
+
+10
+00:00:30,000 --> 00:00:35,000
+but here you can see a typical attempt of a robot to navigate a parking lot
+
+11
+00:00:35,000 --> 00:00:37,000
+here in simulation.
+
+12
+00:00:37,000 --> 00:00:43,000
+You can see the tree that is being expanded in that search.
+
+13
+00:00:43,000 --> 00:00:47,000
+And every time it gets stuck, it does a new A* search.
+
+14
+00:00:47,000 --> 00:00:51,000
+You can see how the map is being acquired as the robot moves.
+
+15
+00:00:51,000 --> 00:00:56,000
+In its state that's in front of the robot, it not only considers the x, y and hidden direction
+
+16
+00:00:56,000 --> 00:00:59,000
+but also allows the robot to go forward and backwards,
+
+17
+00:00:59,000 --> 00:01:03,000
+and driving backwards is just a different state than going forwards.
+
+18
+00:01:03,000 --> 00:01:08,000
+Now you can see how it backs up, finds a new path, and it is an incomplete maze
+
+19
+00:01:08,000 --> 00:01:13,000
+until it finally is able to reach the goal location through an actual opening.
+
+20
+00:01:13,000 --> 00:01:17,000
+We made this maze really hard to test our algorithms.
+
+21
+00:01:17,000 --> 00:01:20,000
+The nice thing is these algorithms work almost real time.
+
+22
+00:01:20,000 --> 00:01:25,000
+It takes less than a tenth of a second to build this entire search tree,
+
+23
+00:01:25,000 --> 00:01:30,000
+and the robot is able to navigate this parking lot really, really efficiently.
+
+24
+00:01:30,000 --> 00:01:34,000
+This was one of the fastest motion planning algorithms that I saw
+
+25
+00:01:34,000 --> 00:01:36,000
+in the DARPA Urban Challenge.
+
+26
+00:01:36,000 --> 00:01:39,000
+In fact, in all of robotics it's been one of the fastest algorithms
+
+27
+00:01:39,000 --> 00:01:42,000
+I've personally seen in my life.
+
+28
+00:01:42,000 --> 00:01:49,000
+Here is the same algorithm applied to an actual parking example using our robot Junior.
+
+29
+00:01:49,000 --> 00:01:53,000
+It's driving over here, it wishes to get over there,
+
+30
+00:01:53,000 --> 00:01:57,000
+and you can see it has backed up into a parking gap over here,
+
+31
+00:01:57,000 --> 00:02:04,000
+which is an amazing precision for a robot, and then moved forward along the line over here.
+
+32
+00:02:04,000 --> 00:02:08,000
+Our state space is, I guess, 4-dimensional.
+
+33
+00:02:08,000 --> 00:02:13,000
+It comprises x, y, hidden direction, and whether the car is going forward or backwards.
+
+34
+00:02:13,000 --> 00:02:17,000
+There is a cost to changing directions, so it doesn't change direction too often.
+
+35
+00:02:17,000 --> 00:02:20,000
+You can see it navigate to its target location.
+
+36
+00:02:20,000 --> 00:02:25,000
+Details I am not telling you include that the trajectory that the planner generates
+
+37
+00:02:25,000 --> 00:02:29,000
+is subsequently smoothed using a quadratic smoother
+
+38
+00:02:29,000 --> 00:02:31,000
+so that we get rid of the kinks,
+
+39
+00:02:31,000 --> 00:02:34,000
+and the car drives much nicer as a result.
+
+40
+00:02:34,000 --> 00:02:38,000
+But the workhorse here that does all the work to find the best path
+
+41
+00:02:38,000 --> 00:02:46,000
+is actually A* modified into hybrid A*, as I told you.
+
+42
+00:02:46,000 --> 00:02:52,000
+And in this final video we see the car navigating a parking lot with lots of traffic cones.
+
+43
+00:02:52,000 --> 00:02:57,000
+On the left you see the video imagery, on the right side you can see the internal map
+
+44
+00:02:57,000 --> 00:02:59,000
+and the path planner,
+
+45
+00:02:59,000 --> 99:59:59,999
+and it attempts to park itself in the designated spot on the left.

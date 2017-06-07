@@ -1,0 +1,227 @@
+1
+00:00:00,150 --> 00:00:03,580
+So that brings us to a so-called tournament predictor. The
+
+2
+00:00:03,580 --> 00:00:06,800
+idea is that you have two predictors, one is better for
+
+3
+00:00:06,800 --> 00:00:11,010
+some branches, the other is better for other branches. Now what
+
+4
+00:00:11,010 --> 00:00:14,260
+you want to do is to get the best behavior for
+
+5
+00:00:14,260 --> 00:00:17,180
+all types of branches. So what you want to do is,
+
+6
+00:00:17,180 --> 00:00:19,520
+when you have these branches, use the first predictor. When you
+
+7
+00:00:19,520 --> 00:00:22,660
+have these branches, use the second predictor. But you don't know
+
+8
+00:00:22,660 --> 00:00:25,380
+which branches are going to benefit from which of your two predictors
+
+9
+00:00:25,380 --> 00:00:27,896
+ahead of time. So what you really have, is
+
+10
+00:00:27,896 --> 00:00:31,792
+your two predictors. Let's say that they're GShare and PShare
+
+11
+00:00:31,792 --> 00:00:34,240
+you will use your PC of the branch to index
+
+12
+00:00:34,240 --> 00:00:38,113
+into both of the predictors. You will take the decisions
+
+13
+00:00:38,113 --> 00:00:40,492
+that they generate, and now you need to decide
+
+14
+00:00:40,492 --> 00:00:43,750
+which one to use. How do you do that? And
+
+15
+00:00:43,750 --> 00:00:46,232
+the idea of a tournament predictor is to use a
+
+16
+00:00:46,232 --> 00:00:50,220
+so-called meta-predictor, which is just an array of 2-bit counters.
+
+17
+00:00:50,220 --> 00:00:53,090
+You also use the PC to index there and
+
+18
+00:00:53,090 --> 00:00:57,520
+the entry of the meta-predictor does not tell you
+
+19
+00:00:57,520 --> 00:01:00,475
+a prediction for the branch. It tells you which
+
+20
+00:01:00,475 --> 00:01:02,960
+of the two predictors is the more likely to
+
+21
+00:01:02,960 --> 00:01:06,470
+give an accurate prediction for that branch? So what
+
+22
+00:01:06,470 --> 00:01:10,120
+you do is you use this to choose among
+
+23
+00:01:10,120 --> 00:01:12,959
+the two decisions. So pretty much this meta predictor
+
+24
+00:01:12,959 --> 00:01:15,799
+gives you a way to select among the two decisions
+
+25
+00:01:15,799 --> 00:01:20,414
+so that the final outcome is the decision, that the meta predictor thinks is a
+
+26
+00:01:20,414 --> 00:01:25,080
+better prediction. You train the individual predictors
+
+27
+00:01:25,080 --> 00:01:27,870
+just like before. On every branch outcome, you
+
+28
+00:01:27,870 --> 00:01:30,100
+train each of the predictors. You train
+
+29
+00:01:30,100 --> 00:01:33,662
+the meta predictor a little bit differently. Instead
+
+30
+00:01:33,662 --> 00:01:36,758
+of counting up when taken and counting down
+
+31
+00:01:36,758 --> 00:01:40,886
+when not-taken, the meta predictor is instead trained
+
+32
+00:01:40,886 --> 00:01:46,460
+on how well these two are doing. If your two predictors are both correct,
+
+33
+00:01:46,460 --> 00:01:50,280
+then your meta predictor doesn't change anything.
+
+34
+00:01:50,280 --> 00:01:52,840
+If your first predictor, like in this
+
+35
+00:01:52,840 --> 00:01:57,480
+case your GShare is correct, but the other one is not, then you count
+
+36
+00:01:57,480 --> 00:02:01,969
+down. Counting down will result in selecting
+
+37
+00:02:01,969 --> 00:02:06,050
+the GShare result more often. If your first
+
+38
+00:02:06,050 --> 00:02:09,780
+predictor is wrong, but your second predictor is right,
+
+39
+00:02:09,780 --> 00:02:12,926
+then you count up. Counting up will result in
+
+40
+00:02:12,926 --> 00:02:16,889
+choosing this prediction more often. And finally, if both
+
+41
+00:02:16,889 --> 00:02:20,739
+of them are wrong, then the meta predictor doesn't change
+
+42
+00:02:20,739 --> 00:02:23,665
+because again there is no benefit in trying to
+
+43
+00:02:23,665 --> 00:02:26,426
+select one over the other. So the idea of
+
+44
+00:02:26,426 --> 00:02:28,666
+the meta predictor is that the prediction bit of
+
+45
+00:02:28,666 --> 00:02:31,298
+the 2-bit counter is telling you really which of these
+
+46
+00:02:31,298 --> 00:02:34,426
+to select. The [UNKNOWN] is there just in
+
+47
+00:02:34,426 --> 00:02:37,090
+case GShare is overall the more accurate but
+
+48
+00:02:37,090 --> 00:02:39,610
+sometimes PShare beats it or the other way
+
+49
+00:02:39,610 --> 00:02:44,240
+around. And again each branch has its own meta-predictor
+
+50
+00:02:44,240 --> 00:02:47,096
+entry. So, this type of decision and this
+
+51
+00:02:47,096 --> 00:02:50,352
+type of selection is done dependant on branches, so
+
+52
+00:02:50,352 --> 00:02:52,942
+pretty much for here for example loop exit
+
+53
+00:02:52,942 --> 00:02:56,720
+branch it might be that the PShare works better.
+
+54
+00:02:56,720 --> 00:02:59,024
+For your correlated branches, it might be
+
+55
+00:02:59,024 --> 00:03:01,264
+that the GShare works better and they will
+
+56
+00:03:01,264 --> 00:03:04,144
+have different meta predictor entries, so that they
+
+57
+00:03:04,144 --> 00:03:07,030
+will use the friend predictors for their outcomes.

@@ -1,0 +1,284 @@
+1
+00:00:00,460 --> 00:00:04,030
+The next thing we need to do is get an
+emulator ready to run the code within.
+
+2
+00:00:04,030 --> 00:00:08,119
+Go to Tools > Android and
+start the AVD manager.
+
+3
+00:00:08,119 --> 00:00:10,270
+Now select Create a Virtual Device and
+
+4
+00:00:10,270 --> 00:00:11,970
+you can select a phone
+model to use here.
+
+5
+00:00:11,970 --> 00:00:14,840
+I'm going to pick a Galaxy Nexus
+since it's an older device
+
+6
+00:00:14,840 --> 00:00:16,210
+with a smaller display and
+
+7
+00:00:16,210 --> 00:00:19,870
+smaller memory footprint that will work
+on my small laptop display easily.
+
+8
+00:00:19,870 --> 00:00:22,521
+Click next and
+then select Lollipop API 21.
+
+9
+00:00:22,521 --> 00:00:25,100
+Although, any newer APIs
+will also work as well.
+
+10
+00:00:25,100 --> 00:00:27,910
+Make sure you pick one with
+Google APIs since that is required for
+
+11
+00:00:27,910 --> 00:00:29,200
+Android auto support.
+
+12
+00:00:29,200 --> 00:00:31,090
+If you pick the X86 simulator, and
+
+13
+00:00:31,090 --> 00:00:35,190
+have the HAXM driver installed,
+the emulator will also run a lot faster.
+
+14
+00:00:35,190 --> 00:00:36,170
+Click next.
+
+15
+00:00:36,170 --> 00:00:39,197
+In the scale section, you may need to
+play with the settings to make sure
+
+16
+00:00:39,197 --> 00:00:41,270
+the emulator fits on your screen.
+
+17
+00:00:41,270 --> 00:00:43,380
+Otherwise, leave
+the defaults as they are and
+
+18
+00:00:43,380 --> 00:00:45,130
+click finish to to create the AVD.
+
+19
+00:00:45,130 --> 00:00:47,180
+Now, you have a list of
+emulators available.
+
+20
+00:00:47,180 --> 00:00:50,900
+So select the one we just created and
+click the play button to start it up.
+
+21
+00:00:50,900 --> 00:00:53,100
+Once the emulator is ready,
+you can unlock it.
+
+22
+00:00:54,200 --> 00:00:56,470
+Now we need to install
+the Audio Simulator.
+
+23
+00:00:56,470 --> 00:01:00,020
+This app uses the same API's as
+the Real Android Audio Head Unit so
+
+24
+00:01:00,020 --> 00:01:03,140
+we can see how our app will work
+without having to sit outside in a car.
+
+25
+00:01:03,140 --> 00:01:05,570
+You can also do this on a hand
+held device if you'd like.
+
+26
+00:01:05,570 --> 00:01:08,020
+It's actually downloaded
+as part of the SDK manager
+
+27
+00:01:08,020 --> 00:01:09,900
+just like we did it earlier for
+messaging.
+
+28
+00:01:09,900 --> 00:01:12,690
+So let's go to Tools >
+Android SDK Manager.
+
+29
+00:01:12,690 --> 00:01:16,411
+If we scroll down to the bottom in
+the Extras category, you should see that
+
+30
+00:01:16,411 --> 00:01:21,120
+it's installed here from when we used it
+previously for Android Auto Messaging.
+
+31
+00:01:21,120 --> 00:01:23,130
+So let's close the SDK Manager.
+
+32
+00:01:23,130 --> 00:01:24,730
+Once you've got that package installed,
+
+33
+00:01:24,730 --> 00:01:28,750
+now we need to find the media simulator
+APK in the Android SDK directory.
+
+34
+00:01:28,750 --> 00:01:31,866
+In this case my SDK's in
+~/Library/Android/sdk and now,
+
+35
+00:01:31,866 --> 00:01:36,190
+we need to change some into
+the extras/google/simulators directory.
+
+36
+00:01:36,190 --> 00:01:40,130
+And in here you can see
+the media-browser-simulator.apk file.
+
+37
+00:01:40,130 --> 00:01:43,250
+So let's install that to out
+emulator with adb install.
+
+38
+00:01:43,250 --> 00:01:45,460
+And that's now ready
+to go in our emulator.
+
+39
+00:01:45,460 --> 00:01:48,360
+Now, we need to build and install
+our code to the running emulator.
+
+40
+00:01:48,360 --> 00:01:51,450
+So click on the green icon here,
+which does it all for us.
+
+41
+00:01:51,450 --> 00:01:54,140
+Now, we select the emulator and hit OK.
+
+42
+00:01:54,140 --> 00:01:56,130
+Now, it's installing to the emulator.
+
+43
+00:01:56,130 --> 00:01:58,599
+Once it's done, your app will
+start running on the emulator.
+
+44
+00:01:58,599 --> 00:02:02,020
+Note that it's just running the default
+activity included with the sample.
+
+45
+00:02:02,020 --> 00:02:04,460
+But you can't see a music
+playback interface yet.
+
+46
+00:02:04,460 --> 00:02:07,610
+This is because we don't provide a UI,
+just service.
+
+47
+00:02:07,610 --> 00:02:11,038
+Let's go to the home screen on the
+emulator and find the media simulator.
+
+48
+00:02:11,038 --> 00:02:14,652
+Let's go to the list of apps and you can
+see here there's a media simulator, so
+
+49
+00:02:14,652 --> 00:02:15,986
+click the icon to launch it.
+
+50
+00:02:15,986 --> 00:02:18,415
+You'll notice that the app
+needs to run in landscape mode.
+
+51
+00:02:18,415 --> 00:02:19,885
+So rotate the emulator.
+
+52
+00:02:19,885 --> 00:02:22,108
+Typically, you can press Ctrl + F11 or
+
+53
+00:02:22,108 --> 00:02:25,295
+Ctrl + Fn + F11 to make
+this happen like so.
+
+54
+00:02:25,295 --> 00:02:27,355
+Now, you can select your
+media app from the list.
+
+55
+00:02:27,355 --> 00:02:29,715
+There may be others installed
+on the phone as well.
+
+56
+00:02:29,715 --> 00:02:32,682
+Here's their app, click on it,
+and as you can see here,
+
+57
+00:02:32,682 --> 00:02:35,902
+the songs we had coded into
+the sample are available here and
+
+58
+00:02:35,902 --> 00:02:38,152
+we can select one to
+start playing it back.
+
+59
+00:02:38,152 --> 00:02:40,202
+Voila, music!
+
+60
+00:02:40,202 --> 00:02:44,302
+We now have built a super simple Android
+media application, congratulations!

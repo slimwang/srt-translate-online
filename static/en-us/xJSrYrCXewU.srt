@@ -1,0 +1,273 @@
+1
+00:00:01,020 --> 00:00:03,730
+Here's a problem you may have
+experienced in the past.
+
+2
+00:00:03,730 --> 00:00:06,980
+Using an app on your phone,
+you tap a button.
+
+3
+00:00:06,980 --> 00:00:09,640
+That button is intended
+to do a bunch of work.
+
+4
+00:00:09,640 --> 00:00:12,760
+Let's say it's going to grab data from
+the Internet, play some music, or
+
+5
+00:00:12,760 --> 00:00:17,240
+do some heavy number crunching to
+apply a blur effect on some image.
+
+6
+00:00:17,240 --> 00:00:20,920
+Once that button is clicked, though,
+your program appears frozen for
+
+7
+00:00:20,920 --> 00:00:23,520
+what feels like an uncomfortable
+amount of time.
+
+8
+00:00:23,520 --> 00:00:25,130
+This is super janky.
+
+9
+00:00:25,130 --> 00:00:27,835
+You're not sure if the thing
+has crashed or what.
+
+10
+00:00:27,835 --> 00:00:29,370
+The, after a few moments,
+
+11
+00:00:29,370 --> 00:00:32,150
+suddenly everything comes
+back under your control.
+
+12
+00:00:32,150 --> 00:00:35,760
+Why did it freeze and then suddenly
+come back to life like that?
+
+13
+00:00:35,760 --> 00:00:39,440
+More often than not, your app is trying
+to process something that takes a long
+
+14
+00:00:39,440 --> 00:00:42,480
+time, such as grabbing some
+information from the Internet.
+
+15
+00:00:42,480 --> 00:00:45,350
+The issue is that something
+like a network request
+
+16
+00:00:45,350 --> 00:00:48,710
+can take a really long time if
+the Internet connection is flaky, or
+
+17
+00:00:48,710 --> 00:00:51,090
+if there's a lot of data to transfer.
+
+18
+00:00:51,090 --> 00:00:55,400
+We need to set up the connection with
+the web server, send the request,
+
+19
+00:00:55,400 --> 00:00:58,750
+wait for a response, and
+then parse the response.
+
+20
+00:00:58,750 --> 00:01:01,970
+Nothing else can happen on the main
+thread when you're waiting for
+
+21
+00:01:01,970 --> 00:01:04,410
+this entire round trip to finish.
+
+22
+00:01:04,410 --> 00:01:08,110
+So, if the user clicks other buttons
+in the app while the network
+
+23
+00:01:08,110 --> 00:01:09,820
+request is happening,
+
+24
+00:01:09,820 --> 00:01:14,940
+the app can't respond to the user until
+it's finished that network operation.
+
+25
+00:01:14,940 --> 00:01:19,890
+Even worse, if the user angrily
+taps the button several more times,
+
+26
+00:01:19,890 --> 00:01:24,660
+those events will just get cued up until
+that app has completed the current task.
+
+27
+00:01:24,660 --> 00:01:29,120
+If you ask the UI thread to process
+something that could take some time, you
+
+28
+00:01:29,120 --> 00:01:32,382
+run the risk of having your app appear
+to freeze up when it's being used.
+
+29
+00:01:33,420 --> 00:01:36,000
+Actually, if your app
+blocks the UI thread for
+
+30
+00:01:36,000 --> 00:01:40,100
+more than a few seconds, Androids
+can display a dialog telling you,
+
+31
+00:01:40,100 --> 00:01:45,120
+the user, that your app is unresponsive,
+and ask if the user wants to close it.
+
+32
+00:01:45,120 --> 00:01:49,450
+This brings us to an important rule
+when building apps in Android.
+
+33
+00:01:49,450 --> 00:01:52,160
+Do not block the main UI thread.
+
+34
+00:01:53,240 --> 00:01:56,550
+Luckily, Android devices
+are great a multitasking.
+
+35
+00:01:56,550 --> 00:01:57,270
+>> Yeah?
+>> Yeah.
+
+36
+00:01:58,350 --> 00:02:02,990
+>> If the user clicks a button, we want
+the app to responsive to user input.
+
+37
+00:02:02,990 --> 00:02:06,210
+The solution to this problem is
+to have the network request,
+
+38
+00:02:06,210 --> 00:02:10,780
+the number crunching, and the audio
+playback all processing on separate
+
+39
+00:02:10,780 --> 00:02:15,730
+background threads, or worker threads,
+thereby freeing up the UI so
+
+40
+00:02:15,730 --> 00:02:19,350
+that the user can still scroll and tap,
+and do whatever else they need to do
+
+41
+00:02:19,350 --> 00:02:22,770
+with your app while they're waiting for
+all these other jobs to finish.
+
+42
+00:02:22,770 --> 00:02:25,940
+>> So in theory, you could use as
+many threads as you need, right?
+
+43
+00:02:25,940 --> 00:02:29,350
+That means more work to
+be executed in parallel.
+
+44
+00:02:29,350 --> 00:02:30,090
+>> Yes.
+
+45
+00:02:30,090 --> 00:02:33,540
+But for this app,
+we only need a single background thread.
+
+46
+00:02:34,780 --> 00:02:38,600
+The background thread can only
+do one operation at a time, but
+
+47
+00:02:38,600 --> 00:02:41,680
+if the network request is going to
+take a really long time because
+
+48
+00:02:41,680 --> 00:02:45,550
+you're on a slow Internet connection,
+or it's flaky, then that's okay.
+
+49
+00:02:45,550 --> 00:02:49,380
+The main thread can still handle all
+the user-input events quickly without
+
+50
+00:02:49,380 --> 00:02:51,780
+any impact on the user experience.
+
+51
+00:02:51,780 --> 00:02:53,070
+>> Yeah, and one more thing.
+
+52
+00:02:53,070 --> 00:02:54,510
+After the background work is done,
+
+53
+00:02:54,510 --> 00:02:56,920
+then there's no need to
+keep that thread active.
+
+54
+00:02:56,920 --> 00:03:00,180
+So, in this video, we've learned
+that your app can split jobs
+
+55
+00:03:00,180 --> 00:03:03,740
+into separate threads to allow certain
+tasks to be processed in the background
+
+56
+00:03:03,740 --> 00:03:05,700
+while keeping the UI thread clear,
+
+57
+00:03:05,700 --> 00:03:08,560
+which means that you can make
+the app more usable and faster.

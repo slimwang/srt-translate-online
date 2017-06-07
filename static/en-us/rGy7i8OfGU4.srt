@@ -1,0 +1,577 @@
+1
+00:00:00,320 --> 00:00:02,410
+In the app, you may have noticed
+that all the headers have
+
+2
+00:00:02,410 --> 00:00:03,430
+the same visual style.
+
+3
+00:00:04,430 --> 00:00:07,210
+And you may have noticed that
+in the XML, that you had to
+
+4
+00:00:07,210 --> 00:00:11,510
+add the same attributes to each of
+these headers, the Toppings header,
+
+5
+00:00:11,510 --> 00:00:15,710
+the Quantity header as well as the Order
+Summary header when we used to have it.
+
+6
+00:00:15,710 --> 00:00:18,170
+If you have a lot of views
+with the same visual style,
+
+7
+00:00:18,170 --> 00:00:20,990
+it's good practice to try and
+reduce the repetition.
+
+8
+00:00:20,990 --> 00:00:23,160
+By defining it in only one place and
+
+9
+00:00:23,160 --> 00:00:25,470
+then referring back
+to that single place.
+
+10
+00:00:25,470 --> 00:00:29,174
+That way if the designer you work with
+wants to change how all of the headers
+
+11
+00:00:29,174 --> 00:00:31,980
+in her app look you can just
+change it in a single place and
+
+12
+00:00:31,980 --> 00:00:33,856
+then it'll be updated everywhere.
+
+13
+00:00:33,856 --> 00:00:37,679
+To do this we need to learn about
+defining styles in our app.
+
+14
+00:00:37,679 --> 00:00:41,680
+A style is a collection of properties
+that can be applied to a single view.
+
+15
+00:00:41,680 --> 00:00:44,730
+Properties can include height,
+width, padding, font color,
+
+16
+00:00:44,730 --> 00:00:46,430
+font size, and more.
+
+17
+00:00:46,430 --> 00:00:48,390
+Let's look at an example.
+
+18
+00:00:48,390 --> 00:00:50,970
+In a layout file this text
+used specifies a bunch of
+
+19
+00:00:50,970 --> 00:00:52,130
+different attributes.
+
+20
+00:00:52,130 --> 00:00:56,020
+But we can replace all these attributes
+with a single line that refers to
+
+21
+00:00:56,020 --> 00:00:57,210
+a style.
+
+22
+00:00:57,210 --> 00:01:01,250
+One advantage to using a style is that
+you can separate the design of the view,
+
+23
+00:01:01,250 --> 00:01:04,769
+how it looks,
+from the actual content of the view.
+
+24
+00:01:04,769 --> 00:01:07,909
+And in the end, both of these tech's
+views would look the same on a device.
+
+25
+00:01:09,260 --> 00:01:12,770
+Let's look at where
+the CodeFont style is defined.
+
+26
+00:01:12,770 --> 00:01:16,170
+You can define the style
+within the styles.xml file,
+
+27
+00:01:16,170 --> 00:01:19,960
+which is located in the res/values
+directory of your app.
+
+28
+00:01:19,960 --> 00:01:25,550
+Now in this XML file, the root node
+has to be the resources XML element.
+
+29
+00:01:25,550 --> 00:01:30,060
+Within that, you can specify as many
+style XML elements as you want.
+
+30
+00:01:30,060 --> 00:01:34,770
+For example, this is one style,
+and you could add more below this.
+
+31
+00:01:34,770 --> 00:01:38,200
+For a given style XML element,
+you need to specify the name.
+
+32
+00:01:38,200 --> 00:01:42,030
+In this case, it's CodeFont, but
+you could have picked a different name.
+
+33
+00:01:42,030 --> 00:01:45,200
+Then you can add a list of all the
+different properties that should go in
+
+34
+00:01:45,200 --> 00:01:46,380
+this style.
+
+35
+00:01:46,380 --> 00:01:49,770
+A property is defined using
+the item XML element.
+
+36
+00:01:49,770 --> 00:01:53,420
+For a given item,
+you have the name of the property, and
+
+37
+00:01:53,420 --> 00:01:59,550
+then the value of the property is in
+between the open and the closing tags.
+
+38
+00:01:59,550 --> 00:02:02,860
+If you want to create a style that
+builds off of existing styles,
+
+39
+00:02:02,860 --> 00:02:04,820
+you can specify the parent
+attribute here.
+
+40
+00:02:04,820 --> 00:02:07,060
+But you don't have to specify a parent.
+
+41
+00:02:07,060 --> 00:02:07,840
+This is optional.
+
+42
+00:02:07,840 --> 00:02:09,560
+You can just define the style.
+
+43
+00:02:09,560 --> 00:02:12,260
+And then add in
+the properties that you want.
+
+44
+00:02:12,260 --> 00:02:17,660
+Then in your Layout File, you can
+simply refer to this style CodeFont.
+
+45
+00:02:17,660 --> 00:02:20,560
+This is similar to how we refer
+to other resources in our app,
+
+46
+00:02:20,560 --> 00:02:23,590
+like drawables,
+with the at drawable notation.
+
+47
+00:02:23,590 --> 00:02:27,350
+Here's we're using @style/
+the name of the resource.
+
+48
+00:02:27,350 --> 00:02:30,530
+Also note that we specify
+the style using style equals and
+
+49
+00:02:30,530 --> 00:02:32,410
+not Android: style.
+
+50
+00:02:32,410 --> 00:02:34,390
+Let's go back to our app for an example.
+
+51
+00:02:34,390 --> 00:02:38,270
+Say we want to make all of
+the headings a dark purple text color,
+
+52
+00:02:38,270 --> 00:02:41,580
+font size 20, and make it italicized.
+
+53
+00:02:41,580 --> 00:02:45,070
+We could set the same attributes on
+each of these header text views or
+
+54
+00:02:45,070 --> 00:02:48,230
+we could define it once in a single
+style, give it a name, and
+
+55
+00:02:48,230 --> 00:02:50,840
+then refer to that style
+every time we need it.
+
+56
+00:02:50,840 --> 00:02:54,900
+To define a style, go to the Resources,
+Values directory and
+
+57
+00:02:54,900 --> 00:02:57,540
+find the Styles.XML file.
+
+58
+00:02:57,540 --> 00:03:00,980
+If it doesn't exist you could always
+create it by right clicking and
+
+59
+00:03:00,980 --> 00:03:06,340
+going to new resource file, and
+then creating a style on XML file.
+
+60
+00:03:06,340 --> 00:03:10,800
+As we saw earlier, this XML file,
+like the strings done XML file,
+
+61
+00:03:10,800 --> 00:03:12,520
+doesn't define a layout.
+
+62
+00:03:12,520 --> 00:03:14,100
+It's a resources file.
+
+63
+00:03:14,100 --> 00:03:17,390
+In this case it defines
+a list of style resources,
+
+64
+00:03:17,390 --> 00:03:20,670
+while the strings on XML file
+define a list of string resources.
+
+65
+00:03:22,110 --> 00:03:23,740
+By the way, this is a comment.
+
+66
+00:03:23,740 --> 00:03:27,080
+So you can put anything you want
+in between this opening symbol,
+
+67
+00:03:27,080 --> 00:03:29,010
+and this closing symbol.
+
+68
+00:03:29,010 --> 00:03:32,030
+And this is just supposed to
+describe the XML below it.
+
+69
+00:03:33,270 --> 00:03:36,930
+I've just defined a style
+called CustomText.
+
+70
+00:03:36,930 --> 00:03:38,550
+It contains three properties within it.
+
+71
+00:03:39,680 --> 00:03:43,270
+These are three attributes that
+can be applied to a TextView.
+
+72
+00:03:43,270 --> 00:03:46,773
+So we have the android text size
+property, android text color and
+
+73
+00:03:46,773 --> 00:03:49,080
+then android text style.
+
+74
+00:03:49,080 --> 00:03:52,750
+The value for each of these attributes
+is shown here in between the item
+
+75
+00:03:52,750 --> 00:03:54,568
+opening and closing tags.
+
+76
+00:03:54,568 --> 00:03:57,740
+We have the 20sp font size,
+the purple font color,
+
+77
+00:03:57,740 --> 00:04:00,020
+as well as the italic text style.
+
+78
+00:04:00,020 --> 00:04:03,500
+The possible attributes here depend
+on what view you are applying
+
+79
+00:04:03,500 --> 00:04:04,970
+the style on to.
+
+80
+00:04:04,970 --> 00:04:08,600
+If you're going to use a custom text
+style on a text view, then all of
+
+81
+00:04:08,600 --> 00:04:12,320
+the text view attributes that you're
+already familiar with can go here.
+
+82
+00:04:12,320 --> 00:04:14,220
+If this style would be
+used on an image view,
+
+83
+00:04:14,220 --> 00:04:17,149
+then the image view attributes
+would be valid here.
+
+84
+00:04:17,149 --> 00:04:18,870
+Let's copy the name of this style and
+
+85
+00:04:18,870 --> 00:04:20,790
+then use it in the activity
+main layout file.
+
+86
+00:04:20,790 --> 00:04:26,260
+For the toppings header, I'm going
+to apply a style onto the text view.
+
+87
+00:04:26,260 --> 00:04:29,870
+I'm going to refer to the style
+using @style, slash, and
+
+88
+00:04:29,870 --> 00:04:31,400
+then the name of the style.
+
+89
+00:04:31,400 --> 00:04:33,880
+Then I can delete any attributes that
+
+90
+00:04:33,880 --> 00:04:36,230
+would have already been
+defined in the style.
+
+91
+00:04:36,230 --> 00:04:39,090
+For this example I don't want
+the headers to be capitalized, so
+
+92
+00:04:39,090 --> 00:04:40,780
+I'm just going to erase this.
+
+93
+00:04:40,780 --> 00:04:43,660
+If I had a different text style or
+a different font color specified here,
+
+94
+00:04:43,660 --> 00:04:45,970
+I would also delete that,
+now that I have this style here.
+
+95
+00:04:47,300 --> 00:04:50,530
+Now I'm going to apply this
+style to the other header.
+
+96
+00:04:50,530 --> 00:04:53,240
+For the quantity header,
+I'm going to delete this.
+
+97
+00:04:53,240 --> 00:04:56,130
+All caps, attribute, and
+just replace it with this style.
+
+98
+00:04:57,160 --> 00:04:59,900
+This is what the app looks like
+with the new style applied
+
+99
+00:04:59,900 --> 00:05:01,960
+to the header text views.
+
+100
+00:05:01,960 --> 00:05:04,390
+I could have put additional
+attributes inside the style,
+
+101
+00:05:04,390 --> 00:05:08,410
+but it's really a trade-off and
+it's up to your own preference.
+
+102
+00:05:08,410 --> 00:05:11,820
+Sometimes you want to leave the
+attributes inside the layout file, and
+
+103
+00:05:11,820 --> 00:05:13,700
+sometimes it's better if
+it's inside the style.
+
+104
+00:05:13,700 --> 00:05:17,790
+All right, so the example I just gave
+you is not the style we actually want.
+
+105
+00:05:17,790 --> 00:05:20,680
+Instead, you'll need to
+use these attributes.
+
+106
+00:05:20,680 --> 00:05:25,620
+We want our headers to have a height
+of 48dp with text vertically centered
+
+107
+00:05:25,620 --> 00:05:28,860
+within that and
+with the text capitalized, as well.
+
+108
+00:05:28,860 --> 00:05:30,970
+These values came from
+the material design spec,
+
+109
+00:05:30,970 --> 00:05:33,725
+you can see the instructor's notes for
+more details.
+
+110
+00:05:33,725 --> 00:05:36,635
+We haven't covered the gravity
+attribute in depth but
+
+111
+00:05:36,635 --> 00:05:40,925
+this just means we're centering the text
+vertically within the text field.
+
+112
+00:05:40,925 --> 00:05:44,365
+So I want you to make a new
+style in the styles.xml file
+
+113
+00:05:44,365 --> 00:05:45,767
+called Header Text Style.
+
+114
+00:05:45,767 --> 00:05:48,227
+And it should contain
+these five properties.
+
+115
+00:05:48,227 --> 00:05:52,557
+Next apply the style to all the header
+text views within the layout.
+
+116
+00:05:52,557 --> 00:05:55,447
+Make them all refer to
+this header text style.
+
+117
+00:05:55,447 --> 00:05:59,108
+Be sure to remove any unnecessary
+XML in the layout file.
+
+118
+00:05:59,108 --> 00:06:02,828
+For example, you don't need to set the
+text sides of this header text view any
+
+119
+00:06:02,828 --> 00:06:07,118
+more because the text size is
+specified within the style now.
+
+120
+00:06:07,118 --> 00:06:10,098
+This is what the app should look like
+when you're done using a single style
+
+121
+00:06:10,098 --> 00:06:11,798
+for the headers.
+
+122
+00:06:11,798 --> 00:06:13,188
+Check these boxes when you're done.

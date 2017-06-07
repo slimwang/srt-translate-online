@@ -1,0 +1,286 @@
+1
+00:00:00,540 --> 00:00:04,550
+PCP stands for
+probabilistically checkable proofs.
+
+2
+00:00:04,550 --> 00:00:07,040
+It turns out that if you take
+the verifiers we talked about
+
+3
+00:00:07,040 --> 00:00:12,130
+when we defined the class NP, and one,
+you give them access to random bits.
+
+4
+00:00:12,130 --> 00:00:15,520
+And two, you give them random
+access into the certificate or
+
+5
+00:00:15,520 --> 00:00:20,080
+proof, then they become extremely
+efficient in a certain sense.
+
+6
+00:00:20,080 --> 00:00:23,230
+These types of verifiers are called
+probabilistically checkable proof
+
+7
+00:00:23,230 --> 00:00:27,670
+systems, and the famous PCP theorem
+relates the set of languages they can
+
+8
+00:00:27,670 --> 00:00:30,820
+verify under certain constraints
+back to the class NP.
+
+9
+00:00:30,820 --> 00:00:35,410
+In a course on complexity, we would
+place these proof systems within
+
+10
+00:00:35,410 --> 00:00:40,410
+the larger context of other complexity
+classes and interactive proof systems.
+
+11
+00:00:40,410 --> 00:00:44,910
+For our purposes however, we can
+state the PCP theorem in this way,
+
+12
+00:00:44,910 --> 00:00:46,930
+which is much more accessible.
+
+13
+00:00:46,930 --> 00:00:49,610
+We'll let capital phi denote
+the set of all 3CNF formulas.
+
+14
+00:00:50,630 --> 00:00:54,120
+Remember we're assuming that all clauses
+have exactly three literals, and
+
+15
+00:00:54,120 --> 00:00:56,420
+that they come from three
+distinct variables.
+
+16
+00:00:56,420 --> 00:01:00,750
+Then a version of the PCP
+theorem can be stated like this.
+
+17
+00:01:00,750 --> 00:01:02,976
+For any constant alpha
+greater than seven-eighths,
+
+18
+00:01:02,976 --> 00:01:08,670
+there is a polytime computable function
+f such that for every formula phi
+
+19
+00:01:08,670 --> 00:01:12,630
+over a sufficient number of variables,
+the following two things are true.
+
+20
+00:01:12,630 --> 00:01:19,030
+One, if the formula phi is satisfiable,
+then f of phi is also satisfiable.
+
+21
+00:01:19,030 --> 00:01:24,010
+And if phi is not satisfiable,
+then every assignment for
+
+22
+00:01:24,010 --> 00:01:28,800
+f of phi satisfies fewer than
+an alpha fraction of the clauses.
+
+23
+00:01:28,800 --> 00:01:33,820
+So if phi is satisfiable, there's a way
+to satisfy all the clauses of f of phi.
+
+24
+00:01:35,120 --> 00:01:37,380
+If phi is unsatisfiable, however,
+
+25
+00:01:37,380 --> 00:01:41,180
+then you can't even get close to
+satisfying all the clauses of f of phi.
+
+26
+00:01:42,370 --> 00:01:46,710
+We've introduced a kind of gap here,
+and this gap is extremely useful for
+
+27
+00:01:46,710 --> 00:01:48,990
+proving the hardness of approximation.
+
+28
+00:01:48,990 --> 00:01:53,010
+Many, many hardness of approximation
+results follow from this theorem.
+
+29
+00:01:53,010 --> 00:01:55,690
+The most straightforward of them,
+however, is that you can't do better
+
+30
+00:01:55,690 --> 00:01:59,430
+than the seven-eighths algorithm
+from MAX-SAT that we just went over.
+
+31
+00:01:59,430 --> 00:02:00,920
+Not unless P is equal to NP, anyway.
+
+32
+00:02:02,480 --> 00:02:03,570
+Why?
+
+33
+00:02:03,570 --> 00:02:07,870
+Well suppose that I wanted to test
+whether strings were in some language,
+
+34
+00:02:07,870 --> 00:02:10,110
+where the language is in NP.
+
+35
+00:02:10,110 --> 00:02:14,565
+And at my disposal,
+I had a polyton alpha approximation for
+
+36
+00:02:14,565 --> 00:02:18,280
+3-SAT, where alpha is strictly
+greater than seven-eighths.
+
+37
+00:02:18,280 --> 00:02:22,810
+Then I could use the Cook-Levin
+reduction to transform my string into
+
+38
+00:02:22,810 --> 00:02:28,640
+an instance of SAT that would be
+satisfiable if and only if X is in L.
+
+39
+00:02:28,640 --> 00:02:33,610
+Then I can use the function
+f from the PCP theorem
+
+40
+00:02:33,610 --> 00:02:38,360
+to transform this into
+another set of 3-SAT clauses.
+
+41
+00:02:38,360 --> 00:02:42,550
+Where either all the clauses
+are satisfiable or fewer than an alpha
+
+42
+00:02:42,550 --> 00:02:46,590
+fraction of them are, depending
+on whether phi was satisfiable.
+
+43
+00:02:46,590 --> 00:02:51,660
+That way, I just run the alpha
+approximation on f of V and
+
+44
+00:02:51,660 --> 00:02:55,540
+see if the fraction of clauses
+satisfied is greater than alpha or not.
+
+45
+00:02:56,980 --> 00:03:02,680
+If it is, then from the PCP theorem,
+I can reason that phi must have been
+
+46
+00:03:02,680 --> 00:03:08,010
+satisfiable and so from the Cook-Levin
+reduction, X must have been in L.
+
+47
+00:03:08,010 --> 00:03:12,840
+On the other hand, if the fractional
+clauses satisfied is less than alpha,
+
+48
+00:03:12,840 --> 00:03:17,840
+then f of phi can not have been
+satisfiable, so phi must not have been
+
+49
+00:03:17,840 --> 00:03:23,710
+satisfiable either, so from the
+Cook-Levin theorem, X must not be in L.
+
+50
+00:03:23,710 --> 00:03:27,070
+Using this reasoning, we just found
+a way to decide an arbitrary language
+
+51
+00:03:27,070 --> 00:03:29,340
+in NP in polynomial time.
+
+52
+00:03:30,590 --> 00:03:34,380
+So if such an alpha approximation
+exists, then P is equal to NP.
+
+53
+00:03:35,800 --> 00:03:38,540
+Since P probably is not equal to NP,
+
+54
+00:03:38,540 --> 00:03:42,490
+it seems like such an alpha
+approximation can't exist.
+
+55
+00:03:42,490 --> 00:03:45,950
+Many hardness of approximation
+proofs can be done in a similar way.
+
+56
+00:03:45,950 --> 00:03:49,300
+All that's necessary is to stick
+in another transformation here,
+
+57
+00:03:49,300 --> 00:03:53,566
+transforming the three step problem
+that has this gap into another problem,
+
+58
+00:03:53,566 --> 00:03:57,310
+while preserving a gap,
+and thus showing that
+
+59
+00:03:57,310 --> 00:04:00,860
+certain approximation factors
+would imply that P is equal to NP.

@@ -1,0 +1,181 @@
+1
+00:00:00,070 --> 00:00:03,920
+With this background on SMPs,
+cash coherence, and atomics,
+
+2
+00:00:03,920 --> 00:00:06,790
+we're now finally ready
+to discuss the design and
+
+3
+00:00:06,790 --> 00:00:09,870
+performance trends of
+spinlock implementations.
+
+4
+00:00:09,870 --> 00:00:13,760
+The only one thing that's left to decide
+are what are the performance metrics
+
+5
+00:00:13,760 --> 00:00:18,100
+that are useful when reasoning about
+different implementations of spinlocks.
+
+6
+00:00:18,100 --> 00:00:22,030
+To determine this, we should ask
+ourselves, what are our objectives?
+
+7
+00:00:22,030 --> 00:00:24,370
+First we want the spinlock
+to have low latency.
+
+8
+00:00:25,400 --> 00:00:30,595
+By latency, we are referring to how
+long does it take for a thread to.
+
+9
+00:00:30,595 --> 00:00:35,235
+Acquire a lock when it's free, ideally
+we want the thread to be able to acquire
+
+10
+00:00:35,235 --> 00:00:38,995
+a free lock immediately with
+a single instruction, and
+
+11
+00:00:38,995 --> 00:00:43,315
+we already established that spinlocks
+require atomic instructions.
+
+12
+00:00:43,315 --> 00:00:45,525
+So the ideal case will be that,
+
+13
+00:00:45,525 --> 00:00:50,150
+we just want to be able to execute a
+single atomic instructions and be done.
+
+14
+00:00:50,150 --> 00:00:55,270
+Next we want the spinlock to have low
+delay, or to have low waiting time.
+
+15
+00:00:55,270 --> 00:00:59,865
+What that means is that whenever it
+is spinning and a lock becomes free,
+
+16
+00:00:59,865 --> 00:01:05,220
+is we want to reduce that time that it
+takes from the thread to stop spinning
+
+17
+00:01:05,220 --> 00:01:08,400
+and to acquire that lock
+that has just been freed.
+
+18
+00:01:08,400 --> 00:01:09,170
+Again ideally,
+
+19
+00:01:09,170 --> 00:01:12,520
+we would like for the thread to the able
+to do that, as soon as possible,
+
+20
+00:01:12,520 --> 00:01:16,300
+as soon as this lock is freed, for
+a thread to be able to acquire it.
+
+21
+00:01:16,300 --> 00:01:18,240
+So to execute an atomic.
+
+22
+00:01:18,240 --> 00:01:22,125
+And finally, we need a design that
+will non generate contention.
+
+23
+00:01:22,125 --> 00:01:25,405
+On the shared bus or
+the shared network interconnect.
+
+24
+00:01:25,405 --> 00:01:26,285
+By contention,
+
+25
+00:01:26,285 --> 00:01:30,575
+we mean both the contention that's
+due to the actual atomic memory
+
+26
+00:01:30,575 --> 00:01:35,867
+references as well as contention that's
+generated due to the coherence traffic.
+
+27
+00:01:35,867 --> 00:01:38,457
+Contention is bad because it will delay
+
+28
+00:01:38,457 --> 00:01:42,917
+any other CPU in the system that's
+trying to access the memory, but
+
+29
+00:01:42,917 --> 00:01:48,003
+more importantly it will also delay
+the owner of the spinlock and.
+
+30
+00:01:48,003 --> 00:01:51,793
+That is the thread, that is the process
+that's trying to quickly complete
+
+31
+00:01:51,793 --> 00:01:54,403
+a critical section and
+then release the spinlock.
+
+32
+00:01:54,403 --> 00:01:56,453
+So if we have a contention situation,
+
+33
+00:01:56,453 --> 00:02:01,633
+we may potentially even be delaying
+the unlock operation for this spinlock.
+
+34
+00:02:01,633 --> 00:02:04,723
+That will clearly impact
+performance even more.
+
+35
+00:02:04,723 --> 00:02:07,943
+So these are the three objectives
+that we want to achieve in
+
+36
+00:02:07,943 --> 00:02:10,169
+a good spinlock design.
+
+37
+00:02:10,169 --> 00:02:13,880
+And the different alternatives that we
+will discuss in this lesson will be
+
+38
+00:02:13,880 --> 00:02:15,790
+evaluated based on these criteria.

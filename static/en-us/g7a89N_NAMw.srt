@@ -1,0 +1,112 @@
+1
+00:00:00,640 --> 00:00:04,410
+Even though nc -l can only
+handle a single connection,
+
+2
+00:00:04,410 --> 00:00:07,130
+you can still do some pretty
+entertaining things with it.
+
+3
+00:00:07,130 --> 00:00:11,140
+Earlier in the lesson, we used it to
+send HTTP requests to a web server and
+
+4
+00:00:11,140 --> 00:00:13,480
+got HTTP responses back.
+
+5
+00:00:13,480 --> 00:00:15,330
+But how about the other way around?
+
+6
+00:00:15,330 --> 00:00:18,050
+Let's take a look at what happens
+if we use nc to listen for
+
+7
+00:00:18,050 --> 00:00:20,260
+a connection from a web browser.
+
+8
+00:00:20,260 --> 00:00:23,900
+Here I'm having nc listen on port 2345.
+
+9
+00:00:23,900 --> 00:00:27,940
+And then I'll tell my browser to
+access that port on my machine.
+
+10
+00:00:27,940 --> 00:00:30,630
+The browser isn't getting
+anything interesting.
+
+11
+00:00:30,630 --> 00:00:32,640
+But look at what nc is getting.
+
+12
+00:00:32,640 --> 00:00:36,540
+It's got the HTTP requests and
+all the headers that the browser sent.
+
+13
+00:00:36,540 --> 00:00:37,260
+Okay, cool.
+
+14
+00:00:37,260 --> 00:00:39,950
+But how about if we send some HTTP back?
+
+15
+00:00:39,950 --> 00:00:44,270
+What do you think will happen if you run
+a printf statement outputting an HTTP
+
+16
+00:00:44,270 --> 00:00:49,340
+response with HTTP/1.1 302
+
+17
+00:00:49,340 --> 00:00:57,911
+Moved\r\nLocation: https://www.eff.org.
+
+18
+00:00:57,911 --> 00:01:04,660
+All of that in single quotes,
+piped to nc -l 2345.
+
+19
+00:01:04,660 --> 00:01:09,940
+And then point your web browser
+at your IP address, port 2345.
+
+20
+00:01:09,940 --> 00:01:11,350
+You can copy this string from below.
+
+21
+00:01:11,350 --> 00:01:17,650
+Do you think that your browser will
+display the eff.org home page?
+
+22
+00:01:17,650 --> 00:01:20,510
+Do you think that nc will print your
+browser's request on the terminal?
+
+23
+00:01:20,510 --> 00:01:23,500
+Do you think that nc will exit?
+
+24
+00:01:23,500 --> 00:01:25,010
+Or maybe some combination of these.
+
+25
+00:01:25,010 --> 00:01:26,330
+Mark all of them that
+you think will happen.

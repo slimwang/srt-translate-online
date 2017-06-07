@@ -1,0 +1,186 @@
+1
+00:00:00,120 --> 00:00:02,560
+In our discussion about
+memory management so far,
+
+2
+00:00:02,560 --> 00:00:06,130
+we saw that our operating
+systems rely on the hardware,
+
+3
+00:00:06,130 --> 00:00:10,730
+on the memory management unit hardware,
+to perform address translations and
+
+4
+00:00:10,730 --> 00:00:15,990
+to also validate the accesses to enforce
+protection in similar mechanisms.
+
+5
+00:00:15,990 --> 00:00:19,230
+But the same hardware can also
+be used to build a number of
+
+6
+00:00:19,230 --> 00:00:24,170
+other useful services and optimizations,
+beyond just the address translation.
+
+7
+00:00:24,170 --> 00:00:27,930
+One such mechanism is called
+Copy-on-Write, or COW.
+
+8
+00:00:27,930 --> 00:00:30,490
+Let's consider what happens
+during process creation.
+
+9
+00:00:31,520 --> 00:00:36,500
+When we need to create a new process
+we need to recreate the entire
+
+10
+00:00:36,500 --> 00:00:40,510
+parent process by copying
+its entire address space.
+
+11
+00:00:40,510 --> 00:00:43,680
+However, many of the pages are static,
+they don't change.
+
+12
+00:00:43,680 --> 00:00:46,790
+So it's not clear why we
+should keep multiple copies.
+
+13
+00:00:46,790 --> 00:00:51,650
+In order to avoid unnecessary copying,
+on creation the virtual
+
+14
+00:00:51,650 --> 00:00:56,970
+address space of the new process or
+portions of it at least, will point,
+
+15
+00:00:56,970 --> 00:01:02,460
+will be mapped to the original page that
+had the original address space content.
+
+16
+00:01:02,460 --> 00:01:06,910
+The same physical address of the
+physical memory may be referred to by
+
+17
+00:01:06,910 --> 00:01:10,740
+two completely different virtual
+addresses from the two processes.
+
+18
+00:01:10,740 --> 00:01:14,420
+We also have to make sure to write
+protect the physical memory so
+
+19
+00:01:14,420 --> 00:01:17,370
+that we can track
+concurrent accesses to it.
+
+20
+00:01:17,370 --> 00:01:21,390
+If the contents of this page
+are indeed going to be read only,
+
+21
+00:01:21,390 --> 00:01:25,720
+then we're going to save both on memory
+requirements, as well as on the time
+
+22
+00:01:25,720 --> 00:01:29,220
+that would have otherwise been
+necessary to perform the copy.
+
+23
+00:01:29,220 --> 00:01:31,700
+However, if a write
+request is issued for
+
+24
+00:01:31,700 --> 00:01:36,420
+this memory area via either one of these
+virtual addresses, then the MMU will
+
+25
+00:01:36,420 --> 00:01:40,540
+detect that the page is write protected
+and will generate a page fault.
+
+26
+00:01:40,540 --> 00:01:44,060
+At that point the operating system
+will see what is the reason for
+
+27
+00:01:44,060 --> 00:01:45,090
+this page fault.
+
+28
+00:01:45,090 --> 00:01:47,090
+We'll create the actual copy.
+
+29
+00:01:47,090 --> 00:01:49,420
+So the copy will only be performed then.
+
+30
+00:01:49,420 --> 00:01:52,950
+We'll update the page tables of
+the two processes as necessary.
+
+31
+00:01:52,950 --> 00:01:56,290
+So basically the page table
+of the faulting process.
+
+32
+00:01:56,290 --> 00:02:02,140
+And will in this manner, copy only
+those pages that need to be updated.
+
+33
+00:02:02,140 --> 00:02:06,800
+Only those pages for
+which the copy cost is necessary.
+
+34
+00:02:06,800 --> 00:02:09,940
+We call this mechanism
+Copy-on-Write because
+
+35
+00:02:09,940 --> 00:02:15,340
+the copy cost will only be paid when
+we need to perform a write operation.
+
+36
+00:02:15,340 --> 00:02:19,370
+There may be other references to this
+write protected feature so whether or
+
+37
+00:02:19,370 --> 00:02:23,490
+not the write protection will be
+removed once this one copy is performed
+
+38
+00:02:23,490 --> 00:02:26,330
+will depend on who else is
+this page is shared with.

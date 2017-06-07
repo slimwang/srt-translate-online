@@ -1,0 +1,532 @@
+1
+00:00:00,080 --> 00:00:02,600
+All right.
+So we can think about maximizing reward.
+
+2
+00:00:02,600 --> 00:00:04,460
+Or expected reward, or
+expected discounted reward.
+
+3
+00:00:04,460 --> 00:00:07,630
+But over a finite horizon, instead
+of this kind of infinite horizon,
+
+4
+00:00:07,630 --> 00:00:09,820
+like we talked about in number two.
+
+5
+00:00:09,820 --> 00:00:11,440
+And that's similar.
+
+6
+00:00:11,440 --> 00:00:13,110
+It's something that is
+actually computable,
+
+7
+00:00:13,110 --> 00:00:15,310
+but can be very expensive to compute.
+
+8
+00:00:15,310 --> 00:00:17,500
+>> Sure.
+So, how would you actually compute that?
+
+9
+00:00:17,500 --> 00:00:19,700
+>> That's a fair question.
+
+10
+00:00:19,700 --> 00:00:20,500
+Let's save that one,
+
+11
+00:00:20,500 --> 00:00:23,110
+because some of these problems
+are actually going to end up being
+
+12
+00:00:23,110 --> 00:00:26,570
+reducible to each other so we won't
+have to solve all of them independently.
+
+13
+00:00:26,570 --> 00:00:28,610
+We just have to relate them to
+ones that are already solved.
+
+14
+00:00:28,610 --> 00:00:31,000
+>> Okay, well I will point out,
+since I'm being meta,
+
+15
+00:00:31,000 --> 00:00:35,255
+that if the finite horizon is one
+>> Then we know the answer.
+
+16
+00:00:35,255 --> 00:00:36,460
+>> Mh-hm, right.
+
+17
+00:00:36,460 --> 00:00:37,870
+So the finite horizon is one,
+
+18
+00:00:37,870 --> 00:00:41,405
+then chose the one that has
+the maximum likelihood estimate.
+
+19
+00:00:41,405 --> 00:00:42,290
+>> Mh-hm.
+
+20
+00:00:42,290 --> 00:00:42,930
+>> That's fair.
+
+21
+00:00:42,930 --> 00:00:48,160
+And you sort of kind of generalize
+that idea to do two Horizon of two,
+
+22
+00:00:48,160 --> 00:00:49,590
+horizon of three, horizon of four.
+
+23
+00:00:49,590 --> 00:00:51,080
+You could just kind of iterate it out.
+
+24
+00:00:51,080 --> 00:00:52,470
+It's a little bit like value iteration.
+
+25
+00:00:52,470 --> 00:00:55,600
+So now we're going to have
+a slightly twistier definition.
+
+26
+00:00:55,600 --> 00:00:57,190
+So, what about a metric like this?
+
+27
+00:00:57,190 --> 00:01:00,700
+We're going to try to identify a near
+optimal arm, and near optimal means,
+
+28
+00:01:00,700 --> 00:01:07,120
+well, we can be wrong by choosing an arm
+that's epsilon close to the real arm.
+
+29
+00:01:07,120 --> 00:01:09,390
+Somebody's going to give us
+an epsilon as a parameter, so
+
+30
+00:01:09,390 --> 00:01:12,310
+we don't have to get
+the absolute best arm Mm-hm.
+
+31
+00:01:12,310 --> 00:01:15,180
+>> because that's actually
+impossible to do in finite time,
+
+32
+00:01:15,180 --> 00:01:18,900
+because we could always be really
+unlucky, and get just a strange sample
+
+33
+00:01:18,900 --> 00:01:24,300
+where the highest payoff arm just
+happens to not have paid off for us.
+
+34
+00:01:24,300 --> 00:01:27,940
+So, we're going to soften it to
+a near optimal arm, epsilon close to
+
+35
+00:01:27,940 --> 00:01:31,340
+the actual optimal arm, and this
+doesn't even have to work all the time.
+
+36
+00:01:31,340 --> 00:01:32,860
+It just has to work
+with high probability.
+
+37
+00:01:32,860 --> 00:01:34,050
+Probability 1 minus delta.
+
+38
+00:01:35,320 --> 00:01:40,070
+And the number of pulls before we can
+identify or before we have identified
+
+39
+00:01:40,070 --> 00:01:44,250
+the near optimal arm needs to be
+polynomial in the number of arms.
+
+40
+00:01:44,250 --> 00:01:44,880
+1 over delta.
+
+41
+00:01:44,880 --> 00:01:46,720
+1 over epsilon.
+
+42
+00:01:46,720 --> 00:01:47,630
+There's some polynomial.
+
+43
+00:01:47,630 --> 00:01:48,850
+We'll call it T.
+
+44
+00:01:48,850 --> 00:01:51,710
+Of K, epsilon, and
+delta that bounds the number of
+
+45
+00:01:51,710 --> 00:01:54,830
+pulls before we can identify the near
+optimal arm with high probability.
+
+46
+00:01:54,830 --> 00:01:56,570
+>> So
+that T is not the transition function.
+
+47
+00:01:56,570 --> 00:02:00,150
+So you're not moving from state K to
+state delta through action epsilon.
+
+48
+00:02:00,150 --> 00:02:01,390
+>> Oh, good point.
+
+49
+00:02:01,390 --> 00:02:03,090
+Yeah, that was probably
+not the best use of T.
+
+50
+00:02:03,090 --> 00:02:05,000
+T here is supposed to be time.
+
+51
+00:02:05,000 --> 00:02:06,270
+Would you like tau better?
+
+52
+00:02:06,270 --> 00:02:07,120
+>> Sure, let's call it tau.
+
+53
+00:02:07,120 --> 00:02:07,980
+I like tau.
+
+54
+00:02:07,980 --> 00:02:09,229
+Cool, I like the tau.
+
+55
+00:02:09,229 --> 00:02:13,900
+All right, so I like four,
+because it looks like PAC learning and
+
+56
+00:02:13,900 --> 00:02:16,340
+it looks like the kind of thing that
+machine learning people come up with.
+
+57
+00:02:16,340 --> 00:02:16,930
+>> Yes!
+
+58
+00:02:16,930 --> 00:02:18,520
+Yes, it is a lot like PAC learning.
+
+59
+00:02:18,520 --> 00:02:19,800
+It is a very PACish sort of thing.
+
+60
+00:02:19,800 --> 00:02:21,190
+I had forgotten that we knew about that.
+
+61
+00:02:21,190 --> 00:02:23,190
+But that was in our other class, right?
+
+62
+00:02:23,190 --> 00:02:25,120
+Probably approximately correct.
+
+63
+00:02:25,120 --> 00:02:26,960
+>> Yeah probably approximately.
+
+64
+00:02:26,960 --> 00:02:28,890
+>> So there was one paper
+that actually called this
+
+65
+00:02:28,890 --> 00:02:29,840
+>> PAO.
+
+66
+00:02:29,840 --> 00:02:32,310
+>> PAP.
+>> Probably approximately optimal.
+
+67
+00:02:32,310 --> 00:02:34,230
+But that didn't end up sticking.
+
+68
+00:02:34,230 --> 00:02:36,680
+They call this PAC even though it's
+not really a correctness thing,
+
+69
+00:02:36,680 --> 00:02:38,560
+it's not a classification.
+
+70
+00:02:38,560 --> 00:02:41,480
+But it, the rest of the flavor
+of it is very much like PAC so
+
+71
+00:02:41,480 --> 00:02:42,590
+we just stick with that.
+
+72
+00:02:42,590 --> 00:02:46,520
+>> Well it's a classification if
+the goal is to classify the best arm.
+
+73
+00:02:46,520 --> 00:02:47,250
+>> Yeah.
+That's
+
+74
+00:02:47,250 --> 00:02:48,960
+a good way to think about it, sure.
+
+75
+00:02:48,960 --> 00:02:51,670
+So here's a metric that's
+kind of like number four.
+
+76
+00:02:51,670 --> 00:02:56,450
+In that we're again going to have
+some function of epsilon, delta, and
+
+77
+00:02:56,450 --> 00:03:00,810
+k, that is going to give us
+a number of time steps, and
+
+78
+00:03:00,810 --> 00:03:03,590
+in this particular case,
+instead of saying, at the end of that,
+
+79
+00:03:03,590 --> 00:03:06,020
+we're going to know what
+the near optimal arm is,
+
+80
+00:03:06,020 --> 00:03:09,020
+instead we're going to say, we're
+going to have nearly maximized reward.
+
+81
+00:03:09,020 --> 00:03:10,280
+Over that, that interval.
+
+82
+00:03:10,280 --> 00:03:13,450
+Basically, you give me an epsilon,
+a delta, and a k,
+
+83
+00:03:13,450 --> 00:03:17,880
+number of arms, and I will make a
+strategy and a polynomial tau prime, k,
+
+84
+00:03:17,880 --> 00:03:22,140
+epsilon, delta, such that,
+if I run that long,
+
+85
+00:03:22,140 --> 00:03:27,350
+I will get at least this close,
+I guess per step, to the maximum reward.
+
+86
+00:03:27,350 --> 00:03:28,390
+With high probability.
+
+87
+00:03:28,390 --> 00:03:28,920
+>> Okay, okay.
+
+88
+00:03:28,920 --> 00:03:31,510
+So, that's like there
+was between one and two.
+
+89
+00:03:31,510 --> 00:03:34,160
+Where, instead of the goal being to
+figure out what the best arm is,
+
+90
+00:03:34,160 --> 00:03:37,950
+the goal is to pick up as much
+reward as possible on the way to
+
+91
+00:03:37,950 --> 00:03:39,100
+figuring that out.
+
+92
+00:03:39,100 --> 00:03:42,100
+>> Yeah, yeah,
+that's a good way to think about it.
+
+93
+00:03:42,100 --> 00:03:46,180
+>> So, we're actually willing to take
+longer to find the optimal answer so
+
+94
+00:03:46,180 --> 00:03:48,530
+long as we pick up more
+reward along the way.
+
+95
+00:03:48,530 --> 00:03:50,750
+Could be, yeah,
+could be that there's a trade off there.
+
+96
+00:03:50,750 --> 00:03:52,940
+It could be that these things
+are relatable to each other.
+
+97
+00:03:52,940 --> 00:03:55,450
+>> At least, a little bit relatable
+to one another because certainly,
+
+98
+00:03:55,450 --> 00:03:57,400
+if I can do five quickly,
+I would probably do four.
+
+99
+00:03:57,400 --> 00:03:59,180
+>> Well, we'll work that through, but
+
+100
+00:03:59,180 --> 00:04:01,030
+I wanted to put these
+up as separate things.
+
+101
+00:04:01,030 --> 00:04:03,570
+And then it turns out we can,
+in fact, relate them to each other.
+
+102
+00:04:03,570 --> 00:04:04,220
+>> Cool.
+But
+
+103
+00:04:04,220 --> 00:04:08,110
+if I had to choose between one of them,
+I think I'd Prefer 5 to 4 just because
+
+104
+00:04:08,110 --> 00:04:10,800
+it does matter how I get there,
+not just that I got there.
+
+105
+00:04:10,800 --> 00:04:11,970
+>> Yeah.
+And certainly this
+
+106
+00:04:11,970 --> 00:04:14,400
+is going to deal more
+directly with reward.
+
+107
+00:04:14,400 --> 00:04:17,850
+Look, it seems like for number 4,
+we could actually potentially
+
+108
+00:04:17,850 --> 00:04:22,170
+do a lot of really terrible stuff for
+tao, K,epsilon, delta steps.
+
+109
+00:04:22,170 --> 00:04:24,730
+As long as at the end of it we go,
+And here's the right answer.
+
+110
+00:04:24,730 --> 00:04:27,460
+We could have sort of popped
+up with our hand saying,
+
+111
+00:04:27,460 --> 00:04:31,215
+this is what I should have been
+doing but haven't been doing.
+
+112
+00:04:31,215 --> 00:04:34,822
+[LAUGH] Whereas in number 5,
+the money is where your arms are.
+
+113
+00:04:34,822 --> 00:04:40,590
+[SOUND] That's not right, but we're
+actually getting nearly optimal payoff.
+
+114
+00:04:40,590 --> 00:04:42,850
+>> Okay, that makes sense, cool.
+
+115
+00:04:42,850 --> 00:04:44,940
+So I can't wait to see how you
+relate all these things together.

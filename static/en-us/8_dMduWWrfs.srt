@@ -1,0 +1,178 @@
+1
+00:00:00,370 --> 00:00:04,150
+So to set break points in the command
+line we'll use the LLDB's breakpoint
+
+2
+00:00:04,150 --> 00:00:05,450
+command.
+
+3
+00:00:05,450 --> 00:00:09,310
+And for the first question,
+which sets a line breakpoint,
+
+4
+00:00:09,310 --> 00:00:14,000
+I've used breakpoint set and
+then I specified the file option and for
+
+5
+00:00:14,000 --> 00:00:19,380
+the file, BugFactory.swift, and
+for the line option, line 26.
+
+6
+00:00:19,380 --> 00:00:21,780
+So the whole command looks like this.
+
+7
+00:00:21,780 --> 00:00:24,100
+Next to set a breakpoint
+using a selector,
+
+8
+00:00:24,100 --> 00:00:28,850
+we use the breakpoint set command again
+but this time we use a selector option
+
+9
+00:00:28,850 --> 00:00:33,580
+and for the selector option we're
+passing the value viewDidLoad.
+
+10
+00:00:33,580 --> 00:00:37,050
+This as we'll see shortly creates
+what's known as a symbolic breakpoint,
+
+11
+00:00:37,050 --> 00:00:41,140
+because it matches on a symbol In this
+case a selector instead of a line.
+
+12
+00:00:41,140 --> 00:00:43,770
+And the selector we are interested
+in is viewDidLoad so
+
+13
+00:00:43,770 --> 00:00:45,740
+the full command looks like this.
+
+14
+00:00:45,740 --> 00:00:49,050
+And note that because viewDidLoad
+does not take any arguments,
+
+15
+00:00:49,050 --> 00:00:52,490
+we're just writing the name by itself.
+
+16
+00:00:52,490 --> 00:00:57,480
+However for a method like
+viewWillAppear, which takes a parameter.
+
+17
+00:00:57,480 --> 00:00:59,660
+The selector is going
+to include a colon, so
+
+18
+00:00:59,660 --> 00:01:03,380
+it would be like you will appear colon
+and that's because it has a parameter.
+
+19
+00:01:03,380 --> 00:01:05,830
+That's what the selector would look
+like for that particular method.
+
+20
+00:01:05,830 --> 00:01:09,950
+And if you're unsure at all about how to
+specify selector then you can always go
+
+21
+00:01:09,950 --> 00:01:12,860
+to Apple's documentation because
+they use the selectors everywhere
+
+22
+00:01:12,860 --> 00:01:14,200
+in the documentation.
+
+23
+00:01:14,200 --> 00:01:18,680
+So for example I"m in the UI view
+controller classes documentation and
+
+24
+00:01:18,680 --> 00:01:23,710
+we can see, go up a little bit
+here's our viewDidLoad selector.
+
+25
+00:01:23,710 --> 00:01:27,570
+And notice it does not have a color or
+anything it's just viewDidLoad.
+
+26
+00:01:27,570 --> 00:01:33,440
+This minus symbol here represents
+that it is an instance
+
+27
+00:01:33,440 --> 00:01:37,890
+method belong to an instance of UI View
+controllers, not a class method.
+
+28
+00:01:39,060 --> 00:01:42,790
+And if we scroll further down we'd
+see for instance view will appear.
+
+29
+00:01:42,790 --> 00:01:47,930
+And it takes a colon and that colon
+exists because it has a parameter for
+
+30
+00:01:47,930 --> 00:01:49,330
+animated or
+
+31
+00:01:49,330 --> 00:01:52,720
+if you have a method that's got multiple
+arguments, see if you can find one.
+
+32
+00:01:53,720 --> 00:01:57,874
+Here we go, begin appearance
+transition we can see that it's
+
+33
+00:01:57,874 --> 00:02:00,790
+selector has two colons,
+it's got a colon for
+
+34
+00:02:00,790 --> 00:02:05,260
+the first parameter Is appearing and
+a con for the second parameter animated.
+
+35
+00:02:06,580 --> 00:02:09,350
+Next, a list all breakpoints,
+we use breakpoint lists.
+
+36
+00:02:10,460 --> 00:02:15,000
+And to show the stack trace for
+all threads we use thread backtrace all.
+
+37
+00:02:15,000 --> 00:02:17,080
+Let's go ahead and
+see these commands in action.

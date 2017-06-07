@@ -1,0 +1,326 @@
+﻿1
+00:00:00,220 --> 00:00:03,130
+Now the final mystery is what
+all of these arguments do.
+
+2
+00:00:03,129 --> 00:00:06,060
+You'll also notice I haven't really
+told you how to specify what
+
+3
+00:00:06,059 --> 00:00:09,039
+content provider you actually
+want to access or what table or
+
+4
+00:00:09,039 --> 00:00:11,910
+rows that you're changing,
+inserting, or reading.
+
+5
+00:00:11,910 --> 00:00:15,210
+To specify what data you're
+actually interested in reading or
+
+6
+00:00:15,210 --> 00:00:20,030
+manipulating, you need to learn about
+an additional object called a URI.
+
+7
+00:00:20,030 --> 00:00:23,734
+URI stands for
+Uniform Resource Identifier.
+
+8
+00:00:23,734 --> 00:00:28,280
+URLs are a subset of URIs that
+are specifically met to identify network
+
+9
+00:00:28,280 --> 00:00:31,730
+locations such as websites and
+files on the Web.
+
+10
+00:00:31,730 --> 00:00:36,520
+A URI is used to specifically identify
+or give the location of some data.
+
+11
+00:00:36,520 --> 00:00:37,590
+In this case, on your phone.
+
+12
+00:00:38,609 --> 00:00:41,609
+Let's see how the URI encodes
+the location of an exact
+
+13
+00:00:41,609 --> 00:00:42,710
+piece of data on your phone.
+
+14
+00:00:43,759 --> 00:00:48,699
+This object here in the code is a URI
+and I'm getting it from the contract.
+
+15
+00:00:48,700 --> 00:00:54,640
+I'm going to then use a log statement to
+see what this URI actually looks like.
+
+16
+00:00:54,640 --> 00:00:55,439
+Let's go ahead and run that.
+
+17
+00:00:57,179 --> 00:00:59,469
+So here the app is loaded up.
+
+18
+00:00:59,469 --> 00:01:04,099
+And if I look in here, I could see
+what the value of the URI was.
+
+19
+00:01:04,099 --> 00:01:08,070
+This location is how you know exactly
+what type of data you're querying for.
+
+20
+00:01:08,069 --> 00:01:10,347
+The first part, content://,
+
+21
+00:01:10,347 --> 00:01:14,280
+is the standard way to start
+URIs in an Android app.
+
+22
+00:01:14,280 --> 00:01:20,489
+This is similar to how http:// or
+https:// is a prefix for a Web URL.
+
+23
+00:01:21,590 --> 00:01:26,299
+The
+com.example.udacity.droidtermsexample
+
+24
+00:01:26,299 --> 00:01:29,909
+is a critically important part of
+the URI which specifies which content
+
+25
+00:01:29,909 --> 00:01:31,634
+provider to actually use.
+
+26
+00:01:31,635 --> 00:01:34,715
+It's called the content
+authority of the URI.
+
+27
+00:01:34,715 --> 00:01:37,734
+And this is how the content resolver
+knows which one of the many
+
+28
+00:01:37,734 --> 00:01:39,753
+content providers to
+actually communicate with.
+
+29
+00:01:39,753 --> 00:01:42,948
+After the content:// and
+the content authority,
+
+30
+00:01:42,948 --> 00:01:47,350
+is a string that identifies exactly
+what data in the content provider that
+
+31
+00:01:47,350 --> 00:01:49,490
+you're interested in accessing.
+
+32
+00:01:49,490 --> 00:01:51,560
+The structure of this string,
+known as the path,
+
+33
+00:01:51,561 --> 00:01:53,910
+will be specific to
+the content provider.
+
+34
+00:01:53,909 --> 00:01:56,799
+And, in our case, what we
+are trying to do is access all of
+
+35
+00:01:56,799 --> 00:01:59,489
+the terms which are stored
+to the content provider.
+
+36
+00:01:59,489 --> 00:02:00,530
+So that's what's appended here.
+
+37
+00:02:01,560 --> 00:02:04,490
+So within the URI is
+the following information.
+
+38
+00:02:04,489 --> 00:02:08,490
+It says, I'm a URI for
+content providers on Android.
+
+39
+00:02:08,490 --> 00:02:11,905
+And I'm accessing this specific
+droidtermexample provider and
+
+40
+00:02:11,905 --> 00:02:16,810
+I'm only interested in the list of
+terms stored in droidtermsexample data.
+
+41
+00:02:16,810 --> 00:02:21,055
+Now you might be scuffing right now and
+going, but Lila, how would I know what
+
+42
+00:02:21,055 --> 00:02:24,272
+the structure of these URIs is
+even supposed to look like?
+
+43
+00:02:24,271 --> 00:02:27,149
+I'm not a mind reader,
+and yes that is right.
+
+44
+00:02:27,150 --> 00:02:29,289
+You are not a mind reader,
+
+45
+00:02:29,289 --> 00:02:33,060
+which is why if the designer of the
+content provider followed conventions,
+
+46
+00:02:33,060 --> 00:02:37,170
+which they hopefully did, they
+should have created a contact class.
+
+47
+00:02:37,169 --> 00:02:41,769
+Here I am looking at the docs for
+DroidTermsExample provider.
+
+48
+00:02:41,770 --> 00:02:46,350
+And here is documentation for
+a DroidTermsExampleContract class.
+
+49
+00:02:46,349 --> 00:02:49,614
+This is the same type of contract class
+like you make when you're working with
+
+50
+00:02:49,614 --> 00:02:50,569
+databases.
+
+51
+00:02:50,569 --> 00:02:54,590
+If we scroll down, we see that
+along with all these constants for
+
+52
+00:02:54,590 --> 00:02:56,969
+the different columns in the database,
+
+53
+00:02:56,969 --> 00:03:00,539
+the contract also contains
+information about URIs.
+
+54
+00:03:00,539 --> 00:03:04,870
+If we scroll down a little bit more,
+we see this CONTENT_URI right here,
+
+55
+00:03:04,870 --> 00:03:09,430
+which is a premade URI that is
+usually included in contract classes.
+
+56
+00:03:09,430 --> 00:03:12,349
+Here's the contract for
+the CalendarContent provider.
+
+57
+00:03:12,349 --> 00:03:15,009
+And we can see that it
+also has a CONTENT_URI.
+
+58
+00:03:15,009 --> 00:03:19,179
+I linked this contract to the notes,
+and also the DroidTermsExampleContract.
+
+59
+00:03:19,180 --> 00:03:21,900
+Okay, so
+let's review what all of this code does.
+
+60
+00:03:21,900 --> 00:03:24,719
+The first line gets the content
+resolver for the query.
+
+61
+00:03:24,719 --> 00:03:27,949
+The second line calls the query
+method on that resolver.
+
+62
+00:03:27,949 --> 00:03:32,189
+And using the query method is specifying
+that we're performing a raid operation.
+
+63
+00:03:32,189 --> 00:03:35,099
+To that query method, you pass a URI.
+
+64
+00:03:35,099 --> 00:03:38,930
+The URI defines the exact data
+you're trying to read or manipulate.
+
+65
+00:03:38,930 --> 00:03:42,370
+The rest of the query method, for now,
+will take a bunch of null parameters.
+
+66
+00:03:42,370 --> 00:03:43,289
+We'll talk about these shortly.
+
+67
+00:03:43,289 --> 00:03:46,500
+In the meantime though, Susanna's
+going to give you a few more quizzes for
+
+68
+00:03:46,500 --> 00:03:46,840
+review.
+

@@ -1,0 +1,255 @@
+﻿1
+00:00:00,360 --> 00:00:02,480
+You've been doing very well, Lorenzo.
+
+2
+00:00:02,480 --> 00:00:05,700
+This might be a good
+time to ask you about
+
+3
+00:00:05,700 --> 00:00:08,550
+some of your experiences
+with machine learning.
+
+4
+00:00:08,550 --> 00:00:11,890
+So, can you describe a project,
+problem, or
+
+5
+00:00:11,890 --> 00:00:17,719
+challenge that you applied machine
+learning to, and how you went about it?
+
+6
+00:00:17,719 --> 00:00:19,119
+>> Definitely, so
+
+7
+00:00:19,120 --> 00:00:21,717
+a project that I'm working on
+right now is called A Cappella.
+
+8
+00:00:22,969 --> 00:00:27,439
+This is a music accompaniment
+application that uses machine learning
+
+9
+00:00:27,440 --> 00:00:30,920
+to listen to a musician,
+or a singer, and
+
+10
+00:00:30,920 --> 00:00:34,880
+from the audio input that's taken in,
+it will try and
+
+11
+00:00:34,880 --> 00:00:38,980
+predict where you are in a song and
+play the appropriate accompaniment.
+
+12
+00:00:38,979 --> 00:00:41,626
+So it's kind of like having
+your own live jazz band.
+
+13
+00:00:41,627 --> 00:00:41,948
+>> Wow.
+
+14
+00:00:41,948 --> 00:00:45,770
+>> Just taking in a few seconds of
+audio input, it makes a prediction and
+
+15
+00:00:45,770 --> 00:00:50,900
+tries to figure out where in the song
+the user is, play the appropriate music.
+
+16
+00:00:50,899 --> 00:00:55,960
+And if at any time it feels like
+the predictions are getting off, or it's
+
+17
+00:00:55,960 --> 00:01:00,560
+incorrect, it will stop and recalculate
+and try and catch up with you.
+
+18
+00:01:00,560 --> 00:01:02,109
+>> Wow, that's very impressive.
+
+19
+00:01:02,109 --> 00:01:04,929
+I'm curious how you're
+dealing with the input data.
+
+20
+00:01:04,930 --> 00:01:09,946
+Is that raw audio as a wave form,
+or how do you process that?
+
+21
+00:01:09,945 --> 00:01:15,659
+>> Yes, so training the audio was
+quite a challenging task for me.
+
+22
+00:01:15,659 --> 00:01:21,079
+I ended up taking a perfect
+version of the song and
+
+23
+00:01:21,079 --> 00:01:26,159
+adding noise, and pitch bend,
+and phase shifting multiple
+
+24
+00:01:26,159 --> 00:01:31,399
+time to end up making 50 to 100
+copies of the exact same song.
+
+25
+00:01:31,400 --> 00:01:34,260
+After that, I chopped it into
+a lots of small pieces, so
+
+26
+00:01:34,260 --> 00:01:38,010
+that way I can make predictions
+on very short pieces of audio.
+
+27
+00:01:38,010 --> 00:01:42,639
+Because making the prediction
+early was really valuable for me,
+
+28
+00:01:42,638 --> 00:01:45,920
+because I needed this
+to run in real time.
+
+29
+00:01:45,920 --> 00:01:52,310
+So, it would make several slices of the
+song that had a few seconds of overlap,
+
+30
+00:01:52,310 --> 00:01:55,629
+and then run all of the transforms
+I wanted to run on it.
+
+31
+00:01:55,629 --> 00:01:59,519
+So I did a Fourier transform and some
+peak analysis, fed that into a machine
+
+32
+00:01:59,519 --> 00:02:03,144
+learning algorithm, and
+then out came a prediction.
+
+33
+00:02:03,144 --> 00:02:07,549
+On my labels were the timestamps
+of different parts of the song.
+
+34
+00:02:07,549 --> 00:02:10,014
+So it would make a prediction
+as to a timestamp,
+
+35
+00:02:10,014 --> 00:02:11,875
+as to where it thinks the singer is.
+
+36
+00:02:11,875 --> 00:02:15,948
+And then it would feed that into a,
+or once it got the prediction,
+
+37
+00:02:15,948 --> 00:02:20,542
+it would open up an audio file that
+would play the perfect accompaniment,
+
+38
+00:02:20,542 --> 00:02:23,479
+and start it at that timestamp.
+
+39
+00:02:23,479 --> 00:02:25,009
+>> That's very impressive.
+
+40
+00:02:25,009 --> 00:02:28,280
+What machine learning
+algorithm did you use here?
+
+41
+00:02:28,280 --> 00:02:31,390
+>> So, I tried quite a few machine
+learning algorithms to see which one
+
+42
+00:02:31,389 --> 00:02:36,329
+would give me the best output,
+and the best accuracy.
+
+43
+00:02:36,330 --> 00:02:43,320
+When I did my cross validations,
+I noticed that random forest was giving
+
+44
+00:02:43,319 --> 00:02:47,239
+me very reasonable accuracy scores and
+something I was really happy with.
+
+45
+00:02:47,240 --> 00:02:50,070
+But when it actually came to
+implementing it in the application,
+
+46
+00:02:50,069 --> 00:02:51,789
+the predictions were
+happening a little too slow.
+
+47
+00:02:51,789 --> 00:02:55,310
+So by the time it made the prediction,
+the musician had already moved on.
+
+48
+00:02:55,310 --> 00:02:59,539
+So, I tried using some more
+lightweight algorithms.
+
+49
+00:02:59,539 --> 00:03:01,438
+So, using support vector machines.
+
+50
+00:03:02,620 --> 00:03:06,569
+I had a little bit less of an accuracy,
+but the predictions were super fast.
+
+51
+00:03:06,569 --> 00:03:08,579
+And I was really happy with the product.
+
+52
+00:03:09,669 --> 00:03:11,449
+>> That's very good,
+thanks for sharing with me.
+
+53
+00:03:11,449 --> 00:03:11,769
+>> Thank you.
+

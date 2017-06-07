@@ -1,0 +1,514 @@
+1
+00:00:00,012 --> 00:00:01,555
+All right,
+you ready to move on to the next one?
+
+2
+00:00:01,555 --> 00:00:02,333
+>> Sure.
+
+3
+00:00:02,333 --> 00:00:05,440
+Okay, so the next one,
+we've got our expectation back.
+
+4
+00:00:05,440 --> 00:00:06,340
+That makes me happy.
+
+5
+00:00:06,340 --> 00:00:09,925
+>> Yeah.
+>> So, we've got our expectation back,
+
+6
+00:00:09,925 --> 00:00:15,652
+but now what we're doing is we're going,
+the next thing that'll
+
+7
+00:00:15,652 --> 00:00:21,071
+happen is rather than doing
+the best action from that point on,
+
+8
+00:00:21,071 --> 00:00:26,626
+we will take sort of the average
+over all possible next actions.
+
+9
+00:00:26,626 --> 00:00:27,940
+>> Mm-hm.
+
+10
+00:00:27,940 --> 00:00:30,709
+>> But give more weight
+the better the action is,
+
+11
+00:00:30,709 --> 00:00:33,629
+if I remember what your
+row of ord actually does.
+
+12
+00:00:34,830 --> 00:00:38,560
+>> That is a nice way to do it, but
+this is not written to be that way.
+
+13
+00:00:38,560 --> 00:00:41,290
+It's just weighting by the ranking.
+
+14
+00:00:41,290 --> 00:00:44,440
+So it could be that we put higher
+weight on higher rank things.
+
+15
+00:00:44,440 --> 00:00:46,964
+But it could be we put higher
+weight on lower rank things too.
+
+16
+00:00:46,964 --> 00:00:48,949
+So this is a very general expression.
+
+17
+00:00:48,949 --> 00:00:49,840
+But you're right.
+
+18
+00:00:49,840 --> 00:00:54,190
+I mean, this would be useful in
+the case where it's doing some kind of,
+
+19
+00:00:54,190 --> 00:00:58,850
+I don't know, maybe a generalization
+of epsilon greedy exploration.
+
+20
+00:00:58,850 --> 00:01:03,200
+The idea that we're going to, with
+highest probability choose the max, and
+
+21
+00:01:03,200 --> 00:01:05,680
+with lower probability choose
+things that aren't the max.
+
+22
+00:01:05,680 --> 00:01:06,842
+So it generalizes that idea.
+
+23
+00:01:06,842 --> 00:01:11,330
+>> Right, and so actually that would
+be nice because one of the things about
+
+24
+00:01:11,330 --> 00:01:15,350
+the way we go around learning MDP's and
+do Q-learning and value iteration is
+
+25
+00:01:15,350 --> 00:01:17,900
+we kind of assume we're always
+going to do the next best thing.
+
+26
+00:01:17,900 --> 00:01:20,680
+But since we still
+have to do exploration
+
+27
+00:01:20,680 --> 00:01:23,210
+as well as exploitation that
+isn't actually what we do.
+
+28
+00:01:24,780 --> 00:01:27,440
+So this would allow
+us to do exploration.
+
+29
+00:01:29,100 --> 00:01:31,450
+>> Well, it's not that it's
+allowing us to do exploration,
+
+30
+00:01:31,450 --> 00:01:35,610
+it's actually defining the values, so
+they incorporate exploration into them.
+
+31
+00:01:35,610 --> 00:01:37,120
+>> Right.
+>> So one way of thinking about what
+
+32
+00:01:37,120 --> 00:01:39,590
+this is,
+is an exploration sensitive MDP.
+
+33
+00:01:41,035 --> 00:01:42,840
+>> Right,
+that's exactly what I was going to say.
+
+34
+00:01:42,840 --> 00:01:43,640
+>> Oh, awesome!
+
+35
+00:01:43,640 --> 00:01:45,050
+Well, just to finish this thought.
+
+36
+00:01:45,050 --> 00:01:48,220
+The values that you define for
+the states include in them
+
+37
+00:01:48,220 --> 00:01:51,590
+the probability that you might
+take a non-maximum action.
+
+38
+00:01:51,590 --> 00:01:54,480
+That's the sense in which the values
+are exploration sensitive.
+
+39
+00:01:54,480 --> 00:01:59,362
+We can explore in, say, Q-learning and
+still use this first update rule
+
+40
+00:01:59,362 --> 00:02:03,155
+to try to figure out what
+the value is for the best policy.
+
+41
+00:02:03,155 --> 00:02:05,591
+This is actually trying to
+figure out what the value is for
+
+42
+00:02:05,591 --> 00:02:07,420
+the policy that is exploring.
+
+43
+00:02:07,420 --> 00:02:10,169
+>> Right and in particular the policy
+we're going to follow as opposed to
+
+44
+00:02:10,169 --> 00:02:11,150
+the policy we could follow.
+
+45
+00:02:11,150 --> 00:02:12,030
+>> Yeah, that's a good point.
+
+46
+00:02:12,030 --> 00:02:13,260
+>> Right, I think that's important.
+
+47
+00:02:13,260 --> 00:02:17,520
+>> Yeah, so this is kind of neat
+because unlike regular Q-learning
+
+48
+00:02:17,520 --> 00:02:20,470
+it's actually figuring out the value,
+it's on policy, it's
+
+49
+00:02:20,470 --> 00:02:24,410
+actually figuring out the value of the
+policy that we might really be taking.
+
+50
+00:02:24,410 --> 00:02:27,670
+Whereas if we were to literally always
+take the max, we won't learn the right
+
+51
+00:02:27,670 --> 00:02:31,230
+value in the case of Q-learning because
+we're going to get stuck not exploring.
+
+52
+00:02:33,340 --> 00:02:33,990
+>> Okay.
+
+53
+00:02:33,990 --> 00:02:35,280
+I like that.
+I can't think of a better name.
+
+54
+00:02:35,280 --> 00:02:38,530
+Are there any other names for
+this besides exploration sensitive?
+
+55
+00:02:38,530 --> 00:02:42,443
+>> Well as I said it generalizes max and
+min.
+
+56
+00:02:42,443 --> 00:02:46,365
+[LAUGH] One of the things that I really
+like but have absolutely no use for
+
+57
+00:02:46,365 --> 00:02:50,487
+is that you can imagine an update role
+where you always are trying to choose
+
+58
+00:02:50,487 --> 00:02:51,965
+the median action.
+
+59
+00:02:51,965 --> 00:02:54,770
+kind of not too good,
+not too bad, middle of the pack.
+
+60
+00:02:54,770 --> 00:02:57,580
+I guess it's kind of like
+the decision process for
+
+61
+00:02:57,580 --> 00:03:00,990
+people who just want to be mediocre and
+not stand out.
+
+62
+00:03:00,990 --> 00:03:02,967
+So I'll say mediocre.
+
+63
+00:03:02,967 --> 00:03:07,727
+>> [LAUGH]
+>> Mediocrity-sensitive MDPs.
+
+64
+00:03:07,727 --> 00:03:09,718
+>> And there's another case
+where I found use for this,
+
+65
+00:03:09,718 --> 00:03:11,150
+which I think is kind of interesting.
+
+66
+00:03:11,150 --> 00:03:14,660
+So imagine that we've
+got a huge action space,
+
+67
+00:03:14,660 --> 00:03:18,340
+where actually computing this
+max is going to be difficult.
+
+68
+00:03:18,340 --> 00:03:19,000
+>> Okay.
+
+69
+00:03:19,000 --> 00:03:21,950
+>> So instead of actually running
+through all possible actions to compute
+
+70
+00:03:21,950 --> 00:03:24,850
+the max, we're going to take
+some random sampling and
+
+71
+00:03:24,850 --> 00:03:27,990
+then just compute the max
+of that random sample.
+
+72
+00:03:29,520 --> 00:03:32,520
+So does that make some
+sense as an algorithm?
+
+73
+00:03:32,520 --> 00:03:33,860
+Like instead of taking
+the max over everything,
+
+74
+00:03:33,860 --> 00:03:36,920
+we'll just take a max
+over a handful of things.
+
+75
+00:03:36,920 --> 00:03:38,450
+>> Sure, that makes sense if you have,
+for example,
+
+76
+00:03:38,450 --> 00:03:39,410
+an infinite number of actions.
+
+77
+00:03:40,430 --> 00:03:42,770
+>> Yeah, that's right, but even just
+a very large number of actions though.
+
+78
+00:03:42,770 --> 00:03:46,530
+The first time I heard about this was in
+the case of an MDP that was being used
+
+79
+00:03:46,530 --> 00:03:49,740
+to define scheduling actions for
+
+80
+00:03:49,740 --> 00:03:54,570
+the Space Shuttle, back when there was
+a Space Shuttle, and there was just so
+
+81
+00:03:54,570 --> 00:03:56,960
+many of them that going
+through them was intractable.
+
+82
+00:03:56,960 --> 00:03:58,910
+So this is Tom Dietrich's work.
+
+83
+00:03:58,910 --> 00:04:02,120
+He actually randomly sampled
+some of the actions and
+
+84
+00:04:02,120 --> 00:04:04,550
+then chose the best among that sample.
+
+85
+00:04:04,550 --> 00:04:09,036
+So what that gives you actually is
+there's some probability you will choose
+
+86
+00:04:09,036 --> 00:04:10,028
+the actual max.
+
+87
+00:04:10,028 --> 00:04:12,908
+But there's also some probability
+that you miss the max and
+
+88
+00:04:12,908 --> 00:04:15,566
+instead get the second largest
+out of all the actions.
+
+89
+00:04:15,566 --> 00:04:17,091
+And there's some other
+probability that you get
+
+90
+00:04:17,091 --> 00:04:18,470
+the third largest of all the actions.
+
+91
+00:04:18,470 --> 00:04:22,580
+It's more likely that you get higher
+ranked actions than lower ranked actions
+
+92
+00:04:22,580 --> 00:04:27,010
+because of the subset that you choose,
+you're always taking the max of that.
+
+93
+00:04:27,010 --> 00:04:29,433
+But it's not going to be
+with probability one,
+
+94
+00:04:29,433 --> 00:04:33,322
+so what you end up with is some kind
+of distribution over the likelihood of
+
+95
+00:04:33,322 --> 00:04:38,150
+choosing the max and the second highest
+and the third highest and so on.
+
+96
+00:04:38,150 --> 00:04:42,710
+And this equation generalizes that
+idea and shows that if we use this as
+
+97
+00:04:42,710 --> 00:04:46,560
+our update rule for something like value
+iteration, we get a well defined answer.
+
+98
+00:04:47,990 --> 00:04:49,470
+This will converge to something.
+
+99
+00:04:49,470 --> 00:04:52,290
+It's just a little bit hard to
+say exactly what it converges to.
+
+100
+00:04:52,290 --> 00:04:54,450
+It's not the best possible policy.
+
+101
+00:04:54,450 --> 00:04:58,060
+It's more like the policy that we get
+
+102
+00:04:58,060 --> 00:05:00,910
+when we always choose the best
+action from a random sample.
+
+103
+00:05:02,130 --> 00:05:06,500
+>> Right, but if they are a bunch
+of pretty good actions then
+
+104
+00:05:06,500 --> 00:05:09,160
+you may not get the optimal policy but
+you'll still get a pretty good one.
+
+105
+00:05:09,160 --> 00:05:11,578
+It's like be satisficing
+as opposed to satisfying.
+
+106
+00:05:11,578 --> 00:05:12,298
+>> Ooh yeah.
+
+107
+00:05:12,298 --> 00:05:14,376
+I would accept satisficing
+as an answer to this one.
+
+108
+00:05:14,376 --> 00:05:14,930
+That's cool.
+
+109
+00:05:16,220 --> 00:05:16,720
+>> Okay.

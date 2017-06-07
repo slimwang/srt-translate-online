@@ -1,0 +1,299 @@
+1
+00:00:00,220 --> 00:00:03,430
+I hope you found the basics of Storm's multi-language capabilities interesting
+
+2
+00:00:03,430 --> 00:00:07,080
+and potentially useful to your topology design process.
+
+3
+00:00:07,080 --> 00:00:09,910
+I'll walk through my approach here, but as always, feel free to skip ahead to
+
+4
+00:00:09,910 --> 00:00:13,080
+the next section if you didn't encounter any problems.
+
+5
+00:00:13,080 --> 00:00:17,030
+In step zero, after adding your credentials to the tweet topology file,
+
+6
+00:00:17,030 --> 00:00:19,160
+end of step one-creating a resources directory and
+
+7
+00:00:19,160 --> 00:00:20,812
+making sure it's in your Storm folder.
+
+8
+00:00:20,812 --> 00:00:26,040
+We've registered this folder location in the palm.xml file by copying and
+
+9
+00:00:26,040 --> 00:00:28,310
+pasting the Maven module.
+
+10
+00:00:28,310 --> 00:00:34,820
+So we copy, navigate to the palm.xml file, paste and finally uncomment.
+
+11
+00:00:34,820 --> 00:00:39,820
+See that the structure directory that we created is source/jvm/udacity/storm.
+
+12
+00:00:39,820 --> 00:00:44,570
+Which corresponds to the source jvm Udacity Storm file structure we have.
+
+13
+00:00:44,570 --> 00:00:47,840
+Make sure you don't list the resources directory here.
+
+14
+00:00:47,840 --> 00:00:50,870
+This ensures that the resources folder will be a folder in
+
+15
+00:00:50,870 --> 00:00:55,220
+the jar file as required by the storm.python module.
+
+16
+00:00:55,220 --> 00:00:55,810
+In step three,
+
+17
+00:00:55,810 --> 00:01:00,680
+you could follow the link below, or navigate from storm.apace.org.
+
+18
+00:01:00,680 --> 00:01:03,130
+Click on any programming language.
+
+19
+00:01:03,130 --> 00:01:04,930
+And click on adapters in Python.
+
+20
+00:01:06,000 --> 00:01:09,950
+Not example topology, which takes you to Nathan Marse's older code.
+
+21
+00:01:11,110 --> 00:01:15,744
+Once in the adapters in Python page, click on Storm > Storm starter, and
+
+22
+00:01:15,744 --> 00:01:18,750
+finally, multilangresources.
+
+23
+00:01:18,750 --> 00:01:25,240
+Finally, in step four, we copy this storm.py and splitsentence.py files.
+
+24
+00:01:25,240 --> 00:01:27,922
+Remember that these files go in the resources directory and
+
+25
+00:01:27,922 --> 00:01:31,737
+create storm.py and splitsentence.py.
+
+26
+00:01:31,737 --> 00:01:38,480
+Finally, copy and paste the storm.py and splitsentence.py files.
+
+27
+00:01:38,480 --> 00:01:39,140
+In Step 5,
+
+28
+00:01:39,140 --> 00:01:44,260
+after reviewing the usage of Python bolts, and my hint in Step 6 that shows
+
+29
+00:01:44,260 --> 00:01:49,080
+the inner class SplitSentence extends ShellBolt implements IRichBolt is needed.
+
+30
+00:01:49,080 --> 00:01:51,840
+In Step 7 we create a new file in the storm folder,
+
+31
+00:01:51,840 --> 00:01:55,999
+making sure it's not the resources folder, named splitsentence.java.
+
+32
+00:01:57,040 --> 00:01:59,940
+After copying and pasting the interclass splitsentance.java into your new
+
+33
+00:01:59,940 --> 00:02:02,910
+java file and the required import statements,
+
+34
+00:02:03,920 --> 00:02:06,570
+remember that your package structure needs to be updated.
+
+35
+00:02:06,570 --> 00:02:11,290
+Remember, package.udacity.storm is udacity.storm.
+
+36
+00:02:11,290 --> 00:02:15,690
+We imported all of the import statements from the prior file, but for
+
+37
+00:02:15,690 --> 00:02:19,840
+sure we know we don't need the random sentence spout, we can comment this out.
+
+38
+00:02:19,840 --> 00:02:20,830
+Finally, in step eight,
+
+39
+00:02:20,830 --> 00:02:23,549
+we remove the static statement since we're now defining a class.
+
+40
+00:02:24,870 --> 00:02:28,760
+And in step 9, we update the Topology to use the SplitSentence bolt.
+
+41
+00:02:28,760 --> 00:02:30,370
+We navigate to the tweetToplogy file.
+
+42
+00:02:31,560 --> 00:02:33,260
+And scrolling down to the Topology section,
+
+43
+00:02:33,260 --> 00:02:38,610
+we comment out the old ParseTweetBolt and entering our new SplitSentenceBolt.
+
+44
+00:02:39,920 --> 00:02:45,020
+I've given this a component ID of python-split-sentence,.
+
+45
+00:02:45,020 --> 00:02:48,030
+And finally the implementation question, we need a shuffle grouping.
+
+46
+00:02:49,180 --> 00:02:51,940
+And finally we connect this to the tweetSpout.
+
+47
+00:02:51,940 --> 00:02:54,416
+Once we've made the connection between the tweetSpout to
+
+48
+00:02:54,416 --> 00:02:57,090
+the python-split-sentence bolt, we need to
+
+49
+00:02:57,090 --> 00:03:01,800
+complete the connection to the count bolt by changing our field grouping.
+
+50
+00:03:01,800 --> 00:03:07,181
+First we change the component ID parse-tweet-bolt to python-split-sentence.
+
+51
+00:03:07,181 --> 00:03:10,555
+And next we update the fields from tweet-word to
+
+52
+00:03:10,555 --> 00:03:14,060
+the field declared in SplitSentence.
+
+53
+00:03:14,060 --> 00:03:16,810
+To find this we navigate to SplitSentence and
+
+54
+00:03:16,810 --> 00:03:19,540
+scroll down to the declareOutputFields.
+
+55
+00:03:19,540 --> 00:03:21,950
+And see our new field declared is word.
+
+56
+00:03:21,950 --> 00:03:27,530
+Notice that the splitsentence.java bolt is declaring the output field word and
+
+57
+00:03:27,530 --> 00:03:30,137
+not our python splitsentence.py file.
+
+58
+00:03:31,380 --> 00:03:36,106
+Now that we know the field word, we navigate back to our tweet topology and
+
+59
+00:03:36,106 --> 00:03:39,830
+update the new fields tweet-word to word.
+
+60
+00:03:39,830 --> 00:03:43,315
+And now we're done with our topology connecting the tweet-spout to
+
+61
+00:03:43,315 --> 00:03:45,239
+our python-split-sentence bolt,
+
+62
+00:03:45,239 --> 00:03:48,400
+from our python-split-sentence bolt to the count-bolt.
+
+63
+00:03:48,400 --> 00:03:51,980
+And using the existing connection from the count-bolt to the report-bolt.
+
+64
+00:03:51,980 --> 00:03:57,110
+Also in step zero, remember to install the Python Beautiful Soup package,
+
+65
+00:03:57,110 --> 00:03:59,560
+making sure you have a built success.
+
+66
+00:03:59,560 --> 00:04:02,780
+Finally in step 10, package and run your topology.
+
+67
+00:04:02,780 --> 00:04:04,570
+Again, it's Maven package.
+
+68
+00:04:04,570 --> 00:04:08,380
+And once you have a build success, we submit our project Storm jar
+
+69
+00:04:08,380 --> 00:04:14,120
+target Udacity with dependencies, Udacity.storm.tweet Topology.
+
+70
+00:04:14,120 --> 00:04:17,560
+And as we see our tweet stream in the background we see that the visualization
+
+71
+00:04:17,560 --> 00:04:19,339
+begins to update.
+
+72
+00:04:19,339 --> 00:04:22,960
+This is using the word splitter bolt in Python.
+
+73
+00:04:22,960 --> 00:04:25,720
+And finally, remember that your code will now match Lesson 3, Stage 2.
+
+74
+00:04:25,720 --> 00:04:30,140
+Now that we've covered the basics of using Python in Storm,
+
+75
+00:04:30,140 --> 00:04:31,750
+lets move on to something a bit more interesting.

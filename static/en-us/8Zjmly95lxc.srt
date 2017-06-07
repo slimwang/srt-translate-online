@@ -1,0 +1,113 @@
+1
+00:00:00,920 --> 00:00:04,130
+Your conference central application
+is now fully functional, and
+
+2
+00:00:04,130 --> 00:00:08,250
+you can save and get profile and
+conference entities whenever you want.
+
+3
+00:00:08,250 --> 00:00:10,700
+But it's not very efficient yet.
+
+4
+00:00:10,700 --> 00:00:14,040
+Every time your code makes a call to
+get an entity from the data store,
+
+5
+00:00:14,040 --> 00:00:16,650
+that entity can be fetched from disk.
+
+6
+00:00:16,650 --> 00:00:19,800
+That's slow for you users, and
+it also counts against your daily quota.
+
+7
+00:00:19,800 --> 00:00:22,870
+And that's why App Engine
+offers Memcache
+
+8
+00:00:22,870 --> 00:00:25,570
+as a way to automatically
+cache your data.
+
+9
+00:00:25,570 --> 00:00:30,040
+In this lesson you'll learn how NDB
+takes care of caching entities.
+
+10
+00:00:30,040 --> 00:00:32,070
+And because that's really too easy,
+
+11
+00:00:32,070 --> 00:00:36,430
+we'll also take a look at how to use
+the underlying Memcache Python API
+
+12
+00:00:36,430 --> 00:00:38,630
+to put entries into the Memcache and
+get them back.
+
+13
+00:00:39,770 --> 00:00:43,010
+Let's suppose you want to run an ad
+encouraging people to sign up for
+
+14
+00:00:43,010 --> 00:00:45,370
+conferences that are nearly sold out.
+
+15
+00:00:45,370 --> 00:00:48,230
+You can store those
+announcements in Memcache.
+
+16
+00:00:48,230 --> 00:00:51,040
+There's no need to save them in
+datastore because they are very
+
+17
+00:00:51,040 --> 00:00:52,180
+transient in nature, and
+
+18
+00:00:52,180 --> 00:00:55,210
+it doesn't really matter if an
+announcement gets evicted from Memcache.
+
+19
+00:00:56,830 --> 00:00:59,800
+Another feature of App Engine
+that we'll explore in this lesson
+
+20
+00:00:59,800 --> 00:01:03,790
+is how to deal with long-running
+tasks by using task queues.
+
+21
+00:01:03,790 --> 00:01:07,620
+And to do that, we'll use task queues to
+set a confirmation email when someone
+
+22
+00:01:07,620 --> 00:01:09,370
+creates a conference.
+
+23
+00:01:09,370 --> 00:01:13,310
+And we'll wrap up the lesson by creating
+a cron job, that periodically checks for
+
+24
+00:01:13,310 --> 00:01:17,410
+conferences that are nearly sold out and
+updates the announcement in Memcache.

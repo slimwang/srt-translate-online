@@ -1,0 +1,287 @@
+1
+00:00:00,720 --> 00:00:02,260
+When building the onGetRoot method,
+
+2
+00:00:02,260 --> 00:00:05,360
+it's important that you think about
+the security of your content.
+
+3
+00:00:05,360 --> 00:00:09,210
+By default, any application running on
+your phone has that ability to call
+
+4
+00:00:09,210 --> 00:00:11,670
+this, and
+interact with your music library.
+
+5
+00:00:11,670 --> 00:00:13,040
+You might not want this, and
+
+6
+00:00:13,040 --> 00:00:16,360
+only want to allow official
+Android apps to access your media.
+
+7
+00:00:16,360 --> 00:00:17,240
+To do this,
+
+8
+00:00:17,240 --> 00:00:21,500
+we need to verify the origin of the
+package accessing your onGetRoot method.
+
+9
+00:00:21,500 --> 00:00:24,850
+Here, you can see we're calling
+a PackageValidator class
+
+10
+00:00:24,850 --> 00:00:28,960
+that takes this information in the
+isCallerAllowed method, and checks it.
+
+11
+00:00:28,960 --> 00:00:31,940
+If the package is not allowed,
+we return null and
+
+12
+00:00:31,940 --> 00:00:35,040
+this will not allow the media
+browser operation to continue.
+
+13
+00:00:35,040 --> 00:00:36,980
+To get yourself a copy
+of the PackageValidator,
+
+14
+00:00:36,980 --> 00:00:40,530
+you should use one of the Android Auto
+samples that I'll introduce later,
+
+15
+00:00:40,530 --> 00:00:42,690
+to see what the PackageValidator
+class looks like.
+
+16
+00:00:42,690 --> 00:00:44,780
+You should probably just use this code.
+
+17
+00:00:44,780 --> 00:00:46,200
+Instead of trying to write your own.
+
+18
+00:00:46,200 --> 00:00:49,050
+Also at the bottom here,
+you'll see that we're doing a test
+
+19
+00:00:49,050 --> 00:00:51,530
+to see if we're being
+queried by Android Auto.
+
+20
+00:00:51,530 --> 00:00:54,770
+This is useful if your app needs to
+adapt itself differently for ads,
+
+21
+00:00:54,770 --> 00:00:58,350
+music libraries, or anything else
+when it's running in the car.
+
+22
+00:00:58,350 --> 00:01:00,880
+For the onLoadChildren
+method shown here,
+
+23
+00:01:00,880 --> 00:01:03,720
+you get to build up
+a hierarchy of media ID's.
+
+24
+00:01:03,720 --> 00:01:07,040
+Each call returns a list of media items,
+which we show here, and
+
+25
+00:01:07,040 --> 00:01:09,620
+an item can be playable or browsable.
+
+26
+00:01:09,620 --> 00:01:10,240
+So what does this mean?
+
+27
+00:01:10,240 --> 00:01:11,750
+Let's look at a diagram.
+
+28
+00:01:11,750 --> 00:01:15,080
+Browsable items imply that there
+is another level underneath, and
+
+29
+00:01:15,080 --> 00:01:17,215
+further calls to
+onLoadChildren will be made.
+
+30
+00:01:17,215 --> 00:01:21,920
+OnLoadchildren is call recursively,
+until we reach only playable nodes.
+
+31
+00:01:21,920 --> 00:01:23,960
+At the top level,
+we have a root node and
+
+32
+00:01:23,960 --> 00:01:26,778
+then we have browsable categories
+of genre, artist and album.
+
+33
+00:01:26,778 --> 00:01:29,360
+Genre is broken-down into classic and
+rock.
+
+34
+00:01:29,360 --> 00:01:31,780
+And then,
+classic contains a reference to Song1,
+
+35
+00:01:31,780 --> 00:01:34,930
+while rock contains
+a reference to Song2.
+
+36
+00:01:34,930 --> 00:01:35,870
+It's totally fine for
+
+37
+00:01:35,870 --> 00:01:39,600
+the same music item to appear multiple
+times, under different categories.
+
+38
+00:01:39,600 --> 00:01:41,980
+So there's also flexibility here.
+
+39
+00:01:41,980 --> 00:01:45,400
+If you have a large music hierarchy
+that will take some time to build,
+
+40
+00:01:45,400 --> 00:01:48,300
+like if you have to fetch it from
+the network, then you need to do this in
+
+41
+00:01:48,300 --> 00:01:51,010
+the background and
+not block the user interface.
+
+42
+00:01:51,010 --> 00:01:53,940
+To do this,
+you should spawn off an AsyncTask and
+
+43
+00:01:53,940 --> 00:01:56,990
+then call this detach method shown here.
+
+44
+00:01:56,990 --> 00:02:01,240
+When the result is ready, the AsyncTask
+can then return back the results,
+
+45
+00:02:01,240 --> 00:02:04,118
+using another method called sendResult.
+
+46
+00:02:04,118 --> 00:02:07,790
+Using an AsyncTask ensures that
+the user interface is responsive, and
+
+47
+00:02:07,790 --> 00:02:11,270
+is not blocked while your code
+is querying your media library.
+
+48
+00:02:11,270 --> 00:02:12,780
+Since the user will be in a car,
+
+49
+00:02:12,780 --> 00:02:16,190
+it's important that you present items in
+a way that minimizes user interaction.
+
+50
+00:02:16,190 --> 00:02:20,270
+You should put frequently used
+items like playlists, channels, or
+
+51
+00:02:20,270 --> 00:02:23,060
+popular content right at the top.
+
+52
+00:02:23,060 --> 00:02:27,240
+You should also avoid showing unbounded
+broad categories like all artists,
+
+53
+00:02:27,240 --> 00:02:30,360
+because these lists will be too hard for
+users to navigate through.
+
+54
+00:02:30,360 --> 00:02:32,470
+So definitely don't do that.
+
+55
+00:02:32,470 --> 00:02:35,470
+Instead, you should try to create
+bounded content that is going to be what
+
+56
+00:02:35,470 --> 00:02:36,670
+the user wants.
+
+57
+00:02:36,670 --> 00:02:40,460
+Android Auto has a limit of six
+touch interactions to reach
+
+58
+00:02:40,460 --> 00:02:42,090
+any point in your media hierarchy,
+
+59
+00:02:42,090 --> 00:02:45,780
+to ensure the user does not spend too
+much time distracted while driving.
+
+60
+00:02:45,780 --> 00:02:48,370
+If you try to exceed this limit,
+the UI will prevent it,
+
+61
+00:02:48,370 --> 00:02:51,120
+and you'll need to present your
+media hierarchy differently.

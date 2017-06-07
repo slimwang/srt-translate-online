@@ -1,0 +1,228 @@
+1
+00:00:00,090 --> 00:00:04,700
+To understand why we need RPC,
+let's look at two example applications.
+
+2
+00:00:04,700 --> 00:00:10,318
+The first one is an application, where
+a client requests a file from a server.
+
+3
+00:00:10,318 --> 00:00:14,420
+And uses a simple get file
+protocol that's like HTTP request,
+
+4
+00:00:14,420 --> 00:00:16,100
+but less complex.
+
+5
+00:00:16,100 --> 00:00:17,800
+In this application the client and
+
+6
+00:00:17,800 --> 00:00:20,450
+the server interact using
+a socket based API.
+
+7
+00:00:20,450 --> 00:00:23,920
+And as a developer you would
+have to explicitly create and
+
+8
+00:00:23,920 --> 00:00:26,040
+initialize the sockets,
+
+9
+00:00:26,040 --> 00:00:30,875
+then allocate any buffers that
+are going to be sent via those sockets,
+
+10
+00:00:30,875 --> 00:00:35,875
+and populate them with anything that
+includes protocol related information.
+
+11
+00:00:35,875 --> 00:00:36,645
+Like for instance,
+
+12
+00:00:36,645 --> 00:00:40,105
+this protocol will have something like,
+get file directives.
+
+13
+00:00:40,105 --> 00:00:43,025
+And you have to specify
+the size of the buffer.
+
+14
+00:00:43,025 --> 00:00:47,385
+And also you'll have to explicitly copy
+the data in and out of these buffers.
+
+15
+00:00:47,385 --> 00:00:53,110
+So copy the file name, string or the
+actual file in and out of these buffers.
+
+16
+00:00:53,110 --> 00:00:57,150
+Now imagine another application that's
+also a client server application
+
+17
+00:00:57,150 --> 00:01:01,990
+in which the client interacts with
+a server to upload some images and
+
+18
+00:01:01,990 --> 00:01:06,250
+that it requests then from the server
+for these images to be modified.
+
+19
+00:01:06,250 --> 00:01:09,190
+To create a gray scale version
+of an image, to create a low
+
+20
+00:01:09,190 --> 00:01:13,600
+resolution version of an image,
+to apply some phase detection algorithm.
+
+21
+00:01:13,600 --> 00:01:16,100
+So it's in some sense
+similar to get file, but
+
+22
+00:01:16,100 --> 00:01:17,770
+there are some additional
+functionalities,
+
+23
+00:01:17,770 --> 00:01:21,340
+some additional processing that needs
+to be performed for every image.
+
+24
+00:01:21,340 --> 00:01:25,640
+The steps that are required from the
+developer of this particular application
+
+25
+00:01:25,640 --> 00:01:29,150
+are very similar, in fact some of
+them are identical to the steps that
+
+26
+00:01:29,150 --> 00:01:31,195
+are required in the get
+file application.
+
+27
+00:01:31,195 --> 00:01:35,670
+One difference is that the protocol
+related information that would have
+
+28
+00:01:35,670 --> 00:01:40,650
+to be included in the buffers would have
+to specify things like the algorithm
+
+29
+00:01:40,650 --> 00:01:44,390
+that the client is requesting
+from the server to be performed.
+
+30
+00:01:44,390 --> 00:01:47,716
+Like whether it's grace key link or
+whether its some face detection
+
+31
+00:01:47,716 --> 00:01:51,230
+algorithm along with any parameters
+are relevant for that algorithm.
+
+32
+00:01:51,230 --> 00:01:56,040
+And also the data that is being sent
+between the client and the server,
+
+33
+00:01:56,040 --> 00:02:00,290
+we said in this case the client
+uploads an image to the server and
+
+34
+00:02:00,290 --> 00:02:03,400
+then the server returns that image
+
+35
+00:02:03,400 --> 00:02:06,620
+back to the client after this
+particular function has been performed.
+
+36
+00:02:06,620 --> 00:02:10,430
+That's different than the file name, the
+string that's being sent from the client
+
+37
+00:02:10,430 --> 00:02:14,000
+to the server, and the actual
+file that's returned in response.
+
+38
+00:02:14,000 --> 00:02:18,895
+But a lot of the steps end up
+being identical in both cases.
+
+39
+00:02:18,895 --> 00:02:22,010
+In the 80s, as networks
+are becoming faster, and more and
+
+40
+00:02:22,010 --> 00:02:25,450
+more of distributed applications
+were being developed.
+
+41
+00:02:25,450 --> 00:02:30,400
+It became obvious that these kinds
+of steps are really very common
+
+42
+00:02:30,400 --> 00:02:34,110
+in a related interprocess
+communications, and need to be
+
+43
+00:02:34,110 --> 00:02:38,700
+repeatedly reimplemented for a majority
+of these kinds of applications.
+
+44
+00:02:38,700 --> 00:02:43,370
+It was obvious that we need some system
+solution that will simplify this process
+
+45
+00:02:43,370 --> 00:02:47,240
+that will capture all the common
+steps that are related to remote
+
+46
+00:02:47,240 --> 00:02:48,960
+interprocess communications.
+
+47
+00:02:48,960 --> 00:02:52,913
+And this key do
+Remote Procedure Calls or RPC.

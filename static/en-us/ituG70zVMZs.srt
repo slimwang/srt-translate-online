@@ -1,0 +1,507 @@
+1
+00:00:00,170 --> 00:00:03,150
+Okay, Michael, so here's a, a nice little concrete example to,
+
+2
+00:00:03,150 --> 00:00:06,540
+to think about this. Let's pretend that we're no longer in
+
+3
+00:00:06,540 --> 00:00:08,750
+a world of a single agent like we've been thinking about
+
+4
+00:00:08,750 --> 00:00:10,715
+with reinforcement learning, but we've gone
+
+5
+00:00:10,715 --> 00:00:13,630
+full-blown generality to two agents, [LAUGH]
+
+6
+00:00:13,630 --> 00:00:16,700
+okay? And let's call those agents a and b, and they're
+
+7
+00:00:16,700 --> 00:00:19,710
+going to be in a very simple game where a gets to make
+
+8
+00:00:19,710 --> 00:00:22,400
+a choice. And then b gets to make a choice. And
+
+9
+00:00:22,400 --> 00:00:25,200
+then a might be able to make a choice. So this tree
+
+10
+00:00:25,200 --> 00:00:27,710
+that I've drawn over on the right is going to capture
+
+11
+00:00:27,710 --> 00:00:31,890
+the dynamics of this specific game that I'm imagining. So, these
+
+12
+00:00:31,890 --> 00:00:34,620
+little nodes here, these circles represent states. And we can
+
+13
+00:00:34,620 --> 00:00:36,920
+think about those in states in the same way that we.
+
+14
+00:00:36,920 --> 00:00:40,490
+Talked about reinforcement learning in the past. The edges between
+
+15
+00:00:40,490 --> 00:00:43,910
+these nodes represent actions that one could take. So, this should
+
+16
+00:00:43,910 --> 00:00:46,710
+look familiar, this is just basically a game tree like
+
+17
+00:00:46,710 --> 00:00:49,420
+anyone who's taken a, an AI course might have seen. Okay?
+
+18
+00:00:49,420 --> 00:00:50,250
+>> I guess so.
+
+19
+00:00:50,250 --> 00:00:52,070
+It doesn't look like a very interesting game.
+
+20
+00:00:52,070 --> 00:00:52,140
+>> No.
+
+21
+00:00:52,140 --> 00:00:55,010
+>> But I guess it's a, sort of abstract example.
+
+22
+00:00:55,010 --> 00:00:56,950
+>> Yes. It's a very simple game just so
+
+23
+00:00:56,950 --> 00:00:59,330
+that we can get a handle on some basic concepts.
+
+24
+00:00:59,330 --> 00:01:01,250
+So, in particular, if you look at the details
+
+25
+00:01:01,250 --> 00:01:03,720
+of this game, you start out in state one. Ok?
+
+26
+00:01:03,720 --> 00:01:05,420
+And A gets to make a choice between two
+
+27
+00:01:05,420 --> 00:01:09,180
+actions, going left or going right. If A goes right,
+
+28
+00:01:09,180 --> 00:01:12,850
+goes right, she ends up in state three. If
+
+29
+00:01:12,850 --> 00:01:16,240
+she goes left, she ends up in state two. Regardless
+
+30
+00:01:16,240 --> 00:01:18,300
+B gets to make a choice. From state three we
+
+31
+00:01:18,300 --> 00:01:20,710
+can choose to go right, and really that's all that can
+
+32
+00:01:20,710 --> 00:01:23,960
+happen. And this, what happens if B goes right from state
+
+33
+00:01:23,960 --> 00:01:28,910
+three is that, a value of plus two is assigned to
+
+34
+00:01:28,910 --> 00:01:31,920
+A, okay? All of these numbers at the bottom, a
+
+35
+00:01:31,920 --> 00:01:35,550
+the leaves here, are going to be values or rewards if you
+
+36
+00:01:35,550 --> 00:01:38,160
+want to think about 'em that way that are assigned to
+
+37
+00:01:38,160 --> 00:01:41,130
+player A. And, in fact, for the purposes of this game,
+
+38
+00:01:41,130 --> 00:01:45,620
+it's going to be the case that B always get's the opposite
+
+39
+00:01:45,620 --> 00:01:48,790
+of what A get's. So, if A get's plus 2 then B get's
+
+40
+00:01:48,790 --> 00:01:52,320
+minus 2, if A get's plus 4 then B get's minus 4,
+
+41
+00:01:52,320 --> 00:01:55,060
+if A get's minus 1, B get's plus 1, does that make sense?
+
+42
+00:01:55,060 --> 00:01:58,380
+>> Yeah, though could you write it down so that I won't forget?
+
+43
+00:01:58,380 --> 00:02:01,920
+>> Okay, that's fine. So, by the way, this is a very specific type
+
+44
+00:02:01,920 --> 00:02:06,590
+of game. here, and it has a name, which I want to get right.
+
+45
+00:02:06,590 --> 00:02:12,730
+This is a two-player zero-sum finite deterministic game of perfect information.
+
+46
+00:02:12,730 --> 00:02:16,280
+So as a, as a title or description of, of this
+
+47
+00:02:16,280 --> 00:02:17,920
+kind of game, does this make sense to you? Do you
+
+48
+00:02:17,920 --> 00:02:20,150
+think you know what they all mean, what all those words mean?
+
+49
+00:02:20,150 --> 00:02:22,125
+>> So, two players because it's a and b,
+
+50
+00:02:22,125 --> 00:02:27,750
+zero-sum. Because you said the leaves are a's rewards and
+
+51
+00:02:27,750 --> 00:02:29,420
+b's reward is the negation so if you add
+
+52
+00:02:29,420 --> 00:02:31,280
+the two rewards together you're always going to get zero.
+
+53
+00:02:31,280 --> 00:02:31,660
+>> That's
+
+54
+00:02:31,660 --> 00:02:32,180
+almost right.
+
+55
+00:02:32,180 --> 00:02:33,980
+>> [LAUGH] Ok.
+
+56
+00:02:33,980 --> 00:02:37,070
+>> It's not exactly right. Actually, so zero sum really just
+
+57
+00:02:37,070 --> 00:02:40,070
+means that the sum of the rewards is always a constant.
+
+58
+00:02:40,070 --> 00:02:41,700
+>> And that constant needs to be zero.
+
+59
+00:02:41,700 --> 00:02:42,920
+>> It doesn't need to be zero.
+
+60
+00:02:42,920 --> 00:02:45,700
+>> So if it added up to eleven, that would still be zero sum?
+
+61
+00:02:45,700 --> 00:02:47,770
+>> If it added up to eleven everywhere. Yes.
+
+62
+00:02:47,770 --> 00:02:49,310
+>> Huh, okay, interesting choice of
+
+63
+00:02:49,310 --> 00:02:52,170
+terminology. finite, I don't know, everything seems
+
+64
+00:02:52,170 --> 00:02:56,660
+to be finite here. There's no infinite number of choices or states or depth.
+
+65
+00:02:56,660 --> 00:02:57,940
+>> Mhm.
+
+66
+00:02:57,940 --> 00:03:02,240
+>> deterministic, well, again, thinking about it in an MVPish kind
+
+67
+00:03:02,240 --> 00:03:05,720
+of way, there's no sort of casting transitions in this particular. Picture.
+
+68
+00:03:05,720 --> 00:03:08,150
+>> Right. So if I'm in, state two and I
+
+69
+00:03:08,150 --> 00:03:10,420
+go right, I always end up in state four, period.
+
+70
+00:03:10,420 --> 00:03:11,390
+>> Right.
+
+71
+00:03:11,390 --> 00:03:12,255
+>> Mm-hm.
+
+72
+00:03:12,255 --> 00:03:15,780
+>> Game. I guess, a game is because it's more than one player?
+
+73
+00:03:15,780 --> 00:03:16,530
+>> Sure.
+
+74
+00:03:17,940 --> 00:03:22,290
+>> Of perfect information. That doesn't quite sound like the same terminology
+
+75
+00:03:22,290 --> 00:03:24,020
+that we used in the empty MDP setting. But,
+
+76
+00:03:24,020 --> 00:03:26,080
+I'm wondering if that's like, I know what state
+
+77
+00:03:26,080 --> 00:03:27,830
+I'm in, when I'm making a decision. So, it's
+
+78
+00:03:27,830 --> 00:03:29,860
+like a, like an MDP as apposed to a POMDP.
+
+79
+00:03:29,860 --> 00:03:31,750
+>> Well it, that's exactly right. It's, it's
+
+80
+00:03:31,750 --> 00:03:34,020
+that you know what state you're in and. Yeah.
+
+81
+00:03:34,020 --> 00:03:35,440
+That's exactly what it means. It's like being the
+
+82
+00:03:35,440 --> 00:03:37,290
+MDP versus the Palm DP. That's a great analogy.
+
+83
+00:03:37,290 --> 00:03:39,930
+>> Cool. And does it matter that it's a tree like this? because when
+
+84
+00:03:39,930 --> 00:03:44,330
+we were looking at MDPs, we had more complex structures of graphs and things.
+
+85
+00:03:44,330 --> 00:03:47,780
+>> Well, you can think of this as unrolling the MDP if you
+
+86
+00:03:47,780 --> 00:03:48,560
+want to.
+
+87
+00:03:48,560 --> 00:03:51,010
+>> So then those states are sort of
+
+88
+00:03:51,010 --> 00:03:53,990
+time stamped and history stamped. For, yeah, for
+
+89
+00:03:53,990 --> 00:03:55,690
+the purposes of this discussion, yes. And that's
+
+90
+00:03:55,690 --> 00:03:57,020
+a perfectly reasonable way of thinking about it.
+
+91
+00:03:57,020 --> 00:03:57,720
+>> But, okay.
+
+92
+00:03:57,720 --> 00:03:59,210
+>> But in general, we're going to be thinking
+
+93
+00:03:59,210 --> 00:04:00,790
+about game trees, but actually, we're going through
+
+94
+00:04:00,790 --> 00:04:02,930
+all of this for nothing, because we're going to
+
+95
+00:04:02,930 --> 00:04:04,500
+discover pretty soon that none of this matters.
+
+96
+00:04:04,500 --> 00:04:05,330
+>> [LAUGH]
+
+97
+00:04:05,330 --> 00:04:07,740
+>> but, give me a couple of slides to get there, okay?
+
+98
+00:04:07,740 --> 00:04:08,720
+>> [LAUGH] Sure.
+
+99
+00:04:08,720 --> 00:04:12,810
+>> Okay. So this is about the simplest or at least the, the least
+
+100
+00:04:12,810 --> 00:04:15,350
+complicated game that you can think
+
+101
+00:04:15,350 --> 00:04:18,529
+about. Two players, zero sum. Finite deterministic
+
+102
+00:04:18,529 --> 00:04:22,590
+game of perfect information. You know, basically, I can look at this tree,
+
+103
+00:04:22,590 --> 00:04:25,170
+I know everything I need to know, and I can make decisions about
+
+104
+00:04:25,170 --> 00:04:29,210
+what action I might want to take in order to maximize my reward. Okay?
+
+105
+00:04:29,210 --> 00:04:30,070
+>> Good.
+
+106
+00:04:30,070 --> 00:04:33,810
+>> All right. Now, in NBPs, of course we had this
+
+107
+00:04:33,810 --> 00:04:37,460
+notion of. policies, right. You remember what a policy was Michael?
+
+108
+00:04:38,500 --> 00:04:40,070
+>> Mapping from states to actions.
+
+109
+00:04:40,070 --> 00:04:44,790
+>> So in the game theory world, we have something very similar to, policies.
+
+110
+00:04:44,790 --> 00:04:52,122
+We call them strategies. So, all a strategy is, is a mapping of, [LAUGH]
+
+111
+00:04:52,122 --> 00:04:58,320
+all, of all possible states to actions. So for example, here's a strategy,
+
+112
+00:04:58,320 --> 00:05:03,540
+that A might have. When in state 1, go left. And when in state 4,
+
+113
+00:05:03,540 --> 00:05:05,480
+also go left.
+
+114
+00:05:05,480 --> 00:05:09,190
+>> Seems like a terrible strategy. Does it?
+
+115
+00:05:09,190 --> 00:05:12,150
+>> Well, just, if nothing else, just in state 4.
+
+116
+00:05:12,150 --> 00:05:14,000
+>> Sure, but it's a strategy, right?
+
+117
+00:05:14,000 --> 00:05:17,330
+>> Okay, but it's just, it's a strategy for one of the players.
+
+118
+00:05:17,330 --> 00:05:20,040
+>> Right, exactly, each player has a strategy. And that makes
+
+119
+00:05:20,040 --> 00:05:22,820
+sense, right? Before when we talked about a policy, and mapped [UNKNOWN]
+
+120
+00:05:22,820 --> 00:05:25,460
+to action, there was only ever one player, only ever one
+
+121
+00:05:25,460 --> 00:05:28,820
+agent. And so we didn't have to worry about what other strategies
+
+122
+00:05:28,820 --> 00:05:32,040
+there were. Here, when we talk about a strategy, it's always with respect
+
+123
+00:05:32,040 --> 00:05:35,670
+to one of the players of the game. Okay, so, question. I've just
+
+124
+00:05:35,670 --> 00:05:38,800
+given you one strategy, which is what A does in all the states
+
+125
+00:05:38,800 --> 00:05:42,130
+A could potentially end up in. How many other strategies are there for A?
+
+126
+00:05:42,130 --> 00:05:44,420
+>> For A? Okay, that sounds like a quiz.
+
+127
+00:05:44,420 --> 00:05:46,210
+>> That does sound like a quiz. Let's make it a quiz.

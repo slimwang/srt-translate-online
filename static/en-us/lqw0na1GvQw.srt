@@ -1,0 +1,227 @@
+1
+00:00:01,140 --> 00:00:05,520
+As your user progresses through
+the steps in the checkout process,
+
+2
+00:00:07,400 --> 00:00:11,400
+your app needs to send
+an analytics hit for each step.
+
+3
+00:00:13,140 --> 00:00:15,190
+However, you only need one checkout hit.
+
+4
+00:00:16,965 --> 00:00:22,130
+So subsequent steps in the checkout
+process, send checkout option hits.
+
+5
+00:00:23,200 --> 00:00:26,140
+So that you don't over report
+the number of checkouts.
+
+6
+00:00:26,140 --> 00:00:30,860
+And use the setCheckoutStep
+method to set the step number.
+
+7
+00:00:30,860 --> 00:00:34,370
+And you can set the number
+to whatever you want, but
+
+8
+00:00:34,370 --> 00:00:37,580
+it only shows up in the checkout
+behavior analysis report in
+
+9
+00:00:37,580 --> 00:00:42,540
+the google analytics dashboard
+if you set a funnel step for it.
+
+10
+00:00:42,540 --> 00:00:47,310
+If i set the step in the code to 99, but
+I've only labeled 4 checkouts steps in
+
+11
+00:00:47,310 --> 00:00:51,250
+the admin console, I will never see
+the 99th step in the dashboard, so
+
+12
+00:00:51,250 --> 00:00:52,570
+that's just not a good idea.
+
+13
+00:00:53,650 --> 00:00:54,150
+That's better.
+
+14
+00:00:55,460 --> 00:00:59,760
+So go ahead and add a second step to
+the checkout process for the dinner app.
+
+15
+00:00:59,760 --> 00:01:01,440
+For that you're going to
+need a payment button.
+
+16
+00:01:02,840 --> 00:01:06,780
+So add another button to the order
+dinner screen labelled payment.
+
+17
+00:01:07,970 --> 00:01:13,290
+And in the order dinner activity,
+add the method to get the payment info.
+
+18
+00:01:13,290 --> 00:01:15,770
+Then send a step two hit to analytics.
+
+19
+00:01:16,870 --> 00:01:21,433
+Make sure to set the action
+to an ACTION_CHECKOUT_OPTION.
+
+20
+00:01:21,433 --> 00:01:25,250
+Show the payment button
+only when relevant and
+
+21
+00:01:25,250 --> 00:01:28,870
+hide the other buttons when
+the payment button appears.
+
+22
+00:01:28,870 --> 00:01:30,590
+Test your app and try it out.
+
+23
+00:01:32,115 --> 00:01:35,075
+And in the analytics dashboard,
+look for the realtime activity.
+
+24
+00:01:36,355 --> 00:01:39,085
+And in the realtime activity,
+check for the events.
+
+25
+00:01:39,085 --> 00:01:41,795
+See, here's the Get payment step.
+
+26
+00:01:41,795 --> 00:01:45,535
+It might take a good amount of time
+after you see the realtime hits for
+
+27
+00:01:45,535 --> 00:01:47,565
+the checkout behavior
+analysis page to update.
+
+28
+00:01:48,715 --> 00:01:52,025
+But when it does,
+you should see your new payment step.
+
+29
+00:01:52,025 --> 00:01:54,535
+Oh, something went wrong.
+
+30
+00:01:54,535 --> 00:01:59,550
+I got a hit for getting the address,
+but not forgetting the payment details.
+
+31
+00:01:59,550 --> 00:02:01,230
+That's not what I wanted.
+
+32
+00:02:01,230 --> 00:02:05,280
+Okay that happened because step
+one is starting checkout and
+
+33
+00:02:05,280 --> 00:02:06,900
+step two is getting the address.
+
+34
+00:02:07,950 --> 00:02:10,824
+Step three is getting
+the payment details.
+
+35
+00:02:10,824 --> 00:02:12,815
+That's easy to fix for now.
+
+36
+00:02:12,815 --> 00:02:16,495
+Go to Admin > Ecommerce, and
+
+37
+00:02:16,495 --> 00:02:19,585
+I'm just going to remove
+the Get address final step.
+
+38
+00:02:19,585 --> 00:02:22,245
+Yep, I'll delete this rule.
+
+39
+00:02:23,320 --> 00:02:29,460
+And submit, and go back to Reporting,
+and look at that.
+
+40
+00:02:29,460 --> 00:02:33,220
+The get address step is gone,
+and I've got my payment details.
+
+41
+00:02:33,220 --> 00:02:37,100
+And I know that that is correct,
+in this case.
+
+42
+00:02:37,100 --> 00:02:42,910
+An alternative would be to change
+the step number to three in the code.
+
+43
+00:02:42,910 --> 00:02:44,910
+But then we would be
+skipping over step two.
+
+44
+00:02:44,910 --> 00:02:47,780
+So we would have values here,
+nothing here, values here.
+
+45
+00:02:49,340 --> 00:02:53,420
+So when you set your check out step in
+the code, you need to make sure that it
+
+46
+00:02:53,420 --> 00:02:56,780
+mapped the correct final step
+in the analytic dashboard.
+
+47
+00:02:58,310 --> 00:03:04,360
+So make sure step two is in fact
+the payment step, and if not, fix it.
+
+48
+00:03:06,410 --> 00:03:09,630
+So go ahead and do these steps and
+check the boxes when you're done.

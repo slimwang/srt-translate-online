@@ -1,0 +1,370 @@
+1
+00:00:00,490 --> 00:00:03,570
+Let's start by working through our
+waypoint system for navigation.
+
+2
+00:00:04,790 --> 00:00:05,990
+Waypoints are awesome for
+
+3
+00:00:05,990 --> 00:00:09,280
+mobile VR, because they allow
+users to effectively navigate
+
+4
+00:00:09,280 --> 00:00:12,230
+around their entire environment,
+with the single press of a trigger.
+
+5
+00:00:13,740 --> 00:00:16,350
+Once you understand how to use
+this script you will be able to
+
+6
+00:00:16,350 --> 00:00:19,240
+easily add navigation to
+any VR scenes you create.
+
+7
+00:00:20,360 --> 00:00:22,665
+Back in our island scene,
+let's add some waypoints.
+
+8
+00:00:23,770 --> 00:00:26,220
+To do that, we go to Art.
+
+9
+00:00:26,220 --> 00:00:27,560
+Prefabs.
+
+10
+00:00:27,560 --> 00:00:29,060
+Systems.
+
+11
+00:00:29,060 --> 00:00:31,440
+And this waypoints,
+we just drag into our scene.
+
+12
+00:00:32,520 --> 00:00:37,480
+Let's reset the position and
+move it to a good space on our island.
+
+13
+00:00:37,480 --> 00:00:38,890
+As we saw in the demo,
+
+14
+00:00:38,890 --> 00:00:43,890
+each of these green orbs represents
+waypoints that we can teleport to.
+
+15
+00:00:43,890 --> 00:00:45,060
+Our goal in this video,
+
+16
+00:00:45,060 --> 00:00:49,700
+is to be able to add additional
+waypoints, change the way they look, and
+
+17
+00:00:49,700 --> 00:00:52,630
+change how quickly we move to
+a new waypoint, when we click it.
+
+18
+00:00:53,690 --> 00:00:55,280
+If we look at waypoints
+in the hierarchy,
+
+19
+00:00:55,280 --> 00:00:59,430
+you'll see that there are two scripts
+attached, waypoints.cs is right here,
+
+20
+00:00:59,430 --> 00:01:02,680
+on each waypoint and
+then on the waypoints root node
+
+21
+00:01:02,680 --> 00:01:06,830
+we'll see that there's also
+navigation.cs attached here.
+
+22
+00:01:06,830 --> 00:01:08,790
+Let's open up these
+scripts in MonoDevelop and
+
+23
+00:01:08,790 --> 00:01:11,370
+see if we can look at what they do and
+modify them.
+
+24
+00:01:12,460 --> 00:01:14,160
+Let's start with the waypoint script.
+
+25
+00:01:14,160 --> 00:01:16,050
+But to help us better understand it,
+
+26
+00:01:16,050 --> 00:01:19,440
+let's also look at how
+it's used inside Unity.
+
+27
+00:01:19,440 --> 00:01:23,130
+We can see that each of the orbs
+has a waypoint script attached, so
+
+28
+00:01:23,130 --> 00:01:27,340
+we know that the script probably changes
+the attributes of individual waypoints.
+
+29
+00:01:28,360 --> 00:01:30,945
+We can also see it keeps track
+of a bunch of different states,
+
+30
+00:01:30,945 --> 00:01:35,485
+such as when it's occupied or active or
+focused to name just a few of these.
+
+31
+00:01:36,595 --> 00:01:38,785
+Knowing this,
+let's jump back into MonoDevelop.
+
+32
+00:01:39,915 --> 00:01:42,025
+Now let's try modifying some things.
+
+33
+00:01:42,025 --> 00:01:45,405
+First up, let's animate our waypoints,
+then change their default color.
+
+34
+00:01:46,655 --> 00:01:50,635
+Here let's try to get our waypoints to
+animate much larger than they originally
+
+35
+00:01:50,635 --> 00:01:50,805
+did.
+
+36
+00:01:52,030 --> 00:01:55,750
+Looking through these variables we can
+probably discount material color and
+
+37
+00:01:55,750 --> 00:01:56,150
+highlight.
+
+38
+00:01:57,470 --> 00:02:00,710
+But there's also highlight scale
+which looks super promising.
+
+39
+00:02:00,710 --> 00:02:03,790
+I'm also modifying the waypoint's
+local scale using it.
+
+40
+00:02:04,980 --> 00:02:07,050
+Taking a deeper look at this line,
+
+41
+00:02:07,050 --> 00:02:10,136
+we can see that we're changing our
+transform using the original scale,
+
+42
+00:02:10,136 --> 00:02:15,490
+highlight scale, animation scale, and
+also the pulse animation parameter.
+
+43
+00:02:16,860 --> 00:02:18,760
+Going back to the top of our script,
+
+44
+00:02:18,760 --> 00:02:22,370
+we'll see that animation
+scale is set to 1.5.
+
+45
+00:02:22,370 --> 00:02:24,930
+Let's try adjusting it to 3 and
+see what happens.
+
+46
+00:02:26,080 --> 00:02:29,045
+We'll try that now, we see that it's so
+still feels the same.
+
+47
+00:02:30,135 --> 00:02:34,655
+This is because Unity allows us to
+change public variables in the inspector
+
+48
+00:02:34,655 --> 00:02:37,415
+and override those values in scripts.
+
+49
+00:02:37,415 --> 00:02:40,629
+To change them, we actually need to
+set them in the inspector itself.
+
+50
+00:02:42,100 --> 00:02:45,250
+And now we can see our orb
+animating a lot quicker.
+
+51
+00:02:46,720 --> 00:02:48,110
+Now let's try adjusting the speed.
+
+52
+00:02:49,320 --> 00:02:54,190
+Luckily for us, there's a clearly
+marked variable called animation speed.
+
+53
+00:02:54,190 --> 00:02:56,200
+Let's reduce that to 2 and try it again.
+
+54
+00:02:57,490 --> 00:03:00,910
+And now we can see, that's pulsating
+a lot bigger but also slower.
+
+55
+00:03:02,550 --> 00:03:03,130
+Awesome.
+
+56
+00:03:03,130 --> 00:03:07,000
+So now that we've changed how our
+individual waypoints look and behave.
+
+57
+00:03:07,000 --> 00:03:11,430
+Let's dig into our navigation script and
+adjust how we can interact with them.
+
+58
+00:03:11,430 --> 00:03:14,230
+The top variable here is the viewObject.
+
+59
+00:03:14,230 --> 00:03:17,840
+If we take a look at the comment it's
+defined as the viewers game object
+
+60
+00:03:17,840 --> 00:03:20,860
+which already gives us a hint that
+we should put the VR camera there.
+
+61
+00:03:22,020 --> 00:03:25,600
+However, if we also take a look at
+the first line of start right here
+
+62
+00:03:25,600 --> 00:03:28,895
+we'll see that if we don't
+assign anything to view object,
+
+63
+00:03:28,895 --> 00:03:33,435
+the script automatically assigns
+the camera main object to view object.
+
+64
+00:03:33,435 --> 00:03:35,175
+Isn't that nice?
+
+65
+00:03:35,175 --> 00:03:39,832
+But to be explicit,
+let's assign our camera anyways.
+
+66
+00:03:39,832 --> 00:03:43,302
+So we now know how to change
+the way waypoints look and feel and
+
+67
+00:03:43,302 --> 00:03:45,182
+how we can move between them.
+
+68
+00:03:45,182 --> 00:03:48,542
+But when we're building scenes they
+won't be in the same layout as this one.
+
+69
+00:03:49,592 --> 00:03:52,622
+Let's get some practice creating new
+waypoints by adding more to the scene.
+
+70
+00:03:53,630 --> 00:03:55,240
+Doing this is actually pretty simple.
+
+71
+00:03:55,240 --> 00:03:58,140
+Just drag a waypoint
+prefab into the scene.
+
+72
+00:03:59,470 --> 00:04:04,470
+Once we position it where we want it, we
+then need to set the waypoint neighbors.
+
+73
+00:04:05,820 --> 00:04:06,410
+To do that,
+
+74
+00:04:06,410 --> 00:04:10,220
+all we have to do is drag references
+onto the neighborhood property.
+
+75
+00:04:11,480 --> 00:04:14,655
+You'll be able to use these waypoint
+scripts to create a navigation mechanic
+
+76
+00:04:14,655 --> 00:04:17,370
+in any VR experience you
+create in the future.
+
+77
+00:04:17,370 --> 00:04:19,670
+So don't be afraid to reuse the code.
+
+78
+00:04:19,670 --> 00:04:22,010
+No sense reinventing the wheel.
+
+79
+00:04:22,010 --> 00:04:26,220
+But time to move on to something a bit
+more visual like modifying our ocean.

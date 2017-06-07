@@ -1,0 +1,545 @@
+1
+00:00:00,360 --> 00:00:03,369
+Let me show you how you track out some
+compute-based performance problems
+
+2
+00:00:03,369 --> 00:00:04,340
+in your apps.
+
+3
+00:00:04,340 --> 00:00:04,910
+For this demo,
+
+4
+00:00:04,910 --> 00:00:07,480
+we're going to hook up the Sunshine
+application with a profiling tool
+
+5
+00:00:07,480 --> 00:00:08,990
+called Traceview.
+
+6
+00:00:08,990 --> 00:00:10,710
+Let's go ahead and load it up.
+
+7
+00:00:10,710 --> 00:00:12,070
+>> First, make sure,
+your device is connected.
+
+8
+00:00:12,070 --> 00:00:14,700
+And then, start the application
+you want to profile.
+
+9
+00:00:14,700 --> 00:00:15,890
+In this case, we'll bring up Sunshine.
+
+10
+00:00:16,970 --> 00:00:17,590
+Okay.
+
+11
+00:00:17,590 --> 00:00:19,140
+And now,
+let's hop back to Android Studio.
+
+12
+00:00:20,200 --> 00:00:22,250
+And in order to access
+the trace view tool,
+
+13
+00:00:22,250 --> 00:00:24,460
+we're going to want to start
+the Android Device Monitor.
+
+14
+00:00:24,460 --> 00:00:27,730
+Now, you can either do that
+through the Tools menu by
+
+15
+00:00:27,730 --> 00:00:31,460
+going to Tools > Android and
+Android Device Monitor.
+
+16
+00:00:31,460 --> 00:00:34,240
+Or you can click this little
+green guy here up at the Toolbar
+
+17
+00:00:34,240 --> 00:00:36,470
+in the Android Studio IDE.
+
+18
+00:00:36,470 --> 00:00:38,060
+So I'm going to go ahead and
+click this button.
+
+19
+00:00:39,330 --> 00:00:41,110
+Okay.
+So once Android Device Monitor is up and
+
+20
+00:00:41,110 --> 00:00:43,510
+loaded, make sure you come over here and
+check your tabs and
+
+21
+00:00:43,510 --> 00:00:45,600
+make sure that the DDMS tab is selected.
+
+22
+00:00:46,650 --> 00:00:49,420
+Then you'll want to hop over
+here to your Devices pane and
+
+23
+00:00:49,420 --> 00:00:51,770
+select the activity that
+you want to profile.
+
+24
+00:00:51,770 --> 00:00:53,460
+We're going to go ahead and
+check Sunshine.
+
+25
+00:00:54,510 --> 00:00:56,380
+Okay, so now I want to draw
+your attention to some
+
+26
+00:00:56,380 --> 00:00:57,510
+icons here in the taskbar.
+
+27
+00:00:57,510 --> 00:00:59,390
+Particularly this one right here,
+
+28
+00:00:59,390 --> 00:01:02,570
+that looks like three arrows
+with a red dot on top of it.
+
+29
+00:01:02,570 --> 00:01:05,640
+This is the button that we can press
+that has a little tooltip that says
+
+30
+00:01:05,640 --> 00:01:07,430
+start method profiling.
+
+31
+00:01:07,430 --> 00:01:09,505
+This is how we invoke Trace View.
+
+32
+00:01:09,505 --> 00:01:10,860
+Let's go ahead and click it.
+
+33
+00:01:10,860 --> 00:01:13,680
+You'll get a pop-up with two
+ways of profiling your app.
+
+34
+00:01:13,680 --> 00:01:16,950
+You can either record every method's
+entry and exit which is very resource
+
+35
+00:01:16,950 --> 00:01:21,440
+intensive down here, or
+you can do some sample based profiling.
+
+36
+00:01:21,440 --> 00:01:25,150
+What that means is by default a profile
+is going to ping your application
+
+37
+00:01:25,150 --> 00:01:26,970
+every one millisecond to find out and
+
+38
+00:01:26,970 --> 00:01:30,150
+record what function is
+actually being executed.
+
+39
+00:01:30,150 --> 00:01:32,040
+So let's go ahead and
+use the default settings.
+
+40
+00:01:32,040 --> 00:01:33,700
+I am going to go ahead and click OK.
+
+41
+00:01:33,700 --> 00:01:35,620
+So now that the profile is recording,
+let's go ahead and
+
+42
+00:01:35,620 --> 00:01:39,730
+interact with our application and
+see if we can profile some actions.
+
+43
+00:01:39,730 --> 00:01:44,060
+So I want to hop over here and
+interact with Sunshine a little bit.
+
+44
+00:01:44,060 --> 00:01:45,510
+Oh, nice.
+Some pretty good weather here in
+
+45
+00:01:45,510 --> 00:01:46,030
+Mountainview.
+
+46
+00:01:47,990 --> 00:01:50,760
+Unfortunately not so
+good coming up this weekend.
+
+47
+00:01:51,870 --> 00:01:53,310
+Looks like we have some rain in store.
+
+48
+00:01:54,680 --> 00:01:58,240
+But, why don't we go down the coast and
+
+49
+00:01:58,240 --> 00:02:00,930
+see how our friends are doing
+in Southern California?
+
+50
+00:02:04,470 --> 00:02:05,170
+Oh, weird.
+
+51
+00:02:05,170 --> 00:02:09,650
+They've got a strange winter,
+very untypical of San Diego.
+
+52
+00:02:09,650 --> 00:02:12,320
+How about we check on
+our friends in Texas.
+
+53
+00:02:16,639 --> 00:02:19,890
+All right, well maybe a little
+bit more warmer weather, there.
+
+54
+00:02:19,890 --> 00:02:20,940
+68 and clear.
+
+55
+00:02:20,940 --> 00:02:21,860
+Not too bad tomorrow.
+
+56
+00:02:23,040 --> 00:02:24,290
+All right.
+So let's go back to
+
+57
+00:02:24,290 --> 00:02:28,070
+Android Device Monitor,
+where we want to stop our profiling.
+
+58
+00:02:28,070 --> 00:02:31,690
+Now we can do so by clicking the same
+icon that we did to start it.
+
+59
+00:02:31,690 --> 00:02:35,370
+It's got this black icon or black square
+on top of it now so let's go ahead and
+
+60
+00:02:35,370 --> 00:02:36,760
+stop our profiling by clicking on it.
+
+61
+00:02:39,790 --> 00:02:42,480
+Now, it might take a few
+moments to load the trace.
+
+62
+00:02:42,480 --> 00:02:46,130
+Which is going to show up here in
+the tab at the top of your window.
+
+63
+00:02:47,530 --> 00:02:50,420
+Just keep in mind it might take a little
+longer depending on how much recording
+
+64
+00:02:50,420 --> 00:02:51,600
+you actually did.
+
+65
+00:02:51,600 --> 00:02:53,120
+All right.
+Let's, so let's talk about trace view.
+
+66
+00:02:53,120 --> 00:02:56,420
+Now trace view has two
+main components to it.
+
+67
+00:02:56,420 --> 00:02:59,959
+It's got this top panel here
+called the typeline panel and
+
+68
+00:02:59,959 --> 00:03:02,430
+then it's got this bottom panel
+with a lot of information.
+
+69
+00:03:02,430 --> 00:03:03,510
+It's called the profile panel.
+
+70
+00:03:04,710 --> 00:03:08,650
+Now the timeline is great in showing you
+how your code is executing over time.
+
+71
+00:03:08,650 --> 00:03:10,470
+Each row that's shown here in the,
+
+72
+00:03:10,470 --> 00:03:13,680
+in display,
+actually corresponds to a thread, and
+
+73
+00:03:13,680 --> 00:03:18,140
+each color that's displayed corresponds
+to a particular method that's running.
+
+74
+00:03:18,140 --> 00:03:21,308
+So for example here we have all
+the activity on our main thread.
+
+75
+00:03:21,308 --> 00:03:24,290
+And we can, we can see spikes when
+methods were being started and stopped.
+
+76
+00:03:25,345 --> 00:03:27,790
+What's even more useful
+is we can zoom down and
+
+77
+00:03:27,790 --> 00:03:31,510
+we can try to figure out particular
+methods and how they're behaving.
+
+78
+00:03:31,510 --> 00:03:33,335
+They kind of show up in these U shapes.
+
+79
+00:03:33,335 --> 00:03:37,330
+With the left bar here that denotes
+when the method is actually starting and
+
+80
+00:03:37,330 --> 00:03:40,150
+then another bar here on the right
+which actually denotes when the method
+
+81
+00:03:40,150 --> 00:03:41,760
+is finishing.
+
+82
+00:03:41,760 --> 00:03:44,720
+And the width of the bar actually
+represents how much time it took for
+
+83
+00:03:44,720 --> 00:03:46,960
+that method to be executed.
+
+84
+00:03:46,960 --> 00:03:49,290
+Now let's go ahead and
+select the particular method.
+
+85
+00:03:49,290 --> 00:03:52,510
+Let's hop down here to the bottom
+of the trace view window and
+
+86
+00:03:52,510 --> 00:03:55,790
+here we're going to look at some
+profiling data that shows up.
+
+87
+00:03:55,790 --> 00:03:58,810
+Particularly, we get some
+information about what methods
+
+88
+00:03:58,810 --> 00:04:01,040
+actually called the one
+that we've selected,
+
+89
+00:04:01,040 --> 00:04:05,060
+which are represented by their
+parents in this blue highlight here.
+
+90
+00:04:05,060 --> 00:04:07,800
+And we actually get some additional
+information about which methods
+
+91
+00:04:07,800 --> 00:04:09,640
+are actually called within this one.
+
+92
+00:04:09,640 --> 00:04:14,480
+So, in other words we called
+dispatch input event method
+
+93
+00:04:14,480 --> 00:04:18,540
+with a native pole once which is
+what is selected at the moment.
+
+94
+00:04:18,540 --> 00:04:21,490
+And for each of these methods that we
+have selected we get a whole lot of
+
+95
+00:04:21,490 --> 00:04:23,290
+additional statistical information.
+
+96
+00:04:23,290 --> 00:04:25,200
+For example,
+we have the exclusive CPU time.
+
+97
+00:04:25,200 --> 00:04:28,750
+This is the time that's
+spent in our method itself.
+
+98
+00:04:28,750 --> 00:04:32,370
+And we can use it to find specific
+issues for that particular method.
+
+99
+00:04:32,370 --> 00:04:34,960
+Now the inclusive CPU time is for
+
+100
+00:04:34,960 --> 00:04:38,450
+the particular method and
+all the methods it calls internally.
+
+101
+00:04:38,450 --> 00:04:42,740
+This can help you find problems within
+the individual indication tree for
+
+102
+00:04:42,740 --> 00:04:44,520
+the method that you selected.
+
+103
+00:04:44,520 --> 00:04:48,210
+Oh, and another really useful statistic
+is how many times the method was called
+
+104
+00:04:48,210 --> 00:04:50,130
+or called itself recursively.
+
+105
+00:04:50,130 --> 00:04:52,205
+We can find this information
+if we scroll to the right and
+
+106
+00:04:52,205 --> 00:04:56,370
+we've got this column here
+called calls and recursion.
+
+107
+00:04:56,370 --> 00:04:59,270
+Again, that measures how many
+times the method was called or
+
+108
+00:04:59,270 --> 00:05:00,690
+how many times it was
+called recursively.
+
+109
+00:05:02,280 --> 00:05:06,340
+Now there's a whole lot of additional
+information here in this profile panel.
+
+110
+00:05:06,340 --> 00:05:09,901
+And if you don't have a really big
+display it's kind of hard to see.
+
+111
+00:05:09,901 --> 00:05:12,070
+So you have to do some
+scrolling back and
+
+112
+00:05:12,070 --> 00:05:15,680
+forth to kind of find
+the metrics that you care about.
+
+113
+00:05:15,680 --> 00:05:18,657
+And don't forget this little nifty
+search box that can help you kind of
+
+114
+00:05:18,657 --> 00:05:20,619
+zoom in on the functions
+that you care about.
+
+115
+00:05:20,619 --> 00:05:22,137
+Okay so that's a little trace for
+you let's go ahead and
+
+116
+00:05:22,137 --> 00:05:22,680
+use it on some real code

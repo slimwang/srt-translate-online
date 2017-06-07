@@ -1,0 +1,148 @@
+1
+00:00:00,090 --> 00:00:03,760
+So let's look at the two
+options we have here.
+
+2
+00:00:03,760 --> 00:00:08,160
+First one says, file permissions
+can change after an open call.
+
+3
+00:00:08,160 --> 00:00:11,540
+Remember checking was done
+when an open was formed.
+
+4
+00:00:11,540 --> 00:00:13,500
+This call was made, this call complete,
+
+5
+00:00:13,500 --> 00:00:18,270
+that's when we down to the IO table or
+the file meta-data table,
+
+6
+00:00:18,270 --> 00:00:22,680
+setup the open file table entry, return
+an index, all the checking got done.
+
+7
+00:00:22,680 --> 00:00:26,930
+Well at that time, this user lets
+Alice was able to read the file.
+
+8
+00:00:26,930 --> 00:00:31,890
+Later on, Bob who owns the file comes
+and turns read permission off for Alice.
+
+9
+00:00:31,890 --> 00:00:34,230
+But Alice's process is still running.
+
+10
+00:00:34,230 --> 00:00:37,800
+And Alice's process to actually read
+the open before Bob was able to
+
+11
+00:00:37,800 --> 00:00:39,220
+revoke this permission.
+
+12
+00:00:39,220 --> 00:00:41,860
+And Alice's process hasn't
+closed the file yet.
+
+13
+00:00:41,860 --> 00:00:45,090
+Will Alice be able to
+continue to read this file?
+
+14
+00:00:45,090 --> 00:00:47,540
+Yes, because we're not
+performing any more checks.
+
+15
+00:00:47,540 --> 00:00:52,110
+The checks were done at the time
+when we opened the file, okay?
+
+16
+00:00:52,110 --> 00:00:54,750
+So it was separated from the use.
+
+17
+00:00:54,750 --> 00:00:57,680
+So the check was during an open( ) call,
+okay?
+
+18
+00:00:57,680 --> 00:01:01,450
+So sequence here is Alice did open,
+sometime after that Bob comes and
+
+19
+00:01:01,450 --> 00:01:02,830
+removes the permission, and
+
+20
+00:01:02,830 --> 00:01:06,650
+sometime after that Alice is
+trying to read this file.
+
+21
+00:01:06,650 --> 00:01:09,990
+Alice is doing read not open now,
+so there's no check happening.
+
+22
+00:01:09,990 --> 00:01:14,278
+So if file permissions change after
+an open ( ) call, it completes, but
+
+23
+00:01:14,278 --> 00:01:18,772
+before it's closed, Alice has the file
+open, hasn't closed it, because if she
+
+24
+00:01:18,772 --> 00:01:22,810
+closes it, and then it has to be
+opened again, we'll check again.
+
+25
+00:01:22,810 --> 00:01:26,270
+And when we check again, Bob's
+change might be seen by the system.
+
+26
+00:01:26,270 --> 00:01:30,540
+So if permissions change
+between the time we check and
+
+27
+00:01:30,540 --> 00:01:33,970
+the time we use, well,
+that actually is the reason for
+
+28
+00:01:33,970 --> 00:01:37,520
+this vulnerability talked to
+vulnerability that we're talking about.
+
+29
+00:01:37,520 --> 00:01:38,750
+And the second option is saying,
+
+30
+00:01:38,750 --> 00:01:42,720
+the file permissions only change when
+the file is currently not opened by any
+
+31
+00:01:42,720 --> 00:01:45,380
+program, then this
+vulnerability will not arise.

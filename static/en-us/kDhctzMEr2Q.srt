@@ -1,0 +1,311 @@
+1
+00:00:00,100 --> 00:00:03,730
+To understand what's required from
+a scheduler in a simultaneous multi
+
+2
+00:00:03,730 --> 00:00:07,240
+threading system,
+let's make some assumptions first.
+
+3
+00:00:07,240 --> 00:00:11,770
+Since we will base our discussions on
+Federova's paper, we will use the same
+
+4
+00:00:11,770 --> 00:00:15,700
+assumptions that she has made, and the
+figures that we will use to illustrate
+
+5
+00:00:15,700 --> 00:00:20,560
+those assumptions will be reproductions
+from her paper and her presentation.
+
+6
+00:00:20,560 --> 00:00:23,730
+The first assumption that we will
+make is that a thread can issue
+
+7
+00:00:23,730 --> 00:00:26,520
+an instruction on every single cycle.
+
+8
+00:00:26,520 --> 00:00:28,820
+So that means that a CPU bound thread,
+
+9
+00:00:28,820 --> 00:00:33,570
+a thread that just issues instructions
+that need to run on the CPU, will be
+
+10
+00:00:33,570 --> 00:00:38,660
+able to achieve a maximum metric in
+terms of instructions per cycle.
+
+11
+00:00:38,660 --> 00:00:41,580
+And that would be instructions
+per cycle equal one.
+
+12
+00:00:41,580 --> 00:00:43,610
+Given that we have just one CPU,
+
+13
+00:00:43,610 --> 00:00:48,260
+we cannot have a IPC
+that is greater than one.
+
+14
+00:00:48,260 --> 00:00:51,410
+The second assumption that we
+will make is that a memory access
+
+15
+00:00:51,410 --> 00:00:52,770
+takes four cycles.
+
+16
+00:00:52,770 --> 00:00:56,400
+What this means is that a memory-bound
+thread will experience some
+
+17
+00:00:56,400 --> 00:01:00,680
+idle cycles while it's waiting for
+the memory access to return.
+
+18
+00:01:00,680 --> 00:01:04,569
+We will also assume that the time
+it takes to contact switch among
+
+19
+00:01:04,569 --> 00:01:08,020
+the different hardware
+threads is instantaneous, so
+
+20
+00:01:08,020 --> 00:01:11,620
+we won't take any overheads
+over that into consideration.
+
+21
+00:01:11,620 --> 00:01:14,820
+And also let's to start with for
+the sake of our discussion,
+
+22
+00:01:14,820 --> 00:01:18,880
+let's assume that we have a SNT
+with two hardware threads.
+
+23
+00:01:18,880 --> 00:01:22,750
+let's take a look first at what would
+happen if we chose to co-schedule
+
+24
+00:01:22,750 --> 00:01:24,850
+on the two hardware contacts.
+
+25
+00:01:24,850 --> 00:01:29,830
+Two threads that are both compute-bound,
+so compute intensive, or CPU bound.
+
+26
+00:01:29,830 --> 00:01:34,656
+What that means is both of the threads
+are ready to issue a CPU instruction on
+
+27
+00:01:34,656 --> 00:01:36,375
+every single cycle.
+
+28
+00:01:36,375 --> 00:01:41,586
+However given that there is only
+one CPU pipeline, so one CPU fetch
+
+29
+00:01:41,586 --> 00:01:47,255
+decode issue ALU logic, only one of them
+can execute at any given point of time.
+
+30
+00:01:47,255 --> 00:01:50,515
+As a result these two threads
+will interfere with each other.
+
+31
+00:01:50,515 --> 00:01:54,490
+They will be contending for
+the CPU pipeline resources.
+
+32
+00:01:54,490 --> 00:01:59,280
+And best case, every one of them
+will basically spend one cycle
+
+33
+00:01:59,280 --> 00:02:03,200
+idling while the other thread
+issues its instruction.
+
+34
+00:02:03,200 --> 00:02:05,410
+As a result, for each of the threads,
+
+35
+00:02:05,410 --> 00:02:08,949
+its performance will
+degrade by a factor of two.
+
+36
+00:02:08,949 --> 00:02:13,400
+Furthermore, looking at the entire
+platform, we will notice that in this
+
+37
+00:02:13,400 --> 00:02:18,270
+particular case our memory component,
+the memory controller, they're idle.
+
+38
+00:02:18,270 --> 00:02:22,330
+There's nothing that's scheduled that
+performs any kinds of memory accesses.
+
+39
+00:02:22,330 --> 00:02:24,080
+Well that's not good either.
+
+40
+00:02:24,080 --> 00:02:28,530
+Well another option is to
+co-schedule to memory-bound threads.
+
+41
+00:02:28,530 --> 00:02:31,480
+In this case we see however,
+that we end up with some
+
+42
+00:02:31,480 --> 00:02:36,160
+idle cycles because both of the threads
+end up issuing co-memory operation.
+
+43
+00:02:36,160 --> 00:02:39,390
+And then they need to wait
+four cycles until it returns.
+
+44
+00:02:39,390 --> 00:02:43,280
+Therefore, we have two of
+the cycles that are unused.
+
+45
+00:02:43,280 --> 00:02:47,080
+So, the strategy then to co-schedule
+memory bound threads leads to
+
+46
+00:02:47,080 --> 00:02:47,970
+wasted CPU cycles.
+
+47
+00:02:47,970 --> 00:02:53,600
+So then our final option is to
+consider mixing some CPU and memory
+
+48
+00:02:53,600 --> 00:02:58,790
+intensive threads, and then if we see,
+we end up with the desired schedule.
+
+49
+00:02:58,790 --> 00:03:00,070
+It's a bingo.
+
+50
+00:03:00,070 --> 00:03:04,520
+We end up fully utilizing each
+processor cycle, and then,
+
+51
+00:03:04,520 --> 00:03:07,990
+whenever there is a thread that
+needs to perform a memory reference,
+
+52
+00:03:07,990 --> 00:03:11,530
+we context switch to
+that thread in hardware.
+
+53
+00:03:11,530 --> 00:03:13,530
+The thread issues the memory reference,
+and
+
+54
+00:03:13,530 --> 00:03:16,700
+then we context switch back
+to the CP-intensive thread.
+
+55
+00:03:16,700 --> 00:03:19,310
+Until the memory reference completes.
+
+56
+00:03:19,310 --> 00:03:22,880
+Scheduling, a mix of CPU and
+memory-intensive threads,
+
+57
+00:03:22,880 --> 00:03:28,620
+allows us to avoid or at least limit the
+contention on the processor pipeline.
+
+58
+00:03:28,620 --> 00:03:31,440
+And then also, all of the components,
+both the CPU and
+
+59
+00:03:31,440 --> 00:03:33,740
+the memory will be well utilized.
+
+60
+00:03:33,740 --> 00:03:36,250
+Note that this still will
+lead to some level of
+
+61
+00:03:36,250 --> 00:03:39,980
+degradation due to the interference
+between these two threads.
+
+62
+00:03:39,980 --> 00:03:44,140
+For instance, the compute
+bound thread can only execute
+
+63
+00:03:44,140 --> 00:03:48,560
+three out of every four cycles,
+compared to when it ran alone.
+
+64
+00:03:48,560 --> 00:03:51,710
+However, this level of
+the degradation will be minimal given
+
+65
+00:03:51,710 --> 00:03:53,870
+the properties of the particular system

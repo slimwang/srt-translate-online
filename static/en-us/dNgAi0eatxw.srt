@@ -1,0 +1,142 @@
+1
+00:00:00,380 --> 00:00:06,790
+Using heap viewer, we can see that after
+the first GC, only 1.39 megs is free.
+
+2
+00:00:06,790 --> 00:00:09,370
+This may indicate that the garbage
+collector wasn't able to reclaim much
+
+3
+00:00:09,370 --> 00:00:10,370
+memory due to a leak.
+
+4
+00:00:11,410 --> 00:00:15,010
+After a second GC event, heap viewer
+indicates that the system has decided to
+
+5
+00:00:15,010 --> 00:00:19,180
+accommodate a larger memory footprint
+for this app by allocating more memory.
+
+6
+00:00:19,180 --> 00:00:21,890
+Increasing the heap
+size to 32 megabytes,
+
+7
+00:00:21,890 --> 00:00:23,915
+which is up from 20
+megabytes in the first GC.
+
+8
+00:00:23,915 --> 00:00:28,410
+This time,
+we have 12.9 megabytes free in our heap.
+
+9
+00:00:28,410 --> 00:00:30,680
+At this point, the system is
+dynamically accommodating for
+
+10
+00:00:30,680 --> 00:00:32,960
+the larger memory footprint of this app.
+
+11
+00:00:32,960 --> 00:00:36,110
+If the expansion repeats, this may lead
+to an app crash if the system can no
+
+12
+00:00:36,110 --> 00:00:37,720
+longer allocate more memory for the app.
+
+13
+00:00:38,880 --> 00:00:43,710
+So remember, memory leaks are slow and
+they're insidious and require time and
+
+14
+00:00:43,710 --> 00:00:45,780
+the proper test environment to confirm.
+
+15
+00:00:45,780 --> 00:00:48,280
+Also, keep in mind that
+sometimes a pattern like this
+
+16
+00:00:48,280 --> 00:00:50,750
+might represent
+a legitimate use of memory.
+
+17
+00:00:50,750 --> 00:00:51,530
+For example,
+
+18
+00:00:51,530 --> 00:00:55,440
+imagine an application that was designed
+to manipulate large graphics or photos.
+
+19
+00:00:55,440 --> 00:00:58,910
+The takeaway here is be on the lookout
+for slow leaking memory, but
+
+20
+00:00:58,910 --> 00:01:00,660
+always weigh the data you collect,
+
+21
+00:01:00,660 --> 00:01:03,360
+against the memory implications
+of your app's core functionality.
+
+22
+00:01:04,530 --> 00:01:07,950
+Now at this point, you should understand
+how memory leaks manifest in the SD.
+
+23
+00:01:07,950 --> 00:01:11,090
+At this point, you should understand how
+memory leaks manifest in SDK provided
+
+24
+00:01:11,090 --> 00:01:13,960
+tools such as Memory Monitor and
+Heap Viewer.
+
+25
+00:01:13,960 --> 00:01:15,720
+But you might not know
+where they originate.
+
+26
+00:01:15,720 --> 00:01:18,880
+Here are some best practices
+you can take to avoid a leak.
+
+27
+00:01:18,880 --> 00:01:21,270
+Track the life of your objects
+throughout your code and
+
+28
+00:01:21,270 --> 00:01:24,070
+clean up references when
+you no longer need them.
+
+29
+00:01:24,070 --> 00:01:25,180
+Okay, so in the next slide,
+
+30
+00:01:25,180 --> 00:01:26,970
+we'll identify what might
+be causing this leak.

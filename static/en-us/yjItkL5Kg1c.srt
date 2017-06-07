@@ -1,0 +1,312 @@
+﻿1
+00:00:00,000 --> 00:00:02,879
+Ok this is the same code we saw just before
+
+2
+00:00:02,879 --> 00:00:04,889
+This is from a completed version
+
+3
+00:00:04,889 --> 00:00:07,049
+of Pitch Perfect, so don't worry if your
+
+4
+00:00:07,049 --> 00:00:09,240
+code doesn't match this quite yet. We'll
+
+5
+00:00:09,240 --> 00:00:11,429
+get there. Let's dive a little deeper and
+
+6
+00:00:11,429 --> 00:00:14,339
+confirm what each line of code is doing.
+
+7
+00:00:14,339 --> 00:00:16,949
+First we have the import AVFoundation statement.
+
+8
+00:00:16,949 --> 00:00:19,050
+The AVFoundation framework
+
+9
+00:00:19,050 --> 00:00:22,050
+contains the AVAudioRecorder.
+
+10
+00:00:22,050 --> 00:00:24,118
+And without this import statement, Xcode
+
+11
+00:00:24,118 --> 00:00:25,559
+wouldn't know about any of the AVFoundation
+
+12
+00:00:25,559 --> 00:00:27,750
+classes and our code wouldn't compile.
+
+13
+00:00:27,750 --> 00:00:30,989
+Then we have this audio recorder
+
+14
+00:00:30,989 --> 00:00:33,780
+property which is declared. This property
+
+15
+00:00:33,780 --> 00:00:35,850
+gives this View Controller the ability
+
+16
+00:00:35,850 --> 00:00:37,950
+to use and reference the audioRecorder
+
+17
+00:00:37,950 --> 00:00:40,770
+in multiple places. This is really useful,
+
+18
+00:00:40,770 --> 00:00:42,479
+because we want to reference the audioRecorder
+
+19
+00:00:42,479 --> 00:00:45,390
+in different functions.
+
+20
+00:00:45,390 --> 00:00:47,070
+One for beginning recording and one when we're
+
+21
+00:00:47,070 --> 00:00:49,920
+stopping recording. Next we have the
+
+22
+00:00:49,920 --> 00:00:52,530
+function recordAudio. The first line
+
+23
+00:00:52,530 --> 00:00:54,299
+that I have highlighted is used to get
+
+24
+00:00:54,299 --> 00:00:55,770
+the directory path.
+
+25
+00:00:55,770 --> 00:00:58,109
+Specifically, this line of code grabs the
+
+26
+00:00:58,109 --> 00:01:00,090
+application’s documentDirectory and
+
+27
+00:01:00,090 --> 00:01:02,460
+stores it as a string in this dirPath constant.
+
+28
+00:01:02,460 --> 00:01:05,010
+Later in the Nanodegree, you’ll
+
+29
+00:01:05,010 --> 00:01:06,659
+learn about other directories and
+
+30
+00:01:06,659 --> 00:01:09,989
+storage locations available for iOS.
+
+31
+00:01:09,989 --> 00:01:11,938
+For this example, it just needs a place to
+
+32
+00:01:11,938 --> 00:01:13,650
+store the audio recording and the
+
+33
+00:01:13,650 --> 00:01:15,629
+documents directory will work fine.
+
+34
+00:01:15,629 --> 00:01:17,938
+The directory path then gets combined
+
+35
+00:01:17,938 --> 00:01:19,290
+with the filename for the recording
+
+36
+00:01:19,290 --> 00:01:22,650
+called recordedVoice.wav.
+
+37
+00:01:22,650 --> 00:01:24,030
+These two lines are the lines that actually
+
+38
+00:01:24,030 --> 00:01:26,368
+combine both the directory path and the
+
+39
+00:01:26,368 --> 00:01:28,349
+recording name to create a full path to
+
+40
+00:01:28,349 --> 00:01:29,099
+our file.
+
+41
+00:01:29,099 --> 00:01:32,009
+Next up an audio session is setup using
+
+42
+00:01:32,009 --> 00:01:35,609
+the AVAudioSession.sharedInstance.
+
+43
+00:01:35,609 --> 00:01:37,379
+If we hold down the option key and click
+
+44
+00:01:37,379 --> 00:01:40,109
+session, we can see its type. We see that
+
+45
+00:01:40,109 --> 00:01:43,680
+it is indeed a AVAudioSession.
+
+46
+00:01:43,680 --> 00:01:45,299
+A AVAudioSession is what is needed to
+
+47
+00:01:45,299 --> 00:01:48,688
+either record or playback audio.
+
+48
+00:01:48,688 --> 00:01:50,938
+And the sharedInstance that we access here is a
+
+49
+00:01:50,938 --> 00:01:52,469
+AVAudioSession that's already
+
+50
+00:01:52,469 --> 00:01:54,328
+created by default once our app starts
+
+51
+00:01:54,328 --> 00:01:56,099
+running, and it can be used with a
+
+52
+00:01:56,099 --> 00:01:58,618
+minimal amount of setup. Going a bit
+
+53
+00:01:58,618 --> 00:02:01,049
+further, the AVAudioSession class is
+
+54
+00:02:01,049 --> 00:02:03,239
+basically an abstraction of the entire
+
+55
+00:02:03,239 --> 00:02:06,149
+Audio Hardware. Since there's only one
+
+56
+00:02:06,149 --> 00:02:08,098
+Audio Hardware for device there's only
+
+57
+00:02:08,098 --> 00:02:11,370
+one instance of AVAudioSession.
+
+58
+00:02:11,370 --> 00:02:13,169
+Hence this is why we use the
+
+59
+00:02:13,169 --> 00:02:13,560
+sharedInstance
+
+60
+00:02:13,560 --> 00:02:16,169
+It’s the shared AVAudioSession across all
+
+61
+00:02:16,169 --> 00:02:19,379
+apps on our device. This idea of a shared
+
+62
+00:02:19,379 --> 00:02:21,150
+instance is a very common pattern that
+
+63
+00:02:21,150 --> 00:02:22,500
+you're going to see a lot as you're
+
+64
+00:02:22,500 --> 00:02:25,379
+working with Apple frameworks. This next
+
+65
+00:02:25,379 --> 00:02:27,150
+line of code sets up the session for
+
+66
+00:02:27,150 --> 00:02:30,150
+playing and recording audio. This line of
+
+67
+00:02:30,150 --> 00:02:32,459
+code is part of a try statement. The try
+
+68
+00:02:32,459 --> 00:02:35,280
+statement uses an ! which indicates that
+
+69
+00:02:35,280 --> 00:02:37,139
+it doesn't handle any errors if this
+
+70
+00:02:37,139 --> 00:02:40,199
+line of code fails. The same is true of
+
+71
+00:02:40,199 --> 00:02:42,389
+this line where we're creating
+
+72
+00:02:42,389 --> 00:02:44,219
+a AVAudioRecorder. We're going to cover
+
+73
+00:02:44,219 --> 00:02:46,318
+error handling later, but for now we can
+
+74
+00:02:46,318 --> 00:02:49,349
+just assume both these lines work. With a
+
+75
+00:02:49,349 --> 00:02:51,930
+AVAudioRecorder created, then we set
+
+76
+00:02:51,930 --> 00:02:54,120
+its isMeteringEnabled property to true,
+
+77
+00:02:54,120 --> 00:02:57,030
+we prepare to record and then we record.
+
+78
+00:02:57,030 --> 00:03:03,530
+And that's it.
+

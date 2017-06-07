@@ -1,0 +1,114 @@
+1
+00:00:00,200 --> 00:00:03,130
+Since we're talking about
+the trickiness of RPC calls,
+
+2
+00:00:03,130 --> 00:00:06,910
+let's also talk about errors in
+fault handling and reporting.
+
+3
+00:00:06,910 --> 00:00:10,370
+When the client hangs while waiting
+on a remote procedure call,
+
+4
+00:00:10,370 --> 00:00:13,410
+it is often hard to take
+what exactly is the problem?
+
+5
+00:00:13,410 --> 00:00:17,700
+The server can be overloaded, the client
+request may be lost, the response may be
+
+6
+00:00:17,700 --> 00:00:21,600
+lost, the server machine may have
+crashed, or the server process may have
+
+7
+00:00:21,600 --> 00:00:26,540
+crashed, or some element in the network,
+some switch or router may be down.
+
+8
+00:00:26,540 --> 00:00:30,570
+Even if the RPC runtime incorporates
+some mechanisms that time out
+
+9
+00:00:30,570 --> 00:00:35,915
+whenever a client RPC call hangs,
+and then retries them automatically.
+
+10
+00:00:35,915 --> 00:00:40,210
+They're really no guarantees that the
+problem will be resolved or that the RPC
+
+11
+00:00:40,210 --> 00:00:44,510
+runtime will be able to provide some
+better understanding of what's going on.
+
+12
+00:00:44,510 --> 00:00:49,070
+And potentially, for some cases, it is
+possible to really understand what is
+
+13
+00:00:49,070 --> 00:00:52,658
+the cause of the error, but
+in principle that is too complex.
+
+14
+00:00:52,658 --> 00:00:55,440
+It would have involve a lot of overhead,
+and ultimately,
+
+15
+00:00:55,440 --> 00:00:58,910
+it's still unlikely that it will
+provide a definitive answer.
+
+16
+00:00:58,910 --> 00:01:03,343
+For this reason IPC systems typically
+try to introduce a new type of error
+
+17
+00:01:03,343 --> 00:01:08,015
+notification or a new type of signal or
+exception that tries to capture what
+
+18
+00:01:08,015 --> 00:01:12,690
+went wrong with an RPC request without
+claiming to provide the exact detail.
+
+19
+00:01:12,690 --> 00:01:15,920
+This serves as a catch all for
+all types of errors,
+
+20
+00:01:15,920 --> 00:01:20,320
+all types of failures that can
+potentially happen during an RPC call.
+
+21
+00:01:20,320 --> 00:01:23,540
+And it also can potentially
+indicate a partial failure,
+
+22
+00:01:23,540 --> 00:01:26,140
+so maybe the call really
+didn't quite fail,
+
+23
+00:01:26,140 --> 00:01:29,770
+it's just that the client doesn't
+know what succeeded and what failed.

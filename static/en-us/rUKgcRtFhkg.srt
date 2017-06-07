@@ -1,0 +1,387 @@
+1
+00:00:00,260 --> 00:00:02,690
+So can we extract
+the general rule from this?
+
+2
+00:00:02,690 --> 00:00:05,810
+So if we have a learning rate sequence
+that looks like one over T to the K.
+
+3
+00:00:05,810 --> 00:00:08,730
+This is going to work for
+some range of K's right?
+
+4
+00:00:08,730 --> 00:00:11,080
+>> Right.
+>> So we saw that with K is too big then
+
+5
+00:00:11,080 --> 00:00:13,855
+it fails because everything
+sums to something finite.
+
+6
+00:00:13,855 --> 00:00:14,390
+>> Mm-hm.
+>> And
+
+7
+00:00:14,390 --> 00:00:18,000
+if it's too small, then it fails because
+everything sums to something infinite.
+
+8
+00:00:18,000 --> 00:00:20,230
+So what's the range of Ks
+that's going to work here?
+
+9
+00:00:20,230 --> 00:00:21,890
+>> Right, so there's two things.
+
+10
+00:00:21,890 --> 00:00:23,460
+So we should be able to back into this,
+right.
+
+11
+00:00:23,460 --> 00:00:28,210
+So we know that the exponent will go
+to infinity, which is what we want for
+
+12
+00:00:28,210 --> 00:00:32,080
+K, if it is one or less, right?
+
+13
+00:00:32,080 --> 00:00:34,251
+So K has to be less then or
+equal to one.
+
+14
+00:00:34,251 --> 00:00:35,440
+>> Good.
+
+15
+00:00:35,440 --> 00:00:41,470
+>> We want one over T to the K squared,
+also needs to be greater than one.
+
+16
+00:00:41,470 --> 00:00:41,980
+>> Hm-mm.
+
+17
+00:00:41,980 --> 00:00:45,148
+>> So since it's an exponent,
+that would be two K, so
+
+18
+00:00:45,148 --> 00:00:47,550
+that would be two K greater than one.
+
+19
+00:00:47,550 --> 00:00:48,480
+Is that right?
+
+20
+00:00:48,480 --> 00:00:50,070
+>> As long as it's bigger than
+a half it's going to work.
+
+21
+00:00:50,070 --> 00:00:52,110
+But if it's equal to
+a half it actually fails,
+
+22
+00:00:52,110 --> 00:00:57,050
+because then when we square it we get
+one over T which has an infinite sum.
+
+23
+00:00:57,050 --> 00:00:58,288
+>> Right.
+>> So we have to have,
+
+24
+00:00:58,288 --> 00:01:00,930
+it has to be strictly greater than
+a half, but it can be less than or
+
+25
+00:01:00,930 --> 00:01:01,520
+equal to one.
+
+26
+00:01:01,520 --> 00:01:03,440
+>> Okay, any particular reason why
+you'd pick one over the other?
+
+27
+00:01:03,440 --> 00:01:04,870
+Some particular value
+of K over the other?
+
+28
+00:01:04,870 --> 00:01:06,300
+>> That's a good question actually.
+
+29
+00:01:06,300 --> 00:01:10,020
+The, for the purposes of what
+we're talking about now, no but
+
+30
+00:01:10,020 --> 00:01:12,740
+there are actually some interesting
+results in the literature where you can
+
+31
+00:01:12,740 --> 00:01:17,700
+run into trouble with things like K
+equal one, that it's a little bit too
+
+32
+00:01:17,700 --> 00:01:21,830
+unstable and you want something a little
+bit lower to smooth things out better.
+
+33
+00:01:21,830 --> 00:01:23,580
+>> And
+where does that instability come from?
+
+34
+00:01:23,580 --> 00:01:26,350
+Its just come from,
+it's just close to the edge.
+
+35
+00:01:26,350 --> 00:01:27,150
+>> Yeah, I think so.
+
+36
+00:01:27,150 --> 00:01:30,940
+>> And so if you're very unlucky in the
+things that you see, it might blow up.
+
+37
+00:01:30,940 --> 00:01:32,010
+Is that the problem?
+
+38
+00:01:32,010 --> 00:01:33,540
+>> Well it's not a practical issue.
+
+39
+00:01:33,540 --> 00:01:38,044
+It's just that there are some formal
+cases where you can show that one over T
+
+40
+00:01:38,044 --> 00:01:39,626
+has some bad properties.
+
+41
+00:01:39,626 --> 00:01:40,752
+>> Okay.
+
+42
+00:01:40,752 --> 00:01:42,390
+>> But in practice?
+
+43
+00:01:42,390 --> 00:01:43,905
+Well interestingly in practice,
+
+44
+00:01:43,905 --> 00:01:46,209
+it's very common to use
+things like this last line.
+
+45
+00:01:46,209 --> 00:01:48,990
+[LAUGH] Alpha T equals one over 100.
+
+46
+00:01:48,990 --> 00:01:52,017
+So even though that doesn't
+really work with the theory,
+
+47
+00:01:52,017 --> 00:01:53,437
+it tends to learn faster and
+
+48
+00:01:53,437 --> 00:01:57,103
+you don't have to tweak it to figure
+out well how fast should it decay?
+
+49
+00:01:57,103 --> 00:02:00,430
+You just you know, pick a number so
+that things move around a little bit and
+
+50
+00:02:00,430 --> 00:02:02,920
+then you just kind of
+be content with it.
+
+51
+00:02:02,920 --> 00:02:05,540
+>> Okay, so why would that work?
+
+52
+00:02:05,540 --> 00:02:07,480
+Why would one over 100 work then?
+
+53
+00:02:07,480 --> 00:02:10,733
+>> So there's a sense in
+which it doesn't, right,
+
+54
+00:02:10,733 --> 00:02:13,293
+because it will cause
+this to not to be true.
+
+55
+00:02:13,293 --> 00:02:17,150
+The limit ST goes to infinity of this
+sequence of estimates that we get.
+
+56
+00:02:17,150 --> 00:02:17,840
+Doesn't go to V.
+
+57
+00:02:19,310 --> 00:02:22,870
+But it does go to something you know,
+okayish.
+
+58
+00:02:22,870 --> 00:02:26,620
+So here's one way to think about is,
+if you put, make a little plot.
+
+59
+00:02:26,620 --> 00:02:30,960
+Time is going this way, and
+this is our estimate of the value.
+
+60
+00:02:30,960 --> 00:02:35,890
+And here’s V, what we want to go to.
+
+61
+00:02:35,890 --> 00:02:42,140
+What these conditions guarantee is that
+we hone in on V, as we go to infinity.
+
+62
+00:02:42,140 --> 00:02:44,100
+If we don't do this, if for example,
+
+63
+00:02:44,100 --> 00:02:46,920
+we use a learning rate like
+one over 100, then we can get
+
+64
+00:02:46,920 --> 00:02:50,820
+a different kind of behavior where it
+doesn't actually decay enough over time.
+
+65
+00:02:50,820 --> 00:02:54,360
+So it's going to stay in some
+kind of neighborhood of V, but
+
+66
+00:02:54,360 --> 00:02:55,300
+it could wiggle up and
+
+67
+00:02:55,300 --> 00:02:59,190
+down you know, by some amount, and this
+amount doesn't necessarily get smaller.
+
+68
+00:02:59,190 --> 00:03:02,880
+So we're kind of wobbling around
+inside of, here it's an interval, but
+
+69
+00:03:02,880 --> 00:03:05,970
+kind of in general,
+a ball around the target value.
+
+70
+00:03:05,970 --> 00:03:08,690
+>> Okay does it get there faster or
+anything?
+
+71
+00:03:08,690 --> 00:03:10,070
+Is there any reason why that's okay?
+
+72
+00:03:10,070 --> 00:03:12,620
+Is it just that you know,
+the ball's small enough.
+
+73
+00:03:12,620 --> 00:03:16,790
+>> I think that in practice what happens
+is it's hard to guess exactly you know,
+
+74
+00:03:16,790 --> 00:03:21,420
+the ideal way of decaying it and
+so if you don't decay it,
+
+75
+00:03:21,420 --> 00:03:25,640
+it does tend to pretty quickly get
+inside the ball and then wobble around.
+
+76
+00:03:25,640 --> 00:03:27,740
+Once you're inside the ball and
+
+77
+00:03:27,740 --> 00:03:30,610
+you're sure you're inside the ball,
+then you can imagine doing a decay.
+
+78
+00:03:30,610 --> 00:03:33,179
+You can like switch over to you know,
+one over T to the two third or
+
+79
+00:03:33,179 --> 00:03:33,950
+something.
+
+80
+00:03:33,950 --> 00:03:36,410
+So that it actually decays
+out a bit more of the way.
+
+81
+00:03:36,410 --> 00:03:39,870
+But if you do that prematurely,
+it still will converge in the limit.
+
+82
+00:03:39,870 --> 00:03:41,900
+It just could take a very,
+very long time.
+
+83
+00:03:41,900 --> 00:03:43,390
+>> Okay, that makes sense, cool.

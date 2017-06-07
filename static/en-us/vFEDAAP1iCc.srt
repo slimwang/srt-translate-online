@@ -1,0 +1,465 @@
+1
+00:00:00,510 --> 00:00:04,250
+Motion events are triggered when a play
+moves the joystick or shoulder buttons.
+
+2
+00:00:04,250 --> 00:00:07,480
+And in the same way, we overrode methods
+in our view to capture KeyEvents,
+
+3
+00:00:07,480 --> 00:00:10,150
+we can override another
+to capture MotionEvents.
+
+4
+00:00:10,150 --> 00:00:12,800
+And that method is going
+to be onGenericMotionEvent.
+
+5
+00:00:12,800 --> 00:00:15,290
+Of course, you can capture this
+in activities in a similar way.
+
+6
+00:00:15,290 --> 00:00:16,510
+And check out the note for more info.
+
+7
+00:00:17,630 --> 00:00:19,500
+There's more to MotionEvents
+than KeyEevents, and
+
+8
+00:00:19,500 --> 00:00:21,720
+to understand them,
+let's use an example.
+
+9
+00:00:21,720 --> 00:00:24,900
+Pretend that the player sweeps the
+joystick up into the left into counter
+
+10
+00:00:24,900 --> 00:00:28,880
+clockwise motion, as you can imagine,
+joysticks are pretty sensitive.
+
+11
+00:00:28,880 --> 00:00:31,990
+Each dial on this diagram represents
+an individual sample that Android
+
+12
+00:00:31,990 --> 00:00:36,000
+took of the joystick's position as
+the user moved it up into the left.
+
+13
+00:00:36,000 --> 00:00:39,360
+Each sample contains a set of axis
+values, for example, the x and
+
+14
+00:00:39,360 --> 00:00:40,510
+y positions of the joystick.
+
+15
+00:00:41,530 --> 00:00:45,280
+Event creation in Java is expensive,
+so a MotionEvent isn't created for
+
+16
+00:00:45,280 --> 00:00:46,850
+each individual sample.
+
+17
+00:00:46,850 --> 00:00:49,630
+Instead, the system batches
+up samples into Windows.
+
+18
+00:00:51,210 --> 00:00:53,036
+Each window becomes a MotionEvent, so
+
+19
+00:00:53,036 --> 00:00:56,790
+a MotionEvent can contain many
+individual movement samples.
+
+20
+00:00:56,790 --> 00:00:59,600
+Keep in mind that each MotionEvent
+contains all the samples since
+
+21
+00:00:59,600 --> 00:01:01,482
+the previous one, so you never miss any.
+
+22
+00:01:01,482 --> 00:01:05,489
+Each MotionEvent contains a list
+of historical samples and
+
+23
+00:01:05,489 --> 00:01:06,840
+the current sample.
+
+24
+00:01:06,840 --> 00:01:09,610
+You can figure out how many historical
+samples it contains by calling
+
+25
+00:01:09,610 --> 00:01:10,270
+getHistorySize.
+
+26
+00:01:11,440 --> 00:01:13,990
+You can then process the individual
+samples in sequence.
+
+27
+00:01:15,280 --> 00:01:19,410
+If your frame rate can sustain it, you
+can redraw the screen after each one.
+
+28
+00:01:19,410 --> 00:01:22,130
+Alternatively, you could update the
+player's position for each sample, but
+
+29
+00:01:22,130 --> 00:01:24,110
+only redraw the screen when you can.
+
+30
+00:01:24,110 --> 00:01:27,090
+Also keep in mind that MotionEvent
+still come in extremely fast and
+
+31
+00:01:27,090 --> 00:01:29,620
+this won't be a source
+of any lag in your game.
+
+32
+00:01:29,620 --> 00:01:32,990
+And by the way, the number of samples
+in each MotionEvent is variable and
+
+33
+00:01:32,990 --> 00:01:35,320
+is determined by the system at run time.
+
+34
+00:01:35,320 --> 00:01:36,810
+You can get the access value for
+
+35
+00:01:36,810 --> 00:01:40,400
+the current sample by
+calling get access value.
+
+36
+00:01:40,400 --> 00:01:43,705
+And you can get access values for
+historical samples by calling
+
+37
+00:01:43,705 --> 00:01:47,150
+getHistoricalAxisValue with the index
+of the sample you're interested in.
+
+38
+00:01:48,230 --> 00:01:50,500
+We always get the value for
+a single axis at a time.
+
+39
+00:01:50,500 --> 00:01:52,980
+And the integer access parameter
+
+40
+00:01:52,980 --> 00:01:55,610
+corresponds to the axis code
+that we saw earlier on.
+
+41
+00:01:57,180 --> 00:01:58,770
+Here's how this looks in code.
+
+42
+00:01:58,770 --> 00:02:02,340
+We're back inside Game View, inside our
+onGenericMotionEvent that we overrode.
+
+43
+00:02:03,520 --> 00:02:06,750
+In addition to game controllers,
+many devices can trigger MotionEvents,
+
+44
+00:02:06,750 --> 00:02:08,430
+including touch screens.
+
+45
+00:02:08,430 --> 00:02:09,660
+In this line and the next,
+
+46
+00:02:09,660 --> 00:02:13,220
+we figure out the event source, meaning
+what type of device it came from.
+
+47
+00:02:13,220 --> 00:02:15,230
+To be honest,
+this code is a bit of a mess, and
+
+48
+00:02:15,230 --> 00:02:17,340
+I wouldn't recommend doing it this way.
+
+49
+00:02:17,340 --> 00:02:18,980
+If you're targeting API level 18 or
+
+50
+00:02:18,980 --> 00:02:21,620
+higher, there's a helper
+method to do this for you.
+
+51
+00:02:21,620 --> 00:02:23,520
+And if you're targeting
+an earlier version of Android,
+
+52
+00:02:23,520 --> 00:02:27,480
+then I'd recommend writing a well test
+method and encapsulating this logic.
+
+53
+00:02:27,480 --> 00:02:30,020
+There's another property of MotionEvents
+you should be aware of, and
+
+54
+00:02:30,020 --> 00:02:32,150
+that's that you can get an action code.
+
+55
+00:02:32,150 --> 00:02:36,370
+For joysticks the action code is
+always going to be ACTION_MOVE.
+
+56
+00:02:36,370 --> 00:02:39,130
+You should be aware that other
+types of input devices can generate
+
+57
+00:02:39,130 --> 00:02:41,030
+other types of action codes.
+
+58
+00:02:41,030 --> 00:02:42,860
+For example,
+if you're working with a touch screen,
+
+59
+00:02:42,860 --> 00:02:46,770
+when the user first taps the display,
+the action code might be action down.
+
+60
+00:02:46,770 --> 00:02:48,920
+You can check out the notes for
+more detail.
+
+61
+00:02:48,920 --> 00:02:51,800
+Let's check out the onGenericMotionEvent
+handler of the ship class
+
+62
+00:02:51,800 --> 00:02:53,670
+to see how the MotionEvent
+is actually processed.
+
+63
+00:02:54,810 --> 00:02:58,190
+Here's where we determine how many
+historical samples the event has and
+
+64
+00:02:58,190 --> 00:03:00,800
+we'll use this method to
+handle an historical sample.
+
+65
+00:03:00,800 --> 00:03:03,330
+And the current sample, in the same way.
+
+66
+00:03:03,330 --> 00:03:07,120
+We begin to work with the MotionEvent
+itself inside processJoystickInput.
+
+67
+00:03:07,120 --> 00:03:09,050
+The first thing we'll need to
+do is figure out the values for
+
+68
+00:03:09,050 --> 00:03:10,930
+the x and y axes.
+
+69
+00:03:10,930 --> 00:03:12,740
+Inside the getCenteredAxis method,
+
+70
+00:03:12,740 --> 00:03:15,830
+the first thing we need to do is check
+whether the joystick's centered.
+
+71
+00:03:15,830 --> 00:03:17,420
+Joysticks have a flat area.
+
+72
+00:03:17,420 --> 00:03:20,030
+A flat area is a range
+of values near 0,0 with
+
+73
+00:03:20,030 --> 00:03:22,130
+the joystick should be
+considered centered.
+
+74
+00:03:22,130 --> 00:03:23,380
+We can find the flat area for
+
+75
+00:03:23,380 --> 00:03:27,310
+an access by querying a range object
+we retrieve from an input device.
+
+76
+00:03:27,310 --> 00:03:30,450
+And remember, you can always get
+the input device that generated an event
+
+77
+00:03:30,450 --> 00:03:32,780
+by calling event.getdevice.
+
+78
+00:03:32,780 --> 00:03:34,780
+Finally, we get the actual access value,
+
+79
+00:03:34,780 --> 00:03:37,890
+depending on whether we're working with
+a current sample or a historical sample.
+
+80
+00:03:38,910 --> 00:03:41,330
+To recap,
+lets see how its all put together.
+
+81
+00:03:41,330 --> 00:03:43,400
+Here's the diagram from
+our previous lesson.
+
+82
+00:03:43,400 --> 00:03:45,340
+I've slided it over to
+the left a little bit and
+
+83
+00:03:45,340 --> 00:03:47,908
+added all the methods we talked
+about for motion events.
+
+84
+00:03:47,908 --> 00:03:50,590
+If you're thinking,holy crap
+there's a lot here all at once!,
+
+85
+00:03:50,590 --> 00:03:52,040
+don't worry its not so bad.
+
+86
+00:03:52,040 --> 00:03:55,640
+Again with the MotionEvent always call
+getHistorySize first to determine how
+
+87
+00:03:55,640 --> 00:03:57,560
+many historical samples you have.
+
+88
+00:03:57,560 --> 00:04:00,775
+Then, call getAxisValue, or
+getHistoricalAxisValue to figure out
+
+89
+00:04:00,775 --> 00:04:03,790
+the axis position for
+a sample that you care about.
+
+90
+00:04:03,790 --> 00:04:07,110
+With joysticks, the action code is
+always going to be action moved,
+
+91
+00:04:07,110 --> 00:04:10,050
+although this can be different for
+different types of input devices.
+
+92
+00:04:10,050 --> 00:04:12,540
+To figure out whether the joystick
+should be considered centered,
+
+93
+00:04:12,540 --> 00:04:14,350
+you have to get its flat area.
+
+94
+00:04:14,350 --> 00:04:17,250
+And to do that you can figure out
+the input device that generated
+
+95
+00:04:17,250 --> 00:04:19,343
+the MotionEvent by calling getDeviceId.
+
+96
+00:04:20,579 --> 00:04:23,520
+Once you have the InputDevice,
+you can call getMotionRange to
+
+97
+00:04:23,520 --> 00:04:27,710
+determine the motion range for an Axis
+and then call getFlat on that object.
+
+98
+00:04:27,710 --> 00:04:31,065
+Also keep in mind that different Axis
+can have different MotionRanges.
+
+99
+00:04:32,170 --> 00:04:34,627
+Check out the link in the instructor
+notes for more detail on that.

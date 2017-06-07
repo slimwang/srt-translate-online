@@ -1,0 +1,314 @@
+1
+00:00:00,110 --> 00:00:03,000
+Let's start by adding the code
+snippet that we provided for you.
+
+2
+00:00:03,000 --> 00:00:04,155
+And add that at the app.
+
+3
+00:00:04,155 --> 00:00:08,220
+So I'm going to copy that here and
+then switch over to Android Studio and
+
+4
+00:00:08,220 --> 00:00:10,050
+paste it at the bottom
+of my numbers activity.
+
+5
+00:00:10,050 --> 00:00:13,900
+All right so now I want to call
+this method that we just added
+
+6
+00:00:13,900 --> 00:00:18,140
+releaseMediaPlayer when the audio
+file has finished playing.
+
+7
+00:00:18,140 --> 00:00:21,510
+And this means that I need to
+register an onCompletion listener
+
+8
+00:00:21,510 --> 00:00:23,080
+with the media player.
+
+9
+00:00:23,080 --> 00:00:27,070
+So remember that this needs to be set
+up after the media player has started.
+
+10
+00:00:27,070 --> 00:00:31,820
+So I'm going to add the code below
+this line mMediaPlayer.start.
+
+11
+00:00:31,820 --> 00:00:34,470
+And I let Android studio auto complete
+
+12
+00:00:34,470 --> 00:00:36,930
+adding the interface callback for
+me here.
+
+13
+00:00:36,930 --> 00:00:40,875
+Now with in the on completion method
+callback I can call the release
+
+14
+00:00:40,875 --> 00:00:42,220
+Media Player method.
+
+15
+00:00:42,220 --> 00:00:44,253
+[BLANK_AUDIO]
+
+16
+00:00:44,253 --> 00:00:46,993
+So I just realized there's going to be
+a more efficient way of doing this.
+
+17
+00:00:46,993 --> 00:00:50,593
+So instead of creating a new on
+completion listener every time we click
+
+18
+00:00:50,593 --> 00:00:54,193
+on a list item we can just create
+a single instance of this on completion
+
+19
+00:00:54,193 --> 00:00:56,870
+listener and then reuse it each time.
+
+20
+00:00:56,870 --> 00:00:59,210
+So doing it that way would be more
+efficient because we wouldn't be
+
+21
+00:00:59,210 --> 00:01:03,380
+creating a new object each time
+that would take up new resources.
+
+22
+00:01:03,380 --> 00:01:06,790
+So I want to move this block of code
+here that implements the on completion
+
+23
+00:01:06,790 --> 00:01:10,070
+listener interface and
+put it into a global variable.
+
+24
+00:01:10,070 --> 00:01:11,630
+So here's what that looks like.
+
+25
+00:01:11,630 --> 00:01:14,530
+So I move the code there was
+implementing the on completion
+
+26
+00:01:14,530 --> 00:01:15,430
+listener interface.
+
+27
+00:01:17,760 --> 00:01:22,100
+And moved it into a global variable
+that I called mCompletionListener.
+
+28
+00:01:22,100 --> 00:01:28,180
+Now back here again, every time I create
+a new media player object and start
+
+29
+00:01:28,180 --> 00:01:32,570
+the player I can set the on completion
+listener to be that global variable.
+
+30
+00:01:33,700 --> 00:01:36,062
+So I'll pass in mCompletionListener and
+
+31
+00:01:36,062 --> 00:01:39,172
+to further clarify that I'm
+going to add some comments.
+
+32
+00:01:39,172 --> 00:01:41,401
+[BLANK_AUDIO]
+
+33
+00:01:41,401 --> 00:01:43,900
+All right, so
+that completes the first task.
+
+34
+00:01:43,900 --> 00:01:46,830
+So we've hooked up the numbers
+activity so that when it has finished
+
+35
+00:01:46,830 --> 00:01:50,630
+playing a sound file, it will
+release the media player resources.
+
+36
+00:01:50,630 --> 00:01:54,640
+Now the second task here says to also
+release the media player resources
+
+37
+00:01:54,640 --> 00:01:57,760
+before the media player is initialized
+to play a different sound.
+
+38
+00:01:57,760 --> 00:01:59,630
+So this might happen if, for example,
+
+39
+00:01:59,630 --> 00:02:02,150
+the user quickly tapped
+multiple list items in a row.
+
+40
+00:02:02,150 --> 00:02:06,070
+The device may not have enough time
+to finish playing each audio file, so
+
+41
+00:02:06,070 --> 00:02:08,380
+the on completion listener
+might not get triggered.
+
+42
+00:02:09,410 --> 00:02:11,516
+So if we're in the middle
+of playing a sound and
+
+43
+00:02:11,516 --> 00:02:13,785
+the user clicks on
+a completely different sound,
+
+44
+00:02:13,785 --> 00:02:16,593
+then we need to stop and
+release the media player resources and
+
+45
+00:02:16,593 --> 00:02:20,380
+immediately create a new media
+player object for the current zone.
+
+46
+00:02:20,380 --> 00:02:25,480
+So back in the numbers activity in
+the on item method here before the media
+
+47
+00:02:25,480 --> 00:02:29,280
+player is created we should release
+the media player resources as well.
+
+48
+00:02:30,360 --> 00:02:32,890
+We do that just in case it was
+configured to play a different
+
+49
+00:02:32,890 --> 00:02:33,460
+audio file.
+
+50
+00:02:34,890 --> 00:02:38,111
+Alright so those were all the changes we
+needed to do for the numbers activity
+
+51
+00:02:38,111 --> 00:02:41,199
+and now I'm going to repeat the same
+thing for all the other activities.
+
+52
+00:02:41,199 --> 00:02:51,199
+[BLANK_AUDIO]
+
+53
+00:02:54,081 --> 00:02:57,212
+All right, so those are all the changes
+we need to make to all the activities
+
+54
+00:02:57,212 --> 00:03:00,340
+and now I'm going to test the app
+to make sure nothing broke.
+
+55
+00:03:00,340 --> 00:03:04,490
+So here's the app running
+on my device and visually,
+
+56
+00:03:04,490 --> 00:03:05,810
+it looks like nothing's changed.
+
+57
+00:03:05,810 --> 00:03:07,180
+So that's good.
+
+58
+00:03:07,180 --> 00:03:09,260
+Now let's check to see if
+the audio's still working.
+
+59
+00:03:09,260 --> 00:03:11,620
+So I'm going to tap into
+the phrases activity.
+
+60
+00:03:11,620 --> 00:03:14,410
+So here, whether I click to
+play a sound for a word and
+
+61
+00:03:14,410 --> 00:03:19,060
+just let a finish or I click a bunch
+of list items in rapid succession,
+
+62
+00:03:19,060 --> 00:03:21,130
+the media player resources
+should be cleaned up.
+
+63
+00:03:22,170 --> 00:03:24,800
+So I'm going to first try it with
+a single word and letting it finish.
+
+64
+00:03:26,140 --> 00:03:30,260
+>> All right so now I'm going to
+test it with several list items
+
+65
+00:03:30,260 --> 00:03:32,945
+in rapid succession and
+it should cut it off.
+
+66
+00:03:32,945 --> 00:03:40,950
+[SOUND]
+All right so that looks good.

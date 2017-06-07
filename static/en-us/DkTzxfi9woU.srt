@@ -1,0 +1,371 @@
+﻿1
+00:00:00,290 --> 00:00:04,759
+Let's use a simple six move isolation
+game board to illustrate the ideas.
+
+2
+00:00:04,759 --> 00:00:08,050
+We'll add green circles to
+show probability nodes.
+
+3
+00:00:08,050 --> 00:00:11,750
+It's O's turn and
+it has four possible moves.
+
+4
+00:00:11,750 --> 00:00:16,259
+The first node we'll explore is the one
+where O tries to go to the left most
+
+5
+00:00:16,260 --> 00:00:17,580
+top position.
+
+6
+00:00:17,579 --> 00:00:21,280
+But if it tries,
+it will only succeed 90% of the time.
+
+7
+00:00:21,280 --> 00:00:25,349
+>> And 10% of the time, we will end up
+at the position to its mediate left.
+
+8
+00:00:25,350 --> 00:00:29,609
+>> Yep, its other moves are to
+try to go one move to the left,
+
+9
+00:00:29,609 --> 00:00:34,719
+which will do 90% of the time, and
+10% of the time, it will overshoot.
+
+10
+00:00:34,719 --> 00:00:36,969
+>> But
+if it attempts to other two positions,
+
+11
+00:00:36,969 --> 00:00:40,289
+it has no chance to overshoot or
+undershoot, so those will be easy.
+
+12
+00:00:40,289 --> 00:00:43,750
+>> Yep, but let's concentrate
+on the left most branch first.
+
+13
+00:00:43,750 --> 00:00:47,250
+When it's X's turn,
+it will have three possible moves.
+
+14
+00:00:47,250 --> 00:00:50,898
+>> It can try to go immediately right
+with 90% chance of being successful and
+
+15
+00:00:50,898 --> 00:00:52,970
+10% chance of overshooting.
+
+16
+00:00:52,969 --> 00:00:56,570
+>> Similarly, if it tries to
+go the whole way to the right,
+
+17
+00:00:56,570 --> 00:01:00,948
+it will make it 90% of the time and
+undershoot 10% of the time.
+
+18
+00:01:00,948 --> 00:01:04,989
+>> And if it goes diagonally up and
+right, it will hit in 100% of the time.
+
+19
+00:01:04,989 --> 00:01:07,520
+>> So
+now we are ready to do some calculation.
+
+20
+00:01:07,519 --> 00:01:12,109
+Using our standard number of my moves
+evaluation function, O has one move
+
+21
+00:01:12,109 --> 00:01:16,900
+available to it in this game board and
+two nodes available to it here.
+
+22
+00:01:16,900 --> 00:01:24,936
+That means the expected value of this
+branch is 0.9 x 1 + 0.1 x 2, or 1.1.
+
+23
+00:01:24,936 --> 00:01:29,480
+>> Then for the next node over, we have
+a value of 2 for this node times 0.9,
+
+24
+00:01:29,480 --> 00:01:32,920
+plus the value of the right
+node which is 1 times 0.1.
+
+25
+00:01:32,920 --> 00:01:36,239
+>> But notice, we don't have
+to evaluate the right node.
+
+26
+00:01:36,239 --> 00:01:41,518
+Since this level is a min level,
+as soon as we saw the 0.9 times 2,
+
+27
+00:01:41,518 --> 00:01:47,590
+we have 1.8, that's already bigger
+than the 1.1 we had on the left side,
+
+28
+00:01:47,590 --> 00:01:49,920
+so we know we're never
+going to use this node.
+
+29
+00:01:49,920 --> 00:01:52,260
+We don't have to evaluate
+this node at all.
+
+30
+00:01:52,260 --> 00:01:55,175
+>> That's okay in this case because we
+know the evaluation function can't go
+
+31
+00:01:55,174 --> 00:01:56,094
+below zero.
+
+32
+00:01:56,094 --> 00:01:58,834
+But, what if our evaluation
+function could go negative?
+
+33
+00:01:58,834 --> 00:02:00,414
+>> Well, then we couldn't prune.
+
+34
+00:02:00,415 --> 00:02:04,375
+In general, with expectimax, you can
+only prune when you have known bounds on
+
+35
+00:02:04,375 --> 00:02:08,064
+the values that will be returned
+by the expectimax function.
+
+36
+00:02:08,064 --> 00:02:11,264
+>> Okay, so here we'll actually choose
+the next branch because its value is 1
+
+37
+00:02:11,264 --> 00:02:13,404
+and its probability is also 1.
+
+38
+00:02:13,405 --> 00:02:16,305
+>> So, our expected value for
+this node is 1.
+
+39
+00:02:16,305 --> 00:02:17,935
+Let's try the next sub-tree over.
+
+40
+00:02:19,069 --> 00:02:20,180
+>> This one is easy.
+
+41
+00:02:20,180 --> 00:02:23,590
+Looking at the bottom nodes,
+everything evaluates to 2, therefore,
+
+42
+00:02:23,590 --> 00:02:27,240
+all branches will evaluate to 2,
+and this node's value is also 2.
+
+43
+00:02:27,240 --> 00:02:30,030
+>> Great, let's try the next sub-tree.
+
+44
+00:02:30,030 --> 00:02:34,783
+>> Here again, all the lower nodes
+are 2s so the node's value will be 2.
+
+45
+00:02:34,782 --> 00:02:36,757
+>> The next one over is
+a bit more interesting.
+
+46
+00:02:36,758 --> 00:02:41,469
+The left most bottom node has
+only 1 move remaining for O, and
+
+47
+00:02:41,469 --> 00:02:43,729
+that's multiplied by a 0.9.
+
+48
+00:02:43,729 --> 00:02:47,489
+Added to that is the 2 times the 0.1,
+
+49
+00:02:47,490 --> 00:02:53,400
+the node over in case X overshoots,
+that leads to a sum of 1.1.
+
+50
+00:02:53,400 --> 00:02:54,480
+>> Looking at the next branch,
+
+51
+00:02:54,479 --> 00:02:59,795
+if X tries to go the whole way to
+the right, we get a 2 times 0.9 or 1.8.
+
+52
+00:02:59,795 --> 00:03:01,929
+We could prune this other branch now.
+
+53
+00:03:01,930 --> 00:03:04,730
+>> Let's calculate it out for
+illustration purposes.
+
+54
+00:03:04,729 --> 00:03:09,968
+>> Okay, well the evaluation function
+number of my moves which turned 1 here,
+
+55
+00:03:09,968 --> 00:03:14,019
+so 2 times 0.9 plus 1
+times 0.1 would equal 1.9.
+
+56
+00:03:14,019 --> 00:03:16,260
+>> But the last option is the best.
+
+57
+00:03:16,259 --> 00:03:19,631
+It returns a 1 with
+a probability of 100%.
+
+58
+00:03:19,631 --> 00:03:22,009
+>> So the value of this node would be 1.
+
+59
+00:03:22,009 --> 00:03:26,731
+>> The next option is pretty easy to
+calculate, everything comes up 2s.
+
+60
+00:03:26,731 --> 00:03:30,689
+>> The one after that is also easy
+as all the moves are 100% accurate.
+
+61
+00:03:30,689 --> 00:03:33,409
+Since it's a min node, we'll choose 1.
+
+62
+00:03:33,409 --> 00:03:36,778
+>> Great, now that we have all
+the values calculated, we can choose
+
+63
+00:03:36,778 --> 00:03:39,849
+the branch with the highest value
+at the top of the max node.
+
+64
+00:03:39,849 --> 00:03:41,599
+>> It looks like this branch wins.
+
+65
+00:03:41,599 --> 00:03:44,489
+>> Yup, though it won't help
+O in this example game.
+
+66
+00:03:44,490 --> 00:03:48,200
+O is going to lose unless X makes
+a bad choice or is unlucky.
+
+67
+00:03:48,199 --> 00:03:50,599
+>> But if we know our
+player O is going to lose,
+
+68
+00:03:50,599 --> 00:03:53,530
+why shouldn't we try to choose a branch
+that was still have the possibility for
+
+69
+00:03:53,530 --> 00:03:55,550
+X to be unlucky or choose poorly?
+
+70
+00:03:55,550 --> 00:03:56,890
+>> That is a good point.
+
+71
+00:03:56,889 --> 00:03:59,939
+In fact, if we use this algorithm and
+search to end game,
+
+72
+00:03:59,939 --> 00:04:03,699
+the algorithm might choose a branch
+where X could be unlucky and lose.
+
+73
+00:04:03,699 --> 00:04:06,239
+Unfortunately, our simple
+number of my moves,
+
+74
+00:04:06,240 --> 00:04:10,150
+evaluation function is not really
+capturing that possibility.
+
+75
+00:04:10,150 --> 00:04:13,094
+Searching deeper than end game
+should solve the problem.
+
+76
+00:04:13,094 --> 00:04:14,518
+Would be a good exercise to do but
+
+77
+00:04:14,518 --> 00:04:18,129
+now that we've covered everything,
+I'm excited to get back to the challenge
+
+78
+00:04:18,129 --> 00:04:20,420
+question we started at
+the beginning of this section.
+

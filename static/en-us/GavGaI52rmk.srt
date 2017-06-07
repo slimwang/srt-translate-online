@@ -1,0 +1,334 @@
+1
+00:00:00,270 --> 00:00:03,630
+We've already walked through the first
+two steps in the last video.
+
+2
+00:00:03,630 --> 00:00:06,670
+Now I'm going to show you a couple of
+things you could have experimented with.
+
+3
+00:00:06,670 --> 00:00:10,040
+I would like to change
+the initial quantity value so
+
+4
+00:00:10,040 --> 00:00:13,690
+that when the app launches it
+shows up as zero instead of two.
+
+5
+00:00:13,690 --> 00:00:17,030
+The way I can do that is to modify
+this global quantity variable
+
+6
+00:00:17,030 --> 00:00:19,400
+to be initialized at zero.
+
+7
+00:00:19,400 --> 00:00:22,930
+Then the increment and
+decrement method should work just fine.
+
+8
+00:00:22,930 --> 00:00:24,390
+When the increment method is called,
+
+9
+00:00:24,390 --> 00:00:26,570
+it will use the latest quantity
+value and just add one.
+
+10
+00:00:26,570 --> 00:00:31,140
+When the decrement method is called, it
+will just decrease the quantity by one.
+
+11
+00:00:31,140 --> 00:00:33,250
+Let's go ahead and try this out now.
+
+12
+00:00:33,250 --> 00:00:34,040
+That looks weird.
+
+13
+00:00:34,040 --> 00:00:35,490
+I wanted it to show up at zero.
+
+14
+00:00:35,490 --> 00:00:39,700
+If I click the plus button,
+it's weird, it goes to one,
+
+15
+00:00:39,700 --> 00:00:43,850
+which seems to have decreased it,
+but now it starts to increase.
+
+16
+00:00:43,850 --> 00:00:46,110
+So it seems like these
+buttons are working, but for
+
+17
+00:00:46,110 --> 00:00:49,120
+some reason the initial value was wrong.
+
+18
+00:00:49,120 --> 00:00:52,350
+Oh, we forgot to change
+the activity main layout file.
+
+19
+00:00:52,350 --> 00:00:55,050
+In this layout we have a text
+view that says the initial text
+
+20
+00:00:55,050 --> 00:00:56,860
+quantity value is two.
+
+21
+00:00:56,860 --> 00:01:01,290
+That should fix our problem with the two
+showing up when the app launches.
+
+22
+00:01:01,290 --> 00:01:02,570
+Cool.
+Now it shows up
+
+23
+00:01:02,570 --> 00:01:04,660
+as initial quantity of zero.
+
+24
+00:01:04,660 --> 00:01:07,310
+Then if I hit increase,
+it updates properly.
+
+25
+00:01:07,310 --> 00:01:09,340
+If I hit decrease,
+it also updates properly.
+
+26
+00:01:10,500 --> 00:01:13,630
+You can see that it's a little tricky
+that we have the initial quantity
+
+27
+00:01:13,630 --> 00:01:15,900
+value in two places.
+
+28
+00:01:15,900 --> 00:01:19,660
+Having two places in the code
+that represent the same thing
+
+29
+00:01:19,660 --> 00:01:24,080
+can be a source of bugs in the future,
+like we just saw now.
+
+30
+00:01:24,080 --> 00:01:28,150
+An advanced way to solve this problem
+is to have the main activity actually
+
+31
+00:01:28,150 --> 00:01:31,990
+display the quantity of zero
+immediately when the app launches,
+
+32
+00:01:31,990 --> 00:01:35,040
+instead of relying on the layout
+to have an initial value.
+
+33
+00:01:35,040 --> 00:01:37,890
+That way the single source of truth
+would be this global variable.
+
+34
+00:01:37,890 --> 00:01:39,260
+But don't worry about that now.
+
+35
+00:01:39,260 --> 00:01:43,280
+That's more of an advanced thing
+that you can do after Lesson 3.
+
+36
+00:01:43,280 --> 00:01:47,060
+The other way we can experiment with
+the code is to have the plus button
+
+37
+00:01:47,060 --> 00:01:49,510
+double the number of coffees
+ordered each time and
+
+38
+00:01:49,510 --> 00:01:53,450
+have the minus button half
+the number of coffees each time.
+
+39
+00:01:53,450 --> 00:01:55,360
+Let's start with an initial
+quantity of two, so
+
+40
+00:01:55,360 --> 00:01:59,110
+that if we hit the minus button first,
+we can at least cut this in half once.
+
+41
+00:02:00,140 --> 00:02:01,730
+When the increment method is called,
+
+42
+00:02:01,730 --> 00:02:04,110
+we want to double the number
+of coffees ordered.
+
+43
+00:02:04,110 --> 00:02:07,900
+We should take the current quantity and
+then multiply it by two.
+
+44
+00:02:07,900 --> 00:02:10,288
+That gets updated to be
+the new quantity value and
+
+45
+00:02:10,288 --> 00:02:12,550
+then we display that to the screen.
+
+46
+00:02:12,550 --> 00:02:14,900
+On the other hand,
+we have the decrement method.
+
+47
+00:02:14,900 --> 00:02:19,090
+For the decrement method, we want to cut
+the number of coffees ordered in half.
+
+48
+00:02:19,090 --> 00:02:21,720
+So we can take the current quantity and
+then divide it by two.
+
+49
+00:02:22,960 --> 00:02:24,470
+That will be the new quantity value.
+
+50
+00:02:24,470 --> 00:02:26,360
+And we display that to the screen.
+
+51
+00:02:26,360 --> 00:02:26,910
+Let's try it out.
+
+52
+00:02:28,060 --> 00:02:30,660
+You can see how it can be a source
+of error every time you want
+
+53
+00:02:30,660 --> 00:02:32,000
+to change the initial quantity value.
+
+54
+00:02:32,000 --> 00:02:34,250
+You have to change it in both places.
+
+55
+00:02:34,250 --> 00:02:35,105
+Let's run the app now.
+
+56
+00:02:35,105 --> 00:02:36,460
+Okay.
+
+57
+00:02:36,460 --> 00:02:38,650
+It starts off at an initial
+quantity of two.
+
+58
+00:02:38,650 --> 00:02:41,660
+If I hit plus,
+it should double the quantity each time.
+
+59
+00:02:41,660 --> 00:02:43,070
+Cool.
+And it does.
+
+60
+00:02:43,070 --> 00:02:44,350
+If I hit the minus button,
+
+61
+00:02:44,350 --> 00:02:46,820
+it should cut the number of
+coffees ordered in half each time.
+
+62
+00:02:46,820 --> 00:02:49,530
+And it works.
+
+63
+00:02:49,530 --> 00:02:54,260
+If I run it in the debugger, you can see
+how it updates the variables each time.
+
+64
+00:02:54,260 --> 00:02:57,358
+The quantity value starts off at two,
+and then it updates to four.
+
+65
+00:02:57,358 --> 00:03:01,830
+And then the quantity
+starts off at four, and
+
+66
+00:03:01,830 --> 00:03:05,050
+then it updates to eight and so on.
+
+67
+00:03:06,870 --> 00:03:09,960
+I'm sure you came up with much more
+creative ways to play around with this
+
+68
+00:03:09,960 --> 00:03:11,300
+quantity picker.
+
+69
+00:03:11,300 --> 00:03:15,420
+Hopefully that helped you better
+understand the use of global variables.
+
+70
+00:03:15,420 --> 00:03:19,020
+But if I hit the order button,
+it doesn't show me the price for
+
+71
+00:03:19,020 --> 00:03:21,200
+that number of coffees ordered.
+
+72
+00:03:21,200 --> 00:03:22,430
+Let's fix that in the next video.

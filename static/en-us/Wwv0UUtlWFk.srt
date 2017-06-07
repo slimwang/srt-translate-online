@@ -1,0 +1,198 @@
+1
+00:00:00,380 --> 00:00:03,810
+Since the physical memory is much
+smaller than the addressable
+
+2
+00:00:03,810 --> 00:00:05,260
+virtual memory,
+
+3
+00:00:05,260 --> 00:00:10,600
+allocated pages don't always have to be
+present in physical memory, in theorem.
+
+4
+00:00:10,600 --> 00:00:15,770
+Instead, the backing physical page
+frame can be repeatedly saved and
+
+5
+00:00:15,770 --> 00:00:20,435
+restored to and from some secondary
+storage, like disks, for instance.
+
+6
+00:00:20,435 --> 00:00:24,280
+And this process is referred to
+as paging or demand paging, and
+
+7
+00:00:24,280 --> 00:00:29,460
+traditionally with demand paging,
+pages are moved between main memory and
+
+8
+00:00:29,460 --> 00:00:34,290
+a storage device such as disk,
+where a swap partition resides.
+
+9
+00:00:34,290 --> 00:00:38,910
+In addition to disk, the swap partition
+can be on another type of storage medium
+
+10
+00:00:38,910 --> 00:00:43,610
+like a flash device, or it could even
+sit in the memory of another node.
+
+11
+00:00:43,610 --> 00:00:45,610
+Let's see how paging works.
+
+12
+00:00:45,610 --> 00:00:47,930
+When a page is not present in memory,
+
+13
+00:00:47,930 --> 00:00:52,600
+it has its present bit in the page
+table entry that's set to zero.
+
+14
+00:00:52,600 --> 00:00:57,180
+When there is a reference to that page,
+then the memory management unit will
+
+15
+00:00:57,180 --> 00:01:01,910
+raise an exception, and that will cause
+a trap into the operating system kernel.
+
+16
+00:01:01,910 --> 00:01:06,370
+On an access, the memory management
+unit will raise an exception, that's
+
+17
+00:01:06,370 --> 00:01:10,290
+called the page fault, and this will
+be pushed into the operating system.
+
+18
+00:01:10,290 --> 00:01:13,070
+So it will trap into
+the operating system kernel.
+
+19
+00:01:13,070 --> 00:01:13,720
+At that point,
+
+20
+00:01:13,720 --> 00:01:17,500
+the OS kernel can determine that
+this exception is a page fault.
+
+21
+00:01:17,500 --> 00:01:23,800
+It can determine that it had previously
+swapped out this memory page onto disk.
+
+22
+00:01:23,800 --> 00:01:28,180
+It can establish what is the correct
+disk access that needs to be performed.
+
+23
+00:01:28,180 --> 00:01:31,700
+And it will issue an I operation
+to retrieve this page.
+
+24
+00:01:31,700 --> 00:01:34,570
+Once this page is brought into memory,
+
+25
+00:01:34,570 --> 00:01:39,690
+the OS will determine a free frame
+where this page can be placed.
+
+26
+00:01:39,690 --> 00:01:44,950
+And it can use the page frame number for
+that page to appropriately update
+
+27
+00:01:44,950 --> 00:01:51,040
+the page table entry that corresponds
+to the virtual address of that page.
+
+28
+00:01:51,040 --> 00:01:55,110
+At that point, control is pushed back
+into the process that caused this
+
+29
+00:01:55,110 --> 00:02:00,150
+reference, and the program counter will
+be restarted with the same instructions,
+
+30
+00:02:00,150 --> 00:02:03,220
+so that this reference
+will now be made again.
+
+31
+00:02:03,220 --> 00:02:06,510
+Except at this point,
+the page table will find a valid
+
+32
+00:02:06,510 --> 00:02:10,840
+entry with a reference to this
+particular physical location.
+
+33
+00:02:10,840 --> 00:02:13,970
+Note the the original
+physical address of this page
+
+34
+00:02:13,970 --> 00:02:17,370
+will very likely be different
+from its physical address
+
+35
+00:02:17,370 --> 00:02:21,670
+that was established after this
+demand paging process was over.
+
+36
+00:02:21,670 --> 00:02:27,330
+If, for whatever reason, we require a
+page to be constantly present in memory,
+
+37
+00:02:27,330 --> 00:02:33,080
+or if we require it to maintain the same
+physical address during its lifetime,
+
+38
+00:02:33,080 --> 00:02:35,760
+then we will have to pin the page, and
+
+39
+00:02:35,760 --> 00:02:38,990
+at that point we basically
+disable the swapping.
+
+40
+00:02:38,990 --> 00:02:42,470
+This is, for instance,
+useful when the CPU is interacting
+
+41
+00:02:42,470 --> 00:02:46,710
+with devices that support direct
+memory access support, or DMA.

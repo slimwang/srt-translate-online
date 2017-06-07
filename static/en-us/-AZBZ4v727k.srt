@@ -1,0 +1,127 @@
+1
+00:00:00,150 --> 00:00:01,790
+Let's see what we mean by this.
+
+2
+00:00:01,790 --> 00:00:05,670
+Let's assume the operating system manages two processes, P1 and P2.
+
+3
+00:00:06,730 --> 00:00:10,450
+It has already created them and their Process Control Blocks, and
+
+4
+00:00:10,450 --> 00:00:13,350
+these Process Control Blocks are stored somewhere in memory.
+
+5
+00:00:13,350 --> 00:00:18,970
+Let's say P1 is currently running on the CPU, and P2 is idle.
+
+6
+00:00:18,970 --> 00:00:24,170
+What this means, that P1 is running, is that the CPU registers currently
+
+7
+00:00:24,170 --> 00:00:28,340
+hold a value that correspond to the state of P1.
+
+8
+00:00:28,340 --> 00:00:32,560
+So, they will ultimately need to be stored in PCB of P1.
+
+9
+00:00:32,560 --> 00:00:33,350
+Then at some point,
+
+10
+00:00:33,350 --> 00:00:39,700
+the operating system decides to interrupt P1, so P1 will become idle.
+
+11
+00:00:39,700 --> 00:00:41,480
+Now, what the operating system has to do,
+
+12
+00:00:41,480 --> 00:00:46,650
+it has to save all the state information regarding P1,
+
+13
+00:00:46,650 --> 00:00:52,190
+including the CPU registers, into the Process Control Block for P1.
+
+14
+00:00:52,190 --> 00:00:56,330
+Next, the operating system must restore the state about process 2 so
+
+15
+00:00:56,330 --> 00:00:58,570
+that process 2 can execute.
+
+16
+00:00:58,570 --> 00:01:02,450
+What that means is that it has to update the CPU registers with
+
+17
+00:01:02,450 --> 00:01:07,810
+values that correspond to those of the Program Control Block for process 2.
+
+18
+00:01:07,810 --> 00:01:12,090
+If at some point during its execution, P2 needs more physical memory,
+
+19
+00:01:12,090 --> 00:01:15,945
+it will make a request via the malloc call, for instance.
+
+20
+00:01:15,945 --> 00:01:19,020
+And the operating system will allocate that memory and
+
+21
+00:01:19,020 --> 00:01:22,130
+establish new virtual to physical address mappings for
+
+22
+00:01:22,130 --> 00:01:27,510
+P2, and update as appropriate the control block data structure for process P2.
+
+23
+00:01:27,510 --> 00:01:31,790
+When P2 is done executing, or when the operating system decides to interrupt P2,
+
+24
+00:01:31,790 --> 00:01:37,530
+it will save all the information regarding P2 state in the Process Control Block
+
+25
+00:01:37,530 --> 00:01:41,560
+for P2, and then it will restore the Process Control Block for P1.
+
+26
+00:01:42,780 --> 00:01:49,200
+P1 will now be running, and the CPU registers will reflect the state of P1.
+
+27
+00:01:49,200 --> 00:01:51,880
+Given that the value of the Process Control Block for
+
+28
+00:01:51,880 --> 00:01:57,550
+P1 corresponds exactly to the values it had when we interrupted
+
+29
+00:01:57,550 --> 00:02:02,920
+P1 earlier, that means that P1 will resume its execution at
+
+30
+00:02:02,920 --> 00:02:07,720
+the exact same point where it was interrupted earlier by the operating system.
+
+31
+00:02:07,720 --> 00:02:12,330
+Each time the swapping between processes is performed,
+
+32
+00:02:12,330 --> 00:02:16,040
+the operating system performs what we call context switch.

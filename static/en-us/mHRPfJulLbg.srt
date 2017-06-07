@@ -1,0 +1,178 @@
+1
+00:00:00,690 --> 00:00:03,392
+If your app is accepting requests
+from an authenticated user,
+
+2
+00:00:03,392 --> 00:00:07,290
+you want to be sure that it's actually
+the user who came up with that request
+
+3
+00:00:07,290 --> 00:00:09,035
+and it isn't someone tricking
+them into sending it.
+
+4
+00:00:09,035 --> 00:00:13,000
+Anti-forgery state tokens protect
+the security of your users
+
+5
+00:00:13,000 --> 00:00:15,620
+by preventing anti-forgery
+request attacks.
+
+6
+00:00:15,620 --> 00:00:18,210
+The first step to protecting
+against this type of attack
+
+7
+00:00:18,210 --> 00:00:22,200
+is by creating a unique session token
+that your client side code returns
+
+8
+00:00:22,200 --> 00:00:24,550
+alongside the Google
+generated authorization code.
+
+9
+00:00:24,550 --> 00:00:28,064
+In later steps, you will verify this
+unique session token with your server
+
+10
+00:00:28,064 --> 00:00:31,297
+when a request is made to verify that
+the user is making the request and
+
+11
+00:00:31,297 --> 00:00:32,500
+not a malicious script.
+
+12
+00:00:32,500 --> 00:00:35,810
+Let's go ahead and open our
+applications project.pie file and
+
+13
+00:00:35,810 --> 00:00:39,250
+add a few new lines in order to
+generate our unique session tokens.
+
+14
+00:00:39,250 --> 00:00:43,390
+I first need to make a few imports
+in order to add this functionality.
+
+15
+00:00:43,390 --> 00:00:47,060
+I already used the word session in this
+code to refer to my database sessions
+
+16
+00:00:47,060 --> 00:00:48,480
+with SQLAlchemy.
+
+17
+00:00:48,480 --> 00:00:51,190
+So, let's go ahead and
+import flask version of sessions and
+
+18
+00:00:51,190 --> 00:00:54,920
+name it login_session using
+the as keyword in python.
+
+19
+00:00:54,920 --> 00:00:57,650
+This login_section object
+works like a dictionary.
+
+20
+00:00:57,650 --> 00:00:58,830
+We can store values in it for
+
+21
+00:00:58,830 --> 00:01:01,450
+the longevity of a user's
+session with our server.
+
+22
+00:01:01,450 --> 00:01:04,830
+I'm also going to import the random and
+string python libraries,
+
+23
+00:01:04,830 --> 00:01:09,150
+which I'll use to create a pseudo-random
+string that will identify each session.
+
+24
+00:01:09,150 --> 00:01:11,680
+Now let's create a new routing path and
+call it /login.
+
+25
+00:01:11,680 --> 00:01:17,020
+I will then create a showLogin function
+that creates a state variable.
+
+26
+00:01:17,020 --> 00:01:21,770
+State will be 32 characters long, and be
+a mix of uppercase letters and digits.
+
+27
+00:01:22,890 --> 00:01:25,410
+Now, let's store state in
+our login_session object
+
+28
+00:01:25,410 --> 00:01:26,350
+under the name state.
+
+29
+00:01:27,460 --> 00:01:31,150
+To see what our state looks like,
+we can return the following string.
+
+30
+00:01:31,150 --> 00:01:34,340
+Now, if we save and visit our
+/login page in our application,
+
+31
+00:01:34,340 --> 00:01:36,480
+we get something that looks like this.
+
+32
+00:01:36,480 --> 00:01:37,505
+Each time we refresh,
+
+33
+00:01:37,505 --> 00:01:41,180
+we're generating a new state variable
+that we are passing on to the client.
+
+34
+00:01:41,180 --> 00:01:44,370
+For cross-site request forgery, the
+attacker would essentially have to guess
+
+35
+00:01:44,370 --> 00:01:47,570
+this code in order to make
+a request on the user's behalf.
+
+36
+00:01:47,570 --> 00:01:50,500
+Later on, we will check to make sure
+the user and the login sessions still
+
+37
+00:01:50,500 --> 00:01:53,310
+have the same state value when
+a user tries to authenticate.

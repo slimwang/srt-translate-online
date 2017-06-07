@@ -1,0 +1,413 @@
+1
+00:00:00,550 --> 00:00:01,870
+Here's how I solved the problem.
+
+2
+00:00:03,000 --> 00:00:05,340
+Since I know the settings
+view is an instance of
+
+3
+00:00:05,340 --> 00:00:10,200
+the breakpointsettingsviewcontroller,
+I'll start by examining that swift file.
+
+4
+00:00:10,200 --> 00:00:12,700
+And if I look over the class,
+my guess is,
+
+5
+00:00:12,700 --> 00:00:17,210
+is that the problem could be occurring
+in both the dismissSettingsTouched or
+
+6
+00:00:17,210 --> 00:00:19,760
+even the bugTypeSelected methods.
+
+7
+00:00:19,760 --> 00:00:21,400
+One of these two.
+
+8
+00:00:21,400 --> 00:00:24,910
+But to be sure, let's set a breakpoint
+in each of these methods to make sure
+
+9
+00:00:24,910 --> 00:00:27,380
+that they are actually
+being called first.
+
+10
+00:00:27,380 --> 00:00:32,310
+Set the breakpoints and I'll go back
+to the app > run it > breakpoint
+
+11
+00:00:32,310 --> 00:00:37,220
+debugging > go to settings > and
+I'll tap the red spider.
+
+12
+00:00:37,220 --> 00:00:39,930
+And we dropped right into
+the bug type selected method.
+
+13
+00:00:41,440 --> 00:00:43,040
+So, it's a little strange.
+
+14
+00:00:43,040 --> 00:00:47,345
+If this methods being called, then why
+is the view itself not being dismissed?
+
+15
+00:00:47,345 --> 00:00:50,910
+because it has it's call to
+dismiss view controller animated.
+
+16
+00:00:50,910 --> 00:00:55,850
+Well one thing I do know is that if
+this method dismiss view controller
+
+17
+00:00:55,850 --> 00:00:59,650
+animator is being called,
+it's not causing any type of crash.
+
+18
+00:00:59,650 --> 00:01:02,110
+So it's being called
+without any side effects.
+
+19
+00:01:02,110 --> 00:01:04,450
+So that's not the worst
+thing that can happen, but
+
+20
+00:01:04,450 --> 00:01:08,280
+by the fact that we're not dismissing
+the view, we still have a bug.
+
+21
+00:01:08,280 --> 00:01:10,430
+So let's read a little bit
+more about this method and
+
+22
+00:01:10,430 --> 00:01:12,290
+see if it tells us anything.
+
+23
+00:01:12,290 --> 00:01:15,707
+If I hold down the option key and
+then click the methods name,
+
+24
+00:01:15,707 --> 00:01:19,350
+then Xcode will display
+a pop-up describing the method.
+
+25
+00:01:19,350 --> 00:01:22,930
+And it says that the method dismisses
+the ViewController that was presented
+
+26
+00:01:22,930 --> 00:01:25,080
+modally by the receiver.
+
+27
+00:01:25,080 --> 00:01:28,450
+That sounds reasonable, but
+we can dig a little bit further.
+
+28
+00:01:28,450 --> 00:01:33,390
+I will click the UIViewController
+Class Reference to open up the docs
+
+29
+00:01:33,390 --> 00:01:35,330
+about this particular class.
+
+30
+00:01:35,330 --> 00:01:36,420
+And here I can search and
+
+31
+00:01:36,420 --> 00:01:41,000
+read more about this particular, where
+are we, dismissViewControllerAnimated.
+
+32
+00:01:42,090 --> 00:01:45,450
+Now while I'm searching for this, I also
+want to make sure that everyone knows
+
+33
+00:01:45,450 --> 00:01:47,220
+you can find this information online or
+
+34
+00:01:47,220 --> 00:01:50,170
+your could use a documentation
+tool like Dash.
+
+35
+00:01:50,170 --> 00:01:53,980
+Dash is a wildly used
+documentation viewer.
+
+36
+00:01:53,980 --> 00:01:58,100
+It's useful for other languages
+other than just Swift and frameworks
+
+37
+00:01:58,100 --> 00:02:02,710
+like the IOS frameworks and such, and
+I posted a link to the Dash website, and
+
+38
+00:02:02,710 --> 00:02:04,670
+the instructor notes
+if you're interested.
+
+39
+00:02:04,670 --> 00:02:08,910
+Now if I go to the dismiss
+view controller and
+
+40
+00:02:08,910 --> 00:02:11,830
+scroll down to the Discussion area.
+
+41
+00:02:11,830 --> 00:02:14,930
+You can see that it mentions that
+
+42
+00:02:14,930 --> 00:02:18,210
+if you call this method on
+the presented view controller itself,
+
+43
+00:02:18,210 --> 00:02:22,760
+it automatically forwards the message
+to the presenting view controller.
+
+44
+00:02:22,760 --> 00:02:24,560
+Now this kind of makes me curious.
+
+45
+00:02:24,560 --> 00:02:28,060
+Which view controller is actually
+presenting the settings view?
+
+46
+00:02:29,070 --> 00:02:34,670
+So we'll go back to our code, and we'll
+look at the self in the variables view
+
+47
+00:02:34,670 --> 00:02:39,010
+because self is what we're using to make
+this dismissViewControllerAnimated call.
+
+48
+00:02:40,230 --> 00:02:42,100
+In the Search box of the variables view,
+
+49
+00:02:42,100 --> 00:02:46,830
+I'll type in the word viewController
+to filter our results.
+
+50
+00:02:48,480 --> 00:02:53,033
+Here if we click through the drop downs,
+we can see that it has a parent view
+
+51
+00:02:53,033 --> 00:02:58,270
+controller, maybe that's it,
+it says UI navigation controller.
+
+52
+00:02:58,270 --> 00:03:01,490
+But, I also know based on the quick
+description that we read,
+
+53
+00:03:01,490 --> 00:03:04,380
+it mentioned something about
+presenting things modally.
+
+54
+00:03:04,380 --> 00:03:07,940
+And our parent modal view
+controller is currently set to 0X0,
+
+55
+00:03:07,940 --> 00:03:14,540
+which is really just a special
+address meaning null or nil.
+
+56
+00:03:14,540 --> 00:03:19,060
+So let's go over to the story board and
+see how this thing is being presented.
+
+57
+00:03:19,060 --> 00:03:24,723
+Zoom out a little bit, and if we look
+at the breakpoint bug view controller,
+
+58
+00:03:24,723 --> 00:03:26,860
+see that it has a segue here.
+
+59
+00:03:26,860 --> 00:03:33,360
+And the segue that's presenting this is
+a show segue which is not quite right.
+
+60
+00:03:33,360 --> 00:03:37,440
+This should be a modal segue
+based on what we're reading.
+
+61
+00:03:37,440 --> 00:03:40,970
+In order for
+it to work correctly with the self
+
+62
+00:03:40,970 --> 00:03:44,180
+dismiss view controller
+animated method that we saw.
+
+63
+00:03:44,180 --> 00:03:46,030
+So let's try changing this to modal.
+
+64
+00:03:47,130 --> 00:03:50,730
+You may have caught on too if you can
+see the icons here are different.
+
+65
+00:03:50,730 --> 00:03:55,540
+So like the icon for the previous
+one which worked fine was modal or
+
+66
+00:03:55,540 --> 00:03:58,050
+we can assume that it's because
+of this present modally.
+
+67
+00:03:58,050 --> 00:04:01,200
+If we made it show and made it modal.
+
+68
+00:04:01,200 --> 00:04:01,700
+There we go.
+
+69
+00:04:02,910 --> 00:04:07,460
+So this seems like it may be our fix,
+and we'll go ahead and try it.
+
+70
+00:04:07,460 --> 00:04:10,500
+So now, if I go to settings,
+I'll tap one of the bugs.
+
+71
+00:04:12,793 --> 00:04:13,610
+What has happened?
+
+72
+00:04:15,200 --> 00:04:17,300
+Okay, we still have one of
+our breakpoints actives, so
+
+73
+00:04:17,300 --> 00:04:19,350
+let's make these inactive.
+
+74
+00:04:20,459 --> 00:04:23,070
+Sorry, I'm hiding a lot
+of different things here.
+
+75
+00:04:23,070 --> 00:04:26,680
+Just try to get my environment
+the way I want it.
+
+76
+00:04:26,680 --> 00:04:28,050
+And we'll click continue.
+
+77
+00:04:28,050 --> 00:04:31,380
+And it looked like it
+dismissed just fine.
+
+78
+00:04:31,380 --> 00:04:33,100
+Try that again.
+
+79
+00:04:36,430 --> 00:04:39,280
+And it looks like we've found and
+fixed our problem.
+
+80
+00:04:39,280 --> 00:04:42,230
+Now, before we move ahead,
+I want you to ask yourself how hard is
+
+81
+00:04:42,230 --> 00:04:44,795
+might've been if we used
+only print statements.
+
+82
+00:04:44,795 --> 00:04:48,970
+You'd see that breakpoints and also
+a good skimming of the documentation
+
+83
+00:04:48,970 --> 00:04:52,540
+can give us a lot more power and
+flexibility to solve our problems
+
+84
+00:04:52,540 --> 00:04:56,080
+than the print statements
+that we use by themselves.
+
+85
+00:04:56,080 --> 00:04:58,720
+Also, anytime you're
+handed a new project,
+
+86
+00:04:58,720 --> 00:05:01,930
+using breakpoints like this to
+step through each line of code
+
+87
+00:05:01,930 --> 00:05:04,530
+is a really good way to
+understand how something works.

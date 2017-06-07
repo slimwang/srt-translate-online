@@ -1,0 +1,345 @@
+1
+00:00:00,390 --> 00:00:03,330
+After the test has been implemented and
+we've collected all the data
+
+2
+00:00:03,330 --> 00:00:08,070
+form the experiment, we can begin
+preparing the data for analysis.
+
+3
+00:00:08,070 --> 00:00:12,500
+First, we'll clean the data to
+remove unwanted data points.
+
+4
+00:00:12,500 --> 00:00:16,050
+Next, we'll calculate lift, or
+difference in observations,
+
+5
+00:00:16,050 --> 00:00:18,110
+from treatment to control group.
+
+6
+00:00:18,110 --> 00:00:21,110
+And lastly,
+we'll communicate our results.
+
+7
+00:00:21,110 --> 00:00:24,100
+Cleaning data to remove
+unwanted data points is related
+
+8
+00:00:24,100 --> 00:00:26,200
+only to control variables.
+
+9
+00:00:26,200 --> 00:00:30,770
+It's unethical to remove data for
+reasons other than for control purposes.
+
+10
+00:00:30,770 --> 00:00:34,440
+In the website optimization experiment,
+we want to prepare the data
+
+11
+00:00:34,440 --> 00:00:38,600
+such that each individual IP
+address is only shown once.
+
+12
+00:00:38,600 --> 00:00:41,190
+We'll consolidate records
+to accomplish this, and
+
+13
+00:00:41,190 --> 00:00:43,780
+possibly even remove some outliers.
+
+14
+00:00:43,780 --> 00:00:47,920
+Second, we need to remove data for
+users who already have an account, and
+
+15
+00:00:47,920 --> 00:00:51,440
+would not need to sign up for an account
+since they wouldn't click on the link.
+
+16
+00:00:51,440 --> 00:00:53,240
+And this would skew the data.
+
+17
+00:00:53,240 --> 00:00:57,300
+We are interested in the propensity of
+users who do not have loyalty accounts
+
+18
+00:00:57,300 --> 00:00:58,970
+in clicking on the link.
+
+19
+00:00:58,970 --> 00:01:00,640
+Let's demonstrate how
+we'll prepare our data.
+
+20
+00:01:02,000 --> 00:01:04,530
+Let's create an Alteryx workflow and
+import the data
+
+21
+00:01:04,530 --> 00:01:09,430
+in the grocery website AB test data
+file using the Input Data tool.
+
+22
+00:01:09,430 --> 00:01:11,290
+We're also going to
+add a Browse tool and
+
+23
+00:01:11,290 --> 00:01:14,060
+run the workflow to take
+a look at our data.
+
+24
+00:01:14,060 --> 00:01:16,153
+Before we start preparing the data,
+
+25
+00:01:16,153 --> 00:01:19,470
+it's a good idea to ensure we
+understand the data we have.
+
+26
+00:01:19,470 --> 00:01:23,382
+The RecordID is just
+the identifier of the row of data.
+
+27
+00:01:23,382 --> 00:01:27,830
+And the IP Address is the address of
+the user who is visiting our website.
+
+28
+00:01:27,830 --> 00:01:31,952
+The LoggedinFlag is 1 if the user
+has an account and is logged in.
+
+29
+00:01:31,952 --> 00:01:35,218
+And the ServerID is one of the three
+servers that the user was routed
+
+30
+00:01:35,218 --> 00:01:36,400
+through.
+
+31
+00:01:36,400 --> 00:01:39,940
+Remember that ServerID 2 and
+3 represent the control group, and
+
+32
+00:01:39,940 --> 00:01:42,460
+ServerID 1 is the treatment group.
+
+33
+00:01:42,460 --> 00:01:45,230
+The last column, VisitPageFlag, is 1 if
+
+34
+00:01:45,230 --> 00:01:49,000
+the user clicked on the page with
+information about the loyalty program.
+
+35
+00:01:49,000 --> 00:01:53,350
+Users may have visited the site multiple
+times during the treatment period.
+
+36
+00:01:53,350 --> 00:01:57,736
+An IP address is always routed to the
+same server, so an IP address cannot be
+
+37
+00:01:57,736 --> 00:02:00,952
+in both treatment and
+control groups at the same time.
+
+38
+00:02:00,952 --> 00:02:04,566
+For this experiment, let's say that
+if a user ever clicked through,
+
+39
+00:02:04,566 --> 00:02:05,921
+we will count them as a 1.
+
+40
+00:02:05,921 --> 00:02:08,850
+And if they never did,
+they will be counted as a 0.
+
+41
+00:02:08,850 --> 00:02:11,960
+Since the data we imported
+is in a CSV file,
+
+42
+00:02:11,960 --> 00:02:14,260
+all the fields will
+be loaded as strings.
+
+43
+00:02:14,260 --> 00:02:17,210
+We'll convert the VisitPageFlag
+to a numeric value to
+
+44
+00:02:17,210 --> 00:02:19,630
+simplify our data preparation.
+
+45
+00:02:19,630 --> 00:02:23,230
+Let's add a Select tool and change
+the data type of the VisitPageFlag
+
+46
+00:02:23,230 --> 00:02:27,490
+to integer 16,
+since the value is always 1 or 0.
+
+47
+00:02:27,490 --> 00:02:31,940
+Now, we can use a Summarize tool and
+easily group all the rows of data by
+
+48
+00:02:31,940 --> 00:02:37,317
+IP Address, ServerID, and LoggedinFlag,
+while summing the VisitPageFlag field.
+
+49
+00:02:39,750 --> 00:02:44,710
+The Sum_VisitPageFlag field will be 0 if
+the user has never clicked on a link,
+
+50
+00:02:44,710 --> 00:02:46,520
+and 1 or more if they have.
+
+51
+00:02:46,520 --> 00:02:49,920
+This will result in consolidating
+the data such that there is only
+
+52
+00:02:49,920 --> 00:02:51,950
+one line per IP address.
+
+53
+00:02:51,950 --> 00:02:57,290
+Now, we can use a simple formula to
+create a flag with the 1 and 0 values.
+
+54
+00:02:57,290 --> 00:03:02,678
+Adding the formula tool onto the canvas
+will create a new integer field named
+
+55
+00:03:02,678 --> 00:03:07,811
+visitflag and use the formula if some
+visitflag field is not equal to 0,
+
+56
+00:03:07,811 --> 00:03:10,260
+then 1, otherwise 0.
+
+57
+00:03:10,260 --> 00:03:13,540
+We are taking this step in case there
+are IP addresses with more than one
+
+58
+00:03:13,540 --> 00:03:13,799
+visit.
+
+59
+00:03:14,980 --> 00:03:18,570
+Let's also create a new field to
+identify the group the IP address falls
+
+60
+00:03:18,570 --> 00:03:19,640
+into.
+
+61
+00:03:19,640 --> 00:03:22,666
+We'll create a new string field
+named Group with the formula,
+
+62
+00:03:22,666 --> 00:03:27,440
+if ServerID equals 1,
+then treatment, otherwise control.
+
+63
+00:03:27,440 --> 00:03:32,320
+Next, we need to filter out all the data
+where the user already has an account.
+
+64
+00:03:32,320 --> 00:03:36,360
+Let's remove all records where
+the LoggedinFlag field equals 1 using
+
+65
+00:03:36,360 --> 00:03:37,750
+the Filter tool.
+
+66
+00:03:37,750 --> 00:03:42,492
+We can use a basic filter where
+the LoggedinFlag does not equal 1.
+
+67
+00:03:42,492 --> 00:03:44,922
+We'll add a Browse tool
+to the t output and
+
+68
+00:03:44,922 --> 00:03:47,910
+run the workflow to look at our results.
+
+69
+00:03:47,910 --> 00:03:50,520
+Looking at our data,
+we are ready for analysis.
+
+70
+00:03:50,520 --> 00:03:54,080
+We have the data indicating the group
+the visitor is in, whether or
+
+71
+00:03:54,080 --> 00:03:57,200
+not they visited the page
+by clicking on the link.
+
+72
+00:03:57,200 --> 00:04:00,060
+We don't have any people
+who have logged in.
+
+73
+00:04:00,060 --> 00:04:01,760
+And we only have one row per visitor.

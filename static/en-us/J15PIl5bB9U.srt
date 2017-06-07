@@ -1,0 +1,185 @@
+﻿1
+00:00:00,610 --> 00:00:03,468
+Here are the steps that you'll
+be implementing for signing in.
+
+2
+00:00:03,468 --> 00:00:06,689
+It's a little bit involved, so
+let's go through each step one by one.
+
+3
+00:00:06,689 --> 00:00:07,570
+First things first,
+
+4
+00:00:07,570 --> 00:00:11,000
+you'll add the correct dependencies
+to friendly chat for authentication.
+
+5
+00:00:11,000 --> 00:00:14,949
+Second, you'll add a special listener
+which is called an AuthStateListener.
+
+6
+00:00:14,949 --> 00:00:18,839
+This listener is triggered when
+the user's authentication state changes.
+
+7
+00:00:18,839 --> 00:00:21,660
+An authentication state change
+is something like signing in or
+
+8
+00:00:21,660 --> 00:00:22,750
+logging out.
+
+9
+00:00:22,750 --> 00:00:26,429
+Third, now that you have this listener,
+you can redirect the user to log in
+
+10
+00:00:26,429 --> 00:00:28,539
+if they've opened the app and
+they're not already logged in.
+
+11
+00:00:29,839 --> 00:00:30,669
+At this point,
+
+12
+00:00:30,670 --> 00:00:33,950
+you'll basically have an app that
+detects if the user is logged in or not.
+
+13
+00:00:33,950 --> 00:00:36,270
+And if they're not logged in,
+it'll force them to log in.
+
+14
+00:00:37,380 --> 00:00:40,730
+For step four, the log code which
+changes the UI to reflect whether
+
+15
+00:00:40,729 --> 00:00:43,219
+the user is logged in or logged out.
+
+16
+00:00:43,219 --> 00:00:45,299
+That change comes in two parts.
+
+17
+00:00:45,299 --> 00:00:48,099
+When the user is logged in, you'll
+have the access to their user name.
+
+18
+00:00:48,100 --> 00:00:50,880
+So you can use it when they're
+writing messages to the Database.
+
+19
+00:00:50,880 --> 00:00:53,830
+You can also attach the Database
+read messenger at this point.
+
+20
+00:00:53,829 --> 00:00:57,509
+You'll only attach the Database read
+listeners after user is sign in.
+
+21
+00:00:57,509 --> 00:01:00,989
+This is because unauthenticated user
+doesn't have permission to read from
+
+22
+00:01:00,990 --> 00:01:02,170
+the Database.
+
+23
+00:01:02,170 --> 00:01:05,739
+And when a user signs out, they'll tear
+down what you set up in the sign in
+
+24
+00:01:05,739 --> 00:01:10,189
+which will mean things like unsaving
+the user name of the signed out user.
+
+25
+00:01:10,189 --> 00:01:13,549
+You'll unset the user name of
+the user that just signed out.
+
+26
+00:01:13,549 --> 00:01:17,379
+You'll detach your database listeners,
+and you'll clear the message list.
+
+27
+00:01:17,379 --> 00:01:20,890
+And after all that's done you'll
+open up the sign in flow again.
+
+28
+00:01:20,890 --> 00:01:22,750
+Okay, onward to the code.
+
+29
+00:01:22,750 --> 00:01:24,930
+The first step is to add
+the appropriate dependency.
+
+30
+00:01:26,000 --> 00:01:28,319
+Here is the dependency for
+authentication.
+
+31
+00:01:28,319 --> 00:01:32,779
+So if you're using any kind of firebase
+oath, you'll need this dependency.
+
+32
+00:01:32,780 --> 00:01:35,790
+Ill go ahead and add that to my apps
+bill dot great file right down here.
+
+33
+00:01:37,230 --> 00:01:41,340
+Since you're also using Firebase UIR,
+you'll need that dependency as well.
+
+34
+00:01:41,340 --> 00:01:43,070
+Okay, so there are my new dependencies.
+
+35
+00:01:43,069 --> 00:01:45,439
+I'm going to go ahead and synch.
+
+36
+00:01:45,439 --> 00:01:48,689
+Remember to check that the Firebase UI
+version that you're using
+
+37
+00:01:48,689 --> 00:01:51,259
+matches the Firebase SDK
+version that you're using.
+
+38
+00:01:52,349 --> 00:01:55,269
+All right, now that you've added your
+dependencies you're ready to get coding.
+
+39
+00:01:55,269 --> 00:01:56,099
+So let's get to it.
+

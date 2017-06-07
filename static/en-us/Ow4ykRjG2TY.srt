@@ -1,0 +1,294 @@
+1
+00:00:00,240 --> 00:00:03,390
+Remember that when you create an
+activity it moves through the life cycle
+
+2
+00:00:03,390 --> 00:00:08,050
+stages of first being created,
+started and then resumed.
+
+3
+00:00:08,050 --> 00:00:10,150
+And then the user can
+interact with the activity.
+
+4
+00:00:11,180 --> 00:00:14,870
+When the user moves away from the
+activity, it moves into the paused and
+
+5
+00:00:14,870 --> 00:00:16,178
+then stop state.
+
+6
+00:00:16,178 --> 00:00:19,370
+If the system kills the activity
+because it's no longer needed,
+
+7
+00:00:19,370 --> 00:00:21,480
+then it moves into the destroyed state.
+
+8
+00:00:21,480 --> 00:00:24,430
+So since the onDestroy
+method may not be called,
+
+9
+00:00:24,430 --> 00:00:29,150
+we can only be sure that the onPause and
+onStop methods will be called.
+
+10
+00:00:29,150 --> 00:00:31,080
+So let's revisit the documentation for
+
+11
+00:00:31,080 --> 00:00:34,550
+the release method within
+the Media Player class.
+
+12
+00:00:34,550 --> 00:00:39,010
+So here it says that when an activity
+is paused via the on paused method or
+
+13
+00:00:39,010 --> 00:00:41,980
+stopped via the on stop method,
+then this method
+
+14
+00:00:41,980 --> 00:00:45,670
+our release method is called in order
+to release the Media Player object.
+
+15
+00:00:45,670 --> 00:00:48,700
+So in this case either activity
+lifecycle method is fine.
+
+16
+00:00:48,700 --> 00:00:51,260
+Either the on pause method or
+on stop method.
+
+17
+00:00:51,260 --> 00:00:53,700
+Because you only need to
+release it just once.
+
+18
+00:00:53,700 --> 00:00:57,320
+So we'll choose to release our
+resources in the on stop method.
+
+19
+00:00:57,320 --> 00:01:00,710
+So when activity is fully hidden from
+the user, we'll release the media
+
+20
+00:01:00,710 --> 00:01:03,620
+resources, even if it hasn't finished
+playing the current audio file.
+
+21
+00:01:03,620 --> 00:01:06,270
+All right, so let's make those
+code changes in our app now.
+
+22
+00:01:06,270 --> 00:01:10,090
+So here are numbers activity, down right
+before the release Media Player method.
+
+23
+00:01:10,090 --> 00:01:14,360
+I'm going to override the on stop
+activity lifecycle callback method.
+
+24
+00:01:14,360 --> 00:01:17,840
+So remember that will never we overwrite
+an activity life cycle method as shown
+
+25
+00:01:17,840 --> 00:01:20,850
+here we should call this super
+class version of that method.
+
+26
+00:01:20,850 --> 00:01:24,820
+So what I've done here with super.onStop
+because the activity knows how to handle
+
+27
+00:01:24,820 --> 00:01:28,030
+stopping activity and doing other
+behind the scenes cleanup work
+
+28
+00:01:28,030 --> 00:01:30,410
+that we as developers
+don't need to worry about.
+
+29
+00:01:30,410 --> 00:01:33,180
+So if you've ever tried
+commenting out this line of code
+
+30
+00:01:33,180 --> 00:01:36,110
+you'll see that the app
+will crash unexpectedly.
+
+31
+00:01:36,110 --> 00:01:36,680
+So don't do that.
+
+32
+00:01:37,790 --> 00:01:40,470
+Now here instead of just
+calling the release method
+
+33
+00:01:40,470 --> 00:01:42,070
+directly on the MediaPlayer object,
+
+34
+00:01:42,070 --> 00:01:46,910
+I'm going to call the releaseMediaPlayer
+helper method that we added earlier.
+
+35
+00:01:46,910 --> 00:01:49,540
+So the reason that we use
+the releaseMediaPlayer method instead of
+
+36
+00:01:49,540 --> 00:01:50,730
+just the release method,
+
+37
+00:01:50,730 --> 00:01:54,070
+is that this one has some actual logic
+about setting the media player variable
+
+38
+00:01:54,070 --> 00:01:57,630
+back to null if it's not currently
+configured to play a sound file.
+
+39
+00:01:57,630 --> 00:02:01,370
+In this way will consistently handle
+releasing the media player resources in
+
+40
+00:02:01,370 --> 00:02:05,150
+our activity whether it's released
+by finishing the audio file or
+
+41
+00:02:05,150 --> 00:02:08,250
+because the activity was stopped
+now only to test our device.
+
+42
+00:02:10,370 --> 00:02:12,590
+Now with this new version of
+the app running on my device,
+
+43
+00:02:12,590 --> 00:02:16,170
+when I tap into any category activity,
+let's say numbers.
+
+44
+00:02:16,170 --> 00:02:18,495
+I can play the sound for
+each word as usual.
+
+45
+00:02:18,495 --> 00:02:20,590
+>> [INAUDIBLE].
+
+46
+00:02:20,590 --> 00:02:22,400
+>> But now if I play sound and
+
+47
+00:02:22,400 --> 00:02:25,340
+then leave the app immediately by
+hitting the devices home button
+
+48
+00:02:25,340 --> 00:02:29,230
+the sound should immediately stop
+because of my code in the onstop method.
+
+49
+00:02:29,230 --> 00:02:30,555
+So as to give it a try.
+
+50
+00:02:30,555 --> 00:02:33,130
+>> [INAUDIBLE].
+
+51
+00:02:33,130 --> 00:02:35,780
+>> Nice so that's working as
+expected because remember previously
+
+52
+00:02:35,780 --> 00:02:38,570
+the pronunciation of each word
+would keep going even after I left
+
+53
+00:02:38,570 --> 00:02:42,480
+the activity and now it cuts
+off when I leave the activity.
+
+54
+00:02:42,480 --> 00:02:44,600
+So great the logic is
+working as expected.
+
+55
+00:02:44,600 --> 00:02:46,810
+So now I'm going to replicate it for
+all the other activities.
+
+56
+00:02:47,930 --> 00:02:52,660
+So here's onStop method overwritten
+in the codes activity and
+
+57
+00:02:52,660 --> 00:02:53,420
+the family activity.
+
+58
+00:02:55,300 --> 00:02:56,780
+And lastly in the phrases activity.
+
+59
+00:02:57,860 --> 00:03:00,810
+So let's run the app one more time to
+make sure all the other activities
+
+60
+00:03:00,810 --> 00:03:01,911
+are working as expected.
+
+61
+00:03:01,911 --> 00:03:06,299
+[BLANK_AUDIO]
+
+62
+00:03:06,299 --> 00:03:16,299
+[FOREIGN]

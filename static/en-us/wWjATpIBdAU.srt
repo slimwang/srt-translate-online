@@ -1,0 +1,367 @@
+1
+00:00:00,430 --> 00:00:03,310
+Let's go ahead and
+look at a tool called Memory Monitor.
+
+2
+00:00:03,310 --> 00:00:06,010
+Memory Monitor is a tool that can
+show you how your application
+
+3
+00:00:06,010 --> 00:00:07,750
+is using memory over time.
+
+4
+00:00:07,750 --> 00:00:09,090
+Let's go ahead and start it.
+
+5
+00:00:09,090 --> 00:00:10,210
+As with other demos,
+
+6
+00:00:10,210 --> 00:00:13,430
+if you want to follow along,
+make sure you start Android studio.
+
+7
+00:00:13,430 --> 00:00:15,770
+Connect the physical device,
+enable debugging,
+
+8
+00:00:15,770 --> 00:00:19,460
+and then make sure your Sunshine
+application is in the forefront.
+
+9
+00:00:19,460 --> 00:00:22,800
+So if we want to start Memory Monitor,
+we can do so through the menu, like so.
+
+10
+00:00:22,800 --> 00:00:29,450
+We're going to go to tools,
+Android, Memory Monitor.
+
+11
+00:00:29,450 --> 00:00:32,610
+Or if you have an icon here at the
+right, you can go ahead and click that.
+
+12
+00:00:32,610 --> 00:00:33,220
+So let's do that.
+
+13
+00:00:35,290 --> 00:00:38,350
+Okay, so the tool opens as a tab at
+the bottom right of your Android
+
+14
+00:00:38,350 --> 00:00:38,940
+studio window.
+
+15
+00:00:38,940 --> 00:00:42,210
+And if it finds your application, it's
+going to immediately start recording
+
+16
+00:00:42,210 --> 00:00:44,060
+memory usage right from your app.
+
+17
+00:00:44,060 --> 00:00:45,920
+Just like you should be
+seeing right about here.
+
+18
+00:00:47,150 --> 00:00:49,720
+At the top left of your
+Memory Monitor window,
+
+19
+00:00:49,720 --> 00:00:53,050
+you will be able to toggle your
+currently connected devices.
+
+20
+00:00:53,050 --> 00:00:56,510
+And on the right, you can select
+the application you want to monitor.
+
+21
+00:00:56,510 --> 00:00:59,570
+The stacked graph that takes up most
+of the window shows the total memory
+
+22
+00:00:59,570 --> 00:01:01,360
+available to your application.
+
+23
+00:01:01,360 --> 00:01:03,880
+The amount of memory that your
+application is currently using
+
+24
+00:01:03,880 --> 00:01:05,580
+is shown in dark blue.
+
+25
+00:01:05,580 --> 00:01:07,370
+And the free memory,
+or unallocated memory,
+
+26
+00:01:07,370 --> 00:01:11,220
+that's available to your application,
+is shown in light blue or light gray.
+
+27
+00:01:11,220 --> 00:01:14,680
+The graph updates continuously to
+show you changes in memory usage.
+
+28
+00:01:14,680 --> 00:01:18,140
+And it shows how much memory the app
+has available to it over time.
+
+29
+00:01:18,140 --> 00:01:20,210
+Now, in a world where your app
+isn't doing much of anything,
+
+30
+00:01:20,210 --> 00:01:22,890
+you should see a flat
+graph like this one.
+
+31
+00:01:22,890 --> 00:01:25,920
+From a performance perspective,
+this is actually an ideal scenario.
+
+32
+00:01:26,950 --> 00:01:28,530
+But as your application allocates and
+
+33
+00:01:28,530 --> 00:01:32,580
+frees memory, you'll see that the
+allocated amount changes in your graph.
+
+34
+00:01:32,580 --> 00:01:36,340
+And if your app suddenly needs a lot
+more memory, the overall memory
+
+35
+00:01:36,340 --> 00:01:40,310
+allocated for your app will also
+increase, represented by this box here.
+
+36
+00:01:40,310 --> 00:01:43,439
+Because if it didn't, your app would run
+out of memory and essentially crash.
+
+37
+00:01:44,620 --> 00:01:49,850
+Now anytime you see the allocated memory
+drop by a significant amount like here,
+
+38
+00:01:49,850 --> 00:01:53,360
+that's a pretty good signal that the
+garbage collection event has occurred.
+
+39
+00:01:53,360 --> 00:01:56,460
+Now in this example, the garbage
+collection looks pretty healthy.
+
+40
+00:01:56,460 --> 00:02:00,070
+On the other hand in this graph it looks
+like there might be some problems.
+
+41
+00:02:00,070 --> 00:02:04,895
+You see, the app allocates a lot of
+memory within a short time, then
+
+42
+00:02:04,895 --> 00:02:09,788
+frees that memory almost immediately,
+creating these narrow, skinny spikes.
+
+43
+00:02:09,788 --> 00:02:12,050
+And it does it over and over.
+
+44
+00:02:12,050 --> 00:02:14,890
+This means that your app is spending
+a lot of time garbage collecting.
+
+45
+00:02:14,890 --> 00:02:17,410
+And the more time you spend doing GCs,
+
+46
+00:02:17,410 --> 00:02:22,310
+the less time you have to do other stuff
+like rendering or streaming audio.
+
+47
+00:02:22,310 --> 00:02:24,480
+So let's see what this looks like live.
+
+48
+00:02:24,480 --> 00:02:27,870
+Okay, so here we are with memory
+monitor running on Sunshine and
+
+49
+00:02:27,870 --> 00:02:32,320
+once we start tapping on a day and then
+looking at the detail view and then say,
+
+50
+00:02:32,320 --> 00:02:35,870
+tap the back button or
+say we do this a few times.
+
+51
+00:02:35,870 --> 00:02:38,180
+We're going to see that our
+memory starts to fill up.
+
+52
+00:02:39,250 --> 00:02:40,120
+Just like around here.
+
+53
+00:02:40,120 --> 00:02:41,810
+And say we were to go ahead and
+
+54
+00:02:41,810 --> 00:02:45,160
+change the zip code a few times
+just to get some new data.
+
+55
+00:02:46,230 --> 00:02:49,030
+And go back and check out some
+more detailed weather information.
+
+56
+00:02:49,030 --> 00:02:50,930
+Cool, looks like it's going to
+be clear on Wednesday.
+
+57
+00:02:51,950 --> 00:02:53,460
+Ooh, a little rain on Friday.
+
+58
+00:02:54,500 --> 00:02:57,210
+So gradually we're seeing
+how memory is filling up.
+
+59
+00:02:57,210 --> 00:02:57,760
+And eventually,
+
+60
+00:02:57,760 --> 00:03:01,380
+it will actually grow until we actually
+have no more free memory left.
+
+61
+00:03:01,380 --> 00:03:02,700
+If we keep going, at this point,
+
+62
+00:03:02,700 --> 00:03:06,110
+a garbage collection event will be
+triggered to free up a chunk of memory.
+
+63
+00:03:06,110 --> 00:03:08,730
+You can see this drop happen right here.
+
+64
+00:03:08,730 --> 00:03:11,620
+Now remember, this does not
+free up all the memory because
+
+65
+00:03:11,620 --> 00:03:14,200
+Android's memory management
+system is generational in nature.
+
+66
+00:03:15,240 --> 00:03:19,820
+In our nifty tool, we can actually force
+individual garbage collection events.
+
+67
+00:03:19,820 --> 00:03:24,310
+There's this garbage truck tool here
+on the top-left of the Memory Monitor.
+
+68
+00:03:24,310 --> 00:03:25,050
+If you press it,
+
+69
+00:03:25,050 --> 00:03:28,160
+it's going to go ahead and trigger
+an individual garbage collection.
+
+70
+00:03:29,630 --> 00:03:32,190
+Notice what's happening here
+on the right of the graph.
+
+71
+00:03:32,190 --> 00:03:34,340
+Now, we can go ahead and
+actually press it a few times.
+
+72
+00:03:35,540 --> 00:03:37,100
+And if you do that a few more times,
+
+73
+00:03:37,100 --> 00:03:40,050
+you can free all
+the freeable memory like so.
+
+74
+00:03:40,050 --> 00:03:41,860
+And this seems to be back
+to our original state.
+
+75
+00:03:43,610 --> 00:03:46,430
+Okay, so next, we're going to
+take a look at memory leaks and
+
+76
+00:03:46,430 --> 00:03:47,800
+the heap viewer tool.
+
+77
+00:03:47,800 --> 00:03:48,350
+And finally,
+
+78
+00:03:48,350 --> 00:03:51,730
+we'll use all of these together to find
+and fix memory leaks in some real code.

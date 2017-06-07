@@ -1,0 +1,207 @@
+﻿1
+00:00:00,440 --> 00:00:04,320
+We just enabled email and password
+authentication in Friendly Chat.
+
+2
+00:00:04,320 --> 00:00:07,830
+Now, we'll make some minor adjustments
+to add Google Authentication.
+
+3
+00:00:07,830 --> 00:00:09,370
+First, we need to provide a way for
+
+4
+00:00:09,369 --> 00:00:12,099
+Friendly Chat to communicate
+with Google Authentication.
+
+5
+00:00:13,179 --> 00:00:17,189
+To do so, we must add support for
+a URL scheme to our app.
+
+6
+00:00:17,190 --> 00:00:21,400
+A URL scheme is a means and protocol for
+communication with other apps.
+
+7
+00:00:22,480 --> 00:00:24,350
+For more information on URL schemes and
+
+8
+00:00:24,350 --> 00:00:28,000
+how apps communicate,
+check out the link in the resources.
+
+9
+00:00:28,000 --> 00:00:31,160
+The URL scheme that we want to
+add is the reverse client ID,
+
+10
+00:00:31,160 --> 00:00:35,490
+which can be found in the Google
+service dash info file.
+
+11
+00:00:35,490 --> 00:00:39,600
+So let's navigate to that file and
+find the reverse client ID.
+
+12
+00:00:39,600 --> 00:00:44,399
+Copy it, and then select the friendly
+chat Swift app to see the app settings.
+
+13
+00:00:45,530 --> 00:00:49,719
+Click the info tab, go to URL types,
+and you'll see a box for
+
+14
+00:00:49,719 --> 00:00:52,299
+a URL scheme labeled reversed client ID.
+
+15
+00:00:53,320 --> 00:00:56,170
+Paste your ID into this field and
+you can leave the other fields as blank.
+
+16
+00:00:57,429 --> 00:00:59,560
+Now, Friendly Chat has
+a means of communicating
+
+17
+00:00:59,560 --> 00:01:02,179
+with Google Authentication, but
+there's still a little bit left to do.
+
+18
+00:01:03,280 --> 00:01:05,439
+Let's go back to the app
+delegate in Friendly Chat.
+
+19
+00:01:06,510 --> 00:01:09,770
+In order to use Google Authentication,
+we must provide functionality for
+
+20
+00:01:09,769 --> 00:01:12,939
+handling when the app
+transitions to a web URL.
+
+21
+00:01:12,939 --> 00:01:16,909
+Like the Google sign-in page,
+that's what this function is for.
+
+22
+00:01:16,909 --> 00:01:20,179
+We've already included the code
+to handle passing data from a URL
+
+23
+00:01:20,180 --> 00:01:22,840
+back to Friendly Chat,
+we just wanted to point that out.
+
+24
+00:01:24,030 --> 00:01:27,519
+Now we need to tell our authorization
+view controller to include Google
+
+25
+00:01:27,519 --> 00:01:30,089
+as an authorization provider.
+
+26
+00:01:30,090 --> 00:01:34,500
+Open FCViewController and add a new
+import for FirebaseGoogleAuthUI.
+
+27
+00:01:35,510 --> 00:01:38,130
+Now go back to
+the ConfigureAuth function.
+
+28
+00:01:38,129 --> 00:01:41,409
+This is where we want to specify
+authorization providers like Google.
+
+29
+00:01:42,599 --> 00:01:46,339
+The default authorization UI has an
+array called providers where we can set
+
+30
+00:01:46,340 --> 00:01:46,670
+this up.
+
+31
+00:01:47,870 --> 00:01:52,660
+To add Google, we just need to add
+the FIRGoogleAuthUI object in the array.
+
+32
+00:01:53,670 --> 00:01:54,500
+And that's it.
+
+33
+00:01:54,500 --> 00:01:56,939
+Now Fiendly Chat is enabled
+with Google Authentication.
+
+34
+00:01:58,180 --> 00:02:01,180
+Go ahead and run the app and
+you'll see the Google sign in button.
+
+35
+00:02:01,180 --> 00:02:05,000
+When we click on it we're redirected
+to the Google sign in page.
+
+36
+00:02:05,000 --> 00:02:07,519
+And I'll log in with one
+of my Google accounts.
+
+37
+00:02:07,519 --> 00:02:11,379
+Once I complete the login flow, it may
+or may not ask me to allow Friendly Chat
+
+38
+00:02:11,379 --> 00:02:14,699
+to access my email address and
+basic profile information for Google.
+
+39
+00:02:14,699 --> 00:02:17,319
+I'll go ahead and click Allow.
+
+40
+00:02:17,319 --> 00:02:19,189
+Awesome, the login flow is complete.
+
+41
+00:02:19,189 --> 00:02:22,099
+Now let's try sending a message
+with this new authenticated user.
+
+42
+00:02:24,199 --> 00:02:27,769
+And as we can see the display name for
+this message is updated since I'm using
+
+43
+00:02:27,770 --> 00:02:30,520
+my Google account instead of
+the other account we saw previously.
+

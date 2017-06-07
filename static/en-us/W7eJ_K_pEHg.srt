@@ -1,0 +1,491 @@
+1
+00:00:00,330 --> 00:00:04,700
+We'll now turn our attention to the issue of
+
+2
+00:00:04,700 --> 00:00:09,360
+extensibility and some of the approaches that have been taken to achieve this
+
+3
+00:00:09,360 --> 00:00:15,060
+goal. Historically I should mention that there was interest in
+
+4
+00:00:15,060 --> 00:00:20,310
+extensibility at least as far back as 1981. With a
+
+5
+00:00:20,310 --> 00:00:25,830
+system that was developed at CMU called the Hydra operating system. The
+
+6
+00:00:25,830 --> 00:00:29,700
+Hydra operating system provided kernel mechanisms
+
+7
+00:00:29,700 --> 00:00:31,690
+for resource allocation. The key word is
+
+8
+00:00:31,690 --> 00:00:35,830
+mechanisms, not policies, just mechanisms for resource
+
+9
+00:00:35,830 --> 00:00:38,430
+allocation in the kernel. And it had
+
+10
+00:00:38,430 --> 00:00:42,000
+a way of providing access to resources,
+
+11
+00:00:42,000 --> 00:00:45,100
+using a capability based approach. The notion
+
+12
+00:00:45,100 --> 00:00:47,760
+of a capability has a special conotation
+
+13
+00:00:47,760 --> 00:00:50,850
+in the operating system, literature. And that
+
+14
+00:00:50,850 --> 00:00:56,570
+is, it is, an entity that can be passed from one to the
+
+15
+00:00:56,570 --> 00:01:01,980
+other. Cannot be forged. And can verified. All of the things that
+
+16
+00:01:01,980 --> 00:01:08,830
+you want in order to make sure that. The system integrity is not compromised, as
+
+17
+00:01:08,830 --> 00:01:16,070
+enshrined in this abstract notion of capability. And as originally envisioned,
+
+18
+00:01:16,070 --> 00:01:19,530
+capability was a heavyweight mechanism in
+
+19
+00:01:19,530 --> 00:01:21,790
+terms of implementing it efficiently in
+
+20
+00:01:21,790 --> 00:01:24,640
+an operating system. And because capability
+
+21
+00:01:24,640 --> 00:01:28,110
+is a heavyweight mechanism. The hydra operating
+
+22
+00:01:28,110 --> 00:01:31,612
+system, resource managers were built as
+
+23
+00:01:31,612 --> 00:01:35,200
+coarse-grained objects, in order to reduce
+
+24
+00:01:35,200 --> 00:01:37,330
+the border crossing overhead, because border
+
+25
+00:01:37,330 --> 00:01:42,050
+crossing in the hydra system would mean
+
+26
+00:01:42,050 --> 00:01:47,620
+that you have to pass capability from one object to another. And validate
+
+27
+00:01:47,620 --> 00:01:52,220
+the capability for entering a particular object, and so on, and for that
+
+28
+00:01:52,220 --> 00:01:56,940
+reason, hydra used coarse-grained objects to
+
+29
+00:01:56,940 --> 00:02:00,650
+implement resource managers. That way, they can
+
+30
+00:02:00,650 --> 00:02:02,940
+reduce the border crossing overhead. And
+
+31
+00:02:02,940 --> 00:02:07,120
+implementing resource managers as coarse-grained objects also
+
+32
+00:02:07,120 --> 00:02:09,780
+means that it limits the opportunities
+
+33
+00:02:09,780 --> 00:02:13,380
+for customization and extensibility. In other word,
+
+34
+00:02:13,380 --> 00:02:19,320
+the closer you make these object, the less opportunity you have for customizing
+
+35
+00:02:19,320 --> 00:02:21,550
+the services. Which is exactly the
+
+36
+00:02:21,550 --> 00:02:25,740
+strike against, monolithic kernel as well. So,
+
+37
+00:02:25,740 --> 00:02:28,480
+while in principle, hydra had all
+
+38
+00:02:28,480 --> 00:02:32,300
+the right ideas of providing minimal mechanisms
+
+39
+00:02:32,300 --> 00:02:38,940
+in the kernel. And having the resource managers implement policies because the
+
+40
+00:02:38,940 --> 00:02:44,770
+fundamental mechanism for accessing the resources was through this capability,
+
+41
+00:02:44,770 --> 00:02:51,950
+which is a heavy weight abstract notion to implement efficiently. In practice,
+
+42
+00:02:51,950 --> 00:02:57,320
+hydra did not fully achieve its goal of extensibility. One of
+
+43
+00:02:57,320 --> 00:03:03,390
+the most well-known extensible operating system of the early 90s was the Mach
+
+44
+00:03:03,390 --> 00:03:09,980
+operating system from CMU. It was microkernel-based, providing very limited
+
+45
+00:03:09,980 --> 00:03:15,780
+mechanisms in the microkernel. And implementing all the services that you expect
+
+46
+00:03:15,780 --> 00:03:22,020
+from an operating system as server processes that run as normal,
+
+47
+00:03:22,020 --> 00:03:28,120
+user level processes above the kernel. And clearly, with this micro kernel based
+
+48
+00:03:28,120 --> 00:03:30,970
+approach, Mach achieved its goal of
+
+49
+00:03:30,970 --> 00:03:34,470
+extensibility. So it focused on extensiblity. And
+
+50
+00:03:34,470 --> 00:03:37,830
+portability. The keyword is portability. And
+
+51
+00:03:37,830 --> 00:03:40,740
+therein lies the rub. Performance took a
+
+52
+00:03:40,740 --> 00:03:43,630
+backseat, because Mach was very much focused
+
+53
+00:03:43,630 --> 00:03:47,230
+on making the operating system portable across
+
+54
+00:03:47,230 --> 00:03:49,860
+different architectures, in addition to paying
+
+55
+00:03:49,860 --> 00:03:53,570
+attention to extensibility. And this, unfortunately, gave
+
+56
+00:03:53,570 --> 00:04:00,660
+a bad press for microkernel based design. Because it focused on these twin
+
+57
+00:04:00,660 --> 00:04:03,840
+goals of portability and extensibility, allowing
+
+58
+00:04:03,840 --> 00:04:06,750
+performance to take a backseat. And since
+
+59
+00:04:06,750 --> 00:04:08,990
+operating systems are generally so focused
+
+60
+00:04:08,990 --> 00:04:13,190
+on performance. This design choice in Mach
+
+61
+00:04:13,190 --> 00:04:17,690
+of supporting portability gave microkernel-based design
+
+62
+00:04:17,690 --> 00:04:20,940
+a bad press. But later on, when
+
+63
+00:04:20,940 --> 00:04:27,040
+we look at L3 approach to microkernel-based design, we will revisit the right
+
+64
+00:04:27,040 --> 00:04:32,330
+way to build a microkernel-based design. But in this lesson, let's focus on Spin
+
+65
+00:04:32,330 --> 00:04:39,060
+Approach to Extensibility. So the key idea in spin is to co-locate
+
+66
+00:04:39,060 --> 00:04:45,870
+a minimal kernel with its extension in the same hardware address space
+
+67
+00:04:45,870 --> 00:04:52,350
+and avoid the border crossing between the components of. The kernel and
+
+68
+00:04:52,350 --> 00:04:58,560
+the extensions of the kernels that are containing the specific services
+
+69
+00:04:58,560 --> 00:05:04,790
+that the applications need. And this core location, also means that we avoid
+
+70
+00:05:04,790 --> 00:05:10,730
+the border crossing which he said is one of the biggest potentials for losing
+
+71
+00:05:10,730 --> 00:05:14,215
+out on performance. But, if you're going to
+
+72
+00:05:14,215 --> 00:05:16,810
+co-locate the kernel and extensions in the same
+
+73
+00:05:16,810 --> 00:05:20,190
+hardware address space, isn't that compromising on
+
+74
+00:05:20,190 --> 00:05:23,515
+protection? Wasn't that the strike against the
+
+75
+00:05:23,515 --> 00:05:26,330
+DOS-like structure that we talked about earlier?
+
+76
+00:05:26,330 --> 00:05:31,420
+Well, the approach that Spin took was to
+
+77
+00:05:31,420 --> 00:05:37,130
+rely on the characteristics of a strongly typed programming language,
+
+78
+00:05:37,130 --> 00:05:42,290
+so that the compiler can enforce the modularity
+
+79
+00:05:42,290 --> 00:05:46,830
+that we need in order to give guarantees
+
+80
+00:05:46,830 --> 00:05:51,630
+about the protection. So, by using a strongly typed
+
+81
+00:05:51,630 --> 00:05:57,360
+language, in the case of Spin they used modular three more on that in a minute.
+
+82
+00:05:57,360 --> 00:06:03,480
+The Colonel is able to provide. Well defined interfaces, all of you may be
+
+83
+00:06:03,480 --> 00:06:07,763
+quite familiar with declaring function prototypes in
+
+84
+00:06:07,763 --> 00:06:12,000
+a hydra file and having the actual implementation
+
+85
+00:06:12,000 --> 00:06:17,470
+of the procedures in other files. In a large software project, this is the same
+
+86
+00:06:17,470 --> 00:06:22,650
+idea that is now taken to the design of the operating system itself. After all,
+
+87
+00:06:22,650 --> 00:06:24,790
+operating system is also a piece of software,
+
+88
+00:06:24,790 --> 00:06:27,880
+a complex piece of software, and why not
+
+89
+00:06:27,880 --> 00:06:31,510
+use a strongly typed language as the basis
+
+90
+00:06:31,510 --> 00:06:36,240
+for building the operating system. That's the idea in
+
+91
+00:06:36,240 --> 00:06:38,930
+the spin approach. Now, what you get when
+
+92
+00:06:38,930 --> 00:06:42,150
+you use a strongly typed language, is that you
+
+93
+00:06:42,150 --> 00:06:45,260
+cannot cheat. For instance, in a language like
+
+94
+00:06:45,260 --> 00:06:48,110
+C, you can type cast pointers so that a
+
+95
+00:06:48,110 --> 00:06:50,620
+given data structure can be viewed
+
+96
+00:06:50,620 --> 00:06:53,360
+completely differently, depending on what you need
+
+97
+00:06:53,360 --> 00:06:59,350
+to get done. At the moment. That's not possible with a strongly typed language.
+
+98
+00:06:59,350 --> 00:07:03,190
+Data abstractions provided by the programming
+
+99
+00:07:03,190 --> 00:07:06,370
+language such as an object serve as
+
+100
+00:07:06,370 --> 00:07:10,740
+containers for logical protection domains. That is,
+
+101
+00:07:10,740 --> 00:07:13,160
+we are no longer reliant on hardware
+
+102
+00:07:13,160 --> 00:07:19,120
+address spaces to provide the protection between different services.
+
+103
+00:07:19,120 --> 00:07:25,210
+And the kernel. As I mentioned the kernel provides only the interfaces and these
+
+104
+00:07:25,210 --> 00:07:28,600
+logical protection domains actually implement the
+
+105
+00:07:28,600 --> 00:07:31,800
+functionality that is enshrined in those
+
+106
+00:07:31,800 --> 00:07:34,150
+interface functions. And there can be
+
+107
+00:07:34,150 --> 00:07:38,270
+several implementations of the interface functions.
+
+108
+00:07:38,270 --> 00:07:40,720
+And that's where the flexability comes
+
+109
+00:07:40,720 --> 00:07:44,609
+in. Applications can dynamically bind different
+
+110
+00:07:44,609 --> 00:07:48,750
+implementations of the same interfaith functions.
+
+111
+00:07:48,750 --> 00:07:52,370
+And that's how we get different
+
+112
+00:07:52,370 --> 00:07:55,960
+instanciations of specific system components. Getting
+
+113
+00:07:55,960 --> 00:07:58,100
+you the flexibility that you want
+
+114
+00:07:58,100 --> 00:08:01,640
+in constructing an operating system. Because
+
+115
+00:08:01,640 --> 00:08:03,420
+we have co-located the kernel and the
+
+116
+00:08:03,420 --> 00:08:08,420
+extension in the same hardware address space, we are making the extensions as
+
+117
+00:08:08,420 --> 00:08:13,270
+cheap as a procedure call. So in a nutshell, what we've accomplished with
+
+118
+00:08:13,270 --> 00:08:18,510
+a Spin approach to extensibility as we are writing on
+
+119
+00:08:18,510 --> 00:08:23,500
+the characteristics of a strongly typed programming language, that
+
+120
+00:08:23,500 --> 00:08:28,620
+enforces strong typing and therefore allows the operating system
+
+121
+00:08:28,620 --> 00:08:34,600
+designer to implement logical protection domains instead of relying on hardware
+
+122
+00:08:34,600 --> 00:08:38,570
+address spaces. And consequently we're making
+
+123
+00:08:38,570 --> 00:08:41,159
+extensions as cheap as procedure calls.

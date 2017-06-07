@@ -1,0 +1,205 @@
+1
+00:00:00,130 --> 00:00:04,492
+Now we know that adding levels to our
+address translation process will reduce
+
+2
+00:00:04,492 --> 00:00:06,480
+the size of the page tables.
+
+3
+00:00:06,480 --> 00:00:10,820
+But it will add some overheads to
+the address translation process.
+
+4
+00:00:10,820 --> 00:00:14,030
+In the simple,
+single level page table design,
+
+5
+00:00:14,030 --> 00:00:18,080
+a memory reference will actually
+require two memory references.
+
+6
+00:00:18,080 --> 00:00:20,730
+One to access the page table entries so
+
+7
+00:00:20,730 --> 00:00:24,980
+that we can determine the physical
+frame number, and the second one to
+
+8
+00:00:24,980 --> 00:00:28,806
+actually perform the proper memory
+access at the correct physical address.
+
+9
+00:00:28,806 --> 00:00:33,730
+In the four level page table,
+however, we will need to perform four
+
+10
+00:00:33,730 --> 00:00:38,660
+memory accesses to read the page
+table entries at each level
+
+11
+00:00:38,660 --> 00:00:43,830
+of the memory hierarchy, before we can
+produce the physical frame number.
+
+12
+00:00:43,830 --> 00:00:48,210
+And only afterwards are we able to
+actually perform the proper access to
+
+13
+00:00:48,210 --> 00:00:50,880
+the correct physical memory location.
+
+14
+00:00:50,880 --> 00:00:55,430
+Obviously this can be very costly and
+can lead to a slowdown.
+
+15
+00:00:55,430 --> 00:00:59,230
+The standard technique to avoid
+these repeated accesses to memory
+
+16
+00:00:59,230 --> 00:01:01,640
+is to use a page table cache.
+
+17
+00:01:01,640 --> 00:01:06,100
+On most architectures, the MMU
+hardware integrates a hardware cache
+
+18
+00:01:06,100 --> 00:01:09,770
+that's dedicated for
+caching address translations, and
+
+19
+00:01:09,770 --> 00:01:13,550
+this cache is called the Translation
+Look Aside Buffer or TLB.
+
+20
+00:01:13,550 --> 00:01:18,200
+On each address translation first
+the TLB cache is quickly referenced and
+
+21
+00:01:18,200 --> 00:01:22,220
+if the resulting address can be
+generated from the TLB contents then we
+
+22
+00:01:22,220 --> 00:01:24,740
+have a TLB hit and we can bypass
+
+23
+00:01:24,740 --> 00:01:28,950
+all of the other required memory
+accesses to perform the translation.
+
+24
+00:01:28,950 --> 00:01:31,050
+Of course, if we have a TLB miss, so
+
+25
+00:01:31,050 --> 00:01:35,200
+the address isn't present in the TLB
+cache, then we have to perform
+
+26
+00:01:35,200 --> 00:01:40,510
+all of the address translation steps by
+accessing the page tables from memory.
+
+27
+00:01:40,510 --> 00:01:43,060
+In addition to the proper
+address translation,
+
+28
+00:01:43,060 --> 00:01:47,770
+the TLB entries will contain all of the
+necessary protection and validity bits
+
+29
+00:01:47,770 --> 00:01:53,190
+to verify that the access is correct or,
+if necessary, to generate a fault.
+
+30
+00:01:53,190 --> 00:01:58,150
+It turns out that even a small number
+of entries in the TLB can result in
+
+31
+00:01:58,150 --> 00:02:02,720
+a high TLB rate and this is because
+we have typically a high temporal and
+
+32
+00:02:02,720 --> 00:02:06,050
+spatial locality in
+the memory references.
+
+33
+00:02:06,050 --> 00:02:10,690
+On recent x86 platforms, for
+instance, there is a separate TLB for
+
+34
+00:02:10,690 --> 00:02:12,440
+data and instruction.
+
+35
+00:02:12,440 --> 00:02:14,940
+And each of those has
+a modest number of entries.
+
+36
+00:02:14,940 --> 00:02:19,310
+64 for the data and 128 for
+the instruction TLB.
+
+37
+00:02:19,310 --> 00:02:22,420
+These are per core and
+in addition to these two,
+
+38
+00:02:22,420 --> 00:02:26,350
+there is also another
+shared second level TLB
+
+39
+00:02:26,350 --> 00:02:30,140
+that's shared across all cores and
+that's, that one is a little bit larger.
+
+40
+00:02:30,140 --> 00:02:31,280
+It has 512 entries.
+
+41
+00:02:31,280 --> 00:02:34,280
+So this is for the I7 in platforms.
+
+42
+00:02:34,280 --> 00:02:37,110
+And this was determined to
+be sufficiently effective
+
+43
+00:02:37,110 --> 00:02:41,450
+to address the typical memory
+access needs of processes today.

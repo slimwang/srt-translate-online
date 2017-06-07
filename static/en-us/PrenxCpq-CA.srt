@@ -1,0 +1,131 @@
+1
+00:00:00,200 --> 00:00:03,250
+So at this point you may be thinking, another middleman class?
+
+2
+00:00:03,250 --> 00:00:05,640
+Why would I want to take the time to create this?
+
+3
+00:00:05,640 --> 00:00:09,190
+Well, app developers create content providers for a few reasons.
+
+4
+00:00:09,190 --> 00:00:12,300
+Reason number one, as an extra level of abstraction,
+
+5
+00:00:12,300 --> 00:00:16,360
+they allow developers to change the underlying data source without needing to
+
+6
+00:00:16,360 --> 00:00:20,570
+change any code in the applications that access the content provider.
+
+7
+00:00:20,570 --> 00:00:25,627
+The second reason, some important Android classes such as SyncAdapters, Loaders,
+
+8
+00:00:25,627 --> 00:00:28,640
+and CursorAdapters use content providers.
+
+9
+00:00:28,640 --> 00:00:30,880
+So, if you want to use these classes,
+
+10
+00:00:30,880 --> 00:00:33,720
+you need the data accessible through a content provider.
+
+11
+00:00:33,720 --> 00:00:37,150
+But really the main reason that you use a content provider is to open up
+
+12
+00:00:37,150 --> 00:00:41,220
+the data source to other app developers so that they can access, use and
+
+13
+00:00:41,220 --> 00:00:45,450
+modify your data source, which, if you didn't use a content provider,
+
+14
+00:00:45,450 --> 00:00:48,180
+would otherwise be just limited to your app.
+
+15
+00:00:48,180 --> 00:00:52,560
+And while other apps are using your content provider to access your data,
+
+16
+00:00:52,560 --> 00:00:54,090
+they're doing it in a secure and
+
+17
+00:00:54,090 --> 00:00:57,480
+managed way because you chose to use a content provider.
+
+18
+00:00:57,480 --> 00:01:00,370
+So let's see how this helps in the business card example.
+
+19
+00:01:00,370 --> 00:01:01,440
+Here we have our business card.
+
+20
+00:01:01,440 --> 00:01:04,849
+Now, if we weren't using the contacts content provider,
+
+21
+00:01:04,849 --> 00:01:07,860
+we might store our data in a separate database.
+
+22
+00:01:07,860 --> 00:01:11,410
+This is no good because the default contacts app can't access your
+
+23
+00:01:11,410 --> 00:01:12,610
+data over here.
+
+24
+00:01:12,610 --> 00:01:16,400
+So instead, what we do is use the contacts content provider and
+
+25
+00:01:16,400 --> 00:01:19,610
+give the business card information to the content provider,
+
+26
+00:01:19,610 --> 00:01:24,100
+which then updates the data source for contacts and saves it to the database.
+
+27
+00:01:24,100 --> 00:01:28,560
+Then, when the default contact app loads up the contact information,
+
+28
+00:01:28,560 --> 00:01:30,900
+it'll get the information from your business card.
+
+29
+00:01:30,900 --> 00:01:34,490
+And really, all you had to do was pass off your business card information to
+
+30
+00:01:34,490 --> 00:01:35,880
+the content provider.
+
+31
+00:01:35,880 --> 00:01:39,840
+This whole process was black boxed from you, so it's easy.
+
+32
+00:01:39,840 --> 00:01:43,330
+As a developer, all you need to do is change a couple of app permissions and
+
+33
+00:01:43,330 --> 00:01:44,650
+add maybe one line of code.

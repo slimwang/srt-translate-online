@@ -1,0 +1,155 @@
+1
+00:00:00,200 --> 00:00:03,090
+Let's go over an example
+of packet filtering.
+
+2
+00:00:03,090 --> 00:00:08,170
+This is a simplified example of
+a rule set for SMTP traffic.
+
+3
+00:00:08,170 --> 00:00:12,040
+The goal is to allow inbound and
+outbound e-mail traffic, but
+
+4
+00:00:12,040 --> 00:00:14,325
+to block all other traffic.
+
+5
+00:00:14,325 --> 00:00:18,405
+The rules apply top to bottom for
+each packet.
+
+6
+00:00:18,405 --> 00:00:21,855
+That is, for each packet,
+the firewall is screened up high,
+
+7
+00:00:21,855 --> 00:00:26,255
+each rule, one by one, from top to
+bottom, until there is a match.
+
+8
+00:00:26,255 --> 00:00:29,300
+So let's explain
+the intent of each rule.
+
+9
+00:00:29,300 --> 00:00:34,500
+As we can see, each rule here has a rule
+number, has a direction of the traffic,
+
+10
+00:00:34,500 --> 00:00:37,628
+has a source, and a destination
+IP addresses of the packet.
+
+11
+00:00:37,628 --> 00:00:39,940
+The protocol,
+
+12
+00:00:39,940 --> 00:00:44,815
+the destination port, and the decision,
+whether it's permit or deny.
+
+13
+00:00:44,815 --> 00:00:50,225
+The first rule is to allow inbound
+email traffic from an external host,
+
+14
+00:00:50,225 --> 00:00:54,225
+therefore it says the direction is in,
+meaning inbound.
+
+15
+00:00:54,225 --> 00:00:57,175
+The source IP address is
+an external IP address,
+
+16
+00:00:57,175 --> 00:01:00,055
+because we are talking
+about inbound traffic.
+
+17
+00:01:00,055 --> 00:01:03,780
+The destination IP address
+is an internal IP address.
+
+18
+00:01:03,780 --> 00:01:10,070
+The protocol is TCP, the destination
+port is 25, which is for SMTP.
+
+19
+00:01:10,070 --> 00:01:14,652
+Again, this permits inbound email
+traffic from an external source.
+
+20
+00:01:14,652 --> 00:01:20,660
+Second rule, it's intended to allow a
+response to an inbound SMTP connection.
+
+21
+00:01:20,660 --> 00:01:24,460
+Because here, in the first rule,
+we allow inbound email traffic, so
+
+22
+00:01:24,460 --> 00:01:28,140
+we should allow outbound
+response to the email traffic.
+
+23
+00:01:28,140 --> 00:01:32,120
+The third rule allows outbound
+email to an external source.
+
+24
+00:01:32,120 --> 00:01:36,480
+That is, we allow outbound
+traffic to external email server,
+
+25
+00:01:36,480 --> 00:01:42,040
+SMTP server, port 25 on an external
+destination IP address.
+
+26
+00:01:42,040 --> 00:01:46,300
+And since we allowed outbound
+email to an external email server,
+
+27
+00:01:46,300 --> 00:01:49,000
+rule number four allows
+the inbound response.
+
+28
+00:01:49,000 --> 00:01:54,230
+That is rule number four is intended
+to allow an inbound email response.
+
+29
+00:01:54,230 --> 00:01:55,190
+Rule number five,
+
+30
+00:01:55,190 --> 00:02:00,230
+this is an explicit statement of
+the default policy, which is denied.
+
+31
+00:02:00,230 --> 00:02:03,900
+This means that if a packet does not
+match any of the previous rules,
+
+32
+00:02:03,900 --> 00:02:05,680
+then the packet will be discarded.

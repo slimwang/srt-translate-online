@@ -1,0 +1,127 @@
+1
+00:00:00,130 --> 00:00:03,500
+Let's look at some good guiding policies when thinking about how to
+
+2
+00:00:03,500 --> 00:00:05,620
+design an operating system.
+
+3
+00:00:05,620 --> 00:00:09,200
+The first one we call separation between mechanisms and policy.
+
+4
+00:00:10,200 --> 00:00:14,640
+What this means is that we want to incorporate into the operating system
+
+5
+00:00:14,640 --> 00:00:19,640
+a number of flexible mechanisms that can support a range of policies.
+
+6
+00:00:19,640 --> 00:00:24,520
+For memory management, some useful policies would include least recently used,
+
+7
+00:00:24,520 --> 00:00:28,020
+or least frequently used, or completely random.
+
+8
+00:00:28,020 --> 00:00:30,895
+So what that means is that in the operating system,
+
+9
+00:00:30,895 --> 00:00:35,820
+we'd like to have some mechanism to track the frequency or the,
+
+10
+00:00:35,820 --> 00:00:39,930
+the time when memory locations have been accessed.
+
+11
+00:00:39,930 --> 00:00:43,220
+This will help us keep track of when a page was last used or
+
+12
+00:00:43,220 --> 00:00:45,960
+when a page was least frequently used.
+
+13
+00:00:45,960 --> 00:00:48,040
+Or we can completely ignore that information.
+
+14
+00:00:48,040 --> 00:00:52,520
+But the bottom line is we can implement any one of these policies in terms of
+
+15
+00:00:52,520 --> 00:00:55,920
+how that memory management is going to operate.
+
+16
+00:00:55,920 --> 00:00:58,210
+And the reason is that in different settings,
+
+17
+00:00:58,210 --> 00:01:00,770
+different policies make more sense.
+
+18
+00:01:01,880 --> 00:01:06,290
+This leads us to the second principle, which is optimize for the common case.
+
+19
+00:01:06,290 --> 00:01:11,490
+What this means is that we need to understand a number of questions,
+
+20
+00:01:11,490 --> 00:01:15,000
+how the operating system will, will be used, the,
+
+21
+00:01:15,000 --> 00:01:20,720
+what it will need to provide in order to understand what the common case is.
+
+22
+00:01:20,720 --> 00:01:23,290
+This includes understanding where will it be used,
+
+23
+00:01:23,290 --> 00:01:27,690
+what kind of machine it will run on, how many processing elements does it have,
+
+24
+00:01:27,690 --> 00:01:31,390
+how many CPUs, how much memory, what kinds of devices.
+
+25
+00:01:31,390 --> 00:01:35,552
+And we also need to understand what are the common things that the end
+
+26
+00:01:35,552 --> 00:01:37,461
+users will do on that machine.
+
+27
+00:01:37,461 --> 00:01:40,050
+What are the applications that they will execute, and
+
+28
+00:01:40,050 --> 00:01:42,580
+also what are the requirements of that workload?
+
+29
+00:01:42,580 --> 00:01:44,620
+So how does that workload behave?
+
+30
+00:01:44,620 --> 00:01:48,960
+We need to understand the common case, and then based on that common case,
+
+31
+00:01:48,960 --> 00:01:54,280
+pick a specific policy that makes sense and that can be supported given
+
+32
+00:01:54,280 --> 00:01:58,600
+the underlying mechanisms and abstractions that the operating system supports.

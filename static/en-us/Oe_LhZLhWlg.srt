@@ -1,0 +1,161 @@
+1
+00:00:00,160 --> 00:00:03,570
+Having implicitly unwrapped optionals
+automatically sprinkled throughout your
+
+2
+00:00:03,570 --> 00:00:06,510
+code base, is sub optimal at best.
+
+3
+00:00:06,510 --> 00:00:07,890
+Apple realized this and
+
+4
+00:00:07,890 --> 00:00:11,870
+has addressed this problem by
+providing nullability annotations.
+
+5
+00:00:11,870 --> 00:00:15,808
+Nullability annotations clarify which
+variables have the potential to carry
+
+6
+00:00:15,808 --> 00:00:16,610
+null values.
+
+7
+00:00:16,610 --> 00:00:19,310
+These annotations are pretty
+straight forward.
+
+8
+00:00:19,310 --> 00:00:22,630
+And they include nullable and nonnull.
+
+9
+00:00:22,630 --> 00:00:26,270
+As you might expect, nullable
+pointers can have nil values and
+
+10
+00:00:26,270 --> 00:00:28,500
+nonnull pointers cannot.
+
+11
+00:00:28,500 --> 00:00:31,210
+So let's go ahead and
+annotate our user class.
+
+12
+00:00:31,210 --> 00:00:32,740
+In this case name and
+
+13
+00:00:32,740 --> 00:00:36,880
+email will be nonnull because every
+user must have a name and email.
+
+14
+00:00:36,880 --> 00:00:39,210
+But avatar should be nullable.
+
+15
+00:00:39,210 --> 00:00:42,930
+Now, see how this warning
+pops up down here?
+
+16
+00:00:42,930 --> 00:00:46,160
+As soon as you add nullability
+annotations at one place,
+
+17
+00:00:46,160 --> 00:00:49,420
+the compiler will start encouraging
+you to add them everywhere.
+
+18
+00:00:49,420 --> 00:00:50,730
+It's all or nothing.
+
+19
+00:00:50,730 --> 00:00:51,490
+No problem.
+
+20
+00:00:51,490 --> 00:00:54,590
+We just need to add in annotations
+to the two parameters.
+
+21
+00:00:54,590 --> 00:00:58,650
+Email and name are still both nonnull.
+
+22
+00:00:58,650 --> 00:01:03,310
+The compiler is still complaining and
+it's pointing to this return type.
+
+23
+00:01:03,310 --> 00:01:07,030
+To know how to annotate the return type
+we'll need to look at the initializer in
+
+24
+00:01:07,030 --> 00:01:08,450
+the .M file.
+
+25
+00:01:08,450 --> 00:01:13,910
+Notice that this custom initializer can
+return nil if email verification fails.
+
+26
+00:01:13,910 --> 00:01:16,300
+So we'll go back to the header file and
+
+27
+00:01:16,300 --> 00:01:21,320
+we'll mark this return type as nullable
+since sometimes it can be nil.
+
+28
+00:01:21,320 --> 00:01:23,740
+There, now the compiler is happy,
+
+29
+00:01:23,740 --> 00:01:26,340
+let's see what our generated
+header looks like now.
+
+30
+00:01:26,340 --> 00:01:31,970
+Again, we go up to this icon in the
+upper left, click generated interface.
+
+31
+00:01:31,970 --> 00:01:35,990
+Okay, now this is what we like to see,
+no exclamation points.
+
+32
+00:01:35,990 --> 00:01:38,380
+The properties that we
+marked as non null,
+
+33
+00:01:38,380 --> 00:01:42,120
+name and email,
+are interpreted as regular variables.
+
+34
+00:01:42,120 --> 00:01:46,160
+The Aaatar property, which we
+marked nullable, is a respectable
+
+35
+00:01:46,160 --> 00:01:50,310
+explicitly unwrapped optional, and so
+is the return type for the initializer.

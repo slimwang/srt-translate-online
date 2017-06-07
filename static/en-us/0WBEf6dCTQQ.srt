@@ -1,0 +1,325 @@
+1
+00:00:00,240 --> 00:00:01,990
+So that was a pretty tough question.
+
+2
+00:00:01,990 --> 00:00:03,890
+If you didn't get it correct,
+no worries.
+
+3
+00:00:03,890 --> 00:00:04,820
+We'll go over the solution now.
+
+4
+00:00:04,820 --> 00:00:07,950
+So we know that our function's
+input is the string,
+
+5
+00:00:07,950 --> 00:00:11,970
+madlib, that can contain
+instances of noun and verb.
+
+6
+00:00:11,970 --> 00:00:16,235
+And our goal is to return
+a new string processed
+
+7
+00:00:16,235 --> 00:00:20,335
+where all those instances are replaced
+with the random nouns and verbs.
+
+8
+00:00:20,335 --> 00:00:22,995
+So we'll be using the idea of
+the four character long box
+
+9
+00:00:22,995 --> 00:00:26,405
+to solve this problem, which we
+went over before writing code for
+
+10
+00:00:26,405 --> 00:00:28,845
+a function word transformer.
+
+11
+00:00:28,845 --> 00:00:31,175
+Since we need to keep track
+of our box's position,
+
+12
+00:00:31,175 --> 00:00:33,825
+because it's moving up the sting
+by increments of one or
+
+13
+00:00:33,825 --> 00:00:37,680
+four, we'll need to introduce
+a new variable for that purpose.
+
+14
+00:00:37,680 --> 00:00:39,935
+We'll set the variable index to 0 and
+
+15
+00:00:39,935 --> 00:00:44,060
+we chose 0 because our box will start at
+the beginning of the string passed in.
+
+16
+00:00:45,120 --> 00:00:48,470
+Since the length of the string passed in
+can vary and because we want to repeat
+
+17
+00:00:48,470 --> 00:00:52,250
+the same steps of checking everything in
+the box, and adding to process based on
+
+18
+00:00:52,250 --> 00:00:57,030
+what's inside over and over again,
+we'll want to use this while loop.
+
+19
+00:00:57,030 --> 00:00:59,420
+But now we need to figure
+out what our condition is.
+
+20
+00:00:59,420 --> 00:01:02,540
+Since we're going through the string
+madlib character by character
+
+21
+00:01:02,540 --> 00:01:05,770
+until we've reached the end of
+the string, the conditional use for
+
+22
+00:01:05,770 --> 00:01:10,410
+a while loop will be while index
+is less than the length of madlib.
+
+23
+00:01:10,410 --> 00:01:11,180
+Let's write that down.
+
+24
+00:01:12,180 --> 00:01:13,960
+Cool, now that we have
+our while loop set up,
+
+25
+00:01:13,960 --> 00:01:16,520
+let's start writing
+the internals of the loop.
+
+26
+00:01:16,520 --> 00:01:19,280
+Since all our decisions on whether
+to add a single character or
+
+27
+00:01:19,280 --> 00:01:23,890
+a random verb or noun is based on the
+idea of this four character long box,
+
+28
+00:01:23,890 --> 00:01:26,180
+we need to set that up first.
+
+29
+00:01:26,180 --> 00:01:29,430
+In code, the box will be this
+four character long substring
+
+30
+00:01:29,430 --> 00:01:34,220
+starting from index, or at
+the beginning of the box to index + 4.
+
+31
+00:01:34,220 --> 00:01:38,860
+Now the only thing I don't like about
+this string slice is this number 4 here.
+
+32
+00:01:38,860 --> 00:01:41,410
+Although we know it represents
+the length of the box,
+
+33
+00:01:41,410 --> 00:01:44,340
+this quote unquote magic number
+can cause confusion later on.
+
+34
+00:01:44,340 --> 00:01:48,950
+If you come back to this program after a
+while or someone looks at your code for
+
+35
+00:01:48,950 --> 00:01:52,190
+the first time they might have trouble
+figuring out what this number means or
+
+36
+00:01:52,190 --> 00:01:55,650
+what its purpose is which
+is something we don't want.
+
+37
+00:01:55,650 --> 00:01:59,780
+To fix this I set this
+variable box length to 4, and
+
+38
+00:01:59,780 --> 00:02:01,389
+use that in our string slice.
+
+39
+00:02:02,630 --> 00:02:05,110
+Now it's clear what
+the number 4 represents.
+
+40
+00:02:05,110 --> 00:02:08,210
+Now that we have our four
+character box set up properly,
+
+41
+00:02:08,210 --> 00:02:11,870
+let's refresh ourselves on what we need
+to do based on the contents of this box.
+
+42
+00:02:13,000 --> 00:02:16,620
+So if the box over the variable
+frame is equal to noun or
+
+43
+00:02:16,620 --> 00:02:20,940
+verb we add the respective random
+noun or verb to processed and
+
+44
+00:02:20,940 --> 00:02:23,640
+move our box over by four characters.
+
+45
+00:02:23,640 --> 00:02:27,858
+If the box isn't equal to noun or verb
+we add the first character of frame to
+
+46
+00:02:27,858 --> 00:02:30,136
+processed and move our box over by one.
+
+47
+00:02:30,136 --> 00:02:35,690
+This variable, to_add,
+has the proper random word or
+
+48
+00:02:35,690 --> 00:02:39,040
+single character we need to
+add to our string processed,
+
+49
+00:02:39,040 --> 00:02:42,475
+since it uses the function
+word_transformer which we wrote before.
+
+50
+00:02:42,475 --> 00:02:48,220
+To_add will be equal to a random verb
+if frame is equal to the string verb,
+
+51
+00:02:48,220 --> 00:02:51,620
+a random noun,
+if frame is equal to the string noun,
+
+52
+00:02:51,620 --> 00:02:54,200
+else it would be equal to
+the first character of frame.
+
+53
+00:02:54,200 --> 00:02:56,140
+Let's add this now to
+our processed string.
+
+54
+00:02:57,300 --> 00:03:00,050
+Now that our processed string
+has the right value added to it
+
+55
+00:03:00,050 --> 00:03:04,240
+the only thing left to do is move our
+box over by one or four characters so
+
+56
+00:03:04,240 --> 00:03:06,390
+we can repeat this process.
+
+57
+00:03:06,390 --> 00:03:07,220
+How can we do this?
+
+58
+00:03:07,220 --> 00:03:10,720
+Why don't we check the length of
+to_add or the word returned and
+
+59
+00:03:10,720 --> 00:03:12,990
+make our decision based on that?
+
+60
+00:03:12,990 --> 00:03:16,770
+If the length of to_add is one character
+long, then we obviously haven't been
+
+61
+00:03:16,770 --> 00:03:21,090
+returned with a random verb or noun so
+we'll just inch our box by one index.
+
+62
+00:03:22,240 --> 00:03:25,980
+If that wasn't the case, you're for sure
+returned with a random verb or noun so
+
+63
+00:03:25,980 --> 00:03:28,500
+we'll add 4 to index instead.
+
+64
+00:03:28,500 --> 00:03:31,340
+The last thing we need to do is
+return the processed string.
+
+65
+00:03:31,340 --> 00:03:33,990
+So let's add that to the end of
+our function, outside of the loop.
+
+66
+00:03:35,240 --> 00:03:38,400
+And there we have it, we now have
+a fully functioning madlibs generator,
+
+67
+00:03:38,400 --> 00:03:42,880
+that can replace instances of noun and
+verb with the random nouns and verbs.
+
+68
+00:03:42,880 --> 00:03:43,490
+Pretty cool.

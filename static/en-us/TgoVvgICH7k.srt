@@ -1,0 +1,223 @@
+1
+00:00:00,220 --> 00:00:04,270
+And now let's consider one final case in which every single one of
+
+2
+00:00:04,270 --> 00:00:08,460
+the user-level threads has that particular signal disabled.
+
+3
+00:00:08,460 --> 00:00:11,492
+So all of the user-level thread masks are zero.
+
+4
+00:00:11,492 --> 00:00:13,360
+The kernel-level masks are still one,
+
+5
+00:00:13,360 --> 00:00:17,500
+the kernel still thinks that the process can handle this particular signal.
+
+6
+00:00:17,500 --> 00:00:22,270
+When the signal occurs here, the kernel sees that the signal mask is one, and
+
+7
+00:00:22,270 --> 00:00:25,080
+so it will interrupt whoever is executing in
+
+8
+00:00:25,080 --> 00:00:27,350
+the context of this kernel-level thread.
+
+9
+00:00:27,350 --> 00:00:30,300
+The library handling routine kicks in.
+
+10
+00:00:30,300 --> 00:00:35,240
+It sees that this particular thread has the mask zero.
+
+11
+00:00:35,240 --> 00:00:39,110
+And it sees that it doesn't have any other user-level threads that can
+
+12
+00:00:39,110 --> 00:00:41,070
+handle that particular signal.
+
+13
+00:00:41,070 --> 00:00:44,090
+Now what will happen is the threading library,
+
+14
+00:00:44,090 --> 00:00:46,820
+at that point, will perform a system call, and it will
+
+15
+00:00:46,820 --> 00:00:51,230
+request that the signal mask off the underlying kernel-level thread be changed.
+
+16
+00:00:51,230 --> 00:00:53,740
+So this signal mask will become zero.
+
+17
+00:00:53,740 --> 00:00:58,490
+Now, from the execution of one thread, we can go ahead and affect
+
+18
+00:00:58,490 --> 00:01:02,090
+the state of the kernel-level masks that are associated with other threads.
+
+19
+00:01:02,090 --> 00:01:04,709
+They may be executing on other CPUs.
+
+20
+00:01:04,709 --> 00:01:07,840
+So here, we can only change the mask that's associated with
+
+21
+00:01:07,840 --> 00:01:12,470
+this kernel-level thread, and then what the threading library will do,
+
+22
+00:01:12,470 --> 00:01:17,370
+it will basically reissue the signal for the entire process again.
+
+23
+00:01:17,370 --> 00:01:20,450
+The OS will now find another thread in that process.
+
+24
+00:01:20,450 --> 00:01:23,590
+So in this case, this other kernel-level thread.
+
+25
+00:01:23,590 --> 00:01:26,180
+It had originally the mask.
+
+26
+00:01:26,180 --> 00:01:29,760
+The OS will, in that case, find another kernel-level thread.
+
+27
+00:01:29,760 --> 00:01:33,970
+In this case, this other kernel-level thread that has the mask enable.
+
+28
+00:01:33,970 --> 00:01:35,730
+So this one has its zero.
+
+29
+00:01:35,730 --> 00:01:37,100
+And we'll try to do the same thing.
+
+30
+00:01:37,100 --> 00:01:41,250
+We'll try to deliver the signal in the context of this kernel-level thread.
+
+31
+00:01:41,250 --> 00:01:45,130
+It will interrupt this user-level thread via the library handler.
+
+32
+00:01:45,130 --> 00:01:49,530
+As a result, this particular kernel-level mask will be changed as well via
+
+33
+00:01:49,530 --> 00:01:54,590
+system call, and the process will continue until all of the kernel-level signal
+
+34
+00:01:54,590 --> 00:01:59,690
+masks don't show that the signal is disabled for this process.
+
+35
+00:01:59,690 --> 00:02:04,290
+Now another possibility is that one of the user-level threads finishes whatever
+
+36
+00:02:04,290 --> 00:02:09,650
+they were doing and are ready to enable the signal mask for that signal again.
+
+37
+00:02:09,650 --> 00:02:14,230
+Because the threading library knows that it has already disabled all of
+
+38
+00:02:14,230 --> 00:02:15,790
+the kernel-level signal masks.
+
+39
+00:02:17,080 --> 00:02:22,020
+It will, at that point, have to perform a system call to go into the kernel and
+
+40
+00:02:22,020 --> 00:02:26,340
+update one of the signal masks, so it appropriately reflects that
+
+41
+00:02:26,340 --> 00:02:30,320
+now the process is capable of handling the signal.
+
+42
+00:02:30,320 --> 00:02:33,680
+The solution for how signal handling is managed and
+
+43
+00:02:33,680 --> 00:02:36,580
+what kind of interactions happen between then kernel and
+
+44
+00:02:36,580 --> 00:02:42,170
+the user-level library is in the same spirit of optimizing the common case.
+
+45
+00:02:42,170 --> 00:02:44,040
+Signals, actual signals,
+
+46
+00:02:44,040 --> 00:02:50,490
+occur much less frequently then the need to be safe and update the signal mask.
+
+47
+00:02:50,490 --> 00:02:53,750
+So whenever we would have a certain critical portion of the code,
+
+48
+00:02:53,750 --> 00:02:57,160
+we would first disable and then again enable the signal.
+
+49
+00:02:57,160 --> 00:03:00,470
+And in most of those cases, a signal doesn't really occur.
+
+50
+00:03:00,470 --> 00:03:04,510
+So then we tried to make the common case cheap, so the updates of the signal
+
+51
+00:03:04,510 --> 00:03:08,820
+mask, we just apply them to the user-level signal mask, and the actual
+
+52
+00:03:08,820 --> 00:03:13,040
+system call that's necessary to reflect that change in the kernel is avoided.
+
+53
+00:03:13,040 --> 00:03:14,040
+As a result of that,
+
+54
+00:03:14,040 --> 00:03:17,910
+we have to make the actual signal handling a little bit more complex.
+
+55
+00:03:17,910 --> 00:03:20,330
+But hey, that's the less frequent of the two, and
+
+56
+00:03:20,330 --> 00:03:21,727
+we want to optimize the common case.

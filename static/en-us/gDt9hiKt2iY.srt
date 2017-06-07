@@ -1,0 +1,330 @@
+﻿1
+00:00:00,100 --> 00:00:02,469
+This is very similar
+to our first project.
+
+2
+00:00:02,468 --> 00:00:04,059
+It has a few twists though.
+
+3
+00:00:04,059 --> 00:00:08,919
+The view must always keep
+the same aspect ratio.
+
+4
+00:00:08,919 --> 00:00:12,120
+We'll use a square but
+it could be anything else.
+
+5
+00:00:12,119 --> 00:00:17,899
+The view must always be centered and it
+should take as much space as possible.
+
+6
+00:00:18,969 --> 00:00:21,689
+For this case study we won't
+be needing a stac view.
+
+7
+00:00:21,690 --> 00:00:22,970
+Although, it wouldn't hurt.
+
+8
+00:00:22,969 --> 00:00:25,489
+But we will learn a lot
+about constraints.
+
+9
+00:00:25,489 --> 00:00:26,149
+Let's go for it.
+
+10
+00:00:27,210 --> 00:00:29,550
+Let's start by laying out the view.
+
+11
+00:00:29,550 --> 00:00:32,740
+This view could be inside
+of a stack view, but for
+
+12
+00:00:32,740 --> 00:00:36,530
+this case we don't really need it,
+although it wouldn't hurt.
+
+13
+00:00:36,530 --> 00:00:41,450
+So for the aspect ratio we
+need a constraint that relates
+
+14
+00:00:41,450 --> 00:00:46,340
+the height to the width
+of the same view.
+
+15
+00:00:46,340 --> 00:00:49,990
+That last part is new and
+there's a constraint for that.
+
+16
+00:00:49,990 --> 00:00:54,294
+So control, drag,
+
+17
+00:00:54,293 --> 00:00:58,359
+and aspect ratio.
+
+18
+00:00:58,359 --> 00:01:00,899
+If you select it it's 48 x 43.
+
+19
+00:01:00,899 --> 00:01:04,280
+That's because it wasn't
+a perfect square.
+
+20
+00:01:04,280 --> 00:01:08,409
+We can fix that by make it one to one.
+
+21
+00:01:10,060 --> 00:01:15,370
+And it's complaining about
+it needs constraints for
+
+22
+00:01:15,370 --> 00:01:18,030
+the x position, and the y position.
+
+23
+00:01:18,030 --> 00:01:19,989
+I have to worry about that,
+we'll do it later.
+
+24
+00:01:21,310 --> 00:01:25,299
+So auto layout knows that
+the view has to be a square.
+
+25
+00:01:26,319 --> 00:01:29,529
+But it doesn't know the size or
+the position.
+
+26
+00:01:29,530 --> 00:01:31,390
+Those are still ambiguous.
+
+27
+00:01:31,390 --> 00:01:32,570
+Well, have some patience.
+
+28
+00:01:32,569 --> 00:01:37,419
+Let's tackle the next requirement,
+it must be centered.
+
+29
+00:01:37,420 --> 00:01:42,460
+We can fix that with two constraints
+that center the view vertically and
+
+30
+00:01:42,459 --> 00:01:43,185
+horizontally.
+
+31
+00:01:43,186 --> 00:01:49,640
+Center horizontally and
+center vertically.
+
+32
+00:01:50,670 --> 00:01:53,100
+Well, auto layout is hard to please,
+
+33
+00:01:53,099 --> 00:01:57,479
+now it's unhappy because
+the size is ambiguous.
+
+34
+00:01:57,480 --> 00:02:02,189
+Think about it,
+if I put ginormous image in there
+
+35
+00:02:02,189 --> 00:02:05,879
+the intrinsic size of
+the view would change.
+
+36
+00:02:05,879 --> 00:02:09,069
+Image view would still be square and
+centered, but
+
+37
+00:02:09,069 --> 00:02:11,949
+it would be way beyond the edges.
+
+38
+00:02:13,169 --> 00:02:19,379
+So we need to find a way to tell outer
+layout to keep the image view contained.
+
+39
+00:02:19,379 --> 00:02:22,530
+Within the edges of it's super view.
+
+40
+00:02:22,530 --> 00:02:28,360
+What this means is that the height and
+the width of the image view
+
+41
+00:02:28,360 --> 00:02:34,920
+must always be smaller or equal to
+the height and width of the super view.
+
+42
+00:02:34,919 --> 00:02:37,199
+This is a new type of constraint.
+
+43
+00:02:37,199 --> 00:02:38,709
+Let's create them.
+
+44
+00:02:38,710 --> 00:02:41,500
+One for the height and
+one for the width.
+
+45
+00:02:44,909 --> 00:02:46,930
+I'll select equal width.
+
+46
+00:02:49,430 --> 00:02:53,400
+We have created a constraint
+that relates the width
+
+47
+00:02:53,400 --> 00:02:57,307
+of the image view to
+the width of the view itself.
+
+48
+00:02:57,306 --> 00:03:02,530
+And here are the properties and
+this is what we need to change.
+
+49
+00:03:02,530 --> 00:03:05,599
+So far,
+every constraint that we have used,
+
+50
+00:03:05,599 --> 00:03:09,079
+the relationship has always been equal.
+
+51
+00:03:09,080 --> 00:03:11,820
+Something must be equal
+to something else.
+
+52
+00:03:11,819 --> 00:03:13,379
+But, there are other options.
+
+53
+00:03:13,379 --> 00:03:16,859
+Less than or equal,
+greater than or equal.
+
+54
+00:03:16,860 --> 00:03:22,140
+We want the width of
+the image to be less than or
+
+55
+00:03:22,139 --> 00:03:25,109
+equal to the super view.
+
+56
+00:03:25,110 --> 00:03:31,961
+And now let's do the same thing for
+the height.
+
+57
+00:03:31,961 --> 00:03:37,360
+Instead of equal, less than or equal.
+
+58
+00:03:37,360 --> 00:03:40,290
+And believe it or
+not after all our troubles,
+
+59
+00:03:40,289 --> 00:03:46,189
+auto layout is still complaining
+about the exact size of the view.
+
+60
+00:03:46,189 --> 00:03:49,960
+It knows the maximum size but
+not the exact one.
+
+61
+00:03:49,960 --> 00:03:54,590
+At this point we can ignore the warning
+as the exact size of the image view
+
+62
+00:03:54,590 --> 00:03:58,879
+will be provided by it's content as
+soon as we assign an image to it.
+
+63
+00:03:58,879 --> 00:04:01,319
+So let's get it done so
+we can get rid of the warning.
+
+64
+00:04:02,599 --> 00:04:04,549
+There's a misplacement.
+
+65
+00:04:04,550 --> 00:04:06,600
+Fix it, and there it is.
+
+66
+00:04:06,599 --> 00:04:08,810
+If you change the orientation,
+
+67
+00:04:08,810 --> 00:04:13,550
+it's still the maximum
+possible square and center.
+
+68
+00:04:13,550 --> 00:04:21,278
+You could add some margins here, and I
+recommend you try on other devices too.
+
+69
+00:04:21,278 --> 00:04:26,529
+So, in this case study, you've learned
+that constraints can relate properties
+
+70
+00:04:26,529 --> 00:04:30,869
+of the same view, and that not
+all constraints have to be equal.
+
+71
+00:04:30,870 --> 00:04:34,509
+They can also be less than or
+equal than, not bad.
+

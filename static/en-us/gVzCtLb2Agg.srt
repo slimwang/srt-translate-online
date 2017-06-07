@@ -1,0 +1,454 @@
+1
+00:00:00,630 --> 00:00:03,650
+Boosting is an iterative
+learning method, right?
+
+2
+00:00:03,650 --> 00:00:07,820
+So you, you, you massage the data and
+you keep co,
+
+3
+00:00:07,820 --> 00:00:10,710
+constructing a better and
+better classifier.
+
+4
+00:00:10,710 --> 00:00:15,160
+And it focuses this idea on
+every iteration of trying to
+
+5
+00:00:15,160 --> 00:00:18,140
+look at what's called
+the weighted training error.
+
+6
+00:00:18,140 --> 00:00:20,990
+So initially,
+you have a whole bunch of samples, and
+
+7
+00:00:20,990 --> 00:00:24,440
+you weight them equally, right,
+so they all have a weight of one.
+
+8
+00:00:24,440 --> 00:00:28,520
+And then in each boosting round what you
+have to do is you have to find a weak
+
+9
+00:00:28,520 --> 00:00:33,150
+learner, we'll talk about that in
+a minute, that achieves the lowest, or
+
+10
+00:00:33,150 --> 00:00:33,850
+not even the lowest.
+
+11
+00:00:33,850 --> 00:00:35,400
+You have to find the weak learner,
+and then for
+
+12
+00:00:35,400 --> 00:00:39,070
+that you want to find we'll
+just call it you want to find
+
+13
+00:00:39,070 --> 00:00:43,430
+as without working too hard,
+you want to find, pick the weak learner.
+
+14
+00:00:43,430 --> 00:00:46,460
+It gives you the lowest
+weighted training error.
+
+15
+00:00:46,460 --> 00:00:49,870
+And then, what you're going to do is
+whichever ones you made a mistake on,
+
+16
+00:00:49,870 --> 00:00:51,870
+you're going to raise their weights.
+
+17
+00:00:51,870 --> 00:00:54,510
+And then whichever ones you make
+a mistake on using that current weak
+
+18
+00:00:54,510 --> 00:00:56,760
+learner, you're going to
+raise their weights.
+
+19
+00:00:56,760 --> 00:00:58,611
+You could also alternatively lower
+the weights of the other ones.
+
+20
+00:00:58,611 --> 00:01:01,252
+Typically, raise the weights of
+the ones you've made a mistake on.
+
+21
+00:01:01,252 --> 00:01:04,179
+And then what you can do is you can
+take these weak lay, learners and
+
+22
+00:01:04,179 --> 00:01:07,366
+you're going to combine them in a very
+simple linear way to build your final
+
+23
+00:01:07,366 --> 00:01:08,010
+classifier.
+
+24
+00:01:08,010 --> 00:01:11,890
+So the question now becomes what
+is a weak learner, all right?
+
+25
+00:01:11,890 --> 00:01:15,240
+Well it's simply a function
+that partitions your space.
+
+26
+00:01:16,740 --> 00:01:20,580
+It doesn't always give the right answer,
+but it gives you some information.
+
+27
+00:01:20,580 --> 00:01:21,742
+And the idea is you're
+going to combine these.
+
+28
+00:01:21,742 --> 00:01:24,816
+So this is actually easier to
+illustrate than to talk about,
+
+29
+00:01:24,816 --> 00:01:26,758
+regardless of how much I like to talk.
+
+30
+00:01:26,758 --> 00:01:28,453
+All right, so
+let's develop our intuition.
+
+31
+00:01:28,453 --> 00:01:32,500
+All right,
+let's suppose we have children, okay?
+
+32
+00:01:32,500 --> 00:01:36,875
+So as everybody knows, especially in
+the American world somewhere around
+
+33
+00:01:36,875 --> 00:01:40,958
+the first of December, there are bad
+children, and there are good children.
+
+34
+00:01:40,958 --> 00:01:43,201
+And somebody makes a list and
+does something about it, I don't know,
+
+35
+00:01:43,201 --> 00:01:43,741
+whatever it is.
+
+36
+00:01:43,741 --> 00:01:45,480
+And suppose we want to a learn, a learn,
+
+37
+00:01:45,480 --> 00:01:48,293
+we want to figure out a classifier
+that can classify children.
+
+38
+00:01:48,293 --> 00:01:50,696
+And maybe we've got two dimensions
+that describe children.
+
+39
+00:01:50,696 --> 00:01:52,742
+You know, whether they put
+their socks away and whether or
+
+40
+00:01:52,742 --> 00:01:54,560
+not they buy their parents presents.
+
+41
+00:01:54,560 --> 00:01:57,411
+And what we're trying to do is we're
+trying to use these features to
+
+42
+00:01:57,411 --> 00:01:58,598
+discriminate between them.
+
+43
+00:01:58,598 --> 00:02:02,531
+So the first thing we do is we try to
+pick a weak learner, and we say well,
+
+44
+00:02:02,531 --> 00:02:04,774
+how about this line right there, okay?
+
+45
+00:02:04,774 --> 00:02:07,659
+You know, what we'll say that
+these are the bad children, and
+
+46
+00:02:07,659 --> 00:02:09,031
+these are the good children.
+
+47
+00:02:09,031 --> 00:02:12,740
+Okay, now of course,
+that's not perfect, is it, right?
+
+48
+00:02:12,740 --> 00:02:14,950
+We have some errors here.
+
+49
+00:02:14,950 --> 00:02:17,970
+Okay, so the, the, the red is bad and
+the blue is good by the way.
+
+50
+00:02:17,970 --> 00:02:21,340
+That's not meant to have any
+military implications whatsoever.
+
+51
+00:02:21,340 --> 00:02:24,710
+So what we've drawn here is this
+is our weak learner, right?
+
+52
+00:02:24,710 --> 00:02:30,230
+Our first level weak learner, and you
+know, it does an okay job, all right?
+
+53
+00:02:30,230 --> 00:02:33,260
+So remember we said in each boosting
+round we want to find the weak
+
+54
+00:02:33,260 --> 00:02:36,020
+learner that achieves lowest
+weighted training error.
+
+55
+00:02:36,020 --> 00:02:38,080
+And then we're going to
+raise the weights.
+
+56
+00:02:38,080 --> 00:02:41,570
+So what do we mean by
+weighted training error?
+
+57
+00:02:41,570 --> 00:02:44,660
+Well here was the line that we drew.
+
+58
+00:02:44,660 --> 00:02:48,230
+This is a better version of that line,
+but it has some errors, right?
+
+59
+00:02:48,230 --> 00:02:52,220
+And in particular, what we want to do
+is increase the weights of the error.
+
+60
+00:02:52,220 --> 00:02:55,340
+So if we had said that the ones
+above the line were bad or red, and
+
+61
+00:02:55,340 --> 00:02:59,070
+the ones below the line were blue or
+good.
+
+62
+00:02:59,070 --> 00:03:01,030
+The, the blues that are actually
+above the line, and
+
+63
+00:03:01,030 --> 00:03:04,100
+the reds that are below the line,
+those are an error.
+
+64
+00:03:04,100 --> 00:03:05,110
+So, what do we do?
+
+65
+00:03:05,110 --> 00:03:06,460
+Well, now, we just do it again.
+
+66
+00:03:06,460 --> 00:03:07,950
+We have to find a new weak learner.
+
+67
+00:03:07,950 --> 00:03:09,510
+Well, how 'bout this one?
+
+68
+00:03:09,510 --> 00:03:10,940
+Okay, that's pretty good, actually.
+
+69
+00:03:10,940 --> 00:03:13,790
+Here's, it's called a weak classifier,
+weak learner, same thing.
+
+70
+00:03:13,790 --> 00:03:16,150
+You can see that it
+does a pretty good job.
+
+71
+00:03:16,150 --> 00:03:16,750
+In fact there
+
+72
+00:03:16,750 --> 00:03:19,161
+are no errors set over here if
+this is the good side, all right?
+
+73
+00:03:20,370 --> 00:03:23,000
+And on the side that
+it calls the bad side,
+
+74
+00:03:23,000 --> 00:03:25,190
+there are only these
+two errors over there.
+
+75
+00:03:25,190 --> 00:03:25,890
+But in particular,
+
+76
+00:03:25,890 --> 00:03:29,950
+this nice big weighted one from
+before has been classified correctly.
+
+77
+00:03:29,950 --> 00:03:32,320
+So that's our second weak learner or
+weak classifier.
+
+78
+00:03:33,390 --> 00:03:35,950
+Increase the weights
+of the mistakes there.
+
+79
+00:03:35,950 --> 00:03:37,390
+Say oh, okay now I need another one.
+
+80
+00:03:37,390 --> 00:03:39,820
+Well, how about this weak classifier.
+
+81
+00:03:39,820 --> 00:03:41,400
+Well, how many errors does that make?
+
+82
+00:03:41,400 --> 00:03:46,620
+Well, notice this particular one,
+it's only got this bad one and
+
+83
+00:03:46,620 --> 00:03:49,690
+it's a small weighted error.
+
+84
+00:03:49,690 --> 00:03:54,110
+And the idea in boosting is that
+you can take all of those learners,
+
+85
+00:03:54,110 --> 00:03:55,878
+those weak learners or weak classifiers.
+
+86
+00:03:55,878 --> 00:04:00,460
+And we're going to combine them in a way
+in order to make a decision, all right?
+
+87
+00:04:00,460 --> 00:04:05,200
+So, in general, in boosting, you're
+going to come up with a final classifier
+
+88
+00:04:05,200 --> 00:04:08,430
+that is a linear combination
+of the weak learners.
+
+89
+00:04:08,430 --> 00:04:11,490
+And typically the weight is in some
+sense proportional to how accurate it
+
+90
+00:04:11,490 --> 00:04:15,650
+is, a fixing the weighted error from
+before, reducing that, all right?
+
+91
+00:04:15,650 --> 00:04:17,800
+There are a variety
+methods of doing that, and
+
+92
+00:04:17,800 --> 00:04:20,250
+we're not going to go through
+any of the exact formulations.
+
+93
+00:04:20,250 --> 00:04:23,735
+There's one of the schemes
+is called AdaBoost.
+
+94
+00:04:23,735 --> 00:04:27,740
+And it's the one in fact that was used
+in the algorithm I'm about to show you.
+
+95
+00:04:28,820 --> 00:04:29,870
+But there are lots of things and
+
+96
+00:04:29,870 --> 00:04:32,080
+you can go look up different ways of,
+of running boosting.

@@ -1,0 +1,148 @@
+1
+00:00:00,270 --> 00:00:01,545
+So this is how I did it.
+
+2
+00:00:01,545 --> 00:00:04,380
+.map returns an array so
+
+3
+00:00:04,380 --> 00:00:09,770
+I create an arrayofPromises by
+passing all of the URLs to getJSON.
+
+4
+00:00:09,770 --> 00:00:12,750
+Now remember at this point,
+because they've been mapped,
+
+5
+00:00:12,750 --> 00:00:16,090
+this function immediately
+runs against every URL.
+
+6
+00:00:17,160 --> 00:00:21,650
+So in reality, I have an arrayOfPromises
+that are basically already executing,
+
+7
+00:00:21,650 --> 00:00:24,790
+and then I simply pass them into .all.
+
+8
+00:00:24,790 --> 00:00:29,230
+Once all of the promises settle,
+then the next link in the chain runs.
+
+9
+00:00:29,230 --> 00:00:32,470
+In this case the .then
+receives an arrayOfPlanetData,
+
+10
+00:00:32,470 --> 00:00:35,930
+which is in the same order as
+the array of promises and then for
+
+11
+00:00:35,930 --> 00:00:38,610
+every planet,
+I create a planet thumbnail.
+
+12
+00:00:38,610 --> 00:00:39,930
+Very cool.
+
+13
+00:00:39,930 --> 00:00:42,040
+Looks like I left out a semi-colon.
+
+14
+00:00:42,040 --> 00:00:45,760
+Incidentally, I could make this
+section a little bit more terse.
+
+15
+00:00:45,760 --> 00:00:47,020
+Let me show you how.
+
+16
+00:00:47,020 --> 00:00:49,080
+First off,
+I don't need this anonymous function.
+
+17
+00:00:50,120 --> 00:00:53,790
+This is the same, because remember this
+function will receive the same argument
+
+18
+00:00:53,790 --> 00:00:55,600
+as the anonymous function.
+
+19
+00:00:55,600 --> 00:00:58,420
+And of course I don't actually
+need to create a variable,
+
+20
+00:00:58,420 --> 00:01:01,330
+I can simply pass the array
+created by map straight to all.
+
+21
+00:01:02,345 --> 00:01:04,471
+Anyway, lets see how this looks.
+
+22
+00:01:04,471 --> 00:01:08,394
+All right, the planets are once again
+there in the correct order, and
+
+23
+00:01:08,394 --> 00:01:11,470
+I'm seeing all of the requests
+happen in parallel.
+
+24
+00:01:12,480 --> 00:01:17,210
+The cool thing is because all guarantees
+the order of the resulting array,
+
+25
+00:01:17,210 --> 00:01:20,910
+I know that all the thumbnails ended
+up on the page in the correct order,
+
+26
+00:01:20,910 --> 00:01:22,140
+so that's pretty nice.
+
+27
+00:01:23,330 --> 00:01:26,690
+There is one more performance
+optimization that's possible
+
+28
+00:01:26,690 --> 00:01:27,990
+with this code.
+
+29
+00:01:27,990 --> 00:01:30,920
+Some people may or
+may not think it's a good idea, but
+
+30
+00:01:30,920 --> 00:01:32,680
+it's definitely a good challenge.
+
+31
+00:01:32,680 --> 00:01:35,280
+So after this course is over,
+at the very end of it,
+
+32
+00:01:35,280 --> 00:01:38,610
+there's a bonus challenge for
+you to optimize this code even further.

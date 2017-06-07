@@ -1,0 +1,170 @@
+1
+00:00:00,380 --> 00:00:01,630
+First things first,
+
+2
+00:00:01,630 --> 00:00:05,200
+inside the QRCodeManager
+object I created the worker.
+
+3
+00:00:06,200 --> 00:00:13,950
+The worker points to the script
+at scripts/jsqrcode/qrworker.js.
+
+4
+00:00:13,950 --> 00:00:17,190
+Next up, I went into qrworker.js and
+
+5
+00:00:17,190 --> 00:00:19,160
+took a look at the scripts
+that were being imported.
+
+6
+00:00:20,275 --> 00:00:23,790
+Index.html also has all those
+scripts being included.
+
+7
+00:00:23,790 --> 00:00:26,080
+However, these are no longer needed,
+
+8
+00:00:26,080 --> 00:00:28,400
+as they're being imported
+by the web worker.
+
+9
+00:00:28,400 --> 00:00:29,250
+So I'll just delete them.
+
+10
+00:00:30,310 --> 00:00:34,260
+Back inside the qrworker, it looks
+like the image is being decoded, but
+
+11
+00:00:34,260 --> 00:00:36,030
+then nothing else happens.
+
+12
+00:00:36,030 --> 00:00:38,660
+All I have to do is use
+the postMessage method to
+
+13
+00:00:38,660 --> 00:00:40,960
+send the result back to the main thread.
+
+14
+00:00:40,960 --> 00:00:42,980
+In the event that something
+goes wrong up here,
+
+15
+00:00:42,980 --> 00:00:46,100
+the catch block will
+post back undefined.
+
+16
+00:00:46,100 --> 00:00:49,540
+Back in the detectQRCode
+function inside the main thread,
+
+17
+00:00:49,540 --> 00:00:51,820
+I'm posting the imageData to the Worker.
+
+18
+00:00:51,820 --> 00:00:54,090
+This is how the Worker
+gets the image to work on.
+
+19
+00:00:54,090 --> 00:00:59,050
+This callback for detectQRCode is what
+actually displays the URL on the screen.
+
+20
+00:00:59,050 --> 00:01:02,620
+So I moved all that logic
+into the onmessage handler.
+
+21
+00:01:02,620 --> 00:01:05,099
+When the worker posts a message
+back to the main thread,
+
+22
+00:01:05,099 --> 00:01:08,790
+the onmessage handler gets called and
+this function runs.
+
+23
+00:01:08,790 --> 00:01:11,420
+And here's the bug that
+I mentioned before.
+
+24
+00:01:11,420 --> 00:01:15,240
+Instead of just simply using result,
+you have to use result.data.
+
+25
+00:01:15,240 --> 00:01:19,160
+This result is now a message object
+which is the different than the object
+
+26
+00:01:19,160 --> 00:01:22,910
+that was received when all of the work
+was being done by the main thread.
+
+27
+00:01:22,910 --> 00:01:26,370
+As a result,
+simply grab the .data property.
+
+28
+00:01:26,370 --> 00:01:29,290
+And then just for the heck of it,
+I added an onerror
+
+29
+00:01:29,290 --> 00:01:32,620
+handler just in case something
+happens with the worker thread.
+
+30
+00:01:32,620 --> 00:01:35,450
+It'll display a WorkerException
+if something goes wrong.
+
+31
+00:01:36,510 --> 00:01:38,470
+I'll run gulp serve to
+see how the page looks.
+
+32
+00:01:39,750 --> 00:01:42,800
+And voila, it looks like
+the QR code app is working.
+
+33
+00:01:42,800 --> 00:01:45,670
+I'll go ahead and open up a timeline,
+and see how this looks.
+
+34
+00:01:45,670 --> 00:01:48,410
+Now the timeline's showing that
+there are two threads running,
+
+35
+00:01:48,410 --> 00:01:50,170
+the main thread and a worker.
+
+36
+00:01:50,170 --> 00:01:51,000
+Looks like it worked.

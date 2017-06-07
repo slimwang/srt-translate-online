@@ -1,0 +1,160 @@
+1
+00:00:00,000 --> 00:00:03,343
+[BLANK_AUDIO]
+
+2
+00:00:03,343 --> 00:00:05,176
+Now, let's bring in our store list data.
+
+3
+00:00:05,176 --> 00:00:07,631
+[BLANK_AUDIO]
+
+4
+00:00:07,631 --> 00:00:08,693
+Using a join tool,
+
+5
+00:00:08,693 --> 00:00:13,040
+let's connect the weekly traffic
+data to the store list data.
+
+6
+00:00:13,040 --> 00:00:16,430
+Let's join using the store field,
+and deselect the right store input,
+
+7
+00:00:16,430 --> 00:00:20,210
+as we don't need two columns for
+the store field in our data stream.
+
+8
+00:00:20,210 --> 00:00:22,810
+We also wanted to use
+region as a variable.
+
+9
+00:00:22,810 --> 00:00:26,500
+Since this is a categorical variable,
+the way to approach the data is to match
+
+10
+00:00:26,500 --> 00:00:29,810
+control and treatment stores
+separately by each region.
+
+11
+00:00:29,810 --> 00:00:32,619
+For each region,
+the steps will be the same.
+
+12
+00:00:32,619 --> 00:00:36,670
+First, filter out the region-specific
+data using the filter tool,
+
+13
+00:00:36,670 --> 00:00:39,149
+using a basic filter where
+region equals Midwest.
+
+14
+00:00:40,160 --> 00:00:42,150
+In order to use the AB controls tool,
+
+15
+00:00:42,150 --> 00:00:45,693
+we need to separate the treatment
+stores from the control group.
+
+16
+00:00:45,693 --> 00:00:48,255
+So let's drag another
+filter onto the canvas and
+
+17
+00:00:48,255 --> 00:00:51,140
+create a filter where the test
+group does not equal CC.
+
+18
+00:00:52,300 --> 00:00:56,810
+This will split our data stream into two
+streams, one with the treatment stores,
+
+19
+00:00:56,810 --> 00:00:58,970
+and one with the control stores.
+
+20
+00:00:58,970 --> 00:01:02,490
+So the t output has
+the treatment stores, and
+
+21
+00:01:02,490 --> 00:01:05,860
+the false output has the control stores.
+
+22
+00:01:05,860 --> 00:01:09,050
+Now, we can use the AB control
+tools to use the trend and
+
+23
+00:01:09,050 --> 00:01:12,350
+seasonality data calculated
+by the AB trend tool
+
+24
+00:01:12,350 --> 00:01:15,680
+to match each treatment store to
+two control stores for each region.
+
+25
+00:01:16,690 --> 00:01:19,670
+So let's drag an AB controls
+tool onto the canvas.
+
+26
+00:01:20,950 --> 00:01:24,080
+Connect the data with the treatment
+stores to the t input.
+
+27
+00:01:24,080 --> 00:01:28,660
+And the data with all the stores,
+treatment and control, to the d input.
+
+28
+00:01:28,660 --> 00:01:30,370
+Now let's configure in the tool.
+
+29
+00:01:30,370 --> 00:01:33,200
+For the treatment unit identifier,
+we'll select store.
+
+30
+00:01:34,220 --> 00:01:35,630
+We're going to use both trend and
+
+31
+00:01:35,630 --> 00:01:38,419
+seasonality to match
+treatment to control stores.
+
+32
+00:01:39,540 --> 00:01:43,300
+And we're going to match two control
+stores to each treatment unit,
+
+33
+00:01:43,300 --> 00:01:47,040
+where a control can only be matched
+to a single treatment unit.
+
+34
+00:01:47,040 --> 00:01:49,100
+We'll repeat these steps for
+each region.

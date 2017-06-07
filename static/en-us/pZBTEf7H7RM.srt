@@ -1,0 +1,375 @@
+1
+00:00:00,120 --> 00:00:02,000
+The first model is a One-to-One Model.
+
+2
+00:00:03,140 --> 00:00:07,930
+Here each user-level thread has a kernel-level thread associated with it.
+
+3
+00:00:07,930 --> 00:00:12,277
+When the user process creates a new user-level thread, there is a kernel-level
+
+4
+00:00:12,277 --> 00:00:16,309
+thread that either is created or there is available kernel-level thread,
+
+5
+00:00:16,309 --> 00:00:20,670
+then a kernel-level thread is associated with user-level thread.
+
+6
+00:00:20,670 --> 00:00:25,500
+This means that the operating system can see all of the user-level threads.
+
+7
+00:00:25,500 --> 00:00:29,800
+It understands that the process is multithreaded, and it also understands what
+
+8
+00:00:29,800 --> 00:00:34,030
+those threads need in terms of synchronization, scheduling, blocking.
+
+9
+00:00:34,030 --> 00:00:37,630
+So as the operating system already supports these mechanisms in
+
+10
+00:00:37,630 --> 00:00:42,160
+order to manage its threads, then the user-level processes can
+
+11
+00:00:42,160 --> 00:00:46,090
+directly benefit from the threading support that's available in the kernel.
+
+12
+00:00:46,090 --> 00:00:50,990
+The downside of this approach is that, for every operation we
+
+13
+00:00:50,990 --> 00:00:54,550
+have to go to the kernel, so we have to pay the cost of a system call,
+
+14
+00:00:54,550 --> 00:00:56,910
+of crossing the user to kernel boundary.
+
+15
+00:00:56,910 --> 00:00:59,420
+This we discussed already could be expensive.
+
+16
+00:00:59,420 --> 00:01:04,150
+This model also means that since we're relying on the kernel to
+
+17
+00:01:04,150 --> 00:01:08,477
+do the thread-level management synchronization, scheduling et cetera,
+
+18
+00:01:08,477 --> 00:01:13,280
+we are limited by the policies that are already supported at the kernel level.
+
+19
+00:01:13,280 --> 00:01:17,650
+So for instance if the kernel doesn't support a particular scheduling policy or
+
+20
+00:01:17,650 --> 00:01:21,830
+if the kernel has a limit on the number of threads that can be supported,
+
+21
+00:01:21,830 --> 00:01:25,930
+the process is restricted to operate within those bounds.
+
+22
+00:01:25,930 --> 00:01:28,260
+This basically affects the portability, so
+
+23
+00:01:28,260 --> 00:01:33,330
+if a particular process, a particular application, has certain needs about how
+
+24
+00:01:33,330 --> 00:01:37,600
+its threads should be managed, we're limited to running that kind of
+
+25
+00:01:37,600 --> 00:01:42,120
+process only on the kernels that provide exactly that kind of support.
+
+26
+00:01:42,120 --> 00:01:44,760
+The second model is the Many-to-One Model.
+
+27
+00:01:44,760 --> 00:01:48,060
+Here all of the user-level threads are supported,
+
+28
+00:01:48,060 --> 00:01:51,580
+are mapped onto a single kernel-level thread.
+
+29
+00:01:51,580 --> 00:01:54,270
+What this means is that at the user level there is
+
+30
+00:01:54,270 --> 00:01:59,620
+a thread management library that decides which one of the user-level thread will
+
+31
+00:01:59,620 --> 00:02:03,560
+be mapped onto the kernel-level thread at any given point of time.
+
+32
+00:02:03,560 --> 00:02:05,249
+That user-level thread, of course,
+
+33
+00:02:05,249 --> 00:02:09,630
+will run only once the kernel-level thread is actually scheduled on the CPU.
+
+34
+00:02:09,630 --> 00:02:13,040
+The benefit of this approach is that it's totally portable.
+
+35
+00:02:13,040 --> 00:02:16,702
+Everything will be done at the user-level thread library,
+
+36
+00:02:16,702 --> 00:02:19,861
+scheduling, synchronization, et cetera, and so
+
+37
+00:02:19,861 --> 00:02:23,700
+we don't rely on any specific kernel-level support.
+
+38
+00:02:23,700 --> 00:02:27,350
+Similarly we're not limited by the specific limits and
+
+39
+00:02:27,350 --> 00:02:29,580
+policies that are available in the kernel.
+
+40
+00:02:29,580 --> 00:02:33,810
+Also because all of the thread management is done at the user level by
+
+41
+00:02:33,810 --> 00:02:37,740
+the user-level threading library, we don't have to make system calls,
+
+42
+00:02:37,740 --> 00:02:41,730
+we don't have to rely on user kernel transitions, in order to
+
+43
+00:02:41,730 --> 00:02:46,400
+make decisions regarding scheduling, synchronization, blocking, et cetera.
+
+44
+00:02:46,400 --> 00:02:50,880
+So this is very different than what we saw in the one-to-one model.
+
+45
+00:02:50,880 --> 00:02:53,220
+The problem with this approach is, however,
+
+46
+00:02:53,220 --> 00:02:58,450
+that the operating system has really no insight into the application needs,
+
+47
+00:02:58,450 --> 00:03:01,380
+it doesn't even know that the process is multithreaded.
+
+48
+00:03:01,380 --> 00:03:04,850
+What the OS sees is just a kernel-level thread, so
+
+49
+00:03:04,850 --> 00:03:10,205
+the real danger is that when the user-level library schedules one
+
+50
+00:03:10,205 --> 00:03:13,740
+user-level thread onto the kernel-level thread, and let's say
+
+51
+00:03:13,740 --> 00:03:18,620
+this user-level thread makes a request for an I operation that's blocking.
+
+52
+00:03:18,620 --> 00:03:23,290
+The kernel level scheduler will see that the kernel-level thread block, and
+
+53
+00:03:23,290 --> 00:03:26,340
+it will basically block the entire process.
+
+54
+00:03:26,340 --> 00:03:30,510
+So the fact that there may be other user-level threads that have useful work to
+
+55
+00:03:30,510 --> 00:03:34,910
+do and the process overall can make some progress, that's hidden from
+
+56
+00:03:34,910 --> 00:03:39,620
+the operating system, from the kernel, and the whole process is forced to wait.
+
+57
+00:03:39,620 --> 00:03:43,580
+This is obviously going to have some implication on performance.
+
+58
+00:03:43,580 --> 00:03:45,560
+Finally there is the Many-to-Many Model.
+
+59
+00:03:46,622 --> 00:03:50,529
+The Many-to-Many Model allows some user-level threads to be
+
+60
+00:03:50,529 --> 00:03:54,436
+associated with one kernel-level process, others perhaps to
+
+61
+00:03:54,436 --> 00:03:59,680
+have a one-to-one mapping with a process, so sort of the best of both worlds.
+
+62
+00:03:59,680 --> 00:04:03,180
+The kernel knows that the process is multithreaded since it
+
+63
+00:04:03,180 --> 00:04:06,850
+has assigned multiple kernel level threads to it.
+
+64
+00:04:06,850 --> 00:04:09,920
+And also, if one user-level thread blocks an I/O, and
+
+65
+00:04:09,920 --> 00:04:12,980
+as a result the kernel-level thread is blocked as well,
+
+66
+00:04:12,980 --> 00:04:16,670
+the process overall will have other kernel-level threads
+
+67
+00:04:16,670 --> 00:04:20,550
+onto which the remaining user-level threads will be scheduled.
+
+68
+00:04:20,550 --> 00:04:23,132
+So the process overall can make progress.
+
+69
+00:04:23,132 --> 00:04:26,530
+The user-level threads may be scheduled onto any of
+
+70
+00:04:26,530 --> 00:04:30,750
+the underlying kernel-level threads, so they're unbound.
+
+71
+00:04:30,750 --> 00:04:35,119
+Or we can have a certain user-level thread that's basically mapped
+
+72
+00:04:35,119 --> 00:04:38,830
+one-to-one permanently onto a kernel-level thread.
+
+73
+00:04:38,830 --> 00:04:41,280
+We called this the bound mapping.
+
+74
+00:04:41,280 --> 00:04:45,830
+The nice thing about this is that if we have certain user-level threads that
+
+75
+00:04:45,830 --> 00:04:51,190
+somehow even the kernel should be able to treat differently, to ensure that they
+
+76
+00:04:51,190 --> 00:04:55,650
+have better priority or are more responsive to certain events that are happening
+
+77
+00:04:55,650 --> 00:05:00,520
+in the kernel, we have a mechanisms to do this by these bound threads.
+
+78
+00:05:00,520 --> 00:05:05,250
+For instance, if the kernel sees that there is some user input, and we have
+
+79
+00:05:05,250 --> 00:05:10,050
+a particular user level thread that's designated to run the user interface for
+
+80
+00:05:10,050 --> 00:05:13,110
+this process, the kernel has a way to
+
+81
+00:05:13,110 --> 00:05:17,660
+immediately schedule the corresponding kernel-level thread as a result of that,
+
+82
+00:05:17,660 --> 00:05:20,890
+also the corresponding user-level thread.
+
+83
+00:05:20,890 --> 00:05:24,490
+So this ability to provide this kind of one-to-one,
+
+84
+00:05:24,490 --> 00:05:28,890
+permanent mapping in the many-to-many model is another benefit of the model.
+
+85
+00:05:28,890 --> 00:05:31,480
+There are still some cons with this model.
+
+86
+00:05:31,480 --> 00:05:34,600
+And that's, in particular, because now we require some
+
+87
+00:05:34,600 --> 00:05:38,061
+coordination between the kernel-level thread management and
+
+88
+00:05:38,061 --> 00:05:41,714
+the user-level thread management, which we didn't see in the other cases.
+
+89
+00:05:41,714 --> 00:05:45,160
+In the one-to-one model, pretty much everything goes up to
+
+90
+00:05:45,160 --> 00:05:48,740
+the kernel-level manager, and in the many-to-one model, pretty much everything
+
+91
+00:05:48,740 --> 00:05:53,064
+goes up to the user-level thread manager that's part of the thread's library.
+
+92
+00:05:53,064 --> 00:05:56,390
+In the many-to-many model there's often the case where
+
+93
+00:05:56,390 --> 00:06:00,950
+we require certain coordination between the kernel and user-level managers,
+
+94
+00:06:00,950 --> 00:06:04,200
+mostly in order to take advantage of some performance opportunities.

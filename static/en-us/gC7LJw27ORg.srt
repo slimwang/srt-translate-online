@@ -1,0 +1,301 @@
+1
+00:00:00,390 --> 00:00:02,340
+Hey, what's going on?
+
+2
+00:00:02,340 --> 00:00:03,480
+And thanks Colt.
+
+3
+00:00:03,480 --> 00:00:05,200
+Now, I'm really excited
+to join heads and
+
+4
+00:00:05,200 --> 00:00:08,210
+perf out a developer
+situation involving overdraw.
+
+5
+00:00:08,210 --> 00:00:09,420
+Now, if you want to follow along,
+
+6
+00:00:09,420 --> 00:00:13,320
+you'll want to clone the code sample
+at the URL in the instructor notes.
+
+7
+00:00:13,320 --> 00:00:16,420
+All right, so here we are in
+our sample code application.
+
+8
+00:00:16,420 --> 00:00:19,620
+Now, let's imagine,
+you just created a chat application, and
+
+9
+00:00:19,620 --> 00:00:23,080
+you want to find out how well you did
+in respect to overdraw performance.
+
+10
+00:00:24,110 --> 00:00:26,850
+The first thing you'll want to do is
+gather information about how your
+
+11
+00:00:26,850 --> 00:00:28,270
+app is performing.
+
+12
+00:00:28,270 --> 00:00:31,120
+To do this you're going to
+turn on the GPU overdraw debug
+
+13
+00:00:31,120 --> 00:00:31,880
+setting on your device.
+
+14
+00:00:31,880 --> 00:00:35,626
+You will find it within the Developer
+Options section of your systems
+
+15
+00:00:35,626 --> 00:00:36,796
+settings, like so.
+
+16
+00:00:41,056 --> 00:00:42,720
+Okay, it's on now.
+
+17
+00:00:42,720 --> 00:00:43,965
+Now, back to our chat application.
+
+18
+00:00:43,965 --> 00:00:48,710
+Uh-oh, look at all this excessive
+overdraw happening here.
+
+19
+00:00:48,710 --> 00:00:52,173
+You want to reduce this,
+particularly the red areas.
+
+20
+00:00:52,173 --> 00:00:54,842
+So here's a little reminder
+about what the colors mean.
+
+21
+00:00:58,395 --> 00:00:59,920
+Cool, ready to dig in?
+
+22
+00:01:01,040 --> 00:01:03,220
+Let's dive into how the UI
+is currently built, and
+
+23
+00:01:03,220 --> 00:01:05,379
+see if we can clean it up
+a bit to reduce some overdraw.
+
+24
+00:01:06,428 --> 00:01:07,760
+Now, as Colt mentioned,
+
+25
+00:01:07,760 --> 00:01:11,890
+one way to do this is to remove
+unnecessary backgrounds and drawables.
+
+26
+00:01:11,890 --> 00:01:13,000
+So let's take a stab at doing that.
+
+27
+00:01:14,060 --> 00:01:16,860
+How about we spiff up
+Chatum to be like this?
+
+28
+00:01:19,630 --> 00:01:22,680
+But let's chip at the problem
+one step at a time.
+
+29
+00:01:22,680 --> 00:01:25,650
+For example,
+notice that we have a green or
+
+30
+00:01:25,650 --> 00:01:28,750
+two x overdraw occurring in
+Chatum's background right here?
+
+31
+00:01:28,750 --> 00:01:30,250
+Now why could this be?
+
+32
+00:01:30,250 --> 00:01:33,470
+Well it turns out that Chatum's
+base activity uses a frame layout
+
+33
+00:01:33,470 --> 00:01:36,660
+with an opaque white background
+that fills the entire screen.
+
+34
+00:01:36,660 --> 00:01:40,060
+We like this, but it collides with
+Android's material theme defaults,
+
+35
+00:01:40,060 --> 00:01:42,610
+particularly the window
+background drawable.
+
+36
+00:01:42,610 --> 00:01:45,170
+This causes unnecessary overdraw.
+
+37
+00:01:45,170 --> 00:01:49,010
+Now as a developer,
+we have a design decision to make.
+
+38
+00:01:49,010 --> 00:01:50,940
+Let's say we want to keep
+our white background,
+
+39
+00:01:50,940 --> 00:01:53,600
+which means there's no real purpose for
+the material's theme.
+
+40
+00:01:54,900 --> 00:01:58,000
+So one optimization we can make
+here is to set our activity's
+
+41
+00:01:58,000 --> 00:02:00,160
+background drawable to null.
+
+42
+00:02:00,160 --> 00:02:02,390
+Now, let me show you how
+you can do this in code.
+
+43
+00:02:02,390 --> 00:02:06,840
+In Chatum's base activity,
+let's look at the onCreate method.
+
+44
+00:02:06,840 --> 00:02:08,910
+Use the following statement
+to nullify the background.
+
+45
+00:02:10,860 --> 00:02:12,150
+All right, sweet.
+
+46
+00:02:12,150 --> 00:02:15,360
+By nullifying the background we've
+reduced this overdraw from a green to
+
+47
+00:02:15,360 --> 00:02:19,270
+a blue, effectively making
+the overdraw now one x.
+
+48
+00:02:19,270 --> 00:02:19,770
+Nice.
+
+49
+00:02:21,090 --> 00:02:22,960
+Now this was a programmatic change.
+
+50
+00:02:22,960 --> 00:02:27,330
+But lets take a look at our XML markup
+to see if we can tweak anything else.
+
+51
+00:02:27,330 --> 00:02:30,980
+Now, you probably already noticed that
+there are three XML files that specify
+
+52
+00:02:30,980 --> 00:02:32,149
+Chatum's user interface.
+
+53
+00:02:33,410 --> 00:02:37,360
+There's the base activity
+Chatum Latinum, the XML for
+
+54
+00:02:37,360 --> 00:02:42,500
+our chat fragment, and then lastly,
+the individual XML for our chat items.
+
+55
+00:02:45,050 --> 00:02:46,550
+As mentioned before,
+
+56
+00:02:46,550 --> 00:02:48,979
+we intentionally want to keep
+this white background right here.
+
+57
+00:02:50,360 --> 00:02:51,990
+So, let's not remove anything.
+
+58
+00:02:51,990 --> 00:02:56,170
+But maybe there's some opportunity for
+tweaks in the remaining two XML files.
+
+59
+00:02:56,170 --> 00:02:57,290
+This is where I could use your help.
+
+60
+00:02:58,620 --> 00:03:01,340
+Do me a favor and
+comb the remaining XML files, and
+
+61
+00:03:01,340 --> 00:03:04,750
+see if you can remove any
+unnecessary backgrounds declared.
+
+62
+00:03:04,750 --> 00:03:05,750
+When you're finished,
+
+63
+00:03:05,750 --> 00:03:08,140
+enter the number of backgrounds
+you've removed in this box here.
+
+64
+00:03:09,530 --> 00:03:11,870
+If you're having trouble,
+no need to worry.
+
+65
+00:03:11,870 --> 00:03:12,980
+Just move on to the solution.

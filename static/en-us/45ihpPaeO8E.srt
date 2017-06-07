@@ -1,0 +1,291 @@
+﻿1
+00:00:00,100 --> 00:00:02,359
+Right, so in this project we're going
+to create our input and output data.
+
+2
+00:00:02,359 --> 00:00:05,903
+So, for input data, we're going to count
+all the words that happen in a review,
+
+3
+00:00:05,902 --> 00:00:08,320
+and then we're going to put them
+into a fixed length vector.
+
+4
+00:00:08,320 --> 00:00:12,169
+Where each place in the vector is for
+one of our words of our vocabulary.
+
+5
+00:00:12,169 --> 00:00:14,375
+So the first thing we do
+is we count our vocabulary.
+
+6
+00:00:14,375 --> 00:00:17,890
+Looks like we have
+just over 74,000 words.
+
+7
+00:00:17,890 --> 00:00:19,960
+Now we're going to
+create our empty vector.
+
+8
+00:00:19,960 --> 00:00:23,650
+Now it's generally a good practice
+to pre-allocate this vector
+
+9
+00:00:23,649 --> 00:00:26,289
+as just something that's empty and
+then edit it as you go.
+
+10
+00:00:26,289 --> 00:00:28,989
+Because one of those expensive
+things you can do in
+
+11
+00:00:28,989 --> 00:00:30,659
+computer science is allocate new memory.
+
+12
+00:00:30,660 --> 00:00:33,487
+So we don't want to have to create this
+new vector from scratch every time that
+
+13
+00:00:33,487 --> 00:00:33,886
+we use it.
+
+14
+00:00:33,886 --> 00:00:36,987
+So we're going to create an empty one
+and then we're going to createa function
+
+15
+00:00:36,987 --> 00:00:39,019
+that modifies this vector
+with the proper counts.
+
+16
+00:00:40,140 --> 00:00:43,859
+So, first thing we need to do is decide
+which place in this vector goes to each
+
+17
+00:00:43,859 --> 00:00:46,695
+word, and create a variable that
+allows us to research that.
+
+18
+00:00:46,695 --> 00:00:49,759
+Now, it doesn't really matter which
+place that we put it in, it's like,
+
+19
+00:00:49,759 --> 00:00:51,767
+horrible can be down here,
+or it could up there.
+
+20
+00:00:51,767 --> 00:00:55,320
+But as long as whatever we choose
+we kind of stick with, right?
+
+21
+00:00:55,320 --> 00:00:59,390
+So I'm going to create just a dictionary
+that allows us to look up every
+
+22
+00:00:59,390 --> 00:01:03,039
+word that's in our vocabulary according
+to the place that it has in that
+
+23
+00:01:03,039 --> 00:01:03,350
+vocabulary.
+
+24
+00:01:03,350 --> 00:01:05,200
+And then we're going to
+create our function.
+
+25
+00:01:05,200 --> 00:01:06,670
+So layer here the global variable.
+
+26
+00:01:06,670 --> 00:01:08,129
+We're going to clear out the old ones.
+
+27
+00:01:08,129 --> 00:01:12,849
+Then we're going to iterate
+through each word in our review.
+
+28
+00:01:12,849 --> 00:01:17,875
+And we're going to allocate the position
+in that vector where we're incrementing,
+
+29
+00:01:17,876 --> 00:01:20,125
+so that there's a count for each one.
+
+30
+00:01:20,125 --> 00:01:24,722
+Then we tried out in the first review,
+for the review 0 was this, right?
+
+31
+00:01:24,722 --> 00:01:25,640
+And it looks like it worked.
+
+32
+00:01:25,640 --> 00:01:29,814
+Actually one of the words, presumably
+the empty one when I tokenized it,
+
+33
+00:01:29,813 --> 00:01:31,102
+happened 18 times.
+
+34
+00:01:31,102 --> 00:01:32,495
+How about that?
+
+35
+00:01:32,495 --> 00:01:37,096
+So get_target_for_label seems to work,
+so
+
+36
+00:01:37,096 --> 00:01:43,657
+label(0) was positive, and
+label(1) I think was negative.
+
+37
+00:01:43,658 --> 00:01:45,114
+So yeah,
+it looks like it's working great.
+
+38
+00:01:45,114 --> 00:01:46,469
+S this will work great for us.
+
+39
+00:01:46,469 --> 00:01:48,498
+This is our input and output dataset and
+
+40
+00:01:48,498 --> 00:01:52,076
+I hope that yours created kind of
+variables that look a lot like this.
+
+41
+00:01:52,076 --> 00:01:54,935
+The nice what we're doing here is,
+and I guess the thing to take away,
+
+42
+00:01:54,935 --> 00:01:56,689
+is mostly this efficiency piece, right?
+
+43
+00:01:56,689 --> 00:01:59,049
+So when you're creating these vectors,
+
+44
+00:01:59,049 --> 00:02:01,789
+try not to allocate completely
+new vectors for your data.
+
+45
+00:02:01,790 --> 00:02:05,590
+The second thing that we're also not
+doing is pre-generating the entire
+
+46
+00:02:05,590 --> 00:02:06,576
+data set, right?
+
+47
+00:02:06,576 --> 00:02:12,439
+because that would be a matrix that is
+74,000 by, how many train examples?
+
+48
+00:02:12,439 --> 00:02:19,335
+25,000, so 74,000 vocab_size x 25,000,
+
+49
+00:02:19,336 --> 00:02:25,220
+that would be,
+man [LAUGH] around 2 billion integers.
+
+50
+00:02:25,219 --> 00:02:28,992
+Which is just, that's a lot of stuff to
+store on your machine when, in reality,
+
+51
+00:02:28,992 --> 00:02:30,722
+we can populate this pretty easily.
+
+52
+00:02:30,722 --> 00:02:33,650
+And most of them are zeroes, and they're
+pretty quick we need to generate.
+
+53
+00:02:33,650 --> 00:02:35,620
+So this is just generally
+good practice for
+
+54
+00:02:35,620 --> 00:02:39,310
+creating your data set without
+filling up your RAM on your laptop.
+
+55
+00:02:39,310 --> 00:02:41,349
+So, that's our input and
+output data set.
+
+56
+00:02:41,349 --> 00:02:42,819
+Those are kind of the things
+to watch out for.
+
+57
+00:02:42,819 --> 00:02:44,789
+Don't allocate too much memory at once,
+
+58
+00:02:44,789 --> 00:02:46,996
+and don't create new
+variables all the time.
+
+59
+00:02:46,997 --> 00:02:49,604
+These are forms that we're going
+to use in our neural net, right?
+
+60
+00:02:49,604 --> 00:02:51,764
+So in the next section we're going to
+be talking about how we're going to put
+
+61
+00:02:51,764 --> 00:02:52,990
+this together into our neural network.
+
+62
+00:02:52,990 --> 00:02:53,480
+See you there.
+

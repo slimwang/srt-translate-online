@@ -1,0 +1,255 @@
+1
+00:00:00,270 --> 00:00:04,290
+During the threads and concurrency lecture, recall that we had a quiz in
+
+2
+00:00:04,290 --> 00:00:08,670
+which we were comparing the boss-worker model with the pipeline model.
+
+3
+00:00:08,670 --> 00:00:12,960
+And we did that specifically in one example for six worker threads in
+
+4
+00:00:12,960 --> 00:00:18,658
+both cases, and for a toy order that consisted of 11 toys.
+
+5
+00:00:18,658 --> 00:00:23,070
+For the boss-worker model, we said that it takes 120 milliseconds for
+
+6
+00:00:23,070 --> 00:00:24,720
+a worker to process a toy order.
+
+7
+00:00:24,720 --> 00:00:25,940
+And then for
+
+8
+00:00:25,940 --> 00:00:31,100
+the pipeline model we said that it takes 20 milliseconds to complete each of
+
+9
+00:00:31,100 --> 00:00:35,140
+the pipeline stages, and a full toy order had six pipeline stages.
+
+10
+00:00:35,140 --> 00:00:38,210
+Let's compare these two models to see which one is better.
+
+11
+00:00:38,210 --> 00:00:44,077
+The computation that we performed during that homework showed us that regarding
+
+12
+00:00:44,077 --> 00:00:50,205
+execution time, the boss-worker models took 360 milliseconds for the 11 toy
+
+13
+00:00:50,205 --> 00:00:57,190
+orders, and the pipeline model took 320 milliseconds for the same 11 toy orders.
+
+14
+00:00:57,190 --> 00:00:58,950
+Now let's consider something else.
+
+15
+00:00:58,950 --> 00:01:03,820
+Now let's compare these two models with respect to the average time they take to
+
+16
+00:01:03,820 --> 00:01:05,239
+complete an order.
+
+17
+00:01:05,239 --> 00:01:09,090
+To find the average time we have to sum up the times that it took to
+
+18
+00:01:09,090 --> 00:01:13,300
+complete every single one of the 11 orders, and then divide by 11.
+
+19
+00:01:13,300 --> 00:01:15,750
+The first five orders took 120 milliseconds to complete.
+
+20
+00:01:17,420 --> 00:01:21,060
+They were executed by the first group of five threads.
+
+21
+00:01:21,060 --> 00:01:24,230
+The second five orders were scheduled in the second batch, so
+
+22
+00:01:24,230 --> 00:01:28,820
+they took twice as long, they took 240 milliseconds to complete.
+
+23
+00:01:28,820 --> 00:01:34,270
+And then the 11th toy order took 360 milliseconds to complete.
+
+24
+00:01:34,270 --> 00:01:38,610
+It had to wait, it could only be started until the previous ten orders were
+
+25
+00:01:38,610 --> 00:01:42,350
+completed in the groups of five plus five threads, each.
+
+26
+00:01:42,350 --> 00:01:45,690
+So if we compute this, the average time to complete an order for
+
+27
+00:01:45,690 --> 00:01:50,020
+the boss-workers model is 196 milliseconds.
+
+28
+00:01:50,020 --> 00:01:52,100
+If we take a look at the pipeline model,
+
+29
+00:01:52,100 --> 00:01:56,190
+the first order took 120 milliseconds to complete.
+
+30
+00:01:56,190 --> 00:01:59,290
+Six pipeline stages times 20 milliseconds.
+
+31
+00:01:59,290 --> 00:02:02,110
+The next one was already in the pipeline and
+
+32
+00:02:02,110 --> 00:02:07,070
+once the first order completed, it had to finish the last stage of the pipeline.
+
+33
+00:02:07,070 --> 00:02:11,720
+So its completion time will be 20 milliseconds longer, so 140 milliseconds.
+
+34
+00:02:13,230 --> 00:02:18,260
+The one that came after that, another 20 milliseconds longer for 160.
+
+35
+00:02:18,260 --> 00:02:23,260
+And so on until the very last order, which will take 320 milliseconds.
+
+36
+00:02:23,260 --> 00:02:29,000
+So the average completion time for the pipeline model is 220 milliseconds.
+
+37
+00:02:29,000 --> 00:02:34,080
+So basically what this shows us is that if we consider execution time, if that's
+
+38
+00:02:34,080 --> 00:02:39,065
+what's important, then we should pick for this particular configuration, for
+
+39
+00:02:39,065 --> 00:02:44,480
+11 toy orders and six workers, then we should pick the pipeline model.
+
+40
+00:02:44,480 --> 00:02:45,470
+It's better.
+
+41
+00:02:45,470 --> 00:02:48,100
+It leads to shorter execution time.
+
+42
+00:02:48,100 --> 00:02:53,180
+However, if what we care for is average time to complete the order, because
+
+43
+00:02:53,180 --> 00:02:58,650
+that's what makes our customers happy, then the boss-worker model is better.
+
+44
+00:02:58,650 --> 00:03:04,260
+Its average completion time is 196 milliseconds compared to 220, for
+
+45
+00:03:04,260 --> 00:03:05,740
+the exact same work load,
+
+46
+00:03:05,740 --> 00:03:11,150
+11 toy orders, and the exact same number of workers working in the toy shop.
+
+47
+00:03:11,150 --> 00:03:14,250
+If you slightly modify this problem where you look at
+
+48
+00:03:14,250 --> 00:03:19,600
+a situation with different number of workers, or different number of orders,
+
+49
+00:03:19,600 --> 00:03:22,890
+then you may end up coming up with completely different answers and
+
+50
+00:03:22,890 --> 00:03:27,800
+drawing different conclusions as to which one of these models is better.
+
+51
+00:03:27,800 --> 00:03:31,551
+Now the important thing is, though, that when we look at
+
+52
+00:03:31,551 --> 00:03:35,928
+a specific configuration, if we are the toy shop manager and it's
+
+53
+00:03:35,928 --> 00:03:41,188
+concerned with completing as many orders as possible in a fixed amount of time.
+
+54
+00:03:41,188 --> 00:03:45,201
+Then maybe we'll choose, under these circumstances, the pipeline model,
+
+55
+00:03:45,201 --> 00:03:48,520
+because it gives us shorter completion time.
+
+56
+00:03:48,520 --> 00:03:52,330
+However, if we're the customers of that toy store, then we
+
+57
+00:03:52,330 --> 00:03:56,860
+probably would prefer if this was the model that the toy shop implemented,
+
+58
+00:03:56,860 --> 00:04:00,430
+because the orders will be completed in shorter amount of time.
+
+59
+00:04:00,430 --> 00:04:02,700
+Important conclusion of this is that,
+
+60
+00:04:02,700 --> 00:04:07,450
+when we're comparing two different implementations of a particular problem, or
+
+61
+00:04:07,450 --> 00:04:12,770
+two different solution design points, then it's very important to think about,
+
+62
+00:04:12,770 --> 00:04:17,209
+what are the metrics that are used to evaluate those different solutions,
+
+63
+00:04:17,209 --> 00:04:19,339
+those different implementations?
+
+64
+00:04:19,339 --> 00:04:20,390
+Who cares about that?

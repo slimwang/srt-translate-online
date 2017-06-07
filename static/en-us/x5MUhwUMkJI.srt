@@ -1,0 +1,91 @@
+1
+00:00:00,520 --> 00:00:03,010
+Surprisingly it's, who knows?
+
+2
+00:00:04,130 --> 00:00:10,020
+Keep in mind, that dispatch_async
+adds your closures to each queue and
+
+3
+00:00:10,020 --> 00:00:11,748
+then returns immediately.
+
+4
+00:00:11,748 --> 00:00:15,330
+Therefore, the print("end")
+statement will likely run before
+
+5
+00:00:15,330 --> 00:00:17,900
+any of the closures get a chance to run.
+
+6
+00:00:17,900 --> 00:00:20,980
+Later on, the closures will run.
+
+7
+00:00:20,980 --> 00:00:25,620
+However, the precise order
+in which each of them will
+
+8
+00:00:25,620 --> 00:00:30,508
+run will depend on how busy the queues
+that you reuse are at that moment.
+
+9
+00:00:30,508 --> 00:00:34,430
+With dispatch_async inference we can
+run things in the background, but we
+
+10
+00:00:34,430 --> 00:00:39,842
+apparently lose the ability to predict
+in which order the code will run.
+
+11
+00:00:39,842 --> 00:00:42,640
+There is a way around this and
+we will see it in the sample app.
+
+12
+00:00:42,640 --> 00:00:44,980
+Until then see if you
+can find it by yourself.
+
+13
+00:00:44,980 --> 00:00:46,360
+We need the following.
+
+14
+00:00:46,360 --> 00:00:49,640
+Each print statement must
+run in its own queue.
+
+15
+00:00:49,640 --> 00:00:55,580
+They should always run in the following
+order, end, and then 1, 2, and 3.
+
+16
+00:00:55,580 --> 00:00:58,290
+Think of a way of achieving this.
+
+17
+00:00:58,290 --> 00:00:59,280
+I'll give you a tip.
+
+18
+00:00:59,280 --> 00:01:02,420
+It's much,
+much easier than you might expect.
+
+19
+00:01:02,420 --> 00:01:07,000
+Think of the movie Inception,
+dreams within dreams within dreams.
+
+20
+00:01:07,000 --> 00:01:07,520
+Think about it.

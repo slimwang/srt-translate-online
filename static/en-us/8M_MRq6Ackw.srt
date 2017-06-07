@@ -1,0 +1,388 @@
+1
+00:00:00,100 --> 00:00:02,710
+So I promised that we would
+do stochastic bandit arms,
+
+2
+00:00:02,710 --> 00:00:04,070
+deterministic MDPs, and
+
+3
+00:00:04,070 --> 00:00:08,720
+then ultimately combine ideas together
+and handle general stochastic MDPs.
+
+4
+00:00:08,720 --> 00:00:09,990
+So I think we can do
+
+5
+00:00:11,250 --> 00:00:15,310
+efficient exploration of deterministic
+MDPs relatively simply actually.
+
+6
+00:00:15,310 --> 00:00:17,520
+Here's a little randomly generated MDP.
+
+7
+00:00:17,520 --> 00:00:20,400
+Randomly generated in that I
+drew a bunch of arrows and
+
+8
+00:00:20,400 --> 00:00:22,850
+I have absolutely no idea
+what the solution to this is.
+
+9
+00:00:22,850 --> 00:00:25,920
+But if we were doing reinforcement
+learning in this MDP,
+
+10
+00:00:25,920 --> 00:00:29,050
+all we would know at any moment in
+time is which state we were in.
+
+11
+00:00:29,050 --> 00:00:30,410
+And which action we were choosing.
+
+12
+00:00:30,410 --> 00:00:31,520
+And so, an action, in this case,
+
+13
+00:00:31,520 --> 00:00:34,090
+would just have a label,
+like action one and action two.
+
+14
+00:00:34,090 --> 00:00:36,700
+I made two actions for
+each of these states.
+
+15
+00:00:36,700 --> 00:00:41,530
+We know how to solve a deterministic MDP
+to figure out the optimal policy for it.
+
+16
+00:00:41,530 --> 00:00:43,145
+But we can't solve it in the beginning,
+
+17
+00:00:43,145 --> 00:00:46,130
+because we don't actually
+know any of this stuff.
+
+18
+00:00:46,130 --> 00:00:47,190
+Right, all these numbers.
+
+19
+00:00:47,190 --> 00:00:49,880
+Where do the arrows go and
+what reward do we get on an arrow?
+
+20
+00:00:49,880 --> 00:00:51,610
+We don't know any of
+that at the beginning.
+
+21
+00:00:51,610 --> 00:00:53,130
+>> Right.
+So, two observations.
+
+22
+00:00:53,130 --> 00:00:55,260
+One, you don't have two
+actions at every state.
+
+23
+00:00:55,260 --> 00:00:56,400
+>> Oh, what do you mean?
+
+24
+00:00:56,400 --> 00:00:57,920
+>> Well, the one that has
+the three coming out of it,
+
+25
+00:00:57,920 --> 00:00:59,100
+there's only one action that comes out.
+
+26
+00:01:00,850 --> 00:01:02,470
+You don't have a self action.
+
+27
+00:01:02,470 --> 00:01:03,220
+>> This one?
+
+28
+00:01:03,220 --> 00:01:03,720
+>> Yes.
+
+29
+00:01:03,720 --> 00:01:04,410
+>> Dope.
+
+30
+00:01:04,410 --> 00:01:06,950
+All right, there's just two things,
+then they both can have a plus three.
+
+31
+00:01:06,950 --> 00:01:08,410
+But, you're right.
+I thought I got them all, but
+
+32
+00:01:08,410 --> 00:01:09,220
+I missed that one.
+
+33
+00:01:09,220 --> 00:01:10,310
+>> It doesn't really matter.
+
+34
+00:01:10,310 --> 00:01:11,380
+So, that's one observation.
+
+35
+00:01:11,380 --> 00:01:14,530
+One observation is one does
+not always equal to two.
+
+36
+00:01:14,530 --> 00:01:16,210
+The second observation.
+
+37
+00:01:16,210 --> 00:01:19,650
+Is that if we know it's deterministic,
+
+38
+00:01:19,650 --> 00:01:23,890
+then all we have to do is,
+in every state, try every action once.
+
+39
+00:01:23,890 --> 00:01:25,360
+>> Yeah, that's true.
+
+40
+00:01:25,360 --> 00:01:30,194
+>> And then we know everything we know
+about which action is best or whatever,
+
+41
+00:01:30,194 --> 00:01:30,920
+magic.
+
+42
+00:01:30,920 --> 00:01:31,990
+Something like that.
+
+43
+00:01:31,990 --> 00:01:32,875
+Shouldn't that work?
+
+44
+00:01:32,875 --> 00:01:36,440
+>> [LAUGH]
+Okay,
+
+45
+00:01:36,440 --> 00:01:37,640
+well you're kind of onto something.
+
+46
+00:01:37,640 --> 00:01:41,350
+It's certainly the case that once
+we've tried each action in each state
+
+47
+00:01:41,350 --> 00:01:44,110
+then we can actually build
+the entire MDP and solve it.
+
+48
+00:01:44,110 --> 00:01:45,550
+>> Right.
+>> The question is what do we do
+
+49
+00:01:45,550 --> 00:01:46,100
+along the way?
+
+50
+00:01:46,100 --> 00:01:48,670
+What do we do when we don't
+have the whole MDP yet?
+
+51
+00:01:48,670 --> 00:01:50,100
+Maybe it's not entirely clear.
+
+52
+00:01:50,100 --> 00:01:53,520
+I mean if we could just teleport
+ourselves to any state that we wanted to
+
+53
+00:01:53,520 --> 00:01:55,870
+be in and take the action at that state,
+then that would be fine.
+
+54
+00:01:55,870 --> 00:01:58,750
+But that's not how the world
+is in reinforcement learning.
+
+55
+00:01:58,750 --> 00:01:59,450
+Right?
+
+56
+00:01:59,450 --> 00:02:01,140
+All we can do is choose actions.
+
+57
+00:02:01,140 --> 00:02:02,870
+We can't choose which state to be in.
+
+58
+00:02:02,870 --> 00:02:05,850
+>> Well, we could track every
+state that we've ever been in and
+
+59
+00:02:05,850 --> 00:02:07,480
+every action ever taken.
+
+60
+00:02:07,480 --> 00:02:08,590
+>> That's true.
+
+61
+00:02:08,590 --> 00:02:13,170
+>> And then just do things
+that seem reasonable.
+
+62
+00:02:13,170 --> 00:02:17,180
+Explore a little bit randomly so that
+we make certain we get to every state.
+
+63
+00:02:17,180 --> 00:02:19,980
+And get a chance to take every
+action and then kind of go.
+
+64
+00:02:19,980 --> 00:02:22,265
+>> All right.
+So you're thinking explore randomly so
+
+65
+00:02:22,265 --> 00:02:23,345
+that we hit everything.
+
+66
+00:02:23,345 --> 00:02:27,225
+That could work, but we can make
+MDPs where that's problematic
+
+67
+00:02:27,225 --> 00:02:31,505
+because if we choose actions randomly we
+keep, for example, getting reset to some
+
+68
+00:02:31,505 --> 00:02:36,005
+beginning state and
+actually not choosing things randomly so
+
+69
+00:02:36,005 --> 00:02:38,545
+that we visit all of
+the states can be challenging.
+
+70
+00:02:38,545 --> 00:02:39,885
+>> So, that's true, Michael,
+
+71
+00:02:39,885 --> 00:02:44,990
+but if we don't know anything about the
+MDP then I can always construct an MDP
+
+72
+00:02:44,990 --> 00:02:47,900
+that's going to mess with whatever
+exploration strategy you have, right.
+
+73
+00:02:47,900 --> 00:02:51,140
+Because I'll just always there will
+be some state with some action that
+
+74
+00:02:51,140 --> 00:02:53,290
+puts you into some state
+you can never get out of.
+
+75
+00:02:53,290 --> 00:02:57,890
+So, unless you can do random restarts or
+be able to get to some state.
+
+76
+00:02:57,890 --> 00:02:59,530
+Press a button and do a reboot.
+
+77
+00:02:59,530 --> 00:03:02,750
+You could always get unlucky and
+never be able to explore the MDP.
+
+78
+00:03:02,750 --> 00:03:04,608
+>> Okay, all right.
+
+79
+00:03:04,608 --> 00:03:05,720
+Well, that is a fair point.
+
+80
+00:03:05,720 --> 00:03:10,610
+We have to be very careful about
+what we think our criterion is.
+
+81
+00:03:10,610 --> 00:03:13,350
+Now, we went through it pretty
+carefully in the case of bandits, but
+
+82
+00:03:13,350 --> 00:03:16,985
+I kind of jumped to deterministic MDPs
+without revisiting this question.
+
+83
+00:03:16,985 --> 00:03:22,100
+So I'm going to propose
+a particular optimization criteria,
+
+84
+00:03:22,100 --> 00:03:24,920
+and then we'll talk about why
+it needs to be like that.
+
+85
+00:03:24,920 --> 00:03:25,700
+>> Okay, that seems fair.

@@ -1,0 +1,364 @@
+﻿1
+00:00:00,290 --> 00:00:05,360
+Now I want to describe the notation,
+which we call classical planning, which
+
+2
+00:00:05,360 --> 00:00:11,510
+is a representation language for dealing
+with states and actions and plans.
+
+3
+00:00:11,509 --> 00:00:13,969
+And it's also an approach for
+
+4
+00:00:13,970 --> 00:00:19,690
+dealing with the problem of complexity,
+by factoring the world into variables.
+
+5
+00:00:19,690 --> 00:00:24,640
+So under classical planning,
+a state space consists of all
+
+6
+00:00:24,640 --> 00:00:29,096
+the possible assignments
+to k-Boolean variables.
+
+7
+00:00:29,096 --> 00:00:35,429
+And so that means they'll be 2 to
+the k states in that state space.
+
+8
+00:00:35,429 --> 00:00:39,179
+And if we think about the two
+location vacuum world,
+
+9
+00:00:39,179 --> 00:00:42,109
+we would have three Boolean Variables.
+
+10
+00:00:42,109 --> 00:00:46,632
+We could have dirt in location A,
+
+11
+00:00:46,633 --> 00:00:52,944
+dirt in location B, and
+vacuum in location A.
+
+12
+00:00:52,944 --> 00:00:55,550
+And the vacuum has to be in either A or
+B.
+
+13
+00:00:55,549 --> 00:00:57,750
+So these three variables will do and
+
+14
+00:00:57,750 --> 00:01:01,810
+there'll be eight possible
+states in that world.
+
+15
+00:01:01,810 --> 00:01:06,230
+But they can be succinctly represented
+through the three variables.
+
+16
+00:01:06,230 --> 00:01:11,719
+And then a world state consists of
+a complete assignment of true and
+
+17
+00:01:11,719 --> 00:01:14,400
+false, through each of
+the three variables.
+
+18
+00:01:14,400 --> 00:01:18,670
+And then a belief state, well,
+just as in problem solving,
+
+19
+00:01:18,670 --> 00:01:23,881
+the belief state depends on what type
+of environment you want to deal with.
+
+20
+00:01:23,881 --> 00:01:26,742
+Now, in the core classical planning,
+
+21
+00:01:26,742 --> 00:01:31,772
+the belief sate had to be a complete
+assignment and that was useful for
+
+22
+00:01:31,772 --> 00:01:36,125
+dealing with deterministic,
+fully observable domains.
+
+23
+00:01:36,125 --> 00:01:39,311
+But we can easily extend
+classical planning and
+
+24
+00:01:39,311 --> 00:01:44,086
+we can deal with belief states that
+are partial assignments, that is,
+
+25
+00:01:44,085 --> 00:01:48,060
+some of the variables have
+values that others don't.
+
+26
+00:01:48,060 --> 00:01:53,480
+So we could have the belief state
+consisting of vacuum in A is true and
+
+27
+00:01:53,480 --> 00:01:55,730
+the others are unknown and
+
+28
+00:01:55,730 --> 00:02:00,140
+that small formula represents
+four possible world states.
+
+29
+00:02:01,310 --> 00:02:06,969
+And we can even have a belief state
+which is an arbitrary formula
+
+30
+00:02:06,969 --> 00:02:08,430
+in Boolean logic.
+
+31
+00:02:08,430 --> 00:02:11,050
+And that can represent anything we want.
+
+32
+00:02:11,050 --> 00:02:15,380
+So that's what states look like, now we
+have to figure out what actions look and
+
+33
+00:02:15,379 --> 00:02:18,189
+what the results of those
+actions looks like.
+
+34
+00:02:18,189 --> 00:02:21,009
+And these are represented in classical
+
+35
+00:02:21,009 --> 00:02:24,884
+planning by something
+called an action schema.
+
+36
+00:02:24,884 --> 00:02:26,419
+And it's called a schema,
+
+37
+00:02:26,419 --> 00:02:30,778
+because it represents many possible
+actions that are similar to each other.
+
+38
+00:02:30,778 --> 00:02:35,625
+So, let's take an example of we want
+to send cargo around the world and
+
+39
+00:02:35,625 --> 00:02:40,240
+we've got a bunch of planes in
+airports and we have cargo and so on.
+
+40
+00:02:40,240 --> 00:02:44,430
+And I'll show you the action for
+having a plane fly
+
+41
+00:02:44,430 --> 00:02:48,270
+from one location to another
+here's on possible representation.
+
+42
+00:02:48,270 --> 00:02:53,840
+We say, it's an action schema, so we
+write the word action, and then we write
+
+43
+00:02:53,840 --> 00:02:58,830
+the action operator, and
+it's arguments, so it's a fly of p,
+
+44
+00:02:59,860 --> 00:03:06,850
+from x to y, and
+then we list the preconditions.
+
+45
+00:03:06,849 --> 00:03:11,120
+What needs to be true in order to
+be able to execute this action.
+
+46
+00:03:11,120 --> 00:03:14,700
+And we can say something like,
+well, p better be a plane.
+
+47
+00:03:16,060 --> 00:03:19,110
+It's no good trying to fly a truck or
+a submarine.
+
+48
+00:03:20,699 --> 00:03:28,179
+And we'll use the and formula
+from Boolean propositional logic.
+
+49
+00:03:28,180 --> 00:03:30,930
+And x better be an airport.
+
+50
+00:03:30,930 --> 00:03:33,830
+You don't want to try to
+take off from my back yard.
+
+51
+00:03:33,830 --> 00:03:36,638
+And similarly, y better be an airport.
+
+52
+00:03:36,638 --> 00:03:38,762
+And, most importantly,
+
+53
+00:03:38,762 --> 00:03:43,210
+p better be at airport x in
+order to take off from there.
+
+54
+00:03:43,210 --> 00:03:47,914
+And then we represent the effects
+of the action by saying,
+
+55
+00:03:47,913 --> 00:03:50,729
+well, what's going to happen?
+
+56
+00:03:50,729 --> 00:03:56,039
+Well, once we fly from x to y
+the plane is no longer at x.
+
+57
+00:03:57,159 --> 00:04:02,329
+So we say not at p(x).
+
+58
+00:04:02,330 --> 00:04:03,640
+Plane's no longer at x.
+
+59
+00:04:04,639 --> 00:04:08,699
+And the plane is now at y.
+
+60
+00:04:08,699 --> 00:04:10,750
+So this is called an action schema.
+
+61
+00:04:10,750 --> 00:04:15,560
+It represents a set of actions for
+all possible planes, for all x, and for
+
+62
+00:04:15,560 --> 00:04:16,800
+all y.
+
+63
+00:04:16,800 --> 00:04:19,040
+Represents all those
+actions in one schema.
+
+64
+00:04:19,040 --> 00:04:24,710
+It says, but we need to know,
+in order to apply the action.
+
+65
+00:04:24,709 --> 00:04:29,389
+And it says what will happen in terms
+of the transition from state spaces.
+
+66
+00:04:29,389 --> 00:04:32,560
+This variable will become false,
+and this one will become true.
+
+67
+00:04:33,639 --> 00:04:41,229
+Now when we look at this formula this
+looks like a term in first order logic.
+
+68
+00:04:41,230 --> 00:04:45,550
+But we're actually dealing with
+a completely propositional world.
+
+69
+00:04:45,550 --> 00:04:48,259
+It just looks like that
+because this is a schema.
+
+70
+00:04:48,259 --> 00:04:55,279
+And we can apply this schema to specific
+ground states, specific world states.
+
+71
+00:04:55,279 --> 00:04:58,209
+And then p and
+x would have specific values.
+
+72
+00:04:58,209 --> 00:05:01,639
+And you can just think of it as
+concatenating their names all together.
+
+73
+00:05:01,639 --> 00:05:04,579
+And that's just the name
+of one variable.
+
+74
+00:05:04,579 --> 00:05:08,209
+The name just happens to have this
+complex form with parentheses and
+
+75
+00:05:08,209 --> 00:05:09,199
+commas in it.
+
+76
+00:05:09,199 --> 00:05:11,670
+To make it easier to write one schema
+
+77
+00:05:11,670 --> 00:05:14,710
+that covers all
+the individual fly actions.
+

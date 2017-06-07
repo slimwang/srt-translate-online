@@ -1,0 +1,197 @@
+1
+00:00:00,490 --> 00:00:02,230
+Here's how the site works at the moment.
+
+2
+00:00:02,230 --> 00:00:06,440
+When you navigate to Witter, the browser
+makes a request for some HTML.
+
+3
+00:00:06,440 --> 00:00:09,900
+Like all web requests,
+this goes via the browser's HTTP cache.
+
+4
+00:00:09,900 --> 00:00:13,720
+And if there's no match there,
+it continues on to the internet.
+
+5
+00:00:13,720 --> 00:00:17,370
+Then hopefully, the response makes
+its way back to the browser.
+
+6
+00:00:17,370 --> 00:00:22,160
+The html the browser receives tells it
+it needs some CSS, so that's fetched.
+
+7
+00:00:22,160 --> 00:00:25,790
+Once that arrives, we get our first
+render, a page full of content.
+
+8
+00:00:25,790 --> 00:00:29,160
+You see the initial set of posts
+are right there in the HTML.
+
+9
+00:00:29,160 --> 00:00:32,759
+But at the same time
+the browser downloaded the CSS,
+
+10
+00:00:32,759 --> 00:00:34,980
+it's also requesting some JavaScript.
+
+11
+00:00:34,980 --> 00:00:38,890
+And when that arrives it opens
+a websocket, a persistent connection
+
+12
+00:00:38,890 --> 00:00:42,560
+that lets the server continually
+stream newer posts as they arrive.
+
+13
+00:00:42,560 --> 00:00:45,330
+This provides the live updates so
+the user doesn't miss out on
+
+14
+00:00:45,330 --> 00:00:49,430
+a single piece of nonsense
+posted by the other users.
+
+15
+00:00:49,430 --> 00:00:53,720
+In terms of the pages JavaScript
+you'll find that in public JS main.
+
+16
+00:00:53,720 --> 00:00:57,050
+The starting point is index.js,
+but all this does is load,
+
+17
+00:00:57,050 --> 00:01:00,620
+polyfill is that some browsers
+may need such as promises and
+
+18
+00:01:00,620 --> 00:01:03,730
+the URL API which will use
+a little bit later on.
+
+19
+00:01:03,730 --> 00:01:06,790
+The main work happens
+in IndexController.js.
+
+20
+00:01:06,790 --> 00:01:09,610
+The constructor here is run for
+every page load.
+
+21
+00:01:09,610 --> 00:01:13,680
+We have this PostsView which helps
+us update the post on the page.
+
+22
+00:01:13,680 --> 00:01:16,090
+This ToastsView helps us
+display error messages,
+
+23
+00:01:16,090 --> 00:01:18,460
+hopefully we won't get
+too many of those.
+
+24
+00:01:18,460 --> 00:01:20,070
+And then we open a socket connection.
+
+25
+00:01:21,330 --> 00:01:26,640
+The open socket method, well as you
+might guess opens the WebSocket and
+
+26
+00:01:26,640 --> 00:01:30,930
+the message event is fired when data
+is received for a new post to display.
+
+27
+00:01:30,930 --> 00:01:33,970
+When you post a received
+on socket messages called,
+
+28
+00:01:33,970 --> 00:01:38,980
+this method passes the data is chosen
+and passes the result to the PostView.
+
+29
+00:01:38,980 --> 00:01:40,340
+While the server is running,
+
+30
+00:01:40,340 --> 00:01:44,110
+any changes you make to these
+files will be processed and built.
+
+31
+00:01:44,110 --> 00:01:46,820
+I didn't want ES6 to be
+a prerequisite for this course, so
+
+32
+00:01:46,820 --> 00:01:48,340
+i'm going to stick to ES5.
+
+33
+00:01:48,340 --> 00:01:52,530
+But the build system uses babel so if
+you're like a cool kid from the future.
+
+34
+00:01:52,530 --> 00:01:55,050
+Feel free to use some of
+the latest JavaScript syntax.
+
+35
+00:01:56,530 --> 00:01:57,600
+And i almost forgot.
+
+36
+00:01:57,600 --> 00:02:03,040
+There's actually another server
+running on port 8889 so open up.
+
+37
+00:02:03,040 --> 00:02:06,380
+This gives you basic control over
+your connectivity to the server.
+
+38
+00:02:06,380 --> 00:02:07,620
+How to play with the settings.
+
+39
+00:02:07,620 --> 00:02:10,310
+Refresh the page and
+see how it responds.
+
+40
+00:02:10,310 --> 00:02:14,540
+You'll see things are pretty bad
+in everything except perfect mode.
+
+41
+00:02:14,540 --> 00:02:19,000
+Over the course of this course, we're
+going to fix the non perfect cases.

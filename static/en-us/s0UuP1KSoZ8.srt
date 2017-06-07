@@ -1,0 +1,224 @@
+1
+00:00:00,150 --> 00:00:03,650
+We will now summarize one
+more time the steps involved
+
+2
+00:00:03,650 --> 00:00:06,140
+in developing RPC applications.
+
+3
+00:00:06,140 --> 00:00:08,900
+And this figure here will
+serve as an illustration.
+
+4
+00:00:08,900 --> 00:00:14,670
+We have to write the .x file in XDR and
+pass it through the rpcgen compiler.
+
+5
+00:00:14,670 --> 00:00:16,960
+That will generate a number of files.
+
+6
+00:00:16,960 --> 00:00:18,960
+The header file, the stubs.
+
+7
+00:00:18,960 --> 00:00:21,385
+It will generate even the skeleton for
+the server.
+
+8
+00:00:21,385 --> 00:00:26,063
+And it will also generate an underscore
+XDR file that has a number of helpful
+
+9
+00:00:26,063 --> 00:00:27,631
+marshalling routines.
+
+10
+00:00:27,631 --> 00:00:31,966
+For the server-side application,
+the developer has to provide
+
+11
+00:00:31,966 --> 00:00:35,921
+the implementation of
+the actual service procedure.
+
+12
+00:00:35,921 --> 00:00:40,722
+The square.proc_1, for
+the first version, _svc.
+
+13
+00:00:40,722 --> 00:00:42,237
+This is the naming convention.
+
+14
+00:00:42,237 --> 00:00:47,248
+On the client side, the developer has
+to develop the client application and
+
+15
+00:00:47,248 --> 00:00:51,830
+whenever necessary,
+call the wrapper procedure squareproc_1.
+
+16
+00:00:51,830 --> 00:00:55,790
+This is what will actually invoke all
+of the communication with the server
+
+17
+00:00:55,790 --> 00:01:00,600
+process and the execution of this
+particular service implementation.
+
+18
+00:01:00,600 --> 00:01:04,760
+The developer has to make sure
+that he includes all of .h file,
+
+19
+00:01:04,760 --> 00:01:09,940
+particularly the auto-generated
+ones from the rpcgen compiler.
+
+20
+00:01:09,940 --> 00:01:15,250
+And also that it links the client and
+the server code with the stub object.
+
+21
+00:01:15,250 --> 00:01:19,660
+The RPC runtime that is called
+from the stub things, provides
+
+22
+00:01:19,660 --> 00:01:23,610
+all other functionality, including
+interactions with the operating systems,
+
+23
+00:01:23,610 --> 00:01:26,960
+creating sockets, managing connections,
+and everything else.
+
+24
+00:01:26,960 --> 00:01:29,340
+I should point out that, that rpcgen,
+
+25
+00:01:29,340 --> 00:01:35,220
+when used only with the flag -C
+generates code that's not thread safe.
+
+26
+00:01:35,220 --> 00:01:39,385
+The output of the compilation results in
+a function that will need to be called
+
+27
+00:01:39,385 --> 00:01:41,095
+with something like this.
+
+28
+00:01:41,095 --> 00:01:43,795
+And the problem with this
+function is that internally,
+
+29
+00:01:43,795 --> 00:01:47,925
+the implementation of this operation,
+as well as at the runtime level, there
+
+30
+00:01:47,925 --> 00:01:52,055
+are a number of statically allocated
+data structures included for the result.
+
+31
+00:01:52,055 --> 00:01:56,145
+And this leads to race conditions when
+multiple threads are trying to make RPC
+
+32
+00:01:56,145 --> 00:01:59,278
+calls to this routine, concurrently.
+
+33
+00:01:59,278 --> 00:02:04,800
+To generate thread safe code, the code
+must be compiled with the -M option,
+
+34
+00:02:04,800 --> 00:02:07,810
+and M stands here for
+multithreading safe.
+
+35
+00:02:07,810 --> 00:02:12,282
+This will also create a wrapper
+function squareproc_1, however,
+
+36
+00:02:12,282 --> 00:02:17,133
+it has a different signature and
+its implementation differs, for instance
+
+37
+00:02:17,133 --> 00:02:21,774
+it will dynamically allocate memory for
+the results of this operation.
+
+38
+00:02:21,774 --> 00:02:26,474
+So some of the issues that are coming up
+with the previous implementation will
+
+39
+00:02:26,474 --> 00:02:28,008
+not come up in this case.
+
+40
+00:02:28,008 --> 00:02:33,060
+>> Using the -M flag doesn't actually
+create a multithreaded server,
+
+41
+00:02:33,060 --> 00:02:38,468
+the implementation that's provided,
+that generated in the _svc file.
+
+42
+00:02:38,468 --> 00:02:40,715
+That won't be multithreaded.
+
+43
+00:02:40,715 --> 00:02:45,064
+On Solaris platforms there's another
+option, -a, using this option,
+
+44
+00:02:45,064 --> 00:02:48,792
+that actually generates
+multithreaded server code.
+
+45
+00:02:48,792 --> 00:02:51,572
+But in Linux,
+this option is not supported and
+
+46
+00:02:51,572 --> 00:02:55,352
+any multithreaded server
+has to be created manually.
+
+47
+00:02:55,352 --> 00:03:00,262
+Of course, with using the multithreaded
+safe routines as a starting point.

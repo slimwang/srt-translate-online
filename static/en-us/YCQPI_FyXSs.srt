@@ -1,0 +1,376 @@
+1
+00:00:00,100 --> 00:00:04,770
+So one thing, if your attacked, you
+can think about is, how can I actually
+
+2
+00:00:04,770 --> 00:00:09,910
+get into this process when the operating
+system itself is coming to life.
+
+3
+00:00:09,910 --> 00:00:12,010
+And the operating system,
+
+4
+00:00:12,010 --> 00:00:16,430
+data structures are getting set up and
+information is getting initialized.
+
+5
+00:00:16,430 --> 00:00:20,100
+How can I do some
+mischief at that point.
+
+6
+00:00:20,100 --> 00:00:24,350
+I know once I start running user code,
+once the operating system is in place,
+
+7
+00:00:24,350 --> 00:00:27,890
+the hardware is going to stop me from
+going to the areas where operating
+
+8
+00:00:27,890 --> 00:00:31,040
+system cordoned data is,
+unless I do a system call.
+
+9
+00:00:31,040 --> 00:00:35,420
+But can I get onto it
+in the early process,
+
+10
+00:00:35,420 --> 00:00:38,580
+it's sort of what you would call
+infant mortality kind of thing.
+
+11
+00:00:38,580 --> 00:00:41,930
+Attack it when it is coming to life.
+
+12
+00:00:41,930 --> 00:00:46,850
+So the way to think about it is that
+when you actually power-on a system,
+
+13
+00:00:46,850 --> 00:00:50,000
+a computer system,
+it runs a set of instructions.
+
+14
+00:00:50,000 --> 00:00:53,230
+And those instructions
+are what is called firmware.
+
+15
+00:00:53,230 --> 00:00:57,700
+So these firmware instructions actually
+run and the execution of those
+
+16
+00:00:57,700 --> 00:01:00,930
+instructions leads to finding
+where the operating system is,
+
+17
+00:01:00,930 --> 00:01:03,970
+where it goes, loading it and
+setting it up.
+
+18
+00:01:03,970 --> 00:01:06,990
+So, I said get onto it
+early in the process.
+
+19
+00:01:06,990 --> 00:01:13,850
+Well, there was an attack like that,
+which was demonstrated against Mac OS.
+
+20
+00:01:13,850 --> 00:01:16,870
+Macs have this Thunderbolt interface.
+
+21
+00:01:16,870 --> 00:01:22,550
+So what you can do is you can have
+a device that you have maliciously
+
+22
+00:01:22,550 --> 00:01:27,810
+prepared that device, you can connect
+it through the Thunderbolt interface,
+
+23
+00:01:27,810 --> 00:01:31,320
+the very early stage
+when the Mac is booting.
+
+24
+00:01:31,320 --> 00:01:39,480
+So this is called bootware or Malware
+that you can inject at the boot stage.
+
+25
+00:01:39,480 --> 00:01:43,830
+So, because the macs have this
+extensible thumbware framework,
+
+26
+00:01:43,830 --> 00:01:48,740
+you can inject new thumbware
+by connecting this
+
+27
+00:01:48,740 --> 00:01:54,020
+device to the Thunderbolt interface
+that we were talking about.
+
+28
+00:01:54,020 --> 00:01:56,620
+And you can change the firmware,
+when it's running.
+
+29
+00:01:56,620 --> 00:02:01,280
+You can actually run this malicious
+instruction from the malware that your
+
+30
+00:02:01,280 --> 00:02:06,620
+malicious device has that you connected
+to the Thunderbolt interface.
+
+31
+00:02:06,620 --> 00:02:10,788
+So there was an attack like this
+actually we are going to provide
+
+32
+00:02:10,788 --> 00:02:13,400
+a link where you can
+go read more about it.
+
+33
+00:02:13,400 --> 00:02:16,340
+And interesting thing about
+this attack was that there's
+
+34
+00:02:16,340 --> 00:02:18,190
+no protection against it.
+
+35
+00:02:18,190 --> 00:02:20,620
+The second one is actually
+
+36
+00:02:20,620 --> 00:02:25,020
+really I said people get
+creative to go after the system.
+
+37
+00:02:25,020 --> 00:02:28,740
+And this is another one
+that really exploited
+
+38
+00:02:28,740 --> 00:02:33,150
+some property of the dynamic
+RAM that we have.
+
+39
+00:02:33,150 --> 00:02:38,850
+So we talked about memory, the DRAMs,
+dynamic RAM, and the attack actually
+
+40
+00:02:38,850 --> 00:02:44,550
+exploited, if you read some locations,
+the RAM locations,
+
+41
+00:02:44,550 --> 00:02:49,090
+the RAM addresses repeatedly
+then the way it is refreshed and
+
+42
+00:02:49,090 --> 00:02:53,570
+the charges that hold the value
+that stored in that location work.
+
+43
+00:02:53,570 --> 00:02:58,130
+Actually this was demonstrated
+that by reading aggressively,
+
+44
+00:02:58,130 --> 00:03:01,330
+reading again and again in certain
+locations you can actually
+
+45
+00:03:01,330 --> 00:03:04,400
+flip some bits in an adjacent location.
+
+46
+00:03:04,400 --> 00:03:08,010
+Okay if the bit flip happens
+to be the right way,
+
+47
+00:03:08,010 --> 00:03:12,590
+in particular in a location that is
+storing information protection and
+
+48
+00:03:12,590 --> 00:03:14,950
+information about memory,
+then you can flip it and
+
+49
+00:03:14,950 --> 00:03:18,110
+make something that will be readable,
+you can also make it writable.
+
+50
+00:03:18,110 --> 00:03:20,650
+We're going to talk about
+these protection bits,
+
+51
+00:03:20,650 --> 00:03:23,570
+that you can only read certain parts
+of memory, but you can write also.
+
+52
+00:03:23,570 --> 00:03:27,860
+So this attack, again, I want you
+to read and maybe the details.
+
+53
+00:03:27,860 --> 00:03:29,210
+Here is not important.
+
+54
+00:03:29,210 --> 00:03:34,780
+But sort of think about it by exploiting
+some vulnerability that is DRAM.
+
+55
+00:03:34,780 --> 00:03:39,250
+The way these DRAMs are designed,
+someone is able to gain access to
+
+56
+00:03:39,250 --> 00:03:43,670
+the OS part of the memory and
+change something just by doing reads.
+
+57
+00:03:43,670 --> 00:03:46,472
+The operating system doesn't stop
+you because you just reading ertain
+
+58
+00:03:46,472 --> 00:03:47,020
+locations.
+
+59
+00:03:47,020 --> 00:03:51,310
+But those reads actually
+have this other effect.
+
+60
+00:03:51,310 --> 00:03:55,510
+In particular, this undesirable effect
+where they end up changing a bit,
+
+61
+00:03:55,510 --> 00:03:58,660
+flipping a bit in another
+location in the operating system.
+
+62
+00:03:58,660 --> 00:04:00,295
+Which, sort of, again,
+
+63
+00:04:00,295 --> 00:04:06,085
+I I should say that this is not easy to
+pull off you can obviously corrupt or
+
+64
+00:04:07,155 --> 00:04:12,135
+affect integrity of that location but
+to change it exactly the way you want to
+
+65
+00:04:12,135 --> 00:04:15,160
+do this idea of again privileges
+that you didn't have.
+
+66
+00:04:15,160 --> 00:04:17,300
+For is quite challenging.
+
+67
+00:04:17,300 --> 00:04:20,079
+Again this is reported attack.
+
+68
+00:04:20,079 --> 00:04:23,760
+If your OS is written in
+low level language so
+
+69
+00:04:23,760 --> 00:04:25,780
+it performs reasonable whatever it is.
+
+70
+00:04:25,780 --> 00:04:27,720
+Typically not type safe languages.
+
+71
+00:04:27,720 --> 00:04:31,900
+And if you're not careful you can have
+buffer overflow possibilities too.
+
+72
+00:04:31,900 --> 00:04:35,110
+Buffer overflow means you can
+alter the return address.
+
+73
+00:04:35,110 --> 00:04:38,980
+Maybe you can insert some code that
+you can transfer control to and
+
+74
+00:04:38,980 --> 00:04:42,810
+that is going to lead to exploitation
+of the operating system.
+
+75
+00:04:42,810 --> 00:04:46,310
+And you're in the operating system
+running your code, that hacker's code,
+
+76
+00:04:46,310 --> 00:04:48,570
+and you can do whatever
+changes you want to do.
+
+77
+00:04:48,570 --> 00:04:51,680
+Of course the isolation
+is lost in that case.
+
+78
+00:04:51,680 --> 00:04:54,800
+So there are instances of
+attacks like this too.

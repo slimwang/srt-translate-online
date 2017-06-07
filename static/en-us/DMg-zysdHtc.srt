@@ -1,0 +1,166 @@
+﻿1
+00:00:00,230 --> 00:00:02,882
+We just made our app write
+messages to the database.
+
+2
+00:00:02,882 --> 00:00:05,419
+Now, it's pretty cool to see those
+messages showing in up the database
+
+3
+00:00:05,419 --> 00:00:07,870
+console, but for
+Friendly Chat to actually work,
+
+4
+00:00:07,870 --> 00:00:10,300
+our friends need to be able
+to read those messages.
+
+5
+00:00:10,300 --> 00:00:13,110
+Right now,
+it's just a plain old empty app.
+
+6
+00:00:13,109 --> 00:00:16,128
+When we add a message,
+it looks like your messages disappear
+
+7
+00:00:16,129 --> 00:00:18,640
+off somewhere into
+the ether of the cloud.
+
+8
+00:00:18,640 --> 00:00:22,240
+Now in reality,
+they are really stored in a database.
+
+9
+00:00:22,239 --> 00:00:25,079
+But unless our users actually
+visit the database console,
+
+10
+00:00:25,079 --> 00:00:28,250
+which they don't have access to,
+they won't see them.
+
+11
+00:00:28,250 --> 00:00:31,731
+We need to add code so that our app not
+only writes data to the database but
+
+12
+00:00:31,731 --> 00:00:35,759
+also reads and displays data from
+the Firebase database back in the app.
+
+13
+00:00:35,759 --> 00:00:38,369
+Now, reading in Firebase is done
+a little bit differently than
+
+14
+00:00:38,369 --> 00:00:39,849
+the traditional method.
+
+15
+00:00:39,850 --> 00:00:43,539
+What I mean by traditional method
+is that usually, if you want to
+
+16
+00:00:43,539 --> 00:00:47,049
+read some data, you'd send a request
+to your database to read that data.
+
+17
+00:00:47,049 --> 00:00:50,329
+And the database would reply back
+giving you the data that you needed.
+
+18
+00:00:50,329 --> 00:00:52,600
+Now, if you think this
+data might change often,
+
+19
+00:00:52,600 --> 00:00:54,620
+such as the contents of
+a chat message list,
+
+20
+00:00:54,619 --> 00:00:58,091
+you need to keep checking the database
+to see if there are any new messages.
+
+21
+00:00:58,091 --> 00:01:00,379
+The Firebase real time
+database is different,
+
+22
+00:01:00,380 --> 00:01:04,069
+because it'll actually tell you
+proactively when changes occur.
+
+23
+00:01:04,069 --> 00:01:07,472
+Instead of repeatedly asking if
+there are any changes to our data,
+
+24
+00:01:07,472 --> 00:01:10,829
+our code will automatically be
+informed when data is available.
+
+25
+00:01:10,829 --> 00:01:15,108
+With a single API, Friendly Chat handles
+both downloading the existing database
+
+26
+00:01:15,108 --> 00:01:18,401
+data as well as syncing any
+future data updates in real-time.
+
+27
+00:01:18,400 --> 00:01:21,280
+And it does this through
+listeners that are attached to
+
+28
+00:01:21,280 --> 00:01:23,739
+specific locations in the database.
+
+29
+00:01:23,739 --> 00:01:27,140
+These listeners are triggered once for
+the initial state of the data, and
+
+30
+00:01:27,140 --> 00:01:29,159
+then again anytime the data is changed.
+
+31
+00:01:29,159 --> 00:01:32,079
+You'll write some code so that
+whenever the listener is triggered, it
+
+32
+00:01:32,079 --> 00:01:35,370
+will complete the tasks written in the
+body of the code that you've written.
+
+33
+00:01:35,370 --> 00:01:38,359
+Now let's see an example of what one
+of these listeners actually looks like
+
+34
+00:01:38,359 --> 00:01:39,340
+in our Friendly Chat app.
+

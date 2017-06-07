@@ -1,0 +1,430 @@
+1
+00:00:00,800 --> 00:00:02,910
+Now that we're signed up
+with the movie database,
+
+2
+00:00:02,910 --> 00:00:05,290
+let's take a quick glance at
+the starter code project.
+
+3
+00:00:06,870 --> 00:00:07,460
+I'll run the app.
+
+4
+00:00:08,870 --> 00:00:12,020
+And right now we have this login
+screen with the username and
+
+5
+00:00:12,020 --> 00:00:13,730
+a password text field.
+
+6
+00:00:13,730 --> 00:00:16,920
+We also have some space below where
+we can put debugging information.
+
+7
+00:00:18,610 --> 00:00:20,760
+If we try to log in with
+the username and password,
+
+8
+00:00:20,760 --> 00:00:23,930
+the UI becomes disabled and
+it's waiting for a login to occur.
+
+9
+00:00:23,930 --> 00:00:26,060
+Let's go ahead and stop this and
+
+10
+00:00:26,060 --> 00:00:28,680
+take a look at the classes
+involved in this project.
+
+11
+00:00:28,680 --> 00:00:31,079
+Starting with the app delegate.swift,
+
+12
+00:00:31,079 --> 00:00:35,490
+this file's a lot more involved than
+it's been in previous applications.
+
+13
+00:00:35,490 --> 00:00:38,110
+It has properties for
+the shared NS URL session
+
+14
+00:00:38,110 --> 00:00:41,640
+that we can get access to from
+any other class in the project.
+
+15
+00:00:41,640 --> 00:00:46,360
+And it also has properties for a request
+token, a session ID, and a user ID.
+
+16
+00:00:46,360 --> 00:00:48,625
+These are all things that we'll
+need when authenticating and
+
+17
+00:00:48,625 --> 00:00:50,705
+using the movie database.
+
+18
+00:00:50,705 --> 00:00:54,485
+There's also this config property,
+and we've taken care of this for you.
+
+19
+00:00:54,485 --> 00:00:55,985
+You don't really need to worry about it.
+
+20
+00:00:55,985 --> 00:00:59,785
+It's just another black box,
+treat it like the GCD black box.
+
+21
+00:00:59,785 --> 00:01:02,292
+And then the last thing I want to
+show you is here at the bottom,
+
+22
+00:01:02,292 --> 00:01:06,792
+it's this method called
+tmdbURLFromParameters.
+
+23
+00:01:06,792 --> 00:01:09,962
+This method, like the ones that
+we saw before in Flick Finder,
+
+24
+00:01:09,962 --> 00:01:14,500
+is a method that returns a properly
+escaped and ASCII safe URL.
+
+25
+00:01:14,500 --> 00:01:18,260
+But instead of for Flickr,
+it's for the movie database.
+
+26
+00:01:18,260 --> 00:01:22,200
+It also has this additional
+parameter called withPathExtension.
+
+27
+00:01:22,200 --> 00:01:25,940
+And this adds a path to
+the URL that's constructed.
+
+28
+00:01:25,940 --> 00:01:27,940
+This is because for the movie database,
+
+29
+00:01:27,940 --> 00:01:32,520
+the different methods of the API
+are specified as part of the URL path.
+
+30
+00:01:32,520 --> 00:01:35,480
+This is different from Flickr where
+the method was specified as part of
+
+31
+00:01:35,480 --> 00:01:36,850
+the URL's query.
+
+32
+00:01:36,850 --> 00:01:38,478
+So take a second and let that soak in.
+
+33
+00:01:41,798 --> 00:01:44,100
+Okay, let's go back to the code.
+
+34
+00:01:44,100 --> 00:01:48,842
+Next we have the movie.swift file
+that contains the movie struct,
+
+35
+00:01:48,842 --> 00:01:51,428
+which is the main model for this app.
+
+36
+00:01:51,428 --> 00:01:53,578
+I'm not going to go over
+this struct in detail,
+
+37
+00:01:53,578 --> 00:01:56,070
+so we can just focus on
+the networking part.
+
+38
+00:01:56,070 --> 00:01:58,380
+But I encourage you to look over it,
+it's relatively simple.
+
+39
+00:02:00,770 --> 00:02:03,370
+Next we have the Constants.swift file.
+
+40
+00:02:03,370 --> 00:02:04,790
+This file contains constants for
+
+41
+00:02:04,790 --> 00:02:07,640
+the movie database that you can use
+in your implementation for the app.
+
+42
+00:02:08,780 --> 00:02:11,780
+And of course, we still have
+the GCDBlackbox.swift file.
+
+43
+00:02:12,810 --> 00:02:16,910
+Under this, the next folder we have
+is this Provided Classes folder.
+
+44
+00:02:16,910 --> 00:02:20,610
+In this folder, there's a swift file for
+the movie database configuration and
+
+45
+00:02:20,610 --> 00:02:23,690
+then a border button class,
+which is used for that login UI.
+
+46
+00:02:23,690 --> 00:02:28,090
+We'll skip these two and move on to
+the folder that contains the files where
+
+47
+00:02:28,090 --> 00:02:32,020
+you'll be making all of your
+changes in the view controllers.
+
+48
+00:02:32,020 --> 00:02:32,660
+For this exercise,
+
+49
+00:02:32,660 --> 00:02:36,190
+you will be making changes to
+the LoginViewController.swift file.
+
+50
+00:02:36,190 --> 00:02:41,480
+Here at the top, you'll notice we have
+this property for the app delegate.
+
+51
+00:02:41,480 --> 00:02:43,010
+Then in the viewDidLoad method,
+
+52
+00:02:43,010 --> 00:02:46,110
+we're getting the shared
+applications delegate.
+
+53
+00:02:46,110 --> 00:02:49,172
+This is what gives us access to the
+properties that we just saw on the app
+
+54
+00:02:49,172 --> 00:02:50,891
+delegate.swift file.
+
+55
+00:02:52,150 --> 00:02:54,720
+Now scroll down to the log
+in pressed action.
+
+56
+00:02:54,720 --> 00:02:55,620
+Here we go.
+
+57
+00:02:55,620 --> 00:02:57,620
+Assuming we've provided a user name and
+
+58
+00:02:57,620 --> 00:03:01,970
+a password, we disable the UI,
+setUIEnabled to false.
+
+59
+00:03:01,970 --> 00:03:04,710
+And then we call
+the getRequestToken method.
+
+60
+00:03:04,710 --> 00:03:06,730
+This is going to begin
+our authorization flow.
+
+61
+00:03:06,730 --> 00:03:10,290
+And this aligns with the steps
+we saw in Ian's flow chart.
+
+62
+00:03:10,290 --> 00:03:16,420
+The first thing we need to do is get
+a request token, so let's follow this.
+
+63
+00:03:16,420 --> 00:03:19,280
+Oops, we use a command click.
+
+64
+00:03:19,280 --> 00:03:19,780
+There we go.
+
+65
+00:03:21,900 --> 00:03:24,710
+In the requestToken method,
+we've commented the seven steps.
+
+66
+00:03:24,710 --> 00:03:26,710
+We have one, two, three, four, five,
+
+67
+00:03:26,710 --> 00:03:30,150
+six, seven, that need to be
+taken to get the request token.
+
+68
+00:03:30,150 --> 00:03:34,090
+Now, we've already implemented some
+of these steps to get you started.
+
+69
+00:03:34,090 --> 00:03:34,740
+Let's go over them.
+
+70
+00:03:36,040 --> 00:03:38,500
+First, we define the methodParameters.
+
+71
+00:03:38,500 --> 00:03:41,740
+For this method, the only parameter
+that's needed is the API key.
+
+72
+00:03:43,460 --> 00:03:49,030
+Then, we build our URL using
+the appDelegates tmdbURLFromParameters.
+
+73
+00:03:49,030 --> 00:03:52,290
+This method takes the methodParameters
+as an argument, and
+
+74
+00:03:52,290 --> 00:03:54,550
+then we specify the PathExtension for
+
+75
+00:03:54,550 --> 00:03:57,600
+this particular method,
+which is /authentication/token/ new.
+
+76
+00:03:57,600 --> 00:04:01,670
+And you would see this if you look
+at it in the documentation for
+
+77
+00:04:01,670 --> 00:04:03,030
+the movie database.
+
+78
+00:04:03,030 --> 00:04:06,120
+This particular method will
+get us a new request token.
+
+79
+00:04:07,790 --> 00:04:09,970
+From here, the code is like
+what you've seen before.
+
+80
+00:04:09,970 --> 00:04:13,520
+We create a network task, and
+then we need to start it.
+
+81
+00:04:13,520 --> 00:04:17,130
+It's going to be up to you to handle the
+response and finish steps five and six.
+
+82
+00:04:18,579 --> 00:04:21,450
+To get started, I recommend that you
+go through the documentation for
+
+83
+00:04:21,450 --> 00:04:26,670
+the authentication/token/new method and
+look at the example response.
+
+84
+00:04:26,670 --> 00:04:28,970
+I posted a link in the instructor notes.
+
+85
+00:04:28,970 --> 00:04:32,690
+The basic idea is this,
+deserialize the JSON data and
+
+86
+00:04:32,690 --> 00:04:34,070
+then parse out the request token.
+
+87
+00:04:34,070 --> 00:04:37,680
+Once you have the request token,
+you can just print it out for now.
+
+88
+00:04:37,680 --> 00:04:40,370
+Also feel free to use
+the login view controllers
+
+89
+00:04:40,370 --> 00:04:42,880
+debugTextLabel as a nice way to display
+
+90
+00:04:42,880 --> 00:04:46,940
+errors to the user in case something
+goes wrong when making your request.
+
+91
+00:04:46,940 --> 00:04:48,290
+When you're done with the exercise and
+
+92
+00:04:48,290 --> 00:04:50,580
+you've printed a request token,
+check this box.

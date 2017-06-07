@@ -1,0 +1,127 @@
+1
+00:00:00,000 --> 00:00:02,000
+Alright, first if we had a complete series of snapshots
+
+2
+00:00:02,000 --> 00:00:05,000
+from a nondeterministic RAM solving SAT on his formula.
+
+3
+00:00:05,000 --> 00:00:09,000
+Well, a nondeterministic RAM can solve SAT in polynomial time,
+
+4
+00:00:09,000 --> 00:00:14,000
+so we can check those in polynomial time as well
+
+5
+00:00:14,000 --> 00:00:16,000
+since we just have a list of these.
+
+6
+00:00:16,000 --> 00:00:22,000
+So once we have those, we can definitely verify that his formula is satisfiable.
+
+7
+00:00:22,000 --> 00:00:24,000
+Now if we had a list of satisfiable clauses,
+
+8
+00:00:24,000 --> 00:00:31,000
+this actually isn't enough to verify that Bob's formula is also satisfiable.
+
+9
+00:00:31,000 --> 00:00:36,000
+To see this, let's take a look at the formula in somewhat pythonic form,
+
+10
+00:00:36,000 --> 00:00:39,000
+X and not X.
+
+11
+00:00:39,000 --> 00:00:43,000
+Now clearly X is a satisfiable clause and so is not X,
+
+12
+00:00:43,000 --> 00:00:48,000
+but the entire Boolean formula is definitely not satisfiable.
+
+13
+00:00:48,000 --> 00:00:52,000
+So a list of satisfiable clauses actually isn't enough
+
+14
+00:00:52,000 --> 00:00:54,000
+for us to believe Bob.
+
+15
+00:00:54,000 --> 00:00:58,000
+Now if we had a satisfying assignment for all of the variables in the formula,
+
+16
+00:00:58,000 --> 00:01:00,000
+then sure, we can just plug them into the formula
+
+17
+00:01:00,000 --> 00:01:03,000
+and check on a deterministic RAM,
+
+18
+00:01:03,000 --> 00:01:05,000
+and that occurs in polynomial time.
+
+19
+00:01:05,000 --> 00:01:09,000
+Similarly, if add all calls to if_better on the Boolean formula,
+
+20
+00:01:09,000 --> 00:01:11,000
+well, if_better is the only difference
+
+21
+00:01:11,000 --> 00:01:14,000
+between a nondeterministic and a deterministic RAM,
+
+22
+00:01:14,000 --> 00:01:17,000
+so if we had all the calls to if_better,
+
+23
+00:01:17,000 --> 00:01:19,000
+we wouldn't actually have to simulate if_better,
+
+24
+00:01:19,000 --> 00:01:24,000
+we would know what the algorithm did at each step of the process.
+
+25
+00:01:24,000 --> 00:01:27,000
+So we could also check Bob's formula using just this.
+
+26
+00:01:27,000 --> 00:01:30,000
+Not even a complete series of snapshots is necessary
+
+27
+00:01:30,000 --> 00:01:32,000
+just the calls to if_better.
+
+28
+00:01:32,000 --> 00:01:36,000
+Now let's say we had a satisfying assignment for 90% of the variables.
+
+29
+00:01:36,000 --> 00:01:39,000
+Well, 90% of the variables still leaves 10%,
+
+30
+00:01:39,000 --> 00:01:44,000
+and 10% of exponential is, well, exponential.
+
+31
+00:01:44,000 --> 00:01:47,000
+So we would still have exponentially many variables to check.
+
+32
+00:01:47,000 --> 99:59:59,999
+So this actually doesn't work.

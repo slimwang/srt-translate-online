@@ -1,0 +1,211 @@
+1
+00:00:00,550 --> 00:00:03,600
+So as we just saw, when you're done
+with those code modifications,
+
+2
+00:00:03,600 --> 00:00:05,030
+the app will look like this.
+
+3
+00:00:05,030 --> 00:00:08,029
+But what exactly is this
+mysterious block of code doing?
+
+4
+00:00:08,029 --> 00:00:11,880
+Well, if we take a look, it's actually
+creating and accessing a database.
+
+5
+00:00:11,880 --> 00:00:15,240
+So let's break it apart and
+see what we can understand from it.
+
+6
+00:00:15,240 --> 00:00:18,280
+So first,
+let's focus on these two lines of code.
+
+7
+00:00:18,280 --> 00:00:23,050
+Now this first line here constructs
+an instance of our PetDbHelper class,
+
+8
+00:00:23,050 --> 00:00:24,010
+the one that we just created.
+
+9
+00:00:24,010 --> 00:00:25,859
+And the second line here,
+
+10
+00:00:25,859 --> 00:00:30,491
+will either open a connection to
+a database or create a database.
+
+11
+00:00:30,491 --> 00:00:34,251
+So you can think of it really similarly
+to our .open command that we used in
+
+12
+00:00:34,251 --> 00:00:35,048
+the terminal.
+
+13
+00:00:35,048 --> 00:00:40,377
+So remember when we typed
+in .open_shelter.db?
+
+14
+00:00:40,377 --> 00:00:43,527
+So to help you better understand
+how these classes and instances
+
+15
+00:00:43,527 --> 00:00:47,390
+are interacting with each other, let's
+jump out of Android Studio for a bit.
+
+16
+00:00:48,570 --> 00:00:51,240
+Now let me show you a quick diagram
+overview of what's happening.
+
+17
+00:00:52,450 --> 00:00:57,300
+So here are our two UI classes, our
+EditorActivity and our CatalogActivity,
+
+18
+00:00:57,300 --> 00:01:00,590
+and they'll both need to
+interact with the database.
+
+19
+00:01:02,020 --> 00:01:05,290
+So so
+far we have created a PetContract class
+
+20
+00:01:05,290 --> 00:01:10,830
+which has our contents available to us,
+and it can be used by all the classes.
+
+21
+00:01:10,830 --> 00:01:14,960
+So when we call our PetDbHelper
+class with this line of code,
+
+22
+00:01:14,960 --> 00:01:18,850
+we're creating a new instance
+of our PetDbHelper class.
+
+23
+00:01:18,850 --> 00:01:21,390
+And that instance is called mDbHelper.
+
+24
+00:01:22,560 --> 00:01:25,920
+So when our activity,
+say our EditorActivity,
+
+25
+00:01:25,920 --> 00:01:29,840
+wants a readable database,
+we'll need to call this line of code.
+
+26
+00:01:31,130 --> 00:01:34,200
+So here we're creating
+an SQLiteDatabase object.
+
+27
+00:01:36,030 --> 00:01:39,660
+And setting it's value to
+this getReadableDatabase.
+
+28
+00:01:40,970 --> 00:01:43,680
+So here is asking our mDbHelper
+
+29
+00:01:43,680 --> 00:01:49,232
+which was our instance of our
+PetDbHelper for a database.
+
+30
+00:01:49,232 --> 00:01:54,300
+So mDBHelper will check to see
+if a database exist already.
+
+31
+00:01:54,300 --> 00:01:57,600
+So for database doesn't already exist.
+
+32
+00:01:57,600 --> 00:02:03,230
+Our instance of PetDbHelper will make
+a database using the onCreate code.
+
+33
+00:02:04,260 --> 00:02:07,390
+So in this case we made
+our shelter database.
+
+34
+00:02:07,390 --> 00:02:12,360
+And then following that we'll make
+an instance of an SQLiteDatabase object,
+
+35
+00:02:12,360 --> 00:02:18,800
+and it will return this object to
+the activity that ask for the database.
+
+36
+00:02:18,800 --> 00:02:23,860
+Now in the alternative situation
+where our database already exists,
+
+37
+00:02:23,860 --> 00:02:28,500
+our instance of PetDb helper
+won't call on create.
+
+38
+00:02:28,500 --> 00:02:33,850
+Instead, they'll make an instance of
+our SQLiteDatabase object coupled with
+
+39
+00:02:33,850 --> 00:02:38,770
+existing database and return that object
+to the activity they requested it.
+
+40
+00:02:39,990 --> 00:02:43,470
+So at the end of the statement,
+we're creating SQLiteDatabase object,
+
+41
+00:02:43,470 --> 00:02:45,840
+the EditorActivity,
+
+42
+00:02:45,840 --> 00:02:51,000
+we'll have an SQLiteDatabase object
+that's connected to shelter database.
+
+43
+00:02:51,000 --> 00:02:54,040
+And you can use this
+object to communicate
+
+44
+00:02:54,040 --> 00:02:57,310
+SQLite instructions to
+our shelter database.

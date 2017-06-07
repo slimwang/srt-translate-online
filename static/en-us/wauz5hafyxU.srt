@@ -1,0 +1,638 @@
+1
+00:00:00,702 --> 00:00:04,510
+I'm going to be tackling this coding
+task by following these four steps.
+
+2
+00:00:04,510 --> 00:00:07,410
+So first, we'll need to update
+the word class to store the audio
+
+3
+00:00:07,410 --> 00:00:09,050
+information for each word.
+
+4
+00:00:09,050 --> 00:00:12,990
+After that, we will need to update the
+way that the list of words are created.
+
+5
+00:00:12,990 --> 00:00:15,850
+Following, we'll need to
+update the OnItemClickListener
+
+6
+00:00:15,850 --> 00:00:19,280
+to play the correct sound file
+when an item is clicked on.
+
+7
+00:00:19,280 --> 00:00:22,800
+And then lastly, for now I'm going
+to focus on the numbers activity but
+
+8
+00:00:22,800 --> 00:00:25,520
+then we're going to repeat the process
+for all our other categories.
+
+9
+00:00:26,830 --> 00:00:30,740
+Now here in our world class, I want to
+start by adding an integer variable
+
+10
+00:00:30,740 --> 00:00:32,990
+that we can use to store
+an Audio Resource ID.
+
+11
+00:00:34,020 --> 00:00:36,370
+Now, this will just be
+the resource ID that we reference,
+
+12
+00:00:36,370 --> 00:00:38,550
+where the actual audio
+file can be found.
+
+13
+00:00:38,550 --> 00:00:42,375
+And notice here,
+that I've called it mAudioResourceId.
+
+14
+00:00:42,375 --> 00:00:45,797
+Then, I want to modify the word
+constructors to accept another input,
+
+15
+00:00:45,797 --> 00:00:48,068
+in order to set the audio field.
+
+16
+00:00:48,068 --> 00:00:50,880
+So I'm going to add it to both
+constructors because all words will have
+
+17
+00:00:50,880 --> 00:00:53,690
+to have an audio file, regardless of
+whether they have an image or not.
+
+18
+00:00:54,830 --> 00:00:58,070
+Then, I'm going to set the member
+variable mAudioResourceId
+
+19
+00:00:58,070 --> 00:01:00,510
+to be equal to the audio
+parameter that was passed in.
+
+20
+00:01:01,620 --> 00:01:03,780
+Now every time you
+modify the constructor,
+
+21
+00:01:03,780 --> 00:01:06,190
+remember to update the java.comment.
+
+22
+00:01:06,190 --> 00:01:09,150
+That way, any other developers
+who are calling the constructor
+
+23
+00:01:09,150 --> 00:01:11,090
+knows what inputs to pass in.
+
+24
+00:01:11,090 --> 00:01:13,630
+Since we declared the audio
+variable to be private
+
+25
+00:01:13,630 --> 00:01:15,960
+we should create a public getter method.
+
+26
+00:01:15,960 --> 00:01:19,070
+Just like we created public methods for
+other classes in order to access
+
+27
+00:01:19,070 --> 00:01:22,180
+the English and Miwok strings,
+as well as the Image Resource ID.
+
+28
+00:01:22,180 --> 00:01:27,030
+So, I want to make a public method here,
+the returns an Integer Resource ID and
+
+29
+00:01:27,030 --> 00:01:30,212
+I'm going to name the method
+getAudioResourceId.
+
+30
+00:01:30,212 --> 00:01:33,490
+There are going to be no
+input requirements and
+
+31
+00:01:33,490 --> 00:01:36,890
+the method will just return
+the private audio variable.
+
+32
+00:01:36,890 --> 00:01:39,730
+Also, since it's a public method,
+I'm going to add a comment to
+
+33
+00:01:39,730 --> 00:01:42,512
+the method just to clarify
+what the purpose of it is.
+
+34
+00:01:42,512 --> 00:01:45,530
+All right, so those were all the changes
+we need to make the word class.
+
+35
+00:01:45,530 --> 00:01:48,910
+So, now we have a new private
+audio variable and it's set
+
+36
+00:01:48,910 --> 00:01:53,412
+via the two constructors, and we have
+a public method to access that variable.
+
+37
+00:01:53,412 --> 00:01:55,460
+All right,so that finished
+off our first step, and
+
+38
+00:01:55,460 --> 00:01:57,650
+since we modified the word
+class constructors,
+
+39
+00:01:57,650 --> 00:02:00,510
+we'll need to modify the places
+that we use those constructors.
+
+40
+00:02:00,510 --> 00:02:03,740
+So, for example in the NumbersActivity,
+the FamilyActivity, and
+
+41
+00:02:03,740 --> 00:02:05,130
+all the other activities.
+
+42
+00:02:05,130 --> 00:02:08,250
+So there we need to change how
+the word objects are created.
+
+43
+00:02:08,250 --> 00:02:12,180
+Now in the numbers activity,
+we created an array list of words and
+
+44
+00:02:12,180 --> 00:02:14,710
+each word was created
+with three arguments.
+
+45
+00:02:14,710 --> 00:02:19,830
+So first, the English word,
+the Miwok word, and then the image.
+
+46
+00:02:19,830 --> 00:02:22,530
+Now we need to add a fourth argument
+which will be the resource ID
+
+47
+00:02:22,530 --> 00:02:25,020
+of the audio file that
+goes along with the word.
+
+48
+00:02:25,020 --> 00:02:29,949
+So for the number 1,
+I'm going to add R.raw.number_1.
+
+49
+00:02:29,949 --> 00:02:33,973
+And as you can see here, Android Studio
+is smart enough to automatically suggest
+
+50
+00:02:33,973 --> 00:02:36,813
+the files that have been added
+to the Raw folder already,
+
+51
+00:02:36,813 --> 00:02:39,440
+just in case I forget what
+the resources were named.
+
+52
+00:02:39,440 --> 00:02:44,059
+Now for the number 2,
+I'm going to add R.raw.number_2.
+
+53
+00:02:45,400 --> 00:02:47,560
+So I'm going to copy and
+paste and make modifications for
+
+54
+00:02:47,560 --> 00:02:48,780
+the rest of the ten numbers.
+
+55
+00:02:49,980 --> 00:02:52,610
+And this is what the code should
+look like when all the words have
+
+56
+00:02:52,610 --> 00:02:53,520
+an Audio Resource ID.
+
+57
+00:02:54,890 --> 00:02:58,370
+So the rest of the code in the numbers
+activity can continue using the words
+
+58
+00:02:58,370 --> 00:02:59,350
+array list as before.
+
+59
+00:03:00,410 --> 00:03:02,780
+Now, I want to make the updates
+to the other categories so
+
+60
+00:03:02,780 --> 00:03:04,880
+that they use the right constructor.
+
+61
+00:03:04,880 --> 00:03:08,850
+I when I open up a PhrasesActivity,
+I see that there are errors showing up.
+
+62
+00:03:08,850 --> 00:03:12,235
+And this is because that there
+are no valid word constructors for
+
+63
+00:03:12,235 --> 00:03:13,619
+just two inputs anymore.
+
+64
+00:03:13,619 --> 00:03:16,490
+So let's make some changes
+to get rid these errors.
+
+65
+00:03:16,490 --> 00:03:19,140
+So here's what the words list
+should look like when each word
+
+66
+00:03:19,140 --> 00:03:21,450
+is using the correct
+three input constructor.
+
+67
+00:03:22,570 --> 00:03:25,550
+Now remember, if the line of
+code exceeds a 100 columns,
+
+68
+00:03:25,550 --> 00:03:29,995
+we should wrap the text to the next
+line and then indent by 8 spaces.
+
+69
+00:03:29,995 --> 00:03:32,810
+Also, note here that
+the ArrayList is now final.
+
+70
+00:03:32,810 --> 00:03:36,000
+So I want to make similar changes to our
+FamilyActivity and our ColorsActivity.
+
+71
+00:03:37,070 --> 00:03:41,383
+And here's what the finished code
+looks like for the FamilyActivity and
+
+72
+00:03:41,383 --> 00:03:42,732
+the ColorsActivity.
+
+73
+00:03:42,732 --> 00:03:45,098
+All right, so
+now the word class has been updated,
+
+74
+00:03:45,098 --> 00:03:47,980
+as well as the places that we
+call the word class constructor.
+
+75
+00:03:47,980 --> 00:03:50,338
+Next, we're going to update
+the OnItemClickListener so
+
+76
+00:03:50,338 --> 00:03:52,758
+that it plays the correct audio file.
+
+77
+00:03:52,758 --> 00:03:55,380
+In the NumberActivity,
+I'm going to modify the code for
+
+78
+00:03:55,380 --> 00:03:57,260
+when a list item gets clicked on.
+
+79
+00:03:57,260 --> 00:04:01,580
+So right now, we always play
+the same number_one MP3 file.
+
+80
+00:04:01,580 --> 00:04:03,050
+Let's insert some code above it.
+
+81
+00:04:03,050 --> 00:04:05,950
+But first we need to figure out
+which word is getting clicked on and
+
+82
+00:04:05,950 --> 00:04:08,130
+then store that in a variable.
+
+83
+00:04:08,130 --> 00:04:11,190
+So from the onItemClick
+method position parameter,
+
+84
+00:04:11,190 --> 00:04:14,720
+I can check the words array list to
+get the word that was clicked on.
+
+85
+00:04:14,720 --> 00:04:18,950
+So, to do that,
+I can just call words.get and
+
+86
+00:04:18,950 --> 00:04:21,060
+pass in the position variable.
+
+87
+00:04:21,060 --> 00:04:24,378
+So, this method will return a single
+word variable, I can go ahead and
+
+88
+00:04:24,378 --> 00:04:26,750
+store that variable on
+the left-hand side here.
+
+89
+00:04:27,810 --> 00:04:31,470
+Now, if you get a red squiggle
+under here indicating an error, and
+
+90
+00:04:31,470 --> 00:04:35,570
+the error says something like variable
+words is accessed from within and
+
+91
+00:04:35,570 --> 00:04:38,150
+enter class needs to be declared final.
+
+92
+00:04:38,150 --> 00:04:41,930
+Remember, that means that we need to
+declare the words ArrayList as final, so
+
+93
+00:04:41,930 --> 00:04:44,650
+double check that you have
+the set as final up here.
+
+94
+00:04:44,650 --> 00:04:47,060
+So, once I know what word is clicked on,
+
+95
+00:04:47,060 --> 00:04:51,660
+I can get the Audio Resource ID of it
+and then pass that into the MediaPlayer.
+
+96
+00:04:51,660 --> 00:04:56,550
+So, that means I can delete this
+R.raw.number_one that we've
+
+97
+00:04:56,550 --> 00:05:01,190
+hard coded in here, and
+just use word.getAudioResourceId.
+
+98
+00:05:02,440 --> 00:05:03,930
+There we go, and that should work.
+
+99
+00:05:03,930 --> 00:05:07,438
+So, once the MediaPlayer is created,
+we can start playing the audio file.
+
+100
+00:05:07,438 --> 00:05:10,570
+Now I'm going to add in some
+comments as well here, so
+
+101
+00:05:10,570 --> 00:05:11,640
+we remember what's going on.
+
+102
+00:05:12,810 --> 00:05:14,730
+So that finished off our third step.
+
+103
+00:05:14,730 --> 00:05:17,110
+Now the last step is to
+make sure that it works for
+
+104
+00:05:17,110 --> 00:05:19,540
+the rest of the category activities.
+
+105
+00:05:19,540 --> 00:05:23,880
+Now, to make the FamilyActivity work,
+I copied over the MediaPlayer variable
+
+106
+00:05:23,880 --> 00:05:26,485
+as well as the code for
+the setOnItemClickListener.
+
+107
+00:05:27,610 --> 00:05:29,260
+Remember that when you copy and paste,
+
+108
+00:05:29,260 --> 00:05:35,000
+make sure to grab the final curly brace,
+closing parentheses, and semi-colon too.
+
+109
+00:05:35,000 --> 00:05:37,370
+Also, I made the words
+ArrayList final so
+
+110
+00:05:37,370 --> 00:05:40,780
+that I can reference it within
+the item ClickListener.
+
+111
+00:05:40,780 --> 00:05:43,748
+Now the media player needs to
+reference the activity context,
+
+112
+00:05:43,748 --> 00:05:46,830
+so I changed it from the NumbersActivity
+to the FamilyActivity,
+
+113
+00:05:46,830 --> 00:05:50,320
+because that's the activity
+that we're currently in.
+
+114
+00:05:50,320 --> 00:05:54,420
+And then I repeated the same process for
+the Colors class, and one more time for
+
+115
+00:05:54,420 --> 00:05:56,240
+the PhrasesActivity.
+
+116
+00:05:56,240 --> 00:05:59,550
+Now hopefully, after setting this up
+several times, you're getting the hang
+
+117
+00:05:59,550 --> 00:06:02,630
+of setting up ItemClickListeners
+as well as using the MediaPlayer.
+
+118
+00:06:04,480 --> 00:06:07,986
+Now let's demo the app, and we should
+be able to hear Andrea's voice for
+
+119
+00:06:07,986 --> 00:06:08,744
+all the words.
+
+120
+00:06:08,744 --> 00:06:10,147
+So, let's start with Phrases this time.
+
+121
+00:06:10,147 --> 00:06:13,979
+>> [FOREIGN]
+>> Nice.
+
+122
+00:06:13,979 --> 00:06:14,699
+And then go to Colors.
+
+123
+00:06:14,699 --> 00:06:19,018
+>> [FOREIGN]
+>> Sounds good so far.
+
+124
+00:06:19,018 --> 00:06:20,585
+Now to Family Members.
+
+125
+00:06:20,585 --> 00:06:23,311
+>> [FOREIGN]
+>> And lastly,
+
+126
+00:06:23,311 --> 00:06:24,277
+our good old Numbers Activity.
+
+127
+00:06:24,277 --> 00:06:28,700
+>> [FOREIGN]
+>> Perfect.
+
+128
+00:06:28,700 --> 00:06:29,800
+So I want to take a moment and
+
+129
+00:06:29,800 --> 00:06:32,790
+congratulate you on all
+the hard work that you've done.
+
+130
+00:06:32,790 --> 00:06:36,400
+So you've reached a really big milestone
+by incorporating all these features
+
+131
+00:06:36,400 --> 00:06:40,010
+into this app, as well as learn so
+many new skills along the way.
+
+132
+00:06:40,010 --> 00:06:42,420
+So take a moment and
+give yourselves a pat on the back.
+
+133
+00:06:42,420 --> 00:06:45,040
+And then go show off your app
+to your friends and family.
+
+134
+00:06:45,040 --> 00:06:46,830
+We're really proud of you and
+you deserve it.

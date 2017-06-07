@@ -1,0 +1,250 @@
+﻿1
+00:00:00,240 --> 00:00:03,169
+Now why do we have to interweave
+planning and execution?
+
+2
+00:00:03,169 --> 00:00:06,652
+Mostly because of properties of the
+environment that make it difficult to
+
+3
+00:00:06,652 --> 00:00:07,219
+deal with.
+
+4
+00:00:07,219 --> 00:00:11,132
+The most important one is if
+the environment is stochastic,
+
+5
+00:00:11,132 --> 00:00:15,134
+that is if we don't know for
+sure what an action is going to do.
+
+6
+00:00:15,134 --> 00:00:16,609
+If we know what everything
+is going to do,
+
+7
+00:00:16,609 --> 00:00:18,539
+we can plan it out right from the start.
+
+8
+00:00:18,539 --> 00:00:22,899
+But if we don't, we have to be able
+to deal with contingencies of, say,
+
+9
+00:00:22,899 --> 00:00:26,320
+I tried to move forward and the wheel
+slipped and I went someplace else.
+
+10
+00:00:26,320 --> 00:00:29,440
+Or the breaks might skid,
+or, with our walking,
+
+11
+00:00:29,440 --> 00:00:31,650
+our feet don't go 100% straight.
+
+12
+00:00:31,649 --> 00:00:33,229
+Or consider the problem
+of traffic lights.
+
+13
+00:00:33,229 --> 00:00:35,789
+If the traffic light is red,
+
+14
+00:00:35,789 --> 00:00:39,100
+then the result of the action of go
+forward through the intersection
+
+15
+00:00:39,100 --> 00:00:41,890
+is bound to be different than
+if the traffic light is green.
+
+16
+00:00:41,890 --> 00:00:46,120
+Another difficulty we have to deal
+with is multiagent environments.
+
+17
+00:00:46,119 --> 00:00:49,149
+If there are other cars and
+people that can get in their way,
+
+18
+00:00:49,149 --> 00:00:52,289
+we have to plan about what
+they're going to do and
+
+19
+00:00:52,289 --> 00:00:54,719
+we have to react when they
+do something unexpected.
+
+20
+00:00:54,719 --> 00:00:58,719
+And we can only know that at
+execution time, not at planning time.
+
+21
+00:00:58,719 --> 00:01:03,286
+The other big problem is
+with partial observability.
+
+22
+00:01:03,286 --> 00:01:08,060
+Suppose we've come up with a plan
+to go from A to S to F to B,
+
+23
+00:01:08,061 --> 00:01:10,959
+that plan looks like it'll work.
+
+24
+00:01:10,959 --> 00:01:14,487
+But we know that at S the road
+to F is sometimes closed and
+
+25
+00:01:14,486 --> 00:01:18,729
+there will be a sign there telling
+us whether it's closed or not.
+
+26
+00:01:18,730 --> 00:01:23,790
+But when we start off we can't read that
+sign, so that's partial observability.
+
+27
+00:01:23,790 --> 00:01:27,410
+Another way to look at it is, when we
+start off we don't know what state we're
+
+28
+00:01:27,409 --> 00:01:32,250
+in, we know we're in A, but we don't
+know if we're in A, in the state
+
+29
+00:01:32,250 --> 00:01:37,090
+where the road is closed, or if we're in
+A in the state where the road is open.
+
+30
+00:01:37,090 --> 00:01:40,549
+And it's not until we get to S that we
+discover what state we're actually in,
+
+31
+00:01:40,549 --> 00:01:44,000
+and then we know if we can
+continue along that route or
+
+32
+00:01:44,000 --> 00:01:46,049
+if we have to take a detour south.
+
+33
+00:01:46,049 --> 00:01:48,849
+Now, in addition to these
+properties of the environment,
+
+34
+00:01:48,849 --> 00:01:53,719
+we can also have difficulty because
+of lack of knowledge on our own part.
+
+35
+00:01:53,719 --> 00:01:57,849
+So, if some model of the world
+is unknown, that is for example,
+
+36
+00:01:57,849 --> 00:02:01,879
+we have map or
+GPS software that's inaccurate or
+
+37
+00:02:01,879 --> 00:02:05,640
+incomplete, then we won't be able
+to execute a straight line plan.
+
+38
+00:02:06,859 --> 00:02:08,099
+And similarly,
+
+39
+00:02:08,099 --> 00:02:11,969
+often we want to deal with a case where
+the plans have to be hierarchical.
+
+40
+00:02:13,030 --> 00:02:17,500
+And certainly a plan like
+this is at a very high level.
+
+41
+00:02:17,500 --> 00:02:22,520
+We can't really execute the action of
+going from A to S when we're in a car.
+
+42
+00:02:22,520 --> 00:02:26,260
+All the actions that we can
+actually execute are things like
+
+43
+00:02:26,259 --> 00:02:28,379
+turn the steering wheel
+a little bit to the right,
+
+44
+00:02:28,379 --> 00:02:30,139
+press on the pedal a little bit more.
+
+45
+00:02:30,139 --> 00:02:32,579
+So those are the low level
+steps of the plan, but
+
+46
+00:02:32,580 --> 00:02:34,750
+those aren't sketched out in detail.
+
+47
+00:02:34,750 --> 00:02:38,319
+When we start, we only have the high
+level parts of the plan, and then it's
+
+48
+00:02:38,319 --> 00:02:43,129
+during execution that we schedule
+the rest of low level parts of the plan.
+
+49
+00:02:43,129 --> 00:02:47,159
+Now, most of these difficulties can be
+addressed by changing our point of view.
+
+50
+00:02:47,159 --> 00:02:50,669
+Instead of planning in
+a space of world states,
+
+51
+00:02:50,669 --> 00:02:53,000
+we plan in a space of belief states.
+
+52
+00:02:53,000 --> 00:02:55,020
+To understand that,
+let's look at a state.
+

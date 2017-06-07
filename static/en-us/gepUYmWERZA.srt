@@ -1,0 +1,283 @@
+﻿1
+00:00:00,220 --> 00:00:03,860
+And the answer is no, there is no
+solution that the agent could come up
+
+2
+00:00:03,859 --> 00:00:06,799
+with, because Bucharest
+doesn't appear on the map.
+
+3
+00:00:06,799 --> 00:00:10,939
+And so the agent doesn't know any
+actions that can arrive there.
+
+4
+00:00:10,939 --> 00:00:13,073
+So let's give the agent a better chance.
+
+5
+00:00:13,073 --> 00:00:16,643
+Now we've given the agent
+the full map of Romania.
+
+6
+00:00:16,643 --> 00:00:18,820
+The start is in Arad.
+
+7
+00:00:19,870 --> 00:00:23,230
+And the destination or
+goal is in Bucharest.
+
+8
+00:00:23,230 --> 00:00:28,519
+And the agent is given the problem of
+coming up with a sequence of actions
+
+9
+00:00:28,519 --> 00:00:30,739
+that will arrive at the destination.
+
+10
+00:00:30,739 --> 00:00:33,699
+Now is it possible for
+the agent to solve this problem?
+
+11
+00:00:33,700 --> 00:00:34,740
+And the answer is yes.
+
+12
+00:00:34,740 --> 00:00:37,320
+There are many routes or steps or
+
+13
+00:00:37,320 --> 00:00:40,869
+sequences of actions that will
+arrive at the destination.
+
+14
+00:00:40,869 --> 00:00:41,769
+Here's one of them,
+
+15
+00:00:41,770 --> 00:00:43,349
+[BLANK_AUDIO]
+
+16
+00:00:43,348 --> 00:00:48,408
+Starting out at Arad,
+taking this step first, then this one,
+
+17
+00:00:48,408 --> 00:00:54,530
+then this one, then this one and then
+this one to arrive at the destination.
+
+18
+00:00:54,530 --> 00:00:57,871
+So that would count as
+a solution to the problem.
+
+19
+00:00:57,871 --> 00:01:01,422
+It's a sequence of actions chained
+together that are guaranteed to get us
+
+20
+00:01:01,421 --> 00:01:02,890
+to the goal.
+
+21
+00:01:02,890 --> 00:01:06,200
+Now let's formally define
+what a problem looks like.
+
+22
+00:01:06,200 --> 00:01:09,680
+A problem can be broken down
+into a number of components.
+
+23
+00:01:09,680 --> 00:01:13,700
+First, the initial state that
+the agent starts out with.
+
+24
+00:01:13,700 --> 00:01:15,590
+In our route finding problem,
+
+25
+00:01:15,590 --> 00:01:19,704
+the initial state was the agent
+being in a city of Arad.
+
+26
+00:01:20,859 --> 00:01:28,569
+Next, a function, actions that takes
+a state as input and returns a set of
+
+27
+00:01:28,569 --> 00:01:34,569
+possible actions that the agent can
+execute when the agent is in this state.
+
+28
+00:01:34,569 --> 00:01:35,399
+In some problems,
+
+29
+00:01:35,400 --> 00:01:38,830
+the agent will have the same
+actions available in all states.
+
+30
+00:01:38,829 --> 00:01:39,810
+And in other problems,
+
+31
+00:01:39,810 --> 00:01:42,670
+they'll have different actions
+dependent on the state.
+
+32
+00:01:42,670 --> 00:01:46,689
+In the route finding problem,
+the actions are dependent on the state.
+
+33
+00:01:46,689 --> 00:01:50,689
+When we're in one city, we can take
+the routes to the neighboring cities but
+
+34
+00:01:50,689 --> 00:01:52,929
+we can't go to any other cities.
+
+35
+00:01:52,930 --> 00:02:00,080
+Next we have a function called result
+which takes as input a state and
+
+36
+00:02:00,079 --> 00:02:05,230
+an action and
+delivers as its output a new state.
+
+37
+00:02:06,420 --> 00:02:11,444
+So, for example,
+if the agent is in the city of Arad and
+
+38
+00:02:11,444 --> 00:02:15,139
+takes, that would be the state.
+
+39
+00:02:15,139 --> 00:02:20,409
+And takes the action of
+driving along route E671
+
+40
+00:02:20,409 --> 00:02:26,120
+towards Timisora, then the result of
+applying that action in that state
+
+41
+00:02:26,120 --> 00:02:30,560
+would be the new state where the agent
+is in the city of Timisoara.
+
+42
+00:02:32,960 --> 00:02:37,990
+Next, we need a function
+called GoalTest,
+
+43
+00:02:37,990 --> 00:02:43,090
+which takes a state and
+returns a Boolean value, true or
+
+44
+00:02:43,090 --> 00:02:46,816
+false, telling us if this
+state is a goal or not.
+
+45
+00:02:46,816 --> 00:02:48,400
+In the route finding problem,
+
+46
+00:02:48,400 --> 00:02:53,439
+the only goal would being in the
+destination city, the city of Bucharest,
+
+47
+00:02:53,439 --> 00:02:56,270
+and all the other states would
+return false for the GoalTest.
+
+48
+00:02:57,629 --> 00:03:02,316
+And finally, you need one more thing,
+which is a Path Cost function,
+
+49
+00:03:02,316 --> 00:03:07,710
+which takes a path, a sequence of state,
+
+50
+00:03:08,800 --> 00:03:13,920
+action, transitions, and returns a
+number, which is the cost of that path.
+
+51
+00:03:15,199 --> 00:03:17,493
+Now, for
+most of the problems we'll deal with,
+
+52
+00:03:17,493 --> 00:03:21,500
+we'll make the Path Cost
+function be additive so
+
+53
+00:03:21,500 --> 00:03:26,469
+that the cost of a path is just the sum
+of the cost of the individual steps.
+
+54
+00:03:27,530 --> 00:03:28,409
+And so
+
+55
+00:03:28,409 --> 00:03:33,980
+we'll implement this Path Cost function
+in terms of a Step Cost function.
+
+56
+00:03:33,980 --> 00:03:38,889
+The Step Cost function takes a state,
+
+57
+00:03:39,889 --> 00:03:45,029
+an action, and
+the resulting state from that action and
+
+58
+00:03:45,030 --> 00:03:48,140
+returns a number n which
+is the cost of that action.
+
+59
+00:03:49,250 --> 00:03:53,514
+In the route finding example,
+the cost might be the number of miles
+
+60
+00:03:53,514 --> 00:03:58,469
+traveled or maybe the number of minutes
+it takes to get to that destination.
+

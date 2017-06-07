@@ -1,0 +1,414 @@
+1
+00:00:00,180 --> 00:00:04,177
+So now let me show you a simple example
+of combining two images that have
+
+2
+00:00:04,177 --> 00:00:06,278
+a different perspective, that is,
+
+3
+00:00:06,278 --> 00:00:11,389
+they're actually taken at two different
+viewpoints, but with some overlap.
+
+4
+00:00:11,389 --> 00:00:13,455
+And how we can use those two images and
+
+5
+00:00:13,455 --> 00:00:17,984
+go through the whole pipeline of finding
+the right features and matching them and
+
+6
+00:00:17,984 --> 00:00:22,630
+using that to align and create a simple
+panorama, just from two images.
+
+7
+00:00:22,630 --> 00:00:28,361
+Of course, we start off by first loading
+in numpy and copy, I'll open CV.
+
+8
+00:00:28,361 --> 00:00:30,265
+I'm going to load two images.
+
+9
+00:00:30,265 --> 00:00:34,199
+I'm going to load the Einstein image and
+then I'm going to load the da Vinci
+
+10
+00:00:34,199 --> 00:00:38,230
+image I'm going to print some
+information about these two images.
+
+11
+00:00:38,230 --> 00:00:40,474
+And of course,
+also show the original images.
+
+12
+00:00:40,474 --> 00:00:43,804
+So to help the computation,
+I'm going to convert these images,
+
+13
+00:00:43,804 --> 00:00:45,629
+which are in color into grey scale.
+
+14
+00:00:45,629 --> 00:00:47,881
+That of course,
+helps with your computation time.
+
+15
+00:00:47,881 --> 00:00:50,485
+And of course, I should be able to
+now find the features in a much more
+
+16
+00:00:50,485 --> 00:00:51,457
+efficient manner here.
+
+17
+00:00:51,457 --> 00:00:52,548
+So we are going to do that.
+
+18
+00:00:52,548 --> 00:00:56,078
+We applied this to both the first
+image and the second image.
+
+19
+00:00:56,078 --> 00:00:59,312
+So here is this line of
+code here is initializing
+
+20
+00:00:59,312 --> 00:01:01,813
+the ability to find features in images.
+
+21
+00:01:01,813 --> 00:01:06,451
+Here we're actually going to use the ORB
+function to be able to find images
+
+22
+00:01:06,451 --> 00:01:08,708
+features and images.
+
+23
+00:01:08,708 --> 00:01:12,071
+There is another method available
+in a different version for OpenCV,
+
+24
+00:01:12,071 --> 00:01:15,912
+which actually uses SIFT, the algorithm
+that we have discussed in detail.
+
+25
+00:01:15,912 --> 00:01:18,086
+That's available in
+a different version of OpenCV,
+
+26
+00:01:18,086 --> 00:01:20,850
+that's not available in this
+version that I'm using.
+
+27
+00:01:20,850 --> 00:01:24,254
+Both of them actually give you feature
+matching that actually can be used for
+
+28
+00:01:24,254 --> 00:01:26,337
+this application that
+we're interested in.
+
+29
+00:01:26,337 --> 00:01:30,052
+So, after we've initialized an dete,
+feature detector,
+
+30
+00:01:30,052 --> 00:01:33,632
+let's start using that approach or
+this method to identify and
+
+31
+00:01:33,632 --> 00:01:36,890
+locate keypoints and
+then use those to match them.
+
+32
+00:01:36,890 --> 00:01:39,564
+So here in these two lines basically,
+using orb.
+
+33
+00:01:39,564 --> 00:01:43,312
+We have detected and computed
+features for image one and image two,
+
+34
+00:01:43,312 --> 00:01:46,400
+we put them in these two
+different data structures.
+
+35
+00:01:46,400 --> 00:01:50,058
+Here, I can actually also go ahead and
+print them out to see what these things
+
+36
+00:01:50,058 --> 00:01:52,813
+look like in terms of what
+feature points are extracted.
+
+37
+00:01:52,813 --> 00:01:57,371
+These two lines of code are used to
+actually now draw circles around those
+
+38
+00:01:57,371 --> 00:01:58,404
+keypoints.
+
+39
+00:01:58,404 --> 00:02:01,621
+This is a good debugging tool, it'll
+tell us more about how we can actually
+
+40
+00:02:01,621 --> 00:02:03,690
+visualize where those keypoints are.
+
+41
+00:02:03,690 --> 00:02:06,342
+And of course,
+then we think to display them.
+
+42
+00:02:06,342 --> 00:02:08,651
+So by using a BFMatcher function,
+
+43
+00:02:08,651 --> 00:02:14,233
+I'm going to now start get ready to do
+some simple matching of these features.
+
+44
+00:02:14,233 --> 00:02:18,412
+We're going to create two sequences
+of corresponding match points and
+
+45
+00:02:18,412 --> 00:02:22,726
+then look through the whole process and
+find matching feature points that
+
+46
+00:02:22,726 --> 00:02:25,806
+we've identified using
+the orb feature detector.
+
+47
+00:02:25,806 --> 00:02:26,755
+Here basically,
+
+48
+00:02:26,755 --> 00:02:30,242
+now those are accumulated into
+the two different points arrays.
+
+49
+00:02:30,242 --> 00:02:34,555
+And then using that,
+we will compute the homography for
+
+50
+00:02:34,555 --> 00:02:37,137
+both points two and point t.
+
+51
+00:02:37,137 --> 00:02:40,161
+And of course, here,
+we're using the RANSAC algorithm,
+
+52
+00:02:40,161 --> 00:02:42,589
+which I've also talked
+about in this lecture.
+
+53
+00:02:43,770 --> 00:02:45,963
+After this we get the homography matrix,
+
+54
+00:02:45,963 --> 00:02:48,224
+we'll print that out to
+see what it looks like.
+
+55
+00:02:48,224 --> 00:02:51,801
+Finally, in this piece of code,
+we are going to create a panorama.
+
+56
+00:02:51,801 --> 00:02:54,337
+We are going to take
+the homography matrix and
+
+57
+00:02:54,337 --> 00:02:57,538
+actually use that to generate
+a shape of the panorama
+
+58
+00:02:57,538 --> 00:03:01,860
+which is where we can actually
+project all of the small images into.
+
+59
+00:03:01,860 --> 00:03:05,958
+And using that, warp the images apply
+the transformations that we have
+
+60
+00:03:05,958 --> 00:03:07,313
+actually now computed.
+
+61
+00:03:07,313 --> 00:03:09,500
+Remember, the homography matrix is here,
+
+62
+00:03:09,500 --> 00:03:12,050
+which can be applied to
+the whole size of the image.
+
+63
+00:03:12,050 --> 00:03:15,777
+And using that, we will actually
+now generate a new image and
+
+64
+00:03:15,777 --> 00:03:21,020
+copy information into that image that
+actually has all the panoramic pixels.
+
+65
+00:03:21,020 --> 00:03:23,021
+And of course, showcase this result.
+
+66
+00:03:23,021 --> 00:03:24,763
+Let's look at the solutions.
+
+67
+00:03:24,763 --> 00:03:26,760
+Couple of things to just
+help us debug things.
+
+68
+00:03:26,760 --> 00:03:29,406
+We have two images,
+both of them are the same size.
+
+69
+00:03:29,406 --> 00:03:34,314
+We actually used the orb detector
+to find 500 keypoints each in one
+
+70
+00:03:34,314 --> 00:03:35,351
+of the images.
+
+71
+00:03:35,351 --> 00:03:39,165
+Then we basically went ahead and
+found matches,
+
+72
+00:03:39,165 --> 00:03:44,667
+305 matches were found of the 500
+keypoints in both of them.
+
+73
+00:03:44,667 --> 00:03:48,511
+Using those matches we actually
+computed The homography of
+
+74
+00:03:48,511 --> 00:03:50,790
+the transformation matrix.
+
+75
+00:03:50,790 --> 00:03:56,854
+This is now just displaying the images,
+so this was the first image.
+
+76
+00:03:56,854 --> 00:03:58,967
+The second image.
+
+77
+00:03:58,967 --> 00:04:03,410
+The circles here show where
+the keypoints were found using the orb
+
+78
+00:04:03,410 --> 00:04:05,445
+detector in the first image.
+
+79
+00:04:05,445 --> 00:04:08,889
+And the circles here, showcase
+all of the interesting points or
+
+80
+00:04:08,889 --> 00:04:10,948
+keypoints found in the second image.
+
+81
+00:04:10,948 --> 00:04:15,375
+Notice again, this is the overlapping
+part and this is the final panorama,
+
+82
+00:04:15,375 --> 00:04:19,539
+which is actually now, if you notice
+combining these two images here.
+
+83
+00:04:19,539 --> 00:04:21,065
+In this image or in this code,
+
+84
+00:04:21,065 --> 00:04:24,926
+we haven't done anything about accurate
+blending of this kinds of stuff.
+
+85
+00:04:24,926 --> 00:04:27,990
+So, if you pay attention and look hard,
+you might be able to find a seam.
+
+86
+00:04:27,990 --> 00:04:29,852
+And of course, it's the one seam here.
+
+87
+00:04:29,852 --> 00:04:32,926
+Again, remember all the stuff we've
+talked about with blending and
+
+88
+00:04:32,926 --> 00:04:34,890
+cuts that could be used
+to make this better.

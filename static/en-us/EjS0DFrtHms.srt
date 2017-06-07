@@ -1,0 +1,255 @@
+1
+00:00:00,350 --> 00:00:04,350
+Now that we've described the shared
+memory mechanisms in a general way,
+
+2
+00:00:04,350 --> 00:00:08,840
+let's look at the specific details
+of the system five Unix API.
+
+3
+00:00:08,840 --> 00:00:12,720
+First the operating system supports
+segments of shared memory,
+
+4
+00:00:12,720 --> 00:00:16,980
+that don't necessarily have to
+correspond to contiguous physical pages.
+
+5
+00:00:16,980 --> 00:00:21,379
+Also, the operating system treats
+shared memory as a system-wide
+
+6
+00:00:21,379 --> 00:00:24,100
+resource using system-wide policies.
+
+7
+00:00:24,100 --> 00:00:27,820
+That means that there is a limit on the
+total number of segments of the total
+
+8
+00:00:27,820 --> 00:00:30,510
+size of the shared memory.
+
+9
+00:00:30,510 --> 00:00:33,350
+Presently, that's not so
+much of an issue as, for
+
+10
+00:00:33,350 --> 00:00:38,300
+instance, currently in Linux,
+that limit is 4,000 segments.
+
+11
+00:00:38,300 --> 00:00:42,050
+However, in the past it used to
+be much less and in certain OSs,
+
+12
+00:00:42,050 --> 00:00:44,390
+it was as few as six segments.
+
+13
+00:00:44,390 --> 00:00:48,440
+More recent versions of Linux
+had a limit of 128 segments.
+
+14
+00:00:48,440 --> 00:00:52,610
+The operating system may also impose
+other limits as far as the system wide
+
+15
+00:00:52,610 --> 00:00:54,100
+shared memory.
+
+16
+00:00:54,100 --> 00:00:58,430
+When a process requests that
+a shared memory segment is created,
+
+17
+00:00:58,430 --> 00:01:02,510
+the operating system allocates
+the required amount of physical memory,
+
+18
+00:01:02,510 --> 00:01:04,849
+provided that certain limits are met.
+
+19
+00:01:04,849 --> 00:01:07,760
+And then it assigns to it, a unique key.
+
+20
+00:01:07,760 --> 00:01:13,010
+This key is used to uniquely identify
+the segment within the operating system.
+
+21
+00:01:13,010 --> 00:01:18,090
+Any other process can refer to this
+particular segment, using this key.
+
+22
+00:01:18,090 --> 00:01:21,910
+If the creating process wants to
+communicate with other processes using
+
+23
+00:01:21,910 --> 00:01:26,940
+shared memory, then it will make sure
+that they learn this key in some way.
+
+24
+00:01:26,940 --> 00:01:32,830
+By using either some other form of IPC,
+or just by passing it through a file,
+
+25
+00:01:32,830 --> 00:01:36,300
+or as a command line argument,
+or maybe other options.
+
+26
+00:01:36,300 --> 00:01:41,340
+Using the key, the shared memory
+segment can be attached by a process.
+
+27
+00:01:41,340 --> 00:01:45,180
+This means that the operating system
+establishes valid mappings between
+
+28
+00:01:45,180 --> 00:01:49,920
+the virtual addresses, that are part of
+that process virtual address space, and
+
+29
+00:01:49,920 --> 00:01:52,870
+the physical memory
+that backs the segment.
+
+30
+00:01:52,870 --> 00:01:57,830
+Multiple processes can attach to the
+same shared memory segment, and in this
+
+31
+00:01:57,830 --> 00:02:02,680
+manner, each process ends up sharing
+access to the same physical pages.
+
+32
+00:02:02,680 --> 00:02:06,750
+Reads and writes to these pages will be
+visible across the processes just like
+
+33
+00:02:06,750 --> 00:02:08,190
+when threads share.
+
+34
+00:02:08,190 --> 00:02:11,500
+Access to memory that's part
+of the same address space.
+
+35
+00:02:11,500 --> 00:02:14,410
+And also,
+the shared memory segment can be mapped
+
+36
+00:02:14,410 --> 00:02:17,810
+to different virtual address
+in different processes.
+
+37
+00:02:17,810 --> 00:02:22,870
+Detaching a segment means invalidating
+the address mappings for the virtual
+
+38
+00:02:22,870 --> 00:02:26,030
+address region that corresponded to
+that segment within the process.
+
+39
+00:02:27,040 --> 00:02:29,200
+In other words the page
+table entries for
+
+40
+00:02:29,200 --> 00:02:32,410
+those virtual addresses
+will no longer be valid.
+
+41
+00:02:32,410 --> 00:02:37,080
+However, a segment isn't really
+destroyed once it's detached.
+
+42
+00:02:37,080 --> 00:02:42,270
+In fact, a segment maybe attached and
+detached then reattached multiple times
+
+43
+00:02:42,270 --> 00:02:44,610
+by different processes
+during it's life time.
+
+44
+00:02:46,110 --> 00:02:50,700
+What this means is that once a segment
+is created it's like a persistent
+
+45
+00:02:50,700 --> 00:02:55,750
+entity until there is an explicit
+request for it to be destroyed.
+
+46
+00:02:55,750 --> 00:02:57,850
+This is similar to what
+would happen to a file.
+
+47
+00:02:57,850 --> 00:03:03,350
+We create a file and then the file
+persists until it is explicitly deleted.
+
+48
+00:03:03,350 --> 00:03:07,110
+In the mean time, we can open it and
+close it and read it and write it, but
+
+49
+00:03:07,110 --> 00:03:08,790
+the file will still be there.
+
+50
+00:03:08,790 --> 00:03:10,790
+This property of shared memory,
+
+51
+00:03:10,790 --> 00:03:15,220
+to be removed only when it's explicitly
+deleted or when there is a system
+
+52
+00:03:15,220 --> 00:03:20,110
+reboot, makes it very different
+than regular non-shared memory,
+
+53
+00:03:20,110 --> 00:03:24,390
+that is Malloced and then it will
+disappear as soon as the process exits.

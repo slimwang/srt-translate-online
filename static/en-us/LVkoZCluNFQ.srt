@@ -1,0 +1,251 @@
+1
+00:00:00,000 --> 00:00:04,718
+Forcing all processes to see the exact
+same order on all updates may be
+
+2
+00:00:04,718 --> 00:00:05,704
+an overkill.
+
+3
+00:00:05,704 --> 00:00:10,284
+For instance, P3 and P4 here may
+perform completely different in
+
+4
+00:00:10,284 --> 00:00:14,073
+independent computations
+with the values m1 and m2.
+
+5
+00:00:14,073 --> 00:00:19,446
+And furthermore, the update to m2 had
+nothing to do with the value of m1,
+
+6
+00:00:19,446 --> 00:00:22,447
+they were also completely independent.
+
+7
+00:00:22,447 --> 00:00:27,556
+However, if we take a look at
+the second example, before the value
+
+8
+00:00:27,556 --> 00:00:32,500
+m2 was written, the value of
+the memory location m1 was read.
+
+9
+00:00:32,500 --> 00:00:38,088
+This means that there is potentially
+some relationship between the memory
+
+10
+00:00:38,088 --> 00:00:43,232
+location m2, this particular update
+to the memory location m2 and
+
+11
+00:00:43,232 --> 00:00:46,263
+this update to the memory location m1.
+
+12
+00:00:46,263 --> 00:00:52,500
+Given that this read operation that was
+performed at P2, just before this write.
+
+13
+00:00:52,500 --> 00:00:57,508
+Return the value of this write operation
+that happened on processor one.
+
+14
+00:00:57,508 --> 00:01:01,676
+There is clearly some flow of
+information, some potential dependence
+
+15
+00:01:01,676 --> 00:01:05,852
+between these two updates that
+happened on two different processors.
+
+16
+00:01:05,852 --> 00:01:09,973
+Based on this observation,
+clearly it is not okay for
+
+17
+00:01:09,973 --> 00:01:13,546
+these two operations,
+this m2 update to y and
+
+18
+00:01:13,546 --> 00:01:19,609
+the update of memory location m1 to x to
+be perceived in this different order.
+
+19
+00:01:19,609 --> 00:01:25,374
+It would be very incorrect for
+somebody like P4 in this case to observe
+
+20
+00:01:25,374 --> 00:01:31,644
+that the value of m2 was updated to y
+before the value of m1 was updated to x.
+
+21
+00:01:31,644 --> 00:01:37,542
+P4 here thinks that m1 is still zero and
+then it finds out that m2 became y.
+
+22
+00:01:37,542 --> 00:01:41,855
+But there is dependence between
+the fact that y was written to m2 and
+
+23
+00:01:41,855 --> 00:01:44,588
+the fact that x was
+already written to m1.
+
+24
+00:01:44,588 --> 00:01:48,026
+So clearly,
+this is not a reasonable execution.
+
+25
+00:01:48,026 --> 00:01:52,514
+It will be very difficult for software
+to understand what is exactly happening
+
+26
+00:01:52,514 --> 00:01:56,332
+with the memory if it cannot reason
+about dependencies like this.
+
+27
+00:01:56,332 --> 00:02:00,302
+However, in this case,
+with such dependence did not exist.
+
+28
+00:02:00,302 --> 00:02:04,760
+It will probably be okay for
+us to tolerate this kind of reordering.
+
+29
+00:02:04,760 --> 00:02:09,404
+The consistency model that provides
+exactly this kind of behavior is
+
+30
+00:02:09,404 --> 00:02:11,413
+called causal consistency.
+
+31
+00:02:11,413 --> 00:02:16,385
+Causal consistency models guarantee that
+they will detect the possible causal
+
+32
+00:02:16,385 --> 00:02:18,472
+relationship between updates.
+
+33
+00:02:18,472 --> 00:02:23,329
+And if updates are causally related,
+then the memory will guarantee that
+
+34
+00:02:23,329 --> 00:02:27,887
+those rights, those update operations
+will be correctly ordered.
+
+35
+00:02:27,887 --> 00:02:32,842
+What that would mean is that in this
+situation where the two updates
+
+36
+00:02:32,842 --> 00:02:37,444
+are in fact correctly ordered,
+we have to make sure that every
+
+37
+00:02:37,444 --> 00:02:42,310
+processor observes that the update
+of x to the memory location m1
+
+38
+00:02:42,310 --> 00:02:46,756
+happened before the update of
+y to the memory location m2.
+
+39
+00:02:46,756 --> 00:02:49,617
+So we have to make sure that on P4,
+
+40
+00:02:49,617 --> 00:02:55,350
+this first read of the value of
+the memory location m1 returned an x.
+
+41
+00:02:55,350 --> 00:02:59,354
+In this case, this execution will
+be causally consistent given this
+
+42
+00:02:59,354 --> 00:03:02,193
+particular relationship
+between the updates.
+
+43
+00:03:02,193 --> 00:03:07,040
+For writes that are not causally related
+or they're referred to in causal
+
+44
+00:03:07,040 --> 00:03:11,200
+consistency as concurrent writes,
+there are no guarantees.
+
+45
+00:03:11,200 --> 00:03:16,620
+Causal consistency doesn't guarantee
+anything about such updates and they may
+
+46
+00:03:16,620 --> 00:03:21,569
+perfectly legally appear in arbitrary
+orders on different processors.
+
+47
+00:03:21,569 --> 00:03:26,251
+Just like before, causal consistency
+also makes sure that the writes that
+
+48
+00:03:26,251 --> 00:03:31,008
+are performed on the same processor will
+be visible in the exact same order on
+
+49
+00:03:31,008 --> 00:03:32,292
+other processors.
+
+50
+00:03:32,292 --> 00:03:36,294
+Again, it would be too much of
+a challenge to understand how to really
+
+51
+00:03:36,294 --> 00:03:40,089
+reason about a system if the updates
+from a single processor can be
+
+52
+00:03:40,089 --> 00:03:41,610
+arbitrarily reordered.

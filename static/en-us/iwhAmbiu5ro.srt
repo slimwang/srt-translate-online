@@ -1,0 +1,264 @@
+1
+00:00:00,480 --> 00:00:03,480
+Here I am in
+the MovieDetailViewController file.
+
+2
+00:00:03,480 --> 00:00:05,730
+Let's write the code to finish this out.
+
+3
+00:00:05,730 --> 00:00:09,560
+First, let's set the parameters,
+which for this method are the ApiKey and
+
+4
+00:00:09,560 --> 00:00:11,410
+the SessionID.
+
+5
+00:00:11,410 --> 00:00:14,715
+Then let's build our URL, and this
+time the pathExtension is going to be
+
+6
+00:00:14,715 --> 00:00:19,740
+/account, and then we'll substitute
+in our userID, and then favorite.
+
+7
+00:00:19,740 --> 00:00:21,655
+Now the next steps are really important.
+
+8
+00:00:21,655 --> 00:00:26,760
+We need to make sure the HTTPMethod for
+this request is set to POST.
+
+9
+00:00:26,760 --> 00:00:29,849
+Then we want to add the value
+application/json for
+
+10
+00:00:29,849 --> 00:00:33,080
+the Content-Type and the Accept headers.
+
+11
+00:00:33,080 --> 00:00:37,370
+The Accept header tells the API that
+we will accept JSON in the response,
+
+12
+00:00:37,370 --> 00:00:39,007
+the data that comes back to us.
+
+13
+00:00:39,007 --> 00:00:43,820
+And the Content-Type header tells the
+API that the data that we'll be sending
+
+14
+00:00:43,820 --> 00:00:49,100
+in the HTTP body should be treated like
+JSON, which leads us to our next step,
+
+15
+00:00:49,100 --> 00:00:51,520
+creating the HTTP body.
+
+16
+00:00:51,520 --> 00:00:55,430
+This can be done in one line using
+Swift's nice string interpolation.
+
+17
+00:00:55,430 --> 00:00:58,340
+And here you can see that we're using
+that movie property so that we can get
+
+18
+00:00:58,340 --> 00:01:03,600
+the movie's ID, because that's what's
+required here in the media_id argument.
+
+19
+00:01:03,600 --> 00:01:06,490
+And then for favorite,
+we're going to use shouldFavorite
+
+20
+00:01:06,490 --> 00:01:09,160
+to determine whether that
+should be true or false.
+
+21
+00:01:09,160 --> 00:01:12,700
+All I've done here is adapted the
+example code from the documentation and
+
+22
+00:01:12,700 --> 00:01:18,050
+set the values we want, specifically
+the movie!.id and the shouldFavorite.
+
+23
+00:01:18,050 --> 00:01:20,080
+Then I can make the request.
+
+24
+00:01:20,080 --> 00:01:22,370
+Now parsing and
+using the data is nothing new.
+
+25
+00:01:22,370 --> 00:01:24,820
+Let's scroll down to
+the interesting part.
+
+26
+00:01:24,820 --> 00:01:25,680
+Here we go.
+
+27
+00:01:25,680 --> 00:01:28,880
+Now once we have converted the JSON
+into a useable dictionary,
+
+28
+00:01:28,880 --> 00:01:31,410
+we need to check for the status codes.
+
+29
+00:01:31,410 --> 00:01:33,110
+So let's pull up the status code here.
+
+30
+00:01:34,120 --> 00:01:38,485
+And then if we are favoriting, so
+if we are setting favorite to true,
+
+31
+00:01:38,485 --> 00:01:42,047
+then we'll want to look for
+12 or 1 as the status code.
+
+32
+00:01:42,047 --> 00:01:46,184
+And if we're not favoriting, if we're
+removing it from our favorites list,
+
+33
+00:01:46,184 --> 00:01:48,350
+we need to look for a status code of 13.
+
+34
+00:01:48,350 --> 00:01:51,860
+Then we need to update the UI
+to reflect those change.
+
+35
+00:01:51,860 --> 00:01:54,010
+So if we just favorited a movie,
+that's true,
+
+36
+00:01:54,010 --> 00:01:58,140
+then we'll set the tint color to nil,
+which will give it that blue color.
+
+37
+00:01:58,140 --> 00:01:59,830
+Otherwise we'll set
+the tint color to black.
+
+38
+00:02:00,888 --> 00:02:01,462
+All right,
+
+39
+00:02:01,462 --> 00:02:04,730
+if we've done everything right then
+we'll be done with My Favorite Movies.
+
+40
+00:02:05,910 --> 00:02:08,354
+I'll enter my user name and
+password, one last time.
+
+41
+00:02:08,354 --> 00:02:11,118
+We'll it Login.
+
+42
+00:02:11,118 --> 00:02:13,942
+And let me go to a movie I
+haven't looked up before.
+
+43
+00:02:13,942 --> 00:02:17,843
+How about The Martian?
+
+44
+00:02:17,843 --> 00:02:21,642
+We'll click the heart to favorite.
+
+45
+00:02:21,642 --> 00:02:23,614
+And let's go to our Favorites.
+
+46
+00:02:23,614 --> 00:02:27,130
+And it's added The Martian here at the
+bottom, so it looks like it's working.
+
+47
+00:02:27,130 --> 00:02:30,270
+And let's go back to this and
+let's remove it.
+
+48
+00:02:30,270 --> 00:02:32,320
+Go back to Favorites.
+
+49
+00:02:32,320 --> 00:02:34,480
+And it has been removed from bottom.
+
+50
+00:02:34,480 --> 00:02:37,210
+If we go back to here,
+you can see that it also updates and
+
+51
+00:02:37,210 --> 00:02:40,430
+it's been removed from
+this particular view.
+
+52
+00:02:40,430 --> 00:02:42,890
+By removed, I mean that it's
+been removed from our favorites.
+
+53
+00:02:44,290 --> 00:02:44,930
+And this is it.
+
+54
+00:02:44,930 --> 00:02:48,570
+We've made our first POST request and
+we're done with My Favorite Movies.
+
+55
+00:02:48,570 --> 00:02:49,550
+Way to go.
+
+56
+00:02:49,550 --> 00:02:52,160
+Now, if you want to download the
+completed version of this app, there's
+
+57
+00:02:52,160 --> 00:02:55,230
+a download link and instructor notes and
+I encourage you to check it out.

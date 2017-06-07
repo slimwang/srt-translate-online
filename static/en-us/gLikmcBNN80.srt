@@ -1,0 +1,535 @@
+1
+00:00:00,230 --> 00:00:01,669
+Storm provides exactly that.
+
+2
+00:00:01,669 --> 00:00:06,304
+So Storm is a platform for analyzing streams of data and
+
+3
+00:00:06,304 --> 00:00:09,749
+as they arrive or the moment it is produced.
+
+4
+00:00:09,749 --> 00:00:12,550
+So that you can react quickly based on that analytics.
+
+5
+00:00:12,550 --> 00:00:16,235
+Storm has a small set of primitives that you can use to express your
+
+6
+00:00:16,235 --> 00:00:20,664
+real-time computations without having to worry about how it's being done.
+
+7
+00:00:20,664 --> 00:00:23,032
+All you need is to like express what you want.
+
+8
+00:00:23,032 --> 00:00:26,110
+It knows how to do those things at the bar.
+
+9
+00:00:26,110 --> 00:00:32,310
+Now one of the biggest things people ask for is what is Storm versus Hadoop.
+
+10
+00:00:32,310 --> 00:00:34,305
+So they are actually complementary.
+
+11
+00:00:34,305 --> 00:00:38,172
+In a sense like Hadoop does a big batch processing,
+
+12
+00:00:38,172 --> 00:00:42,867
+where your regular map produce job and your final map produce job and
+
+13
+00:00:42,867 --> 00:00:47,063
+it runs on several nodes on the probably for a few hours or
+
+14
+00:00:47,063 --> 00:00:52,696
+days analytics and that is more of according to our definition is batch.
+
+15
+00:00:52,696 --> 00:00:58,896
+And as Tom predicted, fast reactive and real-time processing.
+
+16
+00:00:58,896 --> 00:01:02,478
+Because the model trains think the data is produced, storm takes over and
+
+17
+00:01:02,478 --> 00:01:05,562
+starts spitting all those analytics in a continuous fashion.
+
+18
+00:01:05,562 --> 00:01:08,006
+So those are the two and and I mean,
+
+19
+00:01:08,006 --> 00:01:12,177
+a lot of people ask why I need to use to Tom when there is Hadoop.
+
+20
+00:01:12,177 --> 00:01:17,147
+I mean, on thing that people think about saying hey, by the way,
+
+21
+00:01:17,147 --> 00:01:19,536
+like where can I use the Hadoop job.
+
+22
+00:01:19,536 --> 00:01:21,651
+Which is same as whatever this Tom job does.
+
+23
+00:01:21,651 --> 00:01:26,741
+But except the fact that I keep running it every few seconds.
+
+24
+00:01:26,741 --> 00:01:29,174
+Or every few minutes or whatever might be the case.
+
+25
+00:01:29,174 --> 00:01:34,618
+But if the data rate at which you are producing is even higher than the amount
+
+26
+00:01:34,618 --> 00:01:39,413
+data that can, that a Hadoop job can produce within the three minute or
+
+27
+00:01:39,413 --> 00:01:44,800
+every cycle of the job still you will not be able to produce the, using Hadoop.
+
+28
+00:01:44,800 --> 00:01:46,776
+So you are to still count on Storm.
+
+29
+00:01:46,776 --> 00:01:51,003
+And again Hadoop has this what do you call this two stage.
+
+30
+00:01:51,003 --> 00:01:53,333
+It's map phase, as well as reduce phase.
+
+31
+00:01:53,333 --> 00:01:54,773
+That's only two stages.
+
+32
+00:01:54,773 --> 00:01:57,397
+On the other hand, Storm can express multiple stages.
+
+33
+00:01:57,397 --> 00:01:59,834
+You can have any number of stages as much as you want.
+
+34
+00:01:59,834 --> 00:02:03,073
+And the data is kind of flowing within these stages continuously.
+
+35
+00:02:03,073 --> 00:02:07,012
+So that, those are the kind of underlying huge differences between Storm
+
+36
+00:02:07,012 --> 00:02:07,718
+and Hadoop.
+
+37
+00:02:07,718 --> 00:02:13,453
+In addition to these big big batch versus real-time processing.
+
+38
+00:02:13,453 --> 00:02:16,703
+So now, like, let's look at what is a Storm data model.
+
+39
+00:02:16,703 --> 00:02:21,523
+Hm, the Storm has a bunch of primitives so one is Spouts,
+
+40
+00:02:21,523 --> 00:02:26,280
+which is actually the, actually the source of that stream.
+
+41
+00:02:26,280 --> 00:02:28,395
+So it could, it could be anything.
+
+42
+00:02:28,395 --> 00:02:33,441
+So it could be coming from either Postgres or MySQL or we have the notion of
+
+43
+00:02:33,441 --> 00:02:38,877
+a distributed queues, where the data gets dumped the moment it is produced and
+
+44
+00:02:38,877 --> 00:02:43,641
+those data are available in distributed queues like Kafka and Kestrel.
+
+45
+00:02:43,641 --> 00:02:47,986
+And Bolts are the units of computations where the data is
+
+46
+00:02:47,986 --> 00:02:50,994
+actually transforming in certain fashion.
+
+47
+00:02:50,994 --> 00:02:53,300
+Either it is aggregated or filtered or
+
+48
+00:02:53,300 --> 00:02:57,775
+it could even be what you call joined with some other streams as well.
+
+49
+00:02:57,775 --> 00:03:01,721
+So you can do, what you call if there are multiple streams coming in.
+
+50
+00:03:01,721 --> 00:03:05,718
+For example, that tweet stream and there is a stock quote stream.
+
+51
+00:03:05,718 --> 00:03:09,936
+So I wanted to know in the window of the last ten minutes what is
+
+52
+00:03:09,936 --> 00:03:13,876
+the sentiment of a particular, what do you cal uml, stock?
+
+53
+00:03:13,876 --> 00:03:18,326
+For example, I wanted to know the sentiment of stock, named for
+
+54
+00:03:18,326 --> 00:03:23,391
+Google in the last ten minutes, then you need to join within the tweet stream,
+
+55
+00:03:23,391 --> 00:03:25,256
+as well as the stock stream.
+
+56
+00:03:25,256 --> 00:03:29,615
+So that you can see whether the price is reflective of the sentiment that is
+
+57
+00:03:29,615 --> 00:03:32,999
+expressed by people on Google for the last ten minutes or so.
+
+58
+00:03:32,999 --> 00:03:35,740
+So which means, actually it's a, a stream join.
+
+59
+00:03:35,740 --> 00:03:41,903
+So then there is the third one called Tuple.
+
+60
+00:03:41,903 --> 00:03:44,877
+A Tuple is nothing but a unit of data that is entering the stream.
+
+61
+00:03:44,877 --> 00:03:48,742
+And that is nothing, but an ordered list of several elements and Topology.
+
+62
+00:03:48,742 --> 00:03:54,492
+And the Topology is a kind of DAG that stitches the spouts and bolts
+
+63
+00:03:54,492 --> 00:04:00,942
+in a certain fashion, so that you have the desired computation that you want.
+
+64
+00:04:00,942 --> 00:04:03,637
+So bolt expresses smaller unit computation.
+
+65
+00:04:03,637 --> 00:04:08,552
+But the combination of the spout and bolt in a DAG fashion, which expresses
+
+66
+00:04:08,552 --> 00:04:13,545
+the data flow, as well as the computation will express your job structure or
+
+67
+00:04:13,545 --> 00:04:16,914
+the design computation that you want ultimately.
+
+68
+00:04:16,914 --> 00:04:21,046
+So for example if you look at simple Storm Topology,
+
+69
+00:04:21,046 --> 00:04:23,555
+this is the way it would look like.
+
+70
+00:04:23,555 --> 00:04:27,766
+Here are two spouts and these two spouts are the ones where the data is
+
+71
+00:04:27,766 --> 00:04:32,065
+getting produced or probably accessing the data that is being produced.
+
+72
+00:04:32,065 --> 00:04:36,174
+And that injects into three different bolts.
+
+73
+00:04:36,174 --> 00:04:41,213
+And finally, there are two set of bolts that in turn.
+
+74
+00:04:41,213 --> 00:04:45,225
+So it's only the data produced here goes through this data transformations or
+
+75
+00:04:45,225 --> 00:04:46,331
+data aggregations.
+
+76
+00:04:46,331 --> 00:04:50,454
+And which in turn goes into next stage where further aggregations or
+
+77
+00:04:50,454 --> 00:04:53,286
+even writing off aggregation writing in Tor.
+
+78
+00:04:53,286 --> 00:04:55,551
+Persistence Tor where you can query them back.
+
+79
+00:04:55,551 --> 00:04:57,188
+So that is what happened.
+
+80
+00:04:57,188 --> 00:04:59,892
+This is a gives again an idea of Topology.
+
+81
+00:04:59,892 --> 00:05:03,749
+And to give an example of the work on Topology,
+
+82
+00:05:03,749 --> 00:05:07,087
+which is one of the very simple topologies.
+
+83
+00:05:07,087 --> 00:05:11,640
+So we will have a something called a Tweet Spout that does
+
+84
+00:05:11,640 --> 00:05:14,334
+talking to what do you call it.
+
+85
+00:05:14,334 --> 00:05:20,693
+A Twitter current shells and getting the Twitter stream in a continuous fashion.
+
+86
+00:05:20,693 --> 00:05:22,737
+And after that, there is a Parse Tweet.
+
+87
+00:05:22,737 --> 00:05:27,151
+So you get the tweet and after that the Parse Tweet Bolt essentially,
+
+88
+00:05:27,151 --> 00:05:31,108
+kind of picks at tweet and breaks it up into small words and
+
+89
+00:05:31,108 --> 00:05:34,631
+figures out what other distinct words on those Tweet.
+
+90
+00:05:34,631 --> 00:05:39,883
+Then finally, like it sends to the word count bolt, which in turn picks up
+
+91
+00:05:39,883 --> 00:05:45,322
+the word from different parse tweet bolts and counts those distinct words.
+
+92
+00:05:45,322 --> 00:05:50,151
+And finally, it might be ready into process install like bolt or Hadoop.
+
+93
+00:05:50,151 --> 00:05:51,175
+And so, for
+
+94
+00:05:51,175 --> 00:05:56,165
+example, we'll have the like World Cup used to get one million tweets.
+
+95
+00:05:56,165 --> 00:06:02,052
+And out of that Soccer for two, 400K times.
+
+96
+00:06:02,052 --> 00:06:02,643
+Right?
+
+97
+00:06:02,643 --> 00:06:05,825
+So, and that is what I call is a logical plan.
+
+98
+00:06:05,825 --> 00:06:07,766
+I already express you spout and
+
+99
+00:06:07,766 --> 00:06:11,207
+bolt, you're just here describing your deck under.
+
+100
+00:06:11,207 --> 00:06:14,875
+But however, when it goes into execution in the actual missions,
+
+101
+00:06:14,875 --> 00:06:18,031
+physically in those host processes and, and missions.
+
+102
+00:06:18,031 --> 00:06:20,924
+This is what you have.
+
+103
+00:06:20,924 --> 00:06:23,953
+So there will be several instance of this Tweet Spout.
+
+104
+00:06:23,953 --> 00:06:27,529
+That are, you will be executing across different missions.
+
+105
+00:06:27,529 --> 00:06:29,248
+And similarly, you have bolt.
+
+106
+00:06:29,248 --> 00:06:30,968
+And similarly, your word count.
+
+107
+00:06:30,968 --> 00:06:33,170
+This is what we call lesser Parallelism.
+
+108
+00:06:33,170 --> 00:06:38,383
+So for every spout and bolt you're to express, what is called as a Parallelism.
+
+109
+00:06:38,383 --> 00:06:43,754
+So I want like tendencies of this spout and I want 20 instances of this bolt and
+
+110
+00:06:43,754 --> 00:06:47,463
+I want 15 instances of the, like word count bolt.
+
+111
+00:06:47,463 --> 00:06:49,145
+How do you decide this Parallelism?
+
+112
+00:06:49,145 --> 00:06:52,048
+Well, because like, so that also leads into grouping.
+
+113
+00:06:52,048 --> 00:06:57,059
+So now, we have seen the data flow from spout and bolt.
+
+114
+00:06:57,059 --> 00:07:00,518
+Now how do you say, where to go?
+
+115
+00:07:00,518 --> 00:07:06,985
+For if, for example, the spout task one and it has to go to the bolt task two.
+
+116
+00:07:06,985 --> 00:07:08,716
+I mean, how do you say that?
+
+117
+00:07:08,716 --> 00:07:11,895
+I mean like, because there is some semantic associated with it, right?
+
+118
+00:07:11,895 --> 00:07:13,738
+So when a parse street bolt and
+
+119
+00:07:13,738 --> 00:07:17,073
+it's a two pull, which word count bolt it should go.
+
+120
+00:07:17,073 --> 00:07:20,975
+And Storm provide as, what we call the notion of groupings.
+
+121
+00:07:20,975 --> 00:07:26,396
+So, so first is Shuffle Grouping, which means it can go anywhere.
+
+122
+00:07:26,396 --> 00:07:30,600
+So I slot it randomly can go to any task in the next stage.
+
+123
+00:07:30,600 --> 00:07:32,479
+So that is what Shuffle Grouping means.
+
+124
+00:07:32,479 --> 00:07:35,195
+And Fields grouping is essentially, hash based.
+
+125
+00:07:35,195 --> 00:07:40,378
+So you tell them that that these are the fields that you should care about and
+
+126
+00:07:40,378 --> 00:07:45,576
+based on the values of these hash fields this should go to the appropriate bolt.
+
+127
+00:07:45,576 --> 00:07:47,930
+So that is what is called a Fields Grouping.
+
+128
+00:07:47,930 --> 00:07:52,859
+And all grouping, in the sense like that every Tuple that I
+
+129
+00:07:52,859 --> 00:07:57,974
+produce goes to all the bolts of instances in the next stage.
+
+130
+00:07:57,974 --> 00:08:01,851
+And Global Grouping is you get everything to one single instance.
+
+131
+00:08:01,851 --> 00:08:05,937
+So with this and most of the time you end up using these two.
+
+132
+00:08:05,937 --> 00:08:10,755
+And with these two, you can pretty much get all your processing done.
+
+133
+00:08:10,755 --> 00:08:15,910
+I have not seen any examples so far, where this was not enough.
+
+134
+00:08:15,910 --> 00:08:18,570
+So pretty much, you can get everything done.

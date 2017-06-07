@@ -1,0 +1,299 @@
+1
+00:00:00,140 --> 00:00:03,050
+A different way to assign work to threads in
+
+2
+00:00:03,050 --> 00:00:07,350
+a multithreaded system is using this pipeline approach.
+
+3
+00:00:07,350 --> 00:00:09,860
+In this pipeline approach, the overall task,
+
+4
+00:00:09,860 --> 00:00:14,360
+the processing of the toy shop, is divided into subtasks, and
+
+5
+00:00:14,360 --> 00:00:18,240
+each of the subtasks is performed by a separate thread.
+
+6
+00:00:18,240 --> 00:00:23,780
+So threads are assigned subtask in the system, and then the entire applications,
+
+7
+00:00:23,780 --> 00:00:28,540
+so the entire complex task is executed as a pipeline of threads.
+
+8
+00:00:28,540 --> 00:00:30,920
+In the context of our toy shop example, for
+
+9
+00:00:30,920 --> 00:00:35,870
+instance, what this would mean is that given that we have six steps in
+
+10
+00:00:35,870 --> 00:00:39,640
+the toy order processing, we can have six workers and
+
+11
+00:00:39,640 --> 00:00:43,770
+every single one of the workers will be assigned one steps to process.
+
+12
+00:00:43,770 --> 00:00:48,290
+At any given point of time we can have multiple tasks concurrently in
+
+13
+00:00:48,290 --> 00:00:48,900
+the system.
+
+14
+00:00:48,900 --> 00:00:55,450
+So, multiple toy shop orders being processed by different workers.
+
+15
+00:00:55,450 --> 00:00:58,080
+It just every single one of those orders,
+
+16
+00:00:58,080 --> 00:01:02,680
+every single one of those tasks, will be in a different stage in the pipeline.
+
+17
+00:01:02,680 --> 00:01:07,870
+So, one worker can be accepting one toy order, another worker can be
+
+18
+00:01:07,870 --> 00:01:12,860
+performing the parsing of the order for another toy, a third
+
+19
+00:01:12,860 --> 00:01:17,880
+worker can be cutting the wooden pieces for yet another toy and so forth.
+
+20
+00:01:17,880 --> 00:01:20,620
+The throughput of the system overall will clearly be
+
+21
+00:01:20,620 --> 00:01:25,200
+dependant on the weakest link, the longest stage in the pipeline.
+
+22
+00:01:25,200 --> 00:01:28,150
+Ideally, we would love it if every single stage of
+
+23
+00:01:28,150 --> 00:01:31,610
+the pipeline takes approximately the same amount of time, but
+
+24
+00:01:31,610 --> 00:01:33,660
+sometimes it just may not be possible.
+
+25
+00:01:33,660 --> 00:01:37,370
+So the way to deal with this is using the same thread pull technique that we
+
+26
+00:01:37,370 --> 00:01:38,650
+saw before.
+
+27
+00:01:38,650 --> 00:01:40,740
+If one of the pipeline stages for
+
+28
+00:01:40,740 --> 00:01:45,400
+instance, the wood cutting stage, takes more amount of time longer.
+
+29
+00:01:45,400 --> 00:01:49,190
+Then we can assign multiple threads to this particular stage.
+
+30
+00:01:49,190 --> 00:01:52,830
+Let's say it takes three times longer to perform this stage in
+
+31
+00:01:52,830 --> 00:01:56,360
+the pipeline compared to all the other stages in the pipeline.
+
+32
+00:01:56,360 --> 00:02:01,660
+If we assign three different threads, three different workers, to this stage,
+
+33
+00:02:01,660 --> 00:02:06,620
+then overall, every single stage in the pipeline will approximately be able to
+
+34
+00:02:06,620 --> 00:02:10,449
+process the same number of subtasks,
+
+35
+00:02:10,449 --> 00:02:14,870
+the same number of toy orders over a period of time.
+
+36
+00:02:14,870 --> 00:02:17,960
+So the system overall will still be balanced.
+
+37
+00:02:17,960 --> 00:02:22,940
+The best pay to pass work among these different pipeline stages
+
+38
+00:02:22,940 --> 00:02:26,610
+is using a shared-buffer based mechanism similar to
+
+39
+00:02:26,610 --> 00:02:31,510
+the producer consumer shared buffer that we saw in the previous pattern.
+
+40
+00:02:31,510 --> 00:02:36,980
+The alternative to that would be to require some explicit communication between
+
+41
+00:02:36,980 --> 00:02:42,150
+threads in the pipeline, and this will mean that a thread in an earlier stage
+
+42
+00:02:42,150 --> 00:02:46,320
+will potentially have to wait until a thread in the next stage is free.
+
+43
+00:02:46,320 --> 00:02:51,170
+The shared-buffer based approached, the queue based approach, helps correct for
+
+44
+00:02:51,170 --> 00:02:54,090
+any kind of small imbalances in the pipeline.
+
+45
+00:02:54,090 --> 00:02:57,970
+For instance, with direct communication in the context of our toy shop,
+
+46
+00:02:57,970 --> 00:03:03,430
+it would require workers directly to hand off the output of their processing,
+
+47
+00:03:03,430 --> 00:03:07,490
+so cut pieces etcetera to the next worker, to the next thread.
+
+48
+00:03:07,490 --> 00:03:12,045
+Where as in the shared buffer base communication you can think of a worker
+
+49
+00:03:12,045 --> 00:03:17,700
+leaves the output of its processing, so the piece is on the table and
+
+50
+00:03:17,700 --> 00:03:20,930
+the next worker picks them up whenever he or she's ready.
+
+51
+00:03:20,930 --> 00:03:24,910
+In summary, a pipeline is a sequence of stages where
+
+52
+00:03:24,910 --> 00:03:28,310
+a thread performs a stage in the pipeline and
+
+53
+00:03:28,310 --> 00:03:32,400
+that's equivalent to some subtask in the end-to-end processing.
+
+54
+00:03:32,400 --> 00:03:37,580
+To keep the pipeline balanced a stage can be executed by more than one thread.
+
+55
+00:03:37,580 --> 00:03:40,750
+And we can use the same thread pool management technique that we
+
+56
+00:03:40,750 --> 00:03:45,720
+described in the Boss-Workers model to determine what is the right number of
+
+57
+00:03:45,720 --> 00:03:47,410
+threads per stage.
+
+58
+00:03:47,410 --> 00:03:50,950
+Passing partial work products or results across the stages in
+
+59
+00:03:50,950 --> 00:03:55,750
+the pipeline should be done via a shared buffer based communication.
+
+60
+00:03:55,750 --> 00:03:59,310
+This provides for some elasticity in the implementation and
+
+61
+00:03:59,310 --> 00:04:02,980
+avoids stalls due to temporary pipeline imbalances.
+
+62
+00:04:02,980 --> 00:04:06,070
+A key benefit of the approach is the fact that it allows for
+
+63
+00:04:06,070 --> 00:04:11,030
+highly specialized threads and this leads to improved efficiency.
+
+64
+00:04:11,030 --> 00:04:16,420
+Like what we saw in the variant of the boss-worker model, when threads perform
+
+65
+00:04:16,420 --> 00:04:21,550
+a more specialized task, it's more likely that the state that they require for
+
+66
+00:04:21,550 --> 00:04:25,160
+their processing is present in the processor cache and
+
+67
+00:04:25,160 --> 00:04:29,350
+that kind of locality can ultimately lead to improve performance.
+
+68
+00:04:29,350 --> 00:04:32,600
+A negative of the approach is the fact that it is fairly complex to
+
+69
+00:04:32,600 --> 00:04:35,640
+maintain the pipeline balanced over time.
+
+70
+00:04:35,640 --> 00:04:39,640
+When the work load pattern changes, so we have more toys arriving or
+
+71
+00:04:39,640 --> 00:04:44,230
+when the resources of the pipeline change, so a worker slows down or
+
+72
+00:04:44,230 --> 00:04:48,480
+takes breaks, we'll have to rebalance the entire pipeline to
+
+73
+00:04:48,480 --> 00:04:51,910
+determine how many workers to assign to each stage.
+
+74
+00:04:51,910 --> 00:04:55,680
+In addition to that, there is more synchronisation, since there
+
+75
+00:04:55,680 --> 00:05:00,080
+are synchronisation points at multiple points in the end to end execution.

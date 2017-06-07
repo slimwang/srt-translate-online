@@ -1,0 +1,447 @@
+1
+00:00:00,070 --> 00:00:01,530
+Alright so let's see if we can figure out what
+
+2
+00:00:01,530 --> 00:00:04,630
+happens to this E function as in one step we update
+
+3
+00:00:04,630 --> 00:00:07,920
+the partitions and in the other step we update the centers.
+
+4
+00:00:07,920 --> 00:00:10,620
+So let's look at the partition one first. The way that
+
+5
+00:00:10,620 --> 00:00:14,120
+this partition is being defined is we, for each point
+
+6
+00:00:14,120 --> 00:00:17,470
+loop over all the clusters and find the cluster whose center
+
+7
+00:00:17,470 --> 00:00:21,170
+is closest to x in terms of squared distance. What happens
+
+8
+00:00:21,170 --> 00:00:24,915
+to E when we do that? Well we move a point.
+
+9
+00:00:24,915 --> 00:00:29,300
+From one cluster to a different cluster only if it causes the
+
+10
+00:00:29,300 --> 00:00:32,049
+square distance to the center to go down. So that means that
+
+11
+00:00:32,049 --> 00:00:34,850
+the error, either stays the same if the point stays in the
+
+12
+00:00:34,850 --> 00:00:37,830
+same cluster or it goes down if it goes to a better cluster.
+
+13
+00:00:37,830 --> 00:00:38,750
+>> That makes sense.
+
+14
+00:00:38,750 --> 00:00:41,260
+>> So, can only go down.
+
+15
+00:00:41,260 --> 00:00:44,330
+>> Well, it can never go up. It's different than saying it can only go down.
+
+16
+00:00:44,330 --> 00:00:46,610
+>> Agreed, because it could stay the same. What happens
+
+17
+00:00:46,610 --> 00:00:49,830
+if it stays the same? I guess, not necessarily anything interesting.
+
+18
+00:00:49,830 --> 00:00:50,490
+>> Right.
+
+19
+00:00:50,490 --> 00:00:52,700
+>> But, certainly, when we converged, it stays the same.
+
+20
+00:00:52,700 --> 00:00:53,280
+>> Right.
+
+21
+00:00:53,280 --> 00:00:55,530
+>> Alright. Now let's look at the other side here. So that's
+
+22
+00:00:55,530 --> 00:00:57,850
+what happens when we move things into partitions. And in some sense
+
+23
+00:00:57,850 --> 00:01:01,450
+that seems easy. Because we only move things if it causes the
+
+24
+00:01:01,450 --> 00:01:03,750
+error to go down so it really is a lot like hill climbing
+
+25
+00:01:03,750 --> 00:01:04,363
+>> Mm-hm
+
+26
+00:01:04,363 --> 00:01:08,170
+>> On this side though what happens when we move the centers so could it be
+
+27
+00:01:08,170 --> 00:01:10,650
+the case that when we move the center
+
+28
+00:01:10,650 --> 00:01:12,650
+to some other place that the error goes up?
+
+29
+00:01:12,650 --> 00:01:13,530
+>> No.
+
+30
+00:01:13,530 --> 00:01:15,560
+>> And why do you say that?
+
+31
+00:01:15,560 --> 00:01:20,590
+>> Because the average is going to be the best way to represent
+
+32
+00:01:20,590 --> 00:01:24,410
+a set of points. On average, we should be able to demonstrate that.
+
+33
+00:01:24,410 --> 00:01:28,280
+>> I think we already have. We did this earlier in,
+
+34
+00:01:28,280 --> 00:01:32,790
+in the course when we were talking about minimizing the squares.
+
+35
+00:01:32,790 --> 00:01:34,470
+>> You are right. So, basically, you could take
+
+36
+00:01:34,470 --> 00:01:36,500
+that equation and you could just take the derivative of
+
+37
+00:01:36,500 --> 00:01:38,660
+it. Set it equal to zero and it will
+
+38
+00:01:38,660 --> 00:01:40,770
+turn out to be exactly the average. You're right that's
+
+39
+00:01:40,770 --> 00:01:41,170
+exactly right.
+
+40
+00:01:41,170 --> 00:01:43,330
+>> The error equation E that's right, yeah
+
+41
+00:01:43,330 --> 00:01:45,540
+so this is like really kind of neat.
+
+42
+00:01:45,540 --> 00:01:46,980
+When we moved points around we move it
+
+43
+00:01:46,980 --> 00:01:49,330
+to reduce error and we move centers around we
+
+44
+00:01:49,330 --> 00:01:50,730
+always move it to the center even though
+
+45
+00:01:50,730 --> 00:01:52,790
+this is a continuous space we always jump
+
+46
+00:01:52,790 --> 00:01:54,900
+to the center that actually has minimum error
+
+47
+00:01:54,900 --> 00:01:56,940
+under the assumption that we're holding the partition steady.
+
+48
+00:01:56,940 --> 00:01:56,970
+>> Right.
+
+49
+00:01:56,970 --> 00:01:58,490
+>> So this is just great.
+
+50
+00:01:58,490 --> 00:02:01,050
+>> So put them together, you're guaranteed to be,
+
+51
+00:02:01,050 --> 00:02:05,037
+let's see, what's the math term? Monotonically non-increasing in error.
+
+52
+00:02:05,037 --> 00:02:05,905
+>> Monotonically
+
+53
+00:02:05,905 --> 00:02:10,008
+non-increasing in error, very nice. And does that imply that thing
+
+54
+00:02:10,008 --> 00:02:14,180
+has to converge? Could we be monotonically non-increasing in error forever?
+
+55
+00:02:14,180 --> 00:02:17,850
+>> You could, in some worlds, but not in
+
+56
+00:02:17,850 --> 00:02:19,820
+this world. I, I think I could argue that.
+
+57
+00:02:19,820 --> 00:02:20,270
+>> Alright.
+
+58
+00:02:20,270 --> 00:02:23,150
+>> So a monotonically non-increasing function, is a function that
+
+59
+00:02:23,150 --> 00:02:25,240
+never gets bigger. So you could end up in a case
+
+60
+00:02:25,240 --> 00:02:27,660
+where you hit some point, like say zero error, and you
+
+61
+00:02:27,660 --> 00:02:31,430
+keep going. So, why wouldn't that happen here? Here's the argument.
+
+62
+00:02:31,430 --> 00:02:31,740
+You ready?
+
+63
+00:02:31,740 --> 00:02:32,170
+>> Sure.
+
+64
+00:02:32,170 --> 00:02:34,370
+>> There are a finite number of configurations.
+
+65
+00:02:34,370 --> 00:02:35,430
+>> Hm.
+
+66
+00:02:35,430 --> 00:02:38,190
+>> There have to be a finite number of configurations 'cause there's a
+
+67
+00:02:38,190 --> 00:02:43,790
+finite number of objects, and there's a finite number of labels they can have.
+
+68
+00:02:43,790 --> 00:02:45,045
+>> Mm-hm.
+
+69
+00:02:45,045 --> 00:02:47,560
+>> And once you've chosen a label for a bunch
+
+70
+00:02:47,560 --> 00:02:51,190
+of the objects, the centers are defined deterministically from that.
+
+71
+00:02:51,190 --> 00:02:53,570
+>> Right, so even though it is an infinite space as
+
+72
+00:02:53,570 --> 00:02:56,960
+we're tick-tocking back and forth, if we don't move the partitions
+
+73
+00:02:56,960 --> 00:02:58,460
+then the centers are going to be where they were.
+
+74
+00:02:58,460 --> 00:03:01,230
+So, the centers are quite constrained even though it's continuous.
+
+75
+00:03:01,230 --> 00:03:03,210
+>> Right, so, the only tricky part to
+
+76
+00:03:03,210 --> 00:03:06,930
+that is that you could have a point that
+
+77
+00:03:06,930 --> 00:03:08,770
+can go to either of, let's say, two
+
+78
+00:03:08,770 --> 00:03:11,580
+partitions, because the distance is the same. So you
+
+79
+00:03:11,580 --> 00:03:14,170
+have to have some way of breaking ties,
+
+80
+00:03:14,170 --> 00:03:17,000
+such that you always get the same answer. For
+
+81
+00:03:17,000 --> 00:03:21,890
+example, I will just say that if I, as a point, can go to any of two partitions,
+
+82
+00:03:21,890 --> 00:03:23,620
+I will pick whichever one has the lowest number.
+
+83
+00:03:23,620 --> 00:03:26,090
+>> Good idea. So breaking ties consistently
+
+84
+00:03:26,090 --> 00:03:27,350
+and you gave a particular role for
+
+85
+00:03:27,350 --> 00:03:29,050
+that is going to guarantee that we at
+
+86
+00:03:29,050 --> 00:03:31,530
+least don't kind of spin around not improving.
+
+87
+00:03:31,530 --> 00:03:33,500
+>> Right so let's see if what I just said makes sense. So
+
+88
+00:03:33,500 --> 00:03:36,130
+tell me if you buy this, they have a finite number of configurations.
+
+89
+00:03:36,130 --> 00:03:41,020
+If I always break ties consistently and I never go into a configuration with a
+
+90
+00:03:41,020 --> 00:03:47,360
+higher error, then at some point. Basically, I will never repeat configurations.
+
+91
+00:03:47,360 --> 00:03:50,470
+I'll never go back to a configuration that I was at before. And at some
+
+92
+00:03:50,470 --> 00:03:52,390
+point, I'll have to run out of configurations
+
+93
+00:03:52,390 --> 00:03:53,720
+because there are a finite number of them.
+
+94
+00:03:53,720 --> 00:03:54,750
+>> Yeah, nicely done.
+
+95
+00:03:54,750 --> 00:03:57,140
+>> So it converges, in finite time no less.
+
+96
+00:03:57,140 --> 00:03:59,590
+>> Finite time. Could it be exponential time?
+
+97
+00:03:59,590 --> 00:04:01,480
+because there is a lot of possible partitions.
+
+98
+00:04:01,480 --> 00:04:04,790
+>> So how many different configurations are there, there K to
+
+99
+00:04:04,790 --> 00:04:07,520
+the N because you can assign K to the first object, K
+
+100
+00:04:07,520 --> 00:04:09,940
+to the second object. K to the third object, so k
+
+101
+00:04:09,940 --> 00:04:12,370
+times, k times, k times, k times, k all the way up
+
+102
+00:04:12,370 --> 00:04:15,330
+to n, so that's k to the n. So, that's
+
+103
+00:04:15,330 --> 00:04:18,380
+a lot of possible configurations, but regardless, there's a finite
+
+104
+00:04:18,380 --> 00:04:21,000
+number of them and I suppose in practice, it's not
+
+105
+00:04:21,000 --> 00:04:23,570
+like you would look at every single one of them.
+
+106
+00:04:23,570 --> 00:04:26,350
+Because you're going to jump around very quickly because, of the
+
+107
+00:04:26,350 --> 00:04:29,350
+way distance metrics works. They point close together, they're always
+
+108
+00:04:29,350 --> 00:04:32,750
+going to be close together. So you're never going to try, assigning
+
+109
+00:04:32,750 --> 00:04:35,540
+each one to all possible configurations if they're close together.
+
+110
+00:04:35,540 --> 00:04:37,990
+>> Yeah, it tends to converge pretty fast.
+
+111
+00:04:37,990 --> 00:04:39,360
+So let's summarize some of these properties.
+
+112
+00:04:39,360 --> 00:04:39,820
+>> Okay.

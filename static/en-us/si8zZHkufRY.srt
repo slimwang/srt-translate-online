@@ -1,0 +1,823 @@
+﻿1
+00:00:00,270 --> 00:00:04,059
+Hello world, it's Siraj and today we're
+going to use machine learning to help us
+
+2
+00:00:04,059 --> 00:00:06,040
+understand our emotions.
+
+3
+00:00:06,040 --> 00:00:10,000
+Our emotional intelligence distinguishes
+us from every other known living being
+
+4
+00:00:10,000 --> 00:00:10,869
+on Earth.
+
+5
+00:00:10,869 --> 00:00:13,619
+These emotions can be simple
+like when you get so hyped,
+
+6
+00:00:13,619 --> 00:00:15,769
+all you can hear is
+Gasolina by Daddy Yankee.
+
+7
+00:00:17,089 --> 00:00:20,469
+And we've invented language to
+help us express them to others.
+
+8
+00:00:20,469 --> 00:00:22,859
+But sometimes words are not enough,
+
+9
+00:00:22,859 --> 00:00:25,980
+some emotions have no
+direct English translation.
+
+10
+00:00:25,980 --> 00:00:30,350
+For example, in German, [FOREIGN] is
+the feeling experience when you're
+
+11
+00:00:30,350 --> 00:00:32,938
+alone in the woods,
+connecting with nature.
+
+12
+00:00:32,938 --> 00:00:37,679
+In Japanese, [FOREIGN] is the awareness
+of the impermanence of all things and
+
+13
+00:00:37,679 --> 00:00:40,061
+the gentle sadness at their passing.
+
+14
+00:00:40,061 --> 00:00:43,250
+Emotions are hard to express,
+let alone understand, but
+
+15
+00:00:43,250 --> 00:00:44,886
+that's where AI can help us.
+
+16
+00:00:44,886 --> 00:00:49,454
+And AI can understand us better than we
+do analyzing our emotional data to help
+
+17
+00:00:49,454 --> 00:00:52,618
+us make optimal decisions for
+goals that we specify,
+
+18
+00:00:52,618 --> 00:00:57,480
+like a personal life coach slash
+therapist slash Denzel Washington.
+
+19
+00:00:57,479 --> 00:00:58,679
+But how would it do this?
+
+20
+00:00:58,679 --> 00:01:02,060
+There are generally two main
+approaches to Sentiment Analysis.
+
+21
+00:01:02,060 --> 00:01:04,819
+The first one is
+the Lexicon Based Approach.
+
+22
+00:01:04,819 --> 00:01:09,490
+We first want to split some given text
+into smaller tokens, be that words,
+
+23
+00:01:09,489 --> 00:01:11,609
+phrases or whole sentences.
+
+24
+00:01:11,609 --> 00:01:13,900
+This process is called Tokenization,
+
+25
+00:01:13,900 --> 00:01:17,300
+then we count the number of
+times each word shows up.
+
+26
+00:01:17,299 --> 00:01:21,170
+This resulting tally is called
+the Bag of Words model.
+
+27
+00:01:21,170 --> 00:01:25,219
+Next we look up the subjectivity of
+each word from an existing lexicon,
+
+28
+00:01:25,219 --> 00:01:30,459
+which is a database of emotional values
+for words prerecorded by researchers.
+
+29
+00:01:30,459 --> 00:01:32,119
+And once we have those values,
+
+30
+00:01:32,120 --> 00:01:36,140
+we can then compute the overall
+subjectivity of our text.
+
+31
+00:01:36,140 --> 00:01:38,799
+The other approach
+uses machine learning.
+
+32
+00:01:38,799 --> 00:01:42,429
+If we have a corpus of say, tweets,
+that are labeled either positive or
+
+33
+00:01:42,430 --> 00:01:45,890
+negative, we can train
+a classifier on it and
+
+34
+00:01:45,890 --> 00:01:49,629
+then given a new tweet, it will classify
+it as either positive or negative.
+
+35
+00:01:49,629 --> 00:01:51,699
+So which approach is better?
+
+36
+00:01:51,700 --> 00:01:52,560
+Don't ask me.
+
+37
+00:01:52,560 --> 00:01:53,689
+No yeah, totally ask me.
+
+38
+00:01:53,689 --> 00:01:57,840
+Well, using a Lexicon is easier, but
+the learning approach is more accurate.
+
+39
+00:01:57,840 --> 00:02:02,570
+There are subtleties in language that
+Lexicons are bad at, like sarcasm.
+
+40
+00:02:02,569 --> 00:02:07,339
+It seems to be one thing, but it really
+means another but deep neural nets can
+
+41
+00:02:07,340 --> 00:02:11,658
+understand these subtleties because
+they don't analyze text at face value.
+
+42
+00:02:11,658 --> 00:02:15,489
+They create abstract representations
+of what they learned.
+
+43
+00:02:15,490 --> 00:02:20,883
+These generalizations are called vectors
+and we can use them to classify data.
+
+44
+00:02:20,883 --> 00:02:25,013
+Let's learn more about vectors by
+building sentiment classifier for
+
+45
+00:02:25,013 --> 00:02:28,469
+movie reviews and ill show you
+how to run it into the cloud.
+
+46
+00:02:28,469 --> 00:02:32,330
+The only dependency we'll need is
+tflearn, and I'm using it since it's
+
+47
+00:02:32,330 --> 00:02:35,800
+the easiest way to get started
+building deep neural networks.
+
+48
+00:02:35,800 --> 00:02:38,990
+We'll import a couple of helper
+functions that are built into it as well
+
+49
+00:02:38,990 --> 00:02:40,920
+and I'll explain those
+when we get to them.
+
+50
+00:02:40,919 --> 00:02:44,000
+The first step in our process
+is to collect our data set.
+
+51
+00:02:44,000 --> 00:02:47,652
+tflearn has a a bunch of pre-processed
+data sets we can use and
+
+52
+00:02:47,652 --> 00:02:50,611
+we're going to use a data
+set of IMDB movie ratings.
+
+53
+00:02:50,611 --> 00:02:53,641
+[MUSIC]
+
+54
+00:02:53,641 --> 00:02:55,545
+We'll load it using
+the load_data function,
+
+55
+00:02:55,545 --> 00:02:57,759
+this will download our
+data set from the web.
+
+56
+00:02:57,759 --> 00:03:01,019
+We'll name the path where we want to
+save it, the extension being pkl,
+
+57
+00:03:01,020 --> 00:03:02,630
+which means it's a byte stream.
+
+58
+00:03:02,629 --> 00:03:06,509
+This makes it easier to convert to
+other Python objects like lists or
+
+59
+00:03:06,509 --> 00:03:07,257
+two pulls later.
+
+60
+00:03:07,258 --> 00:03:11,469
+We want 10,000 words from the database,
+and we only want to use 10%
+
+61
+00:03:11,469 --> 00:03:16,359
+of the data for our validation set, so
+we'll set the last argument to 0.1.
+
+62
+00:03:16,360 --> 00:03:20,160
+Load data will return our movie review
+split into a training and testing set.
+
+63
+00:03:20,159 --> 00:03:23,299
+We can then further split those
+sets into reviews and labels and
+
+64
+00:03:23,300 --> 00:03:25,310
+set then equal to X and Y values.
+
+65
+00:03:25,310 --> 00:03:27,949
+Training data is the portion
+our model learns from,
+
+66
+00:03:27,949 --> 00:03:30,449
+validation data is a part
+of the training process.
+
+67
+00:03:30,449 --> 00:03:33,941
+While training data helps us fit our
+weights, validation data helps prevent
+
+68
+00:03:33,942 --> 00:03:37,770
+over fitting by letting us tune
+our hyper parameters accordingly.
+
+69
+00:03:37,770 --> 00:03:40,200
+And testing data is
+what our model uses to
+
+70
+00:03:40,199 --> 00:03:44,259
+test itself by comparing its
+predictive labels to actual labels.
+
+71
+00:03:44,259 --> 00:03:46,449
+So test yourself before
+you wreck yourself.
+
+72
+00:03:46,449 --> 00:03:50,349
+Now that we have our data split into
+sets, let's do some pre-processing.
+
+73
+00:03:50,349 --> 00:03:53,489
+We can't just feed text strings
+into a neural network directly,
+
+74
+00:03:53,490 --> 00:03:55,310
+we have to vectorize our inputs.
+
+75
+00:03:55,310 --> 00:03:58,680
+Neural nets are algorithms that
+essentially just apply a series of
+
+76
+00:03:58,680 --> 00:04:00,280
+computations to your matrices.
+
+77
+00:04:00,280 --> 00:04:05,197
+So, converting them to numerical
+representations or vectors is necessary.
+
+78
+00:04:05,197 --> 00:04:08,375
+The pad_sequences function will
+do that for our view text.
+
+79
+00:04:08,375 --> 00:04:11,514
+It'll convert each review
+into a matrix and pad it.
+
+80
+00:04:11,514 --> 00:04:14,514
+Padding is necessary to ensure
+consistency in our inputs
+
+81
+00:04:14,514 --> 00:04:15,479
+dimensionality.
+
+82
+00:04:15,479 --> 00:04:19,058
+It will pad each sequence with a zero
+at the end which we specify until it
+
+83
+00:04:19,059 --> 00:04:22,652
+reaches the max possible sequence
+length which we'll set to 100.
+
+84
+00:04:22,651 --> 00:04:25,687
+We also want to convert our
+labels to vectors as well and
+
+85
+00:04:25,687 --> 00:04:29,310
+we can easily do that using
+the two categorical function.
+
+86
+00:04:29,310 --> 00:04:33,125
+These are binary vectors with two
+classes, 1 which is positive or
+
+87
+00:04:33,125 --> 00:04:34,430
+0 which is negative.
+
+88
+00:04:34,430 --> 00:04:35,714
+Yo hold up.
+
+89
+00:04:35,714 --> 00:04:37,166
+Vectors got me feeling like.
+
+90
+00:04:37,166 --> 00:04:47,166
+[MUSIC]
+
+91
+00:05:00,470 --> 00:05:03,920
+We can intuitively define each layer
+in our network as our own line of code.
+
+92
+00:05:05,375 --> 00:05:09,355
+First will be our impro layer, this is
+where we feed data into our network.
+
+93
+00:05:09,355 --> 00:05:12,455
+The only perameter we'll
+specify is the input shape.
+
+94
+00:05:12,454 --> 00:05:15,714
+The first element is the batch size,
+which we'll set to none and
+
+95
+00:05:15,714 --> 00:05:19,369
+then the length, which is 100, since
+we set our max sequence length to 100.
+
+96
+00:05:19,370 --> 00:05:21,867
+Our next layer is our embedding layer.
+
+97
+00:05:21,867 --> 00:05:24,500
+The first perameter would be
+the output vector we receive
+
+98
+00:05:24,500 --> 00:05:26,449
+from the previous layer, and by the way,
+
+99
+00:05:26,449 --> 00:05:31,060
+for every layer we write we'll be using
+the previous layer's outputs as inputs.
+
+100
+00:05:31,060 --> 00:05:33,129
+This is how data flows
+through a neural network,
+
+101
+00:05:33,129 --> 00:05:36,885
+at each layer it's transformed like
+a seven layer dip of computation.
+
+102
+00:05:36,886 --> 00:05:41,107
+We'll set dimensions to 10,000 since
+that's how many words we loaded from
+
+103
+00:05:41,107 --> 00:05:42,620
+our data set earlier.
+
+104
+00:05:42,620 --> 00:05:43,899
+And the output dimension to 128,
+
+105
+00:05:43,899 --> 00:05:47,779
+which is the number of dimensions
+in our resulting embedding's.
+
+106
+00:05:47,779 --> 00:05:50,949
+Next, we'll feed those
+values to our LSTM layer.
+
+107
+00:05:50,949 --> 00:05:53,829
+This layer allows our network to
+remember data from the beginning of
+
+108
+00:05:53,829 --> 00:05:56,714
+the sequences,
+which will improve our prediction.
+
+109
+00:05:56,714 --> 00:05:59,810
+We'll set dropout to 0.08 which
+is a technique that helps prevent
+
+110
+00:05:59,810 --> 00:06:04,040
+over fitting by randomly turning on and
+off different pathways in our network.
+
+111
+00:06:04,040 --> 00:06:06,730
+Our next layer is fully connected
+which means that every neuron in
+
+112
+00:06:06,730 --> 00:06:10,280
+the previous layer is connected
+to every neuron in this layer.
+
+113
+00:06:10,279 --> 00:06:13,059
+We have a set of learned feature
+vectors from previous layers,
+
+114
+00:06:13,060 --> 00:06:17,360
+and adding a fully connected layer
+is a computationally cheap way
+
+115
+00:06:17,360 --> 00:06:20,139
+of learning non-linear
+combinations of them.
+
+116
+00:06:20,139 --> 00:06:21,259
+It's got two units, and
+
+117
+00:06:21,259 --> 00:06:24,480
+it's using the softmax function
+as its activation function.
+
+118
+00:06:24,480 --> 00:06:28,080
+This will take in a vector of values and
+squash it into a vector of
+
+119
+00:06:28,079 --> 00:06:31,800
+output probabilities between 0 and
+1, that's some to 1.
+
+120
+00:06:31,800 --> 00:06:35,189
+We'll use those values in our last
+layer, which is our regression layer.
+
+121
+00:06:35,189 --> 00:06:38,009
+This will apply a regression
+operation to the input.
+
+122
+00:06:38,009 --> 00:06:41,209
+We're going to specify an optimizer
+method that will minimize a given
+
+123
+00:06:41,209 --> 00:06:43,500
+loss function,
+as well as the learning rate,
+
+124
+00:06:43,500 --> 00:06:46,699
+which specifies how fast we
+want our network to train.
+
+125
+00:06:46,699 --> 00:06:50,599
+The optimizer we'll use is adam,
+which performs gradient descent.
+
+126
+00:06:50,600 --> 00:06:54,460
+And categorical cross entropy is our
+loss, it helps to find the difference
+
+127
+00:06:54,459 --> 00:06:57,004
+between our predicted output and
+the expected output.
+
+128
+00:06:57,004 --> 00:06:59,620
+After building our neural network,
+we can go ahead and
+
+129
+00:06:59,620 --> 00:07:02,920
+initialize it using tflearn's
+deep neural net function.
+
+130
+00:07:02,920 --> 00:07:05,810
+Then we can call our models fit
+function, which will launch
+
+131
+00:07:05,810 --> 00:07:09,300
+the training process for
+our given training and validation data.
+
+132
+00:07:09,300 --> 00:07:11,170
+We'll also set show metric to true so
+
+133
+00:07:11,170 --> 00:07:13,660
+we can view the log of
+accuracy during training.
+
+134
+00:07:13,660 --> 00:07:16,660
+So to demo this we're going to
+run this in the cloud using AWS.
+
+135
+00:07:16,660 --> 00:07:20,510
+What we'll do is use a predult
+amazon machine image.
+
+136
+00:07:20,509 --> 00:07:24,019
+This AMI can be used to launch an
+instance and it's got every dependency
+
+137
+00:07:24,019 --> 00:07:28,919
+we need built in, including tensor glow,
+Buddha, Lil Wayne's deposition video.
+
+138
+00:07:28,920 --> 00:07:30,689
+If we click on the orange
+Continue button,
+
+139
+00:07:30,689 --> 00:07:33,389
+we can select the type
+of instance we want.
+
+140
+00:07:33,389 --> 00:07:36,099
+I'll go for the smallest because
+I'm poor still, but ideally,
+
+141
+00:07:36,100 --> 00:07:39,129
+we use a larger instance, with GPUs.
+
+142
+00:07:39,129 --> 00:07:41,420
+Then we can accept
+the terms in one click.
+
+143
+00:07:41,420 --> 00:07:45,310
+Next, we go to our AWS console by
+clicking this button, and after a while,
+
+144
+00:07:45,310 --> 00:07:46,899
+our instance will start running.
+
+145
+00:07:46,899 --> 00:07:49,649
+We can copy and
+paste the public DNS into our browser,
+
+146
+00:07:49,649 --> 00:07:53,120
+followed by, which is the port
+we specified for access.
+
+147
+00:07:53,120 --> 00:07:55,399
+For the password,
+we'll use the Instance ID.
+
+148
+00:07:55,399 --> 00:07:59,150
+Now we're in our Instance environment,
+built with our AMI and
+
+149
+00:07:59,151 --> 00:08:02,283
+we can play with a Jupyter Notebook,
+hosted on AWS.
+
+150
+00:08:02,283 --> 00:08:05,079
+We'll create a new notebook,
+and paste our code in there.
+
+151
+00:08:05,079 --> 00:08:07,620
+And now we can run it and
+it will start training just like that.
+
+152
+00:08:07,620 --> 00:08:12,280
+So to break it down, there are two
+main approaches to sentiment analysis,
+
+153
+00:08:12,279 --> 00:08:17,019
+using a Lexicon of pre-recorded
+sentiment or using state of the art but
+
+154
+00:08:17,019 --> 00:08:21,649
+more computationally expensive
+deep learning to learn generalized
+
+155
+00:08:21,649 --> 00:08:24,500
+vector representation from words.
+
+156
+00:08:24,500 --> 00:08:28,189
+Feedforward net accepts fixed
+sized inputs like binary numbers.
+
+157
+00:08:28,189 --> 00:08:33,210
+But recurrent neural nets helps us
+learn from sequences data, like texts.
+
+158
+00:08:33,210 --> 00:08:36,299
+And you can use AWS with a pre-built AMI
+
+159
+00:08:36,298 --> 00:08:41,220
+to easily train your models in the cloud
+without dealing with dependency issues.
+
+160
+00:08:41,220 --> 00:08:44,490
+The Coding Challenge Winner
+from last week is Ludo Bouan.
+
+161
+00:08:44,490 --> 00:08:47,639
+Ludo architected his neural net so
+that stacking layers
+
+162
+00:08:47,639 --> 00:08:51,539
+was as easy as a line of code per layer,
+Wizard of the Week.
+
+163
+00:08:51,539 --> 00:08:53,809
+And the Runner Up is See Jie Xun,
+
+164
+00:08:53,809 --> 00:08:57,829
+he accurately modified my code to
+reflect multilayer back propagation.
+
+165
+00:08:57,830 --> 00:09:02,440
+The Coding Challenge for this week is to
+use tflearn to train a neural network
+
+166
+00:09:02,440 --> 00:09:06,670
+to recognize sentiment from a video
+game review data set that I'll provide.
+
+167
+00:09:06,669 --> 00:09:08,009
+Details are in the read me,
+
+168
+00:09:08,009 --> 00:09:11,480
+post your GitHub link the comments, and
+I'll announce the winner in one week.
+
+169
+00:09:11,480 --> 00:09:12,889
+Please click that Subscribe button.
+
+170
+00:09:12,889 --> 00:09:16,069
+If you want to see more videos like
+this, check out this related video.
+
+171
+00:09:16,070 --> 00:09:20,100
+And, for now, I gotta figure out what
+the F high torch is, so thanks for
+
+172
+00:09:20,100 --> 00:09:20,430
+watching.
+

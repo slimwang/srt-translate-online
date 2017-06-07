@@ -1,0 +1,277 @@
+1
+00:00:00,620 --> 00:00:03,300
+Algorithmically it's pretty
+straightforward to do this.
+
+2
+00:00:03,300 --> 00:00:04,120
+All right.
+
+3
+00:00:04,120 --> 00:00:09,320
+We start off at any point in time we
+have a set of particles at the last time
+
+4
+00:00:09,320 --> 00:00:16,149
+step and each particle has a state,
+like its position and a weight.
+
+5
+00:00:16,149 --> 00:00:20,590
+And we're also going to be given a new
+action, like let's take a step to
+
+6
+00:00:20,590 --> 00:00:24,890
+the meet, to the right two meters, and
+we're going to take a new measurement.
+
+7
+00:00:24,890 --> 00:00:27,490
+And then here's how
+the particle filter runs.
+
+8
+00:00:27,490 --> 00:00:29,530
+We start off with a new
+set of particles,
+
+9
+00:00:29,530 --> 00:00:34,400
+empty and a normalization constant of 0,
+makes sense.
+
+10
+00:00:34,400 --> 00:00:36,370
+And then we just do
+the following n times,
+
+11
+00:00:36,370 --> 00:00:39,190
+where n is the number of
+particles that we need, all right?
+
+12
+00:00:39,190 --> 00:00:45,910
+So, the first thing we do is we sample a
+particle from the previous distribution
+
+13
+00:00:45,910 --> 00:00:49,415
+that's from this distribution here,
+according to its weight.
+
+14
+00:00:49,415 --> 00:00:52,790
+Okay, so
+we just sample a particle, okay.
+
+15
+00:00:52,790 --> 00:00:58,110
+The next thing we do,
+this is actually a combined step, okay.
+
+16
+00:00:58,110 --> 00:01:02,200
+It says control, but it really
+should say control and control and
+
+17
+00:01:02,200 --> 00:01:03,950
+diffusion, right?
+
+18
+00:01:03,950 --> 00:01:07,660
+We sample a new state using two things.
+
+19
+00:01:07,660 --> 00:01:09,130
+Whatever the old one was,
+
+20
+00:01:09,130 --> 00:01:11,940
+so that's the value we pulled
+from the particle, right?
+
+21
+00:01:11,940 --> 00:01:14,040
+That's this xt here.
+
+22
+00:01:14,040 --> 00:01:15,820
+We've sampled the particle.
+
+23
+00:01:15,820 --> 00:01:19,450
+It has a particular state
+that goes right in there.
+
+24
+00:01:19,450 --> 00:01:21,280
+We also have the action.
+
+25
+00:01:21,280 --> 00:01:24,240
+And then, we have to sample
+from the new distribution.
+
+26
+00:01:24,240 --> 00:01:29,340
+So, let's suppose the action is taking
+a step immediately to the right.
+
+27
+00:01:29,340 --> 00:01:30,860
+Every time we do this,
+make it go all right?
+
+28
+00:01:30,860 --> 00:01:35,310
+Take a step meter to the right and then,
+I'm going to sample from a distribution
+
+29
+00:01:35,310 --> 00:01:38,470
+because there's actually some
+uncertainty about that step, right?
+
+30
+00:01:38,470 --> 00:01:41,450
+That's our process noise, so
+it's a little tight Gaussian.
+
+31
+00:01:41,450 --> 00:01:44,540
+I generated a,
+a little bit of noise and I add that.
+
+32
+00:01:44,540 --> 00:01:47,820
+That's what this sampling value is here.
+
+33
+00:01:47,820 --> 00:01:53,590
+Using the previous sample, the control,
+and then whatever the noise is, okay?
+
+34
+00:01:53,590 --> 00:01:57,380
+Then what I do is I
+re-weight that sample.
+
+35
+00:01:57,380 --> 00:01:58,840
+What do I weight it by?
+
+36
+00:01:58,840 --> 00:02:03,830
+I weight it by how likely would
+the measurement have been,
+
+37
+00:02:03,830 --> 00:02:05,780
+this is my likelihood, okay?
+
+38
+00:02:05,780 --> 00:02:08,900
+How likely would that
+measure have been if that
+
+39
+00:02:08,900 --> 00:02:13,710
+new sample is actually where the the
+object was or where the robot was?
+
+40
+00:02:13,710 --> 00:02:16,000
+That becomes my new weight.
+
+41
+00:02:16,000 --> 00:02:17,180
+All right.
+
+42
+00:02:17,180 --> 00:02:19,260
+That's the multiplication
+step we did before.
+
+43
+00:02:19,260 --> 00:02:22,900
+We took our prior, we had those lumps,
+we multiplied and we got them through.
+
+44
+00:02:22,900 --> 00:02:25,610
+We just keep track of
+the sum of those weights,
+
+45
+00:02:25,610 --> 00:02:31,250
+we add that particle to our growing set
+of particles, and we do this n times.
+
+46
+00:02:31,250 --> 00:02:35,430
+Now we're all done, except one problem,
+our weights don't sum to what?
+
+47
+00:02:35,430 --> 00:02:37,860
+They don't sum to 1 because
+they were whatever they were.
+
+48
+00:02:37,860 --> 00:02:39,610
+We just did this multiplication.
+
+49
+00:02:39,610 --> 00:02:43,280
+So all we have to do is because we've
+been keeping track of the sum of the sum
+
+50
+00:02:43,280 --> 00:02:44,900
+of the weights, that's theta.
+
+51
+00:02:44,900 --> 00:02:47,260
+We divide all the weights by that value.
+
+52
+00:02:47,260 --> 00:02:49,050
+And that's normalizing the weights.
+
+53
+00:02:49,050 --> 00:02:52,900
+When we're done, we have a new
+distribution, bunch of particles.
+
+54
+00:02:52,900 --> 00:02:55,100
+Each particle is at a particular state.
+
+55
+00:02:55,100 --> 00:02:56,970
+Each particle has a weight.
+
+56
+00:02:56,970 --> 00:02:58,400
+And the sum of those weights is 1.
+
+57
+00:02:58,400 --> 00:03:00,235
+And so that's a valid,
+
+58
+00:03:00,235 --> 00:03:04,830
+sampling-based representation
+of the probabilistic density.
+
+59
+00:03:04,830 --> 00:03:05,520
+And that's it.
+
+60
+00:03:05,520 --> 00:03:07,050
+That's all of particle filtering.

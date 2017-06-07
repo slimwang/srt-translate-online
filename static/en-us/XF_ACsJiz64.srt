@@ -1,0 +1,788 @@
+﻿1
+00:00:00,000 --> 00:00:02,000
+Welcome to our next office hour.
+
+2
+00:00:02,000 --> 00:00:06,000
+We are recording according to questions you all sent us.
+
+3
+00:00:06,000 --> 00:00:08,000
+Okay, well let's get right started.
+
+4
+00:00:08,000 --> 00:00:11,000
+The first question is from Incu in New York.
+
+5
+00:00:11,000 --> 00:00:16,000
+It says while AI strategies for chess, a two-player deterministic adversarial game,
+
+6
+00:00:16,000 --> 00:00:19,000
+have been successful in beating professionals,
+
+7
+00:00:19,000 --> 00:00:22,000
+no strategies can compete with strong amateurs in Go.
+
+8
+00:00:22,000 --> 00:00:24,000
+What makes Go so difficult?
+
+9
+00:00:24,000 --> 00:00:27,000
+Go is just a game where people shine really well.
+
+10
+00:00:27,000 --> 00:00:29,000
+There are two problems for computer programs in Go.
+
+11
+00:00:29,000 --> 00:00:31,000
+One is called the branching factor,
+
+12
+00:00:31,000 --> 00:00:35,000
+because the number of combinations goes up so fast you can't search very dep.
+
+13
+00:00:35,000 --> 00:00:38,000
+The second is there are no good ways for computers right now
+
+14
+00:00:38,000 --> 00:00:41,000
+to really evaluate board positions they are so complex.
+
+15
+00:00:41,000 --> 00:00:44,000
+Even though advanced Go players play well,
+
+16
+00:00:44,000 --> 00:00:48,000
+beginners don't even understand what's going on because there are very different heuristics.
+
+17
+00:00:48,000 --> 00:00:53,000
+So far it's been an open challenge. We invite you to solve it. It would be really amazing.
+
+18
+00:00:53,000 --> 00:00:56,000
+That'd be great to see. Here's another challenge.
+
+19
+00:00:56,000 --> 00:01:01,000
+This comes from Jay Bochi who says what techniques would you recommend
+
+20
+00:01:01,000 --> 00:01:09,000
+for a game like the AIChallenge.org, which a game where you can put in your strategy
+
+21
+00:01:09,000 --> 00:01:13,000
+and move these ants around on a board.
+
+22
+00:01:13,000 --> 00:01:17,000
+I guess I have to say I'm not really sure. I haven't studied the game that carefully.
+
+23
+00:01:17,000 --> 00:01:21,000
+But I would suggest in most games that are like that what you start off with
+
+24
+00:01:21,000 --> 00:01:24,000
+is finding a bunch of little strategies.
+
+25
+00:01:24,000 --> 00:01:27,000
+How you can have your ants move around and find foods
+
+26
+00:01:27,000 --> 00:01:31,000
+or have two combined to do an attack or something like that.
+
+27
+00:01:31,000 --> 00:01:37,000
+You get a repertoire of actions you can do, and then try using reinforcement learning
+
+28
+00:01:37,000 --> 00:01:41,000
+to put them all together and see what works.
+
+29
+00:01:41,000 --> 00:01:45,000
+Yeah, I remember actually for a real game, which was backgammon,
+
+30
+00:01:45,000 --> 00:01:50,000
+Gerald Tesauro used to be the person who wrote the world's best backgammon program
+
+31
+00:01:50,000 --> 00:01:54,000
+called TD-Gammon, and at some point I ran into him at a conference,
+
+32
+00:01:54,000 --> 00:01:57,000
+and he said, "Wow. We had a student who did equally good a program,
+
+33
+00:01:57,000 --> 00:01:59,000
+only much, much simpler."
+
+34
+00:01:59,000 --> 00:02:02,000
+He used a linear simple deliberation function he crafted by hand
+
+35
+00:02:02,000 --> 00:02:06,000
+and then just randomly played to play the game all the way to the end,
+
+36
+00:02:06,000 --> 00:02:08,000
+which you can do if you randomly guess your dice
+
+37
+00:02:08,000 --> 00:02:11,000
+and just play your calibration function.
+
+38
+00:02:11,000 --> 00:02:16,000
+That kind of yielded--we played a couple of times--equally good performance
+
+39
+00:02:16,000 --> 00:02:20,000
+as the world's most amazing neural-network based TD-Gammon.
+
+40
+00:02:20,000 --> 00:02:23,000
+I was surprised, and so was he. It was really interesting.
+
+41
+00:02:23,000 --> 00:02:28,000
+Sometimes being creative about how you valuate things is actually really useful.
+
+42
+00:02:28,000 --> 00:02:31,000
+"How can we plan strategies instead of single moves?
+
+43
+00:02:31,000 --> 00:02:34,000
+If you can calculate the optimal policy, that's okay,
+
+44
+00:02:34,000 --> 00:02:37,000
+but in most cases you should deal with approximations,
+
+45
+00:02:37,000 --> 00:02:40,000
+and calculating strategies might be useful.
+
+46
+00:02:40,000 --> 00:02:44,000
+For example, something like occupy the center of a chess board and then--"
+
+47
+00:02:44,000 --> 00:02:48,000
+This is a question from Andre in Russia.
+
+48
+00:02:48,000 --> 00:02:51,000
+So Andre, the occupy the center is a great idea,
+
+49
+00:02:51,000 --> 00:02:55,000
+and that's been handled well by a lot of chess programs that have heuristic functions
+
+50
+00:02:55,000 --> 00:02:58,000
+where they put some weight o occupying the center,
+
+51
+00:02:58,000 --> 00:03:02,000
+and they have ways of calculating how well you control the center.
+
+52
+00:03:02,000 --> 00:03:05,000
+But the "and then" part--boy that's really hard.
+
+53
+00:03:05,000 --> 00:03:08,000
+So far, the leading chess programs haven't been very good at that.
+
+54
+00:03:08,000 --> 00:03:13,000
+There has been some attempt to use planning techniques like we discussed in class
+
+55
+00:03:13,000 --> 00:03:19,000
+to plan strategies, but they tend to be beaten out by the techniques that just look farther ahead
+
+56
+00:03:19,000 --> 00:03:23,000
+using alpha-beta pruning over a min/max search.
+
+57
+00:03:23,000 --> 00:03:26,000
+I should say pretty much any interesting program stops at some point,
+
+58
+00:03:26,000 --> 00:03:28,000
+because you can't search to exhaustion.
+
+59
+00:03:28,000 --> 00:03:32,000
+And also, features like occupy the center of the board in chess,
+
+60
+00:03:32,000 --> 00:03:36,000
+that's usually features related to the safety of the king, to the pawn structure,
+
+61
+00:03:36,000 --> 00:03:39,000
+to the number of pieces you have and where they are,
+
+62
+00:03:39,000 --> 00:03:42,000
+and how much control you have, how much mobility you have.
+
+63
+00:03:42,000 --> 00:03:46,000
+Those together are usually the ones that give you a good performance.
+
+64
+00:03:46,000 --> 00:03:51,000
+One of the interesting things has been, in the game playing domain,
+
+65
+00:03:51,000 --> 00:03:55,000
+to come up with a really good evaluation function that captures the generic goodness of a board.
+
+66
+00:03:55,000 --> 00:03:58,000
+You can argue if you do this perfectly well, you wouldn't even have to plan strategies.
+
+67
+00:03:58,000 --> 00:04:02,000
+You just take the best move and be done with it.
+
+68
+00:04:02,000 --> 00:04:05,000
+The next question is from Pedro in Santiago, Chile.
+
+69
+00:04:05,000 --> 00:04:10,000
+How do you extend the algorithms to support multiplayer games with more than 2 players
+
+70
+00:04:10,000 --> 00:04:13,000
+given there's no single min or max?
+
+71
+00:04:13,000 --> 00:04:16,000
+I always find it hard to find more than one, honestly. We're not playing, right?
+
+72
+00:04:16,000 --> 00:04:19,000
+Most people I can't even get one player. I'm happy to find one player.
+
+73
+00:04:19,000 --> 00:04:22,000
+Well, maybe know you'll have 40,000 friends that you can play with.
+
+74
+00:04:22,000 --> 00:04:27,000
+Oh my god, I would lose.
+
+75
+00:04:27,000 --> 00:04:31,000
+Yeah, I guess in some sense we cheated,
+
+76
+00:04:31,000 --> 00:04:34,000
+and we made the descriptions of the algorithms a little bit simpler by assuming
+
+77
+00:04:34,000 --> 00:04:40,000
+that they were zero-sum games and so min is the opposite of max.
+
+78
+00:04:40,000 --> 00:04:43,000
+If you don't have a zero-sum game, either because there're more than one player
+
+79
+00:04:43,000 --> 00:04:46,000
+or just because there are different outcomes, then you can't really
+
+80
+00:04:46,000 --> 00:04:48,000
+quite say that min is the opposite of max.
+
+81
+00:04:48,000 --> 00:04:51,000
+What you do is every player has got their own utility function,
+
+82
+00:04:51,000 --> 00:04:54,000
+and they're trying to maximize their own utility.
+
+83
+00:04:54,000 --> 00:05:00,000
+It's really max/max, but the max that you're trying to maximize is different at every node.
+
+84
+00:05:00,000 --> 00:05:04,000
+The function is a little bit different, but you can work that out.
+
+85
+00:05:04,000 --> 00:05:10,000
+Then I guess the tricky part ends up being a kind of diplomacy around
+
+86
+00:05:10,000 --> 00:05:17,000
+players forming consortiums to say I'll team up with you and together we'll tackle this other guy.
+
+87
+00:05:17,000 --> 00:05:21,000
+That's really more game theoretic rather than minimax.
+
+88
+00:05:21,000 --> 00:05:24,000
+That's illegal in many games, right? >>Yeah. >>That's the hard part.
+
+89
+00:05:24,000 --> 00:05:27,000
+If you know that everybody is maximizing their own utility,
+
+90
+00:05:27,000 --> 00:05:29,000
+you can plug in the same methods we talked about.
+
+91
+00:05:29,000 --> 00:05:32,000
+You just have to maximize for each player individually,
+
+92
+00:05:32,000 --> 00:05:35,000
+but, again, if they team up then it becomes really, really difficult.
+
+93
+00:05:35,000 --> 00:05:38,000
+If you don't know whether they're teaming up, it becomes even harder.
+
+94
+00:05:38,000 --> 00:05:42,000
+These are all open questions in artificial intelligence.
+
+95
+00:05:42,000 --> 00:05:45,000
+Let's jump down to this question from Jeanna.
+
+96
+00:05:45,000 --> 00:05:51,000
+It says, "In question 14.5 why is there no dominant strategy for A and B--
+
+97
+00:05:51,000 --> 00:05:54,000
+the best strategy to sell Blue-ray regardless of what the other does?"
+
+98
+00:05:54,000 --> 00:05:59,000
+Jeanna, I think you have to look more carefully at the payoff matrix,
+
+99
+00:05:59,000 --> 00:06:05,000
+because I think that's not true that if they both go with Blue-ray then they'll both do great.
+
+100
+00:06:05,000 --> 00:06:09,000
+But if one of them switches to DVD then the other one should also switch.
+
+101
+00:06:09,000 --> 00:06:14,000
+So it's not true that you should stay with Blue-ray no matter what.
+
+102
+00:06:14,000 --> 00:06:18,000
+Question from a student in Greece. Welcome.
+
+103
+00:06:18,000 --> 00:06:24,000
+In the fourth video, since the arguments of inspect are 10 and we only have 9 elements,
+
+104
+00:06:24,000 --> 00:06:30,000
+can we even consider using the inspect action? Shouldn't the path be much less?
+
+105
+00:06:30,000 --> 00:06:33,000
+That's a great question.
+
+106
+00:06:33,000 --> 00:06:38,000
+You have to go back to the way that the interpreter works for actions,
+
+107
+00:06:38,000 --> 00:06:42,000
+which is you have an action that's got a bunch of unbound variables and you have to find
+
+108
+00:06:42,000 --> 00:06:47,000
+bindings for those variables among the objects in the domain,
+
+109
+00:06:47,000 --> 00:06:51,000
+but the interpreter for actions doesn't know that they all have to be different.
+
+110
+00:06:51,000 --> 00:06:54,000
+You looking at it and understanding what the action does,
+
+111
+00:06:54,000 --> 00:06:56,000
+you can say that it's obvious they have to be different,
+
+112
+00:06:56,000 --> 00:06:59,000
+but that's not true for variable binding.
+
+113
+00:06:59,000 --> 00:07:02,000
+It just says you have any variable in computer.
+
+114
+00:07:02,000 --> 00:07:07,000
+They don't all have to have different values unless it works out that way.
+
+115
+00:07:07,000 --> 00:07:10,000
+So the way the interpreter works is it just goes through,
+
+116
+00:07:10,000 --> 00:07:13,000
+and it tries all possible values for the first variable,
+
+117
+00:07:13,000 --> 00:07:16,000
+all possible values for the second and so on.
+
+118
+00:07:16,000 --> 00:07:20,000
+Then it's the constraints within the preconditions that tell you whether that's going to work or not.
+
+119
+00:07:20,000 --> 00:07:25,000
+It still has to backtrack through them all.
+
+120
+00:07:25,000 --> 00:07:30,000
+This is on past content, not on the latest weeks' stuff, but we welcome that.
+
+121
+00:07:30,000 --> 00:07:34,000
+This is from Dave, who says, "I've read that Bayesian models cannot over fit.
+
+122
+00:07:34,000 --> 00:07:41,000
+That's reading from Bishop's book from 2006, which is a great book.
+
+123
+00:07:41,000 --> 00:07:45,000
+The phenomenon of overfitting is really an unfortunate property of maximum likelihood
+
+124
+00:07:45,000 --> 00:07:50,000
+and does not arise when we marginalize over parameters in a Bayesian setting. Can you discuss this?"
+
+125
+00:07:50,000 --> 00:07:54,000
+There is some truth to this, but it's not going to be as black and white.
+
+126
+00:07:54,000 --> 00:07:58,000
+Maximum likelihood tends to be more prone to overfitting given a model class,
+
+127
+00:07:58,000 --> 00:08:01,000
+because it basically puts all the eggs into one basket,
+
+128
+00:08:01,000 --> 00:08:04,000
+which is fit the data as good as possible.
+
+129
+00:08:04,000 --> 00:08:07,000
+What's being referred to here is Bayesian models.
+
+130
+00:08:07,000 --> 00:08:11,000
+There's often a prior over the parameters themselves,
+
+131
+00:08:11,000 --> 00:08:15,000
+and calculating the best model or the best model class wasn't being considered
+
+132
+00:08:15,000 --> 00:08:18,000
+in some Bayesian fashion of being integrated out.
+
+133
+00:08:18,000 --> 00:08:24,000
+As a result, the answer is usually less impacted by the data than it is for maximum likelihood.
+
+134
+00:08:24,000 --> 00:08:28,000
+The result looks smoother. There is certainly more bias in the learning algorithm.
+
+135
+00:08:28,000 --> 00:08:30,000
+More bias means less chance of overfitting.
+
+136
+00:08:30,000 --> 00:08:36,000
+Unfortunately, there's no free lunch, because if your priors are wrong, you might get a really bad answer.
+
+137
+00:08:36,000 --> 00:08:39,000
+It might not overfit, but you might still get a very bad answer.
+
+138
+00:08:39,000 --> 00:08:42,000
+So I think it's worthwhile solving studying these methods. I think they're very valuable.
+
+139
+00:08:42,000 --> 00:08:44,000
+But there is really no free lunch here.
+
+140
+00:08:44,000 --> 00:08:46,000
+Yeah. I would agree with that.
+
+141
+00:08:46,000 --> 00:08:50,000
+You'll get an error that maybe you won't call the error of overfitting,
+
+142
+00:08:50,000 --> 00:08:55,000
+but there's still a possibility of error depending on how good your prior judgments are.
+
+143
+00:08:55,000 --> 00:08:58,000
+Here's a question from C. Baird in Indiana.
+
+144
+00:08:58,000 --> 00:09:02,000
+"You mentioned that common filters are used more in control theory in previous office hours.
+
+145
+00:09:02,000 --> 00:09:07,000
+How would you characterize the different between AI and control theory?
+
+146
+00:09:07,000 --> 00:09:14,000
+Different problems or applications? Different approaches? What is the overlap?"
+
+147
+00:09:14,000 --> 00:09:17,000
+I guess I have to answer that one? >>Yeah, you're the robot guy.
+
+148
+00:09:17,000 --> 00:09:21,000
+Well, I can tell you AI is much more fun than control theory.
+
+149
+00:09:21,000 --> 00:09:24,000
+At some level there are a couple differences in methods.
+
+150
+00:09:24,000 --> 00:09:29,000
+AI, for one, looks at much more discrete decision spaces with discrete variables.
+
+151
+00:09:29,000 --> 00:09:33,000
+But for this specific question, I think we are both looking to continued spaces.
+
+152
+00:09:33,000 --> 00:09:37,000
+It tends to be the case that AI is more courageous.
+
+153
+00:09:37,000 --> 00:09:41,000
+So in classic control theory, you often deal with what is called linear models,
+
+154
+00:09:41,000 --> 00:09:46,000
+and you are really concerned with proving things like stability and so on--optimality.
+
+155
+00:09:46,000 --> 00:09:50,000
+In AI, AI researchers tend not to care that much about it,
+
+156
+00:09:50,000 --> 00:09:53,000
+and that's bad and good at the same time.
+
+157
+00:09:53,000 --> 00:09:55,000
+The methods tend to be much higher dimensional.
+
+158
+00:09:55,000 --> 00:09:58,000
+People are much more courageous in doing something crazy.
+
+159
+00:09:58,000 --> 00:10:01,000
+At the same time, in doing this, they'll actually scale up to much harder problems
+
+160
+00:10:01,000 --> 00:10:04,000
+than some of the control theory people have scaled up to.
+
+161
+00:10:04,000 --> 00:10:10,000
+For example, my colleague at Stanford has his wonderful work on flying helicopters through acrobatic maneuvers.
+
+162
+00:10:10,000 --> 00:10:13,000
+The type of techniques he uses are much more AI techniques than control techniques
+
+163
+00:10:13,000 --> 00:10:16,000
+even though they are clearly solving a control problem.
+
+164
+00:10:16,000 --> 00:10:18,000
+If you look at this machine learning class, you find that there is
+
+165
+00:10:18,000 --> 00:10:21,000
+much more elaborate and risky methods, so to speak.
+
+166
+00:10:21,000 --> 00:10:24,000
+They're much more courageous, but also give better results.
+
+167
+00:10:24,000 --> 00:10:28,000
+That is actually changing. I think the field of AI and controls is growing together.
+
+168
+00:10:28,000 --> 00:10:30,000
+People are exchanging more methods.
+
+169
+00:10:30,000 --> 00:10:33,000
+AI has become certainly mathematically more solid in recent years
+
+170
+00:10:33,000 --> 00:10:36,000
+and has rediscovered the common filter as actually a Bayesian method.
+
+171
+00:10:36,000 --> 00:10:41,000
+Control theories are being impacted by things like particle filters that no conversion proofs
+
+172
+00:10:41,000 --> 00:10:43,000
+but tend to scale really well in many practical applications.
+
+173
+00:10:43,000 --> 00:10:46,000
+I think the difference is vanishing.
+
+174
+00:10:46,000 --> 00:10:49,000
+Yeah, I would agree with that, and I could say in some ways the difference
+
+175
+00:10:49,000 --> 00:10:55,000
+between AI and control theory is kind of like the difference between game theory and mechanism design
+
+176
+00:10:55,000 --> 00:10:59,000
+in that the control theorist says what's the math that I know?
+
+177
+00:10:59,000 --> 00:11:05,000
+Then let me build something that fits the math so that I can control it with what I already know.
+
+178
+00:11:05,000 --> 00:11:08,000
+Whereas an AI person is more likely to say
+
+179
+00:11:08,000 --> 00:11:12,000
+I'm not in charge of designing what it's going to be like.
+
+180
+00:11:12,000 --> 00:11:15,000
+I'm given a phenomenon and now I want to analyze it the best way I can.
+
+181
+00:11:15,000 --> 00:11:19,000
+There's question from Belgium from J. Vurm.
+
+182
+00:11:19,000 --> 00:11:25,000
+What are the extra ideas in genetic evolutionary algorithms compared to those we learned about?
+
+183
+00:11:25,000 --> 00:11:35,000
+For example, MDPs which change and converge with every value iteration as an example we learned about--MDPs.
+
+184
+00:11:35,000 --> 00:11:40,000
+How could a genetic algorithm solve the same problem that MDPs solve?
+
+185
+00:11:40,000 --> 00:11:45,000
+We haven't talked much about genetic algorithms. It's an important part of AI research.
+
+186
+00:11:45,000 --> 00:11:48,000
+Of course, we can't cover everything in this short class.
+
+187
+00:11:48,000 --> 00:11:55,000
+I guess the reason we haven't covered it is because I tend to think of it as just another version of search.
+
+188
+00:11:55,000 --> 00:12:00,000
+In search we have a configuration or a state, and then we search to the next state,
+
+189
+00:12:00,000 --> 00:12:02,000
+and we keep going like that.
+
+190
+00:12:02,000 --> 00:12:06,000
+We discussed that problem in terms of saying you're at one state,
+
+191
+00:12:06,000 --> 00:12:10,000
+how can you change that state to get to a neighboring state?
+
+192
+00:12:10,000 --> 00:12:14,000
+In genetic algorithms, it's the same thing, except that the neighboring state
+
+193
+00:12:14,000 --> 00:12:20,000
+comes by mating together two different states and combining them.
+
+194
+00:12:20,000 --> 00:12:24,000
+Sometimes that's a great thing to do. They're very useful techniques.
+
+195
+00:12:24,000 --> 00:12:27,000
+People have gotten good results from it,
+
+196
+00:12:27,000 --> 00:12:30,000
+but sort of theoretically, I don't think it's that different.
+
+197
+00:12:30,000 --> 00:12:35,000
+That's one reason we haven't covered them yet in this class.
+

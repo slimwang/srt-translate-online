@@ -1,0 +1,307 @@
+1
+00:00:00,460 --> 00:00:02,900
+So here's the dimensionality trick.
+
+2
+00:00:02,900 --> 00:00:04,709
+All right?
+And the notation that I've,
+
+3
+00:00:04,709 --> 00:00:07,558
+I'm showing you here comes
+directly from the paper Turk and
+
+4
+00:00:07,558 --> 00:00:10,240
+Pentland I'll mention later
+that does eigenfaces.
+
+5
+00:00:10,240 --> 00:00:11,120
+But it'll be clear.
+
+6
+00:00:12,150 --> 00:00:18,150
+Let's suppose each this
+cap phi i is a face image.
+
+7
+00:00:18,150 --> 00:00:22,281
+So it's really long, all right,
+
+8
+00:00:22,281 --> 00:00:25,751
+d long, and by the way lets
+assume we subtracted the mean.
+
+9
+00:00:25,751 --> 00:00:30,320
+Okay, so we've actually removed the mean
+from all the pictures that we have, and
+
+10
+00:00:30,320 --> 00:00:32,708
+so, we're,
+we've got the mean at the origin, fine.
+
+11
+00:00:32,708 --> 00:00:34,494
+All right.
+
+12
+00:00:34,494 --> 00:00:39,371
+So now lets define
+a new matrix called C,
+
+13
+00:00:39,371 --> 00:00:44,537
+which is just the average
+of AA of phi of
+
+14
+00:00:44,537 --> 00:00:48,250
+the sum of phi phi transpose.
+
+15
+00:00:48,250 --> 00:00:51,910
+Okay, this is the sum of
+all the outer products and
+
+16
+00:00:51,910 --> 00:00:56,040
+in fact this can be written
+as AA transpose if A,
+
+17
+00:00:56,040 --> 00:01:01,496
+this is just what it says here, is just
+the stacked up face images, right?
+
+18
+00:01:01,496 --> 00:01:06,720
+So A, as the stacked up face images,
+its going to be d, really big,
+
+19
+00:01:06,720 --> 00:01:09,730
+by M,
+M is however many face images I have.
+
+20
+00:01:09,730 --> 00:01:13,180
+So its huge by reasonable,
+that's what A is.
+
+21
+00:01:13,180 --> 00:01:19,580
+And that means AA transpose, so if I
+take d by M times M by d, I get a what?
+
+22
+00:01:19,580 --> 00:01:24,330
+d by d, all right, d by d,
+that is a really big matrix, okay?
+
+23
+00:01:24,330 --> 00:01:27,160
+So if d was 10,000,
+this would be a 10,000 by 10,000 matrix.
+
+24
+00:01:27,160 --> 00:01:29,346
+How big is that, Megan?
+
+25
+00:01:29,346 --> 00:01:30,344
+>> A lot.
+
+26
+00:01:30,344 --> 00:01:31,730
+>> That's a lot, exactly.
+
+27
+00:01:31,730 --> 00:01:33,850
+That's a, a, a, a hundred million.
+
+28
+00:01:33,850 --> 00:01:34,576
+Okay?
+
+29
+00:01:34,576 --> 00:01:35,209
+So if it,
+
+30
+00:01:35,209 --> 00:01:39,970
+if it was a million long vector, a d by
+d would be a million times a million.
+
+31
+00:01:39,970 --> 00:01:42,540
+Which would be a million million,
+which is a big number.
+
+32
+00:01:42,540 --> 00:01:44,255
+That's a thousand billion,
+which is a trillion.
+
+33
+00:01:44,255 --> 00:01:48,150
+That's a lot,
+you wouldn't ever want to do that, okay?
+
+34
+00:01:48,150 --> 00:01:52,341
+The idea of trying to
+find the eigenvectors of
+
+35
+00:01:52,341 --> 00:01:56,960
+a ten thousand by ten thousand matrix
+is painful, even on today's computers.
+
+36
+00:01:56,960 --> 00:02:00,280
+And of a million by a million matrix,
+is even more painful.
+
+37
+00:02:00,280 --> 00:02:02,890
+But fortunately, you don't have to.
+
+38
+00:02:02,890 --> 00:02:06,770
+So C equal to AA transpose
+is a huge matrix.
+
+39
+00:02:06,770 --> 00:02:13,730
+But now, instead of considering AA
+transpose, consider A transpose A.
+
+40
+00:02:13,730 --> 00:02:16,860
+That's only an M by M matrix, right?
+
+41
+00:02:16,860 --> 00:02:20,960
+because remember, A is d by M,
+so A transpose A is M by M.
+
+42
+00:02:20,960 --> 00:02:25,742
+Finding the eigenvalues and
+eigenvectors of that, pretty easy.
+
+43
+00:02:25,742 --> 00:02:30,740
+Well, suppose I've got some
+eigenvector v i that's an eigenvector
+
+44
+00:02:30,740 --> 00:02:32,210
+of A transpose A.
+
+45
+00:02:32,210 --> 00:02:34,680
+So if it's an eigenvector
+of A transpose A,
+
+46
+00:02:34,680 --> 00:02:38,080
+that means when I multiply
+A transpose A times v i,
+
+47
+00:02:38,080 --> 00:02:42,665
+I just get some multiplier,
+lambda of v i, the eigenvalue.
+
+48
+00:02:42,665 --> 00:02:46,740
+Premultiply that equation by A.
+
+49
+00:02:46,740 --> 00:02:51,000
+When you do that,
+now I got AA transpose, and
+
+50
+00:02:51,000 --> 00:02:53,090
+I made this blue to make
+the difference clear.
+
+51
+00:02:53,090 --> 00:02:56,610
+A v i, and by the way I just pulled
+the lambda out on the right hand side,
+
+52
+00:02:56,610 --> 00:02:58,610
+it's just a scalar, I can do that.
+
+53
+00:02:58,610 --> 00:03:00,620
+Look at that equation, what do you see?
+
+54
+00:03:00,620 --> 00:03:01,140
+What do you see?
+
+55
+00:03:01,140 --> 00:03:02,460
+What do you see?
+
+56
+00:03:02,460 --> 00:03:11,350
+What you see is that the A v i's
+are the eigenvectors of AA transpose.
+
+57
+00:03:11,350 --> 00:03:14,480
+Remember AA transpose is that big,
+ugly matrix, C?
+
+58
+00:03:15,880 --> 00:03:18,870
+So all we needed to do
+is to find the v i's,
+
+59
+00:03:18,870 --> 00:03:23,655
+which are the eigenvectors
+of the A transpose A,
+
+60
+00:03:23,655 --> 00:03:28,830
+premultiply them by the matrix A and
+
+61
+00:03:28,830 --> 00:03:32,550
+I now have the eigenvectors
+of AA transpose.
+
+62
+00:03:32,550 --> 00:03:33,190
+All right.
+
+63
+00:03:33,190 --> 00:03:37,910
+So what this basically meant was we took
+the we took the eigenvectors of an n by
+
+64
+00:03:37,910 --> 00:03:43,120
+n matrix and created
+The eigenvectors of a d by d matrix,
+
+65
+00:03:43,120 --> 00:03:46,560
+without having to explicitly
+compute the eigenvectors of d by d.
+
+66
+00:03:46,560 --> 00:03:48,370
+This is much easier to compute.

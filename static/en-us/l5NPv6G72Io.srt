@@ -1,0 +1,127 @@
+1
+00:00:00,180 --> 00:00:03,969
+So for examples like the reader writer example we have
+
+2
+00:00:03,969 --> 00:00:06,920
+basically this common building blocks.
+
+3
+00:00:06,920 --> 00:00:11,670
+The actual operations to the shared resource, the shared file, so the reads and
+
+4
+00:00:11,670 --> 00:00:15,330
+writes of the shared file in this case, have to be protected with
+
+5
+00:00:15,330 --> 00:00:19,600
+these code blocks enter critical section and exit critical section.
+
+6
+00:00:19,600 --> 00:00:24,600
+Each of these code blocks internally follows basically the critical section
+
+7
+00:00:24,600 --> 00:00:28,750
+structure that we outlined just couple of screens before,
+
+8
+00:00:28,750 --> 00:00:32,810
+where they lock a mutex, they check for a predicate.
+
+9
+00:00:32,810 --> 00:00:35,280
+If the predicate isn't met, they wait.
+
+10
+00:00:35,280 --> 00:00:38,820
+The wait is in a while loop, and if the while is okay,
+
+11
+00:00:38,820 --> 00:00:41,880
+a predicate potentially gets updated.
+
+12
+00:00:41,880 --> 00:00:46,970
+When we're done with the actual operation, the exit critical section code.
+
+13
+00:00:46,970 --> 00:00:51,710
+Again, in one of these lock constructs, we have to update the predicate, so
+
+14
+00:00:51,710 --> 00:00:54,280
+up here we really have nothing to wait on.
+
+15
+00:00:54,280 --> 00:00:57,210
+We just want to update the predicate and then signal and
+
+16
+00:00:57,210 --> 00:01:00,142
+broadcast the appropriate condition variable.
+
+17
+00:01:00,142 --> 00:01:05,420
+The mutex is actually held online within these enter critical section and
+
+18
+00:01:05,420 --> 00:01:06,962
+exit critical section codes.
+
+19
+00:01:06,962 --> 00:01:11,850
+So if you see it is unlocked on the end and this allows us to
+
+20
+00:01:11,850 --> 00:01:17,860
+then basically control the access to the proxy variable, but to allow
+
+21
+00:01:17,860 --> 00:01:22,480
+more than one thread to be in the critical section at a given point of time.
+
+22
+00:01:22,480 --> 00:01:25,030
+This lets us benefit from mutexes,
+
+23
+00:01:25,030 --> 00:01:30,220
+because mutexes allow us to control how a shared resource is accessed.
+
+24
+00:01:30,220 --> 00:01:33,820
+However, this type of structure also allows us to
+
+25
+00:01:33,820 --> 00:01:37,350
+deal with a limitation that mutexes present because they
+
+26
+00:01:37,350 --> 00:01:43,460
+allow only one thread at a time to access that resource, so with this structure,
+
+27
+00:01:43,460 --> 00:01:48,430
+we will be able to implement more complex sharing scenarios.
+
+28
+00:01:48,430 --> 00:01:53,920
+So in this case the policies that either multiple threads of type reader
+
+29
+00:01:53,920 --> 00:01:59,570
+can access the file, or one thread of type writer can access the file.
+
+30
+00:01:59,570 --> 00:02:03,830
+The default behavior of mutexes alone doesn't allow us to
+
+31
+00:02:03,830 --> 00:02:06,695
+directly enforce this kind of policy.
+
+32
+00:02:06,695 --> 00:02:09,639
+Mutexes only allowed mutual exclusion policy.

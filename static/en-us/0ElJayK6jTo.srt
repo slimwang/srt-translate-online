@@ -1,0 +1,239 @@
+1
+00:00:00,310 --> 00:00:00,880
+All right, Charles.
+So
+
+2
+00:00:00,880 --> 00:00:05,140
+now that I've talked through how we can
+compute these outcome based estimates
+
+3
+00:00:05,140 --> 00:00:06,700
+with these TD1 estimates,
+
+4
+00:00:06,700 --> 00:00:10,510
+I'm going to try to tell you that
+it's not exactly what we want.
+
+5
+00:00:10,510 --> 00:00:15,000
+I'm going try to explain why
+TD1 kind of is wrong sometimes.
+
+6
+00:00:15,000 --> 00:00:17,480
+>> Okay.
+>> To do this we're going to go back to
+
+7
+00:00:17,480 --> 00:00:22,430
+the example we've looked at before where
+we've got this markup chain with rewards
+
+8
+00:00:22,430 --> 00:00:29,330
+and we're observing some trajectories
+through it like S1, S3, S4, S final.
+
+9
+00:00:30,660 --> 00:00:33,320
+And so we observe a bunch of those and
+
+10
+00:00:33,320 --> 00:00:36,050
+then the last one we
+observe starting from S2.
+
+11
+00:00:36,050 --> 00:00:38,740
+S2, S3 S5, SF, okay?
+
+12
+00:00:40,040 --> 00:00:43,266
+And now what we want to figure
+out is what does TD1, or
+
+13
+00:00:43,266 --> 00:00:46,855
+an outcome based estimate,
+give us as an approximation for
+
+14
+00:00:46,855 --> 00:00:49,250
+the value of S2 given this set of data?
+
+15
+00:00:49,250 --> 00:00:53,350
+And then we'll compare it to what we get
+with the maximum likelihood estimate.
+
+16
+00:00:53,350 --> 00:00:54,800
+>> Okay.
+
+17
+00:00:54,800 --> 00:00:56,110
+Wait, you want me to do this?
+
+18
+00:00:56,110 --> 00:00:56,680
+>> Yeah.
+
+19
+00:00:56,680 --> 00:00:59,420
+>> Oh, okay, so it really is a quiz?
+
+20
+00:00:59,420 --> 00:01:01,680
+>> Yeah, that's what this word is.
+
+21
+00:01:01,680 --> 00:01:02,500
+>> All right, fine.
+
+22
+00:01:02,500 --> 00:01:05,840
+I think I have some questions, but
+in fact, let me ask some of them now.
+
+23
+00:01:05,840 --> 00:01:07,110
+>> Yeah, I think we should make sure
+
+24
+00:01:07,110 --> 00:01:08,550
+it's clear enough that
+you can work on it.
+
+25
+00:01:08,550 --> 00:01:14,570
+>> Okay, so you want me to tell you
+what the value of S2 is or what I would
+
+26
+00:01:14,570 --> 00:01:21,630
+estimate the value of S2 to be using
+sort of the TD1 outcome based estimate.
+
+27
+00:01:21,630 --> 00:01:26,320
+>> And there it should be the average
+of the reward sequences that we've
+
+28
+00:01:26,320 --> 00:01:29,550
+seen upon encountering S2.
+
+29
+00:01:29,550 --> 00:01:34,200
+>> Okay that makes sense but
+that has to start from somewhere.
+
+30
+00:01:35,220 --> 00:01:37,460
+>> Right, the equations require
+you start from somewhere?
+
+31
+00:01:37,460 --> 00:01:41,470
+>> We can just average it across all the
+encounters that we've had of that thing.
+
+32
+00:01:41,470 --> 00:01:44,830
+Since we're averaging the first time
+we see it, that is the estimate.
+
+33
+00:01:44,830 --> 00:01:47,580
+The second time we see
+it that's half of it.
+
+34
+00:01:47,580 --> 00:01:48,850
+>> Okay that's fair.
+
+35
+00:01:48,850 --> 00:01:50,160
+Okay I can deal with that.
+
+36
+00:01:50,160 --> 00:01:53,450
+And by maximum likelihood
+estimate you just mean the value
+
+37
+00:01:53,450 --> 00:01:57,020
+that best fits the model,
+which in this case is the MDP itself?
+
+38
+00:01:57,020 --> 00:02:01,220
+>> Yeah, so given the data that we've
+seen so far, you can make an estimate of
+
+39
+00:02:01,220 --> 00:02:06,880
+how likely it is to go from S3 to S4,
+S3 to S5, S1 to S3, S2 to S3.
+
+40
+00:02:06,880 --> 00:02:10,690
+So you can use the data that you’ve seen
+to estimate the probabilities in this
+
+41
+00:02:10,690 --> 00:02:13,770
+model, which aren’t going to be exactly
+what they show here because this
+
+42
+00:02:13,770 --> 00:02:14,640
+is the true model.
+
+43
+00:02:14,640 --> 00:02:16,790
+But we can estimate
+it based on the data.
+
+44
+00:02:16,790 --> 00:02:20,690
+And then we can say, okay, given that
+estimate, what is the value of S2?
+
+45
+00:02:20,690 --> 00:02:22,090
+>> Okay, that seems reasonable.
+
+46
+00:02:22,090 --> 00:02:23,570
+Okay, I can do that.
+
+47
+00:02:23,570 --> 00:02:24,260
+>> All right.
+So but
+
+48
+00:02:24,260 --> 00:02:26,330
+you should probably also ask
+what the discount factor is.
+
+49
+00:02:26,330 --> 00:02:28,140
+>> Oh, yeah, what’s the discount factor?
+
+50
+00:02:28,140 --> 00:02:29,130
+>> Good question.
+
+51
+00:02:29,130 --> 00:02:31,350
+Just for simplicity we'll go
+with gam equals one again.
+
+52
+00:02:31,350 --> 00:02:32,310
+>> Okay, go.

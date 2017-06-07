@@ -1,0 +1,203 @@
+﻿1
+00:00:00,430 --> 00:00:03,465
+We finished implementing these
+steps in our diagram that work with
+
+2
+00:00:03,464 --> 00:00:05,476
+the Android Intent
+system to pick an image.
+
+3
+00:00:05,476 --> 00:00:07,656
+Let's now code this
+portion of the flow chart.
+
+4
+00:00:07,655 --> 00:00:11,125
+That goes to the Firebase Storage and
+saves an image to the cloud.
+
+5
+00:00:11,125 --> 00:00:15,937
+To start I'll find the Gradle dependency
+for Firebase Storage, copy it.
+
+6
+00:00:15,938 --> 00:00:19,817
+And in this dependencies block
+in my build.gradle file I'll add
+
+7
+00:00:19,817 --> 00:00:21,780
+the dependency.
+
+8
+00:00:21,780 --> 00:00:22,839
+And of course, sync.
+
+9
+00:00:23,949 --> 00:00:27,000
+With that finished, let's go ahead and
+head over to our main activity file.
+
+10
+00:00:28,390 --> 00:00:29,859
+As with any Firebase service,
+
+11
+00:00:29,859 --> 00:00:32,380
+you're going to need an instance
+to be able to use it.
+
+12
+00:00:32,380 --> 00:00:35,344
+I'll create an instance variable
+at the top of MainActivity for
+
+13
+00:00:35,344 --> 00:00:37,134
+the Firebase storage component.
+
+14
+00:00:37,134 --> 00:00:39,074
+And I'll initialize it
+down here in onCreate.
+
+15
+00:00:39,075 --> 00:00:41,995
+Like with the database
+we're also going to have
+
+16
+00:00:41,994 --> 00:00:44,004
+something called a storage
+reference object.
+
+17
+00:00:45,075 --> 00:00:47,815
+I'll make an instance variable for
+it up here.
+
+18
+00:00:47,814 --> 00:00:50,024
+And I'll initialize it down here.
+
+19
+00:00:50,024 --> 00:00:54,658
+This Firebase storage reference has
+been initialized to a specific location.
+
+20
+00:00:54,658 --> 00:00:58,222
+Much in the same way that the message's
+database reference was set to
+
+21
+00:00:58,222 --> 00:01:00,079
+the location messages.
+
+22
+00:01:00,079 --> 00:01:03,250
+In this case, I'm setting it
+to the location chat_photos.
+
+23
+00:01:03,250 --> 00:01:05,489
+Okay, so now that we have our reference,
+
+24
+00:01:05,489 --> 00:01:09,200
+let's do something with the photo
+result from our image picker.
+
+25
+00:01:09,200 --> 00:01:12,700
+To do that, we're going to need to
+scroll down to onActivityResult.
+
+26
+00:01:12,700 --> 00:01:15,519
+And we'll add another case for
+handling the PHOTO_PICKER result.
+
+27
+00:01:16,560 --> 00:01:18,180
+When we handle the intent,
+
+28
+00:01:18,180 --> 00:01:22,610
+the chosen photo will come in
+as a Uri from data.getData.
+
+29
+00:01:22,609 --> 00:01:27,138
+So I'll take that Uri and
+put it in the variable selectedImageUri.
+
+30
+00:01:27,138 --> 00:01:31,411
+Okay, now I'm going to make
+a reference to the specific photo.
+
+31
+00:01:31,411 --> 00:01:33,700
+Let me explain this line here.
+
+32
+00:01:33,700 --> 00:01:36,710
+So we're taking our
+reference to ChatPhotos, and
+
+33
+00:01:36,709 --> 00:01:38,599
+then we're making a child.
+
+34
+00:01:38,599 --> 00:01:42,737
+Which will be named after the last
+part of the path segment for the URI.
+
+35
+00:01:42,737 --> 00:01:49,706
+So, for example, if we have a URI
+like content://local_images/foo/4.
+
+36
+00:01:49,706 --> 00:01:54,269
+Then the file name that we're saving
+our stored image at would be 4.
+
+37
+00:01:54,269 --> 00:01:56,948
+Because it's the last part
+of the path segment here.
+
+38
+00:01:56,948 --> 00:01:59,558
+At this point we've got
+a reference location for
+
+39
+00:01:59,558 --> 00:02:01,347
+the file that we're going to save.
+
+40
+00:02:01,347 --> 00:02:04,629
+And we've got the URI of that
+image that we're going to save.
+
+41
+00:02:04,629 --> 00:02:08,439
+We still need to actually do the saving
+of the file to Firebase Storage.
+
+42
+00:02:08,439 --> 00:02:11,129
+But instead of me telling you
+exactly what to write in the code
+
+43
+00:02:11,129 --> 00:02:12,519
+I think you're ready to do it in a quiz.
+

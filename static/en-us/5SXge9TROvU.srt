@@ -1,0 +1,398 @@
+﻿1
+00:00:00,480 --> 00:00:03,489
+Let's take a look at our Styles and
+Themes activity.
+
+2
+00:00:03,490 --> 00:00:08,100
+It's a mock email display that displays
+a list of mail folders like Inbox,
+
+3
+00:00:08,099 --> 00:00:11,199
+Starred, and
+Drafts with icons to the left.
+
+4
+00:00:11,199 --> 00:00:13,919
+Right now, this UI looks pretty wonky.
+
+5
+00:00:13,919 --> 00:00:16,820
+The spacing and
+text size isn't consistent, and
+
+6
+00:00:16,820 --> 00:00:21,500
+you'll soon see that there's also a lot
+of redundancy in the layout XML file.
+
+7
+00:00:21,500 --> 00:00:25,390
+So we'll want to add some styles
+to get rid of that redundancy and
+
+8
+00:00:25,390 --> 00:00:28,310
+make this layout look cohesive and
+more readable.
+
+9
+00:00:28,309 --> 00:00:30,329
+First, let's look at an existing style.
+
+10
+00:00:30,329 --> 00:00:32,009
+All of our apps themes and
+
+11
+00:00:32,009 --> 00:00:36,067
+styles are in the resources
+values folder in styles.xml.
+
+12
+00:00:36,067 --> 00:00:40,039
+In styles.xml,
+you can already see our app theme and
+
+13
+00:00:40,039 --> 00:00:42,519
+a style called ActivityLabelStyle.
+
+14
+00:00:42,520 --> 00:00:46,370
+This is actually applied to our list
+of activities on the main screen.
+
+15
+00:00:46,369 --> 00:00:48,954
+And if you look in our
+activity_main.xml,
+
+16
+00:00:48,954 --> 00:00:52,789
+you can see the style attribute
+applied to all of our text views.
+
+17
+00:00:52,789 --> 00:00:56,890
+I wanted each of these items to look the
+same, and so they use the same style.
+
+18
+00:00:56,890 --> 00:01:00,210
+In fact, I'm actually going to change
+the background color to be our primary
+
+19
+00:01:00,210 --> 00:01:02,600
+light color in the styles.xml file.
+
+20
+00:01:02,600 --> 00:01:04,640
+So let's go back to styles.xml.
+
+21
+00:01:04,640 --> 00:01:07,040
+Right now the background
+color is our primary color.
+
+22
+00:01:07,040 --> 00:01:09,630
+And I'll change it to
+our primary light color.
+
+23
+00:01:09,629 --> 00:01:13,109
+This should change the color of all
+the text views in the main activities.
+
+24
+00:01:13,109 --> 00:01:16,379
+I'll also change the text
+color from white to black, so
+
+25
+00:01:16,379 --> 00:01:18,299
+it shows up on our light background.
+
+26
+00:01:18,299 --> 00:01:20,409
+Let's run our app and test if it worked.
+
+27
+00:01:20,409 --> 00:01:24,619
+It did all our views are now this
+nice light purple with black text.
+
+28
+00:01:24,620 --> 00:01:28,329
+And I just had to change two
+things in our styles.xml file
+
+29
+00:01:28,329 --> 00:01:30,879
+to change the style for all of these.
+
+30
+00:01:30,879 --> 00:01:34,609
+Now let's create a style of our
+own to add to our mail folder text
+
+31
+00:01:34,609 --> 00:01:35,939
+in the style activity.
+
+32
+00:01:35,939 --> 00:01:40,009
+I'll create a new style by adding
+another style tag and giving it a name.
+
+33
+00:01:40,010 --> 00:01:44,540
+This is for a mail folder text, so I'll
+name this FolderStyle and close the tag.
+
+34
+00:01:44,540 --> 00:01:46,330
+Then, inside this style tag,
+
+35
+00:01:46,329 --> 00:01:49,834
+we can add items to describe
+any style properties we want.
+
+36
+00:01:49,834 --> 00:01:51,019
+I want to add items for
+
+37
+00:01:51,019 --> 00:01:54,019
+any of the properties that all
+of these views have in common.
+
+38
+00:01:54,019 --> 00:01:58,347
+So let's look at the style_activity.xml
+to see what those properties are.
+
+39
+00:01:58,347 --> 00:02:02,140
+In our style_activity.xml,
+we can look at each text view and
+
+40
+00:02:02,140 --> 00:02:03,489
+see what they have in common.
+
+41
+00:02:03,489 --> 00:02:06,909
+It looks like the layout width and
+height are the same for each.
+
+42
+00:02:06,909 --> 00:02:09,359
+And let's use our first
+view as a reference.
+
+43
+00:02:09,360 --> 00:02:12,130
+There's some drawable padding and
+padding on the bottom and
+
+44
+00:02:12,129 --> 00:02:13,259
+top of the view.
+
+45
+00:02:13,259 --> 00:02:16,000
+There's also a text size and color, and
+
+46
+00:02:16,000 --> 00:02:18,740
+I want these values to repeat for
+every view.
+
+47
+00:02:18,740 --> 00:02:21,580
+So instead of typing out each one,
+I'm going to group
+
+48
+00:02:21,580 --> 00:02:25,469
+all of these in one style and
+apply that style to each of these views.
+
+49
+00:02:25,469 --> 00:02:29,439
+So using this first text view as
+a reference, let's add the properties we
+
+50
+00:02:29,439 --> 00:02:33,079
+want to apply to all of our text
+views as items in our new style.
+
+51
+00:02:33,080 --> 00:02:35,060
+So let's go back to styles.xml.
+
+52
+00:02:35,060 --> 00:02:39,670
+For each property, I'll open an item tag
+and I'll set the value for the property.
+
+53
+00:02:39,669 --> 00:02:43,030
+Let's start with the layout width and
+height properties, since those stay
+
+54
+00:02:43,030 --> 00:02:46,689
+consistent as match_parent and
+wrap_content respectively.
+
+55
+00:02:46,689 --> 00:02:50,729
+The name of each item should
+match that property name in XML.
+
+56
+00:02:50,729 --> 00:02:55,039
+For example, our first item will
+be named android:layout_width.
+
+57
+00:02:55,039 --> 00:02:58,590
+Then inside this tag we give the value,
+which is match_parent.
+
+58
+00:02:58,590 --> 00:03:01,990
+Our next one is named
+android:layout_height, and
+
+59
+00:03:01,990 --> 00:03:04,090
+that value is wrap_content.
+
+60
+00:03:04,090 --> 00:03:07,710
+We'll also add items for
+drawable padding equal to 8dp,
+
+61
+00:03:07,710 --> 00:03:10,490
+which is the spacing between
+the icon and the text.
+
+62
+00:03:10,490 --> 00:03:15,330
+Then I'll add padding top and padding
+bottom, each 4dp to space out the views.
+
+63
+00:03:15,330 --> 00:03:19,750
+Finally, I'll add items for
+text size equal to 28sp and
+
+64
+00:03:19,750 --> 00:03:21,650
+text color equal to black.
+
+65
+00:03:21,650 --> 00:03:24,780
+And all of these together
+define the folder style.
+
+66
+00:03:24,780 --> 00:03:28,937
+Our next step is to apply this to those
+text views in our style activity layout.
+
+67
+00:03:28,937 --> 00:03:32,560
+So back to our
+style_activity layout file.
+
+68
+00:03:32,560 --> 00:03:35,449
+I can apply a style to
+a view by writing style and
+
+69
+00:03:35,449 --> 00:03:37,349
+then referring to
+the style we just made.
+
+70
+00:03:37,349 --> 00:03:42,259
+I'll say @style and then give
+the name of our style, folderStyle.
+
+71
+00:03:42,259 --> 00:03:45,579
+And now I can delete the other
+properties here that are now defined in
+
+72
+00:03:45,580 --> 00:03:49,710
+the style like our text color and
+the layout width and height, so
+
+73
+00:03:49,710 --> 00:03:51,349
+let me delete those.
+
+74
+00:03:51,349 --> 00:03:55,219
+After we apply this style,
+all that should left in the text view
+
+75
+00:03:55,219 --> 00:03:59,139
+is the text and icon properties
+that are unique to this view.
+
+76
+00:03:59,139 --> 00:04:02,319
+This style will apply to all
+the rest of the properties.
+
+77
+00:04:02,319 --> 00:04:04,650
+So lets do this to all our text views.
+
+78
+00:04:04,650 --> 00:04:07,189
+Now I've applied the style
+to all our text views, and
+
+79
+00:04:07,189 --> 00:04:09,280
+deleted the unnecessary properties.
+
+80
+00:04:09,280 --> 00:04:12,599
+Now let's run our app, and
+see how our style activity looks.
+
+81
+00:04:12,599 --> 00:04:16,360
+When we click into our styles and themes
+activity, we can see that the text
+
+82
+00:04:16,360 --> 00:04:20,800
+is consistent, and it's nicely spaced
+from the icons, since we added padding.
+
+83
+00:04:20,800 --> 00:04:21,990
+And most importantly,
+
+84
+00:04:21,990 --> 00:04:25,639
+adding our style has given each view
+a consistent look that we defined.
+

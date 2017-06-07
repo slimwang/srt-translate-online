@@ -1,0 +1,445 @@
+1
+00:00:00,480 --> 00:00:04,524
+All right so we're going to talk about a
+particular kind of function approximator
+
+2
+00:00:04,524 --> 00:00:06,398
+here that we refer to as an averager and
+
+3
+00:00:06,398 --> 00:00:09,114
+the whole class of averager
+function approximators.
+
+4
+00:00:09,114 --> 00:00:09,880
+>> Okay.
+
+5
+00:00:09,880 --> 00:00:13,756
+>> So this is a kind of function
+approximator that was actually or
+
+6
+00:00:13,756 --> 00:00:17,110
+at least in this context
+introduced by Jeff Gordon and
+
+7
+00:00:17,110 --> 00:00:21,806
+when he did it there was this sort of
+collective head slapping that happened
+
+8
+00:00:21,806 --> 00:00:26,150
+over the entire community of
+reinforcement learning researchers.
+
+9
+00:00:26,150 --> 00:00:28,370
+Because it was just there.
+
+10
+00:00:28,370 --> 00:00:31,980
+It was so beautiful and
+nobody saw it except for him.
+
+11
+00:00:31,980 --> 00:00:35,330
+And so it really was at that time,
+the age of Gordon.
+
+12
+00:00:36,370 --> 00:00:39,010
+>> [LAUGH] That's fantastic.
+
+13
+00:00:39,010 --> 00:00:42,770
+>> So moving on.
+
+14
+00:00:42,770 --> 00:00:45,960
+So we're going to introduce this
+averages concept in the context
+
+15
+00:00:45,960 --> 00:00:48,330
+of a simple example.
+
+16
+00:00:48,330 --> 00:00:53,950
+So imagine that we're trying to do is
+represent a function over the line.
+
+17
+00:00:53,950 --> 00:00:55,880
+So over the over this
+one dimensional space.
+
+18
+00:00:55,880 --> 00:00:59,039
+So it's going to be some
+kind of curve [SOUND] And
+
+19
+00:00:59,039 --> 00:01:03,656
+the parameters that we're going to
+get to set are the actual value of
+
+20
+00:01:03,656 --> 00:01:06,501
+that function at some particular point.
+
+21
+00:01:06,501 --> 00:01:11,017
+So at X1, at X2, and at X3 we can,
+you know, move these up and
+
+22
+00:01:11,017 --> 00:01:12,900
+down, these points.
+
+23
+00:01:12,900 --> 00:01:16,800
+And what we'd like is that we
+define a function approximator so
+
+24
+00:01:16,800 --> 00:01:18,490
+that once we've defined these points,
+
+25
+00:01:18,490 --> 00:01:21,610
+the rest of them will get kind
+of filled in in a natural way.
+
+26
+00:01:21,610 --> 00:01:23,120
+Let's say.
+
+27
+00:01:23,120 --> 00:01:26,270
+And for this story to make
+sense they're going to have
+
+28
+00:01:26,270 --> 00:01:28,330
+to somehow be related to averaging
+>> Sure.
+
+29
+00:01:28,330 --> 00:01:31,660
+>> How do we define the value of
+points in between here between x1 and
+
+30
+00:01:31,660 --> 00:01:37,340
+x to say we want to get going to get
+the value of some point Just plain old x
+
+31
+00:01:37,340 --> 00:01:39,950
+as a function of the value at x1 and
+the value of x2.
+
+32
+00:01:39,950 --> 00:01:40,770
+Yeah.
+So so
+
+33
+00:01:40,770 --> 00:01:42,100
+what would be a natural way to do that?
+
+34
+00:01:42,100 --> 00:01:44,570
+I know you can say more than
+one if you can think of it.
+
+35
+00:01:44,570 --> 00:01:47,800
+>> Sure there's lots ways of doing it
+but I guess the simplest one would be
+
+36
+00:01:47,800 --> 00:01:50,380
+just to take our weighted
+average based on distance.
+
+37
+00:01:50,380 --> 00:01:53,590
+>> Yes which is why these
+things are called Averagers.
+
+38
+00:01:53,590 --> 00:01:56,590
+So what we're going to do is we're
+going to say okay the value of x I don't
+
+39
+00:01:56,590 --> 00:02:01,955
+know what it is, but we're always
+going to make sure it's, I don't know,
+
+40
+00:02:01,955 --> 00:02:08,500
+0.8 times the value of x1,
+which is a parameter,
+
+41
+00:02:08,500 --> 00:02:13,660
+plus 0.2 times the value at x2,
+which is another one of our parameters.
+
+42
+00:02:13,660 --> 00:02:17,200
+>> And that's because of the relative
+distance between Vx1 and x2.
+
+43
+00:02:17,200 --> 00:02:19,080
+>> Yeah, so
+it turns out it doesn't matter but
+
+44
+00:02:19,080 --> 00:02:20,390
+that is a very natural thing to do.
+
+45
+00:02:20,390 --> 00:02:22,400
+To kind of do a linear interpolation.
+
+46
+00:02:22,400 --> 00:02:25,665
+And so what that means is once you
+nail down where x1, x2, and x3 are.
+
+47
+00:02:25,665 --> 00:02:26,210
+The way that it generalizes,
+
+48
+00:02:26,210 --> 00:02:31,220
+the way that it fills in the rest of the
+function is like little line segments.
+
+49
+00:02:32,460 --> 00:02:34,830
+There's a bunch of other
+things you could do and
+
+50
+00:02:34,830 --> 00:02:38,990
+they're all okay as long as what we do
+is any point that we want to define,
+
+51
+00:02:38,990 --> 00:02:44,857
+we define it as a convex
+combination of the anchor points.
+
+52
+00:02:44,857 --> 00:02:48,770
+So the anchor points are the ones that
+we get to set as free parameters and
+
+53
+00:02:48,770 --> 00:02:51,760
+the value at any other state needs to be
+expressible as a convex combination of
+
+54
+00:02:51,760 --> 00:02:52,460
+the anchor points.
+
+55
+00:02:52,460 --> 00:02:54,540
+So this doesn't really tell
+us what should we do for
+
+56
+00:02:54,540 --> 00:02:57,990
+beyond x3 for things that
+are out here in the state space.
+
+57
+00:02:57,990 --> 00:02:58,570
+>> Well that's funny.
+
+58
+00:02:58,570 --> 00:02:59,740
+That is just what I
+was going to ask you.
+
+59
+00:02:59,740 --> 00:03:01,870
+What we do for
+extrapolation instead of interpolation?
+
+60
+00:03:01,870 --> 00:03:03,845
+>> Yeah, so this is very interpolative.
+
+61
+00:03:03,845 --> 00:03:06,190
+[LAUGH] Is that a word?
+
+62
+00:03:06,190 --> 00:03:06,980
+>> It is now.
+
+63
+00:03:06,980 --> 00:03:10,040
+>> Interpolative,
+it's sort of interpolation related.
+
+64
+00:03:10,040 --> 00:03:11,570
+So the constraint that we've got.
+
+65
+00:03:11,570 --> 00:03:15,040
+For it to be an averager, it needs
+to be that the value of any point
+
+66
+00:03:15,040 --> 00:03:17,770
+is the convex combination
+of a set of anchor points.
+
+67
+00:03:17,770 --> 00:03:21,080
+So, we get to define how
+things extrapolate but
+
+68
+00:03:21,080 --> 00:03:25,430
+it has to be the case that for
+example for some point X prime out here,
+
+69
+00:03:25,430 --> 00:03:29,060
+its value needs to be defined in terms
+of these black points, in terms of
+
+70
+00:03:29,060 --> 00:03:32,660
+the these other anchor points whose
+values are going to get to be set.
+
+71
+00:03:32,660 --> 00:03:36,430
+So, one natural thing would be to say
+okay,we're out to the right of X1.
+
+72
+00:03:36,430 --> 00:03:40,430
+Let's just set anything out
+here to be the value of X3.
+
+73
+00:03:40,430 --> 00:03:41,030
+>> Sure.
+
+74
+00:03:41,030 --> 00:03:42,710
+>> So we don't really extrapolate so
+
+75
+00:03:42,710 --> 00:03:45,690
+much as just you know flick
+flatten it out on the two ends.
+
+76
+00:03:45,690 --> 00:03:47,340
+So we don't get too kind of crazy up or
+
+77
+00:03:47,340 --> 00:03:50,310
+down from from where we were but there's
+other things that we could do as well
+
+78
+00:03:50,310 --> 00:03:53,610
+you could also say that if you're far
+enough away from the points then it's
+
+79
+00:03:53,610 --> 00:03:56,680
+going to be the average the just
+straight up average of these guys.
+
+80
+00:03:56,680 --> 00:04:00,730
+And as you get closer it's going to
+be more influenced by the near ones.
+
+81
+00:04:00,730 --> 00:04:03,310
+By virtue of the fact that
+it's a convex combination.
+
+82
+00:04:03,310 --> 00:04:05,990
+What does that tell us
+about the value out here?
+
+83
+00:04:05,990 --> 00:04:09,740
+>> Well, it has to be in between
+the highest and lowest value.
+
+84
+00:04:09,740 --> 00:04:10,360
+That's for sure.
+
+85
+00:04:10,360 --> 00:04:11,140
+>> Exactly.
+
+86
+00:04:11,140 --> 00:04:11,720
+That's right.
+
+87
+00:04:11,720 --> 00:04:13,220
+So we are extrapolating, but
+
+88
+00:04:13,220 --> 00:04:15,880
+we're not really extrapolating
+outside of the data that we've got.
+
+89
+00:04:15,880 --> 00:04:16,670
+>> Okay.
+>> And this is,
+
+90
+00:04:16,670 --> 00:04:18,290
+this is going to be a really
+important property.
+
+91
+00:04:18,290 --> 00:04:20,560
+These averages to make sure that
+they're going to be well behaved.
+
+92
+00:04:20,560 --> 00:04:22,280
+Right?
+So that, that makes sense so far?
+
+93
+00:04:22,280 --> 00:04:23,470
+>> Yeah.
+>> Do I have a good definition
+
+94
+00:04:23,470 --> 00:04:24,130
+of an average or?
+
+95
+00:04:24,130 --> 00:04:24,630
+>> I think you do

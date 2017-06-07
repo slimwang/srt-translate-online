@@ -1,0 +1,207 @@
+1
+00:00:00,000 --> 00:00:04,000
+Now let's consider games like chess and checkers,
+
+2
+00:00:04,000 --> 00:00:09,000
+which we define as deterministic, two-player, zero-sum games.
+
+3
+00:00:09,000 --> 00:00:11,000
+The deterministic part is clear.
+
+4
+00:00:11,000 --> 00:00:18,000
+The rules of chess say you make a move, take a piece, and that's it. There's no stochasticity.
+
+5
+00:00:18,000 --> 00:00:20,000
+It's two players, one against another,
+
+6
+00:00:20,000 --> 00:00:25,000
+and zero sum means that the sum of the utilities to the two players is zero.
+
+7
+00:00:25,000 --> 00:00:30,000
+If one player gets a +1 for winning the game, the other player gets a -1 for losing.
+
+8
+00:00:30,000 --> 00:00:33,000
+How do we deal with these types of games?
+
+9
+00:00:33,000 --> 00:00:36,000
+Well, we use a similar type of approach.
+
+10
+00:00:36,000 --> 00:00:39,000
+We have a state-space search. We have a starting state.
+
+11
+00:00:39,000 --> 00:00:43,000
+There are some moves available to player one.
+
+12
+00:00:43,000 --> 00:00:47,000
+Then in the next state there are moves available to player two.
+
+13
+00:00:47,000 --> 00:00:51,000
+We're going to draw them like this, and we're going to give names to our players.
+
+14
+00:00:51,000 --> 00:00:55,000
+The first player we're going to call Max, because it's a nice name,
+
+15
+00:00:55,000 --> 00:01:02,000
+and because player one is trying to maximize the utility to player one.
+
+16
+00:01:02,000 --> 00:01:08,000
+The next player, who operates at this level, we draw with a downward-pointing triangle.
+
+17
+00:01:08,000 --> 00:01:14,000
+We call that player Min, because Min is trying to minimize the utility to Max,
+
+18
+00:01:14,000 --> 00:01:19,000
+which is the same thing as trying to maximize the utility to himself or herself.
+
+19
+00:01:19,000 --> 00:01:26,000
+Then we have a game tree that continues like that, alternating between Max and Min moves.
+
+20
+00:01:26,000 --> 00:01:31,000
+Now, the search tree keeps going and let's say we get to a point where one player,
+
+21
+00:01:31,000 --> 00:01:36,000
+and let's say it's Max, has a choice, and there are two states,
+
+22
+00:01:36,000 --> 00:01:42,000
+and these, rather than being states where it's Min's turn, are states that are terminal.
+
+23
+00:01:42,000 --> 00:01:45,000
+We'll draw them with a square box.
+
+24
+00:01:45,000 --> 00:01:50,000
+Let's say one of them results in +1, a win for Max,
+
+25
+00:01:50,000 --> 00:01:54,000
+and one of them results in -1, a loss for Max.
+
+26
+00:01:54,000 --> 00:02:00,000
+Now if Max is rational, of course, Max is going to make this choice to the +1.
+
+27
+00:02:00,000 --> 00:02:07,000
+What we're going to do now is show we can determine the value of any state in the tree,
+
+28
+00:02:07,000 --> 00:02:12,000
+including the start state up here in terms of the values of the terminal nodes.
+
+29
+00:02:12,000 --> 00:02:15,000
+The tree keeps on going. We assume it's a finite game.
+
+30
+00:02:15,000 --> 00:02:21,000
+After a finite number of moves, every path leads to a terminal state.
+
+31
+00:02:21,000 --> 00:02:28,000
+Then we look at each state and say whose turn is it to make the decision.
+
+32
+00:02:28,000 --> 00:02:32,000
+In this state Max is making the decision, and Max, being rational,
+
+33
+00:02:32,000 --> 00:02:37,000
+will choose the maximum value, saying, "I'd rather have a +1 than a -1,
+
+34
+00:02:37,000 --> 00:02:39,000
+so I'll get a +1 here."
+
+35
+00:02:39,000 --> 00:02:46,000
+We start going back up the tree, and maybe we get up to a point here
+
+36
+00:02:46,000 --> 00:02:50,000
+where Min has a choice, and we've used this type of process to go up the tree,
+
+37
+00:02:50,000 --> 00:02:55,000
+and Min has a choice between a +1 and a -1.
+
+38
+00:02:55,000 --> 00:02:59,000
+Min is going to choose the minimum and will have a -1 here.
+
+39
+00:02:59,000 --> 00:03:05,000
+If we go through all the possibilities, let's say these all result in -1,
+
+40
+00:03:05,000 --> 00:03:10,000
+but this move results in a +1. Then Max will take that move.
+
+41
+00:03:10,000 --> 00:03:16,000
+He'll say, "Out of my four possibilities, I know this is the best one. I'll take that move."
+
+42
+00:03:16,000 --> 00:03:18,000
+Now we've done two things.
+
+43
+00:03:18,000 --> 00:03:22,000
+One, we've assigned a value to every state in the search tree,
+
+44
+00:03:22,000 --> 00:03:25,000
+and secondly, we backed that all the way up the top.
+
+45
+00:03:25,000 --> 00:03:29,000
+Now we've worked out a path through that state to say,
+
+46
+00:03:29,000 --> 00:03:32,000
+if all players are rational, here's the choices they would make.
+
+47
+00:03:32,000 --> 00:03:37,000
+The important point here is that we've taken the utility function,
+
+48
+00:03:37,000 --> 00:03:40,000
+which is defined only on terminal states.
+
+49
+00:03:40,000 --> 00:03:43,000
+Here's a state here. The utility of that state was +1.
+
+50
+00:03:43,000 --> 00:03:48,000
+Here's a state here. The utility of that state was -1.
+
+51
+00:03:48,000 --> 00:03:52,000
+We've used those utility values in the definition of available actions
+
+52
+00:03:52,000 --> 99:59:59,999
+to back those utilities up and tell us the utility of every state, including the start state.

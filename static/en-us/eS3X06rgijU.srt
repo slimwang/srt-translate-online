@@ -1,0 +1,219 @@
+1
+00:00:00,420 --> 00:00:03,400
+Now, Swift provides two standard
+protocols, printable and
+
+2
+00:00:03,400 --> 00:00:07,240
+debug printable that can greatly
+benefit your print debugging.
+
+3
+00:00:07,240 --> 00:00:12,160
+The printable protocol requires a class
+specify a description property, and
+
+4
+00:00:12,160 --> 00:00:17,680
+the debug printable, not shown here,
+requires a debug description property.
+
+5
+00:00:17,680 --> 00:00:19,050
+Before we use either of them,
+
+6
+00:00:19,050 --> 00:00:21,670
+let's see how our current
+print statements are lacking.
+
+7
+00:00:22,790 --> 00:00:26,930
+I've added two print statements that
+print self when new bugs are being
+
+8
+00:00:26,930 --> 00:00:31,310
+added to the view for this addBugToView
+method, so one here and one here.
+
+9
+00:00:32,340 --> 00:00:34,129
+And we know the value itself is this
+
+10
+00:00:34,129 --> 00:00:37,490
+instance of
+the PrintBugViewController class.
+
+11
+00:00:37,490 --> 00:00:41,094
+One might assume that printing self
+will be a good way to get information
+
+12
+00:00:41,094 --> 00:00:45,074
+about the entire view controller,
+seems like a perfectly valid assumption.
+
+13
+00:00:45,074 --> 00:00:48,780
+For example, the print statements could
+tell me the current count of bugs and
+
+14
+00:00:48,780 --> 00:00:50,730
+any data that's specific to this view.
+
+15
+00:00:51,730 --> 00:00:53,650
+But, when I run the app and
+create some bugs,
+
+16
+00:00:53,650 --> 00:00:56,865
+the default output of this statement
+is just the name of the class,
+
+17
+00:00:56,865 --> 00:01:00,720
+PrintBugViewController, and
+the memory address.
+
+18
+00:01:00,720 --> 00:01:04,599
+And this isn't particularly useful but
+we can do much better than this by
+
+19
+00:01:04,599 --> 00:01:08,110
+implementing the printable and
+debug printable protocols.
+
+20
+00:01:08,110 --> 00:01:11,490
+So let's stop the app and
+I'll hide this for a minute and
+
+21
+00:01:11,490 --> 00:01:12,990
+let's scroll down to the bottom.
+
+22
+00:01:14,230 --> 00:01:15,430
+To keep things clean and
+
+23
+00:01:15,430 --> 00:01:19,740
+readable, let's implement these
+protocols in an extension.
+
+24
+00:01:19,740 --> 00:01:23,910
+For the description, let's return
+the number of bugs in the bugs array.
+
+25
+00:01:23,910 --> 00:01:28,270
+So you can see for this we need to
+override the description property.
+
+26
+00:01:28,270 --> 00:01:31,600
+And we must specify,
+because it's a computer property,
+
+27
+00:01:31,600 --> 00:01:33,790
+that it's string type.
+
+28
+00:01:33,790 --> 00:01:35,430
+And then you simply return string.
+
+29
+00:01:35,430 --> 00:01:39,120
+So we can see that we're returning
+PrintBugViewController contains
+
+30
+00:01:39,120 --> 00:01:40,910
+the number of bugs in the bugs array.
+
+31
+00:01:42,370 --> 00:01:45,790
+Then for the debug description,
+let's return the number of bugs and
+
+32
+00:01:45,790 --> 00:01:49,020
+also the positions of each bug.
+
+33
+00:01:49,020 --> 00:01:51,900
+So for this particular description,
+we will start with
+
+34
+00:01:51,900 --> 00:01:56,250
+the number of bugs again, and then we'll
+iterate through the bugs array, and for
+
+35
+00:01:56,250 --> 00:01:58,850
+each bug we'll add the bug,
+
+36
+00:01:58,850 --> 00:02:04,430
+index number and its frame information,
+and then we'll return the entire string.
+
+37
+00:02:04,430 --> 00:02:06,747
+So let's rebuild and run this.
+
+38
+00:02:06,747 --> 00:02:09,364
+And I'll go to print debugging and
+tap, and
+
+39
+00:02:09,364 --> 00:02:13,609
+now when our print statements are
+reached, we can see the number of bugs
+
+40
+00:02:13,609 --> 00:02:17,650
+instead of just the name of
+the class and the memory address.
+
+41
+00:02:17,650 --> 00:02:20,880
+Now, if we want to use, and this right
+here is our description property,
+
+42
+00:02:20,880 --> 00:02:25,935
+if we want to see the debug description,
+iInstead of using printLn, stop,
+
+43
+00:02:25,935 --> 00:02:31,210
+we'll use the debugPrintLn.
+
+44
+00:02:31,210 --> 00:02:35,070
+There we go, here, for
+both of our print statements.
+
+45
+00:02:35,070 --> 00:02:36,530
+One more time.
+
+46
+00:02:36,530 --> 00:02:39,990
+Click, tap, and there we go.
+
+47
+00:02:39,990 --> 00:02:40,620
+Pretty slick, huh?

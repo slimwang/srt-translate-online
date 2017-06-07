@@ -1,0 +1,271 @@
+1
+00:00:00,490 --> 00:00:03,883
+While it's great that we can query
+our database through the content provider,
+
+2
+00:00:03,993 --> 00:00:06,856
+it would be nice if we
+could also use the content provider
+
+3
+00:00:06,856 --> 00:00:07,910
+to put data in.
+
+4
+00:00:08,280 --> 00:00:10,040
+We'll begin with the insert function.
+
+5
+00:00:11,450 --> 00:00:14,470
+Let's fill the insert function
+with the same Uri matcher code
+
+6
+00:00:14,470 --> 00:00:16,740
+we had in the other
+content provider functions
+
+7
+00:00:17,440 --> 00:00:19,130
+but with one change.
+
+8
+00:00:19,300 --> 00:00:21,780
+We're only going to match
+the base Uris.
+
+9
+00:00:22,160 --> 00:00:23,660
+There's a good reason for this.
+
+10
+00:00:24,770 --> 00:00:26,730
+When we insert into our database,
+
+11
+00:00:26,730 --> 00:00:29,500
+we want it to notify
+every content observer
+
+12
+00:00:29,500 --> 00:00:32,119
+that might have data modified
+by our insert.
+
+13
+00:00:32,689 --> 00:00:35,920
+It turns out that cursors
+register themselves as notify
+
+14
+00:00:35,920 --> 00:00:40,040
+for descendants which means
+that notifying the root Uri,
+
+15
+00:00:40,040 --> 00:00:42,760
+we'll also notify
+all descendants of that Uri.
+
+16
+00:00:43,550 --> 00:00:45,690
+If we were to notify
+based on anything else
+
+17
+00:00:45,690 --> 00:00:48,150
+other than the root Uri,
+then a cursor
+
+18
+00:00:48,150 --> 00:00:50,780
+listening on the root Uri
+will not get notified
+
+19
+00:00:50,780 --> 00:00:52,873
+of a change that
+would certainly impact it.
+
+20
+00:00:52,873 --> 00:00:55,136
+So we have to be very careful
+when doing that.
+
+21
+00:00:55,696 --> 00:00:57,790
+For this reason it makes a lot of sense
+
+22
+00:00:57,790 --> 00:01:01,480
+to only allow insertions
+at our root Uri into our database.
+
+23
+00:01:02,330 --> 00:01:05,410
+That way, it's very, very easy
+to handle notifications.
+
+24
+00:01:05,740 --> 00:01:07,080
+It means that we
+also don't have to build
+
+25
+00:01:07,080 --> 00:01:09,310
+a combination query for our insert,
+
+26
+00:01:09,310 --> 00:01:11,650
+containing a parameter
+coming from the Uri,
+
+27
+00:01:11,650 --> 00:01:13,900
+with the rest of the parameters
+coming from a function.
+
+28
+00:01:14,110 --> 00:01:18,260
+So for weather we just pass the parameters
+into a database insert call.
+
+29
+00:01:19,070 --> 00:01:21,430
+We should throw an exception
+if the insert fails.
+
+30
+00:01:22,630 --> 00:01:24,190
+The only trick here is to make sure
+
+31
+00:01:24,190 --> 00:01:26,980
+we return the correct value,
+which is a Uri.
+
+32
+00:01:27,680 --> 00:01:30,500
+Fortunately we made a function
+to build these Uri's
+
+33
+00:01:30,540 --> 00:01:33,670
+which contain the weather path
+followed by an _id.
+
+34
+00:01:34,030 --> 00:01:35,410
+Let's go task this.
+
+35
+00:01:36,060 --> 00:01:40,270
+Once again, we go to TestProvider
+and we modify our test.
+
+36
+00:01:41,010 --> 00:01:44,650
+Because, after all, it's supposed
+to be testInsertReadProvider.
+
+37
+00:01:45,540 --> 00:01:47,193
+Here's our insert statement.
+
+38
+00:01:47,193 --> 00:01:49,006
+Obviously it's still talking
+to the database.
+
+39
+00:01:49,276 --> 00:01:51,210
+We're going to want to make it
+talk to the provider.
+
+40
+00:01:51,610 --> 00:01:53,850
+As always, that's pretty straightforward.
+
+41
+00:01:54,220 --> 00:01:56,910
+We always get our provider
+by using our ContentResolver
+
+42
+00:01:56,910 --> 00:01:59,540
+so we can replace
+this insert statement with the db.
+
+43
+00:01:59,540 --> 00:02:01,570
+with a ContentResolver instead.
+
+44
+00:02:01,970 --> 00:02:05,680
+And, of course, we don't use
+a ContentResolver against a TABLE_NAME.
+
+45
+00:02:06,120 --> 00:02:10,288
+Instead we do it against
+the WeatherEntry.CONTENT_URI.
+
+46
+00:02:11,070 --> 00:02:12,400
+But there's still something wrong.
+
+47
+00:02:12,820 --> 00:02:17,690
+Of course, we don't actually return
+the weatherRowId, we return a Uri.
+
+48
+00:02:18,290 --> 00:02:20,410
+But we can still get a weatherRowId.
+
+49
+00:02:20,600 --> 00:02:23,120
+How do we do that?
+Quite simply.
+
+50
+00:02:23,500 --> 00:02:26,910
+Using a helper function in ContentUris,
+
+51
+00:02:26,910 --> 00:02:28,880
+and we don't really need that insert.
+
+52
+00:02:29,240 --> 00:02:31,520
+After all, we know that
+this ContentResolver function
+
+53
+00:02:31,520 --> 00:02:34,902
+isn't actually going to return
+unless the value is true.
+
+54
+00:02:34,902 --> 00:02:36,832
+Now that we finished that,
+let's run the test,
+
+55
+00:02:36,832 --> 00:02:39,492
+and make sure that we can actually
+insert using our content provider.
+
+56
+00:02:39,842 --> 00:02:41,261
+And our test passed.
+
+57
+00:02:42,811 --> 00:02:44,400
+Well, you know what time it is.
+
+58
+00:02:44,850 --> 00:02:47,130
+Time for you to write
+some of this as well.

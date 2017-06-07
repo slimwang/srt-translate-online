@@ -1,0 +1,215 @@
+1
+00:00:00,250 --> 00:00:02,520
+Okay, so hopefully that wasn't too difficult.
+
+2
+00:00:02,520 --> 00:00:07,000
+I'm looking here at our MainActivity.java and I'm in the onCreate method.
+
+3
+00:00:07,000 --> 00:00:10,150
+So we've discussed most of the stuff here and we talked a lot in
+
+4
+00:00:10,150 --> 00:00:13,730
+particular about these two lines where we get the ContentResolver.
+
+5
+00:00:13,730 --> 00:00:15,630
+And we do the actual query.
+
+6
+00:00:15,630 --> 00:00:18,810
+Also note that I have a text view up here that I've retrieved.
+
+7
+00:00:18,810 --> 00:00:20,780
+So down here is where we start the try, and
+
+8
+00:00:20,780 --> 00:00:23,720
+we start sort of doing things with the cursor that we got here.
+
+9
+00:00:23,720 --> 00:00:25,370
+So I'm going to scroll down.
+
+10
+00:00:25,370 --> 00:00:27,970
+Okay, so here's the first full part of the try statement.
+
+11
+00:00:27,970 --> 00:00:31,330
+And the first thing we do is just print out a couple of informational lines at
+
+12
+00:00:31,330 --> 00:00:32,340
+the top of the app.
+
+13
+00:00:32,340 --> 00:00:35,510
+To get the number of words we just use cursor.getCount.
+
+14
+00:00:35,510 --> 00:00:37,590
+This gets us how many rows are in the table.
+
+15
+00:00:37,590 --> 00:00:38,770
+And because we got all rows in
+
+16
+00:00:38,770 --> 00:00:41,600
+the table this is going to give us the complete number of words.
+
+17
+00:00:41,600 --> 00:00:43,955
+Next, we go ahead and we print out the column names.
+
+18
+00:00:43,955 --> 00:00:48,230
+UserDictionary.words.id is the of the id column.
+
+19
+00:00:48,230 --> 00:00:51,515
+UserDictionary.words.frequency is the name of the frequency column.
+
+20
+00:00:51,515 --> 00:00:54,460
+UserDictionary.words.word is the name of the word column.
+
+21
+00:00:54,460 --> 00:00:57,450
+I imported user dictionary so that's why I'm not using it up here, but
+
+22
+00:00:57,450 --> 00:00:59,290
+you can see me using it down here.
+
+23
+00:00:59,290 --> 00:01:02,230
+Speaking of these lines of code, this is where we go ahead and
+
+24
+00:01:02,230 --> 00:01:04,379
+grab the indices of each of the columns.
+
+25
+00:01:04,379 --> 00:01:09,560
+We use the cursor.getColumnindex method and we pass in the name of the column.
+
+26
+00:01:09,560 --> 00:01:12,090
+So I'm passing in the name for ID, getting the index for
+
+27
+00:01:12,090 --> 00:01:13,770
+the ID column, and so on.
+
+28
+00:01:13,770 --> 00:01:15,790
+This was another method that we looked at.
+
+29
+00:01:15,790 --> 00:01:19,740
+The cursor.moveToNext, which works really well in a while loop.
+
+30
+00:01:19,740 --> 00:01:22,610
+So we're using this to iterate through every single row that's stored
+
+31
+00:01:22,610 --> 00:01:23,630
+inside the cursor.
+
+32
+00:01:23,630 --> 00:01:26,540
+And for each of these rows we're using the indices that we grabbed up
+
+33
+00:01:26,540 --> 00:01:31,770
+here to grab the actual values using the getInt and the getString method.
+
+34
+00:01:31,770 --> 00:01:35,570
+So again, we have the wordColumn index that we got from up here.
+
+35
+00:01:35,570 --> 00:01:38,860
+Then we use getString and that gives us the actual word.
+
+36
+00:01:38,860 --> 00:01:42,090
+And our final step right here is just to append all those values that
+
+37
+00:01:42,090 --> 00:01:44,320
+we just grabbed for the row to the TextView.
+
+38
+00:01:44,320 --> 00:01:46,600
+Now I'm going to scroll down a little bit more to look at
+
+39
+00:01:46,600 --> 00:01:48,180
+this finally statement.
+
+40
+00:01:48,180 --> 00:01:52,280
+Okay. So this is the last thing that we do and it's just closing the cursor.
+
+41
+00:01:52,280 --> 00:01:55,130
+Remember, I had that whole rant about how it's important to close
+
+42
+00:01:55,130 --> 00:01:58,100
+cursors because we might leave memory lying around.
+
+43
+00:01:58,100 --> 00:02:02,130
+In this scenario, if we only run the app once, it's probably not going to crash.
+
+44
+00:02:02,130 --> 00:02:06,020
+But it's a really good habit to get into having the try statement up here,
+
+45
+00:02:06,020 --> 00:02:07,980
+followed by the finally statement down here,
+
+46
+00:02:07,980 --> 00:02:10,740
+where you make absolutely sure that you close your cursor.
+
+47
+00:02:10,740 --> 00:02:13,750
+And once you're done, your app's going to look a lot like this.
+
+48
+00:02:13,750 --> 00:02:15,780
+Now, it's going to have your own words here, but
+
+49
+00:02:15,780 --> 00:02:19,460
+it is going to just be plain text in a text box on the screen.
+
+50
+00:02:19,460 --> 00:02:21,930
+So, that's pretty much it for this exercise.
+
+51
+00:02:21,930 --> 00:02:23,510
+I hope it wasn't too difficult.
+
+52
+00:02:23,510 --> 00:02:26,400
+There's a link to the GitHub repo below, if you want to pull down
+
+53
+00:02:26,400 --> 00:02:29,270
+the actual code, and play around with it, and take a look at it,.
+
+54
+00:02:29,270 --> 00:02:31,110
+Otherwise, feel free to go ahead and move on.

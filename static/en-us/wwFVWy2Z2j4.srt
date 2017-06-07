@@ -1,0 +1,368 @@
+1
+00:00:00,300 --> 00:00:03,010
+Alright I want to try to explain this
+convergence theorem specifically in
+
+2
+00:00:03,010 --> 00:00:04,170
+the context of Q learning.
+
+3
+00:00:04,170 --> 00:00:10,250
+It's intended to be general and apply
+to lots of algorithms of this form,
+
+4
+00:00:10,250 --> 00:00:13,910
+but mostly we want to use it to
+show that Q learning converges.
+
+5
+00:00:13,910 --> 00:00:17,810
+So let me express Q
+learning as an update rule.
+
+6
+00:00:17,810 --> 00:00:20,660
+In the form of this kind of weird Bt
+
+7
+00:00:21,880 --> 00:00:26,130
+operator notation that
+was used in the theorem.
+
+8
+00:00:26,130 --> 00:00:26,790
+Okay.
+
+9
+00:00:26,790 --> 00:00:30,610
+So Bt is the operator that we're
+going to use to update the Q function on
+
+10
+00:00:30,610 --> 00:00:31,370
+the t timestep.
+
+11
+00:00:32,650 --> 00:00:34,830
+And so, given that we know
+that we're on the t timestep,
+
+12
+00:00:34,830 --> 00:00:40,340
+we know that we're in some state
+St minus one, took sub action
+
+13
+00:00:40,340 --> 00:00:44,640
+At minus one, ended up in new state St,
+having received reward Rt.
+
+14
+00:00:46,240 --> 00:00:50,870
+Alright, so, what I'd like to
+kind of argue is that this
+
+15
+00:00:50,870 --> 00:00:56,340
+strange definition of operator Bt Q
+is exactly the Q learning update.
+
+16
+00:00:56,340 --> 00:00:58,600
+So, let me try to argue that.
+
+17
+00:00:58,600 --> 00:01:03,330
+So this looks a lot like
+the Q learning update.
+
+18
+00:01:03,330 --> 00:01:06,590
+Saying that we're going to take
+the Q function at (S,a) and
+
+19
+00:01:06,590 --> 00:01:09,960
+I'm going to move it a little
+towards the immediate reward
+
+20
+00:01:09,960 --> 00:01:12,040
+plus the discounted
+value of the next state.
+
+21
+00:01:13,210 --> 00:01:18,090
+That much toward where away
+from that old Q value was.
+
+22
+00:01:18,090 --> 00:01:21,030
+So, the only thing that's different
+between the Q learning update and
+
+23
+00:01:21,030 --> 00:01:25,810
+this is that we've separated
+out two different q functions,
+
+24
+00:01:25,810 --> 00:01:28,370
+this w thing and this q thing.
+
+25
+00:01:28,370 --> 00:01:33,030
+Q is using to play the role of
+essentially the q function in the state
+
+26
+00:01:33,030 --> 00:01:38,240
+action pair that we just left, and
+w is playing the role of giving
+
+27
+00:01:38,240 --> 00:01:42,300
+us an estimate of what the q value is
+at the state that we just arrived in.
+
+28
+00:01:42,300 --> 00:01:45,270
+And in regular q learning
+those are the same.
+
+29
+00:01:45,270 --> 00:01:48,630
+But we're now separating them out
+because the theorem is going to
+
+30
+00:01:48,630 --> 00:01:50,730
+find that easier to swallow.
+
+31
+00:01:50,730 --> 00:01:53,200
+>> Okay.
+>> All right so
+
+32
+00:01:53,200 --> 00:01:57,650
+you buy the fact that this is Q learning
+just in a slightly different notation?
+
+33
+00:01:57,650 --> 00:02:00,330
+>> Well it certainly is if w and
+q are the same.
+
+34
+00:02:00,330 --> 00:02:01,470
+Which is what you just said.
+
+35
+00:02:01,470 --> 00:02:04,450
+>> Yes, certainly the case now that
+w and q are different but when,
+
+36
+00:02:04,450 --> 00:02:08,120
+oh are you are saying it is q
+learning when w and q are the same?
+
+37
+00:02:08,120 --> 00:02:08,860
+>> Isn't that what you said?
+
+38
+00:02:10,070 --> 00:02:10,690
+>> Yes.
+
+39
+00:02:10,690 --> 00:02:12,530
+>> Okay, so yes, that's what I'm saying.
+
+40
+00:02:12,530 --> 00:02:13,900
+>> Great.
+All right, so
+
+41
+00:02:13,900 --> 00:02:19,730
+now what we want to argue is that
+this definition of the update
+
+42
+00:02:19,730 --> 00:02:23,700
+rule causes the things that we needed
+to be true for the theorem to be true.
+
+43
+00:02:23,700 --> 00:02:25,850
+All right, so
+let's start with condition 1.
+
+44
+00:02:25,850 --> 00:02:30,810
+Why is this true for
+the learning rule defined this way?
+
+45
+00:02:31,850 --> 00:02:33,410
+>> Is that a question?
+
+46
+00:02:33,410 --> 00:02:34,410
+That's rhetorical, right?
+
+47
+00:02:34,410 --> 00:02:37,760
+>> It was intended to
+actually be a question.
+
+48
+00:02:37,760 --> 00:02:41,640
+So let's look at what needs to
+be true of this learning rule,
+
+49
+00:02:41,640 --> 00:02:46,120
+what needs to be true is
+that if we have, essentially
+
+50
+00:02:46,120 --> 00:02:50,880
+if we did this update in the form
+of knowing what Q* was and
+
+51
+00:02:50,880 --> 00:02:54,100
+use it as a one step look ahead here,
+then what do we want to be true?
+
+52
+00:02:54,100 --> 00:02:58,690
+What we want to be true is that if
+you give me any two value functions,
+
+53
+00:02:58,690 --> 00:03:00,470
+they're going to get no farther apart.
+
+54
+00:03:00,470 --> 00:03:03,070
+In fact, they're going to get closer
+together if the learning rate,
+
+55
+00:03:03,070 --> 00:03:05,950
+if we're actually updating that
+particular state action pair,
+
+56
+00:03:05,950 --> 00:03:09,740
+the learning rate is non-zero,
+they should be getting closer together.
+
+57
+00:03:09,740 --> 00:03:12,020
+So why is that the case?
+
+58
+00:03:12,020 --> 00:03:16,530
+Why is it the case that if we do
+this update at a state action pair,
+
+59
+00:03:16,530 --> 00:03:18,870
+doing our look ahead with Q star,
+
+60
+00:03:18,870 --> 00:03:23,850
+that everything is sort of moving
+towards one particular answer.
+
+61
+00:03:23,850 --> 00:03:25,390
+It's moving towards a particular answer.
+
+62
+00:03:25,390 --> 00:03:26,730
+Do you know what it is?
+
+63
+00:03:26,730 --> 00:03:28,120
+>> Q star?
+
+64
+00:03:29,290 --> 00:03:32,610
+>> It is moving towards Q star, but
+in particular it's trying to compute
+
+65
+00:03:32,610 --> 00:03:37,110
+the expected value of this one-step
+look-ahead where the expectation is
+
+66
+00:03:37,110 --> 00:03:40,520
+taken over all possible values of St.
+>> Mm-hm.
+
+67
+00:03:40,520 --> 00:03:44,630
+>> So it's essentially doing the
+averaging part of the Bellman Equation.
+
+68
+00:03:44,630 --> 00:03:46,880
+And the reason that
+works is because well,
+
+69
+00:03:46,880 --> 00:03:49,650
+that's sort of how things converge
+if you let learning rates converge.
+
+70
+00:03:49,650 --> 00:03:51,939
+We've talked about that
+in previous lessons.
+
+71
+00:03:53,050 --> 00:03:58,590
+So all this rule is saying is that if
+we knew where we were going, we could
+
+72
+00:03:58,590 --> 00:04:03,880
+use this update rule to average out
+all the stochasticity that we get from
+
+73
+00:04:03,880 --> 00:04:08,540
+on different trials taking a step from
+a state and ending up in a different
+
+74
+00:04:08,540 --> 00:04:11,900
+state, because of the stochasticity
+of the Transition function.
+
+75
+00:04:12,930 --> 00:04:16,490
+That's all this is saying,
+is that we can smooth out
+
+76
+00:04:16,490 --> 00:04:21,480
+these stochasticity transition function
+using the rule that we worry about.
+
+77
+00:04:21,480 --> 00:04:22,100
+>> Okay.
+
+78
+00:04:22,100 --> 00:04:22,650
+That makes sense.

@@ -1,0 +1,211 @@
+1
+00:00:00,000 --> 00:00:04,000
+[Norvig] And if we keep on going, moving every constraint up to the highest point it will go,
+
+2
+00:00:04,000 --> 00:00:06,000
+we get this.
+
+3
+00:00:06,000 --> 00:00:11,000
+And now I've checked, and the original version of the puzzle that I set running
+
+4
+00:00:11,000 --> 00:00:17,000
+is still running, and now I can hit Run on this and in less than a second I see my result,
+
+5
+00:00:17,000 --> 00:00:23,000
+(1, 5), meaning water is drunk in house number 1 and the zebra is owned in house number 5.
+
+6
+00:00:23,000 --> 00:00:25,000
+This is an amazing thing.
+
+7
+00:00:25,000 --> 00:00:31,000
+It's as if we had a car race and we had the start here and the finish someplace far away
+
+8
+00:00:31,000 --> 00:00:37,000
+and we had this competitor car which was the original zebra puzzle car--
+
+9
+00:00:37,000 --> 00:00:39,000
+we'll call him z for zebra.
+
+10
+00:00:39,000 --> 00:00:45,000
+We said, "Go!" and it started out down the path towards the finish.
+
+11
+00:00:45,000 --> 00:00:48,000
+We wanted to build a competitor to that, but we just let it go.
+
+12
+00:00:48,000 --> 00:00:53,000
+It's running, and we're thinking and we're analyzing and we're not doing anything,
+
+13
+00:00:53,000 --> 00:00:57,000
+and it's getting farther and farther ahead and closer to the finish line.
+
+14
+00:00:57,000 --> 00:01:02,000
+Maybe we spent half an hour and it's halfway through. It's gotten up to this point.
+
+15
+00:01:02,000 --> 00:01:07,000
+We're still stuck at the Start sign, but what we're doing is we're building a better car.
+
+16
+00:01:07,000 --> 00:01:12,000
+We're building a super fast race car, and we're putting the pieces together
+
+17
+00:01:12,000 --> 00:01:16,000
+using what we know, and eventually this car has gotten a long ways along the way
+
+18
+00:01:16,000 --> 00:01:19,000
+and then we say, "Now we're ready to go."
+
+19
+00:01:19,000 --> 00:01:23,000
+And when we hit Go, zoom, we're there in less than a second,
+
+20
+00:01:23,000 --> 00:01:28,000
+what took this car who had a half hour head start is not even close.
+
+21
+00:01:28,000 --> 00:01:32,000
+So it's like the tortoise and the hare, only in reverse.
+
+22
+00:01:32,000 --> 00:01:36,000
+And by thinking and coming up with a better design,
+
+23
+00:01:36,000 --> 00:01:40,000
+we were able to beat this original design even though we gave him a half hour head start.
+
+24
+00:01:40,000 --> 00:01:44,000
+We won the race. We get the checkered flag.
+
+25
+00:01:44,000 --> 00:01:48,000
+We should be happy at what we've done. And congratulations.
+
+26
+00:01:48,000 --> 00:01:51,000
+Now, if you're the type who just cares about winning the race and finishing first,
+
+27
+00:01:51,000 --> 00:01:53,000
+we can stop here.
+
+28
+00:01:53,000 --> 00:01:57,000
+But if you're a little bit more analytic and you like to know the exact scores and times,
+
+29
+00:01:57,000 --> 00:01:59,000
+then we've got work to do.
+
+30
+00:01:59,000 --> 00:02:03,000
+Here's 1 thing I can do. There's a module in Python called time.
+
+31
+00:02:03,000 --> 00:02:08,000
+In that module there's a function called clock which gives you the time of day.
+
+32
+00:02:08,000 --> 00:02:12,000
+And so I can set t0 to be the time before I call the zebra_puzzle,
+
+33
+00:02:12,000 --> 00:02:15,000
+t1 to be the time afterwards, and just return the difference
+
+34
+00:02:15,000 --> 00:02:18,000
+so that will tell me how long the zebra puzzle took.
+
+35
+00:02:18,000 --> 00:02:23,000
+If I hit Run, the answer it came back with was 0.0 seconds.
+
+36
+00:02:23,000 --> 00:02:27,000
+That's because the system I'm running on doesn't have an accurate enough clock.
+
+37
+00:02:27,000 --> 00:02:30,000
+And I know it's accurate down to the thousandth of a second,
+
+38
+00:02:30,000 --> 00:02:34,000
+so all we can say here is that it took less than a thousandth of a second.
+
+39
+00:02:34,000 --> 00:02:42,000
+I've run it on other systems, and it comes back at 0.00028 on that other system.
+
+40
+00:02:42,000 --> 00:02:48,000
+I was able to do this, but this looks like a good opportunity for generalization.
+
+41
+00:02:48,000 --> 00:02:51,000
+Why do I want a function that only times the zebra puzzle?
+
+42
+00:02:51,000 --> 00:02:56,000
+It would be great if I had a function that could time the execution of any function.
+
+43
+00:02:56,000 --> 00:03:02,000
+So here I've defined a function called timedcall which takes another function as input,
+
+44
+00:03:02,000 --> 00:03:06,000
+sets up the clock, calls that function, calls the clock again to figure out the time,
+
+45
+00:03:06,000 --> 00:03:08,000
+and tells me what the elapsed time is.
+
+46
+00:03:08,000 --> 00:03:13,000
+So I could call timedcall of zebra_puzzle to get the answer of how long that took,
+
+47
+00:03:13,000 --> 00:03:15,000
+or I can apply this to any function.
+
+48
+00:03:15,000 --> 00:03:18,000
+So I built a useful tool that I can use again and again.
+
+49
+00:03:18,000 --> 00:03:21,000
+I can make it even more useful by doing 2 things.
+
+50
+00:03:21,000 --> 00:03:25,000
+One is saving up the result and returning that as the second value
+
+51
+00:03:25,000 --> 00:03:29,000
+in case we're interested both in the result and in how long it took,
+
+52
+00:03:29,000 --> 00:03:33,000
+and secondly, allowing functions that take arguments.
+
+53
+00:03:33,000 --> 99:59:59,999
+You may not have seen this notation before, so let's talk about it for a second.

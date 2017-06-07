@@ -1,0 +1,518 @@
+﻿1
+00:00:00,370 --> 00:00:04,830
+Let me introduce a special guest student
+from a previous class, Malcolm Haynes.
+
+2
+00:00:04,830 --> 00:00:05,710
+Hi Malcolm.
+
+3
+00:00:05,710 --> 00:00:06,929
+>> Hi Thad.
+
+4
+00:00:06,929 --> 00:00:10,539
+>> When working on the five by
+five isolation game in the class,
+
+5
+00:00:10,539 --> 00:00:12,750
+you believed you managed
+to search to end game.
+
+6
+00:00:12,750 --> 00:00:14,109
+>> That's right.
+
+7
+00:00:14,109 --> 00:00:17,570
+But when we talked about branching
+factor earlier, we said it would be
+
+8
+00:00:17,570 --> 00:00:21,100
+impossible to search to end game
+in a reasonable amount of time.
+
+9
+00:00:21,100 --> 00:00:22,920
+So how did you do it?
+
+10
+00:00:22,920 --> 00:00:27,480
+>> First, I implemented the minimax
+algorithm with alpha-beta pruning.
+
+11
+00:00:27,480 --> 00:00:32,079
+As you know, this reduces the size
+of the search space from B to the D,
+
+12
+00:00:32,079 --> 00:00:33,559
+to B to the D over 2.
+
+13
+00:00:33,560 --> 00:00:37,340
+Thus, reducing it from approximately
+8 to the 25th, to 8 to the 12th.
+
+14
+00:00:38,600 --> 00:00:42,390
+Next, I realized that some
+moves are equivalent.
+
+15
+00:00:42,390 --> 00:00:44,969
+For example,
+let's look at player one's first move.
+
+16
+00:00:47,130 --> 00:00:52,179
+If player one moves to (0,0) it's
+the equivalent of moving to (4,0).
+
+17
+00:00:52,179 --> 00:00:54,731
+You can simply rotate
+the board 90 degrees, and
+
+18
+00:00:54,731 --> 00:00:56,317
+you have the same board state.
+
+19
+00:00:56,317 --> 00:01:01,127
+Therefore, if you know the game tree for
+our first move of (0,0),
+
+20
+00:01:01,127 --> 00:01:04,894
+you know the game tree for
+our first move of (4,0),
+
+21
+00:01:04,894 --> 00:01:08,684
+which is the same as (4,4),
+but also (0,4).
+
+22
+00:01:08,683 --> 00:01:11,492
+This is useful especially at
+the beginning of the game,
+
+23
+00:01:11,492 --> 00:01:14,079
+when the branching factor is high.
+
+24
+00:01:14,079 --> 00:01:19,250
+For example, while player one has
+25 possible moves, in reality,
+
+25
+00:01:19,250 --> 00:01:21,659
+there are only six unique moves
+
+26
+00:01:21,659 --> 00:01:25,979
+as you can use symmetry about
+the horizontal and vertical axis, and
+
+27
+00:01:25,980 --> 00:01:30,579
+about the diagonal axis and,
+of course, there is the center move.
+
+28
+00:01:30,579 --> 00:01:34,510
+We've just shown player one's six unique
+first moves and their equivalents.
+
+29
+00:01:35,510 --> 00:01:37,359
+A similar analysis is possible for
+
+30
+00:01:37,359 --> 00:01:41,750
+any board state, which is defined
+as a series of ord moves.
+
+31
+00:01:43,409 --> 00:01:44,489
+Let's run through an example.
+
+32
+00:01:45,549 --> 00:01:48,659
+In this example, O moved to [(2,2)].
+
+33
+00:01:48,659 --> 00:01:50,439
+Now it's Xs turn.
+
+34
+00:01:50,439 --> 00:01:54,789
+X is considering possible moves and
+first evaluates a move to [(2,1)].
+
+35
+00:01:54,790 --> 00:01:58,540
+X now knows the value of
+the board state [(2,2)], [(2,1)].
+
+36
+00:01:58,540 --> 00:02:01,720
+Now let X consider a move to [(2,3)].
+
+37
+00:02:01,719 --> 00:02:05,379
+X will check to see if the outcome
+of this move is already known.
+
+38
+00:02:05,379 --> 00:02:09,020
+To do this, X checks to see if he
+knows the value of the board state,
+
+39
+00:02:09,020 --> 00:02:10,709
+[(2,2)], [(2,3)].
+
+40
+00:02:10,710 --> 00:02:11,770
+He does not.
+
+41
+00:02:11,770 --> 00:02:14,620
+Next X rotates the board 90 degrees, and
+
+42
+00:02:14,620 --> 00:02:18,218
+checks to see if he knows the value
+of the board state, [(2,2)], [(1,2)].
+
+43
+00:02:18,218 --> 00:02:19,317
+He does not.
+
+44
+00:02:19,318 --> 00:02:21,939
+Next X rotates the board 180 degrees,
+and
+
+45
+00:02:21,939 --> 00:02:27,121
+checks to see if he knows the value
+of the board state [(2,2)], [(2,1)].
+
+46
+00:02:27,121 --> 00:02:29,300
+Ah-ha, he does.
+
+47
+00:02:29,300 --> 00:02:32,462
+X returns the value of the board state,
+[(2,2)], [(2,1)],
+
+48
+00:02:32,461 --> 00:02:35,289
+and does not need to expand
+the game tree further.
+
+49
+00:02:35,289 --> 00:02:36,739
+If X hadn't found a solution,
+
+50
+00:02:36,740 --> 00:02:39,560
+he would have checked the board
+states created by rotating the board
+
+51
+00:02:39,560 --> 00:02:43,740
+207 degrees, and flipping the board
+along it's diagonal axis.
+
+52
+00:02:44,939 --> 00:02:47,669
+Only then would X have needed
+to expand the game tree.
+
+53
+00:02:47,669 --> 00:02:50,469
+>> So you found that symmetry
+really cut down on the number
+
+54
+00:02:50,469 --> 00:02:52,270
+of nodes you had to expand.
+
+55
+00:02:52,270 --> 00:02:54,870
+>> Only until about level
+three of the search tree.
+
+56
+00:02:54,870 --> 00:02:57,469
+After that,
+I gave up because symmetry was rare,
+
+57
+00:02:57,469 --> 00:03:00,979
+and the amount of effort needed to check
+for symmetry just wasn't worth it.
+
+58
+00:03:02,060 --> 00:03:05,270
+>> So you're telling me that just those
+tricks are sufficient to be able to
+
+59
+00:03:05,270 --> 00:03:06,630
+search to end game?
+
+60
+00:03:06,629 --> 00:03:08,189
+>> Not quite.
+
+61
+00:03:08,189 --> 00:03:12,159
+Well alpha–beta pruning, and
+equivalent boards tremendously reduce
+
+62
+00:03:12,159 --> 00:03:15,699
+the number of possible game states,
+they still weren't enough.
+
+63
+00:03:15,699 --> 00:03:19,810
+Luckily, while searching for a good
+evaluation function, I discovered that I
+
+64
+00:03:19,810 --> 00:03:22,520
+didn't need to always search
+to the end of the game tree.
+
+65
+00:03:22,520 --> 00:03:26,710
+It turns out, that I know the outcome
+as soon as there's a partition.
+
+66
+00:03:26,710 --> 00:03:27,210
+>> Why is that?
+
+67
+00:03:28,490 --> 00:03:31,629
+>> Well a partition separates
+two players completely.
+
+68
+00:03:32,699 --> 00:03:36,289
+Therefor the player with
+the longest path wins.
+
+69
+00:03:36,289 --> 00:03:40,879
+For example, in this game,
+player O moves next, but
+
+70
+00:03:40,879 --> 00:03:42,949
+the outcome of the game
+is already known,
+
+71
+00:03:42,949 --> 00:03:48,079
+because player eight has eight possible
+moves, while player two only has six.
+
+72
+00:03:48,080 --> 00:03:53,850
+Okay, so partitions, alpha-beta,
+and symmetry allows you to finish.
+
+73
+00:03:53,849 --> 00:03:57,269
+After you've completed looking
+through all possible moves,
+
+74
+00:03:57,270 --> 00:04:00,060
+does somebody always win
+if they play optimally?
+
+75
+00:04:00,060 --> 00:04:04,009
+>> Yes Thad, it turns out
+that player two always wins.
+
+76
+00:04:04,009 --> 00:04:05,709
+>> Well that's unexpected.
+
+77
+00:04:05,710 --> 00:04:10,260
+But you mentioned, you also found a good
+first move for player one, right?
+
+78
+00:04:10,259 --> 00:04:11,669
+>> That's right.
+
+79
+00:04:11,669 --> 00:04:15,399
+At first, in fact, I thought player
+one was always going to win.
+
+80
+00:04:15,400 --> 00:04:17,259
+This is because of reflection.
+
+81
+00:04:17,259 --> 00:04:19,680
+>> Reflection, what do you mean?
+
+82
+00:04:19,680 --> 00:04:23,290
+>> Reflection is just a 180 degree
+rotation of the opponent's move.
+
+83
+00:04:24,310 --> 00:04:28,530
+In trying to solve the game,
+I discovered an interesting phenomenon.
+
+84
+00:04:28,529 --> 00:04:32,859
+If player one's first move is to the
+center, and player two's first move is
+
+85
+00:04:32,860 --> 00:04:36,980
+one that player one can reflect,
+then player one can always win.
+
+86
+00:04:36,980 --> 00:04:40,110
+All she has to do,
+is reflect every move player two makes.
+
+87
+00:04:41,230 --> 00:04:45,569
+Okay then, so
+then how does player two avoid losing?
+
+88
+00:04:45,569 --> 00:04:48,290
+>> By moving to a location that
+player one cannot reflect.
+
+89
+00:04:48,290 --> 00:04:52,605
+There are eight such possible moves
+of the 24 available to player two.
+
+90
+00:04:52,605 --> 00:04:56,622
+I'll leave it as an exercise for the
+student to determine those eight moves.
+
+91
+00:04:56,622 --> 00:05:00,287
+>> We're going to have a competition,
+where the students are going to try and
+
+92
+00:05:00,286 --> 00:05:02,531
+make the best isolation
+players they can.
+
+93
+00:05:02,531 --> 00:05:04,219
+Do you have any advice for them?
+
+94
+00:05:04,220 --> 00:05:04,750
+>> I sure do.
+
+95
+00:05:05,790 --> 00:05:09,110
+If you're player one,
+move to the center square.
+
+96
+00:05:09,110 --> 00:05:12,740
+Then if possible, reflect player
+two's moves and you will win.
+
+97
+00:05:13,860 --> 00:05:16,000
+But it's better to be player two.
+
+98
+00:05:17,110 --> 00:05:22,139
+In this case, create a good book
+of opening moves and hints.
+
+99
+00:05:22,139 --> 00:05:26,479
+We've discussed the best first move if
+player one occupies the center square,
+
+100
+00:05:26,480 --> 00:05:30,140
+and it turns out that in most cases,
+if player one does not occupy
+
+101
+00:05:30,139 --> 00:05:33,079
+the center square, then player two
+should occupy the center square.
+
+102
+00:05:34,310 --> 00:05:38,550
+Anyway, once you have a good book of
+opening moves, use your understanding of
+
+103
+00:05:38,550 --> 00:05:43,379
+equivalent moves and hash tables to load
+and search your order book efficiently.
+
+104
+00:05:44,930 --> 00:05:48,699
+Remember, you only have a limited
+amount of time to complete your move.
+
+105
+00:05:48,699 --> 00:05:53,189
+After exhausting your book of
+opening moves, implement minimax,
+
+106
+00:05:53,189 --> 00:05:56,346
+then add iterative deepening and
+finally, alpha-beta pruning.
+
+107
+00:05:57,500 --> 00:06:01,050
+Finally, focus on your
+evaluation function.
+
+108
+00:06:01,050 --> 00:06:05,410
+Now a good evaluation function is,
+well, that's up to you to decide.
+
+109
+00:06:06,480 --> 00:06:07,840
+Good luck.
+
+110
+00:06:07,839 --> 00:06:08,449
+>> Thank you, Malcolm.
+

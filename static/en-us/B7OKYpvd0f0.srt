@@ -1,0 +1,261 @@
+1
+00:00:00,320 --> 00:00:02,630
+So, the first question says,
+
+2
+00:00:02,630 --> 00:00:09,270
+does the use of stack canary prevent
+return-to-libc buffer overflow attacks?
+
+3
+00:00:09,270 --> 00:00:12,900
+Remember return-to-libc
+buffer overflow relies on
+
+4
+00:00:12,900 --> 00:00:16,820
+the ability to rewrite the return
+address in the stack frame.
+
+5
+00:00:16,820 --> 00:00:20,012
+We rewrite it with the address
+of a library function that we
+
+6
+00:00:20,012 --> 00:00:22,030
+returning to a library function.
+
+7
+00:00:22,030 --> 00:00:26,100
+But we have to write or
+modify that return address.
+
+8
+00:00:26,100 --> 00:00:30,560
+And we said the use of a stack
+canary is to detect if
+
+9
+00:00:30,560 --> 00:00:34,030
+the return address on
+the stack has been modified.
+
+10
+00:00:34,030 --> 00:00:35,922
+Because when that gets modified,
+
+11
+00:00:35,922 --> 00:00:38,960
+the canary value is going to
+be modified as well.
+
+12
+00:00:38,960 --> 00:00:41,386
+So the answer here should be the yes,
+
+13
+00:00:41,386 --> 00:00:45,066
+because a stack canary does
+allow you to detect change or
+
+14
+00:00:45,066 --> 00:00:49,781
+modification to the return address,
+so that's why the answer is yes.
+
+15
+00:00:49,781 --> 00:00:50,825
+Second question,
+
+16
+00:00:50,825 --> 00:00:55,210
+does ASLR protect against
+read-only buffer overflow attacks?
+
+17
+00:00:55,210 --> 00:00:58,120
+Well, ASLR makes it hard to guess
+
+18
+00:00:58,120 --> 00:01:02,940
+where certain addresses of certain
+variables are, so for example
+
+19
+00:01:02,940 --> 00:01:07,605
+a certain function in a library because
+library starts at some random address.
+
+20
+00:01:07,605 --> 00:01:09,960
+When we talk about read-only
+buffer overflow attacks,
+
+21
+00:01:09,960 --> 00:01:11,870
+we already have an address.
+
+22
+00:01:11,870 --> 00:01:15,940
+We start reading from that address and
+then we keep going.
+
+23
+00:01:15,940 --> 00:01:18,700
+We overflow into whatever is after it.
+
+24
+00:01:18,700 --> 00:01:21,760
+So, we're not trying
+to guess an address.
+
+25
+00:01:21,760 --> 00:01:27,220
+We have an address and reading starting
+that and reading more than they should.
+
+26
+00:01:27,220 --> 00:01:30,630
+But there isn't a problem
+that we have here of guessing
+
+27
+00:01:30,630 --> 00:01:32,130
+an address where we should start.
+
+28
+00:01:32,130 --> 00:01:36,490
+So because of that, ASLR does
+not protect us against read-only
+
+29
+00:01:36,490 --> 00:01:39,420
+buffer overflows and
+that's why the answer is no.
+
+30
+00:01:39,420 --> 00:01:42,850
+The last one is actually
+read-only buffer overflow but
+
+31
+00:01:42,850 --> 00:01:46,350
+that's the open SSL
+heartbleed vulnerability.
+
+32
+00:01:46,350 --> 00:01:49,605
+Can that be avoided with
+a non-executable stack?
+
+33
+00:01:49,605 --> 00:01:54,142
+Non-executable stack remember, is
+the code cannot be placed on the stack
+
+34
+00:01:54,142 --> 00:01:59,420
+because it can't be executed, it can't
+fit instructions from the stack area.
+
+35
+00:01:59,420 --> 00:02:02,270
+The answer to this
+particular question is no,
+
+36
+00:02:02,270 --> 00:02:07,450
+because the OpenSSL heartbleed
+vulnerability read more data.
+
+37
+00:02:07,450 --> 00:02:09,419
+It didn't actually execute code.
+
+38
+00:02:09,419 --> 00:02:13,329
+The overflow was reading certain data
+that was sensitive that it was not
+
+39
+00:02:13,329 --> 00:02:16,820
+suppose to the function was
+not supposed to access it.
+
+40
+00:02:16,820 --> 00:02:18,750
+So, there's no execution.
+
+41
+00:02:18,750 --> 00:02:22,830
+We're not executing code to
+get to the sensitive data, and
+
+42
+00:02:22,830 --> 00:02:26,540
+because of that it's had nothing
+to do with non-executable stack.
+
+43
+00:02:26,540 --> 00:02:29,120
+So the vulnerability that overreads or
+
+44
+00:02:29,120 --> 00:02:33,300
+reads beyond the one that it's
+supposed to, we can't prevent that or
+
+45
+00:02:33,300 --> 00:02:37,380
+make that go away just because
+we have non-executable stack.
+
+46
+00:02:37,380 --> 00:02:40,230
+So here we talked about
+a number of defenses and
+
+47
+00:02:40,230 --> 00:02:43,540
+where they work and
+when they may not work.
+
+48
+00:02:43,540 --> 00:02:48,920
+And going back, write a secure code,
+use a typeset language or
+
+49
+00:02:48,920 --> 00:02:53,250
+use a program in a language that
+makes buffer overflows go away.
+
+50
+00:02:53,250 --> 00:02:54,260
+If you can do that,
+
+51
+00:02:54,260 --> 00:02:59,490
+you have to use a language where
+that's a possibility then check input.
+
+52
+00:02:59,490 --> 00:03:04,190
+Use tools to look at potential places
+where there may be a vulnerability.
+
+53
+00:03:04,190 --> 00:03:08,090
+And then hopefully, the system that
+you're working on has defenses of
+
+54
+00:03:08,090 --> 00:03:12,080
+type such as ASLR for which you don't
+need to do anything as a programmer.
+
+55
+00:03:12,080 --> 00:03:15,680
+Or things like stack protection where
+you can't execute off the stack.

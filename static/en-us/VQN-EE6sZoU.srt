@@ -1,0 +1,337 @@
+1
+00:00:00,578 --> 00:00:04,689
+With our JSON data converted into
+a foundation object, how do we use it?
+
+2
+00:00:07,630 --> 00:00:09,880
+Let's go back to the postman
+tool to see where to start.
+
+3
+00:00:11,668 --> 00:00:13,090
+In our JSON response,
+
+4
+00:00:13,090 --> 00:00:17,400
+if you look at the very beginning we can
+see that it starts with the curly brace.
+
+5
+00:00:17,400 --> 00:00:22,420
+And if we scroll down to the bottom,
+the very bottom on line 251,
+
+6
+00:00:22,420 --> 00:00:25,340
+we can see that it ends
+in a curly brace as well.
+
+7
+00:00:26,560 --> 00:00:28,840
+This is indicative of a JSON Object,
+
+8
+00:00:28,840 --> 00:00:31,570
+which in SWF is comparable
+to a dictionary.
+
+9
+00:00:32,680 --> 00:00:36,320
+This means that when we call
+the JSONObjectWithData method,
+
+10
+00:00:36,320 --> 00:00:39,540
+that we should be getting
+some kind of dictionary back.
+
+11
+00:00:39,540 --> 00:00:41,480
+It's actually an NSDictionary and
+
+12
+00:00:41,480 --> 00:00:44,120
+we can interact with it
+just like a SWF dictionary.
+
+13
+00:00:45,480 --> 00:00:48,650
+So the next thing we need to do if
+we know that we have a dictionary
+
+14
+00:00:48,650 --> 00:00:51,890
+is that we need to identify the key
+value pairs that we're interested in.
+
+15
+00:00:53,360 --> 00:00:57,510
+Ultimately we know that we want to
+get one of the url_m values and
+
+16
+00:00:57,510 --> 00:01:00,080
+then also the title value.
+
+17
+00:01:00,080 --> 00:01:03,210
+We need the URL in order to
+display the image to the user and
+
+18
+00:01:03,210 --> 00:01:05,880
+we'll need the title for
+the title label in the U.I.,
+
+19
+00:01:05,880 --> 00:01:12,350
+but, to get at these values,
+we have to take a top down approach.
+
+20
+00:01:12,350 --> 00:01:13,500
+Because at the highest level,
+
+21
+00:01:13,500 --> 00:01:16,690
+we have this photos key value
+pair that contains everything.
+
+22
+00:01:16,690 --> 00:01:21,566
+And we can see that the photos value
+starts with the curly brace and
+
+23
+00:01:21,566 --> 00:01:26,265
+ends with a curly brace, so
+this is just another JSON object and
+
+24
+00:01:26,265 --> 00:01:29,650
+it can be represented
+in SWF as a dictionary.
+
+25
+00:01:31,479 --> 00:01:35,098
+So back in our code let's create
+a photos dictionary and we'll
+
+26
+00:01:35,098 --> 00:01:39,840
+want to populate this dictionary with
+the values stored at the photos key.
+
+27
+00:01:39,840 --> 00:01:44,090
+So this constant is the same
+thing as photos like this.
+
+28
+00:01:44,090 --> 00:01:46,210
+But I'll leave it as a constant for now.
+
+29
+00:01:46,210 --> 00:01:51,080
+And then we want to try to convert
+it to a string AnyObject dictionary.
+
+30
+00:01:52,490 --> 00:01:57,297
+And we'll use this if let syntax in case
+somehow our response doesn't have this
+
+31
+00:01:57,297 --> 00:01:59,677
+key value pair, then it won't crash.
+
+32
+00:02:01,992 --> 00:02:05,292
+Also, know that the reason that
+we're using the String and
+
+33
+00:02:05,292 --> 00:02:08,526
+any object dictionary is because
+we know that the JSON keys
+
+34
+00:02:08,526 --> 00:02:12,970
+themselves are strings, but then the
+values, they could be any other object.
+
+35
+00:02:12,970 --> 00:02:16,340
+They could be a JSON object,
+which is another dictionary.
+
+36
+00:02:16,340 --> 00:02:17,340
+It could be a number.
+
+37
+00:02:17,340 --> 00:02:18,200
+It could be a string.
+
+38
+00:02:18,200 --> 00:02:18,700
+We don't know.
+
+39
+00:02:20,840 --> 00:02:23,441
+And we'll just print
+the photosDictionary.
+
+40
+00:02:32,203 --> 00:02:34,252
+Awesome, our output looks similar and
+
+41
+00:02:34,252 --> 00:02:37,241
+we're starting to get closer
+to the values that we want.
+
+42
+00:02:39,882 --> 00:02:44,214
+Now, back in Postman, the next key value
+pair that we want to target is for
+
+43
+00:02:44,214 --> 00:02:45,290
+the key, photo.
+
+44
+00:02:46,580 --> 00:02:50,320
+This value starts with a bracket and
+it ends with a bracket.
+
+45
+00:02:50,320 --> 00:02:56,070
+And that's indicative of a JSON array,
+which is comparable to a SWF array.
+
+46
+00:02:56,070 --> 00:02:59,390
+But then the question becomes,
+what type of array?
+
+47
+00:02:59,390 --> 00:03:04,220
+Well, if we look closely it looks like
+each element here in the array is itself
+
+48
+00:03:04,220 --> 00:03:08,420
+another JSON object, and
+each item is separated by a comma.
+
+49
+00:03:08,420 --> 00:03:14,080
+So we have a JSON object here, and
+actually I'll just collapse it,
+
+50
+00:03:14,080 --> 00:03:17,300
+and we have a comma,
+then we have another JSON object.
+
+51
+00:03:17,300 --> 00:03:20,140
+Another JSON object, and so forth.
+
+52
+00:03:20,140 --> 00:03:24,080
+This means in SWF,
+we can use an array of dictionaries.
+
+53
+00:03:25,160 --> 00:03:28,780
+So back in our code,
+let's get the array of dictionaries, and
+
+54
+00:03:28,780 --> 00:03:30,960
+we're going to call
+this the photo array.
+
+55
+00:03:30,960 --> 00:03:37,150
+That's stored at the photo key, and this
+is critical, of the photos dictionary.
+
+56
+00:03:37,150 --> 00:03:39,810
+Remember it's contained
+within the photos dictionary.
+
+57
+00:03:39,810 --> 00:03:45,530
+And then we'll create
+an array of dictionaries.
+
+58
+00:03:45,530 --> 00:03:48,630
+Notice the outer brackets
+denote the array itself.
+
+59
+00:03:48,630 --> 00:03:51,160
+And within the brackets
+we have the array's type,
+
+60
+00:03:51,160 --> 00:03:53,360
+which are string any
+object dictionaries.
+
+61
+00:03:54,540 --> 00:03:55,693
+And to make sure this works,
+
+62
+00:03:55,693 --> 00:03:58,204
+let's try printing the first
+photo dictionary in the array.
+
+63
+00:04:09,012 --> 00:04:10,670
+Nice it works.
+
+64
+00:04:10,670 --> 00:04:11,680
+We're almost there.
+
+65
+00:04:13,180 --> 00:04:17,709
+But before we continue forward I want to
+make sure you can follow my steps.
+
+66
+00:04:17,709 --> 00:04:21,550
+That is, get the photos
+dictionary at the photos key.
+
+67
+00:04:22,860 --> 00:04:24,430
+Then in the photos dictionary,
+
+68
+00:04:24,430 --> 00:04:28,430
+get the array of photo
+dictionaries at the "photo" key.
+
+69
+00:04:28,430 --> 00:04:31,780
+I know, this sounds confusing, but this
+is the way the results are returned.
+
+70
+00:04:33,270 --> 00:04:35,630
+And finally,
+print the first photo dictionary.
+
+71
+00:04:35,630 --> 00:04:39,436
+When you're done,
+check this box and continue.

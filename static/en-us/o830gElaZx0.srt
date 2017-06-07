@@ -1,0 +1,603 @@
+1
+00:00:00,340 --> 00:00:04,600
+Now let us see how we can handle the case where your input data rate is
+
+2
+00:00:04,600 --> 00:00:06,090
+greater than the processing rate.
+
+3
+00:00:06,090 --> 00:00:09,594
+That assuming we are getting 10,000 tweets per second,
+
+4
+00:00:09,594 --> 00:00:12,113
+we can develop them into small four packets.
+
+5
+00:00:12,113 --> 00:00:16,260
+Which is, each one is doing 2,500 tweets per second.
+
+6
+00:00:16,260 --> 00:00:24,160
+And literal Java/Python backend do only 2,500 seconds.
+
+7
+00:00:24,160 --> 00:00:26,910
+So which means, what we have essentially done is
+
+8
+00:00:26,910 --> 00:00:31,920
+you're duplicated whatever you are doing with one data stream.
+
+9
+00:00:31,920 --> 00:00:34,990
+By dividing the data stream into four streams.
+
+10
+00:00:34,990 --> 00:00:39,370
+And running the same your Java/Python Backend program.
+
+11
+00:00:39,370 --> 00:00:44,660
+And this is simply know what everybody calls a sharding rate.
+
+12
+00:00:44,660 --> 00:00:50,751
+So essentially you're kind of divided input into multiple streams.
+
+13
+00:00:50,751 --> 00:00:55,178
+And you, each of the same instances of the program is working on
+
+14
+00:00:55,178 --> 00:00:56,820
+the different streams.
+
+15
+00:00:58,310 --> 00:01:03,870
+So if anybody gets the URL they will know that these are the three
+
+16
+00:01:03,870 --> 00:01:07,770
+URLs everybody has to look for and each one will have a localized count.
+
+17
+00:01:07,770 --> 00:01:08,390
+Somehow.
+
+18
+00:01:08,390 --> 00:01:09,260
+Right?
+
+19
+00:01:09,260 --> 00:01:12,146
+Now the web app that you wrote initially,
+
+20
+00:01:12,146 --> 00:01:16,777
+now it has to go to all the guys in order to collect our global count.
+
+21
+00:01:16,777 --> 00:01:20,381
+Because each one will lower count on nytimes.com.
+
+22
+00:01:20,381 --> 00:01:23,959
+Because the tweet that is containing the nytimes.com might come here, or
+
+23
+00:01:23,959 --> 00:01:26,200
+might come there, might come there too.
+
+24
+00:01:26,200 --> 00:01:27,690
+It can be in any of those streams, right?
+
+25
+00:01:29,720 --> 00:01:33,010
+So similarly the nytimes.com might occur there as well too.
+
+26
+00:01:34,210 --> 00:01:37,481
+So now, if you wanted to make it such a way
+
+27
+00:01:37,481 --> 00:01:42,303
+that the New York Times start count comes into only one guy.
+
+28
+00:01:42,303 --> 00:01:45,062
+Rather than the web app going to several guys,
+
+29
+00:01:45,062 --> 00:01:49,120
+think about the fact that you need to do like 10,000 of these.
+
+30
+00:01:49,120 --> 00:01:53,110
+So then web app has to branch out 10,000 guys and get it, right?
+
+31
+00:01:53,110 --> 00:01:56,030
+And you don't know whether they're going to be alive or not too, right?
+
+32
+00:01:56,030 --> 00:01:59,160
+So you get into all these other complex issues.
+
+33
+00:01:59,160 --> 00:02:03,170
+So inside a sim dad, like, if you want to get the New York Times account at one
+
+34
+00:02:03,170 --> 00:02:05,660
+single place, what do you do?
+
+35
+00:02:05,660 --> 00:02:10,380
+So which means like, we need to do another level of some kind of,
+
+36
+00:02:10,380 --> 00:02:12,100
+Java Python backend.
+
+37
+00:02:12,100 --> 00:02:14,697
+And we have to route the data that this,
+
+38
+00:02:14,697 --> 00:02:18,405
+this guide is producing, on account he's producing.
+
+39
+00:02:18,405 --> 00:02:21,203
+Especially with respect to some news articles,
+
+40
+00:02:21,203 --> 00:02:23,470
+like newyorktimes.com, to one guy.
+
+41
+00:02:23,470 --> 00:02:28,930
+So that, if everybody is routing thenewyorktimes.com URL to one guy,
+
+42
+00:02:28,930 --> 00:02:31,500
+that one guy can accommodate the count appropriately.
+
+43
+00:02:31,500 --> 00:02:32,000
+Right?
+
+44
+00:02:33,130 --> 00:02:38,245
+So that is what what we call as some kind of moving data
+
+45
+00:02:38,245 --> 00:02:44,200
+based on some groupings, or some kind of positioning strategies.
+
+46
+00:02:44,200 --> 00:02:51,130
+And so you'll go into those groupings and packaging strategies more detail.
+
+47
+00:02:51,130 --> 00:02:52,000
+And this is kind of a,
+
+48
+00:02:52,000 --> 00:02:55,786
+what do you call, a basis for most of our big data processing.
+
+49
+00:02:55,786 --> 00:02:59,110
+Sharding and partitioning So if you
+
+50
+00:02:59,110 --> 00:03:04,110
+understand these two concepts most of the beginner later the infer or
+
+51
+00:03:04,110 --> 00:03:06,990
+the infrastructures are all based on these two concepts.
+
+52
+00:03:08,710 --> 00:03:15,296
+So, if, so in this case if if all the accounts that we just seen.
+
+53
+00:03:15,296 --> 00:03:16,388
+And periodically for
+
+54
+00:03:16,388 --> 00:03:20,580
+descending deleted on the NewYorkTimes.com to one of these guys.
+
+55
+00:03:20,580 --> 00:03:24,410
+Then this guy will have all the cones for NewYorkTimes.com, right?
+
+56
+00:03:25,900 --> 00:03:30,840
+So in reality, what happens is like they have this notion of queues and
+
+57
+00:03:30,840 --> 00:03:32,250
+that's how it works.
+
+58
+00:03:32,250 --> 00:03:36,920
+Each of those process also have this notion of queues.
+
+59
+00:03:36,920 --> 00:03:43,910
+And once this data stream is processed across each one of them
+
+60
+00:03:43,910 --> 00:03:47,913
+they dump into the queue of the other process which is responsible for that.
+
+61
+00:03:47,913 --> 00:03:51,530
+Newyorktimes.com or USAtoday.com or.
+
+62
+00:03:51,530 --> 00:03:55,783
+So that variant of using queues is the fact that this guy can go at
+
+63
+00:03:55,783 --> 00:04:00,374
+it's one speed, as long as there is enough buffering inside.
+
+64
+00:04:00,374 --> 00:04:04,622
+So that as long as you're keeping up with the rate of the processing and
+
+65
+00:04:04,622 --> 00:04:08,000
+not letting the buffer go beyond certain limit.
+
+66
+00:04:08,000 --> 00:04:12,440
+As long as you can do that both of the processes can go at a different speed.
+
+67
+00:04:14,100 --> 00:04:16,320
+Now, what are the problems that it represents?
+
+68
+00:04:16,320 --> 00:04:19,079
+First of all, scaling is painful.
+
+69
+00:04:19,079 --> 00:04:22,820
+So, think about the fact that I ought to start these end process on n
+
+70
+00:04:22,820 --> 00:04:23,910
+different missions.
+
+71
+00:04:23,910 --> 00:04:29,030
+And if we have a multi stage like the way at least two stages in this case.
+
+72
+00:04:29,030 --> 00:04:33,118
+And there are other jobs that will require eight stages, nine stages in all.
+
+73
+00:04:33,118 --> 00:04:38,300
+Think about managing that processes on these different stages across different,
+
+74
+00:04:38,300 --> 00:04:40,140
+hundreds and thousands of machines.
+
+75
+00:04:40,140 --> 00:04:44,070
+It gets really painful, because what happens if one guys dies?
+
+76
+00:04:44,070 --> 00:04:45,590
+And I don't know what the guy died, or
+
+77
+00:04:45,590 --> 00:04:49,030
+whom died, and how to relocate that to another machine.
+
+78
+00:04:49,030 --> 00:04:51,330
+So these are all, all kind of operational problems,
+
+79
+00:04:51,330 --> 00:04:54,950
+which is nightmare to handle any of, in any way.
+
+80
+00:04:54,950 --> 00:04:58,780
+So on poor fault tolerance, like worker failures, or
+
+81
+00:04:58,780 --> 00:05:02,890
+even process failures, and mission failures and relocating them.
+
+82
+00:05:02,890 --> 00:05:04,970
+And third one is coding is very tedious.
+
+83
+00:05:04,970 --> 00:05:07,020
+I mean think about writing your own Java program,
+
+84
+00:05:07,020 --> 00:05:11,830
+and for two different stages, on hooking them up together in certain fashion.
+
+85
+00:05:11,830 --> 00:05:16,760
+Then and making sure the data is moving to the right processes and all, right?
+
+86
+00:05:16,760 --> 00:05:20,250
+So it makes it tedious to write all these things again and again.
+
+87
+00:05:20,250 --> 00:05:22,990
+Especially for every job that you have to do, right?
+
+88
+00:05:22,990 --> 00:05:26,090
+Because there could be a lot of analytic job that you'll keep running.
+
+89
+00:05:28,280 --> 00:05:34,100
+And finally like there's no guarantees in terms of whether what do you call,
+
+90
+00:05:34,100 --> 00:05:37,170
+whether the message that I sent out from one stage to another.
+
+91
+00:05:37,170 --> 00:05:38,240
+Is it lost?
+
+92
+00:05:38,240 --> 00:05:40,770
+Or has got, again, replayed.
+
+93
+00:05:40,770 --> 00:05:43,300
+Or it's post-processed.
+
+94
+00:05:43,300 --> 00:05:45,090
+So you don't have any idea but
+
+95
+00:05:45,090 --> 00:05:49,380
+there are, reasonable you get results in a clean, cleaner way.
+
+96
+00:05:49,380 --> 00:05:53,750
+So what I meant is, there are two different kind of guarantees.
+
+97
+00:05:53,750 --> 00:05:56,550
+Engine build realtime system tend to provide.
+
+98
+00:05:56,550 --> 00:05:58,540
+But this hard oscillation will not provide that.
+
+99
+00:05:58,540 --> 00:06:01,770
+So one of the first one is at most once.
+
+100
+00:06:01,770 --> 00:06:04,030
+And another one was call at least once.
+
+101
+00:06:04,030 --> 00:06:06,460
+And finally, there's call exactly once.
+
+102
+00:06:06,460 --> 00:06:08,140
+So at most once, what it does is,
+
+103
+00:06:08,140 --> 00:06:12,600
+your data, the realtime data is guaranteed to either processed or not.
+
+104
+00:06:12,600 --> 00:06:15,873
+So at most once is up to, only once it can be processed and
+
+105
+00:06:15,873 --> 00:06:20,414
+at least once, your data is always guaranteed to be processed at least once.
+
+106
+00:06:20,414 --> 00:06:23,870
+But there are instances where it could be processed multiple times.
+
+107
+00:06:23,870 --> 00:06:28,900
+And exactly once is to ensure that your data is processed only once.
+
+108
+00:06:28,900 --> 00:06:32,770
+And exactly once will give you very exact result.
+
+109
+00:06:32,770 --> 00:06:35,510
+This end's like the other two will have approximation.
+
+110
+00:06:35,510 --> 00:06:41,600
+The second one, at least to once will have a word, probably word counting or
+
+111
+00:06:41,600 --> 00:06:43,790
+averaging or whatever might be the case.
+
+112
+00:06:43,790 --> 00:06:46,390
+But at most once will give, kind of a low,
+
+113
+00:06:46,390 --> 00:06:51,060
+an approximation from the point of if you do an undercount.
+
+114
+00:06:51,060 --> 00:06:53,750
+If your count is aggregation that you are doing.
+
+115
+00:06:53,750 --> 00:06:56,610
+Okay, so that is the broader discussion, definitely.
+
+116
+00:06:56,610 --> 00:07:00,080
+I can go into those details, I mean, major details,
+
+117
+00:07:00,080 --> 00:07:02,760
+but I think that I'll take it to offline.
+
+118
+00:07:02,760 --> 00:07:05,910
+So if you want we can talk [INAUDIBLE] detail.
+
+119
+00:07:05,910 --> 00:07:06,450
+>> Sure.
+
+120
+00:07:06,450 --> 00:07:10,440
+>> But the cost is exactly once is probably a higher cost,
+
+121
+00:07:10,440 --> 00:07:13,040
+at most once is the least cost, at least once is.
+
+122
+00:07:13,040 --> 00:07:17,190
+That's is the, some So, that is probably the broadest spectrum.
+
+123
+00:07:18,660 --> 00:07:24,460
+So what we need in if you really want to do some kind of real time analytics.
+
+124
+00:07:24,460 --> 00:07:25,830
+Some kind of a guarantees.
+
+125
+00:07:25,830 --> 00:07:27,530
+Like the one of the guarantees.
+
+126
+00:07:27,530 --> 00:07:29,890
+Okay, like am I getting at least one.
+
+127
+00:07:29,890 --> 00:07:31,620
+So that most ones are exactly ones.
+
+128
+00:07:31,620 --> 00:07:32,680
+I need some kind of guarantees.
+
+129
+00:07:32,680 --> 00:07:38,020
+So that when you analytics you know what you can do with it, right?
+
+130
+00:07:38,020 --> 00:07:40,260
+Second one is, scalability of course.
+
+131
+00:07:40,260 --> 00:07:42,880
+And scalability without having to deal with mission failures and
+
+132
+00:07:42,880 --> 00:07:43,640
+process failure.
+
+133
+00:07:43,640 --> 00:07:44,960
+So that you can scale.
+
+134
+00:07:44,960 --> 00:07:49,240
+Just dump a new set of missions, and automatically the job is,
+
+135
+00:07:49,240 --> 00:07:51,770
+take those mission if it needs, right?
+
+136
+00:07:51,770 --> 00:07:54,524
+So, automatically scalable and usually scalable.
+
+137
+00:07:55,810 --> 00:07:57,390
+And robust fault tolerance.
+
+138
+00:07:57,390 --> 00:08:00,239
+Whenever any failures occur, automatically it
+
+139
+00:08:00,239 --> 00:08:04,485
+should the system should relocate some of the jobs automatically.
+
+140
+00:08:04,485 --> 00:08:06,690
+So that you do not do any [INAUDIBLE].
+
+141
+00:08:06,690 --> 00:08:09,900
+You won't want to get woken up at 3 a.m in the morning because a pager went
+
+142
+00:08:09,900 --> 00:08:10,450
+off, right?
+
+143
+00:08:11,910 --> 00:08:14,820
+And finally you want to do, do a concise code.
+
+144
+00:08:16,450 --> 00:08:18,280
+You just out write analytics.
+
+145
+00:08:18,280 --> 00:08:21,820
+You should not be writing about how to route the data from one stage to
+
+146
+00:08:21,820 --> 00:08:22,770
+another stage.
+
+147
+00:08:22,770 --> 00:08:24,620
+And going from one mission to another mission and
+
+148
+00:08:24,620 --> 00:08:26,260
+all these meanings and aspects.
+
+149
+00:08:26,260 --> 00:08:28,675
+Which is not really related with analytics.
+
+150
+00:08:28,675 --> 00:08:30,239
+It's more of a, intra or
+
+151
+00:08:30,239 --> 00:08:34,457
+a more of a plumbing that you learn how to do for every program that you write

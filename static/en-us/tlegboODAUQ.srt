@@ -1,0 +1,91 @@
+1
+00:00:00,170 --> 00:00:03,370
+Now the reason that this paper described this exercise of
+
+2
+00:00:03,370 --> 00:00:08,490
+creating threads to handle interrupts was really motivated by performance.
+
+3
+00:00:08,490 --> 00:00:12,821
+The operations that are necessary to perform the appropriate checks and
+
+4
+00:00:12,821 --> 00:00:16,158
+if necessary, create a thread to handle an interrupt,
+
+5
+00:00:16,158 --> 00:00:20,287
+add about 40 instructions to each interrupt handling operation.
+
+6
+00:00:20,287 --> 00:00:23,730
+However, as a result of that, it is not necessary to
+
+7
+00:00:23,730 --> 00:00:28,352
+repeatedly change the interrupt mask whenever a mutex is locked, and
+
+8
+00:00:28,352 --> 00:00:32,880
+then, switch it back again whenever the mutex is unlocked.
+
+9
+00:00:32,880 --> 00:00:36,980
+This saves about 12 instructions for every mutex operation.
+
+10
+00:00:36,980 --> 00:00:41,360
+Now because there are way fewer interrupts in the system than mutex lock and
+
+11
+00:00:41,360 --> 00:00:47,110
+unlock operations, then clearly this ends up being a winning situation.
+
+12
+00:00:47,110 --> 00:00:51,190
+We end up saving much more than the actual cost that we end up
+
+13
+00:00:51,190 --> 00:00:53,110
+paying on each interrupt.
+
+14
+00:00:53,110 --> 00:00:57,150
+This observation is also one of the most important lessons in system design,
+
+15
+00:00:57,150 --> 00:01:00,020
+and that is, optimize for the common case.
+
+16
+00:01:00,020 --> 00:01:03,970
+The common case here where the mutex lock/unlock operations.
+
+17
+00:01:03,970 --> 00:01:07,640
+And so, we wanted to make those as efficient as possible.
+
+18
+00:01:07,640 --> 00:01:09,600
+We saved 12 instructions there.
+
+19
+00:01:09,600 --> 00:01:11,500
+Yes, we end up paying somewhere else.
+
+20
+00:01:11,500 --> 00:01:15,170
+We can not sacrifice the safety and the correctness of the system.
+
+21
+00:01:15,170 --> 00:01:19,090
+So we have to make sure we use some other technique to compensate for
+
+22
+00:01:19,090 --> 00:01:22,340
+the fact that we added this optimization.
+
+23
+00:01:22,340 --> 00:01:27,130
+But as long as the net effect is a positive one, this is a very good practice.

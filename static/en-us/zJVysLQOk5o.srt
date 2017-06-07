@@ -1,0 +1,264 @@
+1
+00:00:00,180 --> 00:00:03,600
+So why do we want a multiprocessor?
+
+2
+00:00:03,600 --> 00:00:06,680
+Why not just use uniprocessors?
+
+3
+00:00:06,680 --> 00:00:10,980
+Well first, our uniprocessors
+would already be 4-wide.
+
+4
+00:00:10,980 --> 00:00:15,420
+When we got to about 4 to six wide is
+when we switch to using multiprocessors
+
+5
+00:00:15,420 --> 00:00:17,990
+and that's because once
+you get to this point,
+
+6
+00:00:17,990 --> 00:00:23,220
+you get diminishing returns from
+making the uniprocessor even wider.
+
+7
+00:00:23,220 --> 00:00:28,740
+You can make it execute let's say,
+six or eight instructions per cycle.
+
+8
+00:00:28,740 --> 00:00:33,520
+But you don't get as much from
+that extension as you did from for
+
+9
+00:00:33,520 --> 00:00:36,580
+example, making it from two to 4 wide.
+
+10
+00:00:36,580 --> 00:00:39,090
+And that's because we
+get diminishing returns.
+
+11
+00:00:39,090 --> 00:00:44,430
+If you remember your Amdahl's law, there
+will be things that benefit from this,
+
+12
+00:00:44,430 --> 00:00:47,750
+such as programs that have a lot of
+parallelism between instructions.
+
+13
+00:00:47,750 --> 00:00:51,770
+And then there are things that don't
+benefit from this, such as programs that
+
+14
+00:00:51,770 --> 00:00:55,110
+have a lot of dependencies so
+they have to run things one at a time.
+
+15
+00:00:55,110 --> 00:00:59,970
+Things that are 4-wide already
+are already making the parallel
+
+16
+00:00:59,970 --> 00:01:04,680
+parts fast, whereas the one at
+a time parts are not accelerated.
+
+17
+00:01:04,680 --> 00:01:10,270
+So by the time you get here, you already
+have a lot of your program suffer from
+
+18
+00:01:10,270 --> 00:01:16,160
+not enough parallelism to benefit
+from either four or even six wide.
+
+19
+00:01:16,160 --> 00:01:21,050
+Another problem with uniprocessors,
+if we make them even fancier, is,
+
+20
+00:01:21,050 --> 00:01:24,280
+to make them faster,
+we have to jack up the frequency.
+
+21
+00:01:24,280 --> 00:01:27,310
+To do that, we have to raise the voltage
+
+22
+00:01:27,310 --> 00:01:30,430
+from what it would be if we'd
+use the lower frequency.
+
+23
+00:01:30,430 --> 00:01:36,280
+And when we do both of these, the power
+consumption grows up cubically,
+
+24
+00:01:36,280 --> 00:01:39,850
+so even if we increase
+the frequency by not too much,
+
+25
+00:01:39,850 --> 00:01:41,970
+we would end up burning our processor.
+
+26
+00:01:41,970 --> 00:01:46,386
+So we don't really want to make our
+uniprocessors be clocked twice as fast
+
+27
+00:01:46,386 --> 00:01:52,625
+as before and we don't want to make
+them much wider than they already are.
+
+28
+00:01:52,625 --> 00:01:54,245
+But Moore's Law continues.
+
+29
+00:01:54,245 --> 00:01:57,775
+We get twice the transistors
+every 18 months for
+
+30
+00:01:57,775 --> 00:02:01,645
+the same cot as before and
+in the same area as before.
+
+31
+00:02:01,645 --> 00:02:06,025
+So, we want to benefit from this and
+improve the over all performance, but
+
+32
+00:02:06,025 --> 00:02:08,330
+we no longer can do it this way.
+
+33
+00:02:08,330 --> 00:02:09,788
+So what do we do?
+
+34
+00:02:09,788 --> 00:02:13,060
+We just double the number
+of cores every 18 months.
+
+35
+00:02:13,060 --> 00:02:17,650
+That allows us to have the cores
+that are not getting wider
+
+36
+00:02:17,650 --> 00:02:21,090
+that are not getting up in
+frequency too much and yet,
+
+37
+00:02:21,090 --> 00:02:27,090
+the overall computational performance of
+the shape is improving with Moore's Law.
+
+38
+00:02:28,210 --> 00:02:33,230
+So we can get approximately a doubling
+of overall performance every 18 months.
+
+39
+00:02:33,230 --> 00:02:36,710
+That is only if we assume that
+we can use all the cores.
+
+40
+00:02:36,710 --> 00:02:39,520
+If we only have one
+program with one thread,
+
+41
+00:02:39,520 --> 00:02:41,470
+then we're really using
+only one of the cores.
+
+42
+00:02:41,470 --> 00:02:45,020
+It doesn't matter if the number of cores
+doubles because we are still using
+
+43
+00:02:45,020 --> 00:02:46,510
+one of those cores.
+
+44
+00:02:46,510 --> 00:02:52,250
+So we need programs that
+are parallel in order to exploit
+
+45
+00:02:52,250 --> 00:02:55,120
+our many core processors
+that we are getting.
+
+46
+00:02:55,120 --> 00:03:00,220
+But if we do we continue the trend of
+scaling performance up exponentially.
+
+47
+00:03:00,220 --> 00:03:04,010
+To put this in another way we
+have multiprocessors today
+
+48
+00:03:04,010 --> 00:03:06,680
+not because we think
+that we would rather have
+
+49
+00:03:06,680 --> 00:03:10,498
+twice the cores than twice
+the uniprocessor performance.
+
+50
+00:03:10,498 --> 00:03:15,150
+It's always preferable to have a
+uniprocessor, a singe core that is twice
+
+51
+00:03:15,150 --> 00:03:20,770
+as fast as before than having two
+cores that are just as fast as before.
+
+52
+00:03:20,770 --> 00:03:25,470
+But we ran out of things,
+that we can do with uniprocessors.
+
+53
+00:03:25,470 --> 00:03:28,840
+So after a long string of years
+where we were doing this,
+
+54
+00:03:28,840 --> 00:03:31,210
+just getting better unit processors,
+
+55
+00:03:31,210 --> 00:03:34,950
+we had to switch to this if we want
+to get performance improvement.

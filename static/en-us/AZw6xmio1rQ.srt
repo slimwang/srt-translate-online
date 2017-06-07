@@ -1,0 +1,278 @@
+1
+00:00:00,260 --> 00:00:05,480
+So let's start in a place very familiar
+to all of us, slow function performance.
+
+2
+00:00:05,480 --> 00:00:09,090
+This is your basic computer science
+101 concept of performance.
+
+3
+00:00:09,090 --> 00:00:10,850
+That is, you've written some code and
+
+4
+00:00:10,850 --> 00:00:14,120
+it executes more slowly
+than you'd actually expect.
+
+5
+00:00:14,120 --> 00:00:16,379
+Now, this often happens
+innocently enough.
+
+6
+00:00:16,379 --> 00:00:19,710
+I mean, you're focused on creating
+some code change to solve a particular
+
+7
+00:00:19,710 --> 00:00:21,410
+problem in a particular way.
+
+8
+00:00:21,410 --> 00:00:23,100
+But soon you realize
+that it's taking much,
+
+9
+00:00:23,100 --> 00:00:26,130
+much longer to execute
+that code than you'd like.
+
+10
+00:00:26,130 --> 00:00:28,980
+Now the primary reason that
+code can be taking too long
+
+11
+00:00:28,980 --> 00:00:32,180
+to execute has everything to
+do with how the language and
+
+12
+00:00:32,180 --> 00:00:37,180
+of course the associated hardware is
+handling the execution of your code.
+
+13
+00:00:37,180 --> 00:00:42,280
+For example on some older hardware
+which we will not actually name
+
+14
+00:00:42,280 --> 00:00:47,360
+executing a branching statement on
+a floating point comparison took almost
+
+15
+00:00:47,360 --> 00:00:51,530
+4x as long as doing the same
+thing on integers or booleans.
+
+16
+00:00:51,530 --> 00:00:54,380
+The reason for
+this was the chip architecture.
+
+17
+00:00:54,380 --> 00:00:58,300
+The part of the CPU dedicated to
+floating point calculations occurred
+
+18
+00:00:58,300 --> 00:01:00,440
+after the Branching logic stages.
+
+19
+00:01:00,440 --> 00:01:02,430
+Meaning that any floating point
+comparisons would have to
+
+20
+00:01:02,430 --> 00:01:05,470
+wait until the end of the cycle
+pipeline, stalling the rest of
+
+21
+00:01:05,470 --> 00:01:09,010
+the operations until it could
+finally execute its branching logic.
+
+22
+00:01:09,010 --> 00:01:10,770
+But, listen don't freak out here.
+
+23
+00:01:10,770 --> 00:01:13,950
+Modern hardware generally doesn't
+have these type of nuanced
+
+24
+00:01:13,950 --> 00:01:15,160
+issues to deal with.
+
+25
+00:01:15,160 --> 00:01:18,540
+But it does illustrate a very,
+very important point.
+
+26
+00:01:18,540 --> 00:01:20,670
+How you write you code
+affects performance,
+
+27
+00:01:20,670 --> 00:01:23,470
+depending on how the language
+executes on the hardware,
+
+28
+00:01:23,470 --> 00:01:26,780
+all the way down to how your silicon
+chips are actually structured.
+
+29
+00:01:26,780 --> 00:01:27,850
+Let me be clear on this.
+
+30
+00:01:27,850 --> 00:01:31,800
+To optimize your code, you have to
+understand the system that runs it.
+
+31
+00:01:31,800 --> 00:01:36,420
+Now, slow function performance
+generally comes in two flavors.
+
+32
+00:01:36,420 --> 00:01:39,400
+Firstly, you have your
+single slow function form.
+
+33
+00:01:39,400 --> 00:01:40,490
+Now, this is pretty straightforward.
+
+34
+00:01:40,490 --> 00:01:42,660
+You've got some function
+that's taking like, 2x or
+
+35
+00:01:42,660 --> 00:01:46,070
+50x longer to execute than
+you actually want it to.
+
+36
+00:01:46,070 --> 00:01:47,580
+This is actually pretty easy to fix.
+
+37
+00:01:47,580 --> 00:01:50,020
+I mean, you find the slow function,
+take a look at its code,
+
+38
+00:01:50,020 --> 00:01:53,630
+figure out what the problem is, and
+then try a few fancy ways to fix it.
+
+39
+00:01:53,630 --> 00:01:56,290
+Now much harder to figure
+out is our second type.
+
+40
+00:01:56,290 --> 00:01:59,750
+Death of a thousand cuts effectively
+this is when you have a hundred
+
+41
+00:01:59,750 --> 00:02:02,630
+functions, each taking one
+millisecond longer than it should
+
+42
+00:02:02,630 --> 00:02:07,010
+resulting in a hundred millisecond extra
+in your overall program execution.
+
+43
+00:02:07,010 --> 00:02:09,220
+This type of problem is
+the hard one to track down and
+
+44
+00:02:09,220 --> 00:02:12,110
+even harder to fix because you
+usually end up slogging through
+
+45
+00:02:12,110 --> 00:02:16,440
+every piece of your executed code
+to find small wins that in the end,
+
+46
+00:02:16,440 --> 00:02:20,000
+can make the difference between
+shipping and your company going under.
+
+47
+00:02:20,000 --> 00:02:23,690
+Now, fixing these tiny performance
+problems is all about profiling.
+
+48
+00:02:23,690 --> 00:02:26,960
+That is, timing your code to figure out
+what portions of it are running slower
+
+49
+00:02:26,960 --> 00:02:30,450
+or longer than the others and
+then making some small tweaks and
+
+50
+00:02:30,450 --> 00:02:32,230
+then timing your code once again.
+
+51
+00:02:32,230 --> 00:02:35,550
+And, once you find one of the offending
+functions, you'll then need to start
+
+52
+00:02:35,550 --> 00:02:39,110
+timing individual lines of
+code in that function and
+
+53
+00:02:39,110 --> 00:02:42,140
+in all the functions that it
+actually ends calling later.
+
+54
+00:02:42,140 --> 00:02:46,050
+Now this can get really gnarly unless
+you're an expert in the field but
+
+55
+00:02:46,050 --> 00:02:47,140
+fear not.
+
+56
+00:02:47,140 --> 00:02:51,090
+The Android SDK has some excellent tools
+to help you track down these problematic
+
+57
+00:02:51,090 --> 00:02:53,780
+portions of your code so
+you can fix them up right.
+
+58
+00:02:53,780 --> 00:02:54,280
+Let's take a look.

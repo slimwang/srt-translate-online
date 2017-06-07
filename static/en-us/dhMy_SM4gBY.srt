@@ -1,0 +1,195 @@
+1
+00:00:00,000 --> 00:00:04,000
+And Quantum Mechanics provides a notion of random events
+
+2
+00:00:04,000 --> 00:00:07,000
+--that there are events in the universe that are inherently random--
+
+3
+00:00:07,000 --> 00:00:11,000
+and we can count things like radioactive decay with a Geiger counter
+
+4
+00:00:11,000 --> 00:00:15,000
+and use that to generate randomness from physical events.
+
+5
+00:00:15,000 --> 00:00:20,000
+Thermal noise is an easier thing to measure in most circumstances.
+
+6
+00:00:20,000 --> 00:00:24,000
+If you can measure that precisely enough--it also depends on Quantum Mechanics--
+
+7
+00:00:24,000 --> 00:00:28,000
+at some level and produces randomness.
+
+8
+00:00:28,000 --> 00:00:31,000
+And many modern processors have a way of generating a small amount
+
+9
+00:00:31,000 --> 00:00:34,000
+of randomness by measuring thermal noise in the processor.
+
+10
+00:00:34,000 --> 00:00:37,000
+Whether it's really physically random depends on a lot of other things.
+
+11
+00:00:37,000 --> 00:00:41,000
+You can also look at things that actually happen, and think that
+
+12
+00:00:41,000 --> 00:00:46,000
+they are random. Maybe if they're key presses or user actions--
+
+13
+00:00:46,000 --> 00:00:50,000
+maybe those are random. An example of this is when we generate
+
+14
+00:00:50,000 --> 00:00:53,000
+a new key using GPG, it will ask you to generate
+
+15
+00:00:53,000 --> 00:00:57,000
+--when you start to generate a key--it says we need lots of random bytes
+
+16
+00:00:57,000 --> 00:01:02,000
+and you can perform some type of action like moving the mouse using the disc
+
+17
+00:01:02,000 --> 00:01:04,000
+to help generate more randomness for it.
+
+18
+00:01:04,000 --> 00:01:08,000
+And humans aren't good at doing random stuff
+
+19
+00:01:08,000 --> 00:01:12,000
+When we move the mouse, we're probably moving it in a pattern--
+
+20
+00:01:12,000 --> 00:01:15,000
+When we type on the keyboard, maybe we're doing things
+
+21
+00:01:15,000 --> 00:01:20,000
+that are not very random. So unless you're generating your randomness from
+
+22
+00:01:20,000 --> 00:01:24,000
+quantum physics, there's always some question whether it's really random enough.
+
+23
+00:01:24,000 --> 00:01:28,000
+Or whether you can predict the particular motions I took. And certainly
+
+24
+00:01:28,000 --> 00:01:32,000
+given that this has been recorded and released, the fake key that I generated
+
+25
+00:01:32,000 --> 00:01:37,000
+for Alyssa B. Hacker should not be used for any secure purpose.
+
+26
+00:01:37,000 --> 00:01:40,000
+So this approach of waiting for physically random events
+
+27
+00:01:40,000 --> 00:01:44,000
+is OK for GPG, maybe, because someone using it is
+
+28
+00:01:44,000 --> 00:01:47,000
+probably patient enough to sit around for a while, doing random stuff
+
+29
+00:01:47,000 --> 00:01:52,000
+as well as a human can to generate a key.
+
+30
+00:01:52,000 --> 00:01:56,000
+This would not work very well when you need more randomness
+
+31
+00:01:56,000 --> 00:01:59,000
+more quickly. And this happens every time you do a web transaction.
+
+32
+00:01:59,000 --> 00:02:02,000
+Every time someone does a secure web session,
+
+33
+00:02:02,000 --> 00:02:05,000
+any time you see the lock key in your browser,
+
+34
+00:02:05,000 --> 00:02:08,000
+there's a protocol going on called TLS. We'll talk about that more in a later unit.
+
+35
+00:02:08,000 --> 00:02:12,000
+But one thing that that requires is a new random key.
+
+36
+00:02:12,000 --> 00:02:14,000
+for each secure web session.
+
+37
+00:02:14,000 --> 00:02:18,000
+I don't think many people would tolerate being asked to move around their mouse
+
+38
+00:02:18,000 --> 00:02:22,000
+and do strange things to generate enough randomness in the hopes that
+
+39
+00:02:22,000 --> 00:02:25,000
+that key is secure every time you connect to a website.
+
+40
+00:02:25,000 --> 00:02:28,000
+So we need something better. We need a way to take a little bit
+
+41
+00:02:28,000 --> 00:02:32,000
+of physical randomness, and that's usually known as the seed--
+
+42
+00:02:32,000 --> 00:02:36,000
+that's the initial state, and that's the input to what's known
+
+43
+00:02:36,000 --> 00:02:40,000
+as a pseudo-random number generator. And that produces
+
+44
+00:02:40,000 --> 00:02:44,000
+a long sequence--that is longer than the amount of physical randomness
+
+45
+00:02:44,000 --> 00:02:47,000
+we started with--of random bits.
+
+46
+00:02:47,000 --> 00:02:53,000
+So that's our goal--to take a small amount of physical randomness
+
+47
+00:02:53,000 --> 00:02:56,000
+--some source of entropy that we can use as a seed--
+
+48
+00:02:56,000 --> 00:03:00,000
+have some function that will compute from that seed a long sequence
+
+49
+00:03:00,000 --> 99:59:59,999
+of apparently random bits.

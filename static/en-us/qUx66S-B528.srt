@@ -1,0 +1,95 @@
+1
+00:00:00,000 --> 00:00:04,000
+[Norvig] Let's show an example of where a backwards search makes sense.
+
+2
+00:00:04,000 --> 00:00:07,000
+I'm going to describe a world in which there is one action,
+
+3
+00:00:07,000 --> 00:00:14,000
+the action of buying a book.
+
+4
+00:00:14,000 --> 00:00:18,000
+And the precondition is we have to know which book it is,
+
+5
+00:00:18,000 --> 00:00:21,000
+and let's identify them by ISBN number.
+
+6
+00:00:21,000 --> 00:00:30,000
+So we can buy ISBN number B, and the effect is that we own B.
+
+7
+00:00:30,000 --> 00:00:32,000
+And probably there should be something about money,
+
+8
+00:00:32,000 --> 00:00:35,000
+but we're going to leave that out for now to make it simple.
+
+9
+00:00:35,000 --> 00:00:47,000
+And then the goal would be to own ISBN number 0136042597.
+
+10
+00:00:47,000 --> 00:00:51,000
+Now, if we try to solve this problem with forward search, we'd start in the initial state.
+
+11
+00:00:51,000 --> 00:00:55,000
+Let's say the initial state is we don't own anything.
+
+12
+00:00:55,000 --> 00:00:59,000
+And then we'd think about what actions can we apply.
+
+13
+00:00:59,000 --> 00:01:02,000
+If there are 10 million different books, 10 million ISBN numbers,
+
+14
+00:01:02,000 --> 00:01:08,000
+then there is a branching factor of 10 million coming out of this node,
+
+15
+00:01:08,000 --> 00:01:12,000
+and we'd have to try them all in order until we happened to hit upon one that was the right one.
+
+16
+00:01:12,000 --> 00:01:14,000
+It seems very inefficient.
+
+17
+00:01:14,000 --> 00:01:19,000
+If we go in the backward direction, then we start at the goal.
+
+18
+00:01:19,000 --> 00:01:22,000
+The goal is to own this number.
+
+19
+00:01:22,000 --> 00:01:25,000
+Then we look at our available actions, and out of the 10 million actions
+
+20
+00:01:25,000 --> 00:01:27,000
+there's only 1 action schema,
+
+21
+00:01:27,000 --> 00:01:30,000
+and that action schema can match the goal in exactly one way,
+
+22
+00:01:30,000 --> 00:01:36,000
+when B equals this number, and therefore we know the action is to buy this number,
+
+23
+00:01:36,000 --> 00:01:42,000
+and we can connect the goal to the initial state in the backwards direction in just 1 step.
+
+24
+00:01:42,000 --> 99:59:59,999
+So that's the advantage of doing backwards or regression search rather than forward search.

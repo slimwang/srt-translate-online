@@ -1,0 +1,419 @@
+1
+00:00:00,340 --> 00:00:04,410
+In this exercise, we will set up
+a notification that will eventually pop
+
+2
+00:00:04,410 --> 00:00:07,980
+up every fifteen minutes while
+the phone is being charged.
+
+3
+00:00:07,980 --> 00:00:11,890
+The notification will remind us to drink
+a glass of water and when we click on
+
+4
+00:00:11,890 --> 00:00:15,200
+it, we should be able to see the
+application in the foreground again so
+
+5
+00:00:15,199 --> 00:00:18,669
+that we can update our account
+by clicking on the cup icon.
+
+6
+00:00:18,670 --> 00:00:23,429
+However, for the sake of simplicity, we
+will start by setting this notification
+
+7
+00:00:23,429 --> 00:00:27,230
+to pop up every time we click
+on this notification button.
+
+8
+00:00:27,230 --> 00:00:29,730
+Just the test notification
+functionality.
+
+9
+00:00:29,730 --> 00:00:34,619
+Then in later exercises, we will be able
+to get a scheduled job that will trigger
+
+10
+00:00:34,619 --> 00:00:37,390
+this notification every fifteen
+minutes in the background.
+
+11
+00:00:38,590 --> 00:00:44,010
+The first step is to create a
+helper method called contentIntent that
+
+12
+00:00:44,009 --> 00:00:48,089
+will create the pending intent which
+we need to pass to the notification.
+
+13
+00:00:48,090 --> 00:00:52,550
+Inside we'll create a new explicit
+intent that will lunch the main activity
+
+14
+00:00:52,549 --> 00:00:56,589
+in the provided context by
+creating a new content object and
+
+15
+00:00:56,590 --> 00:00:58,910
+passing in main activity class.
+
+16
+00:00:58,909 --> 00:01:02,809
+And then we get to call
+the getActivity in PendingIntent,
+
+17
+00:01:02,810 --> 00:01:05,359
+to create the PendingIntent instance.
+
+18
+00:01:05,359 --> 00:01:10,969
+We pass to getActivity the context,
+a WATER_REMINDER_PENDING_INTENT_ID,
+
+19
+00:01:10,969 --> 00:01:14,799
+which is just an integer value that
+we declared initialized above.
+
+20
+00:01:14,799 --> 00:01:17,730
+The actual Intent that
+we just created earlier.
+
+21
+00:01:17,730 --> 00:01:20,109
+And we've set the flag
+to UPDATE_CURRENT.
+
+22
+00:01:20,109 --> 00:01:23,054
+Since we shouldn't expect to
+recreate the same pending intent,
+
+23
+00:01:23,055 --> 00:01:26,160
+FLAG_UPDATE_CURRENT should work fine.
+
+24
+00:01:26,159 --> 00:01:28,950
+Because if we do create
+a duplicate pending intent,
+
+25
+00:01:28,950 --> 00:01:31,010
+it will keep this instance valid and
+
+26
+00:01:31,010 --> 00:01:35,400
+update the extra data associated
+with it with that of the new intent.
+
+27
+00:01:35,400 --> 00:01:38,660
+Next, we need another helper
+function that will prepare a bitmap
+
+28
+00:01:38,659 --> 00:01:41,009
+image to display on our notification.
+
+29
+00:01:41,010 --> 00:01:44,410
+let's call our method LargeIcon and
+set it to return a bitmap.
+
+30
+00:01:44,409 --> 00:01:49,224
+Inside, we need a content resources to
+be able to decode an image resource.
+
+31
+00:01:49,224 --> 00:01:53,224
+And then using BitmapFactory,
+we can call decode resources,
+
+32
+00:01:53,224 --> 00:01:55,144
+passing in the context resources.
+
+33
+00:01:55,144 --> 00:01:58,024
+And the resource ID of the cup image.
+
+34
+00:01:58,025 --> 00:02:00,335
+Then we just return that bitmap.
+
+35
+00:02:00,334 --> 00:02:02,634
+Now that we have those
+two helper functions,
+
+36
+00:02:02,635 --> 00:02:06,689
+let's create a method called,
+remind user because charging.
+
+37
+00:02:06,689 --> 00:02:10,728
+This method will create and
+display the actual notification for us.
+
+38
+00:02:10,729 --> 00:02:13,120
+We will set it to take in a context.
+
+39
+00:02:13,120 --> 00:02:17,039
+Now, to create a notification,
+we use something called the notification
+
+40
+00:02:17,039 --> 00:02:21,479
+builder to describe it, and then
+a notification manager to display it.
+
+41
+00:02:21,479 --> 00:02:24,879
+The notification builder
+constructor takes a context.
+
+42
+00:02:24,879 --> 00:02:29,259
+And we can call a bunch of setters while
+creating it to set up our notification.
+
+43
+00:02:29,259 --> 00:02:34,099
+Like setting the color to primary color
+and setting the small icon and large
+
+44
+00:02:34,099 --> 00:02:38,638
+icon of our notification to our imagery
+sources and the bitmap we just created.
+
+45
+00:02:38,638 --> 00:02:42,599
+Also we get to set the title and
+text of our notification.
+
+46
+00:02:42,599 --> 00:02:46,159
+And here we are just using the string
+resources that we have created for you.
+
+47
+00:02:46,159 --> 00:02:50,530
+You can also set the style which
+here I've used the BigTextStyle.
+
+48
+00:02:50,530 --> 00:02:52,960
+But you can check more styles
+in the comments below.
+
+49
+00:02:52,960 --> 00:02:56,370
+We've also set our notification
+to vibrate by default.
+
+50
+00:02:56,370 --> 00:02:57,069
+But to do that,
+
+51
+00:02:57,069 --> 00:03:01,930
+we need to add a permission in our
+Android manifest to allow for vibration.
+
+52
+00:03:01,930 --> 00:03:05,262
+So after we add that permission,
+we can go back to our constructor.
+
+53
+00:03:05,262 --> 00:03:08,490
+And then make sure
+that we set the intent
+
+54
+00:03:08,490 --> 00:03:11,409
+to the pending intent
+to help to function.
+
+55
+00:03:11,409 --> 00:03:15,180
+So the notification and
+set the AutoCancel to true, so
+
+56
+00:03:15,180 --> 00:03:20,330
+that the notification get's
+cancel when we click on it.
+
+57
+00:03:20,330 --> 00:03:25,820
+Finally, set the priority to high.
+
+58
+00:03:25,819 --> 00:03:29,549
+But setting such a priority will
+cause the notification to pop-up
+
+59
+00:03:29,550 --> 00:03:32,240
+using the Android's new heads up style.
+
+60
+00:03:32,240 --> 00:03:36,159
+But because the heads up feature
+is only supported by Jellybean and
+
+61
+00:03:36,159 --> 00:03:40,400
+above, we need to add this
+if condition up here.
+
+62
+00:03:40,400 --> 00:03:42,490
+Now that we have a notification builder,
+
+63
+00:03:42,490 --> 00:03:46,379
+we need to create an instance of
+a notification manager to display it.
+
+64
+00:03:46,379 --> 00:03:47,769
+As we have mentioned earlier,
+
+65
+00:03:47,770 --> 00:03:50,230
+the notification manager
+is a system service.
+
+66
+00:03:50,229 --> 00:03:55,699
+So to create an instance we do that by
+calling context.getsystemservice and
+
+67
+00:03:55,699 --> 00:03:57,519
+pass in the notification service name.
+
+68
+00:03:58,580 --> 00:04:01,480
+This returns a general object,
+so we need to cast it to
+
+69
+00:04:01,479 --> 00:04:06,500
+the notification manager class, and save
+it in our notification manager instance.
+
+70
+00:04:06,500 --> 00:04:07,560
+And then finally now,
+
+71
+00:04:07,560 --> 00:04:11,460
+we can call the notify method
+in the NotificationManager.
+
+72
+00:04:11,460 --> 00:04:15,150
+We pass in an ID, which we've
+initialized and created above here.
+
+73
+00:04:16,399 --> 00:04:19,220
+And we've passed in
+the notificationBuilder.build method.
+
+74
+00:04:20,810 --> 00:04:21,560
+Perfect, okay.
+
+75
+00:04:21,560 --> 00:04:22,540
+So to test this,
+
+76
+00:04:22,540 --> 00:04:26,189
+let's create a dummy button that when
+clicked, Will pop up the notification.
+
+77
+00:04:27,250 --> 00:04:32,050
+To do that, let's go to the activity
+main and then just at the very bottom,
+
+78
+00:04:32,050 --> 00:04:35,949
+add a new button that
+says test notification.
+
+79
+00:04:35,949 --> 00:04:39,750
+And on click we can create a new
+method called testNotification.
+
+80
+00:04:41,199 --> 00:04:46,029
+Where inside all we do is call
+remindUserBecauseCharging.
+
+81
+00:04:46,029 --> 00:04:47,419
+And pass in this as the context.
+
+82
+00:04:48,610 --> 00:04:52,600
+Now one last step we need to
+do is to add the single top
+
+83
+00:04:52,600 --> 00:04:56,910
+attribute to our MainActivity so
+that when you click on the notification,
+
+84
+00:04:56,910 --> 00:05:00,470
+it launches the already open activity
+and doesn't start a new one.
+
+85
+00:05:00,470 --> 00:05:02,669
+Okay, we're done, let's test this.
+
+86
+00:05:04,149 --> 00:05:06,969
+And now lt's click on
+the TEST NOTIFICATION and
+
+87
+00:05:06,970 --> 00:05:09,700
+the notification pops up perfectly.
+
+88
+00:05:09,699 --> 00:05:12,969
+Also when we clicked on the
+notification, the app shows up again.
+

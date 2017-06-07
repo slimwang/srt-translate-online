@@ -1,0 +1,567 @@
+1
+00:00:00,990 --> 00:00:03,980
+So, eventually, we want to take
+user info from the editor and
+
+2
+00:00:03,980 --> 00:00:05,650
+save that often to the database.
+
+3
+00:00:05,650 --> 00:00:08,400
+But first, let's just start
+off with some baby steps.
+
+4
+00:00:08,400 --> 00:00:11,390
+Now, remember we've always encouraged
+you to plan your work ahead of time
+
+5
+00:00:11,390 --> 00:00:12,780
+when adding any complex feature.
+
+6
+00:00:12,780 --> 00:00:15,810
+And this is to help you focus
+on small winds along the way,
+
+7
+00:00:15,810 --> 00:00:18,440
+it can help you verify if
+you're on the right track.
+
+8
+00:00:18,440 --> 00:00:21,320
+So, on our case,
+let's focus on these two steps.
+
+9
+00:00:21,320 --> 00:00:25,320
+So first, getting pet attributes
+from the user input fields and
+
+10
+00:00:25,320 --> 00:00:29,510
+then inserting a new pet with those
+attributes into the database.
+
+11
+00:00:29,510 --> 00:00:33,470
+So once the user enters pet data
+into these fields, we first need to
+
+12
+00:00:33,470 --> 00:00:37,300
+read the data from these fields and
+then sort them off into variables.
+
+13
+00:00:37,300 --> 00:00:41,930
+Second, we need to save these values
+into the database as a new pet.
+
+14
+00:00:41,930 --> 00:00:42,710
+So first,
+
+15
+00:00:42,710 --> 00:00:46,800
+let's actually focus on just the part
+of inserting the pet into the database.
+
+16
+00:00:46,800 --> 00:00:49,390
+And that means for now,
+let's not worry about this part
+
+17
+00:00:49,390 --> 00:00:52,830
+of reading the attributes
+from the user input fields.
+
+18
+00:00:52,830 --> 00:00:55,690
+So, one easy way we can insert
+a new pet without worrying about
+
+19
+00:00:55,690 --> 00:00:59,520
+the editor just yet, is to use
+our Insert Dummy Data menu item
+
+20
+00:00:59,520 --> 00:01:02,080
+in the overflow menu of
+our catalog activity.
+
+21
+00:01:02,080 --> 00:01:05,500
+So the Overflow menu also known
+as the Options menu in Android
+
+22
+00:01:05,500 --> 00:01:09,850
+is characterized by these three dots
+that you can see here up in that bar.
+
+23
+00:01:09,850 --> 00:01:13,300
+And so clicking on it reveals
+a list of our menu options.
+
+24
+00:01:13,300 --> 00:01:16,150
+Now to clarify,
+earlier when I said Dummy Data
+
+25
+00:01:16,150 --> 00:01:19,270
+what I meant is fake data
+that we can use for practice.
+
+26
+00:01:19,270 --> 00:01:23,610
+So, similar to how a crashed dummy is
+used for testing car safety, we can
+
+27
+00:01:23,610 --> 00:01:28,610
+insert fake pet data into our database
+to help us test our apps functionality.
+
+28
+00:01:28,610 --> 00:01:32,070
+So, we've already added this menu item
+into the version that pets app that we
+
+29
+00:01:32,070 --> 00:01:33,240
+provided for you.
+
+30
+00:01:33,240 --> 00:01:36,969
+But currently, clicking on it
+doesn't do anything just yet.
+
+31
+00:01:36,969 --> 00:01:40,000
+You can notice there's no
+action listed below this case.
+
+32
+00:01:40,000 --> 00:01:43,570
+So since we haven't formally
+discussed menu options before,
+
+33
+00:01:43,570 --> 00:01:46,160
+let me show you a code that
+makes this actually work.
+
+34
+00:01:47,350 --> 00:01:50,585
+Just like we use XML to declare layouts,
+strings and
+
+35
+00:01:50,585 --> 00:01:54,945
+style resources, we can also
+use it to declare menu layouts.
+
+36
+00:01:54,945 --> 00:02:01,204
+So here under Res, under Menu we've
+defined a menu catalog XML file.
+
+37
+00:02:01,204 --> 00:02:03,122
+So let's open that up.
+
+38
+00:02:03,122 --> 00:02:07,392
+So inside this file
+using the menu XML tag,
+
+39
+00:02:07,392 --> 00:02:09,862
+we declare a menu with two menu items.
+
+40
+00:02:10,922 --> 00:02:15,488
+Notice there are specific XML
+attributes that we use for
+
+41
+00:02:15,488 --> 00:02:19,481
+menu items such as ID,
+Title and Show As Action.
+
+42
+00:02:19,481 --> 00:02:24,189
+And this one here shows action,
+determines whether this item should be
+
+43
+00:02:24,189 --> 00:02:27,748
+shown as an icon in the app bar or
+in the Overflow menu.
+
+44
+00:02:27,748 --> 00:02:29,740
+So the Overflow menu is those three
+
+45
+00:02:30,980 --> 00:02:33,930
+vertical dots on the right
+hand side of the app bar.
+
+46
+00:02:33,930 --> 00:02:37,080
+So here we have
+Show As Action set as never.
+
+47
+00:02:37,080 --> 00:02:41,950
+This means that this menu item will
+always be shown in the Overflow menu.
+
+48
+00:02:41,950 --> 00:02:44,802
+Great, so now that we've
+defined our menu resource file,
+
+49
+00:02:44,802 --> 00:02:47,610
+how do we connect it to
+the Catalog Activity.
+
+50
+00:02:47,610 --> 00:02:52,240
+Well, in the Catalog Activity file we
+can actually override specific methods
+
+51
+00:02:52,240 --> 00:02:56,080
+that were originally defined in
+the Activity super class, so
+
+52
+00:02:56,080 --> 00:02:58,680
+our AppCompatActivity class here.
+
+53
+00:02:58,680 --> 00:03:00,660
+And those methods are these down here.
+
+54
+00:03:03,380 --> 00:03:07,220
+So first,
+by overriding onCreateOptionsMenu,
+
+55
+00:03:07,220 --> 00:03:10,489
+we can inflate a menu resource
+by referring to its resource id.
+
+56
+00:03:11,750 --> 00:03:18,120
+So, in this case the resource
+id is R.menu.menu_catalog
+
+57
+00:03:18,120 --> 00:03:23,250
+where this tag here was the name
+of our menu in the XML file.
+
+58
+00:03:23,250 --> 00:03:25,290
+So, we can see this name over here.
+
+59
+00:03:26,670 --> 00:03:30,310
+So, this method on Create Options
+menu will be caught automatically by
+
+60
+00:03:30,310 --> 00:03:34,300
+the system when the catalog
+activity is first being created and
+
+61
+00:03:34,300 --> 00:03:38,520
+will display these menu
+items in the Options menu.
+
+62
+00:03:38,520 --> 00:03:41,660
+Now in order to add behavior
+to each of these menu items,
+
+63
+00:03:41,660 --> 00:03:47,210
+we'll need to override this method here,
+on options item selected.
+
+64
+00:03:47,210 --> 00:03:50,770
+So this method will be called by
+the system when an Options menu item
+
+65
+00:03:50,770 --> 00:03:52,320
+is clicked on.
+
+66
+00:03:52,320 --> 00:03:54,520
+So determine which item is clicked on.
+
+67
+00:03:54,520 --> 00:03:58,090
+We can take a look at the input
+which is this parameter here.
+
+68
+00:03:58,090 --> 00:04:00,970
+So item of type menu item.
+
+69
+00:04:00,970 --> 00:04:04,590
+We can check the item ID and
+then create a switch statement
+
+70
+00:04:04,590 --> 00:04:08,020
+that handles the different cases for
+the different menu items.
+
+71
+00:04:08,020 --> 00:04:12,410
+So in the case that the user clicks
+on the insert Dummy Data Menu item so
+
+72
+00:04:12,410 --> 00:04:17,320
+this one here, it's going to
+fall to this specific case.
+
+73
+00:04:17,320 --> 00:04:22,580
+And this is because this case
+ID matches this ID here.
+
+74
+00:04:24,650 --> 00:04:27,180
+So back in the onItemSelected method,
+
+75
+00:04:27,180 --> 00:04:30,050
+note that this case statement
+currently is blank.
+
+76
+00:04:30,050 --> 00:04:33,940
+So even though the user clicks on
+it no action is set to happen.
+
+77
+00:04:33,940 --> 00:04:37,410
+So I want to modify the code
+to call an insert pet method
+
+78
+00:04:37,410 --> 00:04:39,316
+which I'll need to create later on.
+
+79
+00:04:39,316 --> 00:04:42,250
+So first let me just type
+the name of the method.
+
+80
+00:04:42,250 --> 00:04:46,970
+So delete this comment here and
+type in insert pet.
+
+81
+00:04:46,970 --> 00:04:49,600
+So this is calling a method
+that I haven't created yet.
+
+82
+00:04:49,600 --> 00:04:51,740
+So right now it's throwing
+an error because I haven't even
+
+83
+00:04:51,740 --> 00:04:53,150
+defined this method.
+
+84
+00:04:53,150 --> 00:04:55,300
+So let's go ahead and do that up here.
+
+85
+00:04:55,300 --> 00:05:00,400
+So I'm going to set it as a private
+method, with no return value and
+
+86
+00:05:00,400 --> 00:05:02,180
+the name will be insertPet.
+
+87
+00:05:02,180 --> 00:05:06,260
+So it's going to take no inputs,
+and there we go.
+
+88
+00:05:06,260 --> 00:05:10,070
+So Android Studio is okay
+with this blank method here.
+
+89
+00:05:10,070 --> 00:05:12,020
+All right, so armed with that knowledge,
+
+90
+00:05:12,020 --> 00:05:16,440
+now it's your job to insert some dummy
+data by adding the insertPet method.
+
+91
+00:05:17,470 --> 00:05:20,940
+Now remember I want you to do it
+proper way using content values.
+
+92
+00:05:20,940 --> 00:05:24,370
+So for the following exercise, I like
+you to insert this example of content
+
+93
+00:05:24,370 --> 00:05:28,880
+values into the database when
+the user hits insert dummy data.
+
+94
+00:05:28,880 --> 00:05:32,080
+Now when using insert data
+with the SQLite insert method
+
+95
+00:05:32,080 --> 00:05:34,830
+take note of what
+the insert method returns.
+
+96
+00:05:34,830 --> 00:05:39,020
+So normally it says here that it returns
+the ID of the row that was inserted.
+
+97
+00:05:39,020 --> 00:05:42,400
+But if there was an error notice
+that no row is inserted and
+
+98
+00:05:42,400 --> 00:05:45,190
+instead the value
+negative 1 is returned.
+
+99
+00:05:45,190 --> 00:05:47,730
+So if you do this correctly
+two things should happen.
+
+100
+00:05:47,730 --> 00:05:50,540
+One, you should find that
+whenever you go to the menu and
+
+101
+00:05:50,540 --> 00:05:54,310
+select the Insert Dummy Data option
+the row count on the main screen,
+
+102
+00:05:54,310 --> 00:05:58,730
+or our catalog activity, increments
+because you've inserted a new pet.
+
+103
+00:05:58,730 --> 00:06:02,840
+So notice here, it increases from 0,
+hit Insert Dummy Data,
+
+104
+00:06:02,840 --> 00:06:04,040
+and then increases to 1.
+
+105
+00:06:04,040 --> 00:06:08,600
+And if I were to hit it again, the row
+count increased to 2, and so and so on.
+
+106
+00:06:08,600 --> 00:06:11,730
+And the second thing you should
+notice is that you should find
+
+107
+00:06:11,730 --> 00:06:14,960
+all these dummy pets in
+the downloaded database.
+
+108
+00:06:14,960 --> 00:06:17,750
+So I recommend to you checking
+out this code snippet
+
+109
+00:06:17,750 --> 00:06:20,500
+found with a tutorial that
+I've linked down below.
+
+110
+00:06:20,500 --> 00:06:23,840
+And that tutorial is from our
+Android documentation site of how to
+
+111
+00:06:23,840 --> 00:06:26,160
+insert a row into the database.
+
+112
+00:06:26,160 --> 00:06:26,830
+So again,
+
+113
+00:06:26,830 --> 00:06:30,240
+here's a summary of what I'd like you
+to do in this following exercise.
+
+114
+00:06:30,240 --> 00:06:34,120
+First, modify the app so clicking on
+the Insert Dummy Data menu option.
+
+115
+00:06:34,120 --> 00:06:38,670
+First, Inserts this pet Toto
+with all his information here
+
+116
+00:06:38,670 --> 00:06:42,500
+as well as updates the TextView on our
+catalog activities screen with the row
+
+117
+00:06:42,500 --> 00:06:47,390
+count of the database and thus so
+using our display database info method.
+
+118
+00:06:47,390 --> 00:06:51,170
+Remember to check out the instructor
+notes down below if you need some help

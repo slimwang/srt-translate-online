@@ -1,0 +1,217 @@
+﻿1
+00:00:00,220 --> 00:00:04,259
+To add actions to our notification, the
+first step we'll need to do is inside
+
+2
+00:00:04,259 --> 00:00:09,039
+the NotificationUtils, to create
+a method called clear all notifications.
+
+3
+00:00:09,039 --> 00:00:11,910
+This will basically dismiss any
+notification that we've created
+
+4
+00:00:11,910 --> 00:00:13,429
+with our hydration app.
+
+5
+00:00:13,429 --> 00:00:14,349
+To do that,
+
+6
+00:00:14,349 --> 00:00:18,179
+we just call the getSystemService to
+get the notificationManager again.
+
+7
+00:00:18,179 --> 00:00:19,120
+And then inside,
+
+8
+00:00:19,120 --> 00:00:23,260
+we can call the cancelAll method
+provided by the notificationManager.
+
+9
+00:00:23,260 --> 00:00:26,886
+Inside ReminderTasks, we've
+previously created this string here
+
+10
+00:00:26,885 --> 00:00:30,207
+which represents the action of
+incrementing the water count.
+
+11
+00:00:30,207 --> 00:00:33,737
+We can reuse this action string
+to handle when the user clicks on
+
+12
+00:00:33,737 --> 00:00:38,149
+the I DID IT action and that will
+increment our water count for us.
+
+13
+00:00:38,149 --> 00:00:42,320
+But we still need to create a new action
+for when the user clicks the NO THANKS.
+
+14
+00:00:42,320 --> 00:00:46,149
+So, let's create a new string
+called ACTION_DISMISS_NOTIFICATION
+
+15
+00:00:46,149 --> 00:00:48,399
+to represent this new task type.
+
+16
+00:00:48,399 --> 00:00:53,100
+And then inside executeTask,
+we can add this else if to handle this
+
+17
+00:00:53,100 --> 00:00:57,100
+new task type and clear all
+the notifications if that was the case.
+
+18
+00:00:57,100 --> 00:00:59,840
+And then let's also clear
+all notifications inside
+
+19
+00:00:59,840 --> 00:01:02,960
+the INCREMENT_WATER_COUNT method
+to dismiss the notification after
+
+20
+00:01:02,960 --> 00:01:04,060
+we're done.
+
+21
+00:01:04,060 --> 00:01:07,000
+Now, to handle the action
+buttons in the notification,
+
+22
+00:01:07,000 --> 00:01:10,349
+let's create two static helper
+methods that will create and
+
+23
+00:01:10,349 --> 00:01:14,099
+return the appropriate action
+instances for each button.
+
+24
+00:01:14,099 --> 00:01:18,500
+IgnoreReminderAction takes in a context
+and starts by creating an intent using
+
+25
+00:01:18,500 --> 00:01:23,150
+IntentService class to relaunch the app
+and execute a task in the background.
+
+26
+00:01:23,150 --> 00:01:24,870
+Since this is the ignore action,
+
+27
+00:01:24,870 --> 00:01:28,439
+we'll set the action of that intent
+to dismiss the notification task.
+
+28
+00:01:28,439 --> 00:01:31,310
+And then, let's wrap this
+intent with a pending intent so
+
+29
+00:01:31,310 --> 00:01:34,040
+it can be triggered by
+the notificationManager.
+
+30
+00:01:34,040 --> 00:01:38,430
+And finally, let's create the actual
+action instance from the intent,
+
+31
+00:01:38,430 --> 00:01:41,480
+along with a cancel icon,
+and the label NO THANKS.
+
+32
+00:01:41,480 --> 00:01:44,380
+And then, we can return that
+action we just created.
+
+33
+00:01:44,379 --> 00:01:47,599
+Now that we have a helper function for
+ignoring the reminder action,
+
+34
+00:01:47,599 --> 00:01:50,299
+we'll create a very similar one for
+the drinkWaterAction.
+
+35
+00:01:51,370 --> 00:01:52,810
+The only differences would be,
+
+36
+00:01:52,810 --> 00:01:56,590
+that we're setting the action
+to ACTION_INCREMENT_WATER_COUNT.
+
+37
+00:01:56,590 --> 00:01:59,969
+Using a different ID for our pending
+intent, along with the intent that we
+
+38
+00:01:59,969 --> 00:02:04,549
+just created, and we've also changed
+the label and icon for this action.
+
+39
+00:02:05,599 --> 00:02:10,266
+Now the very final step is to add those
+two new actions into our notification
+
+40
+00:02:10,266 --> 00:02:10,942
+builder.
+
+41
+00:02:10,943 --> 00:02:15,469
+One for the drinkWaterAction and
+the other for the ignoreReminderAction.
+
+42
+00:02:15,469 --> 00:02:20,039
+Perfect, now it's time to test it and
+see if everything works.
+
+43
+00:02:20,039 --> 00:02:22,929
+And now if I click
+the TEST NOTIFICATION,
+
+44
+00:02:22,930 --> 00:02:25,840
+I did it seems to increment
+the count perfectly.
+
+45
+00:02:25,840 --> 00:02:29,030
+And NO THANKS just dismisses it,
+well done.
+

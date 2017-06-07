@@ -1,0 +1,91 @@
+1
+00:00:00,000 --> 00:00:06,000
+There is one more thing to deal with when we have to talk about games--and that's chance.
+
+2
+00:00:06,000 --> 00:00:10,000
+We want to move from purely deterministic games to stochastic games
+
+3
+00:00:10,000 --> 00:00:16,000
+like backgammon or other games that introduce dice or other parts of random action.
+
+4
+00:00:16,000 --> 00:00:19,000
+That means that the actions that an agent takes
+
+5
+00:00:19,000 --> 00:00:23,000
+are not specifically specified to have a single result.
+
+6
+00:00:23,000 --> 00:00:26,000
+Let's see how we can deal with stochastic games
+
+7
+00:00:26,000 --> 00:00:30,000
+by looking at our value function and modifying it to allow for this.
+
+8
+00:00:30,000 --> 00:00:34,000
+Here we have our valuation function, and we're dealing with four types of nodes--
+
+9
+00:00:34,000 --> 00:00:38,000
+one, nodes that we decide to cut off on our own, because we reached a certain depth;
+
+10
+00:00:38,000 --> 00:00:42,000
+second, nodes that are terminal according to the rules of the game;
+
+11
+00:00:42,000 --> 00:00:45,000
+and third, max to move and min to move.
+
+12
+00:00:45,000 --> 00:00:48,000
+Now I'm going to add one more type, which is a chance node.
+
+13
+00:00:48,000 --> 00:00:57,000
+We say if the state is a chance node, then we want to return the expected value of S
+
+14
+00:00:57,000 --> 00:01:00,000
+and carry along these bookkeeping variables.
+
+15
+00:01:00,000 --> 00:01:04,000
+What we're saying here is if it's at the point of the game where it's time to roll the dice,
+
+16
+00:01:04,000 --> 00:01:08,000
+then we're going to role the dice, and we're going to take the expected value
+
+17
+00:01:08,000 --> 00:01:11,000
+of all the possible results rather than the max or the min.
+
+18
+00:01:11,000 --> 00:01:15,000
+Here we have a schematic diagram for a stochastic game--a game with dice.
+
+19
+00:01:15,000 --> 00:01:19,000
+We start out. The chance node or the dice-rolling node is first.
+
+20
+00:01:19,000 --> 00:01:22,000
+The dice is rolled--one of six possibilities.
+
+21
+00:01:22,000 --> 00:01:24,000
+Then the next player gets his move.
+
+22
+00:01:24,000 --> 00:01:30,000
+In this case, we've let Min move first, and Min has various moves possible to make.
+
+23
+00:01:30,000 --> 99:59:59,999
+For each one, there is then another role of the dice, and then Max gets to make his move.

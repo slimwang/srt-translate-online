@@ -1,0 +1,768 @@
+1
+00:00:00,970 --> 00:00:05,250
+In the last quiz we were trying to
+figure out how to give the Tom, Tim, and
+
+2
+00:00:05,250 --> 00:00:08,240
+Tod text views a little
+more personal space
+
+3
+00:00:08,240 --> 00:00:12,010
+by spacing them out equally vertically
+across the height of the device.
+
+4
+00:00:13,380 --> 00:00:15,740
+We tried setting a fixed dp value, but
+
+5
+00:00:15,740 --> 00:00:19,900
+that wouldn't work if we switch
+to a taller device like a tablet.
+
+6
+00:00:19,900 --> 00:00:24,300
+Then we tried match_parent, but then
+that made the Tom text view really big.
+
+7
+00:00:24,300 --> 00:00:27,390
+But then it knocked the other
+two textees off the screen.
+
+8
+00:00:27,390 --> 00:00:31,440
+So then we started researching
+about linear layout weights.
+
+9
+00:00:31,440 --> 00:00:34,660
+In the documentation, it said that for
+a vertical linear layout,
+
+10
+00:00:34,660 --> 00:00:37,820
+if we want to equally space out
+the children, we need to set
+
+11
+00:00:37,820 --> 00:00:42,320
+the height to be zero dp and a weight
+value of one for each of the children.
+
+12
+00:00:43,590 --> 00:00:46,480
+Assigning a weight value to a child view
+
+13
+00:00:46,480 --> 00:00:49,490
+is like assigning
+an importance value to it.
+
+14
+00:00:49,490 --> 00:00:50,930
+The higher the weight value,
+
+15
+00:00:50,930 --> 00:00:55,040
+the more space it may get if there is
+available space in the parent left.
+
+16
+00:00:56,280 --> 00:00:57,510
+For example, for
+
+17
+00:00:57,510 --> 00:01:01,920
+this vertical linear layout,
+it fills down vertically this way.
+
+18
+00:01:01,920 --> 00:01:04,590
+It turns out that this linear layout
+has a lot of extra space, and
+
+19
+00:01:04,590 --> 00:01:08,900
+that will be distributed to
+the children that have weight values.
+
+20
+00:01:08,900 --> 00:01:11,020
+If a child has a very high weight value,
+
+21
+00:01:11,020 --> 00:01:14,450
+then more of this available height
+will be given to that child.
+
+22
+00:01:14,450 --> 00:01:16,890
+If a child has a very tiny weight value,
+
+23
+00:01:16,890 --> 00:01:19,900
+then less of this available height
+will be given to that child.
+
+24
+00:01:19,900 --> 00:01:21,340
+I can show you what it looks like.
+
+25
+00:01:21,340 --> 00:01:24,130
+I'm going to set the height
+of this child to be 0dp and
+
+26
+00:01:24,130 --> 00:01:26,020
+then give it a weight of 1.
+
+27
+00:01:26,020 --> 00:01:29,642
+The linear layout first lays out Tim and
+Todd TextViews,
+
+28
+00:01:29,642 --> 00:01:33,880
+because they have a fixed height
+based on the content inside of it.
+
+29
+00:01:33,880 --> 00:01:38,019
+And then there's this Tom TextView
+that has an initial height of 0dp, but
+
+30
+00:01:38,019 --> 00:01:38,880
+a weight of 1.
+
+31
+00:01:38,880 --> 00:01:41,266
+None of the other children
+have a weight value,
+
+32
+00:01:41,266 --> 00:01:45,000
+because the default weight value
+is zero if it's not specified.
+
+33
+00:01:45,000 --> 00:01:47,150
+So this is the only child
+with a weight value.
+
+34
+00:01:47,150 --> 00:01:50,480
+So the parent gives all of
+the remaining height of the screen
+
+35
+00:01:50,480 --> 00:01:51,900
+to this Tom TextView.
+
+36
+00:01:51,900 --> 00:01:55,610
+And that's why you see
+the Tom TextView is so giant.
+
+37
+00:01:55,610 --> 00:01:58,810
+Let me try assigning weight
+values to the other children now.
+
+38
+00:01:58,810 --> 00:02:02,660
+So now each child has a height
+of 0dp and weight of 1.
+
+39
+00:02:02,660 --> 00:02:04,980
+This is the process that the linear
+layout would go through.
+
+40
+00:02:04,980 --> 00:02:08,250
+It would try to figure out
+the height of each of these views.
+
+41
+00:02:08,250 --> 00:02:10,889
+The height of these
+views starts at 0 dp.
+
+42
+00:02:10,889 --> 00:02:13,950
+So that means the available
+remaining height in the parent
+
+43
+00:02:13,950 --> 00:02:16,410
+is basically the whole
+height of the screen.
+
+44
+00:02:16,410 --> 00:02:19,500
+It divides the whole height of
+the screen by the weight sum,
+
+45
+00:02:19,500 --> 00:02:20,280
+which is three.
+
+46
+00:02:20,280 --> 00:02:24,215
+And then it gives one-third of that
+available height to Tom text view,
+
+47
+00:02:24,215 --> 00:02:27,220
+one-third of the height
+to the Tim text view,
+
+48
+00:02:27,220 --> 00:02:29,680
+and one-third to the Todd text view.
+
+49
+00:02:29,680 --> 00:02:32,840
+These will still be evenly spaced
+across the height of a device
+
+50
+00:02:32,840 --> 00:02:37,250
+even on larger screen devices as
+well because of this weight value.
+
+51
+00:02:37,250 --> 00:02:40,130
+If I change the weight value
+to be something higher,
+
+52
+00:02:40,130 --> 00:02:44,920
+then the parent will give more
+available height to the Tim TextView.
+
+53
+00:02:44,920 --> 00:02:47,310
+I can change it to an even
+higher weight value,
+
+54
+00:02:47,310 --> 00:02:51,380
+and you can see how it continues
+to get more available height.
+
+55
+00:02:51,380 --> 00:02:54,240
+In this case,
+the Tim TextView has a weight of 8.
+
+56
+00:02:54,240 --> 00:02:56,910
+Tom has a weight of 1, and
+Todd has a weight of 1.
+
+57
+00:02:56,910 --> 00:03:00,340
+So the weight subtotal is eight,
+nine, ten.
+
+58
+00:03:00,340 --> 00:03:03,930
+So the parent divides the available
+height divided by ten.
+
+59
+00:03:03,930 --> 00:03:06,710
+And one-tenth goes to Tom,
+eight-tenths goes to to Tim,
+
+60
+00:03:06,710 --> 00:03:08,170
+and one-tenth goes to Todd.
+
+61
+00:03:09,450 --> 00:03:13,020
+So for a vertical linear layout,
+say we have 3 child TextViews.
+
+62
+00:03:13,020 --> 00:03:15,410
+We set the initial height to be 0 dp.
+
+63
+00:03:15,410 --> 00:03:19,400
+So they're all stacked up at the top
+of the screen with 0 height.
+
+64
+00:03:19,400 --> 00:03:23,290
+That means the parent has all
+this extra height available.
+
+65
+00:03:23,290 --> 00:03:27,810
+If I set a weight of 1 on each
+child TextView, then the available
+
+66
+00:03:27,810 --> 00:03:31,420
+parent height will be distributed
+equally across each of the children.
+
+67
+00:03:32,810 --> 00:03:35,400
+The same would work for
+horizontal linear layout.
+
+68
+00:03:35,400 --> 00:03:37,550
+Say we have 3 child text views.
+
+69
+00:03:37,550 --> 00:03:39,820
+We start with a width of 0 dp.
+
+70
+00:03:39,820 --> 00:03:43,300
+That means the parent has all
+this extra width available.
+
+71
+00:03:43,300 --> 00:03:46,960
+If I assign a weight value
+of 1 to each child view,
+
+72
+00:03:46,960 --> 00:03:50,110
+then we're going to take the available
+width left in the parent and
+
+73
+00:03:50,110 --> 00:03:52,740
+distribute it equally among each child.
+
+74
+00:03:52,740 --> 00:03:54,910
+And again,
+it doesn't have to have a weight of 1.
+
+75
+00:03:54,910 --> 00:03:57,740
+It could be to three or any other value.
+
+76
+00:03:57,740 --> 00:03:59,960
+Or it could even have a weight of zero.
+
+77
+00:03:59,960 --> 00:04:04,440
+If a view has a weight of zero, that
+means that it won't change depending on
+
+78
+00:04:04,440 --> 00:04:06,290
+the available space left in the parent.
+
+79
+00:04:06,290 --> 00:04:09,560
+It will basically stay the width and
+the height that you give it.
+
+80
+00:04:09,560 --> 00:04:12,710
+One thing I want to point out is
+when to set the height to be 0 or
+
+81
+00:04:12,710 --> 00:04:14,370
+the width to be 0.
+
+82
+00:04:14,370 --> 00:04:15,700
+If you have a vertical linear layout,
+
+83
+00:04:15,700 --> 00:04:18,950
+you're filling the linear
+layout vertically this way.
+
+84
+00:04:18,950 --> 00:04:20,390
+So you don't know what
+the height should be, so
+
+85
+00:04:20,390 --> 00:04:23,510
+you set the height to be initially 0 dp,
+and you give it a weight value.
+
+86
+00:04:24,620 --> 00:04:28,760
+Similarly for horizontal linear layout,
+you're filling it horizontally.
+
+87
+00:04:28,760 --> 00:04:31,920
+So you don't know width yet
+of the child views.
+
+88
+00:04:31,920 --> 00:04:34,930
+So you set the width to be 0 dp,
+and give it a weight value.
+
+89
+00:04:36,660 --> 00:04:39,820
+Essentially, you can think of
+assigning a weight value to a view
+
+90
+00:04:39,820 --> 00:04:44,840
+as being able to stretch it out
+depending on how big the parent view is.
+
+91
+00:04:44,840 --> 00:04:48,540
+This is good for filling in the
+available space within a small device or
+
+92
+00:04:48,540 --> 00:04:49,259
+a large device.
+
+93
+00:04:50,620 --> 00:04:53,730
+Here are a couple examples in real life
+where layout weights are really useful.
+
+94
+00:04:54,980 --> 00:04:57,210
+This is the Google Hangouts app.
+
+95
+00:04:57,210 --> 00:05:01,750
+You can use it to chat with your friends
+or send sleepy penguins to them.
+
+96
+00:05:01,750 --> 00:05:05,620
+In this bottom part of the screen
+here is where you send your message.
+
+97
+00:05:05,620 --> 00:05:08,950
+Let's look at this layout down
+here a little more closely.
+
+98
+00:05:08,950 --> 00:05:13,490
+It's a horizontal linear layout because
+it's laid out in a horizontal row.
+
+99
+00:05:13,490 --> 00:05:14,827
+It's made up of an ImageView,
+
+100
+00:05:14,827 --> 00:05:19,090
+an EditText field where you can
+enter text, and another ImageView.
+
+101
+00:05:19,090 --> 00:05:22,520
+Now the height of each of these
+views is actually wrap_content
+
+102
+00:05:22,520 --> 00:05:25,410
+because it wraps through
+the content inside of it.
+
+103
+00:05:25,410 --> 00:05:28,480
+The width of these two image views
+is wrap_content because it's
+
+104
+00:05:28,480 --> 00:05:30,350
+only as wide as
+the content inside of it.
+
+105
+00:05:31,460 --> 00:05:33,980
+We give it a weight of 0
+because we don't want it to be
+
+106
+00:05:33,980 --> 00:05:37,890
+any bigger than this, even if there's
+lots of space in the parent left over.
+
+107
+00:05:37,890 --> 00:05:41,100
+Setting the weight of 0 ensures that it
+will only be wrap_content for width and
+
+108
+00:05:41,100 --> 00:05:43,280
+height, and it won't change.
+
+109
+00:05:43,280 --> 00:05:46,110
+We want it to stretch so that it's
+a little bit bigger on the larger screen
+
+110
+00:05:46,110 --> 00:05:50,640
+devices, and we want it to shrink
+if it's on smaller screen devices.
+
+111
+00:05:50,640 --> 00:05:54,250
+So we set the width to be 0 dp and
+the weight to be 1.
+
+112
+00:05:54,250 --> 00:05:58,404
+That means that the parent linear layout
+will try the layout this image first and
+
+113
+00:05:58,404 --> 00:05:59,340
+then this image.
+
+114
+00:05:59,340 --> 00:06:05,050
+And then any remaining width in
+the device will be given to this view.
+
+115
+00:06:05,050 --> 00:06:07,000
+Here's an example in the maps app.
+
+116
+00:06:07,000 --> 00:06:09,570
+This is a detail page for a location.
+
+117
+00:06:09,570 --> 00:06:12,480
+There are three buttons here,
+Call, Save, and Website.
+
+118
+00:06:12,480 --> 00:06:14,450
+Let's look at them more closely.
+
+119
+00:06:14,450 --> 00:06:18,660
+You can actually build these as
+TextViews with icons attached to them,
+
+120
+00:06:18,660 --> 00:06:21,370
+and you can see the instructor notes for
+more details.
+
+121
+00:06:21,370 --> 00:06:23,540
+But that's really a tangent point.
+
+122
+00:06:23,540 --> 00:06:26,520
+For this exercise,
+let's assume that these are text views.
+
+123
+00:06:26,520 --> 00:06:29,710
+The height of each TextView
+is going to be wrap_content
+
+124
+00:06:29,710 --> 00:06:33,000
+because it wraps to the height
+of the content inside of it.
+
+125
+00:06:33,000 --> 00:06:34,980
+Now, the width is a little bit trickier.
+
+126
+00:06:34,980 --> 00:06:38,485
+We want each of these TextViews to be
+spread out equally across the width of
+
+127
+00:06:38,485 --> 00:06:42,470
+this screen, depending on whether it's
+a small device or a really large device.
+
+128
+00:06:42,470 --> 00:06:44,980
+We don't want all three text
+views to be grouped into
+
+129
+00:06:44,980 --> 00:06:46,240
+the left-hand side of the screen.
+
+130
+00:06:47,450 --> 00:06:50,640
+So to space children out equally,
+we give them equal weights.
+
+131
+00:06:50,640 --> 00:06:53,050
+We set a width of 0 and
+a weight of 1 for each of them.
+
+132
+00:06:54,058 --> 00:06:57,790
+That way the available width in the
+parent will be spread out equally across
+
+133
+00:06:57,790 --> 00:06:58,490
+the three children.
+
+134
+00:06:59,790 --> 00:07:02,170
+And the last example is an email app.
+
+135
+00:07:02,170 --> 00:07:05,420
+This is a compose screen in Gmail
+where you can write a new message.
+
+136
+00:07:06,460 --> 00:07:09,160
+It's a vertical linear layout,
+because the items are in a column.
+
+137
+00:07:10,230 --> 00:07:13,380
+And it's made up of four
+different EditText fields.
+
+138
+00:07:13,380 --> 00:07:16,546
+Now, the width of each child is
+match_parent because we want it to
+
+139
+00:07:16,546 --> 00:07:18,760
+stretch across the whole
+width of the device.
+
+140
+00:07:18,760 --> 00:07:22,845
+For height, we set these three edit
+text fields to be wrap_content so
+
+141
+00:07:22,845 --> 00:07:25,475
+it wraps the text inside of them.
+
+142
+00:07:25,475 --> 00:07:28,185
+We set the weights to be 0
+because we don't want them
+
+143
+00:07:28,185 --> 00:07:32,620
+to increase in size even if there's
+available height in the parent.
+
+144
+00:07:32,620 --> 00:07:35,870
+But for this last EditText field, this
+is where you write your message, and we
+
+145
+00:07:35,870 --> 00:07:40,710
+want to give the user lots of space to
+write a really long letter to Grandma.
+
+146
+00:07:40,710 --> 00:07:44,870
+So we se the height to be 0 dp,
+and we give it a weight of 1.
+
+147
+00:07:44,870 --> 00:07:46,700
+So if the parent has any
+available height left,
+
+148
+00:07:46,700 --> 00:07:50,070
+it will be given to this
+child EditText field.
+
+149
+00:07:50,070 --> 00:07:54,120
+On a larger screen device, the compose
+email field will be a little bit taller,
+
+150
+00:07:54,120 --> 00:07:56,880
+and on a smaller device it
+will be a little bit smaller.
+
+151
+00:07:58,620 --> 00:08:00,150
+Now it's your turn to practice.
+
+152
+00:08:00,150 --> 00:08:03,840
+We want you to go ahead and
+build this layout in the XML visualizer.
+
+153
+00:08:03,840 --> 00:08:06,550
+You can start with the XML
+that we've provided below.
+
+154
+00:08:06,550 --> 00:08:08,140
+Here are a couple of tips.
+
+155
+00:08:08,140 --> 00:08:11,517
+When you try to tackle something like
+this, try to first determine the width
+
+156
+00:08:11,517 --> 00:08:15,500
+of each view, and then go ahead and try
+to determine the height of each view.
+
+157
+00:08:15,500 --> 00:08:18,430
+Also make sure that the image
+takes up any remaining height in
+
+158
+00:08:18,430 --> 00:08:19,730
+the parent linear layout.
+
+159
+00:08:19,730 --> 00:08:22,550
+So on a smaller screen device,
+it will take up less height.
+
+160
+00:08:22,550 --> 00:08:25,110
+On a larger screen device,
+it will take up more height.
+
+161
+00:08:25,110 --> 00:08:26,390
+Okay, go for it.
+
+162
+00:08:26,390 --> 00:08:27,610
+Check this box when you're done.

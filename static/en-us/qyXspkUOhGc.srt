@@ -1,0 +1,259 @@
+1
+00:00:00,000 --> 00:00:06,000
+Let's return to this equation, which we use to show how to do inference by enumeration.
+
+2
+00:00:06,000 --> 00:00:10,000
+In this equation, we join up the whole joint distribution
+
+3
+00:00:10,000 --> 00:00:15,000
+before we sum out over the hidden variables.
+
+4
+00:00:15,000 --> 00:00:18,000
+That's slow, because we end up repeating a lot of work.
+
+5
+00:00:18,000 --> 00:00:25,000
+Now we're going to show a new technique called variable elimination,
+
+6
+00:00:25,000 --> 00:00:27,000
+which in many networks operates much faster.
+
+7
+00:00:27,000 --> 00:00:30,000
+It's still a difficult computation, an NP-hard computation,
+
+8
+00:00:30,000 --> 00:00:34,000
+to do inference over Bayes nets in general.
+
+9
+00:00:34,000 --> 00:00:38,000
+Variable elimination works faster than inference by enumeration
+
+10
+00:00:38,000 --> 00:00:41,000
+in most practical cases.
+
+11
+00:00:41,000 --> 00:00:45,000
+It requires an algebra for manipulating factors,
+
+12
+00:00:45,000 --> 00:00:48,000
+which are just names for multidimensional arrays
+
+13
+00:00:48,000 --> 00:00:53,000
+that come out of these probabilistic terms.
+
+14
+00:00:53,000 --> 00:00:57,000
+We'll use another example to show how variable elimination works.
+
+15
+00:00:57,000 --> 00:01:00,000
+We'll start off with a network that has 3 boolean variables.
+
+16
+00:01:00,000 --> 00:01:04,000
+R indicates whether or not it's raining.
+
+17
+00:01:04,000 --> 00:01:12,000
+T indicates whether or not there's traffic,
+
+18
+00:01:12,000 --> 00:01:15,000
+and T is dependent on whether it's raining.
+
+19
+00:01:15,000 --> 00:01:19,000
+And finally, L indicates whether or not I'll be late for my next appointment,
+
+20
+00:01:19,000 --> 00:01:22,000
+and that depends on whether or not there's traffic.
+
+21
+00:01:22,000 --> 00:01:29,000
+Now we'll put up the conditional probability tables for each of these 3 variables.
+
+22
+00:01:29,000 --> 00:01:35,000
+And then we can use inference to figure out the answer to questions like
+
+23
+00:01:35,000 --> 00:01:38,000
+am I going to be late?
+
+24
+00:01:38,000 --> 00:01:42,000
+And we know by definition that we could do that through enumeration
+
+25
+00:01:42,000 --> 00:01:47,000
+by going through all the possible values for R and T
+
+26
+00:01:47,000 --> 00:01:54,000
+and summing up the product of these 3 nodes.
+
+27
+00:01:54,000 --> 00:01:59,000
+Now, in a simple network like this, straight enumeration would work fine,
+
+28
+00:01:59,000 --> 00:02:03,000
+but in a more complex network, what variable elimination does is give us a way
+
+29
+00:02:03,000 --> 00:02:09,000
+to combine together parts of the network into smaller parts
+
+30
+00:02:09,000 --> 00:02:13,000
+and then enumerate over those smaller parts and then continue combining.
+
+31
+00:02:13,000 --> 00:02:15,000
+So, we start with a big network.
+
+32
+00:02:15,000 --> 00:02:17,000
+We eliminate some of the variables.
+
+33
+00:02:17,000 --> 00:02:24,000
+We compute by marginalizing out, and then we have a smaller network to deal with,
+
+34
+00:02:24,000 --> 00:02:28,000
+and we'll show you how those 2 steps work.
+
+35
+00:02:28,000 --> 00:02:35,000
+The first operation in variable elimination is called joining factors.
+
+36
+00:02:35,000 --> 00:02:39,000
+A factor, again, is one of these tables.
+
+37
+00:02:39,000 --> 00:02:43,000
+It's a multidimensional matrix, and what we do is choose 2 of the factors,
+
+38
+00:02:43,000 --> 00:02:45,000
+2 or more of the factors.
+
+39
+00:02:45,000 --> 00:02:49,000
+In this case, we'll choose these 2, and we'll combine them together
+
+40
+00:02:49,000 --> 00:02:52,000
+to form a new factor which represents
+
+41
+00:02:52,000 --> 00:02:56,000
+the joint probability of all the variables in that factor.
+
+42
+00:02:56,000 --> 00:03:00,000
+In this case, R and T.
+
+43
+00:03:00,000 --> 00:03:03,000
+Now we'll draw out that table.
+
+44
+00:03:03,000 --> 00:03:06,000
+In each case, we just look up in the corresponding table,
+
+45
+00:03:06,000 --> 00:03:08,000
+figure out the numbers, and multiply them together.
+
+46
+00:03:08,000 --> 00:03:13,000
+For example, in this row we have a +r and a +t,
+
+47
+00:03:13,000 --> 00:03:19,000
+so the +r is 0.1, and the entry for +r and +t is 0.8,
+
+48
+00:03:19,000 --> 00:03:22,000
+so multiply them together and you get 0.08.
+
+49
+00:03:22,000 --> 00:03:28,000
+Go all the way down. For example, in the last row we have a -r and a -t.
+
+50
+00:03:28,000 --> 00:03:34,000
+-r is 0.9. The entry for -r and -t is also 0.9.
+
+51
+00:03:34,000 --> 00:03:40,000
+Multiply those together and you get 0.81.
+
+52
+00:03:40,000 --> 00:03:42,000
+So, what have we done?
+
+53
+00:03:42,000 --> 00:03:45,000
+We used the operation of joining factors on these 2 factors,
+
+54
+00:03:45,000 --> 00:03:50,000
+getting us a new factor which is part of the existing network.
+
+55
+00:03:50,000 --> 00:03:56,000
+Now we want to apply a second operation called elimination,
+
+56
+00:03:56,000 --> 00:04:02,000
+also called summing out or marginalization, to take this table and reduce it.
+
+57
+00:04:02,000 --> 00:04:06,000
+Right now, the tables we have look like this.
+
+58
+00:04:06,000 --> 00:04:10,000
+We could sum out or marginalize over the variable R
+
+59
+00:04:10,000 --> 00:04:14,000
+to give us a table that just operates on T.
+
+60
+00:04:14,000 --> 00:04:20,000
+So, the question is to fill in this table for P(T)--
+
+61
+00:04:20,000 --> 00:04:23,000
+there will be 2 entries in this table, the +t entry, formed by summing out
+
+62
+00:04:23,000 --> 00:04:28,000
+all the entries here for all values of r for which t is positive,
+
+63
+00:04:28,000 --> 00:04:32,000
+and the -t entry, formed the same way, by looking in this table
+
+64
+00:04:32,000 --> 00:04:37,000
+and summing up all the rows over all values of r where t is negative.
+
+65
+00:04:37,000 --> 99:59:59,999
+Put your answers in these boxes.

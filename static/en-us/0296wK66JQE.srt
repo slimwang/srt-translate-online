@@ -1,0 +1,178 @@
+1
+00:00:00,300 --> 00:00:03,310
+The next step in the off-low is
+to authenticate the user using
+
+2
+00:00:03,310 --> 00:00:05,270
+the movie data base website.
+
+3
+00:00:05,270 --> 00:00:09,510
+In code, we go right into this step and
+we call it the login with token method.
+
+4
+00:00:09,510 --> 00:00:11,980
+Let's dive into this method and
+see how it works.
+
+5
+00:00:11,980 --> 00:00:15,550
+First, we construct the URL
+specified in the documentation that
+
+6
+00:00:15,550 --> 00:00:17,480
+ends with our request token.
+
+7
+00:00:17,480 --> 00:00:19,950
+Using this URL, we create a request, and
+
+8
+00:00:19,950 --> 00:00:24,140
+then we create a instance of
+the TMDBAuthViewController.
+
+9
+00:00:24,140 --> 00:00:28,740
+This TMDBAuthViewController
+itself contains a UIWebView.
+
+10
+00:00:28,740 --> 00:00:30,900
+If you haven't used a UIWebView before,
+
+11
+00:00:30,900 --> 00:00:34,990
+it's a view provided from UIkit that
+can be used to display web content.
+
+12
+00:00:34,990 --> 00:00:38,180
+So once we create this ViewController,
+we start setting its properties that
+
+13
+00:00:38,180 --> 00:00:41,000
+are going to control how
+the WebView behaves.
+
+14
+00:00:41,000 --> 00:00:43,270
+Notice this really important step here.
+
+15
+00:00:43,270 --> 00:00:46,770
+We set the ViewController's
+completionHandlerForView property equal
+
+16
+00:00:46,770 --> 00:00:51,400
+to the completionHandlerAccepted
+by the login with token method.
+
+17
+00:00:51,400 --> 00:00:54,850
+What this will allow the ViewController
+to do is to redirect execution
+
+18
+00:00:54,850 --> 00:00:58,121
+back to our API client,
+once the WebView has dismissed.
+
+19
+00:00:59,140 --> 00:01:03,470
+So now the real question, how do we
+know when to dismiss the WebView?
+
+20
+00:01:03,470 --> 00:01:04,988
+Let's run the app to gain some insight.
+
+21
+00:01:08,538 --> 00:01:11,780
+If I tap the authenticate button,
+then the WebView should appear.
+
+22
+00:01:13,770 --> 00:01:16,710
+Now this WebView will appear with
+either this screen or the login screen,
+
+23
+00:01:16,710 --> 00:01:17,850
+if you haven't logged in yet.
+
+24
+00:01:17,850 --> 00:01:19,690
+But once you log in, let's click Allow.
+
+25
+00:01:20,940 --> 00:01:23,170
+The next screen tells us
+that we have given consent.
+
+26
+00:01:24,490 --> 00:01:26,440
+But we need to dismiss the view.
+
+27
+00:01:26,440 --> 00:01:29,840
+Now let's go back to
+the TMDBAuthViewController.
+
+28
+00:01:29,840 --> 00:01:33,060
+The key to dismissing this view is
+implementing a function that's part of
+
+29
+00:01:33,060 --> 00:01:34,715
+the UIWebViewDelegate.
+
+30
+00:01:35,750 --> 00:01:39,540
+In particular, we need to determine when
+the WebView has redirected us to a page
+
+31
+00:01:39,540 --> 00:01:44,080
+that confirms that the user has given us
+consent, like when they clicked Allow.
+
+32
+00:01:44,080 --> 00:01:47,030
+So for this exercise,
+you'll be implementing this behavior.
+
+33
+00:01:47,030 --> 00:01:51,040
+First, determine the appropriate
+UIWebViewDelegate function to use.
+
+34
+00:01:51,040 --> 00:01:54,920
+This function should allow you to check
+the URL that is loaded by the WebView.
+
+35
+00:01:54,920 --> 00:01:57,450
+And you'll want to check if the URL
+indicates that the user has
+
+36
+00:01:57,450 --> 00:01:58,860
+given consent.
+
+37
+00:01:58,860 --> 00:02:02,480
+If that URL is loaded,
+then dismiss the controller.
+
+38
+00:02:02,480 --> 00:02:04,790
+When you're done adding this
+functionality, check this box.

@@ -1,0 +1,320 @@
+﻿1
+00:00:00,430 --> 00:00:03,860
+Let's move on to a different kind
+of machine learning problem.
+
+2
+00:00:03,859 --> 00:00:08,490
+This time, I would like you to design
+a plagiarism detection system.
+
+3
+00:00:08,490 --> 00:00:11,039
+So imagine students
+are writing in essays and
+
+4
+00:00:11,039 --> 00:00:13,889
+submitting them as plain text files.
+
+5
+00:00:13,890 --> 00:00:15,210
+For a particular assignment,
+
+6
+00:00:15,210 --> 00:00:20,440
+you're job is to find pairs of
+essays that look too similar.
+
+7
+00:00:20,440 --> 00:00:25,100
+By too similar I mean they've
+used a lot of common words,
+
+8
+00:00:25,100 --> 00:00:28,710
+a lot of common language,
+and try to flag them.
+
+9
+00:00:28,710 --> 00:00:30,640
+How would you approach this problem?
+
+10
+00:00:30,640 --> 00:00:32,890
+How would you process the data?
+
+11
+00:00:32,890 --> 00:00:35,490
+What machine learning
+algorithm would you apply?
+
+12
+00:00:35,490 --> 00:00:37,213
+Can you describe that pipeline?
+
+13
+00:00:37,213 --> 00:00:40,490
+>> Sure thing.
+
+14
+00:00:40,490 --> 00:00:43,456
+So in order to detect plagiarism,
+
+15
+00:00:43,456 --> 00:00:49,300
+I want to analyze the similarity
+between any two sets of documents.
+
+16
+00:00:51,030 --> 00:00:55,392
+So for me a technique that
+I think would work is using
+
+17
+00:00:55,392 --> 00:00:59,461
+the cosine similarity
+between the documents.
+
+18
+00:00:59,460 --> 00:01:00,957
+>> Okay.
+
+19
+00:01:00,957 --> 00:01:03,969
+>> In order to go about doing that,
+
+20
+00:01:03,969 --> 00:01:09,215
+I would use a tf-idf method
+on all the documents in order
+
+21
+00:01:09,215 --> 00:01:13,919
+to basically vectorize
+each one of my documents.
+
+22
+00:01:13,920 --> 00:01:15,070
+>> Okay.
+
+23
+00:01:15,069 --> 00:01:18,079
+>> Using that technique I could
+find the cosine similarity
+
+24
+00:01:18,079 --> 00:01:19,879
+between all the documents.
+
+25
+00:01:19,879 --> 00:01:24,879
+And if I see a very high similarity
+between any two documents I can flag
+
+26
+00:01:24,879 --> 00:01:31,369
+them and
+maybe do some further analysis or.
+
+27
+00:01:31,370 --> 00:01:32,359
+>> Okay, so
+
+28
+00:01:32,359 --> 00:01:38,730
+let me understand the conversion from
+document to vector part a little better.
+
+29
+00:01:38,730 --> 00:01:41,719
+So you said you're using
+the tf-idf method.
+
+30
+00:01:41,719 --> 00:01:45,719
+I understand that
+the input is a document or
+
+31
+00:01:45,719 --> 00:01:48,670
+a set of documents, what is the output?
+
+32
+00:01:48,670 --> 00:01:51,070
+What do the vectors look like?
+
+33
+00:01:51,069 --> 00:01:56,099
+>> Okay, so the tf-idf method
+will basically just count
+
+34
+00:01:56,099 --> 00:02:02,000
+up the number of words and
+generate a frequency for each word.
+
+35
+00:02:02,000 --> 00:02:06,390
+So documents that have the same
+frequency of certain words
+
+36
+00:02:06,390 --> 00:02:09,610
+will have a higher cosine similarity.
+
+37
+00:02:09,610 --> 00:02:10,990
+>> Mm, okay, so
+
+38
+00:02:10,990 --> 00:02:17,150
+each element in the vector is
+a frequency of a particular word?
+
+39
+00:02:17,150 --> 00:02:17,957
+>> Yes, that's correct.
+
+40
+00:02:17,957 --> 00:02:21,793
+>> Okay,
+I'm concerned that in some cases,
+
+41
+00:02:21,793 --> 00:02:27,331
+two essays that have the same
+counter frequencies of words but
+
+42
+00:02:27,330 --> 00:02:34,219
+had completely different language
+could be judged as being too similar.
+
+43
+00:02:34,219 --> 00:02:37,189
+Is there anything you
+can do to resolve that?
+
+44
+00:02:37,189 --> 00:02:40,479
+>> That's a good point
+that I didn't think of.
+
+45
+00:02:40,479 --> 00:02:44,854
+So if I want to go a little deeper,
+maybe I could look for
+
+46
+00:02:44,854 --> 00:02:50,039
+n-grams which are series of words
+that appear multiple times.
+
+47
+00:02:50,039 --> 00:02:54,039
+So instead of doing the frequency
+of each word, I would look for
+
+48
+00:02:54,039 --> 00:02:58,870
+the frequency of certain n-grams
+to see if two essays used
+
+49
+00:02:58,870 --> 00:03:03,289
+the same string of words of a certain
+length and if that popped up more often.
+
+50
+00:03:03,289 --> 00:03:06,969
+I think that would give me
+a better representation
+
+51
+00:03:08,830 --> 00:03:12,590
+of the document similarity to see if the
+same sentences are being used multiple
+
+52
+00:03:12,590 --> 00:03:14,759
+times across documents.
+
+53
+00:03:14,759 --> 00:03:15,669
+>> That's very interesting.
+
+54
+00:03:15,669 --> 00:03:18,769
+That's a very effective
+approach I think.
+
+55
+00:03:18,770 --> 00:03:21,570
+It captures the context
+in which words appear,
+
+56
+00:03:22,770 --> 00:03:24,630
+I think that'll be pretty effective.
+
+57
+00:03:24,629 --> 00:03:28,789
+Can you think of any other
+methods to improve this further?
+
+58
+00:03:30,240 --> 00:03:35,596
+>> Maybe if I used,
+implemented some sort of natural
+
+59
+00:03:35,596 --> 00:03:40,824
+language processing I
+could dig even further and
+
+60
+00:03:40,824 --> 00:03:45,660
+find very similar sentence structure.
+
+61
+00:03:45,659 --> 00:03:48,740
+Maybe that might be able to even pull
+out things where a student changed one
+
+62
+00:03:48,740 --> 00:03:50,610
+word in a sentence but
+
+63
+00:03:50,610 --> 00:03:53,210
+the structure of the rest of
+the sentence looks identical.
+
+64
+00:03:54,849 --> 00:03:56,900
+And using natural language processing,
+
+65
+00:03:56,900 --> 00:04:03,150
+I might be able to pull out
+different patterns that maybe with
+
+66
+00:04:03,150 --> 00:04:07,620
+a cosine similarity, or
+an n-gram vector, might overlook.
+
+67
+00:04:07,620 --> 00:04:11,810
+>> Very, very interesting point,
+yeah, that's a good approach.
+
+68
+00:04:11,810 --> 00:04:14,439
+I think it's a very good answer.
+
+69
+00:04:14,439 --> 00:04:14,719
+>> Thank you.
+

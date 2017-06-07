@@ -1,0 +1,247 @@
+1
+00:00:00,500 --> 00:00:03,469
+Let's take a moment to make
+something insanely clear.
+
+2
+00:00:03,469 --> 00:00:04,930
+As far as battery is concerned,
+
+3
+00:00:04,930 --> 00:00:09,820
+networking is the biggest, baddest,
+dirtiest offender that there is.
+
+4
+00:00:09,820 --> 00:00:13,080
+Remember that inside of your phone
+is a small piece of hardware that's
+
+5
+00:00:13,080 --> 00:00:16,290
+effectively a HAM radio,
+its whole purpose it to communicate with
+
+6
+00:00:16,290 --> 00:00:20,410
+local cell phone towers and
+transmit data to them at high volumes.
+
+7
+00:00:20,410 --> 00:00:23,570
+But the trick is that this chip,
+isn't always active, you see,
+
+8
+00:00:23,570 --> 00:00:27,210
+once you send a packet of data the radio
+chip will stay on for a certain amount
+
+9
+00:00:27,210 --> 00:00:30,780
+of time, just in case there's a response
+from the server that it's expecting.
+
+10
+00:00:30,780 --> 00:00:34,410
+But if there's no activity, the hardware
+will shut down to save battery life.
+
+11
+00:00:34,410 --> 00:00:38,040
+And as we've seen before, there's a
+large battery spike when this chip first
+
+12
+00:00:38,040 --> 00:00:41,320
+turns on, and as long as it's
+keeping itself awake to wait for
+
+13
+00:00:41,320 --> 00:00:44,380
+responses, it's going to keep on
+draining the battery at the same time.
+
+14
+00:00:44,380 --> 00:00:48,010
+Now it's worth pointing out that there's
+two primary ways in which most apps
+
+15
+00:00:48,010 --> 00:00:49,200
+interact with the radio.
+
+16
+00:00:49,200 --> 00:00:52,290
+Firstly, there are events
+that need to occur right now.
+
+17
+00:00:52,290 --> 00:00:54,380
+These events are the result
+of some user action, or
+
+18
+00:00:54,380 --> 00:00:57,860
+they arise from the immediate need
+to update the UI of your app.
+
+19
+00:00:57,860 --> 00:01:01,610
+For example, imagine when the user
+asks to load a new batch of tweets for
+
+20
+00:01:01,610 --> 00:01:02,500
+a trending hashtag,
+
+21
+00:01:02,500 --> 00:01:07,600
+since this is a user initiated action,
+your app should respond ASAP.
+
+22
+00:01:07,600 --> 00:01:10,480
+On the other side of this coin are all
+the networking jobs that don't need
+
+23
+00:01:10,480 --> 00:01:14,600
+to happen in a time critical manner for
+example, uploading user data,
+
+24
+00:01:14,600 --> 00:01:18,330
+synchronizing background statistics, or
+re-sizing all of your social photos.
+
+25
+00:01:18,330 --> 00:01:21,490
+So while the first set of tasks happen,
+has to happen immediately,
+
+26
+00:01:21,490 --> 00:01:25,160
+in order to provide feedback to the
+user, the second set of tasks can easily
+
+27
+00:01:25,160 --> 00:01:29,620
+be put off until later, when they can be
+performed in a battery efficient manner.
+
+28
+00:01:29,620 --> 00:01:32,390
+And there's a high probability,
+that the majority of your
+
+29
+00:01:32,390 --> 00:01:35,585
+network requests in your application
+fall into this second category.
+
+30
+00:01:35,585 --> 00:01:39,420
+[LAUGH] Converting networking jobs
+over to being more efficient is
+
+31
+00:01:39,420 --> 00:01:41,380
+a two step process.
+
+32
+00:01:41,380 --> 00:01:45,210
+Firstly, take a hard look at the mobile
+radio row in your battery historian
+
+33
+00:01:45,210 --> 00:01:46,890
+tool for your application.
+
+34
+00:01:46,890 --> 00:01:50,620
+Each of those red bars that you see
+here represent an active mobile radio,
+
+35
+00:01:50,620 --> 00:01:53,620
+any gaps between those bars
+represent when the radio is asleep.
+
+36
+00:01:53,620 --> 00:01:55,180
+If you see lots of narrow bars and
+
+37
+00:01:55,180 --> 00:01:58,160
+gaps in your graph, this can point to
+your performance problems, since it
+
+38
+00:01:58,160 --> 00:02:01,850
+means that you're churning through
+lots of wake up and sleep cycles.
+
+39
+00:02:01,850 --> 00:02:06,820
+What you want instead, is to see large
+gaps next to large blocks of activity.
+
+40
+00:02:06,820 --> 00:02:10,538
+This way you've reduced overhead by
+minimizing the number of network
+
+41
+00:02:10,538 --> 00:02:13,600
+requests, and even better,
+don't use the radio at all.
+
+42
+00:02:13,600 --> 00:02:16,620
+I mean you can wait until
+the phone is connected to WiFi and
+
+43
+00:02:16,620 --> 00:02:21,470
+then let the WiFi hardware do all this
+work with much less battery train.
+
+44
+00:02:21,470 --> 00:02:24,400
+Now, the problem is that writing
+the code to batch, cache,
+
+45
+00:02:24,400 --> 00:02:28,190
+and defer all these networking requests
+is really difficult to get right,
+
+46
+00:02:28,190 --> 00:02:29,900
+which is why we've done the work for
+you.
+
+47
+00:02:29,900 --> 00:02:33,840
+The JobScheduler API that rolled out
+with the L release of Android provides
+
+48
+00:02:33,840 --> 00:02:38,320
+a full suite of API's that do all of
+this network request management work and
+
+49
+00:02:38,320 --> 00:02:40,260
+more, on your behalf.
+
+50
+00:02:40,260 --> 00:02:43,140
+But rather than telling you
+about this wonderful API,
+
+51
+00:02:43,140 --> 00:02:44,770
+why don't you take a swing
+at it in practice?

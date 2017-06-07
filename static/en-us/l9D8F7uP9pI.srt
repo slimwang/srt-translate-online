@@ -1,0 +1,178 @@
+1
+00:00:00,270 --> 00:00:01,500
+Well that was easy.
+
+2
+00:00:01,500 --> 00:00:03,750
+The next method is
+a little more complicated.
+
+3
+00:00:03,750 --> 00:00:06,470
+Self erode at index path is
+the method that the table view
+
+4
+00:00:06,470 --> 00:00:08,950
+uses to get cell objects one at a time.
+
+5
+00:00:08,950 --> 00:00:11,550
+There's a challenge in
+the implementation of this method.
+
+6
+00:00:11,550 --> 00:00:14,600
+It isn't so difficult but
+sometimes it trips people up.
+
+7
+00:00:14,600 --> 00:00:17,750
+This challenge comes from
+an optimization that tables need.
+
+8
+00:00:17,750 --> 00:00:20,890
+Consider how fast we like to be
+able to scroll through tables.
+
+9
+00:00:20,890 --> 00:00:24,429
+iPhone users want to be able to swipe
+along a list in a split second.
+
+10
+00:00:26,050 --> 00:00:28,780
+It's an interesting technical
+challenge each row is
+
+11
+00:00:28,780 --> 00:00:30,590
+a fairly complex view object.
+
+12
+00:00:30,590 --> 00:00:33,470
+If we have to swipe through a few
+hundred rows that's a lot of
+
+13
+00:00:33,470 --> 00:00:34,850
+objects to allocate.
+
+14
+00:00:34,850 --> 00:00:36,920
+Too many objects as it turns out.
+
+15
+00:00:36,920 --> 00:00:39,950
+If every cell had to be allocated
+as it appears on the screen
+
+16
+00:00:39,950 --> 00:00:41,410
+the scrolling would get choppy.
+
+17
+00:00:41,410 --> 00:00:44,680
+So Apple's worked out a caching
+scheme to reuse these cell objects
+
+18
+00:00:44,680 --> 00:00:45,300
+over and over.
+
+19
+00:00:46,850 --> 00:00:49,070
+Kind of like stairs on an escalator,
+
+20
+00:00:49,070 --> 00:00:53,370
+when cell objects scroll off the screen
+they get reused on the other side.
+
+21
+00:00:53,370 --> 00:00:56,990
+Anything that is shared across
+cells gets reused, cell border,
+
+22
+00:00:56,990 --> 00:00:59,450
+image placement,
+recurring control elements,
+
+23
+00:00:59,450 --> 00:01:02,830
+recurring labels,
+the structure of the cells data.
+
+24
+00:01:02,830 --> 00:01:05,960
+This means these shared elements
+don't need to be re-specified
+
+25
+00:01:05,960 --> 00:01:08,000
+when a cell comes onto the screen.
+
+26
+00:01:08,000 --> 00:01:10,090
+Only the data needs to be re-specified.
+
+27
+00:01:10,090 --> 00:01:14,390
+At any given time, there will be a few
+TableViewCell objects that are off
+
+28
+00:01:14,390 --> 00:01:18,520
+the screen in a queue waiting to
+come back on screen with new data.
+
+29
+00:01:18,520 --> 00:01:21,470
+Because of this, we never need
+to construct cells ourselves.
+
+30
+00:01:21,470 --> 00:01:25,240
+The queue is kept inside the table
+view so whenever we need a cell
+
+31
+00:01:25,240 --> 00:01:29,900
+we dq one from the table view, populate
+it with data and we're good to go.
+
+32
+00:01:29,900 --> 00:01:32,540
+Some tables combine more
+than one type of cell.
+
+33
+00:01:32,540 --> 00:01:36,410
+To accommodate that cells are tagged
+with string reuse identifies
+
+34
+00:01:36,410 --> 00:01:37,880
+to keep them separate.
+
+35
+00:01:37,880 --> 00:01:42,220
+In those cases the tables keep
+separate queues for each type of cell.
+
+36
+00:01:42,220 --> 00:01:44,900
+Our favorite things table
+only needs one kind of cell.
+
+37
+00:01:44,900 --> 00:01:48,380
+But we'll still need to give
+the cells a reuseIdentifier.
+
+38
+00:01:48,380 --> 00:01:50,900
+All right, let's figure out
+what the code should look like.

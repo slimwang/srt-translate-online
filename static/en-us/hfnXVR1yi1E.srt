@@ -1,0 +1,272 @@
+1
+00:00:00,130 --> 00:00:01,100
+So to make this all work out,
+
+2
+00:00:01,100 --> 00:00:04,630
+what we're going to do is introduce
+state-based bonuses, the sort of idea
+
+3
+00:00:04,630 --> 00:00:09,490
+that instead of just giving little bonus
+rewards every time that you do a certain
+
+4
+00:00:09,490 --> 00:00:13,380
+thing, instead we're going to keep track
+of what the state of the world is.
+
+5
+00:00:13,380 --> 00:00:18,280
+And as we move to states of
+the world that are more desirable,
+
+6
+00:00:18,280 --> 00:00:20,380
+we're going to get reward for that.
+
+7
+00:00:20,380 --> 00:00:22,810
+Which I guess is not that
+different from what we had before.
+
+8
+00:00:22,810 --> 00:00:26,745
+But then we're going to have to subtract
+that off when we move away from those
+
+9
+00:00:26,745 --> 00:00:27,259
+states.
+
+10
+00:00:27,259 --> 00:00:31,903
+So the basic idea is we can still keep
+track of things like how near are we to
+
+11
+00:00:31,903 --> 00:00:37,096
+the ball, and we can have a score that's
+associated with the inverse distance.
+
+12
+00:00:37,096 --> 00:00:40,991
+But now the idea is that
+the rewards that we get for
+
+13
+00:00:40,991 --> 00:00:45,646
+taking an action are going to
+be the increment that we get in
+
+14
+00:00:45,646 --> 00:00:49,700
+this value instead of
+actually this value.
+
+15
+00:00:49,700 --> 00:00:51,896
+>> Right, okay, so that's important,
+right? So that means if I went from
+
+16
+00:00:51,896 --> 00:00:58,096
+being, let's say, 10 pixels away from
+the ball to 5 pixels away from the ball,
+
+17
+00:00:58,096 --> 00:01:03,705
+I get an increment of, let's say,
++5 or one over the distance somehow.
+
+18
+00:01:03,705 --> 00:01:07,090
+But for simplicity's sake, let's say +5.
+
+19
+00:01:07,090 --> 00:01:09,620
+But if I went from-
+>> Well, wait,
+
+20
+00:01:09,620 --> 00:01:11,310
+these are numbers that I
+actually know how to do.
+
+21
+00:01:11,310 --> 00:01:16,420
+So this is like 0.1 and this is like
+0.2, so we'd get a bonus of +0.1.
+
+22
+00:01:16,420 --> 00:01:17,437
+>> Okay, good, good, I like that.
+
+23
+00:01:17,437 --> 00:01:21,828
+All right, but that would mean, then,
+
+24
+00:01:21,828 --> 00:01:26,219
+if we went from 5 pixels to 10 pixels,
+
+25
+00:01:26,219 --> 00:01:29,587
+we would end up losing 0.1.
+
+26
+00:01:29,587 --> 00:01:32,733
+>> Right, and this kind of keeps the
+account balance in a good shape, right,
+
+27
+00:01:32,733 --> 00:01:36,134
+because it's saying that, sure, we'll
+give you a little bonus for doing good
+
+28
+00:01:36,134 --> 00:01:39,150
+things, but you can't just continue
+to get that over and over again.
+
+29
+00:01:39,150 --> 00:01:42,190
+If you relinquish it, we actually
+have to take those same points away,
+
+30
+00:01:42,190 --> 00:01:44,970
+so that we can give them back
+to you if you re-accomplish it.
+
+31
+00:01:44,970 --> 00:01:48,630
+>> Would it be more accurate to say
+it's not so much state-based bonuses,
+
+32
+00:01:48,630 --> 00:01:51,504
+which I think you could argue is sort
+of what we were doing before, but
+
+33
+00:01:51,504 --> 00:01:54,580
+it's sort of
+changes-in-state-based bonuses?
+
+34
+00:01:54,580 --> 00:01:56,250
+>> Ohh, good, yeah, I like that.
+
+35
+00:01:56,250 --> 00:01:58,160
+So change-in-state-based bonuses.
+
+36
+00:01:58,160 --> 00:01:59,340
+>> Yeah, I like that.
+
+37
+00:01:59,340 --> 00:02:02,250
+>> All right, so we can continue
+to fuss with this, but I think it
+
+38
+00:02:02,250 --> 00:02:06,720
+might be easier, believe it or not,
+to not get bogged down in details but
+
+39
+00:02:06,720 --> 00:02:09,150
+actually talk about this
+at a more abstract level.
+
+40
+00:02:09,150 --> 00:02:10,949
+>> Well,
+before you do that can I ask a question?
+
+41
+00:02:10,949 --> 00:02:11,760
+>> Sure.
+
+42
+00:02:11,760 --> 00:02:14,428
+>> So I did make the claim that we
+were sort of doing state-based bonuses
+
+43
+00:02:14,428 --> 00:02:16,505
+before, we just weren't
+doing the change in state.
+
+44
+00:02:16,505 --> 00:02:20,763
+But I'm going to claim that of the four
+things you have written up there,
+
+45
+00:02:20,763 --> 00:02:23,866
+score in goal, near the ball,
+hitting the ball and
+
+46
+00:02:23,866 --> 00:02:28,810
+ball near goal, is hitting the ball
+count as a state-based bonus or not?
+
+47
+00:02:28,810 --> 00:02:31,830
+>> It probably would want to
+be like touching the ball,
+
+48
+00:02:31,830 --> 00:02:34,660
+something that is actually something
+that's measurable in the state.
+
+49
+00:02:34,660 --> 00:02:38,670
+Hitting is a set of actions or
+is a sequence of actions.
+
+50
+00:02:38,670 --> 00:02:39,460
+>> Right, okay.
+
+51
+00:02:39,460 --> 00:02:42,590
+So would that just be
+captured by near the ball?
+
+52
+00:02:42,590 --> 00:02:43,220
+>> Yes.
+
+53
+00:02:43,220 --> 00:02:44,500
+>> So okay, that's fair.
+
+54
+00:02:44,500 --> 00:02:47,360
+>> Let's write down what the formal
+definition of these bonuses are,
+
+55
+00:02:47,360 --> 00:02:50,900
+and then we can think again, if we want,
+about how we might define it for
+
+56
+00:02:50,900 --> 00:02:51,670
+a particular problem.
+
+57
+00:02:51,670 --> 00:02:53,140
+But let's look at
+the general form first.
+
+58
+00:02:53,140 --> 00:02:53,640
+>> Okay.

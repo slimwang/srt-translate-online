@@ -1,0 +1,79 @@
+1
+00:00:00,830 --> 00:00:03,580
+Let's first consider which of these optimizations reduces the
+
+2
+00:00:03,580 --> 00:00:05,890
+number of writes to disk. The use of the buffer
+
+3
+00:00:05,890 --> 00:00:09,090
+cache does because short lived files, which are common
+
+4
+00:00:09,090 --> 00:00:11,970
+in when compiling code, for instance, need never be written
+
+5
+00:00:11,970 --> 00:00:16,600
+to disk. Journaling actually increases the number of writes
+
+6
+00:00:16,600 --> 00:00:20,700
+to disk. So this is false. And direct memory access
+
+7
+00:00:20,700 --> 00:00:22,740
+only gets involved when there is a write, so it
+
+8
+00:00:22,740 --> 00:00:26,080
+doesn't change anything. Next we ask, which of these improve
+
+9
+00:00:26,080 --> 00:00:29,100
+overall performance. And the answer is that they all do.
+
+10
+00:00:29,100 --> 00:00:32,240
+The basic caching principle was the main motivation for the buffer
+
+11
+00:00:32,240 --> 00:00:35,160
+cache since main memory is so much faster than disk and
+
+12
+00:00:35,160 --> 00:00:38,800
+other mass storage. The advantage of journaling, we already went over.
+
+13
+00:00:38,800 --> 00:00:41,010
+If the data must be written to disk quickly, better
+
+14
+00:00:41,010 --> 00:00:44,430
+to do it sequentially. And lastly, we saw how DMA sped
+
+15
+00:00:44,430 --> 00:00:47,910
+up performance through the cycle stealing phenomenon, giving more time for
+
+16
+00:00:47,910 --> 00:00:51,730
+the CPU to do other work. Lastly, we have the improvement
+
+17
+00:00:51,730 --> 00:00:54,610
+for recovery. And the only optimization that had any
+
+18
+00:00:54,610 --> 00:00:57,680
+effect here was the journal. Which reduced the recovery
+
+19
+00:00:57,680 --> 00:00:59,940
+problem to just applying the changes from the journal
+
+20
+00:00:59,940 --> 00:01:02,610
+to the rest of the disk, something done routinely anyway.

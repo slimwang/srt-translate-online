@@ -1,0 +1,167 @@
+1
+00:00:00,000 --> 00:00:03,000
+Now, the question is, how can I test a function like this,
+
+2
+00:00:03,000 --> 00:00:07,000
+that includes this nondeterministic component?
+
+3
+00:00:07,000 --> 00:00:12,000
+One thing we want to be able to do is inject into here
+
+4
+00:00:12,000 --> 00:00:15,000
+some deterministic numbers to say this is the sequence
+
+5
+00:00:15,000 --> 00:00:18,000
+of "die rolls" I want to give you and then,
+
+6
+00:00:18,000 --> 00:00:21,000
+from that, then I can check if it's doing the right thing.
+
+7
+00:00:21,000 --> 00:00:25,000
+This is an example of a concept called Dependency Injection,
+
+8
+00:00:25,000 --> 00:00:29,000
+which has a rather scary and intimidating-sounding name,
+
+9
+00:00:29,000 --> 00:00:31,000
+but it's actually a pretty simple idea.
+
+10
+00:00:31,000 --> 00:00:35,000
+The idea is we've got a function like this, it's a big complicated function
+
+11
+00:00:35,000 --> 00:00:39,000
+and way down somewhere inside, there's something
+
+12
+00:00:39,000 --> 00:00:41,000
+that we want to affect, something we want
+
+13
+00:00:41,000 --> 00:00:43,000
+to monitor or track or change.
+
+14
+00:00:43,000 --> 00:00:46,000
+Dependency Injection says this function
+
+15
+00:00:46,000 --> 00:00:50,000
+depends on this random number generator,
+
+16
+00:00:50,000 --> 00:00:52,000
+so let's be able to inject that.
+
+17
+00:00:52,000 --> 00:00:55,000
+How do we inject something into a function?
+
+18
+00:00:55,000 --> 00:00:57,000
+Well, we just add it as an argument.
+
+19
+00:00:57,000 --> 00:01:01,000
+So let's add in the argument here, and let's call it "die rolls"
+
+20
+00:01:01,000 --> 00:01:06,000
+and say, that's going to be a sequence or
+
+21
+00:01:06,000 --> 00:01:11,000
+an iterable that will generate possible "die rolls.
+
+22
+00:01:11,000 --> 00:01:17,000
+In the normal case, that will just be random numbers exactly like it was before.
+
+23
+00:01:17,000 --> 00:01:20,000
+We don't care what they are, but when we want to test the function
+
+24
+00:01:20,000 --> 00:01:24,000
+we can inject the "die rolls" that we want.
+
+25
+00:01:24,000 --> 00:01:26,000
+We can just pass in a list saying what happens
+
+26
+00:01:26,000 --> 00:01:33,000
+if the "die rolls" are a 6 and a 1 and then a 3 and a 5, and so on.
+
+27
+00:01:33,000 --> 00:01:35,000
+Tell me what happens.
+
+28
+00:01:35,000 --> 00:01:39,000
+So here's my implementation of the Dependency Injected Play Pig.
+
+29
+00:01:39,000 --> 00:01:42,000
+I still have the regular arguments "A" and "B."
+
+30
+00:01:42,000 --> 00:01:44,000
+There's an optional argument.
+
+31
+00:01:44,000 --> 00:01:47,000
+If I leave that out it should behave exactly like it did before.
+
+32
+00:01:47,000 --> 00:01:50,000
+But if I specify it, then I have control over it.
+
+33
+00:01:50,000 --> 00:01:56,000
+So "die rolls" should be an iterable that generates rolls.
+
+34
+00:01:56,000 --> 00:01:59,000
+Here we go down and we ask for the next one
+
+35
+00:01:59,000 --> 00:02:02,000
+out of those rolls and get it back.
+
+36
+00:02:02,000 --> 00:02:06,000
+By default, "die rolls" just says we're going to generate
+
+37
+00:02:06,000 --> 00:02:09,000
+an infinite sequence of random integers from 1 to 6.
+
+38
+00:02:09,000 --> 00:02:11,000
+Oops, I think I misspoke there.
+
+39
+00:02:11,000 --> 00:02:15,000
+I think I said that "die rolls" have to be an iterable.
+
+40
+00:02:15,000 --> 00:02:20,000
+Actually, what it has to be is an iterator such as a
+
+41
+00:02:20,000 --> 00:02:24,000
+generator expression or something else,
+
+42
+00:02:24,000 --> 99:59:59,999
+in order for it to have the next apply to it.

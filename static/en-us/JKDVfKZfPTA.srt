@@ -1,0 +1,59 @@
+1
+00:00:00,210 --> 00:00:03,284
+The perspective camera is where things get interesting. This camera is more
+
+2
+00:00:03,284 --> 00:00:06,978
+like real life, with objects in the distance being smaller. That said it uses
+
+3
+00:00:06,978 --> 00:00:11,590
+the same sort of pipeline as before. Internally you define a view matrix
+
+4
+00:00:11,590 --> 00:00:15,325
+exactly the same as for the orthographic camera. However, then the projection
+
+5
+00:00:15,325 --> 00:00:18,249
+matrix is formed differently. In a perspective view of the world, objects get
+
+6
+00:00:18,249 --> 00:00:22,348
+smaller in the image, as they get further away from the viewer. Another way to
+
+7
+00:00:22,348 --> 00:00:24,988
+say it is that if something is farther away, it needs to be larger in world
+
+8
+00:00:24,988 --> 00:00:29,634
+space if it wants to appear the same size on the screen. This gives us the idea
+
+9
+00:00:29,634 --> 00:00:34,164
+of similar triangles. Y2 divided by Z2 will be equal to Y1 divided by Z1, and
+
+10
+00:00:34,164 --> 00:00:38,838
+so on. So perspective projection is going to involve division, but when we
+
+11
+00:00:38,838 --> 00:00:41,390
+multiply a vector by a matrix, it's just some dot products, a series of
+
+12
+00:00:41,390 --> 00:00:45,870
+multiplies and additions. This is where the fourth coordinate for our points
+
+13
+00:00:45,870 --> 00:00:50,385
+comes into play. Up to now this fourth value has always been equal to 1. We run
+
+14
+00:00:50,385 --> 00:00:54,147
+a point through any set of modeling transforms and the fourth coordinate value
+
+15
+00:00:54,147 --> 00:00:58,450
+of 1 is left untouched. This all changes with perspective projection.

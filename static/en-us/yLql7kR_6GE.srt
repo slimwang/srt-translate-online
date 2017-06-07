@@ -1,0 +1,174 @@
+1
+00:00:00,160 --> 00:00:03,510
+To write this function, I'll first
+need to standardize both x and y.
+
+2
+00:00:04,689 --> 00:00:07,540
+You've written code to standardize
+a variable before, but
+
+3
+00:00:07,540 --> 00:00:10,450
+this time it's a little different
+because you'll need to make sure you
+
+4
+00:00:10,450 --> 00:00:17,274
+take the uncorrected standard deviation
+by passing ddof = 0 for both variables.
+
+5
+00:00:17,274 --> 00:00:20,339
+As before, I also need to be
+careful about the parenthesis.
+
+6
+00:00:21,410 --> 00:00:23,670
+Then to multiply each pair of values,
+
+7
+00:00:23,670 --> 00:00:27,360
+I'll use times which does
+vectorized multiplication.
+
+8
+00:00:27,360 --> 00:00:31,810
+Then I'll use mean to take the average
+of the products, adding parentheses so
+
+9
+00:00:31,810 --> 00:00:35,370
+that I take the mean of the products
+rather than just taking the mean
+
+10
+00:00:35,370 --> 00:00:37,120
+of y and then multiplying by x.
+
+11
+00:00:38,300 --> 00:00:40,190
+And I'll return this value.
+
+12
+00:00:40,190 --> 00:00:44,200
+NumPy actually has a function that will
+calculate Pearson's r for you, but
+
+13
+00:00:44,200 --> 00:00:46,892
+it can be useful to write the code
+yourself the first time so
+
+14
+00:00:46,892 --> 00:00:49,000
+that you'll understand what it's doing.
+
+15
+00:00:49,000 --> 00:00:49,955
+In the future though,
+
+16
+00:00:49,955 --> 00:00:53,290
+I'd recommend using NumPy's function
+rather than writing your own.
+
+17
+00:00:53,290 --> 00:00:56,500
+Next, I'll use this function to
+calculate the correlation between some
+
+18
+00:00:56,500 --> 00:00:58,830
+of the variables in the subway data.
+
+19
+00:00:58,830 --> 00:01:02,090
+First, I'll calculate the correlation
+between entries and hourly, or
+
+20
+00:01:02,090 --> 00:01:06,760
+the number of entries each hour and mean
+precipi or the mean precipitation for
+
+21
+00:01:06,760 --> 00:01:11,050
+the the day, and
+I can see that the result is about 0.03.
+
+22
+00:01:11,050 --> 00:01:15,000
+This value is positive, which means
+that when precipitation is higher,
+
+23
+00:01:15,000 --> 00:01:17,020
+subway ridership is higher as well.
+
+24
+00:01:17,020 --> 00:01:18,380
+But it's also very small,
+
+25
+00:01:18,380 --> 00:01:20,850
+which means that the relationship
+isn't particularly strong.
+
+26
+00:01:21,960 --> 00:01:25,160
+For comparison, I'm going to take
+the correlation between two variables
+
+27
+00:01:25,160 --> 00:01:27,295
+that I expect to be more
+strongly correlated.
+
+28
+00:01:27,295 --> 00:01:31,880
+ENTRIESn_hourly is the number of people
+who ride the subway each hour, and
+
+29
+00:01:31,880 --> 00:01:35,610
+ENTRIESn is a cumulative total of how
+many people have ridden the subway
+
+30
+00:01:35,610 --> 00:01:37,680
+that increases each hour.
+
+31
+00:01:37,680 --> 00:01:40,780
+I definitely expect these two
+variables to be correlated,
+
+32
+00:01:40,780 --> 00:01:44,790
+although I don't expect the relationship
+to be super strong, necessarily,
+
+33
+00:01:44,790 --> 00:01:47,450
+since the total number of entries
+depends on the number of entries for
+
+34
+00:01:47,450 --> 00:01:52,410
+all previous hours as well as all
+the entries in the current hour.
+
+35
+00:01:52,410 --> 00:01:56,681
+But the result I get here is about 0.58,
+which is much higher than for
+
+36
+00:01:56,681 --> 00:01:58,923
+entries in hourly and mean percipi but
+
+37
+00:01:58,923 --> 00:02:03,214
+is also much less than the maximum
+value for Pearson's r, which is one.

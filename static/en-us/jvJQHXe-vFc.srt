@@ -1,0 +1,188 @@
+1
+00:00:00,310 --> 00:00:03,750
+Android libraries are essentially
+fully featured Android apps
+
+2
+00:00:03,750 --> 00:00:06,230
+with the one restriction that they
+can't be installed by themselves.
+
+3
+00:00:06,230 --> 00:00:08,930
+They have to be packaged into another
+app to be installed on a device.
+
+4
+00:00:10,310 --> 00:00:13,770
+Android apps tend to consist of a whole
+lot of files, so while you can totally
+
+5
+00:00:13,770 --> 00:00:17,860
+create an Android library by hand,
+it's a lot easier to use the wizard.
+
+6
+00:00:17,860 --> 00:00:18,758
+Let's check out how to do that.
+
+7
+00:00:18,758 --> 00:00:22,359
+If you right-click on
+the root of your project and
+
+8
+00:00:22,359 --> 00:00:27,592
+select New Module > Phone and
+Tablet Applications > Android Library,
+
+9
+00:00:27,592 --> 00:00:32,991
+you can give your library a name and
+an sdk, and then just like a normal app,
+
+10
+00:00:32,991 --> 00:00:36,971
+you can choose what kinds of
+activities you want to add.
+
+11
+00:00:36,971 --> 00:00:39,213
+Let's add a blank
+activity with a fragment.
+
+12
+00:00:39,213 --> 00:00:40,550
+We'll give it a name.
+
+13
+00:00:42,328 --> 00:00:45,690
+Now, a myLibrary folder has been
+added to the root of your project
+
+14
+00:00:45,690 --> 00:00:48,860
+with all the familiar source and res and
+
+15
+00:00:48,860 --> 00:00:51,600
+even a manifest that you'd associate
+with a normal Android app.
+
+16
+00:00:52,670 --> 00:00:57,137
+Also, the wizard is nice enough to add
+your new library as a sub-project in
+
+17
+00:00:57,137 --> 00:00:58,760
+the multi-project build.
+
+18
+00:00:58,760 --> 00:01:02,120
+So, the last thing you need to do to be
+able to use your new activity in your
+
+19
+00:01:02,120 --> 00:01:06,150
+base app is to head over to the
+build.gradle file in the app directory.
+
+20
+00:01:07,410 --> 00:01:10,150
+And then we'll need to add
+a compile time dependency
+
+21
+00:01:10,150 --> 00:01:12,590
+on the project myLibrary.
+
+22
+00:01:12,590 --> 00:01:13,940
+That's all there is to it.
+
+23
+00:01:13,940 --> 00:01:15,370
+Let's check out a working example.
+
+24
+00:01:16,460 --> 00:01:20,190
+So here's the demo from the course code,
+which I strong suggest you go check out.
+
+25
+00:01:20,190 --> 00:01:24,390
+We've added this imageactivity
+Android library to our project.
+
+26
+00:01:24,390 --> 00:01:28,470
+This library defines an activity with
+its own layouts and with its own values,
+
+27
+00:01:28,470 --> 00:01:29,820
+like strings.
+
+28
+00:01:29,820 --> 00:01:33,060
+So here's the message that
+the activity's going to display.
+
+29
+00:01:33,060 --> 00:01:36,210
+And this drawable of the Gradle logo
+is also wrapped up inside our Android
+
+30
+00:01:36,210 --> 00:01:36,750
+library.
+
+31
+00:01:36,750 --> 00:01:42,510
+In settings.gradle,
+imageactivity is added as a subproject,
+
+32
+00:01:42,510 --> 00:01:45,240
+and in the build.gradle
+file of the app directory,
+
+33
+00:01:45,240 --> 00:01:49,420
+we have a compile time dependency
+on the image activity project.
+
+34
+00:01:49,420 --> 00:01:53,840
+So that means in the main activity
+of our main Android project,
+
+35
+00:01:53,840 --> 00:01:58,030
+we can import image activity and
+set up an Intent to go launch it.
+
+36
+00:01:59,240 --> 00:01:59,900
+If we go ahead and
+
+37
+00:01:59,900 --> 00:02:04,040
+deploy that to our test device, here's
+the activity from our app module and
+
+38
+00:02:04,040 --> 00:02:09,470
+our button which then launches
+the activity from our Android library.
+
+39
+00:02:09,470 --> 00:02:10,270
+There we go.
+
+40
+00:02:10,270 --> 00:02:13,490
+We've made an activity that's easy
+to reuse between applications.

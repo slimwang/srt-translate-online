@@ -1,0 +1,194 @@
+1
+00:00:00,210 --> 00:00:03,520
+Let's discuss some attacks on
+packet filtering firewalls and
+
+2
+00:00:03,520 --> 00:00:05,680
+the appropriate countermeasures.
+
+3
+00:00:05,680 --> 00:00:08,230
+The first attack is source
+IP address spoofing.
+
+4
+00:00:08,230 --> 00:00:12,690
+Here the attacker transmits packets from
+an outside host, but with a source IP
+
+5
+00:00:12,690 --> 00:00:16,170
+address field containing
+the address of an internal host.
+
+6
+00:00:16,170 --> 00:00:20,910
+That is, the attacker spoofs the packets
+source IP address as if it is from
+
+7
+00:00:20,910 --> 00:00:22,100
+an internal host.
+
+8
+00:00:22,100 --> 00:00:25,060
+The attacker hopes that
+the use of a spoofed
+
+9
+00:00:25,060 --> 00:00:29,910
+internal source IP address will allow
+the firewall to let the packet pass.
+
+10
+00:00:29,910 --> 00:00:32,720
+The firewall is typically
+configured to let
+
+11
+00:00:32,720 --> 00:00:36,150
+traffic from one internal host
+to another to pass through.
+
+12
+00:00:36,150 --> 00:00:40,150
+The countermeasure is to discard
+packets with an inside source IP
+
+13
+00:00:40,150 --> 00:00:44,255
+address if the packet arrives
+on a external interface.
+
+14
+00:00:44,255 --> 00:00:47,685
+In fact, this kind of measure is
+often implemented at the router,
+
+15
+00:00:47,685 --> 00:00:49,155
+external to the firewall.
+
+16
+00:00:49,155 --> 00:00:52,265
+That is, when the router receives
+the packet from the Internet,
+
+17
+00:00:52,265 --> 00:00:55,355
+it would check whether the source
+IP address is correct.
+
+18
+00:00:55,355 --> 00:00:58,085
+If the source IP address
+is an internal IP address,
+
+19
+00:00:58,085 --> 00:01:02,365
+the router should know that this IP
+address is spoofed, because the router
+
+20
+00:01:02,365 --> 00:01:06,970
+just received this packet from
+the Internet, meaning an external host.
+
+21
+00:01:06,970 --> 00:01:09,660
+A related attack,
+is a source routing attacks.
+
+22
+00:01:09,660 --> 00:01:12,800
+Here, the attacker specifies
+the route the attack should take
+
+23
+00:01:12,800 --> 00:01:14,150
+as it crosses the internet.
+
+24
+00:01:14,150 --> 00:01:17,520
+And the attacker hopes that this
+will bypass security measures and
+
+25
+00:01:17,520 --> 00:01:19,390
+checks along the way.
+
+26
+00:01:19,390 --> 00:01:21,470
+A countermeasure is for the firewall or
+
+27
+00:01:21,470 --> 00:01:25,430
+the router to discard all
+packets that use this option.
+
+28
+00:01:25,430 --> 00:01:28,200
+Another attack is
+a tiny fragment attack.
+
+29
+00:01:28,200 --> 00:01:31,810
+Here, the attacker uses the IP
+fragmentation option to create
+
+30
+00:01:31,810 --> 00:01:33,860
+extremely small fragments, and
+
+31
+00:01:33,860 --> 00:01:38,260
+forces the TCP header information
+into separate packet fragments.
+
+32
+00:01:38,260 --> 00:01:42,440
+This attack is designed to circumvent
+filtering rules that depend on TCP
+
+33
+00:01:42,440 --> 00:01:44,080
+header information.
+
+34
+00:01:44,080 --> 00:01:47,340
+Typically, a packet filter
+will make a filtering decision
+
+35
+00:01:47,340 --> 00:01:49,950
+based on the first fragment of a packet.
+
+36
+00:01:49,950 --> 00:01:53,280
+The attacker here hopes that
+the filtering firewall examines
+
+37
+00:01:53,280 --> 00:01:57,640
+only the first fragment and that the
+remaining fragments are passed through.
+
+38
+00:01:57,640 --> 00:02:01,990
+This attack can be defeated by enforcing
+that the first fragment of a packet
+
+39
+00:02:01,990 --> 00:02:06,700
+must contain a predefined minimum
+amount of transport header information.
+
+40
+00:02:06,700 --> 00:02:08,560
+If the first fragment is rejected,
+
+41
+00:02:08,560 --> 00:02:11,320
+then all the subsequent fragments
+should also be rejected.

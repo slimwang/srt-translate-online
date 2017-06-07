@@ -1,0 +1,123 @@
+1
+00:00:00,590 --> 00:00:05,990
+Another approach to virtualization is to modify the source code of
+
+2
+00:00:05,990 --> 00:00:11,760
+the guest operating system. If we can do that, not only can we avoid
+
+3
+00:00:11,760 --> 00:00:15,010
+problematic instructions, as I mentioned earlier
+
+4
+00:00:15,010 --> 00:00:18,080
+with full virtualization, but we can also
+
+5
+00:00:18,080 --> 00:00:21,830
+include optimizations. For instance. Letting the
+
+6
+00:00:21,830 --> 00:00:26,380
+guest operating system, see real hardware resources,
+
+7
+00:00:26,380 --> 00:00:29,980
+underneath the hypervisor, access to real
+
+8
+00:00:29,980 --> 00:00:33,320
+hardware resources and also being able to
+
+9
+00:00:33,320 --> 00:00:37,300
+employ tricks such as page coloring. Exploiting
+
+10
+00:00:37,300 --> 00:00:40,860
+the characteristics of the underlaying hardware. It
+
+11
+00:00:40,860 --> 00:00:45,350
+is important to note, however that so far as the applications are concerned,
+
+12
+00:00:45,350 --> 00:00:47,880
+nothing is changed about the operating system
+
+13
+00:00:47,880 --> 00:00:51,600
+because the interfaces that the applications see
+
+14
+00:00:51,600 --> 00:00:55,650
+is exactly the interfaces provided by. The operating
+
+15
+00:00:55,650 --> 00:00:57,910
+system, if there is an application that is running
+
+16
+00:00:57,910 --> 00:01:00,310
+on window, it sees the same API. If the
+
+17
+00:01:00,310 --> 00:01:03,550
+application is running on top of Linux, it sees
+
+18
+00:01:03,550 --> 00:01:06,950
+exactly the same API as it would if
+
+19
+00:01:06,950 --> 00:01:10,020
+this Linux operating system was running on native hardware.
+
+20
+00:01:10,020 --> 00:01:12,970
+In this sense, there's no change to the application's
+
+21
+00:01:12,970 --> 00:01:17,210
+themselves. But, the operating system has to be modified
+
+22
+00:01:17,210 --> 00:01:23,480
+in order to account for the fact that it is not running on bare metal, but
+
+23
+00:01:23,480 --> 00:01:30,310
+it is running as a guest of the hypervisor. And this is why this technology
+
+24
+00:01:30,310 --> 00:01:34,370
+is often referred to as. Para virtualization, meaning
+
+25
+00:01:34,370 --> 00:01:36,670
+it is not fully virtualized, but a part
+
+26
+00:01:36,670 --> 00:01:39,760
+of it is modified to account for being
+
+27
+00:01:39,760 --> 00:01:42,380
+a guest of the hypervisor. The Zen product
+
+28
+00:01:42,380 --> 00:01:46,330
+family uses this para virtualization approach. Now this
+
+29
+00:01:46,330 --> 00:01:49,920
+brings up an interesting question. I said that, in
+
+30
+00:01:49,920 --> 00:01:53,600
+order to do this paravisualization we have to modify
+
+31
+00:01:53,600 --> 00:01:56,840
+the operating system, but how big is this modification?

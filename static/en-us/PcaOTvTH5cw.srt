@@ -1,0 +1,463 @@
+1
+00:00:00,140 --> 00:00:04,390
+As we said, pages are the more
+popular method for memory management.
+
+2
+00:00:04,390 --> 00:00:08,730
+Now, let's take a look at one of the
+major components that enables page based
+
+3
+00:00:08,730 --> 00:00:11,320
+memory management, and
+that's page tables.
+
+4
+00:00:11,320 --> 00:00:15,360
+As the component that's used to
+translate the virtual memory addresses
+
+5
+00:00:15,360 --> 00:00:17,490
+into physical memory addresses.
+
+6
+00:00:17,490 --> 00:00:19,590
+So, here's a page table.
+
+7
+00:00:19,590 --> 00:00:24,080
+For each virtual address, and entry in
+the page table is used to determine
+
+8
+00:00:24,080 --> 00:00:29,120
+the actual physical location that
+corresponds to that virtual address.
+
+9
+00:00:29,120 --> 00:00:34,060
+So in this way, the page table is like a
+map that tells the operating system and
+
+10
+00:00:34,060 --> 00:00:38,150
+the hardware itself where to find
+specific virtual memory references.
+
+11
+00:00:39,170 --> 00:00:41,980
+All of the sizes in this
+drawing are a little bit off.
+
+12
+00:00:41,980 --> 00:00:45,650
+The sizes of the pages of
+the virtual memor,y and
+
+13
+00:00:45,650 --> 00:00:50,930
+the corresponding page frames in
+physical memory are identical.
+
+14
+00:00:50,930 --> 00:00:54,870
+By keeping the size of these
+two the same, we don't have to
+
+15
+00:00:54,870 --> 00:00:59,660
+keep track of the translation of every
+single individual virtual address.
+
+16
+00:00:59,660 --> 00:01:05,000
+Instead, we can only translate
+the first virtual address in a page
+
+17
+00:01:05,000 --> 00:01:09,570
+to the first virtual address in
+a page frame in physical memory.
+
+18
+00:01:09,570 --> 00:01:13,520
+And then the remaining addresses
+in the virtual memory page
+
+19
+00:01:13,520 --> 00:01:19,080
+will map to the corresponding offsets
+in the physical memory page frame.
+
+20
+00:01:19,080 --> 00:01:19,910
+As a result,
+
+21
+00:01:19,910 --> 00:01:25,390
+we can reduce the number of entries we
+have to maintain in the page table.
+
+22
+00:01:25,390 --> 00:01:29,550
+What that means is that only the first
+portion of the virtual address
+
+23
+00:01:29,550 --> 00:01:32,450
+is used to index into the page table.
+
+24
+00:01:32,450 --> 00:01:36,560
+We call this part of the virtual
+address the virtual page number, and
+
+25
+00:01:36,560 --> 00:01:39,750
+the rest of the virtual
+address is the actual offset.
+
+26
+00:01:39,750 --> 00:01:44,590
+The virtual page number is used
+as an offset into the page table.
+
+27
+00:01:44,590 --> 00:01:47,800
+And that will produce
+the physical frame number.
+
+28
+00:01:47,800 --> 00:01:53,240
+And that is the physical address
+off the physical frame in DRAM.
+
+29
+00:01:53,240 --> 00:01:57,150
+Now, to complete the full
+translation of the virtual address.
+
+30
+00:01:57,150 --> 00:02:02,180
+That physical frame number needs to be
+sent with the offset that's specified in
+
+31
+00:02:02,180 --> 00:02:07,410
+the later part of the physical address
+to produce the actual virtual address.
+
+32
+00:02:07,410 --> 00:02:10,220
+That resulting physical
+address can ultimately be
+
+33
+00:02:10,220 --> 00:02:14,790
+used to reference the appropriate
+location in physical memory.
+
+34
+00:02:14,790 --> 00:02:16,050
+Let's look at an example now.
+
+35
+00:02:17,070 --> 00:02:21,300
+Let's say we want to access some data
+structure, some array, for instance,
+
+36
+00:02:21,300 --> 00:02:24,780
+to initialize it for
+the very first time.
+
+37
+00:02:24,780 --> 00:02:29,690
+However, we have already allocated the
+memory for that array into the virtual
+
+38
+00:02:29,690 --> 00:02:33,860
+address space of the process,
+we've just never accessed it before.
+
+39
+00:02:33,860 --> 00:02:38,010
+So since this portion of the address
+base has not been accessed before,
+
+40
+00:02:38,010 --> 00:02:41,170
+the OS has not yet
+allocated memory for it.
+
+41
+00:02:41,170 --> 00:02:44,290
+What will happen the first
+time we access this memory is
+
+42
+00:02:44,290 --> 00:02:48,030
+that the operating system
+will realize that there isn't
+
+43
+00:02:48,030 --> 00:02:52,860
+physical memory that corresponds to
+this range of virtual memory addresses.
+
+44
+00:02:52,860 --> 00:02:55,250
+So it will take a page
+of physical memory,
+
+45
+00:02:55,250 --> 00:02:59,900
+P2 in this case,
+a page that is free, obviously.
+
+46
+00:02:59,900 --> 00:03:04,950
+And it will establish a mapping between
+this virtual address, so this is the V-K
+
+47
+00:03:04,950 --> 00:03:09,800
+and the offset address, where
+the array is placed in virtual memory,
+
+48
+00:03:09,800 --> 00:03:15,310
+and the physical address of
+page 2 in physical memory.
+
+49
+00:03:15,310 --> 00:03:17,920
+Note that I said,
+that the physical memory for
+
+50
+00:03:17,920 --> 00:03:22,730
+this array is only
+allocated when the process
+
+51
+00:03:22,730 --> 00:03:27,310
+is first trying to access it,
+during this initialization routine.
+
+52
+00:03:27,310 --> 00:03:31,090
+We refer to this as
+allocation on first touch.
+
+53
+00:03:31,090 --> 00:03:35,040
+The reason for this is that we want
+to make sure that physical memory is
+
+54
+00:03:35,040 --> 00:03:39,140
+allocated only when it is really needed,
+because sometimes programmer may
+
+55
+00:03:39,140 --> 00:03:42,520
+create data structures that
+they don't really use.
+
+56
+00:03:42,520 --> 00:03:46,870
+If a process hasn't used some of
+its memory pages for a long time,
+
+57
+00:03:46,870 --> 00:03:50,200
+and it's likely that those
+pages will be reclaimed.
+
+58
+00:03:50,200 --> 00:03:53,740
+So the contents will no longer
+be present in physical memory.
+
+59
+00:03:53,740 --> 00:03:56,750
+They will be reclaimed,
+they will be pushed on desks and
+
+60
+00:03:56,750 --> 00:04:00,379
+probably some other content will find
+its way into the physical memory.
+
+61
+00:04:01,420 --> 00:04:02,780
+In order to detect this,
+
+62
+00:04:02,780 --> 00:04:07,280
+page table entries don't just consist
+of the physical frame number.
+
+63
+00:04:07,280 --> 00:04:12,170
+Instead they also have a number of
+bits that tell the memory management
+
+64
+00:04:12,170 --> 00:04:15,790
+system something about
+the validity of the access.
+
+65
+00:04:15,790 --> 00:04:19,680
+For instance, if the page is in
+memory and the mapping is valid,
+
+66
+00:04:19,680 --> 00:04:21,380
+then this bit is one.
+
+67
+00:04:21,380 --> 00:04:26,000
+If the page is not in memory then this
+bit is zero, and if the hardware MMU
+
+68
+00:04:26,000 --> 00:04:30,770
+see's that this is a bit zero in the
+page table entry it will raise a fault.
+
+69
+00:04:30,770 --> 00:04:33,340
+It will trap to the operating system.
+
+70
+00:04:33,340 --> 00:04:36,350
+If the hardware determines that
+the mapping is invalid and
+
+71
+00:04:36,350 --> 00:04:40,370
+false, then control gets passed
+to the operating system.
+
+72
+00:04:40,370 --> 00:04:43,680
+The OS at that point gets to
+decide a number of questions.
+
+73
+00:04:43,680 --> 00:04:45,030
+Should the access be permitted.
+
+74
+00:04:46,090 --> 00:04:48,790
+Where exactly is the page located.
+
+75
+00:04:48,790 --> 00:04:51,840
+Where should it be brought into DRAM.
+
+76
+00:04:51,840 --> 00:04:55,330
+So long as a valid address
+is being accessed.
+
+77
+00:04:55,330 --> 00:04:59,750
+Ultimately in fault, there will be
+a mapping that will be re-established
+
+78
+00:04:59,750 --> 00:05:04,660
+between a valid virtual address and
+the valid location in physical memory.
+
+79
+00:05:04,660 --> 00:05:07,890
+It is likely however,
+if the page was pushed in disk and
+
+80
+00:05:07,890 --> 00:05:10,250
+now it's being brought back into memory,
+
+81
+00:05:10,250 --> 00:05:13,540
+that it will be placed in a completely
+different memory location.
+
+82
+00:05:13,540 --> 00:05:15,290
+So for instance, here.
+
+83
+00:05:15,290 --> 00:05:20,200
+This page is now placed in P3,
+and it use to be in P2, as
+
+84
+00:05:20,200 --> 00:05:25,530
+a result clearly the entry in the page
+table needs to be correctly updated.
+
+85
+00:05:25,530 --> 00:05:27,970
+So as a final note to summarize,
+
+86
+00:05:27,970 --> 00:05:33,330
+the operating system creates a page
+table for every process that it runs.
+
+87
+00:05:33,330 --> 00:05:37,770
+As a summary, the operating system
+will maintain a page table on
+
+88
+00:05:37,770 --> 00:05:40,160
+every single process that exists.
+
+89
+00:05:40,160 --> 00:05:43,030
+That means that whenever
+a context switch is performed,
+
+90
+00:05:43,030 --> 00:05:47,450
+the operating system has to make
+sure that it switches to the page
+
+91
+00:05:47,450 --> 00:05:50,670
+table of the newly
+context switch process.
+
+92
+00:05:50,670 --> 00:05:54,740
+We said that hardware assist
+with page table accesses by
+
+93
+00:05:54,740 --> 00:05:59,625
+maintaining a register that
+points to the active page table.
+
+94
+00:05:59,625 --> 00:06:03,497
+On X86 Platforms there's a register CR3.
+
+95
+00:06:03,497 --> 00:06:08,317
+And so basically, on a context which
+we will have to change the contents of
+
+96
+00:06:08,317 --> 00:06:12,075
+the CR3 register with the address
+of the new page table.

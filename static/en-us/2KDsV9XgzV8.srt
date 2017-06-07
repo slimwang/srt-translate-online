@@ -1,0 +1,171 @@
+1
+00:00:00,350 --> 00:00:03,170
+Furthermore, when an interrupt first occurs and
+
+2
+00:00:03,170 --> 00:00:07,980
+we're in this initial, in this top part of the interrupt handler,
+
+3
+00:00:07,980 --> 00:00:11,530
+it may be necessary to disable certain interrupts.
+
+4
+00:00:11,530 --> 00:00:15,350
+We said that's one way to prevent the deadlock situation.
+
+5
+00:00:15,350 --> 00:00:19,300
+But then, when the interrupt handling is passed to a separate thread,
+
+6
+00:00:19,300 --> 00:00:23,880
+then we can enable any interrupts that we had disabled originally.
+
+7
+00:00:23,880 --> 00:00:28,320
+Because now this is a separate thread, so interrupts occurring can
+
+8
+00:00:28,320 --> 00:00:32,509
+be handled in the same way as it would for any other thread in the system.
+
+9
+00:00:32,509 --> 00:00:36,940
+So there isn't any danger of some additional deadlock situations,
+
+10
+00:00:36,940 --> 00:00:40,270
+because we are executing in an interrupt-handling routine.
+
+11
+00:00:40,270 --> 00:00:45,230
+So basically, this much safer in terms of having external interrupts occur when
+
+12
+00:00:45,230 --> 00:00:49,120
+we are executing in this bottom part of the handling code.
+
+13
+00:00:49,120 --> 00:00:51,250
+I intentionally chose the words top and
+
+14
+00:00:51,250 --> 00:00:54,940
+bottom to describe what's happening in this situation.
+
+15
+00:00:54,940 --> 00:01:00,580
+Because this description of how Solaris uses threads to handle interrupt,
+
+16
+00:01:00,580 --> 00:01:06,530
+is a very common technique how we allow the interrupt-handling routine to
+
+17
+00:01:06,530 --> 00:01:11,540
+potentially have arbitrary complexity, and not be worried about deadlocks.
+
+18
+00:01:11,540 --> 00:01:15,500
+In Linux, these two parts of the interrupt processing are referred to
+
+19
+00:01:15,500 --> 00:01:17,620
+as the top half and the bottom half.
+
+20
+00:01:17,620 --> 00:01:21,360
+So, this is really what we illustrate with this portion of the lesson.
+
+21
+00:01:21,360 --> 00:01:26,030
+The top half will perform a minimum amount of processing, and
+
+22
+00:01:26,030 --> 00:01:28,380
+it's required to be non-blocking.
+
+23
+00:01:28,380 --> 00:01:30,440
+It will be fast basically.
+
+24
+00:01:30,440 --> 00:01:35,200
+The bottom half is pretty much allowed to perform arbitrary types of
+
+25
+00:01:35,200 --> 00:01:36,790
+processing operations.
+
+26
+00:01:36,790 --> 00:01:40,280
+The top half executes immediately when an interrupt occurs.
+
+27
+00:01:40,280 --> 00:01:43,710
+Whereas the bottom half, like any other thread, can be scheduled for
+
+28
+00:01:43,710 --> 00:01:44,590
+a later time.
+
+29
+00:01:44,590 --> 00:01:45,810
+It can block.
+
+30
+00:01:45,810 --> 00:01:50,720
+And so, other than perhaps because of certain timeouts that are associated with
+
+31
+00:01:50,720 --> 00:01:56,180
+the device, we're not really restricted when it actually gets to execute.
+
+32
+00:01:56,180 --> 00:02:01,150
+The paper goes into further detail to describe a specific policy as to how to
+
+33
+00:02:01,150 --> 00:02:04,920
+interpret the priority levels that are associated with the threads when
+
+34
+00:02:04,920 --> 00:02:06,170
+they're being interrupted.
+
+35
+00:02:06,170 --> 00:02:09,310
+Also priority levels associated with the devices.
+
+36
+00:02:09,310 --> 00:02:13,410
+And then use these priority levels in deciding when and
+
+37
+00:02:13,410 --> 00:02:18,260
+how a thread should be used to handle the particular interrupt.
+
+38
+00:02:18,260 --> 00:02:20,230
+And we will skip that discussion.
+
+39
+00:02:20,230 --> 00:02:23,750
+But the takeaway is that if you want to permit
+
+40
+00:02:23,750 --> 00:02:29,660
+arbitrary functionality to be incorporated in the interrupt-handling operations.
+
+41
+00:02:29,660 --> 00:02:34,070
+Then you really need to make sure that, that handling routine is executed by
+
+42
+00:02:34,070 --> 00:02:38,070
+another thread that you can potentially synchronize with.
+
+43
+00:02:38,070 --> 00:02:40,280
+And that thread potentially is allowed to block

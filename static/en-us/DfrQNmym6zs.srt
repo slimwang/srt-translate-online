@@ -1,0 +1,383 @@
+1
+00:00:00,280 --> 00:00:01,880
+So getting started in part 1,
+
+2
+00:00:01,880 --> 00:00:06,060
+install the beautiful soup in ubuntu by using the apt-get command, and
+
+3
+00:00:06,060 --> 00:00:10,210
+again you can do this by copying and pasting in the lesson 3, stage 2.
+
+4
+00:00:10,210 --> 00:00:13,130
+In part 2 modify your TweetSpout to emit only the first
+
+5
+00:00:13,130 --> 00:00:15,060
+URL contained in a Tweet.
+
+6
+00:00:15,060 --> 00:00:18,710
+We do that in lesson 2, stage 2, navigate to the TweetSpout.
+
+7
+00:00:18,710 --> 00:00:22,270
+We see that in the TweetSpout, the current logic states that
+
+8
+00:00:22,270 --> 00:00:26,610
+the status.get text is how we're getting our Tweet messages.
+
+9
+00:00:26,610 --> 00:00:30,210
+First comment out the queue.offer and
+
+10
+00:00:30,210 --> 00:00:34,290
+using the syntax hint we create a string URL,
+
+11
+00:00:34,290 --> 00:00:39,550
+we check that the status.getURLEntities.length is not equal to 0.
+
+12
+00:00:39,550 --> 00:00:45,130
+If length does not equal zero, we assign the URL using the getURL function in
+
+13
+00:00:45,130 --> 00:00:51,500
+the hint, and finally using the same syntax, we add the URL in the queue.
+
+14
+00:00:51,500 --> 00:00:55,350
+Scrolling down in the TweetSpout we see the next tuple method.
+
+15
+00:00:55,350 --> 00:00:59,220
+We'll pull from the queue, check that the queue is not null, and
+
+16
+00:00:59,220 --> 00:01:02,580
+if not it admits the string using the collector.emit function.
+
+17
+00:01:02,580 --> 00:01:07,460
+Finally the declare output fields method, you can leave the field as tweet.
+
+18
+00:01:07,460 --> 00:01:11,620
+Next it's time to create your python file in part 3, create a new python file in
+
+19
+00:01:11,620 --> 00:01:19,450
+the resources folder urltext.py to an adamant ad file urltext.py.
+
+20
+00:01:19,450 --> 00:01:21,620
+And again, remember that it's a python file that goes in
+
+21
+00:01:21,620 --> 00:01:23,110
+the resources directory.
+
+22
+00:01:23,110 --> 00:01:26,570
+In part 4, we define the main functionality to use urllib2 and
+
+23
+00:01:26,570 --> 00:01:33,330
+BeautifulSoup from bs4, to define a new class URLBolt to open and receive URL's
+
+24
+00:01:33,330 --> 00:01:40,040
+parse intimate text, I use the splitsentence.pi example from stage one.
+
+25
+00:01:40,040 --> 00:01:44,830
+Using SplitSentenceBolt as an example, we create the URLBolt class.
+
+26
+00:01:44,830 --> 00:01:49,280
+First we get the url coming from the tupBolt.values at zero.
+
+27
+00:01:50,330 --> 00:01:53,080
+Next in the URL lib2 library we get
+
+28
+00:01:53,080 --> 00:01:59,650
+the HTML file using urllib2.urlopen(url).read.
+
+29
+00:01:59,650 --> 00:02:04,570
+Finally from the syntax hints using beautiful soup making the soup.
+
+30
+00:02:04,570 --> 00:02:08,320
+We have soup equals beautiful soup that takes in the html we defined.
+
+31
+00:02:09,419 --> 00:02:12,200
+Next, using the syntax hints again,
+
+32
+00:02:12,200 --> 00:02:17,140
+we use the soup.findAll method that searches for title and paragraph tags.
+
+33
+00:02:18,380 --> 00:02:21,040
+And finally, we check if the urlText is not null.
+
+34
+00:02:22,250 --> 00:02:23,720
+In Python this falsies.
+
+35
+00:02:23,720 --> 00:02:27,430
+So if urlText is link 0 this will be false.
+
+36
+00:02:27,430 --> 00:02:31,290
+But if it's true, we form a list comprehension, this is why I
+
+37
+00:02:31,290 --> 00:02:37,240
+kept the storm.emit word syntax here but we'll, we can now get rid of this.
+
+38
+00:02:37,240 --> 00:02:45,270
+And using the storm.emit syntax we emit t dot string for t in url text.
+
+39
+00:02:45,270 --> 00:02:49,800
+Finally again in the hints, we want to wrap this in a tri except past statement,
+
+40
+00:02:49,800 --> 00:02:52,820
+because any 404 error will crash Storm,
+
+41
+00:02:53,820 --> 00:02:59,580
+once we wrapped the try except pass, we update our URLBolt class.
+
+42
+00:02:59,580 --> 00:03:02,550
+And now we have our URLBolt class .run statement.
+
+43
+00:03:03,680 --> 00:03:05,930
+And, finally, we include our import statements,
+
+44
+00:03:05,930 --> 00:03:10,710
+urllib2, and from bs4 import BeautifulSoup.
+
+45
+00:03:10,710 --> 00:03:14,230
+Finally in part 5, create java bolt URLBolt.java and
+
+46
+00:03:14,230 --> 00:03:17,690
+remember this is located in the storm folder and not the resources folder.
+
+47
+00:03:18,860 --> 00:03:22,900
+Once created, again, keeping the import statements the same,
+
+48
+00:03:22,900 --> 00:03:28,790
+we can copy the splitsentence.java file into our URLBolt.java file.
+
+49
+00:03:28,790 --> 00:03:32,950
+Next, we update the class to URLBolt, update the constructor from
+
+50
+00:03:32,950 --> 00:03:38,483
+SplitSentence to URLBolt, update splitsentence.py to
+
+51
+00:03:38,483 --> 00:03:42,730
+urltext.py and finally, I declared my new field text instead of word.
+
+52
+00:03:44,080 --> 00:03:48,590
+Note again that the Python bold URL text.pie does not declare an output field,
+
+53
+00:03:48,590 --> 00:03:51,290
+and this must be declared in the URL bolt.java.
+
+54
+00:03:51,290 --> 00:03:54,340
+The URL bolt will be connected to our Python parse bolt
+
+55
+00:03:54,340 --> 00:03:55,970
+using a shuffle grouping.
+
+56
+00:03:55,970 --> 00:03:58,480
+Therefore, the field we choose will not be using a.
+
+57
+00:03:58,480 --> 00:04:01,280
+Field grouping, but we will call this text.
+
+58
+00:04:01,280 --> 00:04:04,740
+Finally, in part six, we update the topology by navigating to
+
+59
+00:04:04,740 --> 00:04:12,600
+the Tweet topology, we add the URL bolt with a component ID python-URL-bolt.
+
+60
+00:04:12,600 --> 00:04:15,820
+And here we have a shuffleGrouping connecting the tweet-spout.
+
+61
+00:04:15,820 --> 00:04:19,630
+And finally, to complete the topology, we see that the tweet-spout connection to
+
+62
+00:04:19,630 --> 00:04:24,474
+the python-split-sentence bolt needs to be updated to the python-URL-bolt.
+
+63
+00:04:25,890 --> 00:04:29,782
+And one final check on our topology, we have the tweet spout,
+
+64
+00:04:29,782 --> 00:04:31,723
+the python-URL-bolt.
+
+65
+00:04:31,723 --> 00:04:37,750
+The python-split-sentence bolt, the count-bolt and the report-bolt.
+
+66
+00:04:37,750 --> 00:04:42,100
+This is connected with a shuffleGrouping of the URL to the Tweet spout.
+
+67
+00:04:42,100 --> 00:04:46,780
+Another shuffle grouping of the Python URL bolt to the split sentence bolt,
+
+68
+00:04:46,780 --> 00:04:50,330
+the split sentence bolt to the count bolt and
+
+69
+00:04:50,330 --> 00:04:53,280
+finally the count bolt to the report bolt.
+
+70
+00:04:53,280 --> 00:04:56,410
+Just labeling our components a little nicer, we have the tweet spout,
+
+71
+00:04:57,480 --> 00:05:03,500
+the Python URL bolt, the Python split sentence, the count-bolt,
+
+72
+00:05:03,500 --> 00:05:07,690
+and finally the report-bolt that connects to Redis and our live visualization.
+
+73
+00:05:08,800 --> 00:05:15,590
+We see that the python-URL-bolt actually calls the urltext.py file,
+
+74
+00:05:15,590 --> 00:05:21,370
+and finally the python-split-sentence bolt is calling the splitsentence.py file.
+
+75
+00:05:21,370 --> 00:05:24,880
+So notice that if you don't follow the hint in the split-sentence-bolt to
+
+76
+00:05:24,880 --> 00:05:26,930
+check for empty values,
+
+77
+00:05:26,930 --> 00:05:31,550
+you'll get a runtime error of NoneType object has no attribute split.
+
+78
+00:05:31,550 --> 00:05:37,180
+What's happening is, the URL being passed is going to be empty but
+
+79
+00:05:37,180 --> 00:05:39,940
+our split sentence bolt is trying to parse it and so
+
+80
+00:05:39,940 --> 00:05:46,330
+we get a runtime failure here, and to fix that we'll simply go and add a check.
+
+81
+00:05:46,330 --> 00:05:47,380
+For empty values.
+
+82
+00:05:48,700 --> 00:05:52,280
+And so here following the hint, we simply check for empty values.
+
+83
+00:05:52,280 --> 00:05:57,950
+Remember that Python is so if tuple.values at zero is empty,
+
+84
+00:05:57,950 --> 00:05:59,690
+this will evaluate to false.
+
+85
+00:05:59,690 --> 00:06:02,080
+If it exists, that is true.
+
+86
+00:06:02,080 --> 00:06:03,480
+We set our words, and
+
+87
+00:06:03,480 --> 00:06:07,080
+if words, again checking to make sure that that's not empty.
+
+88
+00:06:07,080 --> 00:06:11,380
+We simply go through and use storm.emit for that word.
+
+89
+00:06:11,380 --> 00:06:12,570
+Finally, in part six,
+
+90
+00:06:12,570 --> 00:06:17,380
+update your topology to visualize url words parsed using a python bolt.
+
+91
+00:06:17,380 --> 00:06:21,250
+Again running maven package and submit as usuall.
+
+92
+00:06:21,250 --> 00:06:23,760
+And finally we see our word cloud updating.
+
+93
+00:06:23,760 --> 00:06:26,130
+So great job on Lesson 3, Stage 2.
+
+94
+00:06:26,130 --> 00:06:29,430
+Remember that your code will now match Lesson 3, Stage 3,
+
+95
+00:06:29,430 --> 00:06:31,500
+if you ran into any issues.
+
+96
+00:06:31,500 --> 00:06:32,000
+Great job.

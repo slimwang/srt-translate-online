@@ -1,0 +1,271 @@
+﻿1
+00:00:00,410 --> 00:00:02,650
+Now that we've written
+the code to open a web page,
+
+2
+00:00:02,649 --> 00:00:04,969
+we're going to use
+intents to open a map.
+
+3
+00:00:04,969 --> 00:00:09,000
+Although the code for opening a location
+on a map isn't exactly the same,
+
+4
+00:00:09,000 --> 00:00:11,099
+the concepts are similar.
+
+5
+00:00:11,099 --> 00:00:11,789
+Now let's go
+
+6
+00:00:11,789 --> 00:00:15,919
+back to the Common Intents page on
+the Android Developer Documentation.
+
+7
+00:00:15,919 --> 00:00:18,960
+You can quickly get to it
+by Googling common intents.
+
+8
+00:00:19,980 --> 00:00:21,663
+I want to open a map, so
+
+9
+00:00:21,663 --> 00:00:26,202
+I'll click on the Maps link in
+the In this document section.
+
+10
+00:00:26,202 --> 00:00:28,280
+Before I write the code to open a map,
+
+11
+00:00:28,280 --> 00:00:31,709
+let's talk a little bit
+more about the data URI.
+
+12
+00:00:31,710 --> 00:00:34,920
+A URI or a Uniform Resource Identifier
+
+13
+00:00:34,920 --> 00:00:38,570
+is a string of characters
+that identifies a resource.
+
+14
+00:00:38,570 --> 00:00:42,679
+One of the ways you use URIs every day
+is when you navigate to web addresses
+
+15
+00:00:42,679 --> 00:00:45,119
+like udacity.com.
+
+16
+00:00:45,119 --> 00:00:49,979
+The formal name of a web address is
+a URL or Uniform Resource Locator.
+
+17
+00:00:51,079 --> 00:00:55,554
+A URL is a URI that identifies a web or
+network resource.
+
+18
+00:00:55,554 --> 00:01:00,079
+But as we saw in the Android
+documentation for opening a map,
+
+19
+00:01:00,079 --> 00:01:03,765
+a URI like geo can describe
+a physical location.
+
+20
+00:01:03,765 --> 00:01:09,620
+Here's the full form of a URI, with all
+the optional parts shown in brackets.
+
+21
+00:01:09,620 --> 00:01:11,660
+It begins with a scheme.
+
+22
+00:01:11,659 --> 00:01:15,265
+The scheme describes what type
+of resource we're pointing to.
+
+23
+00:01:15,265 --> 00:01:19,307
+Popular schemes on the web are HTTP and
+HTTPS,
+
+24
+00:01:19,307 --> 00:01:25,210
+mailto, FTP, file, and geo,
+but there are many more.
+
+25
+00:01:25,209 --> 00:01:30,059
+Depending on the particular scheme,
+it might be followed by two slashes and
+
+26
+00:01:30,060 --> 00:01:31,590
+an authority part.
+
+27
+00:01:31,590 --> 00:01:35,880
+The authority indicates an optional
+username and password to log in, a host
+
+28
+00:01:35,879 --> 00:01:40,759
+name, which could be a domain name or
+an IP address, and an optional port.
+
+29
+00:01:40,760 --> 00:01:46,609
+For HTTP requests, unless otherwise
+stated, browsers assume port 80.
+
+30
+00:01:46,609 --> 00:01:49,579
+So if we try that in our browser,
+
+31
+00:01:49,579 --> 00:01:55,129
+we'll see that baidu.com,
+the Chinese web search engine,
+
+32
+00:01:55,129 --> 00:02:02,049
+navigates to the same place if we leave
+off the ports or add it on to the end.
+
+33
+00:02:02,049 --> 00:02:05,980
+After the authority part,
+there's a path to a resource.
+
+34
+00:02:05,980 --> 00:02:10,400
+If the authority exists, there must
+be a slash between the authority and
+
+35
+00:02:10,400 --> 00:02:10,699
+the path.
+
+36
+00:02:11,819 --> 00:02:13,859
+In this case, between the authority,
+
+37
+00:02:13,860 --> 00:02:18,640
+which contains
+www.udacity.com as the host.
+
+38
+00:02:18,639 --> 00:02:23,799
+In this case, we have an authority
+that contains www.udacity.com and
+
+39
+00:02:23,800 --> 00:02:26,510
+the path courses/all.
+
+40
+00:02:26,509 --> 00:02:30,319
+Mailto is one of the schemes that
+doesn't require the authority part and
+
+41
+00:02:30,319 --> 00:02:35,049
+can work with just a path, in this case,
+the person you want to email.
+
+42
+00:02:35,050 --> 00:02:36,580
+The query is next, and
+
+43
+00:02:36,580 --> 00:02:40,860
+it has no required format other than
+it begins with a question mark.
+
+44
+00:02:40,860 --> 00:02:45,480
+It's common to use key value pairs to
+specify data, but that isn't required.
+
+45
+00:02:45,479 --> 00:02:49,719
+Despite its name,
+the query isn't always about searching.
+
+46
+00:02:49,719 --> 00:02:54,580
+Officially, it has no size limit, but in
+practice, it can range from about 8,000
+
+47
+00:02:54,580 --> 00:03:00,588
+characters to over 190,000 characters,
+depending on the browser being used.
+
+48
+00:03:00,587 --> 00:03:03,009
+If you've seen links that
+say email this article,
+
+49
+00:03:03,009 --> 00:03:07,139
+it might be including the full text of
+the article in the link using the query.
+
+50
+00:03:07,139 --> 00:03:10,339
+The last element of
+the URI is the fragment.
+
+51
+00:03:10,340 --> 00:03:12,129
+This is preceded by a hash and
+
+52
+00:03:12,129 --> 00:03:15,549
+indicates secondary data that
+the path resource will use.
+
+53
+00:03:15,550 --> 00:03:19,060
+What the fragment does depends
+on the path, the browser, and
+
+54
+00:03:19,060 --> 00:03:21,370
+possibly the application
+that's being run.
+
+55
+00:03:21,370 --> 00:03:25,009
+For example, in the Android
+Developer Nanodegree trailer,
+
+56
+00:03:25,009 --> 00:03:28,379
+this links to ten seconds from
+the beginning of the video.
+
+57
+00:03:28,379 --> 00:03:32,189
+Next, you're going to look at some
+URIs and identify parts of them.
+

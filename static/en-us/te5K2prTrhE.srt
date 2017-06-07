@@ -1,0 +1,299 @@
+1
+00:00:00,710 --> 00:00:03,220
+>> All right, so what that last little exercise showed is
+
+2
+00:00:03,220 --> 00:00:08,330
+that XOR, in XOR parody, is hard. It's exponential. But that kind of
+
+3
+00:00:08,330 --> 00:00:10,970
+provides us a little bit of a hint, right? We know that
+
+4
+00:00:10,970 --> 00:00:13,850
+XOR is hard and we know that OR is easy. At least
+
+5
+00:00:13,850 --> 00:00:16,420
+in terms of the number of nodes you need, right? But, we
+
+6
+00:00:16,420 --> 00:00:20,110
+don't know, going in, what a particular function is. So we never
+
+7
+00:00:20,110 --> 00:00:22,360
+know whether the decision tree that we're going to have to build
+
+8
+00:00:22,360 --> 00:00:25,650
+is going to be an easy one. That is something linear, say.
+
+9
+00:00:25,650 --> 00:00:29,010
+Or a hard one, something that's exponential. So this brings me
+
+10
+00:00:29,010 --> 00:00:32,509
+to a key question that I want to ask, which is,
+
+11
+00:00:32,509 --> 00:00:36,170
+exactly how expressive is a decision tree. And this is what
+
+12
+00:00:36,170 --> 00:00:38,186
+I really mean by this. Not just what kind of functions
+
+13
+00:00:38,186 --> 00:00:41,580
+it kind of represent. But, if we're going to be searching over
+
+14
+00:00:41,580 --> 00:00:44,640
+all possible decision trees in order to find the right one,
+
+15
+00:00:44,640 --> 00:00:47,870
+how many decision trees do we have to worry about to
+
+16
+00:00:47,870 --> 00:00:50,730
+look at? So, let's go back and look at, take the XOR
+
+17
+00:00:50,730 --> 00:00:53,652
+case again and just speak more generally. Let's imagine that we
+
+18
+00:00:53,652 --> 00:00:57,750
+once again, we have n attributes. Here's my question to you, Michael.
+
+19
+00:00:57,750 --> 00:01:00,560
+How many decision trees are there? And look, I'm going to make
+
+20
+00:01:00,560 --> 00:01:01,700
+it easy for you, Michael. They're
+
+21
+00:01:01,700 --> 00:01:04,390
+not just attributes, they're Boolean attributes.
+
+22
+00:01:04,390 --> 00:01:06,590
+>> Thanks.
+
+23
+00:01:06,590 --> 00:01:09,950
+>> Okay? And they're not just Boolean attributes,
+
+24
+00:01:09,950 --> 00:01:14,130
+but the output is also Boolean. Got it?
+
+25
+00:01:14,130 --> 00:01:15,730
+>> Sure. But how
+
+26
+00:01:15,730 --> 00:01:20,380
+many trees? So it's, I'm going to go with a lot.
+
+27
+00:01:20,380 --> 00:01:23,950
+>> Okay. A lot. Define a lot.
+
+28
+00:01:23,950 --> 00:01:27,320
+>> Define a lot. So, alright, well, there's
+
+29
+00:01:27,320 --> 00:01:31,830
+n choices for which node to split on first.
+
+30
+00:01:31,830 --> 00:01:32,920
+>> Yeah.
+
+31
+00:01:32,920 --> 00:01:36,890
+>> And then, for each of those, there's n minus 1 to split
+
+32
+00:01:36,890 --> 00:01:40,470
+on next. So I feel like that could be an n factorial kind of thing.
+
+33
+00:01:40,470 --> 00:01:42,270
+>> Maybe. I
+
+34
+00:01:42,270 --> 00:01:42,670
+like that.
+
+35
+00:01:42,670 --> 00:01:45,590
+>> And then, even after we've done all that,
+
+36
+00:01:45,590 --> 00:01:48,760
+then we have an exponential number of leaves. And for
+
+37
+00:01:48,760 --> 00:01:51,310
+each of those leaves, we could fill in either true
+
+38
+00:01:51,310 --> 00:01:54,870
+or false. So it's going to be exponential in that too.
+
+39
+00:01:54,870 --> 00:01:57,430
+>> Hm, so let me see if I got that right.
+
+40
+00:01:57,430 --> 00:01:59,880
+So you said we have to pick each attribute at every
+
+41
+00:01:59,880 --> 00:02:02,770
+level. And so you see something that you think is probably
+
+42
+00:02:02,770 --> 00:02:07,060
+going to be, you know? Some kind of combinatorial question here.
+
+43
+00:02:07,060 --> 00:02:09,300
+So, let's say n factorial, and that's going
+
+44
+00:02:09,300 --> 00:02:11,320
+to just build the nodes. That's just the nodes.
+
+45
+00:02:14,410 --> 00:02:18,063
+Well, once you have the nodes, you still have to figure out the answers.
+
+46
+00:02:21,040 --> 00:02:26,240
+And so, this is exponential because factorial is exponential. And
+
+47
+00:02:26,240 --> 00:02:30,100
+this is also exponential. Huh. So let's see if we can
+
+48
+00:02:30,100 --> 00:02:32,040
+write that down. So let me propose a way to think
+
+49
+00:02:32,040 --> 00:02:34,226
+about this, Michael. You're exactly right the way you're thinking. So,
+
+50
+00:02:34,226 --> 00:02:36,382
+let's see if we can be a little bit more concrete
+
+51
+00:02:36,382 --> 00:02:39,387
+about it. So, we have Boolean inputs and we have Boolean
+
+52
+00:02:39,387 --> 00:02:42,348
+outputs, so this is just like AND, it's just like OR,
+
+53
+00:02:42,348 --> 00:02:46,443
+it's just like XOR, so, whenever we're dealing with Boolean functions,
+
+54
+00:02:46,443 --> 00:02:49,620
+we can write down a truth table. So let's think about what the truth
+
+55
+00:02:49,620 --> 00:02:51,744
+table looks like in this case. [SOUND]
+
+56
+00:02:51,744 --> 00:02:54,110
+Alright, so, let's look at the truth table.
+
+57
+00:02:56,180 --> 00:02:59,460
+So what a truth table will give me is,
+
+58
+00:02:59,460 --> 00:03:02,040
+for, the way a truth table normally works is
+
+59
+00:03:02,040 --> 00:03:04,890
+you write out, each of the attributes. So, attribute
+
+60
+00:03:04,890 --> 00:03:10,180
+one, attribute two, attribute three, and dot dot dot.
+
+61
+00:03:10,180 --> 00:03:14,070
+And there's n of those, okay? We did this
+
+62
+00:03:14,070 --> 00:03:17,020
+a little earlier. When we did our decision tree.
+
+63
+00:03:18,130 --> 00:03:21,240
+When we tried to figure out whether I was on a hot date or not. And then you
+
+64
+00:03:21,240 --> 00:03:24,230
+have some kind of output or answer. So,
+
+65
+00:03:24,230 --> 00:03:25,770
+each of these attributes could take on true
+
+66
+00:03:25,770 --> 00:03:30,745
+or false. So one kind of input that we may get would be say all trues.
+
+67
+00:03:33,660 --> 00:03:37,830
+Right? But we also might get all trues, except
+
+68
+00:03:37,830 --> 00:03:40,430
+for one false at the end. Or maybe the
+
+69
+00:03:40,430 --> 00:03:42,400
+first one's false and all the rest of them
+
+70
+00:03:42,400 --> 00:03:45,380
+are true, and so on, and so forth. And
+
+71
+00:03:45,380 --> 00:03:49,580
+each one of those possibilities is another row in
+
+72
+00:03:49,580 --> 00:03:52,470
+our table. And that can just go on for
+
+73
+00:03:52,470 --> 00:03:54,440
+we don't know how long. So we have any
+
+74
+00:03:54,440 --> 00:03:57,310
+number of rows here and my question to you is
+
+75
+00:03:59,380 --> 00:04:00,910
+how many rows? Go.

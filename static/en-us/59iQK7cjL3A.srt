@@ -1,0 +1,291 @@
+1
+00:00:00,440 --> 00:00:02,260
+Now looking at our list of tasks to do,
+
+2
+00:00:02,260 --> 00:00:04,280
+we could tackle them
+from the top to bottom.
+
+3
+00:00:04,280 --> 00:00:06,880
+So remember in the last lesson I
+mentioned that there are a number of
+
+4
+00:00:06,880 --> 00:00:08,930
+ways that you can prioritize your tasks.
+
+5
+00:00:08,930 --> 00:00:11,240
+So one way go about this
+is to try the hardest or
+
+6
+00:00:11,240 --> 00:00:15,260
+riskiest tasks first making sure
+that that feature is even possible.
+
+7
+00:00:15,260 --> 00:00:18,020
+Now for us, we've never played
+an audio file before, so
+
+8
+00:00:18,020 --> 00:00:19,920
+let's just make sure that even works.
+
+9
+00:00:19,920 --> 00:00:24,060
+So, the lowest risk item on this
+list is adding the play button icon
+
+10
+00:00:24,060 --> 00:00:27,920
+to the list items and this is because
+we've modified layouts before so
+
+11
+00:00:27,920 --> 00:00:29,440
+we know that this is possible.
+
+12
+00:00:29,440 --> 00:00:31,830
+So, let's go ahead and
+save this UI change for
+
+13
+00:00:31,830 --> 00:00:35,330
+the end of the lesson when we go
+ahead and do the visual polish.
+
+14
+00:00:35,330 --> 00:00:38,550
+To get started, we're going to have
+you create a tiny music player app
+
+15
+00:00:38,550 --> 00:00:40,490
+separate from the me walk app.
+
+16
+00:00:40,490 --> 00:00:44,717
+Developers often write a small app to
+test a new technology before building it
+
+17
+00:00:44,717 --> 00:00:46,219
+into their own larger app.
+
+18
+00:00:46,219 --> 00:00:49,770
+Now by creating this sample app,
+you'll become familiar with
+
+19
+00:00:49,770 --> 00:00:53,656
+the MediaPlayer API, and by the way,
+you may hear the term API come up
+
+20
+00:00:53,656 --> 00:00:58,423
+occasionally and that's just an acronym
+for application programming interface.
+
+21
+00:00:58,423 --> 00:01:00,438
+So when we talked about
+interfaces earlier,
+
+22
+00:01:00,438 --> 00:01:03,830
+remember they're like contracts that
+Android provides promising certain
+
+23
+00:01:03,830 --> 00:01:07,292
+functionality, so things like playing
+media using the MediaPlayer class.
+
+24
+00:01:08,452 --> 00:01:11,664
+So we don't need to know all the details
+within the MediaPlayer class,
+
+25
+00:01:11,664 --> 00:01:14,736
+things like like how gets the sound to
+come out of the speakers on a device,
+
+26
+00:01:14,736 --> 00:01:18,186
+but as a developer, we just care
+that we can use the MediaPlayer and
+
+27
+00:01:18,186 --> 00:01:20,506
+call methods on it to play media files.
+
+28
+00:01:21,866 --> 00:01:22,956
+Right, for this quiz,
+
+29
+00:01:22,956 --> 00:01:27,660
+you'll be building this simplified music
+player app that works for a single song.
+
+30
+00:01:27,660 --> 00:01:29,232
+So in this app, hitting Play
+
+31
+00:01:29,232 --> 00:01:35,985
+[MUSIC]
+
+32
+00:01:35,985 --> 00:01:41,407
+plays a song and
+hitting Pause, pauses the song.
+
+33
+00:01:41,407 --> 00:01:43,926
+Now when you hit Play again, it's
+going to resume where it was paused.
+
+34
+00:01:43,926 --> 00:01:51,381
+[MUSIC]
+
+35
+00:01:51,381 --> 00:01:53,932
+First create a new project
+in Android Studio and
+
+36
+00:01:53,932 --> 00:01:58,740
+start with the empty activity template
+and go ahead and build out this layout.
+
+37
+00:01:58,740 --> 00:02:01,960
+In the notes below the quiz,
+we've provided a link to help find and
+
+38
+00:02:01,960 --> 00:02:03,719
+download sample MP3 files for your app.
+
+39
+00:02:04,730 --> 00:02:07,380
+Note that you could also use
+your own MP3 files if you want.
+
+40
+00:02:07,380 --> 00:02:10,750
+Be sure that the audio file
+is stored in the raw folder
+
+41
+00:02:10,750 --> 00:02:12,140
+within the res directory of the app.
+
+42
+00:02:13,480 --> 00:02:17,195
+To create the raw folder, within
+the project structure tab of your app,
+
+43
+00:02:17,195 --> 00:02:22,330
+right-click on the res folder &gt; New &gt;
+
+44
+00:02:22,330 --> 00:02:27,775
+Android resource directory,
+then name the new directory raw,
+
+45
+00:02:27,775 --> 00:02:33,540
+r-a-a, and choose its resource type
+to be raw as well, and then hit OK.
+
+46
+00:02:35,210 --> 00:02:38,302
+Then you can copy and paste
+the song file into this raw folder.
+
+47
+00:02:38,302 --> 00:02:44,622
+Our MP3 file is a pre-encoded file that
+needs to be processed as is or raw.
+
+48
+00:02:44,622 --> 00:02:48,730
+For a more detailed description
+on resource folders, check out
+
+49
+00:02:48,730 --> 00:02:52,840
+the providing resources article in
+the notes below the quiz and then we'd
+
+50
+00:02:52,840 --> 00:02:57,030
+like you to add the provided audio file
+to the res/raw directory of your app.
+
+51
+00:02:58,410 --> 00:03:01,980
+Then I'd like you to modify the code
+by adding on-click listeners
+
+52
+00:03:01,980 --> 00:03:04,760
+to make each of the buttons
+actually play and pause the song.
+
+53
+00:03:05,820 --> 00:03:07,120
+Also give it a try and
+
+54
+00:03:07,120 --> 00:03:10,930
+experiment with other functionality
+provided by the MediaPlayer class.
+
+55
+00:03:10,930 --> 00:03:15,530
+So for example, you can try adding
+a button that changes the volume or
+
+56
+00:03:15,530 --> 00:03:16,840
+even skips the middle of the song.
+
+57
+00:03:18,020 --> 00:03:18,792
+So for this task,
+
+58
+00:03:18,792 --> 00:03:22,300
+you'll need to research how to
+use the MediaPlayer on Android.
+
+59
+00:03:22,300 --> 00:03:26,030
+To make this all work, we won't provide
+you the exact website to reference.
+
+60
+00:03:26,030 --> 00:03:29,960
+Instead, take a look at tutorials on
+MediaPlayer in Android on your own and
+
+61
+00:03:29,960 --> 00:03:33,260
+then do some trial and
+error on your app to make it work.
+
+62
+00:03:33,260 --> 00:03:33,880
+So best of luck.

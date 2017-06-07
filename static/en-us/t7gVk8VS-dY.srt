@@ -1,0 +1,409 @@
+1
+00:00:00,120 --> 00:00:03,650
+Let's see how we can fix the problem
+with the previous implementation.
+
+2
+00:00:03,650 --> 00:00:07,490
+If the problem is that all of
+the CPUs are repeatedly spinning
+
+3
+00:00:07,490 --> 00:00:11,630
+on the atomic operation, let's try
+to separate the test part which is
+
+4
+00:00:11,630 --> 00:00:14,530
+checking the value of
+the lock from the atomic.
+
+5
+00:00:14,530 --> 00:00:20,050
+The intuition is that, for the testing,
+we can potentially use our caches and
+
+6
+00:00:20,050 --> 00:00:22,770
+test the cached copy of the lock.
+
+7
+00:00:22,770 --> 00:00:27,030
+And only if that cached
+copy of the lock is
+
+8
+00:00:27,030 --> 00:00:30,940
+indicating that the lock has changed
+its value, that it's cleaned,
+
+9
+00:00:30,940 --> 00:00:35,250
+only then do we try to actually
+execute the atomic operation.
+
+10
+00:00:35,250 --> 00:00:40,430
+So, here is what the resulting spin
+lock, lock operation will look like.
+
+11
+00:00:40,430 --> 00:00:43,470
+The first part checks
+if the lock is busy.
+
+12
+00:00:43,470 --> 00:00:46,860
+This checking is performed
+in the cache value, so
+
+13
+00:00:46,860 --> 00:00:51,100
+this is the not involving any atomic
+operation, we're just checking whether
+
+14
+00:00:51,100 --> 00:00:56,290
+a particular memory address is set to
+one or zero, so it's busy or free.
+
+15
+00:00:56,290 --> 00:00:59,440
+On a system with caches,
+this will clearly hit the cache.
+
+16
+00:00:59,440 --> 00:01:03,690
+As long as the lock is busy,
+we will stay in this while loop,
+
+17
+00:01:03,690 --> 00:01:07,760
+it will not evaluate the second
+part of this predicate.
+
+18
+00:01:07,760 --> 00:01:11,050
+So if the lock is busy,
+this is one, this is true,
+
+19
+00:01:11,050 --> 00:01:14,820
+the entire predicate is true,
+two will go back in the while loop.
+
+20
+00:01:14,820 --> 00:01:18,960
+What that also means is that as long as
+the lock is busy, as long as this part
+
+21
+00:01:18,960 --> 00:01:24,180
+is true, the test and set, so the atomic
+operation, will not be a valued at all.
+
+22
+00:01:24,180 --> 00:01:26,210
+We will not attempt to execute it.
+
+23
+00:01:26,210 --> 00:01:28,760
+Now, only when the lock becomes free, so
+
+24
+00:01:28,760 --> 00:01:33,500
+when this part of the predicate lock
+equals busy, when this is not true.
+
+25
+00:01:33,500 --> 00:01:37,130
+Only then do we try to evaluate
+the second part of this predicate,
+
+26
+00:01:37,130 --> 00:01:39,460
+at that point the test to set operation,
+
+27
+00:01:39,460 --> 00:01:44,160
+the atomic instruction will be executed
+or will be attempted at least, and
+
+28
+00:01:44,160 --> 00:01:47,840
+then we will see what happens
+whether we acquire the lock or not.
+
+29
+00:01:47,840 --> 00:01:51,980
+So what this also means is we will
+try to make a memory reference
+
+30
+00:01:51,980 --> 00:01:52,840
+since the test and
+
+31
+00:01:52,840 --> 00:01:57,650
+set performs a memory reference
+only when the lock becomes free.
+
+32
+00:01:57,650 --> 00:02:01,390
+This spin lock is referred to as
+the test and test_and_set spinlock.
+
+33
+00:02:02,570 --> 00:02:06,040
+It is also reference as a spin and
+read spinlock,
+
+34
+00:02:06,040 --> 00:02:10,220
+since we're spinning on the red
+value that's in cache, or
+
+35
+00:02:10,220 --> 00:02:14,410
+spin on the cached values, so because
+this is the behavior of the lock.
+
+36
+00:02:14,410 --> 00:02:19,200
+The Anderson paper uses the spin and
+reach term to refer to this lock.
+
+37
+00:02:19,200 --> 00:02:22,920
+From a latency and
+delay time point, this lock is okay.
+
+38
+00:02:22,920 --> 00:02:25,190
+It's slightly worse than
+the test_and_set lock,
+
+39
+00:02:25,190 --> 00:02:29,370
+because we have to perform this extra
+check, whether the lock is busy or
+
+40
+00:02:29,370 --> 00:02:33,040
+not that hits the cache, but
+in principle, it's good.
+
+41
+00:02:33,040 --> 00:02:36,870
+But, if we start thinking whether or not
+we really solved the contention problem
+
+42
+00:02:36,870 --> 00:02:42,320
+by allowing to spin on the cache, we
+realize that this is not quite the case.
+
+43
+00:02:42,320 --> 00:02:45,640
+First if we don't have a cached
+coherent architecture then
+
+44
+00:02:45,640 --> 00:02:50,320
+every single memory reference will go
+to memory, just like with test_and_set.
+
+45
+00:02:50,320 --> 00:02:52,430
+So there's no difference what so ever.
+
+46
+00:02:52,430 --> 00:02:56,760
+If we have cache coherence with
+right update then it's not too bad.
+
+47
+00:02:56,760 --> 00:02:59,780
+The one problem is that
+all of the processors with
+
+48
+00:02:59,780 --> 00:03:02,940
+right update will see that
+the lock becomes free.
+
+49
+00:03:02,940 --> 00:03:04,590
+So, regarding the delay.
+
+50
+00:03:04,590 --> 00:03:08,100
+And so every single one of them will
+at the same time try to execute
+
+51
+00:03:08,100 --> 00:03:11,620
+the test_and_set operation, so
+that can potentially be an issue.
+
+52
+00:03:11,620 --> 00:03:15,580
+Now the worst situation of using this
+particular spinlock implementation
+
+53
+00:03:15,580 --> 00:03:19,070
+is when we have a right
+invalidate based architecture.
+
+54
+00:03:19,070 --> 00:03:22,840
+In this case, every single attempt
+to acquire the lock not only that
+
+55
+00:03:22,840 --> 00:03:26,050
+it will generate contention for
+the memory module,
+
+56
+00:03:26,050 --> 00:03:28,840
+but it will also create
+invalidation traffic.
+
+57
+00:03:28,840 --> 00:03:30,830
+Now when we talked about the atomics,
+
+58
+00:03:30,830 --> 00:03:35,050
+we said that a one outcome of
+executing an atomic instruction,
+
+59
+00:03:35,050 --> 00:03:38,880
+is that we will trigger the cache
+coherence, so the right update or
+
+60
+00:03:38,880 --> 00:03:43,030
+right invalidate traffic are regardless
+of what the situation is.
+
+61
+00:03:43,030 --> 00:03:48,290
+If we have a right update situation,
+that coherence traffic will
+
+62
+00:03:48,290 --> 00:03:53,090
+update the value of the other caches
+with the new value of the lock.
+
+63
+00:03:53,090 --> 00:03:56,620
+If the lock was busy before
+the write update event and
+
+64
+00:03:56,620 --> 00:04:00,540
+if the lock remains busy
+after the right update event.
+
+65
+00:04:00,540 --> 00:04:02,790
+Great.
+No change whatsoever.
+
+66
+00:04:02,790 --> 00:04:06,790
+That particular CPU can continue
+spinning from the cached copy.
+
+67
+00:04:06,790 --> 00:04:12,390
+However, with the right invalidate, we
+will simply invalidate the cached copy.
+
+68
+00:04:12,390 --> 00:04:17,860
+So it is possible that the lock was
+busy before the cache coherence event,
+
+69
+00:04:17,860 --> 00:04:21,390
+before somebody executed
+an atomic instruction.
+
+70
+00:04:21,390 --> 00:04:24,640
+And if the atomic construction
+was not successful,
+
+71
+00:04:24,640 --> 00:04:29,110
+we're basically continuing to have
+a situation in which the lock is busy.
+
+72
+00:04:29,110 --> 00:04:33,140
+However, as far as the caches
+in the system are concerned,
+
+73
+00:04:33,140 --> 00:04:37,182
+that atomic instruction just invalidated
+their cache copy of the lock.
+
+74
+00:04:37,182 --> 00:04:42,120
+The outcome of that is they
+will have to go out to memory,
+
+75
+00:04:42,120 --> 00:04:47,500
+in order to fetch this copy of lock,
+that they want to be spinning on.
+
+76
+00:04:47,500 --> 00:04:50,500
+So they will not be able to
+just spin on the cache copy,
+
+77
+00:04:50,500 --> 00:04:55,020
+they will have to go ahead and
+fetch this lock value from memory,
+
+78
+00:04:55,020 --> 00:04:59,920
+every single time somebody attempts
+to perform an atomic instruction.
+
+79
+00:04:59,920 --> 00:05:04,890
+So this type of behavior will simply
+just compound the contention effects and
+
+80
+00:05:04,890 --> 00:05:06,740
+will make performance worse.
+
+81
+00:05:06,740 --> 00:05:11,150
+The reason basically for the poor
+performance of this lock is that,
+
+82
+00:05:11,150 --> 00:05:16,300
+at the same time, everybody will see
+that the lock has changed it state so
+
+83
+00:05:16,300 --> 00:05:18,310
+that it has been freed.
+
+84
+00:05:18,310 --> 00:05:21,700
+And, everyone will also at the same
+time, try to acquire this lock.

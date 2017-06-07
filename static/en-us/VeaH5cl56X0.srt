@@ -1,0 +1,166 @@
+﻿1
+00:00:00,390 --> 00:00:03,590
+Let's set up the link from our
+main activity to the newly created
+
+2
+00:00:03,589 --> 00:00:05,160
+child activity.
+
+3
+00:00:05,160 --> 00:00:09,150
+To move between two activities we
+call the method start activity
+
+4
+00:00:09,150 --> 00:00:11,660
+which takes an intent as a parameter.
+
+5
+00:00:11,660 --> 00:00:15,140
+You might be wondering why we should
+bother with an intent if we know exactly
+
+6
+00:00:15,140 --> 00:00:16,620
+where we want to go.
+
+7
+00:00:16,620 --> 00:00:19,109
+Remember that intents
+are like envelops and
+
+8
+00:00:19,109 --> 00:00:23,739
+can package bits of information
+we want the new activity to have.
+
+9
+00:00:23,739 --> 00:00:27,989
+If you look at the documentation
+on developer.android.com, for
+
+10
+00:00:27,989 --> 00:00:33,079
+the activity class, you'll find many
+ways you can start an activity.
+
+11
+00:00:33,079 --> 00:00:37,140
+We're most concerned with the signature
+that takes an intent, but
+
+12
+00:00:37,140 --> 00:00:41,829
+there are also variants allowing the
+called activity to return results back
+
+13
+00:00:41,829 --> 00:00:47,909
+to the caller, perhaps a reference to
+a contact or a photo in a gallery.
+
+14
+00:00:47,909 --> 00:00:52,429
+The app currently shows a toast
+message when the button is clicked and
+
+15
+00:00:52,429 --> 00:00:55,340
+we want it to instead start an activity.
+
+16
+00:00:55,340 --> 00:00:57,070
+So now we need to create our intent.
+
+17
+00:00:58,079 --> 00:01:00,399
+Like with the signatures
+of start activity,
+
+18
+00:01:00,399 --> 00:01:03,189
+we have several choices of
+constructors for intents.
+
+19
+00:01:04,219 --> 00:01:08,659
+Since we know the destination activity,
+we can use this one
+
+20
+00:01:08,659 --> 00:01:13,920
+that takes a context and
+a class object as parameters.
+
+21
+00:01:13,920 --> 00:01:19,599
+In an Android application, activities
+can be started and stopped at any time,
+
+22
+00:01:19,599 --> 00:01:24,515
+so the context gives us a way of doing
+certain things that might effect
+
+23
+00:01:24,515 --> 00:01:29,373
+an app as a whole or might outlive
+the lifetime of a single activity.
+
+24
+00:01:29,373 --> 00:01:34,326
+Every activity extend from context,
+so we can use MainActivity.this
+
+25
+00:01:34,325 --> 00:01:39,959
+to retrieve a static reference to
+the context as our first parameter.
+
+26
+00:01:39,959 --> 00:01:43,109
+And to get a static reference
+to our destination class,
+
+27
+00:01:43,109 --> 00:01:46,859
+we use ChildActivity.class.
+
+28
+00:01:46,859 --> 00:01:48,920
+Now, this isn't very readable, so
+
+29
+00:01:48,920 --> 00:01:53,480
+let's put them into discreet variables
+to better show what's going on.
+
+30
+00:01:53,480 --> 00:01:55,799
+Now, we use those variables context and
+
+31
+00:01:55,799 --> 00:01:59,329
+destination activity to
+initialize our intent.
+
+32
+00:01:59,329 --> 00:02:00,840
+And when we run the app, and
+
+33
+00:02:00,840 --> 00:02:06,409
+put in some text, child activity gets
+started, and we see the default text.
+
+34
+00:02:06,409 --> 00:02:09,258
+And that's because we
+haven't told the intent
+
+35
+00:02:09,258 --> 00:02:13,250
+what the data is we want to pass from
+main activity to child activity.
+

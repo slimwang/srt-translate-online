@@ -1,0 +1,119 @@
+1
+00:00:00,270 --> 00:00:02,390
+So we wanted to find out
+what was the highest and
+
+2
+00:00:02,390 --> 00:00:05,070
+lowest ports so
+we could listen on using Netcat.
+
+3
+00:00:05,070 --> 00:00:06,658
+Let's start with the lowest.
+
+4
+00:00:06,658 --> 00:00:07,780
+Let's try 2048.
+
+5
+00:00:15,234 --> 00:00:19,260
+It looks like listening on
+port 2048 works just fine.
+
+6
+00:00:19,260 --> 00:00:22,181
+Let's try a much lower port 100,
+permission denied, okay,
+
+7
+00:00:22,181 --> 00:00:23,900
+that's interesting.
+
+8
+00:00:23,900 --> 00:00:28,632
+If we do a little searching in this
+direction, we'll find out that we
+
+9
+00:00:28,632 --> 00:00:33,708
+can't listen on port 1023 but
+we can listen on port 1024, cool.
+
+10
+00:00:33,708 --> 00:00:35,730
+What happens in the other direction?
+
+11
+00:00:35,730 --> 00:00:45,550
+Suppose we'd heard listening on
+port 9999 Looks like that works.
+
+12
+00:00:45,550 --> 00:00:48,138
+How about port 65535?
+
+13
+00:00:48,138 --> 00:00:49,218
+That works, too.
+
+14
+00:00:49,218 --> 00:00:51,170
+How about 128000?
+
+15
+00:00:51,170 --> 00:00:55,950
+Says here nc, port number too large,
+when we went to connect to it.
+
+16
+00:00:55,950 --> 00:00:57,806
+So regardless of what
+happened over here,
+
+17
+00:00:57,806 --> 00:01:01,528
+it doesn't look like we're actually
+able to usefully listen on port 128000.
+
+18
+00:01:01,528 --> 00:01:06,269
+If we kept on experimenting, we'd find
+that actually 65535 is the largest
+
+19
+00:01:06,269 --> 00:01:09,300
+port number we can listen on usefully.
+
+20
+00:01:09,300 --> 00:01:12,540
+But it's interesting that
+the error that we got at 65536 and
+
+21
+00:01:12,540 --> 00:01:16,940
+the error that we got at
+1023 were not the same.
+
+22
+00:01:16,940 --> 00:01:19,022
+They didn't even show
+up in the same window.
+
+23
+00:01:19,022 --> 00:01:24,700
+Plus, with this 1023 being too low,
+that's kind of odd because we know that
+
+24
+00:01:24,700 --> 00:01:30,180
+the SSH server in the web server listen
+on ports below 1024, like 22 and 80.
+
+25
+00:01:30,180 --> 00:01:33,608
+So how come they can but nc can't?
+
+26
+00:01:33,608 --> 00:01:34,400
+Let's look into that.

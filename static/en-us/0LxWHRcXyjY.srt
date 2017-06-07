@@ -1,0 +1,514 @@
+1
+00:00:00,250 --> 00:00:02,250
+In order to calculate
+the correct price for
+
+2
+00:00:02,250 --> 00:00:05,230
+the order summary,
+we should pass the information
+
+3
+00:00:05,230 --> 00:00:09,500
+about which toppings the user has
+selected into the calculatePrice method.
+
+4
+00:00:09,500 --> 00:00:12,820
+I'm choosing to do all the heavy
+lifting and calculation
+
+5
+00:00:12,820 --> 00:00:18,340
+within the calculatePrice method, so it
+centralizes all of this related logic.
+
+6
+00:00:18,340 --> 00:00:22,040
+By consolidating everything into this
+method, if there's a problem with how
+
+7
+00:00:22,040 --> 00:00:25,620
+the price is calculated,
+we can check the code in a single place.
+
+8
+00:00:26,620 --> 00:00:28,340
+It's a lot more manageable.
+
+9
+00:00:28,340 --> 00:00:29,880
+Then, within this method,
+
+10
+00:00:29,880 --> 00:00:33,450
+we're going to figure out the base
+price of one cup of coffee.
+
+11
+00:00:33,450 --> 00:00:35,510
+This is just like I showed you earlier.
+
+12
+00:00:35,510 --> 00:00:38,110
+If the coffee should have whipped cream,
+then add a dollar.
+
+13
+00:00:38,110 --> 00:00:41,000
+If the coffee should have chocolate,
+then add $2.
+
+14
+00:00:41,000 --> 00:00:43,630
+Then take the base price
+of one cup of coffee and
+
+15
+00:00:43,630 --> 00:00:47,860
+multiply it by the quantity ordered
+to determine the total order price.
+
+16
+00:00:47,860 --> 00:00:50,550
+First let's pass in the information
+about the whipped cream and
+
+17
+00:00:50,550 --> 00:00:54,302
+chocolate check boxes into
+the calculatePrice method.
+
+18
+00:00:54,302 --> 00:00:58,380
+I'm going to pass in the booleans
+hasWhippedCream and hasChocolate.
+
+19
+00:00:58,380 --> 00:01:02,570
+There's no point in passing in the
+actual CheckBox objects, because all we
+
+20
+00:01:02,570 --> 00:01:06,430
+care about are these boolean values for
+calculating the price.
+
+21
+00:01:06,430 --> 00:01:09,560
+Android Studio tells me that there's
+an error because the method signature
+
+22
+00:01:09,560 --> 00:01:10,530
+doesn't match.
+
+23
+00:01:10,530 --> 00:01:13,530
+I'm trying to call a method
+that has been defined to have
+
+24
+00:01:13,530 --> 00:01:15,390
+zero input parameters.
+
+25
+00:01:15,390 --> 00:01:18,820
+Let's go down to where the
+calculatePrice method is being defined.
+
+26
+00:01:18,820 --> 00:01:20,700
+I'm going to change
+the method signature so
+
+27
+00:01:20,700 --> 00:01:25,620
+that it takes in two input parameters,
+a boolean called addWhippedCream and
+
+28
+00:01:25,620 --> 00:01:27,730
+a boolean called addChocolate.
+
+29
+00:01:27,730 --> 00:01:30,850
+You can call these input
+parameters whatever name you want.
+
+30
+00:01:30,850 --> 00:01:34,220
+I just chose to use a different
+name than what was passed in,
+
+31
+00:01:34,220 --> 00:01:36,900
+just to show you that these
+names don't have to match.
+
+32
+00:01:36,900 --> 00:01:40,580
+I also updated the Javadoc to describe
+these two new input parameters.
+
+33
+00:01:40,580 --> 00:01:43,570
+That way someone calling the method
+will know what to pass in.
+
+34
+00:01:43,570 --> 00:01:47,580
+Next, within the calculatePrice method I
+have to do all the logic about changing
+
+35
+00:01:47,580 --> 00:01:49,930
+the price based on these toppings.
+
+36
+00:01:49,930 --> 00:01:52,130
+First, I'm going to
+calculate the base price, so
+
+37
+00:01:52,130 --> 00:01:54,720
+I'm going to create an integer
+variable called basePrice.
+
+38
+00:01:54,720 --> 00:01:58,500
+I'm going to start the value at 5
+because a cup of coffee cost $5.
+
+39
+00:01:58,500 --> 00:02:00,930
+Then I'm going to
+create an if statement.
+
+40
+00:02:00,930 --> 00:02:05,600
+If the boolean addWhippedCream is true,
+then the user wants whipped cream.
+
+41
+00:02:05,600 --> 00:02:09,720
+That means we should add $1 onto
+the base price of one cup of coffee.
+
+42
+00:02:09,720 --> 00:02:11,920
+Okay, that should handle
+the whipped cream case.
+
+43
+00:02:11,920 --> 00:02:13,740
+Now, let's move onto the chocolate case.
+
+44
+00:02:13,740 --> 00:02:16,110
+I'm going to create
+another if statement.
+
+45
+00:02:16,110 --> 00:02:19,000
+I don't need an else block of code,
+because
+
+46
+00:02:19,000 --> 00:02:23,000
+if the user doesn't want whipped cream,
+I don't have to do anything at all.
+
+47
+00:02:23,000 --> 00:02:26,550
+In fact, if I wanted to type an else
+case, this is what it would look like.
+
+48
+00:02:26,550 --> 00:02:29,990
+I would just have a comment that says,
+do nothing.
+
+49
+00:02:29,990 --> 00:02:31,960
+Android studio is smarter than that,
+though, and
+
+50
+00:02:31,960 --> 00:02:35,010
+notices that the else
+statement has an empty body.
+
+51
+00:02:35,010 --> 00:02:38,040
+Their advice is that this type
+of code of confusing, and
+
+52
+00:02:38,040 --> 00:02:39,930
+can be the result of a typo.
+
+53
+00:02:39,930 --> 00:02:41,800
+It's also extra lines of
+code that we don't need, so
+
+54
+00:02:41,800 --> 00:02:43,660
+let's just erase the else block.
+
+55
+00:02:43,660 --> 00:02:45,930
+Now we can move on to
+the chocolate case.
+
+56
+00:02:45,930 --> 00:02:48,610
+The chocolate topping is completely
+independent from the whipped cream
+
+57
+00:02:48,610 --> 00:02:49,800
+topping.
+
+58
+00:02:49,800 --> 00:02:51,880
+It doesn't matter if the user
+chooses one or the other,
+
+59
+00:02:51,880 --> 00:02:53,540
+they're not dependent on each another.
+
+60
+00:02:53,540 --> 00:02:57,060
+So I'm going to create
+a separate if case.
+
+61
+00:02:57,060 --> 00:02:59,480
+If the user wants chocolate,
+
+62
+00:02:59,480 --> 00:03:04,010
+then we need to modify the base
+price to be basePrice + 2.
+
+63
+00:03:04,010 --> 00:03:08,810
+Again, we could have an else block
+of code, but it would do nothing.
+
+64
+00:03:08,810 --> 00:03:12,690
+If the user doesn't want chocolate, we
+don't have to adjust the price at all,
+
+65
+00:03:12,690 --> 00:03:15,530
+so let's just delete this code
+because it's unnecessary.
+
+66
+00:03:15,530 --> 00:03:20,450
+Reading through our code, we have
+a base price of $5 per cup of coffee.
+
+67
+00:03:20,450 --> 00:03:24,945
+If the user wants whipped cream, then we
+need to increase the base price by $1.
+
+68
+00:03:24,945 --> 00:03:27,610
+Then if the user wants chocolate,
+
+69
+00:03:27,610 --> 00:03:29,703
+then we need to increase
+the base price by $2.
+
+70
+00:03:29,703 --> 00:03:32,290
+Then to calculate the total order price,
+
+71
+00:03:32,290 --> 00:03:35,835
+we need to multiply quantity times
+the price of one cup of coffee.
+
+72
+00:03:35,835 --> 00:03:38,735
+Okay, this code looks
+like it should work.
+
+73
+00:03:38,735 --> 00:03:41,935
+I also added inline comments
+above each block of code, so
+
+74
+00:03:41,935 --> 00:03:45,695
+that when we come back to this code
+later, we'll remember what we did.
+
+75
+00:03:45,695 --> 00:03:48,005
+Now, let's run the app
+to check that it works.
+
+76
+00:03:48,005 --> 00:03:50,635
+Okay, let's test the cases that
+we went over together earlier.
+
+77
+00:03:51,965 --> 00:03:55,319
+If we choose the whipped cream
+topping and a quantity of 3,
+
+78
+00:03:55,319 --> 00:03:56,906
+Then each cup will be $6.
+
+79
+00:03:56,906 --> 00:04:01,450
+$6 times 3 is $18, and
+it calculates 18, nice.
+
+80
+00:04:01,450 --> 00:04:07,679
+If I add the chocolate topping,
+then each cup of coffee will cost $8.
+
+81
+00:04:07,679 --> 00:04:11,650
+If I have a quantity of 2,
+then the total price will be $16.
+
+82
+00:04:11,650 --> 00:04:15,700
+We tried just using a whipped cream
+topping and we got the correct answer.
+
+83
+00:04:15,700 --> 00:04:18,510
+We tried a case with
+both whipped cream and
+
+84
+00:04:18,510 --> 00:04:21,350
+chocolate topping, and
+we got the right answer.
+
+85
+00:04:21,350 --> 00:04:23,760
+Now let's try just choosing
+the chocolate topping.
+
+86
+00:04:23,760 --> 00:04:27,290
+I'll change the quantity to 1,
+and then hit Order.
+
+87
+00:04:27,290 --> 00:04:31,810
+This looks correct, because we have
+$5 for one cup of coffee plus $2 for
+
+88
+00:04:31,810 --> 00:04:34,840
+chocolate, and that brings us to $7.
+
+89
+00:04:34,840 --> 00:04:41,150
+If I change this to 4, then the total
+updates, assuming $7 per cup of coffee.
+
+90
+00:04:41,150 --> 00:04:41,650
+Awesome.
+
+91
+00:04:42,910 --> 00:04:44,550
+It looks like it works.
+
+92
+00:04:44,550 --> 00:04:47,650
+I ran through those test
+cases pretty quickly.
+
+93
+00:04:47,650 --> 00:04:48,660
+What I was trying to do,
+
+94
+00:04:48,660 --> 00:04:53,160
+though, is make sure that all the
+possible code paths were run through.
+
+95
+00:04:53,160 --> 00:04:56,823
+For example, if we run the app, and
+we never select the whipped cream check
+
+96
+00:04:56,823 --> 00:05:00,490
+box, then we would never test
+whether this code in here works.
+
+97
+00:05:00,490 --> 00:05:05,720
+So we need to pick conditions that will
+cause all parts of our code to execute.
+
+98
+00:05:05,720 --> 00:05:09,180
+So we selected the whipped cream topping
+and we also selected the chocolate
+
+99
+00:05:09,180 --> 00:05:12,550
+topping to make sure that
+this code also executed.
+
+100
+00:05:12,550 --> 00:05:14,320
+To be even more thorough
+we should test for
+
+101
+00:05:14,320 --> 00:05:17,450
+all the combinations of
+these two boolean variables.
+
+102
+00:05:17,450 --> 00:05:21,580
+All these combinations will result in
+different behavior in this method, so
+
+103
+00:05:21,580 --> 00:05:24,870
+we want to make sure that our
+code works in all those cases.
+
+104
+00:05:24,870 --> 00:05:29,080
+Since the base price is being
+calculated as we go along, we can also
+
+105
+00:05:29,080 --> 00:05:34,000
+use log messages to make sure that
+it's being calculated as expected.
+
+106
+00:05:34,000 --> 00:05:37,910
+Anyways, these are just things to keep
+in mind as you write code that gets more
+
+107
+00:05:37,910 --> 00:05:40,760
+complex with these
+control flow statements.

@@ -1,0 +1,491 @@
+1
+00:00:00,170 --> 00:00:02,900
+Hi everybody, welcome to our second mini course in
+
+2
+00:00:02,900 --> 00:00:06,770
+machine learning. This sections going to be on unsupervised learning.
+
+3
+00:00:06,770 --> 00:00:09,890
+>> That sounds fun. Hi Michael.
+
+4
+00:00:09,890 --> 00:00:11,650
+>> Oh, hey Charles, I didn't even know you were here.
+
+5
+00:00:11,650 --> 00:00:13,270
+>> That's because I'm not really there.
+
+6
+00:00:13,270 --> 00:00:15,970
+>> Oh. [LAUGH]
+
+7
+00:00:15,970 --> 00:00:17,620
+I'm glad to hear your voice regardless.
+
+8
+00:00:17,620 --> 00:00:19,500
+>> Good, I'm always happy to hear your voice
+
+9
+00:00:19,500 --> 00:00:23,010
+Michael, and I'm looking forward to hearing about un-dash-supervised learning.
+
+10
+00:00:23,010 --> 00:00:25,190
+>> Well, unsupervised learning's going to be a
+
+11
+00:00:25,190 --> 00:00:30,640
+series of lectures that we do. But today's lecture Is on PZTTMNIIAOOI.
+
+12
+00:00:30,640 --> 00:00:31,595
+>> Ok...
+
+13
+00:00:31,595 --> 00:00:37,170
+>> Which is randomized optimization. I took
+
+14
+00:00:37,170 --> 00:00:39,103
+the letters of "optimization" and I randomized them.
+
+15
+00:00:39,103 --> 00:00:41,980
+>> [LAUGH]
+
+16
+00:00:41,980 --> 00:00:43,760
+You're such a nerd, I love it! Okay.
+
+17
+00:00:43,760 --> 00:00:46,910
+>> Alright so so the plan is to talk about optimization, and
+
+18
+00:00:46,910 --> 00:00:50,310
+in particular to focus on some algorithms that use randomization to be
+
+19
+00:00:50,310 --> 00:00:53,730
+more effective. But let's let's talk a little bit about optimization
+
+20
+00:00:53,730 --> 00:00:55,950
+for a moment, because that's something that has come up, but we
+
+21
+00:00:55,950 --> 00:00:58,890
+haven't really spent any time on it. So, what I'm thinking about,
+
+22
+00:00:58,890 --> 00:01:01,470
+when I, when I talk about optimization, I imagine that there's some
+
+23
+00:01:01,470 --> 00:01:04,560
+input space X, which is, you know kind of like in the
+
+24
+00:01:04,560 --> 00:01:09,050
+machine learning setting and we've also, we're also given access to an
+
+25
+00:01:09,050 --> 00:01:13,170
+objective function or a fitness function, F, that maps any of the
+
+26
+00:01:13,170 --> 00:01:16,450
+inputs in the the input space to a real number, a score.
+
+27
+00:01:16,450 --> 00:01:18,500
+Sometimes called fitness, sometimes called the objective,
+
+28
+00:01:18,500 --> 00:01:21,950
+sometimes called score. It could be any number
+
+29
+00:01:21,950 --> 00:01:25,820
+of things. But in the setting that we're talking about right now, the goal is to
+
+30
+00:01:25,820 --> 00:01:31,420
+find some value, x*, I didn't mean to put space, such that the fitness value for
+
+31
+00:01:31,420 --> 00:01:38,050
+that x* is equal to or maybe as close as possible to the maximum possible value.
+
+32
+00:01:38,050 --> 00:01:42,080
+>> So that's like [INAUDIBLE] like we were doing with [INAUDIBLE].
+
+33
+00:01:42,080 --> 00:01:45,190
+Yeah, exactly, right. So of all the possible x's to choose, would we like
+
+34
+00:01:45,190 --> 00:01:48,010
+to choose the one that, that causes the function value to be the highest.
+
+35
+00:01:48,010 --> 00:01:48,760
+>> Okay.
+
+36
+00:01:49,940 --> 00:01:51,980
+>> Yeah, I, I wrote it this way, though, because I thought
+
+37
+00:01:51,980 --> 00:01:56,470
+it would probably be helpful if it's like, yeah, because we'd be
+
+38
+00:01:56,470 --> 00:02:01,290
+pretty happy with the with an x* that isn't necessarily the best,
+
+39
+00:02:01,290 --> 00:02:04,360
+but it's like near arc max, right? Something that's close to the best.
+
+40
+00:02:04,360 --> 00:02:05,340
+>> Okay.
+
+41
+00:02:05,340 --> 00:02:07,080
+>> So,
+
+42
+00:02:07,080 --> 00:02:08,650
+so this is a really important sub-problem. It
+
+43
+00:02:08,650 --> 00:02:10,038
+comes up very often, I was wondering if
+
+44
+00:02:10,038 --> 00:02:13,100
+you could think of examples where that might
+
+45
+00:02:13,100 --> 00:02:15,278
+be a good thing to do. Like in life.
+
+46
+00:02:15,278 --> 00:02:17,180
+>> Well, Like in life.
+
+47
+00:02:17,180 --> 00:02:19,130
+>> Computation, which is life.
+
+48
+00:02:19,130 --> 00:02:23,050
+>> Computation is life. And life is computation. Well, believe it
+
+49
+00:02:23,050 --> 00:02:24,730
+or not, I was actually just talking to someone the other
+
+50
+00:02:24,730 --> 00:02:28,800
+day who's a chemical engineer and works at a chemical plant.
+
+51
+00:02:28,800 --> 00:02:32,590
+And he says there's all these parameters they have to tune when
+
+52
+00:02:32,590 --> 00:02:34,840
+they mix their little magical chemicals. And if they do
+
+53
+00:02:34,840 --> 00:02:37,660
+it just right, they end up with something that, you
+
+54
+00:02:37,660 --> 00:02:40,080
+know, is exactly the right temperature, comes out just right.
+
+55
+00:02:40,080 --> 00:02:42,610
+If they're wrong at all, if some of their temperature is
+
+56
+00:02:42,610 --> 00:02:45,750
+off a little bit or anything is wrong, then it
+
+57
+00:02:45,750 --> 00:02:47,510
+ends up costing a lot of money and not coming
+
+58
+00:02:47,510 --> 00:02:49,310
+out to be as good as they want it to
+
+59
+00:02:49,310 --> 00:02:54,880
+be. So, you know, factories and chemicals and optimization and parameters.
+
+60
+00:02:54,880 --> 00:02:56,950
+>> Factory,
+
+61
+00:02:56,950 --> 00:02:59,850
+chemical. I'm not sure that's a general catergory of
+
+62
+00:02:59,850 --> 00:03:02,670
+problem but I guess, I guess, maybe the one way
+
+63
+00:03:02,670 --> 00:03:05,640
+to think about it is We'll call it process
+
+64
+00:03:07,510 --> 00:03:10,500
+control. So if you've got a process that you're trying
+
+65
+00:03:10,500 --> 00:03:12,840
+to put together. And you have some way of
+
+66
+00:03:12,840 --> 00:03:16,220
+measuring how, how well it's going, like yield or cost,
+
+67
+00:03:16,220 --> 00:03:18,810
+or something like that. Then you could imagine optimizing
+
+68
+00:03:18,810 --> 00:03:22,050
+the, the process, itself, to try to improve your score.
+
+69
+00:03:22,050 --> 00:03:24,060
+>> Okay. Yeah I think that's what it is.
+
+70
+00:03:25,410 --> 00:03:27,840
+>> You know route finding is kind of like this as well. Right.
+
+71
+00:03:27,840 --> 00:03:30,650
+So just. You know, find me the best way to get to Georgia.
+
+72
+00:03:30,650 --> 00:03:32,940
+>> What about root finding?
+
+73
+00:03:32,940 --> 00:03:34,870
+>> Oooh, I see what you did there.
+
+74
+00:03:34,870 --> 00:03:35,150
+>> Mm mm.
+
+75
+00:03:35,150 --> 00:03:37,330
+>> So you could think of root finding as being a
+
+76
+00:03:37,330 --> 00:03:40,065
+kind of optimization as well. If you've got a function and
+
+77
+00:03:40,065 --> 00:03:45,240
+you're trying figure out where it crosses the the origin. You
+
+78
+00:03:45,240 --> 00:03:47,460
+might add you might set that up as a optimization problem.
+
+79
+00:03:47,460 --> 00:03:50,310
+You might say well of all the different positions I could
+
+80
+00:03:50,310 --> 00:03:54,450
+be in, I want to minimize the distance between the axis
+
+81
+00:03:54,450 --> 00:03:57,830
+and the value at the point where I chose it. Find
+
+82
+00:03:57,830 --> 00:04:00,520
+me the best one. Which, you know, is going to be right there.
+
+83
+00:04:00,520 --> 00:04:05,240
+>> Actually, you know, when you put it like that. How about neural networks?
+
+84
+00:04:05,240 --> 00:04:09,040
+>> Nice. So, that's, yeah let's get it back to the
+
+85
+00:04:09,040 --> 00:04:11,210
+learning settings. So, what is, what do you mean by neural networks?
+
+86
+00:04:11,210 --> 00:04:12,180
+>> Well, I mean,
+
+87
+00:04:12,180 --> 00:04:15,800
+everything we've been talking about so far. X, you know is some kind of stand
+
+88
+00:04:15,800 --> 00:04:19,149
+in for parameters of something. A process or
+
+89
+00:04:19,149 --> 00:04:22,330
+I don't know whatever. So if the weights
+
+90
+00:04:22,330 --> 00:04:27,760
+are just parameters of a neural network, then we want to find the x that
+
+91
+00:04:27,760 --> 00:04:31,350
+I guess minimizes our error over some training
+
+92
+00:04:31,350 --> 00:04:33,490
+set, or, or upcoming test sets or something.
+
+93
+00:04:33,490 --> 00:04:35,470
+>> Yeah, so minimizing error is a kind
+
+94
+00:04:35,470 --> 00:04:37,470
+of optimization. It's not a max in this case,
+
+95
+00:04:37,470 --> 00:04:41,170
+but if we I guess, negate it you want to maximize
+
+96
+00:04:41,170 --> 00:04:45,680
+the negative error, that it's maximized when the error is zero.
+
+97
+00:04:45,680 --> 00:04:45,980
+>> Right.
+
+98
+00:04:45,980 --> 00:04:50,810
+>> Cool, is any other learning related topics that
+
+99
+00:04:50,810 --> 00:04:52,770
+you can think of that, that have optimization in them?
+
+100
+00:04:52,770 --> 00:04:54,410
+>> Well I would guess anything with
+
+101
+00:04:54,410 --> 00:04:57,060
+parameters, where some parameters are better than others
+
+102
+00:04:57,060 --> 00:04:58,230
+and you have some way of measuring
+
+103
+00:04:58,230 --> 00:05:00,410
+how good they are, is an optimization problem.
+
+104
+00:05:01,490 --> 00:05:02,690
+>> So, decision
+
+105
+00:05:02,690 --> 00:05:03,220
+trees?
+
+106
+00:05:03,220 --> 00:05:04,420
+>> Sure.
+
+107
+00:05:04,420 --> 00:05:07,300
+>> So, so what's the parameters there?
+
+108
+00:05:07,300 --> 00:05:11,170
+>> There the order of the nodes, the actually
+
+109
+00:05:11,170 --> 00:05:14,130
+nodes, like what's the first node? Yeah, the whole structure
+
+110
+00:05:14,130 --> 00:05:16,250
+of the tree. So it's not a continuous value like
+
+111
+00:05:16,250 --> 00:05:18,200
+a weight, but it is a structure where we could
+
+112
+00:05:18,200 --> 00:05:20,130
+try to optimize over the structure. There's nothing in
+
+113
+00:05:20,130 --> 00:05:21,660
+the way that I set this up here that makes
+
+114
+00:05:21,660 --> 00:05:25,150
+it so that X has to be continuous or anything
+
+115
+00:05:25,150 --> 00:05:28,480
+like that. We just need a way of mapping inputs
+
+116
+00:05:28,480 --> 00:05:29,300
+to scores.
+
+117
+00:05:29,300 --> 00:05:33,730
+>> Okay. So all of machine learning. Everything we
+
+118
+00:05:33,730 --> 00:05:35,970
+did in the first third of the class is optimization.
+
+119
+00:05:35,970 --> 00:05:38,460
+>> There is some optimization in each of the
+
+120
+00:05:38,460 --> 00:05:41,650
+pieces of it. Yeah, exactly. because often what we say,
+
+121
+00:05:41,650 --> 00:05:45,300
+given this training set, find me a classifier that does
+
+122
+00:05:45,300 --> 00:05:47,620
+wel on the training set and that's an optimization problem.
+
+123
+00:05:47,620 --> 00:05:47,970
+>> Hmm.

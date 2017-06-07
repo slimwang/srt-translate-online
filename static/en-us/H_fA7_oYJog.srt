@@ -1,0 +1,1112 @@
+1
+00:00:00,360 --> 00:00:03,210
+So, let's recap the major changes
+we just made to the Miwok app.
+
+2
+00:00:03,210 --> 00:00:06,750
+We changed from using a loop to
+populate a vertical Linear Layout,
+
+3
+00:00:06,750 --> 00:00:09,090
+to display a list of words,
+
+4
+00:00:09,090 --> 00:00:13,570
+to using a more efficient ListView
++ ArrayAdapter combination.
+
+5
+00:00:13,570 --> 00:00:16,680
+And then we build a list item layout
+that contains two text views.
+
+6
+00:00:18,030 --> 00:00:20,910
+So next we wanted to create a single
+list of objects that we could pass
+
+7
+00:00:20,910 --> 00:00:23,740
+the array adapter so
+we created a custom word class.
+
+8
+00:00:23,740 --> 00:00:27,140
+That contains both the English and
+Miwok translations for a single word.
+
+9
+00:00:27,140 --> 00:00:29,920
+With that we could have an array list
+of word objects they would pass to
+
+10
+00:00:29,920 --> 00:00:31,100
+an array adapter.
+
+11
+00:00:31,100 --> 00:00:33,580
+Now, let's navigate to
+the numbers activity.
+
+12
+00:00:33,580 --> 00:00:37,970
+Here will need to change our array list
+of strings into an array list of words.
+
+13
+00:00:37,970 --> 00:00:40,870
+So, we need to update the generic type
+parameter, what's in between those
+
+14
+00:00:40,870 --> 00:00:44,980
+brackets in creating an array list
+where each element is a word object.
+
+15
+00:00:44,980 --> 00:00:48,350
+So when you type in a word here, you
+might get two autocomplete suggestions.
+
+16
+00:00:48,350 --> 00:00:51,650
+And this is because the word class
+already exists in the Android framework
+
+17
+00:00:51,650 --> 00:00:53,660
+under a different package name.
+
+18
+00:00:53,660 --> 00:00:56,190
+So here,
+you'll see it's under a user dictionary.
+
+19
+00:00:56,190 --> 00:00:59,450
+So these are words that you can add
+to your auto complete dictionary
+
+20
+00:00:59,450 --> 00:01:01,600
+say when you're messaging your friends.
+
+21
+00:01:01,600 --> 00:01:04,540
+So be sure to pick the correct
+option for the word class.
+
+22
+00:01:04,540 --> 00:01:09,790
+We want the one that's in our
+package com.example.android.miwok.
+
+23
+00:01:09,790 --> 00:01:12,640
+So now we've updated our
+ArrayList to contain word objects
+
+24
+00:01:12,640 --> 00:01:14,160
+instead of string objects.
+
+25
+00:01:14,160 --> 00:01:17,710
+So remember that I specifying word
+as a parameter of the ArrayList.
+
+26
+00:01:17,710 --> 00:01:21,230
+This means that when we add elements
+to the list we will need to add
+
+27
+00:01:21,230 --> 00:01:23,330
+objects of data type word and
+
+28
+00:01:23,330 --> 00:01:26,460
+if we were to say call the get method
+which is used for getting elements
+
+29
+00:01:26,460 --> 00:01:30,910
+at a specific position on the list we'll
+receive an object with a data type word.
+
+30
+00:01:30,910 --> 00:01:34,720
+So currently all these and methods or
+adding a single string object
+
+31
+00:01:34,720 --> 00:01:38,560
+to the words list each time and that's
+why we're getting all these errors.
+
+32
+00:01:38,560 --> 00:01:42,680
+So we need to update each of these
+lines to pass in a single word object.
+
+33
+00:01:42,680 --> 00:01:45,078
+So let's just focus on
+this first element here.
+
+34
+00:01:45,078 --> 00:01:48,390
+So I want to comment out, so below it,
+I'm going to write in the version of
+
+35
+00:01:48,390 --> 00:01:51,680
+the code where we're adding in a new
+word object to the word's list.
+
+36
+00:01:54,540 --> 00:01:56,230
+This is the typical
+way to go about this.
+
+37
+00:01:56,230 --> 00:02:01,670
+We would have created a new Word object,
+stored it in a variable here called w,
+
+38
+00:02:01,670 --> 00:02:04,700
+and then added that
+variable to our words list.
+
+39
+00:02:04,700 --> 00:02:06,520
+So now here then we're
+creating our new Word object,
+
+40
+00:02:06,520 --> 00:02:09,610
+we're passing in two inputs
+into the constructor.
+
+41
+00:02:09,610 --> 00:02:11,750
+So the English and Miwok words.
+
+42
+00:02:11,750 --> 00:02:15,260
+So since we only need to reference
+this w variable once here
+
+43
+00:02:15,260 --> 00:02:19,020
+there's actually a more concise way
+to write these two lines of code.
+
+44
+00:02:19,020 --> 00:02:23,320
+So this method of creating a word object
+and adding it to list does work, but
+
+45
+00:02:23,320 --> 00:02:25,730
+there's actually a more
+concise way to do it.
+
+46
+00:02:25,730 --> 00:02:28,690
+So you notice here that we
+only reference this variable
+
+47
+00:02:28,690 --> 00:02:30,500
+w once, down here.
+
+48
+00:02:30,500 --> 00:02:34,260
+So we can go ahead and actually cut out
+this substantiation of the word object
+
+49
+00:02:34,260 --> 00:02:36,635
+and paste it directly
+into the add method.
+
+50
+00:02:36,635 --> 00:02:40,500
+So doing it this way we don't need this
+extra step up here to create a new
+
+51
+00:02:40,500 --> 00:02:45,070
+object on a separate line of code and
+then store into a temporary variable.
+
+52
+00:02:45,070 --> 00:02:48,880
+So, we can actually go ahead and
+just remove this line completely and
+
+53
+00:02:48,880 --> 00:02:52,790
+said we've directly added our
+new Word object into the list.
+
+54
+00:02:52,790 --> 00:02:56,990
+So, to summarize the input into
+this list is a new Word object
+
+55
+00:02:56,990 --> 00:02:58,540
+which is created in line.
+
+56
+00:02:58,540 --> 00:02:59,670
+By using the new keyword.
+
+57
+00:02:59,670 --> 00:03:01,270
+I'm going to go ahead and
+
+58
+00:03:01,270 --> 00:03:04,510
+finish populating the ArrayList
+with the word objects.
+
+59
+00:03:04,510 --> 00:03:06,320
+All right when your are done
+this is what the code for
+
+60
+00:03:06,320 --> 00:03:08,740
+creating an ArrayList of
+words should look like.
+
+61
+00:03:08,740 --> 00:03:12,030
+So let's move down here to where
+we're passing our ArrayList
+
+62
+00:03:12,030 --> 00:03:13,350
+into the adapter now.
+
+63
+00:03:13,350 --> 00:03:17,330
+So we'll need to update this Jeric
+type from string to be words.
+
+64
+00:03:17,330 --> 00:03:20,200
+And this change reflects that
+the ArrayAdapter now contains a list of
+
+65
+00:03:20,200 --> 00:03:23,350
+words as its data source
+instead of strings.
+
+66
+00:03:23,350 --> 00:03:27,380
+We'll also need to update the layout
+resource to be our new list item layout.
+
+67
+00:03:27,380 --> 00:03:31,609
+So instead of this we'll
+have R.layout.list_item.
+
+68
+00:03:31,609 --> 00:03:34,180
+All right so there's no errors in the
+code now, so I'm going to go ahead and
+
+69
+00:03:34,180 --> 00:03:35,950
+run the app on my device.
+
+70
+00:03:35,950 --> 00:03:38,125
+All right so here's the emulator
+running this version of the app.
+
+71
+00:03:38,125 --> 00:03:40,040
+Let"s navigate into
+the numbers activity.
+
+72
+00:03:41,730 --> 00:03:42,520
+That just crashed.
+
+73
+00:03:42,520 --> 00:03:44,230
+I wonder what happen.
+
+74
+00:03:44,230 --> 00:03:47,490
+Let's check out the android monitor and
+check out the android logs.
+
+75
+00:03:47,490 --> 00:03:50,020
+On the very top of
+the log message we see
+
+76
+00:03:50,020 --> 00:03:54,765
+here that it says
+java.lang.illegalstateexception.
+
+77
+00:03:54,765 --> 00:03:58,250
+ArrayAdapter requires the resource
+ID to be a text view.
+
+78
+00:03:58,250 --> 00:04:01,360
+I'm not exactly sure
+what this error means.
+
+79
+00:04:01,360 --> 00:04:03,110
+So I'm going to have to go
+into the documentation.
+
+80
+00:04:03,110 --> 00:04:05,400
+And see if I can find any clues.
+
+81
+00:04:05,400 --> 00:04:07,650
+Here's the developer documentation for
+the array adapter.
+
+82
+00:04:07,650 --> 00:04:10,750
+So let's read through
+the class overview.
+
+83
+00:04:10,750 --> 00:04:13,050
+Alternatively you can also
+pause the video here.
+
+84
+00:04:13,050 --> 00:04:14,440
+If you want to read through it yourself.
+
+85
+00:04:15,780 --> 00:04:17,829
+So what I've learned from
+these couple paragraphs.
+
+86
+00:04:17,829 --> 00:04:21,930
+Is by default the class expects
+that the provided resource ID
+
+87
+00:04:21,930 --> 00:04:24,250
+references a single text view.
+
+88
+00:04:24,250 --> 00:04:27,500
+Well that's probably why
+the list item layout
+
+89
+00:04:27,500 --> 00:04:29,740
+from the Android
+framework itself worked.
+
+90
+00:04:29,740 --> 00:04:33,240
+Because the whole layout just
+consisted of a single text view.
+
+91
+00:04:33,240 --> 00:04:34,610
+And here in this next paragraph.
+
+92
+00:04:34,610 --> 00:04:37,950
+We see that we can also add lists or
+arrays of custom objects.
+
+93
+00:04:37,950 --> 00:04:41,690
+So that's perfect for us to help
+display our custom word objects.
+
+94
+00:04:41,690 --> 00:04:44,984
+Now all this makes sense,
+because remember that the ArrayAdapter,
+
+95
+00:04:44,984 --> 00:04:46,190
+uses generics.
+
+96
+00:04:46,190 --> 00:04:50,550
+Which means that we can substitute any
+object data type in here for this T.
+
+97
+00:04:50,550 --> 00:04:52,670
+Now moving down to the third paragraph.
+
+98
+00:04:52,670 --> 00:04:55,620
+In order to display more
+complicated list items that contain
+
+99
+00:04:55,620 --> 00:04:58,590
+more than a single text view,
+we'll need to override and
+
+100
+00:04:58,590 --> 00:05:01,830
+provide our own implementation
+of the getView method.
+
+101
+00:05:01,830 --> 00:05:04,940
+So ListView, calls the adapters,
+getView method.
+
+102
+00:05:04,940 --> 00:05:07,300
+>> When it needs a new
+view on the screen.
+
+103
+00:05:07,300 --> 00:05:10,870
+And one of the input arguments into
+the method is the desired element of
+
+104
+00:05:10,870 --> 00:05:12,360
+the list.
+
+105
+00:05:12,360 --> 00:05:15,050
+So in this case we have
+positions 0 that we need.
+
+106
+00:05:16,190 --> 00:05:20,170
+Knowing this information, the adapter
+returns a view to the list view
+
+107
+00:05:21,740 --> 00:05:24,445
+that's populated with
+the information from the position 0.
+
+108
+00:05:26,020 --> 00:05:30,320
+So think of the relationship between
+the ListView and getView similar to what
+
+109
+00:05:30,320 --> 00:05:35,220
+happens between a surgeon and a surgical
+technician in an operating room.
+
+110
+00:05:35,220 --> 00:05:40,250
+So in this analogy the surgical
+technician like the getView
+
+111
+00:05:40,250 --> 00:05:43,990
+hands the surgeon the ListView
+the correct instrument or
+
+112
+00:05:43,990 --> 00:05:46,435
+the correct view when the time comes.
+
+113
+00:05:46,435 --> 00:05:50,100
+So the ListView of surgeon requests for
+the view or
+
+114
+00:05:50,100 --> 00:05:55,330
+the scissors in this case the getView
+gets what's needed the view or
+
+115
+00:05:55,330 --> 00:05:59,510
+in this case the scissors and
+passes it to the surgeon.
+
+116
+00:05:59,510 --> 00:06:02,890
+So by default the ArrayAdapter after
+class expects that i'll be populating
+
+117
+00:06:02,890 --> 00:06:04,620
+a single text view.
+
+118
+00:06:04,620 --> 00:06:08,860
+So because the list item layout that
+we will be populating is more complex.
+
+119
+00:06:08,860 --> 00:06:13,300
+So, it has two text views and
+eventually it will have an image view.
+
+120
+00:06:14,680 --> 00:06:18,890
+We need to override the get view
+method with our own custom behavior.
+
+121
+00:06:18,890 --> 00:06:22,067
+In order to do this, we need to
+subclass the ArrayAdapter class.
+
+122
+00:06:23,260 --> 00:06:26,990
+So, to elaborate this means we
+need to create a new Java class.
+
+123
+00:06:26,990 --> 00:06:29,520
+So we'll call it the WordAdapter class.
+
+124
+00:06:29,520 --> 00:06:32,640
+And he's extend the ArrayAdapter class.
+
+125
+00:06:32,640 --> 00:06:34,870
+So I'll show you how
+to get that done now.
+
+126
+00:06:34,870 --> 00:06:36,380
+So it's not a get over
+here to the project view.
+
+127
+00:06:37,650 --> 00:06:42,810
+So I click the package,
+right-click, New and Java Class.
+
+128
+00:06:42,810 --> 00:06:44,870
+So we wana name this file WordAdapter.
+
+129
+00:06:45,990 --> 00:06:49,470
+We'll need to modify this autogenerated
+file from Android Studio.
+
+130
+00:06:49,470 --> 00:06:54,180
+We want this class declaration to
+specify that the WordAdapter extends or
+
+131
+00:06:54,180 --> 00:06:57,310
+inherits behavior from
+the ArrayAdapter class.
+
+132
+00:06:57,310 --> 00:07:00,650
+Now to show the available methods to
+overwrite from the ArrayAdapter class
+
+133
+00:07:00,650 --> 00:07:03,680
+our cursor will have to be
+between these two brackets.
+
+134
+00:07:03,680 --> 00:07:06,820
+We'll hit Code, and
+then Overwrite Methods.
+
+135
+00:07:06,820 --> 00:07:10,030
+Alternatively, your keyboard
+shortcut is Ctrl+O.
+
+136
+00:07:10,030 --> 00:07:14,300
+Now in this list here go down and
+find getView and then click Enter.
+
+137
+00:07:14,300 --> 00:07:18,058
+All right so this method gets
+auto generated by default.
+
+138
+00:07:18,058 --> 00:07:21,030
+Now I'm going to take a step back and
+let you finish the steps that are needed
+
+139
+00:07:21,030 --> 00:07:23,760
+to make this app display
+the list of vocabulary words for
+
+140
+00:07:23,760 --> 00:07:25,120
+the numbers activity.
+
+141
+00:07:25,120 --> 00:07:25,740
+So, the steps,
+
+142
+00:07:25,740 --> 00:07:28,000
+will include finishing them
+implementation of the getView method.
+
+143
+00:07:28,000 --> 00:07:32,060
+When you're done with this entire
+quiz the app should like this.
+
+144
+00:07:32,060 --> 00:07:34,170
+Each list item should
+display a new app word.
+
+145
+00:07:34,170 --> 00:07:36,700
+On top of the English translation for
+that word.
+
+146
+00:07:36,700 --> 00:07:38,760
+Now, to help verify you're on track.
+
+147
+00:07:38,760 --> 00:07:40,550
+I'm going to provide you
+with some code changes
+
+148
+00:07:40,550 --> 00:07:41,970
+that are needed in the numbers activity.
+
+149
+00:07:43,060 --> 00:07:46,515
+So, instead of the ArrayAdapter
+we'll be using an WordAdapter.
+
+150
+00:07:47,700 --> 00:07:51,860
+The constructor for the WordAdapter
+class takes in two inputs, so
+
+151
+00:07:51,860 --> 00:07:54,640
+just the context and this list of words.
+
+152
+00:07:54,640 --> 00:07:58,150
+And then also remember to update
+the adapter variable down here.
+
+153
+00:07:58,150 --> 00:08:00,800
+Now make sure you WordAdapter
+class works with these number
+
+154
+00:08:00,800 --> 00:08:02,100
+activity changes.
+
+155
+00:08:02,100 --> 00:08:05,690
+Otherwise you need to go back and fix
+your WordAdapter class now I know this
+
+156
+00:08:05,690 --> 00:08:08,590
+coding exercise will be a bit of
+a challenge because you've never created
+
+157
+00:08:08,590 --> 00:08:12,470
+a custom ArrayAdapter before or
+even overwritten the getView method.
+
+158
+00:08:12,470 --> 00:08:16,230
+This task involves many steps but I
+think you're definitely ready for this.
+
+159
+00:08:16,230 --> 00:08:19,160
+Now just be patient with yourself
+because this task will require
+
+160
+00:08:19,160 --> 00:08:20,320
+a bit of time.
+
+161
+00:08:20,320 --> 00:08:22,150
+Now I want to give you one
+more hint before you head off.
+
+162
+00:08:23,200 --> 00:08:27,010
+Here is an example app which
+handles a similar use case to ours.
+
+163
+00:08:27,010 --> 00:08:30,700
+So this project is hosted in
+a platform called GitHub and
+
+164
+00:08:30,700 --> 00:08:31,960
+it's an open source project.
+
+165
+00:08:31,960 --> 00:08:35,299
+So that means the code is available for
+anyone to look at.
+
+166
+00:08:35,299 --> 00:08:38,780
+So as a note there's different
+licensing for each open source project.
+
+167
+00:08:38,780 --> 00:08:41,330
+So be sure to check out
+the license limitations
+
+168
+00:08:41,330 --> 00:08:44,530
+on whether the code can be modified or
+distributed again for
+
+169
+00:08:44,530 --> 00:08:46,900
+different open source
+projects that you find.
+
+170
+00:08:46,900 --> 00:08:49,840
+So this app in particular
+was created by Udacity.
+
+171
+00:08:49,840 --> 00:08:52,780
+So you're free to use and
+adapt to it as you wish.
+
+172
+00:08:52,780 --> 00:08:54,090
+To give you another hint,
+
+173
+00:08:54,090 --> 00:08:57,510
+I'll point you to an example app
+which handles a similar use case.
+
+174
+00:08:57,510 --> 00:09:02,240
+So this project here is hosted on
+GitHub as an open source project and
+
+175
+00:09:02,240 --> 00:09:05,600
+this means that the code as available
+for anyone to take a look at.
+
+176
+00:09:05,600 --> 00:09:08,640
+So note that there's a different
+license on each open source project.
+
+177
+00:09:09,660 --> 00:09:11,110
+So remember to check out the license for
+
+178
+00:09:11,110 --> 00:09:15,300
+limitations on whether the code can
+be modified or distributed again
+
+179
+00:09:15,300 --> 00:09:18,540
+if you're taking a look at
+a particular open source project.
+
+180
+00:09:18,540 --> 00:09:22,420
+So in this case this app
+was created at Udacity so
+
+181
+00:09:22,420 --> 00:09:24,450
+you're free to use it and
+adapt it as you wish.
+
+182
+00:09:25,820 --> 00:09:30,830
+So our custom adapter sample app is
+called the Android Flavors app and
+
+183
+00:09:30,830 --> 00:09:33,970
+it displays a list of
+all Android releases.
+
+184
+00:09:33,970 --> 00:09:37,300
+So each release is
+represented in a list item.
+
+185
+00:09:37,300 --> 00:09:41,860
+And each list item contains an image,
+a title, and the version number.
+
+186
+00:09:43,290 --> 00:09:45,777
+So this app is using
+a custom ArrayAdapter,
+
+187
+00:09:45,777 --> 00:09:48,130
+they were calling the FlavorAdapter,
+
+188
+00:09:48,130 --> 00:09:52,789
+to display a custom list item view that
+contains an image and two text views.
+
+189
+00:09:54,010 --> 00:09:57,650
+So we're having you practice the skill
+of reading code from other apps.
+
+190
+00:09:57,650 --> 00:10:00,920
+And figuring out how to
+adapt it into Army walk app.
+
+191
+00:10:00,920 --> 00:10:05,530
+So as a developer you often look at
+tutorials or other open source for apps.
+
+192
+00:10:05,530 --> 00:10:09,130
+And try to apply those skills
+into your own application.
+
+193
+00:10:09,130 --> 00:10:11,940
+So you can start browsing
+this Android Flavor app code
+
+194
+00:10:11,940 --> 00:10:15,690
+by either clicking this downloads zip
+button and downloading all the code and
+
+195
+00:10:15,690 --> 00:10:19,750
+then importing it into Android Studio
+as an existing project or
+
+196
+00:10:19,750 --> 00:10:22,850
+you can browse the files
+directly in the web browser.
+
+197
+00:10:22,850 --> 00:10:26,260
+So, for example I can click here app,
+source slash main and
+
+198
+00:10:27,570 --> 00:10:30,630
+then navigate through the Java files or
+the Rez files.
+
+199
+00:10:31,730 --> 00:10:36,004
+Another cool GitHub shortcut here
+is to type T on my keyboard so
+
+200
+00:10:36,004 --> 00:10:40,280
+I'll hit T here and
+that activates the file finder.
+
+201
+00:10:40,280 --> 00:10:44,230
+So this solves me to easily browse
+through the files in my project.
+
+202
+00:10:44,230 --> 00:10:46,210
+So if I want to look
+up that main activity.
+
+203
+00:10:46,210 --> 00:10:50,250
+I can type activity and
+it pulls up our mainactivity.Java.
+
+204
+00:10:50,250 --> 00:10:53,280
+Or if I want to search up the
+FlavorAdapter that I mentioned earlier
+
+205
+00:10:53,280 --> 00:10:54,980
+I can easily find that here.
+
+206
+00:10:54,980 --> 00:10:59,040
+So hopefully this example will help
+you in the next coding exercise.
+
+207
+00:10:59,040 --> 00:11:02,980
+So check out the quiz for specific
+instructions on how to get started and
+
+208
+00:11:02,980 --> 00:11:04,010
+best of luck.
+
+209
+00:11:04,010 --> 00:11:05,320
+Now scrolling to
+the bottom of this page.
+
+210
+00:11:05,320 --> 00:11:07,630
+We see that this custom
+ArrayAdapter example.
+
+211
+00:11:07,630 --> 00:11:10,200
+Displays a list of all
+the Android releases.
+
+212
+00:11:10,200 --> 00:11:13,170
+So each release is
+represented in a list item.
+
+213
+00:11:13,170 --> 00:11:16,540
+That contains an ImageView,
+title, and version number.
+
+214
+00:11:16,540 --> 00:11:20,840
+So it's using a custom ArrayAdapter, one
+that's called FlavorAdapter to display
+
+215
+00:11:20,840 --> 00:11:25,150
+a custom list item that contains
+an image view and two text views.
+
+216
+00:11:25,150 --> 00:11:28,640
+Now we're going to have you practice the
+skills of reading code from other apps
+
+217
+00:11:28,640 --> 00:11:31,800
+and figuring out how you can
+adapt it to your Miwok app.
+
+218
+00:11:31,800 --> 00:11:33,940
+As a developer you often
+look at tutorials or
+
+219
+00:11:33,940 --> 00:11:37,210
+other open source apps and then try to
+learn how to apply it to your own app.
+
+220
+00:11:37,210 --> 00:11:41,060
+So there are a couple ways you can
+browse for the Android Flavor app code.
+
+221
+00:11:41,060 --> 00:11:44,955
+First you can download the zip file
+here so you download the code and
+
+222
+00:11:44,955 --> 00:11:47,720
+import it into your Android Studio
+as an existing project.
+
+223
+00:11:47,720 --> 00:11:51,980
+Secondly you can start by browsing the
+files directly within the web browser.
+
+224
+00:11:51,980 --> 00:11:56,320
+So say click App, now I go to Source and
+lastly, you can use
+
+225
+00:11:56,320 --> 00:12:00,520
+the keyboard shortcut by clicking T and
+that takes you to a search page.
+
+226
+00:12:00,520 --> 00:12:04,650
+So for example I can type in activity
+and try to find the main activity.
+
+227
+00:12:04,650 --> 00:12:09,010
+We could also try looking up the Flavor
+Adapter that we talked about earlier.
+
+228
+00:12:09,010 --> 00:12:11,600
+Hopefully this example will help
+you on this coding exercise.
+
+229
+00:12:11,600 --> 00:12:13,660
+So check out the specifics
+of the quiz for
+
+230
+00:12:13,660 --> 00:12:15,040
+more information on how to get started.
+
+231
+00:12:15,040 --> 00:12:16,360
+All right best of luck.

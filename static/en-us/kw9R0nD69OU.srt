@@ -1,0 +1,387 @@
+1
+00:00:00,110 --> 00:00:02,462
+Okay, so the first linear transformation algorithm we're going to
+
+2
+00:00:02,462 --> 00:00:05,540
+discuss, is something called Principal Components Analysis. Okay Michael?
+
+3
+00:00:05,540 --> 00:00:06,560
+>> Sure.
+
+4
+00:00:06,560 --> 00:00:09,920
+>> Now just to be clear here, the amount of time it would take me
+
+5
+00:00:09,920 --> 00:00:12,100
+to derive Principal Components Analysis and work it
+
+6
+00:00:12,100 --> 00:00:13,920
+all out in its gory detail would take
+
+7
+00:00:13,920 --> 00:00:15,550
+forever and so I'm not going to do that,
+
+8
+00:00:15,550 --> 00:00:17,490
+I'm going to leave that to reading. But I
+
+9
+00:00:17,490 --> 00:00:19,740
+want people to understand what Principal Components Analysis
+
+10
+00:00:19,740 --> 00:00:22,860
+actually does and what its properties are, okay?
+
+11
+00:00:22,860 --> 00:00:24,330
+>> Yeah.
+
+12
+00:00:24,330 --> 00:00:24,670
+>> Okay,
+
+13
+00:00:24,670 --> 00:00:28,210
+so, Principal Components Analysis has a long history.
+
+14
+00:00:28,210 --> 00:00:30,670
+It's a particular example of something called an eigenproblem.
+
+15
+00:00:30,670 --> 00:00:32,229
+>> Mm.
+
+16
+00:00:32,229 --> 00:00:35,102
+>> Okay. It's a particular example something called an
+
+17
+00:00:35,102 --> 00:00:38,040
+eigenproblem which you either already know what that means
+
+18
+00:00:38,040 --> 00:00:39,780
+or you don't. And if you don't then it
+
+19
+00:00:39,780 --> 00:00:41,758
+means you haven't read the material that we've given
+
+20
+00:00:41,758 --> 00:00:45,090
+you so I'm going to ask you to do that. But, whether you have or have not let
+
+21
+00:00:45,090 --> 00:00:46,250
+me just kind of give you an idea of what
+
+22
+00:00:46,250 --> 00:00:49,690
+Principal Components Analysis actually does. And I think the
+
+23
+00:00:49,690 --> 00:00:53,920
+easiest way to do that is with a very simple two dimensional example. So
+
+24
+00:00:53,920 --> 00:00:55,950
+here's my very simple two dimensional example.
+
+25
+00:00:55,950 --> 00:00:57,132
+All right, so you see this picture Michael?
+
+26
+00:00:57,132 --> 00:00:57,778
+>> Yep.
+
+27
+00:00:57,778 --> 00:01:01,940
+>> So this is a bunch of dots sampled from some distribution
+
+28
+00:01:01,940 --> 00:01:06,260
+that happens to lie on a two dimensional plane like this, okay?
+
+29
+00:01:06,260 --> 00:01:07,230
+>> Yep.
+
+30
+00:01:07,230 --> 00:01:11,050
+>> Now, what, so this is in fact two dimension. So we have two
+
+31
+00:01:11,050 --> 00:01:14,691
+features here, we'll just call them x and y. We could have called them
+
+32
+00:01:14,691 --> 00:01:16,536
+one and two, it doesn't really matter, this is just
+
+33
+00:01:16,536 --> 00:01:19,020
+the x, y plane. And let me tell you what Principal
+
+34
+00:01:19,020 --> 00:01:23,360
+Components Analysis actually does. What Principal Components Analysis does, is
+
+35
+00:01:23,360 --> 00:01:28,510
+it finds directions of maximal variance. Okay, does that make sense?
+
+36
+00:01:29,530 --> 00:01:30,310
+>> Variance of what?
+
+37
+00:01:30,310 --> 00:01:34,530
+>> The variance of the data. So if I had to pick a single direction
+
+38
+00:01:34,530 --> 00:01:36,990
+here, such that if I projected it onto
+
+39
+00:01:36,990 --> 00:01:40,170
+that dimension, onto that direction, onto that vector.
+
+40
+00:01:40,170 --> 00:01:43,520
+And then, I computed the variance. Like, literally the variance of
+
+41
+00:01:43,520 --> 00:01:46,890
+the points that were projected on there. Which direction will be maximal?
+
+42
+00:01:46,890 --> 00:01:49,810
+>> I would think it would be the one, that is
+
+43
+00:01:49,810 --> 00:01:54,010
+sort of diagonal. It kind of, blobs along that particular direction.
+
+44
+00:01:54,010 --> 00:01:56,517
+>> Right, that's exactly right. And, and to see
+
+45
+00:01:56,517 --> 00:01:59,349
+that, imagine that we projected all of these points onto
+
+46
+00:01:59,349 --> 00:02:02,080
+just the x dimension. That's the same thing as
+
+47
+00:02:02,080 --> 00:02:05,200
+just taking that particular feature. Well, if we projected all
+
+48
+00:02:05,200 --> 00:02:07,430
+of them down, we would end up with all of
+
+49
+00:02:07,430 --> 00:02:10,729
+our points living in this space. And when we compute
+
+50
+00:02:10,729 --> 00:02:13,390
+the variance, the variance is going to be something that captures
+
+51
+00:02:13,390 --> 00:02:15,810
+the distribution between here and here. Does that make sense?
+
+52
+00:02:15,810 --> 00:02:16,880
+>> Yep.
+
+53
+00:02:16,880 --> 00:02:23,456
+>> Similarly, if we projected it onto the y axis. Which is the equivalent of.
+
+54
+00:02:23,456 --> 00:02:25,420
+>> Those are examples of feature selection.
+
+55
+00:02:25,420 --> 00:02:26,950
+>> Yes, of fea, it's exactly, it's a, it's a
+
+56
+00:02:26,950 --> 00:02:30,250
+feature selection. It's equivalent of just looking at the second feature
+
+57
+00:02:30,250 --> 00:02:32,560
+here, y. I'm going to end up comput having a
+
+58
+00:02:32,560 --> 00:02:36,160
+variance that spans this space between here and here. By
+
+59
+00:02:36,160 --> 00:02:37,560
+contrast, if we do what you want to do,
+
+60
+00:02:37,560 --> 00:02:41,170
+Michael and we pick a direction that is about 45
+
+61
+00:02:41,170 --> 00:02:44,100
+degrees if I drew this right. We would end
+
+62
+00:02:44,100 --> 00:02:49,160
+up projecting points between here and here. Now, it's not
+
+63
+00:02:49,160 --> 00:02:52,380
+as easy to see in this particular case but the
+
+64
+00:02:52,380 --> 00:02:55,710
+variance of points as they get projected onto this line
+
+65
+00:02:55,710 --> 00:02:57,670
+will have a much higher variance than on
+
+66
+00:02:57,670 --> 00:03:00,788
+either of these two dimensions. And in particular it
+
+67
+00:03:00,788 --> 00:03:03,156
+turns out that for data like this which I've
+
+68
+00:03:03,156 --> 00:03:05,076
+drawn as an oval that you know sort of
+
+69
+00:03:05,076 --> 00:03:09,300
+has an axis at it's 45 degrees, this direction or axis is in fact the one that
+
+70
+00:03:09,300 --> 00:03:13,030
+maximizes variance. So, Principal Components Analysis, if it had
+
+71
+00:03:13,030 --> 00:03:15,710
+to find a single dimension would pick this dimension.
+
+72
+00:03:18,890 --> 00:03:21,850
+Because it is the one that maximizes variance. Okay, you got it?
+
+73
+00:03:21,850 --> 00:03:22,830
+>> Sure.
+
+74
+00:03:22,830 --> 00:03:28,400
+>> Okay. Now. What's the second thing what's the second component
+
+75
+00:03:28,400 --> 00:03:31,170
+that PCA or Principal Components Analysis would find. Do you know?
+
+76
+00:03:32,930 --> 00:03:34,670
+>> I don't know what you mean by second. This
+
+77
+00:03:34,670 --> 00:03:39,820
+is now a direction. That ha, that has high variance.
+
+78
+00:03:39,820 --> 00:03:40,089
+>> Yes.
+
+79
+00:03:40,089 --> 00:03:40,319
+>> No.
+
+80
+00:03:40,319 --> 00:03:40,773
+>> The first one.
+
+81
+00:03:40,773 --> 00:03:41,440
+>> Yes.
+
+82
+00:03:41,440 --> 00:03:43,920
+>> because it seems like you know either the x or the y is
+
+83
+00:03:43,920 --> 00:03:46,640
+pretty high or something that looks just like that red line but it's
+
+84
+00:03:46,640 --> 00:03:49,610
+just a little bit tilted from it would also be very, very high.
+
+85
+00:03:49,610 --> 00:03:51,630
+>> Right, that's exactly right so, in fact
+
+86
+00:03:51,630 --> 00:03:53,520
+what Principal Components Analysis does is it has
+
+87
+00:03:53,520 --> 00:03:54,940
+one other constraint that I haven't told you
+
+88
+00:03:54,940 --> 00:03:58,450
+about. And that constraint is, it finds directions that
+
+89
+00:03:58,450 --> 00:04:01,620
+are mutually orthogonal. So in fact, since there
+
+90
+00:04:01,620 --> 00:04:04,010
+are only two dimensions here, the very next thing
+
+91
+00:04:04,010 --> 00:04:06,210
+that Principal Components Analysis would do, is it
+
+92
+00:04:06,210 --> 00:04:09,070
+would find a direction that is orthogonal or we
+
+93
+00:04:09,070 --> 00:04:10,470
+think about it in two dimensions, as
+
+94
+00:04:10,470 --> 00:04:13,220
+perpendicular to the first component that it found.
+
+95
+00:04:13,220 --> 00:04:16,430
+>> I see. So there really only, really only is one choice at that point.
+
+96
+00:04:16,430 --> 00:04:18,845
+>> That's right. Or. You know there is two choices
+
+97
+00:04:18,845 --> 00:04:21,540
+because you, doesn't matter which direction you pick in principal.

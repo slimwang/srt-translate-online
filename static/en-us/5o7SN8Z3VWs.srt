@@ -1,0 +1,265 @@
+﻿1
+00:00:00,910 --> 00:00:03,930
+Creating loaders is
+actually pretty simple.
+
+2
+00:00:03,930 --> 00:00:07,080
+We start off by creating an integer
+constant for a loader ID.
+
+3
+00:00:08,179 --> 00:00:10,750
+Then, we implement
+the loader call backs.
+
+4
+00:00:10,750 --> 00:00:14,529
+Finally, we initialize the loader
+with the loaderManager.
+
+5
+00:00:14,529 --> 00:00:18,079
+Let's take a look at what we
+do to replace our async task
+
+6
+00:00:18,079 --> 00:00:22,799
+with an async task loader in
+the second git hub query exercise.
+
+7
+00:00:22,800 --> 00:00:25,800
+The first task is to have
+main activity implement
+
+8
+00:00:25,800 --> 00:00:30,164
+the LoaderManager.LoaderCallbacks,with
+type string.
+
+9
+00:00:30,164 --> 00:00:32,158
+We'll import the class, and
+
+10
+00:00:32,158 --> 00:00:36,920
+then have Android Studio override
+the rest of the LoaderCallbacks for us.
+
+11
+00:00:36,920 --> 00:00:41,237
+Then, we create the GITHUB_SEARCH_LOADER
+constant int to uniquely identify
+
+12
+00:00:41,237 --> 00:00:42,329
+the loader.
+
+13
+00:00:42,329 --> 00:00:46,250
+Next, we remove the call
+to execute the async task.
+
+14
+00:00:46,250 --> 00:00:49,270
+Since loader's taken
+Android Bundle as their argument,
+
+15
+00:00:49,270 --> 00:00:53,715
+we'll create a bundle that contains our
+search query as SEARCH_QUERY_URL_EXTRA.
+
+16
+00:00:55,460 --> 00:01:00,429
+Then, we fill in those LoaderCallbacks
+beginning with onCreateLoader.
+
+17
+00:01:00,429 --> 00:01:04,510
+We'll return a new
+AsyncTaskLoader with type String.
+
+18
+00:01:04,510 --> 00:01:08,050
+And let Android Studio import the class,
+
+19
+00:01:08,049 --> 00:01:12,129
+as well as override the required
+loadInBackground for us.
+
+20
+00:01:12,129 --> 00:01:15,209
+We'll override onStartLoading.
+
+21
+00:01:15,209 --> 00:01:18,959
+If the argument bundle is null,
+we'll just return.
+
+22
+00:01:18,959 --> 00:01:21,869
+We'll set the args to
+final in onCreateLoader so
+
+23
+00:01:21,870 --> 00:01:24,770
+we can access them from
+our inner class function.
+
+24
+00:01:24,769 --> 00:01:29,719
+Then we'll move the code from
+onPreExecute to onStartLoading,
+
+25
+00:01:29,719 --> 00:01:32,789
+to set the LoadingIndicator to VISIBLE.
+
+26
+00:01:32,790 --> 00:01:35,230
+Next, we'll fill in loadInBackground
+
+27
+00:01:35,230 --> 00:01:37,530
+which I've already had
+Android Studio override.
+
+28
+00:01:38,840 --> 00:01:42,649
+First, we'll get the string for
+our URL from the bundle we just created.
+
+29
+00:01:43,799 --> 00:01:49,019
+And if the URL is null or
+empty, we'll return null.
+
+30
+00:01:49,019 --> 00:01:54,725
+Next, we'll copy the try catch block
+from the async task to do in background,
+
+31
+00:01:54,725 --> 00:01:56,459
+to loadInBackground.
+
+32
+00:01:58,180 --> 00:02:00,374
+And we'll fix things
+up to make it compile.
+
+33
+00:02:00,373 --> 00:02:04,482
+[BLANK_AUDIO]
+
+34
+00:02:04,483 --> 00:02:06,764
+Creating a new URL from our string,
+
+35
+00:02:06,763 --> 00:02:11,812
+[BLANK_AUDIO]
+
+36
+00:02:11,812 --> 00:02:13,777
+And passing it to our
+getResponse function.
+
+37
+00:02:13,777 --> 00:02:15,820
+[BLANK_AUDIO]
+
+38
+00:02:15,820 --> 00:02:20,469
+Finally, if we get an exception,
+we just return null.
+
+39
+00:02:22,469 --> 00:02:27,479
+Next, we copy the code from
+onPostExecute, to onLoadFinished.
+
+40
+00:02:27,479 --> 00:02:29,887
+[BLANK_AUDIO]
+
+41
+00:02:29,888 --> 00:02:34,599
+After all, if the user didn't enter
+anything, there's nothing to search for.
+
+42
+00:02:34,599 --> 00:02:37,259
+So we want the error message to
+work the same way it did before.
+
+43
+00:02:38,490 --> 00:02:44,140
+Finally, we use the loaderManager to run
+our loader within makeGithubSearchQuery.
+
+44
+00:02:44,139 --> 00:02:47,393
+We begin by getting the support
+library version of the loaderManager.
+
+45
+00:02:48,789 --> 00:02:51,310
+Then, we try to get our loader.
+
+46
+00:02:51,310 --> 00:02:54,530
+If the loader doesn't exist,
+we initialize it.
+
+47
+00:02:55,710 --> 00:02:56,969
+Otherwise, we restart it.
+
+48
+00:02:58,919 --> 00:03:01,059
+This is different from
+the traditional loader flow,
+
+49
+00:03:01,060 --> 00:03:04,710
+because we only execute the loader
+after the user hits the query button,
+
+50
+00:03:04,710 --> 00:03:06,450
+rather than when
+the activity is created.
+
+51
+00:03:07,680 --> 00:03:11,236
+Also note that technically, we don't
+have to do this because restartLoader
+
+52
+00:03:11,236 --> 00:03:12,930
+will create the loader if it doesn't yet
+
+53
+00:03:12,930 --> 00:03:16,409
+exist, but
+this makes the code a bit clearer.
+
+54
+00:03:16,409 --> 00:03:19,147
+Finally, we remove the code
+that retrieves and
+
+55
+00:03:19,147 --> 00:03:22,990
+displays the JSON from
+the saved instance state.
+
+56
+00:03:22,990 --> 00:03:27,300
+And the code that persists to JSON,
+then Solota will handle that for us.
+

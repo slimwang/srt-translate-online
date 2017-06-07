@@ -1,0 +1,549 @@
+﻿1
+00:00:01,690 --> 00:00:02,120
+All right.
+
+2
+00:00:02,120 --> 00:00:05,570
+So in the last section, we optimized
+our neural network to better find
+
+3
+00:00:05,570 --> 00:00:11,060
+the correlation of our data set by
+removing some distracting noise.
+
+4
+00:00:11,060 --> 00:00:14,661
+And the neural network attended
+the signal so much better.
+
+5
+00:00:14,660 --> 00:00:16,451
+It trained 83% accuracy
+in the training data, and
+
+6
+00:00:16,451 --> 00:00:17,780
+the testing accuracy was up to 85%.
+
+7
+00:00:17,780 --> 00:00:20,920
+And this was just after one iteration.
+
+8
+00:00:20,920 --> 00:00:24,020
+So we probably could have kept training
+it, and squeeze out a little more,
+
+9
+00:00:24,019 --> 00:00:26,859
+but we're going to keep looking
+at this one iteration benchmark
+
+10
+00:00:26,859 --> 00:00:30,149
+to see how fast we can get
+the neural net to train.
+
+11
+00:00:30,149 --> 00:00:33,390
+I mean, this is up from 60% before,
+so this is a huge gain.
+
+12
+00:00:33,390 --> 00:00:37,609
+In accuracy and the speed of
+training for our neural network, and
+
+13
+00:00:37,609 --> 00:00:39,299
+that was a lot of progress.
+
+14
+00:00:39,299 --> 00:00:42,070
+However, the actual raw
+computational speed,
+
+15
+00:00:42,070 --> 00:00:47,920
+the number of seconds that it takes to
+do a full pass is still pretty slow.
+
+16
+00:00:47,920 --> 00:00:53,490
+What I want to be able to do in here
+is attack this network and say okay.
+
+17
+00:00:53,490 --> 00:00:56,600
+What is this thing doing that is
+wasteful on the computation site.
+
+18
+00:00:56,600 --> 00:00:58,579
+So before we had kind
+of a wasteful data and
+
+19
+00:00:58,579 --> 00:01:00,929
+now I want to say what is
+wasteful inside this neural net.
+
+20
+00:01:00,929 --> 00:01:02,679
+Coz you know it's funny.
+
+21
+00:01:02,679 --> 00:01:05,019
+You could do a lot of things
+on this theory side and
+
+22
+00:01:05,019 --> 00:01:07,130
+try to say okay how can it learn faster.
+
+23
+00:01:07,129 --> 00:01:10,199
+But truth is,
+the other one before was the learning.
+
+24
+00:01:10,200 --> 00:01:11,969
+It was just taking a really long time.
+
+25
+00:01:11,969 --> 00:01:15,257
+So we also could of tied a optimize
+the computational side so
+
+26
+00:01:15,257 --> 00:01:16,572
+that it's just train so
+
+27
+00:01:16,572 --> 00:01:21,609
+much more faster that it's still able to
+learn what we want the other to learn.
+
+28
+00:01:21,609 --> 00:01:25,609
+The faster you can get your neural
+to train then, to be honest.
+
+29
+00:01:25,609 --> 00:01:27,510
+The longer you'll let it
+train before you get bored.
+
+30
+00:01:27,510 --> 00:01:29,740
+And you'll find more interesting stuff.
+
+31
+00:01:29,739 --> 00:01:31,929
+And people who train neural nets.
+
+32
+00:01:31,930 --> 00:01:33,050
+You can kind of just keep training.
+
+33
+00:01:33,049 --> 00:01:34,489
+There's no natural finish.
+
+34
+00:01:34,489 --> 00:01:36,280
+It's unlike probabilistic
+graphical models.
+
+35
+00:01:36,280 --> 00:01:36,939
+Or many of them,
+
+36
+00:01:36,939 --> 00:01:40,969
+anyways, where you do a discrete
+count of lots of different things.
+
+37
+00:01:40,969 --> 00:01:42,260
+And then when it's done, it's done.
+
+38
+00:01:42,260 --> 00:01:45,170
+In accuracy, neural nets can
+kind of just keep training, right?
+
+39
+00:01:45,171 --> 00:01:48,414
+But the faster you can get it to train,
+the more data that you can put into it,
+
+40
+00:01:48,414 --> 00:01:49,439
+the stronger it can be.
+
+41
+00:01:49,439 --> 00:01:52,310
+So what we're going to do here
+is we're going to analyze
+
+42
+00:01:52,310 --> 00:01:55,359
+what's going on in our network and
+look for things that we can
+
+43
+00:01:55,359 --> 00:01:58,069
+shave out that are going to allow
+our neural net to go faster.
+
+44
+00:01:59,200 --> 00:02:03,629
+And now there's one first one
+that kind of stands out to me.
+
+45
+00:02:03,629 --> 00:02:05,959
+We're creating a really big vector for
+layer 0.
+
+46
+00:02:05,959 --> 00:02:08,599
+It's 74,000 and
+70 something values, right?
+
+47
+00:02:08,599 --> 00:02:15,250
+And only a handful of them
+are being turned onto 1.
+
+48
+00:02:15,250 --> 00:02:16,990
+Now why does this matter?
+
+49
+00:02:16,990 --> 00:02:20,030
+Well, this four propagation
+step is a weighted sum.
+
+50
+00:02:20,030 --> 00:02:24,759
+We take this 1, we multiply it by
+these weights, we add it into layer 1.
+
+51
+00:02:24,759 --> 00:02:27,229
+Then, we take the next one, 0,
+
+52
+00:02:27,229 --> 00:02:31,569
+we multiply it by these weights and
+we add that into layer 1.
+
+53
+00:02:31,569 --> 00:02:32,879
+Woh, wait a minute.
+
+54
+00:02:32,879 --> 00:02:35,889
+We take a zero and
+we multiple it by these weights, and
+
+55
+00:02:35,889 --> 00:02:37,419
+then we add the result of that.
+
+56
+00:02:37,419 --> 00:02:41,479
+That means every time there's a zero,
+when we take this vector and
+
+57
+00:02:41,479 --> 00:02:46,619
+do a big matrix multiplication to
+create our layer one, all these zeros
+
+58
+00:02:46,620 --> 00:02:51,250
+aren't doing anything, because zero
+times anything is still just zero.
+
+59
+00:02:51,250 --> 00:02:54,360
+So, zero times this
+vector added into layer
+
+60
+00:02:54,360 --> 00:02:58,920
+one doesn't change layer one
+from what it was before.
+
+61
+00:02:58,919 --> 00:03:03,349
+So that, to me, is like the biggest
+source of inefficiency in this network.
+
+62
+00:03:03,349 --> 00:03:06,879
+To kind of show you,
+computationally, and
+
+63
+00:03:06,879 --> 00:03:10,370
+sort of prove to you that this
+is the case, check this out.
+
+64
+00:03:10,370 --> 00:03:13,030
+So we have kind of a fake layer
+0 that only has 10 values,
+
+65
+00:03:13,030 --> 00:03:16,240
+we're going to picture it here.
+
+66
+00:03:16,240 --> 00:03:20,272
+And then we're going to say,
+okay, layer zero.
+
+67
+00:03:20,271 --> 00:03:27,584
+Layer 0, 4=1, layer, kind of pretend
+that we put a few words in here.
+
+68
+00:03:27,585 --> 00:03:29,278
+[BLANK_AUDIO]
+
+69
+00:03:29,277 --> 00:03:35,219
+Now we're looking at layer zero again,
+it looks like that, right?
+
+70
+00:03:35,219 --> 00:03:39,792
+So, weights 01, we're going to say
+this is just a random write matrix.
+
+71
+00:03:39,792 --> 00:03:42,840
+[BLANK_AUDIO]
+
+72
+00:03:42,840 --> 00:03:47,454
+And then we're going to say,
+okay, layer0.weights01.
+
+73
+00:03:47,454 --> 00:03:50,120
+Okay, so that's the output.
+
+74
+00:03:50,120 --> 00:03:55,640
+Now, what if instead we only summed
+these vectors in here, right?
+
+75
+00:03:55,639 --> 00:03:58,449
+So we just said, okay,
+1 times this goes in here.
+
+76
+00:03:58,449 --> 00:04:01,951
+So if we have these two indices,
+
+77
+00:04:01,951 --> 00:04:06,895
+4, 9, we have to have a new layer,
+right?
+
+78
+00:04:06,895 --> 00:04:10,529
+So layer1 equals np.zeros, so
+it's empty, and it's got 5 values.
+
+79
+00:04:10,530 --> 00:04:15,234
+And we're going to say,
+
+80
+00:04:15,234 --> 00:04:19,490
+for index in indices,
+
+81
+00:04:19,490 --> 00:04:25,994
+weights0 1, index, layer 1.
+
+82
+00:04:25,994 --> 00:04:29,291
+[BLANK_AUDIO]
+
+83
+00:04:29,290 --> 00:04:34,124
++= 1 *, because one is
+
+84
+00:04:34,124 --> 00:04:39,870
+going in the data, layer one.
+
+85
+00:04:39,870 --> 00:04:40,160
+Boom.
+
+86
+00:04:40,160 --> 00:04:42,570
+Exactly the same values,
+look at that and
+
+87
+00:04:42,569 --> 00:04:46,930
+the cool thing here is we only actually
+worked with part of this matrix.
+
+88
+00:04:46,930 --> 00:04:51,480
+So if this, you know two words
+out of 70,000 words then we
+
+89
+00:04:53,420 --> 00:04:55,980
+just saved not having to,
+
+90
+00:04:55,980 --> 00:05:02,150
+you know perform this operation in
+this sum with the 69,000 other words.
+
+91
+00:05:02,149 --> 00:05:03,810
+That should be a pretty great savings.
+
+92
+00:05:03,810 --> 00:05:07,399
+Now, we'll see how much it actually
+works out to in the end, but
+
+93
+00:05:07,399 --> 00:05:09,099
+that should be really positive.
+
+94
+00:05:09,100 --> 00:05:11,970
+I'll be curious to see how
+that kind of works out.
+
+95
+00:05:13,209 --> 00:05:17,769
+Now let's take a look at the neural net
+again, look for some more efficiency.
+
+96
+00:05:17,769 --> 00:05:22,609
+Now the other thing that's inefficient
+is one times anything is just itself so
+
+97
+00:05:22,610 --> 00:05:25,280
+this whole one times
+thing is kind of a waste.
+
+98
+00:05:25,279 --> 00:05:30,149
+So what if instead we change
+this to just be a sum?
+
+99
+00:05:30,149 --> 00:05:33,079
+One times,
+we can just eliminate that, right?
+
+100
+00:05:33,079 --> 00:05:35,019
+So [INAUDIBLE], pair one,
+still the same thing.
+
+101
+00:05:35,019 --> 00:05:35,430
+Awesome.
+
+102
+00:05:35,430 --> 00:05:40,040
+So we got rid of this multiplication, we
+got rid of doing these all together, and
+
+103
+00:05:40,040 --> 00:05:43,090
+we're still getting
+the same hidden state.
+
+104
+00:05:43,089 --> 00:05:48,009
+That we were getting when we did this
+full dot practice, this full matrix or
+
+105
+00:05:48,009 --> 00:05:49,899
+vector matrix multiplication.
+
+106
+00:05:49,899 --> 00:05:51,310
+I'm really liking this.
+
+107
+00:05:51,310 --> 00:05:52,910
+I think this is a ton to build upon.
+
+108
+00:05:52,910 --> 00:05:54,110
+And most of the weights are over here,
+right?
+
+109
+00:05:54,110 --> 00:05:56,300
+There's only four weights that go
+from the hidden to the output.
+
+110
+00:05:56,300 --> 00:05:57,610
+Well in our case it's hidden layer size.
+
+111
+00:05:58,720 --> 00:06:04,900
+I think we have a bigger layer, but
+most of the computation is here.
+
+112
+00:06:04,899 --> 00:06:09,209
+74,000 by whatever hidden layer size,
+this is the beefy part of training and
+
+113
+00:06:09,209 --> 00:06:10,487
+writing our neural net.
+
+114
+00:06:10,487 --> 00:06:14,077
+So that brings us to
+kind of the next project.
+
+115
+00:06:14,077 --> 00:06:21,489
+So project five is about installing this
+into the neural network from before.
+
+116
+00:06:21,490 --> 00:06:27,160
+So I'm going to go ahead and let you
+take a stab at that and then we're
+
+117
+00:06:27,160 --> 00:06:31,048
+going to come back and talk about how
+we can do that in a neural net before.
+
+118
+00:06:31,048 --> 00:06:32,589
+All right, best of luck.
+

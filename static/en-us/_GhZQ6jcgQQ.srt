@@ -1,0 +1,263 @@
+1
+00:00:00,150 --> 00:00:03,640
+If we take a look at how I've
+edited the buildApiClient function,
+
+2
+00:00:03,640 --> 00:00:06,000
+I've added a scope, new Scope("email"),
+
+3
+00:00:06,000 --> 00:00:10,200
+instead of the previous scope that we
+had that was a profiles based scope.
+
+4
+00:00:10,200 --> 00:00:12,200
+Now, if you recall back
+to the scopes slides,
+
+5
+00:00:12,200 --> 00:00:15,970
+the email scope is a much more limited
+scope that just gives me access to a lot
+
+6
+00:00:15,970 --> 00:00:18,510
+less information than the profile scope.
+
+7
+00:00:18,510 --> 00:00:21,090
+And it makes your users feel more
+secure if they only want to share their
+
+8
+00:00:21,090 --> 00:00:22,080
+email address.
+
+9
+00:00:22,080 --> 00:00:26,130
+Then you can put this scope, and
+the consent screen will reflect that.
+
+10
+00:00:26,130 --> 00:00:29,480
+So now that I've changed it to this,
+I just want to scroll down and
+
+11
+00:00:29,480 --> 00:00:31,520
+take a look at my connection code.
+
+12
+00:00:31,520 --> 00:00:35,889
+And if you recall earlier on, we had
+this connection code that when we were
+
+13
+00:00:35,889 --> 00:00:40,798
+in onConnected, we then would retrieve
+the currentUser from the PeopleApi.
+
+14
+00:00:40,798 --> 00:00:44,489
+By using
+Plus.PeopleApi.getCurrentPerson, and
+
+15
+00:00:44,489 --> 00:00:46,630
+pass it the ApiClient.
+
+16
+00:00:46,630 --> 00:00:49,960
+We were then able to say
+the person was signed in as
+
+17
+00:00:49,960 --> 00:00:51,930
+the currentUser's full name.
+
+18
+00:00:51,930 --> 00:00:55,346
+And you saw earlier when I was
+demonstrating it, even though I just
+
+19
+00:00:55,346 --> 00:00:58,584
+gave my email address to sign in,
+the UI of the screen updated.
+
+20
+00:00:58,584 --> 00:01:01,770
+And it said the person that
+was signed in is my full name.
+
+21
+00:01:01,770 --> 00:01:05,250
+So I've set email Scope, and
+I'm going to run this application.
+
+22
+00:01:05,250 --> 00:01:09,530
+What do you think will happen when I run
+it with email Scope, but I'm trying to
+
+23
+00:01:09,530 --> 00:01:15,390
+access my full name, even though I'm
+not given permission to do that?
+
+24
+00:01:15,390 --> 00:01:17,000
+Well, let's take a look and we'll see.
+
+25
+00:01:17,000 --> 00:01:20,110
+Note also that I've just put this
+code within a try catch clause, and
+
+26
+00:01:20,110 --> 00:01:21,700
+you can guess why I've done that.
+
+27
+00:01:21,700 --> 00:01:24,120
+So I'm going to debug
+the application now.
+
+28
+00:01:24,120 --> 00:01:27,340
+So here you can see I'm running
+the application in the Android emulator.
+
+29
+00:01:27,340 --> 00:01:30,340
+And I have my new Sign In button,
+and I'm presently signed out.
+
+30
+00:01:30,340 --> 00:01:32,630
+So if I click the Sign In button,
+
+31
+00:01:32,630 --> 00:01:34,410
+first of all you're going to
+see the consent screen.
+
+32
+00:01:34,410 --> 00:01:36,620
+And the consent screen is
+a much more limited one, and
+
+33
+00:01:36,620 --> 00:01:38,860
+it only wants to know
+who I am on Google.
+
+34
+00:01:38,860 --> 00:01:42,040
+So now the sign in will begin,
+and I hit my break point.
+
+35
+00:01:42,040 --> 00:01:45,615
+Now if you remember the code
+was Person currentUser =
+
+36
+00:01:45,615 --> 00:01:49,834
+Plus.PeopleApi.getCurrentPerson and
+pass it the client.
+
+37
+00:01:49,834 --> 00:01:53,260
+So I am going to step over
+this line onto the next line.
+
+38
+00:01:53,260 --> 00:01:55,830
+Now take a close look here
+down in the variables window,
+
+39
+00:01:55,830 --> 00:01:58,410
+we can see the currentUser is null.
+
+40
+00:01:58,410 --> 00:02:02,040
+The system did not allow
+me to get this information.
+
+41
+00:02:02,040 --> 00:02:04,975
+So when I assigned it to
+the response from this Person,
+
+42
+00:02:04,975 --> 00:02:07,130
+currentUser is actually null.
+
+43
+00:02:07,130 --> 00:02:10,143
+So when I try to set
+the text on the label and
+
+44
+00:02:10,143 --> 00:02:15,584
+I set it to be currentUser.displayName,
+of course currentUser is null.
+
+45
+00:02:15,584 --> 00:02:19,060
+So this will fail, and
+it will cause an error in my code.
+
+46
+00:02:19,060 --> 00:02:22,110
+So if I step over this again,
+we'll see the error, and
+
+47
+00:02:22,110 --> 00:02:24,100
+I fall in to the Exception handler.
+
+48
+00:02:24,100 --> 00:02:27,293
+And if I just go down here for a moment,
+we can see the actual Exception.
+
+49
+00:02:28,573 --> 00:02:31,876
+It's a java.lang.NullPointerException.
+
+50
+00:02:31,876 --> 00:02:36,947
+And it's attempting to invoke this
+interface method on a null object,
+
+51
+00:02:36,947 --> 00:02:40,168
+getDisplayName on a null
+object reference.
+
+52
+00:02:40,168 --> 00:02:43,209
+So I'm actually erroring
+out when I try to do that.
+
+53
+00:02:43,209 --> 00:02:46,933
+And the reason for that is I'm trying to
+access information on a scope that isn't
+
+54
+00:02:46,933 --> 00:02:48,930
+actually available to me.
+
+55
+00:02:48,930 --> 00:02:49,960
+So how do we fix this?
+
+56
+00:02:49,960 --> 00:02:51,350
+How do we go about changing this?

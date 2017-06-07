@@ -1,0 +1,81 @@
+1
+00:00:00,220 --> 00:00:03,310
+Before we talk about the correctness
+of the mutual exclusion,
+
+2
+00:00:03,310 --> 00:00:05,858
+let's take a look at
+the efficiency factor.
+
+3
+00:00:05,858 --> 00:00:11,220
+So this goto spin statement, as long as
+the lock is not free, this means that
+
+4
+00:00:11,220 --> 00:00:16,059
+this cycle will repeatedly be executed
+and this will waste CPU resources.
+
+5
+00:00:16,059 --> 00:00:20,430
+Therefore, from efficiency standpoint,
+this is not an efficient implementation.
+
+6
+00:00:20,430 --> 00:00:21,900
+It's inefficient.
+
+7
+00:00:21,900 --> 00:00:25,550
+But efficiency aside,
+this solution is also incorrect.
+
+8
+00:00:25,550 --> 00:00:29,880
+In an environment where we have multiple
+threads that execute concurrently, or
+
+9
+00:00:29,880 --> 00:00:33,900
+multiple processes,
+it is possible that more than one thread
+
+10
+00:00:33,900 --> 00:00:37,640
+will see at the same
+time that lock is free.
+
+11
+00:00:37,640 --> 00:00:41,690
+And they will move on to
+perform this lock equal busy
+
+12
+00:00:41,690 --> 00:00:44,230
+operation at the same time.
+
+13
+00:00:44,230 --> 00:00:48,180
+Only one thread will actually set
+the lock value to busy correctly.
+
+14
+00:00:48,180 --> 00:00:52,330
+The other one will simply override
+it and will then proceed.
+
+15
+00:00:52,330 --> 00:00:55,890
+It will think that it has
+correctly acquired the lock.
+
+16
+00:00:55,890 --> 00:00:57,760
+So as a result, both processes or
+
+17
+00:00:57,760 --> 00:01:02,150
+both threads can end up in the critical
+section and that clearly is incorrect.

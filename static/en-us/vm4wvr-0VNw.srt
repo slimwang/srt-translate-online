@@ -1,0 +1,171 @@
+1
+00:00:00,120 --> 00:00:02,830
+The first system turns
+out to have no solutions.
+
+2
+00:00:02,830 --> 00:00:06,220
+The second system has
+infinitely many solutions.
+
+3
+00:00:06,220 --> 00:00:13,010
+And the third system has a unique
+solution of x equals negative 1.177.
+
+4
+00:00:13,010 --> 00:00:15,133
+Y equals 0.707.
+
+5
+00:00:15,133 --> 00:00:18,910
+And Z equals negative 0.083.
+
+6
+00:00:18,910 --> 00:00:21,340
+Here's the code I wrote
+to compute the solution.
+
+7
+00:00:21,340 --> 00:00:23,395
+I return the output of a function called
+
+8
+00:00:23,395 --> 00:00:26,930
+do_gaussian_elimination_and_extract_sol-
+ution.
+
+9
+00:00:26,930 --> 00:00:31,200
+If an exception is raised, I return
+either a message saying there is no
+
+10
+00:00:31,200 --> 00:00:35,175
+solution, or infinitely many solutions,
+depending on which was raised.
+
+11
+00:00:35,175 --> 00:00:40,470
+In the do_gaussian_elimination, etc.,
+function, I first compute the reduced
+
+12
+00:00:40,470 --> 00:00:45,650
+row echelon form of the system, and then
+I check for contradictory equations.
+
+13
+00:00:45,650 --> 00:00:47,860
+That is,
+equations of the form zero equals K.
+
+14
+00:00:47,860 --> 00:00:51,220
+And for too few pivot variables.
+
+15
+00:00:51,220 --> 00:00:54,710
+Both of those will raise exceptions
+if those conditions are found.
+
+16
+00:00:54,710 --> 00:00:57,550
+If those conditions aren't found,
+then I return a vector
+
+17
+00:00:57,550 --> 00:01:01,178
+whose coordinates are the constant terms
+of the first inequations in the system.
+
+18
+00:01:01,178 --> 00:01:05,290
+Since the reduced-row-echelon form
+of the system with a unique solution
+
+19
+00:01:05,290 --> 00:01:08,680
+will just consist of equations of
+the form x equals some number,
+
+20
+00:01:08,680 --> 00:01:11,230
+y equals some number, and
+z equals some number.
+
+21
+00:01:11,230 --> 00:01:14,258
+In the function
+raise_exception_if_contradictory_equat-
+
+22
+00:01:14,258 --> 00:01:16,810
+ion, I'm just checking each
+plane to see if it has
+
+23
+00:01:16,810 --> 00:01:18,840
+all zeroes in its normal vector.
+
+24
+00:01:18,840 --> 00:01:22,710
+If so, I check its constant term for
+a non-zero entry.
+
+25
+00:01:22,710 --> 00:01:25,915
+If I find a non-zero entry in
+the constant factor, then I know I found
+
+26
+00:01:25,915 --> 00:01:29,580
+a contradictory equation and
+I raise the appropriate exception.
+
+27
+00:01:29,580 --> 00:01:32,737
+In the raise_exception_if_too_few_pivots
+function,
+
+28
+00:01:32,737 --> 00:01:37,450
+I use list comprehension to count the
+number of indices that are non-negative.
+
+29
+00:01:37,450 --> 00:01:42,120
+Since indices of first non-zero terms
+in each row returns negative one
+
+30
+00:01:42,120 --> 00:01:44,590
+if there is no non-zero term in a row.
+
+31
+00:01:44,590 --> 00:01:48,850
+So the number of non-negative indices
+is the number of pivot variables.
+
+32
+00:01:48,850 --> 00:01:51,860
+And I compare that number with
+the total number of variables to see
+
+33
+00:01:51,860 --> 00:01:52,970
+if it's smaller.
+
+34
+00:01:52,970 --> 00:01:56,460
+If so, then I know I must have
+an infinite number of solutions
+
+35
+00:01:56,460 --> 00:01:58,500
+as we talked about
+earlier in the lesson.
+
+36
+00:01:58,500 --> 00:01:59,690
+So I raise the exception.

@@ -1,0 +1,207 @@
+1
+00:00:00,000 --> 00:00:03,000
+Another problem is that it could be very hard to do debugging from the test case.
+
+2
+00:00:03,000 --> 00:00:06,000
+These are very large and or nonsensical,
+
+3
+00:00:06,000 --> 00:00:10,000
+and so what I mean here is that random test case that triggers a failure in some software under test
+
+4
+00:00:10,000 --> 00:00:15,000
+might be many bytes long, and it may have no usable human interpretation.
+
+5
+00:00:15,000 --> 00:00:19,000
+In any of those cases debugging software under test can be really hard and there's the solution for this.
+
+6
+00:00:19,000 --> 00:00:22,000
+There's is a pretty good solution for this problem but I'll talk about it a little bit later.
+
+7
+00:00:22,000 --> 00:00:25,000
+A final disadvantage of random testing is that every fuzzer
+
+8
+00:00:25,000 --> 00:00:28,000
+and the final disadvantage of random testing is that people experience is
+
+9
+00:00:28,000 --> 00:00:31,000
+that every time you write a new fuzzer, it finds different bugs.
+
+10
+00:00:31,000 --> 00:00:36,000
+And what this basically means is little incidental design decisions in the random test case generator
+
+11
+00:00:36,000 --> 00:00:40,000
+explores suddenly different parts of the system under test input to many
+
+12
+00:00:40,000 --> 00:00:43,000
+and that results in finding different bugs, and this shouldn't be a surprise given the
+
+13
+00:00:43,000 --> 00:00:46,000
+extreme difficulty of the testing problem, but it's still a little demoralizing
+
+14
+00:00:46,000 --> 00:00:48,000
+when you spent a lot of time writing a fuzzer.
+
+15
+00:00:48,000 --> 00:00:51,000
+It finds a lot of bug and you think the system is getting pretty robust.
+
+16
+00:00:51,000 --> 00:00:54,000
+and then somebody else writes a little simple fuzzer and then it finds a whole bunch of bugs
+
+17
+00:00:54,000 --> 00:00:56,000
+that you can find and this is very common for that to actually happen.
+
+18
+00:00:56,000 --> 00:00:59,000
+That's the longest of drawbacks. Any drawbacks are real.
+
+19
+00:00:59,000 --> 00:01:01,000
+Let's go back and look at the other side of trails.
+
+20
+00:01:01,000 --> 00:01:04,000
+In the advantage side random testing has less tester bias,
+
+21
+00:01:04,000 --> 00:01:09,000
+means the testing is less influenced by what I know about the systems implementation
+
+22
+00:01:09,000 --> 00:01:14,000
+and random testing also has weaker hypothesis about where bugs are.
+
+23
+00:01:14,000 --> 00:01:16,000
+Maybe that's just another way to say the same thing.
+
+24
+00:01:16,000 --> 00:01:20,000
+Besides this issue of bias and hypothesis, perhaps the real killer
+
+25
+00:01:21,000 --> 00:01:23,000
+advantage of random testing is once you implement a random tester
+
+26
+00:01:23,000 --> 00:01:28,000
+and once you automate the testing process the human task of random testing is basically zero,
+
+27
+00:01:28,000 --> 00:01:31,000
+and this is surely been the case with the C compiler fuzzing effort that I have mentioned several times
+
+28
+00:01:31,000 --> 00:01:34,000
+where we really spend a long time developing this random tester.
+
+29
+00:01:34,000 --> 00:01:38,000
+We worked really hard on it, but since we more or less finished it up a couple of years ago
+
+30
+00:01:38,000 --> 00:01:43,000
+its been finding on average a bug that too are weak in real compilers would almost no efforts from us.
+
+31
+00:01:43,000 --> 00:01:47,000
+The machine sitting in dark room somewhere, it's doing random testing but it's running by itself.
+
+32
+00:01:47,000 --> 00:01:51,000
+It needs almost no oversight, all we have to do is look at the results and write up some bug reports
+
+33
+00:01:51,000 --> 00:01:53,000
+and this process of turning random test into a bug report
+
+34
+00:01:53,000 --> 00:01:55,000
+is something that will come back to you a little bit later.
+
+35
+00:01:55,000 --> 00:02:00,000
+An extremely interesting when your talking about random testers is they often surprise us.
+
+36
+00:02:00,000 --> 00:02:02,000
+I have the personal experience of being surprise by random testers many times.
+
+37
+00:02:02,000 --> 00:02:05,000
+And also, in the course of reporting 450 compiler bugs,
+
+38
+00:02:05,000 --> 00:02:09,000
+I found the compiler developers are often really quite surprised about the behavior of their tool.
+
+39
+00:02:09,000 --> 00:02:12,000
+Random testing sort of consistently has this ability
+
+40
+00:02:12,000 --> 00:02:15,000
+to tell us something we didn't know and that's extremely valuable.
+
+41
+00:02:15,000 --> 00:02:17,000
+And another advantage is that every fuzzer finds different bugs
+
+42
+00:02:17,000 --> 00:02:19,000
+and so of course, I included that under disadvantage as well.
+
+43
+00:02:19,000 --> 00:02:22,000
+This is sort of depressing at some variable but on the other hand, this is really cool.
+
+44
+00:02:22,000 --> 00:02:24,000
+What it means is, we have several fuzz tools,
+
+45
+00:02:24,000 --> 00:02:27,000
+might as well just bought a couple of course in each of them and more of them likely
+
+46
+00:02:27,000 --> 00:02:30,000
+because now your going to be that over lap when the bugs are found by the different random tester.
+
+47
+00:02:30,000 --> 00:02:33,000
+And finally due perhaps to some combination of this other advantages
+
+48
+00:02:33,000 --> 00:02:35,000
+are at least find random tester to be really fun.
+
+49
+00:02:35,000 --> 00:02:39,000
+It's fun to have self-automated. It's fun to be surprised about the system.
+
+50
+00:02:39,000 --> 00:02:41,000
+It's fun to have shortcomings and a logic pointed out
+
+51
+00:02:41,000 --> 00:02:43,000
+by a process that doesn't have a human involved.
+
+52
+00:02:43,000 --> 00:02:47,000
+It's just really interesting to have this happen and it's just really interesting that this kind of staff happens.

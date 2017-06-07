@@ -1,0 +1,232 @@
+1
+00:00:00,220 --> 00:00:04,150
+As we hinted already with
+the discussion of the syntax data type,
+
+2
+00:00:04,150 --> 00:00:07,980
+XDR specifies both the syntax,
+the interface definition language.
+
+3
+00:00:07,980 --> 00:00:13,850
+So how our data type's described,
+and also it specifies the encoding.
+
+4
+00:00:13,850 --> 00:00:19,050
+So what is the binary representation
+of data when it's on the wire?
+
+5
+00:00:19,050 --> 00:00:22,840
+As we handled already in the discussion
+of the string data type,
+
+6
+00:00:22,840 --> 00:00:26,830
+XDR that corresponds both to
+the interface definition language,
+
+7
+00:00:26,830 --> 00:00:28,590
+essentially that's the syntax.
+
+8
+00:00:28,590 --> 00:00:31,280
+How we are describing data types.
+
+9
+00:00:31,280 --> 00:00:33,710
+And also it specifies the encoding.
+
+10
+00:00:33,710 --> 00:00:38,300
+That's the binary representation of
+how is data represented when it's
+
+11
+00:00:38,300 --> 00:00:42,020
+being transmitted between the client and
+the server on the wire.
+
+12
+00:00:42,020 --> 00:00:44,050
+Here's some encoding rules.
+
+13
+00:00:44,050 --> 00:00:47,530
+All data types are encoded
+in multiples of 4 bytes so
+
+14
+00:00:47,530 --> 00:00:51,260
+transmitting a single byte argument
+would include a single byte for
+
+15
+00:00:51,260 --> 00:00:56,430
+the data and 3 bytes of padding in
+order to make that up to 4 bytes.
+
+16
+00:00:56,430 --> 00:01:00,240
+This is to help with alignment when
+moving data to and from memory and
+
+17
+00:01:00,240 --> 00:01:02,590
+the network packets and
+the network card.
+
+18
+00:01:02,590 --> 00:01:05,730
+Big endian is used as
+the transmission standard.
+
+19
+00:01:05,730 --> 00:01:10,990
+What this means is that regardless of
+the endian in this type, of the client
+
+20
+00:01:10,990 --> 00:01:16,360
+or the server machine, every type of
+communication will require the data
+
+21
+00:01:16,360 --> 00:01:21,250
+is first translated into big endian
+representation and then if necessary,
+
+22
+00:01:21,250 --> 00:01:25,690
+translated into the appropriate endian
+in this for the target machine.
+
+23
+00:01:25,690 --> 00:01:29,260
+In some cases, this may be pure
+overhead just because the client and
+
+24
+00:01:29,260 --> 00:01:32,700
+the server machine are both,
+let's say little endian machines.
+
+25
+00:01:32,700 --> 00:01:36,860
+But, in principle, it's easier to have
+this type of standard agreement so
+
+26
+00:01:36,860 --> 00:01:39,750
+that there's never any
+kind of ambiguity,
+
+27
+00:01:39,750 --> 00:01:43,020
+what is the encoding that's
+being used on-the-wire.
+
+28
+00:01:43,020 --> 00:01:46,810
+And how to interpret the bytes that
+are coming into the network packets.
+
+29
+00:01:46,810 --> 00:01:48,980
+Other rules include things like,
+
+30
+00:01:48,980 --> 00:01:52,300
+two's compliment is used
+to represent integers.
+
+31
+00:01:52,300 --> 00:01:56,920
+And the IEEE is used for
+floating point numbers, so other roles.
+
+32
+00:01:56,920 --> 00:02:00,010
+Let's explain this a little
+bit better using an example.
+
+33
+00:02:00,010 --> 00:02:04,890
+So, let's say that in the .x file,
+we have a definition of a data type
+
+34
+00:02:04,890 --> 00:02:08,580
+that is a variable length
+array of a size up to 10.
+
+35
+00:02:08,580 --> 00:02:11,190
+And let's say we have an argument,
+hello,
+
+36
+00:02:11,190 --> 00:02:14,630
+that needs to be passed from
+the client to the server.
+
+37
+00:02:14,630 --> 00:02:16,990
+In the client or
+the server address space,
+
+38
+00:02:16,990 --> 00:02:21,565
+if these are C processes,
+this variable will take 6 bytes.
+
+39
+00:02:21,565 --> 00:02:25,710
+5 bytes for each of the characters and
+then the last 6 bytes for
+
+40
+00:02:25,710 --> 00:02:27,940
+the null terminating character.
+
+41
+00:02:27,940 --> 00:02:34,150
+However, for transmission, this variable
+will be encoded to take 12 bytes.
+
+42
+00:02:34,150 --> 00:02:36,780
+The first 4 bytes will be used for
+the length.
+
+43
+00:02:36,780 --> 00:02:40,520
+In this particular case,
+the length is 5, it's 5 characters.
+
+44
+00:02:40,520 --> 00:02:45,130
+The next 5 bytes will be used for
+those characters, H-E-L-L-O.
+
+45
+00:02:46,170 --> 00:02:49,020
+Notice we're not going to be
+transmitting the null terminated
+
+46
+00:02:49,020 --> 00:02:50,230
+character.
+
+47
+00:02:50,230 --> 00:02:54,510
+And then, at the very end, we will
+have 3 characters use the padding,
+
+48
+00:02:54,510 --> 00:02:59,232
+because XDR specifies that everything
+needs to be on 4 by boundaries.

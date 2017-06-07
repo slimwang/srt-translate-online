@@ -1,0 +1,405 @@
+﻿1
+00:00:00,390 --> 00:00:05,109
+The goal for this first exercise is
+to design this boarding pass layout.
+
+2
+00:00:05,110 --> 00:00:07,460
+We'll be using the constraint
+layout to do so.
+
+3
+00:00:07,459 --> 00:00:11,429
+The provided code contains
+a default empty relative layout.
+
+4
+00:00:11,429 --> 00:00:15,529
+Also, if you check the strings.xml file,
+you'll find that we've created
+
+5
+00:00:15,529 --> 00:00:19,000
+all the text that should appear
+in the UI as string resources.
+
+6
+00:00:19,000 --> 00:00:22,600
+Since we're only focusing on
+getting the design correct for now,
+
+7
+00:00:22,600 --> 00:00:25,686
+we will just use those hard
+coded strings and then later,
+
+8
+00:00:25,687 --> 00:00:28,210
+we'll see how to bind
+the UI with actual data.
+
+9
+00:00:28,210 --> 00:00:32,006
+The constraint layout is built as
+a separate support library that works on
+
+10
+00:00:32,006 --> 00:00:34,590
+all Android versions
+back to the Android 2.3.
+
+11
+00:00:34,590 --> 00:00:40,160
+So the first step before we start is to
+add the following compile dependency.
+
+12
+00:00:40,159 --> 00:00:43,969
+This compile dependency allows
+us to use the constraint layout.
+
+13
+00:00:43,969 --> 00:00:46,129
+Make sure that you're
+using the latest version.
+
+14
+00:00:46,130 --> 00:00:48,990
+At the time of this recording,
+it was still beta.
+
+15
+00:00:48,990 --> 00:00:53,200
+Once you add the compile dependency,
+don't forget to sync your project.
+
+16
+00:00:53,200 --> 00:00:56,510
+Now that we have the dependency added,
+let's go back to our layout and
+
+17
+00:00:56,509 --> 00:01:00,019
+replace this RelativeLayout
+with the ConstraintLayout.
+
+18
+00:01:00,020 --> 00:01:01,800
+Now, if we go to the design mode and
+
+19
+00:01:01,799 --> 00:01:05,319
+try to drag in a TextView,
+into the visual editor.
+
+20
+00:01:05,319 --> 00:01:06,900
+It will stay where you put it.
+
+21
+00:01:06,900 --> 00:01:09,330
+This is just to make
+the process less annoying.
+
+22
+00:01:09,329 --> 00:01:15,450
+But if you don't create any constraints
+around this TextView, we will see later.
+
+23
+00:01:15,450 --> 00:01:19,390
+At runtime, this view will just go
+to the default top left corner.
+
+24
+00:01:19,390 --> 00:01:23,790
+So, to define a view's position in a
+constrained layout, you must add two or
+
+25
+00:01:23,790 --> 00:01:25,700
+more constraints for each view.
+
+26
+00:01:25,700 --> 00:01:30,060
+Each constraint represents a connection
+or alignment to another view or
+
+27
+00:01:30,060 --> 00:01:31,260
+to the parent layout.
+
+28
+00:01:31,260 --> 00:01:33,790
+So for the constraint layout to
+know where to place this view,
+
+29
+00:01:33,790 --> 00:01:38,310
+you have to define at least one
+horizontal and one vertical constraint.
+
+30
+00:01:38,310 --> 00:01:40,689
+Sometimes, you'll probably
+need more than that.
+
+31
+00:01:40,689 --> 00:01:44,840
+Now assuming we're going to use this
+TextView as the passenger's name label,
+
+32
+00:01:44,840 --> 00:01:47,250
+we want to have a margin
+on top of that and
+
+33
+00:01:47,250 --> 00:01:49,430
+a margin on left of that with 16dp's.
+
+34
+00:01:49,430 --> 00:01:54,010
+You can start by just dragging
+this constraint circle here,
+
+35
+00:01:54,010 --> 00:01:55,810
+all the way to the top of the parent.
+
+36
+00:01:55,810 --> 00:02:00,170
+Which basically means, we want to make
+sure that this TextView is 16 pixels,
+
+37
+00:02:00,170 --> 00:02:02,769
+as you could see here from
+the top of the parent.
+
+38
+00:02:02,769 --> 00:02:04,899
+And if we do the same
+from the left side,
+
+39
+00:02:04,900 --> 00:02:06,870
+then we've got our two constraints.
+
+40
+00:02:06,870 --> 00:02:11,150
+It might be hard to visually see what
+just happened in the design mode, so
+
+41
+00:02:11,150 --> 00:02:14,230
+let's switch to the text mode and have
+a look at what the generative text was.
+
+42
+00:02:14,229 --> 00:02:18,739
+You could see that the default layout
+width and height were wrapped content.
+
+43
+00:02:18,740 --> 00:02:22,070
+It generated an ID for
+us which we'll rename later and
+
+44
+00:02:22,069 --> 00:02:25,759
+it created a constraintTop and
+constraintLeft for us.
+
+45
+00:02:25,759 --> 00:02:30,311
+The top constraint is pointing
+to the top of the parent and
+
+46
+00:02:30,312 --> 00:02:34,189
+the constraintLeft is pointing
+to the left of parent.
+
+47
+00:02:34,189 --> 00:02:38,919
+It's also set the margins for
+top and left to be 16dp and
+
+48
+00:02:38,919 --> 00:02:41,899
+the marginStart is just for
+accessibility
+
+49
+00:02:41,900 --> 00:02:46,370
+in case you're changing your UI from
+right to left to left to right.
+
+50
+00:02:46,370 --> 00:02:48,230
+We'll talk a lot more about this later.
+
+51
+00:02:48,229 --> 00:02:51,579
+Perfect, so let's go ahead and
+change the text value
+
+52
+00:02:51,580 --> 00:02:56,030
+to one of the string resources that
+we had, which was passenger_label.
+
+53
+00:02:56,030 --> 00:02:59,289
+And let's also change the id
+to something more readable,
+
+54
+00:02:59,289 --> 00:03:02,250
+I'd also like to add
+a TextAppearance tag
+
+55
+00:03:02,250 --> 00:03:06,599
+to set the style to set the style
+to the AppCompat.Caption style.
+
+56
+00:03:06,599 --> 00:03:09,299
+Now, let's have a look at the design
+to see what it looks like now.
+
+57
+00:03:09,300 --> 00:03:13,380
+Very good, so let's add another TextView
+for the actual passenger's name.
+
+58
+00:03:13,379 --> 00:03:15,609
+We'll just drop that down here and
+
+59
+00:03:15,610 --> 00:03:18,650
+then create a constraint
+underneath the label and
+
+60
+00:03:18,650 --> 00:03:23,750
+the left constraint can be equal to the
+same left of the actual label up here.
+
+61
+00:03:23,750 --> 00:03:27,159
+So, let's go back to our TextView and
+see what that generated for us.
+
+62
+00:03:27,159 --> 00:03:29,340
+The first constraint is
+a top constraint and
+
+63
+00:03:29,340 --> 00:03:32,590
+it's to the bottom of
+our PassengerLabel.
+
+64
+00:03:32,590 --> 00:03:36,840
+And the left constraint is to the left
+of our PassengerLabel as well.
+
+65
+00:03:36,840 --> 00:03:39,689
+This means that they will
+always have the same left and
+
+66
+00:03:39,689 --> 00:03:42,889
+that the name would be
+underneath the label.
+
+67
+00:03:42,889 --> 00:03:46,339
+Because of these new constraints that
+we just created, if I just hold onto
+
+68
+00:03:46,340 --> 00:03:51,420
+the label and drag it to the side, it
+would move the other TextView with me,
+
+69
+00:03:51,419 --> 00:03:54,019
+maintaining the constraints
+that we just created.
+
+70
+00:03:54,020 --> 00:03:55,120
+Pretty cool.
+
+71
+00:03:55,120 --> 00:03:58,180
+Now let's set the text for
+the passenger's name here.
+
+72
+00:03:58,180 --> 00:04:03,730
+However, you should never use
+android.text attribute to set fake data.
+
+73
+00:04:03,729 --> 00:04:08,759
+That's why Android introduces a text
+attribute in the tools library,
+
+74
+00:04:08,759 --> 00:04:10,439
+for that sole purpose.
+
+75
+00:04:10,439 --> 00:04:12,509
+If we set any fake data here,
+
+76
+00:04:12,509 --> 00:04:15,889
+this passenger_name would actually
+appear in the design mode.
+
+77
+00:04:15,889 --> 00:04:19,560
+But once you run the app,
+it will not display that value.
+
+78
+00:04:19,560 --> 00:04:22,290
+But that's all we need to
+help design this app for now.
+
+79
+00:04:22,290 --> 00:04:24,260
+Now let's go back to TextView and
+
+80
+00:04:24,259 --> 00:04:26,949
+change its id to something
+more readable as well.
+
+81
+00:04:26,949 --> 00:04:31,529
+And then I'd like to change the style
+and color to be display one and
+
+82
+00:04:31,529 --> 00:04:33,189
+colorPrimary.
+
+83
+00:04:33,189 --> 00:04:34,589
+Let's have a look at the design.
+
+84
+00:04:34,589 --> 00:04:36,569
+That looks much better,
+so let's move on.
+

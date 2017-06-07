@@ -1,0 +1,184 @@
+1
+00:00:00,173 --> 00:00:02,622
+So, after we have done
+feature detection,
+
+2
+00:00:02,622 --> 00:00:06,208
+let's talk about matching images
+that have similar features.
+
+3
+00:00:06,208 --> 00:00:09,225
+Again, something we have done before
+when we talked about panoramas.
+
+4
+00:00:09,225 --> 00:00:12,585
+Remember, most of the pipeline of
+this is similar to what we did for
+
+5
+00:00:12,585 --> 00:00:16,665
+panoramas, except in this time around,
+we're not interested in putting those
+
+6
+00:00:16,665 --> 00:00:19,435
+images together in creating
+a seamless larger image.
+
+7
+00:00:19,435 --> 00:00:22,547
+We just want to be able to model,
+which images have similar content, so
+
+8
+00:00:22,547 --> 00:00:24,668
+we can say that they're
+related to each other.
+
+9
+00:00:24,668 --> 00:00:26,847
+So for example,
+I look at these features.
+
+10
+00:00:26,847 --> 00:00:28,597
+I basically say, okay, this image and
+
+11
+00:00:28,597 --> 00:00:30,781
+this two images have
+something in feature.
+
+12
+00:00:30,781 --> 00:00:33,843
+We basically create a connection
+between them and we do this for
+
+13
+00:00:33,843 --> 00:00:36,055
+each image with
+relationship to each other.
+
+14
+00:00:36,055 --> 00:00:39,174
+And basically, create a graph structure,
+which basically says,
+
+15
+00:00:39,174 --> 00:00:42,138
+this image is common with this,
+this image is common with this.
+
+16
+00:00:42,138 --> 00:00:45,652
+So, in essence, what we do is take
+one image, find the features and
+
+17
+00:00:45,652 --> 00:00:49,303
+match it with another image and
+do this across for the whole database.
+
+18
+00:00:49,303 --> 00:00:53,989
+Yes, it takes computational time, but
+this is something valuable for us to do.
+
+19
+00:00:53,989 --> 00:00:57,840
+And again, one of the contributions
+of the original Photosynth paper was
+
+20
+00:00:57,840 --> 00:00:59,703
+a piece of software, the Bundler,
+
+21
+00:00:59,703 --> 00:01:03,258
+which is available from their site
+that does it quite efficiently.
+
+22
+00:01:03,258 --> 00:01:07,500
+Now you may remember one of the ways of
+doing this kind of matching that we have
+
+23
+00:01:07,500 --> 00:01:11,898
+talked about before and that was using
+RANSAC random sampling and consensus.
+
+24
+00:01:11,898 --> 00:01:15,575
+Again, allows us to match different
+types of images together based on
+
+25
+00:01:15,575 --> 00:01:17,145
+features that are within it.
+
+26
+00:01:17,145 --> 00:01:21,118
+And uses that to find images that are
+well, similar and closer to each other.
+
+27
+00:01:21,118 --> 00:01:23,566
+This is what we use for
+doing again, matching and
+
+28
+00:01:23,566 --> 00:01:26,562
+then using that to generate
+a pattern same technique.
+
+29
+00:01:26,562 --> 00:01:29,813
+But in this instance, what we're
+really interested in is finding out,
+
+30
+00:01:29,813 --> 00:01:32,818
+which images are related to each
+other in a parallelized fashion.
+
+31
+00:01:32,818 --> 00:01:33,561
+And again,
+
+32
+00:01:33,561 --> 00:01:37,731
+something we know we can do quite
+well if we have all of these tools.
+
+33
+00:01:37,731 --> 00:01:40,954
+This is a similar process to what,
+of course, we talked about when
+
+34
+00:01:40,954 --> 00:01:44,526
+we talked about using recognizing
+panoramas, which basically said is,
+
+35
+00:01:44,526 --> 00:01:47,135
+if I took a bunch of pictures,
+that were not in order.
+
+36
+00:01:47,135 --> 00:01:50,752
+If I threw them into a process,
+can they figure out which pictures will
+
+37
+00:01:50,752 --> 00:01:53,955
+actually use, be used to create
+a panorama and which won't.
+
+38
+00:01:53,955 --> 00:01:55,310
+Same process applied here.

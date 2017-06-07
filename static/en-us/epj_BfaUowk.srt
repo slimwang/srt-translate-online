@@ -1,0 +1,267 @@
+1
+00:00:00,450 --> 00:00:02,260
+Hey, glad you're back.
+
+2
+00:00:02,260 --> 00:00:05,270
+Let's talk about another useful tool
+that'll help you gather data and
+
+3
+00:00:05,270 --> 00:00:08,730
+get better insight into how
+your applications using energy.
+
+4
+00:00:08,730 --> 00:00:10,690
+It's called Battery Historian.
+
+5
+00:00:10,690 --> 00:00:14,570
+Basically, you're going to use
+ADB to dunk data from your phone.
+
+6
+00:00:14,570 --> 00:00:18,770
+And then use the Battery Historian
+tool to convert that data into a nice
+
+7
+00:00:18,770 --> 00:00:21,340
+HTML table that you can
+view in your web browser.
+
+8
+00:00:21,340 --> 00:00:24,580
+Now Battery Historian is a separate
+open source python script
+
+9
+00:00:24,580 --> 00:00:26,740
+that you're going to need
+to download from GitHub.
+
+10
+00:00:26,740 --> 00:00:28,425
+So.
+So let's go ahead and do that.
+
+11
+00:00:28,425 --> 00:00:31,495
+Okay.
+So here we are at the GitHub page for
+
+12
+00:00:31,495 --> 00:00:33,555
+Google's version of Battery Historian.
+
+13
+00:00:34,755 --> 00:00:36,195
+Now in order to download this file,
+
+14
+00:00:36,195 --> 00:00:39,599
+we want to come down here to lower right
+and click this download zip button.
+
+15
+00:00:40,680 --> 00:00:43,160
+For this demo we're going
+to work from the desktop.
+
+16
+00:00:43,160 --> 00:00:44,810
+But you can use any
+directory of your choosing.
+
+17
+00:00:45,860 --> 00:00:49,640
+Now to get started let's go ahead and
+double-click this zip file which is
+
+18
+00:00:49,640 --> 00:00:52,970
+going to extract the folder with
+the python script that we care about.
+
+19
+00:00:52,970 --> 00:00:54,630
+Okay.
+Let's go ahead and open the folder.
+
+20
+00:00:54,630 --> 00:01:00,320
+As you can see there's a license file,
+as well as the historian python script.
+
+21
+00:01:00,320 --> 00:01:01,949
+Let's go ahead and
+drag this script to the desktop.
+
+22
+00:01:04,080 --> 00:01:05,129
+Okay, that's it for setup.
+
+23
+00:01:05,129 --> 00:01:07,660
+We should be all set to
+use Battery Historian.
+
+24
+00:01:07,660 --> 00:01:08,970
+Now the next thing you're
+going to want to do,
+
+25
+00:01:08,970 --> 00:01:11,910
+is make sure you connect
+your phone to your computer.
+
+26
+00:01:11,910 --> 00:01:14,620
+Also make sure that USB
+debugging is turned on.
+
+27
+00:01:14,620 --> 00:01:16,680
+I'm going to go ahead and
+run ADB devices just to confirm.
+
+28
+00:01:16,680 --> 00:01:20,000
+All right, the next steps will
+work from any terminal window.
+
+29
+00:01:20,000 --> 00:01:21,950
+But if you have Android Studio
+opened like I do,
+
+30
+00:01:21,950 --> 00:01:26,500
+you can actually open a terminal
+right within the ID, like so.
+
+31
+00:01:28,050 --> 00:01:29,340
+Go ahead and cd to your desktop.
+
+32
+00:01:30,430 --> 00:01:34,090
+Now as a precaution, we're going to go
+ahead and shut down our ADB server.
+
+33
+00:01:34,090 --> 00:01:37,450
+The way you do this is by
+typing adb kill server.
+
+34
+00:01:38,750 --> 00:01:41,220
+Now this is an important step
+because while we're developing,
+
+35
+00:01:41,220 --> 00:01:43,980
+lots of stuff can be turned on
+that might cause conflicts,
+
+36
+00:01:43,980 --> 00:01:45,780
+while trying to do battery recordings.
+
+37
+00:01:45,780 --> 00:01:48,810
+So to be safe here,
+we want to start ADB clean.
+
+38
+00:01:48,810 --> 00:01:50,120
+All right.
+So I'm going to go ahead and
+
+39
+00:01:50,120 --> 00:01:51,070
+type ADB devices.
+
+40
+00:01:52,320 --> 00:01:55,990
+As we can see, ADB is restarting,
+and our phone is attached.
+
+41
+00:01:55,990 --> 00:02:00,610
+If you don't see any devices,
+make sure your phone is connected and
+
+42
+00:02:00,610 --> 00:02:02,380
+your USB debugging is turned on.
+
+43
+00:02:02,380 --> 00:02:05,060
+Then go ahead and kill and
+restart ADB once more.
+
+44
+00:02:05,060 --> 00:02:08,650
+Now the next thing we want to do is
+reset the battery data gathering so
+
+45
+00:02:08,650 --> 00:02:10,979
+you can start from a blank state,
+we do it like this.
+
+46
+00:02:12,510 --> 00:02:16,690
+So I just type this command adb
+shell dumpsys batterystats,
+
+47
+00:02:16,690 --> 00:02:17,830
+With the reset option.
+
+48
+00:02:17,830 --> 00:02:23,320
+This is going to go ahead and
+reset all the battery gathering data.
+
+49
+00:02:23,320 --> 00:02:24,530
+Now if you don't do this,
+
+50
+00:02:24,530 --> 00:02:27,020
+you're going to get a lot more data
+than is actually useful or relevant.
+
+51
+00:02:27,020 --> 00:02:30,130
+In other words, you're going to see a
+lot more noise than you want when you're
+
+52
+00:02:30,130 --> 00:02:32,110
+reading your battery stats.
+
+53
+00:02:32,110 --> 00:02:33,380
+All right.
+So now you can go ahead and
+
+54
+00:02:33,380 --> 00:02:35,020
+disconnect your phone
+from your computer.
+
+55
+00:02:35,020 --> 00:02:37,570
+When you go ahead and
+pull this cable out right here, so
+
+56
+00:02:37,570 --> 00:02:40,100
+you don't draw any current from your
+computer instead of the battery.

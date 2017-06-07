@@ -1,0 +1,127 @@
+1
+00:00:00,420 --> 00:00:02,860
+Let's walk through the code you wrote to complete the mapper function.
+
+2
+00:00:04,000 --> 00:00:09,000
+First, we create an array data, which splits each row of data on the comma.
+
+3
+00:00:10,670 --> 00:00:13,030
+If the length of the data array is not equal to 12,
+
+4
+00:00:13,030 --> 00:00:16,309
+which is what we expect given our aadhaar data.
+
+5
+00:00:16,309 --> 00:00:19,180
+Or the first entry is equal to registrar,
+
+6
+00:00:19,180 --> 00:00:21,880
+which would indicate that this is the header row.
+
+7
+00:00:21,880 --> 00:00:23,230
+We continue on the the next row.
+
+8
+00:00:24,230 --> 00:00:27,830
+Otherwise, we print the district and
+
+9
+00:00:27,830 --> 00:00:31,440
+the number of aadhaar generated separated by a tab.
+
+10
+00:00:31,440 --> 00:00:33,810
+Now, let's talk about the reducer function.
+
+11
+00:00:33,810 --> 00:00:38,334
+Recall that our reducer function will consume the key value pairs emitted by
+
+12
+00:00:38,334 --> 00:00:39,119
+our mapper.
+
+13
+00:00:39,119 --> 00:00:41,876
+So we create and array data for every single line,
+
+14
+00:00:41,876 --> 00:00:46,665
+which will essentially be of length of two containing the key and the value.
+
+15
+00:00:46,665 --> 00:00:50,590
+Note that we split on the tab, which we input into the output of our mapper.
+
+16
+00:00:51,760 --> 00:00:56,690
+If for some reason data is less than or greater than length two, we continue on.
+
+17
+00:00:56,690 --> 00:01:00,080
+There's something wrong with this key value pair and we shouldn't process it.
+
+18
+00:01:00,080 --> 00:01:01,640
+Next, we set this key and
+
+19
+00:01:01,640 --> 00:01:05,940
+count equal to the key and number of aadhaar generated in data.
+
+20
+00:01:05,940 --> 00:01:09,937
+Recall that the reducer receives the key value pair sorted by key.
+
+21
+00:01:09,937 --> 00:01:14,370
+So if this is a new key, let's submit the final key value pair.
+
+22
+00:01:14,370 --> 00:01:19,160
+The key and the total number of aadhaar generated, separated by a tab.
+
+23
+00:01:19,160 --> 00:01:22,471
+Then let's set aadhaar generated equal to zero.
+
+24
+00:01:22,471 --> 00:01:25,443
+Otherwise, let's add the number of aadhaar generated in
+
+25
+00:01:25,443 --> 00:01:29,265
+this particular key value pair to the total number of aadhaar generated for
+
+26
+00:01:29,265 --> 00:01:32,640
+this key and let's continue onto the next value.
+
+27
+00:01:32,640 --> 00:01:36,210
+We include this last if clause for the last key in our data.
+
+28
+00:01:36,210 --> 00:01:38,930
+Because there's no next key after the last key.
+
+29
+00:01:38,930 --> 00:01:41,900
+If we didn't have this, we would not admit a key value pair for
+
+30
+00:01:41,900 --> 00:01:44,160
+the final key in our intermediate data.
+
+31
+00:01:45,260 --> 00:01:48,970
+So here after we've done all this other processing up here, we just say for
+
+32
+00:01:48,970 --> 00:01:52,055
+the last key, hey, let's make sure we emit the key value pair.

@@ -1,0 +1,723 @@
+1
+00:00:00,570 --> 00:00:04,426
+So you now have everything to start
+implementing more of the Pet Provider.
+
+2
+00:00:04,426 --> 00:00:05,800
+Well let's start off by reviewing some
+
+3
+00:00:05,800 --> 00:00:09,030
+key methods that you'll need to
+implement in a ContentProvider.
+
+4
+00:00:09,030 --> 00:00:11,370
+And they are the ones listed down here.
+
+5
+00:00:11,370 --> 00:00:12,160
+So so far,
+
+6
+00:00:12,160 --> 00:00:17,652
+we have the onCreate method implemented,
+which initializes the petDBHelper.
+
+7
+00:00:17,652 --> 00:00:21,668
+And we've also created a Url
+matcher as a global variable.
+
+8
+00:00:21,668 --> 00:00:26,600
+And we're going to use that when we're
+using the query, insert, update,
+
+9
+00:00:26,600 --> 00:00:28,050
+and delete methods.
+
+10
+00:00:28,050 --> 00:00:32,009
+And lastly we'll need to
+implement our getType method.
+
+11
+00:00:32,009 --> 00:00:34,956
+So let's start off by focusing
+just on the query method.
+
+12
+00:00:34,956 --> 00:00:40,950
+So previously, I mentioned that the
+query method takes in as an input a Uri
+
+13
+00:00:40,950 --> 00:00:44,790
+but we notice here that it can also
+take in a couple other inputs as well.
+
+14
+00:00:44,790 --> 00:00:47,970
+Now let's click on this link and check
+out more details about the query method.
+
+15
+00:00:49,660 --> 00:00:54,398
+So in addition to the Uri's and input,
+we see that we can have a projection,
+
+16
+00:00:54,398 --> 00:00:59,600
+selection, selection args and
+a sort order as well.
+
+17
+00:00:59,600 --> 00:01:03,530
+So having these additional inputs allows
+us so that when we query the provider.
+
+18
+00:01:03,530 --> 00:01:07,400
+If our content URI points to the whole
+pets table, we can actually be more
+
+19
+00:01:07,400 --> 00:01:11,790
+specific about exactly what rows and
+columns that we're interested in.
+
+20
+00:01:11,790 --> 00:01:15,500
+And this allows us to get
+back a more specific row
+
+21
+00:01:15,500 --> 00:01:19,270
+instead of the entire pets
+table in the cursor result.
+
+22
+00:01:19,270 --> 00:01:21,110
+So before we dive into the code,
+
+23
+00:01:21,110 --> 00:01:24,260
+let's actually review the end to
+end diagram of the query method.
+
+24
+00:01:25,840 --> 00:01:30,737
+So to start when the Catalog Activity
+calls the resolver query method,
+
+25
+00:01:30,737 --> 00:01:32,952
+we can pass in all these inputs.
+
+26
+00:01:32,952 --> 00:01:34,906
+[BLANK_AUDIO]
+
+27
+00:01:34,906 --> 00:01:40,270
+From there, the Content Resolver
+passes on the request to the Provider.
+
+28
+00:01:40,270 --> 00:01:44,870
+And then the Uri Matcher helps us
+determine what pattern the Uri matches.
+
+29
+00:01:46,380 --> 00:01:48,895
+From there, we query the pet's table.
+
+30
+00:01:48,895 --> 00:01:53,265
+And remember we need to apply the
+projection, selection, selection args,
+
+31
+00:01:53,265 --> 00:01:56,095
+and sort order parameters that
+we passed in if they apply.
+
+32
+00:01:57,805 --> 00:02:03,505
+So to resolve the query is a cursor
+which contains some number of rows or
+
+33
+00:02:03,505 --> 00:02:05,540
+columns from this original table.
+
+34
+00:02:05,540 --> 00:02:09,699
+And then the cursor gets returned
+by the pet provider query method
+
+35
+00:02:09,699 --> 00:02:13,303
+back to the resolver, and
+then back to our catalog activity so
+
+36
+00:02:13,303 --> 00:02:16,790
+that it can be finally in the UI.
+
+37
+00:02:16,790 --> 00:02:20,350
+So this here is a complete end
+to end flow of the query method.
+
+38
+00:02:21,950 --> 00:02:26,340
+Now to actually implement the query
+method in the code of your pets app,
+
+39
+00:02:26,340 --> 00:02:28,730
+I'm going to help you out by
+providing you some starter code.
+
+40
+00:02:30,650 --> 00:02:34,880
+So in this quiz, I'll be asking you to
+replace your current blank query method
+
+41
+00:02:34,880 --> 00:02:40,030
+with this code, as well as finish
+this to do under the PETS case.
+
+42
+00:02:40,030 --> 00:02:43,280
+So I know it looks like a lot
+of code but don't worry.
+
+43
+00:02:43,280 --> 00:02:45,080
+I'll be walking through it line by line.
+
+44
+00:02:47,450 --> 00:02:50,140
+Now let's take a moment and
+zoom out for a second.
+
+45
+00:02:50,140 --> 00:02:52,770
+And notice there are three major
+parts of this query method.
+
+46
+00:02:54,040 --> 00:02:57,860
+So first off, we need to get
+the database object and then,
+
+47
+00:02:57,860 --> 00:03:01,600
+we'll send the URI through
+to the URI matcher
+
+48
+00:03:01,600 --> 00:03:04,980
+which helps us determine
+which way to fork off into.
+
+49
+00:03:04,980 --> 00:03:09,000
+Whether to go down the path of
+the pets case or the pets ID case.
+
+50
+00:03:10,370 --> 00:03:12,340
+So with those three steps in mind,
+
+51
+00:03:12,340 --> 00:03:14,790
+let's focus on how that
+translates into the code here.
+
+52
+00:03:16,200 --> 00:03:20,720
+So first, we're going to access
+the database using the mDb
+
+53
+00:03:20,720 --> 00:03:25,300
+helper variable that we initialized up
+in the onCreate method of the provider.
+
+54
+00:03:25,300 --> 00:03:28,830
+So from there, we get the SQLI
+object From the DB helper.
+
+55
+00:03:30,540 --> 00:03:34,500
+And remember that for the query method,
+we won't be making any changes or any
+
+56
+00:03:34,500 --> 00:03:38,960
+writes to the database, so that's why we
+can use a get readable database method.
+
+57
+00:03:40,660 --> 00:03:43,890
+So for the next step, that's when
+we'll be using the URI matcher.
+
+58
+00:03:43,890 --> 00:03:50,120
+And that helps us find out what kind of
+input URI was passed into us up here.
+
+59
+00:03:50,120 --> 00:03:55,750
+Now more specifically we're going to
+call sUriMatcher.match giving
+
+60
+00:03:55,750 --> 00:03:58,760
+it the input Uri, this one here.
+
+61
+00:03:58,760 --> 00:04:01,190
+And from it we're going to
+receive an integer code
+
+62
+00:04:01,190 --> 00:04:03,500
+that we can sort in this
+variable called match.
+
+63
+00:04:05,050 --> 00:04:09,240
+Now after that, is when we have
+to decide which path to go down.
+
+64
+00:04:09,240 --> 00:04:11,850
+So this is where the switch
+case statements come in.
+
+65
+00:04:11,850 --> 00:04:15,270
+And this helps us to determine
+whether it were in the pets case or
+
+66
+00:04:15,270 --> 00:04:16,209
+the pet id case.
+
+67
+00:04:17,370 --> 00:04:22,190
+Now, inside the switch statement,
+if the URI matches the pets case,
+
+68
+00:04:22,190 --> 00:04:25,868
+then you'll need to perform
+the query on the whole pets table.
+
+69
+00:04:25,868 --> 00:04:28,750
+Now as a hint when you're actually
+doing this to do on your own,
+
+70
+00:04:28,750 --> 00:04:32,530
+you'll need to use the query method
+on the SQLitedatabase object.
+
+71
+00:04:32,530 --> 00:04:34,120
+So this object up here.
+
+72
+00:04:34,120 --> 00:04:37,340
+And when you're doing the query
+on the database table,
+
+73
+00:04:37,340 --> 00:04:40,330
+remember that you'll also
+need to pas in a projection,
+
+74
+00:04:40,330 --> 00:04:44,800
+selection, selection args and
+sortOrder that were given up here.
+
+75
+00:04:45,970 --> 00:04:50,970
+Now in the second case,
+if the URI matches the pet ID situation,
+
+76
+00:04:50,970 --> 00:04:54,600
+then we need to perform
+the query on a single pet.
+
+77
+00:04:54,600 --> 00:04:57,100
+So I filled in this node for
+you already.
+
+78
+00:04:57,100 --> 00:05:00,890
+And since we know that we're operating
+under a single row in the pets table.
+
+79
+00:05:00,890 --> 00:05:03,100
+We can see that the selection and
+
+80
+00:05:03,100 --> 00:05:06,150
+selectionArgs are pointing
+us to a specific row here.
+
+81
+00:05:07,760 --> 00:05:10,580
+So then on the SQL database object.
+
+82
+00:05:10,580 --> 00:05:11,310
+This database here.
+
+83
+00:05:12,620 --> 00:05:16,990
+We want to call the query method,
+passing in the pet Table_Name,
+
+84
+00:05:16,990 --> 00:05:21,530
+projection, selection,
+selectionArgs, and any other inputs.
+
+85
+00:05:22,840 --> 00:05:26,340
+Now note that the query method can
+accept in a lot of other inputs
+
+86
+00:05:26,340 --> 00:05:28,580
+to help customize the results.
+
+87
+00:05:28,580 --> 00:05:30,180
+But we'll be setting those to null.
+
+88
+00:05:31,730 --> 00:05:35,680
+So I know the syntax here can be
+a little dense and hard to read.
+
+89
+00:05:35,680 --> 00:05:40,750
+And that's because we're using a lot
+of Java constants, appended strings.
+
+90
+00:05:40,750 --> 00:05:44,110
+And then you were converting
+some integers to strings.
+
+91
+00:05:44,110 --> 00:05:47,230
+But it might make more sense if
+we take a look at an example.
+
+92
+00:05:47,230 --> 00:05:51,680
+So say the provider query method was
+called with these example inputs.
+
+93
+00:05:51,680 --> 00:05:55,650
+So we pass in the URI and
+the projection to the query method.
+
+94
+00:05:55,650 --> 00:06:00,703
+Well in this situation,
+the URI ends with /pets/5 and
+
+95
+00:06:00,703 --> 00:06:06,050
+the projection gives us two columns,
+ID and name.
+
+96
+00:06:06,050 --> 00:06:10,540
+Now given these two inputs, when we
+enter into the switch case statement,
+
+97
+00:06:10,540 --> 00:06:13,700
+it's going to fall into
+the PET_ID situation
+
+98
+00:06:13,700 --> 00:06:18,050
+because we have the number 5
+appended at the end of our URI.
+
+99
+00:06:18,050 --> 00:06:22,460
+So we first set selection to be id=?.
+
+100
+00:06:22,460 --> 00:06:26,710
+And by the way, selection is a string so
+that's why we're putting in quotes here.
+
+101
+00:06:26,710 --> 00:06:28,650
+And so that's what translates here.
+
+102
+00:06:30,110 --> 00:06:32,360
+So id=?.
+
+103
+00:06:33,460 --> 00:06:35,791
+So next is the selection
+args variable and
+
+104
+00:06:35,791 --> 00:06:39,853
+that's going to be an array of strings
+to be substituted wherever there was
+
+105
+00:06:39,853 --> 00:06:42,330
+a question mark up in
+the selection string.
+
+106
+00:06:43,670 --> 00:06:46,590
+So if there were three question
+marks in the selection strings,
+
+107
+00:06:46,590 --> 00:06:50,060
+then there should be three elements
+here in the Selection Args array.
+
+108
+00:06:50,060 --> 00:06:53,370
+Well in our case,
+we only have one question mark, so
+
+109
+00:06:53,370 --> 00:06:56,380
+the Selection Args should
+only have one element.
+
+110
+00:06:56,380 --> 00:06:58,600
+Which should be the id 5
+that we are interested in.
+
+111
+00:07:00,530 --> 00:07:06,560
+Now in the code, we're going to extract
+out the 5 at the end of the URI,
+
+112
+00:07:06,560 --> 00:07:11,750
+so this is here by using our
+ContentUris.parseId method.
+
+113
+00:07:11,750 --> 00:07:17,650
+And this will convert the last segment
+of the URI path into a number for us.
+
+114
+00:07:18,840 --> 00:07:20,260
+And once we isolate that number 5,
+
+115
+00:07:20,260 --> 00:07:26,040
+we're going to turn it into a string
+using our string.valueOf method.
+
+116
+00:07:26,040 --> 00:07:28,200
+And so now we can put 5 and
+
+117
+00:07:28,200 --> 00:07:31,840
+have it in quotes as the only
+element in the selection args array.
+
+118
+00:07:33,180 --> 00:07:36,613
+So this translates to that.
+
+119
+00:07:36,613 --> 00:07:38,552
+So, I know that was a long explanation.
+
+120
+00:07:38,552 --> 00:07:44,390
+But now we see how this code here
+translates into these codes here.
+
+121
+00:07:45,870 --> 00:07:48,963
+So, the reason we did all
+of this work here was for
+
+122
+00:07:48,963 --> 00:07:53,056
+the propose of making the correct
+query to the SQLite database.
+
+123
+00:07:53,056 --> 00:07:58,585
+So, when we call database.query
+giving these inputs,
+
+124
+00:07:58,585 --> 00:08:04,818
+it helps us map to the correct
+SQLite statements in purple here.
+
+125
+00:08:04,818 --> 00:08:10,118
+It's the statement that we translates,
+gives us SELECT,
+
+126
+00:08:10,118 --> 00:08:15,420
+only the id and name from
+the pets table, where the id=5.
+
+127
+00:08:15,420 --> 00:08:20,117
+Now, remember, the reason that we're
+selecting only id and name here,
+
+128
+00:08:20,117 --> 00:08:24,843
+is that the projection that we're given
+only had the columns id and name.
+
+129
+00:08:24,843 --> 00:08:29,446
+And the reason that the WHERE clause
+here is id=5 is because we were
+
+130
+00:08:29,446 --> 00:08:33,100
+given that in the selection and
+selection args here.
+
+131
+00:08:34,940 --> 00:08:37,480
+Now the result of this database query
+
+132
+00:08:37,480 --> 00:08:41,000
+should be a cursor only containing
+the fifth row of the pets table.
+
+133
+00:08:42,090 --> 00:08:45,290
+And the cursor will get stored in
+a variable here called cursor.
+
+134
+00:08:47,400 --> 00:08:50,410
+So for both the PETS and PETS ID case,
+
+135
+00:08:50,410 --> 00:08:55,040
+make sure that cursor available should
+be set to the result from the database.
+
+136
+00:08:56,500 --> 00:08:59,630
+Now finally at the end of
+the provider query method, so
+
+137
+00:08:59,630 --> 00:09:04,750
+end of all of this, we finally return
+this cursor back to the color.
+
+138
+00:09:06,520 --> 00:09:09,020
+And this is how it all
+connects In the diagram here.
+
+139
+00:09:10,060 --> 00:09:14,090
+So that completes the discussion
+of how the query method works.
+
+140
+00:09:14,090 --> 00:09:15,930
+And I know that was not easy at all.
+
+141
+00:09:15,930 --> 00:09:17,840
+So congrats on surviving
+all that with me.
+
+142
+00:09:19,450 --> 00:09:21,695
+Now it's your turn and
+I want you to go ahead and
+
+143
+00:09:21,695 --> 00:09:24,410
+implement the query method
+in your PetProvider class.
+
+144
+00:09:25,500 --> 00:09:29,580
+So start by replacing the query method
+with the code linked in the just below.
+
+145
+00:09:31,400 --> 00:09:34,278
+Then I like you to complete
+the TODO in the PETS case.
+
+146
+00:09:34,278 --> 00:09:39,220
+And do so to perform a query on
+the database given the projection,
+
+147
+00:09:39,220 --> 00:09:42,450
+selection, selection args,
+and sort order perimeters.
+
+148
+00:09:44,300 --> 00:09:48,420
+And lastly ensure that
+the app still compiles.
+
+149
+00:09:48,420 --> 00:09:53,110
+Note that there should be no visible
+changes to the app as expected.
+
+150
+00:09:53,110 --> 00:09:56,897
+If you need some help here, remember to
+take a look at the pet's ID situation
+
+151
+00:09:56,897 --> 00:09:59,040
+that we've already provided in the Gist.

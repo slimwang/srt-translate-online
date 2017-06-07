@@ -1,0 +1,199 @@
+1
+00:00:01,136 --> 00:00:05,452
+So here’s my solution for problem 4.6, the CS215.
+
+2
+00:00:05,452 --> 00:00:07,619
+It’s hopefully quite a readable code, at the slight
+
+3
+00:00:07,619 --> 00:00:10,352
+expense of running time. I’ll take it over here while
+
+4
+00:00:10,352 --> 00:00:15,120
+I talk because it takes a while to run. So that’s going.
+
+5
+00:00:15,120 --> 00:00:18,269
+So if we look at the code here, first we have the
+
+6
+00:00:18,269 --> 00:00:21,322
+make link function from the lectures. There’s nothing
+
+7
+00:00:21,322 --> 00:00:23,175
+particularly exciting; it’s pretty much the same, just
+
+8
+00:00:23,175 --> 00:00:26,930
+with a few more comments in. And the next function
+
+9
+00:00:26,930 --> 00:00:30,883
+we have is the read graph function which reads the
+
+10
+00:00:30,883 --> 00:00:34,403
+graph from the IMDB files supplied on the Udacity
+
+11
+00:00:34,403 --> 00:00:38,215
+website. The movie names are not necessarily
+
+12
+00:00:38,215 --> 00:00:41,032
+unique, so we have changed this slightly from a
+
+13
+00:00:41,032 --> 00:00:44,269
+previous example in a lecture to append the year to
+
+14
+00:00:44,269 --> 00:00:47,550
+the movie name, so we get a unique string for each
+
+15
+00:00:47,550 --> 00:00:53,551
+movie. Also, we keep track of the actors and movies
+
+16
+00:00:53,551 --> 00:00:57,326
+we’ve come across so far in a dictionary to allow for
+
+17
+00:00:57,326 --> 00:01:02,084
+this media processing later. And this is the function
+
+18
+00:01:02,084 --> 00:01:07,584
+that calculates the centrality of each node. This is
+
+19
+00:01:07,584 --> 00:01:10,011
+very similar to the one shown in lectures, just with a
+
+20
+00:01:10,011 --> 00:01:11,816
+couple of small changes to make it slightly more
+
+21
+00:01:11,816 --> 00:01:15,151
+readable. For example, we’re converting the sum to
+
+22
+00:01:15,151 --> 00:01:21,981
+float here instead of adding 0.0. The rank function is
+
+23
+00:01:21,981 --> 00:01:25,351
+the same as we’ve seen in lectures. And finally, we
+
+24
+00:01:25,351 --> 00:01:29,152
+come to our find rank function. This takes the
+
+25
+00:01:29,152 --> 00:01:31,660
+dictionary out and finds the key that corresponds to
+
+26
+00:01:31,660 --> 00:01:35,350
+the ice biggest selling. This is very similar to the K
+
+27
+00:01:35,350 --> 00:01:38,616
+partitioning algorithm from the lectures, but returns a
+
+28
+00:01:38,616 --> 00:01:44,379
+single value only, instead of a list. And so whereas
+
+29
+00:01:44,379 --> 00:01:48,571
+here would be adding two lists together, we’re just
+
+30
+00:01:48,571 --> 00:01:53,267
+returning the value that it finds in these if statements
+
+31
+00:01:53,267 --> 00:01:56,483
+at the end. So this is where actually we run the
+
+32
+00:01:56,483 --> 00:02:01,798
+code. So first of all, we read in our graph and for
+
+33
+00:02:01,798 --> 00:02:06,216
+each actor, we calculate the centralities and select
+
+34
+00:02:06,216 --> 00:02:09,570
+the most popular actor before we finally output it to
+
+35
+00:02:09,570 --> 00:02:14,902
+the screen. So, it’s finished running. We can see that
+
+36
+00:02:14,902 --> 00:02:18,146
+Dustin Hoffman was the twentieth most central actor
+
+37
+00:02:18,146 --> 00:02:24,959
+and his centrality was 3.794. So if we now look at
+
+38
+00:02:24,959 --> 00:02:28,209
+the profiling code over here, we can see that the
+
+39
+00:02:28,209 --> 00:02:31,009
+centrality function takes most of the time, as we
+
+40
+00:02:31,009 --> 00:02:34,509
+expect. It is slightly more surprising that the pop
+
+41
+00:02:34,509 --> 00:02:39,813
+function that we use with centrality, that’s here.
+
+42
+00:02:39,813 --> 00:02:43,180
+It also takes a large amount of time. And so to start
+
+43
+00:02:43,180 --> 00:02:47,506
+optimizing, we could remove the cause to pop and
+
+44
+00:02:47,506 --> 00:02:52,328
+we could use Big Theta 1 algorithm to remove
+
+45
+00:02:52,328 --> 00:02:58,336
+values from the open list and put down. Also, the
+
+46
+00:02:58,336 --> 00:03:01,473
+map of potentiality function to all the actors is pretty
+
+47
+00:03:01,473 --> 00:03:04,503
+parallelizable, so threaded implementation could
+
+48
+00:03:04,503 --> 00:03:07,087
+save a large amount of actual time. As a lot of
+
+49
+00:03:07,087 --> 00:03:08,882
+people are trying this on the forums, it might be
+
+50
+00:03:08,882 --> 00:03:12,000
+worth checking that.

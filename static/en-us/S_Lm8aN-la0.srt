@@ -1,0 +1,211 @@
+1
+00:00:00,000 --> 00:00:03,000
+[Thrun] What's shown here is the tour guide robot that I showed you earlier,
+
+2
+00:00:03,000 --> 00:00:07,000
+but now I'll talk about the what's called localization problem--
+
+3
+00:00:07,000 --> 00:00:13,000
+the problem of finding out where in the world this robot is.
+
+4
+00:00:13,000 --> 00:00:17,000
+This problem is important because to find its way around the museum
+
+5
+00:00:17,000 --> 00:00:23,000
+and to arrive at exhibits of interest, it must know where it is.
+
+6
+00:00:23,000 --> 00:00:30,000
+The problem with this problem is that it doesn't have a sensor that tells us where it is.
+
+7
+00:00:30,000 --> 00:00:34,000
+Instead, it's given what's called range finders.
+
+8
+00:00:34,000 --> 00:00:38,000
+These are sensors that measure distances to surrounding objects.
+
+9
+00:00:38,000 --> 00:00:40,000
+It's also given the map of the environment,
+
+10
+00:00:40,000 --> 00:00:46,000
+and it can compare these range finders measurements with the map of the environment
+
+11
+00:00:46,000 --> 00:00:49,000
+and infer from that where it might be.
+
+12
+00:00:49,000 --> 00:00:56,000
+The process of inferring the hidden state of the robot's location from the measurements,
+
+13
+00:00:56,000 --> 00:01:00,000
+the range sensor measurements, that's the problem of filtering.
+
+14
+00:01:00,000 --> 00:01:05,000
+And the underlying model is exactly the same I showed you before.
+
+15
+00:01:05,000 --> 00:01:09,000
+It's a hidden Markov model where the state is the sequence of locations
+
+16
+00:01:09,000 --> 00:01:12,000
+that the robot assumes in the museum
+
+17
+00:01:12,000 --> 00:01:16,000
+and the measurements is the sequence of range measurements it perceives
+
+18
+00:01:16,000 --> 00:01:19,000
+while it navigates the museum.
+
+19
+00:01:19,000 --> 00:01:24,000
+A second example is the underground robotic mapping robot
+
+20
+00:01:24,000 --> 00:01:28,000
+which has pretty much the same problem--finding out where it is--
+
+21
+00:01:28,000 --> 00:01:32,000
+but now it is not given a map; it builds the map from scratch.
+
+22
+00:01:32,000 --> 00:01:41,000
+What this animation here shows you is a so-called particle filter applied to robotic mapping.
+
+23
+00:01:41,000 --> 00:01:44,000
+Intuitively--what you see is very simple--
+
+24
+00:01:44,000 --> 00:01:48,000
+as the robot transcends into a mine, it builds a map.
+
+25
+00:01:48,000 --> 00:01:54,000
+But the many black lines are hypotheses on where the robot might have been
+
+26
+00:01:54,000 --> 00:01:56,000
+when building this map.
+
+27
+00:01:56,000 --> 00:02:00,000
+It can't tell because of the noise in its motors and in its sensors.
+
+28
+00:02:00,000 --> 00:02:05,000
+As the robot reconnects and closes the loop in this map,
+
+29
+00:02:05,000 --> 00:02:09,000
+one of these black what we call particles in the trade--
+
+30
+00:02:09,000 --> 00:02:13,000
+one of these black hypotheses are being selected as the best one,
+
+31
+00:02:13,000 --> 00:02:19,000
+and by virtue of having maintained many of those, the robot is able to build a coherent map.
+
+32
+00:02:19,000 --> 00:02:23,000
+In fact, this animation was a key animation in my job talk
+
+33
+00:02:23,000 --> 00:02:27,000
+when I applied to become a professor at Stanford University.
+
+34
+00:02:27,000 --> 00:02:32,000
+Here is one final example I'd like to discuss with you which is called speech recognition.
+
+35
+00:02:32,000 --> 00:02:35,000
+If you have a microphone that records speech
+
+36
+00:02:35,000 --> 00:02:38,000
+and you want to make your computer recognize the speech,
+
+37
+00:02:38,000 --> 00:02:41,000
+you will likely come across hidden Markov models.
+
+38
+00:02:41,000 --> 00:02:44,000
+This is a typical speech signal over here.
+
+39
+00:02:44,000 --> 00:02:51,000
+It's an oscillation for the words "speech lab" which I borrowed from Simon Arnfield.
+
+40
+00:02:51,000 --> 00:02:58,000
+And if you blow up a small region over here, you'll find that there is an oscillation,
+
+41
+00:02:58,000 --> 00:03:03,000
+and this oscillation in time is the speech signal.
+
+42
+00:03:03,000 --> 00:03:09,000
+What speech recognizing systems do is they transform this signal over here
+
+43
+00:03:09,000 --> 00:03:12,000
+back into letters like "speech lab."
+
+44
+00:03:12,000 --> 00:03:14,000
+And you can see it's not an easy task.
+
+45
+00:03:14,000 --> 00:03:16,000
+There is some signal here.
+
+46
+00:03:16,000 --> 00:03:18,000
+The E, for example, is a certain shape.
+
+47
+00:03:18,000 --> 00:03:22,000
+But different speakers speak differently, and there might be background noise,
+
+48
+00:03:22,000 --> 00:03:25,000
+so decoding this back into speech is challenging.
+
+49
+00:03:25,000 --> 00:03:28,000
+There's been enormous progress in the field
+
+50
+00:03:28,000 --> 00:03:33,000
+mostly due to hidden Markov models that have been researched for more than 20 years.
+
+51
+00:03:33,000 --> 00:03:38,000
+And today's best speech recognizers all use variants of hidden Markov models.
+
+52
+00:03:38,000 --> 00:03:43,000
+So once again, I can't teach you everything in this class, but I'll teach you the very basics
+
+53
+00:03:43,000 --> 99:59:59,999
+that you can apply to things such as speech signals.

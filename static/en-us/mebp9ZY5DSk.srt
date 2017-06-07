@@ -1,0 +1,155 @@
+1
+00:00:00,180 --> 00:00:03,430
+The trace for the site is looking
+actually pretty close to 60 frames per
+
+2
+00:00:03,430 --> 00:00:05,740
+second, but it's not quite there.
+
+3
+00:00:05,740 --> 00:00:09,340
+All the big purple bars are a pretty
+good indication that there's probably
+
+4
+00:00:09,340 --> 00:00:11,210
+too much layout happening.
+
+5
+00:00:11,210 --> 00:00:13,760
+Just like before,
+I want to find the cause of the jank, so
+
+6
+00:00:13,760 --> 00:00:17,760
+I'll zoom into the beginning of
+the trace to see what started this mess.
+
+7
+00:00:17,760 --> 00:00:20,960
+When I zoomed in it becomes pretty
+apparent that there's something wrong
+
+8
+00:00:20,960 --> 00:00:22,270
+with these layouts.
+
+9
+00:00:22,270 --> 00:00:25,380
+These red triangles definitely
+look like warning signs to me.
+
+10
+00:00:25,380 --> 00:00:28,520
+I've clicked on one, and then inside
+the Details pane I see a warning.
+
+11
+00:00:28,520 --> 00:00:29,310
+The warning says that,
+
+12
+00:00:29,310 --> 00:00:32,180
+Forced synchronous layout is
+a possible performance bottleneck.
+
+13
+00:00:32,180 --> 00:00:36,010
+Well, this seems like a pretty useful
+message, and where's it happening?
+
+14
+00:00:36,010 --> 00:00:39,390
+Right here,
+a function called totesLayingOutYo.
+
+15
+00:00:39,390 --> 00:00:39,970
+What?
+
+16
+00:00:39,970 --> 00:00:41,860
+Paul come on,
+why would you name it that?
+
+17
+00:00:41,860 --> 00:00:45,000
+Well, anyways, it's coming in
+at the quiet script on line 190.
+
+18
+00:00:45,000 --> 00:00:47,910
+I think this might be the culprit.
+
+19
+00:00:47,910 --> 00:00:50,620
+Just to make sure, I've clicked on
+the function that led to this force
+
+20
+00:00:50,620 --> 00:00:53,270
+synchronous layout, and it's pointing
+me to the quiet script, too.
+
+21
+00:00:53,270 --> 00:00:57,830
+And there it is, there's Paul's
+weird function, totesLayingOutYo.
+
+22
+00:00:57,830 --> 00:01:01,730
+On line 190, he's setting offset
+width which is forcing layout.
+
+23
+00:01:01,730 --> 00:01:04,450
+And there you have it,
+there's the source of the jank.
+
+24
+00:01:04,450 --> 00:01:07,290
+This time the jank wasn't caused
+by the function that started it.
+
+25
+00:01:07,290 --> 00:01:07,830
+But, in fact,
+
+26
+00:01:07,830 --> 00:01:11,450
+it's a function that's being called
+every time a new frame has to be run.
+
+27
+00:01:11,450 --> 00:01:14,320
+This time the jank isn't caused by
+a function running at the beginning
+
+28
+00:01:14,320 --> 00:01:14,980
+of the script,
+
+29
+00:01:14,980 --> 00:01:19,000
+it's a function that's being called
+every frame by requestAnimationFrame.
+
+30
+00:01:19,000 --> 00:01:22,520
+This means the correct
+answer is totesLayingOutYo.
+
+31
+00:01:22,520 --> 00:01:25,950
+By the way, Paul and I will come back
+to this example later on in the course.
+
+32
+00:01:25,950 --> 00:01:28,960
+You'll learn just a little bit more
+about what you're seeing here and
+
+33
+00:01:28,960 --> 00:01:30,580
+what this performance issue is.

@@ -1,0 +1,259 @@
+1
+00:00:00,450 --> 00:00:02,390
+What are the challenges that you find with Storm?
+
+2
+00:00:02,390 --> 00:00:06,505
+>> The challenges that we're finding in Storm is the operation aspect of it.
+
+3
+00:00:06,505 --> 00:00:07,060
+>> Mm-hm.
+
+4
+00:00:07,060 --> 00:00:08,080
+>> I mean, like keeping.
+
+5
+00:00:08,080 --> 00:00:10,730
+Like, we're running hundreds of jobs, right?
+
+6
+00:00:10,730 --> 00:00:11,960
+And keeping them alive.
+
+7
+00:00:11,960 --> 00:00:14,070
+And there are some business-critical processes and
+
+8
+00:00:14,070 --> 00:00:16,620
+jobs that keep running all the time.
+
+9
+00:00:16,620 --> 00:00:18,835
+The downtime of the jobs cost us business dollars.
+
+10
+00:00:18,835 --> 00:00:19,840
+>> Mm-hm.
+
+11
+00:00:19,840 --> 00:00:22,126
+>> So we have to keep them from running all these.
+
+12
+00:00:22,126 --> 00:00:29,222
+So one of the first challenges we faced was when initially
+
+13
+00:00:29,222 --> 00:00:35,883
+Storm was deployed so it was using two people as I was mentioning.
+
+14
+00:00:35,883 --> 00:00:40,870
+So, now as we were scaling because our data was growing.
+
+15
+00:00:40,870 --> 00:00:42,540
+So we were hitting the zookeeper very hard.
+
+16
+00:00:42,540 --> 00:00:46,700
+And that became an issue and zookeeper was not able to keep up.
+
+17
+00:00:46,700 --> 00:00:51,550
+And zookeeper is not a, a, a what we calls a scalable system.
+
+18
+00:00:51,550 --> 00:00:52,595
+It's a scale up system.
+
+19
+00:00:52,595 --> 00:00:53,190
+>> Mm-hm.
+
+20
+00:00:53,190 --> 00:00:56,160
+>> Because the reason why is like when you write something and
+
+21
+00:00:56,160 --> 00:01:01,014
+the zookeeper is replicated to all the nodes before it [INAUDIBLE].
+
+22
+00:01:02,030 --> 00:01:05,430
+So, so you can't do that with zookeeper.
+
+23
+00:01:05,430 --> 00:01:11,570
+So, so then we figured out what is the issue in storm that really causes that.
+
+24
+00:01:11,570 --> 00:01:15,210
+So we, we figured out there are two issues that caused it.
+
+25
+00:01:15,210 --> 00:01:19,890
+One is, whenever you have a, these workers, and
+
+26
+00:01:19,890 --> 00:01:21,870
+a large number of workers happen.
+
+27
+00:01:21,870 --> 00:01:26,480
+When the, there's a, the only way knows that a particular worker is alive right
+
+28
+00:01:26,480 --> 00:01:30,530
+now is by worker sending a heartbeat to the zookeeper and
+
+29
+00:01:30,530 --> 00:01:32,080
+zookeeper storing that.
+
+30
+00:01:32,080 --> 00:01:37,068
+So when the large number of, big cluster of few 100 missions on
+
+31
+00:01:37,068 --> 00:01:42,660
+probably around ten workers, 20 workers, that's lot of workers.
+
+32
+00:01:42,660 --> 00:01:45,230
+And all these workers are writing their heartbeats into the zookeeper.
+
+33
+00:01:46,550 --> 00:01:50,430
+And that made the zookeeper price go very high and
+
+34
+00:01:50,430 --> 00:01:52,970
+brought, and [INAUDIBLE] zookeeper also.
+
+35
+00:01:52,970 --> 00:01:55,920
+Which is not a good thing, so what we do here
+
+36
+00:01:55,920 --> 00:02:02,230
+is like we look into it here in order to facilitate such scalability.
+
+37
+00:02:02,230 --> 00:02:05,872
+The mood lit functionality of [INAUDIBLE] to separate things.
+
+38
+00:02:05,872 --> 00:02:08,380
+So, for instance, a process is [INAUDIBLE] going to zookeeper.
+
+39
+00:02:08,380 --> 00:02:13,824
+>> Nice. >> And the column is [INAUDIBLE] and the zookeep,
+
+40
+00:02:13,824 --> 00:02:22,020
+the members which are done on the lasers [INAUDIBLE] looking at the zookeeper.
+
+41
+00:02:22,020 --> 00:02:22,830
+So that's all [INAUDIBLE] problem.
+
+42
+00:02:22,830 --> 00:02:26,110
+Then there were additional topic for zookeeper as well too.
+
+43
+00:02:26,110 --> 00:02:31,790
+We chose called the Kafka offsets.
+
+44
+00:02:31,790 --> 00:02:35,511
+So when I'll be reading some data from the Kafka, distributed queue, so
+
+45
+00:02:35,511 --> 00:02:38,870
+that Kafka offsets also [INAUDIBLE] zookeeper.
+
+46
+00:02:38,870 --> 00:02:43,440
+Okay, but, for like every two minutes every one minute, and last time when I
+
+47
+00:02:43,440 --> 00:02:47,490
+read it, I wasn't exhausted, because remember when another process fail and
+
+48
+00:02:47,490 --> 00:02:50,790
+machine failure occurs, the small fails which means I
+
+49
+00:02:50,790 --> 00:02:54,020
+would at least target the affected machine so it can be restarted.
+
+50
+00:02:54,020 --> 00:02:56,150
+When I restart it doesn't know where to start from,
+
+51
+00:02:57,180 --> 00:02:59,850
+because it was processed til up to end.
+
+52
+00:02:59,850 --> 00:03:01,820
+I don't know where to start from now, right?
+
+53
+00:03:01,820 --> 00:03:02,725
+I can go back to one.
+
+54
+00:03:02,725 --> 00:03:03,310
+>> Mm-hm.
+
+55
+00:03:03,310 --> 00:03:08,000
+>> Which just means it's, there'd be a lot of errors in the right?
+
+56
+00:03:08,000 --> 00:03:11,500
+So it's, every two seconds, it saves where it is.
+
+57
+00:03:11,500 --> 00:03:18,144
+So, mm, so then it when it comes back out, then it picks up where it left off.
+
+58
+00:03:18,144 --> 00:03:22,531
+By looking at the offset, in the zookeeper, oh, I was there before here.
+
+59
+00:03:22,531 --> 00:03:24,109
+Then he starts from there.
+
+60
+00:03:24,109 --> 00:03:27,199
+So that traffic also was causing the zookeeper.
+
+61
+00:03:27,199 --> 00:03:30,025
+And now, what we have done is, we have moved that out and
+
+62
+00:03:30,025 --> 00:03:31,480
+we arrive at [INAUDIBLE] too.
+
+63
+00:03:32,910 --> 00:03:36,900
+So those two are the one of the biggest issues will stop.
+
+64
+00:03:36,900 --> 00:03:39,790
+And so, generally keeping up with the scalability of
+
+65
+00:03:39,790 --> 00:03:40,817
+the stock itself, it's [INAUDIBLE]

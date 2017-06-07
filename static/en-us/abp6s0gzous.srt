@@ -1,0 +1,363 @@
+1
+00:00:00,450 --> 00:00:02,490
+All right, so I'm going to take
+a look at each of these options,
+
+2
+00:00:02,490 --> 00:00:04,480
+and we'll go ahead and
+dive right in with Option Aim.
+
+3
+00:00:04,480 --> 00:00:07,400
+Now there are some very good
+things about Option Aim.
+
+4
+00:00:08,480 --> 00:00:11,300
+Namely, I have this user
+lists node right here.
+
+5
+00:00:12,398 --> 00:00:15,930
+When I want to display all of the lists
+that Walter is involved with,
+
+6
+00:00:15,930 --> 00:00:20,230
+I could simply attach a listener
+to this user list note here,and
+
+7
+00:00:20,230 --> 00:00:24,060
+this gives me all the lists that
+he has anything to do with.
+
+8
+00:00:24,060 --> 00:00:27,400
+The issues that we're kind of
+regressing to a worse data state.
+
+9
+00:00:27,400 --> 00:00:31,220
+The data here contains a pretty big
+nesting issue that we've seen before.
+
+10
+00:00:31,220 --> 00:00:34,040
+Remember, you don't want to put
+a shopping lists inside of users because
+
+11
+00:00:34,040 --> 00:00:37,660
+that means whenever you take a look
+at Walter's user information,
+
+12
+00:00:37,660 --> 00:00:41,230
+you're also grabbing all of this
+extra shopping list information.
+
+13
+00:00:41,230 --> 00:00:44,000
+So A probably is not the best option.
+
+14
+00:00:44,000 --> 00:00:45,520
+Okay, here we are with B and
+
+15
+00:00:45,520 --> 00:00:48,660
+we see we solved the problem
+that I just mentioned.
+
+16
+00:00:48,660 --> 00:00:53,000
+We've denormalized and user lists
+are no longer part of the user objects.
+
+17
+00:00:53,000 --> 00:00:55,930
+So we can see here we
+have a list of users and
+
+18
+00:00:55,930 --> 00:00:59,290
+each user has a list of the shopping
+lists that are associated with them.
+
+19
+00:00:59,290 --> 00:01:02,000
+We also have the sharedWith property
+which is inside of the shoppingList.
+
+20
+00:01:03,000 --> 00:01:04,940
+And that's looking pretty good.
+
+21
+00:01:04,940 --> 00:01:09,510
+So let's keep B on the back burner as an
+option that we might want to consider.
+
+22
+00:01:09,510 --> 00:01:11,590
+Okay, I'm going to load up option C.
+
+23
+00:01:11,590 --> 00:01:14,740
+Option C is actually
+very similar to option B.
+
+24
+00:01:14,740 --> 00:01:18,121
+The only difference is that
+we've taken the sharedWith node,
+
+25
+00:01:18,121 --> 00:01:22,073
+that used to be a property of a
+userList, and we've de-normalized it and
+
+26
+00:01:22,073 --> 00:01:24,140
+moved it up out here.
+
+27
+00:01:24,140 --> 00:01:26,760
+So before where's this have
+been part of the list K3MhMmVa,
+
+28
+00:01:26,760 --> 00:01:32,430
+now it's been scooted out over here.
+
+29
+00:01:33,510 --> 00:01:35,860
+So is this actually an improvement or
+
+30
+00:01:35,860 --> 00:01:39,270
+are we just de-normalizing for
+de-normalization sake?
+
+31
+00:01:39,270 --> 00:01:42,260
+If you look at the shopping list
+fragment screen, it actually doesn't
+
+32
+00:01:42,260 --> 00:01:45,910
+contain any information about which
+shopping lists are shared with whom.
+
+33
+00:01:45,910 --> 00:01:48,900
+And if you even click on
+one of the shopping lists,
+
+34
+00:01:48,900 --> 00:01:51,790
+this doesn't really contain any
+sharing information either.
+
+35
+00:01:51,790 --> 00:01:54,320
+It's only when you start
+getting into the sharing flow.
+
+36
+00:01:54,320 --> 00:01:56,950
+So the shared with information
+actually doesn't have to be
+
+37
+00:01:56,950 --> 00:01:59,840
+deeply tied to the list itself,
+and it's okay and
+
+38
+00:01:59,840 --> 00:02:02,870
+probably better to de-normalize
+it by putting it up here.
+
+39
+00:02:02,870 --> 00:02:06,250
+So option C is actually looking even
+a little bit better than option B.
+
+40
+00:02:06,250 --> 00:02:09,650
+All right, let's keep looking
+at database options though.
+
+41
+00:02:09,650 --> 00:02:11,700
+D is an entirely different approach.
+
+42
+00:02:11,700 --> 00:02:14,400
+We continue to have a master
+list called active lists
+
+43
+00:02:14,400 --> 00:02:16,330
+of all shopping lists of the database.
+
+44
+00:02:16,330 --> 00:02:20,370
+And then again embedded within
+the user class, we have user lists.
+
+45
+00:02:20,370 --> 00:02:23,600
+But instead of having a huge amount of
+extra data for each list, we just add
+
+46
+00:02:23,600 --> 00:02:27,320
+the push ID for the list, and
+then true if the user has access to it.
+
+47
+00:02:27,320 --> 00:02:29,320
+So this is an interesting approach, but
+
+48
+00:02:29,320 --> 00:02:31,880
+let's look at the shopping
+list fragment screen here.
+
+49
+00:02:31,880 --> 00:02:34,190
+So for each of these lists
+that we can see here,
+
+50
+00:02:34,190 --> 00:02:38,880
+you're going to need an extra listener
+that basically looks up this push ID
+
+51
+00:02:38,880 --> 00:02:41,510
+in the master list of active lists.
+
+52
+00:02:41,510 --> 00:02:45,420
+And that's not the end of the world but
+it will create a lot of extra listeners.
+
+53
+00:02:45,420 --> 00:02:48,400
+It also continues to sort
+of clog up the user class
+
+54
+00:02:48,400 --> 00:02:51,750
+with extra data that could be
+de-normalized outside of it.
+
+55
+00:02:51,750 --> 00:02:53,780
+So I prefer C over D.
+
+56
+00:02:53,780 --> 00:02:56,900
+Now option E is kind of
+combination of option C
+
+57
+00:02:58,410 --> 00:03:01,950
+with the duplications of lists and
+user lists removed.
+
+58
+00:03:01,950 --> 00:03:03,940
+The thing is that is that
+user list was useful.
+
+59
+00:03:03,940 --> 00:03:07,890
+It was a prime example of how we
+were going to duplicate data and
+
+60
+00:03:07,890 --> 00:03:09,660
+save users time.
+
+61
+00:03:09,660 --> 00:03:11,070
+Even with the shared with lists,
+
+62
+00:03:11,070 --> 00:03:15,380
+it's hard to get a specific location
+that you can attach a listener to.
+
+63
+00:03:15,380 --> 00:03:17,950
+Which will have all of the shopping
+list data you need to display.
+
+64
+00:03:19,050 --> 00:03:22,160
+Again, you could use the information
+in shared with to do searches
+
+65
+00:03:22,160 --> 00:03:24,150
+through the active lists.
+
+66
+00:03:24,150 --> 00:03:27,250
+It's kind of the opposite problem
+of what you were doing before.
+
+67
+00:03:27,250 --> 00:03:29,230
+Instead of searching
+through active lists,
+
+68
+00:03:29,230 --> 00:03:32,750
+you'd have to do these sort of
+searches through the shared with node.
+
+69
+00:03:32,750 --> 00:03:37,430
+If I wanted to find all the lists that
+I was associated with, I'd have to do
+
+70
+00:03:37,430 --> 00:03:42,570
+a search of all of shared with and look
+for those lists that I was actually on.
+
+71
+00:03:42,570 --> 00:03:45,410
+Again, shared with could get very big.
+
+72
+00:03:45,410 --> 00:03:48,250
+So this search would again
+require querying and filtering.
+
+73
+00:03:48,250 --> 00:03:51,850
+And would just generally be slower than
+having a single location that you could
+
+74
+00:03:51,850 --> 00:03:55,980
+attach a listener to, that had all of
+the lists that you have access to.
+
+75
+00:03:55,980 --> 00:03:59,050
+So at the end of the day option C is
+looking the best out of all of these.
+
+76
+00:04:00,770 --> 00:04:03,190
+Well it would have been great
+if we knew that beforehand.

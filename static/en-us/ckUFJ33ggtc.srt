@@ -1,0 +1,206 @@
+1
+00:00:00,340 --> 00:00:04,640
+Continuing with the same workflow, we'll
+add a filter tool to remove transactions
+
+2
+00:00:04,640 --> 00:00:06,800
+that do not include a facial.
+
+3
+00:00:06,800 --> 00:00:08,580
+Earlier, using the summarize tool,
+
+4
+00:00:08,580 --> 00:00:11,160
+we created a field called
+facial flag that has one for
+
+5
+00:00:11,160 --> 00:00:16,370
+transactions that included a facial and
+zero for transactions without a facial.
+
+6
+00:00:16,370 --> 00:00:19,290
+We can connect our filter tool to
+the output of the summarize tool, and
+
+7
+00:00:19,290 --> 00:00:23,260
+use a basic filter of facial flag
+equals one to get the data we want.
+
+8
+00:00:24,320 --> 00:00:28,010
+We can easily generate a unique list
+of stores by using the summarize tool
+
+9
+00:00:28,010 --> 00:00:28,860
+again.
+
+10
+00:00:28,860 --> 00:00:30,870
+Dragging a summarize
+tool onto the canvas,
+
+11
+00:00:30,870 --> 00:00:35,090
+we can group by region and store to get
+a unique list of stores in each region.
+
+12
+00:00:35,090 --> 00:00:37,950
+We would also like the store list to
+
+13
+00:00:37,950 --> 00:00:40,800
+include whether the store
+was a treatment store.
+
+14
+00:00:40,800 --> 00:00:44,800
+This information is contained in
+the treatment store's Excel file.
+
+15
+00:00:44,800 --> 00:00:48,410
+Using the input data tool,
+we can import this data.
+
+16
+00:00:48,410 --> 00:00:51,920
+We only need the store and test group
+information, so we'll use the select
+
+17
+00:00:51,920 --> 00:00:56,710
+tool to deselect price level and rename
+the test price level to test group.
+
+18
+00:00:56,710 --> 00:01:00,680
+Using a join tool we are able to add the
+treatment store data to the main data
+
+19
+00:01:00,680 --> 00:01:01,550
+stream.
+
+20
+00:01:01,550 --> 00:01:05,400
+Dragging the join tool onto the canvas
+will join the data on the store field
+
+21
+00:01:05,400 --> 00:01:08,690
+and will deselect the right store field
+since we don't need the store data
+
+22
+00:01:08,690 --> 00:01:09,159
+twice.
+
+23
+00:01:10,190 --> 00:01:13,430
+Since we are joining the treatment store
+data with data from all the stores
+
+24
+00:01:13,430 --> 00:01:17,230
+the join tool will produce two
+data streams we are interested in.
+
+25
+00:01:17,230 --> 00:01:20,810
+The L output will be the control
+candidates stores, and
+
+26
+00:01:20,810 --> 00:01:24,325
+the J output will be
+the treatment stores.
+
+27
+00:01:24,325 --> 00:01:25,065
+Looking at the L and
+
+28
+00:01:25,065 --> 00:01:29,705
+J outputs, we see that the L output
+is missing the test group field.
+
+29
+00:01:29,705 --> 00:01:33,705
+We can use a formula tool to add a field
+to identify the control candidate
+
+30
+00:01:33,705 --> 00:01:34,935
+stores.
+
+31
+00:01:34,935 --> 00:01:37,660
+Adding a formula field onto the canvas.
+
+32
+00:01:37,660 --> 00:01:41,400
+Connected to the L output of the join
+tool, and create a new field,
+
+33
+00:01:41,400 --> 00:01:44,500
+with the same name and type as
+the test group field, in the J output.
+
+34
+00:01:44,500 --> 00:01:48,490
+For the expression type in CC.
+
+35
+00:01:48,490 --> 00:01:51,160
+This will add the field
+test group to the data.
+
+36
+00:01:51,160 --> 00:01:54,270
+With a value of CC for
+all the control stores.
+
+37
+00:01:54,270 --> 00:01:56,820
+Next, let's combine
+the two tables together.
+
+38
+00:01:56,820 --> 00:01:58,590
+Since both tables have the same fields,
+
+39
+00:01:58,590 --> 00:02:01,990
+we can easily combine the data
+using the union tool.
+
+40
+00:02:01,990 --> 00:02:04,620
+Connect the two streams
+to the union tool.
+
+41
+00:02:04,620 --> 00:02:08,120
+We now have the data set that we wanted,
+a listing of stores with the region and
+
+42
+00:02:08,120 --> 00:02:10,590
+test group associated with each store.
+
+43
+00:02:10,590 --> 00:02:14,760
+Let's save the data using
+an output data tool for later use.
+
+44
+00:02:14,760 --> 00:02:16,815
+We'll save it as store list, .YXDB.

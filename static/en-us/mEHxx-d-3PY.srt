@@ -1,0 +1,168 @@
+1
+00:00:00,652 --> 00:00:04,860
+Now tcpdump can look at a lot more
+than just pings in DNS requests.
+
+2
+00:00:04,860 --> 00:00:07,550
+For instance, we can use it to look
+at the packets that your machine
+
+3
+00:00:07,550 --> 00:00:09,000
+uses to talk to a web server.
+
+4
+00:00:09,000 --> 00:00:13,666
+And we can use that to get a little
+better sense of what's going on in TCP.
+
+5
+00:00:13,666 --> 00:00:14,902
+So, for instance,
+
+6
+00:00:14,902 --> 00:00:19,288
+there's a web server at example.net
+that serves an example web page.
+
+7
+00:00:19,288 --> 00:00:23,640
+And we can use nc in our secret
+knowledge of HTTP headers to
+
+8
+00:00:23,640 --> 00:00:28,484
+send it a request while we have
+a tcpdump watching port 80.
+
+9
+00:00:28,484 --> 00:00:29,052
+Hey, look.
+
+10
+00:00:29,052 --> 00:00:30,350
+We have some things.
+
+11
+00:00:30,350 --> 00:00:31,780
+What are these things?
+
+12
+00:00:31,780 --> 00:00:36,150
+Well, I'm going to stop tcpdump with
+Ctrl+C and we can look at them.
+
+13
+00:00:36,150 --> 00:00:41,720
+If we look here, looks a lot similar
+to what we just saw with DNS.
+
+14
+00:00:41,720 --> 00:00:47,610
+We see a timestamp, we see IP address
+of the web server and of our machine.
+
+15
+00:00:47,610 --> 00:00:49,110
+And then what's all this?
+
+16
+00:00:49,110 --> 00:00:51,850
+Flags, ack, win, options, nop, nob.
+
+17
+00:00:51,850 --> 00:00:54,920
+We're going to need to
+look closer at this.
+
+18
+00:00:54,920 --> 00:00:59,540
+In total, there are ten records
+of output here from tcpdump, and
+
+19
+00:00:59,540 --> 00:01:03,590
+each one of them, just as with ping,
+represents a single packet.
+
+20
+00:01:03,590 --> 00:01:07,270
+In case you weren't able to get this
+to work, I've put a copy of the tcpdump
+
+21
+00:01:07,270 --> 00:01:10,060
+output that I got into a file
+that you can download.
+
+22
+00:01:10,060 --> 00:01:14,530
+The timestamps, addresses, and some of
+these fiddly details will be different.
+
+23
+00:01:14,530 --> 00:01:15,670
+But the structure should be the same.
+
+24
+00:01:17,010 --> 00:01:19,755
+I'm going to copy this tcpdump
+data into a file right now.
+
+25
+00:01:19,755 --> 00:01:23,460
+Now something to notice
+right away is that
+
+26
+00:01:23,460 --> 00:01:26,510
+no place here do we see the contents
+of the network traffic,
+
+27
+00:01:26,510 --> 00:01:29,940
+that HTTP HEAD request
+isn't anywhere here.
+
+28
+00:01:29,940 --> 00:01:32,710
+What we're seeing is data from
+the headers of the packets.
+
+29
+00:01:32,710 --> 00:01:33,270
+The metadata.
+
+30
+00:01:34,510 --> 00:01:37,200
+Next up, we'll be looking in
+detail at what's going on here.
+
+31
+00:01:37,200 --> 00:01:40,140
+What actually happens at the TCP
+level when a client requests
+
+32
+00:01:40,140 --> 00:01:42,130
+a web resource from a server.
+
+33
+00:01:42,130 --> 00:01:44,380
+But first, give it a try yourself.
+
+34
+00:01:44,380 --> 00:01:47,940
+Run tcpdump in one window and
+netcat in the other, and copy and
+
+35
+00:01:47,940 --> 00:01:50,610
+save the results to a file so
+we can analyze them.
+
+36
+00:01:50,610 --> 00:01:53,710
+Or, if that doesn't work, download
+the saved version from when I ran it.

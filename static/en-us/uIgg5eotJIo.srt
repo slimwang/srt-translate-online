@@ -1,0 +1,332 @@
+1
+00:00:00,500 --> 00:00:03,130
+It's no secret that in order for
+your app to be successful,
+
+2
+00:00:03,130 --> 00:00:04,650
+a user has to run it.
+
+3
+00:00:04,650 --> 00:00:09,100
+And for it to continue to provide value,
+sometimes it needs to keep running.
+
+4
+00:00:09,100 --> 00:00:10,920
+However, this can cause
+problems when the user or
+
+5
+00:00:10,920 --> 00:00:12,780
+the system puts the phone to sleep.
+
+6
+00:00:12,780 --> 00:00:15,910
+While it might seem like a right idea
+to wake up the phone to do your work,
+
+7
+00:00:15,910 --> 00:00:18,600
+there's a massive battery
+problem waiting to happen here.
+
+8
+00:00:18,600 --> 00:00:21,380
+To illustrate this point,
+let's talk about my good friend
+
+9
+00:00:21,380 --> 00:00:25,220
+Raido whom you all may remember from
+the Android fundamentals course.
+
+10
+00:00:25,220 --> 00:00:27,660
+He's an avid social user and
+a game player, and
+
+11
+00:00:27,660 --> 00:00:31,480
+his running applications are constantly
+checking scoreboards, uploading photos,
+
+12
+00:00:31,480 --> 00:00:34,660
+and pulling down
+the latest hashtag crazes.
+
+13
+00:00:34,660 --> 00:00:37,710
+But they do this even when
+Raido puts his phone to sleep,
+
+14
+00:00:37,710 --> 00:00:41,565
+which means by lunch,
+his phone is already out of battery.
+
+15
+00:00:41,565 --> 00:00:45,600
+Raido has to constantly recharge his
+phone because it suffers from sleep
+
+16
+00:00:45,600 --> 00:00:46,660
+deprivation.
+
+17
+00:00:46,660 --> 00:00:49,560
+That is because these applications
+are constantly waking up the phone,
+
+18
+00:00:49,560 --> 00:00:53,020
+they're eating up battery life instead
+of letting the phone go to sleep.
+
+19
+00:00:53,020 --> 00:00:55,940
+Remember that Android will turn
+off various parts of your hardware
+
+20
+00:00:55,940 --> 00:00:58,380
+in order to prolong battery life.
+
+21
+00:00:58,380 --> 00:01:01,680
+First, the screen will dim followed
+by it eventually turning off.
+
+22
+00:01:01,680 --> 00:01:04,269
+And finally, the CPU will go to sleep.
+
+23
+00:01:04,269 --> 00:01:07,160
+All to save precious,
+precious battery life.
+
+24
+00:01:07,160 --> 00:01:10,160
+But even in this inactive state,
+most apps will try to do work, and
+
+25
+00:01:10,160 --> 00:01:12,290
+they will have to wake
+up the phone to do so.
+
+26
+00:01:12,290 --> 00:01:14,860
+Now the easiest way for
+your app to wake up your
+
+27
+00:01:14,860 --> 00:01:18,550
+phone to do work is with
+the powermanager.wakelock API.
+
+28
+00:01:18,550 --> 00:01:21,910
+Which is used to keep the CPU running
+and prevent the screen from dimming or
+
+29
+00:01:21,910 --> 00:01:22,830
+turning off.
+
+30
+00:01:22,830 --> 00:01:25,760
+This allows your app to do
+things like wake up the phone at
+
+31
+00:01:25,760 --> 00:01:30,080
+some future date and do some work, and
+then let the phone go back to sleep.
+
+32
+00:01:30,080 --> 00:01:32,395
+But see it's that last part
+that's actually the tricky one.
+
+33
+00:01:32,395 --> 00:01:35,285
+Acquiring way clocks is really easy but
+knowing when and
+
+34
+00:01:35,285 --> 00:01:37,875
+how to release them is more problematic.
+
+35
+00:01:37,875 --> 00:01:40,575
+There's lots of ways that
+this can go horribly wrong.
+
+36
+00:01:40,575 --> 00:01:44,301
+Like a what if your application takes
+60 minutes instead of the expected 10
+
+37
+00:01:44,301 --> 00:01:47,815
+seconds to analyze an image content
+before uploading it to the web.
+
+38
+00:01:47,815 --> 00:01:49,290
+Or what if the server crashes and
+
+39
+00:01:49,290 --> 00:01:52,687
+you never get a response from your
+social ping and end up waiting forever.
+
+40
+00:01:52,687 --> 00:01:55,829
+Well the result is the phone would
+stay on, waiting for the content and
+
+41
+00:01:55,829 --> 00:01:57,541
+thus draining the battery in no time.
+
+42
+00:01:57,541 --> 00:02:01,603
+Which is exactly why you should be using
+the version of wakelock.acquire that
+
+43
+00:02:01,603 --> 00:02:03,390
+takes a time out parameter.
+
+44
+00:02:03,390 --> 00:02:06,710
+This will force the wake lock to be
+released in these cases of crazy so
+
+45
+00:02:06,710 --> 00:02:10,440
+that your app doesn't keep the phone
+awake until the battery is dead.
+
+46
+00:02:10,440 --> 00:02:13,570
+But even this doesn't solve
+the problem completely,
+
+47
+00:02:13,570 --> 00:02:16,120
+what should you set the timeout
+value to be in these cases and
+
+48
+00:02:16,120 --> 00:02:20,370
+how long should you wait after a failure
+before using a wake lock to try again?
+
+49
+00:02:20,370 --> 00:02:23,310
+The right solution to this
+might be to use inexact
+
+50
+00:02:23,310 --> 00:02:26,080
+timers which allow you to schedule
+work for some future date.
+
+51
+00:02:26,080 --> 00:02:29,830
+But if the system detects that it could
+occur sooner or later in order to
+
+52
+00:02:29,830 --> 00:02:33,400
+conserve battery life then it will
+wait for that time to do that work.
+
+53
+00:02:33,400 --> 00:02:36,460
+For example, if another process
+has woken up the phone,
+
+54
+00:02:36,460 --> 00:02:39,740
+your app might wait to be woken
+up with that group of processes
+
+55
+00:02:39,740 --> 00:02:43,530
+rather than happening ten seconds sooner
+like it was originally scheduled.
+
+56
+00:02:43,530 --> 00:02:46,460
+And in reality,
+there's a whole group of situations
+
+57
+00:02:46,460 --> 00:02:49,600
+that might be better to do
+battery intensive work.
+
+58
+00:02:49,600 --> 00:02:51,470
+For example,
+when the phone is charging, or
+
+59
+00:02:51,470 --> 00:02:55,830
+connected to wifi or
+already woken up by another process.
+
+60
+00:02:55,830 --> 00:02:59,670
+If any of your work can be deferred to a
+future date when these conditions might
+
+61
+00:02:59,670 --> 00:03:03,580
+be ideal, then you can help improve
+battery life significantly.
+
+62
+00:03:03,580 --> 00:03:06,371
+And this is exactly what
+the job scheduler API is for.
+
+63
+00:03:06,371 --> 00:03:07,874
+See this API is perfect for
+
+64
+00:03:07,874 --> 00:03:12,063
+scheduling some future work to occur
+in a battery efficient manner.
+
+65
+00:03:12,063 --> 00:03:15,924
+For example, any non-user facing work
+waiting until the unit is plugged in
+
+66
+00:03:15,924 --> 00:03:17,372
+waiting until you're on wifi,
+
+67
+00:03:17,372 --> 00:03:20,700
+or batching a bunch of tasks to
+occur together at the same time.
+
+68
+00:03:20,700 --> 00:03:24,270
+Basically, with one simple API, you
+can get all that scheduling for free.
+
+69
+00:03:24,270 --> 00:03:26,170
+So, let's take a look
+at this API in action.

@@ -1,0 +1,874 @@
+1
+00:00:00,260 --> 00:00:01,609
+Data is sacred.
+
+2
+00:00:01,609 --> 00:00:05,230
+Every hour of every day a new
+sensor is connected to the web.
+
+3
+00:00:05,230 --> 00:00:07,900
+Every trip, every memory,
+every creation,
+
+4
+00:00:07,900 --> 00:00:11,590
+every discovery joins the ever-growing
+web we're building together
+
+5
+00:00:11,590 --> 00:00:16,270
+amidst a world of ever-growing
+skepticism and falsehood, data is truth.
+
+6
+00:00:16,270 --> 00:00:18,330
+It's transparent, provable.
+
+7
+00:00:18,330 --> 00:00:22,070
+Most of it is unstructured streams of
+raw numbers being amassed at dizzying
+
+8
+00:00:22,070 --> 00:00:25,730
+rates but by applying intelligence
+to it, we can find the patterns and
+
+9
+00:00:25,730 --> 00:00:26,830
+connections that matter.
+
+10
+00:00:26,830 --> 00:00:29,310
+We can find the meaning
+hidden in the numbers.
+
+11
+00:00:29,310 --> 00:00:32,189
+The economists says, more for
+you is less for me, but
+
+12
+00:00:32,189 --> 00:00:35,320
+the lover knows, more for
+you is more for me too.
+
+13
+00:00:35,320 --> 00:00:37,195
+And when we visualize the right data.
+
+14
+00:00:37,195 --> 00:00:41,205
+It gives us that most precious feeling
+at the intersection of art and science.
+
+15
+00:00:41,205 --> 00:00:42,025
+Wonder.
+
+16
+00:00:42,025 --> 00:00:42,685
+&gt;&gt; Hello world!
+
+17
+00:00:42,685 --> 00:00:43,515
+It's Raj.
+
+18
+00:00:43,515 --> 00:00:47,235
+And today, we're going to learn
+how to preprocess a data set.
+
+19
+00:00:47,235 --> 00:00:47,925
+Yes!
+
+20
+00:00:47,925 --> 00:00:50,785
+Preparing data is one of
+the most important yet
+
+21
+00:00:50,785 --> 00:00:54,010
+most overlooked parts of
+the Bashan Waning Pipeline.
+
+22
+00:00:54,010 --> 00:00:57,890
+A lot of introductory tutorials just
+have you import a pre processed version
+
+23
+00:00:57,890 --> 00:01:00,310
+of a data set like
+handwritten characters or
+
+24
+00:01:00,310 --> 00:01:02,781
+movie ratings in just
+a single line of code.
+
+25
+00:01:02,781 --> 00:01:04,890
+Real world is not that easy.
+
+26
+00:01:04,890 --> 00:01:08,280
+Once you've decided what problem you're
+trying to solve or you have a question
+
+27
+00:01:08,280 --> 00:01:11,630
+that you want the answer to,
+it's time to find the right dataset.
+
+28
+00:01:11,630 --> 00:01:14,630
+&gt;&gt; I want to know what happened
+to the plans they sent you.
+
+29
+00:01:14,630 --> 00:01:16,090
+&gt;&gt; I stored them on Microsoft Azure.
+
+30
+00:01:18,040 --> 00:01:21,670
+&gt;&gt; The predictions your deep net makes
+are only as good as the data you give
+
+31
+00:01:21,670 --> 00:01:22,000
+it.
+
+32
+00:01:22,000 --> 00:01:23,740
+Garbage in, garbage out.
+
+33
+00:01:23,740 --> 00:01:26,870
+So you want to make sure your
+data is relevant to your problem,
+
+34
+00:01:26,870 --> 00:01:30,250
+there are tons of resources to find
+publically available data sets and
+
+35
+00:01:30,250 --> 00:01:32,090
+I linked to some in the description.
+
+36
+00:01:32,090 --> 00:01:33,820
+The defacto standard format for
+
+37
+00:01:33,820 --> 00:01:38,760
+data is CSV, most software packages out
+there deal with data in that format and
+
+38
+00:01:38,760 --> 00:01:41,870
+you can convert your data into
+CSV format just as easily.
+
+39
+00:01:41,870 --> 00:01:44,800
+There is so much we could
+potentially do to our data but
+
+40
+00:01:44,800 --> 00:01:47,030
+there are three key
+preprocessing steps for
+
+41
+00:01:47,030 --> 00:01:51,500
+every dataset we'll cover, cleaning,
+transformation, and reduction.
+
+42
+00:01:51,500 --> 00:01:54,540
+We're going to look at three different
+datasets and go through these steps for
+
+43
+00:01:54,540 --> 00:01:57,696
+each one to get them ready to
+be [INAUDIBLE] into a model.
+
+44
+00:01:57,696 --> 00:02:01,545
+So let's start with our first, the first
+dataset we'll use is music based.
+
+45
+00:02:01,545 --> 00:02:04,195
+This data was collected from
+a game called Tag A Tune.
+
+46
+00:02:04,195 --> 00:02:06,235
+In the game,
+two players listen to a song and
+
+47
+00:02:06,235 --> 00:02:08,925
+tag it with songs or instruments
+that they think are relevant.
+
+48
+00:02:08,925 --> 00:02:12,575
+When the song is over, the player who
+had the most correct tags gets a point.
+
+49
+00:02:12,575 --> 00:02:14,525
+&gt;&gt; So, I would win every time.
+
+50
+00:02:14,525 --> 00:02:18,140
+&gt;&gt; Our dataset has 25,000 songs
+with the correctly labelled tags.
+
+51
+00:02:18,140 --> 00:02:20,240
+We want to train a model on this data so
+
+52
+00:02:20,240 --> 00:02:23,780
+that given a new song it'll
+correctly classify its genre.
+
+53
+00:02:23,780 --> 00:02:26,470
+We'll import pandas to help
+us parse this dataset,
+
+54
+00:02:26,470 --> 00:02:29,410
+then the read CSV function
+will let us store the data
+
+55
+00:02:29,410 --> 00:02:33,105
+in the two-dimensional pandas data
+structure known as a data frame.
+
+56
+00:02:33,105 --> 00:02:36,965
+Data frames are easily modifiable and
+we'll call our variable new data.
+
+57
+00:02:36,965 --> 00:02:39,135
+Let's explore this data first, shall we?
+
+58
+00:02:39,135 --> 00:02:42,025
+We'll display the first five rows
+using the head function with five as
+
+59
+00:02:42,025 --> 00:02:42,845
+the parameter.
+
+60
+00:02:42,845 --> 00:02:44,600
+So, basically, each row is numbered.
+
+61
+00:02:44,600 --> 00:02:48,470
+Has an id and then either a one or zero
+next to a tag to indicate whether or
+
+62
+00:02:48,470 --> 00:02:50,440
+not the given MP3 has that tag.
+
+63
+00:02:50,440 --> 00:02:51,560
+Seems simple enough.
+
+64
+00:02:51,560 --> 00:02:54,230
+We can use the info function
+to get some more data.
+
+65
+00:02:54,230 --> 00:02:55,040
+Only 38 megs.
+
+66
+00:02:55,040 --> 00:02:58,170
+So for our cleaning step,
+is there anything we need to do?
+
+67
+00:02:58,170 --> 00:02:58,830
+Not really.
+
+68
+00:02:58,830 --> 00:03:00,700
+Each label has a simple binary tag.
+
+69
+00:03:00,700 --> 00:03:04,690
+It's consistent and luckily our
+data does not have empty values.
+
+70
+00:03:04,690 --> 00:03:06,320
+&gt;&gt; But my soul does.
+
+71
+00:03:06,320 --> 00:03:08,890
+We can move right on to
+the transformation step.
+
+72
+00:03:08,890 --> 00:03:12,140
+What are some modifications we can
+make to this data that will make it
+
+73
+00:03:12,140 --> 00:03:14,140
+easier for our model to understand?
+
+74
+00:03:14,140 --> 00:03:17,710
+Well, notice how a lot of the tags
+are pretty similar sounding.
+
+75
+00:03:17,710 --> 00:03:19,880
+Like female singing, female vocals,
+
+76
+00:03:19,880 --> 00:03:23,760
+we can generalize these features
+into one feature called, female.
+
+77
+00:03:23,760 --> 00:03:27,310
+Let's create a two-dimensional list
+of synonyms that we find in our data
+
+78
+00:03:27,310 --> 00:03:31,140
+then we can merge them and drop all the
+other columns, except for the first one.
+
+79
+00:03:31,140 --> 00:03:33,040
+For each synonym list in our matrix,
+
+80
+00:03:33,040 --> 00:03:36,290
+let's get the max values from each of
+the features and add them all to our.
+
+81
+00:03:36,290 --> 00:03:38,360
+For synonym in our data object,
+
+82
+00:03:38,360 --> 00:03:41,140
+which will effectively merge
+the values into one column.
+
+83
+00:03:41,140 --> 00:03:43,650
+Then we'll drop the rest of
+the features from the data frame.
+
+84
+00:03:43,650 --> 00:03:45,800
+Now, we've got more
+generalized features.
+
+85
+00:03:45,800 --> 00:03:46,400
+Next, for
+
+86
+00:03:46,400 --> 00:03:50,160
+the reduction step, what can we remove
+from this data that's not necessary.
+
+87
+00:03:50,160 --> 00:03:52,940
+Everything seems pretty solid, so
+let's go ahead and foot it into
+
+88
+00:03:52,940 --> 00:03:56,810
+training validation and testing sites
+that we can feed into our model.
+
+89
+00:03:56,810 --> 00:04:00,550
+Notice how in this example, I'm not
+thinking which features to use and
+
+90
+00:04:00,550 --> 00:04:01,600
+which not to.
+
+91
+00:04:01,600 --> 00:04:05,910
+Before deep learning we had to pick the
+right features to use to fit our model.
+
+92
+00:04:05,910 --> 00:04:10,290
+But deep learn high level features
+from whatever features we give it.
+
+93
+00:04:10,290 --> 00:04:14,100
+It decides for itself what is relevant
+to the problem from a dataset?
+
+94
+00:04:14,100 --> 00:04:17,120
+Architecture engineering is
+the new feature engineering.
+
+95
+00:04:17,120 --> 00:04:20,649
+The second dataset we'll use is
+a collection of network connections,
+
+96
+00:04:20,649 --> 00:04:23,030
+either labeled normal or abnormal.
+
+97
+00:04:23,030 --> 00:04:26,170
+The abnormal connections
+are intruders trying to break in.
+
+98
+00:04:26,170 --> 00:04:29,120
+We want to be able to classify
+a connection given the set of
+
+99
+00:04:29,120 --> 00:04:30,150
+other features.
+
+100
+00:04:30,150 --> 00:04:32,800
+When we look at this data,
+it seems pretty dense.
+
+101
+00:04:32,800 --> 00:04:35,960
+No missing values,
+nothing really jumps out as an outlier.
+
+102
+00:04:35,960 --> 00:04:39,720
+So, let's skip the cleaning step and
+move right on to transforming it.
+
+103
+00:04:39,720 --> 00:04:43,280
+Our numerical features are all
+operating on different scales, so
+
+104
+00:04:43,280 --> 00:04:47,830
+we should normalize them to insure each
+feature is treated equally by our model.
+
+105
+00:04:47,830 --> 00:04:51,090
+After storing our data into
+a Pandas DataFrame, scikit-learn has
+
+106
+00:04:51,090 --> 00:04:55,500
+a handy submodule called StandardScaler,
+which will import, than initialize.
+
+107
+00:04:55,500 --> 00:04:58,200
+After that, we're ready to
+move on to our reduction step.
+
+108
+00:04:58,200 --> 00:04:59,600
+We got a lot of features, and
+
+109
+00:04:59,600 --> 00:05:02,390
+there are probably a lot
+that are highly correlated.
+
+110
+00:05:02,390 --> 00:05:05,410
+We can use a technique called
+dimensionality reduction to
+
+111
+00:05:05,410 --> 00:05:07,500
+reduce the number of features we have.
+
+112
+00:05:07,500 --> 00:05:11,690
+This will also let us visualize
+our data in 2D or 3D space.
+
+113
+00:05:11,690 --> 00:05:14,880
+This doesn't mean that our model
+will be more accurate, necessarily.
+
+114
+00:05:14,880 --> 00:05:17,130
+Just that our data is easier to read.
+
+115
+00:05:17,130 --> 00:05:20,950
+One method of doing this is
+called PCA which stands for
+
+116
+00:05:20,950 --> 00:05:22,610
+Porsche Club of America.
+
+117
+00:05:22,610 --> 00:05:25,683
+Wait, wrong definition,
+Principal Component Analysis.
+
+118
+00:05:25,683 --> 00:05:26,709
+[MUSIC]
+
+119
+00:05:26,709 --> 00:05:28,390
+My data got's so many features.
+
+120
+00:05:28,390 --> 00:05:31,710
+I'll squash into three
+like little creatures.
+
+121
+00:05:31,710 --> 00:05:35,605
+First I'll normalize, then I'll
+correlation matrixize [INAUDIBLE] infect
+
+122
+00:05:35,605 --> 00:05:45,605
+[MUSIC]
+
+123
+00:05:50,592 --> 00:05:52,340
+So, let me summarize this process again.
+
+124
+00:05:52,340 --> 00:05:56,420
+Let's say we had four features and
+we wanted to them to just two using PCA.
+
+125
+00:05:56,420 --> 00:05:58,680
+There are five steps to this.
+
+126
+00:05:58,680 --> 00:06:02,250
+The first is to normalize the data
+once we have it stored in a variable.
+
+127
+00:06:02,250 --> 00:06:06,390
+Then we want to compute a covariance
+matrix, to construct this we compute
+
+128
+00:06:06,390 --> 00:06:09,860
+the covariance between each
+feature with every other feature.
+
+129
+00:06:09,860 --> 00:06:13,940
+So we subtract the mean from the feature
+matrix, calculate the transpose and
+
+130
+00:06:13,940 --> 00:06:16,765
+multiply it by the feature
+matrix minus the mean.
+
+131
+00:06:16,765 --> 00:06:18,390
+Then, we take that whole value and
+
+132
+00:06:18,390 --> 00:06:20,930
+divide it by the number
+of features minus one.
+
+133
+00:06:20,930 --> 00:06:23,660
+This gives us our covariance matrix.
+
+134
+00:06:23,660 --> 00:06:28,120
+Next, we'll perform Eigen Decompostion
+on it to get the Eigen vectors and
+
+135
+00:06:28,120 --> 00:06:29,350
+Eigen values.
+
+136
+00:06:29,350 --> 00:06:31,560
+&gt;&gt; Eigen,
+isn't it such a fun word to say?
+
+137
+00:06:31,560 --> 00:06:34,110
+&gt;&gt; Eigen vectors are the principle
+components of a data set.
+
+138
+00:06:34,110 --> 00:06:37,680
+They give us the directions along
+which our transformation acts.
+
+139
+00:06:37,680 --> 00:06:40,030
+The Eigen values give us
+the magnitude of each.
+
+140
+00:06:40,030 --> 00:06:43,250
+We'll sort both in descending order,
+then create a matrix out of them.
+
+141
+00:06:43,250 --> 00:06:46,370
+We'll use this matrix to transform
+our orignal feature matrix
+
+142
+00:06:46,370 --> 00:06:47,260
+via the dot product.
+
+143
+00:06:47,260 --> 00:06:50,010
+We could then plot our
+data in 2D space and
+
+144
+00:06:50,010 --> 00:06:52,970
+use these principal components
+to replace our many features.
+
+145
+00:06:52,970 --> 00:06:56,340
+Let's look at one more data set,
+this time for airline prices for
+
+146
+00:06:56,340 --> 00:06:58,500
+flights between New York and Paris.
+
+147
+00:06:58,500 --> 00:07:01,210
+We want to predict the ticket price
+from just the departure date.
+
+148
+00:07:01,210 --> 00:07:03,890
+We've got departure and
+arrival dates, Airport and
+
+149
+00:07:03,890 --> 00:07:06,990
+flight prices up to 120
+days before departure.
+
+150
+00:07:06,990 --> 00:07:09,530
+Notice how we've got quite a few
+missing values in our data.
+
+151
+00:07:09,530 --> 00:07:13,720
+So for our cleaning set, we could remove
+these values, fill them with zeros,
+
+152
+00:07:13,720 --> 00:07:16,810
+fill them with the average
+price across all the days, or
+
+153
+00:07:16,810 --> 00:07:18,950
+try to predict them using
+a learning algorithm.
+
+154
+00:07:18,950 --> 00:07:22,500
+Let's go ahead and calculate the average
+price for each row across all days.
+
+155
+00:07:22,500 --> 00:07:25,180
+Using the mean function, and
+they will iterate through the data and
+
+156
+00:07:25,180 --> 00:07:27,910
+if it's null,
+we'll replace it with the mean price.
+
+157
+00:07:27,910 --> 00:07:29,190
+Then we can smooth our data.
+
+158
+00:07:29,190 --> 00:07:32,330
+That means finding outliers
+in it that we can remove.
+
+159
+00:07:32,330 --> 00:07:35,350
+To find these, we could run
+clustering or regression algorithms
+
+160
+00:07:35,350 --> 00:07:38,400
+on certain values to find
+the outliers and then remove them.
+
+161
+00:07:38,400 --> 00:07:39,920
+Or just remove them by eye.
+
+162
+00:07:39,920 --> 00:07:42,190
+Since our dataset is small,
+let's do the latter.
+
+163
+00:07:42,190 --> 00:07:43,250
+No need to reduce our data.
+
+164
+00:07:43,250 --> 00:07:44,640
+This seems like a good set.
+
+165
+00:07:44,640 --> 00:07:45,420
+Lets break it down.
+
+166
+00:07:45,420 --> 00:07:48,460
+There are three sets to
+preprocessing a dataset.
+
+167
+00:07:48,460 --> 00:07:51,270
+Cleaning, transformation and reduction.
+
+168
+00:07:51,270 --> 00:07:54,360
+Deep learning learns the relevant
+features from our data so,
+
+169
+00:07:54,360 --> 00:07:57,480
+architecture engineering is
+the new feature engineering.
+
+170
+00:07:57,480 --> 00:08:00,690
+And principal component analysis
+is a popular dimensionality
+
+171
+00:08:00,690 --> 00:08:03,850
+reduction technique that can be
+implemented with scikit-learn.
+
+172
+00:08:03,850 --> 00:08:07,469
+The winner of the coding challenge from
+the last video is Charles-David Blot.
+
+173
+00:08:07,469 --> 00:08:11,270
+Charles-David used just NumPy to
+build a three layer neural net
+
+174
+00:08:11,270 --> 00:08:13,360
+capable of predicting an earthquake.
+
+175
+00:08:13,360 --> 00:08:17,280
+And he used the random search strategy
+to find the optimal hyper parameters for
+
+176
+00:08:17,280 --> 00:08:18,030
+his model.
+
+177
+00:08:18,030 --> 00:08:19,150
+Wizard of the week.
+
+178
+00:08:19,150 --> 00:08:21,280
+And the runner up is Siby-Jack Grove.
+
+179
+00:08:21,280 --> 00:08:24,800
+He used TensorFlow for
+his prediction using just three inputs.
+
+180
+00:08:24,800 --> 00:08:28,120
+The coding challenge for
+this video is to use a dating data set
+
+181
+00:08:28,120 --> 00:08:31,410
+to predict if someone gets a match
+based on their personality traits.
+
+182
+00:08:31,410 --> 00:08:32,440
+Details are in the readme.
+
+183
+00:08:32,440 --> 00:08:35,730
+Post your GitHub link in the comments,
+and I'll announce the winner next video.
+
+184
+00:08:35,730 --> 00:08:37,679
+Please subscribe if you want to
+see more videos like this.
+
+185
+00:08:37,679 --> 00:08:39,230
+Check out this related video.
+
+186
+00:08:39,230 --> 00:08:42,460
+And for now, I gotta predict if
+roses really smell like poo poo poo,
+
+187
+00:08:42,460 --> 00:08:43,710
+so, thanks for watching.

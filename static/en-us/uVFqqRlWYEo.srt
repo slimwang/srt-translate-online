@@ -1,0 +1,169 @@
+1
+00:00:00,150 --> 00:00:05,260
+At this point, we have seen
+the code that we are examining for
+
+2
+00:00:05,260 --> 00:00:09,310
+a vulnerability and
+we'll soon discover that.
+
+3
+00:00:09,310 --> 00:00:13,630
+We talked about the stack where some
+of these variables that we have
+
+4
+00:00:13,630 --> 00:00:16,520
+in this code are going
+to be allocated space.
+
+5
+00:00:16,520 --> 00:00:22,160
+So, to further sort of reinforce what
+our goal here is to exploit that code,
+
+6
+00:00:22,160 --> 00:00:25,470
+or exploit that program,
+we're going to do another quiz.
+
+7
+00:00:25,470 --> 00:00:30,290
+And before I show you how exactly
+how we end up exploiting it,
+
+8
+00:00:30,290 --> 00:00:32,530
+I want you to sort of think about it.
+
+9
+00:00:32,530 --> 00:00:37,019
+So I want you to sort of look at
+these three possibilities we have.
+
+10
+00:00:37,019 --> 00:00:42,248
+The input that I pass is greater
+than 12 bytes and ends in 123.
+
+11
+00:00:42,248 --> 00:00:46,638
+Any password of length greater than
+16 bytes begins with MyPwd123,
+
+12
+00:00:46,638 --> 00:00:48,890
+which is the correct password.
+
+13
+00:00:48,890 --> 00:00:52,370
+Or any password of length
+greater than 8 bytes.
+
+14
+00:00:52,370 --> 00:00:53,230
+Any string,
+
+15
+00:00:53,230 --> 00:00:56,930
+only requirement we have here is
+that it should be more than 8 bytes.
+
+16
+00:00:56,930 --> 00:01:02,240
+So what would happen if we
+passed input to this program?
+
+17
+00:01:02,240 --> 00:01:03,630
+Extremely important,
+
+18
+00:01:03,630 --> 00:01:07,870
+the vulnerability in the exploit
+is going to rely on that input.
+
+19
+00:01:07,870 --> 00:01:12,570
+So I'm asking you,
+think about the three different
+
+20
+00:01:12,570 --> 00:01:16,540
+inputs that we have here
+in these three choices.
+
+21
+00:01:16,540 --> 00:01:20,000
+And, could defeat, the answer to that is
+
+22
+00:01:20,000 --> 00:01:23,720
+that whatever check that we're
+providing, that should fail.
+
+23
+00:01:23,720 --> 00:01:27,393
+Okay, defeating here just means
+the password check should fail.
+
+24
+00:01:27,393 --> 00:01:32,140
+So remember, if we exactly pass
+this the answer should be yes.
+
+25
+00:01:32,140 --> 00:01:35,210
+If it's anything different than this,
+the answer should be no.
+
+26
+00:01:35,210 --> 00:01:38,160
+And rejected or
+allowed should be printed at the end.
+
+27
+00:01:38,160 --> 00:01:44,040
+So defeating means actually producing
+a result that is not what I just said.
+
+28
+00:01:44,040 --> 00:01:49,370
+Giving incorrect password, and getting
+an allowed answer, that would be bad.
+
+29
+00:01:49,370 --> 00:01:51,372
+That way you defeat the check.
+
+30
+00:01:51,372 --> 00:01:53,319
+Or giving the right password and
+
+31
+00:01:53,319 --> 00:01:58,140
+getting rejected is also defeating
+the check that we're talking about.
+
+32
+00:01:58,140 --> 00:01:59,995
+So think about these three inputs.
+
+33
+00:01:59,995 --> 00:02:01,475
+Think about what I just said about,
+
+34
+00:02:01,475 --> 00:02:04,915
+what does it mean to defeat
+the check that we're doing here.
+
+35
+00:02:04,915 --> 00:02:08,965
+And check all that result in
+
+36
+00:02:08,965 --> 00:02:12,935
+the check getting manipulated or
+being defeated as we say here.

@@ -1,0 +1,291 @@
+1
+00:00:00,160 --> 00:00:04,570
+Let's look at another method to do mixing and merging of two images.
+
+2
+00:00:04,570 --> 00:00:07,270
+Let's put these two images on top of each other as we've done before.
+
+3
+00:00:08,850 --> 00:00:13,570
+And rather that in the previous times what we've done is basically take
+
+4
+00:00:13,570 --> 00:00:17,310
+some sort of a weighted pixel value of the top one, or the left one,
+
+5
+00:00:17,310 --> 00:00:20,100
+and the right one, and give you a new answer.
+
+6
+00:00:20,100 --> 00:00:22,400
+Here is another way of looking in the same problem.
+
+7
+00:00:22,400 --> 00:00:27,852
+What I've done now is basically found a boundary between these two
+
+8
+00:00:27,852 --> 00:00:33,496
+images here and taken all the pixels from this side from this image and
+
+9
+00:00:33,496 --> 00:00:36,340
+this side from this image.
+
+10
+00:00:36,340 --> 00:00:38,400
+So here this boundary now kind of says is,
+
+11
+00:00:38,400 --> 00:00:41,460
+I'm going to take all of the pixels from this image,
+
+12
+00:00:41,460 --> 00:00:44,660
+from the left image here and all the pixels from the right image here.
+
+13
+00:00:44,660 --> 00:00:48,420
+And this will allow me to now kind of create a new image that basically has
+
+14
+00:00:48,420 --> 00:00:53,170
+the actual pixels themselves rather than a mixture of two pixels.
+
+15
+00:00:53,170 --> 00:00:55,650
+Here you can see the boundary a little bit, of course.
+
+16
+00:00:55,650 --> 00:00:59,790
+But we know by doing various types of simple feathering and
+
+17
+00:00:59,790 --> 00:01:02,310
+stuff like that, we should be able to get rid of this artifact.
+
+18
+00:01:02,310 --> 00:01:04,510
+And this would be a perfectly clean image.
+
+19
+00:01:04,510 --> 00:01:08,470
+Let's look at a real example that would allow us to do this.
+
+20
+00:01:08,470 --> 00:01:11,380
+Here basically I'm showing some of the work by Davis et al, here.
+
+21
+00:01:12,490 --> 00:01:15,860
+And the idea is now let's imagine I took a camera and
+
+22
+00:01:15,860 --> 00:01:19,440
+I rotated the camera, panned the camera over sight.
+
+23
+00:01:19,440 --> 00:01:23,480
+And now I basically have images from all the way from the right to the left.
+
+24
+00:01:23,480 --> 00:01:25,310
+And now I have the sequence of images,
+
+25
+00:01:25,310 --> 00:01:27,550
+I want to merge them together to generate a panorama.
+
+26
+00:01:29,220 --> 00:01:31,960
+This basically shows you the sequence of images.
+
+27
+00:01:31,960 --> 00:01:34,440
+As the images panned across a construction site,
+
+28
+00:01:34,440 --> 00:01:39,480
+you see a construction crane followed by a, you know, a dump truck,
+
+29
+00:01:39,480 --> 00:01:43,870
+a person, and, all the way out we end up in porta-potties like this.
+
+30
+00:01:43,870 --> 00:01:45,180
+Here is the video again.
+
+31
+00:01:45,180 --> 00:01:51,060
+Panning across, a person is moving, lots of motion, and the camera is moving.
+
+32
+00:01:51,060 --> 00:01:53,720
+Here are the images six of the eight think images.
+
+33
+00:01:53,720 --> 00:01:59,870
+This sequence has about I think 12, so here are construction crane, dump truck,
+
+34
+00:01:59,870 --> 00:02:05,400
+construction worker moving as the camera is moving to all the way
+
+35
+00:02:05,400 --> 00:02:09,139
+towards the other end of the scene, we're interested in taking all of them and
+
+36
+00:02:09,139 --> 00:02:12,040
+merging them together to generate a new image.
+
+37
+00:02:12,040 --> 00:02:15,570
+Here basically is the process we can actually do to find a cut
+
+38
+00:02:15,570 --> 00:02:16,880
+rather than blend.
+
+39
+00:02:16,880 --> 00:02:20,860
+Here I basically take two images, and I align them and
+
+40
+00:02:20,860 --> 00:02:22,690
+after I align them I basically look for
+
+41
+00:02:22,690 --> 00:02:25,430
+a difference on these types of things, I'll talk about that in a bit.
+
+42
+00:02:25,430 --> 00:02:28,270
+And this is going to start saying where all of the things are similar and
+
+43
+00:02:28,270 --> 00:02:32,000
+where there is some sort of merging going on here because, the person moved,
+
+44
+00:02:32,000 --> 00:02:34,250
+there will be a little bit ghostly artifacts here.
+
+45
+00:02:34,250 --> 00:02:39,460
+But within there, there is a region which might actually
+
+46
+00:02:39,460 --> 00:02:43,990
+be the best possible one to cut between them, it's also shown here.
+
+47
+00:02:43,990 --> 00:02:47,670
+If I found this cut between these two images, now I can blend this, and
+
+48
+00:02:47,670 --> 00:02:50,550
+the person will actually be not ghostly,
+
+49
+00:02:50,550 --> 00:02:52,660
+because I've just taken this part from there.
+
+50
+00:02:52,660 --> 00:02:56,380
+So in essence what would happen is for this right image and
+
+51
+00:02:56,380 --> 00:03:01,190
+the left image we basically found all the pixels from here and
+
+52
+00:03:01,190 --> 00:03:04,180
+all the pixels from the right image for this one.
+
+53
+00:03:04,180 --> 00:03:06,220
+And this is where the seam is.
+
+54
+00:03:06,220 --> 00:03:09,610
+To say that, which parts of the image I should be picking up information from.
+
+55
+00:03:09,610 --> 00:03:14,440
+So, again, in that image if I had basically done blending as we’ve looked at
+
+56
+00:03:14,440 --> 00:03:18,680
+in the past where I take overlapping images and find the best pixel and
+
+57
+00:03:18,680 --> 00:03:21,900
+kind of had a weighted, you know, pixlar arithmetic between them to kind of
+
+58
+00:03:21,900 --> 00:03:23,980
+come up with it, I would find there would be,
+
+59
+00:03:23,980 --> 00:03:27,230
+you know, ghostly artifacts with the person in the dump track.
+
+60
+00:03:27,230 --> 00:03:31,450
+So moving objects like with a moving camera will cause some sort of ghosting.
+
+61
+00:03:31,450 --> 00:03:35,810
+So we want to do is find an optimal seam as opposed to blend between two images.
+
+62
+00:03:35,810 --> 00:03:39,560
+Finding an optimal seam will allow me to now come up with an image like
+
+63
+00:03:39,560 --> 00:03:44,010
+this where everything is crisp and clear, no merging of information.
+
+64
+00:03:44,010 --> 00:03:47,700
+So this image shows you the boundaries that we can compute.
+
+65
+00:03:47,700 --> 00:03:50,280
+And these boundaries basically allow you say that I'm going to
+
+66
+00:03:50,280 --> 00:03:54,010
+take all the pixels from here, pixels from this one and
+
+67
+00:03:54,010 --> 00:03:58,440
+allows me to now find basically the exact pixels that we want.
+
+68
+00:03:58,440 --> 00:04:01,730
+So in essence, by doing this we're finding the exact pixels that
+
+69
+00:04:01,730 --> 00:04:03,700
+were captured by the camera.
+
+70
+00:04:03,700 --> 00:04:05,660
+And figuring out the best pixels from each and
+
+71
+00:04:05,660 --> 00:04:08,910
+every one of the different images we caught, we captured.
+
+72
+00:04:08,910 --> 00:04:10,580
+And therefore we get a crisper image.
+
+73
+00:04:10,580 --> 00:04:11,760
+No blending or ghosting

@@ -1,0 +1,479 @@
+1
+00:00:00,000 --> 00:00:02,000
+Okay, so Homework 6 solution:
+
+2
+00:00:02,000 --> 00:00:04,000
+I asked you to do a couple things.
+
+3
+00:00:04,000 --> 00:00:08,000
+I asked you to add to the bottom of the blog page
+
+4
+00:00:08,000 --> 00:00:11,000
+how long ago we ran the query--
+
+5
+00:00:11,000 --> 00:00:15,000
+and if we reload this page we can see this time incrementing--
+
+6
+00:00:15,000 --> 00:00:19,000
+and I also asked you to do this on permalink pages.
+
+7
+00:00:19,000 --> 00:00:21,000
+So if I were to look on a particular permalink,
+
+8
+00:00:21,000 --> 00:00:24,000
+I can see the age of its query,
+
+9
+00:00:24,000 --> 00:00:28,000
+and I can also tell when I create a new post--
+
+10
+00:00:28,000 --> 00:00:30,000
+create this new post--and when I submit it
+
+11
+00:00:30,000 --> 00:00:32,000
+I get redirected to a permalink page
+
+12
+00:00:32,000 --> 00:00:34,000
+whose query time increments,
+
+13
+00:00:34,000 --> 00:00:37,000
+and when I go back to the front of the blog,
+
+14
+00:00:37,000 --> 00:00:41,000
+I see my post on top with a nice, new low query time
+
+15
+00:00:41,000 --> 00:00:47,000
+and finally I asked you to implement a URL that clears the cache.
+
+16
+00:00:47,000 --> 00:00:51,000
+In mine, I called it flush, which just redirects right back to blog
+
+17
+00:00:51,000 --> 00:00:56,000
+but it resets the cache, which causes the query to run again.
+
+18
+00:00:56,000 --> 00:00:58,000
+So that's what I asked you to do, and now let's take a look at the code.
+
+19
+00:00:58,000 --> 00:01:02,000
+Okay. So the couple of things I needed to do:
+
+20
+00:01:02,000 --> 00:01:05,000
+I needed to use timedelta and datetime
+
+21
+00:01:05,000 --> 00:01:08,000
+to help compute the age of my posts,
+
+22
+00:01:08,000 --> 00:01:12,000
+and I also needed to import memcache just to cache things.
+
+23
+00:01:12,000 --> 00:01:15,000
+Now I added a bunch of functions that are kind of handy.
+
+24
+00:01:15,000 --> 00:01:17,000
+I added this one function called age_set
+
+25
+00:01:17,000 --> 00:01:19,000
+which basically is a wraparound memcache set,
+
+26
+00:01:19,000 --> 00:01:21,000
+but instead of setting just the value
+
+27
+00:01:21,000 --> 00:01:26,000
+it looks up the current time using datetime.utcnow,
+
+28
+00:01:26,000 --> 00:01:30,000
+and it stores that time along with the value in a tuple.
+
+29
+00:01:30,000 --> 00:01:32,000
+And then I made another function called age_get.
+
+30
+00:01:32,000 --> 00:01:35,000
+What this does is-- It's just like a memcache get,
+
+31
+00:01:35,000 --> 00:01:40,000
+but it returns both the value and the age of the item as a tuple.
+
+32
+00:01:40,000 --> 00:01:44,000
+So the first thing we do is we run the memcache.get on just the key.
+
+33
+00:01:44,000 --> 00:01:48,000
+If it exists, the value and the time we saved it are in R.
+
+34
+00:01:48,000 --> 00:01:51,000
+So we break those apart and then we compute the actual age in seconds,
+
+35
+00:01:51,000 --> 00:01:55,000
+which is we take the current time minus the time we saved it
+
+36
+00:01:55,000 --> 00:01:57,000
+and then we can call total_seconds on that,
+
+37
+00:01:57,000 --> 00:01:59,000
+which is a function that's included on timedelta.
+
+38
+00:01:59,000 --> 00:02:03,000
+Otherwise, if there's nothing in the cache, we just set val and age
+
+39
+00:02:03,000 --> 00:02:06,000
+to be none and zero respectively, and then we return them.
+
+40
+00:02:06,000 --> 00:02:09,000
+These are just handy functions, and I use them a couple places.
+
+41
+00:02:09,000 --> 00:02:13,000
+Now I've got a function that I run every time a new post gets submitted,
+
+42
+00:02:13,000 --> 00:02:17,000
+and this stores the post in the database,
+
+43
+00:02:17,000 --> 00:02:19,000
+and it takes an IP parameter which is unused.
+
+44
+00:02:19,000 --> 00:02:24,000
+I used to use this IP parameter on my previous antispamming version
+
+45
+00:02:24,000 --> 00:02:26,000
+so that you guys could still submit to the blog and see it working,
+
+46
+00:02:26,000 --> 00:02:28,000
+but it wouldn't store it in the database.
+
+47
+00:02:28,000 --> 00:02:31,000
+I was actually just storing it in memcached, and I got rid of that.
+
+48
+00:02:31,000 --> 00:02:34,000
+Now you just have to be logged in as me to submit to the blog.
+
+49
+00:02:34,000 --> 00:02:36,000
+It runs this get_posts function, which is defined here,
+
+50
+00:02:36,000 --> 00:02:38,000
+and this basically runs the database query
+
+51
+00:02:38,000 --> 00:02:41,000
+with update = True. You saw me do this in the lecture.
+
+52
+00:02:41,000 --> 00:02:46,000
+This is my technique for overwriting the cache with the new value.
+
+53
+00:02:46,000 --> 00:02:48,000
+Now, there's still erase conditions.
+
+54
+00:02:48,000 --> 00:02:50,000
+Remember we spent a lot of time talking about gets and casts?
+
+55
+00:02:50,000 --> 00:02:52,000
+I didn't use those here.
+
+56
+00:02:52,000 --> 00:02:54,000
+And then it returns the ID.
+
+57
+00:02:54,000 --> 00:02:58,000
+Get_posts--this is the function that runs the database query for me.
+
+58
+00:02:58,000 --> 00:03:00,000
+You saw me write something like this for ASCII Chan,
+
+59
+00:03:00,000 --> 00:03:02,000
+and here it is in the blog.
+
+60
+00:03:02,000 --> 00:03:04,000
+This is my query,
+
+61
+00:03:04,000 --> 00:03:07,000
+and I'm using the procedural language again to look up all the posts.
+
+62
+00:03:07,000 --> 00:03:10,000
+This is still an extra variable that's in there.
+
+63
+00:03:10,000 --> 00:03:12,000
+I don't remember why.
+
+64
+00:03:12,000 --> 00:03:14,000
+Code grows organically like that sometimes.
+
+65
+00:03:14,000 --> 00:03:16,000
+Here's the memcache key I'm using.
+
+66
+00:03:16,000 --> 00:03:18,000
+I'm just calling the string blogs.
+
+67
+00:03:18,000 --> 00:03:22,000
+I usually start a memcache key I'm using in a variable,
+
+68
+00:03:22,000 --> 00:03:24,000
+especially when I'm referencing it multiple times
+
+69
+00:03:24,000 --> 00:03:27,000
+in case I want to change it or just avoid typos and that sort of thing.
+
+70
+00:03:27,000 --> 00:03:29,000
+It's a good habit to get into.
+
+71
+00:03:29,000 --> 00:03:33,000
+So first I call age_get, which does the memcache lookup for that key
+
+72
+00:03:33,000 --> 00:03:35,000
+and gives me posts and the age,
+
+73
+00:03:35,000 --> 00:03:38,000
+and if update is true or posts is none--
+
+74
+00:03:38,000 --> 00:03:43,000
+so basically update is true or the posts aren't in the cache--
+
+75
+00:03:43,000 --> 00:03:48,000
+run the query, and then set mc_key to the value posts
+
+76
+00:03:48,000 --> 00:03:50,000
+and then return the age.
+
+77
+00:03:50,000 --> 00:03:53,000
+I've added another function called age_str,
+
+78
+00:03:53,000 --> 00:03:55,000
+which basically takes an age--
+
+79
+00:03:55,000 --> 00:03:58,000
+which in this point is a floating point of seconds--
+
+80
+00:03:58,000 --> 00:04:00,000
+and it returns the string replaced--
+
+81
+00:04:00,000 --> 00:04:05,000
+or queried--0 seconds ago, 1 second ago, that sort of thing.
+
+82
+00:04:05,000 --> 00:04:07,000
+So it converts it to an integer.
+
+83
+00:04:07,000 --> 00:04:10,000
+If the value is 1, we replace "seconds" with "second"
+
+84
+00:04:10,000 --> 00:04:13,000
+so it's grammatically correct, and then we return that string.
+
+85
+00:04:13,000 --> 00:04:16,000
+And I use this function in my templates
+
+86
+00:04:16,000 --> 00:04:18,000
+to print that string at the bottom of my pages.
+
+87
+00:04:18,000 --> 00:04:21,000
+And on my blog's front page, I call get_posts--
+
+88
+00:04:21,000 --> 00:04:25,000
+remember, this returns the posts and the age--
+
+89
+00:04:25,000 --> 00:04:27,000
+and I pass in the age to my template.
+
+90
+00:04:27,000 --> 00:04:31,000
+I convert age and I run the age_str function on it
+
+91
+00:04:31,000 --> 00:04:33,000
+so I can include it in my template--
+
+92
+00:04:33,000 --> 00:04:35,000
+and then on a permalink page we do something similar.
+
+93
+00:04:35,000 --> 00:04:37,000
+We cache each request.
+
+94
+00:04:37,000 --> 00:04:39,000
+So this is the key for our particular post.
+
+95
+00:04:39,000 --> 00:04:41,000
+It's the string post with post_id.
+
+96
+00:04:41,000 --> 00:04:45,000
+I usually prepend-- When I'm looking up by ID, I usually prepend a string
+
+97
+00:04:45,000 --> 00:04:50,000
+to the memcache key so that if I want to change it later I can just
+
+98
+00:04:50,000 --> 00:04:52,000
+change this string and everything expires.
+
+99
+00:04:52,000 --> 00:04:54,000
+We check to see if that post is already in the cache,
+
+100
+00:04:54,000 --> 00:04:56,000
+and if it is we have the age.
+
+101
+00:04:56,000 --> 00:04:59,000
+If it's not, we have to look it up from the database, and that's how we do it.
+
+102
+00:04:59,000 --> 00:05:03,000
+And then we set it to the cache, and we set the age to 0,
+
+103
+00:05:03,000 --> 00:05:07,000
+and then I return the permalink html,
+
+104
+00:05:07,000 --> 00:05:11,000
+My template now takes an age parameter, which is that age string.
+
+105
+00:05:11,000 --> 00:05:13,000
+So that's all the changes there. I'll show you the templates really quick.
+
+106
+00:05:13,000 --> 00:05:15,000
+Front that html.
+
+107
+00:05:15,000 --> 00:05:17,000
+It just has a new class at the bottom called age,
+
+108
+00:05:17,000 --> 00:05:19,000
+and that includes that age string that was passed in,
+
+109
+00:05:19,000 --> 00:05:23,000
+and permalink html has the same thing at the bottom--
+
+110
+00:05:23,000 --> 00:05:25,000
+a class called age with that string that we passed in.
+
+111
+00:05:25,000 --> 00:05:28,000
+And in our CSS file I added one little thing to the bottom,
+
+112
+00:05:28,000 --> 00:05:31,000
+which is this age class, and this says position absolute,
+
+113
+00:05:31,000 --> 00:05:33,000
+which basically says position this anywhere.
+
+114
+00:05:33,000 --> 00:05:35,000
+Zero pixels on the bottom. Zero pixels from the right.
+
+115
+00:05:35,000 --> 00:05:38,000
+Make it gray, and make the font size 12 pixels.
+
+116
+00:05:38,000 --> 00:05:40,000
+So that's how I put it, down in the lower right.
+
+117
+00:05:40,000 --> 00:05:42,000
+Obviously we're not gonna grade for that,
+
+118
+00:05:42,000 --> 00:05:44,000
+but that's just how I did it.
+
+119
+00:05:44,000 --> 00:05:46,000
+And that's the solution to Homework 6!
+
+120
+00:05:46,000 --> 00:05:50,000
+I hope you figured it out on your own.

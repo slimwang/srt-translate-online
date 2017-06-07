@@ -1,0 +1,255 @@
+1
+00:00:00,000 --> 00:00:05,000
+It turns out the actual implementation is really minimal
+
+2
+00:00:05,000 --> 00:00:08,000
+compared to what you already implemented.
+
+3
+00:00:08,000 --> 00:00:10,000
+With this modification you've implemented A-Star,
+
+4
+00:00:10,000 --> 00:00:14,000
+which is one of the most powerful search algorithms that they use for the present day
+
+5
+00:00:14,000 --> 00:00:18,000
+to drive self-driving cars through unstructured environments.
+
+6
+00:00:18,000 --> 00:00:22,000
+The very first thing we do is we expand elements in the open list
+
+7
+00:00:22,000 --> 00:00:25,000
+to not just contain g as before but also f.
+
+8
+00:00:25,000 --> 00:00:27,000
+I also included h over here.
+
+9
+00:00:27,000 --> 00:00:31,000
+That isn't necessary, but I did it anyhow.
+
+10
+00:00:31,000 --> 00:00:34,000
+So now we have five tubelets where g is defined as before.
+
+11
+00:00:34,000 --> 00:00:39,000
+H is the heuristic value of the cell x y, and f is the sum of the two.
+
+12
+00:00:39,000 --> 00:00:43,000
+The reason why I put f left is I need this for my sort trick
+
+13
+00:00:43,000 --> 00:00:47,000
+so that I can sort according to f when I sort the list.
+
+14
+00:00:47,000 --> 00:00:51,000
+So notice this has become two elements longer,
+
+15
+00:00:51,000 --> 00:00:57,000
+and by moving f to the left side I've implemented that the element I remove
+
+16
+00:00:57,000 --> 00:01:01,000
+will be the one with the lowest f-value not the lowest g-value.
+
+17
+00:01:01,000 --> 00:01:06,000
+As I go further down and expand the node as happened in these lines over here,
+
+18
+00:01:06,000 --> 00:01:11,000
+I now need to modify the index into the next structure a little bit.
+
+19
+00:01:11,000 --> 00:01:16,000
+X is now element number three, which is technically the fourth element in the list
+
+20
+00:01:16,000 --> 00:01:18,000
+when we start indexing with zero.
+
+21
+00:01:18,000 --> 00:01:19,000
+Y is element number four.
+
+22
+00:01:19,000 --> 00:01:21,000
+G is element number one.
+
+23
+00:01:21,000 --> 00:01:27,000
+F and h, I don't need to pop here because I compute them from scratch in just a minute.
+
+24
+00:01:27,000 --> 00:01:34,000
+So as I go further down where I expand a node from the list
+
+25
+00:01:34,000 --> 00:01:39,000
+and compute of all possible actions what the successive state is
+
+26
+00:01:39,000 --> 00:01:42,000
+and test whether these are legal states to expand.
+
+27
+00:01:42,000 --> 00:01:48,000
+I now, as before, increment g by the cross function but here two new lines of code.
+
+28
+00:01:48,000 --> 00:01:52,000
+First I compute the heuristic function for the new expanded node.
+
+29
+00:01:52,000 --> 00:01:53,000
+That's very straight forward.
+
+30
+00:01:53,000 --> 00:01:54,000
+I call it the h2.
+
+31
+00:01:54,000 --> 00:02:00,000
+Then the next line of code I compute the new sum of the g-value and the h-value.
+
+32
+00:02:00,000 --> 00:02:06,000
+I use those five things: the new f-value, the new g-value, the new h-value,
+
+33
+00:02:06,000 --> 00:02:10,000
+and the x and y of the expanded nodes to append to the open list.
+
+34
+00:02:10,000 --> 00:02:14,000
+So new here is most importantly the f-value but also the h-value.
+
+35
+00:02:14,000 --> 00:02:18,000
+That's all there is to implementing A-star.
+
+36
+00:02:18,000 --> 00:02:21,000
+So all I've done is I've just changed the logic according to which
+
+37
+00:02:21,000 --> 00:02:26,000
+I remove nodes from the stack to pick the one that has the minimum f-value
+
+38
+00:02:26,000 --> 00:02:30,000
+as opposed to the minimum g-value, and I have A-star.
+
+39
+00:02:30,000 --> 00:02:32,000
+So let me run it.
+
+40
+00:02:32,000 --> 00:02:34,000
+This is for the maze we looked at before.
+
+41
+00:02:34,000 --> 00:02:38,000
+Let me move the open spot to the top over here and put a wall back here.
+
+42
+00:02:38,000 --> 00:02:41,000
+It turns in this case A-star is not so efficient
+
+43
+00:02:41,000 --> 00:02:44,000
+and the area over here it has no preference to go either way.
+
+44
+00:02:44,000 --> 00:02:46,000
+It will finally find the go node.
+
+45
+00:02:46,000 --> 00:02:50,000
+That, however, changes when I put a big obstacle horizontally over here,
+
+46
+00:02:50,000 --> 00:02:54,000
+at which point it's really interesting to see A-star cannot decide whether
+
+47
+00:02:54,000 --> 00:02:56,000
+the horizontal path is best or the vertical path.
+
+48
+00:02:56,000 --> 00:03:01,000
+So it alternately pops nodes from either one of those.
+
+49
+00:03:01,000 --> 00:03:05,000
+The moment its over here the same trick applies as before.
+
+50
+00:03:05,000 --> 00:03:07,000
+It doesn't expand anything in the center anymore
+
+51
+00:03:07,000 --> 00:03:10,000
+and goes straight to the goal and reaches the goal over here.
+
+52
+00:03:10,000 --> 00:03:12,000
+That would not happen without A-star.
+
+53
+00:03:12,000 --> 00:03:15,000
+In fact, the way to rework back to the old search
+
+54
+00:03:15,000 --> 00:03:17,000
+is to give it an empty heuristic function.
+
+55
+00:03:17,000 --> 00:03:24,000
+So here is a definition of the heuristic function initializes h always zero everywhere
+
+56
+00:03:24,000 --> 00:03:27,000
+instead of the heuristic function over here, which I won't use for a second
+
+57
+00:03:27,000 --> 00:03:30,000
+and just call it heuristic old, and this is the current heuristic function.
+
+58
+00:03:30,000 --> 00:03:35,000
+If I run it with a heuristic function of all zeros I get back my original search algorithm.
+
+59
+00:03:35,000 --> 00:03:39,000
+You can see this search algorithm explores into the interior a little bit,
+
+60
+00:03:39,000 --> 00:03:42,000
+and the result expands more nodes than the A-star.
+
+61
+00:03:42,000 --> 00:03:46,000
+This might look very insignificant, but if you get to very large environments,
+
+62
+00:03:46,000 --> 00:03:50,000
+it can make a huge difference especially if there is a huge dead end somewhere
+
+63
+00:03:50,000 --> 00:03:51,000
+that can't reach the goal.
+
+64
+00:03:51,000 --> 99:59:59,999
+Then A-star performs much, much more efficiently than the simple search.

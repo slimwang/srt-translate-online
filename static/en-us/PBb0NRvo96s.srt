@@ -1,0 +1,187 @@
+1
+00:00:00,240 --> 00:00:02,560
+So what does a process look like?
+
+2
+00:00:02,560 --> 00:00:06,490
+A process encapsulates all of this data for running application.
+
+3
+00:00:06,490 --> 00:00:09,060
+This includes the code, the data,
+
+4
+00:00:09,060 --> 00:00:13,020
+all of the variables that that application needs to allocate.
+
+5
+00:00:13,020 --> 00:00:17,560
+Every single element of the process state has to be uniquely identified by
+
+6
+00:00:17,560 --> 00:00:18,530
+its address.
+
+7
+00:00:18,530 --> 00:00:21,900
+So an OS abstraction used to encapsulate all of
+
+8
+00:00:21,900 --> 00:00:24,970
+the process state is an address space.
+
+9
+00:00:24,970 --> 00:00:25,710
+This is what we have here.
+
+10
+00:00:25,710 --> 00:00:30,450
+The address space is defined by a range of addresses from V0
+
+11
+00:00:30,450 --> 00:00:33,310
+to some Vmax, and different types of
+
+12
+00:00:33,310 --> 00:00:37,920
+process state will appear in different regions in this address space.
+
+13
+00:00:37,920 --> 00:00:40,680
+What are the different types of state in a process?
+
+14
+00:00:40,680 --> 00:00:42,010
+First we have the code,
+
+15
+00:00:42,010 --> 00:00:47,200
+the text, and the data that is available when the process is first initialized.
+
+16
+00:00:47,200 --> 00:00:52,470
+So all of this is static state that's available when the process first loads.
+
+17
+00:00:52,470 --> 00:00:56,893
+Then during the execution, the process dynamically creates some state,
+
+18
+00:00:56,893 --> 00:01:01,850
+allocates memory, stores them per our results, reads data from files.
+
+19
+00:01:01,850 --> 00:01:04,209
+This part of the address space we call a heap.
+
+20
+00:01:04,209 --> 00:01:08,740
+In this picture here, the heap is shown as contiguous portion of
+
+21
+00:01:08,740 --> 00:01:11,970
+the address space starting immediately after the data, but
+
+22
+00:01:11,970 --> 00:01:14,280
+in reality there may be holes in this space.
+
+23
+00:01:14,280 --> 00:01:16,000
+It may not be contiguous.
+
+24
+00:01:16,000 --> 00:01:19,780
+There may be portions of it that don't have any meaning for that
+
+25
+00:01:19,780 --> 00:01:24,110
+particular process and, in fact, the process isn't even allowed to access them.
+
+26
+00:01:24,110 --> 00:01:27,490
+I will talk in a little bit how the operating system knows what's okay for
+
+27
+00:01:27,490 --> 00:01:30,500
+the process to access versus what isn't.
+
+28
+00:01:30,500 --> 00:01:34,950
+Another very important part of the address space is what we call a stack.
+
+29
+00:01:34,950 --> 00:01:39,270
+It's a dynamic part of the address space state, in that it grows and
+
+30
+00:01:39,270 --> 00:01:45,830
+shrinks during execution, but it does so in a last-in, first-out order.
+
+31
+00:01:45,830 --> 00:01:50,050
+Whatever you put on the stack will be the very first item to be
+
+32
+00:01:50,050 --> 00:01:53,560
+returned when you're trying to read from the stack.
+
+33
+00:01:53,560 --> 00:01:59,100
+Consider for instance we're executing a particular portion of the process.
+
+34
+00:01:59,100 --> 00:02:03,920
+And now we need to call some procedure to jump to a different part of
+
+35
+00:02:03,920 --> 00:02:05,190
+the address space.
+
+36
+00:02:05,190 --> 00:02:09,008
+We want to make sure that the state that we were in at this point of
+
+37
+00:02:09,008 --> 00:02:14,360
+the execution, before we called this other procedure, is saved, and
+
+38
+00:02:14,360 --> 00:02:18,170
+then that it will be restored once we come back from the execution.
+
+39
+00:02:18,170 --> 00:02:21,340
+We can place the state on the stack and
+
+40
+00:02:21,340 --> 00:02:24,760
+jump to execute this portion of the code.
+
+41
+00:02:24,760 --> 00:02:26,194
+So the procedure y.
+
+42
+00:02:26,194 --> 00:02:28,237
+When we're finished with y,
+
+43
+00:02:28,237 --> 00:02:33,385
+the state x will be popped from the stack and we can continue the execution in
+
+44
+00:02:33,385 --> 00:02:37,409
+the same state that we were in before the call to y was made.
+
+45
+00:02:37,409 --> 00:02:42,428
+There are lots of points during a process execution where the last-in,
+
+46
+00:02:42,428 --> 00:02:45,071
+first-out behavior is very useful.
+
+47
+00:02:45,071 --> 00:02:47,490
+So the stack is a very useful data structure.

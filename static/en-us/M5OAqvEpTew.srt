@@ -1,0 +1,246 @@
+1
+00:00:00,210 --> 00:00:03,750
+One thing that's important to
+explain is what exactly happens with
+
+2
+00:00:03,750 --> 00:00:07,010
+cache coherence when atomic
+instructions are used.
+
+3
+00:00:07,010 --> 00:00:10,770
+Recall that the purpose of atomic
+instructions is to deal with issues that
+
+4
+00:00:10,770 --> 00:00:15,140
+are related to the arbiter intereleaving
+of threads that are sharing the CPU,
+
+5
+00:00:15,140 --> 00:00:20,790
+as well as threads that are concurrently
+executing across multiple CPUs.
+
+6
+00:00:20,790 --> 00:00:22,730
+Let's consider the following situation.
+
+7
+00:00:22,730 --> 00:00:24,500
+We have two CPUs.
+
+8
+00:00:24,500 --> 00:00:28,360
+On both of these CPUs we'll need to
+perform some atomic instruction that
+
+9
+00:00:28,360 --> 00:00:30,960
+involves the memory location of x.
+
+10
+00:00:30,960 --> 00:00:34,320
+And this x has been cached
+in both of the CPUs.
+
+11
+00:00:34,320 --> 00:00:39,590
+The problem, then, is how to prevent
+multiple threads on these different CPUs
+
+12
+00:00:39,590 --> 00:00:43,540
+to concurrently access
+the cashed values of x.
+
+13
+00:00:43,540 --> 00:00:48,220
+If we allow the atomic constructions
+to read and update the cash value of
+
+14
+00:00:48,220 --> 00:00:51,920
+the memory reference, that's the the
+target of the atomic construction.
+
+15
+00:00:51,920 --> 00:00:53,810
+There can be multiple problems.
+
+16
+00:00:53,810 --> 00:00:56,730
+We have multiple CPUs with caches and
+
+17
+00:00:56,730 --> 00:00:59,010
+we don't know where that
+value has been cached.
+
+18
+00:00:59,010 --> 00:01:02,750
+We have write update versus
+write invalidate protocols,
+
+19
+00:01:02,750 --> 00:01:04,950
+we have latency on the chip.
+
+20
+00:01:04,950 --> 00:01:07,890
+Given all these issues,
+it's really challenging
+
+21
+00:01:07,890 --> 00:01:12,720
+if a particular atomic is
+applied to the cache on one CPU.
+
+22
+00:01:12,720 --> 00:01:16,800
+To know whether or
+not on another CPU another atomic
+
+23
+00:01:16,800 --> 00:01:20,020
+is attempted against
+the cash value in that CPU.
+
+24
+00:01:20,020 --> 00:01:24,160
+For that reason,
+atomic operations bypass the caches, and
+
+25
+00:01:24,160 --> 00:01:27,900
+they always directly
+access the memory location
+
+26
+00:01:27,900 --> 00:01:31,290
+where the particular
+target variable is stored.
+
+27
+00:01:31,290 --> 00:01:36,340
+By forcing all atomics to go directly to
+the memory controller, this is going to
+
+28
+00:01:36,340 --> 00:01:41,210
+create a central entry point where all
+of these references can be ordered and
+
+29
+00:01:41,210 --> 00:01:43,530
+synchronized in a unique matter.
+
+30
+00:01:43,530 --> 00:01:46,410
+So none of the rates conditions
+that could have occurred if
+
+31
+00:01:46,410 --> 00:01:50,890
+we allowed atomics to access the cache,
+that just won't occur in this situation.
+
+32
+00:01:50,890 --> 00:01:54,520
+This will solve the correctness problem,
+but it will raise another issue.
+
+33
+00:01:54,520 --> 00:01:58,640
+Atomics will take longer than
+other types of instructions.
+
+34
+00:01:58,640 --> 00:02:03,750
+We will always have to access memory and
+they will also content on memory.
+
+35
+00:02:03,750 --> 00:02:07,720
+In addition in order to
+guarantee atomic behavior,
+
+36
+00:02:07,720 --> 00:02:11,640
+we have to generate the coherence
+traffic and either update or
+
+37
+00:02:11,640 --> 00:02:16,390
+invalidate all of the cached
+copies of this memory reference.
+
+38
+00:02:16,390 --> 00:02:20,490
+Even if the value of this memory
+location doesn't change with the atomic
+
+39
+00:02:20,490 --> 00:02:21,580
+operation.
+
+40
+00:02:21,580 --> 00:02:26,550
+We still have to perform this step
+on enforcing coherence traffic, so
+
+41
+00:02:26,550 --> 00:02:31,720
+either invalidating or forcing the same
+value to be reapplied to the cache,
+
+42
+00:02:31,720 --> 00:02:34,690
+regardless of whether or
+not this location changes.
+
+43
+00:02:34,690 --> 00:02:38,760
+This is necessary in order to
+stay on the side of safety and
+
+44
+00:02:38,760 --> 00:02:42,670
+to be able to guarantee correctness
+of the atomic operations.
+
+45
+00:02:42,670 --> 00:02:47,450
+In summary, atomic instructions on SMP
+systems are more expensive compared
+
+46
+00:02:47,450 --> 00:02:51,640
+to on a single CPU system, because
+there will be some contention for
+
+47
+00:02:51,640 --> 00:02:54,300
+the shared bus or
+the shared interconnect.
+
+48
+00:02:54,300 --> 00:02:57,120
+In addition,
+atomics in general are more expensive,
+
+49
+00:02:57,120 --> 00:03:01,050
+because they will bypass the cache,
+in these kinds of environments.
+
+50
+00:03:01,050 --> 00:03:05,550
+And they will trigger all the coherence
+traffic, regardless to what happens
+
+51
+00:03:05,550 --> 00:03:09,250
+with the memory allocation that's
+the target of the atomic instruction

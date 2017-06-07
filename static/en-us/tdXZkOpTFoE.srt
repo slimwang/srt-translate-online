@@ -1,0 +1,374 @@
+﻿1
+00:00:00,860 --> 00:00:03,399
+Before we jump into
+making a setting screen,
+
+2
+00:00:03,399 --> 00:00:06,219
+I want to talk a little bit about
+data persistence in Android.
+
+3
+00:00:06,219 --> 00:00:09,960
+Persisting data is the act of
+saving some data to the phone.
+
+4
+00:00:09,960 --> 00:00:13,390
+There are five different ways to persist
+data that you should be aware of.
+
+5
+00:00:13,390 --> 00:00:16,960
+First, is persisting data
+using saved instant state,
+
+6
+00:00:16,960 --> 00:00:19,230
+which is what we've
+talked about earlier.
+
+7
+00:00:19,230 --> 00:00:23,649
+This allows you to save key value pairs,
+to store the state of one of your views.
+
+8
+00:00:23,649 --> 00:00:28,589
+It is usually used to save the state
+during things like app rotation, or
+
+9
+00:00:28,589 --> 00:00:31,839
+if the system destroys the activity
+because of memory constraints.
+
+10
+00:00:31,839 --> 00:00:34,700
+This is a temporary place to store
+the state of an application.
+
+11
+00:00:34,700 --> 00:00:38,719
+And it should only be used if the user
+is still actively using the app.
+
+12
+00:00:38,719 --> 00:00:41,619
+If the user pressed the back
+button to quit the app or
+
+13
+00:00:41,619 --> 00:00:45,570
+restarts the entire phone,
+the data saved here is gone.
+
+14
+00:00:45,570 --> 00:00:49,820
+If you need data to be available across
+app restarts and turning the phone off
+
+15
+00:00:49,820 --> 00:00:53,689
+and on again you need to save
+the data to an actual file system.
+
+16
+00:00:53,689 --> 00:00:59,609
+Android has three ways to do this, the
+first is the SharedPreferences clause.
+
+17
+00:00:59,609 --> 00:01:02,979
+What SharedPreferences does,
+is you specify a file, and
+
+18
+00:01:02,979 --> 00:01:06,000
+it saves simple key value
+pairs to that file.
+
+19
+00:01:06,000 --> 00:01:09,760
+The keys for those key value
+pairs are always strings.
+
+20
+00:01:09,760 --> 00:01:14,380
+And the values are primitives like
+strings, string sets, booleans and
+
+21
+00:01:14,379 --> 00:01:16,119
+various numerical types.
+
+22
+00:01:16,120 --> 00:01:20,880
+After those key value pairs are saved to
+a file all sorts of things can happen to
+
+23
+00:01:20,879 --> 00:01:25,599
+the steady of the phone, but, as long as
+it still works, and your app hasn't been
+
+24
+00:01:25,599 --> 00:01:29,734
+uninstalled, you can still get
+your information from that file.
+
+25
+00:01:29,734 --> 00:01:32,640
+SharedPreferences is usually used for
+things like,
+
+26
+00:01:32,640 --> 00:01:36,920
+if you need to save single text or
+numerical value about the user.
+
+27
+00:01:36,920 --> 00:01:37,909
+For example,
+
+28
+00:01:37,909 --> 00:01:42,789
+if the app is a game it might save the
+player's name in a shared preference.
+
+29
+00:01:42,790 --> 00:01:47,274
+Or if you're building a browser
+application, you might save the lost web
+
+30
+00:01:47,274 --> 00:01:51,710
+page that the user was looking at and
+reopen it when the app relaunches.
+
+31
+00:01:51,709 --> 00:01:53,069
+Sometimes, though,
+
+32
+00:01:53,069 --> 00:01:57,309
+you'll have more complicated data
+than just simple key value pairs.
+
+33
+00:01:57,310 --> 00:02:01,469
+For example, perhaps you have an
+application that allows users to create
+
+34
+00:02:01,469 --> 00:02:03,969
+and save book recommendations
+from friends.
+
+35
+00:02:03,969 --> 00:02:08,055
+There are a few things about this data
+that makes it different from just using
+
+36
+00:02:08,055 --> 00:02:09,569
+key-value pairs.
+
+37
+00:02:09,569 --> 00:02:13,349
+First, your going to be storing
+multiple book recommendations.
+
+38
+00:02:13,349 --> 00:02:17,349
+Second, the number of book
+recommendations will change as the users
+
+39
+00:02:17,349 --> 00:02:18,569
+add new ones.
+
+40
+00:02:18,569 --> 00:02:23,379
+And finally, the book recommendations
+each have a lot of associated data,
+
+41
+00:02:23,379 --> 00:02:25,379
+such as who recommended the book.
+
+42
+00:02:25,379 --> 00:02:27,389
+The name of the book, the genre, etc.
+
+43
+00:02:27,389 --> 00:02:31,599
+All of these differences make
+a handful of key value pairs
+
+44
+00:02:31,599 --> 00:02:36,280
+totally inadequate for handling
+the size and organization of such data.
+
+45
+00:02:36,280 --> 00:02:39,479
+In this case,
+you should consider using a database.
+
+46
+00:02:39,479 --> 00:02:41,280
+Android provides full support for
+
+47
+00:02:41,280 --> 00:02:45,039
+relational databases in
+the form of SQL lite databases.
+
+48
+00:02:45,039 --> 00:02:48,139
+And it provides various
+framework components,
+
+49
+00:02:48,139 --> 00:02:53,029
+such as content providers that help
+manage and share data in databases.
+
+50
+00:02:53,030 --> 00:02:56,610
+We'll be talking a lot more about
+databases in the future lessons so
+
+51
+00:02:56,610 --> 00:02:57,365
+stayed tuned for them.
+
+52
+00:02:57,365 --> 00:03:01,575
+That up to this point we've
+been talking about text data.
+
+53
+00:03:01,574 --> 00:03:05,854
+But at some point you might want to
+create an app where users generate,
+
+54
+00:03:05,854 --> 00:03:10,851
+download or otherwise need to store
+multimedia or large amounts of text.
+
+55
+00:03:10,852 --> 00:03:15,182
+For example, a podcast app might
+need to store audio files for
+
+56
+00:03:15,181 --> 00:03:17,141
+the podcasts to play offline.
+
+57
+00:03:17,141 --> 00:03:20,292
+A camera app will need to
+store users' pictures.
+
+58
+00:03:20,292 --> 00:03:24,331
+And an app for your local library you
+might need to store downloaded e-books.
+
+59
+00:03:24,331 --> 00:03:28,271
+In these cases,
+Android offers the ability to save files
+
+60
+00:03:28,271 --> 00:03:32,379
+using internal storage, which is just
+saving it to the phone's hard drive.
+
+61
+00:03:32,379 --> 00:03:34,180
+And also external storage,
+
+62
+00:03:34,180 --> 00:03:36,939
+which is saving it to
+something like a memory card.
+
+63
+00:03:36,939 --> 00:03:40,919
+And finally, you might find yourself in
+a situation where you actually need to
+
+64
+00:03:40,919 --> 00:03:45,339
+save data in a place accessed
+by multiple devices.
+
+65
+00:03:45,340 --> 00:03:48,460
+This might be something as simple
+as a leaderboard of scores for
+
+66
+00:03:48,460 --> 00:03:52,510
+your new game app, or if you're
+building a social networking app that
+
+67
+00:03:52,509 --> 00:03:54,709
+allows users to log in from any phone.
+
+68
+00:03:54,710 --> 00:03:58,280
+In these cases, you'll end up not
+storing data on your phone but
+
+69
+00:03:58,280 --> 00:03:59,640
+in the cloud.
+
+70
+00:03:59,639 --> 00:04:03,079
+This usually means setting
+up a database on a server or
+
+71
+00:04:03,080 --> 00:04:05,980
+using a service like Google's Firebase.
+
+72
+00:04:05,979 --> 00:04:07,329
+In this course however,
+
+73
+00:04:07,330 --> 00:04:11,250
+We'll be focusing on covering these
+methods of data persistence in depth.
+
+74
+00:04:11,250 --> 00:04:14,610
+In fact we've already covered
+save instant state but
+
+75
+00:04:14,610 --> 00:04:17,110
+if you're interested in learning
+more about saving files or
+
+76
+00:04:17,110 --> 00:04:19,980
+setting up a server or
+even using firebase.
+
+77
+00:04:19,980 --> 00:04:22,819
+I'll link some documentation
+that will get you started but
+
+78
+00:04:22,819 --> 00:04:24,810
+first some quick quizzes
+

@@ -1,0 +1,348 @@
+﻿1
+00:00:00,130 --> 00:00:01,060
+Well, let's see.
+
+2
+00:00:01,060 --> 00:00:03,710
+This model makes no mistakes
+in the training sets, so
+
+3
+00:00:03,710 --> 00:00:05,639
+the training error is 0.
+
+4
+00:00:05,639 --> 00:00:10,114
+But it makes two mistakes in the testing
+set, so the testing error is 2.
+
+5
+00:00:11,140 --> 00:00:15,140
+Now let's look carefully at the graph
+we have obtained underneath.
+
+6
+00:00:15,140 --> 00:00:18,920
+This is what's called
+a model complexity graph.
+
+7
+00:00:18,920 --> 00:00:22,550
+Notice that on the left we have
+a model that underfits, and
+
+8
+00:00:22,550 --> 00:00:25,460
+gives us high training and
+testing errors.
+
+9
+00:00:25,460 --> 00:00:27,775
+The model on the right overfits, and
+
+10
+00:00:27,775 --> 00:00:32,170
+it gives us a very low training error,
+but a high testing error.
+
+11
+00:00:32,170 --> 00:00:35,179
+The model in the middle is just right,
+and
+
+12
+00:00:35,179 --> 00:00:38,679
+it gives us relatively low training and
+testing errors.
+
+13
+00:00:38,679 --> 00:00:40,570
+This is the model we should pick.
+
+14
+00:00:40,570 --> 00:00:42,479
+So here we have a bit
+of a clearer picture.
+
+15
+00:00:42,479 --> 00:00:45,379
+In the x axis we have
+the complexity of the model.
+
+16
+00:00:46,640 --> 00:00:52,549
+So we go from linear, degree 1,
+all the way to polynomial, degree 4.
+
+17
+00:00:52,549 --> 00:00:56,599
+On the left the models show
+underfitting or high bias error.
+
+18
+00:00:56,600 --> 00:01:01,340
+On the right We see overfitting,
+or high variance error.
+
+19
+00:01:01,340 --> 00:01:04,719
+And in the middle, around
+the value 2 there is a happy point
+
+20
+00:01:04,719 --> 00:01:08,230
+where we are neither underfitting nor
+overfitting.
+
+21
+00:01:08,230 --> 00:01:14,590
+Thus, we decided the best model for
+our data is a polynomial of degree 2.
+
+22
+00:01:14,590 --> 00:01:16,171
+So far so good, right?
+
+23
+00:01:16,171 --> 00:01:17,550
+Whats happening?
+
+24
+00:01:17,549 --> 00:01:18,119
+What is this?
+
+25
+00:01:19,290 --> 00:01:20,560
+No, what do we do?
+
+26
+00:01:20,560 --> 00:01:22,030
+We broke the golden rule.
+
+27
+00:01:22,030 --> 00:01:25,739
+You should never use your
+testing data for training.
+
+28
+00:01:25,739 --> 00:01:27,879
+We made a huge mistake.
+
+29
+00:01:27,879 --> 00:01:30,310
+But lets see, what did we do here?
+
+30
+00:01:30,310 --> 00:01:32,150
+Here is the problem.
+
+31
+00:01:32,150 --> 00:01:35,605
+We used our testing data
+to train our model.
+
+32
+00:01:35,605 --> 00:01:39,969
+We're not supposed to use our
+testing data until the very end.
+
+33
+00:01:39,969 --> 00:01:42,920
+And we used it to make a huge
+decision about our model.
+
+34
+00:01:42,920 --> 00:01:44,480
+This is completely forbidden.
+
+35
+00:01:44,480 --> 00:01:47,040
+You're not allowed to
+touch your testing data.
+
+36
+00:01:47,040 --> 00:01:48,750
+So how do we fix this?
+
+37
+00:01:48,750 --> 00:01:52,269
+How do we make a good decision about our
+model without using the testing data?
+
+38
+00:01:53,390 --> 00:01:54,659
+Well, no need to panic.
+
+39
+00:01:54,659 --> 00:01:57,849
+We can fix this by breaking
+our data set even more.
+
+40
+00:01:57,849 --> 00:01:59,649
+Now, instead of having a training and
+
+41
+00:01:59,650 --> 00:02:03,930
+a testing set,
+we'll add a cross validation set.
+
+42
+00:02:03,930 --> 00:02:07,838
+Now, the training set will be used for
+training the parameters.
+
+43
+00:02:07,837 --> 00:02:10,019
+The cross validation
+set will be used for
+
+44
+00:02:10,020 --> 00:02:14,620
+making decisions about the model,
+such as the degree of the polynomial.
+
+45
+00:02:14,620 --> 00:02:18,879
+And the testing set will be used for
+the final testing of the model.
+
+46
+00:02:18,879 --> 00:02:19,870
+Now our graph looks so
+
+47
+00:02:19,870 --> 00:02:23,740
+much nicer with a cross validation
+error instead of a testing error.
+
+48
+00:02:23,740 --> 00:02:25,150
+So let's recap.
+
+49
+00:02:25,150 --> 00:02:29,010
+Here we have the model complexity
+graph and the example all together.
+
+50
+00:02:29,009 --> 00:02:34,250
+On the left, we see underfitting or
+an oversimplification of the problem.
+
+51
+00:02:34,250 --> 00:02:38,629
+This is bad on both the training and
+the cross validation set
+
+52
+00:02:38,629 --> 00:02:42,829
+because our model simply does not
+capture the complexity of our data.
+
+53
+00:02:42,830 --> 00:02:47,760
+On the right, we see overfitting or
+an over complication of the problem.
+
+54
+00:02:47,759 --> 00:02:51,549
+This is great on the training set,
+because we are memorizing it, but
+
+55
+00:02:51,550 --> 00:02:55,230
+bad on the cross validation set because
+the model does not generalize well.
+
+56
+00:02:56,539 --> 00:03:00,389
+And in the middle we have the perfect
+model which is good in both the training
+
+57
+00:03:00,389 --> 00:03:02,000
+and the testing set.
+
+58
+00:03:02,000 --> 00:03:05,550
+I like to imagine underfitting
+as coming to an exam unprepared.
+
+59
+00:03:05,550 --> 00:03:08,375
+No matter how hard you
+try you won't do well.
+
+60
+00:03:08,375 --> 00:03:11,235
+Overfitting is like studying for
+an exam but instead of
+
+61
+00:03:11,235 --> 00:03:16,145
+trying to understand the material,
+you just memorize the book word by word.
+
+62
+00:03:16,145 --> 00:03:17,965
+You can repeat anything that's given,
+but
+
+63
+00:03:17,965 --> 00:03:21,155
+you won't be able to answer
+new questions about the data.
+
+64
+00:03:21,155 --> 00:03:23,925
+A good model is like studying for
+an exam and
+
+65
+00:03:23,925 --> 00:03:26,064
+coming ready to answer any
+questions in the material.
+
+66
+00:03:27,370 --> 00:03:30,340
+And here is just a general picture
+of the model complexity graph.
+
+67
+00:03:30,340 --> 00:03:33,219
+Of course they may not look as pretty,
+but in real life you see that most of
+
+68
+00:03:33,219 --> 00:03:35,844
+the time your models will exhibit
+a behavior like this one.
+
+69
+00:03:35,844 --> 00:03:40,409
+Wheres the model gets more complex, the
+training error gets smaller and smaller.
+
+70
+00:03:40,409 --> 00:03:44,770
+And the testing error starts big,
+then decreases and then increases again.
+
+71
+00:03:44,770 --> 00:03:47,280
+On the left you underfit.
+
+72
+00:03:47,280 --> 00:03:49,640
+On the right, you overfit.
+
+73
+00:03:49,639 --> 00:03:51,269
+And the perfect point is here,
+
+74
+00:03:51,270 --> 00:03:53,290
+where the graphs just start
+to distance from each other.
+

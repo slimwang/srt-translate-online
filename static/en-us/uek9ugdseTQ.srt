@@ -1,0 +1,106 @@
+1
+00:00:00,350 --> 00:00:03,090
+Before we answer the question,
+let me remind you,
+
+2
+00:00:03,090 --> 00:00:07,730
+that a server driven mechanism means
+that it is the server that will push
+
+3
+00:00:07,730 --> 00:00:09,346
+any invalidations to the clients.
+
+4
+00:00:09,346 --> 00:00:15,980
+And also, that session-semantics
+means that any changes made to a file
+
+5
+00:00:15,980 --> 00:00:20,660
+will become visible when the file is
+closed, when the session is closed, and
+
+6
+00:00:20,660 --> 00:00:26,220
+when a subsequent client opens
+that file, starts a new session.
+
+7
+00:00:26,220 --> 00:00:30,750
+So that means that it is possible for
+overlapping seasons to see different
+
+8
+00:00:30,750 --> 00:00:34,850
+versions of the file, so it is
+possible to have concurrent writers.
+
+9
+00:00:34,850 --> 00:00:38,560
+Session semantics doesn't specify
+what will happen to the file when
+
+10
+00:00:38,560 --> 00:00:40,660
+all of these writers close that file.
+
+11
+00:00:40,660 --> 00:00:43,590
+Whether one of the versions
+will become the valid one, or
+
+12
+00:00:43,590 --> 00:00:46,590
+whether they will be merged
+in some ways, or whether some
+
+13
+00:00:46,590 --> 00:00:51,220
+error will be raised back to the client
+so that they can resolve the conflicts.
+
+14
+00:00:51,220 --> 00:00:56,210
+So given this information, the items
+that make sense to be part of a per file
+
+15
+00:00:56,210 --> 00:00:59,340
+data structure in this kind
+of distributed file system
+
+16
+00:00:59,340 --> 00:01:04,019
+will include information about what
+are the current readers of the system.
+
+17
+00:01:04,019 --> 00:01:06,900
+Also, what are all of
+the current concurrent writers,
+
+18
+00:01:06,900 --> 00:01:08,640
+potentially multiple, not just one.
+
+19
+00:01:08,640 --> 00:01:13,110
+And also, it makes sense to keep track
+of something like a version number so
+
+20
+00:01:13,110 --> 00:01:16,750
+that the clients know which
+version were they given, and
+
+21
+00:01:16,750 --> 00:01:20,750
+the server also understands which
+clients have been modifying an old
+
+22
+00:01:20,750 --> 00:01:22,630
+version of the file
+versus the newest one.

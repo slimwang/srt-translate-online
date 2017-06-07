@@ -1,0 +1,86 @@
+1
+00:00:00,330 --> 00:00:01,980
+Again, as in the previous case,
+
+2
+00:00:01,980 --> 00:00:05,160
+this implementation will be
+both inefficient and incorrect.
+
+3
+00:00:06,260 --> 00:00:09,280
+The inefficiency comes from
+the fact that again we have
+
+4
+00:00:09,280 --> 00:00:13,530
+continuous loop that is spinning
+as long as the lock is busy.
+
+5
+00:00:13,530 --> 00:00:16,490
+Now, the implementation
+is incorrect because
+
+6
+00:00:16,490 --> 00:00:19,450
+although we did put
+this while check here,
+
+7
+00:00:19,450 --> 00:00:25,130
+multiple threads again will see that
+the lock is free once it becomes free.
+
+8
+00:00:25,130 --> 00:00:29,450
+They will exit this while loop and
+will move on here and
+
+9
+00:00:29,450 --> 00:00:32,400
+try to set the lock value to be busy.
+
+10
+00:00:32,400 --> 00:00:35,560
+If these threads are allowed
+to execute concurrently,
+
+11
+00:00:35,560 --> 00:00:40,220
+there's absolutely no way purely in
+software to guarantee that there
+
+12
+00:00:40,220 --> 00:00:44,970
+won't be some interleaving of exactly
+how these threads perform this
+
+13
+00:00:44,970 --> 00:00:50,500
+check in these set operations and that
+a race condition will not occur here.
+
+14
+00:00:50,500 --> 00:00:53,680
+We can try to come up with
+multiple purely software-based
+
+15
+00:00:53,680 --> 00:00:55,668
+implementations of a spinlock.
+
+16
+00:00:55,668 --> 00:01:00,330
+And we'll ultimately come to the same
+conclusion that we need some kind of
+
+17
+00:01:00,330 --> 00:01:06,130
+support from the hardware in order to
+make sure that some of this checking and
+
+18
+00:01:06,130 --> 00:01:10,090
+setting of the lock value happens
+atomically via hardware support.

@@ -1,0 +1,638 @@
+1
+00:00:00,450 --> 00:00:03,740
+So we've discussed cases where we
+don't need to update the cursor.
+
+2
+00:00:03,740 --> 00:00:07,048
+So situations such as when the user
+rotates the app, closes or
+
+3
+00:00:07,048 --> 00:00:10,114
+reopens the app or just scrolls up and
+down the ListView.
+
+4
+00:00:10,114 --> 00:00:14,600
+And this is because nothing changes
+in the data in the database.
+
+5
+00:00:14,600 --> 00:00:17,220
+However, we did discuss that
+we need to update the cursor
+
+6
+00:00:17,220 --> 00:00:18,890
+whenever the data does change.
+
+7
+00:00:18,890 --> 00:00:22,170
+So, meaning when the data is either
+inserted, updated, or deleted.
+
+8
+00:00:22,170 --> 00:00:25,080
+So for example, if we were to
+add a new pet from the Uri.
+
+9
+00:00:25,080 --> 00:00:26,150
+So, let's say, Baxter,
+
+10
+00:00:26,150 --> 00:00:29,810
+down here, well, a new row will
+need to be added to the table.
+
+11
+00:00:29,810 --> 00:00:33,210
+So, when you think about it, maybe
+a really good idea if it was one place,
+
+12
+00:00:33,210 --> 00:00:37,340
+we could trigger the cursor to update
+whenever the data was either inserted,
+
+13
+00:00:37,340 --> 00:00:38,750
+updated, or deleted.
+
+14
+00:00:38,750 --> 00:00:41,976
+Now if you're thinking, wait a moment,
+all the commands to insert, delete, and
+
+15
+00:00:41,976 --> 00:00:44,017
+update data all come through
+our content provider.
+
+16
+00:00:44,017 --> 00:00:45,376
+And you're absolutely right,
+
+17
+00:00:45,376 --> 00:00:47,890
+so that's why our content provider
+is the place that we need
+
+18
+00:00:47,890 --> 00:00:50,900
+to set up to tell our cursor loader
+that we need to reload its data.
+
+19
+00:00:50,900 --> 00:00:52,460
+Whenever any of these situations happen.
+
+20
+00:00:53,910 --> 00:00:57,510
+So, in Android there's a mechanism to
+tell the Cursorloader that the data it's
+
+21
+00:00:57,510 --> 00:01:00,010
+associated with needs to be reloaded
+
+22
+00:01:00,010 --> 00:01:04,220
+because each loader is associated
+with the URI particular to its data.
+
+23
+00:01:04,220 --> 00:01:08,080
+Remember the URI is used to
+say what data we want to load.
+
+24
+00:01:08,080 --> 00:01:12,170
+For example,
+this URI here that end in /pets,
+
+25
+00:01:12,170 --> 00:01:14,730
+well this loads all
+the pets from the table.
+
+26
+00:01:15,860 --> 00:01:20,779
+And meanwhile,
+this URI that ends in /pets/3 will
+
+27
+00:01:20,779 --> 00:01:23,740
+only load the pet with the id 3.
+
+28
+00:01:23,740 --> 00:01:27,340
+So this particular URI might be used for
+an activity.
+
+29
+00:01:27,340 --> 00:01:32,158
+Something such as our editor activity,
+which will only show the details for
+
+30
+00:01:32,158 --> 00:01:34,729
+one pet, so this pet here with the id 3.
+
+31
+00:01:34,729 --> 00:01:39,122
+So if we have a cursor, which was
+generated using this particular URI.
+
+32
+00:01:39,122 --> 00:01:45,242
+So /pets/3, well that means we only want
+to reload the data in the cursor and
+
+33
+00:01:45,242 --> 00:01:51,510
+then trigger any UI changes If this
+particular part of the database changes.
+
+34
+00:01:51,510 --> 00:01:55,680
+For example if we were to
+add a pet down here and
+
+35
+00:01:55,680 --> 00:02:01,470
+then remove these two pets, well those
+changes didn't affect the pet in row 3.
+
+36
+00:02:01,470 --> 00:02:03,500
+So that means we don't need to reload.
+
+37
+00:02:04,810 --> 00:02:05,460
+Now to allow for
+
+38
+00:02:05,460 --> 00:02:10,479
+this type of behavior, cursors have
+an attribute called a notification URI.
+
+39
+00:02:11,690 --> 00:02:17,650
+So the notification URI refers to some
+specific point of data as all URI's do.
+
+40
+00:02:17,650 --> 00:02:20,720
+Now, once a cursor is set
+up to be notified when
+
+41
+00:02:20,720 --> 00:02:24,040
+a URI changes we signal
+that the data has changed
+
+42
+00:02:24,040 --> 00:02:28,340
+at that URI by calling the notify
+change method on the URI.
+
+43
+00:02:29,850 --> 00:02:31,310
+Now keeping that in mind,
+
+44
+00:02:31,310 --> 00:02:34,570
+let's take a look at how
+Android manages reloading data.
+
+45
+00:02:34,570 --> 00:02:37,630
+So here I am in the PetProvider code and
+I've gone ahead and
+
+46
+00:02:37,630 --> 00:02:41,320
+made some changes to the code
+to help us with data reloading.
+
+47
+00:02:41,320 --> 00:02:43,590
+So first,
+let's take a look at the query method.
+
+48
+00:02:43,590 --> 00:02:46,098
+So here in the query
+method down at the bottom,
+
+49
+00:02:46,098 --> 00:02:51,960
+I've called cursor.setNotificationUri,
+passing in these two parameters.
+
+50
+00:02:51,960 --> 00:02:56,238
+So what this method does here is set
+the notification URI on the cursor.
+
+51
+00:02:56,238 --> 00:02:59,861
+And this so that we know what content
+URI the cursor was created for and
+
+52
+00:02:59,861 --> 00:03:04,570
+if any data at this URI does change then
+we know we need to update the cursor.
+
+53
+00:03:04,570 --> 00:03:05,782
+So inside this method,
+
+54
+00:03:05,782 --> 00:03:09,185
+we're going to pass in the first
+parameter is the content resolver.
+
+55
+00:03:09,185 --> 00:03:12,945
+So this is so that the listener which in
+our case is a catalog activity that's
+
+56
+00:03:12,945 --> 00:03:16,460
+attached to this resolver will
+automatically be notified.
+
+57
+00:03:16,460 --> 00:03:20,680
+Next we'll surpass in a URI which is
+the content URI we want to watch.
+
+58
+00:03:20,680 --> 00:03:23,110
+So doing this sets
+the notification URI for
+
+59
+00:03:23,110 --> 00:03:24,680
+any cursor returned by the query method.
+
+60
+00:03:25,750 --> 00:03:29,640
+So if the data at this URI changes, then
+we know we need to update the cursor.
+
+61
+00:03:30,930 --> 00:03:33,950
+Now for each of the methods that
+changed data in the database,
+
+62
+00:03:33,950 --> 00:03:37,381
+meaning our insert method, our update
+method and our delete methods.
+
+63
+00:03:37,381 --> 00:03:39,310
+You'll need to modify the code so
+
+64
+00:03:39,310 --> 00:03:43,640
+that they properly notify all
+listeners If the URI has changed.
+
+65
+00:03:43,640 --> 00:03:45,870
+So let's take a look at insert for
+example.
+
+66
+00:03:46,870 --> 00:03:50,550
+So since in our situation the actual
+inserting of pet information
+
+67
+00:03:50,550 --> 00:03:55,240
+happens in this method,
+InsertPet, let's look here first.
+
+68
+00:03:55,240 --> 00:03:59,764
+So, in InsertPet in order to
+notify listeners that the URI has
+
+69
+00:03:59,764 --> 00:04:02,374
+changed, I'm going to call this line
+
+70
+00:04:02,374 --> 00:04:06,383
+getContext.getContentResolver.notifyCha-
+nge.
+
+71
+00:04:06,383 --> 00:04:10,543
+So what this method does is notify all
+listeners that the data has changed for
+
+72
+00:04:10,543 --> 00:04:12,480
+the pet content URI.
+
+73
+00:04:12,480 --> 00:04:15,620
+So the notify change method
+takes in two parameters.
+
+74
+00:04:15,620 --> 00:04:17,726
+The first one here is the URI and
+
+75
+00:04:17,726 --> 00:04:22,350
+secondly this one here is an optional
+content observer parameter.
+
+76
+00:04:22,350 --> 00:04:25,505
+Now content observer is meant as
+a class that receives callbacks or
+
+77
+00:04:25,505 --> 00:04:27,180
+changes to the content.
+
+78
+00:04:27,180 --> 00:04:31,782
+Well Android is nice to us in that if we
+pass in null here by default the cursor
+
+79
+00:04:31,782 --> 00:04:33,985
+adapter object will get notified.
+
+80
+00:04:33,985 --> 00:04:37,787
+And so that means the loader callbacks
+will still be automatically triggered.
+
+81
+00:04:37,787 --> 00:04:41,910
+So remember in our situation the content
+UI that I'm interested in is this one.
+
+82
+00:04:43,160 --> 00:04:47,930
+So having this call with this URI will
+update cursors such as the catalog
+
+83
+00:04:47,930 --> 00:04:52,310
+activity cursor which is listening for
+notifications for this particular URI.
+
+84
+00:04:53,490 --> 00:04:56,470
+So let me demo this implementation
+where the cursor now is helping us
+
+85
+00:04:56,470 --> 00:04:58,020
+automatically load the data.
+
+86
+00:04:58,020 --> 00:05:01,500
+So let's run it on the emulator.
+
+87
+00:05:01,500 --> 00:05:04,750
+All right, so here's the latest version
+of the code running on my emulator.
+
+88
+00:05:04,750 --> 00:05:08,437
+And I highly suggest uninstalling the
+app and then reinstalling with a brand
+
+89
+00:05:08,437 --> 00:05:11,990
+new version in case it's still
+running the old version.
+
+90
+00:05:11,990 --> 00:05:15,073
+So from here let's go back
+down to insert dummy data.
+
+91
+00:05:15,073 --> 00:05:18,853
+And remember previously when we click
+this, we had to exit out and then come
+
+92
+00:05:18,853 --> 00:05:22,710
+back into the app so the cursor
+loader would rerun the newest data.
+
+93
+00:05:22,710 --> 00:05:23,710
+But let's see it again.
+
+94
+00:05:23,710 --> 00:05:27,750
+So insert data and from here the cursor
+loader is automatically pulling in
+
+95
+00:05:27,750 --> 00:05:31,190
+the latest information without us
+having to kill and rerun the app.
+
+96
+00:05:31,190 --> 00:05:33,120
+So we've covered a lot of information.
+
+97
+00:05:33,120 --> 00:05:36,040
+So let's take a look at summarizing all
+the interactions between the cursor
+
+98
+00:05:36,040 --> 00:05:38,460
+loaders, content resolvers,
+and providers.
+
+99
+00:05:38,460 --> 00:05:43,367
+So to start off, our CatalogActivity
+implements a LoaderCallback interface.
+
+100
+00:05:43,367 --> 00:05:46,319
+Now inside this activity
+is the onCreate() method,
+
+101
+00:05:46,319 --> 00:05:50,490
+where we initialize the query
+with the InitLoader method.
+
+102
+00:05:50,490 --> 00:05:54,157
+Now once this background framework is
+all set up, it's going to call our
+
+103
+00:05:54,157 --> 00:05:58,707
+implementation of onCreateLoader() which
+initializes our CursorLoader object.
+
+104
+00:05:58,707 --> 00:06:02,111
+Now using the content resolver
+the CursorLoader finds the appropriate
+
+105
+00:06:02,111 --> 00:06:03,990
+content providers query() method.
+
+106
+00:06:03,990 --> 00:06:07,604
+And inside this query() method Is
+the URI matcher which will help us find
+
+107
+00:06:07,604 --> 00:06:10,920
+the right data so
+that we get back the correct cursor.
+
+108
+00:06:10,920 --> 00:06:14,320
+Next, using the set
+notification URI method
+
+109
+00:06:14,320 --> 00:06:17,610
+we tell the cursor what URI to watch.
+
+110
+00:06:17,610 --> 00:06:20,230
+So it knows when its source
+of data has changed.
+
+111
+00:06:20,230 --> 00:06:23,340
+So this cursor is returned back
+to our cursor loader object.
+
+112
+00:06:24,400 --> 00:06:28,350
+Now an example of this section from
+our pet app is in the query method,
+
+113
+00:06:28,350 --> 00:06:36,630
+we set up the notification URI to be
+content://com.example.android.pets/pets.
+
+114
+00:06:36,630 --> 00:06:40,340
+Then if we were to insert a new pet
+into the table the URI would be notified
+
+115
+00:06:40,340 --> 00:06:43,170
+which in turns tells the cursor
+something's changed.
+
+116
+00:06:43,170 --> 00:06:43,900
+So once this updated,
+
+117
+00:06:43,900 --> 00:06:47,130
+it'll get pass back to the provider,
+back to the resolver and
+
+118
+00:06:47,130 --> 00:06:51,890
+then back to the cursor loader where
+the new information will be reloaded.
+
+119
+00:06:51,890 --> 00:06:56,400
+So once it's reloaded, on load finishes
+column with the new cursor and
+
+120
+00:06:56,400 --> 00:06:58,490
+the UI can be updated.
+
+121
+00:06:58,490 --> 00:07:02,410
+Now if any information needs to be
+refreshed, onLoaderReset is called so
+
+122
+00:07:02,410 --> 00:07:04,370
+that the stale cursor is removed.
+
+123
+00:07:04,370 --> 00:07:06,680
+So the fresh new data can be swapped in.
+
+124
+00:07:06,680 --> 00:07:11,780
+So currently this entire set up right
+now is only working for insert method.
+
+125
+00:07:11,780 --> 00:07:16,420
+So what I want you to do is to implement
+this functionality for update and
+
+126
+00:07:16,420 --> 00:07:18,150
+delete methods as well.
+
+127
+00:07:18,150 --> 00:07:20,200
+So here are the instruction for
+this exercise so
+
+128
+00:07:20,200 --> 00:07:24,400
+you can automatically load and we reload
+data with the latest information.
+
+129
+00:07:24,400 --> 00:07:29,640
+So in PetProvider class for
+the query method call setNotificationUri
+
+130
+00:07:29,640 --> 00:07:32,670
+on the cursor before
+returning the cursor result.
+
+131
+00:07:32,670 --> 00:07:35,229
+Next for insert, update, and delete,
+
+132
+00:07:35,229 --> 00:07:39,079
+call the ContentResolver
+notifyChange method on that URI.
+
+133
+00:07:39,079 --> 00:07:42,349
+Remember this, you can test inserting
+pets from the CatalogActivity and
+
+134
+00:07:42,349 --> 00:07:45,680
+the EditorActivity and see if they
+automatically update the list of pets.

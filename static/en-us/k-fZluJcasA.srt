@@ -1,0 +1,304 @@
+1
+00:00:00,090 --> 00:00:03,340
+The virtual file system supports
+supports several key extractions.
+
+2
+00:00:03,340 --> 00:00:05,810
+First, there's obviously
+the file extraction.
+
+3
+00:00:05,810 --> 00:00:09,370
+These are the elements on which
+the virtual operating system operates.
+
+4
+00:00:09,370 --> 00:00:13,060
+The OS represents files
+via file descriptors.
+
+5
+00:00:13,060 --> 00:00:16,180
+A file descriptor is created
+when the file is first opened,
+
+6
+00:00:16,180 --> 00:00:20,730
+and there are a number of operation
+that can be supported on files by
+
+7
+00:00:20,730 --> 00:00:23,850
+using the file descriptor to
+identify the specific file.
+
+8
+00:00:23,850 --> 00:00:26,570
+These include read, write, lock a file,
+
+9
+00:00:26,570 --> 00:00:29,790
+send file, also close a file,
+ultimately.
+
+10
+00:00:29,790 --> 00:00:35,380
+For each file VFS maintains a persistent
+data structure called an inode.
+
+11
+00:00:35,380 --> 00:00:39,260
+One of the information that's
+maintaining those inode is the list of
+
+12
+00:00:39,260 --> 00:00:42,430
+all the data blocks that
+correspond to this file.
+
+13
+00:00:42,430 --> 00:00:47,070
+This is how the inode derives it's name,
+it's like an index node for that file.
+
+14
+00:00:47,070 --> 00:00:51,050
+The inode also contains other pieces
+of information for that file like
+
+15
+00:00:51,050 --> 00:00:55,310
+permissions, the size of the file,
+whether the file is locked, et cetera.
+
+16
+00:00:55,310 --> 00:00:59,780
+The inode is a standard data structure
+in Unix-based systems, and again
+
+17
+00:00:59,780 --> 00:01:04,430
+it's important because the file does not
+need to be stored contiguously on disk.
+
+18
+00:01:04,430 --> 00:01:08,000
+Its blocks may be all over
+the storage media, and therefore,
+
+19
+00:01:08,000 --> 00:01:10,710
+it's important to maintain this index.
+
+20
+00:01:10,710 --> 00:01:13,500
+Now, we know that files
+are organized in directories.
+
+21
+00:01:13,500 --> 00:01:18,019
+But, from the virtual file systems
+perspective and in general from unique
+
+22
+00:01:18,019 --> 00:01:22,466
+space systems perspective, a directory
+is really just a file, except,
+
+23
+00:01:22,466 --> 00:01:26,431
+its contents include information
+about files and their inodes.
+
+24
+00:01:26,431 --> 00:01:30,052
+So that we can find where the data
+blocks for these files and so
+
+25
+00:01:30,052 --> 00:01:34,173
+the virtual file system will interpret
+the contents of the directory
+
+26
+00:01:34,173 --> 00:01:36,330
+a little bit differently.
+
+27
+00:01:36,330 --> 00:01:38,930
+To help with certain
+operations on directories
+
+28
+00:01:38,930 --> 00:01:43,930
+Linux maintains a data structure called
+dentry, stands for directory entry.
+
+29
+00:01:43,930 --> 00:01:48,410
+And each dentry object corresponds
+to a single path component
+
+30
+00:01:48,410 --> 00:01:52,580
+that's being traversed as we
+are trying to reach a particular file.
+
+31
+00:01:52,580 --> 00:01:55,680
+For instance, if we're trying to
+reach a file that's in my directory,
+
+32
+00:01:55,680 --> 00:01:57,340
+in the directory named ada.
+
+33
+00:01:57,340 --> 00:02:01,700
+We would have to traverse
+this path /users/ada.
+
+34
+00:02:01,700 --> 00:02:06,536
+In the process, the virtual file system
+will create a dentry element for
+
+35
+00:02:06,536 --> 00:02:08,127
+every path component.
+
+36
+00:02:08,127 --> 00:02:10,508
+Forward slash for /users.
+
+37
+00:02:10,508 --> 00:02:13,000
+That's the second
+directory in this path.
+
+38
+00:02:13,000 --> 00:02:17,550
+And then finally, for the third
+directory in this path, /users/ada.
+
+39
+00:02:17,550 --> 00:02:18,680
+Now this first slash,
+
+40
+00:02:18,680 --> 00:02:22,780
+that corresponds to the root directory
+in the file system structure.
+
+41
+00:02:22,780 --> 00:02:27,160
+The reason that this is useful is that
+when we need to find another file
+
+42
+00:02:27,160 --> 00:02:29,890
+that's also stored in
+this directory ada,
+
+43
+00:02:29,890 --> 00:02:34,210
+we don't have to go through
+the entire path and try to reread.
+
+44
+00:02:34,210 --> 00:02:38,950
+The files that correspond to all of
+these directories in order to get to
+
+45
+00:02:38,950 --> 00:02:40,250
+the directory ada, and
+
+46
+00:02:40,250 --> 00:02:44,140
+then ultimately to find the file,
+the next file that we are searching.
+
+47
+00:02:44,140 --> 00:02:48,540
+So the file system will maintain a cache
+of all of the directory entries that
+
+48
+00:02:48,540 --> 00:02:51,600
+have been visited, and
+we call that the dentry cache.
+
+49
+00:02:51,600 --> 00:02:53,030
+Note that this is soft-state,
+
+50
+00:02:53,030 --> 00:02:57,990
+\there isn't some persistent on-disk
+representation of the dentry objects.
+
+51
+00:02:57,990 --> 00:03:01,360
+This is only in memory maintained
+by the operating system.
+
+52
+00:03:01,360 --> 00:03:04,060
+Finally, there is
+the superblock abstraction
+
+53
+00:03:04,060 --> 00:03:06,990
+that's required by
+the virtual file system, so
+
+54
+00:03:06,990 --> 00:03:11,965
+that it can provide some information
+about how a particular file system.
+
+55
+00:03:11,965 --> 00:03:14,050
+It's laid out on some storage device.
+
+56
+00:03:14,050 --> 00:03:19,320
+This is like a map that the file system
+maintains so that it can figure out
+
+57
+00:03:19,320 --> 00:03:24,110
+how has it organized on disk
+the various persistent data elements,
+
+58
+00:03:24,110 --> 00:03:28,870
+like the inodes or the data blocks
+that belong to the print files.
+
+59
+00:03:28,870 --> 00:03:32,360
+Each file system also maintains
+some additional metadata
+
+60
+00:03:32,360 --> 00:03:35,870
+in the superblock structure that
+helps to during its operation.
+
+61
+00:03:35,870 --> 00:03:39,040
+Exactly what information will
+be stored in a superblock, and
+
+62
+00:03:39,040 --> 00:03:42,340
+how it will be stored
+differs among file systems.
+
+63
+00:03:42,340 --> 00:03:45,390
+So that's why we say it's file
+system specific information.

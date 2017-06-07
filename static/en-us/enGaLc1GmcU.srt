@@ -1,0 +1,339 @@
+1
+00:00:00,170 --> 00:00:03,200
+An interesting phenomenon
+called priority inversion
+
+2
+00:00:03,200 --> 00:00:06,640
+happens once we introduce
+priorities into the scheduling.
+
+3
+00:00:06,640 --> 00:00:10,080
+Consider the following situation and
+we'll use the shortest job for
+
+4
+00:00:10,080 --> 00:00:12,590
+scheduling to illustrate what happens.
+
+5
+00:00:12,590 --> 00:00:16,770
+We have three threads,
+the first one has the highest priority.
+
+6
+00:00:16,770 --> 00:00:19,250
+And P3 is the lowest priority, so
+
+7
+00:00:19,250 --> 00:00:22,830
+T1 is the highest priority,` and
+T3 is the lowest one.
+
+8
+00:00:22,830 --> 00:00:25,200
+For this example we have
+left out the execution time.
+
+9
+00:00:25,200 --> 00:00:29,300
+Just assume they take some longer
+amount of time all these tasks and
+
+10
+00:00:29,300 --> 00:00:31,760
+that the time graph
+continues into the future.
+
+11
+00:00:31,760 --> 00:00:34,360
+Initially T3 is the only
+task in the system.
+
+12
+00:00:34,360 --> 00:00:39,850
+So T3 executes, and
+lets say that T3 also acquired a lock.
+
+13
+00:00:39,850 --> 00:00:44,300
+Now T2 arrives,
+T2 has higher priority than T3, so
+
+14
+00:00:44,300 --> 00:00:47,910
+T3 will be preempted and
+T2 gets to execute.
+
+15
+00:00:47,910 --> 00:00:49,360
+Now time 5,
+
+16
+00:00:49,360 --> 00:00:54,200
+T1 arrives, it has higher priority
+than T2, so T2 will be preempted.
+
+17
+00:00:54,200 --> 00:00:57,650
+And then T1 executes for two time units.
+
+18
+00:00:57,650 --> 00:01:00,340
+And at that point,
+it needs to acquire a lock, and
+
+19
+00:01:00,340 --> 00:01:04,300
+this happens to be the exact same
+lock that's already held by T3.
+
+20
+00:01:04,300 --> 00:01:06,120
+Unfortunately that won't happen.
+
+21
+00:01:06,120 --> 00:01:08,210
+T1 cannot acquire the lock so
+
+22
+00:01:08,210 --> 00:01:12,320
+T1 at that point is put on a wait
+queue associated with the lock.
+
+23
+00:01:12,320 --> 00:01:15,690
+We schedule the next highest
+priority task that's runable,
+
+24
+00:01:15,690 --> 00:01:16,880
+that's going to be T2.
+
+25
+00:01:16,880 --> 00:01:20,490
+And then T2 will execute
+as long as it needs.
+
+26
+00:01:20,490 --> 00:01:22,660
+And let's say in this case,
+we're locked out.
+
+27
+00:01:22,660 --> 00:01:28,510
+T2 really only needed to execute for two
+more units, at that point, T2 completes.
+
+28
+00:01:28,510 --> 00:01:31,770
+We schedule the next highest
+priority runnable task.
+
+29
+00:01:31,770 --> 00:01:34,650
+The only runnable task
+in the system is T3.
+
+30
+00:01:34,650 --> 00:01:36,800
+So T3 will get to execute.
+
+31
+00:01:36,800 --> 00:01:39,870
+In fact, T3 will execute for
+as long as it needs to,
+
+32
+00:01:39,870 --> 00:01:41,830
+until it's releases the lock.
+
+33
+00:01:41,830 --> 00:01:47,390
+Only after T3 re, release the lock
+will T1 become runnable and
+
+34
+00:01:47,390 --> 00:01:50,180
+then once T1 becomes runnable again.
+
+35
+00:01:50,180 --> 00:01:51,950
+It is the highest priority thread.
+
+36
+00:01:51,950 --> 00:01:56,620
+So T1 will preempt T3 and
+T1 will continue it's execution.
+
+37
+00:01:56,620 --> 00:01:59,650
+So it will acquire the lock and
+continue executing.
+
+38
+00:01:59,650 --> 00:02:01,600
+So based on the priority in the system,
+
+39
+00:02:01,600 --> 00:02:04,850
+we were expecting that T1
+will complete before T2, and
+
+40
+00:02:04,850 --> 00:02:09,788
+then T3, the lowest priority thread,
+will be the last one to complete.
+
+41
+00:02:09,788 --> 00:02:11,480
+However, that's not what happened and
+
+42
+00:02:11,480 --> 00:02:15,895
+the actual order of execution was
+as follows: T2, the medium priority
+
+43
+00:02:15,895 --> 00:02:20,340
+thread; followed by T3, the lowest
+priority thread; followed by finally T1,
+
+44
+00:02:20,340 --> 00:02:22,970
+the highest priority
+thread last in the system.
+
+45
+00:02:22,970 --> 00:02:26,100
+So the priorities of these
+tasks were inverted.
+
+46
+00:02:26,100 --> 00:02:28,650
+This is what we call Priority Inversion.
+
+47
+00:02:28,650 --> 00:02:33,290
+A solution to this problem would've been
+to temporarily boost the priority of
+
+48
+00:02:33,290 --> 00:02:35,020
+the mutex owner.
+
+49
+00:02:35,020 --> 00:02:38,380
+What that means is that, at this
+particular point when the highest
+
+50
+00:02:38,380 --> 00:02:43,520
+priority thread needs to acquire a lock
+that's owned by a low priority thread,
+
+51
+00:02:43,520 --> 00:02:47,110
+the priority of T3 is
+temporarily boosted to be,
+
+52
+00:02:47,110 --> 00:02:49,890
+basically at the same level as T1.
+
+53
+00:02:49,890 --> 00:02:53,720
+Then T1 could not have proceeded
+just as before given that the log
+
+54
+00:02:53,720 --> 00:02:57,460
+is down by somebody else,
+however, instead of scheduling T2,
+
+55
+00:02:57,460 --> 00:03:00,700
+we would have scheduled T3.
+
+56
+00:03:00,700 --> 00:03:03,850
+Priority would have been temporarily
+boosted to that of T1, so
+
+57
+00:03:03,850 --> 00:03:06,610
+it would have been higher than T2.
+
+58
+00:03:06,610 --> 00:03:11,095
+And then T2 would have completed, and so
+at least we would have been able to go
+
+59
+00:03:11,095 --> 00:03:14,412
+ahead and start executing T1
+at this particular point.
+
+60
+00:03:14,412 --> 00:03:17,648
+And then we would not have had
+to wait for T2 to complete for
+
+61
+00:03:17,648 --> 00:03:20,890
+the medium priority threat
+to get in the middle.
+
+62
+00:03:20,890 --> 00:03:25,140
+This technique of boosting the priority
+of the mutex owner, this is why, for
+
+63
+00:03:25,140 --> 00:03:29,890
+instance, it is useful to keep track of
+who is the current owner of the mutex.
+
+64
+00:03:29,890 --> 00:03:33,150
+This is why we said we want to
+have this kind of information
+
+65
+00:03:33,150 --> 00:03:34,960
+in the mutex data structure.
+
+66
+00:03:34,960 --> 00:03:38,630
+And obviously if we're temporarily
+boosting the priority of the mutex
+
+67
+00:03:38,630 --> 00:03:42,910
+owner we should lower its priority
+once it release the mutex.
+
+68
+00:03:42,910 --> 00:03:46,690
+The only reason why we were boosting
+its priority was so as to be able to
+
+69
+00:03:46,690 --> 00:03:50,430
+schedule the highest priority
+threat to run as soon as possible.
+
+70
+00:03:50,430 --> 00:03:54,130
+So wanted to make sure that the mutex
+is released as soon as possible.
+
+71
+00:03:54,130 --> 00:03:57,768
+This is a common technique that's
+currently present in many operating
+
+72
+00:03:57,768 --> 00:03:58,320
+systems.

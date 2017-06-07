@@ -1,0 +1,267 @@
+1
+00:00:00,420 --> 00:00:03,520
+Now the interesting question is, once I go to the
+
+2
+00:00:03,520 --> 00:00:07,400
+node that I think is going to give me the page
+
+3
+00:00:07,400 --> 00:00:10,410
+that I'm looking for, or at least information about the page
+
+4
+00:00:10,410 --> 00:00:13,390
+that I'm looking for. Whether it is, if it has it,
+
+5
+00:00:13,390 --> 00:00:15,970
+it's going to give it to me, or if it
+
+6
+00:00:15,970 --> 00:00:17,790
+doesn't have it, it's going to tell me that it is
+
+7
+00:00:17,790 --> 00:00:21,090
+on the disk. But, in either case, I'm going to get,
+
+8
+00:00:21,090 --> 00:00:26,170
+I'm hoping, I'll get exact information about this missing page from
+
+9
+00:00:26,170 --> 00:00:29,250
+this node which is supposed to have the
+
+10
+00:00:29,250 --> 00:00:33,870
+page foame directory, the PFD that corresponds with
+
+11
+00:00:33,870 --> 00:00:37,980
+this UID. Is that possible that I go to this guy, and he says no, I
+
+12
+00:00:37,980 --> 00:00:44,845
+don't have it. Yes, it is possible in two cases. One case is, let's say, while
+
+13
+00:00:44,845 --> 00:00:48,490
+this guy was sending this request over, this
+
+14
+00:00:48,490 --> 00:00:51,390
+guy has made a decision to evict that
+
+15
+00:00:51,390 --> 00:00:57,630
+page that corresponds to this UID because it had to make space for itself. In
+
+16
+00:00:57,630 --> 00:01:03,550
+that case, that UID may have been thrown away from the PFD. And if it has been
+
+17
+00:01:03,550 --> 00:01:10,730
+thrown away from the PFD, what he would have done is inform the guy who has
+
+18
+00:01:10,730 --> 00:01:16,830
+the ownership for this UID, this node is the owner for this UID. If he evicts
+
+19
+00:01:16,830 --> 00:01:20,685
+that page this guy has to tell this node that,
+
+20
+00:01:20,685 --> 00:01:22,730
+hey, you know what, I used to back this UID
+
+21
+00:01:22,730 --> 00:01:28,000
+in my PFD but I got rid of it. And, and I got rid of it by sending it to some
+
+22
+00:01:28,000 --> 00:01:31,050
+other node, let's say, node D. So that is something
+
+23
+00:01:31,050 --> 00:01:33,240
+that I have to communicate to this GCD, but it's a
+
+24
+00:01:33,240 --> 00:01:37,070
+distributed system. Things are happening asynchronously. He may not have
+
+25
+00:01:37,070 --> 00:01:42,540
+communicated that yet, that information is not there in the GCD
+
+26
+00:01:42,540 --> 00:01:47,830
+of this node. This is the owner for this UID space. But the owner
+
+27
+00:01:47,830 --> 00:01:53,260
+doesn't yet know that the PFD that corresponds to a particular
+
+28
+00:01:53,260 --> 00:01:58,030
+UID has moved to some other node out here somewhere. And if
+
+29
+00:01:58,030 --> 00:02:00,340
+it has moved to some other node, he will
+
+30
+00:02:00,340 --> 00:02:02,600
+know about eventually, but he doesn't have it at this
+
+31
+00:02:02,600 --> 00:02:05,760
+point. That's why this request was routed here, and
+
+32
+00:02:05,760 --> 00:02:07,660
+this guy says I don't have it. It can have
+
+33
+00:02:07,660 --> 00:02:10,850
+a miss. That's one possibility. Second possibility
+
+34
+00:02:10,850 --> 00:02:14,250
+is the uncommon case that the POD information
+
+35
+00:02:14,250 --> 00:02:20,460
+that I had is stale. When can that happen? That is when the POD is being
+
+36
+00:02:20,460 --> 00:02:22,850
+recomputed for the local area network as a
+
+37
+00:02:22,850 --> 00:02:26,550
+whole, either because there are new additions or
+
+38
+00:02:26,550 --> 00:02:29,310
+new deletions of nodes. And therefore we are
+
+39
+00:02:29,310 --> 00:02:32,940
+recomputing the redistribution of the UID space and
+
+40
+00:02:32,940 --> 00:02:36,980
+deciding which node is responsible for which UID. That can
+
+41
+00:02:36,980 --> 00:02:40,230
+happen. And in that case also, it is possible that
+
+42
+00:02:40,230 --> 00:02:43,823
+the information that I started with was incorrect. Because I
+
+43
+00:02:43,823 --> 00:02:46,343
+went here thinking that he has the GCD, he didn't
+
+44
+00:02:46,343 --> 00:02:48,821
+have it at that point, but it is changing. And
+
+45
+00:02:48,821 --> 00:02:51,780
+eventually I'm going to find out. So if there is a
+
+46
+00:02:51,780 --> 00:02:55,329
+mess, either case. The first case is, this guy replaced
+
+47
+00:02:55,329 --> 00:02:58,434
+that page, or the second case is, my POD information
+
+48
+00:02:58,434 --> 00:03:02,020
+misled me. Both cases, I'll have a miss. And I'll
+
+49
+00:03:02,020 --> 00:03:05,000
+say, oh, it was a miss. And I know that
+
+50
+00:03:05,000 --> 00:03:08,284
+is probably the uncommon case. I'm going to retry that,
+
+51
+00:03:08,284 --> 00:03:10,864
+by looking up my POD again. And by that time, the
+
+52
+00:03:10,864 --> 00:03:13,904
+POD may have been updated, I'll go to the right
+
+53
+00:03:13,904 --> 00:03:17,218
+GCD this time. Or, the GCD would have been updated
+
+54
+00:03:17,218 --> 00:03:19,682
+and so I'll go to the same GCD, but the
+
+55
+00:03:19,682 --> 00:03:23,455
+GCD will have the more relevant information of which PFD is
+
+56
+00:03:23,455 --> 00:03:26,295
+currently hosting it. So, I'll go to him in
+
+57
+00:03:26,295 --> 00:03:29,620
+order to get the page that I'm looking for.
+
+58
+00:03:29,620 --> 00:03:32,120
+But the important point I want to leave you with
+
+59
+00:03:32,120 --> 00:03:36,470
+is that the common case is when both the POD
+
+60
+00:03:36,470 --> 00:03:39,360
+and GCD are coresident on the same node. And
+
+61
+00:03:39,360 --> 00:03:41,560
+in that case, you don't have a network communication to
+
+62
+00:03:41,560 --> 00:03:45,760
+look up the GCD, and also the miss happening
+
+63
+00:03:45,760 --> 00:03:48,808
+when you do reach the PFD. That is also uncommon.
+
+64
+00:03:48,808 --> 00:03:52,730
+It can because happen because of replacement that has happened
+
+65
+00:03:52,730 --> 00:03:56,110
+on that node, or because the POD has changed. And this
+
+66
+00:03:56,110 --> 00:04:00,130
+is something that is going to happen relatively infrequently compared to
+
+67
+00:04:00,130 --> 00:04:03,980
+the activities that we're talking about in terms of page faults.

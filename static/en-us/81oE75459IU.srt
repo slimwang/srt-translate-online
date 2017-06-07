@@ -1,0 +1,326 @@
+1
+00:00:00,190 --> 00:00:05,260
+Let's look closer at how block devices
+are used, using the similar diagram.
+
+2
+00:00:05,260 --> 00:00:08,720
+Block devices, like disks,
+are typically used for storage.
+
+3
+00:00:08,720 --> 00:00:11,360
+And the typical
+storage-related abstraction,
+
+4
+00:00:11,360 --> 00:00:13,570
+used by applications, is a file.
+
+5
+00:00:13,570 --> 00:00:15,600
+The file is a logical storage unit,
+
+6
+00:00:15,600 --> 00:00:19,660
+and it is mapped to some underlying
+physical storage location.
+
+7
+00:00:19,660 --> 00:00:22,290
+What that means is that
+at the top-most level,
+
+8
+00:00:22,290 --> 00:00:24,500
+applications don't
+think about the disks.
+
+9
+00:00:24,500 --> 00:00:29,820
+They don't issue operations on disks for
+seeking blocks and sectors, etc.
+
+10
+00:00:29,820 --> 00:00:32,140
+Instead, they think about files, and
+
+11
+00:00:32,140 --> 00:00:34,998
+they request operations
+to be performed on files.
+
+12
+00:00:34,998 --> 00:00:39,990
+Below this file-based interface used by
+applications will be the file system.
+
+13
+00:00:39,990 --> 00:00:43,120
+The file system will have the
+information how to take these reads and
+
+14
+00:00:43,120 --> 00:00:45,550
+writes that are coming
+from the application, and
+
+15
+00:00:45,550 --> 00:00:49,530
+to then determine where exactly
+is the file, how to access it,
+
+16
+00:00:49,530 --> 00:00:52,820
+what is the particular portion of
+that file that needs to be accessed,
+
+17
+00:00:52,820 --> 00:00:56,050
+what are any permission checks
+that need to be performed, and
+
+18
+00:00:56,050 --> 00:00:58,800
+to ultimately initiate
+the actual access.
+
+19
+00:00:58,800 --> 00:01:02,590
+One thing that's useful to have is for
+operating systems provide some
+
+20
+00:01:02,590 --> 00:01:07,660
+flexibility in the actual details
+that a file system has in terms of
+
+21
+00:01:07,660 --> 00:01:12,980
+how it lays out files in disk,
+how it performs these access operations.
+
+22
+00:01:12,980 --> 00:01:17,770
+In order to do that, operating systems
+allow for a file system to be modified
+
+23
+00:01:17,770 --> 00:01:21,290
+or completely replaced with
+a different file system.
+
+24
+00:01:21,290 --> 00:01:22,820
+To make this easy,
+
+25
+00:01:22,820 --> 00:01:27,150
+operating systems specify something
+about the file system interfaces.
+
+26
+00:01:27,150 --> 00:01:31,900
+This includes both the interfaces that
+are used by applications to interact
+
+27
+00:01:31,900 --> 00:01:37,420
+with the file system, and there,
+the norm is the POSIX API that includes
+
+28
+00:01:37,420 --> 00:01:42,530
+the read and write and open file system
+calls that we've mentioned so far.
+
+29
+00:01:42,530 --> 00:01:45,380
+Also, standardizing
+the file system interfaces
+
+30
+00:01:45,380 --> 00:01:48,660
+means that there would be certain
+standard APIs in terms of
+
+31
+00:01:48,660 --> 00:01:53,050
+how these file systems interact with
+the underlying storage devices,
+
+32
+00:01:53,050 --> 00:01:57,030
+as well as with other operating system
+components they need to interact with.
+
+33
+00:01:57,030 --> 00:01:59,660
+If the files are indeed
+stored on block devices,
+
+34
+00:01:59,660 --> 00:02:03,520
+clearly at the lowest level, the file
+system will need to interact with
+
+35
+00:02:03,520 --> 00:02:06,490
+these block devices near
+their device drivers.
+
+36
+00:02:06,490 --> 00:02:10,520
+We can have different types of block
+devices where the files could be stored,
+
+37
+00:02:10,520 --> 00:02:15,300
+SCSI ID disk, hard disk,
+USB drive, solid state disks.
+
+38
+00:02:15,300 --> 00:02:19,050
+And the actual interaction
+with them will require certain
+
+39
+00:02:19,050 --> 00:02:21,410
+protocol specific APIs.
+
+40
+00:02:21,410 --> 00:02:25,000
+Now, in spite of the fact that all
+of these may be block devices,
+
+41
+00:02:25,000 --> 00:02:27,650
+there still may be certain
+differences among them.
+
+42
+00:02:27,650 --> 00:02:31,010
+For instance, what are the types
+of errors they report or
+
+43
+00:02:31,010 --> 00:02:32,970
+how they report the errors.
+
+44
+00:02:32,970 --> 00:02:37,550
+So, in order to mask all of that,
+the block device stack introduces
+
+45
+00:02:37,550 --> 00:02:41,740
+another layer, and
+that is the generic block layer.
+
+46
+00:02:41,740 --> 00:02:45,340
+The intent of this layer is
+to provide a standard for
+
+47
+00:02:45,340 --> 00:02:50,050
+a particular operating system
+to all types of block devices.
+
+48
+00:02:50,050 --> 00:02:53,010
+The full device features
+are still available and
+
+49
+00:02:53,010 --> 00:02:55,700
+unaccessible through the device driver.
+
+50
+00:02:55,700 --> 00:02:59,920
+However, if used by the file system
+stack some of these will be abstracted
+
+51
+00:02:59,920 --> 00:03:02,930
+underneath this generic
+block device interface.
+
+52
+00:03:02,930 --> 00:03:06,920
+So then what happens when the user
+process wants to perform an access,
+
+53
+00:03:06,920 --> 00:03:11,540
+a read or write operation in the file,
+it invokes that read/write operation for
+
+54
+00:03:11,540 --> 00:03:16,390
+the POSIX API and
+the kernel level file system will then,
+
+55
+00:03:16,390 --> 00:03:19,940
+based on the information that it
+maintains, will determine what is
+
+56
+00:03:19,940 --> 00:03:23,290
+the exact device that needs to be
+accessed, and what is the exact
+
+57
+00:03:23,290 --> 00:03:28,180
+block on that device that supports
+that particular region of the file.
+
+58
+00:03:28,180 --> 00:03:31,430
+That in turn will result
+in some generic read block,
+
+59
+00:03:31,430 --> 00:03:35,970
+write block operations that are passed
+to the generic block layer and
+
+60
+00:03:35,970 --> 00:03:41,085
+this layer will know how exactly to
+interact with a particular driver,
+
+61
+00:03:41,085 --> 00:03:44,475
+so how to pass those operations
+to the particular driver and
+
+62
+00:03:44,475 --> 00:03:48,565
+how to interpret the error messages,
+or notifications,
+
+63
+00:03:48,565 --> 00:03:51,595
+or responses that
+are generated by that driver.
+
+64
+00:03:51,595 --> 00:03:54,275
+Any lower-level differences
+among the devices,
+
+65
+00:03:54,275 --> 00:03:57,655
+like the protocols that they use, et
+cetera, will be handled by the driver.
+
+66
+00:03:57,655 --> 00:04:00,464
+It will speak the specific
+protocol that's necessary for
+
+67
+00:04:00,464 --> 00:04:01,674
+the particular device.

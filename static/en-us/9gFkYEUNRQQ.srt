@@ -1,0 +1,588 @@
+1
+00:00:00,730 --> 00:00:04,732
+So let's recap our current knowledge
+schema of where you're are and
+
+2
+00:00:04,732 --> 00:00:05,703
+how we got here.
+
+3
+00:00:05,703 --> 00:00:10,404
+So we started off by defining a schema
+and then creating the contract class.
+
+4
+00:00:10,404 --> 00:00:15,185
+And then using this contract class
+you are able to write the PetDbHelper
+
+5
+00:00:15,185 --> 00:00:19,804
+which is a class that provides
+a connection to a database by returning
+
+6
+00:00:19,804 --> 00:00:21,412
+this database object.
+
+7
+00:00:21,412 --> 00:00:26,269
+This class also helps create a database
+if one doesn't already exist.
+
+8
+00:00:26,269 --> 00:00:31,661
+Using the SQLiteDatabase object we learn
+that we can call various CRUD methods,
+
+9
+00:00:31,661 --> 00:00:35,242
+so the create, read,
+update, and delete methods.
+
+10
+00:00:35,242 --> 00:00:39,801
+So far you've learned about the insert
+method which is used to update data and
+
+11
+00:00:39,801 --> 00:00:42,761
+the query method,
+which is used to read out data.
+
+12
+00:00:42,761 --> 00:00:46,249
+So the query method takes
+in quite a few parameters.
+
+13
+00:00:46,249 --> 00:00:51,974
+And the three that we focused on were
+projection, selection and selectionArgs.
+
+14
+00:00:51,974 --> 00:00:52,737
+You remember,
+
+15
+00:00:52,737 --> 00:00:56,153
+projection allows us to specify
+what columns we're interested in.
+
+16
+00:00:56,153 --> 00:00:57,337
+And the selection and
+
+17
+00:00:57,337 --> 00:01:01,166
+selectionArgs helped us to specify
+what rows we're interested in.
+
+18
+00:01:01,166 --> 00:01:05,053
+In our query method returned
+back to us this cursor.
+
+19
+00:01:05,053 --> 00:01:07,409
+So let's see how the query method and
+
+20
+00:01:07,409 --> 00:01:11,755
+cursor object of returns fits into
+our existing knowledge schema.
+
+21
+00:01:11,755 --> 00:01:15,555
+So the SQLiteDatabase object
+can call the query method,
+
+22
+00:01:15,555 --> 00:01:18,100
+which we learned returns the cursor.
+
+23
+00:01:18,100 --> 00:01:23,322
+And this cursor can be passed back
+the UI to be used or displayed.
+
+24
+00:01:23,322 --> 00:01:25,882
+So given what we just learned
+about the query method and
+
+25
+00:01:25,882 --> 00:01:28,498
+the cursor object looking at
+the current set of the app,
+
+26
+00:01:28,498 --> 00:01:31,968
+we notice that it's not printing out
+any of that information we got back.
+
+27
+00:01:31,968 --> 00:01:34,788
+Well, this is because we've
+only received the cursor, but
+
+28
+00:01:34,788 --> 00:01:38,069
+we haven't set up any way to display
+any information from it just yet.
+
+29
+00:01:38,069 --> 00:01:42,802
+So our goal at the end of lesson 2 is
+to be able to print out the information
+
+30
+00:01:42,802 --> 00:01:47,395
+about the pets in your database in
+a text view in the catalog activity.
+
+31
+00:01:47,395 --> 00:01:48,512
+So, to get started,
+
+32
+00:01:48,512 --> 00:01:52,435
+let's take a look at an example of how
+to get information from that cursor.
+
+33
+00:01:52,435 --> 00:01:55,342
+And I've written out some code
+linked in there just below and
+
+34
+00:01:55,342 --> 00:01:57,001
+let's take a closer look at that.
+
+35
+00:01:57,001 --> 00:02:01,235
+So, if we will take that block of while
+code and execute it on our pets table,
+
+36
+00:02:01,235 --> 00:02:03,235
+here's what that would look like.
+
+37
+00:02:03,235 --> 00:02:07,142
+Now, by default,
+the cursor starts at Position -1,
+
+38
+00:02:07,142 --> 00:02:11,633
+then when we enter the while loop,
+the first call moveToNext and
+
+39
+00:02:11,633 --> 00:02:14,059
+this moves cursor to position 0.
+
+40
+00:02:14,059 --> 00:02:18,982
+So this takes us to the first row of the
+database and move to next, we'll return
+
+41
+00:02:18,982 --> 00:02:23,172
+back to as true, because the cursor
+has moved to a valid position.
+
+42
+00:02:23,172 --> 00:02:25,430
+Now once we are in the body of the loop,
+
+43
+00:02:25,430 --> 00:02:28,405
+we can do some operations
+on the values in the row.
+
+44
+00:02:28,405 --> 00:02:32,806
+So we do so using our two different
+get type methods here, our getIn and
+
+45
+00:02:32,806 --> 00:02:37,506
+getString and both of these take in
+column indices which we saw explained in
+
+46
+00:02:37,506 --> 00:02:38,715
+an earlier video.
+
+47
+00:02:38,715 --> 00:02:43,812
+So in this case we're using both of
+these methods to get the idea and
+
+48
+00:02:43,812 --> 00:02:45,642
+the name from this row.
+
+49
+00:02:45,642 --> 00:02:48,543
+So getting back 1 and Toto.
+
+50
+00:02:48,543 --> 00:02:53,150
+And then once you're done with this row,
+the loop will move out and repeat itself
+
+51
+00:02:53,150 --> 00:02:57,104
+calling moveToNext again and
+visually, this is what it looks like.
+
+52
+00:02:57,104 --> 00:03:01,184
+So the cursor will continue to
+move on to the next row until all
+
+53
+00:03:01,184 --> 00:03:04,386
+the statements in the loop repeat for
+that row.
+
+54
+00:03:04,386 --> 00:03:07,285
+So here again, moving down.
+
+55
+00:03:07,285 --> 00:03:11,409
+Move to next will return true because
+the cursor could again move to a valid
+
+56
+00:03:11,409 --> 00:03:12,083
+position.
+
+57
+00:03:12,083 --> 00:03:16,520
+And you can see as the while loop
+continues to move through all
+
+58
+00:03:16,520 --> 00:03:18,262
+the rows in our cursor.
+
+59
+00:03:18,262 --> 00:03:22,431
+So the while loop continued to move
+our cursor through the positions and
+
+60
+00:03:22,431 --> 00:03:26,194
+executing these lines of code until
+we get to this last row here.
+
+61
+00:03:26,194 --> 00:03:29,003
+Now after the statement is
+complete on this last row
+
+62
+00:03:29,003 --> 00:03:31,093
+moveToNext is called one more time and
+
+63
+00:03:31,093 --> 00:03:35,363
+the cursor will try to move, but notice
+that it moves to an invalid position.
+
+64
+00:03:35,363 --> 00:03:37,097
+And when this happens,
+
+65
+00:03:37,097 --> 00:03:41,877
+moveToNext returns false because
+there is no next row to move to.
+
+66
+00:03:41,877 --> 00:03:45,144
+And this means the loop can stop.
+
+67
+00:03:45,144 --> 00:03:49,805
+So I removed the old try finally block,
+the one right below the query method,
+
+68
+00:03:49,805 --> 00:03:52,471
+and replaced it with
+the code from the gist.
+
+69
+00:03:52,471 --> 00:03:56,762
+Now what this code essentially
+does is first it gets a text view,
+
+70
+00:03:56,762 --> 00:04:01,052
+then it prints out how many pets
+there are and then it prints ID and
+
+71
+00:04:01,052 --> 00:04:02,492
+pet name as headers.
+
+72
+00:04:02,492 --> 00:04:07,330
+Afterwards it cycles through all the
+pets in the cursor to get their ID and
+
+73
+00:04:07,330 --> 00:04:11,868
+names and then appends the information
+to the text in the text view.
+
+74
+00:04:11,868 --> 00:04:14,884
+Lastly, it makes sure that
+the cursor is closed and
+
+75
+00:04:14,884 --> 00:04:17,070
+it does so to avoid any memory leaks.
+
+76
+00:04:17,070 --> 00:04:18,970
+Now here's what the app looks
+like when it's running.
+
+77
+00:04:20,079 --> 00:04:23,891
+And I've gone ahead and
+input at four different pets already in.
+
+78
+00:04:23,891 --> 00:04:27,142
+Notice that it just shows the id and
+name of each pet.
+
+79
+00:04:27,142 --> 00:04:30,431
+So let's see exactly how this
+was accomplished in the code So
+
+80
+00:04:30,431 --> 00:04:33,865
+that you can go ahead and
+complete the exercise for this topic.
+
+81
+00:04:33,865 --> 00:04:37,766
+So starting off, you already have
+a text view in the catalogue activity.
+
+82
+00:04:37,766 --> 00:04:43,419
+The one that we have here in res
+layout and catalogue activity.
+
+83
+00:04:43,419 --> 00:04:45,302
+So this text view here.
+
+84
+00:04:45,302 --> 00:04:46,970
+And we can go ahead and
+
+85
+00:04:46,970 --> 00:04:51,986
+find it using find view by id to
+get a reference to that text view.
+
+86
+00:04:51,986 --> 00:04:56,570
+Next, we set the text of the text view
+to show how many pets are stored in
+
+87
+00:04:56,570 --> 00:04:58,689
+the cursor, in this line here.
+
+88
+00:04:58,689 --> 00:05:00,129
+And then after this,
+
+89
+00:05:00,129 --> 00:05:04,617
+we use the pen command in order to
+keep adding text to the text view.
+
+90
+00:05:04,617 --> 00:05:08,748
+So, what we add to it,
+is the name column and id column.
+
+91
+00:05:08,748 --> 00:05:11,769
+So common pattern we're
+looking through cursors is to
+
+92
+00:05:11,769 --> 00:05:14,077
+use a while loop like
+the one we have here.
+
+93
+00:05:14,077 --> 00:05:17,862
+Doing so, helps us move through all
+the information in the cursor and
+
+94
+00:05:17,862 --> 00:05:19,961
+let see exactly how that's done now.
+
+95
+00:05:19,961 --> 00:05:24,588
+So in this code, outside the while loop,
+we first get the column indices for
+
+96
+00:05:24,588 --> 00:05:26,699
+the idColumn and the nameColumn.
+
+97
+00:05:26,699 --> 00:05:30,360
+Now in the while loop,
+I use getString and
+
+98
+00:05:30,360 --> 00:05:33,921
+getID in order to get the name and
+the ID.
+
+99
+00:05:33,921 --> 00:05:38,042
+After which I append these
+values to the text view.
+
+100
+00:05:38,042 --> 00:05:41,185
+As I noted before,
+you should always close your cursor.
+
+101
+00:05:41,185 --> 00:05:43,860
+So this is the purpose
+of using this try block.
+
+102
+00:05:43,860 --> 00:05:46,473
+So it surrounds the code
+that uses the cursor.
+
+103
+00:05:46,473 --> 00:05:50,809
+And once this codes completes,
+this finally clause here is called and
+
+104
+00:05:50,809 --> 00:05:52,213
+the cursor is closed.
+
+105
+00:05:52,213 --> 00:05:56,851
+Now if for some reason a code crashes,
+the cursor will also be closed.
+
+106
+00:05:56,851 --> 00:05:59,917
+And this is because with
+the try-catch block
+
+107
+00:05:59,917 --> 00:06:04,769
+the finally clause always happens
+whether or not the program crashes.
+
+108
+00:06:04,769 --> 00:06:09,302
+So what we've set up here is not the
+complete UI for this lesson just yet.
+
+109
+00:06:09,302 --> 00:06:12,617
+I want you to practice using
+the cursor and complete the UI for
+
+110
+00:06:12,617 --> 00:06:16,326
+this lesson by printing the rest of
+the pet information that we see.
+
+111
+00:06:16,326 --> 00:06:21,558
+So I want you to print out the remaining
+breed, gender, and weight.
+
+112
+00:06:21,558 --> 00:06:24,287
+So let's put all that to
+practice in this exercise.
+
+113
+00:06:24,287 --> 00:06:27,945
+I'd like you to modify the catalog
+activity by replacing the code that
+
+114
+00:06:27,945 --> 00:06:32,310
+displays the cursor count with
+the code provide in the gist below.
+
+115
+00:06:32,310 --> 00:06:34,641
+So once you call
+the SQLite query method,
+
+116
+00:06:34,641 --> 00:06:37,838
+read the pet attributes from
+from the cursor returned and
+
+117
+00:06:37,838 --> 00:06:41,845
+then display the pet attributes in
+a text view in the catalog activity.
+
+118
+00:06:43,025 --> 00:06:45,748
+All attributes of the pet should
+be shown in the text view.
+
+119
+00:06:45,748 --> 00:06:49,667
+And it's okay if you have different pets
+in your database compared to what you
+
+120
+00:06:49,667 --> 00:06:50,218
+see here.
+
+121
+00:06:50,218 --> 00:06:53,457
+So to recap, you're going to
+update your catalog activity so
+
+122
+00:06:53,457 --> 00:06:57,214
+that rather then just displaying
+the number of rows in our database,
+
+123
+00:06:57,214 --> 00:07:01,293
+the code provided in the gist will allow
+us to see information about the pets
+
+124
+00:07:01,293 --> 00:07:02,160
+from each row.

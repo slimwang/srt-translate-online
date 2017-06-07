@@ -1,0 +1,190 @@
+1
+00:00:00,280 --> 00:00:04,310
+One of the best things about Android's
+Java language is that it's a managed
+
+2
+00:00:04,310 --> 00:00:08,470
+memory environment that is, you don't
+have to be super careful about handling
+
+3
+00:00:08,470 --> 00:00:11,060
+when objects are created or destroyed.
+
+4
+00:00:11,060 --> 00:00:12,620
+While this is generally great,
+
+5
+00:00:12,620 --> 00:00:17,330
+there's some hidden performance problems
+lurking under the surface here.
+
+6
+00:00:17,330 --> 00:00:20,330
+Now remember,
+the memory heaps in Android's runtimes
+
+7
+00:00:20,330 --> 00:00:23,720
+are segmented into spaces,
+based on the type of allocation and
+
+8
+00:00:23,720 --> 00:00:27,980
+how best the system can organize
+allocations for future GC events.
+
+9
+00:00:27,980 --> 00:00:30,580
+And each space has its
+own reserved memory size.
+
+10
+00:00:30,580 --> 00:00:34,140
+When the combined size of an object in
+a space begins to approach its upper
+
+11
+00:00:34,140 --> 00:00:38,050
+limit, a garbage collection event
+is kicked off to free up space and
+
+12
+00:00:38,050 --> 00:00:39,612
+remove unneeded objects.
+
+13
+00:00:39,612 --> 00:00:43,935
+These GC events aren't generally a
+noticeable problem to your performance.
+
+14
+00:00:43,935 --> 00:00:46,369
+However, a lot of them recurring
+over and over and over and
+
+15
+00:00:46,369 --> 00:00:48,915
+over again can quickly
+eat up your frame time.
+
+16
+00:00:48,915 --> 00:00:50,725
+The more time you're spending doing GCs,
+
+17
+00:00:50,725 --> 00:00:54,492
+the less time you have to do other stuff
+like rendering or streaming audio.
+
+18
+00:00:54,492 --> 00:00:57,632
+One common situation that developers
+can fall into that cause a lot of
+
+19
+00:00:57,632 --> 00:01:00,792
+these GCs to occur is
+known as memory leaks.
+
+20
+00:01:00,792 --> 00:01:04,272
+Memory leaks are objects which
+the application is no longer using, but
+
+21
+00:01:04,272 --> 00:01:07,402
+the garbage collector fails
+to recognize them as unused.
+
+22
+00:01:07,402 --> 00:01:09,502
+The result is that they
+stay resident in your heap,
+
+23
+00:01:09,502 --> 00:01:13,282
+taking up valuable space that's
+never freed up for other objects.
+
+24
+00:01:13,282 --> 00:01:14,542
+As you continue to leak memory,
+
+25
+00:01:14,542 --> 00:01:17,802
+the available space in your heap's
+generation continues to get smaller and
+
+26
+00:01:17,802 --> 00:01:22,230
+smaller and smaller, which means that
+more GCs will be executed more often
+
+27
+00:01:22,230 --> 00:01:25,490
+to try to free up space for
+normal program execution.
+
+28
+00:01:25,490 --> 00:01:28,530
+Finding and
+fixing leaks is tricky business.
+
+29
+00:01:28,530 --> 00:01:30,040
+Some leaks are really easy to create,
+
+30
+00:01:30,040 --> 00:01:33,790
+like making circular references to
+objects which the program isn't using.
+
+31
+00:01:33,790 --> 00:01:35,410
+While other are not so simple,
+
+32
+00:01:35,410 --> 00:01:39,680
+like holding on handles to class loader
+objects as they're being loaded.
+
+33
+00:01:39,680 --> 00:01:43,160
+In either case, a smooth running,
+fast application needs to be aware and
+
+34
+00:01:43,160 --> 00:01:45,640
+sensitive to memory
+leaks that may exist.
+
+35
+00:01:45,640 --> 00:01:48,160
+I mean, your code's going to be
+running on a federation of devices and
+
+36
+00:01:48,160 --> 00:01:49,270
+different types, and
+
+37
+00:01:49,270 --> 00:01:52,150
+not all of them are going to have
+the same memory footprints and sizes.
+
+38
+00:01:52,150 --> 00:01:55,420
+Thankfully, there's a simple tool that's
+available to help us see where these
+
+39
+00:01:55,420 --> 00:01:57,610
+leaks might exist
+inside the Android SDK.
+
+40
+00:01:57,610 --> 00:01:58,800
+Let's take a look.

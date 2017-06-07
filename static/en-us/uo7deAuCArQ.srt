@@ -1,0 +1,136 @@
+1
+00:00:00,080 --> 00:00:04,840
+First are the says, does this ensure
+that can never read the data?
+
+2
+00:00:04,840 --> 00:00:09,350
+So the first one says yes, Charlie does
+not have access to read this file foo.
+
+3
+00:00:09,350 --> 00:00:13,118
+So Charlie made a direct
+request to the system, saying,
+
+4
+00:00:13,118 --> 00:00:14,772
+I want to read this file.
+
+5
+00:00:14,772 --> 00:00:18,656
+The system is going to check the access
+control matrix information that we have.
+
+6
+00:00:18,656 --> 00:00:23,270
+It's not going to find the information
+for Charlie, so it's going to deny.
+
+7
+00:00:23,270 --> 00:00:27,940
+So Charlie is not going to be able
+to gain access to the file directly.
+
+8
+00:00:27,940 --> 00:00:29,710
+But things are a little
+bit more interesting.
+
+9
+00:00:29,710 --> 00:00:34,280
+So what can happen here is that
+Bob is able to read this file.
+
+10
+00:00:34,280 --> 00:00:39,380
+So what can Bob do here, is read this
+sensitive data from file foo, and
+
+11
+00:00:39,380 --> 00:00:42,410
+Bob can create a new file that he owns.
+
+12
+00:00:42,410 --> 00:00:47,843
+And he can then tow the read data into
+this new file that is owned by him.
+
+13
+00:00:47,843 --> 00:00:52,104
+So the data is now being moved
+from file foo into a new file
+
+14
+00:00:52,104 --> 00:00:53,744
+that is owned by Bob.
+
+15
+00:00:53,744 --> 00:00:57,593
+And that's possible because Bob could
+read the data into some buffering
+
+16
+00:00:57,593 --> 00:00:58,108
+memory.
+
+17
+00:00:58,108 --> 00:01:02,210
+And then Bob is writing that buffer
+into this new file that he just created.
+
+18
+00:01:02,210 --> 00:01:06,150
+The new file that Bob has created
+is owned by Bob and he, of course,
+
+19
+00:01:06,150 --> 00:01:10,320
+can give permission to read
+that new file to Charlie.
+
+20
+00:01:10,320 --> 00:01:14,720
+And this new file contains the same data
+that was there in Alice's file, foo.
+
+21
+00:01:14,720 --> 00:01:18,410
+So the answer here actually is
+going to be the second one.
+
+22
+00:01:18,410 --> 00:01:22,900
+It does not ensure that Charlie will
+never be able to read the data.
+
+23
+00:01:22,900 --> 00:01:25,160
+This is called information flow problem.
+
+24
+00:01:25,160 --> 00:01:28,890
+Can the information that you shared
+with someone else flow to another user?
+
+25
+00:01:28,890 --> 00:01:30,520
+And discretionary access control,
+
+26
+00:01:30,520 --> 00:01:34,980
+unfortunately there is no way to
+prevent that kind of information flow.
+
+27
+00:01:34,980 --> 00:01:37,130
+And so we can't make this guarantee.
+
+28
+00:01:37,130 --> 00:01:39,940
+The only guarantee we can make
+is that Charlie will not be able
+
+29
+00:01:39,940 --> 00:01:41,285
+to directly read the file foo.

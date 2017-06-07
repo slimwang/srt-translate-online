@@ -1,0 +1,219 @@
+1
+00:00:01,010 --> 00:00:04,120
+We've improved the initial experience
+feedback in the case of poor
+
+2
+00:00:04,120 --> 00:00:08,210
+connectivity, but what happens if
+the weather server goes down or
+
+3
+00:00:08,210 --> 00:00:10,170
+if from behind a captive portal?
+
+4
+00:00:10,170 --> 00:00:14,270
+In that case, we could get either no
+data or some form of corrupted data and
+
+5
+00:00:14,270 --> 00:00:17,220
+the user still will have
+no idea what is happening.
+
+6
+00:00:17,220 --> 00:00:19,147
+Let's start by enumerating the states,
+
+7
+00:00:19,147 --> 00:00:21,590
+we want to communicate
+with the user about.
+
+8
+00:00:21,590 --> 00:00:25,191
+While Java supports enumerated types,
+they're somewhat expensive and
+
+9
+00:00:25,191 --> 00:00:28,632
+inefficient by comparison to using
+static final integer constants.
+
+10
+00:00:28,632 --> 00:00:30,989
+So at Android,
+we recommend avoiding them.
+
+11
+00:00:30,989 --> 00:00:34,266
+That being said, it would be nice
+to have some type safety and
+
+12
+00:00:34,266 --> 00:00:39,400
+that's where the annotations we've added
+to the Android Support Library can help.
+
+13
+00:00:39,400 --> 00:00:42,600
+Well, first of all,
+what are annotations?
+
+14
+00:00:42,600 --> 00:00:46,286
+In Java, annotations are specified
+beginning with an @ sign,
+
+15
+00:00:46,286 --> 00:00:48,824
+such as the commonly
+used @override here.
+
+16
+00:00:48,824 --> 00:00:52,956
+They contain information or metadata
+that gets associated with the code in
+
+17
+00:00:52,956 --> 00:00:56,709
+our app, but do not directly change
+the functionality of the code.
+
+18
+00:00:56,709 --> 00:00:59,440
+They may be used by
+development tools and
+
+19
+00:00:59,440 --> 00:01:04,690
+depending on the way they are retained,
+may be read at runtime.
+
+20
+00:01:04,690 --> 00:01:07,720
+To use the support annotations,
+we just go to Android Studio
+
+21
+00:01:08,730 --> 00:01:15,040
+to the Project Structure dialog and
+add the support annotations dependency.
+
+22
+00:01:15,040 --> 00:01:17,900
+Since the integer we are storing for
+our state can only have a few
+
+23
+00:01:17,900 --> 00:01:22,590
+predefined values, it would be nice for
+our tools to be able to help us.
+
+24
+00:01:22,590 --> 00:01:25,490
+Cache assigning unsupported
+value to our state,
+
+25
+00:01:25,490 --> 00:01:28,520
+an auto complete the typing
+of variables of this type.
+
+26
+00:01:28,520 --> 00:01:29,700
+The support annotations and
+
+27
+00:01:29,700 --> 00:01:35,260
+library provides functionality that does
+just that using the IntDef annotation.
+
+28
+00:01:35,260 --> 00:01:36,209
+Here's how this works.
+
+29
+00:01:36,209 --> 00:01:41,684
+When we define our integer constants,
+we also create an interface annotation.
+
+30
+00:01:41,684 --> 00:01:45,230
+As in this example from inside
+the app from PAD Library,
+
+31
+00:01:45,230 --> 00:01:48,476
+we then annotate this new
+annotation with IntDef,
+
+32
+00:01:48,476 --> 00:01:52,715
+containing the different integer
+constants that are supported.
+
+33
+00:01:52,715 --> 00:01:56,746
+The retention policy of source tells
+the tool chain that we do not need
+
+34
+00:01:56,746 --> 00:02:00,028
+to preserve this annotation
+in the class or at runtime.
+
+35
+00:02:00,028 --> 00:02:04,763
+Making the annotation not have an impact
+on our runtime or distribution sides.
+
+36
+00:02:04,763 --> 00:02:09,457
+The IDE will now flag cases where we try
+to return a value not in this set from
+
+37
+00:02:09,457 --> 00:02:10,898
+getNavigationMode or
+
+38
+00:02:10,898 --> 00:02:15,769
+pass an integer not from this set
+into this set, @NavigationModeMethod.
+
+39
+00:02:15,769 --> 00:02:20,160
+So what location states do
+we need to think about?
+
+40
+00:02:21,300 --> 00:02:24,270
+The first stage is that
+everything is okay.
+
+41
+00:02:24,270 --> 00:02:25,864
+The second stage is that
+our server is down.
+
+42
+00:02:25,864 --> 00:02:30,020
+The third stage is that our
+server is malfunctioning.
+
+43
+00:02:30,020 --> 00:02:33,038
+The fourth stage is that we don't
+know if the server is up or
+
+44
+00:02:33,038 --> 00:02:35,757
+down, because we haven't
+tried to contact it yet.
+
+45
+00:02:35,757 --> 00:02:40,870
+We'll continue to add states here, as we
+work to make our app production ready.

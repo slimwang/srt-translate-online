@@ -1,0 +1,431 @@
+1
+00:00:00,210 --> 00:00:03,250
+We know move on to our linking topology stage of our solution.
+
+2
+00:00:03,250 --> 00:00:04,860
+If you have followed along with the solution so
+
+3
+00:00:04,860 --> 00:00:08,580
+far, you notice that the count bolt is now connected to the report bolt.
+
+4
+00:00:08,580 --> 00:00:10,670
+But we would really like the connect bolt connected to
+
+5
+00:00:10,670 --> 00:00:15,470
+the intermediate rankings, total rankings and then report bolt, such as this.
+
+6
+00:00:15,470 --> 00:00:17,980
+If this is our goal for the topology,
+
+7
+00:00:17,980 --> 00:00:22,520
+we should start here looking at the total rankings bolt for the centex needed.
+
+8
+00:00:22,520 --> 00:00:24,730
+Navigating to the total rankings bolt.
+
+9
+00:00:24,730 --> 00:00:26,820
+And scrolling down to the constructors,
+
+10
+00:00:26,820 --> 00:00:31,370
+we see that a TotalRankingsBolt calls a constructor with topN and calls super.
+
+11
+00:00:31,370 --> 00:00:34,280
+Let's then look at the AbstractRanker class, and
+
+12
+00:00:34,280 --> 00:00:37,820
+once we navigate to the AbstractRankerBolt, we see that the constructor for
+
+13
+00:00:37,820 --> 00:00:44,030
+super takes in topN, and emits a default emit frequency in seconds, of two.
+
+14
+00:00:44,030 --> 00:00:48,690
+Doing a search on topN, we see that the count equals topN.
+
+15
+00:00:48,690 --> 00:00:51,130
+Therefore we see that we need to define a new integer topN.
+
+16
+00:00:52,300 --> 00:00:55,510
+Navigating again to our topN tweet topology, and
+
+17
+00:00:55,510 --> 00:00:58,180
+scrolling down to the topology builder section.
+
+18
+00:00:58,180 --> 00:01:03,612
+We set the total rankings bolt with a variable topN, I named this component
+
+19
+00:01:03,612 --> 00:01:08,190
+id total-ranker, and scrolling again to the total rankings bolt, we see
+
+20
+00:01:08,190 --> 00:01:12,340
+again that this bolt requires an intermediate rankings with global grouping.
+
+21
+00:01:12,340 --> 00:01:17,150
+Therefore we create the intermediate ranker and globalGrouping link.
+
+22
+00:01:17,150 --> 00:01:21,000
+We then set our intermediate-ranker, intermediate-ranker,
+
+23
+00:01:21,000 --> 00:01:23,340
+with a new IntermediateRankingsBolt.
+
+24
+00:01:23,340 --> 00:01:25,390
+Again, with an integer, TOP_N.
+
+25
+00:01:25,390 --> 00:01:28,280
+Which requires a fieldsGrouping of count-bolt.
+
+26
+00:01:28,280 --> 00:01:30,690
+And finally, a new Fields, word.
+
+27
+00:01:30,690 --> 00:01:32,470
+And we set the TOP_N count.
+
+28
+00:01:32,470 --> 00:01:35,890
+And I'm setting it to an integer of 1,000.
+
+29
+00:01:35,890 --> 00:01:38,100
+We've now updated our topology,
+
+30
+00:01:38,100 --> 00:01:41,810
+to connect the total rankings bolt to the intermediate rankings bolt.
+
+31
+00:01:41,810 --> 00:01:44,350
+And the count bolt is still connected to the report bolt.
+
+32
+00:01:44,350 --> 00:01:46,960
+Therefore, we need to make the connection between the report bolt and
+
+33
+00:01:46,960 --> 00:01:48,470
+the total rankings bolt.
+
+34
+00:01:48,470 --> 00:01:51,550
+And again, according to hint number three, we want to check the connection
+
+35
+00:01:51,550 --> 00:01:55,270
+between the count bolt and the intermediate rankings bolt that we've created.
+
+36
+00:01:55,270 --> 00:01:58,770
+We make the connection between the report bolt and the total ranker bolt.
+
+37
+00:01:58,770 --> 00:02:02,130
+We do this by updating the component id total ranker.
+
+38
+00:02:02,130 --> 00:02:05,300
+And remember that we'll then need to check the connection between the total
+
+39
+00:02:05,300 --> 00:02:07,410
+rankings bolt and the report bolt.
+
+40
+00:02:07,410 --> 00:02:11,030
+Focusing the count bolt to intermediate rankings bolt connection first,
+
+41
+00:02:11,030 --> 00:02:14,250
+we navigate to the intermediate rankings bolt, and
+
+42
+00:02:14,250 --> 00:02:19,810
+we see that an incoming tuple is handled by a rankable object with fields.
+
+43
+00:02:19,810 --> 00:02:23,130
+We then navigate to rankable object with fields.
+
+44
+00:02:23,130 --> 00:02:26,000
+And we see that the schema that rankable object with
+
+45
+00:02:26,000 --> 00:02:29,780
+fields expects is an object and a long count.
+
+46
+00:02:29,780 --> 00:02:32,290
+Therefore we navigate to the count bolt, and
+
+47
+00:02:32,290 --> 00:02:36,010
+we see that our count bolt is actually emitting integers.
+
+48
+00:02:36,010 --> 00:02:38,920
+The way I approach this was to change our integer count to a long,
+
+49
+00:02:38,920 --> 00:02:41,380
+first by changing the private map.
+
+50
+00:02:41,380 --> 00:02:43,340
+Changing the count map to string long.
+
+51
+00:02:44,410 --> 00:02:50,370
+Initializing the map from integer to a string long, and changing integer val
+
+52
+00:02:50,370 --> 00:02:53,940
+to long val, finally I actually missed this the first time, but during compile
+
+53
+00:02:53,940 --> 00:02:58,290
+time realized that we need to change our initialization to a long as well.
+
+54
+00:02:58,290 --> 00:03:01,460
+Next, now that we've updated tupple schema for count bolt and
+
+55
+00:03:01,460 --> 00:03:05,230
+intermediate rankings, let's test out the topology.
+
+56
+00:03:05,230 --> 00:03:09,570
+But notice that the total rankings bolt and report bolt is still not checked.
+
+57
+00:03:10,680 --> 00:03:13,820
+So to run the topology, well have to remove that connection.
+
+58
+00:03:13,820 --> 00:03:16,500
+Let's do this now so that we can run our topology.
+
+59
+00:03:16,500 --> 00:03:19,900
+We can do this simply by navigating to the topN tweet topology, and
+
+60
+00:03:19,900 --> 00:03:22,130
+simply comment out the report bolt.
+
+61
+00:03:22,130 --> 00:03:24,970
+We can test our topology by doing a Maven package.
+
+62
+00:03:24,970 --> 00:03:27,620
+And if you recall from lesson one, you can send the output of
+
+63
+00:03:27,620 --> 00:03:32,730
+the storm using the pipe character and grep total-ranker.
+
+64
+00:03:32,730 --> 00:03:36,000
+And here we see the output of total-ranker, and
+
+65
+00:03:36,000 --> 00:03:39,250
+we see that total-ranker is receiving words.
+
+66
+00:03:39,250 --> 00:03:42,960
+Our next step then, is to connect the total rankings bolt to the report bolt.
+
+67
+00:03:42,960 --> 00:03:46,450
+And I gave you a number of syntax hints in the reading node.
+
+68
+00:03:46,450 --> 00:03:46,980
+Here however,
+
+69
+00:03:46,980 --> 00:03:50,280
+I'll give you some of the intuition of how I came up with those syntax hints.
+
+70
+00:03:50,280 --> 00:03:54,490
+First, since we're making the connection of total ranker to our report bolt,
+
+71
+00:03:54,490 --> 00:03:57,340
+we first navigate to the total rankings bolt, and
+
+72
+00:03:57,340 --> 00:04:01,720
+see that the total rankings bolt extends to abstract ranker bolt.
+
+73
+00:04:01,720 --> 00:04:03,950
+Navigated to the abstract ranker bolt.
+
+74
+00:04:03,950 --> 00:04:08,150
+We searched for the execute method and we see the function emitRankings has been
+
+75
+00:04:08,150 --> 00:04:13,800
+called, and emitRankings is emitting values of rankings.copy and
+
+76
+00:04:13,800 --> 00:04:16,800
+finally we see abstract ranker bolt is emitting rankings.
+
+77
+00:04:16,800 --> 00:04:20,180
+Therefore to connect the total rankings bolt to the report bolt
+
+78
+00:04:20,180 --> 00:04:23,990
+we need to modify the report bolt to handle and post rankings.
+
+79
+00:04:23,990 --> 00:04:25,120
+At this point we're close.
+
+80
+00:04:25,120 --> 00:04:27,440
+Let's go to the Rankings for java file.
+
+81
+00:04:27,440 --> 00:04:32,220
+And we find a method, getRankings, that returns a list of Rankable.
+
+82
+00:04:32,220 --> 00:04:36,840
+Finally, navigating to the Rankable class, we have what we're looking for,
+
+83
+00:04:36,840 --> 00:04:40,220
+namely, getObject and getCount, which is a long.
+
+84
+00:04:40,220 --> 00:04:42,940
+Finally, we navigate to the ReportBolt.
+
+85
+00:04:42,940 --> 00:04:43,580
+And again, remember,
+
+86
+00:04:43,580 --> 00:04:47,370
+we're making this connection between Total Rankings Bolt and the Report Bolt.
+
+87
+00:04:47,370 --> 00:04:49,660
+And we scroll down to our execute method.
+
+88
+00:04:49,660 --> 00:04:53,930
+We can first comment out the existing logic and build up our connection.
+
+89
+00:04:53,930 --> 00:04:56,170
+Given a tuple from the total rankings bolt,
+
+90
+00:04:56,170 --> 00:05:01,420
+we know after our code exploration that we can use getValue at position zero,
+
+91
+00:05:01,420 --> 00:05:07,750
+which will return rankings that I'll call a rankable list, of class rankings.
+
+92
+00:05:07,750 --> 00:05:10,980
+Given our rankings, we call the function getRankings.
+
+93
+00:05:10,980 --> 00:05:15,950
+We iterate through the list of rankable and call the function getObject.
+
+94
+00:05:15,950 --> 00:05:20,020
+And next toString to extract our string word.
+
+95
+00:05:20,020 --> 00:05:22,700
+And finally getCount which is long.
+
+96
+00:05:22,700 --> 00:05:28,740
+We publish to redis with word separated by the bar and a long.toString(count).
+
+97
+00:05:28,740 --> 00:05:31,368
+We update our import statements.
+
+98
+00:05:31,368 --> 00:05:35,230
+And here ii'm simply importing everything in our tools including Rankings and
+
+99
+00:05:35,230 --> 00:05:39,360
+the list that we need that are in import statements in our other files.
+
+100
+00:05:39,360 --> 00:05:42,681
+Finally, we navigate back to topN tweet topology,
+
+101
+00:05:42,681 --> 00:05:46,010
+reconnect our report-bolt to the total-ranker.
+
+102
+00:05:46,010 --> 00:05:48,430
+And now that we've made this connection, let's check.
+
+103
+00:05:48,430 --> 00:05:50,440
+Package and Maven and run, and hopefully,
+
+104
+00:05:50,440 --> 00:05:55,282
+your visualization works with a new world cloud that's using the topN, and
+
+105
+00:05:55,282 --> 00:05:59,550
+here r I'll define topN equaling a thousand, to show.
+
+106
+00:05:59,550 --> 00:06:02,370
+And if so, our connection's correct, and more importantly,
+
+107
+00:06:02,370 --> 00:06:06,520
+we're finished with the second major section of Linking to the Topology.
+
+108
+00:06:06,520 --> 00:06:07,020
+Great Job.

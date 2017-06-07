@@ -1,0 +1,208 @@
+﻿1
+00:00:00,300 --> 00:00:03,899
+You may have noticed that the URIs
+you defined to access data
+
+2
+00:00:03,899 --> 00:00:07,839
+all look pretty similar, with the same
+starting scheme and authority.
+
+3
+00:00:07,839 --> 00:00:11,939
+And it's good practice to store any
+URI components that you commonly use
+
+4
+00:00:11,939 --> 00:00:14,609
+as constants in the contract class.
+
+5
+00:00:14,609 --> 00:00:18,730
+Remember, the contract is designed to
+keep track of constants that will help
+
+6
+00:00:18,730 --> 00:00:21,240
+you access data in a given database.
+
+7
+00:00:21,239 --> 00:00:26,219
+So we'll add to it by including
+the most commonly used URIs and paths.
+
+8
+00:00:26,219 --> 00:00:30,059
+As we've seen, to access data
+from the task content provider
+
+9
+00:00:30,059 --> 00:00:33,030
+you needed to define the following URIs.
+
+10
+00:00:33,030 --> 00:00:35,719
+One for the task directory,
+and one for a single task.
+
+11
+00:00:35,719 --> 00:00:39,199
+And they're comprised of a few parts.
+
+12
+00:00:39,200 --> 00:00:40,310
+After the scheme,
+
+13
+00:00:40,310 --> 00:00:44,340
+there's the content authority which is
+a unique reference to the provider.
+
+14
+00:00:45,340 --> 00:00:48,000
+And all of the URIs that
+our provider recognizes
+
+15
+00:00:48,000 --> 00:00:50,850
+start with these two pieces as a base.
+
+16
+00:00:50,850 --> 00:00:55,620
+So in the task contract well want to
+define the combination as one constant
+
+17
+00:00:55,619 --> 00:01:00,909
+called the base content URI which is
+the scheme and the authority together.
+
+18
+00:01:00,909 --> 00:01:04,848
+After that, is a path, and
+paths point to a specific table or file.
+
+19
+00:01:05,859 --> 00:01:09,590
+And finally, inside your task entry
+class, you'll want to have a constant
+
+20
+00:01:09,590 --> 00:01:14,480
+for the most specific content URI
+that combines all of these elements.
+
+21
+00:01:14,480 --> 00:01:15,829
+So let's add these to the contract.
+
+22
+00:01:17,090 --> 00:01:21,280
+So let's open our task contract and
+add our constants.
+
+23
+00:01:21,280 --> 00:01:24,840
+Let's start with the content authority,
+which is a string.
+
+24
+00:01:24,840 --> 00:01:27,659
+This is the same authority that
+you defined in your Android
+
+25
+00:01:27,659 --> 00:01:29,349
+manifest file earlier.
+
+26
+00:01:29,349 --> 00:01:32,819
+So it's actually a good idea to copy and
+paste it from there.
+
+27
+00:01:32,819 --> 00:01:36,879
+Next we create the base content URI and
+import URI.
+
+28
+00:01:36,879 --> 00:01:39,670
+This is an unchanging URI
+that will be the start
+
+29
+00:01:39,670 --> 00:01:42,960
+of all the URIs we'll be
+using to access our provider.
+
+30
+00:01:42,959 --> 00:01:47,079
+It's the content scheme plus
+the authority we just defined.
+
+31
+00:01:47,079 --> 00:01:51,679
+Then, let's include a string for
+accessing our tasks table specifically.
+
+32
+00:01:51,680 --> 00:01:54,730
+This is a path constant named path tasks
+
+33
+00:01:54,730 --> 00:01:57,480
+that will be appended to
+the base content URI.
+
+34
+00:01:57,480 --> 00:02:00,500
+If our provider kept track
+of multiple tables of data,
+
+35
+00:02:00,500 --> 00:02:04,359
+we would include multiple
+corresponding path constants here.
+
+36
+00:02:04,359 --> 00:02:08,250
+Finally, inside this task entry class
+in the contract, which keeps track of
+
+37
+00:02:08,250 --> 00:02:12,569
+the data that a task entry contains,
+you should create a complete URI for
+
+38
+00:02:12,569 --> 00:02:15,219
+these entries as a constant
+called Content URI.
+
+39
+00:02:16,310 --> 00:02:17,405
+The buildUpon and
+
+40
+00:02:17,405 --> 00:02:23,479
+appendPath methods append our tasks
+path to the end of the base content URI.
+
+41
+00:02:23,479 --> 00:02:27,729
+So this final content URI will
+include the scheme, the authority, and
+
+42
+00:02:27,729 --> 00:02:29,340
+our tasks path.
+
+43
+00:02:29,340 --> 00:02:32,270
+And now it will be simple to
+refer to these URIs again and
+
+44
+00:02:32,270 --> 00:02:33,490
+again to access data.
+

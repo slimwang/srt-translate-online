@@ -1,0 +1,223 @@
+1
+00:00:00,230 --> 00:00:02,395
+Now if we look at the consumer code, so
+
+2
+00:00:02,395 --> 00:00:06,474
+this is the code that's executed by every one of the consumer threads.
+
+3
+00:00:06,474 --> 00:00:11,869
+There, what every one of the threads needs to do, it's going to, in a loop,
+
+4
+00:00:11,869 --> 00:00:18,150
+so in a continuous loop, it will try to remove elements from the shared buffer.
+
+5
+00:00:18,150 --> 00:00:23,040
+In every pass through this loop, the consumer thread will try to remove
+
+6
+00:00:23,040 --> 00:00:28,700
+an element from the buffer and update the rem and num variables accordingly.
+
+7
+00:00:28,700 --> 00:00:32,940
+To these kinds of modifications we have to lock the mutex, and
+
+8
+00:00:32,940 --> 00:00:35,560
+then once we're done we have to unlock the mutex.
+
+9
+00:00:35,560 --> 00:00:39,280
+Again, like in the producer case, we do some sanity error checking to
+
+10
+00:00:39,280 --> 00:00:42,910
+make sure that our buffer doesn't have a negative number of elements.
+
+11
+00:00:42,910 --> 00:00:46,720
+And then before we actually start removing elements from the buffer,
+
+12
+00:00:46,720 --> 00:00:50,610
+we have to make sure that there are any elements in the buffer to begin with,
+
+13
+00:00:50,610 --> 00:00:52,340
+that the buffer isn't empty.
+
+14
+00:00:52,340 --> 00:00:56,920
+If the buffer is empty, so if this variable num that indicates the total number
+
+15
+00:00:56,920 --> 00:01:01,330
+of elements in the buffer is 0, the consumer thread has to wait.
+
+16
+00:01:01,330 --> 00:01:04,900
+The wait is associated with the consumer condition variable.
+
+17
+00:01:04,900 --> 00:01:08,820
+Remember this is the condition variable that the producer thread was
+
+18
+00:01:08,820 --> 00:01:10,330
+signaling to, and
+
+19
+00:01:10,330 --> 00:01:15,570
+also with this wait we have to use the mutex that protects this piece of code.
+
+20
+00:01:15,570 --> 00:01:19,660
+Once we have successfully completed the wait part,
+
+21
+00:01:19,660 --> 00:01:25,480
+so a producer has generated more data, the consumer has been notified,
+
+22
+00:01:25,480 --> 00:01:29,385
+it has come out of the conditional wait, and yes indeed,
+
+23
+00:01:29,385 --> 00:01:33,910
+re-verified that now there is data in the buffer that can be consumed.
+
+24
+00:01:33,910 --> 00:01:37,580
+Then we can safely move on to execute this portion of the code.
+
+25
+00:01:37,580 --> 00:01:42,630
+To remove an element from this buffer, what we really do is we read out
+
+26
+00:01:42,630 --> 00:01:48,360
+the element of the buffer that's pointed by the rem variable.
+
+27
+00:01:48,360 --> 00:01:52,140
+So rem points to the next valid field in
+
+28
+00:01:52,140 --> 00:01:55,900
+the buffer where there is valid data that could be removed.
+
+29
+00:01:55,900 --> 00:01:58,870
+We also make sure to print out that value i, just for
+
+30
+00:01:58,870 --> 00:02:01,890
+sanity, to make sure that we're doing the correct thing.
+
+31
+00:02:01,890 --> 00:02:05,970
+Now that that element that was pointed by rem is no longer valid,
+
+32
+00:02:05,970 --> 00:02:12,060
+we have to make sure we increment rem to point to the next entry in the buffer.
+
+33
+00:02:12,060 --> 00:02:16,340
+Just like in the case with the add index, we have to do some
+
+34
+00:02:16,340 --> 00:02:20,920
+modular computation to deal with wrap-arounds around the end of the buffer.
+
+35
+00:02:20,920 --> 00:02:24,150
+And we have to also make sure we decrement the total number of
+
+36
+00:02:24,150 --> 00:02:25,940
+elements in the array.
+
+37
+00:02:25,940 --> 00:02:31,190
+Now in the producer code, the producer was checking the value of this variable
+
+38
+00:02:31,190 --> 00:02:36,600
+num against buffer size to determine whether or not the buffer is full.
+
+39
+00:02:36,600 --> 00:02:39,400
+Whenever you determine that these are identical so
+
+40
+00:02:39,400 --> 00:02:42,770
+that the buffer is full, the producer was waiting to be
+
+41
+00:02:42,770 --> 00:02:48,210
+notified on a condition variable that's associated with the c producer.
+
+42
+00:02:48,210 --> 00:02:53,100
+Therefore, in the consumer code, now that we've decremented this, variable num,
+
+43
+00:02:53,100 --> 00:02:58,310
+now that we have consumed an element from the buffer and it's no longer full.
+
+44
+00:02:58,310 --> 00:03:03,600
+We need to go ahead and notify a producer thread that there is
+
+45
+00:03:03,600 --> 00:03:07,850
+now room in the buffer to insert other elements, to produce more data.
+
+46
+00:03:07,850 --> 00:03:12,340
+The consumer consumed one element of this buffer, so
+
+47
+00:03:12,340 --> 00:03:15,240
+it makes no sense to broadcast.
+
+48
+00:03:15,240 --> 00:03:19,440
+Only one producer can insert one element in the buffer.
+
+49
+00:03:19,440 --> 00:03:22,570
+Therefore, we will just use pthread_cond_signal.
+
+50
+00:03:22,570 --> 00:03:27,390
+And note how here we are using this pthread_cond_signal outside of
+
+51
+00:03:27,390 --> 00:03:29,590
+the lock-unlock operation.
+
+52
+00:03:29,590 --> 00:03:33,770
+Given that we will always signal once we complete this code that
+
+53
+00:03:33,770 --> 00:03:38,612
+this operation is not conditional upon some specific values of any of
+
+54
+00:03:38,612 --> 00:03:43,820
+the shared data structure, we can release the mutex and then signal, and
+
+55
+00:03:43,820 --> 00:03:47,720
+this will avoid the spurious wakeups issue that we talked about before.
+
+56
+00:03:47,720 --> 00:03:49,970
+Again, the printf's are for debugging purposes.

@@ -1,0 +1,663 @@
+1
+00:00:00,110 --> 00:00:04,130
+Again, what we're trying to do now
+is explore a deterministic MDP and
+
+2
+00:00:04,130 --> 00:00:05,860
+have low mistake bound.
+
+3
+00:00:05,860 --> 00:00:10,155
+The number of actions that we take that
+are sub-optimal by more than epsilon is
+
+4
+00:00:10,155 --> 00:00:12,836
+going to be,
+we need to bound it in terms of things.
+
+5
+00:00:12,836 --> 00:00:13,533
+I don't know.
+
+6
+00:00:13,533 --> 00:00:14,833
+Let's try a little experiment.
+
+7
+00:00:14,833 --> 00:00:17,120
+You're going to be
+the reinforcement learner.
+
+8
+00:00:17,120 --> 00:00:17,970
+>> Okay.
+
+9
+00:00:17,970 --> 00:00:20,670
+>> And I'm going to be the environment,
+and tell you what's going on.
+
+10
+00:00:20,670 --> 00:00:22,282
+So let's say we start
+of on this state here.
+
+11
+00:00:22,282 --> 00:00:24,221
+Which action do you want to do,
+one or two?
+
+12
+00:00:24,221 --> 00:00:27,695
+>> Do I get to cheat and
+look to see what the?
+
+13
+00:00:27,695 --> 00:00:29,250
+[LAUGH]
+>> You could, but
+
+14
+00:00:29,250 --> 00:00:31,758
+I think that somehow isn't
+going to be quite as pedagogical.
+
+15
+00:00:31,758 --> 00:00:36,078
+>> Well, we'll learn a lesson for sure.
+
+16
+00:00:36,078 --> 00:00:37,345
+I'll do one.
+
+17
+00:00:37,345 --> 00:00:39,840
+I don't even know which one is one and
+which one is two anyway.
+
+18
+00:00:39,840 --> 00:00:40,490
+I'll do one.
+
+19
+00:00:40,490 --> 00:00:41,560
+>> Yeah, I get to pick that.
+
+20
+00:00:41,560 --> 00:00:43,862
+That's the good news
+from my perspective.
+
+21
+00:00:43,862 --> 00:00:46,858
+[SOUND] I'm sorry that
+cost you 8 points.
+
+22
+00:00:46,858 --> 00:00:47,903
+>> No!
+
+23
+00:00:47,903 --> 00:00:49,227
+>> Yes, but now we're here.
+
+24
+00:00:49,227 --> 00:00:50,642
+So do you want to do one or two?
+
+25
+00:00:50,642 --> 00:00:53,881
+>> Let's do one again.
+
+26
+00:00:53,881 --> 00:00:54,980
+>> [SOUND] That's not bad.
+
+27
+00:00:54,980 --> 00:00:56,969
+You got plus 2, and
+you didn't go anywhere.
+
+28
+00:00:56,969 --> 00:00:58,010
+>> Just like grad school.
+
+29
+00:00:59,480 --> 00:01:00,230
+Well, I've done one.
+
+30
+00:01:00,230 --> 00:01:01,750
+I know what that is, so let's try two.
+
+31
+00:01:01,750 --> 00:01:03,730
+>> Okay, [SOUND] plus 10,
+so that's really good, but
+
+32
+00:01:03,730 --> 00:01:05,114
+now, you're some place new.
+
+33
+00:01:05,114 --> 00:01:06,541
+>> Can I invent a time machine?
+
+34
+00:01:06,541 --> 00:01:08,341
+Let's do one.
+
+35
+00:01:08,341 --> 00:01:10,594
+>> Let's do one.
+
+36
+00:01:10,594 --> 00:01:12,114
+Minus 6, ouch.
+
+37
+00:01:12,114 --> 00:01:12,753
+Now you're here.
+
+38
+00:01:12,753 --> 00:01:14,101
+>> Ugh.
+
+39
+00:01:14,101 --> 00:01:15,290
+All right, let's do one.
+
+40
+00:01:16,550 --> 00:01:17,850
+When I was in that other state and
+
+41
+00:01:17,850 --> 00:01:20,040
+I got a plus 2,
+I could have just stayed there forever.
+
+42
+00:01:20,040 --> 00:01:21,721
+In fact,
+that probably was the right thing to do,
+
+43
+00:01:21,721 --> 00:01:22,650
+because I get infinite reward.
+
+44
+00:01:22,650 --> 00:01:23,846
+>> Well it's discounted.
+
+45
+00:01:23,846 --> 00:01:25,261
+>> I said by discount to be one.
+
+46
+00:01:25,261 --> 00:01:27,128
+>> [LAUGH] No,
+you don't get to choose that.
+
+47
+00:01:27,128 --> 00:01:28,530
+>> [LAUGH] That's not fair.
+
+48
+00:01:28,530 --> 00:01:30,510
+Okay, so I'm sorry, I interrupted you.
+
+49
+00:01:30,510 --> 00:01:31,760
+>> So you chose action one.
+
+50
+00:01:31,760 --> 00:01:33,990
+So I'll give you one point for
+choosing action one.
+
+51
+00:01:33,990 --> 00:01:35,140
+>> And I end up in another state.
+
+52
+00:01:36,560 --> 00:01:38,074
+All right, well,
+let's do action one again.
+
+53
+00:01:38,074 --> 00:01:41,798
+>> [SOUND] All right, so plus 1,
+and you get to be there again.
+
+54
+00:01:41,798 --> 00:01:44,749
+>> If I just keep doing action
+one over and over again forever,
+
+55
+00:01:44,749 --> 00:01:47,230
+I'll accumulate infinite reward.
+
+56
+00:01:47,230 --> 00:01:47,760
+>> No, sorry.
+
+57
+00:01:47,760 --> 00:01:49,760
+You'll get one over one minus gamma.
+
+58
+00:01:49,760 --> 00:01:50,418
+>> Aah!
+
+59
+00:01:50,418 --> 00:01:52,635
+Okay, I'll set gamma equal to one.
+
+60
+00:01:52,635 --> 00:01:56,300
+>> [LAUGH] No, that's not one
+of the choices I was giving you.
+
+61
+00:01:56,300 --> 00:01:57,500
+You could choose actions.
+
+62
+00:01:57,500 --> 00:01:59,310
+I should have probably told you gamma.
+
+63
+00:01:59,310 --> 00:02:00,920
+I guess that would only be fair, right?
+
+64
+00:02:00,920 --> 00:02:04,100
+>> Well, I'm not sure it's going to
+matter just as long as gamma's
+
+65
+00:02:04,100 --> 00:02:05,270
+less than one.
+
+66
+00:02:05,270 --> 00:02:06,840
+All right, so, I now know something.
+
+67
+00:02:06,840 --> 00:02:07,850
+>> You now know something.
+
+68
+00:02:07,850 --> 00:02:09,750
+You know a lot of things.
+
+69
+00:02:09,750 --> 00:02:10,889
+>> I do know a lot of things.
+
+70
+00:02:10,889 --> 00:02:12,160
+I'm still in the same state.
+
+71
+00:02:12,160 --> 00:02:12,915
+But I've got another action.
+
+72
+00:02:12,915 --> 00:02:13,797
+And I'm going to think about it.
+
+73
+00:02:13,797 --> 00:02:14,935
+Let's try action two.
+
+74
+00:02:14,935 --> 00:02:16,051
+>> [SOUND] Plus 6, yay.
+
+75
+00:02:16,051 --> 00:02:19,510
+And now you're at a state
+you've never been to before.
+
+76
+00:02:19,510 --> 00:02:21,450
+>> This reminds me of Zork.
+
+77
+00:02:21,450 --> 00:02:22,415
+Okay, I'll take action one.
+
+78
+00:02:22,415 --> 00:02:25,540
+>> [LAUGH] It is like Zork.
+
+79
+00:02:25,540 --> 00:02:26,850
+>> It's exactly like Zork.
+
+80
+00:02:26,850 --> 00:02:27,561
+>> [SOUND] Hey,
+
+81
+00:02:27,561 --> 00:02:31,909
+you're back to the state that you
+started in in the very beginning.
+
+82
+00:02:31,909 --> 00:02:33,240
+>> I know minus 8 sucks.
+
+83
+00:02:34,290 --> 00:02:37,030
+Actually, I now could basically
+do that cycle forever.
+
+84
+00:02:37,030 --> 00:02:40,360
+>> The series of actions that you just
+did that take you around this loop.
+
+85
+00:02:41,370 --> 00:02:42,155
+Yes?
+
+86
+00:02:42,155 --> 00:02:43,040
+>> Mm-hm.
+
+87
+00:02:43,040 --> 00:02:44,380
+>> Is that near optimal?
+
+88
+00:02:44,380 --> 00:02:46,763
+>> Well, if it involves minus 8,
+probably not.
+
+89
+00:02:46,763 --> 00:02:48,539
+Let's do action two.
+
+90
+00:02:48,539 --> 00:02:49,422
+>> Good idea.
+
+91
+00:02:49,422 --> 00:02:52,289
+[SOUND] All right, so you're back to
+another state you've been to before.
+
+92
+00:02:52,289 --> 00:02:56,911
+>> And I got a minus 3 along the way
+which is better than the minus 8, but
+
+93
+00:02:56,911 --> 00:03:00,738
+not better than the minus 8,
+plus 2 some number times,
+
+94
+00:03:00,738 --> 00:03:03,076
+plus 10 except gamma by 0.9.
+
+95
+00:03:03,076 --> 00:03:07,174
+Okay, so I know what action one gives
+me there, so let's do action two.
+
+96
+00:03:11,412 --> 00:03:13,490
+[SOUND]
+>> Good job, you got a plus 4.
+
+97
+00:03:13,490 --> 00:03:14,767
+And you're back here.
+
+98
+00:03:14,767 --> 00:03:16,067
+>> Oh, I'm in a nice little state, too.
+
+99
+00:03:16,067 --> 00:03:17,147
+I can do some other cycle.
+
+100
+00:03:17,147 --> 00:03:19,213
+>> Yeah, and
+you tried action one from there.
+
+101
+00:03:19,213 --> 00:03:20,873
+>> Oh, but I never tried
+action two from here, did I?
+
+102
+00:03:20,873 --> 00:03:21,709
+Let's do action two.
+
+103
+00:03:21,709 --> 00:03:23,973
+>> All right, so action two turns
+out to be identical to action one.
+
+104
+00:03:23,973 --> 00:03:25,354
+>> Oh, okay.
+
+105
+00:03:25,354 --> 00:03:27,154
+That's complicated.
+
+106
+00:03:27,154 --> 00:03:29,013
+>> Cool,
+now you're back at the initial state,
+
+107
+00:03:29,013 --> 00:03:31,780
+the state that you started
+in the beginning of time.
+
+108
+00:03:31,780 --> 00:03:35,360
+And both actions that you have here,
+you've tried already.
+
+109
+00:03:35,360 --> 00:03:40,506
+>> I can say something about what
+can happen after that point, right?
+
+110
+00:03:40,506 --> 00:03:44,026
+I know, sort of,
+if I take action one, I get minus 8,
+
+111
+00:03:44,026 --> 00:03:48,403
+plus 2 for some amount of time,
+plus 10 through the best I could.
+
+112
+00:03:48,403 --> 00:03:49,123
+>> Minus 10.
+
+113
+00:03:49,123 --> 00:03:49,982
+Oh, plus 10, you're right.
+
+114
+00:03:49,982 --> 00:03:50,562
+>> Plus 10.
+
+115
+00:03:50,562 --> 00:03:54,336
+Or I could do minus 3 and
+get immediately to this thing where I
+
+116
+00:03:54,336 --> 00:03:59,220
+could go get plus 4s and plus 3s,
+which actually is better I think.
+
+117
+00:03:59,220 --> 00:04:02,020
+Hm, so I should pick one of those.
+
+118
+00:04:02,020 --> 00:04:04,940
+>> Well, okay, so here's an important
+point that we need to get to.
+
+119
+00:04:04,940 --> 00:04:09,710
+So actually, you've explored the entire
+MDP, except for one state action pair,
+
+120
+00:04:09,710 --> 00:04:10,356
+this one here.
+
+121
+00:04:10,356 --> 00:04:15,188
+And so
+if this edge is like a self-loop with
+
+122
+00:04:15,188 --> 00:04:20,570
+a reward of a million,
+then you have to find it.
+
+123
+00:04:20,570 --> 00:04:22,890
+You have to get it, because otherwise
+you're not going to be near the optimal.
+
+124
+00:04:22,890 --> 00:04:26,220
+>> Right, and I don't know that,
+so I have to get there.
+
+125
+00:04:26,220 --> 00:04:30,780
+>> Right, but on the other hand, let's
+say that we know that the highest reward
+
+126
+00:04:30,780 --> 00:04:35,350
+is 10, we have some bound,
+we'll call it Rmax,
+
+127
+00:04:35,350 --> 00:04:40,190
+on the largest reward in any state,
+that could be really helpful, because it
+
+128
+00:04:40,190 --> 00:04:45,940
+could be that I can get a value by
+acting in the MDP that I have now.
+
+129
+00:04:47,190 --> 00:04:51,050
+Even if this were 10, even if it
+were its highest possible value
+
+130
+00:04:51,050 --> 00:04:54,620
+with let's say a self-loop,
+we can still do better than that.
+
+131
+00:04:54,620 --> 00:04:56,200
+>> This feels very minimax.
+
+132
+00:04:56,200 --> 00:04:58,050
+>> Well, it's R and max.
+
+133
+00:04:58,050 --> 00:05:01,700
+>> No, I mean, this feels like it's
+a tree and I could do pruning.
+
+134
+00:05:01,700 --> 00:05:04,350
+What you're basically saying is I should
+prune things if I already know that I
+
+135
+00:05:04,350 --> 00:05:07,120
+can't do any better than some
+other choice that I have.
+
+136
+00:05:07,120 --> 00:05:07,750
+>> Yeah, that's right.
+
+137
+00:05:07,750 --> 00:05:10,880
+So it has a boundish kind of feel to it.
+
+138
+00:05:10,880 --> 00:05:14,060
+So what I'm suggesting is for
+any edge that we don't know,
+
+139
+00:05:16,020 --> 00:05:20,930
+let's just be super optimistic and
+assume that it has value Rmax.
+
+140
+00:05:20,930 --> 00:05:22,540
+>> Yeah, that makes a lot of sense.
+
+141
+00:05:22,540 --> 00:05:25,730
+If I pretended that's true for
+everything that I don't know,
+
+142
+00:05:25,730 --> 00:05:29,530
+then that would tell me what to do sort
+of in what the best worst case would be.
+
+143
+00:05:29,530 --> 00:05:33,050
+And then, I obviously try to get to the
+place that I think is good because I'm
+
+144
+00:05:33,050 --> 00:05:34,310
+optimistic.
+
+145
+00:05:34,310 --> 00:05:35,460
+And if it turns out that I'm wrong,
+
+146
+00:05:35,460 --> 00:05:38,100
+well as soon as I get there I
+will know that I was wrong.
+
+147
+00:05:38,100 --> 00:05:39,320
+And I just keep doing that.
+
+148
+00:05:39,320 --> 00:05:41,180
+>> All right,
+let's write down the steps, so
+
+149
+00:05:41,180 --> 00:05:42,490
+that we don't have to hold
+them in our heads so long.

@@ -1,0 +1,131 @@
+1
+00:00:00,150 --> 00:00:04,468
+We said already not all processes require the entire address space from
+
+2
+00:00:04,468 --> 00:00:05,840
+V0 to VMax.
+
+3
+00:00:05,840 --> 00:00:09,760
+There may be portions of this address space that are not allocated.
+
+4
+00:00:09,760 --> 00:00:12,910
+Also, we may simply not have enough physical memory to
+
+5
+00:00:12,910 --> 00:00:15,540
+store all this state even if we do need it.
+
+6
+00:00:15,540 --> 00:00:20,250
+For instance, if we have virtual addresses that are 32 bits long,
+
+7
+00:00:20,250 --> 00:00:24,430
+this address space can have up to 4 gigabytes.
+
+8
+00:00:24,430 --> 00:00:29,030
+And if we have several such processes running at the same time,
+
+9
+00:00:29,030 --> 00:00:33,510
+even in a pretty expensive machine, we will quickly run out of physical memory.
+
+10
+00:00:33,510 --> 00:00:38,800
+To deal with this, the operating system dynamically decides which portion of
+
+11
+00:00:38,800 --> 00:00:43,060
+which address space will be present where in physical memory.
+
+12
+00:00:43,060 --> 00:00:46,580
+For instance, inside a system with processes P1 and P2,
+
+13
+00:00:46,580 --> 00:00:50,420
+they may share the physical memory in this manner.
+
+14
+00:00:51,450 --> 00:00:54,810
+So, the regions marked with yellow belong to P1, and
+
+15
+00:00:54,810 --> 00:00:57,300
+the regions marked with pink belong to process P2.
+
+16
+00:00:58,310 --> 00:01:02,620
+Both P1 and P2 may have some portions of their address space not present in
+
+17
+00:01:02,620 --> 00:01:06,350
+memory but rather swapped temporarily on disk.
+
+18
+00:01:06,350 --> 00:01:11,570
+And this portion of the address space will be brought in whenever it's needed.
+
+19
+00:01:11,570 --> 00:01:14,593
+And perhaps that will cause some other parts of either P1's or
+
+20
+00:01:14,593 --> 00:01:19,450
+P2's address space to be swapped to disk to make room.
+
+21
+00:01:19,450 --> 00:01:23,980
+So the operating system must maintain information where these
+
+22
+00:01:23,980 --> 00:01:26,940
+virtual addresses actually are in memory,
+
+23
+00:01:26,940 --> 00:01:31,700
+on disk since it maintains the mapping between the virtual addresses and
+
+24
+00:01:31,700 --> 00:01:36,510
+the physical location of every part of the process address space.
+
+25
+00:01:36,510 --> 00:01:39,630
+I will talk about memory management in a later lesson, but
+
+26
+00:01:39,630 --> 00:01:44,580
+at the very least, you must understand that for each process, the operating
+
+27
+00:01:44,580 --> 00:01:50,120
+system must maintain some information regarding the process address space.
+
+28
+00:01:50,120 --> 00:01:52,351
+We mentioned the page tables for instance.
+
+29
+00:01:52,351 --> 00:01:55,921
+And then the operating system uses this information to
+
+30
+00:01:55,921 --> 00:01:59,726
+both maintain mappings between the virtual addresses and
+
+31
+00:01:59,726 --> 00:02:04,110
+the physical location where the state is actually stored.
+
+32
+00:02:04,110 --> 00:02:08,669
+And also to check the validity of accesses of memory to make
+
+33
+00:02:08,669 --> 00:02:12,530
+sure that a process is actually allowed to perform a memory access.

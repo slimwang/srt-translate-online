@@ -1,0 +1,423 @@
+1
+00:00:00,270 --> 00:00:03,379
+Right. So if, in order for this to minimized you would
+
+2
+00:00:03,379 --> 00:00:05,758
+have to have picked a parent that tells you a lot
+
+3
+00:00:05,758 --> 00:00:08,270
+about yourself. All right. Because
+
+4
+00:00:08,270 --> 00:00:11,120
+entropy is information. Entropy is randomness.
+
+5
+00:00:11,120 --> 00:00:13,490
+And if I pick a really good parent then knowing something about
+
+6
+00:00:13,490 --> 00:00:16,470
+the parent tells me something about me and my entropy will
+
+7
+00:00:16,470 --> 00:00:19,640
+be low. So if I can find the set of parents for
+
+8
+00:00:19,640 --> 00:00:22,630
+each of my features such that I get the most out
+
+9
+00:00:22,630 --> 00:00:25,460
+of knowing the value of those parents then I will have the
+
+10
+00:00:25,460 --> 00:00:28,900
+lowest sort of sum of [UNKNOWN] conditional [UNKNOWN]. You with me?
+
+11
+00:00:28,900 --> 00:00:29,630
+>> Yeah.
+
+12
+00:00:29,630 --> 00:00:31,810
+>> Okay, now this is very nice and you would
+
+13
+00:00:31,810 --> 00:00:34,510
+think we'd be done except it's not entirely clear how
+
+14
+00:00:34,510 --> 00:00:37,860
+you would go about computing this. Actually, I know how
+
+15
+00:00:37,860 --> 00:00:40,100
+you go about computing it, and let me tell you, it's
+
+16
+00:00:40,100 --> 00:00:43,170
+excruciatingly painful. But it turns out that there's a cute
+
+17
+00:00:43,170 --> 00:00:44,730
+little trick that you can do to make it less
+
+18
+00:00:44,730 --> 00:00:46,980
+excruciatingly painful, and what I'm going to do is I'm going to
+
+19
+00:00:46,980 --> 00:00:51,150
+define a slightly different version of this function. And I'm going to
+
+20
+00:00:51,150 --> 00:00:53,620
+call it, j hat. So as I said before,
+
+21
+00:00:53,620 --> 00:00:57,330
+we want to minimize this particular cost function, j. Which
+
+22
+00:00:57,330 --> 00:01:00,000
+we get directly from the Kullback–Leibler divergence. So all I've
+
+23
+00:01:00,000 --> 00:01:02,860
+done is define a new function j prime, where I've
+
+24
+00:01:02,860 --> 00:01:06,010
+added this term. Just minus the sum of all
+
+25
+00:01:06,010 --> 00:01:09,100
+of the unconditional entropies of each of the features. Now
+
+26
+00:01:09,100 --> 00:01:12,660
+I'm able to do this because nothing in this depends
+
+27
+00:01:12,660 --> 00:01:16,880
+upon pi and so doesn't actually change the proper pi.
+
+28
+00:01:17,970 --> 00:01:19,560
+That makes sense?
+
+29
+00:01:19,560 --> 00:01:21,020
+>> Yeah, except I keep thinking about pie.
+
+30
+00:01:21,020 --> 00:01:25,640
+>> Mm, pie. Mm, I'm sorry, you got me distracted. Okay but do
+
+31
+00:01:25,640 --> 00:01:30,420
+you see how minimizing this versus minimizing this should give me the same pi?
+
+32
+00:01:30,420 --> 00:01:32,600
+>> I do. I mean, it's sort of like adding a constant if
+
+33
+00:01:32,600 --> 00:01:35,640
+you've got a max. It doesn't change which element gives you the max.
+
+34
+00:01:35,640 --> 00:01:39,110
+>> Right. But by adding this term I've actually come
+
+35
+00:01:39,110 --> 00:01:43,260
+up with something kind of cute. What is this expression, Michael?
+
+36
+00:01:43,260 --> 00:01:43,560
+Do you know?
+
+37
+00:01:43,560 --> 00:01:49,597
+>> It looks kind of familiar from Information Theory. Is that cross-entropy?
+
+38
+00:01:49,597 --> 00:01:54,090
+>> No, though sort of, but no. Is it mutual information?
+
+39
+00:01:54,090 --> 00:01:55,860
+>> It is in fact, mutual information.
+
+40
+00:01:55,860 --> 00:01:56,570
+>> In fact.
+
+41
+00:01:56,570 --> 00:02:01,550
+>> It's the negative of, mutual information. So, minimizing this expression,
+
+42
+00:02:05,420 --> 00:02:11,350
+is the same thing as maximizing, neutral information. Now,
+
+43
+00:02:11,350 --> 00:02:12,660
+I went through this for a couple of reasons
+
+44
+00:02:12,660 --> 00:02:14,880
+Michael. One is, I think it's easier to, kind
+
+45
+00:02:14,880 --> 00:02:18,510
+of see what mutual information is. But also because,
+
+46
+00:02:18,510 --> 00:02:21,750
+this going to induce a very simple algorithm. Which
+
+47
+00:02:21,750 --> 00:02:23,470
+I'll show you in a second, for figuring out
+
+48
+00:02:23,470 --> 00:02:26,040
+how to find a dependency tree. And the trick
+
+49
+00:02:26,040 --> 00:02:30,690
+here is to realize that, conditional entropies are directional.
+
+50
+00:02:30,690 --> 00:02:31,170
+Right?
+
+51
+00:02:31,170 --> 00:02:33,930
+>> Wait, so conditional entropies is, is, oh,
+
+52
+00:02:33,930 --> 00:02:35,670
+is that, that's the quantity that we started up?
+
+53
+00:02:35,670 --> 00:02:35,970
+>> Right.
+
+54
+00:02:35,970 --> 00:02:37,430
+>> At the top with the hq, okay, huh.
+
+55
+00:02:37,430 --> 00:02:41,160
+>> So, this is, this is directional right? Xi depends upon this
+
+56
+00:02:41,160 --> 00:02:41,340
+>> Yeah.
+
+57
+00:02:41,340 --> 00:02:45,580
+>> And if I were to do h of pi given xi, I would
+
+58
+00:02:45,580 --> 00:02:47,600
+be getting a completely different number. Mutual
+
+59
+00:02:47,600 --> 00:02:49,565
+information on the other hand is bi-directional.
+
+60
+00:02:49,565 --> 00:02:50,100
+>> Interesting.
+
+61
+00:02:50,100 --> 00:02:52,980
+>> It's going to turn out to be easier to think about. But before we do
+
+62
+00:02:52,980 --> 00:02:54,270
+that let's just make certain that this makes
+
+63
+00:02:54,270 --> 00:02:56,000
+sense so we wanted to minimize a couple
+
+64
+00:02:56,000 --> 00:02:59,980
+of liable deductions because that's what Shannon told us
+
+65
+00:02:59,980 --> 00:03:00,960
+to do. We work it all out and it
+
+66
+00:03:00,960 --> 00:03:02,900
+turns out we really want to minimize the kind
+
+67
+00:03:02,900 --> 00:03:06,880
+of cost function another way of rewriting this of conditional
+
+68
+00:03:06,880 --> 00:03:10,180
+entropy. We threw this little trick in, which just
+
+69
+00:03:10,180 --> 00:03:12,470
+allows us to turn those conditional interviews into mutual information.
+
+70
+00:03:12,470 --> 00:03:16,320
+And what this basically says is that to find
+
+71
+00:03:16,320 --> 00:03:21,350
+the best pi, the best parents, the best dependency tree,
+
+72
+00:03:21,350 --> 00:03:23,180
+means you should maximize the mutual
+
+73
+00:03:23,180 --> 00:03:25,610
+information between every feature and its parent.
+
+74
+00:03:25,610 --> 00:03:26,050
+>> Nice.
+
+75
+00:03:26,050 --> 00:03:28,930
+>> Right. And that sort of makes sense, right? I want
+
+76
+00:03:28,930 --> 00:03:32,570
+be associated with the parent that gives the most information about me.
+
+77
+00:03:32,570 --> 00:03:33,740
+>> Charles, I have a question.
+
+78
+00:03:33,740 --> 00:03:35,020
+>> Yes?
+
+79
+00:03:35,020 --> 00:03:36,950
+>> Just a little bit confused. The
+
+80
+00:03:36,950 --> 00:03:40,300
+the xis, what are they, where's that bound?
+
+81
+00:03:40,300 --> 00:03:41,400
+>> Oh, by the summation.
+
+82
+00:03:41,400 --> 00:03:43,400
+>> The, what summation?
+
+83
+00:03:43,400 --> 00:03:46,470
+>> You know, the summation that's always been there
+
+84
+00:03:46,470 --> 00:03:47,790
+the entire time I've been talking.
+
+85
+00:03:47,790 --> 00:03:48,810
+>> Oh, I'm sorry I missed that.
+
+86
+00:03:48,810 --> 00:03:50,390
+>> I don't know how you missed it man, its right there.
+
+87
+00:03:50,390 --> 00:03:52,400
+>> Yeah, I mean, you didn't actually put the index in
+
+88
+00:03:52,400 --> 00:03:55,530
+the summation so I was, guess I was, I was confused.
+
+89
+00:03:55,530 --> 00:03:58,530
+>> My fault right, so just to be clear of anyone
+
+90
+00:03:58,530 --> 00:04:05,070
+who noticed that the [INAUDIBLE] version is a summation over all possible
+
+91
+00:04:05,070 --> 00:04:09,210
+variables in the distribution And so we've done here is carry that
+
+92
+00:04:09,210 --> 00:04:12,570
+all the way through and so these two steps here in particular.
+
+93
+00:04:12,570 --> 00:04:16,670
+This new cost function that we're trying to minimize is a sum
+
+94
+00:04:16,670 --> 00:04:19,730
+over the negative mutual information between
+
+95
+00:04:19,730 --> 00:04:21,570
+every variable, every feature, and its
+
+96
+00:04:21,570 --> 00:04:25,160
+parents. And that's the same thing as trying to maximize the mutual
+
+97
+00:04:25,160 --> 00:04:27,050
+information, the sum of the mutual
+
+98
+00:04:27,050 --> 00:04:29,390
+informations, between every feature and its parent.
+
+99
+00:04:29,390 --> 00:04:30,650
+>> Hmm, interesting.
+
+100
+00:04:30,650 --> 00:04:33,560
+>> Right, and again I think that makes a lot of sense, right? You,
+
+101
+00:04:33,560 --> 00:04:35,600
+basically the best tree is, the best
+
+102
+00:04:35,600 --> 00:04:37,630
+dependency tree is the one that captures dependencies
+
+103
+00:04:37,630 --> 00:04:37,980
+the best.
+
+104
+00:04:37,980 --> 00:04:41,120
+>> I see. Alright. That's cool. Alright, so now
+
+105
+00:04:41,120 --> 00:04:42,760
+we need to figure out how to do that optimization.
+
+106
+00:04:42,760 --> 00:04:46,030
+>> Exactly right. And it turns out it's gloriously easy.

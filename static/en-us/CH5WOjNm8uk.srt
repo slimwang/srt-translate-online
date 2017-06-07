@@ -1,0 +1,244 @@
+1
+00:00:00,220 --> 00:00:03,300
+The final step is when we now
+want to run something referred to
+
+2
+00:00:03,300 --> 00:00:04,830
+a structure from motion.
+
+3
+00:00:04,830 --> 00:00:06,800
+Some of you have taken a computer
+vision class are going to
+
+4
+00:00:06,800 --> 00:00:08,000
+learn more about this.
+
+5
+00:00:08,000 --> 00:00:09,760
+I'm going to just brush over it and,
+
+6
+00:00:09,760 --> 00:00:13,030
+if needed, can provide more details
+to anybody who is interested.
+
+7
+00:00:13,030 --> 00:00:15,200
+Let's start off by basically
+saying here's an image.
+
+8
+00:00:15,200 --> 00:00:17,740
+I'm using a simple box here,
+but actually let's think about
+
+9
+00:00:17,740 --> 00:00:21,290
+this image here as the image
+that we're trying to match.
+
+10
+00:00:21,290 --> 00:00:23,390
+Of course, we have one camera.
+
+11
+00:00:23,390 --> 00:00:26,620
+In this case, we're going to
+talk about more than one camera.
+
+12
+00:00:26,620 --> 00:00:30,480
+Remember, in stereo, we talked about
+two cameras, but let's talk about
+
+13
+00:00:30,480 --> 00:00:35,600
+three in this instance, basically
+shown by these three simple cones.
+
+14
+00:00:35,600 --> 00:00:37,590
+Again, in this larger image,
+
+15
+00:00:37,590 --> 00:00:40,180
+this is the one image that we're
+actually trying to pay attention to.
+
+16
+00:00:40,180 --> 00:00:43,570
+Of course, there might be more images,
+because this is a real scene, right?
+
+17
+00:00:43,570 --> 00:00:45,830
+This is a real scene
+with lots of 3D points.
+
+18
+00:00:45,830 --> 00:00:47,130
+One image is captured.
+
+19
+00:00:47,130 --> 00:00:49,880
+We want to figure out where this image
+is in all of these three different
+
+20
+00:00:49,880 --> 00:00:50,670
+cameras.
+
+21
+00:00:50,670 --> 00:00:52,470
+Pretty much like what we did for
+panoramas.
+
+22
+00:00:52,470 --> 00:00:55,010
+Again, when we looked at
+a bundle of rays, and
+
+23
+00:00:55,010 --> 00:00:58,200
+basically asked the question if
+the bundle of rays could be used.
+
+24
+00:00:58,200 --> 00:01:00,140
+We can now actually
+synthesize a new image.
+
+25
+00:01:00,140 --> 00:01:02,640
+In this case, we're not trying
+to synthesize a new image.
+
+26
+00:01:02,640 --> 00:01:05,770
+We're trying to use the fact, that can
+we figure out the registration and
+
+27
+00:01:05,770 --> 00:01:09,540
+alignment of this one image in all
+these three different viewpoints?
+
+28
+00:01:09,540 --> 00:01:11,820
+Of course, there are lots of
+caudal points visible to each and
+
+29
+00:01:11,820 --> 00:01:14,500
+every one of the cameras
+which relate back to
+
+30
+00:01:14,500 --> 00:01:18,270
+all of the points that
+are basically in the scene itself.
+
+31
+00:01:18,270 --> 00:01:19,610
+Just take point p1 here and
+
+32
+00:01:19,610 --> 00:01:24,030
+we're going to project this into all
+three of the different view points.
+
+33
+00:01:24,030 --> 00:01:27,680
+Again, each and every one camera
+has a transformation matrix.
+
+34
+00:01:27,680 --> 00:01:31,291
+For simplicity's sake, I am basically
+referring them to having a rotation,
+
+35
+00:01:31,291 --> 00:01:34,720
+because that's what's actually
+true here, and a translation.
+
+36
+00:01:34,720 --> 00:01:40,870
+So, for camera one R1,t1,
+camera two R2,t2, and camera 3 R3,t3.
+
+37
+00:01:40,870 --> 00:01:42,270
+So using this, of course,
+
+38
+00:01:42,270 --> 00:01:44,480
+these are the transformations
+we need to optimize over.
+
+39
+00:01:44,480 --> 00:01:48,300
+Each camera is rotated differently and,
+of course, translated.
+
+40
+00:01:48,300 --> 00:01:50,920
+So, of course, this will allow
+us to hopefully figure out what
+
+41
+00:01:50,920 --> 00:01:54,350
+the transformation matrix for each and
+every one of the cameras are.
+
+42
+00:01:54,350 --> 00:01:58,780
+But basically, it's coming as each point
+is, of course, being seen in each and
+
+43
+00:01:58,780 --> 00:02:02,220
+every one of the three different
+cameras, as shown by this ray of light.
+
+44
+00:02:02,220 --> 00:02:05,310
+So again, like what we've done before
+when we talked about panoramas,
+
+45
+00:02:05,310 --> 00:02:08,590
+here we basically want to be
+able to take this function and
+
+46
+00:02:08,590 --> 00:02:11,080
+minimize it to basically have,
+and again,
+
+47
+00:02:11,080 --> 00:02:14,310
+this could be done with a variety
+of different points that we have.
+
+48
+00:02:14,310 --> 00:02:18,100
+To compute a minimum function
+which actually optimizes our
+
+49
+00:02:18,100 --> 00:02:21,310
+rotation transformation for
+each and every point.
+
+50
+00:02:21,310 --> 00:02:25,190
+Recall again how we did this when we
+talked about the whole concept of
+
+51
+00:02:25,190 --> 00:02:25,960
+panoramas.

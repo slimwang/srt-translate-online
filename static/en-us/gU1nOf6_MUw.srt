@@ -1,0 +1,239 @@
+1
+00:00:00,170 --> 00:00:03,320
+Now let's look at the main portion of the code of
+
+2
+00:00:03,320 --> 00:00:06,310
+this producer consumer implementation.
+
+3
+00:00:06,310 --> 00:00:10,180
+We'll be creating two threads, thread id1 and thread id2.
+
+4
+00:00:10,180 --> 00:00:14,830
+The first thread will be created to execute the producer function, and
+
+5
+00:00:14,830 --> 00:00:18,570
+then the second thread will be created to execute the consumer function.
+
+6
+00:00:18,570 --> 00:00:20,980
+We're using the default behavior for these,
+
+7
+00:00:20,980 --> 00:00:26,750
+so we will have to join them later in the main function, in the main thread.
+
+8
+00:00:26,750 --> 00:00:29,890
+And we will look at the producer and consumer functions next, but
+
+9
+00:00:29,890 --> 00:00:33,440
+they don't take any input so we're pasisng NULL as arguments.
+
+10
+00:00:33,440 --> 00:00:35,040
+Note how we're checking for
+
+11
+00:00:35,040 --> 00:00:40,830
+the return code of the pthread_create operation in order to help with debugging.
+
+12
+00:00:40,830 --> 00:00:43,940
+So the thread, the main thread, the one that's executing command,
+
+13
+00:00:43,940 --> 00:00:48,540
+will just create the producer and consumer threads, and then it will do nothing.
+
+14
+00:00:48,540 --> 00:00:50,820
+It will wait for them to exit.
+
+15
+00:00:50,820 --> 00:00:56,690
+The producer functions of the producer thread will try to execute for
+
+16
+00:00:56,690 --> 00:01:03,160
+20 times a loop in which it tries to produce an element for the shared buffer.
+
+17
+00:01:03,160 --> 00:01:07,330
+During each pass through this loop, the producer thread will be trying to
+
+18
+00:01:07,330 --> 00:01:11,630
+modify the shared buffer to add an element in that buffer, and
+
+19
+00:01:11,630 --> 00:01:17,810
+then also to change the values of the shared variables, like add a num.
+
+20
+00:01:17,810 --> 00:01:21,279
+Therefore, all of this has to happen within a mutex_lock,
+
+21
+00:01:21,279 --> 00:01:23,068
+mutex_unlock operation.
+
+22
+00:01:23,068 --> 00:01:26,870
+We first do some error checking to make sure that we don't have buffer overflow.
+
+23
+00:01:26,870 --> 00:01:31,110
+Now we're trying to insert, we're trying to produce data for the shared buffer.
+
+24
+00:01:32,220 --> 00:01:36,090
+If the number of elements that are currently in the buffer is equal to
+
+25
+00:01:36,090 --> 00:01:39,640
+the buffer size, that means that the buffer is full.
+
+26
+00:01:39,640 --> 00:01:41,050
+So we have to wait,
+
+27
+00:01:41,050 --> 00:01:46,180
+we have to wait on the condition variable that associated with the producers,
+
+28
+00:01:46,180 --> 00:01:51,320
+and this wait operation we have to use the mutex as part of it.
+
+29
+00:01:51,320 --> 00:01:56,170
+Remember, this mutex has to be used as an argument of the wait call so
+
+30
+00:01:56,170 --> 00:02:00,830
+that the pthreads library knows which particular mutex needs to be freed and
+
+31
+00:02:00,830 --> 00:02:03,830
+then reacquired after we complete the wait.
+
+32
+00:02:03,830 --> 00:02:08,120
+Now, when we ultimately come out of the wait, so when the producer indeed comes
+
+33
+00:02:08,120 --> 00:02:13,830
+out of the wait operation because the buffer is no longer full, so a consumer
+
+34
+00:02:13,830 --> 00:02:18,790
+must have consumed some of the items in this buffer, then what do we do?
+
+35
+00:02:18,790 --> 00:02:24,540
+Then the producer adds an element in the buffer, so it copies the value of i,
+
+36
+00:02:24,540 --> 00:02:30,470
+this index i, copies the value of i into the element of the buffer that is
+
+37
+00:02:30,470 --> 00:02:35,930
+indexed by the value of add, and then increments both the add, a variable,
+
+38
+00:02:35,930 --> 00:02:39,980
+as well as the num, the total number of elements in the shared buffer.
+
+39
+00:02:39,980 --> 00:02:42,486
+Note we may have a wraparound situation.
+
+40
+00:02:42,486 --> 00:02:46,210
+So, given that the buffer is a fixed size, buffer size,
+
+41
+00:02:46,210 --> 00:02:51,990
+this add, we need to wrap around in case it becomes greater than buffer size.
+
+42
+00:02:51,990 --> 00:02:54,210
+Once we perform this, then we're done.
+
+43
+00:02:54,210 --> 00:02:55,730
+We've inserted an element.
+
+44
+00:02:55,730 --> 00:02:58,780
+We've updated the variables in such a way that it
+
+45
+00:02:58,780 --> 00:03:02,090
+reflects that now there is a new element in the buffer.
+
+46
+00:03:02,090 --> 00:03:04,800
+And so, we can unlock the mutex.
+
+47
+00:03:04,800 --> 00:03:08,900
+Now, the one thing that we didn't do is we didn't do any kind of signaling or
+
+48
+00:03:08,900 --> 00:03:11,860
+broadcasting while we were performing this.
+
+49
+00:03:11,860 --> 00:03:14,570
+It is possible that the buffer was
+
+50
+00:03:14,570 --> 00:03:19,870
+empty when we performed this insert operation, and because of that,
+
+51
+00:03:19,870 --> 00:03:26,570
+that currently there is some consumer threat that's waiting on a condition.
+
+52
+00:03:26,570 --> 00:03:28,740
+We've inserted just one element.
+
+53
+00:03:28,740 --> 00:03:32,470
+Therefore, only one consumer thread can proceed.
+
+54
+00:03:32,470 --> 00:03:36,590
+So what we'll do is we will notify a thread that's waiting on
+
+55
+00:03:36,590 --> 00:03:38,710
+the condition variable, and we will use for
+
+56
+00:03:38,710 --> 00:03:43,520
+this the signal operation pthread condition signal because again,
+
+57
+00:03:43,520 --> 00:03:48,190
+we inserted one element, no point waking up seven consumer threads.
+
+58
+00:03:48,190 --> 00:03:52,690
+For sanity, I've inserted here some printout statements that will help you
+
+59
+00:03:52,690 --> 00:03:54,860
+keep track of what's going on.
+
+60
+00:03:54,860 --> 00:03:59,570
+These are not critical to the behavior of the multithreaded program.

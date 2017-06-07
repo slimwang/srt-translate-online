@@ -1,0 +1,423 @@
+1
+00:00:00,490 --> 00:00:04,180
+The load manager may be operating at the
+
+2
+00:00:04,180 --> 00:00:06,830
+network level, that is, at the network layer
+
+3
+00:00:06,830 --> 00:00:09,960
+level of the seven layer OSI reference model.
+
+4
+00:00:09,960 --> 00:00:12,910
+In this case, the load manager is simply a
+
+5
+00:00:12,910 --> 00:00:16,880
+round robin domain name server. What it does
+
+6
+00:00:16,880 --> 00:00:20,070
+is, when client request comes in, they all
+
+7
+00:00:20,070 --> 00:00:22,590
+have the same domain name, in order to
+
+8
+00:00:22,590 --> 00:00:26,870
+come to this particular server. If you say gmail.com,
+
+9
+00:00:26,870 --> 00:00:29,970
+then depending on how the server is architected, the
+
+10
+00:00:29,970 --> 00:00:32,369
+gmail request coming from particular client may go to a
+
+11
+00:00:32,369 --> 00:00:35,580
+particular site. And when it goes to that site,
+
+12
+00:00:35,580 --> 00:00:38,720
+the domain name server, which is acting as a load
+
+13
+00:00:38,720 --> 00:00:41,820
+manager, what it is going to do is, it is
+
+14
+00:00:41,820 --> 00:00:45,580
+going to direct the incoming client request to one of
+
+15
+00:00:45,580 --> 00:00:48,950
+the servers. So it is giving different IP addresses.
+
+16
+00:00:48,950 --> 00:00:52,410
+Even though the domain name a client is coming in
+
+17
+00:00:52,410 --> 00:00:55,610
+is exactly the same, the round robin DNS
+
+18
+00:00:55,610 --> 00:00:59,850
+server assigns different IP addresses corresponding to different
+
+19
+00:00:59,850 --> 00:01:03,230
+servers to the incoming client request. And that
+
+20
+00:01:03,230 --> 00:01:06,520
+way these clients are being redirected to different
+
+21
+00:01:06,520 --> 00:01:09,870
+servers, and because the load manager is doing
+
+22
+00:01:09,870 --> 00:01:12,930
+it at the level of individual server addresses,
+
+23
+00:01:12,930 --> 00:01:14,680
+you get very good load balance. And the
+
+24
+00:01:14,680 --> 00:01:17,590
+the inherent assumption in this model, is that all
+
+25
+00:01:17,590 --> 00:01:20,630
+the servers are identical, so an incoming request can
+
+26
+00:01:20,630 --> 00:01:23,800
+be sent to any one of these servers, and perhaps
+
+27
+00:01:23,800 --> 00:01:27,100
+the model is also that the data is fully replicated.
+
+28
+00:01:27,100 --> 00:01:30,520
+So that if an incoming request goes to this server,
+
+29
+00:01:30,520 --> 00:01:32,500
+it has access to all the data. If it
+
+30
+00:01:32,500 --> 00:01:35,480
+goes to this server, it has access to all the
+
+31
+00:01:35,480 --> 00:01:39,360
+data to satisfy the incoming client request. So the pro
+
+32
+00:01:39,360 --> 00:01:42,950
+is good load balance because the Round Robin DNS scheduler
+
+33
+00:01:42,950 --> 00:01:45,180
+can choose the least loaded server to
+
+34
+00:01:45,180 --> 00:01:48,860
+redirect an incoming client to that particular server.
+
+35
+00:01:48,860 --> 00:01:51,800
+But the con is, it cannot hide down
+
+36
+00:01:51,800 --> 00:01:55,850
+server nodes, because it is assigning IP addresses
+
+37
+00:01:55,850 --> 00:02:00,700
+of the server to the incoming request, the load manager is not able to hide down
+
+38
+00:02:00,700 --> 00:02:08,038
+server nodes from the external world. So now we move the load manager up in the
+
+39
+00:02:08,038 --> 00:02:11,100
+OSI reference model. Up to the transport
+
+40
+00:02:11,100 --> 00:02:13,590
+level or even higher. The load manager could
+
+41
+00:02:13,590 --> 00:02:16,800
+be layer four switches. That is transport level
+
+42
+00:02:16,800 --> 00:02:21,127
+switches or even higher level switches. And, in
+
+43
+00:02:21,127 --> 00:02:23,948
+fact, the layer four switches may be
+
+44
+00:02:23,948 --> 00:02:27,315
+architected as switch pairs so that there is
+
+45
+00:02:27,315 --> 00:02:30,045
+hot fail over from one fail switch to
+
+46
+00:02:30,045 --> 00:02:33,845
+another fail switch at the load balancer lever.
+
+47
+00:02:33,845 --> 00:02:35,945
+When you do this architectecting the load
+
+48
+00:02:35,945 --> 00:02:38,550
+balancer at the transport or higher levels.
+
+49
+00:02:38,550 --> 00:02:41,070
+It give you the opportunity to dynamically
+
+50
+00:02:41,070 --> 00:02:45,820
+isolate down server nodes from the external world,
+
+51
+00:02:45,820 --> 00:02:47,260
+and it is also possible, with this
+
+52
+00:02:47,260 --> 00:02:51,660
+architecture of load manager, to have service specific
+
+53
+00:02:51,660 --> 00:02:55,100
+front end nodes. For example, instead of
+
+54
+00:02:55,100 --> 00:02:59,220
+dealing with arbitrary client requests, we're actually dealing
+
+55
+00:02:59,220 --> 00:03:02,690
+with requests based on the kind of requests
+
+56
+00:03:02,690 --> 00:03:06,400
+coming in from a particular client. For instance,
+
+57
+00:03:06,400 --> 00:03:09,110
+this could be a Gmail client. This could
+
+58
+00:03:09,110 --> 00:03:12,570
+be a Google search client. This could be for
+
+59
+00:03:12,570 --> 00:03:15,660
+a photo server like Picasa. So those are
+
+60
+00:03:15,660 --> 00:03:18,540
+different functionalities that can be implemented at the
+
+61
+00:03:18,540 --> 00:03:21,290
+front end of this load manager to look
+
+62
+00:03:21,290 --> 00:03:24,410
+at the service, the particular program, that is actually
+
+63
+00:03:24,410 --> 00:03:27,180
+triggering a client request coming in to this
+
+64
+00:03:27,180 --> 00:03:30,710
+particular site, and make decisions as to who
+
+65
+00:03:30,710 --> 00:03:33,900
+should serve that particular request. So in other
+
+66
+00:03:33,900 --> 00:03:38,420
+words, we're building more intelligence into the load manager.
+
+67
+00:03:38,420 --> 00:03:40,570
+So that it can know the semantics of
+
+68
+00:03:40,570 --> 00:03:43,800
+the client server communication that is going to happen based
+
+69
+00:03:43,800 --> 00:03:46,040
+on the type of request that is coming
+
+70
+00:03:46,040 --> 00:03:49,960
+in. And it is also possible, with this structure
+
+71
+00:03:49,960 --> 00:03:53,220
+of having the load management at higher levels
+
+72
+00:03:53,220 --> 00:03:56,450
+of the OSI reference model, to co-opt the
+
+73
+00:03:56,450 --> 00:04:00,520
+client devices in the load management. For example,
+
+74
+00:04:00,520 --> 00:04:02,710
+it's possible that the load manager may even
+
+75
+00:04:02,710 --> 00:04:07,290
+know the device characteristics that the client is
+
+76
+00:04:07,290 --> 00:04:09,830
+using, in order to come into the site.
+
+77
+00:04:09,830 --> 00:04:11,790
+For example, if it's a smart phone, it
+
+78
+00:04:11,790 --> 00:04:15,370
+might take certain actions commensurate with the device
+
+79
+00:04:15,370 --> 00:04:17,575
+that is coming in, in terms of structuring the
+
+80
+00:04:17,575 --> 00:04:22,370
+client-server interactions. Now, the data itself may be partitioned
+
+81
+00:04:22,370 --> 00:04:26,980
+among all the servers. For example, let's say that
+
+82
+00:04:26,980 --> 00:04:28,840
+you are doing a web search and it is a
+
+83
+00:04:28,840 --> 00:04:31,320
+web search that came in as a clients request.
+
+84
+00:04:31,320 --> 00:04:34,500
+And, if it is redirected to a particular server, this
+
+85
+00:04:34,500 --> 00:04:37,020
+server may not have access to all the data
+
+86
+00:04:37,020 --> 00:04:40,500
+that it needs. In order to do that, Google search
+
+87
+00:04:40,500 --> 00:04:43,290
+that you came in with. In that case,
+
+88
+00:04:43,290 --> 00:04:46,800
+the server may communicate using the back plane
+
+89
+00:04:46,800 --> 00:04:49,140
+with other servers to get the data that
+
+90
+00:04:49,140 --> 00:04:52,740
+it needs to serve the queries that is coming
+
+91
+00:04:52,740 --> 00:04:56,240
+in, so that there is complete coverage of
+
+92
+00:04:56,240 --> 00:05:00,110
+whatever the intended query needs to get as
+
+93
+00:05:00,110 --> 00:05:02,260
+a result. Of course, if the data is
+
+94
+00:05:02,260 --> 00:05:05,920
+partitioned, if a server that is holding a portion
+
+95
+00:05:05,920 --> 00:05:08,290
+of the data is down, then there'll be data
+
+96
+00:05:08,290 --> 00:05:11,990
+loss for the query. So for your specific search, the
+
+97
+00:05:11,990 --> 00:05:14,670
+server that is handling your search may not be able
+
+98
+00:05:14,670 --> 00:05:17,720
+to give you complete result for the search, because a
+
+99
+00:05:17,720 --> 00:05:20,290
+portion of the data is down due to the partitioning
+
+100
+00:05:20,290 --> 00:05:23,380
+of the data among the different servers at this site.
+
+101
+00:05:23,380 --> 00:05:28,460
+Now, this is where replicating the servers for redundancy helps.
+
+102
+00:05:28,460 --> 00:05:31,330
+So even though you may partition it, you may replicate
+
+103
+00:05:31,330 --> 00:05:35,400
+partitions so that it is possible that even if one
+
+104
+00:05:35,400 --> 00:05:38,920
+server is down, another server that has a replica of
+
+105
+00:05:38,920 --> 00:05:41,570
+the same partition may be able to provide the data
+
+106
+00:05:41,570 --> 00:05:45,050
+that is needed in order to satisfy a particular query.

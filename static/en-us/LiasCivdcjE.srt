@@ -1,0 +1,270 @@
+1
+00:00:00,160 --> 00:00:03,230
+A concrete example of
+this type of applications
+
+2
+00:00:03,230 --> 00:00:05,200
+is distributed shared memory.
+
+3
+00:00:05,200 --> 00:00:10,290
+Distributed shared memory is a service
+that manages the memory across multiple
+
+4
+00:00:10,290 --> 00:00:14,740
+nodes so that applications that
+are running on top will have an illusion
+
+5
+00:00:14,740 --> 00:00:18,890
+that they're running on a shared
+memory machine, like a SMP processor.
+
+6
+00:00:18,890 --> 00:00:22,820
+Each note in the system owns some
+portion of the physical memory,
+
+7
+00:00:22,820 --> 00:00:24,840
+so owns some state, and
+
+8
+00:00:24,840 --> 00:00:29,280
+it also provides the operations in
+that state, the reads and writes.
+
+9
+00:00:29,280 --> 00:00:32,880
+They may be originating from any
+of the other notes in the system.
+
+10
+00:00:32,880 --> 00:00:37,640
+Also, each note has to be involved
+in some consistency protocol, so
+
+11
+00:00:37,640 --> 00:00:43,010
+as to make sure that the shared accesses
+to the state have meaningful semantics.
+
+12
+00:00:43,010 --> 00:00:47,130
+For instance, when nodes read and write
+shared memory locations, these reads and
+
+13
+00:00:47,130 --> 00:00:49,030
+writes have to be ordered and
+
+14
+00:00:49,030 --> 00:00:53,910
+observed by the remaining nodes in
+the system in some meaningful way.
+
+15
+00:00:53,910 --> 00:00:58,600
+Ideally, in the exact same way that they
+would have been perceived if this was
+
+16
+00:00:58,600 --> 00:01:01,010
+indeed, a shared memory machine.
+
+17
+00:01:01,010 --> 00:01:04,930
+In this lesson, using distributed
+shared memory as an example, we will
+
+18
+00:01:04,930 --> 00:01:09,760
+illustrate some of the issues that come
+up with distributed state management,
+
+19
+00:01:09,760 --> 00:01:14,260
+beyond just caching, that we already saw
+in the distributed file system lecture.
+
+20
+00:01:14,260 --> 00:01:18,450
+We will also discuss some meaningful
+consistency protocols that
+
+21
+00:01:18,450 --> 00:01:21,090
+are useful in these kinds of scenarios.
+
+22
+00:01:21,090 --> 00:01:26,180
+Distributed shared memory mechanisms are
+important to study because they permit
+
+23
+00:01:26,180 --> 00:01:30,580
+scaling beyond the limitations of
+how much memory we can include
+
+24
+00:01:30,580 --> 00:01:32,290
+in a single machine.
+
+25
+00:01:32,290 --> 00:01:36,180
+If you have a multi-thread application
+or in general an application that was
+
+26
+00:01:36,180 --> 00:01:40,060
+developed with the expectation
+of shared memory underneath and
+
+27
+00:01:40,060 --> 00:01:44,390
+all of the sudden you need to support
+work loads that require more state,
+
+28
+00:01:44,390 --> 00:01:47,010
+you have to add more
+memory to that system.
+
+29
+00:01:47,010 --> 00:01:50,940
+Now, if you look at how the cost
+of computer systems is affected by
+
+30
+00:01:50,940 --> 00:01:55,230
+the amount of memory they're configured
+with, you will see that beyond a certain
+
+31
+00:01:55,230 --> 00:01:59,980
+limit, the cost starts increasing
+rapidly, and machines with very large
+
+32
+00:01:59,980 --> 00:02:03,880
+amounts of memory can be in the order
+of half million dollar range.
+
+33
+00:02:03,880 --> 00:02:08,729
+Instead with distributed shared memory
+we can simply add additional nodes and
+
+34
+00:02:08,729 --> 00:02:12,670
+achieve shared memory
+at a much lower cost.
+
+35
+00:02:12,670 --> 00:02:17,310
+Yes, access in remote memory will be
+slower than access in the local memory.
+
+36
+00:02:17,310 --> 00:02:22,020
+However, if you're smart about how
+data is placed in the first place in
+
+37
+00:02:22,020 --> 00:02:26,460
+the system, how it's migrated across
+the different nodes, and what
+
+38
+00:02:26,460 --> 00:02:31,050
+kind of sharing semantics are enforced
+whenever something gets updated,
+
+39
+00:02:31,050 --> 00:02:36,040
+we may hide those access difference
+from the applications so we may
+
+40
+00:02:36,040 --> 00:02:40,850
+not even perceive there is any kind of
+slowdown because they're executing and
+
+41
+00:02:40,850 --> 00:02:42,690
+distributed in that environment.
+
+42
+00:02:42,690 --> 00:02:46,640
+One goal of this lecture is to teach you
+what are some of the opportunities to
+
+43
+00:02:46,640 --> 00:02:49,050
+hide these access differences.
+
+44
+00:02:49,050 --> 00:02:53,810
+Distributed shared memory is becoming
+more relevant today, because commodity
+
+45
+00:02:53,810 --> 00:02:59,890
+interconnect technologies offer really
+low latency among nodes in a system.
+
+46
+00:02:59,890 --> 00:03:04,010
+For instance, these are interconnect
+technologies that connect the servers in
+
+47
+00:03:04,010 --> 00:03:08,540
+a data center and
+they offer these RDMA based interfaces,
+
+48
+00:03:08,540 --> 00:03:12,680
+where RDMA stands for
+Remote Direct Memory Access.
+
+49
+00:03:12,680 --> 00:03:18,630
+That provide a really low latency when
+accessing the remote memories and
+
+50
+00:03:18,630 --> 00:03:21,510
+that really helps address
+this particular challenge,
+
+51
+00:03:21,510 --> 00:03:24,790
+the fact that accessing
+remote memory is slower.
+
+52
+00:03:24,790 --> 00:03:27,920
+Using these advanced
+interconnection technologies
+
+53
+00:03:27,920 --> 00:03:32,510
+makes these remote accesses
+significantly better than what they were
+
+54
+00:03:32,510 --> 00:03:36,670
+before such interconnection
+opportunities existed.
+
+55
+00:03:36,670 --> 00:03:37,840
+Because of that,
+
+56
+00:03:37,840 --> 00:03:41,640
+distributed shared memory based
+solutions are becoming more sustainable.

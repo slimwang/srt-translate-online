@@ -1,0 +1,247 @@
+1
+00:00:00,000 --> 00:00:01,679
+So had like an architecture question.
+
+2
+00:00:01,679 --> 00:00:02,280
+I struggled a bit.
+
+3
+00:00:02,280 --> 00:00:05,887
+I still don't think I understand the right, the best practice for
+
+4
+00:00:05,887 --> 00:00:07,785
+if I want to look at a trend over time.
+
+5
+00:00:07,785 --> 00:00:08,450
+>> Mm-hm.
+
+6
+00:00:08,450 --> 00:00:09,970
+>> Do I store that in the bolts?
+
+7
+00:00:09,970 --> 00:00:13,020
+Do I store that in Redis and, and then how do you?
+
+8
+00:00:13,020 --> 00:00:13,770
+You know where does it?
+
+9
+00:00:13,770 --> 00:00:17,974
+Where do I persist say, you know, the last 10 minutes of data as
+
+10
+00:00:17,974 --> 00:00:21,656
+I'm [CROSSTALK] a, a, a histogram of, of Tweets, say.
+
+11
+00:00:21,656 --> 00:00:25,149
+>> Okay, so if you are doing Window-based computations,
+
+12
+00:00:25,149 --> 00:00:29,590
+typically the idea is to keep that in a Bolt or whatever it is, right?
+
+13
+00:00:29,590 --> 00:00:34,980
+So bo, and the bolt is computing the or moving into aggregate online.
+
+14
+00:00:34,980 --> 00:00:36,180
+What do you call it?
+
+15
+00:00:36,180 --> 00:00:37,970
+The time [INAUDIBLE] bits of [INAUDIBLE].
+
+16
+00:00:37,970 --> 00:00:39,360
+>> So all bolts check the clock and
+
+17
+00:00:39,360 --> 00:00:43,700
+then they decide now I'm going to basically report in my aggregated data.
+
+18
+00:00:43,700 --> 00:00:44,910
+>> Yes. >> And push it out.
+
+19
+00:00:44,910 --> 00:00:45,620
+>> Push it out.
+
+20
+00:00:45,620 --> 00:00:47,480
+So now the venue, before that.
+
+21
+00:00:47,480 --> 00:00:52,770
+So, the time window that remains [INAUDIBLE] right?
+
+22
+00:00:52,770 --> 00:00:56,930
+So now once you designed the time window then at the end of
+
+23
+00:00:56,930 --> 00:01:01,740
+the time window you can emit this or this time window.
+
+24
+00:01:01,740 --> 00:01:03,820
+This is my percent of analytics.
+
+25
+00:01:03,820 --> 00:01:07,970
+>> Okay. >> Alright so that gets told into the particle persistence store.
+
+26
+00:01:07,970 --> 00:01:08,540
+>> I see.
+
+27
+00:01:08,540 --> 00:01:11,520
+>> That should be stored in the partition so, so that you can go and
+
+28
+00:01:11,520 --> 00:01:13,530
+look back much longer.
+
+29
+00:01:13,530 --> 00:01:14,170
+Right? >> Okay.
+
+30
+00:01:14,170 --> 00:01:17,010
+>> Because then if you are doing a refinement at interval.
+
+31
+00:01:17,010 --> 00:01:20,270
+Then if you wanted to go back to five days ago, or ten days ago, or
+
+32
+00:01:20,270 --> 00:01:23,240
+twenty days ago, yes, then you can go back to the para,
+
+33
+00:01:23,240 --> 00:01:25,820
+para, persistent tour and see those values.
+
+34
+00:01:25,820 --> 00:01:26,490
+Right? >> Okay.
+
+35
+00:01:26,490 --> 00:01:28,070
+>> Whatever it is, right?
+
+36
+00:01:28,070 --> 00:01:31,540
+Another like if it's a moving aggregate, then for
+
+37
+00:01:31,540 --> 00:01:34,290
+a eh, every change in that time.
+
+38
+00:01:34,290 --> 00:01:38,170
+For example the last 10 or five minute of [INAUDIBLE] then every one minute
+
+39
+00:01:38,170 --> 00:01:40,325
+elapses then everyone [INAUDIBLE] moving out the gate.
+
+40
+00:01:40,325 --> 00:01:41,630
+[INAUDIBLE] right?
+
+41
+00:01:41,630 --> 00:01:42,260
+>> I see.
+
+42
+00:01:42,260 --> 00:01:46,400
+>> But, so on the other hand if it is a time window then
+
+43
+00:01:46,400 --> 00:01:50,850
+every five minutes [INAUDIBLE] persistently and a moving window of one minutes.
+
+44
+00:01:50,850 --> 00:01:52,550
+Moving window over five minutes.
+
+45
+00:01:52,550 --> 00:01:53,770
+And every minute you write that.
+
+46
+00:01:53,770 --> 00:01:54,650
+>> Yes. >> Persistently.
+
+47
+00:01:54,650 --> 00:01:57,641
+Then you can get the moving aggregate or be [INAUDIBLE] time.
+
+48
+00:01:57,641 --> 00:02:02,290
+>> Okay. And then, and then, aggregating into a database versus Redis was, was,
+
+49
+00:02:02,290 --> 00:02:04,940
+I guess Redis is more just instantaneous for
+
+50
+00:02:04,940 --> 00:02:06,740
+collecting the output of many bolts.
+
+51
+00:02:06,740 --> 00:02:07,780
+>> Yes.
+
+52
+00:02:07,780 --> 00:02:10,163
+No, I mean that's all, I mean this is just something [CROSSTALK] that's.
+
+53
+00:02:10,163 --> 00:02:11,710
+>> It's just an aggregator, basically?
+
+54
+00:02:11,710 --> 00:02:12,360
+>> Yes. >> Okay.
+
+55
+00:02:12,360 --> 00:02:13,030
+>> I mean it is,
+
+56
+00:02:13,030 --> 00:02:16,500
+I mean as long as if you don't worry about the output of that outtakes.
+
+57
+00:02:16,500 --> 00:02:19,560
+It doesn't have to be persistent, I just need it for
+
+58
+00:02:19,560 --> 00:02:21,880
+some look up on whatever it is.
+
+59
+00:02:21,880 --> 00:02:25,040
+And after a certain time then it's, cannot, I don't need it.
+
+60
+00:02:25,040 --> 00:02:26,140
+Means, then you can do what it is.
+
+61
+00:02:26,140 --> 00:02:29,540
+But on the other hand if you need that an outtakes early,
+
+62
+00:02:29,540 --> 00:02:31,090
+then you can store it in a e-Value store

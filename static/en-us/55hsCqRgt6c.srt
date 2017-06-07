@@ -1,0 +1,287 @@
+1
+00:00:00,110 --> 00:00:05,080
+The reason why we have to contact switch
+among threads is because the CPU has
+
+2
+00:00:05,080 --> 00:00:09,320
+one set of registers to describe
+the active execution context,
+
+3
+00:00:09,320 --> 00:00:11,820
+the thread that's currently
+running on the CPU.
+
+4
+00:00:11,820 --> 00:00:15,410
+These include the stack pointer and
+program counter, in particular.
+
+5
+00:00:15,410 --> 00:00:16,640
+Over time, however,
+
+6
+00:00:16,640 --> 00:00:21,040
+hardware architects have recognized that
+they can do certain things to help hide
+
+7
+00:00:21,040 --> 00:00:24,510
+some of the overheads associated
+with contact switching.
+
+8
+00:00:24,510 --> 00:00:25,960
+One way this has been achieved,
+
+9
+00:00:25,960 --> 00:00:31,320
+is to have CPUs that have multiple set
+of registers, that each set of register
+
+10
+00:00:31,320 --> 00:00:36,120
+can describe the context of a separate
+thread, of a separate execution entity.
+
+11
+00:00:37,180 --> 00:00:41,010
+One term that's used to refer
+to this is hyper threading.
+
+12
+00:00:41,010 --> 00:00:46,420
+So, hyper threading refers to multiple
+hardware-supported execution contexts,
+
+13
+00:00:46,420 --> 00:00:47,830
+so hyper threads.
+
+14
+00:00:47,830 --> 00:00:52,220
+There's still just one CPU, so on this
+CPU only one of these threads can
+
+15
+00:00:52,220 --> 00:00:55,300
+execute at a particular moment of time.
+
+16
+00:00:55,300 --> 00:00:59,600
+However, the context switching
+between these threads is very fast.
+
+17
+00:00:59,600 --> 00:01:03,460
+And just basically the CPU needs to
+switch from using this set of registers
+
+18
+00:01:03,460 --> 00:01:05,150
+to another set of registers.
+
+19
+00:01:05,150 --> 00:01:07,720
+Nothing has to be saved or restored.
+
+20
+00:01:07,720 --> 00:01:10,740
+This mechanism is really
+referred to by multiple names.
+
+21
+00:01:10,740 --> 00:01:15,200
+So in addition to hyperthreading a
+common term is also to refer to this is
+
+22
+00:01:15,200 --> 00:01:19,150
+hardware multithreading,
+or chip multithreading or
+
+23
+00:01:19,150 --> 00:01:22,140
+simultaneous multithreading, SMTs.
+
+24
+00:01:22,140 --> 00:01:25,660
+So, we will used basically these
+two terms, hyperthreading and
+
+25
+00:01:25,660 --> 00:01:28,780
+SMTs, more dominantly than the others.
+
+26
+00:01:28,780 --> 00:01:31,750
+Hardware today frequently
+supports two hardware threads.
+
+27
+00:01:31,750 --> 00:01:36,360
+However, there are multiple higher
+end server designs to support up to
+
+28
+00:01:36,360 --> 00:01:38,110
+eight hardware threads.
+
+29
+00:01:38,110 --> 00:01:42,910
+And one of the features of today's
+hardware is that you can enable or
+
+30
+00:01:42,910 --> 00:01:46,560
+disable this hardware
+multithreading at boot time,
+
+31
+00:01:46,560 --> 00:01:50,640
+given that there's some trade-offs
+associated with this as always.
+
+32
+00:01:50,640 --> 00:01:54,290
+If it is enabled, as far as
+the operating system is concerned,
+
+33
+00:01:54,290 --> 00:01:58,880
+each of these hardware contexts
+appears to the operating system's
+
+34
+00:01:58,880 --> 00:02:03,620
+scheduler as a separate context,
+a separate virtual CPU, onto which.
+
+35
+00:02:03,620 --> 00:02:06,220
+Which it can schedule threads given that
+
+36
+00:02:06,220 --> 00:02:10,740
+it can load the registers with
+the thread context concurrently.
+
+37
+00:02:10,740 --> 00:02:14,250
+So for instance in this figure
+the scheduler will think that it has two
+
+38
+00:02:14,250 --> 00:02:20,110
+CPUs and it will load these registers
+with the context of these two threads.
+
+39
+00:02:20,110 --> 00:02:23,840
+So one of the decisions that the
+scheduler will need to make is which two
+
+40
+00:02:23,840 --> 00:02:28,880
+threads to schedule at the same time
+to run on these hardware contexts.
+
+41
+00:02:28,880 --> 00:02:31,720
+To answer that question,
+let's remind ourselves of what we
+
+42
+00:02:31,720 --> 00:02:35,500
+talked about when we talked about
+the context switching time.
+
+43
+00:02:35,500 --> 00:02:38,720
+We said that it,
+the time that a thread is idling,
+
+44
+00:02:38,720 --> 00:02:43,250
+that a thread has to wait on
+something to happen is greater than
+
+45
+00:02:43,250 --> 00:02:48,090
+twice the time to perform a context
+switch, then it makes sense to actually
+
+46
+00:02:48,090 --> 00:02:53,200
+do the context switch in order to hide
+this waiting, this idling latency.
+
+47
+00:02:53,200 --> 00:02:57,960
+In SNT systems, the time to perform
+a context switch among the two hardware
+
+48
+00:02:57,960 --> 00:02:59,990
+threads is in the order of cycles.
+
+49
+00:03:01,120 --> 00:03:05,410
+And the time to perform a memory
+access operation, a memory log,
+
+50
+00:03:05,410 --> 00:03:09,180
+remains in the order of hundreds
+of cycles, so it's much greater.
+
+51
+00:03:09,180 --> 00:03:11,890
+So given this,
+then it means that it does
+
+52
+00:03:11,890 --> 00:03:15,880
+make sense to context switch
+to the other hardware thread.
+
+53
+00:03:15,880 --> 00:03:18,990
+And in that way,
+this technology hyperthreading
+
+54
+00:03:18,990 --> 00:03:24,000
+will help us even hide the memory access
+latency that threads are experiencing.
+
+55
+00:03:24,000 --> 00:03:28,940
+Hyperthreading does have implication and
+scheduling, in that it raises some
+
+56
+00:03:28,940 --> 00:03:33,185
+other requirements when we're trying to
+decide what kinds of threads should we
+
+57
+00:03:33,185 --> 00:03:36,040
+co-schedule on the hardware
+threads in the CPU.
+
+58
+00:03:36,040 --> 00:03:39,700
+We will discuss this question
+in the context of the paper
+
+59
+00:03:39,700 --> 00:03:44,050
+Chip Multithreaded Processors Need
+a New Operating System Scheduler
+
+60
+00:03:44,050 --> 00:03:45,650
+by Sasha Fedorova and others.

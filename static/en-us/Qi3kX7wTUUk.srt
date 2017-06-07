@@ -1,0 +1,249 @@
+﻿1
+00:00:00,290 --> 00:00:03,209
+One of the coolest deep learning
+results from last year was
+
+2
+00:00:03,209 --> 00:00:05,019
+the Google Translate update.
+
+3
+00:00:05,019 --> 00:00:07,539
+They've been a leader in machine
+learning for a while, but
+
+4
+00:00:07,540 --> 00:00:08,970
+implementing a deep neural network for
+
+5
+00:00:08,970 --> 00:00:14,220
+translation brought the service nearly
+to the level of human translators.
+
+6
+00:00:14,220 --> 00:00:17,880
+With translation, the correct word
+to use depends on the context, and
+
+7
+00:00:17,879 --> 00:00:21,019
+all the other words in the sentence,
+and even in the paragraph.
+
+8
+00:00:22,100 --> 00:00:25,040
+Much of the information contained
+in language is in the sequence of
+
+9
+00:00:25,039 --> 00:00:26,329
+the words.
+
+10
+00:00:26,329 --> 00:00:30,969
+So far, we've been working with what
+are called feed forward networks.
+
+11
+00:00:30,969 --> 00:00:32,618
+The input is fed into the network and
+
+12
+00:00:32,618 --> 00:00:36,204
+it propagates forward through
+the hidden layers to the output layer.
+
+13
+00:00:36,204 --> 00:00:39,500
+In feed forward networks, there is
+no sense of order in the inputs.
+
+14
+00:00:40,500 --> 00:00:44,649
+Here's a simple idea then,
+let's build order into our network.
+
+15
+00:00:44,649 --> 00:00:47,780
+First, we'll split up
+the data into parts.
+
+16
+00:00:47,780 --> 00:00:49,600
+The text, this can be words or
+
+17
+00:00:49,600 --> 00:00:53,090
+individual characters like I've
+done here with the word steep.
+
+18
+00:00:53,090 --> 00:00:54,048
+Going forward,
+
+19
+00:00:54,048 --> 00:00:59,070
+I'm going to borrow an example from
+Andrej Karpathy because it's great.
+
+20
+00:00:59,070 --> 00:01:02,939
+Our goal here is to predict the next
+character in the word steep.
+
+21
+00:01:02,939 --> 00:01:09,334
+To keep it simple, assume our entire
+alphabet consist of S, T, E, and P.
+
+22
+00:01:09,334 --> 00:01:11,682
+Let's start with the normal
+feed forward network.
+
+23
+00:01:11,683 --> 00:01:15,516
+We'll pass in the character S and
+our desired output is T.
+
+24
+00:01:15,516 --> 00:01:19,100
+We pass in a T, we should get out E.
+
+25
+00:01:19,099 --> 00:01:20,721
+Now, we pass in that E.
+
+26
+00:01:20,721 --> 00:01:24,454
+In this sentence E is
+followed by another E or a P.
+
+27
+00:01:24,454 --> 00:01:25,990
+The network, as shown here,
+
+28
+00:01:25,990 --> 00:01:30,599
+doesn't have enough information to
+determine which character to predict.
+
+29
+00:01:30,599 --> 00:01:31,579
+To solve this problem,
+
+30
+00:01:31,579 --> 00:01:35,679
+we'll need to include information
+about the sequence of characters.
+
+31
+00:01:35,680 --> 00:01:39,360
+We can do this by routing the hidden
+layer output from the previous step back
+
+32
+00:01:39,359 --> 00:01:40,969
+into the hidden layer.
+
+33
+00:01:40,969 --> 00:01:45,620
+That box there means value from
+the previous sequence, or time step.
+
+34
+00:01:45,620 --> 00:01:50,329
+Now, when the network sees an E,
+it knows it saw an S and a T before, so
+
+35
+00:01:50,328 --> 00:01:53,106
+the next character should be another E.
+
+36
+00:01:53,106 --> 00:01:57,810
+This architecture is known as
+a recurrent neural network, or RNN.
+
+37
+00:01:57,810 --> 00:02:02,046
+Now, the total input to the hidden
+layer is just the sum of the layered
+
+38
+00:02:02,046 --> 00:02:06,957
+combinations from the input layer and
+the previous hidden layer, ht minus 1.
+
+39
+00:02:06,956 --> 00:02:11,709
+We can view our recurrent network
+as one big graph by unrolling it.
+
+40
+00:02:11,710 --> 00:02:14,219
+Now, we have a feed forward network for
+each character but
+
+41
+00:02:14,219 --> 00:02:16,240
+connected through the hidden layers.
+
+42
+00:02:16,240 --> 00:02:19,150
+Each hidden node receives
+inputs from an input node and
+
+43
+00:02:19,150 --> 00:02:21,280
+the hidden node from the previous step.
+
+44
+00:02:21,280 --> 00:02:24,810
+To make it a bit more understandable,
+let's plug in some numbers here.
+
+45
+00:02:24,810 --> 00:02:29,112
+This diagram is borrowed from
+Andrej Karpathy, with a few alterations.
+
+46
+00:02:29,112 --> 00:02:31,723
+Here, we're one hot encoding
+the input characters.
+
+47
+00:02:31,723 --> 00:02:37,747
+So, 1000 is an S,
+0100 is a T, and so on.
+
+48
+00:02:37,747 --> 00:02:39,741
+There are three units in
+the hidden layer, and
+
+49
+00:02:39,741 --> 00:02:41,490
+the output layer is showing the logits.
+
+50
+00:02:41,490 --> 00:02:45,740
+You'd pass the logits into a softmax
+function to get predictions and
+
+51
+00:02:45,740 --> 00:02:48,590
+train with a cross interview loss.
+
+52
+00:02:48,590 --> 00:02:52,289
+This is the basic architecture for
+our character wise RNN, but
+
+53
+00:02:52,289 --> 00:02:56,019
+there are some improvements we'll need
+to make, which I'll talk about next.
+

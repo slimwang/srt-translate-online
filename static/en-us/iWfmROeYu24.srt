@@ -1,0 +1,367 @@
+1
+00:00:00,450 --> 00:00:02,530
+Okay Michael, you've called my bluff. You, you said
+
+2
+00:00:02,530 --> 00:00:04,430
+I've left out the most important parts, and you
+
+3
+00:00:04,430 --> 00:00:08,020
+are right. So, I'm going to tell you ,how to
+
+4
+00:00:08,020 --> 00:00:11,400
+construct the most important parts. Let's start, with the distribution.
+
+5
+00:00:11,400 --> 00:00:14,240
+So, let's start with the base case, and that
+
+6
+00:00:14,240 --> 00:00:17,550
+is the distribution, at the beginning of time, D
+
+7
+00:00:17,550 --> 00:00:20,940
+sub one. So, this distribution, is going to be
+
+8
+00:00:20,940 --> 00:00:26,339
+over each of the examples and those examples, are ,indexed,
+
+9
+00:00:26,339 --> 00:00:28,860
+so, over i. And I'm simply going to
+
+10
+00:00:28,860 --> 00:00:32,490
+set that distribution, to be uniform. So, how
+
+11
+00:00:32,490 --> 00:00:34,420
+many examples do we have, Michael? Let's pick,
+
+12
+00:00:34,420 --> 00:00:36,200
+let's pick a letter. Let's call it n.
+
+13
+00:00:36,200 --> 00:00:36,380
+>> Okay.
+
+14
+00:00:36,380 --> 00:00:38,720
+>> Why not, cause we do that for everything else and I'm
+
+15
+00:00:38,720 --> 00:00:43,230
+going to say that for every single one of the examples they happen one
+
+16
+00:00:43,230 --> 00:00:46,950
+over int times, that is uniform distribution. Now, why do I do that,
+
+17
+00:00:46,950 --> 00:00:51,480
+because, I have no reason to believe, for the purposes of this algorithm,
+
+18
+00:00:51,480 --> 00:00:54,940
+that any given example, is better ,than any other example,
+
+19
+00:00:54,940 --> 00:00:57,600
+more important than any other example, harder than other example
+
+20
+00:00:57,600 --> 00:01:00,030
+or anything else. I know nothing. So, see if you
+
+21
+00:01:00,030 --> 00:01:02,240
+can learn over all of the examples. You with me?
+
+22
+00:01:02,240 --> 00:01:03,680
+>> Yeah, cause I feel like if it
+
+23
+00:01:03,680 --> 00:01:06,092
+actually solves that problem, we're just done. So [CROSSTALK]
+
+24
+00:01:06,092 --> 00:01:08,890
+>> [CROSSTALK] Yes and, and that's what you always want. But that's
+
+25
+00:01:08,890 --> 00:01:11,550
+the easy case. So I start out with uniform distribution, that's what you
+
+26
+00:01:11,550 --> 00:01:14,050
+usually do ,when you don't know anything. But, what are you going to
+
+27
+00:01:14,050 --> 00:01:16,530
+do ,while your in the middle? So, here's what I am going to
+
+28
+00:01:16,530 --> 00:01:19,600
+do Michael. At every time step T, I'm
+
+29
+00:01:19,600 --> 00:01:22,510
+going to construct, a new distribution, Dis of
+
+30
+00:01:22,510 --> 00:01:25,250
+T plus 1. Okay so, here's how we're
+
+31
+00:01:25,250 --> 00:01:28,610
+going to construct the distribution at every time step. Okay?
+
+32
+00:01:28,610 --> 00:01:33,925
+I'm going to create the new distribution, T plus 1 to be E for each example, I.
+
+33
+00:01:33,925 --> 00:01:41,660
+- to be the old distribution, and times T, times E to the minus alpha T, times Y
+
+34
+00:01:41,660 --> 00:01:45,980
+sub i, times H of sub T, of X of I, all divided
+
+35
+00:01:45,980 --> 00:01:49,605
+by Z sub T. [LAUGH] So that's pretty obvious right? [LAUGH]
+
+36
+00:01:49,605 --> 00:01:51,850
+So what do each of those terms mean? I mean ,I
+
+37
+00:01:51,850 --> 00:01:55,550
+know it's intuitively obvious ,even to the most casual observer, but ,let
+
+38
+00:01:55,550 --> 00:01:58,010
+me just try to explain what each of the parts mean.
+
+39
+00:01:58,010 --> 00:02:00,970
+So, we know that the D is our distribution and it's some
+
+40
+00:02:00,970 --> 00:02:04,220
+number, where, over all the examples, it adds up to one.
+
+41
+00:02:04,220 --> 00:02:06,660
+And it's a stand-in, we know, because I said this at the
+
+42
+00:02:06,660 --> 00:02:09,880
+beginning, for how important a particular ,example is, how
+
+43
+00:02:09,880 --> 00:02:11,740
+often we expect to see it. And that's the
+
+44
+00:02:11,740 --> 00:02:14,160
+trick that we're using with distributions. So, I'm going to
+
+45
+00:02:14,160 --> 00:02:17,420
+take the old distribution for an example, of, for
+
+46
+00:02:17,420 --> 00:02:20,000
+a particular example. And I'm going to either make
+
+47
+00:02:20,000 --> 00:02:24,840
+it bigger or smaller, based upon, how well, the
+
+48
+00:02:24,840 --> 00:02:29,570
+current hypothesis, does, on that particular example. So, there's
+
+49
+00:02:29,570 --> 00:02:31,770
+a cute little trick here, we know that h
+
+50
+00:02:31,770 --> 00:02:35,980
+of t always returns, a value ,of either minus one or
+
+51
+00:02:35,980 --> 00:02:41,190
+plus one, because ,that's how we define our training set, you
+
+52
+00:02:41,190 --> 00:02:43,480
+always have a label of minus one or plus one. So,
+
+53
+00:02:43,480 --> 00:02:45,640
+ht is going to return minus one or plus one for a
+
+54
+00:02:45,640 --> 00:02:48,740
+particular x sub i. Y of i which is the label
+
+55
+00:02:48,740 --> 00:02:51,740
+with respect to that example, is also always going to be plus
+
+56
+00:02:51,740 --> 00:02:54,860
+one or minus one. And alpha t is a constant, which
+
+57
+00:02:54,860 --> 00:02:56,780
+I will get into a little bit later just right now think
+
+58
+00:02:56,780 --> 00:02:59,301
+of it as a number. And so what
+
+59
+00:02:59,301 --> 00:03:03,306
+happens, Michael, if the hypothesis, at time t for
+
+60
+00:03:03,306 --> 00:03:06,599
+a particular example x of i agrees, with the
+
+61
+00:03:06,599 --> 00:03:10,770
+label, that is associated with that x of i?
+
+62
+00:03:10,770 --> 00:03:12,200
+>> Well, hang on, you say the alpha's a
+
+63
+00:03:12,200 --> 00:03:15,110
+number. Is it a positive number? A between 0
+
+64
+00:03:15,110 --> 00:03:16,660
+and 1 number? A negative number? What kind of
+
+65
+00:03:16,660 --> 00:03:18,380
+number? Does, does it not matter. I think it matters.
+
+66
+00:03:18,380 --> 00:03:19,500
+>> That's a good question. It, it
+
+67
+00:03:19,500 --> 00:03:21,830
+matters eventually. But right now, that number is
+
+68
+00:03:21,830 --> 00:03:23,530
+always, positive.
+
+69
+00:03:23,530 --> 00:03:25,230
+>> Positive, alright. So, like, a [UNKNOWN]. Almost
+
+70
+00:03:25,230 --> 00:03:26,910
+like a learning rate-y kind of thing, maybe.
+
+71
+00:03:26,910 --> 00:03:28,430
+>> It's a learning rate-y kind of thing, sort of.
+
+72
+00:03:28,430 --> 00:03:34,130
+>> Alright, so, good. So the y, okay, I see, I see. So, the y
+
+73
+00:03:34,130 --> 00:03:39,660
+times the h is going to be. 1 if they agree, and minus 1 if they disagree.
+
+74
+00:03:39,660 --> 00:03:44,020
+>> Exactly, so if they both say positive 1, positive 1 times positive 1 is 1.
+
+75
+00:03:44,020 --> 00:03:47,890
+If they both say negative 1, negative 1 times negative 1 is 1. So, it's exactly
+
+76
+00:03:47,890 --> 00:03:49,970
+what you say when they agree, that number is 1. And
+
+77
+00:03:49,970 --> 00:03:54,070
+when they disagree, that number is minus 1. Alpha Sub T,
+
+78
+00:03:54,070 --> 00:03:58,110
+which i define below, is always a positive number. You can
+
+79
+00:03:58,110 --> 00:04:00,350
+trust me on this. The error is always between 0 and
+
+80
+00:04:00,350 --> 00:04:02,840
+1. And it just turns out that the natural log of
+
+81
+00:04:02,840 --> 00:04:05,670
+1 minus a number between 0 and 1 over that number,
+
+82
+00:04:05,670 --> 00:04:09,440
+always gives you a positive number. And if you don't believe
+
+83
+00:04:09,440 --> 00:04:12,630
+me, you should play around with the numbers till you convince yourself.
+
+84
+00:04:12,630 --> 00:04:15,510
+So, that's going to be some positive number.
+
+85
+00:04:15,510 --> 00:04:18,570
+So, that means when they agree, that whole product
+
+86
+00:04:18,570 --> 00:04:21,660
+will be positive. Which means, you'll be raising
+
+87
+00:04:21,660 --> 00:04:26,000
+e to minus some number when they disagree that
+
+88
+00:04:26,000 --> 00:04:28,020
+product will be negative which means you'll be
+
+89
+00:04:28,020 --> 00:04:31,830
+raising e to some positive number. So, let's imagine
+
+90
+00:04:31,830 --> 00:04:34,000
+they agree. So you're going to be re
+
+91
+00:04:34,000 --> 00:04:37,660
+raising, e, to minus some number, what's going to
+
+92
+00:04:37,660 --> 00:04:41,380
+happen to the relative weight of d sub t of i?

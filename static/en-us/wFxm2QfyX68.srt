@@ -1,0 +1,267 @@
+1
+00:00:00,100 --> 00:00:04,290
+Now, let's talk about the fact this
+is not that trivial all the time.
+
+2
+00:00:04,290 --> 00:00:08,540
+We are dealing with feature detection
+which does have some times problems and
+
+3
+00:00:08,540 --> 00:00:12,540
+sometimes of course you know why there
+are problems with feature imaging.
+
+4
+00:00:12,540 --> 00:00:13,720
+Let's look at two images.
+
+5
+00:00:13,720 --> 00:00:17,680
+I'm going to zoom in again just
+to kind of show you more details.
+
+6
+00:00:17,680 --> 00:00:20,730
+So this is my right image,
+and my left image.
+
+7
+00:00:20,730 --> 00:00:23,350
+Now, what I can start doing is
+of course, finding features.
+
+8
+00:00:23,350 --> 00:00:28,200
+So I found one here and, of course,
+this also here and I can match it.
+
+9
+00:00:28,200 --> 00:00:30,840
+I can keep doing this for
+a variety of features.
+
+10
+00:00:30,840 --> 00:00:32,210
+Another one here.
+
+11
+00:00:32,210 --> 00:00:35,880
+And of course, if we look at it, decent
+feature detection will do fine for
+
+12
+00:00:35,880 --> 00:00:37,110
+some of these types of things.
+
+13
+00:00:38,390 --> 00:00:42,220
+Another feature match between
+these two points also works.
+
+14
+00:00:42,220 --> 00:00:44,180
+Now, basically what I'm
+doing is I'm just, kind of,
+
+15
+00:00:44,180 --> 00:00:45,690
+running a feature matching algorithm,
+
+16
+00:00:45,690 --> 00:00:49,710
+finding features, and
+seeing if they match between two images.
+
+17
+00:00:49,710 --> 00:00:53,190
+Notice each one of them,
+right now, looks pretty good.
+
+18
+00:00:53,190 --> 00:00:56,630
+And the transformation
+looks to be correct.
+
+19
+00:00:56,630 --> 00:01:00,250
+All of them seem to be moving
+approximately by the same amount.
+
+20
+00:01:00,250 --> 00:01:00,900
+Remember?
+
+21
+00:01:00,900 --> 00:01:02,670
+These are cameras moving.
+
+22
+00:01:02,670 --> 00:01:06,630
+And these are images moving because
+we have kept the point the same.
+
+23
+00:01:06,630 --> 00:01:09,450
+So we expect these row, these arrows
+
+24
+00:01:09,450 --> 00:01:13,570
+that kind of show the distance between
+these features to be the same, right?
+
+25
+00:01:13,570 --> 00:01:15,530
+And of course the same thing is true for
+this one.
+
+26
+00:01:16,550 --> 00:01:19,690
+But if we keep doing this, we will find,
+and of course there will be instances,
+
+27
+00:01:19,690 --> 00:01:22,900
+there will be features
+like this matches to this.
+
+28
+00:01:22,900 --> 00:01:25,730
+Now this looks like
+a bad match to anyone.
+
+29
+00:01:25,730 --> 00:01:31,000
+Especially if you consider the fact that
+all of the other ones were you know,
+
+30
+00:01:31,000 --> 00:01:33,150
+the distance between them was this much.
+
+31
+00:01:33,150 --> 00:01:34,370
+Another bad match here.
+
+32
+00:01:36,020 --> 00:01:38,980
+So we want to be able to
+discount these matches.
+
+33
+00:01:42,920 --> 00:01:46,230
+And here you, you can see it,
+this is a bad match, so
+
+34
+00:01:46,230 --> 00:01:50,690
+we want to be able to kind of look for
+good matches, we refer to them as
+
+35
+00:01:50,690 --> 00:01:56,660
+inliers, and ignore the bad matches,
+referred to as outliers.
+
+36
+00:01:56,660 --> 00:02:02,550
+So, this can be done by a process called
+RANSAC, or random sample consensus,
+
+37
+00:02:02,550 --> 00:02:05,690
+which basically means randomly
+we're going to sample things.
+
+38
+00:02:05,690 --> 00:02:09,000
+But at the same time we're going to
+see which one of them are actually
+
+39
+00:02:09,000 --> 00:02:10,199
+creating a consensus.
+
+40
+00:02:10,199 --> 00:02:12,500
+Which one of them are more popular.
+
+41
+00:02:12,500 --> 00:02:16,610
+Just looking at this you can see that
+the yellow ones are more popular,
+
+42
+00:02:16,610 --> 00:02:18,160
+there are more of them.
+
+43
+00:02:18,160 --> 00:02:23,130
+They will actually be the inliers, and
+they will actually kind of out vote
+
+44
+00:02:23,130 --> 00:02:26,000
+I'll popularize the red ones,
+which are outliers.
+
+45
+00:02:26,000 --> 00:02:27,930
+So, we want to build consensus, but
+
+46
+00:02:27,930 --> 00:02:31,170
+we want to do this randomly,
+not to have a bias.
+
+47
+00:02:31,170 --> 00:02:34,780
+So, in essence, what it means is,
+start with one match and
+
+48
+00:02:34,780 --> 00:02:37,560
+then find all of the other
+ones that match it.
+
+49
+00:02:37,560 --> 00:02:39,090
+These are the inliers.
+
+50
+00:02:39,090 --> 00:02:44,500
+Then find the average translation
+vector, of these inliers,
+
+51
+00:02:44,500 --> 00:02:46,880
+which in this case would
+be this line here.
+
+52
+00:02:46,880 --> 00:02:48,770
+Notice this line is shorter.
+
+53
+00:02:48,770 --> 00:02:50,730
+Much more similar to
+all of the yellow ones.
+
+54
+00:02:50,730 --> 00:02:52,090
+Not anywhere close to the red one.
+
+55
+00:02:53,100 --> 00:02:55,940
+And basically now this gives
+me an algorithm to be able to
+
+56
+00:02:55,940 --> 00:02:59,030
+kind of compute which matches inliers.
+
+57
+00:02:59,030 --> 00:03:01,950
+Lets look at that algorithm for
+RANSAC next.

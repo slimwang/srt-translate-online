@@ -1,0 +1,182 @@
+1
+00:00:00,500 --> 00:00:03,170
+Time to use our knowledge of Slerp and
+put it into practice.
+
+2
+00:00:04,170 --> 00:00:05,720
+Let's hop back into our
+rotate light script.
+
+3
+00:00:05,720 --> 00:00:10,660
+Instead of using the rotate method,
+let's use Slerp
+
+4
+00:00:10,660 --> 00:00:15,800
+to rotate our directional light 180
+degrees over a fixed time interval.
+
+5
+00:00:15,800 --> 00:00:20,330
+To do that, we need to define
+a start and end rotation.
+
+6
+00:00:20,330 --> 00:00:21,850
+We'll use quaternions,
+
+7
+00:00:21,850 --> 00:00:25,570
+which is a very convenient way to
+handle rotation calculations in VR.
+
+8
+00:00:26,640 --> 00:00:31,560
+Let's first define our start
+rotation by typing Quaternion
+
+9
+00:00:31,560 --> 00:00:36,589
+startrotation = Quaternion.Euler(50,
+30, 0).
+
+10
+00:00:36,589 --> 00:00:41,179
+Next, let's define our end rotation with
+
+11
+00:00:41,179 --> 00:00:46,411
+Quaternion endRotation
+= startRotation times
+
+12
+00:00:46,411 --> 00:00:51,140
+Quaternion.Euler(0,180, 0).
+
+13
+00:00:52,370 --> 00:00:53,090
+In this line,
+
+14
+00:00:53,090 --> 00:00:57,840
+we define what our end rotation should
+be with some Quaternion mathematics.
+
+15
+00:00:57,840 --> 00:01:01,539
+If we multiply quaternions together,
+we're able to add their rotation.
+
+16
+00:01:02,540 --> 00:01:05,530
+In this case,
+we're adding a rotation of 180 degrees,
+
+17
+00:01:05,530 --> 00:01:08,380
+in the y direction,
+to our start rotation.
+
+18
+00:01:09,640 --> 00:01:11,670
+If you want to learn
+more about quaternions,
+
+19
+00:01:11,670 --> 00:01:14,219
+make sure to check out the Unity
+documentation on them.
+
+20
+00:01:15,280 --> 00:01:19,690
+The last thing we need to do, is provide
+the time perimeter that Slerp requires.
+
+21
+00:01:20,770 --> 00:01:25,774
+For Slerp, or Lerp, the time
+parameter is the value between 0 and
+
+22
+00:01:25,774 --> 00:01:29,330
+1, which dictates how close
+the interpolated value should be
+
+23
+00:01:29,330 --> 00:01:31,320
+to the start or end rotation.
+
+24
+00:01:32,630 --> 00:01:36,600
+So for this, we can't use
+Time.deltaTime, because that is
+
+25
+00:01:36,600 --> 00:01:40,830
+just the time between frames, not the
+time since the application has started.
+
+26
+00:01:41,910 --> 00:01:46,419
+Instead, we can use Time.time, which is
+the time since we hit our play button.
+
+27
+00:01:47,510 --> 00:01:51,150
+So to update the rotation,
+we can delete the Rotate method, and
+
+28
+00:01:51,150 --> 00:01:58,598
+instead write Rotation =
+Quaternion.Slerp (startRotation,
+
+29
+00:01:58,598 --> 00:02:02,600
+endRotation, Time.Time).
+
+30
+00:02:02,600 --> 00:02:07,400
+And now, if we go back and
+hit Play, for the first second,
+
+31
+00:02:07,400 --> 00:02:10,120
+the sun will start to rotate
+until it's night, and then stop.
+
+32
+00:02:11,650 --> 00:02:14,928
+Note that the update method
+is still calling Slerp, but
+
+33
+00:02:14,928 --> 00:02:17,639
+after Time.time is greater than 1,
+
+34
+00:02:17,639 --> 00:02:21,910
+Slerp outputs the end rotation, which
+is the night rotation we're seeing now.
+
+35
+00:02:23,180 --> 00:02:26,240
+You might've noticed the rotation
+happens way too fast.
+
+36
+00:02:27,350 --> 00:02:30,230
+To solve that,
+we need to go back into the script and
+
+37
+00:02:30,230 --> 00:02:36,250
+scale our time value by multiplying it
+or dividing it by some scalar value.
+
+38
+00:02:37,320 --> 00:02:40,790
+Go ahead and play around with that value
+and find something that feels natural.

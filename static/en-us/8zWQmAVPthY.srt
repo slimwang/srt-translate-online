@@ -1,0 +1,219 @@
+1
+00:00:00,380 --> 00:00:04,680
+Now that you're familiar with NumPy
+arrays, let's move on to pandas series.
+
+2
+00:00:04,680 --> 00:00:07,100
+A series is similar to a NumPy array,
+but
+
+3
+00:00:07,100 --> 00:00:09,710
+it has a little
+additional functionality.
+
+4
+00:00:09,710 --> 00:00:13,730
+For example, if you have a series named
+s, then the function s.describe will
+
+5
+00:00:13,730 --> 00:00:17,910
+print out the mean standard deviation,
+median, and some other statistics about
+
+6
+00:00:17,910 --> 00:00:21,970
+your series as this function
+isn't available for NumPy arrays.
+
+7
+00:00:21,970 --> 00:00:25,120
+There are also some other benefits
+of series over arrays which I'll go
+
+8
+00:00:25,120 --> 00:00:25,760
+over in a minute.
+
+9
+00:00:26,910 --> 00:00:30,310
+For now though, I want to focus on the
+similarities between series and arrays.
+
+10
+00:00:31,340 --> 00:00:33,930
+All the things you just learned
+how to do on Numpy arrays
+
+11
+00:00:33,930 --> 00:00:36,420
+will also work on Pandas series.
+
+12
+00:00:36,420 --> 00:00:40,030
+You can access elements using the square
+bracket notation to get either a single
+
+13
+00:00:40,030 --> 00:00:42,460
+element or a slice of elements.
+
+14
+00:00:42,460 --> 00:00:44,950
+You can still loop over your series.
+
+15
+00:00:44,950 --> 00:00:48,610
+You can call the same convenient
+functions you just saw such as mean and
+
+16
+00:00:48,610 --> 00:00:52,220
+max, and you can still used
+vectorized operations.
+
+17
+00:00:52,220 --> 00:00:55,590
+And just like NumPy,
+pandas series are implemented in C, and
+
+18
+00:00:55,590 --> 00:00:57,700
+thus are much faster
+than using Python lists.
+
+19
+00:00:58,990 --> 00:01:00,130
+On the following screen,
+
+20
+00:01:00,130 --> 00:01:03,000
+you'll see some test code you
+can try out using Pandas series.
+
+21
+00:01:04,180 --> 00:01:07,770
+I'd also like you to write a function
+that takes in two series as arguments,
+
+22
+00:01:07,770 --> 00:01:11,190
+for example, life expectancy in 2007 and
+GDP in 2007.
+
+23
+00:01:11,190 --> 00:01:15,480
+The countries will be in
+the same order for each.
+
+24
+00:01:15,480 --> 00:01:18,070
+The function should perform
+the following simple heuristic
+
+25
+00:01:18,070 --> 00:01:21,430
+to check whether these
+variables seem to be related.
+
+26
+00:01:21,430 --> 00:01:24,120
+The function will look at the question,
+when a country has a life
+
+27
+00:01:24,120 --> 00:01:28,730
+expectancy above the mean,
+is the GDP above the mean also?
+
+28
+00:01:28,730 --> 00:01:29,780
+Or vice versa.
+
+29
+00:01:29,780 --> 00:01:33,090
+If the life expectancy is below
+the mean, is the GDP below the mean?
+
+30
+00:01:34,480 --> 00:01:36,390
+Your function should return two numbers.
+
+31
+00:01:36,390 --> 00:01:38,920
+The first number is
+the number of countries where
+
+32
+00:01:38,920 --> 00:01:43,330
+both values are above the mean or
+both values are below the mean.
+
+33
+00:01:43,330 --> 00:01:46,560
+The second number should be the number
+of countries where one value is above
+
+34
+00:01:46,560 --> 00:01:48,970
+the mean and
+the other is below the mean.
+
+35
+00:01:48,970 --> 00:01:52,560
+So these two numbers should add up
+to the total number of countries.
+
+36
+00:01:52,560 --> 00:01:55,840
+Like I mentioned, the inputs will be
+panned as a series, but you should
+
+37
+00:01:55,840 --> 00:02:00,270
+be able to write the same code to solve
+this as you would for NumPy arrays.
+
+38
+00:02:00,270 --> 00:02:02,780
+Here's a hint you can use to
+make your code a little shorter.
+
+39
+00:02:02,780 --> 00:02:05,700
+In Python,
+you can actually add booleans up.
+
+40
+00:02:05,700 --> 00:02:09,340
+True will be treated as one and
+false will be treated as zero.
+
+41
+00:02:09,340 --> 00:02:12,440
+So in Python true + true = 2.
+
+42
+00:02:12,440 --> 00:02:16,970
+So how I would approach this problem is,
+first create an array of booleans.
+
+43
+00:02:16,970 --> 00:02:19,760
+The boolean is true if both
+numbers are both below the mean or
+
+44
+00:02:19,760 --> 00:02:22,520
+both are above, and false otherwise.
+
+45
+00:02:22,520 --> 00:02:25,840
+Then I would take the sum of this array
+to find out how many countries meet
+
+46
+00:02:25,840 --> 00:02:26,430
+that condition.

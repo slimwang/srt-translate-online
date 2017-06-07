@@ -1,0 +1,91 @@
+1
+00:00:00,000 --> 00:00:04,000
+So given this formula and given our input string--
+
+2
+00:00:04,000 --> 00:00:06,000
+let's stick with the familiar one--
+
+3
+00:00:06,000 --> 00:00:10,000
+we can start enumerating the possibilities for splitting up this string S
+
+4
+00:00:10,000 --> 00:00:15,000
+into a first word and a rest part and figuring out the probabilities.
+
+5
+00:00:15,000 --> 00:00:26,000
+So the first could be "n," could be "no," could be "now," could be "nowi," and so on,
+
+6
+00:00:26,000 --> 00:00:36,000
+and then the rest would be "owis..." or starting with "w" or starting with "is"
+
+7
+00:00:36,000 --> 00:00:41,000
+or starting with "s," and then what's the probability of the first.
+
+8
+00:00:41,000 --> 00:00:45,000
+Well, that we get from our corpus by counting and then smoothing,
+
+9
+00:00:45,000 --> 00:00:51,000
+and in our Shakespeare corpus "n" occurs infrequently"--
+
+10
+00:00:51,000 --> 00:00:57,000
+about one in a million times--"no" occurs fairly frequently--about 0.004,
+
+11
+00:00:57,000 --> 00:01:02,000
+"now" 0.003, and "nowi" doesn't occur at all,
+
+12
+00:01:02,000 --> 00:01:06,000
+and so we'd use some factor based on smoothing.
+
+13
+00:01:06,000 --> 00:01:11,000
+Then if we take the rest and multiply out this whole term,
+
+14
+00:01:11,000 --> 00:01:16,000
+the best segmentation of the rest times the probability of the first that comes from this column,
+
+15
+00:01:16,000 --> 00:01:24,000
+then that column will give us about 10 to -19 for the segmentation that starts with "n,"
+
+16
+00:01:24,000 --> 00:01:27,000
+10 to -13 for the one that starts with "no,"
+
+17
+00:01:27,000 --> 00:01:31,000
+10 t the -10 for the one that starts with "now,"
+
+18
+00:01:31,000 --> 00:01:35,000
+and 10 to -18 for the one starts with "nowi."
+
+19
+00:01:35,000 --> 00:01:40,000
+Again, that depends on exactly what type of smoothing you choose to do.
+
+20
+00:01:40,000 --> 00:01:48,000
+But it turns out that this row here is at least 1,000 times better than any of the other segmentations.
+
+21
+00:01:48,000 --> 00:01:52,000
+That is the segmentation that comes out "now is the time."
+
+22
+00:01:52,000 --> 00:01:58,000
+So this model, simplified though it is, coming up with this naive Bayes assumption,
+
+23
+00:01:58,000 --> 99:59:59,999
+gets this one right, and it does about 99% of the segmentations accurately.

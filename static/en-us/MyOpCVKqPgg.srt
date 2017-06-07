@@ -1,0 +1,279 @@
+1
+00:00:00,120 --> 00:00:02,440
+Moving pages between physical memory and
+
+2
+00:00:02,440 --> 00:00:05,990
+secondary storage raises
+some obvious questions.
+
+3
+00:00:05,990 --> 00:00:10,320
+When should pages be swapped out
+of physical memory and onto disk?
+
+4
+00:00:10,320 --> 00:00:13,240
+And also, which particular
+pages should be swapped out?
+
+5
+00:00:13,240 --> 00:00:15,420
+The first part is easier.
+
+6
+00:00:15,420 --> 00:00:20,240
+Periodically when the amount of occupied
+memory reaches a particular threshold
+
+7
+00:00:20,240 --> 00:00:23,470
+the operating system will run some
+page out daemon that will look for
+
+8
+00:00:23,470 --> 00:00:25,240
+pages that can be freed.
+
+9
+00:00:25,240 --> 00:00:29,430
+So something that would make sense as
+an answer to this question would be that
+
+10
+00:00:29,430 --> 00:00:33,420
+the pages should be swapped out
+when the memory usage in the system
+
+11
+00:00:33,420 --> 00:00:36,100
+reaches some level,
+some high water mark.
+
+12
+00:00:36,100 --> 00:00:39,790
+And that this paging out should
+be performed also when the CPU
+
+13
+00:00:39,790 --> 00:00:42,520
+usage is below a certain threshold so
+
+14
+00:00:42,520 --> 00:00:46,500
+as not to disrupt the execution
+of some applications too much.
+
+15
+00:00:46,500 --> 00:00:51,090
+To answer the second question, one
+obvious answer would be that the pages
+
+16
+00:00:51,090 --> 00:00:54,930
+that will not be used in the future
+are the ones that should be swapped out.
+
+17
+00:00:54,930 --> 00:00:56,050
+The problem is,
+
+18
+00:00:56,050 --> 00:01:00,070
+how do we know which pages will
+versus won't be used in the future?
+
+19
+00:01:00,070 --> 00:01:03,640
+To make some predictions
+regarding the page usage,
+
+20
+00:01:03,640 --> 00:01:07,030
+operating systems use some
+historic information.
+
+21
+00:01:07,030 --> 00:01:11,990
+For instance, one common set of
+algorithms is to look at how recently or
+
+22
+00:01:11,990 --> 00:01:15,060
+how frequently has a page been used, and
+
+23
+00:01:15,060 --> 00:01:19,980
+use that to inform a prediction
+regarding the page's future use.
+
+24
+00:01:19,980 --> 00:01:24,180
+The intuition here is that a page
+that has been used most recently
+
+25
+00:01:24,180 --> 00:01:28,440
+is more likely to be needed in the
+immediate future, whereas a page that
+
+26
+00:01:28,440 --> 00:01:32,520
+hasn't been accessed in a very long
+time is less likely to be needed.
+
+27
+00:01:32,520 --> 00:01:36,990
+This policy is referred to as the LRU
+policy, least recently used, and
+
+28
+00:01:36,990 --> 00:01:41,160
+it uses the access bit that's
+available on modern hardware to
+
+29
+00:01:41,160 --> 00:01:45,470
+keep track of the information whether or
+not the page is referenced or not.
+
+30
+00:01:45,470 --> 00:01:50,950
+Other useful candidates for pages that
+should be freed up from physical memory
+
+31
+00:01:50,950 --> 00:01:53,710
+are the pages that don't need
+to be written out to disk,
+
+32
+00:01:53,710 --> 00:01:54,800
+to secondary storage.
+
+33
+00:01:55,800 --> 00:01:58,730
+And that is because the process
+of writing pages out
+
+34
+00:01:58,730 --> 00:02:02,270
+to the secondary storage takes
+some time, consumes cycles,
+
+35
+00:02:02,270 --> 00:02:06,250
+so we'd like to avoid the overhead
+of the memory management.
+
+36
+00:02:06,250 --> 00:02:10,340
+To assist with making this decision
+which pages don't need to be written
+
+37
+00:02:10,340 --> 00:02:14,960
+out, the operating system can rely on
+the dirty bit that's maintained by
+
+38
+00:02:14,960 --> 00:02:20,510
+the MMU hardware that keeps track of
+which particular page has been modified.
+
+39
+00:02:20,510 --> 00:02:22,060
+So not just accessed and
+
+40
+00:02:22,060 --> 00:02:26,520
+referenced however, modified during
+a particular period of time.
+
+41
+00:02:26,520 --> 00:02:28,420
+In addition there may be certain pages,
+
+42
+00:02:28,420 --> 00:02:32,890
+particularly certain pages containing
+important kernel state or used for
+
+43
+00:02:32,890 --> 00:02:36,310
+I operations that should
+never be swapped out.
+
+44
+00:02:36,310 --> 00:02:40,970
+Then making sure that these pages are
+not considered by whatever replacement
+
+45
+00:02:40,970 --> 00:02:46,520
+algorithms are executed in the operating
+system is going to be important.
+
+46
+00:02:46,520 --> 00:02:50,340
+In Linux and most OS's, a number of
+parameters are available to allow
+
+47
+00:02:50,340 --> 00:02:54,510
+the system administrator to configure
+the swapping nature of the system.
+
+48
+00:02:54,510 --> 00:02:58,480
+This would include thresholds such as
+the ones that we mentioned earlier
+
+49
+00:02:58,480 --> 00:03:03,170
+that control when our page is swapped
+out, but also other parameters such as
+
+50
+00:03:03,170 --> 00:03:07,090
+how many pages should be
+replaced during a period of time.
+
+51
+00:03:07,090 --> 00:03:10,830
+Also Linux categorizes the pages
+into different types and
+
+52
+00:03:10,830 --> 00:03:15,730
+then that helps narrow down the decision
+process when it's trying to decide
+
+53
+00:03:15,730 --> 00:03:17,920
+which pages should be replaced.
+
+54
+00:03:17,920 --> 00:03:22,060
+Finally, the default replacement
+algorithm in Linux is a variation of
+
+55
+00:03:22,060 --> 00:03:26,190
+the LRU policy we described,
+and it gives a second chance.
+
+56
+00:03:26,190 --> 00:03:31,030
+It basically performs two scans of
+a set of pages before determining which
+
+57
+00:03:31,030 --> 00:03:34,650
+ones are really the ones that should
+be swapped out and reclaimed.
+
+58
+00:03:34,650 --> 00:03:38,820
+And similar types of decisions can be
+made in other operating systems as well.

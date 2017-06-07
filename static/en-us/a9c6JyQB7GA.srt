@@ -1,0 +1,192 @@
+1
+00:00:00,100 --> 00:00:05,090
+An alternative to programmed IO
+is to use DMA-supported devices.
+
+2
+00:00:05,090 --> 00:00:09,385
+DMA stands for direct memory access,
+and it is a technique that
+
+3
+00:00:09,385 --> 00:00:13,850
+relies on special hardware support
+in the form of a DMA controller.
+
+4
+00:00:13,850 --> 00:00:19,090
+For devices that have DMA support,
+the way the CPU interacts with them is
+
+5
+00:00:19,090 --> 00:00:24,610
+that it would still write commands in
+the command registers on the device,
+
+6
+00:00:24,610 --> 00:00:29,030
+however, the data movement will be
+controlled by configuring the DMA
+
+7
+00:00:29,030 --> 00:00:34,690
+controller which data to be moved
+from CPU memory into the device.
+
+8
+00:00:34,690 --> 00:00:39,850
+This requires interactions between
+the CPU and the DMA controller, and,
+
+9
+00:00:39,850 --> 00:00:44,150
+in fact, the same method can be used
+to move data in the opposite direction,
+
+10
+00:00:44,150 --> 00:00:47,685
+from the device to the CPU,
+so the device would have
+
+11
+00:00:47,685 --> 00:00:51,860
+as DMA controller that it interacts
+with to enable that interaction.
+
+12
+00:00:51,860 --> 00:00:56,260
+Let's look again at the network
+interface card, the NIC example,
+
+13
+00:00:56,260 --> 00:01:03,030
+to illustrate how exactly DMA-based
+CPU-device interactions are carried out.
+
+14
+00:01:03,030 --> 00:01:05,840
+Again, here, the data that needs to be
+
+15
+00:01:05,840 --> 00:01:10,900
+moved from the CPU to the device is
+already formed as a network packet.
+
+16
+00:01:10,900 --> 00:01:16,200
+And the very first step requires
+that the CPU write a command
+
+17
+00:01:16,200 --> 00:01:20,210
+into the device command register to
+request the packet transmission.
+
+18
+00:01:20,210 --> 00:01:24,450
+This, however, needs to be accompanied
+with an operation that configures
+
+19
+00:01:24,450 --> 00:01:30,320
+the DMA controller with the information
+about the in-memory address and
+
+20
+00:01:30,320 --> 00:01:34,995
+size of the buffer that's holding
+this packet that we want transmitted.
+
+21
+00:01:34,995 --> 00:01:39,230
+So that's basically the location
+of the data we need to move,and
+
+22
+00:01:39,230 --> 00:01:41,820
+the total amount of data to be moved.
+
+23
+00:01:41,820 --> 00:01:45,670
+Once this is done, the device can
+perform the desired operation.
+
+24
+00:01:45,670 --> 00:01:50,160
+From the CPU perspective, performing
+this transmission requires that
+
+25
+00:01:50,160 --> 00:01:55,158
+we perform one store instruction in
+order to write out the contents in
+
+26
+00:01:55,158 --> 00:02:01,220
+the command register and one operation
+to configure the DMA controller.
+
+27
+00:02:01,220 --> 00:02:05,541
+All of this looks much better than
+the alternative of performing 189
+
+28
+00:02:05,541 --> 00:02:09,190
+store operations that we
+saw with programmed IO.
+
+29
+00:02:09,190 --> 00:02:14,220
+The second step, configuring the DMA
+controller, is not a trivial operation,
+
+30
+00:02:14,220 --> 00:02:17,300
+and it takes many more
+cycles then a memory store.
+
+31
+00:02:17,300 --> 00:02:21,380
+Therefore, for smaller transfers,
+programmed IO will still be better than
+
+32
+00:02:21,380 --> 00:02:25,270
+DMA, because the DMA step
+itself is more complex.
+
+33
+00:02:25,270 --> 00:02:30,299
+One important thing is that in order
+to make DMA work is, we have to make
+
+34
+00:02:30,299 --> 00:02:35,158
+sure that the data buffer that we want
+moved or where we want data to be
+
+35
+00:02:35,158 --> 00:02:40,561
+written must be present in physical
+memory until the transfer completes.
+
+36
+00:02:40,561 --> 00:02:45,198
+It cannot be swapped out to disk, since
+this DMA controller can only read and
+
+37
+00:02:45,198 --> 00:02:50,460
+write data to and from physical memory,
+so the contents have to be there.
+
+38
+00:02:50,460 --> 00:02:54,340
+This means that the memory regions
+involved in DMAs are pinned,
+
+39
+00:02:54,340 --> 00:02:57,410
+they're not swappable,
+they have to remain in physical memory.

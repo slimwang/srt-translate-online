@@ -1,0 +1,357 @@
+1
+00:00:00,440 --> 00:00:03,180
+Understanding how to make
+a great performing app has
+
+2
+00:00:03,180 --> 00:00:06,810
+everything to do with understanding
+what's going on under the hood.
+
+3
+00:00:06,810 --> 00:00:09,790
+See, if you don't know how
+the hardware's working you've got a good
+
+4
+00:00:09,790 --> 00:00:11,760
+chance of using it poorly.
+
+5
+00:00:11,760 --> 00:00:13,270
+Now the main question is this.
+
+6
+00:00:13,270 --> 00:00:16,260
+How does your activity actually
+get drawn to the screen?
+
+7
+00:00:16,260 --> 00:00:18,450
+Or rather how does all
+that crazy XML and
+
+8
+00:00:18,450 --> 00:00:21,960
+markup language turn into pixels
+the user can see and understand?
+
+9
+00:00:21,960 --> 00:00:26,150
+At its core, this is done with
+a process known as rasterization.
+
+10
+00:00:26,150 --> 00:00:30,170
+This is the process of taking some high
+level object like a string or a button
+
+11
+00:00:30,170 --> 00:00:34,970
+or a path or a shape and turning it into
+pixels in a texture or on your screen.
+
+12
+00:00:34,970 --> 00:00:38,970
+Now rasterization is a really,
+really time consuming process.
+
+13
+00:00:38,970 --> 00:00:42,240
+And as such, there's a special piece
+of hardware in your mobile device
+
+14
+00:00:42,240 --> 00:00:44,730
+that's designed to make
+it happen a lot faster.
+
+15
+00:00:44,730 --> 00:00:49,250
+The graphics processing unit, or
+GPU, was introduced to mainstream
+
+16
+00:00:49,250 --> 00:00:54,040
+computers back in the early 90s, to help
+accelerate the rasterization process.
+
+17
+00:00:54,040 --> 00:00:57,935
+Now, the GPU itself is designed to
+use a specific set of primitives.
+
+18
+00:00:57,935 --> 00:01:02,212
+Dominantly that is polygons and
+textures, a.k.a, images.
+
+19
+00:01:02,212 --> 00:01:06,765
+And your CPU is responsible for
+feeding these primitives to your GPU
+
+20
+00:01:06,765 --> 00:01:08,890
+before it can draw
+anything to the screen.
+
+21
+00:01:08,890 --> 00:01:13,600
+This is done through a common API
+on Android known as OpenGL ES,
+
+22
+00:01:13,600 --> 00:01:18,120
+which means that anytime your UI
+objects, like buttons or paths or check
+
+23
+00:01:18,120 --> 00:01:21,970
+boxes, need to be drawn to the screen,
+they're first converted to polygons and
+
+24
+00:01:21,970 --> 00:01:26,700
+textures on the CPU, and
+then passed off to the GPU to rasterize.
+
+25
+00:01:26,700 --> 00:01:30,010
+And, as you would imagine,
+this process of converting a UI
+
+26
+00:01:30,010 --> 00:01:34,720
+object to a set of polygons and textures
+is not the fastest of operations.
+
+27
+00:01:34,720 --> 00:01:37,660
+Likewise, actually
+uploading that process data
+
+28
+00:01:37,660 --> 00:01:40,770
+from the CPU to the GPU
+isn't that fast either.
+
+29
+00:01:40,770 --> 00:01:43,500
+So it makes sense then that you'd want
+to reduce the number of times you have
+
+30
+00:01:43,500 --> 00:01:45,100
+to convert an object,
+
+31
+00:01:45,100 --> 00:01:48,556
+as well as the number of times you
+have to upload it for drawing.
+
+32
+00:01:48,556 --> 00:01:53,160
+Thankfully, the OpenGL ES API allows
+you to upload content to the GPU and
+
+33
+00:01:53,160 --> 00:01:55,140
+then leave it there.
+
+34
+00:01:55,140 --> 00:01:57,950
+When you'd like to reference drawing
+a button again in the future,
+
+35
+00:01:57,950 --> 00:02:00,490
+you simply have to reference
+it in GPU memory, and
+
+36
+00:02:00,490 --> 00:02:03,170
+then tell OpenGL how to
+go about drawing it.
+
+37
+00:02:03,170 --> 00:02:05,240
+The general rule of thumb is this.
+
+38
+00:02:05,240 --> 00:02:08,169
+Optimizing for rendering performance
+means getting as much data
+
+39
+00:02:08,169 --> 00:02:10,350
+onto the GPU as fast as possible, and
+
+40
+00:02:10,350 --> 00:02:13,500
+then leave it there without modifying
+it for as long as possible.
+
+41
+00:02:13,500 --> 00:02:16,770
+Because every time you update
+a resource on the GPU,
+
+42
+00:02:16,770 --> 00:02:18,880
+you lose precious processing time.
+
+43
+00:02:18,880 --> 00:02:23,680
+Now, since the release of the Honeycomb
+version of Android, the entire UI
+
+44
+00:02:23,680 --> 00:02:28,050
+rendering system works with the GPU,
+and with every release since then,
+
+45
+00:02:28,050 --> 00:02:31,380
+more improvements have been made to
+the rendering system performance.
+
+46
+00:02:31,380 --> 00:02:36,100
+The Android system does a lot, and,
+and I mean a lot of work to reduce,
+
+47
+00:02:36,100 --> 00:02:39,210
+reuse, and
+recycle GPU resources on your behalf so
+
+48
+00:02:39,210 --> 00:02:41,550
+that you really don't
+have to think about it.
+
+49
+00:02:41,550 --> 00:02:45,290
+For example, any resources that are
+provided by your theme, that is Bitmaps
+
+50
+00:02:45,290 --> 00:02:48,420
+and drawables, et cetera, are all
+grouped together into a single texture,
+
+51
+00:02:48,420 --> 00:02:53,520
+and then uploaded to the GPU on your
+behalf alongside commonly used meshes,
+
+52
+00:02:53,520 --> 00:02:55,640
+like Nine Patches for instance.
+
+53
+00:02:55,640 --> 00:02:58,800
+This means that you, anytime you
+need to draw one of these resources,
+
+54
+00:02:58,800 --> 00:03:00,120
+you don't have to do any conversions.
+
+55
+00:03:00,120 --> 00:03:03,305
+See, all the content is
+already stored on the GPU,
+
+56
+00:03:03,305 --> 00:03:07,130
+making these type of views
+really fast to display.
+
+57
+00:03:07,130 --> 00:03:09,110
+However this whole rendering
+process gets more and
+
+58
+00:03:09,110 --> 00:03:13,308
+more complex as your UI objects
+get more and more advanced.
+
+59
+00:03:13,308 --> 00:03:15,564
+Take for example, displaying images.
+
+60
+00:03:15,564 --> 00:03:19,074
+This actually means uploading the image
+on to the CPU into its memory and
+
+61
+00:03:19,074 --> 00:03:21,299
+then passing it off
+to the GPU to render.
+
+62
+00:03:21,299 --> 00:03:23,280
+Using paths is a whole separate mess.
+
+63
+00:03:23,280 --> 00:03:26,410
+As you might need to create
+a chain of polygons in the CPU or
+
+64
+00:03:26,410 --> 00:03:30,440
+even create a masking texture to
+define the path shape on the GPU.
+
+65
+00:03:30,440 --> 00:03:32,620
+Now, drawing text is a complete
+double whammy, right?
+
+66
+00:03:32,620 --> 00:03:35,200
+I mean first, we have to draw
+the characters in the CPU to an image,
+
+67
+00:03:35,200 --> 00:03:38,270
+and then upload that image to the GPU,
+and then go back through and
+
+68
+00:03:38,270 --> 00:03:41,970
+draw a rectangle on the screen for
+each character in our string.
+
+69
+00:03:43,060 --> 00:03:46,660
+Now, the performance of those operations
+are mostly handled by the Android system
+
+70
+00:03:46,660 --> 00:03:50,190
+on your app's behalf, and
+unless you're doing something excessive,
+
+71
+00:03:50,190 --> 00:03:53,300
+you really shouldn't see
+much of a GPU problem there.
+
+72
+00:03:53,300 --> 00:03:56,030
+However, there's one GPU
+performance bottleneck
+
+73
+00:03:56,030 --> 00:03:59,270
+that challenges every
+single developer equally.
+
+74
+00:03:59,270 --> 00:04:00,170
+It's called overdraw.

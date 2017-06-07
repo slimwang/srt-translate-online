@@ -1,0 +1,321 @@
+1
+00:00:00,000 --> 00:00:03,692
+Once we've permitted multiple
+copies of the same data page or
+
+2
+00:00:03,692 --> 00:00:06,461
+object to be stored in multiple,
+locations,
+
+3
+00:00:06,461 --> 00:00:09,594
+the question of maintaining
+consistency comes up.
+
+4
+00:00:09,594 --> 00:00:13,972
+Since distributed shared memory is
+intended to behave in a similar manner
+
+5
+00:00:13,972 --> 00:00:18,916
+to shared memory in shared memory multi
+processors, let's remind ourselves what
+
+6
+00:00:18,916 --> 00:00:23,304
+we did in shared memory multi
+processors, for consistency management.
+
+7
+00:00:23,304 --> 00:00:25,520
+In the lesson one synchronization,
+
+8
+00:00:25,520 --> 00:00:29,597
+we explained that in shared memory
+multiprocessors consistency is
+
+9
+00:00:29,597 --> 00:00:34,039
+managed using two mechanisms,
+a write-invalidate or write-update.
+
+10
+00:00:34,039 --> 00:00:39,531
+With write-invalidate, whenever
+the content particular memory location
+
+11
+00:00:39,531 --> 00:00:44,440
+that's cached to multiple caches is
+changes on one CPU in one cache.
+
+12
+00:00:44,440 --> 00:00:49,349
+Back via the coherence mechanisms will
+be propagated to other caches and
+
+13
+00:00:49,349 --> 00:00:50,877
+in the case of write and
+
+14
+00:00:50,877 --> 00:00:55,320
+validate the other caches will
+invalidate their cache content.
+
+15
+00:00:55,320 --> 00:00:59,573
+Or in the event that we have
+a write update coherence mechanism,
+
+16
+00:00:59,573 --> 00:01:03,827
+then the other caches will receive
+the newly updated copy of that
+
+17
+00:01:03,827 --> 00:01:05,896
+particular memory location.
+
+18
+00:01:05,896 --> 00:01:10,773
+These necessary coherence operations
+are triggered by the shared
+
+19
+00:01:10,773 --> 00:01:15,573
+memory support in the hardware
+on every single write operation.
+
+20
+00:01:15,573 --> 00:01:20,199
+And the overhead of supporting that
+in the distributed shared memory
+
+21
+00:01:20,199 --> 00:01:24,746
+system where the latencies and
+the costs of performing distributed
+
+22
+00:01:24,746 --> 00:01:28,751
+communication are too high is
+not going to be justifiable.
+
+23
+00:01:28,751 --> 00:01:31,536
+For these reasons for
+distributed shared memory,
+
+24
+00:01:31,536 --> 00:01:34,256
+we'll look at coherence
+operations that are more
+
+25
+00:01:34,256 --> 00:01:38,154
+similar to what we discussed in
+the distributed file systems lecture.
+
+26
+00:01:38,154 --> 00:01:43,157
+One option is to push invalidation
+messages when a data item is written to.
+
+27
+00:01:43,157 --> 00:01:46,898
+This is similar to the server-based
+approach that we talked about in
+
+28
+00:01:46,898 --> 00:01:49,100
+the distributed files systems lesson.
+
+29
+00:01:49,100 --> 00:01:54,152
+But remember that the state management
+in DSM systems is done by all peers.
+
+30
+00:01:54,152 --> 00:01:57,436
+We don't have clients and
+servers, per se in this case.
+
+31
+00:01:57,436 --> 00:02:02,056
+The other option is for the nodes to
+pull information about any modified
+
+32
+00:02:02,056 --> 00:02:05,598
+state from one or
+more of the other nodes in the system.
+
+33
+00:02:05,598 --> 00:02:07,862
+This can be done either periodically or
+
+34
+00:02:07,862 --> 00:02:12,254
+purely on demand whenever some process
+needs to access that state locally,
+
+35
+00:02:12,254 --> 00:02:16,185
+it will check with others to see
+whether it's been modified or not.
+
+36
+00:02:16,185 --> 00:02:18,891
+I intentionally chose the terms push and
+
+37
+00:02:18,891 --> 00:02:23,427
+pull since these are commonly used
+to distinguish between this more
+
+38
+00:02:23,427 --> 00:02:28,616
+proactive versus this more reactive
+approach to accomplishing some tasks.
+
+39
+00:02:28,616 --> 00:02:29,492
+In this case,
+
+40
+00:02:29,492 --> 00:02:34,034
+maintaining the consistency among
+two notes in the distributed system.
+
+41
+00:02:34,034 --> 00:02:38,555
+Another set of terms associated with
+these types of actions is eager
+
+42
+00:02:38,555 --> 00:02:39,513
+versus lazy.
+
+43
+00:02:39,513 --> 00:02:44,025
+The push based method is eager
+since it forces propagation of
+
+44
+00:02:44,025 --> 00:02:46,954
+information immediately, eagerly.
+
+45
+00:02:46,954 --> 00:02:52,369
+in contrast, the pull method is lazy,
+since it lazily gets the information
+
+46
+00:02:52,369 --> 00:02:57,037
+when it's convenient or
+when it becomes absolutely necessary.
+
+47
+00:02:57,037 --> 00:03:01,042
+And yet, another set of terms to
+distinguish between these two types of
+
+48
+00:03:01,042 --> 00:03:03,792
+approaches is pessimistic
+versus optimistic.
+
+49
+00:03:03,792 --> 00:03:08,125
+This push based eager method
+is pessimistic in that it
+
+50
+00:03:08,125 --> 00:03:09,770
+expects the worst.
+
+51
+00:03:09,770 --> 00:03:13,113
+They expect that the modified
+state will be needed
+
+52
+00:03:13,113 --> 00:03:16,144
+at other places at other
+nodes immediately.
+
+53
+00:03:16,144 --> 00:03:18,099
+And so with these methods,
+
+54
+00:03:18,099 --> 00:03:22,866
+nodes are in a rush to notify others
+that a modification happened.
+
+55
+00:03:22,866 --> 00:03:26,769
+In contrast, these optimistic
+methods hope for the best.
+
+56
+00:03:26,769 --> 00:03:31,300
+Here the hope is that the modified
+state wouldn't be needed elsewhere
+
+57
+00:03:31,300 --> 00:03:32,308
+anytime soon.
+
+58
+00:03:32,308 --> 00:03:36,847
+And that there is plenty of
+opportunity to accumulate information
+
+59
+00:03:36,847 --> 00:03:41,792
+regarding modifications before anyone
+has to pay for the cost of sending
+
+60
+00:03:41,792 --> 00:03:46,187
+an invalidation or moving data
+across the distributed system.
+
+61
+00:03:46,187 --> 00:03:50,307
+Regardless of whether we talk about
+the push versus pull based methods.
+
+62
+00:03:50,307 --> 00:03:55,165
+When exactly they get triggered,
+whether its after every single data has
+
+63
+00:03:55,165 --> 00:04:00,020
+been modified or whether its with a
+period of five seconds or ten seconds or
+
+64
+00:04:00,020 --> 00:04:01,295
+one millisecond.
+
+65
+00:04:01,295 --> 00:04:06,017
+Or in some other manner that really
+is going to depend on the consistency
+
+66
+00:04:06,017 --> 00:04:10,582
+model for the shared state and
+we will discuss what are the options for
+
+67
+00:04:10,582 --> 00:04:14,300
+consistency models a little
+bit later in this lecture.

@@ -1,0 +1,188 @@
+1
+00:00:00,400 --> 00:00:04,570
+Compared to what you've done so far,
+this last bit should be a breeze.
+
+2
+00:00:04,570 --> 00:00:06,190
+We need to cache the avatars.
+
+3
+00:00:06,190 --> 00:00:10,260
+This is almost the same as caching the
+photos but there's one small difference.
+
+4
+00:00:10,260 --> 00:00:12,850
+Some people like to change
+their avatar a lot and
+
+5
+00:00:12,850 --> 00:00:16,010
+we don't want people to be
+stuck with some old version.
+
+6
+00:00:16,010 --> 00:00:19,410
+So when we fetch a particular
+avatar from the cache,
+
+7
+00:00:19,410 --> 00:00:23,050
+we'll also fetch it from the network and
+update the cache.
+
+8
+00:00:23,050 --> 00:00:27,800
+Avatars are also responsive images, but
+they vary by density rather than width.
+
+9
+00:00:27,800 --> 00:00:31,160
+Pretty much the same as photos but
+a slightly different URL pattern.
+
+10
+00:00:31,160 --> 00:00:34,150
+We're going to cache the avatars
+in the same cache as photos.
+
+11
+00:00:34,150 --> 00:00:36,280
+So the first thing I'm going to
+do is edit our clean up code so
+
+12
+00:00:36,280 --> 00:00:39,490
+it includes the avatar URLs in
+the images that we want to keep.
+
+13
+00:00:39,490 --> 00:00:41,059
+We don't want those getting
+lost in the clean up.
+
+14
+00:00:42,510 --> 00:00:44,740
+Since I get a call from
+across the Atlantic,
+
+15
+00:00:44,740 --> 00:00:46,510
+I'm guessing the rest is down to you.
+
+16
+00:00:46,510 --> 00:00:47,420
+Hey, Mike.
+
+17
+00:00:47,420 --> 00:00:50,470
+>> This is it the final
+task of the course.
+
+18
+00:00:50,470 --> 00:00:53,170
+To start you want to catch up
+with a code Jake just wrote
+
+19
+00:00:53,170 --> 00:00:57,250
+do this by running git reset --hard
+to remove any local changes you have.
+
+20
+00:00:57,250 --> 00:01:01,049
+Then git checkout task-cache-avatars
+to get the stub methods.
+
+21
+00:01:02,180 --> 00:01:07,680
+Now head over to public/JS/sw/index.js,
+the service worker script.
+
+22
+00:01:07,680 --> 00:01:10,810
+There are two things for
+you to implement.
+
+23
+00:01:10,810 --> 00:01:14,060
+You need to call serveAvatar for
+avatar URLs.
+
+24
+00:01:14,060 --> 00:01:17,170
+Then you need to implement serveAvatar.
+
+25
+00:01:17,170 --> 00:01:19,750
+It should return them from
+the cache if they're there.
+
+26
+00:01:19,750 --> 00:01:23,280
+If not, get it from the network and
+put it in the cache.
+
+27
+00:01:23,280 --> 00:01:24,560
+But here's the difference.
+
+28
+00:01:24,560 --> 00:01:26,420
+Even if you return it from the cache,
+
+29
+00:01:26,420 --> 00:01:29,730
+you need to go to the network
+to update it for the next fetch.
+
+30
+00:01:29,730 --> 00:01:32,700
+Once again we're removing the size
+specific parts of the URL so
+
+31
+00:01:32,700 --> 00:01:36,450
+use this URL to put and
+match in the cache.
+
+32
+00:01:36,450 --> 00:01:39,680
+The solution will be similar to
+servePhoto, but not exactly the same.
+
+33
+00:01:39,680 --> 00:01:42,420
+Once you've written the code,
+head over to the browser and
+
+34
+00:01:42,420 --> 00:01:45,620
+refresh the page using the force
+update on reload option so
+
+35
+00:01:45,620 --> 00:01:47,539
+you only need to refresh
+once to see changes.
+
+36
+00:01:48,630 --> 00:01:52,360
+Looking at dev tools, you should see
+avatars arriving into the cache.
+
+37
+00:01:52,360 --> 00:01:56,690
+If you go offline and refresh,
+the avatar should still load.
+
+38
+00:01:56,690 --> 00:02:00,242
+To double check everything is working,
+head to the settings page and
+
+39
+00:02:00,242 --> 00:02:03,132
+type cache avatars into
+the test field and press enter.

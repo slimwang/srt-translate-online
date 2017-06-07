@@ -1,0 +1,332 @@
+1
+00:00:00,040 --> 00:00:04,450
+When we talked about PThreads we said
+that one of the attributes that's used
+
+2
+00:00:04,450 --> 00:00:07,870
+to specify the properties
+of the mutex or
+
+3
+00:00:07,870 --> 00:00:11,580
+the condition variable when they're
+created, is whether or not that
+
+4
+00:00:11,580 --> 00:00:16,309
+synchronization construct is private to
+your process or shared among processes.
+
+5
+00:00:16,309 --> 00:00:19,860
+The keyword for
+this is PTHREAD PROCESS SHARED.
+
+6
+00:00:19,860 --> 00:00:24,310
+So when synchronizing the shared memory
+accesses of two pthreads multithreaded
+
+7
+00:00:24,310 --> 00:00:28,680
+processes, we can use mutexes and
+condition variables that
+
+8
+00:00:28,680 --> 00:00:33,440
+have been correctly initialized
+with pthread process shared styles.
+
+9
+00:00:33,440 --> 00:00:35,060
+One important thing, however,
+
+10
+00:00:35,060 --> 00:00:40,630
+is that the synchronization variables
+themselves have to be also shared.
+
+11
+00:00:40,630 --> 00:00:43,150
+Remember, in multithreaded programs,
+the mutex or
+
+12
+00:00:43,150 --> 00:00:47,800
+condition variables have to be
+global and visible to all threads.
+
+13
+00:00:47,800 --> 00:00:50,060
+That's the only way they
+can be shared among them.
+
+14
+00:00:50,060 --> 00:00:52,420
+So it's the same rationale here.
+
+15
+00:00:52,420 --> 00:00:56,020
+In order to achieve this, we have to
+make sure that the data structures for
+
+16
+00:00:56,020 --> 00:00:59,140
+the synchronization
+construct are allocated
+
+17
+00:00:59,140 --> 00:01:03,500
+from the shared memory region
+that's visible to both processes.
+
+18
+00:01:03,500 --> 00:01:06,420
+For instance,
+let's look at this code snippet.
+
+19
+00:01:06,420 --> 00:01:10,120
+Let's look here at how the shared
+memory segment is created.
+
+20
+00:01:10,120 --> 00:01:13,030
+Here we are using the system VAPI.
+
+21
+00:01:13,030 --> 00:01:15,430
+In the gap operation, the segment id,
+
+22
+00:01:15,430 --> 00:01:20,260
+the shared memory identifier,
+is uniquely created from
+
+23
+00:01:20,260 --> 00:01:24,990
+the token operation where we use
+argument zero from the command line.
+
+24
+00:01:24,990 --> 00:01:27,763
+So the path name for
+the program executable, and
+
+25
+00:01:27,763 --> 00:01:31,289
+then some integer parameter,
+so in this case this is 120.
+
+26
+00:01:31,289 --> 00:01:35,805
+We're also requesting that we create
+a segment size of 1 kilobyte, and
+
+27
+00:01:35,805 --> 00:01:39,930
+then we specify the areas
+permissions for that segment.
+
+28
+00:01:39,930 --> 00:01:45,000
+Then using that segment identifier
+that's returned from the get operation.
+
+29
+00:01:45,000 --> 00:01:46,770
+We are attaching this segment and
+
+30
+00:01:46,770 --> 00:01:49,960
+that will provide us with
+a shared memory address.
+
+31
+00:01:49,960 --> 00:01:55,640
+So this is the virtual memory address
+in this instance of the process.
+
+32
+00:01:55,640 --> 00:02:00,090
+In the execution of this particular
+process in its address space.
+
+33
+00:02:00,090 --> 00:02:03,680
+That points to the physically
+shared memory.
+
+34
+00:02:03,680 --> 00:02:06,160
+Now, we are casting that address
+
+35
+00:02:06,160 --> 00:02:10,380
+to point to something that's
+of the following data type.
+
+36
+00:02:10,380 --> 00:02:14,150
+If we take a look at this data type,
+this is the data structure
+
+37
+00:02:14,150 --> 00:02:19,010
+of the shared memory area
+that's shared among processes.
+
+38
+00:02:19,010 --> 00:02:20,610
+It has two components.
+
+39
+00:02:20,610 --> 00:02:24,980
+One component is the actual byte
+stream that corresponds to the data.
+
+40
+00:02:24,980 --> 00:02:28,690
+The other component is actually
+the synchronization variable,
+
+41
+00:02:28,690 --> 00:02:33,480
+the mutex that will be used among
+processes when they're accessing
+
+42
+00:02:33,480 --> 00:02:37,770
+the shared memory area, when they're
+accessing the data that they care for.
+
+43
+00:02:37,770 --> 00:02:42,450
+So as to avoid concurrent writes,
+race conditions, and similar issues.
+
+44
+00:02:42,450 --> 00:02:47,650
+So this is how we will interpret what
+is laid out in the shared memory area.
+
+45
+00:02:47,650 --> 00:02:52,230
+Now, let's see how this mutex
+here is created and initialized.
+
+46
+00:02:52,230 --> 00:02:56,300
+First of all, we said that before
+creating a mutex, we must create its
+
+47
+00:02:56,300 --> 00:02:59,820
+attributes, and then initialize
+the mutex with those attributes.
+
+48
+00:02:59,820 --> 00:03:02,040
+Now concerning the mutex attributes,
+
+49
+00:03:02,040 --> 00:03:06,950
+we see that we have here set the,
+the pthread process shared attribute for
+
+50
+00:03:06,950 --> 00:03:09,920
+this particular
+attribute data structure.
+
+51
+00:03:09,920 --> 00:03:13,580
+Then, we initialize the mutex with
+that attribute data structure so
+
+52
+00:03:13,580 --> 00:03:15,400
+it will have that property.
+
+53
+00:03:15,400 --> 00:03:20,410
+Furthermore, notice that the location of
+the mutex we pass to this initialization
+
+54
+00:03:20,410 --> 00:03:24,760
+call is not just some arbitrary
+mutex in the process address piece.
+
+55
+00:03:24,760 --> 00:03:27,450
+It is this particular mutex element
+
+56
+00:03:27,450 --> 00:03:31,080
+that is part of the data
+structure in shared memory.
+
+57
+00:03:31,080 --> 00:03:33,920
+This set of operations will
+properly allocate, and
+
+58
+00:03:33,920 --> 00:03:37,750
+initialize a mutex that's
+shared among processes.
+
+59
+00:03:37,750 --> 00:03:41,380
+And a similar set of operations
+should be used, also, to allocate and
+
+60
+00:03:41,380 --> 00:03:44,975
+initialize any condition
+variables that are intended for
+
+61
+00:03:44,975 --> 00:03:47,005
+shared use among processes.
+
+62
+00:03:47,005 --> 00:03:51,255
+Once you have properly created and
+allocated these data structures,
+
+63
+00:03:51,255 --> 00:03:53,685
+then you can use them just
+as regular mutexes and
+
+64
+00:03:53,685 --> 00:03:56,435
+condition variables in a multi
+threaded PThreads process.
+
+65
+00:03:56,435 --> 00:04:00,185
+So there's no difference
+in their actual usage,
+
+66
+00:04:00,185 --> 00:04:02,890
+given that they're
+used across processes.
+
+67
+00:04:02,890 --> 00:04:04,880
+The key, again, let me reiterate,
+
+68
+00:04:04,880 --> 00:04:07,980
+is to make sure that
+the synchronization variable is
+
+69
+00:04:07,980 --> 00:04:12,310
+allocated within the shared memory
+region that's shared among processes.

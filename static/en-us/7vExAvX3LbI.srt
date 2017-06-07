@@ -1,0 +1,219 @@
+﻿1
+00:00:00,340 --> 00:00:03,130
+Now, we're trying to build an artificial
+
+2
+00:00:03,130 --> 00:00:07,401
+intelligence that can solve
+problems like this all on it's own.
+
+3
+00:00:07,402 --> 00:00:11,792
+You can see that the search
+algorithms do a great job of finding
+
+4
+00:00:11,792 --> 00:00:14,253
+solutions to problems like this.
+
+5
+00:00:14,253 --> 00:00:18,361
+But you might complain that in order for
+the search algorithms to work,
+
+6
+00:00:18,361 --> 00:00:21,103
+we had to provide it with
+a heuristic function.
+
+7
+00:00:21,103 --> 00:00:23,792
+The heuristic function
+came from the outside.
+
+8
+00:00:23,792 --> 00:00:27,568
+You might think that coming up with a
+good heuristic function is really where
+
+9
+00:00:27,568 --> 00:00:28,867
+all the intelligence is.
+
+10
+00:00:28,867 --> 00:00:33,100
+And so, a problem solver that uses
+a heuristic function given to it really
+
+11
+00:00:33,100 --> 00:00:34,750
+isn't intelligent at all.
+
+12
+00:00:34,750 --> 00:00:38,953
+So let's think about where
+the intelligence could come from, and
+
+13
+00:00:38,953 --> 00:00:42,870
+can we automatically come up
+with good heuristic functions.
+
+14
+00:00:42,869 --> 00:00:47,047
+I'm going to sketch a description of
+a program that can automatically come up
+
+15
+00:00:47,048 --> 00:00:50,178
+with good heuristics given
+a description of a problem.
+
+16
+00:00:50,177 --> 00:00:54,311
+Now suppose this program
+is given a description of
+
+17
+00:00:54,311 --> 00:00:59,134
+the sliding blocks puzzle where
+we say that a block can move
+
+18
+00:00:59,134 --> 00:01:03,979
+from square A to square B if A is
+adjacent to B and B is blank.
+
+19
+00:01:03,979 --> 00:01:10,349
+Now imagine that we try to loosen this
+restriction, we cross out B is blank and
+
+20
+00:01:10,349 --> 00:01:15,750
+then we get the rule a block can move
+from A to B if A is adjacent to B.
+
+21
+00:01:15,750 --> 00:01:20,418
+And that's equal to our
+heuristic h2 because a block can
+
+22
+00:01:20,418 --> 00:01:23,439
+move anywhere to an adjacent state.
+
+23
+00:01:23,439 --> 00:01:28,149
+Now we could also cross out
+the other part of the rule, and
+
+24
+00:01:28,150 --> 00:01:32,761
+we now get a block can move from
+any square A to any square B
+
+25
+00:01:32,760 --> 00:01:38,079
+regardless of any condition,
+and that gives us heuristic h1.
+
+26
+00:01:38,079 --> 00:01:41,606
+So we see that both of our
+heuristics can be derived from
+
+27
+00:01:41,606 --> 00:01:47,400
+a simple mechanical manipulation of
+the formal description of the problem.
+
+28
+00:01:47,400 --> 00:01:51,680
+Once we've generated automatically
+these candidate heuristics,
+
+29
+00:01:51,680 --> 00:01:55,878
+another way to come up with a good
+heuristic is to say that a new
+
+30
+00:01:55,878 --> 00:02:02,049
+heuristic h is equal to
+the maximum of h1 and h2.
+
+31
+00:02:02,049 --> 00:02:06,370
+And that's guaranteed to be admissible
+as long as h1 and h2 are admissible,
+
+32
+00:02:06,370 --> 00:02:08,596
+because it still never overestimates,
+
+33
+00:02:08,596 --> 00:02:12,800
+and guaranteed to be better because
+it's getting closer to the true value.
+
+34
+00:02:12,800 --> 00:02:17,269
+The only problem with combining
+multiple heuristics like this is that
+
+35
+00:02:17,269 --> 00:02:20,373
+there is some cost to
+compute the heuristic, and
+
+36
+00:02:20,372 --> 00:02:24,929
+it could take longer to compute even
+if we end up expanding fewer paths.
+
+37
+00:02:24,930 --> 00:02:29,129
+Now crossing out parts of the rules
+like this is called generating a relaxed
+
+38
+00:02:29,129 --> 00:02:33,796
+problem, what we've done is we've taken
+the original problem where it's hard to
+
+39
+00:02:33,796 --> 00:02:38,560
+move squares around and made it easier
+by relaxing one of the constrains.
+
+40
+00:02:38,560 --> 00:02:42,710
+And you can see that as adding
+new links in the state's space.
+
+41
+00:02:42,710 --> 00:02:47,586
+So if we have a state space in which
+there are only particular links,
+
+42
+00:02:47,586 --> 00:02:51,092
+by relaxing the problem
+it's as if we're adding
+
+43
+00:02:51,092 --> 00:02:55,320
+new operators that traverse
+the state in new ways.
+
+44
+00:02:55,319 --> 00:02:58,939
+And so adding new operators
+only makes the problem easier.
+
+45
+00:02:58,939 --> 00:03:02,409
+And thus never over estimates and
+thus is admissible.
+

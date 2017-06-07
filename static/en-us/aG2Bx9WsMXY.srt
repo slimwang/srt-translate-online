@@ -1,0 +1,295 @@
+1
+00:00:00,180 --> 00:00:02,790
+>> Last time, we talked about some cases where you'd want to use branches for
+
+2
+00:00:02,790 --> 00:00:04,290
+your solo projects.
+
+3
+00:00:04,290 --> 00:00:07,180
+You might also want to use branches to keep things organized when
+
+4
+00:00:07,180 --> 00:00:08,450
+working with others.
+
+5
+00:00:08,450 --> 00:00:11,850
+If you and your collaborators all make changes on the same branch,
+
+6
+00:00:11,850 --> 00:00:15,010
+you can't easily work on separate features simultaneously.
+
+7
+00:00:15,010 --> 00:00:17,500
+A common workflow for people working on projects together,
+
+8
+00:00:17,500 --> 00:00:20,880
+includes making a new branch for every feature or bug-fix.
+
+9
+00:00:20,880 --> 00:00:24,160
+This way, if multiple people are working on changes at the same time.
+
+10
+00:00:24,160 --> 00:00:27,480
+They can each check out their branch to continue work after taking a break.
+
+11
+00:00:27,480 --> 00:00:30,160
+Without worrying about things changing up from under them.
+
+12
+00:00:30,160 --> 00:00:32,910
+Then once a feature or bug-fix is complete,
+
+13
+00:00:32,910 --> 00:00:37,180
+the author can either update master to also point to the tip of the new branch.
+
+14
+00:00:37,180 --> 00:00:39,550
+Or if there have been changes to master in the mean time.
+
+15
+00:00:39,550 --> 00:00:43,035
+Combine it with the current master, using gits and merge feature.
+
+16
+00:00:43,035 --> 00:00:45,272
+We'll talk about merging in detail later.
+
+17
+00:00:45,272 --> 00:00:47,291
+I've actually been working on a new feature for
+
+18
+00:00:47,291 --> 00:00:49,900
+the asteroids game, that adds a new game mechanic.
+
+19
+00:00:49,900 --> 00:00:52,150
+In addition to getting points for destroying asteroids and
+
+20
+00:00:52,150 --> 00:00:56,210
+spaceships, you can also collect coins by touching them with your ship.
+
+21
+00:00:56,210 --> 00:00:59,080
+This adds a new challenge, since there are now somethings that you want to hit
+
+22
+00:00:59,080 --> 00:01:00,310
+and others that you want to avoid.
+
+23
+00:01:00,310 --> 00:01:03,250
+I'm finally ready to share this branch with Caroline.
+
+24
+00:01:03,250 --> 00:01:05,610
+So I tell her that she can check out the branch and play test it,
+
+25
+00:01:05,610 --> 00:01:08,310
+so that I can get some feedback before adding it into the main branch.
+
+26
+00:01:09,450 --> 00:01:10,030
+>> Thanks.
+
+27
+00:01:10,030 --> 00:01:13,000
+Now Sarah told me that her branch is named coins.
+
+28
+00:01:13,000 --> 00:01:16,640
+So I'll check it out using git checkout coins.
+
+29
+00:01:16,640 --> 00:01:19,830
+Now, I get this message saying that branch coins is set up to
+
+30
+00:01:19,830 --> 00:01:21,980
+track remote branch coins from origin.
+
+31
+00:01:23,280 --> 00:01:23,960
+Whoa.
+
+32
+00:01:23,960 --> 00:01:25,760
+That's a few words that you haven't heard before.
+
+33
+00:01:26,850 --> 00:01:30,210
+The fact that it's a remote branch means that I didn't create it myself.
+
+34
+00:01:30,210 --> 00:01:34,270
+Instead, Sarah created it and so I'm looking at her branch.
+
+35
+00:01:34,270 --> 00:01:36,920
+You'll learn more about remotes in lesson three.
+
+36
+00:01:36,920 --> 00:01:39,600
+But for now, once I've checked out the branch,
+
+37
+00:01:39,600 --> 00:01:42,970
+it behaves just like the branches that I created myself.
+
+38
+00:01:42,970 --> 00:01:46,760
+Now I'll open the index.html file and try the game out.
+
+39
+00:01:46,760 --> 00:01:49,650
+Now this is a coin right here that Sarah added.
+
+40
+00:01:49,650 --> 00:01:52,650
+And when I run into it, then my score goes up.
+
+41
+00:01:52,650 --> 00:01:53,580
+Cool.
+
+42
+00:01:53,580 --> 00:01:57,210
+Now you might be wondering why Sarah's version of the game doesn't have color.
+
+43
+00:01:57,210 --> 00:02:00,210
+That's because Sarah started working on this branch before color was
+
+44
+00:02:00,210 --> 00:02:01,820
+added to master.
+
+45
+00:02:01,820 --> 00:02:04,200
+To see this, I'll do a git log.
+
+46
+00:02:04,200 --> 00:02:07,390
+So I can see that these recent commits are all by Sarah.
+
+47
+00:02:07,390 --> 00:02:11,840
+If I scroll down to get to the most recent commit that wasn't from Sarah,
+
+48
+00:02:11,840 --> 00:02:15,150
+I see that it's this one where I reverted the controls back from my
+
+49
+00:02:15,150 --> 00:02:17,080
+experiment in lesson one.
+
+50
+00:02:17,080 --> 00:02:19,769
+That's because this was the latest commit on master at
+
+51
+00:02:19,769 --> 00:02:21,937
+the time when Sarah checked out her branch.
+
+52
+00:02:21,937 --> 00:02:26,072
+By contrast, if I check out master and run git log there.
+
+53
+00:02:26,072 --> 00:02:29,819
+I can see many newer commits that are more recent than the commit that
+
+54
+00:02:29,819 --> 00:02:32,250
+Sarah started working on.
+
+55
+00:02:32,250 --> 00:02:34,420
+The color commit is right here.
+
+56
+00:02:34,420 --> 00:02:38,580
+Git can also help you visualize the branch structure via the command git
+
+57
+00:02:38,580 --> 00:02:40,700
+log dash dash graph.
+
+58
+00:02:40,700 --> 00:02:44,830
+I'll also add the flag dash dash oneline to make the output shorter and
+
+59
+00:02:44,830 --> 00:02:46,510
+easier to see.
+
+60
+00:02:46,510 --> 00:02:49,950
+And I'll need to tell git which branches I want to visualize.
+
+61
+00:02:49,950 --> 00:02:53,690
+So, I'd like to see master and coins at this point.
+
+62
+00:02:53,690 --> 00:02:57,210
+These commits existed before the coins branch was created.
+
+63
+00:02:57,210 --> 00:02:59,662
+These are commits that Sarah added to the coins branch.
+
+64
+00:02:59,662 --> 00:03:02,571
+And these are commits that were added to master after
+
+65
+00:03:02,571 --> 00:03:04,297
+the coins branch was created.
+
+66
+00:03:04,297 --> 00:03:07,818
+Now that you've seen what commits are in each branch, grab a pencil and
+
+67
+00:03:07,818 --> 00:03:11,910
+paper and draw a diagram of the commit history in the asteroids repository.
+
+68
+00:03:11,910 --> 00:03:15,500
+Including the easy-mode, master and coins branches.
+
+69
+00:03:15,500 --> 00:03:18,160
+You don't have to include all the old commits just,
+
+70
+00:03:18,160 --> 00:03:21,470
+however many of the recent commits you think will be informative.
+
+71
+00:03:21,470 --> 00:03:22,830
+When you're finished, check this box.
+
+72
+00:03:24,080 --> 00:03:25,025
+If you're having trouble,
+
+73
+00:03:25,025 --> 00:03:28,480
+try using git log to see what commits are on each branch.
+
+74
+00:03:28,480 --> 00:03:32,020
+And make sure you watch the solution video to compare your diagram to Sarah's.

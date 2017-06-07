@@ -1,0 +1,255 @@
+1
+00:00:00,500 --> 00:00:05,390
+Time sensitive applications require quickly responding
+
+2
+00:00:05,390 --> 00:00:07,770
+to an event. Think of playing a
+
+3
+00:00:07,770 --> 00:00:12,730
+video game and shooting at a target. You want the instant that you shoot
+
+4
+00:00:12,730 --> 00:00:18,830
+at the target for action to appear on the screen. Now, problem is there
+
+5
+00:00:18,830 --> 00:00:21,620
+are three sources of latency for time
+
+6
+00:00:21,620 --> 00:00:25,600
+sensitive events, in any typical general purpose
+
+7
+00:00:25,600 --> 00:00:29,410
+operating system. The first source of latency
+
+8
+00:00:29,410 --> 00:00:31,980
+is what is called the timer latency.
+
+9
+00:00:31,980 --> 00:00:35,520
+That is coming because of the inaccuracy
+
+10
+00:00:35,520 --> 00:00:39,040
+of the timing mechanism. For instance, the timer
+
+11
+00:00:39,040 --> 00:00:42,550
+event went off at this point, but
+
+12
+00:00:42,550 --> 00:00:46,090
+the timer interrupt actually happens only here.
+
+13
+00:00:46,090 --> 00:00:47,910
+That is, this is the event that
+
+14
+00:00:47,910 --> 00:00:51,580
+should have resulted in an interrupt, but because
+
+15
+00:00:51,580 --> 00:00:53,980
+of the inaccuracy of the timer, there's a
+
+16
+00:00:53,980 --> 00:00:56,560
+latency between the point at which an even
+
+17
+00:00:56,560 --> 00:00:59,070
+happened, an external event. And the point at
+
+18
+00:00:59,070 --> 00:01:02,930
+which the timer goes off indicating that external event.
+
+19
+00:01:02,930 --> 00:01:05,150
+And this is primarily coming up due to
+
+20
+00:01:05,150 --> 00:01:09,570
+the granularity of the timing mechanism that's available in
+
+21
+00:01:09,570 --> 00:01:12,810
+general purpose operating systems. For instance, periodic timers
+
+22
+00:01:12,810 --> 00:01:16,970
+tend to have a ten millisecond granularity in Linux
+
+23
+00:01:16,970 --> 00:01:22,640
+operating system. So that's the first source of inaccuracy or
+
+24
+00:01:22,640 --> 00:01:27,370
+latency for time sensitive applications. The second
+
+25
+00:01:27,370 --> 00:01:32,910
+source of latency is what we call as the as the preemption latency.
+
+26
+00:01:32,910 --> 00:01:38,360
+And this is because of the fact that the interupt could have happened when the
+
+27
+00:01:38,360 --> 00:01:42,560
+kernel was in the middle of doing something from which it can not be preempted.
+
+28
+00:01:42,560 --> 00:01:46,210
+For instance, when the kernel is modifying some critical
+
+29
+00:01:46,210 --> 00:01:48,950
+data structure. In that case it may have turned off
+
+30
+00:01:48,950 --> 00:01:51,570
+the interrupt and therefore even though the interrupt went off
+
+31
+00:01:51,570 --> 00:01:54,820
+at this point the kernel cannot be preempted until this
+
+32
+00:01:54,820 --> 00:01:58,800
+point. That may be the second source of latency
+
+33
+00:01:58,800 --> 00:02:01,710
+or it could be that the kernel itself is in
+
+34
+00:02:01,710 --> 00:02:05,340
+the middle of handling another higher priority interrupt. And in
+
+35
+00:02:05,340 --> 00:02:07,880
+that case, this time interrupt is going to be delayed.
+
+36
+00:02:07,880 --> 00:02:10,000
+So that the second source of latency
+
+37
+00:02:10,000 --> 00:02:13,680
+for time sensitive applications running on commodity operating
+
+38
+00:02:13,680 --> 00:02:17,135
+systems. Okay, finally the timer interrupt has been
+
+39
+00:02:17,135 --> 00:02:20,670
+delivered to the system and now the scheduler
+
+40
+00:02:20,670 --> 00:02:24,000
+can actually schedule the process that is
+
+41
+00:02:24,000 --> 00:02:26,550
+waiting for this timer interrupt so that that
+
+42
+00:02:26,550 --> 00:02:29,460
+application can take the appropriate action for this
+
+43
+00:02:29,460 --> 00:02:33,150
+external interrupt. But wait, there is another high
+
+44
+00:02:33,150 --> 00:02:36,500
+priority task that's already in the scheduler's
+
+45
+00:02:36,500 --> 00:02:40,500
+queue and therefore the app that was waiting
+
+46
+00:02:40,500 --> 00:02:42,920
+for this timer event cannot yet be
+
+47
+00:02:42,920 --> 00:02:46,592
+scheduled because of this higher priority tasks that
+
+48
+00:02:46,592 --> 00:02:50,730
+has dibs on the processor at this point of time. So this is the third
+
+49
+00:02:50,730 --> 00:02:53,530
+source of latency, that is the scheduler latency.
+
+50
+00:02:53,530 --> 00:02:58,570
+That is preventing this external event from being
+
+51
+00:02:58,570 --> 00:03:01,810
+delivered to the application that is waiting
+
+52
+00:03:01,810 --> 00:03:05,210
+for this particular event. Now finally the high
+
+53
+00:03:05,210 --> 00:03:11,750
+priority app is done, and therefore now it is time for the app that is actually
+
+54
+00:03:11,750 --> 00:03:17,720
+waiting for this event. So this is the point of activation of the Event app,
+
+55
+00:03:17,720 --> 00:03:23,670
+that is, the app that is waiting for this timer event. So you can see that this
+
+56
+00:03:23,670 --> 00:03:30,220
+is the distance TA to Th. The difference between TA and Th is the
+
+57
+00:03:30,220 --> 00:03:36,970
+event to activation distance. The event happened here, but the app that can
+
+58
+00:03:36,970 --> 00:03:41,210
+react to this event only gets scheduled at this point, and this is
+
+59
+00:03:41,210 --> 00:03:43,623
+the latency that is coming in for
+
+60
+00:03:43,623 --> 00:03:48,540
+time-sensitive applications between the actual event happening.
+
+61
+00:03:48,540 --> 00:03:52,210
+And the activation of the app that has to
+
+62
+00:03:52,210 --> 00:03:55,870
+deal with that particular event. For time sensitive applications
+
+63
+00:03:55,870 --> 00:03:59,010
+to do well, it is extremely important that we
+
+64
+00:03:59,010 --> 00:04:03,740
+shrink this distance between event happening, and event activation.

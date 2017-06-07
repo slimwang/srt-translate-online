@@ -1,0 +1,123 @@
+1
+00:00:00,000 --> 00:00:04,000
+Here is my pair of images again,
+
+2
+00:00:04,000 --> 00:00:10,000
+and my scan line, and I'm extracting from it a very small little window
+
+3
+00:00:10,000 --> 00:00:13,000
+that is the local image of the specific feature over here
+
+4
+00:00:13,000 --> 00:00:16,000
+which happens to have a strong vertical structure,
+
+5
+00:00:16,000 --> 00:00:18,000
+which is nice of localization.
+
+6
+00:00:18,000 --> 00:00:23,000
+Now I'm comparing this little patch with my little patches in the right image,
+
+7
+00:00:23,000 --> 00:00:27,000
+and I'm drawing a sum of square difference error,
+
+8
+00:00:27,000 --> 00:00:31,000
+which is minimized when these two patches look alike.
+
+9
+00:00:31,000 --> 00:00:34,000
+I'll tell you in a second how this looks like mathematically,
+
+10
+00:00:34,000 --> 00:00:39,000
+but intuitively we have to pick the place along the random measured search space
+
+11
+00:00:39,000 --> 00:00:43,000
+that has the smallest sum of square difference error,
+
+12
+00:00:43,000 --> 00:00:47,000
+which is the one where these two patches just look mostly alike.
+
+13
+00:00:47,000 --> 00:00:51,000
+This is a space of the scan line in which I search,
+
+14
+00:00:51,000 --> 00:00:56,000
+often called disparity, and for one location this is actually being minimized right over here.
+
+15
+00:00:56,000 --> 00:00:59,000
+Here's the basic algorithm for SSD minimization.
+
+16
+00:00:59,000 --> 00:01:03,000
+We take two patches--one from the left image, one from the right image.
+
+17
+00:01:03,000 --> 00:01:06,000
+We normalize, so the average brightness is zero.
+
+18
+00:01:06,000 --> 00:01:09,000
+We then take the normalized image and take the difference.
+
+19
+00:01:09,000 --> 00:01:13,000
+Then we square the difference. That gives us a sum-of-square image.
+
+20
+00:01:13,000 --> 00:01:17,000
+Then we can sum up all the pixels to get a single value.
+
+21
+00:01:17,000 --> 00:01:21,000
+This is our SSD value, our sum-of-square difference value.
+
+22
+00:01:21,000 --> 00:01:26,000
+All of these operations are easily implemented using the material you already know.
+
+23
+00:01:26,000 --> 00:01:31,000
+The smaller the SSD value, the closer these two images correspond.
+
+24
+00:01:31,000 --> 00:01:36,000
+This is a very common technique for comparing what's called image templates,
+
+25
+00:01:36,000 --> 00:01:39,000
+where your left image is a template,
+
+26
+00:01:39,000 --> 00:01:42,000
+and you're searching the left image for the optimal template.
+
+27
+00:01:42,000 --> 00:01:47,000
+As you vary the location of the right image, you can find different SSDs.
+
+28
+00:01:47,000 --> 00:01:50,000
+You tend to get graphs for the right image.
+
+29
+00:01:50,000 --> 00:01:54,000
+With an image template, it gives you certain errors.
+
+30
+00:01:54,000 --> 00:01:57,000
+Sometimes you get a very small disparate error.
+
+31
+00:01:57,000 --> 99:59:59,999
+That's the place you'll pick for the best, mostly likely alignment.

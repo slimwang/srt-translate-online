@@ -1,0 +1,254 @@
+1
+00:00:00,490 --> 00:00:03,010
+First, let's look at
+this helper function
+
+2
+00:00:03,010 --> 00:00:07,580
+that turns the detected activity
+type code into a string.
+
+3
+00:00:07,580 --> 00:00:11,230
+It's a very simple switch statement
+that just looks at the different codes,
+
+4
+00:00:11,230 --> 00:00:14,390
+be they in_vehicle,
+on_bicycle, on_foot, etc.
+
+5
+00:00:14,390 --> 00:00:18,780
+And then returns a string from our
+resources file that matches this.
+
+6
+00:00:18,780 --> 00:00:21,760
+So if I have detected
+activity in_vehicle,
+
+7
+00:00:21,760 --> 00:00:25,030
+I'm returning the string for
+r.string.in_vehicle.
+
+8
+00:00:25,030 --> 00:00:28,080
+And if you remember earlier on,
+when we pasted into our strings file,
+
+9
+00:00:28,080 --> 00:00:30,750
+I had put those codes in there.
+
+10
+00:00:30,750 --> 00:00:34,000
+So if I come back down to my strings
+file, here you can see I have
+
+11
+00:00:34,000 --> 00:00:39,430
+things such as in vehicle, in a vehicle
+on bicycle, there's on a bicycle, etc.
+
+12
+00:00:39,430 --> 00:00:42,010
+So I've just set up those
+strings in my strings file.
+
+13
+00:00:42,010 --> 00:00:45,840
+And then back on my main activity,
+whenever I detect that code,
+
+14
+00:00:45,840 --> 00:00:48,300
+I'm just returning
+the equivalent string.
+
+15
+00:00:48,300 --> 00:00:51,990
+So now, let's take a look at what
+we've done in the on receive function.
+
+16
+00:00:51,990 --> 00:00:55,330
+Now if you remember, you created it
+earlier on and it received a context and
+
+17
+00:00:55,330 --> 00:00:56,550
+an intent.
+
+18
+00:00:56,550 --> 00:00:57,410
+So what do we do?
+
+19
+00:00:57,410 --> 00:01:00,950
+Well, first of all we create a new
+array list of detected activity.
+
+20
+00:01:00,950 --> 00:01:04,959
+I call this updated activities and
+we just get the value of this
+
+21
+00:01:04,959 --> 00:01:09,570
+from the getParcelableArrayListExtra
+that we spoke about.
+
+22
+00:01:09,570 --> 00:01:14,080
+Now if you remember when we pushed
+the detected activity array list
+
+23
+00:01:14,080 --> 00:01:18,700
+onto the intent, in the intent service,
+we called it by a name,
+
+24
+00:01:18,700 --> 00:01:21,030
+which was Constants.ACTIVITY_EXTRA.
+
+25
+00:01:21,030 --> 00:01:24,580
+So we just use that name to address
+it to get it right back out.
+
+26
+00:01:24,580 --> 00:01:27,470
+So now we have the array
+list of detected activities
+
+27
+00:01:27,470 --> 00:01:32,490
+in our main activity, or at least in the
+nested class within the main activity.
+
+28
+00:01:32,490 --> 00:01:36,840
+So now we can just go through and
+update the status string as a result.
+
+29
+00:01:36,840 --> 00:01:41,990
+And because this is a nested class, I
+can actually call mStatusText directly.
+
+30
+00:01:41,990 --> 00:01:46,720
+So now all I have to do it I say String
+strStatus equals empty to empty it.
+
+31
+00:01:46,720 --> 00:01:50,010
+And then for each activity,
+for each DetectedActivity
+
+32
+00:01:50,010 --> 00:01:54,080
+within this updatedActivities,
+I now just update my status
+
+33
+00:01:54,080 --> 00:01:58,280
+to be the string that corresponds to
+the actual code returned by getType().
+
+34
+00:01:58,280 --> 00:02:03,060
+And then the actual
+confidence as a percentage.
+
+35
+00:02:03,060 --> 00:02:06,060
+So the confidence is
+returned as a percentage.
+
+36
+00:02:06,060 --> 00:02:08,550
+So I just put the percent character
+afterwards on a new line.
+
+37
+00:02:08,550 --> 00:02:12,400
+And that's where we were able
+to get all of the activities
+
+38
+00:02:12,400 --> 00:02:15,510
+that we saw on the demo
+earlier on on new lines and
+
+39
+00:02:15,510 --> 00:02:18,990
+a rough estimate of what of
+the accuracy of that activity.
+
+40
+00:02:18,990 --> 00:02:22,810
+Now there's one more step that we
+need to do, and we have to declare
+
+41
+00:02:22,810 --> 00:02:27,180
+this receiver class on the main activity
+and make sure that we're using it.
+
+42
+00:02:27,180 --> 00:02:28,210
+This is pretty simple.
+
+43
+00:02:28,210 --> 00:02:29,960
+Let's go ahead and do that right now.
+
+44
+00:02:29,960 --> 00:02:30,660
+So first of all,
+
+45
+00:02:30,660 --> 00:02:34,130
+on my MainActivity class where I've
+declared these other member variables,
+
+46
+00:02:34,130 --> 00:02:37,280
+I'm going to declare one for
+our broadcast receiver, and here it is.
+
+47
+00:02:37,280 --> 00:02:40,690
+I'm just saying protected
+ActivityDetectionBroadcastReceiver and
+
+48
+00:02:40,690 --> 00:02:43,140
+I'm going to call it mBroadcastReceiver.
+
+49
+00:02:43,140 --> 00:02:46,680
+Then in my onCreate function, as I
+create all the other member variables,
+
+50
+00:02:46,680 --> 00:02:48,930
+I'm just going to come in here and
+
+51
+00:02:48,930 --> 00:02:53,740
+paste in that mBroadcastReceiver is a
+new ActivityDetectionBroadcastReceiver.
+
+52
+00:02:53,740 --> 00:02:54,870
+We're almost there now.
+
+53
+00:02:54,870 --> 00:02:57,740
+We just need to finish the last part,
+and that's to hook up the buttons.

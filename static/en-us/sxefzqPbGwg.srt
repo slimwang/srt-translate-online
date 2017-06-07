@@ -1,0 +1,199 @@
+1
+00:00:00,520 --> 00:00:03,640
+Great. So, hopefully, you found stage six not too difficult and
+
+2
+00:00:03,640 --> 00:00:04,490
+pretty straightforward.
+
+3
+00:00:04,490 --> 00:00:07,600
+So, the first step would be to go to your TweetTopology and
+
+4
+00:00:07,600 --> 00:00:10,210
+enter in your OAuth credentials.
+
+5
+00:00:10,210 --> 00:00:14,900
+And, here, you'll need to comment out, comment out the earlier credentials.
+
+6
+00:00:14,900 --> 00:00:18,000
+I would suggest at this stage, package, and run.
+
+7
+00:00:18,000 --> 00:00:22,309
+And once you get a build success, submit your topology and make sure it runs.
+
+8
+00:00:23,420 --> 00:00:25,170
+And if you submit your job,
+
+9
+00:00:25,170 --> 00:00:29,630
+you'll actually see nothing, as we don't have a topology yet.
+
+10
+00:00:29,630 --> 00:00:31,710
+So let's go back to our topology.
+
+11
+00:00:31,710 --> 00:00:32,560
+In part zero now,
+
+12
+00:00:32,560 --> 00:00:36,910
+we need to attach the tweet spout to the topology with a parallelism of 1.
+
+13
+00:00:36,910 --> 00:00:39,974
+So, here we have builder.setSpout.
+
+14
+00:00:39,974 --> 00:00:44,270
+Let's call this a tweet spout with a parallelism of 1.
+
+15
+00:00:44,270 --> 00:00:48,960
+Notice that our syntax tweetSpout is simply calling the tweetSpout object that
+
+16
+00:00:48,960 --> 00:00:51,280
+we named with our credentials.
+
+17
+00:00:51,280 --> 00:00:54,180
+At this stage, we package again.
+
+18
+00:00:54,180 --> 00:00:58,400
+And once we get a build success, we can use the up arrow, submit our job again.
+
+19
+00:00:58,400 --> 00:01:02,410
+And now, we see the twitter4j TwitterStream.
+
+20
+00:01:02,410 --> 00:01:03,810
+Let's go on to part one.
+
+21
+00:01:03,810 --> 00:01:08,400
+Similarly to stage five, this is simply builder.setBolt parse-tweet-bolt new
+
+22
+00:01:08,400 --> 00:01:10,470
+ParseTweetBolt with a parallelism of 10.
+
+23
+00:01:10,470 --> 00:01:13,963
+And again, we want a shuffleGrouping that connects our
+
+24
+00:01:13,963 --> 00:01:17,136
+tweet-spout component ID to the tweet-spout.
+
+25
+00:01:17,136 --> 00:01:20,720
+In part two, we want to attach the count bolt with a parallelism of 15, and
+
+26
+00:01:20,720 --> 00:01:24,560
+the grouping here is the fields grouping.
+
+27
+00:01:24,560 --> 00:01:29,180
+The one difference is that our parse tweet bolt is now its own file.
+
+28
+00:01:29,180 --> 00:01:32,920
+And to figure out the fields grouping needed, let's go to the parse tweet bolt.
+
+29
+00:01:32,920 --> 00:01:36,140
+And now we scroll down to our declareOutputFields and
+
+30
+00:01:36,140 --> 00:01:39,130
+we see that we have the tweet-word.
+
+31
+00:01:39,130 --> 00:01:42,210
+We copy the tweet-word, go back to our topology, and
+
+32
+00:01:42,210 --> 00:01:45,000
+enter this in the new Fields tweet-word.
+
+33
+00:01:45,000 --> 00:01:46,592
+And finally, in part three,
+
+34
+00:01:46,592 --> 00:01:50,800
+we attach the report bolt with the syntax builder.setBolt with a component ID
+
+35
+00:01:50,800 --> 00:01:54,150
+report-bolt, new ReportBolt parallelism of 1.
+
+36
+00:01:54,150 --> 00:01:57,340
+And again, we want a globalGrouping to send all streams from
+
+37
+00:01:57,340 --> 00:02:02,100
+the count-bolt down to one bolt in the globalGrouping report-bolt.
+
+38
+00:02:02,100 --> 00:02:07,120
+Finally, the component ID to make that connection is count-bolt, listed there.
+
+39
+00:02:07,120 --> 00:02:09,970
+Remember, to save the program, we'll mvn package.
+
+40
+00:02:11,210 --> 00:02:15,040
+And finally, once we get the build success, we can look at a tree structure.
+
+41
+00:02:15,040 --> 00:02:19,370
+Now we have individual classes, and our TweetTopology.
+
+42
+00:02:19,370 --> 00:02:22,520
+Remember again, that we want our jar with dependencies.
+
+43
+00:02:22,520 --> 00:02:26,970
+Here, the structure is udacity.storm.TweetTopology.
+
+44
+00:02:26,970 --> 00:02:33,480
+storm jar target udacity.storm.TweetTopology.
+
+45
+00:02:33,480 --> 00:02:37,470
+Finally, as storm runs, we come back to our visualization.
+
+46
+00:02:37,470 --> 00:02:42,920
+And we see as the Tweets are being parsed, we saw our visualization count grow.
+
+47
+00:02:42,920 --> 00:02:50,400
+And again, we can hover over a word and see that 150 HTTP splits were occurring.
+
+48
+00:02:50,400 --> 00:02:54,140
+And again, we'll clean this up using filters in later exercises.
+
+49
+00:02:54,140 --> 00:02:57,156
+And, congratulations on finishing on the Tweet word count.
+
+50
+00:02:57,156 --> 00:02:58,140
+The complete topology.

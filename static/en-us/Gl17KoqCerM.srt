@@ -1,0 +1,430 @@
+1
+00:00:00,050 --> 00:00:03,710
+Now, let's apply the JobScheduler API to
+minimize the unnecessary wakeup cost of
+
+2
+00:00:03,710 --> 00:00:07,170
+the cellular radio because we know
+that frequent reoccurrences of this
+
+3
+00:00:07,170 --> 00:00:09,310
+comes at a significant
+cost to the battery life.
+
+4
+00:00:09,310 --> 00:00:11,160
+Instead, we're going to
+use the JobScheduler to
+
+5
+00:00:11,160 --> 00:00:13,070
+avoid waking up the cellular radio and
+
+6
+00:00:13,070 --> 00:00:16,502
+schedule our network activity only when
+the user's device is connected to wi-fi.
+
+7
+00:00:16,502 --> 00:00:19,120
+All right, so let's go ahead and
+look at some code.
+
+8
+00:00:19,120 --> 00:00:22,915
+Now, in order to follow along, go
+ahead and check out the 3.31, wait for
+
+9
+00:00:22,915 --> 00:00:25,080
+wi-fi branch in the repo for
+your sample app.
+
+10
+00:00:26,300 --> 00:00:28,860
+Now just as a reminder when you
+build this branch in code, you'll
+
+11
+00:00:28,860 --> 00:00:33,130
+notice another button just like similar
+exercises added to your sample app's UI.
+
+12
+00:00:33,130 --> 00:00:35,320
+This one's called no wi-fi, no deal.
+
+13
+00:00:35,320 --> 00:00:39,150
+When you click on it, it'll launch a new
+activity called find the wi-fi activity.
+
+14
+00:00:39,150 --> 00:00:41,600
+In this case when you press the button
+download all the data signal or no,
+
+15
+00:00:41,600 --> 00:00:43,816
+we're going to be triggering some code
+that we're going to be looking at.
+
+16
+00:00:45,770 --> 00:00:48,300
+It looks like it's trying to
+make some connections, and
+
+17
+00:00:48,300 --> 00:00:49,640
+it looks like it's fetching some HTML.
+
+18
+00:00:49,640 --> 00:00:54,040
+All right, here we are back in
+Android Studio, and I've gone ahead and
+
+19
+00:00:54,040 --> 00:00:57,000
+opened up the source code for
+FindTheWifiActivity.
+
+20
+00:00:57,000 --> 00:01:01,140
+Now similar to our previous exercises,
+we have a button's
+
+21
+00:01:01,140 --> 00:01:05,250
+OnClickListener basically invoking a
+function that's doing a particular task.
+
+22
+00:01:05,250 --> 00:01:08,250
+In this case we call
+the function downloadSomething.
+
+23
+00:01:08,250 --> 00:01:10,630
+Now, now,
+this code should look familiar.
+
+24
+00:01:10,630 --> 00:01:13,740
+It's not too different than the previous
+exercise when we're trying to
+
+25
+00:01:13,740 --> 00:01:18,020
+basically make a network connection and
+do a simple download from a server.
+
+26
+00:01:18,020 --> 00:01:20,840
+Again, here in our downloadSomething
+method, we're basically mocking
+
+27
+00:01:22,030 --> 00:01:25,520
+the behavior that an app would take to
+essentially check to see if the network
+
+28
+00:01:25,520 --> 00:01:28,830
+is alive, and then execute a task in
+the background to download some data.
+
+29
+00:01:30,510 --> 00:01:33,710
+Now if you remember from Colt,
+we'll know that cellular network access
+
+30
+00:01:33,710 --> 00:01:36,770
+is one of the biggest offenders for
+reduced battery performance.
+
+31
+00:01:36,770 --> 00:01:39,660
+So in order to conserve battery life,
+we're going to try to reduce the amount
+
+32
+00:01:39,660 --> 00:01:43,120
+of times we start up the cellular radio,
+thus incurring less of a tax when having
+
+33
+00:01:43,120 --> 00:01:46,910
+to start up the cellular radio incurring
+this long network tail of energy.
+
+34
+00:01:46,910 --> 00:01:47,780
+All right, so let's go ahead and
+
+35
+00:01:47,780 --> 00:01:50,790
+hop back into our sample app code and
+let's see if we can repurpose it and
+
+36
+00:01:50,790 --> 00:01:54,010
+focus on executing our network
+tasks only when wi-fi is available.
+
+37
+00:01:54,010 --> 00:01:57,740
+Now what this really means is
+we're going to want to repurpose
+
+38
+00:01:57,740 --> 00:01:59,660
+I would downloadSomething method.
+
+39
+00:01:59,660 --> 00:02:02,430
+This time around, we're going to
+want to go ahead and schedule a job for
+
+40
+00:02:02,430 --> 00:02:03,410
+the job scheduler.
+
+41
+00:02:03,410 --> 00:02:04,860
+So let's take a look.
+
+42
+00:02:04,860 --> 00:02:07,760
+Now instead of trying to download
+something in a manual fashion,
+
+43
+00:02:07,760 --> 00:02:09,710
+let's go ahead and
+see how we can craft a job for
+
+44
+00:02:09,710 --> 00:02:13,380
+the job scheduler to check for
+a wi-fi only situation.
+
+45
+00:02:13,380 --> 00:02:17,630
+So what I have up here is a comparison
+view of basically the wait_for_wifi
+
+46
+00:02:17,630 --> 00:02:21,820
+branch, and then our
+3.32_wait_for_wifi_optimized branch.
+
+47
+00:02:21,820 --> 00:02:24,390
+You can go ahead and check this out in
+your sample app code repo if you want to
+
+48
+00:02:24,390 --> 00:02:27,710
+see the difference, but I'm going to
+go ahead and describe the change.
+
+49
+00:02:27,710 --> 00:02:28,490
+Now in our optimized code,
+
+50
+00:02:28,490 --> 00:02:30,900
+we're going to look at a method
+called downloadSmarter.
+
+51
+00:02:30,900 --> 00:02:34,090
+Now this is hooked up to our on click
+listener for our button in our UI.
+
+52
+00:02:34,090 --> 00:02:36,450
+But mainly this downloadSmarter
+method is going to go ahead and
+
+53
+00:02:36,450 --> 00:02:38,060
+use the job scheduler.
+
+54
+00:02:38,060 --> 00:02:40,870
+Now similar to previous examples, the
+first thing we do is we get a reference
+
+55
+00:02:40,870 --> 00:02:44,150
+of the scheduler via
+the getSystemService method.
+
+56
+00:02:44,150 --> 00:02:47,470
+Now in the area where we normally submit
+jobs, we're going to go ahead and
+
+57
+00:02:47,470 --> 00:02:49,330
+bundle up a job info.
+
+58
+00:02:49,330 --> 00:02:53,230
+Again, that's the encapsulation of what
+we want to do for our particular job.
+
+59
+00:02:53,230 --> 00:02:55,580
+Essentially it's the constraints for
+running it.
+
+60
+00:02:55,580 --> 00:02:56,344
+In this case,
+
+61
+00:02:56,344 --> 00:02:59,797
+we've changed one particular
+line from our previous example.
+
+62
+00:02:59,797 --> 00:03:03,914
+In this case we used internal method
+.setRequiredNetworkType to specify
+
+63
+00:03:03,914 --> 00:03:07,260
+a network that's unmetered,
+essentially, wi-fi only.
+
+64
+00:03:07,260 --> 00:03:11,140
+And then we go ahead and we call .build
+and that's going to go ahead and
+
+65
+00:03:11,140 --> 00:03:13,440
+generate a JobInfo instance for us.
+
+66
+00:03:13,440 --> 00:03:15,320
+And then last but
+not least, we go ahead and
+
+67
+00:03:15,320 --> 00:03:19,939
+we pass that to the schedule
+function of the Scheduler.
+
+68
+00:03:19,939 --> 00:03:21,720
+Again the last app that we actually
+have to do is called the scheduler,
+
+69
+00:03:21,720 --> 00:03:25,460
+with the schedule method passing
+in our new job info instance.
+
+70
+00:03:25,460 --> 00:03:29,820
+And when it returns, our job service
+will be called and the task will be run.
+
+71
+00:03:29,820 --> 00:03:33,440
+And when the system deems
+that it's time to run our job
+
+72
+00:03:33,440 --> 00:03:36,950
+it's going to go ahead and
+call back into our MyJobService class,
+
+73
+00:03:36,950 --> 00:03:41,070
+and it's going to call our onStartJob
+method that we implemented before.
+
+74
+00:03:41,070 --> 00:03:43,110
+In this case we're going to go ahead and
+check for a network connection,
+
+75
+00:03:43,110 --> 00:03:48,185
+in this case it should be wi-fii, and
+then execute our SimpleDownloadTask.
+
+76
+00:03:48,185 --> 00:03:51,565
+Then lastly when we're finished doing
+our network activity, which again is
+
+77
+00:03:51,565 --> 00:03:55,395
+implemented in our SimpleDownload class,
+particularly in the doInBackground
+
+78
+00:03:55,395 --> 00:03:59,965
+method, we go ahead and we open up
+an http connection and do a get request.
+
+79
+00:03:59,965 --> 00:04:03,260
+Then, lastly, when onPostExecute
+is called on our Async task,
+
+80
+00:04:03,260 --> 00:04:04,730
+we go ahead and call jobFinished,
+
+81
+00:04:04,730 --> 00:04:08,080
+which is critical in telling the system
+that we are done with our work, and
+
+82
+00:04:08,080 --> 00:04:11,340
+it can go ahead and release the wake
+lot that is held on our behalf.
+
+83
+00:04:11,340 --> 00:04:13,960
+All right, so this was an example on
+basically how to repurpose some of our
+
+84
+00:04:13,960 --> 00:04:16,230
+sample app code to use job scheduler,
+
+85
+00:04:16,230 --> 00:04:20,019
+this time to minimize
+cellular radio wakeup.
+
+86
+00:04:20,019 --> 00:04:23,830
+Now as mentioned before, the framework
+offers a lot more possible combinations
+
+87
+00:04:23,830 --> 00:04:27,990
+for specifying a particular job and
+its associated requirements.
+
+88
+00:04:27,990 --> 00:04:30,760
+Now I suggest that you go ahead and
+review the developer documentation for
+
+89
+00:04:30,760 --> 00:04:34,130
+all the detail information and
+see the link in the instructor notes.

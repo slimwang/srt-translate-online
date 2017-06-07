@@ -1,0 +1,218 @@
+1
+00:00:00,440 --> 00:00:03,180
+One of the biggest distinguishing
+features of VR from
+
+2
+00:00:03,180 --> 00:00:07,820
+other forms of media, is that we're able
+to know exactly where a user is looking
+
+3
+00:00:07,820 --> 00:00:10,816
+at any given point in time,
+by tracking their head rotation.
+
+4
+00:00:10,816 --> 00:00:13,845
+So, let's implement that.
+
+5
+00:00:13,845 --> 00:00:16,855
+This will be our first taste
+of programming in Unity but
+
+6
+00:00:16,855 --> 00:00:21,155
+we'll walk through everything slowly and
+honestly there's not that much to it.
+
+7
+00:00:21,155 --> 00:00:23,975
+So first up,
+we need to create a C# script and
+
+8
+00:00:23,975 --> 00:00:26,220
+we do that like any other game object.
+
+9
+00:00:26,220 --> 00:00:31,608
+Let's create it in our scripts
+folder by going to Create C#
+
+10
+00:00:31,608 --> 00:00:35,620
+script and let's call it head rotation.
+
+11
+00:00:37,630 --> 00:00:40,964
+Double-click on the file and
+it should open up into model develop,
+
+12
+00:00:40,964 --> 00:00:43,380
+which is Unity's default code editor.
+
+13
+00:00:43,380 --> 00:00:50,260
+By default Unity creates a C# class
+with two methods, Start and Update.
+
+14
+00:00:50,260 --> 00:00:53,850
+Start is called when the script
+is first instantiated.
+
+15
+00:00:53,850 --> 00:00:57,640
+Update is called every frame
+we want to create an image.
+
+16
+00:00:57,640 --> 00:01:00,120
+We'll use these two
+methods to access the gyro
+
+17
+00:01:00,120 --> 00:01:03,790
+which is the sensor in out phone
+that tells us it's rotation.
+
+18
+00:01:03,790 --> 00:01:07,060
+However, for
+us to use the gyro we must enable it.
+
+19
+00:01:07,060 --> 00:01:14,860
+We'll do this in the Start method by
+setting input.gyro.enabled to true.
+
+20
+00:01:14,860 --> 00:01:15,550
+Awesome.
+
+21
+00:01:15,550 --> 00:01:19,260
+Now that we have it enabled,
+we need to get data from it every frame.
+
+22
+00:01:19,260 --> 00:01:24,618
+To do that, we go to the update
+method and we type in quaternion
+
+23
+00:01:24,618 --> 00:01:30,281
+at equals input.gyro.attitude.
+
+24
+00:01:30,281 --> 00:01:36,630
+This line gets the attitude,
+which is the rotation of the device,
+
+25
+00:01:36,630 --> 00:01:40,070
+from the gyro and
+saves that in a variable called apps.
+
+26
+00:01:40,070 --> 00:01:42,160
+Which is a quaternion.
+
+27
+00:01:42,160 --> 00:01:44,348
+If you want to learn
+more about quaternions,
+
+28
+00:01:44,348 --> 00:01:46,948
+you can check out our
+additional resources, but for
+
+29
+00:01:46,948 --> 00:01:49,740
+our purposes it's just a means
+to store rotation data.
+
+30
+00:01:50,740 --> 00:01:54,540
+Unfortunately, the role rotation data
+we receive from the sensor is not
+
+31
+00:01:54,540 --> 00:01:56,090
+oriented with our head.
+
+32
+00:01:56,090 --> 00:02:00,530
+So we need to rotate the rotation so
+that it matches our head movements.
+
+33
+00:02:00,530 --> 00:02:03,280
+We do this with
+the following line of code.
+
+34
+00:02:03,280 --> 00:02:06,690
+This line flips our gyrotation
+about the Z-axis and
+
+35
+00:02:06,690 --> 00:02:10,560
+then rotates by 90 degrees
+around the X-axis.
+
+36
+00:02:10,560 --> 00:02:12,400
+Don't worry if that seems confusing.
+
+37
+00:02:12,400 --> 00:02:15,390
+But know that we need this line
+to orient our sensor's data
+
+38
+00:02:15,390 --> 00:02:17,140
+with the head rotation.
+
+39
+00:02:17,140 --> 00:02:20,300
+Lastly, we need to assign
+a rotation to our camera,
+
+40
+00:02:20,300 --> 00:02:22,830
+which we can do easily
+with this line of code.
+
+41
+00:02:22,830 --> 00:02:24,288
+And that will pretty much do it.
+
+42
+00:02:24,288 --> 00:02:28,045
+We now have a script that captures
+our head rotation and applies it.
+
+43
+00:02:28,045 --> 00:02:31,955
+All we have left to do is take our head
+rotation and apply it to our camera.
+
+44
+00:02:33,455 --> 00:02:37,505
+Let's do some quick housekeeping by
+changing the name of our camera system
+
+45
+00:02:37,505 --> 00:02:42,235
+to main and
+then dragging our camera into position.
+
+46
+00:02:43,615 --> 00:02:46,525
+You can task this out by deploying
+our project to your phone

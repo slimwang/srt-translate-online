@@ -1,0 +1,219 @@
+1
+00:00:00,480 --> 00:00:02,910
+If you took website
+performance optimization,
+
+2
+00:00:02,910 --> 00:00:06,430
+then this website may
+look a little familiar.
+
+3
+00:00:06,430 --> 00:00:08,039
+Inside the project for the course,
+
+4
+00:00:08,039 --> 00:00:10,402
+there's this pizza site
+that has a lot of problems.
+
+5
+00:00:10,402 --> 00:00:14,325
+And I think it's fair to say that one of
+the problems with this website is that
+
+6
+00:00:14,325 --> 00:00:18,327
+it will probably burn your eyes out, if
+you spend too much time looking at it.
+
+7
+00:00:18,327 --> 00:00:22,005
+When you scroll down to this our pizza
+section on the left side of the screen,
+
+8
+00:00:22,005 --> 00:00:23,453
+you'll notice this slider.
+
+9
+00:00:23,453 --> 00:00:26,410
+When you toggle the sliders,
+the pizzas change size.
+
+10
+00:00:26,410 --> 00:00:29,249
+Now it doesn't look so
+bad when you toggle back and
+
+11
+00:00:29,249 --> 00:00:33,862
+forth between the different sizes, but I
+want to take a look at its performance.
+
+12
+00:00:33,862 --> 00:00:36,568
+You'll notice two things when
+you open up the council.
+
+13
+00:00:36,568 --> 00:00:39,702
+The first is the average time
+to generate the last ten frames,
+
+14
+00:00:39,702 --> 00:00:43,272
+which in this case is way too low for
+a site that's a simple as this one.
+
+15
+00:00:43,272 --> 00:00:47,661
+The second thing you'll notice is
+the amount of time it took to resize
+
+16
+00:00:47,661 --> 00:00:48,504
+the pizzas.
+
+17
+00:00:48,504 --> 00:00:52,118
+This number will be logged out anytime
+somebody clicks on the slider over here.
+
+18
+00:00:52,118 --> 00:00:55,495
+Right now, it's displaying times
+at around 100 milliseconds.
+
+19
+00:00:55,495 --> 00:00:59,593
+A good question to ask is is 100
+milliseconds reasonable for this?
+
+20
+00:00:59,593 --> 00:01:04,319
+In fact, this resize time falls under
+the response category of rails.
+
+21
+00:01:04,319 --> 00:01:07,430
+And that's because this is happening
+as a response to a user action,
+
+22
+00:01:07,430 --> 00:01:10,270
+which includes clicking on the slider.
+
+23
+00:01:10,270 --> 00:01:14,300
+Resizing the pizzas probably falls
+under the response category of rail,
+
+24
+00:01:14,300 --> 00:01:17,020
+which as you remember
+is 100 milliseconds.
+
+25
+00:01:17,020 --> 00:01:19,978
+In that case, this app is actually
+meeting the budget for response.
+
+26
+00:01:19,978 --> 00:01:22,598
+However, just given how
+simple this site is.
+
+27
+00:01:22,598 --> 00:01:27,088
+There is no reason the resize pizza
+action should be taking 100 milliseconds
+
+28
+00:01:27,088 --> 00:01:30,172
+where this happening in the Animation or
+idle phases,
+
+29
+00:01:30,172 --> 00:01:32,934
+this would totally be
+blowing the frame budget.
+
+30
+00:01:32,934 --> 00:01:35,835
+A recorded timeline to see if I can
+find out a little bit more about
+
+31
+00:01:35,835 --> 00:01:37,518
+what's happening with the slider.
+
+32
+00:01:37,518 --> 00:01:39,160
+I will hit Record.
+
+33
+00:01:39,160 --> 00:01:42,438
+I will slide the pizzas and
+I will stop recording.
+
+34
+00:01:42,438 --> 00:01:45,252
+This purple is a really bad sign.
+
+35
+00:01:45,252 --> 00:01:49,250
+Let me expand this into its own
+window to take a closer look.
+
+36
+00:01:49,250 --> 00:01:51,470
+It looks like the slider
+is calling a function and
+
+37
+00:01:51,470 --> 00:01:55,340
+then the function is causing a ton
+of layouts one after another.
+
+38
+00:01:55,340 --> 00:01:57,360
+That is a major issue.
+
+39
+00:01:57,360 --> 00:02:00,200
+I'll click on one to get
+a little bit more information and
+
+40
+00:02:00,200 --> 00:02:02,530
+in the details pane,
+I see that there's a warning that says,
+
+41
+00:02:02,530 --> 00:02:06,100
+forced synchronous layout is
+a possible performance bottleneck.
+
+42
+00:02:06,100 --> 00:02:08,830
+That is a problem.
+
+43
+00:02:08,830 --> 00:02:12,720
+So for this quiz, it's going to be
+your job to download the pizza site,
+
+44
+00:02:12,720 --> 00:02:17,420
+find the cause of the sliders for
+synchronous layout and then fix it.
+
+45
+00:02:17,420 --> 00:02:20,280
+Check this box to let us know
+that the slider is no longer
+
+46
+00:02:20,280 --> 00:02:22,340
+creating a forced synchronous layout.

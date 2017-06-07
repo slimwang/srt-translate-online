@@ -1,0 +1,355 @@
+1
+00:00:00,280 --> 00:00:01,470
+All right, so we've said before, so
+
+2
+00:00:01,470 --> 00:00:04,939
+far our main ideas are, we're going to
+use those rectangles as features.
+
+3
+00:00:04,939 --> 00:00:07,810
+And it's really easy to compute them
+because or the integral image, and
+
+4
+00:00:07,810 --> 00:00:10,840
+then we're going to use that
+discriminative ones as the weak learner,
+
+5
+00:00:10,840 --> 00:00:12,280
+the weak classifiers.
+
+6
+00:00:12,280 --> 00:00:16,860
+All right, well we're using this with
+a within a boosted framework so not
+
+7
+00:00:16,860 --> 00:00:20,920
+surprise you that we're going to combine
+them to make our final classifier,
+
+8
+00:00:20,920 --> 00:00:22,770
+that's what boosting does.
+
+9
+00:00:22,770 --> 00:00:24,490
+But the other idea they had,
+
+10
+00:00:24,490 --> 00:00:27,655
+was to form this thing called
+a cascade of classifiers.
+
+11
+00:00:27,655 --> 00:00:31,145
+And it's such an important idea that
+I made it in italics, yellow, and
+
+12
+00:00:31,145 --> 00:00:32,925
+red, okay?
+
+13
+00:00:32,925 --> 00:00:36,125
+We're going to form a cascade
+of these classifiers, and
+
+14
+00:00:36,125 --> 00:00:39,625
+we're going to reject
+clear negatives quickly.
+
+15
+00:00:39,625 --> 00:00:42,405
+What's this all about, all right?
+
+16
+00:00:42,405 --> 00:00:45,975
+So the second big idea of this paper,
+besides the integral image one,
+
+17
+00:00:45,975 --> 00:00:46,905
+was the cascade.
+
+18
+00:00:48,160 --> 00:00:49,530
+And here's the issue.
+
+19
+00:00:49,530 --> 00:00:52,210
+Even if our filters are really
+fast to compute, so
+
+20
+00:00:52,210 --> 00:00:56,840
+even if we can get these you know,
+compute these rectangles on a new thing
+
+21
+00:00:56,840 --> 00:01:01,570
+very quickly there's an awful
+lot of places to go search.
+
+22
+00:01:01,570 --> 00:01:05,000
+How can we make the detection
+more efficient?
+
+23
+00:01:05,000 --> 00:01:06,950
+And this was the insight.
+
+24
+00:01:06,950 --> 00:01:10,650
+Almost everywhere in
+a picture is not a face.
+
+25
+00:01:10,650 --> 00:01:12,000
+I don't care what the picture is.
+
+26
+00:01:12,000 --> 00:01:15,740
+You know, unless you happen to
+be looking at the, you know,
+
+27
+00:01:15,740 --> 00:01:20,940
+the 1972 New York Yankees like this,
+you know, we got, you know, 75 faces.
+
+28
+00:01:20,940 --> 00:01:24,049
+But even then,
+most of the locations are not a face,
+
+29
+00:01:24,049 --> 00:01:28,150
+there's only 75 locations that
+are a face, and all the other locations,
+
+30
+00:01:28,150 --> 00:01:31,700
+remember Kristen's little,
+those are not faces.
+
+31
+00:01:31,700 --> 00:01:33,910
+So, what you'd like to be able to do,
+
+32
+00:01:33,910 --> 00:01:38,360
+is quickly know that
+something is not a face.
+
+33
+00:01:38,360 --> 00:01:40,070
+Right?
+So you can move on.
+
+34
+00:01:40,070 --> 00:01:42,700
+And, if I say that
+something's not a face,
+
+35
+00:01:42,700 --> 00:01:46,720
+I want to be sure that it's not a face,
+so I can move on.
+
+36
+00:01:46,720 --> 00:01:50,755
+So what they built was
+a cascaded set of filters.
+
+37
+00:01:50,755 --> 00:01:54,110
+Okay, so at each level, there's
+going to be a boosted filter, but
+
+38
+00:01:54,110 --> 00:01:56,710
+here's what they did, all right?
+
+39
+00:01:56,710 --> 00:02:01,210
+So, you have a whole bunch of,
+of images, windows, scales,
+
+40
+00:02:01,210 --> 00:02:03,280
+et cetera, whatever.
+
+41
+00:02:03,280 --> 00:02:05,938
+You train a classifier,
+it's called stage 1.
+
+42
+00:02:05,938 --> 00:02:08,532
+All right?
+
+43
+00:02:08,532 --> 00:02:15,620
+And Whatever it says is not a face,
+you're sure that it's not a face.
+
+44
+00:02:15,620 --> 00:02:18,630
+So when you adjust your classifier,
+you adjust it so
+
+45
+00:02:18,630 --> 00:02:21,550
+that it has no, what are called,
+false negatives.
+
+46
+00:02:21,550 --> 00:02:24,150
+Everything it says is not
+a face is really not a face.
+
+47
+00:02:25,230 --> 00:02:27,261
+Everything that you say is a face,
+
+48
+00:02:27,261 --> 00:02:30,230
+you're going to put into
+another classifier.
+
+49
+00:02:30,230 --> 00:02:33,740
+So you're going to train
+a second stage classifier, and
+
+50
+00:02:33,740 --> 00:02:36,920
+what it's going to do is,
+remember this is on training data so
+
+51
+00:02:36,920 --> 00:02:41,480
+it's labelled, you're going to give
+it a whole bunch of positive faces.
+
+52
+00:02:41,480 --> 00:02:44,090
+But what negatives
+are you going to give it?
+
+53
+00:02:44,090 --> 00:02:47,190
+The negatives you're going
+to give it are the false
+
+54
+00:02:47,190 --> 00:02:49,430
+positives from the last stage.
+
+55
+00:02:49,430 --> 00:02:53,850
+So stage 1, remember, we set it so that
+everything it says is not a face isn't,
+
+56
+00:02:53,850 --> 00:02:56,120
+but it says a whole bunch
+of things are a face.
+
+57
+00:02:56,120 --> 00:02:57,780
+Some of those are wrong.
+
+58
+00:02:57,780 --> 00:02:59,740
+Those are false positives.
+
+59
+00:02:59,740 --> 00:03:06,430
+So use those negatives, plus real
+positives, to train the next classifier.
+
+60
+00:03:06,430 --> 00:03:11,390
+And we do that again, and
+what that gives you is a cascaded set of
+
+61
+00:03:11,390 --> 00:03:16,600
+filters where when you apply this in
+testing data, you have to make it
+
+62
+00:03:16,600 --> 00:03:21,810
+through all the filters, all the stages,
+in order to be labeled as a face.
+
+63
+00:03:21,810 --> 00:03:24,820
+But to be rejected,
+you can be rejected quickly.
+
+64
+00:03:24,820 --> 00:03:26,580
+Its just like dating in college, right?
+
+65
+00:03:26,580 --> 00:03:30,260
+You can get rejected quickly, but it
+takes you a long time to get accepted.
+
+66
+00:03:30,260 --> 00:03:30,920
+All right.
+
+67
+00:03:30,920 --> 00:03:35,643
+Just as a quick summary, we have a whole
+bunch of images, faces and non-faces,
+
+68
+00:03:35,643 --> 00:03:38,353
+we're going to train
+a cascade of classifiers,
+
+69
+00:03:38,353 --> 00:03:42,889
+they used AdaBoost, all right, which
+is a particular boosting algorithm.
+
+70
+00:03:42,889 --> 00:03:46,507
+And we're going to select out features
+and thresholds and weights, which is do,
+
+71
+00:03:46,507 --> 00:03:47,756
+you have to do in AdaBoost.
+
+72
+00:03:47,756 --> 00:03:50,749
+And then, what you're going to do,
+is for some image,
+
+73
+00:03:50,749 --> 00:03:53,160
+you're going to apply it to the window.
+
+74
+00:03:53,160 --> 00:03:54,930
+That's where the face really is.
+
+75
+00:03:54,930 --> 00:03:59,130
+We clicked the window,
+we slide it around, and there it is.
+
+76
+00:03:59,130 --> 00:04:00,760
+And it finds the right face.

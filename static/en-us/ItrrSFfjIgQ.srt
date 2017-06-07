@@ -1,0 +1,202 @@
+1
+00:00:00,470 --> 00:00:03,760
+Can you give me a broad overview
+of how core data works.
+
+2
+00:00:04,870 --> 00:00:06,450
+>> Sure, yeah, I'll try.
+
+3
+00:00:06,450 --> 00:00:08,940
+So I like to think of
+core data as kind of like
+
+4
+00:00:10,150 --> 00:00:15,450
+a way to represent an object diagram
+that's backed by a database.
+
+5
+00:00:15,450 --> 00:00:17,600
+I don't really say it's like a database.
+
+6
+00:00:17,600 --> 00:00:20,070
+I don't think that's like
+an accurate description but,
+
+7
+00:00:20,070 --> 00:00:24,160
+with Core Data you can model objects and
+relationships between those objects and
+
+8
+00:00:24,160 --> 00:00:28,900
+then those will be persisted, if you
+use the API correctly, to a data store.
+
+9
+00:00:28,900 --> 00:00:34,000
+Which can be a SQL like database or
+it could be like an XML file or
+
+10
+00:00:34,000 --> 00:00:36,440
+is there are varying other types of
+data sources that you could use.
+
+11
+00:00:37,530 --> 00:00:39,600
+>> And what's a managed object?
+
+12
+00:00:39,600 --> 00:00:44,610
+A manage object or manage object context
+is I believe the object that Apple
+
+13
+00:00:44,610 --> 00:00:49,420
+describes as kind of being the sandbox
+where you can make changes and
+
+14
+00:00:49,420 --> 00:00:52,040
+updates to objects if you
+want to be persisted and
+
+15
+00:00:52,040 --> 00:00:57,060
+then save those changes but, everything
+is like this Sandbox mode until you
+
+16
+00:00:57,060 --> 00:01:02,740
+actually explicitly tell the Core Data
+to save a particular object.
+
+17
+00:01:02,740 --> 00:01:05,560
+>> Okay.
+And when you would use Core Data instead
+
+18
+00:01:05,560 --> 00:01:09,390
+of using some other system
+mechanism such as MS User default?
+
+19
+00:01:10,570 --> 00:01:13,520
+Or just writing to
+a file in your Sandbox.
+
+20
+00:01:13,520 --> 00:01:18,390
+>> I would use Core Data in cases where
+what you're trying to persist isn't just
+
+21
+00:01:18,390 --> 00:01:23,250
+simple like bowls and
+strings and integers.
+
+22
+00:01:23,250 --> 00:01:26,010
+Things that would work well for
+maybe small settings.
+
+23
+00:01:26,010 --> 00:01:28,170
+But something that's
+more larger in scope,
+
+24
+00:01:28,170 --> 00:01:32,450
+that's kind of the beefy data
+model in an application.
+
+25
+00:01:32,450 --> 00:01:35,000
+Ones that are interconnected like
+
+26
+00:01:35,000 --> 00:01:38,720
+objects that are connected can be
+persisted quite quickly with Core Data.
+
+27
+00:01:38,720 --> 00:01:45,120
+So things that are larger
+than basic data types.
+
+28
+00:01:45,120 --> 00:01:50,130
+>> Okay, and are there any issues
+that you should keep in mind with
+
+29
+00:01:50,130 --> 00:01:52,790
+the current quarter day
+when using Core Data?
+
+30
+00:01:52,790 --> 00:01:55,950
+>> Yeah, there's issues kind of like
+the same issues you'd see in traditional
+
+31
+00:01:55,950 --> 00:01:59,870
+databases where if you're trying to
+write to a particular object, and
+
+32
+00:01:59,870 --> 00:02:02,800
+the object's being written to in
+something some other location at
+
+33
+00:02:02,800 --> 00:02:06,830
+the same time,
+there could be a merge conflict.
+
+34
+00:02:06,830 --> 00:02:11,580
+Now, you can overwrite and tell
+Core Data how to merge an object that's
+
+35
+00:02:11,580 --> 00:02:14,010
+being written to from
+two different places.
+
+36
+00:02:14,010 --> 00:02:16,890
+But that's an issue and
+there's also issues with threading,
+
+37
+00:02:16,890 --> 00:02:22,420
+so if you're updating an object
+on a background thread, and
+
+38
+00:02:22,420 --> 00:02:24,620
+it's trying to update an object
+while on the main thread,
+
+39
+00:02:24,620 --> 00:02:27,200
+you're trying to update
+that same object.
+
+40
+00:02:27,200 --> 00:02:28,216
+That can be an issue.
+
+41
+00:02:28,216 --> 00:02:29,308
+>> Okay.
+
+42
+00:02:29,308 --> 00:02:30,634
+Sounds good.

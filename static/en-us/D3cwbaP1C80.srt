@@ -1,0 +1,272 @@
+1
+00:00:00,000 --> 00:00:04,946
+In the paper on caching in the sprite
+system, the authors performed a study
+
+2
+00:00:04,946 --> 00:00:09,592
+of how are files accessed in the file
+system used at their department.
+
+3
+00:00:09,592 --> 00:00:12,975
+That was a production system used for
+all types of tasks.
+
+4
+00:00:12,975 --> 00:00:14,478
+This is what they found.
+
+5
+00:00:14,478 --> 00:00:18,328
+33% of all of the file
+accesses are writes.
+
+6
+00:00:18,328 --> 00:00:21,581
+What this means is that caching
+can be an important mechanism
+
+7
+00:00:21,581 --> 00:00:22,997
+to improve performance.
+
+8
+00:00:22,997 --> 00:00:26,459
+Two-thirds of all of the operations
+can be improved, but
+
+9
+00:00:26,459 --> 00:00:30,212
+what about updating this remaining
+one third of the accesses?
+
+10
+00:00:30,212 --> 00:00:33,331
+If we choose a policy
+that's write-through where
+
+11
+00:00:33,331 --> 00:00:36,014
+every single write goes
+back to the server,
+
+12
+00:00:36,014 --> 00:00:39,930
+that means that these one-third
+of the file accesses will not be
+
+13
+00:00:39,930 --> 00:00:43,938
+able to use the fact that there is
+a local cache on the client side.
+
+14
+00:00:43,938 --> 00:00:48,638
+What this means is that caching is okay,
+it's a useful policy to use in sprite.
+
+15
+00:00:48,638 --> 00:00:51,837
+However, using write-through
+is not going to be sufficient.
+
+16
+00:00:51,837 --> 00:00:54,468
+They need to figure out
+what else they can do.
+
+17
+00:00:54,468 --> 00:00:57,967
+So one thing they considered was
+how about session semantics.
+
+18
+00:00:57,967 --> 00:01:01,484
+We don't have to write-through
+whenever the file is updated, but
+
+19
+00:01:01,484 --> 00:01:02,542
+when it's closed.
+
+20
+00:01:02,542 --> 00:01:07,192
+However, then they looked at these
+two numbers and it turns out that
+
+21
+00:01:07,192 --> 00:01:12,265
+75% of the files are opened for
+only half a second, just very briefly.
+
+22
+00:01:12,265 --> 00:01:16,382
+And that if you look at what is the
+number of files that's opened less than
+
+23
+00:01:16,382 --> 00:01:19,301
+ten seconds,
+we go up to 90% of all of the files.
+
+24
+00:01:19,301 --> 00:01:24,442
+This means that with session semantics,
+they will need to perform updates
+
+25
+00:01:24,442 --> 00:01:29,501
+to the remote server within less than
+half a second for many of the files and
+
+26
+00:01:29,501 --> 00:01:33,852
+then within less than ten seconds for
+really most of the files.
+
+27
+00:01:33,852 --> 00:01:34,778
+So for that reason,
+
+28
+00:01:34,778 --> 00:01:37,726
+session semantics is really not
+going to solve their problems.
+
+29
+00:01:37,726 --> 00:01:40,918
+They're still going to have too
+many interactions with the remote
+
+30
+00:01:40,918 --> 00:01:43,545
+file server and
+this is what they're trying to avoid.
+
+31
+00:01:43,545 --> 00:01:45,845
+Now next observe something interesting.
+
+32
+00:01:45,845 --> 00:01:50,797
+They realized that a lot of the data
+is deleted within a relatively
+
+33
+00:01:50,797 --> 00:01:53,236
+short time after it is created.
+
+34
+00:01:53,236 --> 00:01:58,362
+20 to 30% of the new data is deleted
+within 30 seconds in their trace.
+
+35
+00:01:58,362 --> 00:02:00,590
+And then for 50% of the new data,
+
+36
+00:02:00,590 --> 00:02:05,131
+they observed that it was deleted
+within five minutes of being created.
+
+37
+00:02:05,131 --> 00:02:08,733
+And they also observed that file
+sharing in their system was rare.
+
+38
+00:02:08,733 --> 00:02:13,001
+That the situations in which multiple
+clients are at the same time working on
+
+39
+00:02:13,001 --> 00:02:16,145
+a file, that really doesn't occur very,
+very often.
+
+40
+00:02:16,145 --> 00:02:20,098
+So because of these observations,
+they made first the following decision.
+
+41
+00:02:20,098 --> 00:02:24,032
+A write back on close, which is
+what appears in session semantics.
+
+42
+00:02:24,032 --> 00:02:25,925
+Well, that's really not necessary.
+
+43
+00:02:25,925 --> 00:02:28,796
+We don't really have two
+sharing situations and
+
+44
+00:02:28,796 --> 00:02:31,325
+most of the data will
+get deleted anyways.
+
+45
+00:02:31,325 --> 00:02:35,613
+So forcing the data to be written back
+to the server when the file is closed,
+
+46
+00:02:35,613 --> 00:02:37,805
+doesn't seem like it will be useful.
+
+47
+00:02:37,805 --> 00:02:40,215
+If the file is deleted, who cares.
+
+48
+00:02:40,215 --> 00:02:44,851
+Now, all of these things are not very
+friendly to situations where a file
+
+49
+00:02:44,851 --> 00:02:48,508
+needs to be accessed concurrently
+by multiple clients.
+
+50
+00:02:48,508 --> 00:02:52,162
+However, the fact that they observe
+that file sharing is very rare,
+
+51
+00:02:52,162 --> 00:02:53,933
+that meant that, that's okay.
+
+52
+00:02:53,933 --> 00:02:58,461
+There's no need to optimize for this
+kind of situation of concurrent access.
+
+53
+00:02:58,461 --> 00:03:01,807
+However, they did observe
+some file sharing.
+
+54
+00:03:01,807 --> 00:03:05,577
+It's not like their statement is that
+there is no file sharing in the system.
+
+55
+00:03:05,577 --> 00:03:06,665
+So because of that,
+
+56
+00:03:06,665 --> 00:03:10,377
+they have to make sure that this
+distributed file system is useful for
+
+57
+00:03:10,377 --> 00:03:14,670
+the situation when the files are truly
+shared and it somehow must be supported.

@@ -1,0 +1,228 @@
+1
+00:00:00,280 --> 00:00:02,810
+The other app is, of course,
+the favorite actor's app.
+
+2
+00:00:02,810 --> 00:00:05,120
+It's up and running now, and
+in truth, it's pretty nice.
+
+3
+00:00:05,120 --> 00:00:07,840
+I don't think we'd be wrong to
+congratulate ourselves, but if we think
+
+4
+00:00:07,840 --> 00:00:10,560
+about the relationship between our
+view controllers and our Core Data,
+
+5
+00:00:10,560 --> 00:00:14,190
+I think you'll see that there is room
+for us to do something even cooler.
+
+6
+00:00:14,190 --> 00:00:16,830
+Think for a second about
+the ActorPickerViewController.
+
+7
+00:00:16,830 --> 00:00:20,421
+That's the view controller where we type
+actors' names into the search bar and
+
+8
+00:00:20,421 --> 00:00:22,941
+then it continuously pings
+the movie database API to get
+
+9
+00:00:22,941 --> 00:00:24,380
+the corresponding actors.
+
+10
+00:00:24,380 --> 00:00:27,150
+Then it places those actors into
+a scratch Core Data context.
+
+11
+00:00:27,150 --> 00:00:30,250
+Let's go through that interaction
+again one step at a time.
+
+12
+00:00:30,250 --> 00:00:33,850
+First the view controller initiates
+a task, contact in the movie database.
+
+13
+00:00:33,850 --> 00:00:36,100
+And the result come back
+to the view controller.
+
+14
+00:00:36,100 --> 00:00:38,400
+The result is some actor objects.
+
+15
+00:00:38,400 --> 00:00:41,850
+Then the view controller inserts the
+movies into the scratch database, and
+
+16
+00:00:41,850 --> 00:00:42,940
+also holds on to them.
+
+17
+00:00:42,940 --> 00:00:44,760
+That's perfectly fine
+as far as things go.
+
+18
+00:00:44,760 --> 00:00:46,360
+It works like a charm in fact.
+
+19
+00:00:46,360 --> 00:00:47,040
+So, what's the problem?
+
+20
+00:00:47,040 --> 00:00:50,010
+The problem is that our view controller
+is a little bit over burdened.
+
+21
+00:00:50,010 --> 00:00:52,630
+One way to think about this is to
+consider what it would be like if there
+
+22
+00:00:52,630 --> 00:00:55,300
+were other entities changing
+the Core Data state.
+
+23
+00:00:55,300 --> 00:00:57,760
+Notice that the way things stand now,
+there's no way for
+
+24
+00:00:57,760 --> 00:00:59,440
+our view controller to know about it.
+
+25
+00:00:59,440 --> 00:01:02,590
+Another way to think about it is think
+of this view controller as a window
+
+26
+00:01:02,590 --> 00:01:03,570
+into the data.
+
+27
+00:01:03,570 --> 00:01:05,269
+It's job is to reflect
+the state of the data.
+
+28
+00:01:05,269 --> 00:01:07,280
+It would be really cool
+if we could set it up so
+
+29
+00:01:07,280 --> 00:01:10,600
+that it would always be able to change
+its table anytime the data changed.
+
+30
+00:01:10,600 --> 00:01:12,600
+That would simplify its role.
+
+31
+00:01:12,600 --> 00:01:16,130
+In that case, the view controller could
+begin the task with the movie database
+
+32
+00:01:16,130 --> 00:01:17,310
+to download the data.
+
+33
+00:01:17,310 --> 00:01:20,160
+But it could ask the task to
+communicate directly with Core Data.
+
+34
+00:01:20,160 --> 00:01:23,910
+Then it could just sit back and be
+content to show the data in Core Data.
+
+35
+00:01:23,910 --> 00:01:25,390
+Whatever that happens to be.
+
+36
+00:01:25,390 --> 00:01:28,860
+As the state changes, it would like to
+be notified with method and location, so
+
+37
+00:01:28,860 --> 00:01:32,450
+that it could respond by adding and
+removing and updating table rows.
+
+38
+00:01:32,450 --> 00:01:35,350
+Well, Apple likes this idea a lot,
+and if you take the time to
+
+39
+00:01:35,350 --> 00:01:37,940
+get comfortable with it, we think that
+you'll learn to like it a lot too.
+
+40
+00:01:37,940 --> 00:01:41,450
+What would be better than being
+automatically notified of a data change?
+
+41
+00:01:41,450 --> 00:01:42,320
+To pull this off,
+
+42
+00:01:42,320 --> 00:01:46,540
+we need an assistant object, an object
+that's part of the Core Data library.
+
+43
+00:01:46,540 --> 00:01:48,880
+An object that's closely
+tied to the context, so
+
+44
+00:01:48,880 --> 00:01:50,490
+they can know when it changes.
+
+45
+00:01:50,490 --> 00:01:53,640
+An object that's willing to share that
+information with our view controller.
+
+46
+00:01:53,640 --> 00:01:55,490
+That object is not just a fantasy.
+
+47
+00:01:55,490 --> 00:01:56,380
+It's real.
+
+48
+00:01:56,380 --> 00:01:58,590
+It's the NSFetchResultsController.
+
+49
+00:01:58,590 --> 00:01:59,860
+Read on to learn its secrets.

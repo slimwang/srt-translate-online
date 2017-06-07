@@ -1,0 +1,413 @@
+﻿1
+00:00:00,500 --> 00:00:03,220
+I'll be going through the initial
+camera calibration steps
+
+2
+00:00:03,220 --> 00:00:04,370
+in this Jupyter notebook.
+
+3
+00:00:05,480 --> 00:00:09,750
+The first step will be to read in
+calibration images of a chessboard.
+
+4
+00:00:09,750 --> 00:00:14,219
+it's recommended to use at least 20
+images to get a reliable calibration.
+
+5
+00:00:14,220 --> 00:00:15,463
+And for this example,
+
+6
+00:00:15,462 --> 00:00:18,675
+we have a lot of images in this
+calibration images folder.
+
+7
+00:00:18,675 --> 00:00:23,198
+They are all images of a chessboard,
+taken at different angles and distances.
+
+8
+00:00:23,199 --> 00:00:26,250
+And there's also a test image
+I'll eventually want to test my
+
+9
+00:00:26,250 --> 00:00:28,370
+camera calibration and undistortion on.
+
+10
+00:00:29,690 --> 00:00:33,189
+Each chessboard here has eight
+by six corners to detect.
+
+11
+00:00:34,380 --> 00:00:36,080
+I'll go through
+the calibration steps for
+
+12
+00:00:36,079 --> 00:00:38,058
+the first calibration image in detail.
+
+13
+00:00:39,560 --> 00:00:43,498
+First, you can see that I've
+already done my numpy open cv and
+
+14
+00:00:43,497 --> 00:00:44,799
+plotting imports.
+
+15
+00:00:44,799 --> 00:00:49,669
+Then I'll read in the first image
+calibration1.jpg, and I'll display it.
+
+16
+00:00:51,149 --> 00:00:53,179
+So here's our calibration image.
+
+17
+00:00:53,179 --> 00:00:56,259
+I'll map the coordinates of
+the corners in this 2D image,
+
+18
+00:00:56,259 --> 00:01:00,019
+which I'll call it's image points
+to the 3D coordinates of the real,
+
+19
+00:01:00,020 --> 00:01:04,099
+undistorted chessboard corners,
+which I'll call object points.
+
+20
+00:01:04,099 --> 00:01:08,290
+So, I'll set up two empty arrays to
+hold these points, object points and
+
+21
+00:01:08,290 --> 00:01:09,010
+image points.
+
+22
+00:01:10,170 --> 00:01:12,379
+The object points will all be the same.
+
+23
+00:01:12,379 --> 00:01:15,619
+Just the known object coordinates
+of the chessboard corners for
+
+24
+00:01:15,620 --> 00:01:16,650
+an eight by six board.
+
+25
+00:01:17,959 --> 00:01:23,693
+These points will be 3D coordinates,
+x, y and z from the top left corner,
+
+26
+00:01:23,694 --> 00:01:27,558
+0, 0, 0, to the bottom right, 7, 5, 0.
+
+27
+00:01:27,558 --> 00:01:29,439
+The z coordinate will be zero for
+
+28
+00:01:29,439 --> 00:01:32,849
+every point, since the board
+is on a flat image plane.
+
+29
+00:01:32,849 --> 00:01:36,539
+And x and y will be all
+the coordinates of the corners.
+
+30
+00:01:36,540 --> 00:01:38,570
+So I'll prepare these object points,
+
+31
+00:01:38,569 --> 00:01:41,979
+first by creating six by
+eight points in an array.
+
+32
+00:01:41,980 --> 00:01:46,155
+Each with three columns for the x,
+y, and z coordinates of each corner.
+
+33
+00:01:46,155 --> 00:01:50,724
+I'll initialize these all as zeros
+using numpy's zero function.
+
+34
+00:01:52,194 --> 00:01:56,004
+The z coordinate will stay zero so
+I'll leave that as it is but for
+
+35
+00:01:56,004 --> 00:01:57,564
+our first two columns, X and
+
+36
+00:01:57,564 --> 00:02:01,655
+Y, I'll use numpy's M grade function to
+generate the coordinates that I want.
+
+37
+00:02:02,715 --> 00:02:06,265
+M grade returns the coordinate
+values for a given grid size and
+
+38
+00:02:06,265 --> 00:02:10,879
+I'll shape those coordinates back into
+two columns, one for x and one for y.
+
+39
+00:02:10,879 --> 00:02:13,669
+Next, to create the image points,
+I want to look
+
+40
+00:02:13,669 --> 00:02:17,209
+at the distorted calibration image and
+detect the corners of the board.
+
+41
+00:02:18,479 --> 00:02:22,599
+Open CV gives us an easy way to detect
+chessboard corners with a function
+
+42
+00:02:22,599 --> 00:02:25,609
+called findChessboardCorners
+that returns the corners
+
+43
+00:02:25,610 --> 00:02:27,029
+found in a grayscale image.
+
+44
+00:02:28,110 --> 00:02:30,270
+So I'll convert this
+image to grey scale and
+
+45
+00:02:30,270 --> 00:02:33,740
+then I'll pass that into the fine
+chessboard corners function.
+
+46
+00:02:33,740 --> 00:02:37,409
+This takes in our grey scale image along
+with the dimensions of the chessboard
+
+47
+00:02:37,409 --> 00:02:38,030
+corners.
+
+48
+00:02:38,030 --> 00:02:41,680
+In this case, eight by six and
+the last parameter is for any flags.
+
+49
+00:02:41,680 --> 00:02:43,990
+And there are none in this example.
+
+50
+00:02:43,990 --> 00:02:45,770
+If this function detects corners,
+
+51
+00:02:45,770 --> 00:02:48,600
+I'll append those points
+to the image points array.
+
+52
+00:02:48,599 --> 00:02:51,049
+I'll also add our
+prepared object points,
+
+53
+00:02:51,050 --> 00:02:53,730
+objp, to the object points array.
+
+54
+00:02:53,729 --> 00:02:55,789
+And these object points
+will be the same for
+
+55
+00:02:55,789 --> 00:03:00,269
+all of the calibration images,
+since they represent a real chessboard.
+
+56
+00:03:00,270 --> 00:03:02,500
+Next, I'll also draw
+the detected corners,
+
+57
+00:03:02,500 --> 00:03:04,740
+with a call to drawChessboardCorners,
+
+58
+00:03:04,740 --> 00:03:08,790
+that takes in our image,
+corner dimensions and corner points.
+
+59
+00:03:08,789 --> 00:03:10,456
+And I'll display these corners so
+
+60
+00:03:10,456 --> 00:03:13,338
+that we can see what was detected
+in an interactive window.
+
+61
+00:03:13,338 --> 00:03:14,610
+So let's run this code.
+
+62
+00:03:14,610 --> 00:03:17,009
+Here's what our detected
+corners look like.
+
+63
+00:03:17,009 --> 00:03:23,489
+And if I zoom in, it looks like the
+corners were detected pretty accurately.
+
+64
+00:03:23,490 --> 00:03:27,140
+The next step will be to do this for
+all the calibration images.
+
+65
+00:03:27,139 --> 00:03:31,399
+I can read in all the calibration
+images by importing the glob API,
+
+66
+00:03:31,400 --> 00:03:34,420
+which helps read in images
+with a consistent file name,
+
+67
+00:03:34,419 --> 00:03:36,819
+like calibration one,
+two, three, and so on.
+
+68
+00:03:37,900 --> 00:03:41,480
+Then, I'll iterate through each
+image file, detecting corners and
+
+69
+00:03:41,479 --> 00:03:45,039
+appending points to the object and
+image points arrays.
+
+70
+00:03:45,039 --> 00:03:47,659
+Then later, we'll be able to
+use the object points and
+
+71
+00:03:47,659 --> 00:03:50,069
+image points to calibrate this camera.
+
+72
+00:03:50,069 --> 00:03:53,729
+I'll show you the open cv functions
+you'll need to calibrate the camera and
+
+73
+00:03:53,729 --> 00:03:56,289
+finally, undistort images.
+
+74
+00:03:56,289 --> 00:04:00,949
+To calibrate a camera, open cv gives
+us the calibrate camera function.
+
+75
+00:04:00,949 --> 00:04:04,569
+This takes in our object points,
+our image points, and
+
+76
+00:04:04,569 --> 00:04:06,269
+the shape of the image.
+
+77
+00:04:06,270 --> 00:04:08,650
+And using these inputs,
+it calculates and
+
+78
+00:04:08,650 --> 00:04:13,030
+returns the distortion coefficients and
+to the camera matrix that we need
+
+79
+00:04:13,030 --> 00:04:17,050
+to transform 3D object
+points to 2D image points.
+
+80
+00:04:17,050 --> 00:04:20,879
+It also returns the position of
+the camera in the world, with values for
+
+81
+00:04:20,879 --> 00:04:22,800
+rotation and translation vectors.
+
+82
+00:04:23,860 --> 00:04:26,379
+The next function you'll
+need is undistort.
+
+83
+00:04:26,379 --> 00:04:30,259
+This takes in a distorted image,
+our camera matrix, and
+
+84
+00:04:30,259 --> 00:04:32,110
+distortion coefficients.
+
+85
+00:04:32,110 --> 00:04:36,090
+And it returns an undistorted,
+often called destination image.
+
+86
+00:04:37,430 --> 00:04:40,400
+In the next quiz, you'll need to apply
+what you've learned to calibrate
+
+87
+00:04:40,399 --> 00:04:42,939
+the camera and correct for
+image distortion.
+
+88
+00:04:42,939 --> 00:04:43,379
+Good luck.
+

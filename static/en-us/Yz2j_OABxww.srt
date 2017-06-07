@@ -1,0 +1,401 @@
+1
+00:00:00,310 --> 00:00:01,800
+All right, you're done.
+
+2
+00:00:01,800 --> 00:00:05,040
+I know that was long, but
+I think this is really important stuff.
+
+3
+00:00:05,040 --> 00:00:06,830
+And RecyclerView is going to
+be a really great and
+
+4
+00:00:06,830 --> 00:00:10,770
+important pattern in your future code,
+I am confident.
+
+5
+00:00:10,770 --> 00:00:13,760
+All right, I'll show you how I did this.
+
+6
+00:00:13,760 --> 00:00:17,020
+And I think it's actually pretty cool
+how straight forward it is in many ways
+
+7
+00:00:17,020 --> 00:00:17,800
+to at least get this far.
+
+8
+00:00:19,170 --> 00:00:22,980
+The first thing we did of course
+was to swap RecyclerView in for
+
+9
+00:00:22,980 --> 00:00:24,440
+the listed view that was there.
+
+10
+00:00:25,510 --> 00:00:29,020
+And I also changed the name, so
+that it would make more sense.
+
+11
+00:00:29,020 --> 00:00:30,900
+And I even changed the name
+of our empty view here.
+
+12
+00:00:30,900 --> 00:00:35,320
+Even though RecyclerView doesn't
+really have a concept of empty views.
+
+13
+00:00:35,320 --> 00:00:38,560
+I still thought it was important
+to keep that parallel.
+
+14
+00:00:38,560 --> 00:00:41,210
+Since, eventually, we're going to try
+to implement that using recycler view.
+
+15
+00:00:42,455 --> 00:00:44,215
+And the next thing we
+want to look at and
+
+16
+00:00:44,215 --> 00:00:47,395
+where most the changes actually
+happen are in forecast adapter.
+
+17
+00:00:47,395 --> 00:00:50,470
+The biggest thing of course is that our
+forecast adapter is now going to ascend
+
+18
+00:00:50,470 --> 00:00:53,515
+RecyclerVew that adapter and
+RecyclerVew that adapter will
+
+19
+00:00:53,515 --> 00:00:58,240
+take a paramitertized type of
+the view holder, so pretty slick.
+
+20
+00:00:58,240 --> 00:01:00,260
+Our ViewHolder is defined here.
+
+21
+00:01:00,260 --> 00:01:04,769
+It's almost identical to the ViewHolder
+we had before except now we have
+
+22
+00:01:04,769 --> 00:01:08,040
+this super class and we have this
+constructor that takes the view.
+
+23
+00:01:09,140 --> 00:01:11,470
+And this looks a lot like
+what we had there before.
+
+24
+00:01:11,470 --> 00:01:13,590
+The ViewHolder here is
+actually designed very,
+
+25
+00:01:13,590 --> 00:01:17,132
+very much after the way that
+the cursor adapter worked.
+
+26
+00:01:17,132 --> 00:01:20,340
+The RecyclerVewHolder
+was designed pretty much
+
+27
+00:01:20,340 --> 00:01:24,850
+to be very similar to the way
+that cursor adapters work.
+
+28
+00:01:24,850 --> 00:01:27,700
+And so we had new view,
+which was there before and
+
+29
+00:01:27,700 --> 00:01:29,830
+now we have OnCreateViewHolder,
+which is parallel.
+
+30
+00:01:29,830 --> 00:01:32,210
+And so the code is almost the same.
+
+31
+00:01:32,210 --> 00:01:33,720
+We take the view type and
+we get the view group.
+
+32
+00:01:33,720 --> 00:01:36,050
+Now, the interesting thing is we're
+actually going to have to get our layout
+
+33
+00:01:36,050 --> 00:01:40,100
+inflater from that viewGroup, because
+there's no other ways to get this,
+
+34
+00:01:40,100 --> 00:01:42,400
+there's no other context
+we have access to.
+
+35
+00:01:42,400 --> 00:01:44,220
+So sort of interesting.
+
+36
+00:01:44,220 --> 00:01:47,480
+Not something we're used to doing
+in Android all that much but
+
+37
+00:01:47,480 --> 00:01:51,400
+use also has access to the context and
+then we replace
+
+38
+00:01:51,400 --> 00:01:56,000
+what was BindBiew from the original
+cursor adapter to onBindViewHolder.
+
+39
+00:01:56,000 --> 00:02:01,010
+And as you can see the code
+remained largely the same.
+
+40
+00:02:01,010 --> 00:02:04,572
+Probably the biggest difference is
+that we don't actually have a cursor.
+
+41
+00:02:04,572 --> 00:02:07,936
+We're actually using the one from the
+adapter so we have to use m cursor and
+
+42
+00:02:07,936 --> 00:02:09,354
+move to position when we bind.
+
+43
+00:02:09,354 --> 00:02:14,030
+Rather than just having a cursor
+that's at the right position.
+
+44
+00:02:14,030 --> 00:02:16,760
+So that's a fairly minor change,
+but you can see other than that,
+
+45
+00:02:16,760 --> 00:02:21,660
+the code looks very, very similar to
+what we had before for onBindViewHolder.
+
+46
+00:02:21,660 --> 00:02:25,070
+And then here is all the code
+that actually implements
+
+47
+00:02:25,070 --> 00:02:26,950
+the important cursor adapter stuff.
+
+48
+00:02:26,950 --> 00:02:30,220
+So we have swapCursor and
+we have getCursor.
+
+49
+00:02:30,220 --> 00:02:34,540
+swapCursor is really the only
+important thing here, truthfully.
+
+50
+00:02:34,540 --> 00:02:38,930
+Which calls notifyDataSetChanged when
+the cursor is swamped, and that keeps
+
+51
+00:02:38,930 --> 00:02:44,950
+that behavior of notifying the observers
+that something has changed, in tact.
+
+52
+00:02:44,950 --> 00:02:46,170
+So there we have it.
+
+53
+00:02:46,170 --> 00:02:50,930
+A very, very,
+very simple cursor adapter.
+
+54
+00:02:50,930 --> 00:02:51,630
+We're not done yet.
+
+55
+00:02:51,630 --> 00:02:54,050
+We still have to do some
+work in ForecastFragment.
+
+56
+00:02:54,050 --> 00:02:57,360
+So ForecastFragment used to have
+a reference to the list view.
+
+57
+00:02:57,360 --> 00:03:00,080
+Now we're going to store
+one to the RecyclerView.
+
+58
+00:03:00,080 --> 00:03:03,340
+And just for fun we'll change
+position to RecyclerView.no_position.
+
+59
+00:03:03,340 --> 00:03:08,740
+Even though it's the same value
+as the list you endowed position.
+
+60
+00:03:08,740 --> 00:03:12,230
+And on create view we're now going to
+get a reference to the RecyclerView.
+
+61
+00:03:12,230 --> 00:03:15,180
+And then the one thing we do have
+to do is give this RecyclerView
+
+62
+00:03:15,180 --> 00:03:16,620
+a layout manager.
+
+63
+00:03:16,620 --> 00:03:18,750
+Because a lot of layout managers
+there were actually people not
+
+64
+00:03:18,750 --> 00:03:20,000
+displaying anything.
+
+65
+00:03:20,000 --> 00:03:22,240
+It doesn't have
+a default layout manager.
+
+66
+00:03:22,240 --> 00:03:25,440
+So we assign it a new
+linear layout manager.
+
+67
+00:03:25,440 --> 00:03:26,600
+And then we can set the adapter.
+
+68
+00:03:26,600 --> 00:03:29,190
+And then it pretty much works similar.
+
+69
+00:03:29,190 --> 00:03:31,170
+Now of course,
+we don't have it completely working yet.
+
+70
+00:03:31,170 --> 00:03:34,000
+But let me show you what you should
+have gotten working by this point.
+
+71
+00:03:34,000 --> 00:03:35,610
+I'll run this project, and
+
+72
+00:03:35,610 --> 00:03:39,970
+you'll see why I warned you
+all that it would be broken.
+
+73
+00:03:39,970 --> 00:03:43,490
+And it's really that on click handler
+we don't have empty view handlers,
+
+74
+00:03:43,490 --> 00:03:47,790
+all these nice things that list gave
+you for free we actually have to craft
+
+75
+00:03:47,790 --> 00:03:53,487
+ourselves with RecyclerVew.
+
+76
+00:03:53,487 --> 00:03:56,770
+So, first of all, you'll see
+that the empty view is displayed
+
+77
+00:03:56,770 --> 00:04:01,340
+overlaid our regular view here,
+but we can scroll and
+
+78
+00:04:01,340 --> 00:04:04,490
+we're getting the correct display,
+so that's good.
+
+79
+00:04:04,490 --> 00:04:06,990
+But as you can see,
+it's we can't click on anything.
+
+80
+00:04:08,420 --> 00:04:11,820
+So, it's definitely still pretty broken,
+but it's a good start.
+
+81
+00:04:11,820 --> 00:04:14,420
+And we are now taking
+advantage of RecyclerView,
+
+82
+00:04:14,420 --> 00:04:17,240
+which will allow us to use
+some cool stuff later on.
+
+83
+00:04:17,240 --> 00:04:18,430
+But we still need to finish the work,
+
+84
+00:04:18,430 --> 00:04:21,240
+which is why we have using
+Recycler View part two.

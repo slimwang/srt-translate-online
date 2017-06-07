@@ -1,0 +1,251 @@
+1
+00:00:00,000 --> 00:00:07,000
+One of the things I've been working on for most of my professional career are self-driving cars.
+
+2
+00:00:07,000 --> 00:00:11,000
+The vision is that in the future cars will drive themselves,
+
+3
+00:00:11,000 --> 00:00:14,000
+and in doing so they can be significantly safer.
+
+4
+00:00:14,000 --> 00:00:21,000
+We lose about a little over 1 million people per year in the entire world in traffic accidents.
+
+5
+00:00:21,000 --> 00:00:25,000
+I believe most of these accidents can be avoided by making cars safer.
+
+6
+00:00:25,000 --> 00:00:28,000
+If they drive themselves, they can drive disabled people.
+
+7
+00:00:28,000 --> 00:00:32,000
+They can drive blind people, young children, aging people,
+
+8
+00:00:32,000 --> 00:00:36,000
+and they could drive all of us while we do better things that staring at the road ahead.
+
+9
+00:00:36,000 --> 00:00:40,000
+So one of my life passions has been to be develop self-driving cars.
+
+10
+00:00:40,000 --> 00:00:45,000
+Today, I'd like to tell you about those, and also show you some of the basic techniques
+
+11
+00:00:45,000 --> 00:00:51,000
+so you can in principle program your own self-driving car.
+
+12
+00:00:51,000 --> 00:01:01,000
+So for me the work on self-driving cars started in 2004 after the first DARPA Grand Challenge.
+
+13
+00:01:01,000 --> 00:01:04,000
+This was a government-sponsored robot race
+
+14
+00:01:04,000 --> 00:01:11,000
+in which autonomous robots were asked to drive through the Mojave desert from California to Nevada
+
+15
+00:01:11,000 --> 00:01:17,000
+along 141 miles of really punishing desert terrain.
+
+16
+00:01:17,000 --> 00:01:21,000
+Lots of teams competed from various universities, car companies,
+
+17
+00:01:21,000 --> 00:01:25,000
+and also lots of hobbiests that were new to the field competed,
+
+18
+00:01:25,000 --> 00:01:28,000
+and built this huge set of different cars.
+
+19
+00:01:28,000 --> 00:01:32,000
+There were over 100 different entries into the first DARPA Grand Challenge.
+
+20
+00:01:32,000 --> 00:01:36,000
+Despite all this work, most robots failed out of the starting gate,
+
+21
+00:01:36,000 --> 00:01:42,000
+like this one over here flipped over less than 100 meters into the race.
+
+22
+00:01:42,000 --> 00:01:44,000
+Some were very, very large.
+
+23
+00:01:44,000 --> 00:01:50,000
+This is a major defense contractor who built this 35,000 pound vehicle,
+
+24
+00:01:50,000 --> 00:01:53,000
+which on the course was rather timid,
+
+25
+00:01:53,000 --> 00:02:00,000
+and some of the the teams had very small robots, like the next one by UC Berkeley,
+
+26
+00:02:00,000 --> 00:02:04,000
+which was a motorcycle.
+
+27
+00:02:04,000 --> 00:02:11,000
+So here we go.
+
+28
+00:02:11,000 --> 00:02:16,000
+The first DARPA Grand Challenge came with $1 million of prize money,
+
+29
+00:02:16,000 --> 00:02:21,000
+and despite this prize money, no team made it further than 5% of the total course.
+
+30
+00:02:21,000 --> 00:02:26,000
+In fact, almost all cars stopped for something very stupid,
+
+31
+00:02:26,000 --> 00:02:28,000
+some went up in flames,
+
+32
+00:02:28,000 --> 00:02:33,000
+and the furthest any team made it was this car over here by Carnegie Mellon University,
+
+33
+00:02:33,000 --> 00:02:37,000
+which made it about just below 8 miles of the total distance.
+
+34
+00:02:37,000 --> 00:02:41,000
+So for many of us, this was a massive failure of robotic technology,
+
+35
+00:02:41,000 --> 00:02:46,000
+which motivated me to get involved in this race.
+
+36
+00:02:46,000 --> 00:02:48,000
+My own story is really simple.
+
+37
+00:02:48,000 --> 00:02:52,000
+I started a class at Stanford, and I got about 20 students to work with me
+
+38
+00:02:52,000 --> 00:02:57,000
+on what would become the Stanford racing team that would ultimately go and win this race.
+
+39
+00:02:57,000 --> 00:03:04,000
+We modified a Volkswagen Toureg to put all kinds of sensors onto the roof
+
+40
+00:03:04,000 --> 00:03:09,000
+and actuators into the car that could actuate the steering wheel, the gas pedal, and the brake.
+
+41
+00:03:09,000 --> 00:03:11,000
+The sensors came in multiple versions.
+
+42
+00:03:11,000 --> 00:03:15,000
+Some were related to localization, such as global positioning sensors,
+
+43
+00:03:15,000 --> 00:03:19,000
+and some were related to understanding where obstacles are, like laser-range finders.
+
+44
+00:03:19,000 --> 00:03:21,000
+We talked about computer vision in this class.
+
+45
+00:03:21,000 --> 00:03:27,000
+The actuators were basically a motor on the steering wheel and on the brake pedals and on the gas pedal.
+
+46
+00:03:27,000 --> 00:03:31,000
+Early on, we tested on Stanford's campus.
+
+47
+00:03:31,000 --> 00:03:34,000
+This is the roof of the medical parking garage.
+
+48
+00:03:34,000 --> 00:03:38,000
+Here you can see my students and I performed simple maneuvers.
+
+49
+00:03:38,000 --> 00:03:41,000
+Now, I've got to tell you that this is usually a busy parking garage.
+
+50
+00:03:41,000 --> 00:03:44,000
+It's the medical parking garage at Stanford Hospital,
+
+51
+00:03:44,000 --> 00:03:48,000
+but as we practiced autonomous driving, people would come and pick up their car
+
+52
+00:03:48,000 --> 00:03:51,000
+and ask us about, what we were doing, so we kept telling them,
+
+53
+00:03:51,000 --> 00:03:53,000
+well, we're building a self-driving car.
+
+54
+00:03:53,000 --> 00:04:01,000
+Within less than a week, people just chose not to park there anymore.
+
+55
+00:04:01,000 --> 00:04:06,000
+Closer to the next version of the Grand Challenge, the second one in 2005,
+
+56
+00:04:06,000 --> 00:04:12,000
+we had built a car that could drive competently on most desert tracks
+
+57
+00:04:12,000 --> 00:04:22,000
+at speeds up to about 60 km per hour through dry river beds, through steep inclines and declines,
+
+58
+00:04:22,000 --> 00:04:27,000
+and would be able to avoid obstacles like this little shrub on the right side over here.
+
+59
+00:04:27,000 --> 00:04:35,000
+It was never really elegant, but it was insanely effective.
+
+60
+00:04:35,000 --> 00:04:38,000
+Now, not all testing went smooth.
+
+61
+00:04:38,000 --> 00:04:43,000
+This is imagery that the New York Times shot of us when we invited them for a test drive.
+
+62
+00:04:43,000 --> 00:04:47,000
+During this day, we managed to crash into a tree and get stuck in the mud.
+
+63
+00:04:47,000 --> 99:59:59,999
+It was pretty embarrassing.

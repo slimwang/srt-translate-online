@@ -1,0 +1,511 @@
+1
+00:00:00,000 --> 00:00:05,000
+The next question we had was about security--cross-site scripting attacks, DDoSs,
+
+2
+00:00:05,000 --> 00:00:09,000
+SQL injection, how to deal with those, what those are--
+
+3
+00:00:09,000 --> 00:00:12,000
+really kind of a big question. >>Sure.
+
+4
+00:00:12,000 --> 00:00:16,000
+Actually, I wanted to almost spend--I could probably spend an entire lecture on this.
+
+5
+00:00:16,000 --> 00:00:20,000
+We can talk for a few minutes about some of the high-level stuff right now. >>Great.
+
+6
+00:00:20,000 --> 00:00:25,000
+Security--this is a really big concept.
+
+7
+00:00:25,000 --> 00:00:28,000
+When I was originally doing the notes for this class, I really wanted to spent a lot of time
+
+8
+00:00:28,000 --> 00:00:34,000
+talking about a couple of major vulnerabilities, but I was getting the sense
+
+9
+00:00:34,000 --> 00:00:38,000
+that it wouldn't fit in very well with the level of knowledge you guys had at the time.
+
+10
+00:00:38,000 --> 00:00:41,000
+But I can't talk about a few of the high-level things now that you should get smart about.
+
+11
+00:00:41,000 --> 00:00:44,000
+The first is XXS or cross-site scripting.
+
+12
+00:00:44,000 --> 00:00:51,000
+This basically when you accept data from a user, and you're displaying it in your webpage,
+
+13
+00:00:51,000 --> 00:00:53,000
+and you're not escaping it.
+
+14
+00:00:53,000 --> 00:00:55,000
+We did talk about escaping, and we quizzed you on escaping.
+
+15
+00:00:55,000 --> 00:01:02,000
+But say you had take some data from a user, and then you return it to the user in a text area.
+
+16
+00:01:02,000 --> 00:01:08,000
+In here goes whatever the user typed in. Maybe you're editing a blog entry, and this is the old blog entry.
+
+17
+00:01:08,000 --> 00:01:14,000
+Well, if the code they actually typed in has some HTML in it--
+
+18
+00:01:14,000 --> 00:01:17,000
+in particular if it uses the script tag, which we haven't talked about at all in this class.
+
+19
+00:01:17,000 --> 00:01:20,000
+This is how you would include some JavaScript.
+
+20
+00:01:20,000 --> 00:01:25,000
+They can actually put code in here that might fetch all of your cookies, using document.cookie--
+
+21
+00:01:25,000 --> 00:01:28,000
+remember we saw that in Unit 4, I think--
+
+22
+00:01:28,000 --> 00:01:31,000
+and make a request to another URL, sending your cookie there.
+
+23
+00:01:31,000 --> 00:01:37,000
+If I view this page--if me, Steve, loaded this page that has this other content,
+
+24
+00:01:37,000 --> 00:01:41,000
+it could cause a browser to load my cookies and send it to some other site.
+
+25
+00:01:41,000 --> 00:01:45,000
+That guy could then look at that request, put his cookies in his browser,
+
+26
+00:01:45,000 --> 00:01:47,000
+and then start browsing the site as me.
+
+27
+00:01:47,000 --> 00:01:50,000
+This is the basis for cross-site scripting.
+
+28
+00:01:50,000 --> 00:01:53,000
+If you escape your HTML, you don't have to worry about it.
+
+29
+00:01:53,000 --> 00:01:56,000
+There are cases, however, where you don't want to escape the HTML.
+
+30
+00:01:56,000 --> 00:01:58,000
+For example, in a blog.
+
+31
+00:01:58,000 --> 00:02:01,000
+If you trust your users and you want them to be able to enter HTML--
+
+32
+00:02:01,000 --> 00:02:04,000
+for example, if they want to put in links and that sort of thing,
+
+33
+00:02:04,000 --> 00:02:07,000
+then you've got to think carefully. Do I trust the user?
+
+34
+00:02:07,000 --> 00:02:10,000
+Or do I want to write some fancy escaping that escapes some HTML,
+
+35
+00:02:10,000 --> 00:02:12,000
+like it allows links for example.
+
+36
+00:02:12,000 --> 00:02:14,000
+That's a big tradeoff.
+
+37
+00:02:14,000 --> 00:02:20,000
+On Reddit, we use a piece of technology called markdown,
+
+38
+00:02:20,000 --> 00:02:26,000
+which is a simplified language good for allowing users to leave comments and that sort of thing.
+
+39
+00:02:26,000 --> 00:02:32,000
+It's got syntax for leaving links and images, but not just random HTML.
+
+40
+00:02:32,000 --> 00:02:38,000
+Actually what we did is we allowed links and image, and then we broke all other HTML.
+
+41
+00:02:38,000 --> 00:02:47,000
+Basically, the name of the game for preventing cross-site scripting is escaping HTML.
+
+42
+00:02:47,000 --> 00:02:49,000
+There's another classes of attacks we haven't talked about,
+
+43
+00:02:49,000 --> 00:02:54,000
+and they haven't come upin this class, which is SQL Injection.
+
+44
+00:02:54,000 --> 00:03:00,000
+What's happening here--this is very similar to cross-site scripting.
+
+45
+00:03:00,000 --> 00:03:03,000
+There's another--well, let's talk about SQL injection first.
+
+46
+00:03:03,000 --> 00:03:23,000
+If you have a piece of SQL--select * from link--where id = %s.
+
+47
+00:03:23,000 --> 00:03:25,000
+This is why you shouldn't use %s in SQL statements.
+
+48
+00:03:25,000 --> 00:03:29,000
+In App Engine they've been using that colon syntax, which is really nice,
+
+49
+00:03:29,000 --> 00:03:31,000
+because they do the escaping for you.
+
+50
+00:03:31,000 --> 00:03:35,000
+If you were to generate some SQL in Python using the string substitution syntax,
+
+51
+00:03:35,000 --> 00:03:41,000
+where you just put in this id variable, and maybe this id comes from the URL or from the user.
+
+52
+00:03:41,000 --> 00:03:43,000
+If this is a number, this works fine.
+
+53
+00:03:43,000 --> 00:03:55,000
+But what if this were the string quote, semicolon, this makes a comment.
+
+54
+00:03:55,000 --> 00:04:02,000
+I'm forgetting some of my SQL here, but effectively you put in a drop table.
+
+55
+00:04:02,000 --> 00:04:06,000
+It's just like cross-site scripting where if you allow them to put in arbitrary HTML,
+
+56
+00:04:06,000 --> 00:04:12,000
+they can close your old tag--through some syntax it's often a closing quote and a semicolon
+
+57
+00:04:12,000 --> 00:04:15,000
+or dash-dash basically means comment.
+
+58
+00:04:15,000 --> 00:04:20,000
+Some combination of things here allows you to just put in arbitrary SQL into the database.
+
+59
+00:04:20,000 --> 00:04:26,000
+Generally, you want to make sure you're always using a wrapper around your SQL.
+
+60
+00:04:26,000 --> 00:04:33,000
+App Engine provides that using their GQL query object that we've been using in this class.
+
+61
+00:04:33,000 --> 00:04:39,000
+Another really popular library I use all the time in Python is called SQLAlchemy.
+
+62
+00:04:39,000 --> 00:04:45,000
+It is spelled like this maybe.
+
+63
+00:04:45,000 --> 00:04:48,000
+SQLAlchemy is one of my favorite libraries.
+
+64
+00:04:48,000 --> 00:04:54,000
+In its simplest use case, the way I've always used it, it's basically got a procedural language for generating SQL,
+
+65
+00:04:54,000 --> 00:04:59,000
+much like the way App Engine has that language where you can say .all and .filter and that sort of stuff.
+
+66
+00:04:59,000 --> 00:05:01,000
+SQLAlchemy provides a very similar interface.
+
+67
+00:05:01,000 --> 00:05:08,000
+It goes one step further and has what's called a ORM, which is an object relational mapping,
+
+68
+00:05:08,000 --> 00:05:12,000
+Which basically converts a Python object into SQL so you don't have to think about SQL,
+
+69
+00:05:12,000 --> 00:05:18,000
+but I hate using these things because it disconnects you from the queries you're running,
+
+70
+00:05:18,000 --> 00:05:23,000
+the queries are what cause your web application often to be slow,
+
+71
+00:05:23,000 --> 00:05:25,000
+and if you don't have direct control of your queries,
+
+72
+00:05:25,000 --> 00:05:29,000
+you're not going to be able to scale quite as consistently.
+
+73
+00:05:29,000 --> 00:05:33,000
+But SQLAlchemy is a really nice library.
+
+74
+00:05:33,000 --> 00:05:39,000
+Just like this SQL injection, you can just as easily have memcached injection.
+
+75
+00:05:39,000 --> 00:05:45,000
+If you're taking input from the user and you're converting that into like a cache key,
+
+76
+00:05:45,000 --> 00:05:47,000
+depending on what memcacher library you're using,
+
+77
+00:05:47,000 --> 00:05:54,000
+if it's not validating the key, they could put something in a URL or something for example
+
+78
+00:05:54,000 --> 00:05:59,000
+that would finish the memcache statement and create a new one and pollute your cache with stuff.
+
+79
+00:05:59,000 --> 00:06:02,000
+We had a really clever guy try to do that to us at Reddit once.
+
+80
+00:06:02,000 --> 00:06:06,000
+Fortunately, he was a friend, and he told us.
+
+81
+00:06:06,000 --> 00:06:11,000
+There is one other huge class of attacks, and this is actually a relatively modern thing.
+
+82
+00:06:11,000 --> 00:06:14,000
+It's called CSRF. This one's really fun.
+
+83
+00:06:14,000 --> 00:06:18,000
+The general idea is remember how we talked about forms.
+
+84
+00:06:18,000 --> 00:06:27,000
+Forms have an action attribute that is where you want to submit the form.
+
+85
+00:06:27,000 --> 00:06:32,000
+We've always been doing things like slash or not specifying it, which submits the current URL.
+
+86
+00:06:32,000 --> 00:06:38,000
+But you could put a full URL in here, and this could just have a completely different site--
+
+87
+00:06:38,000 --> 00:06:44,000
+ASCII Chan, which Incidentally has this vulnerability in it.
+
+88
+00:06:44,000 --> 00:06:50,000
+Or it could be forums.udacity.com, which also has this vulnerability in it.
+
+89
+00:06:50,000 --> 00:06:54,000
+You could build a webpage on your own domain.
+
+90
+00:06:54,000 --> 00:07:00,000
+Let's say you're at badguy.com,
+
+91
+00:07:00,000 --> 00:07:04,000
+and you made a hidden form, use CSS to hide it, and then you have some JavaScript
+
+92
+00:07:04,000 --> 00:07:08,000
+that automatically submits this form, what's going to happen is a user will load your page,
+
+93
+00:07:08,000 --> 00:07:14,000
+their browser will render this form, and then you'll submit it for them, sneakily.
+
+94
+00:07:14,000 --> 00:07:16,000
+This will submit to some other URL.
+
+95
+00:07:16,000 --> 00:07:21,000
+ASCII Chan won't be able to detect that the request is coming from badguy.com.
+
+96
+00:07:21,000 --> 00:07:25,000
+They'll see that as coming from this user's browser with their IP and with their cookies.
+
+97
+00:07:25,000 --> 00:07:31,000
+CSRF what's happening here is you are doing something on behalf of a user.
+
+98
+00:07:31,000 --> 00:07:35,000
+They've got their cookies that basically identify them. You're logged in as spez.
+
+99
+00:07:35,000 --> 00:07:40,000
+So somebody can trick my browser into making a request to another site as me.
+
+100
+00:07:40,000 --> 00:07:44,000
+They can do things like submit a form as me or vote up on a story as me
+
+101
+00:07:44,000 --> 00:07:51,000
+or enter a bunch of bogus content in the forums as me, which is really frustrating.
+
+102
+00:07:51,000 --> 00:07:57,000
+If you're enterprising enough and can trick me into clicking on a link that you control,
+
+103
+00:07:57,000 --> 00:08:00,000
+You can make me submit something to ASCII Chan, or you could make me
+
+104
+00:08:00,000 --> 00:08:02,000
+submit something to the Udacity forums.
+
+105
+00:08:02,000 --> 00:08:05,000
+If you do that, we'll reward you or something.
+
+106
+00:08:05,000 --> 00:08:11,000
+Now, the way you prevent against this is one your own site
+
+107
+00:08:11,000 --> 00:08:18,000
+you have to include basically hashes or some sort of secret in your own forms.
+
+108
+00:08:18,000 --> 00:08:27,000
+If I've got a URL, let's say it's a new page. This is my blog submitting URL.
+
+109
+00:08:27,000 --> 00:08:30,000
+The handler for this URL needs to look for a hidden input
+
+110
+00:08:30,000 --> 00:08:33,000
+that only exists on the form itself.
+
+111
+00:08:33,000 --> 00:08:39,000
+It's going to be hard to explain this in this format, so what I would advise you to do
+
+112
+00:08:39,000 --> 00:08:44,000
+is just Google for CSRF, but you already understand the concepts required to implement
+
+113
+00:08:44,000 --> 00:08:47,000
+the solution to this, which is basically hashing and secrets.
+
+114
+00:08:47,000 --> 00:08:51,000
+You need to include some secret that is only included on new page,
+
+115
+00:08:51,000 --> 00:08:56,000
+so that when some guy at badguy.com submits a form directly to this URL,
+
+116
+00:08:56,000 --> 00:09:02,000
+they don't have the secret, and the secret would have to come along with the rest of the data.
+
+117
+00:09:02,000 --> 00:09:05,000
+CSRF--it's a really fun attack.
+
+118
+00:09:05,000 --> 00:09:10,000
+You can find it on just about every website online--not Reddit anymore,
+
+119
+00:09:10,000 --> 00:09:15,000
+but there was a time--the way I learned about this is somebody made a link on Reddit
+
+120
+00:09:15,000 --> 00:09:25,000
+that when you clicked it would automatically vote up on that link for who as looking at the page.
+
+121
+00:09:25,000 --> 00:09:28,000
+All of a sudden this link just skyrocketed to the front of our page,
+
+122
+00:09:28,000 --> 00:09:31,000
+and it was like freelimosines.info or something like that.
+
+123
+00:09:31,000 --> 00:09:35,000
+We were like, hmmm. Something's fishy. That's when I learned about this attack.
+
+124
+00:09:35,000 --> 00:09:39,000
+Hopefully, you can learn about it in not quite so public of a fashion.
+
+125
+00:09:39,000 --> 00:09:41,000
+Anyway, those are the major security issues.
+
+126
+00:09:41,000 --> 00:09:43,000
+There's a whole lot to do there.
+
+127
+00:09:43,000 --> 00:09:50,000
+Maybe we can do like an extra one-off lecture at some point where we break the Udacity forums,
+
+128
+00:09:50,000 --> 00:09:53,000
+but this is enough to get you started right now.

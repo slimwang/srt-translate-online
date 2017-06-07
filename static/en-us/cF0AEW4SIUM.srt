@@ -1,0 +1,371 @@
+1
+00:00:00,170 --> 00:00:02,300
+Okay let's talk about our last data quality metric that
+
+2
+00:00:02,300 --> 00:00:04,720
+being uniformity. And we're going to look at auditing in
+
+3
+00:00:04,720 --> 00:00:09,060
+particular field for uniformity. So if you remember, uniformity is
+
+4
+00:00:09,060 --> 00:00:12,010
+about all the values in the field using the same
+
+5
+00:00:12,010 --> 00:00:15,650
+units of measurement. Let's look at an example. So here
+
+6
+00:00:15,650 --> 00:00:18,520
+we're going to work with cities data set again. And
+
+7
+00:00:18,520 --> 00:00:21,780
+what I want to explore here is just one field,
+
+8
+00:00:21,780 --> 00:00:25,500
+that being the latitude field. Now the latitude field is identified
+
+9
+00:00:25,500 --> 00:00:28,370
+in this data set using this particular field name.
+
+10
+00:00:28,370 --> 00:00:30,090
+So let's take a look at some of the auditing
+
+11
+00:00:30,090 --> 00:00:32,810
+tasks we might do here. Now the way that I've
+
+12
+00:00:32,810 --> 00:00:36,260
+organized this code is that we're going to loop through
+
+13
+00:00:36,260 --> 00:00:38,480
+each of the rows in this data file, and again
+
+14
+00:00:38,480 --> 00:00:42,710
+here we're using our csv module in Python. For each
+
+15
+00:00:42,710 --> 00:00:47,510
+row we're going to call this function audit_float_field. So this
+
+16
+00:00:47,510 --> 00:00:50,650
+particular piece of code is something that we can actually
+
+17
+00:00:50,650 --> 00:00:53,860
+use to parse any field that should have a floating
+
+18
+00:00:53,860 --> 00:00:57,200
+point value. In general this is how I like to
+
+19
+00:00:57,200 --> 00:01:00,450
+think about auditing fields in my data sets. I like
+
+20
+00:01:00,450 --> 00:01:02,170
+to think about the things in general that can go
+
+21
+00:01:02,170 --> 00:01:05,570
+wrong with a particular type of data field. And do
+
+22
+00:01:05,570 --> 00:01:07,910
+some auditing for that type and then if I need
+
+23
+00:01:07,910 --> 00:01:11,300
+to, I can write more specific auditing routines to check
+
+24
+00:01:11,300 --> 00:01:15,950
+the values. Okay, let's take a look at that audit_float_field function.
+
+25
+00:01:15,950 --> 00:01:19,360
+This is where all of the real work happens here.
+
+26
+00:01:19,360 --> 00:01:21,470
+So, what I'm going to do is I'm going to keep
+
+27
+00:01:21,470 --> 00:01:24,750
+track of the number of nulls that I find, the
+
+28
+00:01:24,750 --> 00:01:28,550
+number of empty fields, if any, and then the number of
+
+29
+00:01:28,550 --> 00:01:31,340
+field values that are actually arrays. And if you remember
+
+30
+00:01:31,340 --> 00:01:34,240
+arrays are encoding using curly braces and vertical bars to
+
+31
+00:01:34,240 --> 00:01:37,380
+separate the individual elements of arrays in the info box
+
+32
+00:01:37,380 --> 00:01:41,510
+data set. I'm also going to check to make sure that
+
+33
+00:01:41,510 --> 00:01:46,500
+the value is actually a number. And then if it is, I'm going to run a check to
+
+34
+00:01:46,500 --> 00:01:48,930
+make sure that, it falls within the minimum and
+
+35
+00:01:48,930 --> 00:01:52,740
+maximum values, okay? So, this is a way of making
+
+36
+00:01:52,740 --> 00:01:55,030
+sure that it's using the units of measurement that
+
+37
+00:01:55,030 --> 00:01:58,370
+I expect. And if you remember earlier, we saw
+
+38
+00:01:58,370 --> 00:02:01,850
+an example where the area for a city is
+
+39
+00:02:01,850 --> 00:02:07,360
+actually represented using square millimeters as opposed to square kilometers.
+
+40
+00:02:07,360 --> 00:02:11,600
+So, what I'm doing in this particular piece of code, is
+
+41
+00:02:11,600 --> 00:02:16,170
+actually hard coding in some values for this particular field. Now what
+
+42
+00:02:16,170 --> 00:02:18,790
+I would do here, if I wasn't using this as an example
+
+43
+00:02:18,790 --> 00:02:21,025
+for this course, is I would actually treat each of these as
+
+44
+00:02:21,025 --> 00:02:24,690
+command-line parameters that I would input to this script. Here I'm
+
+45
+00:02:24,690 --> 00:02:26,630
+just going to hard code them in. So, if I wanted to
+
+46
+00:02:26,630 --> 00:02:29,830
+actually use this for a different field what I would do is
+
+47
+00:02:29,830 --> 00:02:32,930
+change the field name and change the min and max values to
+
+48
+00:02:32,930 --> 00:02:36,560
+test for a different float field. Okay. So, going back
+
+49
+00:02:36,560 --> 00:02:41,670
+to our audit_float_field function, again, we're checking for nulls, empties,
+
+50
+00:02:41,670 --> 00:02:45,660
+arrays, any fields that are not in fact a number,
+
+51
+00:02:45,660 --> 00:02:48,660
+once we've made it through all these tests. And then finally,
+
+52
+00:02:48,660 --> 00:02:50,340
+if I get down to here, I've got something that
+
+53
+00:02:50,340 --> 00:02:52,860
+I believe to be a number. What I'm going to do is
+
+54
+00:02:52,860 --> 00:02:54,510
+actually convert it to a floating point value, because of
+
+55
+00:02:54,510 --> 00:02:58,370
+course, all the values coming in are strings, and then I'm
+
+56
+00:02:58,370 --> 00:03:03,410
+going to check its range. Okay, now the range for latitude, the
+
+57
+00:03:03,410 --> 00:03:07,170
+way this data should be encoded is between negative 90 and positive
+
+58
+00:03:07,170 --> 00:03:09,940
+90 and technically speaking I should have made this less than or
+
+59
+00:03:09,940 --> 00:03:13,290
+equal to. Okay. So let's run this, and see what pops up.
+
+60
+00:03:15,880 --> 00:03:18,530
+Okay? So I found three non numbers. And you can see this looks
+
+61
+00:03:18,530 --> 00:03:22,260
+like an okay latitude value, just expressed in a different type of unit.
+
+62
+00:03:22,260 --> 00:03:25,420
+Total number of cities, that's what I expect. Quite a few nulls, actually.
+
+63
+00:03:25,420 --> 00:03:29,350
+Okay, not much we're going to do about that in this particular example. And
+
+64
+00:03:29,350 --> 00:03:32,650
+quite a few arrays. If I wanted to fully audit this, I would
+
+65
+00:03:32,650 --> 00:03:34,700
+need to take a look at these arrays and see what's going on
+
+66
+00:03:34,700 --> 00:03:37,120
+there. And then I would need to check each of the individual values
+
+67
+00:03:37,120 --> 00:03:41,160
+in those arrays. What I'm more concerned about, in this particular example, are
+
+68
+00:03:41,160 --> 00:03:43,210
+these. Now there are several different ways of representing
+
+69
+00:03:43,210 --> 00:03:47,780
+geographic coordinates. This is three examples where instead of
+
+70
+00:03:47,780 --> 00:03:51,260
+having the raw values for latitude and longitude, we've
+
+71
+00:03:51,260 --> 00:03:54,660
+instead got this type of coordinate, which is actually
+
+72
+00:03:54,660 --> 00:03:57,980
+degrees, minutes and seconds. So a different way of
+
+73
+00:03:57,980 --> 00:04:01,810
+encoding the same information for latitude. If I change
+
+74
+00:04:01,810 --> 00:04:04,330
+this code slightly we'll get a chance to see
+
+75
+00:04:04,330 --> 00:04:06,430
+what the bulk of the values actually look like.
+
+76
+00:04:08,960 --> 00:04:12,890
+Okay, and you can see that they are all values between negative 90
+
+77
+00:04:12,890 --> 00:04:16,550
+and positive 90 and there we can see a few negative values as well.
+
+78
+00:04:18,940 --> 00:04:22,870
+So, commenting those out, running this again. What's going on
+
+79
+00:04:22,870 --> 00:04:26,270
+with these values? Well, the story could be that these numbers
+
+80
+00:04:26,270 --> 00:04:29,040
+were coded by hand using a different coordinate system, and
+
+81
+00:04:29,040 --> 00:04:32,300
+that's actually why we're seeing this come out rather than this
+
+82
+00:04:32,300 --> 00:04:34,790
+type of number which is what we expect. So this
+
+83
+00:04:34,790 --> 00:04:37,010
+is the type of thing we might see when we're auditing
+
+84
+00:04:37,010 --> 00:04:40,070
+for uniformity. We've got a single field that holds a
+
+85
+00:04:40,070 --> 00:04:44,010
+particular type of data, in this case, latitude values for the
+
+86
+00:04:44,010 --> 00:04:46,990
+location of cities. But there's two different coordinate
+
+87
+00:04:46,990 --> 00:04:50,630
+systems being used here. The decimal degrees latitude and
+
+88
+00:04:50,630 --> 00:04:54,050
+latitude represented in degrees, minutes and seconds. Now,
+
+89
+00:04:54,050 --> 00:04:56,710
+in interest of full disclosure, I actually made the
+
+90
+00:04:56,710 --> 00:05:00,230
+data set dirty by introducing these three values.
+
+91
+00:05:00,230 --> 00:05:01,740
+But this is exactly the type of thing you
+
+92
+00:05:01,740 --> 00:05:03,440
+might expect to see in terms of the
+
+93
+00:05:03,440 --> 00:05:06,720
+same type of value being represented using different units.

@@ -1,0 +1,272 @@
+1
+00:00:00,270 --> 00:00:02,520
+So this is the Bellman equation that
+we were just talking about, right?
+
+2
+00:00:02,520 --> 00:00:06,820
+So the value of a state is the max over
+all the actions, the reward that you get
+
+3
+00:00:06,820 --> 00:00:09,840
+for taking that action on this
+state plus the discounted value
+
+4
+00:00:09,840 --> 00:00:13,710
+of the state you end up in weighted by
+the probability that you end up there.
+
+5
+00:00:13,710 --> 00:00:14,910
+So this should look familiar, right?
+
+6
+00:00:14,910 --> 00:00:16,400
+>> No, it doesn't look familiar at all.
+
+7
+00:00:16,400 --> 00:00:19,240
+I mean, there's a V,
+there's a max on the outside,
+
+8
+00:00:19,240 --> 00:00:23,030
+there are more parenthesis,
+it's a reward of SA instead of, what?
+
+9
+00:00:23,030 --> 00:00:24,660
+You're making this up.
+
+10
+00:00:24,660 --> 00:00:27,370
+>> So, first of all, parenthesis
+shouldn't be an issue, right?
+
+11
+00:00:27,370 --> 00:00:29,790
+Parenthesis just let you group things,
+but yeah,
+
+12
+00:00:29,790 --> 00:00:32,870
+I think you did actually explain this
+a different way in the other lecture.
+
+13
+00:00:32,870 --> 00:00:35,790
+So, I use v for
+value instead of u for utility.
+
+14
+00:00:35,790 --> 00:00:39,580
+>> Okay.
+>> And, I think of rewards as being
+
+15
+00:00:39,580 --> 00:00:43,670
+issued as a function of taking
+a state in an action so
+
+16
+00:00:43,670 --> 00:00:45,980
+taking an action in a state.
+
+17
+00:00:45,980 --> 00:00:48,790
+Which is to say that you're
+in some state of the MVP.
+
+18
+00:00:48,790 --> 00:00:51,540
+So in particular if we're in some
+state S and we take some action A,
+
+19
+00:00:51,540 --> 00:00:56,520
+we get some reward for having done that
+R(SA) and then we land in some new state
+
+20
+00:00:56,520 --> 00:00:59,730
+S prime I guess that is different then
+how you were talking about it before.
+
+21
+00:00:59,730 --> 00:01:04,629
+>> Yeah when we went over the definition
+of an MVP I did point out that you could
+
+22
+00:01:04,629 --> 00:01:07,880
+think of reward as a function of state,
+or as a function of state in action, or
+
+23
+00:01:07,880 --> 00:01:10,110
+as a function of state action and
+next state.
+
+24
+00:01:10,110 --> 00:01:11,880
+And, they were kind of all
+mathematically equivalent,
+
+25
+00:01:11,880 --> 00:01:15,610
+so this is what we're going to be
+doing for the rest of this class.
+
+26
+00:01:15,610 --> 00:01:16,910
+We're going to be talking
+about it this way?
+
+27
+00:01:16,910 --> 00:01:19,970
+>> Yeah, I'm used to thinking about v as
+being the value function, so I think I'm
+
+28
+00:01:19,970 --> 00:01:22,510
+going to slip into it no matter what,
+we might as well just switch to it.
+
+29
+00:01:22,510 --> 00:01:25,922
+>> Okay, so we're going to do V's,
+we're gong to do R S of A's, but
+
+30
+00:01:25,922 --> 00:01:30,420
+everything that we learned before in our
+Scooby Doo flashback still holds now.
+
+31
+00:01:30,420 --> 00:01:30,990
+>> Yeah, yeah.
+
+32
+00:01:30,990 --> 00:01:36,270
+It's notational difference and otherwise
+it really leads you to the same stuff.
+
+33
+00:01:36,270 --> 00:01:38,120
+>> Okay we shall see.
+
+34
+00:01:38,120 --> 00:01:41,670
+>> So what the Bellman Equation is
+supposed to represent is the sequence of
+
+35
+00:01:41,670 --> 00:01:44,160
+rewards received by an agent that's
+hopping around in the world.
+
+36
+00:01:44,160 --> 00:01:47,810
+It starts off in state
+S1 it takes action A1,
+
+37
+00:01:47,810 --> 00:01:50,730
+it gets reward R(s1,a1) for that.
+
+38
+00:01:50,730 --> 00:01:55,220
+Then it lands in state s2 and
+from there it takes action a2 and
+
+39
+00:01:55,220 --> 00:01:58,810
+receives reward R(s2,a2) and
+
+40
+00:01:58,810 --> 00:02:02,490
+ends up in s3 and this whole process
+just continues ad infinitum.
+
+41
+00:02:02,490 --> 00:02:06,760
+>> Okay, so you're seeing a bunch of
+s a r, s a r, s a r, s a r, s a r's.
+
+42
+00:02:06,760 --> 00:02:07,490
+>> Exactly, right.
+
+43
+00:02:07,490 --> 00:02:12,170
+You can think of history as just
+being SAR, SAR, SAR, SAR, SAR, SAR.
+
+44
+00:02:12,170 --> 00:02:14,315
+>> Oh, so
+it's like a pirate with a reverse lisp.
+
+45
+00:02:14,315 --> 00:02:17,140
+>> [LAUGH] Yeah, I guess that's
+one way to think about it.
+
+46
+00:02:17,140 --> 00:02:20,680
+So when we talk about the value of this
+sequence, it's almost as if what we're
+
+47
+00:02:20,680 --> 00:02:25,130
+talking about is the value given
+that we start off in some state S.
+
+48
+00:02:25,130 --> 00:02:28,260
+And we notice that eventually, that
+we're going to get to some new state S,
+
+49
+00:02:28,260 --> 00:02:31,080
+and, that value can also be
+represented by this value function, so
+
+50
+00:02:31,080 --> 00:02:35,040
+that's what gives us this recursive
+form, that the value of the next state
+
+51
+00:02:35,040 --> 00:02:38,140
+can be plugged in to represent
+the infinite rest of the sequence.
+
+52
+00:02:38,140 --> 00:02:39,950
+>> Sure, that's sort of the whole point.
+
+53
+00:02:39,950 --> 00:02:40,780
+Okay, I'll buy that.
+
+54
+00:02:40,780 --> 00:02:43,360
+>> Cool, all right, so we're going to
+now, try to mess this up a little bit,
+
+55
+00:02:43,360 --> 00:02:45,860
+by thinking about infinity
+a slightly different way.
+
+56
+00:02:45,860 --> 00:02:46,910
+>> As bigger or smaller?
+
+57
+00:02:46,910 --> 00:02:48,910
+>> Just starting it
+in a different place.

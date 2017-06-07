@@ -1,0 +1,340 @@
+﻿1
+00:00:00,520 --> 00:00:03,710
+You've completed the first step
+in adding a recycler view,
+
+2
+00:00:03,710 --> 00:00:06,830
+adding the dependency and
+adding the recycler view to the layout.
+
+3
+00:00:06,830 --> 00:00:10,449
+The next step is to craft the items
+that will be displayed in it and
+
+4
+00:00:10,449 --> 00:00:13,339
+create an object called a view holder
+that we'll use to store references
+
+5
+00:00:13,339 --> 00:00:14,449
+to that item.
+
+6
+00:00:14,449 --> 00:00:15,029
+In this app,
+
+7
+00:00:15,029 --> 00:00:19,289
+the list scrolls vertically so
+each item corresponds to a row of data.
+
+8
+00:00:19,289 --> 00:00:21,000
+However, as we learned earlier,
+
+9
+00:00:21,000 --> 00:00:24,070
+recycler view can display these items
+in a horizontally scrolling list,
+
+10
+00:00:24,070 --> 00:00:27,240
+which whould make the item a column or
+in a grid.
+
+11
+00:00:27,239 --> 00:00:30,399
+Because of this, I'll use item
+when talking about the row layout
+
+12
+00:00:30,399 --> 00:00:33,820
+because that doesn't suggest
+a specific layout preference.
+
+13
+00:00:33,820 --> 00:00:37,340
+All right, we begin by opening
+up exercise two view holder.
+
+14
+00:00:39,780 --> 00:00:42,435
+You notice the first to-do is to
+create a layout resource called
+
+15
+00:00:42,435 --> 00:00:45,282
+numberlistitem.xml.
+
+16
+00:00:45,281 --> 00:00:51,032
+So we go to new layout resource file and
+create numberlistitem.xml.
+
+17
+00:00:51,033 --> 00:00:53,219
+That was fun.
+
+18
+00:00:53,219 --> 00:00:58,119
+And the second to-do here is to make
+the root element a FrameLayout, so
+
+19
+00:00:58,119 --> 00:00:59,399
+we'll do that.
+
+20
+00:00:59,399 --> 00:01:03,801
+Android Studio has nicely set
+the layout_width to match_parent and
+
+21
+00:01:03,801 --> 00:01:07,010
+the layout_height also to match_parent.
+
+22
+00:01:07,010 --> 00:01:11,887
+Let's add 16dp's of padding,
+create a single TextView as the child
+
+23
+00:01:11,887 --> 00:01:16,450
+of the frame layout, set the height and
+the width to wrap content.
+
+24
+00:01:18,090 --> 00:01:23,465
+Lastly, set the font family to
+monospace and the text size to 42 SP.
+
+25
+00:01:24,605 --> 00:01:26,545
+Note, we've used SP and
+
+26
+00:01:26,545 --> 00:01:29,555
+DP when we've referred to
+dimensions in Android layouts.
+
+27
+00:01:29,555 --> 00:01:32,265
+These are both not
+actual pixel sizes but
+
+28
+00:01:32,265 --> 00:01:35,864
+are automatically scaled to be
+the same approximate physical size,
+
+29
+00:01:35,864 --> 00:01:39,084
+regardless of the density of
+the pixels on the screen.
+
+30
+00:01:39,084 --> 00:01:43,039
+The first Android
+phones were 160 dpi and
+
+31
+00:01:43,040 --> 00:01:46,859
+1 dp would actually equal
+1 pixel on these devices.
+
+32
+00:01:46,859 --> 00:01:55,120
+The conversion of dp units to screen
+pixels is simple, px = dp * (dpi / 160).
+
+33
+00:01:55,120 --> 00:01:58,529
+Many modern devices have 480 dpi or
+more.
+
+34
+00:01:59,709 --> 00:02:04,489
+SP work like DP but are also scaled
+based upon user preferences,
+
+35
+00:02:04,489 --> 00:02:06,469
+typically the text size preference.
+
+36
+00:02:06,469 --> 00:02:08,990
+If you want you want your text to
+scale up with this preference,
+
+37
+00:02:08,990 --> 00:02:13,150
+which is important for accessibility,
+make sure to use SP for fonts and
+
+38
+00:02:13,150 --> 00:02:15,748
+widgets that have hard coded
+sizes that contain fonts.
+
+39
+00:02:17,229 --> 00:02:18,939
+We're halfway there.
+
+40
+00:02:18,939 --> 00:02:20,599
+We've created the layout for our item.
+
+41
+00:02:21,610 --> 00:02:24,570
+Now let's build the code that will hold
+reference just to these views we've
+
+42
+00:02:24,569 --> 00:02:25,709
+created.
+
+43
+00:02:25,710 --> 00:02:29,990
+The rest of the code is inside
+of the green adapter class.
+
+44
+00:02:29,990 --> 00:02:33,939
+We begin by creating our ViewHolder
+class in an inner class of green
+
+45
+00:02:33,939 --> 00:02:35,340
+adapter.
+
+46
+00:02:35,340 --> 00:02:37,459
+We call this class NumberViewHolder.
+
+47
+00:02:38,889 --> 00:02:40,304
+Since we only had one
+TextView in our layout,
+
+48
+00:02:40,305 --> 00:02:41,915
+we'll create a single
+TextView member variable.
+
+49
+00:02:41,915 --> 00:02:45,554
+[BLANK_AUDIO]
+
+50
+00:02:45,554 --> 00:02:47,128
+We'll then create a constructor for
+
+51
+00:02:47,128 --> 00:02:50,289
+NumberViewHolder that accepts a view
+called itemView as its parameter.
+
+52
+00:02:51,449 --> 00:02:54,889
+Within that constructor, we'll pass
+the itemView to the superclass and
+
+53
+00:02:54,889 --> 00:02:59,539
+set our TextView member using a cast
+in findViewById and itemView.
+
+54
+00:02:59,539 --> 00:03:02,289
+One of the most important
+things a view holder does
+
+55
+00:03:02,289 --> 00:03:06,289
+is cache these references to the views
+that will be modified in the adapter,
+
+56
+00:03:06,289 --> 00:03:09,145
+since findViewById can get expensive.
+
+57
+00:03:09,145 --> 00:03:12,039
+We'll then add a convenience
+method called bind,
+
+58
+00:03:12,039 --> 00:03:14,329
+which helps make our
+code a bit more readable.
+
+59
+00:03:14,330 --> 00:03:17,150
+It takes an integer and
+calls set text using, and
+
+60
+00:03:17,150 --> 00:03:21,099
+this is very important, the string
+representation of our list index.
+
+61
+00:03:21,099 --> 00:03:22,430
+Our code uses value of.
+
+62
+00:03:23,560 --> 00:03:27,580
+The setText function on text views,
+has several different signatures.
+
+63
+00:03:27,580 --> 00:03:31,840
+The first one here takes an integer,
+but that's not the one we want to use.
+
+64
+00:03:31,840 --> 00:03:35,060
+If we pass in an integer, Android
+assumes we're giving it a reference to
+
+65
+00:03:35,060 --> 00:03:38,289
+a string resource from
+strings.xml to display.
+
+66
+00:03:38,289 --> 00:03:40,969
+In the best case it'll
+display incorrect text,
+
+67
+00:03:40,969 --> 00:03:43,629
+in the worst case it will crash our app.
+
+68
+00:03:43,629 --> 00:03:46,359
+We want to print the actual
+integer itself, so
+
+69
+00:03:46,360 --> 00:03:48,880
+we need to use this
+signature of the function.
+
+70
+00:03:48,879 --> 00:03:50,329
+There are several ways to do this.
+
+71
+00:03:50,330 --> 00:03:53,850
+We can use value of on the integer
+wrapper class to get an integer object
+
+72
+00:03:53,849 --> 00:03:57,969
+and call toString on that object, or
+we can rely on string concatenation.
+

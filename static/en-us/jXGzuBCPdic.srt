@@ -1,0 +1,150 @@
+1
+00:00:00,130 --> 00:00:03,400
+In the case when the time
+slice is one millisecond,
+
+2
+00:00:03,400 --> 00:00:08,700
+every one millisecond either we will
+be preempting the CPU bound task or
+
+3
+00:00:08,700 --> 00:00:12,470
+the I/O bound tasks on
+their own will be stopping
+
+4
+00:00:12,470 --> 00:00:16,860
+because they need to perform an I
+operation every one millisecond.
+
+5
+00:00:16,860 --> 00:00:19,860
+So that means for
+every one millisecond of useful work,
+
+6
+00:00:19,860 --> 00:00:24,000
+we have total of one
+millisecond of the useful work,
+
+7
+00:00:24,000 --> 00:00:28,370
+plus 0.1 millisecond of
+the context switching overhead.
+
+8
+00:00:28,370 --> 00:00:33,080
+So, total useful CPU utilization is 91%.
+
+9
+00:00:33,080 --> 00:00:37,464
+For the case when we have a round
+robin scheduler with a 10 millisecond
+
+10
+00:00:37,464 --> 00:00:42,550
+timeslice, as we're going through the 10
+I/O bound tasks, every single one of
+
+11
+00:00:42,550 --> 00:00:47,470
+them will run just for one millisecond
+and then we will have to stop because of
+
+12
+00:00:47,470 --> 00:00:51,450
+issuing an I/O request, so we'll have
+them context switch in that case.
+
+13
+00:00:51,450 --> 00:00:52,510
+So we will perform for
+
+14
+00:00:52,510 --> 00:00:57,463
+the I/O bound tasks, 10 times 1
+millisecond of useful work, and
+
+15
+00:00:57,463 --> 00:01:03,150
+10 times 1 millisecond plus 10 times
+0.1 millisecond for the context switch.
+
+16
+00:01:03,150 --> 00:01:07,040
+So this is the total, amount of
+total work that has been performed.
+
+17
+00:01:07,040 --> 00:01:11,210
+And then finally the CPU bound tasks
+will be scheduled and that one will run
+
+18
+00:01:11,210 --> 00:01:15,990
+for full 10 milliseconds because
+the timeslice value is 10 milliseconds.
+
+19
+00:01:15,990 --> 00:01:21,000
+So that will complete 10 milliseconds of
+useful work and then it will complete
+
+20
+00:01:21,000 --> 00:01:26,130
+total of 10 milliseconds plus
+a context switch time of a total time.
+
+21
+00:01:26,130 --> 00:01:30,700
+If we compute this,
+this comes out too close to 95%.
+
+22
+00:01:30,700 --> 00:01:35,040
+So, what this example shows us is
+that from the CPU's perspective,
+
+23
+00:01:35,040 --> 00:01:37,230
+from the CPU utilization perspective,
+
+24
+00:01:37,230 --> 00:01:42,180
+having a large timeslice that favors
+the CPU bound task is better.
+
+25
+00:01:42,180 --> 00:01:46,190
+We didn't ask the question of
+what is the I/O utilization for
+
+26
+00:01:46,190 --> 00:01:47,690
+both of these cases.
+
+27
+00:01:47,690 --> 00:01:51,460
+Likely if we work out the math for
+that case, we will see that from
+
+28
+00:01:51,460 --> 00:01:56,540
+the perspective of the I/O device, it
+is better to have a smaller timeslice.
+
+29
+00:01:56,540 --> 00:02:00,610
+And that will be because the I/O device
+really cannot do anything during this
+
+30
+00:02:00,610 --> 00:02:04,722
+entire period,
+when the CPU bound tasks is running for
+
+31
+00:02:04,722 --> 00:02:07,080
+10 milliseconds with
+the long time slice.

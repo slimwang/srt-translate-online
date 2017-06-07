@@ -1,0 +1,175 @@
+1
+00:00:00,000 --> 00:00:07,000
+The problem of minimizing quadratic loss for linear functions can be solved in closed form.
+
+2
+00:00:07,000 --> 00:00:12,000
+When I reduce, I will do this for the one-dimensional case on paper.
+
+3
+00:00:12,000 --> 00:00:17,000
+I will also give you the solution for the case where your input space is multidimensional,
+
+4
+00:00:17,000 --> 00:00:22,000
+which is often called "multivariant regression."
+
+5
+00:00:22,000 --> 00:00:26,000
+We seek to minimize a sum of a quadratic expression
+
+6
+00:00:26,000 --> 00:00:33,000
+where the target labels are subtracted with the output of our linear regression model
+
+7
+00:00:33,000 --> 00:00:36,000
+parameterized by w1 and w2.
+
+8
+00:00:36,000 --> 00:00:40,000
+The summation here is overall training examples,
+
+9
+00:00:40,000 --> 00:00:45,000
+and I leave the index of the summation out if not necessary.
+
+10
+00:00:45,000 --> 00:00:50,000
+The minimum of this is obtained where the derivative of this function equals zero.
+
+11
+00:00:50,000 --> 00:00:53,000
+Let's call this function "L."
+
+12
+00:00:53,000 --> 00:00:59,000
+For the partial derivative with respect to w0, we get this expression over here,
+
+13
+00:00:59,000 --> 00:01:02,000
+which we have to set to zero.
+
+14
+00:01:02,000 --> 00:01:11,000
+We can easily get rid of the -2 and transform this as follows:
+
+15
+00:01:11,000 --> 00:01:17,000
+Here M is the number of training examples.
+
+16
+00:01:17,000 --> 00:01:21,000
+This expression over here gives us w0 as a function of w1,
+
+17
+00:01:21,000 --> 00:01:28,000
+but we don't know w1. Let's do the same trick for w1
+
+18
+00:01:28,000 --> 00:01:32,000
+and set this to zero as well,
+
+19
+00:01:32,000 --> 00:01:38,000
+which gets us the expression over here.
+
+20
+00:01:38,000 --> 00:01:44,000
+We can now plug in the w0 over here into this expression over here
+
+21
+00:01:44,000 --> 00:01:47,000
+and obtain this expression over here,
+
+22
+00:01:47,000 --> 00:01:52,000
+which looks really involved but is relatively straightforward.
+
+23
+00:01:52,000 --> 00:01:56,000
+With a few steps of further calculation, which I'll spare you for now,
+
+24
+00:01:56,000 --> 00:02:02,000
+we get for w1 the following important formula:
+
+25
+00:02:02,000 --> 00:02:05,000
+This is the final quotient for w1,
+
+26
+00:02:05,000 --> 00:02:10,000
+where we take the number of training examples times of the sum of all xy
+
+27
+00:02:10,000 --> 00:02:16,000
+minus the sum of x times the sum of y divided by this expression over here.
+
+28
+00:02:16,000 --> 00:02:19,000
+Once we've computed w1,
+
+29
+00:02:19,000 --> 00:02:23,000
+we can go back to our original articulation of w0 over here
+
+30
+00:02:23,000 --> 00:02:30,000
+and plug w1 into w0 and obtain w0.
+
+31
+00:02:30,000 --> 00:02:39,000
+These are the two important formulas we can also find in the textbook.
+
+32
+00:02:39,000 --> 00:02:45,000
+I'd like to go back and use those formulas to calculate these two coefficients over here.
+
+33
+00:02:45,000 --> 00:02:56,000
+You get 4 times the sum of x and the sum of y, which is -32
+
+34
+00:02:56,000 --> 00:03:05,000
+minus the product of the sum of x, which is 18, and the sum of y, which is -6,
+
+35
+00:03:05,000 --> 00:03:16,000
+divided by the sum of x squared, which is 86, times 4, minus the sum of x squared,
+
+36
+00:03:16,000 --> 00:03:20,000
+which is 18 times 18, which is 324.
+
+37
+00:03:20,000 --> 00:03:25,000
+If you work this all out, it becomes -1, which is w1.
+
+38
+00:03:25,000 --> 00:03:31,000
+W0 is now obtained by completing the quarter times sum of all y,
+
+39
+00:03:31,000 --> 00:03:39,000
+which is -6, minus -1/4 times sum of all x.
+
+40
+00:03:39,000 --> 00:03:46,000
+If you plug this all in, you get 3, as over here. Our formula is actually correct.
+
+41
+00:03:46,000 --> 00:03:51,000
+Here is another quiz for linear regression. We have the follow data:
+
+42
+00:03:51,000 --> 00:03:53,000
+Here is the data plotted graphically.
+
+43
+00:03:53,000 --> 00:03:56,000
+I wonder what the best regression is.
+
+44
+00:03:56,000 --> 99:59:59,999
+Give me w0 and w1. Apply the formulas I just gave you.

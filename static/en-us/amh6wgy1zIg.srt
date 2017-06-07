@@ -1,0 +1,465 @@
+﻿1
+00:00:00,250 --> 00:00:02,890
+In order to see messages
+in the Friendly Chat app
+
+2
+00:00:02,890 --> 00:00:05,480
+we need code that reads from
+the real time database.
+
+3
+00:00:05,480 --> 00:00:07,610
+We'll do this in
+the main activity class.
+
+4
+00:00:07,610 --> 00:00:10,540
+First you'll take your messages
+database reference and
+
+5
+00:00:10,539 --> 00:00:14,369
+add an event listener that reacts to
+the database changes in real time.
+
+6
+00:00:14,369 --> 00:00:17,989
+Then within that event listener you'll
+the code that correctly handles
+
+7
+00:00:17,989 --> 00:00:19,489
+adding new messages to the apps UI.
+
+8
+00:00:19,489 --> 00:00:22,449
+Let's go back to Andrea in
+the studio to see how it's done.
+
+9
+00:00:22,449 --> 00:00:26,869
+In MainActivity.java we already
+have a Firebase database instance.
+
+10
+00:00:26,870 --> 00:00:30,570
+And we also have a database
+reference which, if you scroll down,
+
+11
+00:00:30,570 --> 00:00:33,570
+you'll see that reference is
+referencing the messages location.
+
+12
+00:00:33,570 --> 00:00:36,320
+And this is the exact reference
+that we used a moment ago
+
+13
+00:00:36,320 --> 00:00:38,359
+when you worked on
+writing to the database.
+
+14
+00:00:38,359 --> 00:00:42,549
+Now you want to read from the exact same
+location so you could reuse this object.
+
+15
+00:00:42,549 --> 00:00:43,529
+To be able to read though,
+
+16
+00:00:43,530 --> 00:00:48,160
+you need to attach a child event
+listener object to this reference.
+
+17
+00:00:48,159 --> 00:00:49,779
+This will allow you to listen and
+
+18
+00:00:49,780 --> 00:00:53,310
+have your code triggered whenever
+changes occur on the messages mode.
+
+19
+00:00:53,310 --> 00:00:54,152
+Here let me show you.
+
+20
+00:00:54,152 --> 00:00:57,009
+We're going to start by making
+a child event listener.
+
+21
+00:00:57,009 --> 00:00:58,719
+So I'm going to scroll up to the top and
+
+22
+00:00:58,719 --> 00:01:01,119
+right here I'm going to add
+another instance variable.
+
+23
+00:01:01,119 --> 00:01:05,390
+The type will be ChildEventListener and
+I'll just name it mChildEventListener.
+
+24
+00:01:05,390 --> 00:01:08,329
+Now I'm going to scroll all
+the way down in onCreate and I'm
+
+25
+00:01:08,329 --> 00:01:12,140
+going to put this right under the click
+solicitor for writing to the database.
+
+26
+00:01:12,140 --> 00:01:14,859
+I'm going to instantiate
+a new ChildEventListener.
+
+27
+00:01:14,859 --> 00:01:17,810
+Okay, now when you do that
+you automatically extend it
+
+28
+00:01:17,810 --> 00:01:21,570
+with an anonymous class which has all
+these methods that you need to override.
+
+29
+00:01:21,569 --> 00:01:24,129
+I'm going to clean this up a little
+bit so that we can look at it.
+
+30
+00:01:24,129 --> 00:01:26,179
+So now you can see these
+five different methods.
+
+31
+00:01:26,180 --> 00:01:28,210
+Let's talk a little bit
+about each of these.
+
+32
+00:01:28,209 --> 00:01:30,179
+The first is onChildAdded.
+
+33
+00:01:30,180 --> 00:01:33,660
+This is the method that gets called
+whenever a new message is inserted into
+
+34
+00:01:33,659 --> 00:01:34,890
+the messages list.
+
+35
+00:01:34,890 --> 00:01:36,909
+Importantly it's also triggered for
+
+36
+00:01:36,909 --> 00:01:40,409
+every child message in the list when
+the listener is first attached.
+
+37
+00:01:40,409 --> 00:01:42,340
+This means when you
+attach your listener,
+
+38
+00:01:42,340 --> 00:01:45,319
+which you're going to do very shortly,
+for every child message that
+
+39
+00:01:45,319 --> 00:01:48,669
+already exists on the list,
+the code in this method will be called.
+
+40
+00:01:48,670 --> 00:01:50,870
+The next method is onChildChanged.
+
+41
+00:01:50,870 --> 00:01:54,980
+This gets called when the contents
+of an existing message gets changed.
+
+42
+00:01:54,980 --> 00:01:59,040
+OnChildRemoved will get called when
+an existing message is deleted.
+
+43
+00:01:59,040 --> 00:02:00,828
+Next is onChildMoved.
+
+44
+00:02:00,828 --> 00:02:04,490
+OnChildMoved would get called
+if one of our messages changed
+
+45
+00:02:04,489 --> 00:02:05,849
+position in the list.
+
+46
+00:02:05,849 --> 00:02:08,060
+And finally we have onCancelled.
+
+47
+00:02:08,060 --> 00:02:10,789
+OnCancelled indicates that
+some sort of error occurred
+
+48
+00:02:10,788 --> 00:02:12,599
+when you are trying to make changes.
+
+49
+00:02:12,599 --> 00:02:15,680
+Typically, if this is being called it
+means that you don't have permission to
+
+50
+00:02:15,680 --> 00:02:16,840
+read the data.
+
+51
+00:02:16,840 --> 00:02:19,270
+Okay, now that I have
+my listener created
+
+52
+00:02:19,270 --> 00:02:21,370
+I can add it to my database reference.
+
+53
+00:02:21,370 --> 00:02:25,330
+I'm scrolling below the instantiation
+code, taking my database reference and
+
+54
+00:02:25,330 --> 00:02:27,340
+calling addCihldEventListener,
+
+55
+00:02:27,340 --> 00:02:30,080
+passing in the ChildEventListener
+that I just created.
+
+56
+00:02:30,080 --> 00:02:31,719
+To summarize this code here,
+
+57
+00:02:31,719 --> 00:02:34,819
+the reference defines what
+exactly I'm listening to.
+
+58
+00:02:34,819 --> 00:02:39,129
+And this listener object here defines
+what exactly will happen to the data.
+
+59
+00:02:39,129 --> 00:02:42,340
+Now because I'm just listening to
+the messages location, these events will
+
+60
+00:02:42,340 --> 00:02:46,030
+only trigger when one of the children
+of the messages node changes.
+
+61
+00:02:46,030 --> 00:02:50,068
+If for example, some other data is added
+which is outside of the message's data,
+
+62
+00:02:50,068 --> 00:02:52,649
+the listener would not be triggered.
+
+63
+00:02:52,650 --> 00:02:56,069
+Okay, now looking back at our code,
+this listener's attached and
+
+64
+00:02:56,069 --> 00:02:57,219
+everything's great.
+
+65
+00:02:57,219 --> 00:03:00,080
+But we're not actually
+triggering anything to happen.
+
+66
+00:03:00,080 --> 00:03:01,660
+All these methods are blank.
+
+67
+00:03:01,659 --> 00:03:05,099
+For this simple chat app, we're only
+going to implement onChildAdded, and
+
+68
+00:03:05,099 --> 00:03:08,747
+this will be so that we can see the new
+messages when we add them in the app.
+
+69
+00:03:08,747 --> 00:03:11,049
+In our chat app, you can't delete, move,
+
+70
+00:03:11,050 --> 00:03:13,810
+or modify messages after
+they've been created.
+
+71
+00:03:13,810 --> 00:03:16,060
+And remember that
+onChildAdded is called for
+
+72
+00:03:16,060 --> 00:03:19,189
+existing children, when the listener's
+first attached, and then for
+
+73
+00:03:19,189 --> 00:03:22,340
+any future children added,
+when the listener is still active.
+
+74
+00:03:22,340 --> 00:03:25,069
+Okay so
+if we look at the onChildAdded method,
+
+75
+00:03:25,069 --> 00:03:28,199
+we see that we get this
+DataSnapshot object passed in.
+
+76
+00:03:28,199 --> 00:03:31,619
+The DataSnapshot contains data
+from the Firebase database
+
+77
+00:03:31,620 --> 00:03:35,420
+at a specific location at the exact
+time the listener is triggered.
+
+78
+00:03:35,419 --> 00:03:36,409
+In this case,
+
+79
+00:03:36,409 --> 00:03:40,000
+the DataSnapshot will always contain
+the message that has been added.
+
+80
+00:03:40,000 --> 00:03:43,330
+We could use the DataSnapshot's
+get value method
+
+81
+00:03:43,330 --> 00:03:45,170
+to get the data of the new message.
+
+82
+00:03:45,169 --> 00:03:48,250
+The get value method can take
+a parameter, which is a class.
+
+83
+00:03:48,250 --> 00:03:52,169
+By passing in this parameter,
+the code will deserialize the message
+
+84
+00:03:52,169 --> 00:03:55,500
+from the database into our
+played FriendlyMessage object.
+
+85
+00:03:55,500 --> 00:03:59,199
+This works because our play
+FriendlyMessage object has the exact
+
+86
+00:03:59,199 --> 00:04:03,409
+fields that match the fields that are in
+our messages object in the database.
+
+87
+00:04:03,409 --> 00:04:06,569
+We see here that we have a text
+field and a name field and
+
+88
+00:04:06,569 --> 00:04:10,979
+over here our message has the exact
+same named text field and name field.
+
+89
+00:04:10,979 --> 00:04:15,049
+Okay, so this will get deserialized
+to a friendlyMessage object, so
+
+90
+00:04:15,050 --> 00:04:16,379
+we can save that object.
+
+91
+00:04:16,379 --> 00:04:20,629
+And then finally, we can add this new,
+friendlyMessage object to our adapter.
+
+92
+00:04:20,629 --> 00:04:24,339
+And with that, we added
+a listener to our messages list.
+
+93
+00:04:24,339 --> 00:04:28,679
+And when a new message is added,
+it triggers onChildAdded, which in turn
+
+94
+00:04:28,680 --> 00:04:32,889
+takes the newly added message, converts
+is into a friendly message object and
+
+95
+00:04:32,889 --> 00:04:34,849
+finally adds it to our adapter.
+
+96
+00:04:34,850 --> 00:04:36,900
+And this will display
+it in our list view.
+
+97
+00:04:36,899 --> 00:04:40,019
+By the way, you could also check
+out the official documentation
+
+98
+00:04:40,019 --> 00:04:42,750
+on retrieving Firebase data,
+if you ever need a refresher.
+

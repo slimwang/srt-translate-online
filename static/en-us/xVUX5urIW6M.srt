@@ -1,0 +1,101 @@
+﻿1
+00:00:00,400 --> 00:00:03,565
+Now that you've built a URIMatcher,
+let's go through the detailed,
+
+2
+00:00:03,565 --> 00:00:04,910
+end-to-end flow for
+
+3
+00:00:04,910 --> 00:00:09,890
+how data moves from the task database
+to the to do list user interface.
+
+4
+00:00:09,890 --> 00:00:13,269
+Let's say that your app is querying for
+data to display in the UI.
+
+5
+00:00:14,390 --> 00:00:19,850
+First, from the UI code the app will get
+a content Resolver and call query on it,
+
+6
+00:00:19,850 --> 00:00:24,810
+passing in the URI for the exact
+provider and data you want to read.
+
+7
+00:00:24,809 --> 00:00:28,489
+Then the Resolver finds
+the correct task content provider
+
+8
+00:00:28,489 --> 00:00:33,109
+based on the authority of the passed
+in URI and passes on the query.
+
+9
+00:00:33,109 --> 00:00:37,409
+The Provider's query function will
+then use the URIMatcher you've built
+
+10
+00:00:37,409 --> 00:00:40,609
+to decide how to react
+to the passed in URI and
+
+11
+00:00:40,609 --> 00:00:43,100
+determine what kind of data to retrieve.
+
+12
+00:00:43,100 --> 00:00:46,920
+Whether that's one row of data or
+the directory of all tasks or
+
+13
+00:00:46,920 --> 00:00:49,240
+some other specific selection.
+
+14
+00:00:49,240 --> 00:00:53,289
+Based on the match, the query function
+will basically translate the URI and
+
+15
+00:00:53,289 --> 00:00:57,320
+other parameters into the correct
+SQL code for selected data.
+
+16
+00:00:57,320 --> 00:01:01,090
+So, using the Matcher and the code for
+your query, the provider will then
+
+17
+00:01:01,090 --> 00:01:04,489
+retrieve the desired data
+from the underlying database.
+
+18
+00:01:04,489 --> 00:01:08,370
+Then the call travels all the way back
+to the Resolver in your UI code and
+
+19
+00:01:08,370 --> 00:01:11,210
+returns a cursor with that data, and
+
+20
+00:01:11,209 --> 00:01:15,119
+this is how all calls from your
+UI to the database will function,
+
+21
+00:01:15,120 --> 00:01:17,450
+passing through the provider
+to reach the database.
+

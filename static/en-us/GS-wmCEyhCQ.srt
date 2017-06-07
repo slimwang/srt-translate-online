@@ -1,0 +1,390 @@
+1
+00:00:00,430 --> 00:00:02,830
+All right so we're still working
+on the fourth task here,
+
+2
+00:00:02,830 --> 00:00:05,600
+which is to make sure that
+the word adapter has the correct
+
+3
+00:00:05,600 --> 00:00:08,130
+instructions to create
+each list item view.
+
+4
+00:00:08,130 --> 00:00:12,010
+So that means first we need to modify
+the word class so that the word adapter
+
+5
+00:00:12,010 --> 00:00:15,140
+can tell if there is a valid image
+associated with the word or not.
+
+6
+00:00:15,140 --> 00:00:18,013
+We've also provided a hint bellow
+the the quiz if you need some help.
+
+7
+00:00:18,013 --> 00:00:20,830
+And then we need to modify
+our WordAdapter class.
+
+8
+00:00:20,830 --> 00:00:25,480
+So it can create list items that both
+contain images and ones that don't.
+
+9
+00:00:25,480 --> 00:00:29,160
+And this way the same WordAdapter
+class can be used across our
+
+10
+00:00:29,160 --> 00:00:30,140
+different categories.
+
+11
+00:00:30,140 --> 00:00:34,670
+I want to introduce you to a new concept
+that I hinted at in the last quiz.
+
+12
+00:00:34,670 --> 00:00:38,060
+So there's a method that you can call
+to change whether a view is visible or
+
+13
+00:00:38,060 --> 00:00:40,240
+not, while the app is running.
+
+14
+00:00:40,240 --> 00:00:44,170
+So for a given view object,
+as shown here in the view class,
+
+15
+00:00:44,170 --> 00:00:49,400
+you can call the set visibility method
+on it and pass in one integer input.
+
+16
+00:00:49,400 --> 00:00:54,315
+So the possible inputs that we have
+are visible, invisible, and and gone and
+
+17
+00:00:54,315 --> 00:00:57,665
+these may look like string values but
+let's click in and see more.
+
+18
+00:00:58,955 --> 00:01:02,825
+So clicking into visible we
+see this actually integer
+
+19
+00:01:02,825 --> 00:01:07,860
+defined in the view class and
+it has an integer value of zero.
+
+20
+00:01:07,860 --> 00:01:10,280
+Now this is how you would
+use the method in your code.
+
+21
+00:01:10,280 --> 00:01:14,160
+Assume that we have a view stored
+in the variable named text view.
+
+22
+00:01:14,160 --> 00:01:18,000
+We can call the set visibility
+method on this text you object and
+
+23
+00:01:18,000 --> 00:01:20,450
+into this method we pass in one input
+
+24
+00:01:20,450 --> 00:01:23,770
+which is the integer defined in
+the view class called visible.
+
+25
+00:01:23,770 --> 00:01:26,790
+Now these are the different
+inputs the set visibility method.
+
+26
+00:01:26,790 --> 00:01:30,060
+Now I won't tell you the exact behavior
+of these three states just yet.
+
+27
+00:01:30,060 --> 00:01:31,660
+I'd like you to experiment or
+
+28
+00:01:31,660 --> 00:01:34,690
+read the documentation to figure
+out what they mean on your own.
+
+29
+00:01:34,690 --> 00:01:38,270
+These three visibility states are
+represented by three predefined integer
+
+30
+00:01:38,270 --> 00:01:41,830
+values that the view
+class knows to expect and
+
+31
+00:01:41,830 --> 00:01:44,670
+will know how to behave
+if ever sees any of them.
+
+32
+00:01:44,670 --> 00:01:48,820
+So if we were to pass in a random
+integer value something like 2001.
+
+33
+00:01:48,820 --> 00:01:50,960
+Then the view class wouldn't
+know to do with the view.
+
+34
+00:01:51,960 --> 00:01:56,330
+So to summarize, the view class only
+recognizes these three numbers.
+
+35
+00:01:56,330 --> 00:01:59,410
+So for example if the method
+receives zero as its input,
+
+36
+00:01:59,410 --> 00:02:01,760
+the view knows that it
+should become visible.
+
+37
+00:02:01,760 --> 00:02:04,770
+I want you to notice something about
+the variable in the documentation.
+
+38
+00:02:04,770 --> 00:02:10,680
+So it says here public
+static final int VISIBLE and
+
+39
+00:02:10,680 --> 00:02:15,060
+we haven't seen static or final before
+and both of these are Java keywords that
+
+40
+00:02:15,060 --> 00:02:18,510
+have special meaning and
+they're called modifiers.
+
+41
+00:02:18,510 --> 00:02:22,030
+So last time we heard about modifiers
+was we talked about how words such as
+
+42
+00:02:22,030 --> 00:02:24,940
+public and private were access modifiers
+
+43
+00:02:24,940 --> 00:02:28,620
+used to control who can use
+a class variable or method.
+
+44
+00:02:28,620 --> 00:02:32,830
+So because the visible variable is
+declared using the final keyword
+
+45
+00:02:32,830 --> 00:02:34,820
+the field can never change values.
+
+46
+00:02:34,820 --> 00:02:39,370
+So think of zero as being
+the absolute final, final value.
+
+47
+00:02:39,370 --> 00:02:43,410
+So once a variable is initialized if you
+try to assign a different value there's
+
+48
+00:02:43,410 --> 00:02:46,080
+going to be a Java error
+saying it's not allowed.
+
+49
+00:02:46,080 --> 00:02:50,260
+In Java when a variable doesn't
+change values it's called a constant.
+
+50
+00:02:50,260 --> 00:02:53,580
+So you can think of it as
+constantly being the same value.
+
+51
+00:02:53,580 --> 00:02:55,430
+When we have a constant value,
+
+52
+00:02:55,430 --> 00:02:59,468
+the convention in Java is to give the
+variable a name in all capital letters.
+
+53
+00:02:59,468 --> 00:03:01,880
+So, the capitalization
+doesn't imply that were
+
+54
+00:03:01,880 --> 00:03:05,965
+yelling these variable names
+like visible, invisible or gone.
+
+55
+00:03:05,965 --> 00:03:08,755
+They're just capitalized as
+an easy way to help us indicate
+
+56
+00:03:08,755 --> 00:03:10,555
+that their constant values, all right.
+
+57
+00:03:10,555 --> 00:03:13,875
+So the final key word, explains why
+this variables are constant value and
+
+58
+00:03:13,875 --> 00:03:15,785
+has its name in all capital letters.
+
+59
+00:03:15,785 --> 00:03:17,545
+Now what about the static key word?
+
+60
+00:03:17,545 --> 00:03:21,110
+Well, this means that this variable
+is associated with the class and
+
+61
+00:03:21,110 --> 00:03:23,110
+not associated with an object
+instance of the class.
+
+62
+00:03:23,110 --> 00:03:27,530
+So this is a very non-trivial concept,
+but we won't go into that detail now.
+
+63
+00:03:27,530 --> 00:03:30,120
+All you need to know is that
+since the variable is public and
+
+64
+00:03:30,120 --> 00:03:33,890
+static you can go ahead infer
+to this variable directly.
+
+65
+00:03:33,890 --> 00:03:37,170
+Using the cost name
+view followed by dot.
+
+66
+00:03:37,170 --> 00:03:40,120
+So in this case view dot visible.
+
+67
+00:03:40,120 --> 00:03:43,280
+So this dot notation
+means that this variable
+
+68
+00:03:43,280 --> 00:03:45,850
+is part of the class that
+comes before the dot.
+
+69
+00:03:45,850 --> 00:03:50,030
+So, other examples are view dot
+invisible or view dot gone for
+
+70
+00:03:50,030 --> 00:03:51,280
+these other states.
+
+71
+00:03:51,280 --> 00:03:54,090
+After you finish modifying
+the word adapter code,
+
+72
+00:03:54,090 --> 00:03:56,380
+allocating answers to
+these two questions.
+
+73
+00:03:56,380 --> 00:03:58,650
+So, for this list item layout
+that we're using just for
+
+74
+00:03:58,650 --> 00:04:03,090
+phrases should the visibility of
+the image view be set to visible?
+
+75
+00:04:03,090 --> 00:04:05,970
+Invisible or gone and then for
+
+76
+00:04:05,970 --> 00:04:10,240
+this list item layout, which we're going
+to use for all our other categories
+
+77
+00:04:10,240 --> 00:04:15,080
+should its image you be set to visible,
+invisible, or gone?
+
+78
+00:04:15,080 --> 00:04:17,269
+And this is what the app should
+look like when you're done.
+
+79
+00:04:17,269 --> 00:04:20,250
+So tapping into phrases
+there are no images.
+
+80
+00:04:20,250 --> 00:04:23,467
+But when we tap into the other
+categories, they all do have images.
+
+81
+00:04:23,467 --> 00:04:30,779
+[BLANK_AUDIO]

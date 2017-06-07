@@ -1,0 +1,119 @@
+1
+00:00:00,170 --> 00:00:01,900
+Now let’s look at yet another case.
+
+2
+00:00:01,900 --> 00:00:04,280
+This is case three now.
+
+3
+00:00:04,280 --> 00:00:09,030
+So here we have a similar thing in that the user level thread that’s currently
+
+4
+00:00:09,030 --> 00:00:14,340
+executing on top the kernel level thread where the signal actually occurs,
+
+5
+00:00:14,340 --> 00:00:16,930
+this user level thread has the signal disabled.
+
+6
+00:00:16,930 --> 00:00:18,380
+In the process overall,
+
+7
+00:00:18,380 --> 00:00:21,970
+there is another user level thread that has the signal enabled.
+
+8
+00:00:23,110 --> 00:00:26,870
+And unlike in the previous case when this user level thread was just on
+
+9
+00:00:26,870 --> 00:00:30,880
+the run queue, now in this case this user level thread
+
+10
+00:00:30,880 --> 00:00:34,900
+is currently running on another kernel level thread on another CPU.
+
+11
+00:00:35,930 --> 00:00:41,770
+So when the signal is delivered in the context of this kernel level thread,
+
+12
+00:00:41,770 --> 00:00:45,230
+the library handling routine will kick in.
+
+13
+00:00:45,230 --> 00:00:50,420
+The library handling routine knows that there is a user level thread in
+
+14
+00:00:50,420 --> 00:00:53,200
+the system that can handle this particular signal.
+
+15
+00:00:54,280 --> 00:00:58,200
+And it sees that this user level thread is currently associated,
+
+16
+00:00:58,200 --> 00:01:00,860
+it's executing on top of a kernel level thread,
+
+17
+00:01:00,860 --> 00:01:06,070
+or rather a lightweight process that's managed by the threading library.
+
+18
+00:01:06,070 --> 00:01:09,180
+Since the library knows this, the library will
+
+19
+00:01:09,180 --> 00:01:14,780
+then generate a directed signal to the other kernel level thread
+
+20
+00:01:14,780 --> 00:01:20,050
+to the lightweight process where the user level thread currently is executing.
+
+21
+00:01:20,050 --> 00:01:23,720
+When the OS delivers the signal to this particular kernel level thread,
+
+22
+00:01:23,720 --> 00:01:25,870
+it sees signal mask enabled.
+
+23
+00:01:25,870 --> 00:01:26,940
+Great.
+
+24
+00:01:26,940 --> 00:01:28,430
+And it moves up.
+
+25
+00:01:28,430 --> 00:01:33,520
+Now technically it will still go into the library handling routine first, right?
+
+26
+00:01:33,520 --> 00:01:36,880
+Because that's a wrapper for all of the signal handlers.
+
+27
+00:01:36,880 --> 00:01:40,950
+Here the library handling routine will see grade at a current user level
+
+28
+00:01:40,950 --> 00:01:44,740
+thread that's running in the context of this kernel level thread.
+
+29
+00:01:44,740 --> 00:01:47,210
+Can handle the particular signal of the signal and so
+
+30
+00:01:47,210 --> 00:01:50,350
+it finally will allow the execution of the signal handler.

@@ -1,0 +1,95 @@
+1
+00:00:00,080 --> 00:00:05,210
+So as far as a deposit is concerned, in addition to appending that particular
+
+2
+00:00:05,210 --> 00:00:09,670
+amount into the transactions list, we have to update the running total.
+
+3
+00:00:09,670 --> 00:00:14,122
+And, as you recall from when we talked about doing OCL invariants when
+
+4
+00:00:14,122 --> 00:00:15,440
+we're updating state.
+
+5
+00:00:15,440 --> 00:00:17,600
+You have an equation, in this case,
+
+6
+00:00:17,600 --> 00:00:21,780
+it says running total equals running total at pre.
+
+7
+00:00:21,780 --> 00:00:24,180
+That is the value before the operation started,
+
+8
+00:00:24,180 --> 00:00:26,600
+plus the amount of the deposit, which is A.
+
+9
+00:00:26,600 --> 00:00:31,010
+Similarly for withdrawals, we have to say that the running total that is at
+
+10
+00:00:31,010 --> 00:00:35,740
+the end, equals the running total at the start minus the amount being withdrawn.
+
+11
+00:00:35,740 --> 00:00:38,050
+As far as the balance operation is concerned,
+
+12
+00:00:38,050 --> 00:00:40,020
+here's where we save those computations.
+
+13
+00:00:40,020 --> 00:00:41,740
+No longer have to do the sum,
+
+14
+00:00:41,740 --> 00:00:45,490
+instead we can just return as the requested value the running total.
+
+15
+00:00:45,490 --> 00:00:48,140
+As far as initialization is concerned,
+
+16
+00:00:48,140 --> 00:00:52,950
+in addition to initializing the transactions to be an empty sequence,
+
+17
+00:00:52,950 --> 00:00:55,730
+we have to initialize the running total to be zero.
+
+18
+00:00:55,730 --> 00:01:00,550
+And finally, here's the invariant, here's what we have to ensure is always true.
+
+19
+00:01:00,550 --> 00:01:03,570
+Which is that the value of the running total has to,
+
+20
+00:01:03,570 --> 00:01:07,170
+at all times, be equal to the sum of the transactions.
+
+21
+00:01:07,170 --> 00:01:10,840
+Otherwise this optimization that we are proposing to add in
+
+22
+00:01:10,840 --> 00:01:13,815
+our refinement is not going to be correct.
+
+23
+00:01:13,815 --> 00:01:17,225
+'Kay, note that, as in this example, it is typical for
+
+24
+00:01:17,225 --> 00:01:19,870
+invariants to relate the values of two or more attributes.

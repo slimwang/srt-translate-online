@@ -1,0 +1,350 @@
+1
+00:00:00,360 --> 00:00:03,880
+In Maureen's section, we learned of
+different ways to deal with null data,
+
+2
+00:00:03,880 --> 00:00:08,880
+such as filtering out records that
+are null, removing fields in whole, or
+
+3
+00:00:08,880 --> 00:00:10,030
+imputing in various ways.
+
+4
+00:00:11,070 --> 00:00:15,090
+My thought is that since the percentage
+of missing values in the number of
+
+5
+00:00:15,090 --> 00:00:20,090
+voicemail fields is so high at 74%,
+we shouldn't filter those
+
+6
+00:00:20,090 --> 00:00:24,490
+out since it would actually just
+reduce our data set way too much.
+
+7
+00:00:25,550 --> 00:00:29,878
+As well if we imputed such a large
+percentage of missing records,
+
+8
+00:00:29,878 --> 00:00:33,610
+it will most likely cause
+a bias in our data set.
+
+9
+00:00:33,610 --> 00:00:37,970
+So my thought is to simply just,
+we should ignore it for the analysis.
+
+10
+00:00:37,970 --> 00:00:40,980
+The way we're going to do that is,
+let's go back to our workflow and
+
+11
+00:00:40,980 --> 00:00:44,920
+just bring in the select tool to
+just simply deselect that field.
+
+12
+00:00:44,920 --> 00:00:48,630
+So we can bring in that select
+tool in our stream already,
+
+13
+00:00:48,630 --> 00:00:53,110
+go to the number of voicemail field,
+and simply deselect it.
+
+14
+00:00:53,110 --> 00:00:57,360
+Now we have our two other fields that we
+need to deal with our null records for
+
+15
+00:00:57,360 --> 00:01:00,880
+the total night calls, and
+the total day calls fields.
+
+16
+00:01:00,880 --> 00:01:04,040
+Both of those percentages were at 2%.
+
+17
+00:01:04,040 --> 00:01:09,395
+So my though is that we should just
+simply filter those records out since
+
+18
+00:01:09,395 --> 00:01:14,220
+2% is not going to cause to many records
+to go away for the total data set.
+
+19
+00:01:14,220 --> 00:01:17,100
+So now what we need to do is
+remove those two different
+
+20
+00:01:17,100 --> 00:01:21,580
+fields that have null records
+within that 2% of our field.
+
+21
+00:01:21,580 --> 00:01:23,430
+So we're going to use
+a filter tool to do this.
+
+22
+00:01:23,430 --> 00:01:25,850
+I'm going to drag this right
+in between our stream.
+
+23
+00:01:25,850 --> 00:01:27,820
+We're then going to state
+a custom filter and
+
+24
+00:01:27,820 --> 00:01:30,450
+this custom filter is
+going to tell us two things.
+
+25
+00:01:30,450 --> 00:01:35,170
+The first thing is we do not want nulls
+that are inside of our total night calls
+
+26
+00:01:35,170 --> 00:01:40,560
+field, and we don't want nulls that
+are inside of our total day calls field.
+
+27
+00:01:40,560 --> 00:01:42,880
+So, the way we're going to do
+this custom filter is first,
+
+28
+00:01:42,880 --> 00:01:44,490
+we're going to go to our functions tab.
+
+29
+00:01:44,490 --> 00:01:48,180
+We're then going to go to
+our operators and state not.
+
+30
+00:01:48,180 --> 00:01:51,090
+The whole reason we want that not first,
+
+31
+00:01:51,090 --> 00:01:54,760
+is because we're going to go down
+to our test part and say IsNull.
+
+32
+00:01:54,760 --> 00:01:59,080
+So, what this statement right
+here just says, is not null.
+
+33
+00:01:59,080 --> 00:02:01,480
+Then that v that's
+currently right there,
+
+34
+00:02:01,480 --> 00:02:04,620
+is that variables that we want
+to place inside of there.
+
+35
+00:02:04,620 --> 00:02:08,160
+So the first one we need to
+state is total days called.
+
+36
+00:02:08,160 --> 00:02:10,720
+So what this whole part says right here,
+
+37
+00:02:10,720 --> 00:02:14,360
+is we do not want nulls within
+this total days called field.
+
+38
+00:02:14,360 --> 00:02:17,910
+Everything that is not null is going
+to come outside as true value.
+
+39
+00:02:17,910 --> 00:02:22,200
+Anything that is null within that field
+is going to come outside as false value.
+
+40
+00:02:22,200 --> 00:02:25,210
+We need to now do this for
+both of our fields, so
+
+41
+00:02:25,210 --> 00:02:27,890
+I'm going to do an and
+statement in between.
+
+42
+00:02:27,890 --> 00:02:30,620
+And now I'm going to just
+manually type out the is null,
+
+43
+00:02:30,620 --> 00:02:33,800
+because in my opinion it's just
+a little bit quicker to write it out.
+
+44
+00:02:33,800 --> 00:02:37,855
+So now he says is not null for
+now our total evening calls.
+
+45
+00:02:37,855 --> 00:02:40,985
+When I hit run now, we should see
+that we have totally clean records
+
+46
+00:02:40,985 --> 00:02:44,845
+outside this true and
+as well inside this interactive browse.
+
+47
+00:02:44,845 --> 00:02:46,325
+Because within this interactive browse,
+
+48
+00:02:46,325 --> 00:02:49,310
+we can now see that there's
+no percentage missing
+
+49
+00:02:49,310 --> 00:02:54,120
+In that total day's call field as
+well as the total evening call field.
+
+50
+00:02:54,120 --> 00:02:58,320
+All of those no records actually went
+outside this false value over here.
+
+51
+00:02:58,320 --> 00:03:02,680
+And if we drag over to our field we can
+see total day calls are no over here
+
+52
+00:03:02,680 --> 00:03:05,260
+as well as total night calls as well.
+
+53
+00:03:05,260 --> 00:03:07,600
+That's exactly what I was expecting.
+
+54
+00:03:08,670 --> 00:03:12,230
+After running this, we see that on
+the false set, we have 95 records which
+
+55
+00:03:12,230 --> 00:03:17,570
+represent the records that do have null
+values in either one of the fields.
+
+56
+00:03:17,570 --> 00:03:22,075
+The true data is now our cleaned
+up data set, with no null values.
+
+57
+00:03:22,075 --> 00:03:25,825
+So what we should do is we should
+save off this data set with an output
+
+58
+00:03:25,825 --> 00:03:27,235
+data tool.
+
+59
+00:03:27,235 --> 00:03:30,442
+So let's delete these two tools now
+because we know that our data set
+
+60
+00:03:30,442 --> 00:03:30,955
+is clean.
+
+61
+00:03:30,955 --> 00:03:33,517
+So let's now bring in
+an output data tool.
+
+62
+00:03:33,517 --> 00:03:35,357
+Bring it in after the true result.
+
+63
+00:03:35,357 --> 00:03:36,417
+And let's save this off so
+
+64
+00:03:36,417 --> 00:03:39,967
+we can use it again continuing
+forward in further analysis.
+
+65
+00:03:39,967 --> 00:03:43,857
+And we no longer have to bring in
+a select tool and a filter tool.
+
+66
+00:03:45,007 --> 00:03:48,107
+So hit the drop down menu,
+go to file browse.
+
+67
+00:03:48,107 --> 00:03:51,047
+I'm going to say that this
+file's a YXDB file, and
+
+68
+00:03:51,047 --> 00:03:55,780
+I'm going to call it churn data cleaned.
+
+69
+00:03:55,780 --> 00:03:57,270
+You can call it whatever
+you would like and
+
+70
+00:03:57,270 --> 00:03:59,270
+save it whatever folder you would like.
+
+71
+00:03:59,270 --> 00:04:01,880
+I'm going to hit run, that file
+is now going to be saved out and
+
+72
+00:04:01,880 --> 00:04:07,570
+I'm going to now, in the work flow
+bring in just this now input data so
+
+73
+00:04:07,570 --> 00:04:11,470
+I don't have to bring in a select and a
+filter every time to clean up this file.

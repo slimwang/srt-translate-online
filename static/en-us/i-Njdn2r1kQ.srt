@@ -1,0 +1,295 @@
+1
+00:00:00,280 --> 00:00:03,100
+So now that we understand the data structures, let's
+
+2
+00:00:03,100 --> 00:00:05,620
+put the data structures to work. Let's first look
+
+3
+00:00:05,620 --> 00:00:08,050
+at what happens on a page fault. On a
+
+4
+00:00:08,050 --> 00:00:12,840
+page fault, the node first coverts the virtual address to
+
+5
+00:00:12,840 --> 00:00:15,320
+a UID and once it converts it to the
+
+6
+00:00:15,320 --> 00:00:18,620
+UID it goes to the page ownership directory. And as
+
+7
+00:00:18,620 --> 00:00:22,220
+I mentioned, the page ownership directory is something that
+
+8
+00:00:22,220 --> 00:00:25,950
+I can trust. It'll tell me, given this UID I'll
+
+9
+00:00:25,950 --> 00:00:31,910
+tell you who the owner of this page is. And you go to him because he has the GCD
+
+10
+00:00:31,910 --> 00:00:38,000
+data structure for this. So, node A finds out the identity of the owner for this
+
+11
+00:00:38,000 --> 00:00:45,650
+UID, and that happens to be node B. So it sends the UID over to node B, and node
+
+12
+00:00:45,650 --> 00:00:52,100
+B, because it is the owner for this UID, it looks up its GCD data structure and
+
+13
+00:00:52,100 --> 00:00:56,030
+says, oh, the PFD that can translate
+
+14
+00:00:56,030 --> 00:00:59,720
+this UID which actually represents this virtual address
+
+15
+00:00:59,720 --> 00:01:02,910
+is actually contained in this particular node,
+
+16
+00:01:02,910 --> 00:01:05,930
+node C. So, that's the content of this
+
+17
+00:01:05,930 --> 00:01:11,570
+data structure, given a UID what is the node ID that contains the PFD. Remember
+
+18
+00:01:11,570 --> 00:01:13,890
+that PFD is equivalent of a page table
+
+19
+00:01:13,890 --> 00:01:17,120
+in the normal system and therefore that's the
+
+20
+00:01:17,120 --> 00:01:21,590
+node that I want to send this UID to so that we can do the translation
+
+21
+00:01:21,590 --> 00:01:26,810
+for this virtual address. So node B sends the UID over to node C, and node C
+
+22
+00:01:26,810 --> 00:01:31,930
+contains the PFD that has the mapping between the UID and the
+
+23
+00:01:31,930 --> 00:01:37,030
+page frame number that is backed by this node
+
+24
+00:01:37,030 --> 00:01:42,030
+for this UID, retrieves the page. It's a hit. Sends it over to
+
+25
+00:01:42,030 --> 00:01:49,350
+node A. Node A is happy. It can then map this virtual address into its internal
+
+26
+00:01:49,350 --> 00:01:53,010
+structure and the page fault service is complete
+
+27
+00:01:53,010 --> 00:01:56,770
+and it can resume the process that was blocked
+
+28
+00:01:56,770 --> 00:01:58,490
+for this page fault. So you can see
+
+29
+00:01:58,490 --> 00:02:01,650
+that, potentially, when a page fault happens I can
+
+30
+00:02:01,650 --> 00:02:04,630
+have three level of network communication. Of course
+
+31
+00:02:04,630 --> 00:02:07,380
+the first look up of the POD is local
+
+32
+00:02:07,380 --> 00:02:10,008
+to my node because this POD data structure is
+
+33
+00:02:10,008 --> 00:02:13,450
+replicated on every node. So from the UID, I can
+
+34
+00:02:13,450 --> 00:02:16,350
+find the owner for the UID. But then I
+
+35
+00:02:16,350 --> 00:02:19,500
+have to send a network message over to the node
+
+36
+00:02:19,500 --> 00:02:22,100
+that contains the GCD for this UID. And then
+
+37
+00:02:22,100 --> 00:02:26,580
+he'll then send it to the node that has this
+
+38
+00:02:26,580 --> 00:02:29,371
+page so that that page can come back. Now
+
+39
+00:02:29,371 --> 00:02:32,392
+this network communication I am willing to tolerate because it
+
+40
+00:02:32,392 --> 00:02:34,900
+is equivalent to performing the role of what the disk
+
+41
+00:02:34,900 --> 00:02:37,134
+would have done. And maybe it is much better than
+
+42
+00:02:37,134 --> 00:02:38,800
+going to a disk in order to get the missing
+
+43
+00:02:38,800 --> 00:02:41,300
+page. So, it is happening only on page fault and
+
+44
+00:02:41,300 --> 00:02:46,450
+since it is on a page fault, this network communication is okay. But, this is an
+
+45
+00:02:46,450 --> 00:02:52,100
+extra network communication. Fortunately, the common case is a page fault
+
+46
+00:02:52,100 --> 00:02:57,462
+is servicing the request of a local process on node A, and so the
+
+47
+00:02:57,462 --> 00:03:03,040
+page is a non-shared page and if it is a non-shared page most likely
+
+48
+00:03:03,040 --> 00:03:08,420
+the UID space that corresponds to the missing page is also managed
+
+49
+00:03:08,420 --> 00:03:13,480
+by this node. Or in other words, both the POD and the
+
+50
+00:03:13,480 --> 00:03:18,310
+GCD corresponding to a particular UID is mostly on this node
+
+51
+00:03:18,310 --> 00:03:23,050
+itself. And this is true for non-shared pages, and so A and
+
+52
+00:03:23,050 --> 00:03:29,270
+B are exactly the same node. So there is no network communication to go from the
+
+53
+00:03:29,270 --> 00:03:32,700
+POD to GCD to find out the PFD.
+
+54
+00:03:32,700 --> 00:03:36,520
+So hopefully the only network communication that happens
+
+55
+00:03:36,520 --> 00:03:39,450
+on every page fault is a network communication
+
+56
+00:03:39,450 --> 00:03:42,530
+to go to this node that is serving
+
+57
+00:03:42,530 --> 00:03:48,390
+the role of a disk and get the page from him. That's okay to incur because
+
+58
+00:03:48,390 --> 00:03:52,160
+it probably is much lesser than going to the disk in
+
+59
+00:03:52,160 --> 00:03:55,550
+order to do the page access. So the page fault service
+
+60
+00:03:55,550 --> 00:03:58,210
+for the common case is going to be pretty quick. So
+
+61
+00:03:58,210 --> 00:04:00,020
+the important message that I want you to get out of
+
+62
+00:04:00,020 --> 00:04:03,600
+this is that even though these distributed data structures may make
+
+63
+00:04:03,600 --> 00:04:06,460
+it look like you're going to have a lot of network
+
+64
+00:04:06,460 --> 00:04:11,140
+communication, the important thing to note is that it happens only
+
+65
+00:04:11,140 --> 00:04:13,550
+when there is a page fault. And since most of the page
+
+66
+00:04:13,550 --> 00:04:16,220
+faults, the common case, is going to be non-shared
+
+67
+00:04:16,220 --> 00:04:19,985
+pages. The data structure POD and GCD are probably
+
+68
+00:04:19,985 --> 00:04:23,240
+co-resident on the same node. So, even though I've
+
+69
+00:04:23,240 --> 00:04:25,810
+shown two different nodes here, A and B may
+
+70
+00:04:25,810 --> 00:04:29,570
+be exactly the same node. And so looking up
+
+71
+00:04:29,570 --> 00:04:34,250
+the PFD that currently is backing this particular UID
+
+72
+00:04:34,250 --> 00:04:36,100
+is going to be local to this node and
+
+73
+00:04:36,100 --> 00:04:38,640
+so we can directly go to the node that contains
+
+74
+00:04:38,640 --> 00:04:41,550
+the PFD and make the page fault service pretty quick.

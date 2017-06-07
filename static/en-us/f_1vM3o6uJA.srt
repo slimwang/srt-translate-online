@@ -1,0 +1,768 @@
+1
+00:00:00,323 --> 00:00:04,973
+All righty, remember I'm not going to
+go over everything that could be fixed,
+
+2
+00:00:04,973 --> 00:00:07,916
+because A,
+that'd be like a 30 minute video.
+
+3
+00:00:07,916 --> 00:00:11,698
+And B, there are so many different
+solutions to this problem that
+
+4
+00:00:11,698 --> 00:00:16,860
+it's really unlikely that your code
+in the end looks anything like mine.
+
+5
+00:00:16,860 --> 00:00:20,290
+So here are a few of the high
+level problems that I fixed.
+
+6
+00:00:20,290 --> 00:00:23,200
+Check out the links in the instructor
+notes to see my full fixed,
+
+7
+00:00:23,200 --> 00:00:25,690
+along with the description
+of all the known bugs.
+
+8
+00:00:25,690 --> 00:00:27,260
+Okay, so here we go.
+
+9
+00:00:27,260 --> 00:00:31,690
+Even without opening DevTools, it's
+pretty obvious that this slide in and
+
+10
+00:00:31,690 --> 00:00:33,980
+slide out motion is a little janky.
+
+11
+00:00:33,980 --> 00:00:36,570
+You'll also notice that
+scrolling is janky.
+
+12
+00:00:36,570 --> 00:00:40,360
+As these are the two major interactions
+that users will have with this app,
+
+13
+00:00:40,360 --> 00:00:41,760
+I'll show you how I fix them.
+
+14
+00:00:41,760 --> 00:00:44,650
+First off,
+I'm going to tackle the janky scrolling.
+
+15
+00:00:44,650 --> 00:00:46,290
+So what's going on here?
+
+16
+00:00:46,290 --> 00:00:48,090
+As I scroll down and
+
+17
+00:00:48,090 --> 00:00:52,100
+then back up, you can see that the
+little indicators indicating how many
+
+18
+00:00:52,100 --> 00:00:55,540
+points each story has not only
+changed size, but also changed color.
+
+19
+00:00:55,540 --> 00:00:58,130
+I want to see what that
+looks like in DevTools.
+
+20
+00:00:58,130 --> 00:01:02,790
+I will start a recording, scroll
+a little bit, and then stop recording.
+
+21
+00:01:02,790 --> 00:01:05,700
+In the timeline, it's pretty obvious
+that I'm not hitting 60 frames per
+
+22
+00:01:05,700 --> 00:01:09,000
+second because here's the 30
+frames per second line.
+
+23
+00:01:09,000 --> 00:01:10,490
+I'll zoom into one of these frames.
+
+24
+00:01:10,490 --> 00:01:11,090
+Oh boy!
+
+25
+00:01:11,090 --> 00:01:13,030
+This is a very bad sign.
+
+26
+00:01:13,030 --> 00:01:14,360
+Let me zoom in further.
+
+27
+00:01:14,360 --> 00:01:17,370
+You can see that after the scroll
+event a function was called.
+
+28
+00:01:17,370 --> 00:01:20,530
+And then you've got a lot of layouts
+with a lot of red triangles.
+
+29
+00:01:20,530 --> 00:01:24,270
+That is an excellent sign that a forced
+synchronous layout is happening.
+
+30
+00:01:24,270 --> 00:01:27,570
+Sure enough, there is the warning that
+forced synchronous layout is happening,
+
+31
+00:01:27,570 --> 00:01:29,390
+and it looks like it is
+happening inside the function
+
+32
+00:01:29,390 --> 00:01:31,630
+called colorizedAndScaleStories.
+
+33
+00:01:31,630 --> 00:01:35,190
+I am going to jump into the source code
+and see what this function's doing.
+
+34
+00:01:35,190 --> 00:01:39,220
+In the source code, I'm now looking
+at colorizedAndScaleStories.
+
+35
+00:01:39,220 --> 00:01:42,540
+And from the comments, it seems like
+this is probably a source of jank.
+
+36
+00:01:42,540 --> 00:01:45,240
+So, thank you Paul for
+leaving these behind.
+
+37
+00:01:45,240 --> 00:01:48,320
+Take a look at this part of
+the function, notice that a lot of
+
+38
+00:01:48,320 --> 00:01:52,040
+properties that cause the browser
+to run layout are being accessed.
+
+39
+00:01:52,040 --> 00:01:53,750
+Then at the bottom of the function,
+
+40
+00:01:53,750 --> 00:01:57,234
+recalculate styles has to happen
+because there's a new style applied.
+
+41
+00:01:57,234 --> 00:02:00,190
+These two combined are causing
+the force synchronous layout.
+
+42
+00:02:00,190 --> 00:02:02,700
+And it's a huge problem for performance.
+
+43
+00:02:02,700 --> 00:02:07,890
+Now this begs the very interesting
+question is this code even worth fixing?
+
+44
+00:02:07,890 --> 00:02:10,931
+The effect is, well,
+pretty much negligible.
+
+45
+00:02:10,931 --> 00:02:13,383
+Having story points that
+are different sizes and
+
+46
+00:02:13,383 --> 00:02:17,420
+different colors doesn't really add
+anything to the app as a whole.
+
+47
+00:02:17,420 --> 00:02:17,990
+For instance,
+
+48
+00:02:17,990 --> 00:02:20,580
+are the one's higher up more
+important than the one's lower down?
+
+49
+00:02:20,580 --> 00:02:22,590
+I don't really think so.
+
+50
+00:02:22,590 --> 00:02:26,830
+Ideally, this is the kind of effect
+you couldn't possibly achieve with CSS
+
+51
+00:02:26,830 --> 00:02:30,780
+properties like scale and
+transform instead of using JavaScript.
+
+52
+00:02:30,780 --> 00:02:34,310
+But I, to be perfectly honest,
+think it is totally unnecessary.
+
+53
+00:02:34,310 --> 00:02:36,340
+So, I'm just going to
+drop it all together.
+
+54
+00:02:36,340 --> 00:02:37,690
+Here's the result.
+
+55
+00:02:37,690 --> 00:02:41,130
+I got rid of all the calls to
+colorize and scale stories, and
+
+56
+00:02:41,130 --> 00:02:43,900
+you'll notice that now all of
+the points here look the same.
+
+57
+00:02:43,900 --> 00:02:47,080
+But more importantly, what effect
+does this have on performance?
+
+58
+00:02:47,080 --> 00:02:48,170
+Let me show you.
+
+59
+00:02:48,170 --> 00:02:51,350
+I'll hit record and
+then start scrolling.
+
+60
+00:02:51,350 --> 00:02:52,310
+Now look at that!
+
+61
+00:02:52,310 --> 00:02:53,990
+This is much nicer.
+
+62
+00:02:53,990 --> 00:02:58,040
+I see the scroll event and there is
+only one recalculated style afterwards.
+
+63
+00:02:58,040 --> 00:03:00,430
+No big deal,
+this is much more performant.
+
+64
+00:03:00,430 --> 00:03:03,030
+And that should be pretty
+obvious from the timeline.
+
+65
+00:03:03,030 --> 00:03:05,480
+Next up,
+there are a few other scrolling bugs.
+
+66
+00:03:05,480 --> 00:03:07,960
+I'm looking at loadStoryBatch.
+
+67
+00:03:07,960 --> 00:03:11,430
+It does visible work to the page
+where it appends a new story to
+
+68
+00:03:11,430 --> 00:03:12,890
+the page as it's loaded.
+
+69
+00:03:12,890 --> 00:03:15,760
+But it's not inside
+a request animation frame.
+
+70
+00:03:15,760 --> 00:03:18,340
+Ideally, anything that is making
+a visible change to the page,
+
+71
+00:03:18,340 --> 00:03:21,420
+should be happening inside
+a request animation frame.
+
+72
+00:03:21,420 --> 00:03:25,160
+So, I've gone ahead and added
+requestAnimationFrame to the call for
+
+73
+00:03:25,160 --> 00:03:28,620
+loadStoryBatch, and that'll be
+a nice little performance boost.
+
+74
+00:03:28,620 --> 00:03:32,530
+Now, I will take on the stories
+that slide in, and then slide out.
+
+75
+00:03:32,530 --> 00:03:33,760
+You'll notice that the frame rate
+
+76
+00:03:33,760 --> 00:03:36,020
+actually doesn't look
+awful on this computer.
+
+77
+00:03:36,020 --> 00:03:38,320
+But on my phone,
+it's pretty much unusable.
+
+78
+00:03:38,320 --> 00:03:41,410
+And actually, on my laptop,
+these bars looked a lot worse.
+
+79
+00:03:41,410 --> 00:03:42,400
+So, it's worth tackling.
+
+80
+00:03:42,400 --> 00:03:44,160
+It looks like the slide in,
+
+81
+00:03:44,160 --> 00:03:48,250
+slide out motion is firing a timer,
+which doesn't quite look right.
+
+82
+00:03:48,250 --> 00:03:51,470
+And you'll also notice that there's
+a force synchronous layout down here.
+
+83
+00:03:51,470 --> 00:03:54,160
+All in all, it's worth
+investigating what's going on here.
+
+84
+00:03:54,160 --> 00:03:56,870
+Looks like line 180 in
+app.js is being called.
+
+85
+00:03:56,870 --> 00:03:57,580
+So, I'll click on that.
+
+86
+00:03:57,580 --> 00:04:00,440
+And I can see that a function
+called animate is happening.
+
+87
+00:04:00,440 --> 00:04:02,930
+I'll take a deeper look
+inside the source code.
+
+88
+00:04:02,930 --> 00:04:07,480
+I'm inside animate now and first thing
+I notice is that there's a set timeout.
+
+89
+00:04:07,480 --> 00:04:08,600
+Just like before,
+
+90
+00:04:08,600 --> 00:04:12,620
+this is visible work that's happening
+outside a request animation frame.
+
+91
+00:04:12,620 --> 00:04:14,420
+So that's an obvious fix.
+
+92
+00:04:14,420 --> 00:04:16,610
+But then the real question is,
+
+93
+00:04:16,610 --> 00:04:19,709
+should this work even be
+happening with JavaScript?
+
+94
+00:04:19,709 --> 00:04:23,580
+It's a simple transition that could
+just as easily be handled with CSS.
+
+95
+00:04:23,580 --> 00:04:26,200
+Using some nice transforms and
+will-changes,
+
+96
+00:04:26,200 --> 00:04:28,350
+it shouldn't be too difficult for
+the browser.
+
+97
+00:04:28,350 --> 00:04:29,920
+And take a look at this.
+
+98
+00:04:29,920 --> 00:04:34,645
+Inside onStoryClick, a new storyDetails,
+which is a thing that slides in
+
+99
+00:04:34,645 --> 00:04:38,810
+gets appended to the body every
+time somebody clicks on a story.
+
+100
+00:04:38,810 --> 00:04:42,510
+Given the fact that only one story
+will ever be shown at a time,
+
+101
+00:04:42,510 --> 00:04:44,310
+this is incredibly wasteful.
+
+102
+00:04:44,310 --> 00:04:47,330
+After a few clicks, the DOM is going to
+be filled with a bunch of abandoned
+
+103
+00:04:47,330 --> 00:04:49,750
+nodes that are doing nothing but
+taking up memory.
+
+104
+00:04:49,750 --> 00:04:54,110
+So, I wound up refactoring onStoryClick
+to simply change the inner
+
+105
+00:04:54,110 --> 00:04:58,090
+HTML of the story details page instead
+of creating a brand new one for
+
+106
+00:04:58,090 --> 00:04:59,230
+every story.
+
+107
+00:04:59,230 --> 00:05:01,760
+That'll prevent performance from
+dropping in the long run, but
+
+108
+00:05:01,760 --> 00:05:05,150
+it doesn't speed up the slide in,
+slide out motion.
+
+109
+00:05:05,150 --> 00:05:07,070
+So, I want to take a closer
+look at what's happening there.
+
+110
+00:05:07,070 --> 00:05:08,400
+I'll start with DevTools.
+
+111
+00:05:08,400 --> 00:05:10,080
+I'll turn on the JavaScript profiler.
+
+112
+00:05:10,080 --> 00:05:10,990
+Start recording.
+
+113
+00:05:10,990 --> 00:05:12,330
+And then slide in.
+
+114
+00:05:12,330 --> 00:05:13,810
+And then slide back out.
+
+115
+00:05:13,810 --> 00:05:18,358
+Just like I saw before, onStoryClick
+is causing a forced synchronous layout.
+
+116
+00:05:18,358 --> 00:05:21,670
+So I want to figure out a different
+way to create the slide in and
+
+117
+00:05:21,670 --> 00:05:22,840
+slide out effect.
+
+118
+00:05:22,840 --> 00:05:25,310
+I'm inside the function
+called showStory.
+
+119
+00:05:25,310 --> 00:05:28,510
+It looks like it's causing the forced
+synchronous layout with the call to
+
+120
+00:05:28,510 --> 00:05:30,900
+left, which causes
+the browser to run layout.
+
+121
+00:05:30,900 --> 00:05:33,210
+And then the call to style.left,
+
+122
+00:05:33,210 --> 00:05:36,170
+which causes the browser
+to run recalculate styles.
+
+123
+00:05:36,170 --> 00:05:37,850
+If this happens more
+than once in a frame,
+
+124
+00:05:37,850 --> 00:05:40,210
+you've got a forced synchronous layout.
+
+125
+00:05:40,210 --> 00:05:42,490
+I could refactor this in some way,
+but honestly,
+
+126
+00:05:42,490 --> 00:05:43,430
+I just don't want to deal with it.
+
+127
+00:05:43,430 --> 00:05:46,830
+So, I'm going to go ahead and
+do this with CSS instead.
+
+128
+00:05:46,830 --> 00:05:51,710
+So, what I decided to do is refactor
+showStory and hideStory which work
+
+129
+00:05:51,710 --> 00:05:56,920
+the same way, with a couple changes
+to the classes of storyDetails.
+
+130
+00:05:56,920 --> 00:06:00,080
+I'm simply adding and removing
+classes called visible and hidden.
+
+131
+00:06:00,080 --> 00:06:02,124
+I'll show what this looks like in CSS.
+
+132
+00:06:02,124 --> 00:06:05,050
+I'm looking at story
+details inside app.css.
+
+133
+00:06:05,050 --> 00:06:06,555
+I've deleted a few things here,
+
+134
+00:06:06,555 --> 00:06:09,740
+just to make it easier to show
+you everything that I want to.
+
+135
+00:06:09,740 --> 00:06:12,290
+Notice this property left at 100%,
+
+136
+00:06:12,290 --> 00:06:16,220
+this pushes the story
+details page off the screen.
+
+137
+00:06:16,220 --> 00:06:21,120
+So what I wind up doing with visible and
+hidden is transforms to translate the x
+
+138
+00:06:21,120 --> 00:06:25,900
+position, either all the way to the left
+or back to it's original starting point.
+
+139
+00:06:25,900 --> 00:06:30,020
+I've also gone ahead and given
+story-details the will-change transform.
+
+140
+00:06:30,020 --> 00:06:33,200
+Just to let the browser know that
+the story details will be sliding
+
+141
+00:06:33,200 --> 00:06:34,380
+back and forth.
+
+142
+00:06:34,380 --> 00:06:38,950
+To achieve the animation I've added
+transition transform with 0.3 seconds.
+
+143
+00:06:38,950 --> 00:06:43,560
+So, it'll take 0.3 seconds for story
+details to come in or slide back out.
+
+144
+00:06:43,560 --> 00:06:46,598
+Looking at these properties, you'll
+probably see a few differences from
+
+145
+00:06:46,598 --> 00:06:49,489
+where you started and that's because
+I got rid of the opacity changes,
+
+146
+00:06:49,489 --> 00:06:51,869
+because I didn't think they
+were really doing anything.
+
+147
+00:06:51,869 --> 00:06:55,000
+I think I've done a lot, but of course,
+the only way to really know for
+
+148
+00:06:55,000 --> 00:06:56,606
+sure is to record a timeline trace.
+
+149
+00:07:00,739 --> 00:07:01,860
+That looked a lot better and
+
+150
+00:07:01,860 --> 00:07:04,420
+the timeline is showing
+that that was a lot better.
+
+151
+00:07:04,420 --> 00:07:07,500
+All the bars are well
+below the 60 fps line.
+
+152
+00:07:07,500 --> 00:07:11,290
+I no longer need any JavaScript to
+animate the slide in and sliding out.
+
+153
+00:07:11,290 --> 00:07:13,810
+And all the force synchronous
+layout warnings are gone.
+
+154
+00:07:13,810 --> 00:07:15,580
+That is awesome news.
+
+155
+00:07:15,580 --> 00:07:16,860
+Everything's looking a lot better, but
+
+156
+00:07:16,860 --> 00:07:18,680
+there's still a lot
+more that can be done.
+
+157
+00:07:18,680 --> 00:07:22,010
+For instance,
+the CSS in the app could be improved and
+
+158
+00:07:22,010 --> 00:07:24,990
+some of the story loading could
+be off-loaded to web workers.
+
+159
+00:07:24,990 --> 00:07:26,630
+Once again, see the instructor notes for
+
+160
+00:07:26,630 --> 00:07:30,310
+my full solution as well as some other
+fixes that you might want to try.
+
+161
+00:07:30,310 --> 00:07:33,760
+So then, does your app outperform mine?
+
+162
+00:07:33,760 --> 00:07:36,120
+Did you do yours totally differently?
+
+163
+00:07:36,120 --> 00:07:39,120
+Post your optimized apps in
+the forums because I can not wait
+
+164
+00:07:39,120 --> 00:07:39,720
+to check them out.

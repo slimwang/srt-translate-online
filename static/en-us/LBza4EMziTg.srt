@@ -1,0 +1,629 @@
+1
+00:00:00,000 --> 00:00:05,086
+Since we don't have any robotic dolphins
+that we could be doing testing and
+
+2
+00:00:05,086 --> 00:00:09,850
+training on, let's think through
+an example of doing reinforcement
+
+3
+00:00:09,850 --> 00:00:14,068
+learning to try to teach a robot
+soccer player to score a goal.
+
+4
+00:00:14,068 --> 00:00:17,226
+So, this is supposed to be
+kind of a robot soccer pitch.
+
+5
+00:00:17,226 --> 00:00:18,364
+This is the goal in blue.
+
+6
+00:00:18,364 --> 00:00:19,629
+This is the ball in yellow.
+
+7
+00:00:19,629 --> 00:00:21,522
+And this is the robot in black.
+
+8
+00:00:21,522 --> 00:00:25,806
+And what we really want it
+to do is score in the goal.
+
+9
+00:00:25,806 --> 00:00:26,560
+And that's worth a hundred.
+
+10
+00:00:26,560 --> 00:00:28,574
+Again, just like in the dolphin case,
+
+11
+00:00:28,574 --> 00:00:32,479
+it's very unlikely that the robot is
+going to spontaneously drive around,
+
+12
+00:00:32,479 --> 00:00:36,568
+drive around, hit the ball into the
+goal, experience the 100 and then say,
+
+13
+00:00:36,568 --> 00:00:39,400
+okay, cool,
+that's what I'm supposed to be doing.
+
+14
+00:00:39,400 --> 00:00:42,001
+So, what are some things
+we can do shaping-wise?
+
+15
+00:00:42,001 --> 00:00:44,645
+How can we modify this
+reward function so
+
+16
+00:00:44,645 --> 00:00:49,407
+that it might encourage something in
+the direction of scoring the goal?
+
+17
+00:00:49,407 --> 00:00:51,427
+>> I think, there are a couple
+of things one might do.
+
+18
+00:00:51,427 --> 00:00:53,506
+I'll try not to over-think this.
+
+19
+00:00:53,506 --> 00:00:58,106
+Well, in order to kick the ball,
+the circle with its circle feet,
+
+20
+00:00:58,106 --> 00:01:02,869
+it has to get near the ball, so
+I could imagine putting some reward for
+
+21
+00:01:02,869 --> 00:01:05,927
+being near the ball,
+wherever the ball is.
+
+22
+00:01:05,927 --> 00:01:06,740
+>> Cool.
+
+23
+00:01:06,740 --> 00:01:09,086
+So, you think like plus one
+is enough for that or maybe?
+
+24
+00:01:09,086 --> 00:01:10,548
+>> I don't know, but
+let's start with plus one.
+
+25
+00:01:10,548 --> 00:01:11,128
+>> All right.
+
+26
+00:01:11,128 --> 00:01:12,905
+How do we define near the ball?
+
+27
+00:01:12,905 --> 00:01:15,744
+There's going to be some kind
+of epsilon ball around the ball?
+
+28
+00:01:15,744 --> 00:01:17,962
+>> [LAUGH] Yeah, that makes sense.
+
+29
+00:01:17,962 --> 00:01:22,666
+Or, you could go all the way around and
+think about the distance you
+
+30
+00:01:22,666 --> 00:01:27,539
+are to the ball is inversely
+proportional to the reward that you get.
+
+31
+00:01:27,539 --> 00:01:29,966
+>> Good point.
+
+32
+00:01:29,966 --> 00:01:31,521
+All right, let's look at your
+way of thinking about it first.
+
+33
+00:01:31,521 --> 00:01:34,293
+So, if we're getting a reward,
+
+34
+00:01:34,293 --> 00:01:39,741
+the agent is getting a reward by
+virtue of being close to the ball.
+
+35
+00:01:39,741 --> 00:01:42,446
+What's a good policy?
+
+36
+00:01:42,446 --> 00:01:44,986
+A good policy might be
+to just sit in place or
+
+37
+00:01:44,986 --> 00:01:48,668
+sit a little bit closer to the ball and
+just rack up the points.
+
+38
+00:01:48,668 --> 00:01:50,502
+>> Sure, so
+then you'd need something else,
+
+39
+00:01:50,502 --> 00:01:52,348
+like hitting the ball
+is worth some points.
+
+40
+00:01:52,348 --> 00:01:56,366
+>> Aha, okay,
+that seems plausible, right.
+
+41
+00:01:56,366 --> 00:01:59,879
+So, if the robot is getting additional
+points, additional pleasure for
+
+42
+00:01:59,879 --> 00:02:03,280
+getting closer to the ball, and
+then actually hitting the ball, yay,
+
+43
+00:02:03,280 --> 00:02:04,539
+that was really awesome.
+
+44
+00:02:04,539 --> 00:02:08,256
+But, of course, by hitting the ball
+it pushes the ball away which
+
+45
+00:02:08,256 --> 00:02:11,306
+is going to cause the near to
+the ball score to go down.
+
+46
+00:02:11,306 --> 00:02:14,383
+So, it's going actually kind
+of be sad that it did that.
+
+47
+00:02:14,383 --> 00:02:14,987
+>> Sure.
+
+48
+00:02:14,987 --> 00:02:17,629
+But then,
+you would want to give it something for
+
+49
+00:02:17,629 --> 00:02:19,503
+getting the ball near to the goal.
+
+50
+00:02:19,503 --> 00:02:23,044
+So, just like being near to the ball
+is worth something proportional,
+
+51
+00:02:23,044 --> 00:02:26,585
+inversely proportional distance,
+you want the distance of the ball to
+
+52
+00:02:26,585 --> 00:02:29,963
+the goal to also be inversely
+proportionally related to distance.
+
+53
+00:02:29,963 --> 00:02:30,845
+>> Yeah, that makes some sense!
+
+54
+00:02:30,845 --> 00:02:36,326
+So, now, we want to be careful that the
+amount of bonus that the robot gets for
+
+55
+00:02:36,326 --> 00:02:40,867
+pushing the ball toward the goal
+is going to be an improvement over
+
+56
+00:02:40,867 --> 00:02:44,823
+the fact that it's now no
+longer itself near the ball.
+
+57
+00:02:44,823 --> 00:02:46,100
+>> Right, so I don't know.
+
+58
+00:02:46,100 --> 00:02:47,099
+Two times, or something.
+
+59
+00:02:47,099 --> 00:02:47,725
+I don't know.
+
+60
+00:02:47,725 --> 00:02:49,596
+I mean, I don't know exactly what
+the right numbers are, but there you go,
+
+61
+00:02:49,596 --> 00:02:50,164
+something like that.
+
+62
+00:02:50,164 --> 00:02:52,794
+>> So, it seems like we could
+play with these numbers for
+
+63
+00:02:52,794 --> 00:02:55,318
+a long time trying to get
+the behavior that we want.
+
+64
+00:02:55,318 --> 00:02:58,615
+And there are a couple of really
+interesting failure modes.
+
+65
+00:02:58,615 --> 00:03:03,255
+So, for example, if we have hitting
+the ball being defined as making
+
+66
+00:03:03,255 --> 00:03:06,057
+contact between the player and the ball.
+
+67
+00:03:06,057 --> 00:03:08,176
+And you get, let's say +10 for
+that each time,
+
+68
+00:03:08,176 --> 00:03:10,016
+ignoring these other factors for
+a moment.
+
+69
+00:03:10,016 --> 00:03:13,939
+Then, once thing [LAUGH] that you often
+see when you ask reinforcement learners
+
+70
+00:03:13,939 --> 00:03:16,436
+to learn in that kind of setting,
+as you'll see,
+
+71
+00:03:16,436 --> 00:03:19,837
+robot walks over to the ball,
+touches the ball, gets its plus ten.
+
+72
+00:03:19,837 --> 00:03:22,516
+And it turns out,
+if you want to get that plus ten again,
+
+73
+00:03:22,516 --> 00:03:25,537
+the best thing to do is just back
+off from the ball a little bit and
+
+74
+00:03:25,537 --> 00:03:27,190
+then make contact with it again and
+
+75
+00:03:27,190 --> 00:03:30,576
+in fact really what you want to do is
+go up to the ball, and just shiver.
+
+76
+00:03:30,576 --> 00:03:33,009
+Right, just like vibrate back and
+forth, [SOUND] so
+
+77
+00:03:33,009 --> 00:03:36,137
+that you just keep getting plus
+tens over and over and over again.
+
+78
+00:03:36,137 --> 00:03:38,180
+You can make a lot of money that way.
+
+79
+00:03:38,180 --> 00:03:40,514
+A lot more than you can
+make by scoring the goal.
+
+80
+00:03:40,514 --> 00:03:45,356
+Because you can do this, you know 30 or
+40 times a second if you're
+
+81
+00:03:45,356 --> 00:03:50,363
+a good wiggler, and so this ends up
+actually even though this additional
+
+82
+00:03:50,363 --> 00:03:54,880
+shaping information that we're
+defining is giving good hints,
+
+83
+00:03:54,880 --> 00:03:58,357
+it's also creating
+spurious optimal policies.
+
+84
+00:03:58,357 --> 00:03:58,996
+>> Right.
+
+85
+00:03:58,996 --> 00:04:00,261
+Well, it makes sense, right.
+
+86
+00:04:00,261 --> 00:04:04,481
+People have been making money for
+thousands of years by wiggling.
+
+87
+00:04:04,481 --> 00:04:08,081
+>> [LAUGH] I guess that's sort of true.
+
+88
+00:04:08,081 --> 00:04:12,124
+But in this particular case,
+what we have to do is somehow make it so
+
+89
+00:04:12,124 --> 00:04:14,234
+that you can't have a money pump.
+
+90
+00:04:14,234 --> 00:04:15,418
+You can't do arbitrage.
+
+91
+00:04:15,418 --> 00:04:19,946
+You can't, by doing the good thing,
+undoing it and then doing it again,
+
+92
+00:04:19,946 --> 00:04:21,199
+get double credit.
+
+93
+00:04:21,199 --> 00:04:22,012
+>> I see.
+
+94
+00:04:22,012 --> 00:04:25,089
+>> So, a natural idea is
+to actually say, all right,
+
+95
+00:04:25,089 --> 00:04:27,022
+if you're going to get plus ten for
+
+96
+00:04:27,022 --> 00:04:31,114
+hitting the ball, then letting go
+of the ball should be a minus ten.
+
+97
+00:04:31,114 --> 00:04:34,221
+Right?
+You should not be able to make a profit
+
+98
+00:04:34,221 --> 00:04:36,977
+by repeatedly bumping into the ball.
+
+99
+00:04:36,977 --> 00:04:38,080
+Does that make some sense?
+
+100
+00:04:38,080 --> 00:04:40,049
+>> It does.
+My favorite part about that is how
+
+101
+00:04:40,049 --> 00:04:42,371
+you called it an actual idea which,
+as opposed,
+
+102
+00:04:42,371 --> 00:04:44,139
+makes what I said not an actual idea.
+
+103
+00:04:44,139 --> 00:04:45,498
+But yeah, okay.
+
+104
+00:04:45,498 --> 00:04:49,178
+>> Oh,
+I did not mean to imply that or even-
+
+105
+00:04:49,178 --> 00:04:49,712
+>> That's fine.
+
+106
+00:04:49,712 --> 00:04:50,374
+>> Say it.
+
+107
+00:04:50,374 --> 00:04:51,396
+>> It's fine.
+
+108
+00:04:51,396 --> 00:04:51,953
+It's fine.
+
+109
+00:04:51,953 --> 00:04:53,260
+It's fine.
+I see what kind of rewards
+
+110
+00:04:53,260 --> 00:04:54,054
+shaping your doing.
+
+111
+00:04:54,054 --> 00:04:56,621
+It's okay.
+[LAUGH] In any case what I guess is
+
+112
+00:04:56,621 --> 00:04:58,941
+happening, so that makes sense.
+
+113
+00:04:58,941 --> 00:05:01,906
+So, you don't want to get into a place
+where you can get into a suboptimal
+
+114
+00:05:01,906 --> 00:05:02,610
+positive loop.
+
+115
+00:05:02,610 --> 00:05:05,419
+So, you're going to say,
+getting to the ball is good.
+
+116
+00:05:05,419 --> 00:05:08,577
+Getting away from the ball is not good.
+
+117
+00:05:08,577 --> 00:05:11,640
+>> So, you're going to learn to get to
+the ball and have to do something else,
+
+118
+00:05:11,640 --> 00:05:13,148
+that will get you even more reward,
+
+119
+00:05:13,148 --> 00:05:15,172
+make it worthwhile backing
+away from the ball.
+
+120
+00:05:15,172 --> 00:05:16,170
+>> Right, good.
+
+121
+00:05:16,170 --> 00:05:21,650
+And I like the thing that you said about
+not wanting to create a suboptimal loop.
+
+122
+00:05:21,650 --> 00:05:23,635
+>> A suboptimal positive loop.
+
+123
+00:05:23,635 --> 00:05:28,218
+>> [SOUND] Because a suboptimal
+positive loop is actually going to
+
+124
+00:05:28,218 --> 00:05:31,309
+cause this spurious behavior to happen.
+
+125
+00:05:31,309 --> 00:05:34,576
+If there is a way that you can
+do a sequence of actions and
+
+126
+00:05:34,576 --> 00:05:39,265
+generate profit where there really
+shouldn't have been in the environment,
+
+127
+00:05:39,265 --> 00:05:41,339
+then it's distracting, right.
+
+128
+00:05:41,339 --> 00:05:44,613
+The agent is going to end up doing
+things that you didn't wanted to do.
+
+129
+00:05:44,613 --> 00:05:47,759
+So, we have to avoid creating
+these suboptimal positive loops.
+
+130
+00:05:47,759 --> 00:05:51,950
+And so a natural idea from,
+I'm going to say physics.
+
+131
+00:05:51,950 --> 00:05:54,523
+And you can tell I'm
+an expert in physics,
+
+132
+00:05:54,523 --> 00:05:59,253
+because I understand Bellman's equation,
+Einstein's Bellman equation.
+
+133
+00:05:59,253 --> 00:06:07,355
+That is that the idea
+of potential functions.
+
+134
+00:06:07,355 --> 00:06:11,476
+What I am going to do is define
+potential functions and then show how we
+
+135
+00:06:11,476 --> 00:06:15,970
+can use them to do shaping without
+actually messing up the optimal policy.
+
+136
+00:06:15,970 --> 00:06:17,000
+>> I look forward to it.

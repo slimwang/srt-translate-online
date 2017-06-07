@@ -1,0 +1,204 @@
+﻿1
+00:00:00,000 --> 00:00:02,520
+Let's add delegation to the
+
+2
+00:00:02,520 --> 00:00:05,519
+RecordSoundsViewController. First we have to
+
+3
+00:00:05,519 --> 00:00:07,290
+tell Xcode that our RecordSoundsViewController
+
+4
+00:00:07,290 --> 00:00:09,269
+conforms to the AVAudioRecorderDelegate
+
+5
+00:00:09,269 --> 00:00:12,480
+protocol. That is to
+
+6
+00:00:12,480 --> 00:00:14,039
+say we will implement a function
+
+7
+00:00:14,039 --> 00:00:16,289
+described in that delegate protocol, and
+
+8
+00:00:16,289 --> 00:00:17,850
+our ViewController can act as the
+
+9
+00:00:17,850 --> 00:00:21,420
+delegate for the AVAudioRecorder.
+
+10
+00:00:21,420 --> 00:00:23,010
+In our RecordSoundsViewController.swift file,
+
+11
+00:00:23,010 --> 00:00:25,379
+go to the class declaration
+
+12
+00:00:25,379 --> 00:00:27,329
+and indicate that we conform to
+
+13
+00:00:27,329 --> 00:00:29,640
+the AVAudioRecorderDelegate by adding it
+
+14
+00:00:29,640 --> 00:00:33,600
+here, after UIViewController. A class in
+
+15
+00:00:33,600 --> 00:00:35,609
+Swift can only inherit from one single
+
+16
+00:00:35,609 --> 00:00:37,920
+superclass, but it can conform to as many
+
+17
+00:00:37,920 --> 00:00:40,289
+as protocols as we want. You just have
+
+18
+00:00:40,289 --> 00:00:42,450
+to list them, separated by a comma.
+
+19
+00:00:42,450 --> 00:00:44,878
+Ok now that we have that in place,
+
+20
+00:00:44,878 --> 00:00:46,530
+the next thing to do is tell
+
+21
+00:00:46,530 --> 00:00:48,659
+the AVAudioRecorderDelegate that
+
+22
+00:00:48,659 --> 00:00:51,628
+the RecordSoundsViewController can act as its delegate.
+
+23
+00:00:51,628 --> 00:00:53,549
+In the recordAudio function, we want to set
+
+24
+00:00:53,549 --> 00:00:56,009
+this View Controller as the delegate of the
+
+25
+00:00:56,009 --> 00:00:59,850
+AVAudioRecorder. All we need to do is
+
+26
+00:00:59,850 --> 00:01:02,820
+add this line.
+
+27
+00:01:02,820 --> 00:01:07,890
+Ok, let's make some space before the last
+
+28
+00:01:07,890 --> 00:01:11,728
+curly brace, because this class conforms
+
+29
+00:01:11,728 --> 00:01:14,700
+to the AVAudioRecorderDelegate. Xcode
+
+30
+00:01:14,700 --> 00:01:16,829
+knows that if we start typing, it can
+
+31
+00:01:16,829 --> 00:01:18,780
+show us functions available in that
+
+32
+00:01:18,780 --> 00:01:21,478
+delegate, including audioRecorderDidFinishRecording,
+
+33
+00:01:21,478 --> 00:01:24,118
+and that's exactly what
+
+34
+00:01:24,118 --> 00:01:24,930
+we want.
+
+35
+00:01:24,930 --> 00:01:26,579
+let's hit Enter and let Xcode fill out
+
+36
+00:01:26,579 --> 00:01:29,400
+the function for us. Now this is the
+
+37
+00:01:29,400 --> 00:01:30,750
+function we're going to use to call the
+
+38
+00:01:30,750 --> 00:01:32,819
+stopRecording Segue that we set up
+
+39
+00:01:32,819 --> 00:01:34,618
+earlier and move to the audio playback scene.
+
+40
+00:01:34,618 --> 00:01:38,310
+For now let's just add a print
+
+41
+00:01:38,310 --> 00:01:39,810
+statement to let us know when the
+
+42
+00:01:39,810 --> 00:01:41,609
+AVAudioRecorder has finished recording.
+
+43
+00:01:41,609 --> 00:01:44,340
+Let's run the app and see what happens.
+
+44
+00:01:44,340 --> 00:01:50,430
+I’ll record something. “The quick red fox
+
+45
+00:01:50,430 --> 00:01:53,759
+jumped over the brown log.” And I’ll hit
+
+46
+00:01:53,759 --> 00:01:57,359
+the stop recording button. This time the
+
+47
+00:01:57,359 --> 00:01:59,188
+Segue doesn't automatically happen when
+
+48
+00:01:59,188 --> 00:02:00,989
+pressing stop and that's the behavior we want.
+
+49
+00:02:00,989 --> 00:02:03,780
+And in the console, our print
+
+50
+00:02:03,780 --> 00:02:05,310
+statement indicates that the record
+
+51
+00:02:05,310 --> 00:02:12,468
+audio has finished and is saved.
+

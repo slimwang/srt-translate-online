@@ -1,0 +1,147 @@
+1
+00:00:00,110 --> 00:00:02,910
+Theoretically for
+a perfect consistency model,
+
+2
+00:00:02,910 --> 00:00:06,540
+we would like to achieve
+absolute ordering and
+
+3
+00:00:06,540 --> 00:00:12,400
+immediate visibility of any state update
+and axis, and we also want this to be in
+
+4
+00:00:12,400 --> 00:00:17,360
+the exact same manner as those updates
+were performed in some real time.
+
+5
+00:00:17,360 --> 00:00:20,100
+With this model,
+changes are instantaneous and
+
+6
+00:00:20,100 --> 00:00:24,830
+immediately visible everywhere, so even
+if we had some read operations that were
+
+7
+00:00:24,830 --> 00:00:29,150
+immediately performed over here
+to the locations m1 and m2,
+
+8
+00:00:29,150 --> 00:00:33,160
+they would have still returned
+these values x and y.
+
+9
+00:00:33,160 --> 00:00:38,500
+So in P3,
+regardless how far away from P1 it is,
+
+10
+00:00:38,500 --> 00:00:43,410
+P3 would always be able to
+instantaneously see that P1 performed
+
+11
+00:00:43,410 --> 00:00:48,500
+this write operation to the memory
+location m1 and that it wrote x there.
+
+12
+00:00:48,500 --> 00:00:52,370
+Furthermore, what's also really
+important about the strict consistency
+
+13
+00:00:52,370 --> 00:00:57,350
+model is that it guarantees that
+every single node in the system will
+
+14
+00:00:57,350 --> 00:01:02,580
+see all of the writes that have happened
+in the system in the exact same order.
+
+15
+00:01:02,580 --> 00:01:07,090
+So, if we have the situation where
+P3 is maybe closer to P2 than P1,
+
+16
+00:01:08,420 --> 00:01:10,280
+and these time intervals are really,
+
+17
+00:01:10,280 --> 00:01:14,270
+really small, in reality it's
+possible that it took longer for
+
+18
+00:01:14,270 --> 00:01:19,470
+this message from P1 to get to P3 so
+that P3 can see this x value.
+
+19
+00:01:19,470 --> 00:01:21,510
+That's not allowed with
+strict consistency.
+
+20
+00:01:21,510 --> 00:01:26,500
+Strict consistency, every single update
+has to be immediately visible and
+
+21
+00:01:26,500 --> 00:01:31,170
+everywhere visible, and the ordering
+of these updates needs to be preserved.
+
+22
+00:01:31,170 --> 00:01:35,240
+In practice, even in a single shared
+memory processor, there are no
+
+23
+00:01:35,240 --> 00:01:39,565
+guarantees regarding the ordering of
+memory access operations from different
+
+24
+00:01:39,565 --> 00:01:44,738
+cores, unless we use some additional
+locking and synchronization primatives.
+
+25
+00:01:44,738 --> 00:01:49,160
+In distributed systems, the additional
+latency, any possibility for
+
+26
+00:01:49,160 --> 00:01:53,770
+the messages to be lost or
+reordered make this not just harder, but
+
+27
+00:01:53,770 --> 00:01:56,270
+also even impossible to guarantee.
+
+28
+00:01:56,270 --> 00:02:00,240
+For that reason strict consistency
+remains a nice theoretical model, but
+
+29
+00:02:00,240 --> 00:02:03,160
+in practice it is not something
+that's sustainable and
+
+30
+00:02:03,160 --> 00:02:04,960
+other consistency models
+are used instead.

@@ -1,0 +1,226 @@
+﻿1
+00:00:00,280 --> 00:00:01,929
+Now that we've been
+learning a few tricks,
+
+2
+00:00:01,929 --> 00:00:04,169
+let's reexamine the challenge question.
+
+3
+00:00:04,169 --> 00:00:07,290
+We'll use our constraint hypergraph for
+the problem, where the top square
+
+4
+00:00:07,290 --> 00:00:10,820
+represents the global constraint that
+all the letters have to be different.
+
+5
+00:00:10,820 --> 00:00:16,570
+In addition, we know that O plus O
+has to be equal to r + 10 times X1,
+
+6
+00:00:16,570 --> 00:00:21,211
+where X1 represents the carry to
+the tens place, and can be 0 or 1.
+
+7
+00:00:21,211 --> 00:00:26,356
+Similarly, X1 + W + W has
+to equal U + 10 times X2,
+
+8
+00:00:26,356 --> 00:00:31,413
+where X2 represents the carry
+to the hundreds place.
+
+9
+00:00:31,413 --> 00:00:36,290
+Also, X2 + T + T has got
+to equal O + 10 times X3,
+
+10
+00:00:36,290 --> 00:00:41,399
+where X3 is the carry
+to the thousands place.
+
+11
+00:00:41,399 --> 00:00:44,229
+And F has to equal X3.
+
+12
+00:00:44,229 --> 00:00:47,000
+We also know that F cannot be 0,
+
+13
+00:00:47,000 --> 00:00:49,887
+because the problem does
+not allow leading zeroes.
+
+14
+00:00:49,887 --> 00:00:53,329
+So now we're going to use the strategy
+we learned of back tracking with forward
+
+15
+00:00:53,329 --> 00:00:56,589
+checking in the MRV and
+least constraining value heuristics.
+
+16
+00:00:56,590 --> 00:00:59,090
+There are a couple of ways
+to follow this procedure,
+
+17
+00:00:59,090 --> 00:01:01,980
+and we'll show one here for
+illustration purposes.
+
+18
+00:01:01,979 --> 00:01:07,439
+First, let's choose the X3 variable,
+if the mean is 0 and 1.
+
+19
+00:01:07,439 --> 00:01:08,989
+Choose the value 1 for X3.
+
+20
+00:01:08,989 --> 00:01:10,839
+We can't choose 0.
+
+21
+00:01:10,840 --> 00:01:14,281
+It wouldn't survive forward checking,
+because it would force F to be 0, and
+
+22
+00:01:14,281 --> 00:01:17,380
+the leading digit of
+the sum must be non-zero.
+
+23
+00:01:17,379 --> 00:01:21,069
+Choose F because it has
+only one remaining value.
+
+24
+00:01:21,069 --> 00:01:22,159
+Choose the value 1 for F.
+
+25
+00:01:23,219 --> 00:01:28,549
+Now, X2 and X1 are tied for
+minimum remaining values at 2.
+
+26
+00:01:28,549 --> 00:01:29,709
+Let's choose X2.
+
+27
+00:01:30,829 --> 00:01:32,810
+Either value survives forward checking.
+
+28
+00:01:32,810 --> 00:01:35,150
+Let's choose 0 for X2.
+
+29
+00:01:35,150 --> 00:01:37,530
+Now X1 has the minimum remaining values.
+
+30
+00:01:37,530 --> 00:01:41,706
+Again, arbitrarily choose 0 for
+the value X1.
+
+31
+00:01:41,706 --> 00:01:46,740
+The variable O must be an even number,
+because it is a sum
+
+32
+00:01:46,740 --> 00:01:52,003
+of T + T less than 5 because
+O + O equals R + 10 times 0.
+
+33
+00:01:52,003 --> 00:01:54,569
+That makes it most constrained.
+
+34
+00:01:54,569 --> 00:01:57,599
+Arbitrarily chose 4 as the value for O.
+
+35
+00:01:57,599 --> 00:02:00,719
+Now R has only one remaining value.
+
+36
+00:02:00,719 --> 00:02:02,420
+Chose the value 8 for R.
+
+37
+00:02:03,579 --> 00:02:06,629
+T now has only one remaining value.
+
+38
+00:02:06,629 --> 00:02:09,566
+Choose the value 7 for T.
+
+39
+00:02:09,566 --> 00:02:13,658
+U must be an even number less than 9,
+choose U.
+
+40
+00:02:13,658 --> 00:02:17,132
+The only value for
+U that survives forward checking is 6.
+
+41
+00:02:17,133 --> 00:02:19,570
+The only variable left is W.
+
+42
+00:02:19,570 --> 00:02:21,603
+The only value left for W is 3.
+
+43
+00:02:22,629 --> 00:02:24,210
+This is the solution.
+
+44
+00:02:24,210 --> 00:02:27,460
+This puzzle's rather easy
+because it is underconstrained.
+
+45
+00:02:27,460 --> 00:02:30,890
+It is not surprising that we arrive
+at a solution with no backtracking,
+
+46
+00:02:30,889 --> 00:02:33,469
+given that we are allowed
+to use forward checking.
+
+47
+00:02:33,469 --> 00:02:35,710
+We could've used iterative
+improvement for this problem, and
+
+48
+00:02:35,710 --> 00:02:38,580
+it probably would have converged
+quickly as it's underconstrained.
+
+49
+00:02:38,580 --> 00:02:41,000
+But I find it difficult to keep all
+those numbers and letters in my head.
+

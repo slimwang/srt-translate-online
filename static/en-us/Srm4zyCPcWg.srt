@@ -1,0 +1,416 @@
+1
+00:00:00,380 --> 00:00:03,040
+So our Catalog Activity
+is looking pretty good.
+
+2
+00:00:03,040 --> 00:00:06,240
+So now we want to tackle one of the big
+remaining functionalities which is
+
+3
+00:00:06,240 --> 00:00:08,500
+implementing the detail screen.
+
+4
+00:00:08,500 --> 00:00:11,420
+So instead of adding a brand
+new activity to your app,
+
+5
+00:00:11,420 --> 00:00:14,870
+we can actually go ahead and use our
+existing Editor Activity for this.
+
+6
+00:00:14,870 --> 00:00:15,986
+What's the modifications?
+
+7
+00:00:15,986 --> 00:00:21,720
+So one way to think of this, is that
+the Editor Activity will have two modes.
+
+8
+00:00:21,720 --> 00:00:24,710
+So the first mode will
+be inserting a new pet
+
+9
+00:00:24,710 --> 00:00:27,780
+which is triggered when
+you press the FAB button.
+
+10
+00:00:27,780 --> 00:00:30,860
+So from this mode,
+the title will say, Add a Pet and
+
+11
+00:00:30,860 --> 00:00:32,740
+the fields will be all blank and
+
+12
+00:00:32,740 --> 00:00:36,360
+then pressing the save button will
+insert this new pet into our database.
+
+13
+00:00:37,490 --> 00:00:41,920
+The second mode is an edit mode
+where we allow to edit a pet and
+
+14
+00:00:41,920 --> 00:00:45,250
+this will be triggered when one of
+the pets in list view is clicked on.
+
+15
+00:00:46,250 --> 00:00:51,270
+So in this mode, the title will say Edit
+Pet and the fields will be pre-populated
+
+16
+00:00:51,270 --> 00:00:55,010
+with the existing pet's information and
+pressing the Save button here
+
+17
+00:00:55,010 --> 00:00:58,530
+will update the pet's info instead
+of making a brand new pet.
+
+18
+00:00:58,530 --> 00:01:01,210
+Now our Insert Mode Is already done.
+
+19
+00:01:01,210 --> 00:01:05,489
+So that means we just need to add logic
+to differentiate between these two modes
+
+20
+00:01:05,489 --> 00:01:08,740
+and then add code for
+the edit-mode function.
+
+21
+00:01:08,740 --> 00:01:12,030
+So building this out will
+require quite a bit of code, but
+
+22
+00:01:12,030 --> 00:01:14,000
+let's start off with
+a small coding task.
+
+23
+00:01:15,010 --> 00:01:18,870
+So for this small coding step,
+I just want to focus on pressing
+
+24
+00:01:18,870 --> 00:01:21,990
+one of the list items and
+then have it open up the EditorActivity.
+
+25
+00:01:23,060 --> 00:01:26,660
+In addition, I want it to display
+whether the editor is in edit mode or
+
+26
+00:01:26,660 --> 00:01:29,040
+the insert mode via what's in the title.
+
+27
+00:01:30,270 --> 00:01:33,370
+Right now, there's no need to
+populate these fields just yet,
+
+28
+00:01:33,370 --> 00:01:34,200
+just changing the title.
+
+29
+00:01:35,660 --> 00:01:39,760
+So populating these fields will involve
+more than just triggering an intent
+
+30
+00:01:39,760 --> 00:01:43,265
+that's opens up a new activity
+because the intent to do so
+
+31
+00:01:43,265 --> 00:01:46,900
+we'll need to include some data
+which shows the fact that the user
+
+32
+00:01:46,900 --> 00:01:49,370
+has clicked on a list view item.
+
+33
+00:01:49,370 --> 00:01:52,980
+So to help us eventually build out so
+that the edit mode of the editor
+
+34
+00:01:52,980 --> 00:01:56,870
+activity will eventually show
+the information about the existing pet,
+
+35
+00:01:56,870 --> 00:02:01,160
+we can add the URI to
+the data field of the intent.
+
+36
+00:02:01,160 --> 00:02:03,650
+So the URI will contain
+the ID of the pet and
+
+37
+00:02:03,650 --> 00:02:05,990
+we'll pass it along to
+the EditorActivity.
+
+38
+00:02:07,150 --> 00:02:10,229
+And so we can use the data field of
+the intent because it's meant for
+
+39
+00:02:10,229 --> 00:02:11,700
+storing URIs.
+
+40
+00:02:11,700 --> 00:02:15,220
+So to sum it up, by the end of this
+coding step, the user will be able to
+
+41
+00:02:15,220 --> 00:02:20,010
+press any of the pet list view items and
+the URI for that pet will be sent
+
+42
+00:02:20,010 --> 00:02:24,230
+along in an intent data field to
+the editor activity in edit mode.
+
+43
+00:02:24,230 --> 00:02:27,860
+Now here's how you would implement code.
+
+44
+00:02:29,040 --> 00:02:32,440
+So first you'll need to add an on item
+click lister onto the pet list view.
+
+45
+00:02:33,920 --> 00:02:34,470
+Now inside of it,
+
+46
+00:02:34,470 --> 00:02:37,420
+you need to create an instance
+of a new on item click listener.
+
+47
+00:02:39,700 --> 00:02:42,050
+Now remember the reason that
+it's thrown an error right now,
+
+48
+00:02:42,050 --> 00:02:44,280
+is that there's a method that
+we still need to implement.
+
+49
+00:02:44,280 --> 00:02:48,280
+So to help us with that, go ahead and
+click on this red light bulb.
+
+50
+00:02:48,280 --> 00:02:49,550
+Go to implement methods,
+
+51
+00:02:49,550 --> 00:02:53,780
+and it will pull in the on items click
+method that we need to implement.
+
+52
+00:02:53,780 --> 00:02:56,052
+So go ahead and select that, click OK,
+
+53
+00:02:56,052 --> 00:02:58,560
+and then it pulls in a template
+of the method for us.
+
+54
+00:02:59,680 --> 00:03:03,130
+Now remember on item click is the method
+that's triggered when the list view
+
+55
+00:03:03,130 --> 00:03:03,790
+item is clicked on.
+
+56
+00:03:05,240 --> 00:03:07,940
+So by default,
+we're given these parameter names, but
+
+57
+00:03:07,940 --> 00:03:09,929
+I'm going to change a couple of
+them to be more useful to us.
+
+58
+00:03:11,300 --> 00:03:14,310
+So first we have the adaptor view,
+and this is just the listview.
+
+59
+00:03:15,550 --> 00:03:18,330
+Next is view, which is
+the particular view for the item.
+
+60
+00:03:20,270 --> 00:03:24,210
+Following is integer, which is the
+position of the item in the listview.
+
+61
+00:03:24,210 --> 00:03:27,190
+So let's go ahead and
+change this from I to position.
+
+62
+00:03:28,960 --> 00:03:31,530
+And lastly, is the long parameter.
+
+63
+00:03:31,530 --> 00:03:36,230
+So long here is the ID of the item and
+let's change this from L to ID.
+
+64
+00:03:37,370 --> 00:03:40,300
+So this parameter will be particularly
+useful for us since we'll
+
+65
+00:03:40,300 --> 00:03:45,420
+be generating the URI for the pet In
+order to pass along as an intent extra.
+
+66
+00:03:45,420 --> 00:03:48,740
+So we'll need this ID to identify
+which item we've clicked on.
+
+67
+00:03:50,430 --> 00:03:53,490
+So here are two hints for accomplishing
+this inside the onCreate method.
+
+68
+00:03:54,800 --> 00:03:57,220
+So once you receive the intent
+from the CatalogActivity,
+
+69
+00:03:58,300 --> 00:04:00,520
+you have to use the getIntent method and
+
+70
+00:04:00,520 --> 00:04:04,330
+the getData method in order to get
+the associated URI from the intent.
+
+71
+00:04:05,360 --> 00:04:08,680
+Now once we have that information,
+you have to set the title of the editor
+
+72
+00:04:08,680 --> 00:04:11,790
+activity depending on
+which situation you have.
+
+73
+00:04:11,790 --> 00:04:15,040
+So the two situations, remember,
+are if the editor activity
+
+74
+00:04:15,040 --> 00:04:19,209
+were opened from using the list view
+item, then we'll have the URI for
+
+75
+00:04:19,209 --> 00:04:22,660
+the pet, so we should change
+the app bar to say Edit Pet.
+
+76
+00:04:23,750 --> 00:04:28,980
+Otherwise, if we are coming from a new
+pet, that means the URI is null, so
+
+77
+00:04:28,980 --> 00:04:30,990
+the app bar title should
+change to Add a Pet.
+
+78
+00:04:32,010 --> 00:04:34,790
+So given these hints and
+the flow of information, go ahead and
+
+79
+00:04:34,790 --> 00:04:35,420
+complete the quiz.
+
+80
+00:04:36,630 --> 00:04:40,130
+So for this coding step, I'd like
+you to modify the editoractivity so
+
+81
+00:04:40,130 --> 00:04:42,580
+that it accommodates editing pets.
+
+82
+00:04:42,580 --> 00:04:44,470
+So to do so, add the functionality so
+
+83
+00:04:44,470 --> 00:04:48,500
+that when you press a list item view
+from the catalog activity, it, 1,,
+
+84
+00:04:48,500 --> 00:04:53,450
+opens up an Editor Activity,
+2, has a title of Edit Pet and
+
+85
+00:04:53,450 --> 00:04:59,080
+then 3, passes the selected Pet's URI
+by setting the data of the intent.
+
+86
+00:04:59,080 --> 00:05:02,380
+As a hint, remember you can always
+log the URI in the log statement
+
+87
+00:05:02,380 --> 00:05:04,730
+in order to test if the URI
+was passed along correctly.

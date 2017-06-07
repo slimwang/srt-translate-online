@@ -1,0 +1,300 @@
+1
+00:00:00,400 --> 00:00:06,300
+Using D3.js you can add, remove and
+change DOM nodes programmatically.
+
+2
+00:00:06,300 --> 00:00:10,580
+I'll show you how to change the
+background color of this navigation bar.
+
+3
+00:00:10,580 --> 00:00:14,160
+First I'll right-click on
+the element and click Inspect.
+
+4
+00:00:14,160 --> 00:00:16,590
+Now, sometimes you might not
+get the element you intended,
+
+5
+00:00:16,590 --> 00:00:19,910
+because the element you click on is
+a child of the element that you want.
+
+6
+00:00:21,000 --> 00:00:23,900
+You can check this by looking
+at the highlighted element and
+
+7
+00:00:23,900 --> 00:00:25,902
+the HTML tag in this HTML panel.
+
+8
+00:00:25,902 --> 00:00:28,950
+You want to be sure you
+have the right element.
+
+9
+00:00:28,950 --> 00:00:29,910
+Now, looking at this,
+
+10
+00:00:29,910 --> 00:00:33,520
+it looks like I have a child
+element of one of the parent ones.
+
+11
+00:00:33,520 --> 00:00:38,040
+So I have this navbar header which
+doesn't quite grab the entire navbar.
+
+12
+00:00:38,040 --> 00:00:41,000
+And I can see this by hovering
+over the DOM element.
+
+13
+00:00:41,000 --> 00:00:46,620
+Here's a nav container, and then here
+it looks like I have the entire navbar.
+
+14
+00:00:46,620 --> 00:00:51,000
+So let's use one of the classes
+here to select the navbar element.
+
+15
+00:00:51,000 --> 00:00:56,570
+So I'll select this navbar by using the
+.navbar class in my select statement.
+
+16
+00:00:56,570 --> 00:01:00,490
+I noticed a D3 arrays is returned
+which contains our DOM node.
+
+17
+00:01:00,490 --> 00:01:03,000
+And hovering over the DOM node
+highlights the element in
+
+18
+00:01:03,000 --> 00:01:04,260
+the View window.
+
+19
+00:01:04,260 --> 00:01:06,680
+Now if we want to change
+the background color,
+
+20
+00:01:06,680 --> 00:01:11,650
+we'll need some sort of D3 method to
+adjust the style or the CSS properties.
+
+21
+00:01:11,650 --> 00:01:13,730
+Let's go to the documentation.
+
+22
+00:01:13,730 --> 00:01:15,760
+So in Selections,
+we're going to look for
+
+23
+00:01:15,760 --> 00:01:18,540
+something that can
+adjust CSS properties.
+
+24
+00:01:18,540 --> 00:01:23,460
+And it's looks like this one, style,
+will do it, get or set style properties.
+
+25
+00:01:23,460 --> 00:01:27,060
+The style method allows you to change
+the styling of a particular element on
+
+26
+00:01:27,060 --> 00:01:32,660
+the page, by passing in a CSS
+property and a corresponding value.
+
+27
+00:01:32,660 --> 00:01:37,500
+Also, notice that the style property
+operates or acts on a selection.
+
+28
+00:01:37,500 --> 00:01:39,570
+This is important for
+the chainable nature of D3,
+
+29
+00:01:39,570 --> 00:01:42,100
+which you'll see in just a minute.
+
+30
+00:01:42,100 --> 00:01:45,590
+Also, notice that we can set
+more than one property at once.
+
+31
+00:01:45,590 --> 00:01:47,620
+We can pass in an object literal,
+
+32
+00:01:47,620 --> 00:01:50,655
+which is just the notation
+of a JavaScript object.
+
+33
+00:01:50,655 --> 00:01:54,535
+And we pass in the properties
+that we want as the keys
+
+34
+00:01:54,535 --> 00:01:57,265
+in the corresponding values.
+
+35
+00:01:57,265 --> 00:01:59,455
+Let's try this out on a console.
+
+36
+00:01:59,455 --> 00:02:03,702
+So with my selection I'm going to
+pass in a key of background color.
+
+37
+00:02:03,702 --> 00:02:06,622
+And recall if I don't pass in any value,
+
+38
+00:02:06,622 --> 00:02:10,012
+then I'll just get what's currently
+set as the background color.
+
+39
+00:02:10,012 --> 00:02:12,082
+And now if I'd like to
+change the background color,
+
+40
+00:02:12,082 --> 00:02:16,212
+I want to pass in a corresponding
+value as the second argument.
+
+41
+00:02:16,212 --> 00:02:18,932
+Now, there's two important
+things to notice here.
+
+42
+00:02:18,932 --> 00:02:22,612
+First, the background color on the nav
+bar did actually change, I mean,
+
+43
+00:02:22,612 --> 00:02:24,462
+that's what we wanted to do.
+
+44
+00:02:24,462 --> 00:02:28,250
+And second,
+the code returned another array, and
+
+45
+00:02:28,250 --> 00:02:29,370
+let's look at what was returned.
+
+46
+00:02:31,180 --> 00:02:32,120
+It looks like a selection.
+
+47
+00:02:33,310 --> 00:02:36,370
+It turns out it's the same
+selection we had before.
+
+48
+00:02:36,370 --> 00:02:39,710
+And this is why many of
+D3's methods are chainable,
+
+49
+00:02:39,710 --> 00:02:44,200
+most methods defined in D3 return
+whatever object they were called on.
+
+50
+00:02:44,200 --> 00:02:48,040
+So in this case, D3 finds and
+returns a selection and
+
+51
+00:02:48,040 --> 00:02:51,400
+then passes that selection
+to the next function.
+
+52
+00:02:51,400 --> 00:02:55,240
+So, before we were saving our selection
+into our variable called elem, but
+
+53
+00:02:55,240 --> 00:02:57,529
+we actually don't even
+need this variable.
+
+54
+00:02:57,529 --> 00:03:00,369
+We can just use our first selection and
+
+55
+00:03:00,369 --> 00:03:05,073
+then chain on the style function
+to work on that for selection,
+
+56
+00:03:05,073 --> 00:03:09,627
+and this is what I mean by
+the chainable nature of D3's API.
+
+57
+00:03:09,627 --> 00:03:13,261
+You can use multiple functions to
+operate on different selections,
+
+58
+00:03:13,261 --> 00:03:15,838
+or in different objects,
+that are D3 objects.
+
+59
+00:03:15,838 --> 00:03:19,172
+So again if I would like to
+change the nav bar, all I need to
+
+60
+00:03:19,172 --> 00:03:24,080
+do is select the nav bar first and
+then style the background as I'd like.
+
+61
+00:03:24,080 --> 00:03:28,110
+This second method operates on
+the first selection that we created.
+
+62
+00:03:28,110 --> 00:03:33,972
+And this entire function, or this second
+method, returns a new selection for us.
+
+63
+00:03:33,972 --> 00:03:35,479
+[BLANK_AUDIO]

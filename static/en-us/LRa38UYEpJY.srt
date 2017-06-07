@@ -1,0 +1,1354 @@
+1
+00:00:00,800 --> 00:00:02,790
+So for our last question,
+
+2
+00:00:02,790 --> 00:00:07,580
+I was hoping we could do
+another simple Python method.
+
+3
+00:00:07,580 --> 00:00:11,279
+Let's say I give you
+an array full of integers.
+
+4
+00:00:11,279 --> 00:00:13,073
+And I give you a number.
+
+5
+00:00:13,073 --> 00:00:14,308
+Let's call it k.
+
+6
+00:00:14,308 --> 00:00:17,132
+I want you to tell me if any two
+numbers in the array add up to k.
+
+7
+00:00:18,236 --> 00:00:20,443
+Cool, okay, so
+this is like an algorithms problem.
+
+8
+00:00:20,443 --> 00:00:22,553
+It's probably going to be a little
+bit trickier than the last one.
+
+9
+00:00:22,553 --> 00:00:24,214
+>> Yep, this one's trickier.
+
+10
+00:00:24,214 --> 00:00:28,326
+>> Okay, so we have this list or
+array and it has, I guess,
+
+11
+00:00:28,326 --> 00:00:31,398
+do we know anything
+about how large it is?
+
+12
+00:00:31,398 --> 00:00:31,940
+I guess not really.
+
+13
+00:00:31,940 --> 00:00:35,386
+>> Just that it has n elements.
+
+14
+00:00:35,386 --> 00:00:36,993
+>> Okay, cool, that's okay.
+And it returns, I guess,
+
+15
+00:00:36,993 --> 00:00:39,186
+the indexes of the two
+elements that may or may not?
+
+16
+00:00:39,186 --> 00:00:40,765
+>> Sure, sure.
+
+17
+00:00:40,765 --> 00:00:41,900
+>> So let's think.
+
+18
+00:00:41,900 --> 00:00:44,348
+>> Or if it's simpler,
+we can just start with saying,
+
+19
+00:00:44,348 --> 00:00:46,083
+does it have two numbers that up to k?
+
+20
+00:00:46,083 --> 00:00:49,033
+>> Okay, so to start with,
+just as brainstorming,
+
+21
+00:00:49,033 --> 00:00:53,340
+I'll think about the different
+potential ways to tackle this problem.
+
+22
+00:00:54,500 --> 00:00:59,035
+So you know the obvious solution is
+to do like a nested for-loop thing,
+
+23
+00:00:59,035 --> 00:01:01,505
+where we compare every element to every
+other element, and we do that for
+
+24
+00:01:01,505 --> 00:01:06,335
+every element so that you're looking at
+every single combination of things and
+
+25
+00:01:06,335 --> 00:01:07,795
+to see if they add up to k.
+
+26
+00:01:07,795 --> 00:01:09,655
+>> How many combinations are there?
+
+27
+00:01:09,655 --> 00:01:14,260
+>> I guess that is n times n, n squared?
+
+28
+00:01:14,260 --> 00:01:16,045
+>> Mm-hm, it's o of n squared.
+
+29
+00:01:16,045 --> 00:01:18,670
+>> Yeah.
+>> Okay, cool.
+
+30
+00:01:18,670 --> 00:01:20,150
+>> So usually when you
+come up with an algorithm
+
+31
+00:01:20,150 --> 00:01:22,911
+that involves something like that, it's
+probably not the best way to do things.
+
+32
+00:01:22,911 --> 00:01:26,430
+So I want to put my thinking cap now and
+see what else I can come up with.
+
+33
+00:01:26,430 --> 00:01:27,570
+>> Okay, cool.
+
+34
+00:01:27,570 --> 00:01:29,234
+>> Let's see.
+
+35
+00:01:31,127 --> 00:01:34,464
+So, I'm trying to see if we
+can make a simpler problem,
+
+36
+00:01:34,464 --> 00:01:37,447
+so we can come to a dynamic
+programming solution or
+
+37
+00:01:37,447 --> 00:01:41,579
+a recursive of like a subproblem
+I can solve that's easier.
+
+38
+00:01:41,579 --> 00:01:44,653
+Let's see, hm.
+
+39
+00:01:47,331 --> 00:01:53,291
+So I guess one thing you could do
+that's maybe less space-efficient.
+
+40
+00:01:53,291 --> 00:01:58,165
+Hm, let's see, yeah, okay, so, I'm going
+to, is it safe to assume that I have
+
+41
+00:01:58,165 --> 00:02:02,144
+a library of good data structures
+like a hash table or set I can use?
+
+42
+00:02:02,144 --> 00:02:03,930
+>> Yep, yep, definitely.
+
+43
+00:02:03,930 --> 00:02:08,288
+>> Okay, so
+I guess what I could do is I'll
+
+44
+00:02:08,288 --> 00:02:11,465
+kind of sketch out the more
+abstract idea before I code it.
+
+45
+00:02:11,465 --> 00:02:14,470
+So I could kind of iterate
+through the array in order.
+
+46
+00:02:14,470 --> 00:02:16,590
+And as I go I can kind
+
+47
+00:02:17,680 --> 00:02:22,230
+of record what number would go
+with this number to make it work.
+
+48
+00:02:22,230 --> 00:02:23,577
+For instance, I'll do an example.
+
+49
+00:02:23,577 --> 00:02:29,686
+Let's say our list is 2,
+
+50
+00:02:29,686 --> 00:02:35,250
+4, 7, 3 and k = 9.
+
+51
+00:02:35,250 --> 00:02:38,262
+So if I iterated through
+this array in order,
+
+52
+00:02:38,262 --> 00:02:43,580
+I could say we've seen the number 2, so
+if we see an eight, then we're done.
+
+53
+00:02:43,580 --> 00:02:46,591
+So I'll put that into my set, or I could
+have like a hash map or something.
+
+54
+00:02:46,591 --> 00:02:48,090
+>> If we see an eight, we're done?
+
+55
+00:02:48,090 --> 00:02:52,607
+Yeah, so, I'd put this into a set,
+so I know I've seen the 2 so
+
+56
+00:02:52,607 --> 00:02:56,200
+that means if we, sorry, I mean seven.
+
+57
+00:02:56,200 --> 00:02:59,415
+So if I, so if we later on encounter
+a seven, then we can stop there.
+
+58
+00:02:59,415 --> 00:03:00,180
+>> Okay.
+
+59
+00:03:00,180 --> 00:03:05,780
+>> So I'll put into my set a seven.
+
+60
+00:03:05,780 --> 00:03:09,950
+And then we'll move on to the next
+digit, or the next item in the list.
+
+61
+00:03:09,950 --> 00:03:14,230
+Let's use our happy bracket syntax so
+we know what we're talking about.
+
+62
+00:03:14,230 --> 00:03:15,760
+So I come up to a 4.
+
+63
+00:03:15,760 --> 00:03:17,820
+I can do a little subtraction to say,
+okay,
+
+64
+00:03:17,820 --> 00:03:22,466
+if we see a five down the road,
+then we know that that's our other pair.
+
+65
+00:03:22,466 --> 00:03:25,090
+So I'll put my five into the set.
+
+66
+00:03:25,090 --> 00:03:28,360
+>> And at the same time we're
+checking that 4 is for 7 or 9.
+
+67
+00:03:28,360 --> 00:03:32,550
+>> Yeah, so we'll do like
+a membership test like when this set.
+
+68
+00:03:32,550 --> 00:03:33,512
+>> Okay.
+
+69
+00:03:33,512 --> 00:03:36,540
+>> And then we can,
+good catch, by the way.
+
+70
+00:03:36,540 --> 00:03:41,716
+And so then we continue our iteration
+because 4 wasn't a member of the set.
+
+71
+00:03:41,716 --> 00:03:46,010
+And so we get to 7, and so
+we first do our membership check.
+
+72
+00:03:46,010 --> 00:03:49,100
+Then we see that there is a 7 here,
+so we know 7.
+
+73
+00:03:49,100 --> 00:03:52,512
+We can return 7 and we can get
+the other number in reverse, but
+
+74
+00:03:52,512 --> 00:03:54,600
+it's like k minus seven is two.
+
+75
+00:03:54,600 --> 00:03:56,700
+So that's our second pair.
+
+76
+00:03:56,700 --> 00:03:58,860
+So yeah,
+that's the outline of the solution.
+
+77
+00:03:58,860 --> 00:04:00,770
+>> So tell me the runtime now.
+
+78
+00:04:00,770 --> 00:04:03,280
+>> Okay, so
+there's a few moving parts here.
+
+79
+00:04:03,280 --> 00:04:07,340
+So of the outer level, there's this
+iteration through the list of n items.
+
+80
+00:04:07,340 --> 00:04:09,440
+So it's o(n).
+
+81
+00:04:09,440 --> 00:04:11,240
+>> Next up,
+
+82
+00:04:11,240 --> 00:04:16,680
+in each step we are doing an insertion
+to the set which involves hashing it.
+
+83
+00:04:16,680 --> 00:04:17,589
+>> Okay.
+
+84
+00:04:17,589 --> 00:04:20,930
+>> Which,
+I should have studied ahead of time.
+
+85
+00:04:20,930 --> 00:04:22,620
+Let's see, inserting into a set.
+
+86
+00:04:22,620 --> 00:04:23,500
+What's the runtime?
+
+87
+00:04:24,800 --> 00:04:27,210
+>> So, quick question,
+is this just a list or
+
+88
+00:04:27,210 --> 00:04:29,460
+is this a hash map that you're doing?
+
+89
+00:04:29,460 --> 00:04:29,980
+>> It's a hash map.
+
+90
+00:04:29,980 --> 00:04:30,550
+>> Okay.
+
+91
+00:04:30,550 --> 00:04:31,404
+Yeah.
+
+92
+00:04:33,101 --> 00:04:38,005
+Yeah, because I'm pretty sure I remember
+that they were testing for membership in
+
+93
+00:04:38,005 --> 00:04:42,650
+like a list or an array would be an o of
+n time, but we can do it faster here.
+
+94
+00:04:42,650 --> 00:04:44,217
+Like I think it's log of n.
+
+95
+00:04:44,217 --> 00:04:48,870
+So I think insertions and checks are
+both log of n, if I remember correctly.
+
+96
+00:04:48,870 --> 00:04:49,950
+>> It's o of one.
+
+97
+00:04:49,950 --> 00:04:51,300
+>> Really?
+Well that's even better.
+
+98
+00:04:51,300 --> 00:04:53,242
+That's why I went to the set, obviously.
+
+99
+00:04:53,242 --> 00:04:53,987
+[LAUGH]
+>> [LAUGH]
+
+100
+00:04:53,987 --> 00:04:54,544
+>> And so we
+
+101
+00:04:54,544 --> 00:04:58,650
+have this o(n) cycling through
+plus the set operations.
+
+102
+00:04:58,650 --> 00:05:00,820
+We have the checking
+if it's a membership.
+
+103
+00:05:00,820 --> 00:05:03,810
+And so that is some o(1) at each step.
+
+104
+00:05:04,920 --> 00:05:06,240
+So that's times n.
+
+105
+00:05:07,900 --> 00:05:11,860
+So, I guess, altogether,
+the entire thing is o(n).
+
+106
+00:05:11,860 --> 00:05:15,710
+>> Okay, and can you tell me
+how much space we're using up?
+
+107
+00:05:15,710 --> 00:05:21,950
+>> So the original list is n elements
+long, the set, I guess, is also n big.
+
+108
+00:05:21,950 --> 00:05:25,530
+So, I guess, the size of
+the whole thing is order of n.
+
+109
+00:05:25,530 --> 00:05:27,959
+>> Okay, all right, great.
+
+110
+00:05:27,959 --> 00:05:30,448
+Let's start writing up how
+this would be in Python.
+
+111
+00:05:30,448 --> 00:05:33,460
+>> Okay, cool.
+
+112
+00:05:33,460 --> 00:05:36,960
+Let's see, I'm going to work over here.
+
+113
+00:05:38,410 --> 00:05:43,740
+So, I guess this function is called,
+we'll just call this,
+
+114
+00:05:43,740 --> 00:05:45,034
+it's really abstract,
+I'll just call it func.
+
+115
+00:05:46,650 --> 00:05:47,750
+And it takes in two inputs.
+
+116
+00:05:47,750 --> 00:05:50,140
+It takes in the list named l.
+
+117
+00:05:50,140 --> 00:05:53,880
+And it takes in k,
+which is our sum we hope to find.
+
+118
+00:05:53,880 --> 00:05:55,366
+>> Okay.
+
+119
+00:05:55,366 --> 00:05:57,390
+>> So first I'll make this set.
+
+120
+00:05:57,390 --> 00:06:02,680
+Let's see, do you want this to be
+strict Python or can I do like?
+
+121
+00:06:02,680 --> 00:06:04,991
+because I don't know the actual
+the how to create a set.
+
+122
+00:06:04,991 --> 00:06:06,984
+I think-
+>> It's a dictionary.
+
+123
+00:06:06,984 --> 00:06:08,759
+You said wanted it to be a hash map,
+right?
+
+124
+00:06:08,759 --> 00:06:12,157
+>> Okay, yeah, well,
+I guess Python has two.
+
+125
+00:06:12,157 --> 00:06:14,400
+It has it's dictionary type,
+and also has a set type.
+
+126
+00:06:14,400 --> 00:06:15,259
+>> Let's use dictionary.
+
+127
+00:06:15,259 --> 00:06:16,890
+>> Okay, cool.
+
+128
+00:06:16,890 --> 00:06:18,610
+So, first we'll make our set.
+
+129
+00:06:18,610 --> 00:06:22,750
+We'll call it set, and
+we'll just make it empty dictionary.
+
+130
+00:06:23,860 --> 00:06:26,920
+And then we can get into
+the meat of our solution.
+
+131
+00:06:26,920 --> 00:06:28,515
+So, let's do this for-loop.
+
+132
+00:06:30,010 --> 00:06:35,341
+So it will do for n in l.
+
+133
+00:06:35,341 --> 00:06:36,410
+That's an l.
+
+134
+00:06:36,410 --> 00:06:38,432
+I should use distinct characters,
+I guess.
+
+135
+00:06:42,597 --> 00:06:47,400
+So for each element in this list of
+integers, we will do two things.
+
+136
+00:06:47,400 --> 00:06:51,430
+We will say if it's in set, then
+there's, we need some text for that.
+
+137
+00:06:51,430 --> 00:06:54,959
+So, wait, no, let's see.
+
+138
+00:06:54,959 --> 00:06:59,115
+So we want to see if this number is the
+complement of a previously seen number.
+
+139
+00:06:59,115 --> 00:07:00,655
+Remember that step?
+
+140
+00:07:00,655 --> 00:07:02,935
+So, if-
+>> K minus.
+
+141
+00:07:02,935 --> 00:07:08,295
+>> Yeah, if k- n, that's in set,
+
+142
+00:07:08,295 --> 00:07:11,550
+then we can return,
+
+143
+00:07:11,550 --> 00:07:16,719
+then we return k- n, and then,
+
+144
+00:07:16,719 --> 00:07:22,282
+and we'll turn those into tuple.
+
+145
+00:07:22,282 --> 00:07:26,760
+So return n, k- n.
+
+146
+00:07:26,760 --> 00:07:29,634
+So if it's not in the set,
+we insert it into the set.
+
+147
+00:07:29,634 --> 00:07:33,441
+So, in that case, we just put, or
+we don't put insert into the set,
+
+148
+00:07:33,441 --> 00:07:35,752
+we insert its complement, like we said.
+
+149
+00:07:35,752 --> 00:07:39,982
+So, So,
+
+150
+00:07:39,982 --> 00:07:44,145
+else, we'll do, let's see.
+
+151
+00:07:50,478 --> 00:07:52,748
+These are, should be square brackets.
+
+152
+00:07:59,350 --> 00:08:02,990
+And just to mark that as a member of
+the set, we'll set this equal to true.
+
+153
+00:08:02,990 --> 00:08:03,490
+>> Okay.
+
+154
+00:08:04,500 --> 00:08:07,306
+>> And I guess if we reach
+the end of the function and,
+
+155
+00:08:07,306 --> 00:08:09,556
+I guess we need to do the check.
+
+156
+00:08:09,556 --> 00:08:11,388
+Let's see.
+
+157
+00:08:11,388 --> 00:08:13,510
+So we see if it's in the set,
+if not, we put it in the set and
+
+158
+00:08:13,510 --> 00:08:14,110
+then we continue on.
+
+159
+00:08:15,990 --> 00:08:17,830
+So I guess if we make it through
+to the end of the array and
+
+160
+00:08:17,830 --> 00:08:22,172
+we haven't come up with anything,
+there is no paired return so
+
+161
+00:08:22,172 --> 00:08:24,990
+we'll just return none,
+which is the default to that behavior.
+
+162
+00:08:24,990 --> 00:08:27,300
+>> Okay, all right, perfect.
+
+163
+00:08:28,940 --> 00:08:32,924
+So now can we dive a little bit deeper
+into how a hash map is working?
+
+164
+00:08:32,924 --> 00:08:35,481
+So this is a dictionary.
+
+165
+00:08:35,481 --> 00:08:43,749
+So, how do we match a key
+to a value in a hash map?
+
+166
+00:08:43,749 --> 00:08:45,545
+How does that whole process work?
+
+167
+00:08:45,545 --> 00:08:48,957
+>> So
+that process relies on a hash function.
+
+168
+00:08:48,957 --> 00:08:50,069
+So, a hash table,
+
+169
+00:08:50,069 --> 00:08:54,321
+I'm going to erase our previous work
+now that we've got it concretified.
+
+170
+00:08:59,022 --> 00:09:02,727
+Okay, so a hash map is,
+I guess, or dictionary or
+
+171
+00:09:02,727 --> 00:09:04,950
+whatever you want to call it.
+
+172
+00:09:04,950 --> 00:09:11,598
+You can diagram it like this, where
+you have keys and values of k and v.
+
+173
+00:09:11,598 --> 00:09:14,566
+And so the idea is when we
+insert something, like a value,
+
+174
+00:09:14,566 --> 00:09:16,270
+like k of n, that's an integer.
+
+175
+00:09:16,270 --> 00:09:17,970
+So we run that through
+the hash function.
+
+176
+00:09:17,970 --> 00:09:22,639
+And the idea of the hash function
+is it can take any kind of input,
+
+177
+00:09:22,639 --> 00:09:26,717
+like any value, and
+it maps that into some other value.
+
+178
+00:09:26,717 --> 00:09:29,097
+And the idea is of all
+the inputs can take,
+
+179
+00:09:29,097 --> 00:09:33,041
+it makes an even distribution of
+values so that when you do look it up,
+
+180
+00:09:33,041 --> 00:09:36,240
+there's just hopefully this
+one thing in this bucket.
+
+181
+00:09:36,240 --> 00:09:39,250
+So, say k of n was equal
+to this 2 example.
+
+182
+00:09:40,320 --> 00:09:46,531
+Let's see, so
+2 gets hashed into some string,
+
+183
+00:09:46,531 --> 00:09:51,078
+some hash value like so [INAUDIBLE].
+
+184
+00:09:51,078 --> 00:09:54,878
+And that corresponds to
+a bucket in this thing, so
+
+185
+00:09:54,878 --> 00:09:57,598
+let's say our hash value was 72.
+
+186
+00:09:57,598 --> 00:10:01,827
+And that would be our value true here,
+yeah.
+
+187
+00:10:01,827 --> 00:10:06,518
+>> Okay and so,
+what happened when you're looking up 2?
+
+188
+00:10:06,518 --> 00:10:10,366
+>> So when you're looking up 2, you run
+it through the hash function again.
+
+189
+00:10:10,366 --> 00:10:12,386
+That gives you the hash value.
+
+190
+00:10:12,386 --> 00:10:14,690
+And this is basically like an array.
+
+191
+00:10:14,690 --> 00:10:18,443
+So we go to, and looking up a thing
+in array, if you know the index,
+
+192
+00:10:18,443 --> 00:10:20,133
+is like an o of one operation.
+
+193
+00:10:20,133 --> 00:10:24,919
+So you go to, for instance,
+the 72nd element in this array, and
+
+194
+00:10:24,919 --> 00:10:26,760
+here's our value.
+
+195
+00:10:26,760 --> 00:10:27,280
+>> Okay.
+
+196
+00:10:27,280 --> 00:10:29,310
+>> So
+this is a simplification obviously.
+
+197
+00:10:29,310 --> 00:10:30,470
+>> Yeah, yeah, yeah, clearly.
+
+198
+00:10:30,470 --> 00:10:34,753
+So, can you explain to me why, maybe
+as far as a developer is concerned,
+
+199
+00:10:34,753 --> 00:10:39,338
+were you able to get constant time out
+of this in look-ups and insertions?.
+
+200
+00:10:39,338 --> 00:10:43,600
+Yeah, so the hash function
+itself is an o of one thing.
+
+201
+00:10:43,600 --> 00:10:46,186
+So the process of looking up
+a thing in this array is o of one.
+
+202
+00:10:46,186 --> 00:10:48,790
+The process of hashing
+a value is o of one.
+
+203
+00:10:48,790 --> 00:10:52,139
+So that's why you can
+look up in this time.
+
+204
+00:10:52,139 --> 00:10:54,700
+And it's kind of the reverse for
+insertions.
+
+205
+00:10:54,700 --> 00:10:55,770
+You just hash the value.
+
+206
+00:10:55,770 --> 00:10:57,008
+You go into the table.
+
+207
+00:10:57,008 --> 00:11:00,221
+And there's complications
+if there's a collision.
+
+208
+00:11:00,221 --> 00:11:04,160
+I don't know how much detail
+you want to get into today.
+
+209
+00:11:04,160 --> 00:11:06,490
+So for insertion it's like
+you hash it in o of one,
+
+210
+00:11:06,490 --> 00:11:08,501
+then you insert elements
+into this array.
+
+211
+00:11:08,501 --> 00:11:11,039
+And that's, writing is also o of one.
+
+212
+00:11:11,039 --> 00:11:13,118
+because you don't have to iterate
+through it or anything like that.
+
+213
+00:11:13,118 --> 00:11:14,093
+>> Okay?
+
+214
+00:11:14,093 --> 00:11:14,744
+Yeah.
+
+215
+00:11:14,744 --> 00:11:18,609
+>> All right,
+last follow-up on this question.
+
+216
+00:11:18,609 --> 00:11:23,131
+And your answer is great, but
+let's say we're in a super memory
+
+217
+00:11:23,131 --> 00:11:27,667
+constraint environment and
+I don't want you to use a set at all.
+
+218
+00:11:27,667 --> 00:11:29,820
+>> Okay
+>> How would you solve it now?
+
+219
+00:11:29,820 --> 00:11:32,768
+>> Okay, man,
+[LAUGH] okay let's see now,
+
+220
+00:11:32,768 --> 00:11:37,285
+my default style is to use these-
+>> All you get is l.
+
+221
+00:11:37,285 --> 00:11:40,380
+You can modify l as you wish.
+
+222
+00:11:40,380 --> 00:11:43,059
+I don't want you to create a new
+data structure, let's say.
+
+223
+00:11:43,059 --> 00:11:47,920
+Okay, that's interesting.
+
+224
+00:11:47,920 --> 00:11:53,330
+So when you say that I can modify the l,
+that leads me down the path of
+
+225
+00:11:53,330 --> 00:11:58,500
+thinking dynamic programming,
+like I can use the array to,
+
+226
+00:11:58,500 --> 00:12:03,060
+kind of like to record my progress.
+
+227
+00:12:03,060 --> 00:12:05,730
+So let's see, let's go back to
+thinking simple solutions and
+
+228
+00:12:05,730 --> 00:12:07,455
+we can work from there.
+
+229
+00:12:07,455 --> 00:12:12,567
+Let's see, soo, So,
+
+230
+00:12:12,567 --> 00:12:15,741
+the initial naive solution of the nested
+for-loops, the o of n squared thing that
+
+231
+00:12:15,741 --> 00:12:18,280
+works in this constrained
+environment you just described?
+
+232
+00:12:18,280 --> 00:12:19,030
+>> Right.
+
+233
+00:12:19,030 --> 00:12:20,046
+That works.
+
+234
+00:12:20,046 --> 00:12:24,210
+>> But I have a feeling you're going for
+something a bit more sophisticated.
+
+235
+00:12:24,210 --> 00:12:25,342
+So let's see.
+
+236
+00:12:25,342 --> 00:12:30,096
+So that's why I was thinking the dynamic
+programming sort of angle on this.
+
+237
+00:12:30,096 --> 00:12:31,436
+Let's see.
+
+238
+00:12:34,877 --> 00:12:38,279
+>> So what was the fundamental reason
+you were using a set in the first place?
+
+239
+00:12:39,600 --> 00:12:44,210
+>> I guess I wanted to, I needed to keep
+
+240
+00:12:44,210 --> 00:12:49,300
+a record of values that I had seen so
+
+241
+00:12:49,300 --> 00:12:53,790
+that I would be able to recognize future
+ones that corresponded to those values.
+
+242
+00:12:53,790 --> 00:12:57,940
+>> So you had a really fast
+way of searching for a value.
+
+243
+00:12:57,940 --> 00:12:58,900
+>> Yeah.
+
+244
+00:12:58,900 --> 00:13:02,320
+>> Can we replicate that behavior,
+maybe not at the same speed,
+
+245
+00:13:02,320 --> 00:13:05,680
+but without using any data structure?
+
+246
+00:13:05,680 --> 00:13:07,630
+Yeah, let me see.
+
+247
+00:13:07,630 --> 00:13:12,259
+So, my first thought when you're going
+down this path is that maybe you could
+
+248
+00:13:12,259 --> 00:13:17,210
+use the indexes of the different spots
+in the array in an intelligent way.
+
+249
+00:13:17,210 --> 00:13:19,799
+But the tricky thing is if
+you are re-using this array,
+
+250
+00:13:19,799 --> 00:13:22,732
+you don't want to overwrite parts
+of it you haven't seen yet.
+
+251
+00:13:22,732 --> 00:13:27,337
+So that's an inherent constraint
+to this problem that I'm seeing.
+
+252
+00:13:27,337 --> 00:13:33,880
+Let's see, so yeah, let's see.
+
+253
+00:13:33,880 --> 00:13:38,510
+>> So if you were in your
+double for-loop solution,
+
+254
+00:13:38,510 --> 00:13:41,230
+what you were doing was, for
+each element, you go and search for
+
+255
+00:13:41,230 --> 00:13:45,290
+the next element that matches it,
+or that's the converse, right?
+
+256
+00:13:45,290 --> 00:13:46,966
+>> Yeah.
+>> Is there any way we could speed up
+
+257
+00:13:46,966 --> 00:13:48,000
+that search bit?
+
+258
+00:13:48,000 --> 00:13:49,625
+Is there some modification we can make?
+
+259
+00:13:49,625 --> 00:13:55,174
+>> So I guess, initially, this list
+is like a random list of integers.
+
+260
+00:13:55,174 --> 00:13:59,820
+>> So we could do an in-place sort
+on that, so we have an ordered list.
+
+261
+00:13:59,820 --> 00:14:01,000
+>> Okay, how long does that take?
+
+262
+00:14:01,000 --> 00:14:03,420
+>> That's a n login for
+any good algorithm.
+
+263
+00:14:03,420 --> 00:14:05,960
+So let's assume reason
+Python's built-in.
+
+264
+00:14:05,960 --> 00:14:08,990
+So we got that,
+we have a good n login sort.
+
+265
+00:14:08,990 --> 00:14:13,610
+And then, I guess, and
+then how do we use a sorted list?
+
+266
+00:14:13,610 --> 00:14:17,070
+Okay, so
+we still need numbers that add up to k.
+
+267
+00:14:19,730 --> 00:14:24,160
+So I guess what we could do is,
+this might not be the best,
+
+268
+00:14:24,160 --> 00:14:28,350
+but my initial idea to use a sorted list
+is you look at the first element, and
+
+269
+00:14:28,350 --> 00:14:32,180
+you say, for instance, it's a one and
+we're trying to add up to seven, so
+
+270
+00:14:32,180 --> 00:14:33,390
+we need to find a six in this list.
+
+271
+00:14:33,390 --> 00:14:35,400
+So I determine if there's
+a six in the list.
+
+272
+00:14:35,400 --> 00:14:39,057
+So we can do like a binary
+search on this list.
+
+273
+00:14:39,057 --> 00:14:42,457
+So start in the middle and
+binary search until we find a six or
+
+274
+00:14:42,457 --> 00:14:44,010
+find that there is no six.
+
+275
+00:14:44,010 --> 00:14:45,240
+>> Okay, how long does that take?
+
+276
+00:14:45,240 --> 00:14:46,590
+>> That takes a login.
+
+277
+00:14:46,590 --> 00:14:47,490
+>> Okay.
+
+278
+00:14:47,490 --> 00:14:50,240
+>> So I guess the, and
+then you'd have to do that search for,
+
+279
+00:14:50,240 --> 00:14:53,291
+if it wasn't the first one,
+you'd have to go into the next one.
+
+280
+00:14:53,291 --> 00:14:56,809
+You'd have to do a bunch of these login
+searches and login to these searches,
+
+281
+00:14:56,809 --> 00:14:58,470
+conceivably.
+
+282
+00:14:58,470 --> 00:15:02,350
+So that entire solution,
+this vague idea of a solution, I guess,
+
+283
+00:15:02,350 --> 00:15:04,910
+comes down to an n login sort of thing.
+
+284
+00:15:04,910 --> 00:15:05,670
+>> That's the time?
+
+285
+00:15:05,670 --> 00:15:06,440
+Okay.
+>> Yeah.
+
+286
+00:15:06,440 --> 00:15:07,710
+>> And the space?
+
+287
+00:15:07,710 --> 00:15:12,509
+>> And the space, because we're
+using the array itself, it's size n.
+
+288
+00:15:12,509 --> 00:15:18,181
+We're sorting it in place, which is
+hunky dory, so we're still a size n.
+
+289
+00:15:18,181 --> 00:15:21,660
+And I guess there's some constant
+size but basically size n.
+
+290
+00:15:21,660 --> 00:15:22,700
+>> Okay, cool.
+
+291
+00:15:22,700 --> 00:15:26,931
+So, we're not adding any new data,
+and we're adding a login extra.
+
+292
+00:15:26,931 --> 00:15:28,520
+All right, cool, perfect.
+
+293
+00:15:28,520 --> 00:15:29,910
+>> All right,
+that was really interesting.
+
+294
+00:15:29,910 --> 00:15:31,168
+Thanks for the guidance along the way.
+
+295
+00:15:31,168 --> 00:15:31,788
+>> No problem, you got it.
+
+296
+00:15:31,788 --> 00:15:32,288
+>> because it was fun.

@@ -1,0 +1,195 @@
+1
+00:00:00,000 --> 00:00:06,866
+Let's review. We started off with a context-free grammar. That's a rule of the form,
+
+2
+00:00:06,867 --> 00:00:16,532
+"VP goes to V NP NP." That's the kind of technology that's used in your grammars for programming languages.
+
+3
+00:00:16,533 --> 00:00:23,232
+And then we moved to a probabilistic, context-free grammar by adding on a probability,
+
+4
+00:00:23,233 --> 00:00:28,432
+and we put it in parentheses to the right, but let's be more clear about exactly what we're doing.
+
+5
+00:00:28,433 --> 00:00:36,399
+We're saying, "What's the probability of this rule, given that the left-hand side of the rule is VP?"
+
+6
+00:00:36,400 --> 00:00:39,599
+And we said that was equal to .2.
+
+7
+00:00:39,600 --> 00:00:48,432
+Now, the next step is to go and add lexicalization, so we have a lexicalized, probabilistic, context-free grammar.
+
+8
+00:00:48,433 --> 00:00:54,666
+So in a lexicalized, probabilistic, context-free grammar, we deal not with the categories of the left-hand side,
+
+9
+00:00:54,667 --> 00:00:59,132
+but rather with specific words. And there's multiple ways you can do that.
+
+10
+00:00:59,133 --> 00:01:08,032
+And one way we can do it is say, "What's the probability that a verb phrase is a verb followed by two noun phrases?"
+
+11
+00:01:08,033 --> 00:01:11,999
+And we're going to condition that on what the actual verb is.
+
+12
+00:01:12,000 --> 00:01:17,832
+If the verb is "gave," then there should be a relatively high probability.
+
+13
+00:01:17,833 --> 00:01:26,132
+You said, "He gave me the money," a direct and indirect object. That's fairly common for "gave."
+
+14
+00:01:26,133 --> 00:01:33,432
+So maybe that's .25 or something. And compare that to the same rule where the verb is said.
+
+15
+00:01:33,433 --> 00:01:43,699
+Normally, the verb "said" either has a single object, "He said something," but it doesn't normally have two objects.
+
+16
+00:01:43,700 --> 00:01:49,499
+It would be rare to say, "He said me something." In colloquial, it may occur.
+
+17
+00:01:49,500 --> 00:01:54,032
+"I said me my piece." But we're going to put down a very low probability for that.
+
+18
+00:01:54,033 --> 00:02:01,332
+If we had a tree bank we could figure out how low it is. But I'm just going to estimate it's something like .0001.
+
+19
+00:02:01,333 --> 00:02:07,332
+In a dictionary, they'll give you these probabilities, but they'll give them in absolute terms,
+
+20
+00:02:07,333 --> 00:02:12,366
+in that they'll tell you whether verbs are transitive or intransitive.
+
+21
+00:02:12,367 --> 00:02:19,132
+So for example, what's the probability that a verb phrase consists of just a verb?
+
+22
+00:02:19,133 --> 00:02:27,799
+Versus that the verb phrase consists of a verb followed by a noun phrase, given that the verb is "quake"?
+
+23
+00:02:27,800 --> 00:02:33,332
+Well, I can put down some numbers here, but if I look in my dictionary, I get a clue.
+
+24
+00:02:33,333 --> 00:02:38,299
+So my dictionary says that "quake" is an intransitive verb.
+
+25
+00:02:38,300 --> 00:02:43,399
+And so that means the dictionary is claiming that this probability should be zero.
+
+26
+00:02:43,400 --> 00:02:50,332
+And this probability should be something higher. Now, unfortunately, if we go out and look at the actual world,
+
+27
+00:02:50,333 --> 00:02:53,499
+it turns out that "quake" is not always intransitive.
+
+28
+00:02:53,500 --> 00:03:01,832
+If you do a web search for "quaked the earth," I get back 20,000 results. Now, not all of those are valid sentences;
+
+29
+00:03:01,833 --> 00:03:07,966
+Some of them are those words just happen to be together in a non-sentence context, a list of words or something.
+
+30
+00:03:07,967 --> 00:03:13,666
+But you can see thousands of sentences where "quake" is used transitively.
+
+31
+00:03:13,667 --> 00:03:20,032
+And so this shouldn't be a zero. Maybe it should be a .0001 or something.
+
+32
+00:03:20,033 --> 00:03:27,599
+But the dictionaries are too Boolean, too logical, too willing to give you a precise answer,
+
+33
+00:03:27,600 --> 00:03:30,166
+when language is really much more complex than that.
+
+34
+00:03:30,167 --> 00:03:34,032
+And so these lexicalized grammars come closer to giving you what you need.
+
+35
+00:03:34,033 --> 00:03:38,499
+Now, we still haven't gone all the way to solving our telescope problem.
+
+36
+00:03:38,500 --> 00:03:49,266
+For that, we want to be able to say, "What's the probability of noun phrase going to noun phrase followed by prepositional phrase?"
+
+37
+00:03:49,267 --> 00:03:57,532
+Or, "What's the probability of a verb phrase going to a verb followed by a noun phrase, followed by a prepositional phrase?"
+
+38
+00:03:57,533 --> 00:04:05,032
+And we want to do that in the case of the verb, if the verb equals "saw," and then if we're also dealing with a case where
+
+39
+00:04:05,033 --> 00:04:15,699
+the noun phrase has a head, meaning the main verb is equal to "man" and the preposition phrase has "with" and "telescope."
+
+40
+00:04:15,700 --> 00:04:26,999
+And then compare that to the probability for when the head of the noun phrase is "man" and the preposition has "with" and "telescope."
+
+41
+00:04:27,000 --> 00:04:36,366
+Now, these probabilities may be hard to get, because they're conditioning on quite a lot, on three very specific words on the right-hand side.
+
+42
+00:04:36,367 --> 00:04:40,332
+And so it may be hard to estimate these, and we may need some model that backs off,
+
+43
+00:04:40,333 --> 00:04:49,766
+that says maybe we don't look exactly for the word "man," but rather we look for something which represents an animate person.
+
+44
+00:04:49,767 --> 00:04:56,032
+And so just as we had in previous models when we talked about how to do smoothing and how to back off
+
+45
+00:04:56,033 --> 00:05:00,732
+to a more general case, we can do that in these lexicalized models as well.
+
+46
+00:05:00,733 --> 00:05:07,232
+But the point is that we want to make these choices based on probabilities, and we get these probabilities
+
+47
+00:05:07,233 --> 00:05:16,132
+by looking at our model, doing an analysis, and informing that analysis from data that we get from the tree banks.
+
+48
+00:05:16,133 --> 00:05:22,566
+We can put that all together, then we can make these choices and we can come up with the right interpretation of sentences,
+
+49
+00:05:22,567 --> 00:05:28,267
+and do the disambiguation, and figure out which one is more probable.

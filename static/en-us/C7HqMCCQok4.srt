@@ -1,0 +1,416 @@
+1
+00:00:00,420 --> 00:00:03,660
+I'm going to show you how to fix one
+example of a four synchronous layout
+
+2
+00:00:03,660 --> 00:00:04,680
+in this page.
+
+3
+00:00:04,680 --> 00:00:08,560
+But believe it or not, and you probably
+can believe it, there are other examples
+
+4
+00:00:08,560 --> 00:00:11,440
+of four synchronous layouts that
+you can fix if you want to.
+
+5
+00:00:11,440 --> 00:00:15,620
+So first off, I'm going to turn on
+Causes and the Javascript Profiler.
+
+6
+00:00:15,620 --> 00:00:18,610
+So I can get some more
+information when the slider runs.
+
+7
+00:00:18,610 --> 00:00:21,710
+I will go ahead and
+hit record and then change it.
+
+8
+00:00:21,710 --> 00:00:25,780
+Now, I want a little bit more space, so
+let me pop this into another window.
+
+9
+00:00:25,780 --> 00:00:29,560
+You can see that when the slider changes
+a few different functions get called.
+
+10
+00:00:29,560 --> 00:00:31,440
+Let me zoom in a little bit closer.
+
+11
+00:00:31,440 --> 00:00:32,800
+When the change event happens,
+
+12
+00:00:32,800 --> 00:00:38,140
+resizePizzas gets called, then
+resizePizzas calls changePizzaSizes.
+
+13
+00:00:38,140 --> 00:00:41,100
+And here's where I think
+the problem might be coming in.
+
+14
+00:00:41,100 --> 00:00:44,570
+It looks like some function called
+determineDx is running over and over and
+
+15
+00:00:44,570 --> 00:00:46,050
+over and over.
+
+16
+00:00:46,050 --> 00:00:48,670
+I think this is a good point
+to take a look at the code.
+
+17
+00:00:48,670 --> 00:00:50,900
+So here's the resizePizzas function,
+
+18
+00:00:50,900 --> 00:00:54,000
+which gets called when
+the slider gets activated.
+
+19
+00:00:54,000 --> 00:00:57,770
+It looks like a few things
+are happening inside resizePizzas.
+
+20
+00:00:57,770 --> 00:01:02,260
+First off I'm using the User Timing API
+to collect some metrics.
+
+21
+00:01:02,260 --> 00:01:05,140
+And then I change
+the label on the slider.
+
+22
+00:01:05,140 --> 00:01:07,720
+This seems pretty straightforward I
+can't imagine this would be causing
+
+23
+00:01:07,720 --> 00:01:11,220
+a Forced synchronize layout so
+I'm going to keep drilling down.
+
+24
+00:01:11,220 --> 00:01:13,860
+Here's that change PizzaSizes function.
+
+25
+00:01:13,860 --> 00:01:16,810
+Now this piece of code may
+look okay on the surface, but
+
+26
+00:01:16,810 --> 00:01:18,620
+it is absolutely insane.
+
+27
+00:01:18,620 --> 00:01:23,010
+And it's not insane in some kind of
+beautiful way in that it's doing
+
+28
+00:01:23,010 --> 00:01:26,640
+a lot of very elegant things
+in a very compact manner.
+
+29
+00:01:26,640 --> 00:01:30,910
+Now this is insane in that it is
+doing way way way too much and
+
+30
+00:01:30,910 --> 00:01:33,990
+there's really no reason for
+any of this to exist.
+
+31
+00:01:33,990 --> 00:01:37,580
+First off there's the very obvious
+problem that this function doesn't pass
+
+32
+00:01:37,580 --> 00:01:39,710
+the do not repeat yourself test.
+
+33
+00:01:39,710 --> 00:01:42,675
+Look document and
+.queryselctorall random pizza container.
+
+34
+00:01:42,675 --> 00:01:45,545
+Document.queryselectorall random
+pizza container.
+
+35
+00:01:45,545 --> 00:01:48,530
+Document.queryselectorall random
+pizza container
+
+36
+00:01:48,530 --> 00:01:50,200
+like why is this in here three times.
+
+37
+00:01:50,200 --> 00:01:53,160
+So first things first save this
+collection of downloads to
+
+38
+00:01:53,160 --> 00:01:55,310
+the variable random pizza's.
+
+39
+00:01:55,310 --> 00:01:57,260
+Now I can use random pizza's in my for
+
+40
+00:01:57,260 --> 00:01:59,640
+loop without querying
+the dom every time.
+
+41
+00:01:59,640 --> 00:02:01,180
+Now take a.
+At this for loop.
+
+42
+00:02:01,180 --> 00:02:05,870
+It access is a geometric property of
+the elements in this case offset width.
+
+43
+00:02:05,870 --> 00:02:07,680
+And then changes their styles.
+
+44
+00:02:07,680 --> 00:02:10,500
+So this is clearly the source
+of the four synchronous layout.
+
+45
+00:02:10,500 --> 00:02:13,090
+So then there's this function,
+determine DX.
+
+46
+00:02:13,090 --> 00:02:16,110
+Suffice it to say without
+going into any detail,
+
+47
+00:02:16,110 --> 00:02:18,890
+this function is remarkably useless.
+
+48
+00:02:18,890 --> 00:02:21,480
+It's complicated,
+it creates a lot of work, and
+
+49
+00:02:21,480 --> 00:02:24,060
+it has no business being inside this for
+loop.
+
+50
+00:02:24,060 --> 00:02:27,790
+I'll leave it as an exercise to you,
+to figure out what's going on here.
+
+51
+00:02:27,790 --> 00:02:30,800
+In the end I just use
+this pixel value creation
+
+52
+00:02:30,800 --> 00:02:34,110
+as a ruse to do a lot
+of unnecessary work.
+
+53
+00:02:34,110 --> 00:02:37,150
+There's no reason to deal with
+anything other than 8% with so
+
+54
+00:02:37,150 --> 00:02:38,780
+let me simplify this.
+
+55
+00:02:38,780 --> 00:02:42,740
+In this version all change into pizza
+sizes does is simply figure out which
+
+56
+00:02:42,740 --> 00:02:47,830
+with that wants And then sets the width
+for every element to that percentage.
+
+57
+00:02:47,830 --> 00:02:50,250
+There is no more query selecting
+inside the for loop and
+
+58
+00:02:50,250 --> 00:02:54,150
+there's no more conversion back and
+forth between pixels and percentages.
+
+59
+00:02:54,150 --> 00:02:57,970
+This is a lot simpler but the ultimate
+test for this code is whether or
+
+60
+00:02:57,970 --> 00:03:00,540
+not it produces for synchronous layouts.
+
+61
+00:03:00,540 --> 00:03:01,750
+Let me take a look.
+
+62
+00:03:01,750 --> 00:03:03,210
+Here's the new and improved version and
+
+63
+00:03:03,210 --> 00:03:05,810
+first off let me just see if
+it's giving me better numbers.
+
+64
+00:03:08,400 --> 00:03:12,510
+And look at that time to resize
+pizzas in under one millisecond.
+
+65
+00:03:12,510 --> 00:03:14,580
+This is clearly much more performant.
+
+66
+00:03:14,580 --> 00:03:17,730
+Or in this case two orders of
+magnitude more performant.
+
+67
+00:03:17,730 --> 00:03:19,840
+But i want to see what this
+looks like in the timeline.
+
+68
+00:03:19,840 --> 00:03:23,820
+I will hit record and i will change
+the pizza sizes and then stop recording.
+
+69
+00:03:23,820 --> 00:03:26,990
+I'll pop this into a new window for
+some more space.
+
+70
+00:03:26,990 --> 00:03:28,690
+So here's the slide event.
+
+71
+00:03:28,690 --> 00:03:31,020
+Here's the resize pizza's event.
+
+72
+00:03:31,020 --> 00:03:32,060
+And here's the resulting lay up.
+
+73
+00:03:32,060 --> 00:03:33,340
+And look at that.
+
+74
+00:03:33,340 --> 00:03:37,090
+No more ugly red triangle saying that
+there is a four synchronous layout.
+
+75
+00:03:37,090 --> 00:03:39,150
+This timeline is much cleaner.
+
+76
+00:03:39,150 --> 00:03:42,270
+By the way, so I made this website.
+
+77
+00:03:42,270 --> 00:03:42,930
+Yeah.
+
+78
+00:03:42,930 --> 00:03:44,875
+I'm proud of it, believe it or not.
+
+79
+00:03:44,875 --> 00:03:48,965
+Because creating a website with all
+of these four synchronous layouts
+
+80
+00:03:48,965 --> 00:03:51,265
+is a lot harder than it looks.
+
+81
+00:03:51,265 --> 00:03:54,375
+You basically have to issue
+all the best practices you've
+
+82
+00:03:54,375 --> 00:03:56,715
+ever learned in order to
+create something like it.
+
+83
+00:03:56,715 --> 00:04:00,012
+It's kind of a weird brain challenge
+where instead of forcing yourself to do
+
+84
+00:04:00,012 --> 00:04:04,932
+everything as well as possible you try
+to do everything as poorly as possible.
+
+85
+00:04:04,932 --> 00:04:08,202
+And so I think it's actually a bit of
+a feat that I made this website run
+
+86
+00:04:08,202 --> 00:04:10,612
+well under 60 frames per
+second when it's so simple.
+
+87
+00:04:11,752 --> 00:04:14,732
+Anyways there might be a few
+more problems in here so
+
+88
+00:04:14,732 --> 00:04:16,392
+see if you can find and fix them.
+
+89
+00:04:16,392 --> 00:04:19,072
+That is if your eyes haven't
+already burned out if your skulls.

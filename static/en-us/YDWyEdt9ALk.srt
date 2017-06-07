@@ -1,0 +1,263 @@
+1
+00:00:00,060 --> 00:00:02,830
+We will first look at the boss-workers pattern.
+
+2
+00:00:02,830 --> 00:00:06,750
+This is a popular pattern that's characterized by one boss thread and
+
+3
+00:00:06,750 --> 00:00:09,030
+then some number of worker threads.
+
+4
+00:00:09,030 --> 00:00:14,000
+The boss is in charge of assigning work to the workers, and the workers
+
+5
+00:00:14,000 --> 00:00:18,560
+are responsible for performing the entire task that's assigned to them.
+
+6
+00:00:18,560 --> 00:00:22,950
+Concerning our toy shop example, that means that the very first step,
+
+7
+00:00:22,950 --> 00:00:27,220
+the step where we accept an order will be performed by the boss.
+
+8
+00:00:27,220 --> 00:00:28,830
+The boss will accept an order and
+
+9
+00:00:28,830 --> 00:00:32,350
+then immediately pass it on to one of the workers.
+
+10
+00:00:32,350 --> 00:00:35,800
+Each of the workers will perform steps two through six, so
+
+11
+00:00:35,800 --> 00:00:39,000
+we'll parse the order, cut the pieces, stain the pieces, and
+
+12
+00:00:39,000 --> 00:00:42,458
+assemble the wooden toy and ultimately ship the order.
+
+13
+00:00:42,458 --> 00:00:46,780
+Since we only have one boss thread that must execute on
+
+14
+00:00:46,780 --> 00:00:51,250
+every single piece of work that arrives in the system, it means that
+
+15
+00:00:51,250 --> 00:00:56,208
+the throughput of the system overall is limited by the boss' performance.
+
+16
+00:00:56,208 --> 00:01:00,610
+Specifically, the throughput of the system is inversely proportional to
+
+17
+00:01:00,610 --> 00:01:04,120
+the amount of time the boss spends on each order.
+
+18
+00:01:04,120 --> 00:01:08,270
+So, clearly, that means that we must keep the boss efficient if we
+
+19
+00:01:08,270 --> 00:01:12,290
+want to make sure that the system overall is performing well.
+
+20
+00:01:12,290 --> 00:01:15,260
+In our toy shop example, the boss thread just picks up
+
+21
+00:01:15,260 --> 00:01:18,960
+an order from the customer and immediately passes it to the workers.
+
+22
+00:01:18,960 --> 00:01:20,890
+It doesn't really look to see what it's for.
+
+23
+00:01:20,890 --> 00:01:24,930
+That's why each of the workers starts with step two.
+
+24
+00:01:24,930 --> 00:01:27,630
+So in that way we're trying to limit the amount of
+
+25
+00:01:27,630 --> 00:01:32,000
+operation that's required from the boss on each order.
+
+26
+00:01:32,000 --> 00:01:36,510
+So how does the boss pass work to one of the workers?
+
+27
+00:01:36,510 --> 00:01:41,810
+One way is for the boss to keep track of exactly which workers are free, and
+
+28
+00:01:41,810 --> 00:01:45,510
+then hand off work to those workers.
+
+29
+00:01:45,510 --> 00:01:49,260
+So, it's specifically signalling one particular worker.
+
+30
+00:01:49,260 --> 00:01:53,290
+This means that now the boss will have to do more for each order,
+
+31
+00:01:53,290 --> 00:01:57,990
+because now it has to keep track of which of the workers are available.
+
+32
+00:01:57,990 --> 00:02:03,520
+And will also have to wait for that particular worker to accept
+
+33
+00:02:03,520 --> 00:02:07,920
+the order from the boss when, when its being passed, sort of like a handshake.
+
+34
+00:02:07,920 --> 00:02:11,420
+The positive of this approach is that the workers don't need to
+
+35
+00:02:11,420 --> 00:02:14,180
+synchronize amongst each other in any way.
+
+36
+00:02:14,180 --> 00:02:16,100
+The boss will tell them what they need to do, and
+
+37
+00:02:16,100 --> 00:02:18,690
+they don't have to care about what the other workers do.
+
+38
+00:02:18,690 --> 00:02:23,300
+The downside, however, is that given that the boss now has to keep track of
+
+39
+00:02:23,300 --> 00:02:27,390
+what the workers are doing, the throughput of the system will go down.
+
+40
+00:02:27,390 --> 00:02:33,820
+Another option is to establish a queue between the boss and the workers.
+
+41
+00:02:33,820 --> 00:02:39,048
+This could be similar to a producer/consumer queue, where the boss is
+
+42
+00:02:39,048 --> 00:02:44,899
+the only producer that produces work requests, so toy orders for the workers.
+
+43
+00:02:44,899 --> 00:02:49,254
+And then the workers are the consumers that are picking up work from this queue,
+
+44
+00:02:49,254 --> 00:02:51,269
+picking up orders from this queue and
+
+45
+00:02:51,269 --> 00:02:54,850
+then proceeding with the steps that they need to perform.
+
+46
+00:02:54,850 --> 00:02:58,560
+The upside of this approach is that the boss now doesn't really need to
+
+47
+00:02:58,560 --> 00:03:02,480
+know about what each worker is doing and whether it's free.
+
+48
+00:03:02,480 --> 00:03:06,770
+It also doesn't have to wait for a worker to explicitly do,
+
+49
+00:03:06,770 --> 00:03:11,030
+a handshake when it's passing off a work item to one of them.
+
+50
+00:03:11,030 --> 00:03:15,390
+The boss just accepts an order, so performs steps one, places the order on
+
+51
+00:03:15,390 --> 00:03:19,060
+the shared queue, and can go back to picking up the next order.
+
+52
+00:03:19,060 --> 00:03:23,370
+Whenever one of the worker becomes free, it looks into the queue,
+
+53
+00:03:23,370 --> 00:03:27,400
+at the front of the queue ideally, and picks up any pending work requests.
+
+54
+00:03:27,400 --> 00:03:31,850
+The downside is that now the workers, as well as the workers and the boss
+
+55
+00:03:31,850 --> 00:03:36,470
+amongst each other, have to synchronize their accesses to the shared queue.
+
+56
+00:03:36,470 --> 00:03:41,770
+All of the worker threads may contend to gain access to the front of the queue,
+
+57
+00:03:41,770 --> 00:03:45,830
+and any one work item can only be assigned to one worker thread.
+
+58
+00:03:45,830 --> 00:03:50,860
+And also the workers and the boss may need to synchronize when they need
+
+59
+00:03:50,860 --> 00:03:55,460
+to compare the front and the end pointer of this queue, for instance,
+
+60
+00:03:55,460 --> 00:04:00,030
+when they need to determine that a queue is full or that a queue is empty.
+
+61
+00:04:00,030 --> 00:04:04,600
+Despite of this downside, this approach of using a shared queue
+
+62
+00:04:04,600 --> 00:04:09,540
+among the boss and the workers when passing work among them,
+
+63
+00:04:09,540 --> 00:04:15,230
+still results in lower time per order that the boss needs to spend.
+
+64
+00:04:15,230 --> 00:04:18,860
+So it results in better throughput of the system overall.
+
+65
+00:04:18,860 --> 00:04:22,390
+So that's why we tend to pick this particular model
+
+66
+00:04:22,390 --> 00:04:25,980
+when a building multithread applications using this pattern

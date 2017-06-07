@@ -1,0 +1,126 @@
+1
+00:00:00,720 --> 00:00:03,850
+As we look through
+AddressBookSpec.js file,
+
+2
+00:00:03,850 --> 00:00:06,610
+we can start identifying
+some redundant code.
+
+3
+00:00:06,610 --> 00:00:10,880
+We're having to set up our addressBook
+and Contact in each of our specs.
+
+4
+00:00:10,880 --> 00:00:14,240
+On the one hand, this is a good thing
+because we're getting a nice clean slate
+
+5
+00:00:14,240 --> 00:00:16,070
+for each and every test.
+
+6
+00:00:16,070 --> 00:00:18,640
+On the other hand,
+we're doing this manually.
+
+7
+00:00:18,640 --> 00:00:22,200
+Thankfully, Jasmine offers a way for
+us to define a function
+
+8
+00:00:22,200 --> 00:00:25,020
+that should be run before each and
+every one of our tests.
+
+9
+00:00:25,020 --> 00:00:27,230
+It's called the beforeEach function.
+
+10
+00:00:27,230 --> 00:00:29,100
+Let's refactor our spec real quick, so
+
+11
+00:00:29,100 --> 00:00:31,330
+we don't have to keep
+repeating ourselves.
+
+12
+00:00:31,330 --> 00:00:32,590
+I've moved the addressBook and
+
+13
+00:00:32,590 --> 00:00:37,250
+thisContact, variable declarations,
+up to the suite itself.
+
+14
+00:00:37,250 --> 00:00:39,300
+Remember, in JavaScript,
+
+15
+00:00:39,300 --> 00:00:43,750
+inner scopes have access to
+variables declared in outer scopes.
+
+16
+00:00:43,750 --> 00:00:47,690
+So I know all of my specs will
+have access to these variables.
+
+17
+00:00:47,690 --> 00:00:50,320
+Now all I need to do is
+place my instantiation
+
+18
+00:00:50,320 --> 00:00:51,767
+within this beforeEach function.
+
+19
+00:00:52,880 --> 00:00:57,170
+Now, these two lines we'll
+run before each of my test,
+
+20
+00:00:57,170 --> 00:00:58,880
+contained within this test suite.
+
+21
+00:00:58,880 --> 00:01:00,810
+You may ask yourself,
+
+22
+00:01:00,810 --> 00:01:04,910
+why didn't I move the addContact
+line into beforeEach as well.
+
+23
+00:01:04,910 --> 00:01:07,520
+With just these two specs,
+I could have done that.
+
+24
+00:01:07,520 --> 00:01:12,280
+It would have been fine, but I'm not
+completely sure that adding a contact
+
+25
+00:01:12,280 --> 00:01:17,810
+is required functionality for any future
+specs I may write within this suite.
+
+26
+00:01:17,810 --> 00:01:20,990
+For now I'm just going to keep those
+lines right where they are, and
+
+27
+00:01:20,990 --> 00:01:23,610
+if I decide otherwise in
+the future I can always move it up

@@ -1,0 +1,291 @@
+1
+00:00:00,000 --> 00:00:04,000
+[Narrator] Planning under uncertainty.
+
+2
+00:00:04,000 --> 00:00:06,000
+In this class so far
+
+3
+00:00:06,000 --> 00:00:08,000
+we talked a good deal about planning.
+
+4
+00:00:08,000 --> 00:00:12,000
+We talked about uncertainty and probabilities,
+
+5
+00:00:12,000 --> 00:00:15,000
+and we also talked about learning,
+
+6
+00:00:15,000 --> 00:00:18,000
+but all 3 items were discussed separately.
+
+7
+00:00:18,000 --> 00:00:20,000
+We never brought planning and uncertainty together,
+
+8
+00:00:20,000 --> 00:00:23,000
+uncertainty and learning, or planning and learning.
+
+9
+00:00:23,000 --> 00:00:26,000
+So the class today, we'll fuse planning and uncertainty
+
+10
+00:00:26,000 --> 00:00:31,000
+using techniques known as Markov decision processes or MDPs,
+
+11
+00:00:31,000 --> 00:00:36,000
+and partial observer Markov decision processes or POMDPs.
+
+12
+00:00:36,000 --> 00:00:39,000
+We also have a class coming up on reinforcement learning
+
+13
+00:00:39,000 --> 00:00:41,000
+which combines all 3 of his aspects,
+
+14
+00:00:41,000 --> 00:00:44,000
+planning, uncertainty, and machine learning.
+
+15
+00:00:44,000 --> 00:00:46,000
+You might remember in the very first class
+
+16
+00:00:46,000 --> 00:00:49,000
+we distinguished very different characteristics of agent tasks,
+
+17
+00:00:49,000 --> 00:00:51,000
+and here are some of those.
+
+18
+00:00:51,000 --> 00:00:54,000
+We distinguished deterministic was the casting environments,
+
+19
+00:00:54,000 --> 00:00:58,000
+and we also talked about photos as partial observable.
+
+20
+00:00:58,000 --> 00:01:01,000
+In the area of planning so far
+
+21
+00:01:01,000 --> 00:01:04,000
+all of our evidence falls into this field over here,
+
+22
+00:01:04,000 --> 00:01:10,000
+like A*, depth first, right first and so on.
+
+23
+00:01:10,000 --> 00:01:12,000
+The MDP algorithms
+
+24
+00:01:12,000 --> 00:01:14,000
+which I will talk about first
+
+25
+00:01:14,000 --> 00:01:17,000
+fall into the intersection of fully observable
+
+26
+00:01:17,000 --> 00:01:19,000
+yet stochastic, and just to remind us
+
+27
+00:01:19,000 --> 00:01:21,000
+what the difference was,
+
+28
+00:01:21,000 --> 00:01:24,000
+stochastic is an environment where the outcome of an action is somewhat random.
+
+29
+00:01:24,000 --> 00:01:26,000
+Whereas an environment that's deterministic
+
+30
+00:01:26,000 --> 00:01:29,000
+where the outcome of an action is predictable
+
+31
+00:01:29,000 --> 00:01:31,000
+and always the same.
+
+32
+00:01:31,000 --> 00:01:33,000
+An environment is fully observable if you can
+
+33
+00:01:33,000 --> 00:01:35,000
+see the state of the environment which means if you can make all decisions
+
+34
+00:01:35,000 --> 00:01:37,000
+based on the momentary sensory input.
+
+35
+00:01:37,000 --> 00:01:39,000
+Whereas if you need memory,
+
+36
+00:01:39,000 --> 00:01:41,000
+it's partially observable.
+
+37
+00:01:41,000 --> 00:01:43,000
+Planning in the partially observable case
+
+38
+00:01:43,000 --> 00:01:47,000
+is called POMDP, and towards the end of this class,
+
+39
+00:01:47,000 --> 00:01:50,000
+I'll briefly talk about POMDPs but not in any depth.
+
+40
+00:01:50,000 --> 00:01:53,000
+So most of this class focuses on Markov decision processes
+
+41
+00:01:53,000 --> 00:01:57,000
+as opposed to partially observable Markov decision processes.
+
+42
+00:01:57,000 --> 00:01:59,000
+So what is a Markov decision process?
+
+43
+00:01:59,000 --> 00:02:04,000
+One way you can specify a Markov decision process by a graph.
+
+44
+00:02:04,000 --> 00:02:08,000
+Suppose you have states S1, S2, and S3,
+
+45
+00:02:08,000 --> 00:02:11,000
+and you have actions A1 and A2.
+
+46
+00:02:11,000 --> 00:02:14,000
+In a state transition graph, like this,
+
+47
+00:02:14,000 --> 00:02:16,000
+is a finite state machine,
+
+48
+00:02:16,000 --> 00:02:20,000
+and it becomes Markov if the outcomes of actions are somewhat random.
+
+49
+00:02:20,000 --> 00:02:25,000
+So for example if A1 over here, with a 50% probability, leads to
+
+50
+00:02:25,000 --> 00:02:29,000
+state S2 but with another 50% probability
+
+51
+00:02:29,000 --> 00:02:32,000
+leads to state S3.
+
+52
+00:02:32,000 --> 00:02:34,000
+So put differently, a Markov decision process of
+
+53
+00:02:34,000 --> 00:02:40,000
+states, actions, a state's transition matrix,
+
+54
+00:02:40,000 --> 00:02:42,000
+often written of the following form
+
+55
+00:02:42,000 --> 00:02:44,000
+which is just about the same as
+
+56
+00:02:44,000 --> 00:02:47,000
+a conditional state transition probability
+
+57
+00:02:47,000 --> 00:02:49,000
+that a state is prime
+
+58
+00:02:49,000 --> 00:02:51,000
+is the correct posterior state
+
+59
+00:02:51,000 --> 00:02:55,000
+after executing action A in a state S,
+
+60
+00:02:55,000 --> 00:02:58,000
+and the missing thing is the objective for the Markov decision process.
+
+61
+00:02:58,000 --> 00:03:00,000
+What do we want to achieve?
+
+62
+00:03:00,000 --> 00:03:03,000
+For that we often define a reward function,
+
+63
+00:03:03,000 --> 00:03:05,000
+and for the sake of this lecture,
+
+64
+00:03:05,000 --> 00:03:07,000
+I will attach rewards just to states.
+
+65
+00:03:07,000 --> 00:03:10,000
+So each state will have a function R attached
+
+66
+00:03:10,000 --> 00:03:12,000
+that tells me how good the state is.
+
+67
+00:03:12,000 --> 00:03:14,000
+So for example it might be worth $10
+
+68
+00:03:14,000 --> 00:03:16,000
+to be in the state over here,
+
+69
+00:03:16,000 --> 00:03:18,000
+$0 to be in the state over here,
+
+70
+00:03:18,000 --> 00:03:21,000
+and $100 to be in a state over here.
+
+71
+00:03:21,000 --> 00:03:23,000
+So the planning problem is now the problem
+
+72
+00:03:23,000 --> 00:03:27,000
+which relies on an action to each possible state.
+
+73
+00:03:27,000 --> 99:59:59,999
+So that we maximize our total reward.

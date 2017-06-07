@@ -1,0 +1,405 @@
+1
+00:00:00,850 --> 00:00:02,440
+As Colt just talked about,
+
+2
+00:00:02,440 --> 00:00:05,710
+there are certain tasks you can delegate
+to the system because the system will
+
+3
+00:00:05,710 --> 00:00:09,360
+have a better idea of when to schedule
+those tasks in order to save battery.
+
+4
+00:00:10,610 --> 00:00:13,810
+Now as a developer, the key is
+to identify which tasks in your
+
+5
+00:00:13,810 --> 00:00:17,370
+app should be delegated to Android's job
+scheduler using the job schedule API.
+
+6
+00:00:18,660 --> 00:00:21,290
+For example,
+this is non user facing work.
+
+7
+00:00:21,290 --> 00:00:23,150
+Tasks that can wait for
+the device to be plugged in or
+
+8
+00:00:23,150 --> 00:00:26,950
+connected to WiFi or just general
+situations where a bunch of tasks
+
+9
+00:00:26,950 --> 00:00:28,970
+can be batched to run at the same time.
+
+10
+00:00:28,970 --> 00:00:31,500
+All of these are good candidates for
+the job scheduler.
+
+11
+00:00:31,500 --> 00:00:34,829
+So let's see how we can modify
+our sample app code to use it.
+
+12
+00:00:34,829 --> 00:00:39,412
+To follow along, check out
+the branch 3.22_wakelocks_optimized.
+
+13
+00:00:39,412 --> 00:00:41,141
+Now when you check out
+this optimized branch,
+
+14
+00:00:41,141 --> 00:00:43,750
+you'll notice that your
+activity's been updated.
+
+15
+00:00:43,750 --> 00:00:46,960
+You have a new button within your
+freeway clock activity called pulse
+
+16
+00:00:46,960 --> 00:00:50,840
+modder bees modder and it's going to
+go ahead and execute our improved code.
+
+17
+00:00:50,840 --> 00:00:52,630
+So, let's go ahead and
+see what this code actually does.
+
+18
+00:00:53,920 --> 00:00:56,218
+All right, so
+here we are back in Android studio and
+
+19
+00:00:56,218 --> 00:00:59,840
+I want to call out a few new
+additions to our project here.
+
+20
+00:00:59,840 --> 00:01:02,950
+Namely, a new file
+called my job service.
+
+21
+00:01:02,950 --> 00:01:05,440
+We'll quickly learn what we're
+going to do with this file.
+
+22
+00:01:05,440 --> 00:01:08,250
+Let's go ahead and focus back on the
+main source for this way clock activity.
+
+23
+00:01:09,490 --> 00:01:10,830
+Now in order to use the job scheduler,
+
+24
+00:01:10,830 --> 00:01:13,950
+you're going to need to
+create a service endpoint.
+
+25
+00:01:13,950 --> 00:01:17,540
+This is what the system will call when
+it's appropriate to run your job.
+
+26
+00:01:17,540 --> 00:01:19,730
+And this is exactly where our
+job service source comes in.
+
+27
+00:01:19,730 --> 00:01:25,280
+All right, so here we're extending the
+framework provided job service class and
+
+28
+00:01:25,280 --> 00:01:30,170
+then all we need to do is implement
+the onStartJob and onStopJob callbacks.
+
+29
+00:01:30,170 --> 00:01:30,800
+So let's look at them.
+
+30
+00:01:32,500 --> 00:01:36,360
+Now, in our onStartJob method, we can
+implement the logic to retrieve our new
+
+31
+00:01:36,360 --> 00:01:37,770
+updates from the network
+in the background.
+
+32
+00:01:38,890 --> 00:01:42,290
+As you can see, this is similar
+lines to what you've seen before.
+
+33
+00:01:42,290 --> 00:01:45,720
+We're calling our simple download task
+and executing it in the background.
+
+34
+00:01:46,720 --> 00:01:49,430
+Now, you should already be familiar
+with this code from before.
+
+35
+00:01:49,430 --> 00:01:51,640
+You check to see if the device
+is connected to a network.
+
+36
+00:01:51,640 --> 00:01:53,280
+And then if so, we go ahead and
+
+37
+00:01:53,280 --> 00:01:55,500
+execute our simple download
+task in the background.
+
+38
+00:01:56,550 --> 00:01:59,460
+And we don't do anything major in
+the on stop job callback in this
+
+39
+00:01:59,460 --> 00:02:00,900
+mock situation.
+
+40
+00:02:00,900 --> 00:02:04,470
+But this method is invoked if your job
+must be stopped prematurely, i.e.,
+
+41
+00:02:04,470 --> 00:02:07,000
+before your code calls job finished.
+
+42
+00:02:07,000 --> 00:02:10,100
+Now, this might happen if the
+requirements for your job aren't met.
+
+43
+00:02:10,100 --> 00:02:12,140
+For example,
+if your device loses connection to WiFi.
+
+44
+00:02:13,420 --> 00:02:16,690
+Now, if you are shipping in an app, make
+sure to add code here that would be able
+
+45
+00:02:16,690 --> 00:02:19,090
+to prevent your app from misbehaving
+due to your job being halted.
+
+46
+00:02:19,090 --> 00:02:22,020
+And when you're finished
+with your work,.
+
+47
+00:02:22,020 --> 00:02:24,840
+It's important that you call
+the job finished method.
+
+48
+00:02:24,840 --> 00:02:26,860
+This lets the system know when
+you're done with your work so
+
+49
+00:02:26,860 --> 00:02:30,410
+it can release the wake lock that
+it's been holding on your behalf.
+
+50
+00:02:30,410 --> 00:02:33,150
+Now since the majority of our work
+occurs in the simple download task,
+
+51
+00:02:33,150 --> 00:02:35,730
+it would make logical sense
+to come down here and
+
+52
+00:02:35,730 --> 00:02:38,590
+call job finished during
+our onPostExecute method.
+
+53
+00:02:40,090 --> 00:02:43,030
+So now that we know what will happen
+when our job is actually called upon by
+
+54
+00:02:43,030 --> 00:02:44,400
+the system to run.
+
+55
+00:02:44,400 --> 00:02:46,375
+But how do I actually do
+submission to the job scheduler?
+
+56
+00:02:46,375 --> 00:02:48,300
+Let's take a look.
+
+57
+00:02:48,300 --> 00:02:50,750
+So I want to go over here and launch
+our FreeTheWakelockActivity again.
+
+58
+00:02:51,850 --> 00:02:55,440
+So let's go ahead and modify what
+this pollServer function does.
+
+59
+00:02:55,440 --> 00:02:58,270
+Again this method pollServer is actually
+called when we press this button
+
+60
+00:02:58,270 --> 00:03:00,230
+Poll Smarter, Be Smarter.
+
+61
+00:03:00,230 --> 00:03:01,720
+As you can see, it's scheduling jobs.
+
+62
+00:03:02,850 --> 00:03:05,480
+Okay, so here we are within
+the pollServer method.
+
+63
+00:03:05,480 --> 00:03:08,980
+Now the first thing we do is we get
+a reference to the job scheduler itself
+
+64
+00:03:08,980 --> 00:03:11,400
+using a call to get system service.
+
+65
+00:03:11,400 --> 00:03:13,430
+The next thing we do
+is the important part.
+
+66
+00:03:13,430 --> 00:03:17,030
+We're going to go ahead and create what
+the framework calls a job info instance.
+
+67
+00:03:17,030 --> 00:03:19,810
+And this is a basically an encapsulation
+for the requirements for
+
+68
+00:03:19,810 --> 00:03:22,760
+a particular task you'd like to defer
+to the system to do on your behalf.
+
+69
+00:03:23,860 --> 00:03:26,470
+Now the way we generate
+a job info object is we
+
+70
+00:03:26,470 --> 00:03:29,390
+use this builder class
+with the job info.
+
+71
+00:03:29,390 --> 00:03:32,330
+And it's got a set of handy helper
+methods within it to basically help
+
+72
+00:03:32,330 --> 00:03:35,070
+specify the constraints for
+our particular job.
+
+73
+00:03:35,070 --> 00:03:37,980
+In this case, we call setMinimumLatency,
+which means that
+
+74
+00:03:37,980 --> 00:03:41,395
+the system should wait at least five
+seconds before running this job.
+
+75
+00:03:41,395 --> 00:03:44,165
+We then set an override
+deadline of 60 seconds.
+
+76
+00:03:44,165 --> 00:03:47,055
+That means if this job hasn't been
+executed within a minute, go ahead and
+
+77
+00:03:47,055 --> 00:03:48,055
+execute it.
+
+78
+00:03:48,055 --> 00:03:51,255
+The next thing we do is we set
+a required network type to be any.
+
+79
+00:03:51,255 --> 00:03:53,975
+So, we allow this job to run on WiFi and
+any data connections.
+
+80
+00:03:55,267 --> 00:03:58,417
+Finally, we finish it by calling
+.build which generates our job info.
+
+81
+00:03:59,957 --> 00:04:03,037
+Now, once we've encapsulated our entire
+job constraints within the job info
+
+82
+00:04:03,037 --> 00:04:06,137
+object, all we need to do is
+call scheduler.schedule and
+
+83
+00:04:06,137 --> 00:04:08,797
+pass in the job info instance
+that we just created.
+
+84
+00:04:08,797 --> 00:04:09,297
+Pretty cool, huh?

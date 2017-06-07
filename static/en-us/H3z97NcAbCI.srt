@@ -1,0 +1,177 @@
+1
+00:00:00,130 --> 00:00:04,960
+So some user interactions need 60 frames
+a second, but so do transitions and
+
+2
+00:00:04,960 --> 00:00:08,810
+animations, like card expansions or
+menu sliding in.
+
+3
+00:00:08,810 --> 00:00:12,700
+Those need to be at 60 frames a second,
+too, which isn't always simple.
+
+4
+00:00:12,700 --> 00:00:15,780
+It's so easy to accidentally
+trigger performance issues,
+
+5
+00:00:15,780 --> 00:00:19,460
+unless you're very careful about which
+properties you animate and when.
+
+6
+00:00:19,460 --> 00:00:21,480
+There are many ways to
+tackle animations, and
+
+7
+00:00:21,480 --> 00:00:24,100
+it completely depends on your project.
+
+8
+00:00:24,100 --> 00:00:26,140
+I'll give you an example
+of one approach I've used.
+
+9
+00:00:27,300 --> 00:00:30,450
+Feel like I'm kind of getting into
+one weird trick territory here, but
+
+10
+00:00:30,450 --> 00:00:32,125
+seriously this one actually works.
+
+11
+00:00:32,125 --> 00:00:34,896
+For the 2014
+Chrome Dev Summit web sites,
+
+12
+00:00:34,896 --> 00:00:37,830
+I wanted to animate these cards like so.
+
+13
+00:00:37,830 --> 00:00:42,220
+I couldn't expand the cards fast enough
+to maintain 60 frames a second, so
+
+14
+00:00:42,220 --> 00:00:44,630
+I had to try something a bit different.
+
+15
+00:00:44,630 --> 00:00:46,780
+I tried working backwards.
+
+16
+00:00:46,780 --> 00:00:48,298
+I call my strategy FLIP.
+
+17
+00:00:48,298 --> 00:00:52,980
+First, last, invert, play.
+
+18
+00:00:52,980 --> 00:00:56,240
+I took advantage of the fact that once
+the browser had done the initial hard
+
+19
+00:00:56,240 --> 00:01:00,998
+work to run the animation once, I could
+run it backwards at very little cost.
+
+20
+00:01:00,998 --> 00:01:04,379
+It's like pre-calculating
+the expensive work.
+
+21
+00:01:04,379 --> 00:01:06,690
+My code took the start point of a card,
+
+22
+00:01:06,690 --> 00:01:10,850
+and then it took the end point
+when the card was expanded.
+
+23
+00:01:10,850 --> 00:01:16,110
+So let's say the card was about
+here when it started, and
+
+24
+00:01:16,110 --> 00:01:17,720
+the icon was like that.
+
+25
+00:01:18,980 --> 00:01:20,732
+The title there.
+
+26
+00:01:20,732 --> 00:01:23,300
+Using getBoundingClientRect,
+
+27
+00:01:23,300 --> 00:01:27,260
+I measured all the elements'
+positions before and after.
+
+28
+00:01:28,288 --> 00:01:32,520
+That then meant I knew how far
+everything needed to move on the page,
+
+29
+00:01:32,520 --> 00:01:35,830
+and if it's opacity changed,
+I also knew that as well.
+
+30
+00:01:35,830 --> 00:01:37,080
+So back here again.
+
+31
+00:01:37,080 --> 00:01:38,860
+First, that's where the card starts.
+
+32
+00:01:39,940 --> 00:01:42,230
+Last is where the card finished.
+
+33
+00:01:42,230 --> 00:01:44,770
+Now we need to talk about inverting.
+
+34
+00:01:44,770 --> 00:01:48,490
+I use the information from first and
+last to apply transform and
+
+35
+00:01:48,490 --> 00:01:51,170
+opacity changes to
+reverse the animation.
+
+36
+00:01:51,170 --> 00:01:54,410
+With a little bit of
+extra work with clipping,
+
+37
+00:01:54,410 --> 00:01:57,390
+it was like the card had never moved.
+
+38
+00:01:57,390 --> 00:01:59,750
+So, now we've inverted the animation.
+
+39
+00:01:59,750 --> 00:02:04,380
+We can just simply play it,
+and it looks like that.

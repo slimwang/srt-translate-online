@@ -1,0 +1,399 @@
+1
+00:00:00,000 --> 00:00:02,000
+So we just said, in our particular architecture,
+
+2
+00:00:02,000 --> 00:00:05,000
+that the HTML interpreter is going to call
+
+3
+00:00:05,000 --> 00:00:08,000
+the JavaScript interpreter--but not the other way around.
+
+4
+00:00:08,000 --> 00:00:12,000
+So they're kind of like two pieces to a puzzle that totally fit.
+
+5
+00:00:12,000 --> 00:00:16,000
+These fit perfectly with the application of another jigsaw.
+
+6
+00:00:16,000 --> 00:00:19,000
+I've labeled them as fitting so they fit now.
+
+7
+00:00:19,000 --> 00:00:24,000
+Recall that we treat JavaScript as a single HTML token.
+
+8
+00:00:24,000 --> 00:00:26,000
+And the reason for this is that
+
+9
+00:00:26,000 --> 00:00:29,000
+things like (5 < 7) or (a > b)--
+
+10
+00:00:29,000 --> 00:00:32,000
+those can appear in JavaScript.
+
+11
+00:00:32,000 --> 00:00:34,000
+But they would confuse us in HTML
+
+12
+00:00:34,000 --> 00:00:38,000
+because we'd think the Less Than and Greater Than were part of tags.
+
+13
+00:00:38,000 --> 00:00:42,000
+For example, this is totally Valid JavaScript.
+
+14
+00:00:42,000 --> 00:00:44,000
+Assuming (a) and (b) are defined somewhere,
+
+15
+00:00:44,000 --> 00:00:46,000
+this should either print out True or False.
+
+16
+00:00:46,000 --> 00:00:48,000
+But if you look at it carefully,
+
+17
+00:00:48,000 --> 00:00:51,000
+this (< b) is sort of indistinguishable
+
+18
+00:00:51,000 --> 00:00:55,000
+from the (< b) that might come in legitimate HTML--
+
+19
+00:00:55,000 --> 00:00:57,000
+like: (<b> bold).
+
+20
+00:00:57,000 --> 00:01:01,000
+So that's why we took all of this text
+
+21
+00:01:01,000 --> 00:01:05,000
+and we didn't interpret it in our HTML parser.
+
+22
+00:01:05,000 --> 00:01:08,000
+Instead, we saved it for later.
+
+23
+00:01:08,000 --> 00:01:10,000
+Well--now's the time!
+
+24
+00:01:10,000 --> 00:01:13,000
+Let me just remind you of how we defined our tokens
+
+25
+00:01:13,000 --> 00:01:15,000
+related to JavaScript.
+
+26
+00:01:15,000 --> 00:01:20,000
+Here I have our rule for beginning the tokenization of JavaScript.
+
+27
+00:01:20,000 --> 00:01:23,000
+Remember, these backslashes are Escape sequences.
+
+28
+00:01:23,000 --> 00:01:25,000
+You should read right over them.
+
+29
+00:01:25,000 --> 00:01:27,000
+In some sense, the first character I want to match
+
+30
+00:01:27,000 --> 00:01:29,000
+is this Less Than sign--
+
+31
+00:01:29,000 --> 00:01:31,000
+but just in case that has special meaning for regular expressions,
+
+32
+00:01:31,000 --> 00:01:35,000
+I'm going to put a backslash before it to Escape it
+
+33
+00:01:35,000 --> 00:01:38,000
+so that they know I mean exactly this backslash.
+
+34
+00:01:38,000 --> 00:01:41,000
+Just like over here, I mean exactly this space,
+
+35
+00:01:41,000 --> 00:01:45,000
+exactly this double quote, exactly this forward slash,
+
+36
+00:01:45,000 --> 00:01:48,000
+exactly this double quote, and exactly this Great Than sign.
+
+37
+00:01:48,000 --> 00:01:50,000
+So we're requiring JavaScript to start with:
+
+38
+00:01:50,000 --> 00:01:55,000
+<script\ type=*text\/javascript\
+
+39
+00:01:55,000 --> 00:01:58,000
+and when it does, we move our lexer
+
+40
+00:01:58,000 --> 00:02:00,000
+into a slightly different world.
+
+41
+00:02:00,000 --> 00:02:04,000
+And we talked about this before; we just have multiple finite state machines and then--
+
+42
+00:02:04,000 --> 00:02:06,000
+whoop--we're down at the one at the bottom now.
+
+43
+00:02:06,000 --> 00:02:11,000
+And then down here, I have my rule for ending JavaScript lexing.
+
+44
+00:02:11,000 --> 00:02:13,000
+We're looking for this,
+
+45
+00:02:13,000 --> 00:02:17,000
+but just in case any of these 3 special symbols
+
+46
+00:02:17,000 --> 00:02:19,000
+have special meaning to regular expressions,
+
+47
+00:02:19,000 --> 00:02:23,000
+I have put the backslash and Escape sequence in front of all of them.
+
+48
+00:02:23,000 --> 00:02:25,000
+This is probably not actually necessary,
+
+49
+00:02:25,000 --> 00:02:28,000
+but it's what's known as "defensive programming".
+
+50
+00:02:28,000 --> 00:02:30,000
+It can't hurt, might help.
+
+51
+00:02:30,000 --> 00:02:34,000
+I want the token.value to be all of the string data,
+
+52
+00:02:34,000 --> 00:02:36,000
+all of the embedded JavaScript code.
+
+53
+00:02:36,000 --> 00:02:39,000
+I'm going to use a variable we haven't told you about yet.
+
+54
+00:02:39,000 --> 00:02:42,000
+It's possible to get the entire input string
+
+55
+00:02:42,000 --> 00:02:44,000
+from the lexer in:
+
+56
+00:02:44,000 --> 00:02:47,000
+(token.lexer.lexdata).
+
+57
+00:02:47,000 --> 00:02:50,000
+Don't worry too much; I'm just going to assert that this works.
+
+58
+00:02:50,000 --> 00:02:52,000
+This is the entire big string,
+
+59
+00:02:52,000 --> 00:02:55,000
+and I'm going to get it,
+
+60
+00:02:55,000 --> 00:02:58,000
+starting at the position we recorded earlier.
+
+61
+00:02:58,000 --> 00:03:01,000
+Back up here--when we found the javascript(token)
+
+62
+00:03:01,000 --> 00:03:06,000
+we wrote down the current lexer position
+
+63
+00:03:06,000 --> 00:03:08,000
+and stored it in a little variable we made up
+
+64
+00:03:08,000 --> 00:03:10,000
+called (code_start).
+
+65
+00:03:10,000 --> 00:03:12,000
+So let's say 50 characters into the file
+
+66
+00:03:12,000 --> 00:03:14,000
+we started the javascript.
+
+67
+00:03:14,000 --> 00:03:16,000
+We'll just store that 50 right here in (code_start).
+
+68
+00:03:16,000 --> 00:03:19,000
+That's going to let us pull out,
+
+69
+00:03:19,000 --> 00:03:21,000
+starting at Character 50,
+
+70
+00:03:21,000 --> 00:03:23,000
+up to where we currently are.
+
+71
+00:03:23,000 --> 00:03:25,000
+Let's say that there are 100 characters of JavaScript--
+
+72
+00:03:25,000 --> 00:03:29,000
+now we'd be at 150--and I'm subtracting out 9.
+
+73
+00:03:29,000 --> 00:03:32,000
+Why am I subtracting out 9?
+
+74
+00:03:32,000 --> 00:03:36,000
+1, 2, 3, 4, 5, 6, 7, 8, 9--
+
+75
+00:03:36,000 --> 00:03:38,000
+it's the size of this ending token.
+
+76
+00:03:38,000 --> 00:03:41,000
+I don't want this (/script) to be in it.
+
+77
+00:03:41,000 --> 00:03:43,000
+So I've set the value correctly.
+
+78
+00:03:43,000 --> 00:03:47,000
+I say the type of this token is 'JAVASCRIPT'.
+
+79
+00:03:47,000 --> 00:03:49,000
+For accurate debugging information,
+
+80
+00:03:49,000 --> 00:03:51,000
+we want to keep track of which line we were on
+
+81
+00:03:51,000 --> 00:03:54,000
+in case we want to report errors later.
+
+82
+00:03:54,000 --> 00:03:58,000
+Here's a trick: the JavaScript embedded code probably had new lines in it.
+
+83
+00:03:58,000 --> 00:04:01,000
+I want to make sure that all of those count,
+
+84
+00:04:01,000 --> 00:04:03,000
+so I'm going to count up the total number
+
+85
+00:04:03,000 --> 00:04:05,000
+of new lines--or character returns or whatnot--
+
+86
+00:04:05,000 --> 00:04:07,000
+found in the embedded JavaScript code
+
+87
+00:04:07,000 --> 00:04:10,000
+and increment my own line count by that amount.
+
+88
+00:04:10,000 --> 00:04:12,000
+And then we go back and
+
+89
+00:04:12,000 --> 00:04:15,000
+move to the 'INITIAL' state of the lexer
+
+90
+00:04:15,000 --> 00:04:17,000
+where we can get HTML tokens,
+
+91
+00:04:17,000 --> 00:04:21,000
+like 'LANGLE', 'LANGLESLASH', 'RANGLE'.
+
+92
+00:04:21,000 --> 00:04:25,000
+So this is just gathering up the raw string
+
+93
+00:04:25,000 --> 00:04:29,000
+for embedded JavaScript, and storing it as a single HTML token.
+
+94
+00:04:29,000 --> 00:04:31,000
+One last important thing to remind you of:
+
+95
+00:04:31,000 --> 00:04:35,000
+Note that we stripped off the final \<\/script\> from the end.
+
+96
+00:04:35,000 --> 00:04:38,000
+And because of the way lexpos works,
+
+97
+00:04:38,000 --> 00:04:41,000
+it measures the value after we match the token.
+
+98
+00:04:41,000 --> 00:04:44,000
+We actually end up stripping off the
+
+99
+00:04:44,000 --> 00:04:46,000
+\<script\ type="text\/javascript\"\
+
+100
+00:04:46,000 --> 99:59:59,999
+from the beginning as well.

@@ -1,0 +1,163 @@
+1
+00:00:00,000 --> 00:00:03,000
+[Norvig] Now let's move on to stochastic environments.
+
+2
+00:00:03,000 --> 00:00:06,000
+Let's consider a robot that has slippery wheels
+
+3
+00:00:06,000 --> 00:00:10,000
+so that sometimes when you make a movement--a left or a right action--
+
+4
+00:00:10,000 --> 00:00:13,000
+the wheels slip and you stay in the same location.
+
+5
+00:00:13,000 --> 00:00:17,000
+And sometimes they work and you arrive where you expected to go.
+
+6
+00:00:17,000 --> 00:00:21,000
+And let's assume that the suck action always works perfectly.
+
+7
+00:00:21,000 --> 00:00:25,000
+We get a belief state space that looks something like this.
+
+8
+00:00:25,000 --> 00:00:30,000
+Notice that the results of actions will often result in a belief state
+
+9
+00:00:30,000 --> 00:00:34,000
+that's larger than it was before--that is, the action will increase uncertainty
+
+10
+00:00:34,000 --> 00:00:37,000
+because we don't know what the result of the action is going to be.
+
+11
+00:00:37,000 --> 00:00:42,000
+And so here for each of the individual world states belonging to a belief state,
+
+12
+00:00:42,000 --> 00:00:47,000
+we have multiple outcomes for the action, and that's what stochastic means.
+
+13
+00:00:47,000 --> 00:00:50,000
+And so we end up with a larger belief state here.
+
+14
+00:00:50,000 --> 00:00:55,000
+But in terms of the observation, the same thing holds as in the deterministic world.
+
+15
+00:00:55,000 --> 00:01:01,000
+The observation partitions the belief state into smaller belief states.
+
+16
+00:01:01,000 --> 00:01:04,000
+So in a stochastic partially observable environment,
+
+17
+00:01:04,000 --> 00:01:07,000
+the actions tend to increase uncertainty,
+
+18
+00:01:07,000 --> 00:01:11,000
+and the observations tend to bring that uncertainty back down.
+
+19
+00:01:11,000 --> 00:01:14,000
+Now, how would we do planning in this type of environment?
+
+20
+00:01:14,000 --> 00:01:17,000
+I haven't told you yet, so you won't know the answer for sure,
+
+21
+00:01:17,000 --> 00:01:21,000
+but I want you to try to figure it out anyways, even if you might get the answer wrong.
+
+22
+00:01:21,000 --> 00:01:27,000
+Imagine I had the whole belief state from which I've diagrammed just a little bit here
+
+23
+00:01:27,000 --> 00:01:31,000
+and I wanted to know how to get from this belief state
+
+24
+00:01:31,000 --> 00:01:34,000
+to one in which all squares are clean.
+
+25
+00:01:34,000 --> 00:01:36,000
+So I'm going to give you some possible plans,
+
+26
+00:01:36,000 --> 00:01:42,000
+and I want you to tell me whether you think each of these plans will always work
+
+27
+00:01:42,000 --> 00:01:47,000
+or maybe sometimes work depending on how the stochasticity works out.
+
+28
+00:01:47,000 --> 00:01:49,000
+Here are the possible plans.
+
+29
+00:01:49,000 --> 00:01:54,000
+Remember I'm starting here, and I want to know how to get to a belief state
+
+30
+00:01:54,000 --> 00:01:57,000
+in which all the squares are clean.
+
+31
+00:01:57,000 --> 00:02:06,000
+One possibility is suck right and suck, one is right suck left suck,
+
+32
+00:02:06,000 --> 00:02:11,000
+one is suck right right suck,
+
+33
+00:02:11,000 --> 00:02:18,000
+and the other is suck right suck right suck.
+
+34
+00:02:18,000 --> 00:02:22,000
+So some of these actions might take you out of this little belief state here,
+
+35
+00:02:22,000 --> 00:02:27,000
+but just use what you knew from the previous definition of the state space
+
+36
+00:02:27,000 --> 00:02:29,000
+and the results of each of those actions
+
+37
+00:02:29,000 --> 00:02:34,000
+and the fact that the right and left actions are nondeterministic
+
+38
+00:02:34,000 --> 00:02:39,000
+and tell me which of these you think will always achieve the goal
+
+39
+00:02:39,000 --> 00:02:42,000
+or will maybe achieve the goal.
+
+40
+00:02:42,000 --> 00:02:48,000
+And then I want you to also answer for the fill-in-the-blank plan--
+
+41
+00:02:48,000 --> 99:59:59,999
+that is, is there some plan, some ideal plan, which always or maybe achieves the goal?

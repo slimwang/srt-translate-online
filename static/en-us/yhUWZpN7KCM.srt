@@ -1,0 +1,127 @@
+1
+00:00:00,310 --> 00:00:02,070
+Okay, the time has come to wrap up
+
+2
+00:00:02,070 --> 00:00:05,560
+transactions where we will cover transaction rules. And the
+
+3
+00:00:05,560 --> 00:00:07,910
+two things we will start with are snapshot
+
+4
+00:00:07,910 --> 00:00:13,050
+isolation which defines the read consistency and optimistic concurrency
+
+5
+00:00:13,050 --> 00:00:16,210
+which governs concurrent updates. We'll start off with
+
+6
+00:00:16,210 --> 00:00:20,070
+snapshot isolation. And please observe that this behavior may
+
+7
+00:00:20,070 --> 00:00:22,570
+differ between languages, so be sure to check out
+
+8
+00:00:22,570 --> 00:00:25,480
+the documentation. The first rule is that all read
+
+9
+00:00:25,480 --> 00:00:29,040
+operations in a transaction will return the values datastore
+
+10
+00:00:29,040 --> 00:00:32,280
+had when the transaction started. And the second rule
+
+11
+00:00:32,280 --> 00:00:35,960
+for snapshot isolation is. Updates will not be reflected
+
+12
+00:00:35,960 --> 00:00:39,070
+while in the transaction. So, if an entity is modified
+
+13
+00:00:39,070 --> 00:00:41,780
+or deleted in the transaction, a query will get
+
+14
+00:00:41,780 --> 00:00:44,750
+the original version of the entity, or nothing if
+
+15
+00:00:44,750 --> 00:00:48,300
+the entity did not exit then. That's snapshot isolation,
+
+16
+00:00:48,300 --> 00:00:50,920
+but please be sure to check out the documentation as
+
+17
+00:00:50,920 --> 00:00:54,360
+this behavior is somewhat language specific. So let's
+
+18
+00:00:54,360 --> 00:00:57,880
+turn to optimistic concurrency. This rule is that a
+
+19
+00:00:57,880 --> 00:01:00,990
+commit transaction would only be successful if the
+
+20
+00:01:00,990 --> 00:01:04,810
+values updated by this transaction have not changed since
+
+21
+00:01:04,810 --> 00:01:07,650
+the begin transaction. If the values that you're
+
+22
+00:01:07,650 --> 00:01:11,030
+trying to update has changed since begin, the transaction
+
+23
+00:01:11,030 --> 00:01:13,460
+will fail. Then there are two additional rules
+
+24
+00:01:13,460 --> 00:01:15,990
+you should be aware of. The first is that
+
+25
+00:01:15,990 --> 00:01:18,750
+one transaction can modify at most five ancestor
+
+26
+00:01:18,750 --> 00:01:21,590
+groups. The second rule is that a transaction
+
+27
+00:01:21,590 --> 00:01:24,680
+must complete within 60 seconds, but the general
+
+28
+00:01:24,680 --> 00:01:26,710
+rule is, of course, to keep the execution
+
+29
+00:01:26,710 --> 00:01:30,200
+of transactions short. As short as possible, unless
+
+30
+00:01:30,200 --> 00:01:32,840
+in extremely rare cases, they should be finished
+
+31
+00:01:32,840 --> 00:01:34,740
+within a couple of seconds and in most
+
+32
+00:01:34,740 --> 00:01:38,050
+cases, less than a second. That completes this section

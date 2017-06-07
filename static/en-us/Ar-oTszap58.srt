@@ -1,0 +1,400 @@
+﻿1
+00:00:00,000 --> 00:00:02,399
+It's time to wire up the buttons.
+
+2
+00:00:02,399 --> 00:00:03,720
+This will allow us to start the audio
+
+3
+00:00:03,720 --> 00:00:05,459
+playback and change the state of the buttons.
+
+4
+00:00:05,459 --> 00:00:07,950
+Remember that when reaching from
+
+5
+00:00:07,950 --> 00:00:11,339
+code to an UI element, we use IBOutlets
+
+6
+00:00:11,339 --> 00:00:14,039
+and to go from an UI element and then
+
+7
+00:00:14,039 --> 00:00:17,399
+call our code, we use an IBAction.
+
+8
+00:00:17,399 --> 00:00:20,760
+So we'll start with the IBOutlets
+
+9
+00:00:20,760 --> 00:00:22,140
+Instead of doing the whole setup with the
+
+10
+00:00:22,140 --> 00:00:24,809
+assistant editor and then holding control
+
+11
+00:00:24,809 --> 00:00:27,089
+and click dragging from our interface to
+
+12
+00:00:27,089 --> 00:00:29,428
+our code, there's an easier way to set up IBOutlets.
+
+13
+00:00:29,428 --> 00:00:32,850
+what we can do is create
+
+14
+00:00:32,850 --> 00:00:35,039
+IBOutlets in code first and then
+
+15
+00:00:35,039 --> 00:00:36,840
+connect them via the interface builder.
+
+16
+00:00:36,840 --> 00:00:39,539
+So open the PlaySoundsViewController.swift file.
+
+17
+00:00:39,539 --> 00:00:41,640
+Here you can see our property
+
+18
+00:00:41,640 --> 00:00:45,689
+for the recorded audio URL.
+
+19
+00:00:45,689 --> 00:00:47,488
+Add the following lines above it.
+
+20
+00:00:47,488 --> 00:00:49,320
+These are the IBOutlets for the six
+
+21
+00:00:49,320 --> 00:00:53,159
+playback buttons and the Stop Button.
+
+22
+00:00:53,159 --> 00:00:54,509
+Now we just need to connect these IBOutlets
+
+23
+00:00:54,509 --> 00:00:59,789
+Open the Main.storyboard file
+
+24
+00:00:59,789 --> 00:01:01,710
+and select the Play Sounds View Controller Scene.
+
+25
+00:01:01,710 --> 00:01:06,118
+In the Document Outline,
+
+26
+00:01:06,118 --> 00:01:08,459
+expand each disclosure triangle, so that
+
+27
+00:01:08,459 --> 00:01:10,978
+you have all the buttons revealed, like I
+
+28
+00:01:10,978 --> 00:01:13,799
+do here. And I just noticed I didn't
+
+29
+00:01:13,799 --> 00:01:15,118
+rename my other buttons, so I'm gonna
+
+30
+00:01:15,118 --> 00:01:22,180
+take care of that really quickly.
+
+31
+00:01:22,180 --> 00:01:26,530
+There we go. With the control key held down,
+
+32
+00:01:26,530 --> 00:01:28,810
+drag from the Play Sounds View Controller
+
+33
+00:01:28,810 --> 00:01:34,810
+down to the Slow Button.
+
+34
+00:01:34,810 --> 00:01:36,640
+Then from the pop-up menu, let’s select the
+
+35
+00:01:36,640 --> 00:01:40,090
+outlet for the Slow Button or that will
+
+36
+00:01:40,090 --> 00:01:44,769
+also be the snailButton. Let's do the
+
+37
+00:01:44,769 --> 00:01:49,719
+same for the other buttons. For the Fast
+
+38
+00:01:49,719 --> 00:01:51,579
+Button will connect that to… that's the
+
+39
+00:01:51,579 --> 00:01:57,009
+same as the rabbitButton. For High Pitch
+
+40
+00:01:57,009 --> 00:02:01,930
+that's our chipmunkButton. Low Pitch is
+
+41
+00:02:01,930 --> 00:02:12,669
+the vaderButton. Echo echoButton and
+
+42
+00:02:12,669 --> 00:02:18,669
+Reverb is the reverbButton. And finally
+
+43
+00:02:18,669 --> 00:02:20,680
+for the Stop Button stopButton.
+
+44
+00:02:20,680 --> 00:02:23,469
+Awesome, now our view controller can reach
+
+45
+00:02:23,469 --> 00:02:25,689
+out to all of the UI buttons using the
+
+46
+00:02:25,689 --> 00:02:28,090
+IBOutlets that we created.
+
+47
+00:02:28,090 --> 00:02:30,009
+The next step is to connect the buttons to an IBAction.
+
+48
+00:02:30,009 --> 00:02:31,479
+So that when you press a button,
+
+49
+00:02:31,479 --> 00:02:33,519
+code inside of the Play Sounds View Controller runs.
+
+50
+00:02:33,519 --> 00:02:36,039
+From what we've learned so far,
+
+51
+00:02:36,039 --> 00:02:37,840
+you might be thinking we need to
+
+52
+00:02:37,840 --> 00:02:40,780
+create seven IBAction functions, one for
+
+53
+00:02:40,780 --> 00:02:43,330
+each button. But there's a better way
+
+54
+00:02:43,330 --> 00:02:45,789
+with less duplication of code.
+
+55
+00:02:45,789 --> 00:02:47,830
+I’m going to show you that now.
+
+56
+00:02:47,830 --> 00:02:50,469
+we're going to create just two IBAction functions.
+
+57
+00:02:50,469 --> 00:02:52,509
+One to handle all the six playback buttons,
+
+58
+00:02:52,509 --> 00:02:55,209
+and one to handle the stop button.
+
+59
+00:02:55,209 --> 00:02:56,590
+Open the PlaySoundsViewController.swift file.
+
+60
+00:02:56,590 --> 00:03:00,219
+Underneath the IBOutlets and our one property,
+
+61
+00:03:00,219 --> 00:03:02,169
+add these two functions.
+
+62
+00:03:02,169 --> 00:03:05,680
+There we go. We have an IBAction to play sound,
+
+63
+00:03:05,680 --> 00:03:09,430
+an IBAction to stop the sound.
+
+64
+00:03:09,430 --> 00:03:11,199
+Now we just need to connect the six playback
+
+65
+00:03:11,199 --> 00:03:13,209
+buttons to the PlaySoundForButton IBAction.
+
+66
+00:03:13,209 --> 00:03:15,610
+We also need to connect the
+
+67
+00:03:15,610 --> 00:03:17,620
+Stop Button to the StopButtonPressed IBAction.
+
+68
+00:03:17,620 --> 00:03:20,409
+Let's go back to the Main.storyboard file.
+
+69
+00:03:20,409 --> 00:03:23,829
+Select the Play Sounds View Controller
+
+70
+00:03:23,829 --> 00:03:25,479
+in the Document Outline
+
+71
+00:03:25,479 --> 00:03:26,979
+and make sure you have all the buttons revealed.
+
+72
+00:03:26,979 --> 00:03:29,949
+With the control key held down,
+
+73
+00:03:29,949 --> 00:03:33,009
+drag from the Slow Button up to the
+
+74
+00:03:33,009 --> 00:03:34,800
+Play Sounds View Controller.
+
+75
+00:03:34,800 --> 00:03:39,360
+Select the playSoundForButton function
+
+76
+00:03:39,360 --> 00:03:42,569
+from the pop-up. Let's do the
+
+77
+00:03:42,569 --> 00:03:44,340
+same for the remaining buttons.
+
+78
+00:03:44,340 --> 00:03:46,289
+And then for the Stop Button, will do the
+
+79
+00:03:46,289 --> 00:04:01,379
+stopButtonPressed function.
+
+80
+00:04:01,379 --> 00:04:03,659
+And then the last one is a Reverb Button.
+
+81
+00:04:03,659 --> 00:04:10,169
+And then for the Stop Button,
+
+82
+00:04:10,169 --> 00:04:13,050
+select stopButtonPressed. Let's run and see if
+
+83
+00:04:13,050 --> 00:04:17,100
+everything is wired up correctly.
+
+84
+00:04:17,100 --> 00:04:18,810
+Press the Run button to start PitchPerfect in
+
+85
+00:04:18,810 --> 00:04:22,649
+the iOS simulator. Let's quickly record
+
+86
+00:04:22,649 --> 00:04:24,240
+and stop, so we can transition to the
+
+87
+00:04:24,240 --> 00:04:30,660
+Play Sounds View Controller.
+
+88
+00:04:30,660 --> 00:04:32,399
+If we press on the Snail playback button, we can see
+
+89
+00:04:32,399 --> 00:04:34,230
+the playSoundForButton function is
+
+90
+00:04:34,230 --> 00:04:35,610
+getting called based on our print
+
+91
+00:04:35,610 --> 00:04:37,139
+statement in the console.
+
+92
+00:04:37,139 --> 00:04:38,759
+Let's try for the other five buttons.
+
+93
+00:04:38,759 --> 00:04:45,329
+That looks good.
+
+94
+00:04:45,329 --> 00:04:46,980
+Lastly let's check that the Stop Button
+
+95
+00:04:46,980 --> 00:04:51,180
+is wired up by pressing it as well.
+
+96
+00:04:51,180 --> 00:04:52,680
+That was a bit of work, but now we can reach
+
+97
+00:04:52,680 --> 00:04:54,240
+into all of our buttons
+
+98
+00:04:54,240 --> 00:04:56,009
+from the Play Sounds View Controller
+
+99
+00:04:56,009 --> 00:04:58,500
+using the IBOutlets and have the buttons color code
+
+100
+00:04:58,500 --> 00:05:04,970
+using the IBActions
+

@@ -1,0 +1,280 @@
+﻿1
+00:00:01,199 --> 00:00:05,440
+Now that we have validated that
+our theory, that individual words
+
+2
+00:00:05,440 --> 00:00:08,660
+instead of review are predictive of that
+review's positive or negative label.
+
+3
+00:00:08,660 --> 00:00:12,266
+Now it's time to transform our
+datasets into numbers in a way that
+
+4
+00:00:12,266 --> 00:00:14,562
+respects this theory and this belief, so
+
+5
+00:00:14,563 --> 00:00:18,772
+that our neural network can search for
+correlation in this particular way.
+
+6
+00:00:18,772 --> 00:00:23,120
+So what we want to be able to do is we
+want to present the words as input into
+
+7
+00:00:23,120 --> 00:00:27,250
+the neural network in such a way
+that it can look for correlation and
+
+8
+00:00:27,251 --> 00:00:31,339
+make the correct positive or
+negative prediction of the output.
+
+9
+00:00:31,338 --> 00:00:34,618
+So the most natural way to start
+here is simply count each word and
+
+10
+00:00:34,618 --> 00:00:38,100
+input those counts as inputs
+to the neural network.
+
+11
+00:00:38,100 --> 00:00:39,350
+Pretty simple, well defined and
+
+12
+00:00:39,350 --> 00:00:43,160
+I think that should have correlation
+with what you want to predict.
+
+13
+00:00:43,159 --> 00:00:45,698
+Now as far as predicting and
+positive and negative,
+
+14
+00:00:45,698 --> 00:00:49,009
+obviously neural nets can't
+predict the word positive.
+
+15
+00:00:49,009 --> 00:00:52,969
+Well, some more advanced ones can but
+that's not what we're trying to do here.
+
+16
+00:00:52,969 --> 00:00:56,481
+Instead, we're going to
+represent positiveness and
+
+17
+00:00:56,481 --> 00:01:01,607
+negativeness as a number where positive
+is the number 1 and negative is the 0.
+
+18
+00:01:01,607 --> 00:01:04,533
+Now the reason that we're
+doing this in one neuron and
+
+19
+00:01:04,533 --> 00:01:08,498
+kind of giving it two sides that the
+network has to decide between is that we
+
+20
+00:01:08,498 --> 00:01:11,910
+know that positive and
+negative are mutually exclusive.
+
+21
+00:01:11,909 --> 00:01:14,909
+But we're not going to train our
+network to ever say that a review is
+
+22
+00:01:14,909 --> 00:01:16,640
+both positive and negative.
+
+23
+00:01:16,640 --> 00:01:17,579
+And by modeling it this way,
+
+24
+00:01:17,579 --> 00:01:20,489
+we can make these two different
+labels mutually exclusive.
+
+25
+00:01:20,489 --> 00:01:23,729
+This reduces the number of ways that
+a neural network can make a mistake.
+
+26
+00:01:23,730 --> 00:01:26,560
+Which reduces the amount
+it has to learn and
+
+27
+00:01:26,560 --> 00:01:29,947
+actually helps it learn
+this particular pattern.
+
+28
+00:01:29,947 --> 00:01:32,450
+In some ways some other [INAUDIBLE] for
+example,
+
+29
+00:01:32,450 --> 00:01:35,963
+have five different output labels for
+different granularities.
+
+30
+00:01:35,962 --> 00:01:38,407
+So for example, can have five stars,
+
+31
+00:01:38,408 --> 00:01:41,700
+you can pick one star to
+three stars to five stars.
+
+32
+00:01:41,700 --> 00:01:45,010
+And it turns out that sometimes it
+can actually hurt the neural net and
+
+33
+00:01:45,010 --> 00:01:48,663
+make it more difficult to predict if it
+actually has to predict which star was
+
+34
+00:01:48,662 --> 00:01:49,364
+most likely.
+
+35
+00:01:49,364 --> 00:01:53,850
+Because it allows it to sort of
+make double positive predictions,
+
+36
+00:01:53,850 --> 00:01:59,179
+a three and a four where the four is
+incorrect and the three is correct.
+
+37
+00:01:59,180 --> 00:02:01,830
+But they share a lot of signals,
+it creates ambiguity in the network.
+
+38
+00:02:01,829 --> 00:02:04,439
+But in this case,
+because you only have two labels,
+
+39
+00:02:04,439 --> 00:02:08,069
+we can force the network to have to
+choose between the two of them thus
+
+40
+00:02:08,069 --> 00:02:10,599
+reducing the number of ways
+that it can make an escape.
+
+41
+00:02:10,599 --> 00:02:13,919
+One of the themes throughout
+this computorial is going to be
+
+42
+00:02:13,919 --> 00:02:16,329
+making the prediction
+as easy as possible.
+
+43
+00:02:16,330 --> 00:02:19,180
+And framing the problem in such a way
+where it's as easy as possible for
+
+44
+00:02:19,180 --> 00:02:21,379
+the neural net to make this prediction.
+
+45
+00:02:21,379 --> 00:02:23,605
+What do we need and
+what was Project 2 going to be about?
+
+46
+00:02:23,605 --> 00:02:27,413
+Project 2 is about setting up two
+functions that take our input and
+
+47
+00:02:27,413 --> 00:02:32,175
+output data and transform them into the
+appropriate 1 0 binary representation or
+
+48
+00:02:32,175 --> 00:02:35,387
+I guess on the output and
+then the count's on the input.
+
+49
+00:02:35,387 --> 00:02:39,719
+So in this case, the first function
+I want you to build takes a review,
+
+50
+00:02:39,719 --> 00:02:42,014
+extracts the words from the review.
+
+51
+00:02:42,014 --> 00:02:45,119
+And then counts them and
+it puts those counts into a vector.
+
+52
+00:02:45,120 --> 00:02:47,170
+Now that vector has to
+be constant length,
+
+53
+00:02:47,169 --> 00:02:49,759
+it needs to be the length
+of the vocabulary.
+
+54
+00:02:49,759 --> 00:02:53,899
+And then I want you to create another
+function that just maps positive,
+
+55
+00:02:53,900 --> 00:02:55,216
+negative to a 1 or 0.
+
+56
+00:02:55,216 --> 00:02:57,027
+So go ahead and
+create those functions and
+
+57
+00:02:57,026 --> 00:02:59,727
+then I'll show you how I create them and
+we can compare notes.
+
+58
+00:02:59,728 --> 00:03:00,240
+See you then.
+

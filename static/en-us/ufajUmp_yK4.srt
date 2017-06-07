@@ -1,0 +1,210 @@
+1
+00:00:00,400 --> 00:00:04,235
+First, we'll bring in the point of
+sale transaction data into Ateryx
+
+2
+00:00:04,235 --> 00:00:05,736
+using the imput data tool.
+
+3
+00:00:05,736 --> 00:00:10,082
+Next, let's add a select tool
+to change the data type of
+
+4
+00:00:10,082 --> 00:00:12,675
+the invoice date field to a date.
+
+5
+00:00:12,675 --> 00:00:16,880
+Change the number of decimal places on
+the gross margin and the sales field and
+
+6
+00:00:16,880 --> 00:00:20,516
+remove unnecessary fields to help
+speed up the workflow run time.
+
+7
+00:00:20,516 --> 00:00:24,216
+We're only interested in
+transactions from February 7,
+
+8
+00:00:24,216 --> 00:00:26,733
+2013 through May 28, 2014.
+
+9
+00:00:26,733 --> 00:00:30,987
+But the point of sale transaction
+source data includes transactions from
+
+10
+00:00:30,987 --> 00:00:32,159
+additional dates.
+
+11
+00:00:33,280 --> 00:00:36,940
+We'll use a filter tool to
+remove the unwanted data.
+
+12
+00:00:36,940 --> 00:00:39,630
+Additionally since we're
+matching on region
+
+13
+00:00:39,630 --> 00:00:44,128
+we can take this opportunity the filter
+out data with the region field is blank.
+
+14
+00:00:44,128 --> 00:00:48,096
+To assist with summarizing transaction
+data to store in week level,
+
+15
+00:00:48,096 --> 00:00:53,710
+we'll create a week number field, a week
+begin date field, a week end date field.
+
+16
+00:00:53,710 --> 00:00:58,310
+And also, a facial flag field that will
+be used to identify transactions that
+
+17
+00:00:58,310 --> 00:00:59,180
+included a facial.
+
+18
+00:01:00,270 --> 00:01:03,660
+Let's use the formula tool
+to create these four fields.
+
+19
+00:01:03,660 --> 00:01:06,940
+First, we'll create the field
+with the week number.
+
+20
+00:01:06,940 --> 00:01:10,263
+The way this formula works is it
+calculates the difference in days
+
+21
+00:01:10,263 --> 00:01:14,010
+between invoice date, and
+the earliest date we are using,
+
+22
+00:01:14,010 --> 00:01:15,920
+which is February 7, 2013.
+
+23
+00:01:15,920 --> 00:01:20,420
+We then divide the number of days
+by 7 to get the number of weeks.
+
+24
+00:01:20,420 --> 00:01:24,240
+If the number is not divisible by 7,
+we'll get a remainder.
+
+25
+00:01:24,240 --> 00:01:27,830
+Therefore, we use the floor
+function to isolate the quotient.
+
+26
+00:01:27,830 --> 00:01:31,640
+For example, if the invoice date
+is 15 days from the start date,
+
+27
+00:01:31,640 --> 00:01:32,920
+this should be in week 3.
+
+28
+00:01:32,920 --> 00:01:36,925
+So, 15 divided by 7 equals 2.14.
+
+29
+00:01:36,925 --> 00:01:40,089
+We add 1 since the first week is week 1.
+
+30
+00:01:40,089 --> 00:01:44,810
+Taking the floor of 3.14 gives us
+the answer 3 that we're looking for.
+
+31
+00:01:44,810 --> 00:01:47,334
+[BLANK_AUDIO]
+
+32
+00:01:47,334 --> 00:01:51,950
+Next, we can calculate the beginning
+date of each week with a simple formula.
+
+33
+00:01:51,950 --> 00:01:56,470
+We subtract 1 from the week number,
+and then multiply the result by 7,
+
+34
+00:01:56,470 --> 00:02:01,040
+to get the number of days each week
+starts from the experiment start date.
+
+35
+00:02:01,040 --> 00:02:04,210
+We then add that number of days
+to get the week start date.
+
+36
+00:02:05,850 --> 00:02:09,940
+Lastly, we calculate the week end date
+of each week, with a similar formula.
+
+37
+00:02:09,940 --> 00:02:12,170
+We add 6 days to each week begin date.
+
+38
+00:02:14,030 --> 00:02:17,620
+We also want to flag a row of
+data if the transaction line item
+
+39
+00:02:17,620 --> 00:02:19,390
+contains a facial.
+
+40
+00:02:19,390 --> 00:02:21,839
+We can use a simple
+conditional equation for this.
+
+41
+00:02:22,950 --> 00:02:27,890
+If the skew category equals facial,
+then 1, otherwise, null.
+
+42
+00:02:27,890 --> 00:02:30,635
+This expression will flag
+a facial transaction with a 1.
+
+43
+00:02:32,350 --> 00:02:33,670
+Now we have the date data and
+
+44
+00:02:33,670 --> 00:02:38,210
+the subset of data that we can use to
+generate all 3 data tables that we need.
+
+45
+00:02:38,210 --> 00:02:38,760
+Let's move on.

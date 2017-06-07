@@ -1,0 +1,149 @@
+1
+00:00:00,000 --> 00:00:03,051
+Let's see first which options
+we can eliminate quickly.
+
+2
+00:00:03,051 --> 00:00:06,177
+NFS definitely allows for
+files to be modified, so
+
+3
+00:00:06,177 --> 00:00:08,948
+immutable is not one of
+the correct answers.
+
+4
+00:00:08,948 --> 00:00:13,336
+And also being a distributed system and
+if this doesn't meet guarantees that
+
+5
+00:00:13,336 --> 00:00:17,263
+an update for a file will immediately
+be visible, so it's not Unix.
+
+6
+00:00:17,263 --> 00:00:19,298
+Now we said that in principle,
+
+7
+00:00:19,298 --> 00:00:24,075
+NFS tries to make session semantics in
+that the updates made to a file will
+
+8
+00:00:24,075 --> 00:00:27,621
+be flushed back to the server
+when the file is closed.
+
+9
+00:00:27,621 --> 00:00:30,857
+And also when a client
+performs an open operation,
+
+10
+00:00:30,857 --> 00:00:35,758
+the client can check with the server to
+see whether the file has been updated.
+
+11
+00:00:35,758 --> 00:00:39,044
+And in that case, the client will
+also update the cached value.
+
+12
+00:00:39,044 --> 00:00:43,762
+The problem is however, that NFS
+can be configured to periodically
+
+13
+00:00:43,762 --> 00:00:47,322
+have client and
+server interactions that check for
+
+14
+00:00:47,322 --> 00:00:51,232
+any intermediate updates to
+our file during a session.
+
+15
+00:00:51,232 --> 00:00:54,701
+Now how frequently this is done
+can be configured and in fact,
+
+16
+00:00:54,701 --> 00:00:56,514
+it can be completely disabled.
+
+17
+00:00:56,514 --> 00:01:01,020
+So, in that case, NFS will always
+behave like with session semantics.
+
+18
+00:01:01,020 --> 00:01:05,772
+However, given that this option for
+periodic updates exists.
+
+19
+00:01:05,772 --> 00:01:08,652
+It is not quite a session semantics.
+
+20
+00:01:08,652 --> 00:01:13,123
+At the same time, it's not purely
+periodic file sharing semantics,
+
+21
+00:01:13,123 --> 00:01:17,762
+because we will still have changes in
+the file propagate and file close.
+
+22
+00:01:17,762 --> 00:01:18,912
+Or on file open,
+
+23
+00:01:18,912 --> 00:01:23,692
+just as what happens with
+a session-based file sharing semantics.
+
+24
+00:01:23,692 --> 00:01:28,157
+So for both session and periodic,
+yes, perhaps there are elements of
+
+25
+00:01:28,157 --> 00:01:33,314
+the sharing semantics that NFS supports
+that are session like or periodic like.
+
+26
+00:01:33,314 --> 00:01:37,879
+And whether it will behave like
+with session or periodic semantics,
+
+27
+00:01:37,879 --> 00:01:41,035
+it will really depend on
+how NFS is configured.
+
+28
+00:01:41,035 --> 00:01:44,877
+That leaves that by default
+NFS is really neither.
+
+29
+00:01:44,877 --> 00:01:48,248
+It is not purely session-based
+file sharing semantics
+
+30
+00:01:48,248 --> 00:01:49,904
+distributed file system.
+
+31
+00:01:49,904 --> 00:01:53,910
+And also, it doesn't purely support
+just periodic file sharing semantics.

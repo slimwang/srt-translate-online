@@ -1,0 +1,192 @@
+﻿1
+00:00:00,310 --> 00:00:05,159
+So we're done with making our GitHub
+query application life cycle aware.
+
+2
+00:00:05,160 --> 00:00:06,120
+Or are we?
+
+3
+00:00:06,120 --> 00:00:08,129
+We've left out an important edge case.
+
+4
+00:00:08,130 --> 00:00:11,360
+What happens if the device is rotated
+while the network transaction is going
+
+5
+00:00:11,359 --> 00:00:12,500
+on?
+
+6
+00:00:12,500 --> 00:00:16,859
+When we destroy and recreate an activity
+the application continues to run.
+
+7
+00:00:16,859 --> 00:00:20,050
+That means that all of the threads that
+were running continue to merrily process
+
+8
+00:00:20,050 --> 00:00:20,940
+away.
+
+9
+00:00:20,940 --> 00:00:24,429
+In the case of our GitHub query app it
+delivers the result of the query to
+
+10
+00:00:24,429 --> 00:00:28,530
+a zombie activity that has gone away and
+the activity is left empty.
+
+11
+00:00:28,530 --> 00:00:30,720
+But it's even worse in
+the current version of Sunshine.
+
+12
+00:00:31,859 --> 00:00:36,200
+In Sunshine, we create our AsyncTask
+in the onCreate method of our activity.
+
+13
+00:00:36,200 --> 00:00:39,000
+It starts a thread which
+begins a background task.
+
+14
+00:00:39,000 --> 00:00:40,770
+If we rotate the device or
+
+15
+00:00:40,770 --> 00:00:44,300
+do something else which causes
+the activity to be restarted, the new
+
+16
+00:00:44,299 --> 00:00:48,789
+activity will create another async
+task to do the background operation.
+
+17
+00:00:48,789 --> 00:00:52,570
+There will be extra network usage
+as both threads run in parallel and
+
+18
+00:00:52,570 --> 00:00:55,899
+it will take a longer time for
+the user to see the result of the load.
+
+19
+00:00:55,899 --> 00:00:58,799
+Even worse because those background
+threads ultimately deliver
+
+20
+00:00:58,799 --> 00:01:01,479
+their result to a callback
+that's part of the activity,
+
+21
+00:01:01,479 --> 00:01:06,149
+those async tasks actually keep all of
+those old zombie activities around as
+
+22
+00:01:06,150 --> 00:01:09,170
+long as the threads are running
+causing extra memory pressure.
+
+23
+00:01:10,280 --> 00:01:12,638
+Enter loaders to solve this problem.
+
+24
+00:01:12,638 --> 00:01:16,060
+They've been a part of Android since
+Honeycomb and were added to the support
+
+25
+00:01:16,060 --> 00:01:19,969
+library so they are available
+on any useful Android release.
+
+26
+00:01:19,969 --> 00:01:23,459
+Loaders provide a framework to
+perform asynchronous loading of data.
+
+27
+00:01:23,459 --> 00:01:24,669
+They're registered by ID,
+
+28
+00:01:24,670 --> 00:01:27,680
+with a component called the
+LoaderManager, which allows them to live
+
+29
+00:01:27,680 --> 00:01:31,130
+beyond the life cycle of the activity
+they are associated with,
+
+30
+00:01:31,129 --> 00:01:34,399
+preventing duplicate loads
+from happening in parallel.
+
+31
+00:01:34,400 --> 00:01:36,719
+If we want to load data
+on a background thread,
+
+32
+00:01:36,719 --> 00:01:40,539
+we can use an implementation of a loader
+pattern called AsyncTaskLoader.
+
+33
+00:01:40,540 --> 00:01:44,176
+The AsyncTaskLoader implements the same
+functionality as AsyncTask, but
+
+34
+00:01:44,176 --> 00:01:47,320
+because it's a loader,
+its lifecycle is different.
+
+35
+00:01:47,319 --> 00:01:51,134
+With an AsyncTaskLoader, once we rotate
+the device, the loader manager will make
+
+36
+00:01:51,135 --> 00:01:54,133
+sure that the running loader is
+connected to the AsyncTaskLoader
+
+37
+00:01:54,132 --> 00:01:57,699
+equivalent of onPostExecute,
+the onLoadFinished function.
+
+38
+00:01:57,700 --> 00:02:00,608
+The loader thread keeps running in
+the loading background function.
+
+39
+00:02:00,608 --> 00:02:04,079
+And once it finishes, the activity
+gets notified through onLoadFinished.
+
+40
+00:02:04,079 --> 00:02:05,260
+Life cycle problem solved.
+

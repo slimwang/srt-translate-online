@@ -1,0 +1,436 @@
+1
+00:00:00,070 --> 00:00:03,340
+By taking the knowledge that we
+learned about overriding resources
+
+2
+00:00:03,340 --> 00:00:04,330
+in other folders,
+
+3
+00:00:04,330 --> 00:00:08,020
+we'll walk through the code together on
+how to build up the two-pane tablet UI.
+
+4
+00:00:08,020 --> 00:00:12,400
+First remove the values W820dp folder
+because we don't need to provide
+
+5
+00:00:12,400 --> 00:00:16,270
+specific logic when for when the current
+orientation is greater than 820dp.
+
+6
+00:00:16,270 --> 00:00:19,000
+Then go ahead and
+make the layout XML changes.
+
+7
+00:00:19,000 --> 00:00:22,220
+Then create a new
+layout SW 600dp folder.
+
+8
+00:00:22,220 --> 00:00:25,610
+And then add a new file
+called activity_main.
+
+9
+00:00:25,610 --> 00:00:30,610
+We use the same file name as in
+the base layout folder activity_main so
+
+10
+00:00:30,610 --> 00:00:34,780
+that this one overrides the behavior
+specifically on tablets.
+
+11
+00:00:34,780 --> 00:00:37,590
+To see the code for this file you
+can check out the gist below.
+
+12
+00:00:38,990 --> 00:00:42,590
+Essentially it's a horizontal linear
+layout that can hold a forecast fragment
+
+13
+00:00:42,590 --> 00:00:46,340
+on the left and
+a detail fragment on the right.
+
+14
+00:00:46,340 --> 00:00:49,510
+Now's a good time to talk about
+static verses dynamic fragments.
+
+15
+00:00:49,510 --> 00:00:52,710
+In our implementation the forecast
+fragment is the static fragment because
+
+16
+00:00:52,710 --> 00:00:56,520
+we're defining it in the XML layout no
+matter what orientation or device size
+
+17
+00:00:56,520 --> 00:00:59,490
+we know that we're going to need a
+forecast fragment in the main activity.
+
+18
+00:00:59,490 --> 00:01:03,430
+On the other hand, we only declare
+a container for the detail fragment, but
+
+19
+00:01:03,430 --> 00:01:05,235
+not the actual fragment.
+
+20
+00:01:05,235 --> 00:01:08,250
+It's initialized with different
+arguments each time as a dynamic
+
+21
+00:01:08,250 --> 00:01:11,080
+fragment, so it's better to
+dynamically create and add that
+
+22
+00:01:11,080 --> 00:01:14,850
+fragment in a fragment transaction
+in the main activity Java code.
+
+23
+00:01:14,850 --> 00:01:19,190
+That way the fragment manager can keep
+track of those initialization arguments
+
+24
+00:01:19,190 --> 00:01:22,580
+and pass those back to us on,
+after device rotation.
+
+25
+00:01:22,580 --> 00:01:25,590
+Then we need to update
+the one pane UI layouts so
+
+26
+00:01:25,590 --> 00:01:28,150
+that they're consistent
+with the two pane case.
+
+27
+00:01:28,150 --> 00:01:31,780
+So in the activity main file for
+the base layout folder this used to be
+
+28
+00:01:31,780 --> 00:01:35,030
+a frame layout we're going to
+declare it as a forecast fragment.
+
+29
+00:01:35,030 --> 00:01:37,030
+That way it will match the two pane UI,
+
+30
+00:01:37,030 --> 00:01:39,800
+where this also is declared
+as a fragment in the XML.
+
+31
+00:01:39,800 --> 00:01:43,130
+That way the main activity never has
+to worry about dynamically adding
+
+32
+00:01:43,130 --> 00:01:44,750
+the forecast fragment.
+
+33
+00:01:44,750 --> 00:01:47,260
+In the main activity
+on create view method.
+
+34
+00:01:47,260 --> 00:01:50,990
+Since the fragment is already inside
+this layout we can just remove this so
+
+35
+00:01:50,990 --> 00:01:52,930
+we don't dynamically add it again.
+
+36
+00:01:52,930 --> 00:01:57,780
+Similarly we modify the activity detail
+layout in the base layout folder
+
+37
+00:01:57,780 --> 00:02:01,010
+we change the frame layout ID
+to be weather detail container.
+
+38
+00:02:01,010 --> 00:02:05,620
+So that it matches the container
+view id in the two pane UI case.
+
+39
+00:02:05,620 --> 00:02:08,240
+The pattern here is that
+the detail fragment will always be
+
+40
+00:02:08,240 --> 00:02:11,230
+added to a container called
+weather_detail_container,
+
+41
+00:02:11,230 --> 00:02:13,830
+both in the two pane, and one pane case.
+
+42
+00:02:13,830 --> 00:02:15,500
+Since we changed the name
+of the container,
+
+43
+00:02:15,500 --> 00:02:17,920
+we should also update
+the detail activity.
+
+44
+00:02:17,920 --> 00:02:20,020
+This is only used in one pane mode.
+
+45
+00:02:20,020 --> 00:02:21,630
+Here's where we change
+the container name.
+
+46
+00:02:22,790 --> 00:02:26,330
+In the one pane mode the detailed
+activity will add the detail fragment
+
+47
+00:02:26,330 --> 00:02:28,250
+dynamically to this container.
+
+48
+00:02:28,250 --> 00:02:31,770
+After we modify the layout we
+should update the main activity so
+
+49
+00:02:31,770 --> 00:02:34,200
+we dynamically add the detail fragment.
+
+50
+00:02:34,200 --> 00:02:38,320
+In the main activity on create method we
+check for the presence of the weather
+
+51
+00:02:38,320 --> 00:02:42,820
+detail container in the layout to know
+whether this is a two pane UI or not.
+
+52
+00:02:42,820 --> 00:02:46,300
+We keep track of this information
+in a Boolean called mTwoPane.
+
+53
+00:02:46,300 --> 00:02:49,730
+Remember that we start with the letter
+m, because it's a member variable.
+
+54
+00:02:49,730 --> 00:02:51,770
+In this case,
+the Boolean should be true.
+
+55
+00:02:51,770 --> 00:02:54,490
+So we go ahead and
+create a new detail fragment, and
+
+56
+00:02:54,490 --> 00:02:56,580
+add it to the weather_detail_container.
+
+57
+00:02:56,580 --> 00:02:59,540
+We commit the change by using
+a fragment transaction,
+
+58
+00:02:59,540 --> 00:03:01,176
+which Rado introduced earlier.
+
+59
+00:03:01,176 --> 00:03:04,590
+Otherwise If the detail container
+is not present in the layout, then
+
+60
+00:03:04,590 --> 00:03:09,220
+the boolean should be false, meaning
+that this is a one-pane UI for phones.
+
+61
+00:03:09,220 --> 00:03:13,010
+In this case, the detail activity will
+handle showing the detail fragment.
+
+62
+00:03:13,010 --> 00:03:16,750
+Notice for the two-pane case that
+we check if the saved instant state
+
+63
+00:03:16,750 --> 00:03:17,990
+bundle is null.
+
+64
+00:03:17,990 --> 00:03:20,120
+If the save instant save
+bundle is not null,
+
+65
+00:03:20,120 --> 00:03:23,086
+then we don't create a new one,
+and here is the reason why.
+
+66
+00:03:23,086 --> 00:03:25,010
+Say you want to rotate the device.
+
+67
+00:03:25,010 --> 00:03:26,120
+Before the activity and
+
+68
+00:03:26,120 --> 00:03:30,500
+fragments get torn down, we store
+information in save state bundles.
+
+69
+00:03:30,500 --> 00:03:34,290
+Then after the orientation change,
+the system restores the activity and
+
+70
+00:03:34,290 --> 00:03:37,140
+the fragments,
+by passing back the same bundle, so
+
+71
+00:03:37,140 --> 00:03:39,940
+that it can be recreated
+with the same state.
+
+72
+00:03:39,940 --> 00:03:42,900
+That means if the bundle exists,
+then we should let the system
+
+73
+00:03:42,900 --> 00:03:46,570
+handle restoring the detail fragment,
+and we can skip this code.
+
+74
+00:03:46,570 --> 00:03:49,120
+Once a detail fragment
+is added dynamically.
+
+75
+00:03:49,120 --> 00:03:52,680
+Make it show some placeholder
+data just for testing purposes.
+
+76
+00:03:52,680 --> 00:03:55,840
+Later we'll plumb through the right
+logic, so that it can display the right
+
+77
+00:03:55,840 --> 00:03:58,170
+information for
+the selected date on the left.
+
+78
+00:03:58,170 --> 00:03:59,970
+Modify the detail fragment so
+
+79
+00:03:59,970 --> 00:04:03,660
+that it doesn't expect the incoming
+intent to have a data URI.
+
+80
+00:04:03,660 --> 00:04:06,580
+In this case,
+the detail fragment will just fall back
+
+81
+00:04:06,580 --> 00:04:09,310
+to some placeholder data
+that we have in our XML.
+
+82
+00:04:09,310 --> 00:04:12,750
+The reason the intent could be blank
+is because the detail fragment
+
+83
+00:04:12,750 --> 00:04:14,990
+can now exist within the main activity.
+
+84
+00:04:14,990 --> 00:04:17,815
+And the main activity isn't
+launched with a URI for
+
+85
+00:04:17,815 --> 00:04:22,070
+only one date like the detail
+activity is normally launched with.
+
+86
+00:04:22,070 --> 00:04:22,990
+Once you make the changes for
+
+87
+00:04:22,990 --> 00:04:25,410
+the wire frames this is what
+the app should look like.
+
+88
+00:04:25,410 --> 00:04:28,300
+The reason it doesn't show
+an icon here is because
+
+89
+00:04:28,300 --> 00:04:31,430
+we removed the icon from being
+hard-coded in the layout.
+
+90
+00:04:31,430 --> 00:04:34,460
+But once this data is populated
+dynamically in a later section,
+
+91
+00:04:34,460 --> 00:04:35,290
+it should show up again.

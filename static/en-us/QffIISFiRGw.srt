@@ -1,0 +1,487 @@
+1
+00:00:00,776 --> 00:00:03,647
+Great work understanding
+JSON parsing this far.
+
+2
+00:00:03,647 --> 00:00:08,037
+So, let's start looking more closely at
+some real USGS data and then gradually
+
+3
+00:00:08,037 --> 00:00:11,705
+build up the task to being able to
+record in your quick report app for
+
+4
+00:00:11,705 --> 00:00:12,570
+parse in JSON.
+
+5
+00:00:12,570 --> 00:00:17,362
+On the main PH for the USGS
+documentation, I want to scroll down to
+
+6
+00:00:17,362 --> 00:00:22,889
+a section about methods and then go
+to specific subsection called query.
+
+7
+00:00:22,889 --> 00:00:26,507
+Now in this section, you have
+a few examples of URL queries that
+
+8
+00:00:26,507 --> 00:00:29,389
+you can make in order to
+get data back from the API.
+
+9
+00:00:29,389 --> 00:00:34,097
+I'm going to take a variant on the
+second line to make it a little bit more
+
+10
+00:00:34,097 --> 00:00:36,870
+up to date and go ahead, and execute it.
+
+11
+00:00:36,870 --> 00:00:41,539
+So, this is the actual raw text response
+in GeoJSON format that you'll get back
+
+12
+00:00:41,539 --> 00:00:44,410
+when you are requesting
+specific data from API.
+
+13
+00:00:44,410 --> 00:00:46,435
+So now,
+its time to dig in to that data and
+
+14
+00:00:46,435 --> 00:00:49,601
+retrieve the particular information
+that we want for our app.
+
+15
+00:00:49,601 --> 00:00:53,858
+Now, one thing you probably
+noticed is that this in
+
+16
+00:00:53,858 --> 00:00:56,537
+overwhelming a amount of text.
+
+17
+00:00:56,537 --> 00:00:59,540
+There are no newline breaks,
+which is actually intended to make
+
+18
+00:00:59,540 --> 00:01:02,780
+the response more compact and
+easier to transfer over the Internet.
+
+19
+00:01:02,780 --> 00:01:06,640
+But as a trade-off, it makes it
+really harder for us humans to read.
+
+20
+00:01:06,640 --> 00:01:10,754
+So fortunately, we can use a JSON
+formatting tool to format the JSON.
+
+21
+00:01:10,754 --> 00:01:14,120
+So it's a little bit easier for us,
+humans to read and debug on our own.
+
+22
+00:01:14,120 --> 00:01:17,804
+The data will actually be the same,
+it'll just be presented to us with a few
+
+23
+00:01:17,804 --> 00:01:21,499
+more line breaks and spacing and we can
+search online for this type of tool.
+
+24
+00:01:21,499 --> 00:01:27,391
+So if you search for json formatter,
+you get a few options.
+
+25
+00:01:27,391 --> 00:01:29,240
+Let's take a look at this first one,
+it looks pretty good.
+
+26
+00:01:30,260 --> 00:01:35,089
+So I'm going to copy and paste the raw
+JSON that we got back from our original
+
+27
+00:01:35,089 --> 00:01:39,603
+test query and I'm going to place it
+here in this JSON formatted tool,
+
+28
+00:01:39,603 --> 00:01:42,069
+then I'll go ahead and hit Process.
+
+29
+00:01:42,069 --> 00:01:43,191
+This is looking way better already.
+
+30
+00:01:43,191 --> 00:01:45,522
+So, let's go full screen to dive in.
+
+31
+00:01:45,522 --> 00:01:46,937
+Cool.
+
+32
+00:01:46,937 --> 00:01:48,656
+Now, this is really much more readable.
+
+33
+00:01:48,656 --> 00:01:52,852
+And now, we have a lot of formatted
+JSON data that we can read through.
+
+34
+00:01:52,852 --> 00:01:53,684
+As you might notice,
+
+35
+00:01:53,684 --> 00:01:56,192
+there's a tree structure that
+we're probably familiar with.
+
+36
+00:01:56,192 --> 00:02:01,008
+Something that you might see in your
+Windows Explore or Mac OS Finder and
+
+37
+00:02:01,008 --> 00:02:03,475
+it's much easier to read.
+
+38
+00:02:03,475 --> 00:02:09,020
+Notice that you have these minuses and
+plus buttons that allow you to expand
+
+39
+00:02:09,020 --> 00:02:11,910
+and collapse sub sections
+of the JSON response,
+
+40
+00:02:11,910 --> 00:02:15,600
+which makes it much easier to
+read one section at a time.
+
+41
+00:02:15,600 --> 00:02:19,310
+So when I route JSON object, when we're
+collapsed down here using the tool.
+
+42
+00:02:20,340 --> 00:02:25,000
+We have a key here called features,
+which actually maps to a JSON array.
+
+43
+00:02:25,000 --> 00:02:28,480
+Again, we know that from the left and
+the right bracket.
+
+44
+00:02:28,480 --> 00:02:32,347
+It turns out that this array actually
+contains what a feature means,
+
+45
+00:02:32,347 --> 00:02:33,757
+as a single earthquake.
+
+46
+00:02:33,757 --> 00:02:37,890
+So, each feature in this array or each
+element in this array actually maps to
+
+47
+00:02:37,890 --> 00:02:40,554
+the information for
+each specific earthquake.
+
+48
+00:02:40,554 --> 00:02:43,052
+So if you look and
+we collapse a little bit here,
+
+49
+00:02:43,052 --> 00:02:46,548
+if you looked at the first element
+in the array and we expanded out,
+
+50
+00:02:46,548 --> 00:02:49,608
+we see that it contains a JSON
+object with all the details,
+
+51
+00:02:49,608 --> 00:02:52,680
+all the meta information that
+we need for the first array.
+
+52
+00:02:52,680 --> 00:02:55,447
+Similarly if we expand
+the second element,
+
+53
+00:02:55,447 --> 00:02:57,475
+we can see a similar set of data.
+
+54
+00:02:57,475 --> 00:03:00,789
+So as you can see here, you can go
+one at a time through the array and
+
+55
+00:03:00,789 --> 00:03:02,659
+look at the specific information for
+
+56
+00:03:02,659 --> 00:03:05,509
+each earthquake feature
+return from our data request.
+
+57
+00:03:05,509 --> 00:03:06,090
+That's pretty cool.
+
+58
+00:03:06,090 --> 00:03:08,862
+So, let's collapse down
+a little bit again.
+
+59
+00:03:08,862 --> 00:03:12,612
+Now back at the root of our JSON
+objects, we have four keys.
+
+60
+00:03:12,612 --> 00:03:18,350
+We've got type, metadata,
+features and this thing called bbox.
+
+61
+00:03:18,350 --> 00:03:21,454
+Now we're really just interested in
+the features key, because it contains
+
+62
+00:03:21,454 --> 00:03:23,940
+the array of all the earthquake
+data that we want for our app.
+
+63
+00:03:23,940 --> 00:03:27,113
+Now you'll notice that the features
+array contains ten objects for now,
+
+64
+00:03:27,113 --> 00:03:28,393
+because we actually asked for
+
+65
+00:03:28,393 --> 00:03:30,403
+ten results when we
+actually queried the API.
+
+66
+00:03:30,403 --> 00:03:34,910
+Now, if you look at the first
+object in the array, we can see,
+
+67
+00:03:34,910 --> 00:03:38,306
+if we collapse down that
+it also has four keys.
+
+68
+00:03:38,306 --> 00:03:42,868
+One called type, one called properties,
+one called geometry and
+
+69
+00:03:42,868 --> 00:03:44,425
+the last one being ID.
+
+70
+00:03:44,425 --> 00:03:45,219
+All these four,
+
+71
+00:03:45,219 --> 00:03:48,412
+it looks like the properties key
+has the information that we want.
+
+72
+00:03:48,412 --> 00:03:52,586
+Finally, we can see that the data or the
+JSON object that the properties key maps
+
+73
+00:03:52,586 --> 00:03:55,760
+to, if we expand out here,
+it contains a bunch of the keys and
+
+74
+00:03:55,760 --> 00:03:58,219
+the related data that we'll need for
+our app.
+
+75
+00:03:58,219 --> 00:04:01,444
+Here we've got the magnitude,
+the place, the time and
+
+76
+00:04:01,444 --> 00:04:04,678
+a user URL to point to more
+detail about the earthquake.
+
+77
+00:04:04,678 --> 00:04:08,486
+In this next quiz, you'll become more
+familiar with the key value pairs that
+
+78
+00:04:08,486 --> 00:04:11,080
+are provided in the JSON
+response from the USGS API.
+
+79
+00:04:11,080 --> 00:04:14,089
+We're going to provide
+you with a query URL that
+
+80
+00:04:14,089 --> 00:04:16,394
+linked in the note below the quiz.
+
+81
+00:04:16,394 --> 00:04:19,826
+First, I want you to copy
+the URL that we provided you and
+
+82
+00:04:19,826 --> 00:04:24,060
+paste in to a web browser, then
+you'll get a JSON response back, but
+
+83
+00:04:24,060 --> 00:04:26,617
+it'll be a lot of text quizzed together.
+
+84
+00:04:26,617 --> 00:04:29,850
+So, go ahead and put into a JSON
+formatter like we showed you earlier.
+
+85
+00:04:31,120 --> 00:04:35,150
+Then on a blank piece of paper, I want
+you to draw a sketch of what our query
+
+86
+00:04:35,150 --> 00:04:39,030
+report app would look like if we had
+to display a whole list of earthquakes.
+
+87
+00:04:40,150 --> 00:04:43,694
+For the first quake on the list, I'm
+going to look at the JSON response to
+
+88
+00:04:43,694 --> 00:04:46,174
+find the first earthquake
+in the futures array.
+
+89
+00:04:46,174 --> 00:04:49,353
+Now within that JSON object,
+I can find the magnitude key.
+
+90
+00:04:49,353 --> 00:04:51,803
+The magnitude, in this case is 7.2.
+
+91
+00:04:51,803 --> 00:04:54,670
+So, I'm going to go ahead and
+just write that into our sketch.
+
+92
+00:04:56,530 --> 00:05:01,552
+Follow the same process for the location
+and date for this earthquake.
+
+93
+00:05:01,552 --> 00:05:04,747
+You may have noticed that time is
+actually a really long number,
+
+94
+00:05:04,747 --> 00:05:08,485
+which is in milliseconds that have
+passed since January 1st, 1970.
+
+95
+00:05:08,485 --> 00:05:09,855
+This is known as Unix time.
+
+96
+00:05:09,855 --> 00:05:13,350
+So if you wanted to know what the actual
+date that this corresponds to,
+
+97
+00:05:13,350 --> 00:05:16,965
+you can actually find a tool online
+that converts time in milliseconds to
+
+98
+00:05:16,965 --> 00:05:17,808
+an actual date.
+
+99
+00:05:17,808 --> 00:05:20,531
+I'll go ahead and
+leave an example in the notes.
+
+100
+00:05:20,531 --> 00:05:25,768
+But for this quiz, for the sketch,
+you can leave the time in milliseconds.
+
+101
+00:05:25,768 --> 00:05:29,120
+Now, you want to repeat those steps
+to finish writing in the information
+
+102
+00:05:29,120 --> 00:05:31,390
+about the rest of the earthquakes
+that will fill up the list.

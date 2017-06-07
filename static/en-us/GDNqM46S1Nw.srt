@@ -1,0 +1,117 @@
+1
+00:00:00,180 --> 00:00:04,530
+To make things concrete, let's
+consider two multi threaded processes
+
+2
+00:00:04,530 --> 00:00:08,250
+in which the threads need to
+communicate via shared memory.
+
+3
+00:00:08,250 --> 00:00:13,390
+First consider how many segments will
+your processes need to communicate.
+
+4
+00:00:13,390 --> 00:00:15,780
+Will they use one large segment?
+
+5
+00:00:15,780 --> 00:00:20,110
+In that case you will have to
+implement some type of management of
+
+6
+00:00:20,110 --> 00:00:21,160
+this shared memory.
+
+7
+00:00:21,160 --> 00:00:24,550
+You'll have to have some memory
+manager that will allocate and
+
+8
+00:00:24,550 --> 00:00:28,560
+free this memory for the threads
+from the different processes.
+
+9
+00:00:28,560 --> 00:00:30,740
+Or you can use multiple segments,
+
+10
+00:00:30,740 --> 00:00:35,240
+smaller ones, one for
+each pair-wise communication.
+
+11
+00:00:35,240 --> 00:00:39,040
+If you choose to do this, it's
+probably a good idea to prealloacate,
+
+12
+00:00:39,040 --> 00:00:41,170
+ahead of time, a pool of segments.
+
+13
+00:00:41,170 --> 00:00:42,590
+So you don't have to slow down,
+
+14
+00:00:42,590 --> 00:00:47,790
+that way, every individual communication
+with the segment creation overhead.
+
+15
+00:00:47,790 --> 00:00:52,040
+So, in that case, you will have to
+create how will threads pick up
+
+16
+00:00:52,040 --> 00:00:55,340
+which of the available segments
+they will end up using for
+
+17
+00:00:55,340 --> 00:00:57,690
+their inter process communication?
+
+18
+00:00:57,690 --> 00:01:01,490
+So, using some type of queue of
+segment identifiers will be, probably,
+
+19
+00:01:01,490 --> 00:01:03,190
+a good idea for that.
+
+20
+00:01:03,190 --> 00:01:08,160
+The tricky part here, if you are using
+a queue of segment identifiers,
+
+21
+00:01:08,160 --> 00:01:12,580
+that means that a thread doesn't know
+up front which particular segment
+
+22
+00:01:12,580 --> 00:01:17,140
+it's going to use for a communication
+with a peer thread in the other process.
+
+23
+00:01:17,140 --> 00:01:21,060
+If that's important for the type of
+application that you're developing, you
+
+24
+00:01:21,060 --> 00:01:26,240
+can consider communicating the segment
+identifier from one process to another
+
+25
+00:01:26,240 --> 00:01:29,740
+via some other type of communication
+mechanism, like via message queue.

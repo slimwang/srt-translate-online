@@ -1,0 +1,319 @@
+1
+00:00:00,360 --> 00:00:01,620
+Now, one of the advantages for
+
+2
+00:00:01,620 --> 00:00:05,470
+setting up provider and all this
+infrastructure is so that we can take
+
+3
+00:00:05,470 --> 00:00:09,160
+advantage of various family
+classes such as the cursor loader.
+
+4
+00:00:09,160 --> 00:00:11,680
+And I showed this diagram
+earlier lesson three and
+
+5
+00:00:11,680 --> 00:00:15,660
+briefly describe that cursor loaders
+were able to query the provider for
+
+6
+00:00:15,660 --> 00:00:19,410
+pet data and then help us
+automatically refresh the list of pets
+
+7
+00:00:19,410 --> 00:00:22,550
+in the UI when any
+underlying data changes.
+
+8
+00:00:22,550 --> 00:00:27,100
+So for example, if a new pet gets added
+to the database, or perhaps a pet gets
+
+9
+00:00:27,100 --> 00:00:31,975
+updated there, then this list will get
+refreshed to show the latest changes.
+
+10
+00:00:31,975 --> 00:00:36,635
+So before we start, let's first figure
+out what the heck a cursor loader is.
+
+11
+00:00:36,635 --> 00:00:41,065
+So a cursor loader is a loader
+that queries the ContentResolver
+
+12
+00:00:41,065 --> 00:00:45,115
+with a specific URI and
+returns to us a cursor.
+
+13
+00:00:45,115 --> 00:00:45,975
+So in other words,
+
+14
+00:00:45,975 --> 00:00:51,585
+the loader loads data from a certain
+URI and returns back a cursor.
+
+15
+00:00:51,585 --> 00:00:55,140
+Now, we first learned about loaders
+back in the networking course, for
+
+16
+00:00:55,140 --> 00:00:57,070
+building out the quake report app.
+
+17
+00:00:57,070 --> 00:01:00,920
+So there, we had a download information
+from the Internet into our app.
+
+18
+00:01:00,920 --> 00:01:04,060
+And more specifically,
+we're trying to fetch earthquake data
+
+19
+00:01:04,060 --> 00:01:07,980
+from the USGS server on a background
+thread using an AsyncTaskLoader.
+
+20
+00:01:09,410 --> 00:01:12,400
+So since there could be a body or
+potentially a slow internet connection
+
+21
+00:01:12,400 --> 00:01:16,110
+on the device, this network request
+could potentially take a long time.
+
+22
+00:01:17,560 --> 00:01:20,940
+And therefore, it should not be
+happening on the main thread.
+
+23
+00:01:20,940 --> 00:01:22,900
+Remember that the main
+thread is responsible for
+
+24
+00:01:22,900 --> 00:01:26,680
+handling all user input and
+any drawing operations.
+
+25
+00:01:26,680 --> 00:01:30,040
+So things such as this click button
+events but performing this time
+
+26
+00:01:30,040 --> 00:01:34,440
+intensive works on the main thread,
+the app could potentially freeze up and
+
+27
+00:01:34,440 --> 00:01:37,290
+maybe not even respond to
+other user input events and
+
+28
+00:01:37,290 --> 00:01:39,600
+nobody wants an unresponsive app.
+
+29
+00:01:39,600 --> 00:01:44,080
+So remember don't perform any long
+running operations on the main thread.
+
+30
+00:01:44,080 --> 00:01:49,480
+Now, as a result we move the HTTP
+request to a background thread using
+
+31
+00:01:49,480 --> 00:01:54,867
+an AsyncTaskLoader and we created
+a custom loader called EarthquakeLoader.
+
+32
+00:01:55,990 --> 00:01:59,650
+Now, within the EarthquakeLoader
+class we had to over ride
+
+33
+00:01:59,650 --> 00:02:01,010
+the load in background method.
+
+34
+00:02:02,180 --> 00:02:06,660
+So inside this method we perform
+the HTTP network request.
+
+35
+00:02:06,660 --> 00:02:08,720
+So they could be performed
+on a background thread.
+
+36
+00:02:10,050 --> 00:02:12,580
+And once that was set up
+in the earthquake class
+
+37
+00:02:12,580 --> 00:02:16,500
+we implemented the loader
+callbacks to create the loader and
+
+38
+00:02:16,500 --> 00:02:18,910
+then handled the result that
+came back in onload finish.
+
+39
+00:02:20,020 --> 00:02:23,890
+Finally, we initialized the loader in
+the oncreate method of the activity.
+
+40
+00:02:23,890 --> 00:02:27,190
+And the Earthquake data was
+magically loaded into the app and
+
+41
+00:02:27,190 --> 00:02:29,267
+then we all lived happily ever after.
+
+42
+00:02:29,267 --> 00:02:32,356
+So after the recap, we should
+probably get back to the pets app.
+
+43
+00:02:32,356 --> 00:02:34,450
+And where exactly are we?
+
+44
+00:02:34,450 --> 00:02:36,758
+Yeah.
+So we were talking about loaders and
+
+45
+00:02:36,758 --> 00:02:40,090
+how we can use it to fetch
+pet data from the database.
+
+46
+00:02:40,090 --> 00:02:43,600
+So specifically we want our
+cursor loader because our data
+
+47
+00:02:43,600 --> 00:02:44,780
+is in the form of a cursor.
+
+48
+00:02:45,860 --> 00:02:49,730
+So just like network operations that
+are expensive and time consuming so
+
+49
+00:02:49,730 --> 00:02:51,150
+are database operations.
+
+50
+00:02:51,150 --> 00:02:54,650
+Things like reading and
+writing to a pets table.
+
+51
+00:02:54,650 --> 00:02:58,550
+So currently we're performing
+the ContentResolver query method
+
+52
+00:02:58,550 --> 00:03:01,590
+on the main thread in the call activity.
+
+53
+00:03:01,590 --> 00:03:03,410
+But we don't want to
+bluff the UI thread.
+
+54
+00:03:03,410 --> 00:03:06,950
+So a loader allows us to do
+the operation on a background thread.
+
+55
+00:03:08,370 --> 00:03:13,780
+Now, as we mentioned earlier, the loader
+is tied to a URI as its source for data.
+
+56
+00:03:13,780 --> 00:03:16,530
+And coincidentally,
+we've already set up URI's for
+
+57
+00:03:16,530 --> 00:03:20,640
+all our data within Pet Provider,
+such good foresight.
+
+58
+00:03:20,640 --> 00:03:24,915
+And furthermore, when the underlying
+data in the database changes,
+
+59
+00:03:24,915 --> 00:03:28,908
+the loader will automatically
+recreate the data at the same URI.
+
+60
+00:03:28,908 --> 00:03:33,010
+Now, this is awesome because the list
+of pets in our UI won't be out of date.
+
+61
+00:03:33,010 --> 00:03:36,360
+And we also won't have to keep manually
+recreating the database over and
+
+62
+00:03:36,360 --> 00:03:39,850
+over again,
+wondering is new data getting added?
+
+63
+00:03:39,850 --> 00:03:43,950
+So this behavior here requires a couple
+of tweaks to our provider, but
+
+64
+00:03:43,950 --> 00:03:46,480
+we'll be walking you through how to do
+that exactly a little bit later on.
+
+65
+00:03:47,630 --> 00:03:51,190
+So as you can tell there are multiple
+benefits to using the cursor loader, so
+
+66
+00:03:51,190 --> 00:03:53,170
+let's dive right in and
+see how to implement this.

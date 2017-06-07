@@ -1,0 +1,160 @@
+﻿1
+00:00:00,000 --> 00:00:02,310
+Let's summarize the remaining work left
+
+2
+00:00:02,310 --> 00:00:04,110
+to send the recorded audio file to the
+
+3
+00:00:04,110 --> 00:00:05,370
+View Controller where it will play sounds.
+
+4
+00:00:05,370 --> 00:00:07,950
+Specifically we’ll be sending the
+
+5
+00:00:07,950 --> 00:00:09,869
+file path where the recorded audio
+
+6
+00:00:09,869 --> 00:00:10,439
+was saved,
+
+7
+00:00:10,439 --> 00:00:13,289
+not the file in its entirety.
+
+8
+00:00:13,289 --> 00:00:14,968
+The file path will be all that we need when we
+
+9
+00:00:14,968 --> 00:00:16,710
+get around to playing the audio back.
+
+10
+00:00:16,710 --> 00:00:24,899
+Right now when recording is complete, the
+
+11
+00:00:24,899 --> 00:00:26,910
+file saved and the AVAudioRecorder
+
+12
+00:00:26,910 --> 00:00:28,679
+calls the audioRecorderDidFinishRecording,
+
+13
+00:00:28,679 --> 00:00:30,839
+because we set this View Controller
+
+14
+00:00:30,839 --> 00:00:33,659
+as its delegate. We then need
+
+15
+00:00:33,659 --> 00:00:35,369
+to call the stop recording segue and
+
+16
+00:00:35,369 --> 00:00:37,469
+send along with it the path to our
+
+17
+00:00:37,469 --> 00:00:40,619
+recorded sound. We add this line to the
+
+18
+00:00:40,619 --> 00:00:42,090
+audioRecorderDidFinishRecording
+
+19
+00:00:42,090 --> 00:00:44,159
+function, we can call the stop recording
+
+20
+00:00:44,159 --> 00:00:46,649
+Segue and send to it the path where the
+
+21
+00:00:46,649 --> 00:00:49,890
+recorded file is located. Here the path
+
+22
+00:00:49,890 --> 00:00:51,719
+is in the form of the URL, but it's
+
+23
+00:00:51,719 --> 00:00:54,509
+essentially a regular file path.
+
+24
+00:00:54,509 --> 00:00:56,159
+We should also note that the
+
+25
+00:00:56,159 --> 00:00:58,259
+audioRecorderDidFinishRecording receives a
+
+26
+00:00:58,259 --> 00:01:00,840
+flag indicating if saving the recording
+
+27
+00:01:00,840 --> 00:01:03,869
+was successful or not. We should read
+
+28
+00:01:03,869 --> 00:01:05,909
+that flag and if saving the recording
+
+29
+00:01:05,909 --> 00:01:07,769
+failed, we can print out a message to the
+
+30
+00:01:07,769 --> 00:01:10,590
+console. So let's clean this up a bit
+
+31
+00:01:10,590 --> 00:01:13,438
+with an if statement. If the successfully
+
+32
+00:01:13,438 --> 00:01:15,959
+flag is true, then we'll perform the
+
+33
+00:01:15,959 --> 00:01:18,269
+segue, otherwise we'll print out a
+
+34
+00:01:18,269 --> 00:01:20,579
+message that the recording failed.
+
+35
+00:01:20,579 --> 00:01:23,040
+Now we just need a way to inform the
+
+36
+00:01:23,040 --> 00:01:24,719
+View Controller we're transitioning to
+
+37
+00:01:24,719 --> 00:01:27,209
+that it has received the URL of the recorded
+
+38
+00:01:27,209 --> 00:01:30,030
+audio. Luckily for us, UIKit makes
+
+39
+00:01:30,030 --> 00:01:31,530
+this fairly simple, and I'll show you
+
+40
+00:01:31,530 --> 00:01:37,549
+that in the next step.
+

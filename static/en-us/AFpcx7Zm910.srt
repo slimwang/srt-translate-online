@@ -1,0 +1,231 @@
+1
+00:00:00,300 --> 00:00:04,190
+In practice, there are several
+methods of message passing based IPC.
+
+2
+00:00:04,190 --> 00:00:07,240
+The first and
+most simple form of message passing IPC
+
+3
+00:00:07,240 --> 00:00:10,350
+that's also part of the POSIX
+standard is called pipes.
+
+4
+00:00:10,350 --> 00:00:13,201
+Pipes are characterized
+by two end points, so
+
+5
+00:00:13,201 --> 00:00:15,549
+only two processes can communicate.
+
+6
+00:00:15,549 --> 00:00:18,386
+There's no notion of
+a message per se with pipes.
+
+7
+00:00:18,386 --> 00:00:22,651
+Instead, there's just a stream of
+bytes that pushed into the pipe from
+
+8
+00:00:22,651 --> 00:00:26,160
+one process and then received,
+but into another.
+
+9
+00:00:26,160 --> 00:00:30,920
+And one popular use of pipes is to
+connect the output from one process
+
+10
+00:00:30,920 --> 00:00:32,520
+to the input of another process.
+
+11
+00:00:32,520 --> 00:00:36,620
+So, the entire byte stream that's
+produced by P1 would be delivered as
+
+12
+00:00:36,620 --> 00:00:40,210
+input to P2 instead of somebody
+typing it in, for instance.
+
+13
+00:00:40,210 --> 00:00:45,060
+A more complex form of message
+passing IPC is message queues.
+
+14
+00:00:45,060 --> 00:00:46,260
+As the name suggests,
+
+15
+00:00:46,260 --> 00:00:50,702
+message queues understand the notion
+of messages that they transfer.
+
+16
+00:00:50,702 --> 00:00:54,550
+So a sending process must submit
+a properly formatted message
+
+17
+00:00:54,550 --> 00:00:58,250
+to the channel, and
+then the channel will deliver a properly
+
+18
+00:00:58,250 --> 00:01:01,240
+formatted message to
+the receiving process.
+
+19
+00:01:01,240 --> 00:01:05,930
+The OS level functionality regarding
+message queues also includes things like
+
+20
+00:01:05,930 --> 00:01:08,250
+understanding priorities of messages or
+
+21
+00:01:08,250 --> 00:01:11,180
+scheduling the way messages
+are being delivered.
+
+22
+00:01:11,180 --> 00:01:14,670
+The use of message queues is
+supported through different APIs.
+
+23
+00:01:14,670 --> 00:01:20,270
+In Unix-based systems, these include
+the POSIX API and the System V API.
+
+24
+00:01:20,270 --> 00:01:25,920
+The message passing API that most of you
+are familiar with is the socket API.
+
+25
+00:01:25,920 --> 00:01:27,910
+With the socket form of IPC,
+
+26
+00:01:27,910 --> 00:01:33,180
+the notion of ports that's required
+in message passing IPC mechanisms,
+
+27
+00:01:33,180 --> 00:01:37,180
+that is the socket abstraction that's
+supported by the operating system.
+
+28
+00:01:37,180 --> 00:01:40,120
+Which sockets processes send messages or
+
+29
+00:01:40,120 --> 00:01:45,210
+receive messages via an API that
+looks like this, and then receive.
+
+30
+00:01:45,210 --> 00:01:50,460
+The socket API supports send and
+receive operations that allow processes
+
+31
+00:01:50,460 --> 00:01:55,630
+to send messages buffers in and out of
+the in kernel communication buffer.
+
+32
+00:01:55,630 --> 00:01:59,480
+The socket call itself creates
+a kernel-level socket buffer.
+
+33
+00:01:59,480 --> 00:02:04,130
+In addition, it will associate any
+necessary kernel-level processing
+
+34
+00:02:04,130 --> 00:02:08,030
+that needs to be performed along
+with the message movement.
+
+35
+00:02:08,030 --> 00:02:13,185
+For instance, the socket may be a TCP/IP
+socket, which will mean that the entire
+
+36
+00:02:13,185 --> 00:02:18,870
+TCP/IP protocol stack is associated
+with the data movement in the kernel.
+
+37
+00:02:18,870 --> 00:02:21,290
+Sockets, as you probably know,
+don't have to be used for
+
+38
+00:02:21,290 --> 00:02:23,960
+processes that are on a single machine.
+
+39
+00:02:23,960 --> 00:02:26,470
+If the two processes
+are on different machines,
+
+40
+00:02:26,470 --> 00:02:29,830
+then this channel is essentially
+between a process and
+
+41
+00:02:29,830 --> 00:02:32,560
+a network device that will
+actually send the data.
+
+42
+00:02:32,560 --> 00:02:36,820
+In addition, the operating system is
+sufficiently smart to figure out that
+
+43
+00:02:36,820 --> 00:02:40,110
+if two processes are on the same
+machine, it doesn't really need
+
+44
+00:02:40,110 --> 00:02:44,210
+to execute the full protocol stack to
+send the data out on the network, and
+
+45
+00:02:44,210 --> 00:02:47,470
+then just to receive it back and
+push it into the process.
+
+46
+00:02:47,470 --> 00:02:49,910
+Instead, a lot of that will be bypassed.
+
+47
+00:02:49,910 --> 00:02:53,540
+This remains completely hidden from the
+programmer, but you could likely detect
+
+48
+00:02:53,540 --> 00:02:56,280
+it if you perform certain
+performance measurements.

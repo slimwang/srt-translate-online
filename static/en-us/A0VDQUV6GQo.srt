@@ -1,0 +1,121 @@
+1
+00:00:00,130 --> 00:00:04,220
+If caches are write-updated, then all
+of the processors will be able to see
+
+2
+00:00:04,220 --> 00:00:06,160
+when the lock is released immediately,
+
+3
+00:00:06,160 --> 00:00:09,790
+and they will issue
+a test_and_set operation.
+
+4
+00:00:09,790 --> 00:00:12,830
+So, we'll have as many memory references
+
+5
+00:00:12,830 --> 00:00:14,920
+as there will be
+test_and_set operations,
+
+6
+00:00:14,920 --> 00:00:20,040
+so the complexity of the contention
+is going to be order of O of N.
+
+7
+00:00:20,040 --> 00:00:24,140
+If the caches are write-invalidated,
+then all of the processor's
+
+8
+00:00:24,140 --> 00:00:28,560
+caches will be invalidated after
+that initial lock release.
+
+9
+00:00:28,560 --> 00:00:33,309
+For some processors, by the time they
+reread the lock value from memory in
+
+10
+00:00:33,309 --> 00:00:36,219
+order to execute this
+part of the predicate,
+
+11
+00:00:36,219 --> 00:00:40,870
+the lock will already have been
+set to busy by another processor.
+
+12
+00:00:40,870 --> 00:00:45,910
+So those processors will try to
+spin on the newly read cached copy.
+
+13
+00:00:45,910 --> 00:00:48,120
+So back in this portion
+of the while loop.
+
+14
+00:00:48,120 --> 00:00:53,350
+Other processors, however, when they
+reread the value of lock from memory,
+
+15
+00:00:53,350 --> 00:00:56,570
+that will happen before any
+test_and_set has executed.
+
+16
+00:00:56,570 --> 00:00:59,120
+So they will see the value
+of lock is free.
+
+17
+00:00:59,120 --> 00:01:03,180
+As a result, they will try to
+execute that test_and_set operation.
+
+18
+00:01:03,180 --> 00:01:06,840
+Now, only one of these test_and_set
+operations will succeed.
+
+19
+00:01:06,840 --> 00:01:09,710
+However, every single one
+of them will go ahead and
+
+20
+00:01:09,710 --> 00:01:11,990
+invalidate everybody's caches.
+
+21
+00:01:11,990 --> 00:01:15,210
+That means that that
+will also invalidate
+
+22
+00:01:15,210 --> 00:01:20,495
+the caches on those processors that
+did see that the lock was busy.
+
+23
+00:01:20,495 --> 00:01:25,073
+For this reason, the complexity of the,
+the input that gets created,
+
+24
+00:01:25,073 --> 00:01:29,423
+of the contention that gets created
+when the lock is freed using that
+
+25
+00:01:29,423 --> 00:01:32,270
+test _and_set spin
+lock is O of N squared.

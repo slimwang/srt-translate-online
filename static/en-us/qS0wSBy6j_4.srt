@@ -1,0 +1,144 @@
+1
+00:00:00,330 --> 00:00:04,710
+One mode of IPC that operating system
+support is called message passing.
+
+2
+00:00:04,710 --> 00:00:09,830
+As the name implies, processes create
+messages and then send or receive them.
+
+3
+00:00:09,830 --> 00:00:13,230
+The operating system is responsible for
+creating and
+
+4
+00:00:13,230 --> 00:00:18,840
+maintaining the channel that will be
+used to pass messages among processes.
+
+5
+00:00:18,840 --> 00:00:22,040
+This can be thought of as some
+sort of buffer or FIFO queue.
+
+6
+00:00:22,040 --> 00:00:23,990
+Other type of data structure.
+
+7
+00:00:23,990 --> 00:00:27,940
+The operating system also provides
+some interface to the processes so
+
+8
+00:00:27,940 --> 00:00:30,350
+that they can pass
+messages via this channel.
+
+9
+00:00:30,350 --> 00:00:34,400
+The processes then send or
+write messages to this port.
+
+10
+00:00:34,400 --> 00:00:39,070
+And on the other end the processes
+receive or read messages from this port.
+
+11
+00:00:39,070 --> 00:00:44,170
+The channel is responsible for passing
+the message from one port to the other.
+
+12
+00:00:44,170 --> 00:00:49,050
+The OS Kernel is required to both
+establish the communication channel,
+
+13
+00:00:49,050 --> 00:00:52,935
+as well as to perform every
+single IPC operation.
+
+14
+00:00:52,935 --> 00:00:55,025
+What that means is
+that both the send and
+
+15
+00:00:55,025 --> 00:00:59,935
+receive operation require a system call,
+and a data copy as well.
+
+16
+00:00:59,935 --> 00:01:01,105
+In the case of send,
+
+17
+00:01:01,105 --> 00:01:04,894
+from the process address base
+into the communication channel.
+
+18
+00:01:04,894 --> 00:01:06,125
+And in the case of receive,
+
+19
+00:01:06,125 --> 00:01:09,675
+from this channel into
+the receiving process address base.
+
+20
+00:01:09,675 --> 00:01:14,300
+What this means is that a simple request
+response interaction among two processes
+
+21
+00:01:14,300 --> 00:01:18,930
+will require four user kernel crossings,
+and four data copies.
+
+22
+00:01:18,930 --> 00:01:23,740
+In message passing IPC, these overheads
+of crossing in and out of the kernel and
+
+23
+00:01:23,740 --> 00:01:25,530
+copying data in and out of the kernel,
+
+24
+00:01:25,530 --> 00:01:28,100
+are one of the negatives
+of this approach.
+
+25
+00:01:28,100 --> 00:01:30,720
+A positive of this approach
+is it's relative simplicity.
+
+26
+00:01:30,720 --> 00:01:34,740
+The operating system kernel will
+take care of all of the operations,
+
+27
+00:01:34,740 --> 00:01:39,320
+regarding the channel management,
+regarding the synchronization.
+
+28
+00:01:39,320 --> 00:01:43,510
+It will make sure that data is not
+overwritten or corrupt in some way, as
+
+29
+00:01:43,510 --> 00:01:48,420
+processes are trying to send or receive
+it, potentially at the same time.
+
+30
+00:01:48,420 --> 00:01:49,440
+So that's a plus.

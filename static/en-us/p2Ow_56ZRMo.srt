@@ -1,0 +1,400 @@
+1
+00:00:00,340 --> 00:00:04,310
+Now to complete this exercise, first
+in the EditorActivity, I'll start by
+
+2
+00:00:04,310 --> 00:00:09,230
+calling our insertPet method from
+our onOptionsItemSelectedMethod.
+
+3
+00:00:09,230 --> 00:00:14,840
+And I do that inside this switch case
+statement where the R.id is action_save.
+
+4
+00:00:14,840 --> 00:00:18,780
+So putting this in here means that the
+save button in the app was clicked and
+
+5
+00:00:18,780 --> 00:00:20,420
+will trigger this method.
+
+6
+00:00:20,420 --> 00:00:23,770
+Now, after I insert the pet,
+I call the finished method here.
+
+7
+00:00:23,770 --> 00:00:26,010
+So this means the editor will close and
+
+8
+00:00:26,010 --> 00:00:30,950
+return to the previous activity, which
+is the CatalogActivity in our case.
+
+9
+00:00:30,950 --> 00:00:32,970
+So this means when I press
+the save button here,
+
+10
+00:00:32,970 --> 00:00:35,480
+the insertPet method is triggered.
+
+11
+00:00:35,480 --> 00:00:39,170
+Now let's move up to the insertPet
+method inside our EditorActivity.
+
+12
+00:00:39,170 --> 00:00:43,470
+And inside it, we'll need to define
+what happens when that method is called.
+
+13
+00:00:43,470 --> 00:00:46,620
+So first, I'll read from
+the three edit text fields.
+
+14
+00:00:46,620 --> 00:00:49,400
+So I already have my name string here.
+
+15
+00:00:49,400 --> 00:00:53,440
+Let's finish it up for
+our other three text fields.
+
+16
+00:00:53,440 --> 00:00:57,474
+So for breed and weight,
+we call the same sequence of getText and
+
+17
+00:00:57,474 --> 00:01:00,500
+toString in order to get a string value.
+
+18
+00:01:00,500 --> 00:01:01,428
+Then optionally,
+
+19
+00:01:01,428 --> 00:01:05,087
+you can also call the method trim as
+mentioned in the instructor's notes.
+
+20
+00:01:05,087 --> 00:01:08,718
+So this makes sure if the user
+accidentally typed a space before or
+
+21
+00:01:08,718 --> 00:01:12,690
+after the text is typed,
+it's removed from the string.
+
+22
+00:01:12,690 --> 00:01:16,420
+Now for the weight value,
+we want to store weight as an integer,
+
+23
+00:01:16,420 --> 00:01:20,840
+not a string, so we'll be using
+the integer.parseInt method
+
+24
+00:01:20,840 --> 00:01:23,890
+in order to convert
+the string into an integer.
+
+25
+00:01:23,890 --> 00:01:28,178
+So next, to create the content values,
+we can actually copy over the code from
+
+26
+00:01:28,178 --> 00:01:31,540
+our catalog activity to get
+a writable database and
+
+27
+00:01:31,540 --> 00:01:35,040
+then create content values and
+then insert that into the database.
+
+28
+00:01:35,040 --> 00:01:37,430
+So let's copy that code here.
+
+29
+00:01:37,430 --> 00:01:41,476
+Now all we need to do is simply change
+the values inserted to the ones that we
+
+30
+00:01:41,476 --> 00:01:45,676
+grabbed from the edit text instead of
+referring to the Toto dummy data here.
+
+31
+00:01:45,676 --> 00:01:50,760
+So changing the name value here to
+nameString, which we defined above.
+
+32
+00:01:50,760 --> 00:01:54,890
+Changing the breed from
+the hard-coded Terrier to breedString,
+
+33
+00:01:54,890 --> 00:01:58,610
+and then changing the gender
+to the mGender value.
+
+34
+00:01:58,610 --> 00:02:02,980
+And mGender should be updated as soon
+as the drop-down option is selected.
+
+35
+00:02:02,980 --> 00:02:07,790
+And the last one, let's change it to
+weight, which we defined up here.
+
+36
+00:02:07,790 --> 00:02:11,860
+Now, we're throwing an error here
+because it can't resolve the MDB value.
+
+37
+00:02:11,860 --> 00:02:16,916
+So remember to also create an instance
+of the database PetDbHelper class.
+
+38
+00:02:16,916 --> 00:02:20,830
+And we're passing in a context this,
+which is our current activity.
+
+39
+00:02:20,830 --> 00:02:22,301
+Now, as mentioned in the quiz,
+
+40
+00:02:22,301 --> 00:02:24,806
+if a new row ID is returned
+from the DB.insert method,
+
+41
+00:02:24,806 --> 00:02:28,580
+then we want to show a toast that
+the insert was completed successfully.
+
+42
+00:02:28,580 --> 00:02:32,710
+Otherwise, if this method returns a -1
+value, this means an error occurred
+
+43
+00:02:32,710 --> 00:02:35,930
+with the insertion and we want to
+show a different toast message.
+
+44
+00:02:35,930 --> 00:02:39,640
+You can write a simple if else statement
+to show the correct toast message
+
+45
+00:02:39,640 --> 00:02:43,770
+depending on the value of the row
+ID returned by our insert method.
+
+46
+00:02:43,770 --> 00:02:45,500
+So here's what that if-else
+statement looks like.
+
+47
+00:02:46,700 --> 00:02:48,770
+So with those changes done,
+let's run it on the emulator.
+
+48
+00:02:50,040 --> 00:02:53,470
+So first, let me go ahead and
+clear the app data so I start fresh.
+
+49
+00:02:54,530 --> 00:02:57,420
+So back to Settings &gt; Apps,
+
+50
+00:02:58,460 --> 00:03:02,650
+select the Pets app,
+then hit Storage and then Clear Data.
+
+51
+00:03:04,180 --> 00:03:05,540
+All right,
+let's go back to the Pets app again.
+
+52
+00:03:06,990 --> 00:03:09,707
+So my pets database table has 0 rows.
+
+53
+00:03:09,707 --> 00:03:12,540
+And then let's go to the editor and
+add a pet in.
+
+54
+00:03:13,680 --> 00:03:16,590
+So I've added Garfield our Tabby,
+and I'm going to click Save now.
+
+55
+00:03:17,620 --> 00:03:21,652
+And with that, we see our toasts appear
+down here showing that a pet with a row
+
+56
+00:03:21,652 --> 00:03:22,727
+ID 1 was inserted.
+
+57
+00:03:22,727 --> 00:03:26,790
+And the number of rows in our pet
+database table was increased to 1.
+
+58
+00:03:26,790 --> 00:03:28,095
+So let's try it one more time.
+
+59
+00:03:28,095 --> 00:03:29,780
+Let's insert another pet in.
+
+60
+00:03:29,780 --> 00:03:33,009
+How about let's insert Binx the Bombay.
+
+61
+00:03:33,009 --> 00:03:37,957
+Let's make him a male of weight 6 kg.
+
+62
+00:03:37,957 --> 00:03:39,980
+So let's save him to the database.
+
+63
+00:03:39,980 --> 00:03:43,480
+And the row ID properly increases to 2.
+
+64
+00:03:43,480 --> 00:03:46,300
+So if when you're running the app,
+the row count in the catalog activity
+
+65
+00:03:46,300 --> 00:03:49,770
+doesn't increment by 1,
+remember the hint we gave in the quiz.
+
+66
+00:03:49,770 --> 00:03:53,390
+We need to modify the CatalogActivity
+to query the database again
+
+67
+00:03:53,390 --> 00:03:55,500
+when the activity is restarted.
+
+68
+00:03:55,500 --> 00:03:58,530
+And this is because the catalog
+activity already exists.
+
+69
+00:03:58,530 --> 00:04:01,477
+So if displayDatabaseInfo,
+we're inside of it,
+
+70
+00:04:01,477 --> 00:04:03,950
+the old number of rows
+would be displayed.
+
+71
+00:04:03,950 --> 00:04:07,556
+So, because onCreate isn't called again,
+we'll need to move
+
+72
+00:04:07,556 --> 00:04:13,220
+the displayDatabaseInfo method into the
+overridden onStart method as shown here.
+
+73
+00:04:13,220 --> 00:04:16,620
+And doing so
+means that when you insert a new pet and
+
+74
+00:04:16,620 --> 00:04:20,190
+go back to the catalog activity,
+the row count increases.
+
+75
+00:04:20,190 --> 00:04:24,150
+Now you can double check that the pets
+that we inserted exist in the database
+
+76
+00:04:24,150 --> 00:04:28,620
+by downloading the shelter.db file and
+then opening it up in the terminal or
+
+77
+00:04:28,620 --> 00:04:33,740
+command line with the select
+* from pets command.
+
+78
+00:04:33,740 --> 00:04:37,170
+So to recap,
+first you're triggering insert pets
+
+79
+00:04:37,170 --> 00:04:39,760
+when the Save button in
+the editor is pressed.
+
+80
+00:04:39,760 --> 00:04:43,180
+Then you get all the string data
+from the EditText fields and
+
+81
+00:04:43,180 --> 00:04:45,340
+then save them in
+a ContentValues object.
+
+82
+00:04:46,340 --> 00:04:50,660
+Lastly, you insert that ContentValues
+object into the pets table.
+
+83
+00:04:50,660 --> 00:04:52,230
+So after all these steps,
+
+84
+00:04:52,230 --> 00:04:55,160
+we've completed inserting
+data via the Save button.

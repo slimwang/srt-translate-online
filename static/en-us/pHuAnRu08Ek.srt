@@ -1,0 +1,253 @@
+﻿1
+00:00:00,260 --> 00:00:04,219
+Before we look at the results however,
+I'd like to talk a bit more in detail
+
+2
+00:00:04,219 --> 00:00:08,809
+about what PCA is actually doing,
+and how to work with the results.
+
+3
+00:00:08,810 --> 00:00:12,640
+Now, I won't be going into the math
+mind at all, because that can get
+
+4
+00:00:12,640 --> 00:00:16,670
+really technical, and is beyond what
+I need to get across to you here.
+
+5
+00:00:16,670 --> 00:00:20,429
+Instead, I'm going to show you
+a relatively basic example.
+
+6
+00:00:20,429 --> 00:00:23,009
+Just so that you can get
+the concept behind the process.
+
+7
+00:00:24,268 --> 00:00:27,999
+If you want to dive deep into
+the math and algorithms behind it,
+
+8
+00:00:27,998 --> 00:00:31,248
+you can find a few resources
+in the instructor notes.
+
+9
+00:00:31,248 --> 00:00:34,231
+So the easiest way to
+visualize what PCA does,
+
+10
+00:00:34,231 --> 00:00:37,839
+is to show how it works
+with just two variables.
+
+11
+00:00:37,840 --> 00:00:42,680
+As we mentioned, PCA captures
+all of the variants in the data.
+
+12
+00:00:42,679 --> 00:00:46,149
+For as many variables as
+you're combining with PCA,
+
+13
+00:00:46,149 --> 00:00:49,259
+you will generally get
+a principal component.
+
+14
+00:00:49,259 --> 00:00:50,780
+For the first component,
+
+15
+00:00:50,780 --> 00:00:54,340
+it will calculate a line that
+represents the best fit for
+
+16
+00:00:54,340 --> 00:00:58,880
+the data, that will capture as
+much of the variance as possible.
+
+17
+00:00:58,880 --> 00:01:02,810
+Let's refer to this as
+the component line.
+
+18
+00:01:02,810 --> 00:01:06,469
+And see this first line
+captures 70% of the variance.
+
+19
+00:01:06,469 --> 00:01:08,019
+For the second component,
+
+20
+00:01:08,019 --> 00:01:12,069
+it will calculate another line
+that represents the best fit for
+
+21
+00:01:12,069 --> 00:01:15,929
+the remaining variance, that was not
+captured by the first component.
+
+22
+00:01:17,129 --> 00:01:21,259
+Since the remaining variance should not
+be correlated to the original variance
+
+23
+00:01:21,260 --> 00:01:25,780
+captured, by nature of the calculations,
+this is at right angles,
+
+24
+00:01:25,780 --> 00:01:29,310
+or orthogonal to the first line.
+
+25
+00:01:29,310 --> 00:01:33,073
+And say this second line captures
+20% more of the variants,
+
+26
+00:01:33,072 --> 00:01:37,049
+that leaves 10% that still
+needs to be accounted for.
+
+27
+00:01:37,049 --> 00:01:39,539
+Now, it becomes harder to
+represent visually, but
+
+28
+00:01:39,540 --> 00:01:44,030
+if you have a third variable, you now
+are dealing with three dimensions, and
+
+29
+00:01:44,030 --> 00:01:48,420
+that line could be calculated along
+a completely different plane.
+
+30
+00:01:48,420 --> 00:01:49,840
+But this continues on for
+
+31
+00:01:49,840 --> 00:01:53,600
+as many variables as you have in
+the data that you're combining.
+
+32
+00:01:53,599 --> 00:01:58,539
+So for example, with our temperature
+data where there are 12 months of data,
+
+33
+00:01:58,540 --> 00:02:02,070
+we would typically end
+up with 12 components.
+
+34
+00:02:02,069 --> 00:02:05,909
+The point is, that with each component
+calculated, there is less and
+
+35
+00:02:05,909 --> 00:02:09,310
+less variance that hasn't
+already been captured.
+
+36
+00:02:09,310 --> 00:02:13,449
+So the significance of the final
+components becomes minimal.
+
+37
+00:02:13,449 --> 00:02:17,799
+So the key to reducing the variables,
+which is the goal of PCA,
+
+38
+00:02:17,800 --> 00:02:21,950
+is to determine at what point in
+the set of components created,
+
+39
+00:02:21,949 --> 00:02:27,089
+is enough variance captured, that you
+don't need to consider anymore of them.
+
+40
+00:02:27,090 --> 00:02:31,370
+For each component, you get a value
+assigned to each object, or
+
+41
+00:02:31,370 --> 00:02:33,250
+record in your data.
+
+42
+00:02:33,250 --> 00:02:38,159
+This is basically where that particular
+record from the combined variables,
+
+43
+00:02:38,159 --> 00:02:41,129
+falls along that component line.
+
+44
+00:02:41,129 --> 00:02:46,000
+For each component, you also get
+something called Loadings, which shows
+
+45
+00:02:46,000 --> 00:02:50,889
+the effect that each particular
+variable has on that component.
+
+46
+00:02:50,889 --> 00:02:55,679
+With the Loadings, the sign of
+the value isn't that important.
+
+47
+00:02:55,680 --> 00:02:59,319
+But it is the size of the value,
+that is more significant.
+
+48
+00:02:59,319 --> 00:03:01,729
+So a loading close to 0, for
+
+49
+00:03:01,729 --> 00:03:06,369
+a specific variable, has little
+effect on that particular component.
+
+50
+00:03:06,370 --> 00:03:11,000
+So now that I've gone through some of
+the background in the weeds content,
+
+51
+00:03:11,000 --> 00:03:15,189
+let's see how this actually plays out
+with our data, and the results we get.
+
+52
+00:03:15,189 --> 00:03:17,289
+And figure out why we
+would want to use them.
+

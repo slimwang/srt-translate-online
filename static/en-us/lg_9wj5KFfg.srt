@@ -1,0 +1,679 @@
+1
+00:00:00,150 --> 00:00:01,833
+All right.
+>> Okay, so here's the idea.
+
+2
+00:00:01,833 --> 00:00:03,328
+So just close your eyes in a minute,
+well don't close your eyes,
+
+3
+00:00:03,328 --> 00:00:04,400
+because I'm going to show you this but
+imagine,
+
+4
+00:00:04,400 --> 00:00:05,062
+>> [LAUGH]
+
+5
+00:00:05,062 --> 00:00:06,002
+>> Imagine you have cloud of data.
+
+6
+00:00:06,002 --> 00:00:06,763
+>> All right.
+
+7
+00:00:06,763 --> 00:00:07,599
+>> Got it?
+
+8
+00:00:07,599 --> 00:00:08,217
+>> I do.
+>> And
+
+9
+00:00:08,217 --> 00:00:09,903
+let's say some of it's labeled minus.
+
+10
+00:00:09,903 --> 00:00:10,420
+>> Mm-hm.
+
+11
+00:00:10,420 --> 00:00:14,310
+>> In fact the vast majority is labeled
+minus, and just a few are labeled plus.
+
+12
+00:00:14,310 --> 00:00:16,640
+Well if we do it as we've done before
+as requiring learning algorithms do,
+
+13
+00:00:16,640 --> 00:00:18,750
+we were basically going to say all of
+
+14
+00:00:18,750 --> 00:00:20,250
+them were negative
+>> Okay, as you've said.
+
+15
+00:00:20,250 --> 00:00:21,742
+>> So,
+here's what were going to do instead.
+
+16
+00:00:21,742 --> 00:00:23,430
+We're going to build a learner,
+
+17
+00:00:23,430 --> 00:00:27,250
+that's going to label about half of
+them negative and half of them positive.
+
+18
+00:00:27,250 --> 00:00:28,070
+>> I can make one of those.
+
+19
+00:00:28,070 --> 00:00:30,190
+>> But,
+it's going to have another property.
+
+20
+00:00:30,190 --> 00:00:31,960
+>> Doh!
+>> So you take that cloud that I had.
+
+21
+00:00:31,960 --> 00:00:33,090
+>> Okay.
+>> And half of them are negative,
+
+22
+00:00:33,090 --> 00:00:36,630
+let's say the negative ones come down
+here, and the positive ones go this way.
+
+23
+00:00:36,630 --> 00:00:37,880
+Now, here's the thing.
+
+24
+00:00:37,880 --> 00:00:41,350
+All the negative ones are actually
+true negatives, okay?
+
+25
+00:00:42,710 --> 00:00:43,820
+>> I see.
+
+26
+00:00:43,820 --> 00:00:45,990
+>> The problem was we'll
+include all the positives, but
+
+27
+00:00:45,990 --> 00:00:47,390
+also some of the negatives.
+
+28
+00:00:47,390 --> 00:00:49,657
+So I'll have no false negatives,
+and I'll have many false positives.
+
+29
+00:00:49,657 --> 00:00:52,983
+>> So in the causing trouble in
+the airport example, you would.
+
+30
+00:00:52,983 --> 00:00:56,028
+Like half the people you would say
+these people are not a threat, and
+
+31
+00:00:56,028 --> 00:00:57,425
+you'd just be right on those.
+
+32
+00:00:57,425 --> 00:00:59,095
+>> Yes.
+>> But the other half you might say
+
+33
+00:00:59,095 --> 00:01:00,328
+these could be a threat-
+>> Or
+
+34
+00:01:00,328 --> 00:01:03,655
+even say that they are a threat and
+you'll be wrong for most of them, but
+
+35
+00:01:03,655 --> 00:01:06,280
+all the ones who are threats
+will survive that filter.
+
+36
+00:01:06,280 --> 00:01:07,200
+>> I see.
+
+37
+00:01:07,200 --> 00:01:09,370
+>> So now, that I've got the cloud,
+and it's over here, and
+
+38
+00:01:09,370 --> 00:01:11,240
+I've got mostly negatives,
+and a few positives.
+
+39
+00:01:11,240 --> 00:01:12,315
+I keep doing the same thing.
+
+40
+00:01:12,315 --> 00:01:13,750
+>> Mm-hm.
+>> So I shove the negatives off, and
+
+41
+00:01:13,750 --> 00:01:16,650
+I'm never wrong, and shove the
+positives, and it goes on and on and on.
+
+42
+00:01:16,650 --> 00:01:18,770
+>> It sort of vaguely
+reminds me of boosting.
+
+43
+00:01:18,770 --> 00:01:21,790
+>> It does, and in fact, the way that
+they did this in the original paper is
+
+44
+00:01:22,980 --> 00:01:25,520
+they did boosting over
+very simple learners.
+
+45
+00:01:27,710 --> 00:01:29,890
+But what's interesting here,
+there's a couple of points.
+
+46
+00:01:29,890 --> 00:01:32,440
+One is, I started out with this
+big cloud, mostly negatives and
+
+47
+00:01:32,440 --> 00:01:33,390
+a few positives.
+
+48
+00:01:33,390 --> 00:01:34,770
+I kept cutting in half, and
+
+49
+00:01:34,770 --> 00:01:38,429
+by the time I got over here, I have a
+much smaller set, and now it's balanced.
+
+50
+00:01:39,680 --> 00:01:42,435
+So now half of them are negative,
+and half of them are positive.
+
+51
+00:01:42,435 --> 00:01:45,410
+>> because we keep separating
+the chaff from the wheat.
+
+52
+00:01:45,410 --> 00:01:47,270
+>> Right, yeah, let's go with that.
+
+53
+00:01:47,270 --> 00:01:48,740
+And so
+the year with the sort of small set, and
+
+54
+00:01:48,740 --> 00:01:52,820
+now I can apply my learner here, with
+the sort of 50/50 split let's say, and
+
+55
+00:01:52,820 --> 00:01:54,560
+I actually do a pretty good job.
+
+56
+00:01:54,560 --> 00:01:56,320
+Now there's two things that
+are worth pointing out here.
+
+57
+00:01:56,320 --> 00:01:58,290
+>> Okay.
+>> Well, there's a zero thing, which is-
+
+58
+00:01:58,290 --> 00:01:59,200
+>> It's like you haven't pointed out
+
+59
+00:01:59,200 --> 00:01:59,960
+anything so far.
+
+60
+00:01:59,960 --> 00:02:00,790
+>> I'm pointing everywhere.
+
+61
+00:02:00,790 --> 00:02:01,560
+>> Yeah.
+
+62
+00:02:01,560 --> 00:02:03,340
+>> Now, here's the other thing,
+here's the cool thing.
+
+63
+00:02:03,340 --> 00:02:09,180
+Notice that, as I go from this data
+over here to this smaller, and smaller.
+
+64
+00:02:09,180 --> 00:02:09,979
+If I'm right, and
+
+65
+00:02:09,979 --> 00:02:13,730
+I get about half the data surviving
+the filter, then I can actually put.
+
+66
+00:02:15,560 --> 00:02:19,180
+Twice as much learning
+energy in each level.
+
+67
+00:02:19,180 --> 00:02:20,680
+>> I'm pretty sure we didn't
+study learning energy.
+
+68
+00:02:20,680 --> 00:02:21,940
+>> Well I'm thinking
+computational effort, right?
+
+69
+00:02:21,940 --> 00:02:22,850
+>> All right.
+
+70
+00:02:22,850 --> 00:02:25,140
+I see, to make it faster.
+
+71
+00:02:25,140 --> 00:02:26,400
+>> Right.
+So, if I keep going down my hill-
+
+72
+00:02:26,400 --> 00:02:27,550
+>> Because the expected amount
+
+73
+00:02:27,550 --> 00:02:30,590
+of computation is going to be quite
+small, because most people come in and
+
+74
+00:02:30,590 --> 00:02:31,780
+they get filtered in the first level.
+
+75
+00:02:31,780 --> 00:02:33,150
+>> Right.
+>> It's like a log thing.
+
+76
+00:02:33,150 --> 00:02:36,528
+>> Yeah, so the size of the data that
+I'm looking at is going down [CROSSTALK]
+
+77
+00:02:36,528 --> 00:02:38,094
+>> But that means is that if I, or
+
+78
+00:02:38,094 --> 00:02:39,105
+by a factor of two.
+
+79
+00:02:39,105 --> 00:02:40,404
+Which means that,
+
+80
+00:02:40,404 --> 00:02:44,600
+if I can put in a factor of two
+more of computational effort.
+
+81
+00:02:44,600 --> 00:02:45,480
+>> I see.
+
+82
+00:02:45,480 --> 00:02:48,230
+>> And big O, it's going to be the same.
+
+83
+00:02:48,230 --> 00:02:49,960
+>> Neat.
+>> So.
+
+84
+00:02:49,960 --> 00:02:53,320
+I can basically do something stupid,
+less stupid, and
+
+85
+00:02:53,320 --> 00:02:55,920
+by the time it gets in I can do
+something actually rather sophisticated.
+
+86
+00:02:55,920 --> 00:02:57,190
+Which I couldn't apply over here,
+
+87
+00:02:57,190 --> 00:02:58,920
+because it would take too
+much computational effort.
+
+88
+00:02:58,920 --> 00:03:01,380
+>> I see, again, the expected
+cost would be tremendous, but
+
+89
+00:03:01,380 --> 00:03:05,210
+here the change in expected cost is very
+small, because very little of the data
+
+90
+00:03:05,210 --> 00:03:06,710
+actually makes it all the way
+through that pipeline.
+
+91
+00:03:06,710 --> 00:03:08,200
+>> Right, so that's point one.
+
+92
+00:03:08,200 --> 00:03:10,179
+Point two is,
+I now have this series of learner.
+
+93
+00:03:11,810 --> 00:03:13,150
+And over here I've got a nice learner,
+
+94
+00:03:13,150 --> 00:03:15,370
+that does a nice job of
+separating everything out.
+
+95
+00:03:15,370 --> 00:03:17,240
+But you'll notice that
+if I took that learner.
+
+96
+00:03:17,240 --> 00:03:19,060
+You might say,
+well let's just take this learner, and
+
+97
+00:03:19,060 --> 00:03:20,450
+I can just apply it from
+the very beginning.
+
+98
+00:03:20,450 --> 00:03:22,042
+I mean, after all,
+now that I've learned the learner,
+
+99
+00:03:22,042 --> 00:03:23,983
+it's not computationally painful,
+I can, usually I can [CROSSTALK]
+
+100
+00:03:23,983 --> 00:03:25,149
+>> I see because the classifier is fast,
+
+101
+00:03:25,149 --> 00:03:26,741
+[CROSSTALK] the learning process was,
+okay?
+
+102
+00:03:26,741 --> 00:03:31,390
+And that's really good,
+except it will do terribly, because why?
+
+103
+00:03:31,390 --> 00:03:32,780
+>> It has a different distribution data.
+
+104
+00:03:32,780 --> 00:03:33,830
+>> It has a different distribution.
+
+105
+00:03:33,830 --> 00:03:36,590
+It learned on this distribution,
+not this distribution.
+
+106
+00:03:36,590 --> 00:03:38,100
+>> Got it.
+>> So you still have to do this
+
+107
+00:03:38,100 --> 00:03:39,470
+cascade of learners.
+
+108
+00:03:39,470 --> 00:03:41,500
+That's why it's called cascade learners.
+
+109
+00:03:41,500 --> 00:03:43,720
+>> I thought it was
+because like detergent.
+
+110
+00:03:43,720 --> 00:03:46,030
+>> It is like detergent, it scrubs out.
+
+111
+00:03:46,030 --> 00:03:49,640
+I don't know enough about the Cascade
+commercials to make a terrible
+
+112
+00:03:49,640 --> 00:03:50,490
+pun here, but.
+
+113
+00:03:50,490 --> 00:03:53,380
+>> All right,,
+let's substitute the terrible pun here.
+
+114
+00:03:53,380 --> 00:03:54,163
+>> Leaves drops the spot, right,
+
+115
+00:03:54,163 --> 00:03:55,206
+that's the whole [CROSSTALK]
+>> Yeah.
+
+116
+00:03:55,206 --> 00:03:57,429
+>> So all the spotting
+stuff comes over here, and
+
+117
+00:03:57,429 --> 00:04:00,812
+you think of those that drops the spot
+and you get spotting [INAUDIBLE].
+
+118
+00:04:00,812 --> 00:04:02,430
+>> [LAUGH]
+>> I'm glad we went through that effort.
+
+119
+00:04:02,430 --> 00:04:05,160
+Anyway, so this sort of casting
+learning thing works really well, and
+
+120
+00:04:05,160 --> 00:04:07,700
+it gets you to this nice little place
+where you've got this [INAUDIBLE].
+
+121
+00:04:07,700 --> 00:04:08,260
+>> Good.
+
+122
+00:04:08,260 --> 00:04:08,950
+>> And there's all
+
+123
+00:04:08,950 --> 00:04:11,350
+kinds of things out there like that
+in the supervised learning world.
+
+124
+00:04:11,350 --> 00:04:14,210
+>> Can you name something that's
+had an impact on I don't know,
+
+125
+00:04:14,210 --> 00:04:15,980
+things that people have experience with?
+
+126
+00:04:15,980 --> 00:04:16,480
+>> What do you mean?
+
+127
+00:04:17,709 --> 00:04:19,950
+>> My understanding is that
+they use some version of this,
+
+128
+00:04:19,950 --> 00:04:24,710
+in hand held cameras, when they actually
+put a little box around your face.
+
+129
+00:04:24,710 --> 00:04:26,090
+>> I didn't realize that.
+
+130
+00:04:26,090 --> 00:04:27,141
+Although it makes sense,
+
+131
+00:04:27,141 --> 00:04:29,592
+because the original work in
+fact was in exactly that space.
+
+132
+00:04:29,592 --> 00:04:30,434
+>> Yeah.
+>> It was sort of doing face
+
+133
+00:04:30,434 --> 00:04:31,113
+finding-
+>> Finding a face.
+
+134
+00:04:31,113 --> 00:04:32,053
+Yeah.
+
+135
+00:04:32,053 --> 00:04:34,578
+>> Where they used very
+simple kind of pixel based-
+
+136
+00:04:34,578 --> 00:04:35,537
+>> because most regions of an image
+
+137
+00:04:35,537 --> 00:04:36,501
+don't have a face in them.
+
+138
+00:04:36,501 --> 00:04:37,244
+>> Right.
+>> Yeah.
+
+139
+00:04:37,244 --> 00:04:38,265
+Finding a face.
+
+140
+00:04:38,265 --> 00:04:38,776
+>> Yeah.
+
+141
+00:04:38,776 --> 00:04:39,729
+>> Well it depends on
+the image that you have.
+
+142
+00:04:39,729 --> 00:04:40,886
+I'm with you.
+
+143
+00:04:40,886 --> 00:04:43,469
+Okay, so any way there are tons of
+things like that you should explore, and
+
+144
+00:04:43,469 --> 00:04:45,562
+hopefully you are now prepared
+to not just explore them, but
+
+145
+00:04:45,562 --> 00:04:46,479
+to even understand them.
+
+146
+00:04:46,479 --> 00:04:47,164
+>> Cool.
+
+147
+00:04:47,164 --> 00:04:48,354
+>> So that's.
+
+148
+00:04:48,354 --> 00:04:49,230
+>> Nice.

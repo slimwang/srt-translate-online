@@ -1,0 +1,197 @@
+1
+00:00:00,200 --> 00:00:04,380
+A completely different way to organize
+the address translation process is to
+
+2
+00:00:04,380 --> 00:00:06,707
+create so-called inverted page tables.
+
+3
+00:00:06,707 --> 00:00:11,375
+Here, the page table entries
+contain information, one for
+
+4
+00:00:11,375 --> 00:00:14,315
+each element of the physical memory.
+
+5
+00:00:14,315 --> 00:00:18,251
+So, for instance, if we're thinking
+about physical frame numbers,
+
+6
+00:00:18,251 --> 00:00:23,240
+each of the page table elements will
+correspond to one physical frame number.
+
+7
+00:00:23,240 --> 00:00:25,140
+Today on the most high-end platforms,
+
+8
+00:00:25,140 --> 00:00:28,600
+we have physical memory that's on
+the order of tens of terabytes,
+
+9
+00:00:28,600 --> 00:00:33,400
+whereas the virtual memory of an address
+space can reach petabytes and beyond.
+
+10
+00:00:33,400 --> 00:00:37,828
+Clearly, it would be much more efficient
+to have a page table structure that's on
+
+11
+00:00:37,828 --> 00:00:41,678
+the order of the available physical
+memory versus something that's on
+
+12
+00:00:41,678 --> 00:00:44,712
+the order of the virtual memory
+that a process can have.
+
+13
+00:00:44,712 --> 00:00:49,690
+To find the translation, the page table
+is searched base on the process ID and
+
+14
+00:00:49,690 --> 00:00:54,221
+the first part of the virtual address,
+similar to what we saw before.
+
+15
+00:00:54,221 --> 00:01:00,430
+When the appropriate pid and
+p entry is found into this page table.
+
+16
+00:01:00,430 --> 00:01:01,610
+The index,
+
+17
+00:01:01,610 --> 00:01:06,640
+the element where this information is
+stored, that will denote the physical
+
+18
+00:01:06,640 --> 00:01:11,540
+frame number of the memory location
+that's indexed by this logical address.
+
+19
+00:01:11,540 --> 00:01:14,685
+So then,
+that is combined with the actual offset
+
+20
+00:01:14,685 --> 00:01:19,865
+to produce the physical address that's
+being co-reference from the CPU.
+
+21
+00:01:19,865 --> 00:01:24,295
+The problem with inverted page tables is
+that we have to perform a linear search
+
+22
+00:01:24,295 --> 00:01:29,685
+of the page table to see which
+one of its entry matches the pidp
+
+23
+00:01:29,685 --> 00:01:33,680
+information that's part of the logical
+address that was presented by the CPU.
+
+24
+00:01:33,680 --> 00:01:37,480
+Since the physical memory can be
+arbitrarily assigned to different
+
+25
+00:01:37,480 --> 00:01:40,440
+processes, the table
+isn't really ordered.
+
+26
+00:01:40,440 --> 00:01:44,280
+There may be two consecutive entries
+that represent memory allocated to two
+
+27
+00:01:44,280 --> 00:01:45,660
+different processes, and
+
+28
+00:01:45,660 --> 00:01:49,510
+there really isn't some clever search
+technique to speed up this process.
+
+29
+00:01:49,510 --> 00:01:54,138
+In practice, the TLB will catch
+a lot of these memory references so
+
+30
+00:01:54,138 --> 00:01:58,120
+this detailed search is not
+performed very frequently.
+
+31
+00:01:58,120 --> 00:02:00,616
+However, we still have to
+perform it periodically, so
+
+32
+00:02:00,616 --> 00:02:03,390
+we have to do something to make
+it a little bit more efficient.
+
+33
+00:02:04,460 --> 00:02:05,615
+To address this issue,
+
+34
+00:02:05,615 --> 00:02:09,630
+inverted page tables are supplemented
+with so-called Hashing Page Tables.
+
+35
+00:02:10,690 --> 00:02:15,350
+In most general terms, a hashing page
+table looks something as follows.
+
+36
+00:02:15,350 --> 00:02:19,300
+A hash is computed on
+a part of the address and
+
+37
+00:02:19,300 --> 00:02:21,880
+that is an entry into the hash table
+
+38
+00:02:21,880 --> 00:02:26,890
+that points to a linked list of possible
+matches for this part of the address.
+
+39
+00:02:26,890 --> 00:02:32,070
+So, that allows us to basically speed
+up the process of the linear search
+
+40
+00:02:32,070 --> 00:02:37,530
+to narrow it down to few possible
+entries into the inverted page table,
+
+41
+00:02:37,530 --> 00:02:40,500
+as a result,
+we speed up the address translation.

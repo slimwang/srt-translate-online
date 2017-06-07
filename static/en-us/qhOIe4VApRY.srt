@@ -1,0 +1,319 @@
+﻿1
+00:00:00,300 --> 00:00:02,949
+So now that we understand,
+at least at a high level,
+
+2
+00:00:02,950 --> 00:00:05,450
+the concepts of variable reduction.
+
+3
+00:00:05,450 --> 00:00:08,859
+Let's see how it might apply to
+the business problem we're working on
+
+4
+00:00:08,859 --> 00:00:09,839
+in our exercises.
+
+5
+00:00:10,939 --> 00:00:14,179
+Let's move over to Alteryx
+to work through an example.
+
+6
+00:00:14,179 --> 00:00:17,800
+First of all, let's bring in the data
+that we prepped in an earlier exercise.
+
+7
+00:00:18,820 --> 00:00:22,728
+I saved mine as
+Data Prep Excerise Results.csv.
+
+8
+00:00:22,728 --> 00:00:26,910
+I'll hook a browse tool to
+the input tool and run the process.
+
+9
+00:00:26,910 --> 00:00:29,449
+Let's examine the data
+that we have again.
+
+10
+00:00:29,449 --> 00:00:32,890
+If you look,
+we have 59 variables in our data set.
+
+11
+00:00:32,890 --> 00:00:35,679
+Probably too many to
+want to try to explain
+
+12
+00:00:35,679 --> 00:00:38,579
+how each one ties to
+our future clusters.
+
+13
+00:00:38,579 --> 00:00:42,369
+We can see though,
+that we have 12 variables.
+
+14
+00:00:42,369 --> 00:00:45,839
+One for each month, for
+each of the climate metrics,
+
+15
+00:00:45,840 --> 00:00:49,750
+precipitation, rain,
+snow, and temperature.
+
+16
+00:00:49,750 --> 00:00:53,000
+Now we don't need to cluster
+each individual month for
+
+17
+00:00:53,000 --> 00:00:54,399
+each climate metric.
+
+18
+00:00:54,399 --> 00:00:58,530
+It really only makes sense to cluster
+on the effects of the four metrics.
+
+19
+00:00:58,530 --> 00:01:02,670
+But because we want to make sure that
+we are able to capture the variance for
+
+20
+00:01:02,670 --> 00:01:04,439
+all of the months in each metric,
+
+21
+00:01:04,439 --> 00:01:08,599
+PCA is a perfect tool to get
+the number of variables reduced.
+
+22
+00:01:08,599 --> 00:01:12,179
+As we shall see,
+PCA will allow us to reduce
+
+23
+00:01:12,180 --> 00:01:15,490
+the 48 climate variables to just 10 or
+12 variables.
+
+24
+00:01:15,489 --> 00:01:19,500
+And in reality, since these 10 to
+12 variables will really represent
+
+25
+00:01:19,500 --> 00:01:24,390
+the 4 climate metrics,
+it will become much easier to explain.
+
+26
+00:01:24,390 --> 00:01:28,230
+As I mentioned earlier,
+sometimes a hybrid approach works well.
+
+27
+00:01:28,230 --> 00:01:32,680
+Some of the other variables, such as
+days before and after the winter freeze,
+
+28
+00:01:32,680 --> 00:01:36,300
+which we created in the earlier lesson,
+we'll keep as is.
+
+29
+00:01:36,299 --> 00:01:39,049
+But that should get us to
+a much more manageable and
+
+30
+00:01:39,049 --> 00:01:41,819
+explainable set of variables in total.
+
+31
+00:01:41,819 --> 00:01:44,729
+Let's see how the process works for
+one of the metrics.
+
+32
+00:01:44,730 --> 00:01:48,909
+And then we can basically replicate
+the same process for the other three.
+
+33
+00:01:48,909 --> 00:01:52,659
+Now because a principle components
+tool expects numeric data, and
+
+34
+00:01:52,659 --> 00:01:55,219
+since we saved our data as a CSV,
+
+35
+00:01:55,219 --> 00:01:58,390
+we need to reconfigure it
+to the correct data types.
+
+36
+00:01:58,390 --> 00:02:00,959
+We can do that again with a select tool.
+
+37
+00:02:00,959 --> 00:02:02,859
+And then as we did previously,
+
+38
+00:02:02,859 --> 00:02:08,319
+we can use the Data Sample Select Config
+file that we used in an earlier lesson.
+
+39
+00:02:08,319 --> 00:02:12,449
+Since we added two more variables,
+I'll change those manually.
+
+40
+00:02:12,449 --> 00:02:14,575
+Now we can bring in a principal
+components tool, and
+
+41
+00:02:14,575 --> 00:02:16,340
+then we'll need to configure it.
+
+42
+00:02:16,340 --> 00:02:20,710
+First, we'll select just the fields
+related to only one of the metrics.
+
+43
+00:02:20,710 --> 00:02:23,195
+In this case,
+we'll start with temperature.
+
+44
+00:02:23,194 --> 00:02:26,394
+Next, we need to configure
+the process to scale the data.
+
+45
+00:02:26,395 --> 00:02:28,395
+If you recall from the previous lesson,
+
+46
+00:02:28,395 --> 00:02:31,675
+scaling is important because of
+the effect that variables with
+
+47
+00:02:31,675 --> 00:02:36,420
+big numbers can have when combined
+alongside variables with small numbers.
+
+48
+00:02:36,419 --> 00:02:37,209
+Now in this case,
+
+49
+00:02:37,210 --> 00:02:40,680
+the difference in our climate
+metrics may not be that significant.
+
+50
+00:02:40,680 --> 00:02:44,800
+But as a general rule, it is usually
+better to scale variables unless you
+
+51
+00:02:44,800 --> 00:02:49,510
+have a good reason revolving around
+a specific set of data to do otherwise.
+
+52
+00:02:49,509 --> 00:02:53,859
+Selecting the box next to scale
+each field to have unit variance
+
+53
+00:02:53,860 --> 00:02:56,580
+will automatically scale the data for
+you.
+
+54
+00:02:56,580 --> 00:02:59,870
+Most of the other configurations
+we'll leave the defaults.
+
+55
+00:02:59,870 --> 00:03:04,250
+I'm going to add one more number to
+the number of principal components to
+
+56
+00:03:04,250 --> 00:03:05,169
+append.
+
+57
+00:03:05,169 --> 00:03:06,769
+We'll talk through this in a minute.
+
+58
+00:03:06,770 --> 00:03:08,135
+Now, if you'll recall,
+
+59
+00:03:08,134 --> 00:03:10,894
+when we were looking at
+the data in a previous lesson,
+
+60
+00:03:10,895 --> 00:03:16,105
+one of the stores had a missing or
+null value for the temp October field.
+
+61
+00:03:16,104 --> 00:03:17,064
+To make it easy for
+
+62
+00:03:17,064 --> 00:03:21,340
+this exercise, I mentioned I was just
+going to ignore the missing value.
+
+63
+00:03:21,340 --> 00:03:24,450
+But to keep the principal
+components tool happy and
+
+64
+00:03:24,449 --> 00:03:27,719
+avoid an error,
+I'll need to filter out that record.
+
+65
+00:03:27,719 --> 00:03:30,550
+I can do this easily
+with just a filter tool.
+
+66
+00:03:30,550 --> 00:03:32,100
+Now we can run the process and
+
+67
+00:03:32,099 --> 00:03:34,500
+start taking a look at
+what the results tell us.
+

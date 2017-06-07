@@ -1,0 +1,103 @@
+1
+00:00:00,130 --> 00:00:04,053
+In general, algorithms that rely on atomics have limited scalability
+
+2
+00:00:04,053 --> 00:00:06,931
+because the atomics limit the amount of parallelism.
+
+3
+00:00:06,931 --> 00:00:09,893
+If we have 100 bins and use atomics to access them,
+
+4
+00:00:09,893 --> 00:00:12,296
+then no matter how awesome a GPU we might have,
+
+5
+00:00:12,296 --> 00:00:15,119
+we're still only doing 100 useful things at a time.
+
+6
+00:00:15,119 --> 00:00:19,935
+Thus, there's interest in algorithms that might be a little bit more complex, but might scale better.
+
+7
+00:00:19,935 --> 00:00:22,340
+So we'll look at a reduce based method next.
+
+8
+00:00:22,340 --> 00:00:28,613
+Let's say we have a large number of items to place into our histogram, but relatively few bins.
+
+9
+00:00:28,613 --> 00:00:32,722
+Now, we're going to consider a pretty small example here, for the sake of discussion,
+
+10
+00:00:32,722 --> 00:00:35,220
+just so we can draw everything that we need to.
+
+11
+00:00:35,220 --> 00:00:39,734
+And for the sake of discussion, we're going to say we have 128 items to place into bins.
+
+12
+00:00:39,734 --> 00:00:44,876
+We have 8 threads that we've launched to take care of these items, and we only have 3 bins.
+
+13
+00:00:44,876 --> 00:00:49,648
+So we're going to divide those 128 items among the 8 threads,
+
+14
+00:00:49,648 --> 00:00:52,516
+so each thread will be responsible for 16 items.
+
+15
+00:00:52,516 --> 00:00:57,404
+Now, rather than have only one single set of 3 bins in memory,
+
+16
+00:00:57,404 --> 00:01:02,372
+let's launch 8 threads and give every thread its own set of bins,
+
+17
+00:01:02,372 --> 00:01:04,840
+which we'll call its local histogram.
+
+18
+00:01:04,840 --> 00:01:07,409
+Since we don't have very many bins, we can store
+
+19
+00:01:07,409 --> 00:01:11,080
+each thread's bins in that thread's registers, which are fast.
+
+20
+00:01:11,080 --> 00:01:16,890
+Now we have 16 items per thread, and each thread can independently accumulate its
+
+21
+00:01:16,890 --> 00:01:19,727
+own local histogram and its own registers.
+
+22
+00:01:19,727 --> 00:01:23,070
+So, we get 8 separate local histograms,
+
+23
+00:01:23,070 --> 00:01:27,568
+each of which has accumulated 16 items, which isn't particularly useful.
+
+24
+00:01:27,568 --> 00:01:32,856
+What we actually need is one global histogram rather than 8 local histograms.
+
+25
+00:01:32,856 --> 00:01:36,547
+Quick quiz--do we need to use atomics to manage access
+
+26
+00:01:36,547 --> 00:01:40,257
+to these local per thread histograms, yes or no?

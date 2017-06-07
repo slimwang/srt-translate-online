@@ -1,0 +1,477 @@
+1
+00:00:00,310 --> 00:00:03,370
+So in order to deal with those problems,
+we're going to introduce an extension to
+
+2
+00:00:03,370 --> 00:00:08,098
+markup decision processes called
+TDD MDPs as opposed to plain old MDPs.
+
+3
+00:00:08,098 --> 00:00:09,310
+>> TDD MDPs.
+
+4
+00:00:09,310 --> 00:00:11,845
+>> TDD MDPs because it
+was off the tongue.
+
+5
+00:00:11,845 --> 00:00:13,241
+[LAUGH]
+>> What does it mean?
+
+6
+00:00:13,241 --> 00:00:17,130
+>> Well it means
+Targeted Trajectory Distribution
+
+7
+00:00:17,130 --> 00:00:17,940
+>> Obviously.
+
+8
+00:00:17,940 --> 00:00:21,140
+>> And that actually you can see that
+when you think about how we go from
+
+9
+00:00:21,140 --> 00:00:22,880
+an MDP to a TTDMDP.
+
+10
+00:00:22,880 --> 00:00:25,520
+So what we are trying to do is we want
+to make explicit those things we said
+
+11
+00:00:25,520 --> 00:00:29,240
+before, so instead of having states,
+we now have Trajectories and
+
+12
+00:00:29,240 --> 00:00:34,710
+that's just all partial plot sequences
+that we can't have, that we can't reach,
+
+13
+00:00:34,710 --> 00:00:37,770
+that we can't get to, so it's the
+sequence so far, it's the story so far.
+
+14
+00:00:38,970 --> 00:00:40,930
+I try to go back and
+forth between trajectories and
+
+15
+00:00:40,930 --> 00:00:43,940
+sequences as opposed to stories because
+this is actually more general than
+
+16
+00:00:43,940 --> 00:00:45,250
+the story example that we're using.
+
+17
+00:00:45,250 --> 00:00:47,260
+Actions are exactly the same
+as they were before.
+
+18
+00:00:47,260 --> 00:00:50,700
+We have a model, but now because we
+have trajectories instead of states,
+
+19
+00:00:50,700 --> 00:00:53,750
+we have a model that says well,
+if I'm in a trajectory and
+
+20
+00:00:53,750 --> 00:00:57,690
+I take a particular action, what's
+the next trajectory that I will see?
+
+21
+00:00:57,690 --> 00:01:00,200
+But it's still basically the same
+things except that really
+
+22
+00:01:00,200 --> 00:01:04,390
+it elevates this notion of trajectories
+to sort of to a first class citizen and
+
+23
+00:01:04,390 --> 00:01:06,610
+that we're reasoning
+over trajectories now.
+
+24
+00:01:06,610 --> 00:01:11,050
+And now instead of having a simple
+reward, we have a target distribution.
+
+25
+00:01:11,050 --> 00:01:15,520
+Now here I've made a sort of capital
+T instead of a lowercase T and that's
+
+26
+00:01:15,520 --> 00:01:18,760
+because the lower case T here was sort
+of standing for trajectories the capital
+
+27
+00:01:18,760 --> 00:01:23,780
+T stands for final trajectories
+you know that is ends of stories.
+
+28
+00:01:23,780 --> 00:01:26,040
+So you don't have a distribution or
+
+29
+00:01:26,040 --> 00:01:28,920
+I guess because they have a probability
+of zero for a partial dish but
+
+30
+00:01:28,920 --> 00:01:31,930
+all which we really care about
+is stories that we care about.
+
+31
+00:01:31,930 --> 00:01:35,860
+So things that have higher probability
+are stories that you might consider good
+
+32
+00:01:35,860 --> 00:01:39,540
+and things that have lower probability,
+stories that you might consider bad or
+
+33
+00:01:39,540 --> 00:01:40,210
+less desirable.
+
+34
+00:01:40,210 --> 00:01:41,244
+Does that make sense?
+
+35
+00:01:41,244 --> 00:01:44,848
+>> I guess so, but why not just pick
+the one that we want and just and
+
+36
+00:01:44,848 --> 00:01:49,472
+call that I guess the distribution where
+the right story has probability of 1 and
+
+37
+00:01:49,472 --> 00:01:51,933
+everything else is 0
+seems to make sense.
+
+38
+00:01:51,933 --> 00:01:54,146
+>> Right so that's a sort of strict
+generalization of what we were
+
+39
+00:01:54,146 --> 00:01:54,742
+talking about.
+
+40
+00:01:54,742 --> 00:01:57,290
+This is a strict generalization of
+what we're talking about before.
+
+41
+00:01:57,290 --> 00:02:01,120
+So this allows us to say,
+some things are better than others and
+
+42
+00:02:01,120 --> 00:02:04,990
+it turns out by relaxing this hard
+constraint that I'm trying to find, I'm
+
+43
+00:02:04,990 --> 00:02:09,990
+trying to maximize reward but instead
+I'm trying to match a distribution.
+
+44
+00:02:09,990 --> 00:02:14,220
+It allows more replay ability,
+allows players to do a few more things,
+
+45
+00:02:14,220 --> 00:02:20,940
+because now our goal is not to find
+a policy that maps states to actions in
+
+46
+00:02:20,940 --> 00:02:26,230
+order to maximize long term reward,
+it's to find a probabilistic policy.
+
+47
+00:02:26,230 --> 00:02:30,220
+That is a probability
+distribution over actions, okay.
+
+48
+00:02:30,220 --> 00:02:33,270
+And what is the optimal policy?
+
+49
+00:02:33,270 --> 00:02:37,340
+It's the one, that if I use
+this probability distribution,
+
+50
+00:02:37,340 --> 00:02:40,210
+would lead to be matching
+the target distribution.
+
+51
+00:02:40,210 --> 00:02:40,880
+>> I see.
+
+52
+00:02:40,880 --> 00:02:41,500
+>> Right?
+
+53
+00:02:41,500 --> 00:02:44,680
+>> And just just so
+that I'm still on board here.
+
+54
+00:02:44,680 --> 00:02:48,400
+The actions here are the things
+that the story can do?
+
+55
+00:02:48,400 --> 00:02:50,540
+>> Right.
+The story or the story manager or
+
+56
+00:02:50,540 --> 00:02:51,970
+the system can do.
+
+57
+00:02:51,970 --> 00:02:54,600
+>> And the uncertainty for that thing.
+
+58
+00:02:54,600 --> 00:02:57,290
+The uncertainty is, well,
+what is the player actually going to do?
+
+59
+00:02:57,290 --> 00:02:57,980
+We don't know.
+
+60
+00:02:57,980 --> 00:02:58,800
+>> Right.
+>> Okay, so
+
+61
+00:02:58,800 --> 00:03:01,940
+it's not the players actions
+it's the story's actions
+
+62
+00:03:01,940 --> 00:03:03,730
+>> Right, exactly it's story actions or
+
+63
+00:03:04,730 --> 00:03:08,220
+system actions or manager actions or
+lots of ways to sort of think about.
+
+64
+00:03:08,220 --> 00:03:11,115
+>> Things like we're going to make
+a wolf appear right about now.
+
+65
+00:03:11,115 --> 00:03:14,426
+>> [SOUND] Yes exactly,
+that was me doing a wolf.
+
+66
+00:03:14,426 --> 00:03:15,950
+>> Shoot I was really scared.
+
+67
+00:03:16,980 --> 00:03:21,970
+>> Or I'm going to make a key appear or
+I'm going to unlock a door.
+
+68
+00:03:21,970 --> 00:03:24,050
+I'm going to lock a door because I
+don't want you to go in this room.
+
+69
+00:03:24,050 --> 00:03:24,800
+>> Got it.
+Right.
+
+70
+00:03:24,800 --> 00:03:26,610
+>> So, these are the kind of actions
+that you might be able to take in
+
+71
+00:03:26,610 --> 00:03:27,550
+the system.
+
+72
+00:03:27,550 --> 00:03:29,500
+The model says well if I'm
+in some trajectory and
+
+73
+00:03:29,500 --> 00:03:32,450
+I take one of these story actions,
+what plot point will I end up in next?
+
+74
+00:03:32,450 --> 00:03:33,890
+Which rejectory will I see next?
+
+75
+00:03:33,890 --> 00:03:36,280
+That depends upon the player and so
+
+76
+00:03:36,280 --> 00:03:40,770
+all of your uncertainty here,
+sort of probably comes from the player.
+
+77
+00:03:40,770 --> 00:03:42,110
+That's where our inter P comes from.
+
+78
+00:03:42,110 --> 00:03:42,680
+>> Okay.
+
+79
+00:03:42,680 --> 00:03:43,820
+>> And
+I'm trying to get some stories and
+
+80
+00:03:43,820 --> 00:03:45,850
+some stories I want to happen
+more often than others, but
+
+81
+00:03:45,850 --> 00:03:49,400
+this allows the player
+agency sort of published.
+
+82
+00:03:49,400 --> 00:03:54,120
+Now there's a lot of math that I could
+do here, but at the end of the day what
+
+83
+00:03:54,120 --> 00:03:58,960
+you might think is that, well now
+that I no longer have this sort of
+
+84
+00:03:58,960 --> 00:04:02,150
+simple constraint of maximizing
+my long term expected reward but
+
+85
+00:04:02,150 --> 00:04:05,600
+I have probabilities and
+randomness and probabilistic policies.
+
+86
+00:04:05,600 --> 00:04:08,260
+This is going to be harder,
+much harder to deal with.
+
+87
+00:04:08,260 --> 00:04:09,200
+But it turns out it's not.
+
+88
+00:04:09,200 --> 00:04:11,830
+This is often the case in
+the sheen learning in AI.
+
+89
+00:04:11,830 --> 00:04:15,380
+If you relax a hard constraint and
+make it a soft constraint
+
+90
+00:04:15,380 --> 00:04:17,660
+you make it something that's
+more about probabilities and
+
+91
+00:04:17,660 --> 00:04:21,649
+probabilistic sort of search, you
+actually get more power out of it and
+
+92
+00:04:21,649 --> 00:04:22,960
+you're able to solve hard problems.
+
+93
+00:04:22,960 --> 00:04:26,030
+So without going into the details I
+can point you to a paper that you can
+
+94
+00:04:26,030 --> 00:04:27,980
+actually series of papers
+that you can read here.
+
+95
+00:04:27,980 --> 00:04:33,090
+It turns out that by going from a hard
+constraint to probability distributions,
+
+96
+00:04:33,090 --> 00:04:36,210
+you can actually solve
+TDMDP in linear time.
+
+97
+00:04:37,300 --> 00:04:38,580
+>> The linear in what?
+
+98
+00:04:38,580 --> 00:04:40,950
+>> Linear in the length of a story.
+
+99
+00:04:40,950 --> 00:04:42,790
+>> That seems unlikely.
+
+100
+00:04:42,790 --> 00:04:43,660
+>> Well, I can prove it to you, but
+
+101
+00:04:43,660 --> 00:04:45,590
+instead I'm just going to
+have to read the paper.

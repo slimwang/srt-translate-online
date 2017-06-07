@@ -1,0 +1,226 @@
+1
+00:00:00,080 --> 00:00:01,500
+To make things concrete,
+
+2
+00:00:01,500 --> 00:00:05,670
+let's look at a file system
+that's supported on disk devices.
+
+3
+00:00:05,670 --> 00:00:10,450
+We will look at ext2, which stands for
+Extended Filesystem version 2.
+
+4
+00:00:10,450 --> 00:00:14,560
+It was a default file system in
+several versions of Linux until
+
+5
+00:00:14,560 --> 00:00:18,960
+it was replaced by ext3 and
+then ext4 more recently,
+
+6
+00:00:18,960 --> 00:00:22,520
+that are the default versions in
+more current versions of Linux.
+
+7
+00:00:22,520 --> 00:00:27,070
+It is also available for other operating
+systems, it's not just Linux specific.
+
+8
+00:00:27,070 --> 00:00:32,250
+A disk partition that is used
+as an ext2 Linux file system,
+
+9
+00:00:32,250 --> 00:00:34,910
+will be organized in the following way.
+
+10
+00:00:34,910 --> 00:00:38,685
+The first block,
+block 0 is not used by Linux and
+
+11
+00:00:38,685 --> 00:00:41,515
+it often contains the code
+to boot the computer.
+
+12
+00:00:41,515 --> 00:00:44,405
+The rest of this partition
+is divided into groups and
+
+13
+00:00:44,405 --> 00:00:48,055
+exactly what are the sizes of the groups
+that has nothing to do with the physics
+
+14
+00:00:48,055 --> 00:00:48,840
+of the disk.
+
+15
+00:00:48,840 --> 00:00:52,110
+What are the disk cylinders or
+sectors or anything like that.
+
+16
+00:00:52,110 --> 00:00:56,610
+Each of the Block Groups in this
+partition will be organized as follows.
+
+17
+00:00:56,610 --> 00:00:59,190
+The first Block in a Block Group
+is the Super Block.
+
+18
+00:00:59,190 --> 00:01:03,290
+And this contains information
+about the overall Block Group.
+
+19
+00:01:03,290 --> 00:01:06,160
+It will have information
+about the number of inodes,
+
+20
+00:01:06,160 --> 00:01:09,120
+about the number of disk
+Blocks in this Block.
+
+21
+00:01:09,120 --> 00:01:13,260
+And it will also have information
+about the start of the free Blocks.
+
+22
+00:01:13,260 --> 00:01:17,880
+The overall state of the Block Group
+is further described in the group
+
+23
+00:01:17,880 --> 00:01:18,460
+descriptor.
+
+24
+00:01:18,460 --> 00:01:21,910
+And this will have information
+about the location of the bitmaps.
+
+25
+00:01:21,910 --> 00:01:23,610
+We'll describe what they mean, next.
+
+26
+00:01:23,610 --> 00:01:26,080
+About the total number of free nodes.
+
+27
+00:01:26,080 --> 00:01:29,430
+About the total number of
+directories in the system.
+
+28
+00:01:29,430 --> 00:01:33,320
+This information is useful
+when files are being allocated
+
+29
+00:01:33,320 --> 00:01:37,990
+because the ext 2 tries to balance the
+over all allocation of directories and
+
+30
+00:01:37,990 --> 00:01:40,430
+files across the determined
+Block Groups.
+
+31
+00:01:40,430 --> 00:01:44,730
+The bitmaps are used to quickly
+find a free Block or a free inodes.
+
+32
+00:01:44,730 --> 00:01:48,470
+And for every single inode in this
+particular group and every single
+
+33
+00:01:48,470 --> 00:01:53,686
+Data Block, the bitmap will be able
+to tell the upper layer allocators.
+
+34
+00:01:53,686 --> 00:01:57,990
+Letter that inode component or
+the Data Block are free or
+
+35
+00:01:57,990 --> 00:02:01,410
+they're used by some other file or
+directory.
+
+36
+00:02:01,410 --> 00:02:02,570
+Then come the inodes.
+
+37
+00:02:02,570 --> 00:02:06,360
+They're numbered from one up
+to some maximum number and
+
+38
+00:02:06,360 --> 00:02:11,340
+every one of the inodes
+is in ext 2 128 byte
+
+39
+00:02:11,340 --> 00:02:15,180
+long data structure that
+describes exactly one file.
+
+40
+00:02:15,180 --> 00:02:18,510
+It will have information like,
+what is the owner of the file,
+
+41
+00:02:18,510 --> 00:02:23,410
+some accounting information that system
+calls like stat would return, and
+
+42
+00:02:23,410 --> 00:02:27,770
+also some information like how to
+locate the actual Data Blocks.
+
+43
+00:02:27,770 --> 00:02:31,310
+So these are the Blocks
+that hold the file data.
+
+44
+00:02:31,310 --> 00:02:36,430
+Again, a reminder, a directory will
+really be just the file except that
+
+45
+00:02:36,430 --> 00:02:40,110
+in the upper levels of the file system
+software stack there will be these
+
+46
+00:02:40,110 --> 00:02:43,670
+entry data structures created for
+each particular component for
+
+47
+00:02:43,670 --> 00:02:44,810
+the particular directory.

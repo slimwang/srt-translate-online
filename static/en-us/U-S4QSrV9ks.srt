@@ -1,0 +1,87 @@
+1
+00:00:00,280 --> 00:00:05,110
+Now when two kernel level threads belong to the same address space
+
+2
+00:00:05,110 --> 00:00:10,430
+there's actually information in the process control blog that is relevant for
+
+3
+00:00:10,430 --> 00:00:12,040
+the entire process.
+
+4
+00:00:12,040 --> 00:00:16,300
+However there is information here that is specific to just one
+
+5
+00:00:16,300 --> 00:00:17,800
+kernel level thread.
+
+6
+00:00:17,800 --> 00:00:22,660
+For instance this includes information about signals or system call arguments.
+
+7
+00:00:22,660 --> 00:00:26,120
+So when we're contact switching among these two kernel level threads,
+
+8
+00:00:26,120 --> 00:00:30,080
+there is a portion of this process control block information that we
+
+9
+00:00:30,080 --> 00:00:33,330
+want to preserve, like all of the virtual address mappings.
+
+10
+00:00:33,330 --> 00:00:35,100
+But then there is portion of it,
+
+11
+00:00:35,100 --> 00:00:38,580
+that's really specific to the particular kernel level thread and
+
+12
+00:00:38,580 --> 00:00:43,490
+it depends on what is the user level thread that's currently executing.
+
+13
+00:00:43,490 --> 00:00:47,330
+So it's something that the threading library directly impacts.
+
+14
+00:00:47,330 --> 00:00:51,690
+So we will split up the information that was contained originally in the process
+
+15
+00:00:51,690 --> 00:00:56,630
+control block, and we will separate it into the hard process state that's
+
+16
+00:00:56,630 --> 00:01:02,240
+relevant for all of the user level threads that execute within that process.
+
+17
+00:01:02,240 --> 00:01:07,380
+And then, the more light weight process state that is only relevant for
+
+18
+00:01:07,380 --> 00:01:11,830
+a subset of the user level threads that are currently associated with
+
+19
+00:01:11,830 --> 00:01:14,330
+a particular kernel-level thread.
+
+20
+00:01:14,330 --> 00:01:19,450
+So we started off with one large contiguous process control block structure, and
+
+21
+00:01:19,450 --> 00:01:22,730
+then we divided the information that was contained in it
+
+22
+00:01:22,730 --> 00:01:24,920
+across a number of different data structures.

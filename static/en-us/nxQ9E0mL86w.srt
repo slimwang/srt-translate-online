@@ -1,0 +1,237 @@
+1
+00:00:01,150 --> 00:00:03,670
+Flick Finder is starting
+to look pretty good, but
+
+2
+00:00:03,670 --> 00:00:06,551
+some of you may have noticed
+the same problem that I have.
+
+3
+00:00:06,551 --> 00:00:10,886
+We're not truly doing a search
+of Flickr's photos if we only
+
+4
+00:00:10,886 --> 00:00:14,721
+select a random image from
+the first page of results.
+
+5
+00:00:14,721 --> 00:00:18,707
+We can see this pretty quickly by
+playing around in Flickr's API Explorer,
+
+6
+00:00:18,707 --> 00:00:21,461
+so as an example I'll use
+the search term baseball.
+
+7
+00:00:41,012 --> 00:00:42,622
+Now I've searched this term before and
+
+8
+00:00:42,622 --> 00:00:45,610
+I know that it's going to return
+a large number of results.
+
+9
+00:00:45,610 --> 00:00:53,820
+And as we can see,
+this search returns 264,506 images.
+
+10
+00:00:53,820 --> 00:00:56,515
+And currently we're looking at page 1.
+
+11
+00:00:58,090 --> 00:01:02,170
+So with a query like this, our current
+implementation only grabs a random image
+
+12
+00:01:02,170 --> 00:01:06,300
+from this first page,
+which contains 100 images.
+
+13
+00:01:07,660 --> 00:01:10,540
+That's not bad, but
+it's not a true search.
+
+14
+00:01:11,580 --> 00:01:15,190
+So how do we accomplish a more random,
+a more true search?
+
+15
+00:01:16,550 --> 00:01:20,549
+If you read through the documentation
+you might have this idea,
+
+16
+00:01:20,549 --> 00:01:23,806
+we could perform a first
+search like this one here and
+
+17
+00:01:23,806 --> 00:01:25,968
+we could look at this pages value.
+
+18
+00:01:25,968 --> 00:01:30,110
+And then we could randomly select a page
+number, and make a second request,
+
+19
+00:01:30,110 --> 00:01:32,257
+using that page number as a parameter.
+
+20
+00:01:32,257 --> 00:01:34,590
+So, here at the bottom we
+have this page number.
+
+21
+00:01:34,590 --> 00:01:38,049
+So, we could use something like 36.
+
+22
+00:01:41,380 --> 00:01:43,510
+So now we're getting results for
+the 36th page.
+
+23
+00:01:44,710 --> 00:01:49,462
+Now in theory, this should work, but
+when I tried implementing this myself,
+
+24
+00:01:49,462 --> 00:01:54,223
+I ran into a problem because I did not
+read all of the documentation carefully.
+
+25
+00:01:54,223 --> 00:01:55,360
+So let's go to the documentation.
+
+26
+00:01:57,830 --> 00:02:01,180
+Here in the documentation
+it specifies that, at most,
+
+27
+00:02:01,180 --> 00:02:04,850
+only the first 4,000 results will be
+returned for any given search query.
+
+28
+00:02:06,700 --> 00:02:10,344
+So if I try to pick a random page
+number that request images beyond
+
+29
+00:02:10,344 --> 00:02:14,464
+the 4,000 result, then Flickr
+automatically returns results for
+
+30
+00:02:14,464 --> 00:02:18,333
+the last possible page that does
+not exceed that 4,000 limit.
+
+31
+00:02:18,333 --> 00:02:19,630
+If you don't believe me, you can try it.
+
+32
+00:02:20,890 --> 00:02:23,730
+Now this implementation detail
+took me about an hour or
+
+33
+00:02:23,730 --> 00:02:26,800
+so of banging my head into
+a wall until I figured it out.
+
+34
+00:02:26,800 --> 00:02:31,340
+But really, these kinds of setbacks
+are pretty common in development.
+
+35
+00:02:31,340 --> 00:02:34,530
+We're often required to take a deeper
+look into documentation to solve
+
+36
+00:02:34,530 --> 00:02:35,800
+problems.
+
+37
+00:02:35,800 --> 00:02:39,520
+So as an exercise, I really want you to
+dig into the documentation to understand
+
+38
+00:02:39,520 --> 00:02:42,750
+the problem of making
+our results more random.
+
+39
+00:02:42,750 --> 00:02:46,941
+Take a close look at the documentation
+for the flickr.photos.search method and
+
+40
+00:02:46,941 --> 00:02:48,711
+answer the following questions.
+
+41
+00:02:48,711 --> 00:02:52,136
+First, what is the maximum number
+of images Flickr will return for
+
+42
+00:02:52,136 --> 00:02:53,900
+any given search query?
+
+43
+00:02:53,900 --> 00:02:55,720
+I just mentioned the answer
+to this question, so
+
+44
+00:02:55,720 --> 00:02:56,760
+this one should be pretty easy.
+
+45
+00:02:57,770 --> 00:03:00,600
+Second, if the per page
+argument is not specified,
+
+46
+00:03:00,600 --> 00:03:03,440
+then how many images
+are returned per page?
+
+47
+00:03:03,440 --> 00:03:08,180
+And finally, if we have a query that
+requests images beyond that 4,000 limit,
+
+48
+00:03:08,180 --> 00:03:10,610
+then the results of what
+page number are returned?
+
+49
+00:03:10,610 --> 00:03:14,970
+And you can assume that the per page
+argument is not specified in this case.
+
+50
+00:03:14,970 --> 00:03:16,520
+Mark your answers in these boxes.

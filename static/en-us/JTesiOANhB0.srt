@@ -1,0 +1,226 @@
+﻿1
+00:00:00,400 --> 00:00:04,150
+In an image, perspective is
+the phenomenon where an object appears
+
+2
+00:00:04,150 --> 00:00:08,230
+smaller the farther away it is from
+a viewpoint like a camera, and
+
+3
+00:00:08,230 --> 00:00:11,560
+parallel lines appear
+to converge to a point.
+
+4
+00:00:11,560 --> 00:00:14,839
+It's seen in everything
+from camera images to art.
+
+5
+00:00:14,839 --> 00:00:19,859
+Many artist use perspective to give the
+right impression of an object's size,
+
+6
+00:00:19,859 --> 00:00:23,230
+depth, and position when viewed
+from a particular point.
+
+7
+00:00:23,230 --> 00:00:26,750
+And let's look at perspective
+in this image of the road.
+
+8
+00:00:26,750 --> 00:00:28,839
+As you can see,
+the lane looks smaller and
+
+9
+00:00:28,839 --> 00:00:33,460
+smaller the farther away it gets from
+the camera, and the background scenery
+
+10
+00:00:33,460 --> 00:00:37,730
+also appears smaller than the trees
+closer to the camera in the foreground.
+
+11
+00:00:37,729 --> 00:00:42,009
+Mathematically, we can characterize
+perspective by saying that,
+
+12
+00:00:42,009 --> 00:00:44,512
+in real world coordinates x, y, and z,
+
+13
+00:00:44,512 --> 00:00:48,052
+the greater the magnitude of
+an objects z coordinate, or
+
+14
+00:00:48,052 --> 00:00:52,361
+distance from the camera, the smaller
+it will appear in a 2D image.
+
+15
+00:00:52,362 --> 00:00:56,990
+A perspective transform uses this
+information to transform an image.
+
+16
+00:00:56,990 --> 00:01:01,120
+It essentially transforms the apparent
+z coordinate of the object points,
+
+17
+00:01:01,119 --> 00:01:05,378
+which in turn changes that
+object's 2D image representation.
+
+18
+00:01:05,379 --> 00:01:10,090
+A perspective transform warps the image
+and effectively drags points towards or
+
+19
+00:01:10,090 --> 00:01:14,180
+pushes them away from the camera to
+change the apparent perspective.
+
+20
+00:01:14,180 --> 00:01:17,940
+For example, to change this into
+a bird's eye view scene, we can
+
+21
+00:01:17,939 --> 00:01:22,769
+apply a perspective transform that
+zooms in on the farther away objects.
+
+22
+00:01:22,769 --> 00:01:26,479
+This is really useful, because some
+tasks, like finding the curvature of
+
+23
+00:01:26,480 --> 00:01:30,500
+a lane, are easier to perform on
+a bird's eye view of an image.
+
+24
+00:01:30,500 --> 00:01:32,760
+Take this image of a road.
+
+25
+00:01:32,760 --> 00:01:36,680
+If we just looked at these lane edges,
+the left line looks like it's
+
+26
+00:01:36,680 --> 00:01:40,580
+leaning and curving a little to
+the right, but the right lane line
+
+27
+00:01:40,579 --> 00:01:43,829
+looks like it's leaning to
+the left without much of a curve.
+
+28
+00:01:43,829 --> 00:01:45,834
+By doing a perspective transform and
+
+29
+00:01:45,834 --> 00:01:50,549
+viewing this same image from above, we
+can see that the lanes are parallel and
+
+30
+00:01:50,549 --> 00:01:53,340
+both curve about the same
+amount to the right.
+
+31
+00:01:53,340 --> 00:01:56,670
+So, a perspective transform
+lets us change our perspective
+
+32
+00:01:56,670 --> 00:01:59,980
+to view the same scene from
+different viewpoints and angles.
+
+33
+00:01:59,980 --> 00:02:02,880
+This could be viewing a scene
+from the side of a camera,
+
+34
+00:02:02,879 --> 00:02:05,786
+from below the camera, or
+looking down on the road from above.
+
+35
+00:02:05,786 --> 00:02:09,479
+Doing a bird's-eye view transform
+is especially helpful for
+
+36
+00:02:09,479 --> 00:02:14,240
+road images because it will also allow
+us to match a car's location directly
+
+37
+00:02:14,240 --> 00:02:18,540
+with a map, since map's display roads
+and scenery from a top down view.
+
+38
+00:02:18,539 --> 00:02:21,229
+The process of applying
+a perspective transform
+
+39
+00:02:21,229 --> 00:02:24,219
+will be kind of similar to
+how we applied undistortion.
+
+40
+00:02:24,219 --> 00:02:25,000
+But this time,
+
+41
+00:02:25,000 --> 00:02:29,259
+instead of mapping object points to
+image points, we want to map the points
+
+42
+00:02:29,259 --> 00:02:34,090
+in a given image to different desired
+image points with a new perspective.
+
+43
+00:02:34,090 --> 00:02:38,150
+And again, this perspective can be done
+for all kinds of different viewpoints,
+
+44
+00:02:38,150 --> 00:02:42,539
+whether that's from above like with
+a map or from different camera angles.
+
+45
+00:02:42,539 --> 00:02:45,449
+Next, I'll go through how to
+apply a perspective transform to
+
+46
+00:02:45,449 --> 00:02:48,209
+view traffic signs from
+different angles using open CV.
+

@@ -1,0 +1,392 @@
+1
+00:00:00,510 --> 00:00:02,730
+Now, back to the topic of contacts.
+
+2
+00:00:02,730 --> 00:00:04,720
+Why do we need them anyways?
+
+3
+00:00:04,720 --> 00:00:07,320
+So now I'll be discussing
+three reasons why.
+
+4
+00:00:07,320 --> 00:00:11,300
+First off, the primary reason
+developers need contracts is to have
+
+5
+00:00:11,300 --> 00:00:15,470
+one place to document the structure of
+their database also known as a schema.
+
+6
+00:00:15,470 --> 00:00:18,620
+So this is the way to group
+together all the constants
+
+7
+00:00:18,620 --> 00:00:21,200
+associated with our database.
+
+8
+00:00:21,200 --> 00:00:25,600
+So SQLite statements require a lot
+of text and the Android APIs
+
+9
+00:00:25,600 --> 00:00:30,420
+can remove a lot of that writing for
+you, but column and table names remain
+
+10
+00:00:30,420 --> 00:00:34,100
+as items that you need to reference
+several times through the code.
+
+11
+00:00:34,100 --> 00:00:37,480
+Now the ability to abstract these items,
+our table names and
+
+12
+00:00:37,480 --> 00:00:41,120
+column names, ints to constants,
+reduces the potential for
+
+13
+00:00:41,120 --> 00:00:46,460
+spelling errors in our code and makes
+future changes a lot easier to maintain.
+
+14
+00:00:46,460 --> 00:00:50,780
+So here's an example to
+illuminate all that I just said.
+
+15
+00:00:50,780 --> 00:00:53,910
+Now here's one way we could write
+our CREATE TABLE statement and
+
+16
+00:00:53,910 --> 00:00:55,340
+this is what we've been used to.
+
+17
+00:00:55,340 --> 00:00:59,600
+So we have our CREATE TABLE command,
+followed by the name of the table and
+
+18
+00:00:59,600 --> 00:01:03,650
+then explicitly writing the names of
+the columns and there data types.
+
+19
+00:01:03,650 --> 00:01:08,890
+But here's a way to do it more
+efficiently using reusable Constance.
+
+20
+00:01:08,890 --> 00:01:12,040
+So notice, we're still using
+our create table statement but
+
+21
+00:01:12,040 --> 00:01:18,100
+now our table name and our column
+names are stored in constants.
+
+22
+00:01:18,100 --> 00:01:21,090
+So this leads us to our two other
+reason for using contracts.
+
+23
+00:01:21,090 --> 00:01:24,130
+So first, when generating SQL commands,
+
+24
+00:01:24,130 --> 00:01:26,685
+remove possibility of
+introducing spelling errors.
+
+25
+00:01:26,685 --> 00:01:29,610
+because when we're typing names
+directly it's easy to misspell or
+
+26
+00:01:29,610 --> 00:01:32,450
+accidentally capitalize
+letters that we shouldn't be.
+
+27
+00:01:32,450 --> 00:01:35,430
+For example reframe back to our
+FeedReaderContract example,
+
+28
+00:01:35,430 --> 00:01:40,290
+we could have easily misspelled
+entryid maybe capitalizing I and
+
+29
+00:01:40,290 --> 00:01:43,770
+D where we shouldn't or
+maybe adding extra T.
+
+30
+00:01:43,770 --> 00:01:47,710
+And you can't do this with the constant
+because the code won't run say if we
+
+31
+00:01:47,710 --> 00:01:53,210
+typed COLUMN_NAME_TITLE instead
+of COLUMN_NAME_ENTRY_ID.
+
+32
+00:01:53,210 --> 00:01:56,085
+So our third reason is
+that using the contract
+
+33
+00:01:56,085 --> 00:01:58,755
+makes it easier to
+update the data schema.
+
+34
+00:01:58,755 --> 00:02:02,035
+So that means if you ever want to
+change the actual column name,
+
+35
+00:02:02,035 --> 00:02:04,385
+we'll only need to
+change it in one place.
+
+36
+00:02:04,385 --> 00:02:07,815
+So think about it this way: if you
+have multiple statements throughout
+
+37
+00:02:07,815 --> 00:02:10,419
+your Android app that reference
+the column name title but
+
+38
+00:02:10,419 --> 00:02:13,755
+you want to change it to
+article title instead,
+
+39
+00:02:13,755 --> 00:02:17,900
+you'd only need to change it in
+one place inside the contract.
+
+40
+00:02:17,900 --> 00:02:20,430
+Instead of going to every
+single location and
+
+41
+00:02:20,430 --> 00:02:23,120
+updating the name of the column.
+
+42
+00:02:23,120 --> 00:02:26,560
+So it centralizes all the touch points
+that will need to make with the code.
+
+43
+00:02:27,610 --> 00:02:32,770
+So to reiterate, the three reasons for
+using a contract class are one, helps us
+
+44
+00:02:32,770 --> 00:02:37,120
+define the schema and have a convention
+for where to find database constants.
+
+45
+00:02:37,120 --> 00:02:40,050
+Secondly, when generating SQL commands
+
+46
+00:02:40,050 --> 00:02:43,470
+it helps us to remove the possibility
+of introducing spelling errors.
+
+47
+00:02:43,470 --> 00:02:47,770
+And lastly, it makes it easy for
+us to update the database schema.
+
+48
+00:02:47,770 --> 00:02:52,090
+Now you might be wondering do
+real developers use contracts?
+
+49
+00:02:52,090 --> 00:02:54,960
+Well, the short answer
+is absolutely yes.
+
+50
+00:02:54,960 --> 00:02:58,360
+So the Android SDK alone uses
+them heavily to document
+
+51
+00:02:58,360 --> 00:03:00,540
+all system wide data stores.
+
+52
+00:03:00,540 --> 00:03:04,190
+Such as calendar events,
+contact and voice mails.
+
+53
+00:03:05,190 --> 00:03:08,480
+While the organization of those
+might be a little bit different,
+
+54
+00:03:08,480 --> 00:03:12,100
+all of them still contain the essential
+classes that we mentioned before.
+
+55
+00:03:13,220 --> 00:03:16,110
+With their filled in constants,
+that define the schema for some data.
+
+56
+00:03:17,220 --> 00:03:20,540
+Now looking at the voice mail
+contract here, we can see that there
+
+57
+00:03:20,540 --> 00:03:25,170
+are different column names or attributes
+for voice mails, such as the date
+
+58
+00:03:25,170 --> 00:03:29,670
+the voice mail was sent, the duration,
+and the phone number sent from.
+
+59
+00:03:29,670 --> 00:03:34,010
+And similarly we can dig around
+in the calendar contract, and
+
+60
+00:03:34,010 --> 00:03:38,070
+we'll be able to see that there are also
+constants for the different columns.
+
+61
+00:03:38,070 --> 00:03:40,670
+Now that you know a little bit
+more about the reasons why we use
+
+62
+00:03:40,670 --> 00:03:42,380
+the contract class,
+
+63
+00:03:42,380 --> 00:03:46,530
+let's take a look at a contract from
+the developing Android apps class.
+
+64
+00:03:46,530 --> 00:03:50,200
+So this contract is for a weather
+application called Sunshine, and
+
+65
+00:03:50,200 --> 00:03:53,420
+that app shows users the current
+weather in a specific location.
+
+66
+00:03:54,440 --> 00:03:56,490
+So in the code,
+there'll be constants here for
+
+67
+00:03:56,490 --> 00:04:00,040
+data related to classes that
+we haven't talked about yet.
+
+68
+00:04:00,040 --> 00:04:03,340
+But you should be able to
+recognize three points
+
+69
+00:04:03,340 --> 00:04:05,600
+from the structures we saw before.
+
+70
+00:04:05,600 --> 00:04:09,470
+So we should be able to find
+the outer class, the inner class, and
+
+71
+00:04:09,470 --> 00:04:11,120
+the string constants.
+
+72
+00:04:11,120 --> 00:04:14,350
+Now using what you know about
+the structure of contracts
+
+73
+00:04:14,350 --> 00:04:16,769
+I'd like you to answer
+the following questions.
+
+74
+00:04:16,769 --> 00:04:20,640
+So referring to the weather contract
+from the Sunshine application,
+
+75
+00:04:20,640 --> 00:04:23,180
+first off, how many tables
+are in that Sunshine database?
+
+76
+00:04:24,250 --> 00:04:28,750
+Secondly, for the table that is
+represented by the WeatherEntry class,
+
+77
+00:04:28,750 --> 00:04:31,980
+what is the name of the table in SQLite?
+
+78
+00:04:31,980 --> 00:04:35,520
+Third, how many columns
+does the table have, and
+
+79
+00:04:35,520 --> 00:04:39,404
+that's not including the _ID or
+the _COUNT columns?
+
+80
+00:04:39,404 --> 00:04:44,040
+So lastly, what is the line of code, and
+I want you to give me the number, that
+
+81
+00:04:44,040 --> 00:04:48,260
+creates a constant for the column that's
+a description of the weather condition?

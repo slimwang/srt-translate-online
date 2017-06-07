@@ -1,0 +1,199 @@
+1
+00:00:00,180 --> 00:00:02,469
+So if we use this queue structure,
+
+2
+00:00:02,469 --> 00:00:06,990
+the performance of the system overall will depend on whether or not the boss
+
+3
+00:00:06,990 --> 00:00:12,680
+thread has to wait when inserting work requests, toy orders into this queue.
+
+4
+00:00:12,680 --> 00:00:16,790
+If the queue is full, the boss will have to wait, the time that it spends per
+
+5
+00:00:16,790 --> 00:00:21,200
+order will increase, and overall, the throughput of the system will go down.
+
+6
+00:00:21,200 --> 00:00:26,150
+Clearly, if we have more threads, it's less likely that the queue will be full,
+
+7
+00:00:26,150 --> 00:00:29,669
+but arbitrarily increasing the number of threads will add
+
+8
+00:00:29,669 --> 00:00:31,999
+some other overheads in this system.
+
+9
+00:00:31,999 --> 00:00:34,535
+So the question is, how many workers is enough?
+
+10
+00:00:34,535 --> 00:00:38,840
+Well, we can add more workers dynamically on demand.
+
+11
+00:00:38,840 --> 00:00:42,016
+Whenever we have yet another order, we go and call yet
+
+12
+00:00:42,016 --> 00:00:44,410
+another worker to join the crew.
+
+13
+00:00:44,410 --> 00:00:48,910
+This clearly can be very inefficient if we have to wait a long time for
+
+14
+00:00:48,910 --> 00:00:50,480
+a worker to arrive.
+
+15
+00:00:50,480 --> 00:00:51,660
+A more common model,
+
+16
+00:00:51,660 --> 00:00:56,630
+therefore, is to have a pool of workers that's created up front.
+
+17
+00:00:56,630 --> 00:00:58,710
+With such a pool of workers, or
+
+18
+00:00:58,710 --> 00:01:03,070
+pool of threads since a worker is directly supported by a thread,
+
+19
+00:01:03,070 --> 00:01:08,570
+we don't have to wait for a new thread to be created or a new worker to arrive
+
+20
+00:01:08,570 --> 00:01:13,480
+every single time we start seeing that order start piling up on the queue.
+
+21
+00:01:13,480 --> 00:01:14,980
+The question is, though,
+
+22
+00:01:14,980 --> 00:01:20,260
+how do we know how many workers, how many thread to pre-create in this pool?
+
+23
+00:01:20,260 --> 00:01:25,035
+A common technique is to use this pool of workers or pool of threads model, but
+
+24
+00:01:25,035 --> 00:01:30,100
+as opposed to statically deciding what the size of the pool should be,
+
+25
+00:01:30,100 --> 00:01:35,240
+is to allow the pool to be dynamically increased in size.
+
+26
+00:01:35,240 --> 00:01:37,450
+Unlike the purely on demand approach,
+
+27
+00:01:37,450 --> 00:01:42,020
+these increases won't happen one thread at a time, rather we'll create
+
+28
+00:01:42,020 --> 00:01:47,200
+several threads whenever we determine that the pool size needs to be adjusted.
+
+29
+00:01:47,200 --> 00:01:51,040
+So this tends to be the most effective approach of managing the number of
+
+30
+00:01:51,040 --> 00:01:53,420
+threads in the boss-worker pattern.
+
+31
+00:01:53,420 --> 00:01:58,270
+So to summarize, so far we saw that the boss-workers model has these features.
+
+32
+00:01:58,270 --> 00:02:00,530
+A boss assigns work to the workers.
+
+33
+00:02:00,530 --> 00:02:04,740
+The workers, every one of them, performs the entire task.
+
+34
+00:02:04,740 --> 00:02:09,970
+The boss and the workers communicate via shared producer consumer queue, and
+
+35
+00:02:09,970 --> 00:02:14,980
+we use a worker pool based approach to manage the number of threads in
+
+36
+00:02:14,980 --> 00:02:19,930
+the system where we potentially adjust the size of the pool dynamically.
+
+37
+00:02:19,930 --> 00:02:23,780
+The benefit of this approach is in its overall simplicity.
+
+38
+00:02:23,780 --> 00:02:26,114
+One thread assigns work to all others.
+
+39
+00:02:26,114 --> 00:02:29,020
+All other threads perform the exact same task.
+
+40
+00:02:29,020 --> 00:02:33,810
+The negatives of this approach include the overhead related to the management of
+
+41
+00:02:33,810 --> 00:02:38,050
+the thread pool, including synchronization for the shared buffer.
+
+42
+00:02:38,050 --> 00:02:42,520
+Another negative of this approach is the fact that it ignores locality.
+
+43
+00:02:42,520 --> 00:02:47,970
+The boss doesn't keep track of what any one of the workers was doing last.
+
+44
+00:02:47,970 --> 00:02:54,340
+If we have a situation in which a worker just completed performing a similar
+
+45
+00:02:54,340 --> 00:02:59,800
+type of task or identical type of task, it is more likely that that particular
+
+46
+00:02:59,800 --> 00:03:05,020
+worker will be more efficient at performing that exact same task in the future.
+
+47
+00:03:05,020 --> 00:03:08,750
+Or maybe it already has some of the tools that are required for
+
+48
+00:03:08,750 --> 00:03:12,960
+building that particular type of toy nearby on its desk.
+
+49
+00:03:12,960 --> 00:03:16,770
+But if the boss isn't paying attention to what the workers are doing,
+
+50
+00:03:16,770 --> 00:03:19,760
+it has no way of making that kind of optimization.

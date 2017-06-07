@@ -1,0 +1,115 @@
+1
+00:00:00,000 --> 00:00:05,000
+Here's a new network that we'll use to investigate
+
+2
+00:00:05,000 --> 00:00:10,000
+how sampling can be used to do inference.
+
+3
+00:00:10,000 --> 00:00:14,000
+In this network, we have 4 variables. They're all boolean.
+
+4
+00:00:14,000 --> 00:00:17,000
+Cloudy tells us if it's cloudy or not outside,
+
+5
+00:00:17,000 --> 00:00:21,000
+and that can have an effect on whether the sprinklers are turned on,
+
+6
+00:00:21,000 --> 00:00:23,000
+and whether it's raining.
+
+7
+00:00:23,000 --> 00:00:28,000
+And those 2 variables in turn have an effect on whether the grass gets wet.
+
+8
+00:00:28,000 --> 00:00:34,000
+Now, to do inference over this network using sampling,
+
+9
+00:00:34,000 --> 00:00:38,000
+we start off with a variable where all the parents are defined.
+
+10
+00:00:38,000 --> 00:00:42,000
+In this case, there's only one such variable, Cloudy.
+
+11
+00:00:42,000 --> 00:00:48,000
+And it's conditional probability table tells us that the probability is 50% for Cloudy,
+
+12
+00:00:48,000 --> 00:00:52,000
+50% for not Cloudy, and so we sample from that.
+
+13
+00:00:52,000 --> 00:00:59,000
+We generate a random number, and let's say it comes up with positive for Cloudy.
+
+14
+00:00:59,000 --> 00:01:02,000
+Now that variable is defined, we can choose another variable.
+
+15
+00:01:02,000 --> 00:01:08,000
+In this case, let's choose Sprinkler, and we look at the rows in the table
+
+16
+00:01:08,000 --> 00:01:13,000
+for which Cloudy, the parent, is positive, and we see we should sample
+
+17
+00:01:13,000 --> 00:01:19,000
+with probability 10% to +s and 90% a -s.
+
+18
+00:01:19,000 --> 00:01:23,000
+And so let's say we do that sampling with a random number generator,
+
+19
+00:01:23,000 --> 00:01:26,000
+and it comes up negative for Sprinkler.
+
+20
+00:01:26,000 --> 00:01:29,000
+Now let's jump over here. Look at the Rain variable.
+
+21
+00:01:29,000 --> 00:01:34,000
+Again, the parent, Cloudy, is positive,
+
+22
+00:01:34,000 --> 00:01:38,000
+so we're looking at this part of the table.
+
+23
+00:01:38,000 --> 00:01:41,000
+We get a 0.8 probability for Rain being positive,
+
+24
+00:01:41,000 --> 00:01:44,000
+and a 0.2 probability for Rain being negative.
+
+25
+00:01:44,000 --> 00:01:51,000
+Let's say we sample that randomly, and it comes up Rain is positive.
+
+26
+00:01:51,000 --> 00:01:54,000
+And now we're ready to sample the final variable,
+
+27
+00:01:54,000 --> 00:02:01,000
+and what I want you to do is tell me which of the rows
+
+28
+00:02:01,000 --> 00:02:07,000
+of this table should we be considering and tell me what's more likely.
+
+29
+00:02:07,000 --> 99:59:59,999
+Is it more likely that we have a +w or a -w?

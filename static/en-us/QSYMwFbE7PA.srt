@@ -1,0 +1,221 @@
+1
+00:00:00,180 --> 00:00:03,594
+Now that you've had a little
+introduction to the theory behind k-fold
+
+2
+00:00:03,594 --> 00:00:04,830
+cross validation,
+
+3
+00:00:04,830 --> 00:00:07,660
+it might not surprise you to know that
+we're going to take a look at the code.
+
+4
+00:00:07,660 --> 00:00:12,030
+K-fold cross validation is
+supported in the cross validation
+
+5
+00:00:12,030 --> 00:00:14,300
+set of functions that
+are available in sklearn.
+
+6
+00:00:14,300 --> 00:00:17,330
+So I want to show you what it looks
+like when it's being deployed.
+
+7
+00:00:17,330 --> 00:00:20,030
+The code that I have right here
+is code that you're actually
+
+8
+00:00:20,030 --> 00:00:21,490
+already familiar with.
+
+9
+00:00:21,490 --> 00:00:24,490
+This is the code that we used
+in the very first mini project,
+
+10
+00:00:24,490 --> 00:00:27,180
+to identify the author of the emails.
+
+11
+00:00:27,180 --> 00:00:28,690
+Was it Sara, or is it Chris?
+
+12
+00:00:29,990 --> 00:00:32,810
+I'm just using a Gaussian Naive Bayes.
+
+13
+00:00:32,810 --> 00:00:36,040
+I'm keeping track of the training time,
+the predicting time and
+
+14
+00:00:36,040 --> 00:00:38,470
+the accuracy that I get for
+this classifier.
+
+15
+00:00:39,720 --> 00:00:43,105
+Remember, the features that I am using
+are the words in the emails and
+
+16
+00:00:43,105 --> 00:00:46,790
+I'm trying to predict who wrote
+the email based on the vocabulary that's
+
+17
+00:00:46,790 --> 00:00:48,110
+being used.
+
+18
+00:00:48,110 --> 00:00:50,950
+Up above that I see some feature
+transforms that I'm doing,
+
+19
+00:00:50,950 --> 00:00:55,590
+I am reading in the text, and
+I'm doing some feature selection.
+
+20
+00:00:55,590 --> 00:00:56,890
+These are all things
+that we've talked about,
+
+21
+00:00:56,890 --> 00:00:59,180
+so I won't belabor them
+too much right now.
+
+22
+00:00:59,180 --> 00:01:01,390
+More interesting bit of code is up here.
+
+23
+00:01:01,390 --> 00:01:06,220
+The first thing that I do is from
+sklearn.cross_validation I import KFold,
+
+24
+00:01:06,220 --> 00:01:09,410
+which is the name of their k-fold
+cross-validation function.
+
+25
+00:01:09,410 --> 00:01:14,640
+Then I have to declare a KFold object,
+which accepts two arguments.
+
+26
+00:01:14,640 --> 00:01:19,500
+One is the number of items
+in the total data set.
+
+27
+00:01:19,500 --> 00:01:20,820
+So in this case,
+
+28
+00:01:20,820 --> 00:01:23,450
+I say that's the same as the number
+of authors in the data set.
+
+29
+00:01:23,450 --> 00:01:26,850
+And the second argument is going to be
+how many folds do I want to look at.
+
+30
+00:01:26,850 --> 00:01:28,840
+In this case, the answer is two.
+
+31
+00:01:28,840 --> 00:01:31,000
+This is something that you
+might want to change though.
+
+32
+00:01:31,000 --> 00:01:35,260
+So then what KFold is going to do
+is it's going to give me two lists.
+
+33
+00:01:35,260 --> 00:01:37,870
+The first one is going to
+be a set of indices of
+
+34
+00:01:37,870 --> 00:01:40,810
+all the data points that I'm
+going to use in my training set.
+
+35
+00:01:40,810 --> 00:01:44,520
+The second list is going to be a list of
+all of the indices that I'll use in my
+
+36
+00:01:44,520 --> 00:01:45,680
+test data set.
+
+37
+00:01:45,680 --> 00:01:50,090
+then what I can do is I can use
+these indices to go into my features and
+
+38
+00:01:50,090 --> 00:01:54,230
+into my labels and to assign each
+set of features or each label,
+
+39
+00:01:54,230 --> 00:01:57,250
+to either my training or
+my testing data set.
+
+40
+00:01:57,250 --> 00:02:00,848
+So this is the actual partitioning
+of the data into the training and
+
+41
+00:02:00,848 --> 00:02:02,090
+testing data sets.
+
+42
+00:02:02,090 --> 00:02:04,210
+Then, below that it's just like before,
+
+43
+00:02:04,210 --> 00:02:07,870
+we do a little bit of transformation
+on our training and our testing data.
+
+44
+00:02:07,870 --> 00:02:10,750
+Then we train our classifier and
+we assess the accuracy.
+
+45
+00:02:10,750 --> 00:02:13,330
+Now if I just do this out of the box,
+
+46
+00:02:13,330 --> 00:02:15,960
+something kind of wrong
+is going to happen.
+
+47
+00:02:15,960 --> 00:02:18,110
+So let me show you what
+happens when I run this code.

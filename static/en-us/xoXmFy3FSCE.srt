@@ -1,0 +1,307 @@
+﻿1
+00:00:00,562 --> 00:00:03,299
+Here is the version of
+the algorithm we're going to use.
+
+2
+00:00:03,299 --> 00:00:06,639
+Just like hill climbing, we're going
+to iterate with Simulated Annealing.
+
+3
+00:00:06,639 --> 00:00:08,839
+Looking for
+points close to our current position,
+
+4
+00:00:08,839 --> 00:00:11,369
+that might have an improved value.
+
+5
+00:00:11,369 --> 00:00:14,629
+However, we're going to select
+our next position randomly for
+
+6
+00:00:14,630 --> 00:00:16,560
+the points in the region near us.
+
+7
+00:00:16,559 --> 00:00:20,019
+If the new position is better
+than our current position,
+
+8
+00:00:20,019 --> 00:00:21,359
+we're going to take it.
+
+9
+00:00:21,359 --> 00:00:24,100
+However, if it isn't better,
+we are still going to take it.
+
+10
+00:00:24,100 --> 00:00:27,550
+With the probability of e to
+the delta e divided by T,
+
+11
+00:00:27,550 --> 00:00:29,240
+where T is our temperature.
+
+12
+00:00:29,239 --> 00:00:30,729
+>> So we start with high T?
+
+13
+00:00:30,730 --> 00:00:32,579
+Do we change it later on?
+
+14
+00:00:32,579 --> 00:00:35,000
+>> Yes, in the algorithm,
+we have a schedule for
+
+15
+00:00:35,000 --> 00:00:36,479
+what the temperature should be.
+
+16
+00:00:36,479 --> 00:00:38,949
+And we'll start with
+T being very high and
+
+17
+00:00:38,950 --> 00:00:41,520
+when T is high, say close to infinity.
+
+18
+00:00:41,520 --> 00:00:45,940
+Delta e over T goes to zero,
+no matter what the delta e is,
+
+19
+00:00:45,939 --> 00:00:47,780
+even if it's negative.
+
+20
+00:00:47,780 --> 00:00:49,340
+So, e to the zero is one.
+
+21
+00:00:49,340 --> 00:00:52,710
+So in the beginning,
+we have a lot of random motion.
+
+22
+00:00:52,710 --> 00:00:55,230
+As we take all the random
+positions offered us.
+
+23
+00:00:55,229 --> 00:00:57,979
+No matter how bad the new position is.
+
+24
+00:00:57,979 --> 00:00:58,609
+>> I see.
+
+25
+00:00:58,609 --> 00:01:01,289
+Just like in real annealing,
+when the temperature is very high.
+
+26
+00:01:01,289 --> 00:01:03,689
+The particle is jumping around
+a lot in the beginning.
+
+27
+00:01:03,689 --> 00:01:06,829
+So that, if the particle gets
+stuck in a local maximum instead.
+
+28
+00:01:06,829 --> 00:01:10,239
+It has the ability to leave that peak,
+ignoring that it is going the wrong way.
+
+29
+00:01:10,239 --> 00:01:12,920
+And instead,
+end up at a different part of the graph.
+
+30
+00:01:12,920 --> 00:01:15,820
+Because the temperature is high,
+the next point at fixed randomly.
+
+31
+00:01:15,819 --> 00:01:17,599
+Can make it move down the slope.
+
+32
+00:01:17,599 --> 00:01:21,459
+Given enough time, the randomness will
+ensure we get off this particular hill.
+
+33
+00:01:21,459 --> 00:01:23,750
+And hit the hill with
+the global maximum instead.
+
+34
+00:01:23,750 --> 00:01:25,010
+>> Precisely.
+
+35
+00:01:25,010 --> 00:01:26,410
+>> But how does it converge?
+
+36
+00:01:26,409 --> 00:01:29,090
+Won't we continue doing
+this random walk forever?
+
+37
+00:01:29,090 --> 00:01:32,829
+>> Well let's first take a look at the
+opposite situation where T is near zero.
+
+38
+00:01:33,890 --> 00:01:36,090
+We never want T to actually be zero,
+
+39
+00:01:36,090 --> 00:01:38,700
+because that will give
+us an undefined answer.
+
+40
+00:01:38,700 --> 00:01:43,293
+So for illustration purposes,
+let's say T is equal to 0.01.
+
+41
+00:01:43,293 --> 00:01:47,441
+We already said, that if the proposed
+new random position improves our score.
+
+42
+00:01:47,441 --> 00:01:51,969
+we're going to take it,
+if it stays the same, delta e is zero.
+
+43
+00:01:51,969 --> 00:01:54,769
+Or, if it gets worse,
+delta e is negative.
+
+44
+00:01:54,769 --> 00:01:58,932
+Let's say delta e here is -1.
+
+45
+00:01:58,932 --> 00:02:05,655
+Now, we have e to the -1 over 0.01,
+which is the same as e to the -100.
+
+46
+00:02:05,655 --> 00:02:07,555
+Which is a very small number.
+
+47
+00:02:07,555 --> 00:02:11,474
+So, we have almost no chance of taking
+that suggested new random position.
+
+48
+00:02:11,474 --> 00:02:14,335
+Instead, we'll keep generating
+new random positions.
+
+49
+00:02:14,335 --> 00:02:16,495
+Until we get one that improves e.
+
+50
+00:02:16,495 --> 00:02:19,840
+>> Then when T is small,
+we basically have normal hill climbing.
+
+51
+00:02:19,840 --> 00:02:20,789
+>> Correct.
+
+52
+00:02:20,789 --> 00:02:23,250
+>> So, we'll just slowly
+change T from very large,
+
+53
+00:02:23,250 --> 00:02:25,389
+where we're going to move
+over the graph randomly.
+
+54
+00:02:25,389 --> 00:02:27,859
+To very small,
+where we climb to the nearest peak.
+
+55
+00:02:27,860 --> 00:02:29,110
+>> Yup.
+
+56
+00:02:29,110 --> 00:02:31,920
+>> And if we happen to get stuck
+on the plateau along the way,
+
+57
+00:02:31,919 --> 00:02:34,169
+like here, delta E is zero.
+
+58
+00:02:34,169 --> 00:02:36,339
+But that makes the equation
+e to the 0 again.
+
+59
+00:02:36,340 --> 00:02:38,620
+So that the algorithm will take
+the new random position instead.
+
+60
+00:02:38,620 --> 00:02:41,450
+>> And
+that will happen no matter what T is.
+
+61
+00:02:41,449 --> 00:02:43,449
+>> And eventually we'll
+random walk off the plateau.
+
+62
+00:02:43,449 --> 00:02:45,859
+Back to someplace where there's
+a positive gradient, and
+
+63
+00:02:45,860 --> 00:02:47,980
+continue going up to the maximum.
+
+64
+00:02:47,979 --> 00:02:50,530
+>> Exactly, the great thing
+about simulated annealing,
+
+65
+00:02:50,530 --> 00:02:53,300
+is that it is guaranteed to
+converge to the global maximum.
+
+66
+00:02:53,300 --> 00:02:55,610
+If we start T high and
+decrease it slowly enough.
+

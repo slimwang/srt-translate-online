@@ -1,0 +1,87 @@
+1
+00:00:00,450 --> 00:00:03,330
+I guess not all pixels cost the same to paint on the page. I
+
+2
+00:00:03,330 --> 00:00:04,990
+should really pay attention to what affects
+
+3
+00:00:04,990 --> 00:00:06,970
+I'm applying and everything else I'm doing.
+
+4
+00:00:06,970 --> 00:00:10,680
+>> Yep, exactly. Although remember the cardinal rule of web performance?
+
+5
+00:00:10,680 --> 00:00:14,000
+>> Let me think measure first then optimize.
+
+6
+00:00:14,000 --> 00:00:15,269
+>> Exactly, let's take a look.
+
+7
+00:00:17,400 --> 00:00:19,650
+Okay, we're looking at a trace of the New York Times
+
+8
+00:00:19,650 --> 00:00:23,480
+homepage. We want to look at Paint events, so let's filter out
+
+9
+00:00:23,480 --> 00:00:26,640
+the rest. As you can see, there are many Paint events,
+
+10
+00:00:26,640 --> 00:00:29,270
+but let me show you a handy trick. We can select a
+
+11
+00:00:29,270 --> 00:00:31,830
+time range that we want to show on the timeline by
+
+12
+00:00:31,830 --> 00:00:35,250
+dragging the sliders at the top here. Notice that as we do
+
+13
+00:00:35,250 --> 00:00:38,000
+this, the pie chart on the bottom is updated with the total
+
+14
+00:00:38,000 --> 00:00:43,900
+times. Yep, and also while we're here lets identify some expensive things.
+
+15
+00:00:43,900 --> 00:00:47,600
+For example, this one took eight milliseconds.
+
+16
+00:00:47,600 --> 00:00:52,440
+>> Hmm. So, let me see. We said that anytime we want to update the render tree,
+
+17
+00:00:52,440 --> 00:00:54,080
+there's a good chance we'll have to run layout,
+
+18
+00:00:54,080 --> 00:00:56,740
+and I'm guessing the same applies for painting, right?
+
+19
+00:00:56,740 --> 00:00:58,410
+>> That's right. The browser applies a lot
+
+20
+00:00:58,410 --> 00:01:00,800
+of smarts and tried to repaint the minimum required
+
+21
+00:01:00,800 --> 00:01:03,360
+area. But really it all depends on what kind
+
+22
+00:01:03,360 --> 00:01:05,200
+of updates are being applied to the render tree.

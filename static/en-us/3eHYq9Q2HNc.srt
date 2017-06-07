@@ -1,0 +1,319 @@
+1
+00:00:00,600 --> 00:00:03,510
+Let's take a closer look at gradient directions,
+
+2
+00:00:03,510 --> 00:00:06,252
+especially how they're computed and represented.
+
+3
+00:00:06,252 --> 00:00:10,690
+How about we use an image that has clearly defined edges and
+
+4
+00:00:10,690 --> 00:00:13,470
+distinct angles, like this?
+
+5
+00:00:15,110 --> 00:00:19,120
+Note that we convert the image to double type after reading and
+
+6
+00:00:19,120 --> 00:00:22,310
+scale it down to a 0 to 1 range.
+
+7
+00:00:22,310 --> 00:00:26,740
+This makes it easier to track down numerical issues that may crop up.
+
+8
+00:00:26,740 --> 00:00:29,260
+It also makes it convenient to display,
+
+9
+00:00:29,260 --> 00:00:33,455
+because imshow assumes a 0 to 1 range for double images.
+
+10
+00:00:33,455 --> 00:00:37,745
+MATLAB and Octave have a direct way of computing image gradients.
+
+11
+00:00:37,745 --> 00:00:43,370
+Imgradientxy is the function, it returns a pair of matrices, the first
+
+12
+00:00:43,370 --> 00:00:47,310
+one being the gradient in x direction and the second one in the y direction.
+
+13
+00:00:47,310 --> 00:00:50,680
+I'm pretty sure that the default filter used is Sobel, but
+
+14
+00:00:50,680 --> 00:00:53,150
+you can also mention it explicitly.
+
+15
+00:00:53,150 --> 00:00:56,070
+Let's try to visualize the gradient images.
+
+16
+00:00:56,070 --> 00:01:00,460
+But note that imgradientxy does not normalize the gradient
+
+17
+00:01:00,460 --> 00:01:04,989
+images therefore we must scale them to the appropriate range.
+
+18
+00:01:04,989 --> 00:01:08,060
+Now why do we need to add 4 and divide by 8?
+
+19
+00:01:08,060 --> 00:01:12,569
+To understand this, let us consider this a bell operator which looks like this.
+
+20
+00:01:13,670 --> 00:01:16,900
+Now what happens when this filter interacts with an image, or
+
+21
+00:01:16,900 --> 00:01:23,710
+an image region, that is black on the left hand side and white on the right?
+
+22
+00:01:23,710 --> 00:01:29,090
+All these negative coefficients, they get multiplied by 0 and cancel out.
+
+23
+00:01:29,090 --> 00:01:35,190
+Whereas these positive coefficients get multiplied by 1 and some to 4.
+
+24
+00:01:35,190 --> 00:01:39,230
+So the total response of the filter at that position would be 4.
+
+25
+00:01:39,230 --> 00:01:43,750
+Similarly, an image region which has white on the left hand side and
+
+26
+00:01:43,750 --> 00:01:47,660
+black on the right hand side would result in minus 4.
+
+27
+00:01:47,660 --> 00:01:52,100
+So our gradient values are in the range minus 4 to plus 4.
+
+28
+00:01:52,100 --> 00:01:57,690
+If we add 4 to each of these values, the range shifts to 0 to 8.
+
+29
+00:01:57,690 --> 00:02:01,860
+Hence, dividing by 8 gives us a 0, 1 range.
+
+30
+00:02:01,860 --> 00:02:02,990
+Enough with the math.
+
+31
+00:02:02,990 --> 00:02:05,100
+Now what does this look like?
+
+32
+00:02:05,100 --> 00:02:09,389
+As expected, in the x gradient image, you see the vertical edges show up.
+
+33
+00:02:10,550 --> 00:02:12,589
+Similarly, you can view the y gradient.
+
+34
+00:02:15,090 --> 00:02:17,690
+This time the horizontal edges show up more clearly.
+
+35
+00:02:19,380 --> 00:02:22,830
+Note that on your local machines, you should be able to simply pass in
+
+36
+00:02:22,830 --> 00:02:26,980
+the expected range and let imshow do the scaling.
+
+37
+00:02:26,980 --> 00:02:30,820
+If you leave out the limit values and pass in an empty vector,
+
+38
+00:02:30,820 --> 00:02:35,100
+then imshow will scale the image based on the actual minimum and
+
+39
+00:02:35,100 --> 00:02:37,800
+maximum values found in the image.
+
+40
+00:02:37,800 --> 00:02:40,080
+This can give slightly different results.
+
+41
+00:02:40,080 --> 00:02:44,310
+For instance, say the minimum magnitude found was minus 3.5.
+
+42
+00:02:44,310 --> 00:02:49,170
+This behavior is similar to what imgsc does,
+
+43
+00:02:49,170 --> 00:02:55,140
+although that has other options for setting the color map, et cetera.
+
+44
+00:02:55,140 --> 00:02:58,110
+Okay, now that we have the x and y gradients,
+
+45
+00:02:58,110 --> 00:03:02,340
+we are interested in computing the overall gradient magnitude and direction.
+
+46
+00:03:03,820 --> 00:03:06,630
+Fortunately there is a function to do this in one step.
+
+47
+00:03:08,220 --> 00:03:12,380
+The magnitude return is the Euclidian norm of the gradient in x and
+
+48
+00:03:12,380 --> 00:03:12,979
+y directions.
+
+49
+00:03:14,010 --> 00:03:17,520
+As we saw earlier, each of those could have an absolute value of 4.
+
+50
+00:03:17,520 --> 00:03:23,310
+So the total magnitude values can go from 0 up to 4 times root 2.
+
+51
+00:03:23,310 --> 00:03:26,190
+And that's what we used to scale it by.
+
+52
+00:03:26,190 --> 00:03:28,870
+This is what the gradient magnitude looks like.
+
+53
+00:03:28,870 --> 00:03:31,090
+The edge pixels are not super bright,
+
+54
+00:03:31,090 --> 00:03:35,530
+which kind of indicates that the edges were not as sharp, but that's okay.
+
+55
+00:03:35,530 --> 00:03:38,150
+The edges are still distinctly visible.
+
+56
+00:03:38,150 --> 00:03:41,320
+Remember that the gradient direction is an angle computed as
+
+57
+00:03:41,320 --> 00:03:45,200
+the tan inverse of y by x gradient values.
+
+58
+00:03:45,200 --> 00:03:49,790
+The result is returned in degrees ranging from minus 180 to plus 180.
+
+59
+00:03:49,790 --> 00:03:53,570
+Where 0 degree corresponds with the positive x-axis, and
+
+60
+00:03:53,570 --> 00:03:56,650
+increasing angle rotates counterclockwise.
+
+61
+00:03:56,650 --> 00:04:00,820
+The right edge has gradient pointing at 0 degrees.
+
+62
+00:04:00,820 --> 00:04:04,290
+Gradient values in the plain areas of the image are undefined.
+
+63
+00:04:05,380 --> 00:04:09,080
+Since they have to be set to some number, they're also 0,
+
+64
+00:04:09,080 --> 00:04:13,110
+which is why you can't see the gradient values along the right edge.
+
+65
+00:04:13,110 --> 00:04:17,860
+As I mentioned, angles go counter clockwise, so this is 45 degrees,
+
+66
+00:04:17,860 --> 00:04:22,620
+90, 135 interestingly,
+
+67
+00:04:22,620 --> 00:04:27,760
+gradient pointing to the left is at 180 degrees, which is the same as minus 180.
+
+68
+00:04:27,760 --> 00:04:31,120
+And here are the other angles for good measure.
+
+69
+00:04:32,380 --> 00:04:35,994
+Now I want you to write a function that finds pixels with
+
+70
+00:04:35,994 --> 00:04:38,045
+desired gradient direction.
+
+71
+00:04:38,045 --> 00:04:42,249
+The function should be called select_gdir.
+
+72
+00:04:42,249 --> 00:04:46,410
+The first couple of arguments are the gradient magnitude and direction images.
+
+73
+00:04:47,590 --> 00:04:51,470
+The third is the minimum magnitude value we want to consider.
+
+74
+00:04:51,470 --> 00:04:56,680
+This is to filter out noisy pixels that can have random gradient directions, but
+
+75
+00:04:56,680 --> 00:04:59,120
+usually low magnitude.
+
+76
+00:04:59,120 --> 00:05:04,110
+The last two arguments specify the desired gradient range, low to high.
+
+77
+00:05:04,110 --> 00:05:09,520
+For instance, here we want to look at gradients in the 45 degree angle,
+
+78
+00:05:09,520 --> 00:05:11,810
+with a plus minus 15 margin.
+
+79
+00:05:11,810 --> 00:05:17,084
+Note that you need to return a binary image that can be displayed with imshow.
+
+80
+00:05:17,084 --> 00:05:19,019
+Here's some code to get you started.

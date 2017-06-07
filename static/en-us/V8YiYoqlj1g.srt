@@ -1,0 +1,219 @@
+1
+00:00:00,260 --> 00:00:02,800
+So of course, we are invested in looking at the Fourier
+
+2
+00:00:02,800 --> 00:00:07,130
+transforms of the two images, the left and right image of this parts, so
+
+3
+00:00:07,130 --> 00:00:09,590
+let's look at the Fourier transforms of those images.
+
+4
+00:00:09,590 --> 00:00:12,350
+But this image, this is the Fourier transform.
+
+5
+00:00:12,350 --> 00:00:14,560
+It does have a little bit of a dominant structure, but
+
+6
+00:00:14,560 --> 00:00:18,720
+as you notice, it's got a lot of spectral frequencies distributed around it,
+
+7
+00:00:18,720 --> 00:00:22,170
+because it does have, while it has reputations in x and y.
+
+8
+00:00:22,170 --> 00:00:25,220
+It does have a distribution of this thing because it's not the most
+
+9
+00:00:25,220 --> 00:00:26,350
+structured image.
+
+10
+00:00:26,350 --> 00:00:27,840
+Similarly, for the other one,
+
+11
+00:00:27,840 --> 00:00:30,830
+of course, here you notice it should have more frequencies.
+
+12
+00:00:30,830 --> 00:00:33,420
+These are larger objects or larger spots.
+
+13
+00:00:33,420 --> 00:00:34,550
+These are smaller spots.
+
+14
+00:00:34,550 --> 00:00:36,650
+When you have smaller spots like this,
+
+15
+00:00:36,650 --> 00:00:39,950
+you expect the frequency diffusion to be much thicker.
+
+16
+00:00:39,950 --> 00:00:44,000
+And, of course, it does have the directions but not as strong as in this one.
+
+17
+00:00:44,000 --> 00:00:46,770
+So, of course, this has more frequency.
+
+18
+00:00:46,770 --> 00:00:48,600
+This has less frequency in it.
+
+19
+00:00:48,600 --> 00:00:52,620
+So, continuing to look at the same to examples of the Fourier transform of
+
+20
+00:00:52,620 --> 00:00:56,640
+this on the left and the right spots here.
+
+21
+00:00:56,640 --> 00:00:59,693
+We have these two different frequencies of spectra, we can compute those.
+
+22
+00:00:59,693 --> 00:01:03,697
+So we would compute the fast, the Fourier transform.
+
+23
+00:01:03,697 --> 00:01:08,402
+Here as an FFT, which is fast Fourier transform which is, and this is so
+
+24
+00:01:08,402 --> 00:01:10,130
+far the same thing.
+
+25
+00:01:10,130 --> 00:01:15,260
+And this is the left image which give us Fl, and similarly we do this for
+
+26
+00:01:15,260 --> 00:01:17,400
+the right image which gives us Fr.
+
+27
+00:01:17,400 --> 00:01:21,190
+What we can do now is actually, again if you recall from the last lecture,
+
+28
+00:01:21,190 --> 00:01:24,670
+we can decompose this into different frequency spectra.
+
+29
+00:01:24,670 --> 00:01:29,390
+So we can take the left image and break it into it's F1, F2, F3, all the way.
+
+30
+00:01:29,390 --> 00:01:32,550
+And we can do the same thing for the right image, F1, F2, F3, F4,
+
+31
+00:01:32,550 --> 00:01:37,650
+and that gives us another whole set of you know
+
+32
+00:01:37,650 --> 00:01:41,940
+information that is actually now separated out into its different bands.
+
+33
+00:01:41,940 --> 00:01:45,130
+Now to help us generate these images what we can do is we can
+
+34
+00:01:45,130 --> 00:01:47,550
+feather corresponding octaves.
+
+35
+00:01:47,550 --> 00:01:49,210
+Now I know I haven't covered the concept of feather.
+
+36
+00:01:49,210 --> 00:01:52,110
+I'll talk about that in just a few seconds.
+
+37
+00:01:52,110 --> 00:01:53,780
+What we actually want to be able to do is feather.
+
+38
+00:01:53,780 --> 00:01:57,600
+That basically in essence means is we want to kind of merge the right kinds of
+
+39
+00:01:57,600 --> 00:01:59,000
+things from two different images.
+
+40
+00:01:59,000 --> 00:02:01,510
+We want to do this now in the frequency domain.
+
+41
+00:02:01,510 --> 00:02:04,020
+So we want to take the frequency, the fast,
+
+42
+00:02:04,020 --> 00:02:06,350
+the Fourier transforms of the left and the right.
+
+43
+00:02:06,350 --> 00:02:10,877
+And we want to do the corresponding octaves, remember the F1, F2, F3, F4.
+
+44
+00:02:10,877 --> 00:02:13,000
+For the left and then the same for the Fr.
+
+45
+00:02:13,000 --> 00:02:17,240
+But we want to do the combination of the F1 for the left and
+
+46
+00:02:17,240 --> 00:02:19,440
+the F1 of the right.
+
+47
+00:02:19,440 --> 00:02:23,680
+And, do a feathering between them, and do it for each and every one of them.
+
+48
+00:02:23,680 --> 00:02:26,940
+And then use that to reconstruct the signal.
+
+49
+00:02:26,940 --> 00:02:30,310
+So in essence, what we want to do is, we want to compute the octaves,
+
+50
+00:02:30,310 --> 00:02:33,480
+feather them, and then compute the inverse fast Fourier transform.
+
+51
+00:02:33,480 --> 00:02:39,210
+And that will allow us to feather everything in the frequency domain and
+
+52
+00:02:39,210 --> 00:02:42,240
+actually the output would be in the spatial domain.
+
+53
+00:02:42,240 --> 00:02:46,040
+So now what we can do is basically sum the feathered octave images in
+
+54
+00:02:46,040 --> 00:02:50,370
+the frequency domain and we actually have a very nice smooth image.
+
+55
+00:02:50,370 --> 00:02:51,420
+Let's look at that example.

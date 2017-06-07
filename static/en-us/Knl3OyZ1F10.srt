@@ -1,0 +1,172 @@
+1
+00:00:00,460 --> 00:00:04,160
+The rules that I just showed you were
+great for validating a single property.
+
+2
+00:00:04,160 --> 00:00:06,590
+But to deal with malformed
+data on a larger scale,
+
+3
+00:00:06,590 --> 00:00:09,050
+you're also going to need to
+validate object structure.
+
+4
+00:00:09,050 --> 00:00:12,230
+With Firebase rules, you can first
+require that certain properties must
+
+5
+00:00:12,230 --> 00:00:15,780
+exist in the object as well as validate
+that those properties are the only
+
+6
+00:00:15,780 --> 00:00:17,740
+properties that exist in the object.
+
+7
+00:00:17,740 --> 00:00:20,530
+To require the existence to certain
+properties you could use either
+
+8
+00:00:20,530 --> 00:00:22,802
+the hasChild or hasChildren method.
+
+9
+00:00:22,802 --> 00:00:26,990
+The hasChildren method is if you want
+to verify for multiple properties and
+
+10
+00:00:26,990 --> 00:00:28,710
+you can see it being used here.
+
+11
+00:00:28,710 --> 00:00:32,209
+This rule requires that the name,
+email timestampJoined and
+
+12
+00:00:32,209 --> 00:00:36,180
+hasloggedInWithPassword are properties
+that are included within any object that
+
+13
+00:00:36,180 --> 00:00:37,675
+is saved at this location.
+
+14
+00:00:37,675 --> 00:00:39,450
+hasChildren is pretty simple to use.
+
+15
+00:00:39,450 --> 00:00:41,590
+It takes an array of property
+key names as shown here.
+
+16
+00:00:41,590 --> 00:00:44,472
+And it's placed directly in the object.
+
+17
+00:00:44,472 --> 00:00:47,650
+Now hasChildren requires that these
+properties exist, but it doesn't say
+
+18
+00:00:47,650 --> 00:00:51,050
+that those are the only properties
+that can exist within the object.
+
+19
+00:00:51,050 --> 00:00:53,490
+If you want to do that,
+you can add the following code.
+
+20
+00:00:53,490 --> 00:00:56,330
+You make a wildcard variable in
+the top level the object and
+
+21
+00:00:56,330 --> 00:00:57,990
+set its validation to false.
+
+22
+00:00:57,990 --> 00:00:59,220
+So how does this work?
+
+23
+00:00:59,220 --> 00:01:02,780
+To understand going on, you have to
+understand how wildcard variables work.
+
+24
+00:01:02,780 --> 00:01:06,065
+When you write an object to the
+database, the properties of that object
+
+25
+00:01:06,065 --> 00:01:08,708
+will be matched with all of
+these named variables first.
+
+26
+00:01:08,708 --> 00:01:12,402
+So if an object that saved at this
+location has a name property,
+
+27
+00:01:12,402 --> 00:01:14,993
+it will check the validation
+rules in here.
+
+28
+00:01:14,993 --> 00:01:18,569
+If it has the email property it will
+check the validation rules in here.
+
+29
+00:01:19,580 --> 00:01:21,100
+Now if that happens,
+
+30
+00:01:21,100 --> 00:01:24,670
+as in if there is an extra property,
+it immediately validates to false.
+
+31
+00:01:25,710 --> 00:01:26,790
+So two things.
+
+32
+00:01:26,790 --> 00:01:29,460
+Note first that there's nothing
+special about the name other.
+
+33
+00:01:29,460 --> 00:01:31,530
+It can really be dollar sign anything.
+
+34
+00:01:31,530 --> 00:01:32,480
+Also, for this to work,
+
+35
+00:01:32,480 --> 00:01:35,740
+you have to explicitly list out
+all the correct properties.
+
+36
+00:01:35,740 --> 00:01:38,340
+Using both hasChildren and
+a wildcard variable,
+
+37
+00:01:38,340 --> 00:01:41,000
+you can be sure that your data is
+structured exactly how it's meant to be.

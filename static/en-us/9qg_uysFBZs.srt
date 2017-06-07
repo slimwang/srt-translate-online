@@ -1,0 +1,267 @@
+1
+00:00:00,180 --> 00:00:02,940
+So now let's look at the whole concept of how we can actually use
+
+2
+00:00:02,940 --> 00:00:04,250
+a pyramid representation.
+
+3
+00:00:04,250 --> 00:00:07,910
+And specifically in this form, we'll look at a Gaussian Pyramid.
+
+4
+00:00:07,910 --> 00:00:12,450
+That'll allow us to encode the frequencies at different levels and
+
+5
+00:00:12,450 --> 00:00:16,610
+let us do blending or other types of operations that basically look at
+
+6
+00:00:16,610 --> 00:00:18,340
+different frequencies differently.
+
+7
+00:00:18,340 --> 00:00:22,480
+So just to start off, let's start off with this simple eight by eight image.
+
+8
+00:00:22,480 --> 00:00:23,280
+All right?
+
+9
+00:00:23,280 --> 00:00:25,480
+So this is just a simple representation.
+
+10
+00:00:25,480 --> 00:00:27,990
+I'll use this to showcase what we can do with this.
+
+11
+00:00:27,990 --> 00:00:31,230
+But let's now go back the concept of doing simple filtering.
+
+12
+00:00:31,230 --> 00:00:34,360
+I'm going to run a small Gaussian kernel over this.
+
+13
+00:00:34,360 --> 00:00:35,650
+Let's say it's a three by three.
+
+14
+00:00:36,900 --> 00:00:41,720
+And my goal is to, let's take the information from the filtering process here,
+
+15
+00:00:41,720 --> 00:00:44,160
+for this one, and create a new image.
+
+16
+00:00:44,160 --> 00:00:47,080
+Except that I will just do this, to kind of replace it,
+
+17
+00:00:47,080 --> 00:00:49,380
+make a smaller image out of this.
+
+18
+00:00:49,380 --> 00:00:53,490
+So my goal is to generate a four by four image out of this.
+
+19
+00:00:53,490 --> 00:00:55,560
+Of course, what we can do is, now look at this, for
+
+20
+00:00:55,560 --> 00:00:58,320
+example, three by three neighborhood.
+
+21
+00:00:58,320 --> 00:01:01,980
+Run a Gaussian kernel on it, get a new value that encodes all of
+
+22
+00:01:01,980 --> 00:01:06,040
+the information there, and replace it in my newer image.
+
+23
+00:01:06,040 --> 00:01:09,200
+So using this, I can now generate a four by four image.
+
+24
+00:01:09,200 --> 00:01:13,810
+So in essence, what I've done is, I've basically taken every other value.
+
+25
+00:01:13,810 --> 00:01:15,790
+These are pointed here.
+
+26
+00:01:15,790 --> 00:01:20,600
+So I've basically taken these 16 values and put them here.
+
+27
+00:01:20,600 --> 00:01:25,670
+Except what I'd rather do is basically run a small convolution with the Gaussian
+
+28
+00:01:25,670 --> 00:01:30,400
+and take the value that's the resultant of all of the convolution here and
+
+29
+00:01:30,400 --> 00:01:31,300
+replace it in this one.
+
+30
+00:01:31,300 --> 00:01:33,740
+So in essence, that's what we've done here is,
+
+31
+00:01:33,740 --> 00:01:38,360
+we've gone from a eight by eight and generated a four by four.
+
+32
+00:01:38,360 --> 00:01:40,240
+We can, of course, cyclically repeat this and
+
+33
+00:01:40,240 --> 00:01:42,790
+generate a two by two, which is shown here.
+
+34
+00:01:42,790 --> 00:01:47,510
+And of course, at the end of it, what I can now do is run a kernel and
+
+35
+00:01:47,510 --> 00:01:51,050
+find the value at this point here, which would be the, you know,
+
+36
+00:01:51,050 --> 00:01:53,190
+the Gaussian kernel of these four values.
+
+37
+00:01:53,190 --> 00:01:55,270
+And generate a value here.
+
+38
+00:01:55,270 --> 00:01:58,020
+So if you notice, what we've done is, we've gone from eight by eight to four by
+
+39
+00:01:58,020 --> 00:02:01,170
+four, two by two, and of course, one by one.
+
+40
+00:02:01,170 --> 00:02:03,640
+We can of course do this for real images too.
+
+41
+00:02:03,640 --> 00:02:06,540
+Here is my Einstein image.
+
+42
+00:02:06,540 --> 00:02:11,940
+Let me refer to this as g0, basically the Gaussian at level zero.
+
+43
+00:02:11,940 --> 00:02:15,520
+And of course, the first one, I'm running basically a Gaussian kernel,
+
+44
+00:02:15,520 --> 00:02:18,930
+now actually generating an image like this.
+
+45
+00:02:18,930 --> 00:02:21,880
+I refer to this as g0, to refer, basically, to the concept.
+
+46
+00:02:21,880 --> 00:02:25,502
+This is a Gaussian at level 0, this is a Gaussian at level 1,
+
+47
+00:02:25,502 --> 00:02:28,501
+here of course, run through the same process, and
+
+48
+00:02:28,501 --> 00:02:33,720
+now this 512 by 512 image is converted into a 256 by 256 image.
+
+49
+00:02:33,720 --> 00:02:35,100
+And we can keep doing this.
+
+50
+00:02:35,100 --> 00:02:37,490
+Generate g2 with level two.
+
+51
+00:02:37,490 --> 00:02:43,498
+This is, of course, now a half of 256 by 256, so 128 by 128.
+
+52
+00:02:43,498 --> 00:02:47,535
+And then go on all the way to a small image like this.
+
+53
+00:02:47,535 --> 00:02:51,640
+So each one of them is referred to now as a Gaussian.
+
+54
+00:02:51,640 --> 00:02:54,190
+At different levels, two, three, and four.
+
+55
+00:02:54,190 --> 00:02:55,990
+So let's see what this representation looks like.
+
+56
+00:02:56,990 --> 00:03:00,790
+What I'm basically doing now is moving the smaller ones on top of
+
+57
+00:03:00,790 --> 00:03:02,790
+the original image.
+
+58
+00:03:02,790 --> 00:03:08,660
+And if I was to just draw, for example, this point here we can actually see that
+
+59
+00:03:08,660 --> 00:03:13,610
+in essence, what we have is a pyramid with the bottom, the highest resolution,
+
+60
+00:03:13,610 --> 00:03:18,650
+followed by the next higher resolution, going all the way up to this point here,
+
+61
+00:03:18,650 --> 00:03:19,880
+and by connecting these lines,
+
+62
+00:03:19,880 --> 00:03:25,120
+we basically can see that now we have is a pyramid representation.
+
+63
+00:03:25,120 --> 00:03:26,607
+And that's what the pyramid looks like.
+
+64
+00:03:26,607 --> 00:03:30,625
+So we've basically gone from information that actually was very high
+
+65
+00:03:30,625 --> 00:03:35,258
+resolution to low resolution and by actually doing Gaussian filtering to kind of
+
+66
+00:03:35,258 --> 00:03:39,360
+now scale these things up, we basically have different levels.
+
+67
+00:03:39,360 --> 00:03:42,070
+This was, of course, the zero, original, one, two, and three.

@@ -1,0 +1,216 @@
+1
+00:00:00,420 --> 00:00:04,200
+At this point, we've covered the basics
+of probability theory, so we'll be able
+
+2
+00:00:04,200 --> 00:00:08,830
+to turn our focus on the algorithms
+themselves and their analysis.
+
+3
+00:00:08,830 --> 00:00:12,650
+Up first is the classic
+randomized Quicksort algorithm.
+
+4
+00:00:12,650 --> 00:00:15,620
+In case you don't recall randomized
+Quicksort from a previous algorithms
+
+5
+00:00:15,620 --> 00:00:18,300
+course, here's the pseudo code.
+
+6
+00:00:18,300 --> 00:00:21,770
+To keep things simple we'll assume that
+the elements to be sorted are distinct.
+
+7
+00:00:22,810 --> 00:00:27,400
+This is a recursive algorithm with
+the base case being a list of 0 or
+
+8
+00:00:27,400 --> 00:00:30,740
+1 elements,
+where the list can simply be returned.
+
+9
+00:00:32,250 --> 00:00:35,980
+For longer lists we choose a pivot,
+uniformly at random
+
+10
+00:00:35,980 --> 00:00:39,840
+from the elements of the list, and
+then split the list into two pieces.
+
+11
+00:00:40,900 --> 00:00:43,310
+One, with those elements
+less than the pivot.
+
+12
+00:00:44,330 --> 00:00:46,634
+And one with those elements
+larger than the pivot.
+
+13
+00:00:46,634 --> 00:00:52,250
+Then, we recursively
+sort these shorter lists,
+
+14
+00:00:52,250 --> 00:00:55,300
+and then join them back together
+in sorted order like so.
+
+15
+00:00:55,300 --> 00:00:59,730
+The efficience of the algorithm depends
+greatly on the choices of these pivots.
+
+16
+00:01:00,752 --> 00:01:03,940
+I'm going to visualize a run of the
+algorithm by drawing out the recursion
+
+17
+00:01:03,940 --> 00:01:04,560
+tree over here.
+
+18
+00:01:05,670 --> 00:01:08,610
+I'll write out the list in sorted order,
+so
+
+19
+00:01:08,610 --> 00:01:12,800
+that we can see better what's going on,
+though the algorithm itself will likely
+
+20
+00:01:12,800 --> 00:01:15,700
+have these elements in
+some unsorted order.
+
+21
+00:01:15,700 --> 00:01:19,790
+The ideal choice of pivot is always
+the middle value in the list.
+
+22
+00:01:19,790 --> 00:01:24,190
+This splits the list into two equal
+sized sublists, one consisting of
+
+23
+00:01:24,190 --> 00:01:27,760
+the larger elements, the other
+consisting of the smaller elements.
+
+24
+00:01:27,760 --> 00:01:31,980
+Then in recursive calls we split
+these lists into two pieces
+
+25
+00:01:31,980 --> 00:01:36,610
+until we get down to the base case
+of the list of length one or zero.
+
+26
+00:01:36,610 --> 00:01:40,440
+Because the size of the lists
+get cut in half with each call,
+
+27
+00:01:40,440 --> 00:01:43,320
+there are only login levels to the tree,
+and
+
+28
+00:01:43,320 --> 00:01:47,630
+every level gets compared with
+a pivot in a call to Quicksort.
+
+29
+00:01:47,630 --> 00:01:52,150
+So there are order n
+comparisons at each level, for
+
+30
+00:01:52,150 --> 00:01:55,800
+a total of n log n comparisons overall.
+
+31
+00:01:55,800 --> 00:01:59,280
+That's if we're lucky and
+pick the middle element every time.
+
+32
+00:01:59,280 --> 00:02:01,830
+How about if we're unlucky?
+
+33
+00:02:01,830 --> 00:02:05,280
+Suppose we pick the largest
+element in every iteration.
+
+34
+00:02:05,280 --> 00:02:09,770
+Then the size of the list only
+decreases one in each iteration.
+
+35
+00:02:09,770 --> 00:02:11,520
+So they are n levels.
+
+36
+00:02:11,520 --> 00:02:14,130
+The first level requires
+n minus 1 comparisons.
+
+37
+00:02:14,130 --> 00:02:16,970
+The second n minus 2, and so forth.
+
+38
+00:02:16,970 --> 00:02:20,750
+So that the total number of
+comparisons is an arithmetic series.
+
+39
+00:02:20,750 --> 00:02:23,050
+And therefore is order n squared.
+
+40
+00:02:23,050 --> 00:02:26,480
+This is as bad as a naive
+algorithm like insertion sort.
+
+41
+00:02:26,480 --> 00:02:30,500
+The natural question to ask then is,
+how does Quicksort behave on average.
+
+42
+00:02:30,500 --> 00:02:34,220
+Is it like the best case where we pick
+the pivot in the middle of each list?
+
+43
+00:02:35,440 --> 00:02:38,250
+Or is it like the worst
+case that we have here,
+
+44
+00:02:38,250 --> 00:02:41,660
+where we're always picking
+the largest element in the list?
+
+45
+00:02:41,660 --> 00:02:42,730
+Or is it somewhere in between?

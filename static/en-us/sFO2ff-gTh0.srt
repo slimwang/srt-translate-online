@@ -1,0 +1,471 @@
+1
+00:00:00,500 --> 00:00:03,310
+Alright, so let me try to get to this concept
+
+2
+00:00:03,310 --> 00:00:06,610
+of cross validation. So, imagine that we've got our data,
+
+3
+00:00:06,610 --> 00:00:09,960
+this is our training set. We can, again, picture geometrically
+
+4
+00:00:09,960 --> 00:00:13,480
+in the case of regression. And, ultimately what we're trying
+
+5
+00:00:13,480 --> 00:00:15,840
+to do is find a way of predicting values in
+
+6
+00:00:15,840 --> 00:00:20,500
+the testing set. So, what we imagine is we do
+
+7
+00:00:20,500 --> 00:00:22,310
+some kind of regression and we might want to fit
+
+8
+00:00:22,310 --> 00:00:25,570
+this to a line. And, you know, the line is
+
+9
+00:00:25,570 --> 00:00:27,590
+good, it kind of captures what's going on and if we
+
+10
+00:00:27,590 --> 00:00:30,320
+apply this to the testing set, maybe it's going to do
+
+11
+00:00:30,320 --> 00:00:35,170
+a pretty good job. But, if we are, you know, feeling
+
+12
+00:00:35,170 --> 00:00:39,220
+kind of obsessive compulsive about it we might say well in
+
+13
+00:00:39,220 --> 00:00:41,460
+this particular case we didn't actually track all the ups and
+
+14
+00:00:41,460 --> 00:00:45,180
+downs of the data. So what can we do in terms
+
+15
+00:00:45,180 --> 00:00:47,440
+of if we, if we fit it with the line and
+
+16
+00:00:47,440 --> 00:00:51,120
+the errors not so great. What else could we switch to Charles?
+
+17
+00:00:51,120 --> 00:00:54,250
+>> We could just use the test. No, sorry. What, what I mean
+
+18
+00:00:54,250 --> 00:00:58,500
+is if we fit, we fit this to a line and we're sort
+
+19
+00:00:58,500 --> 00:01:01,060
+of not happy with the fact that the line isn't fitting all of
+
+20
+00:01:01,060 --> 00:01:05,950
+the points exactly. We might want to use ,uh, maybe a higher order polynomial.
+
+21
+00:01:05,950 --> 00:01:07,280
+>> Oh, I'm sorry, totally misunderstood you.
+
+22
+00:01:07,280 --> 00:01:11,390
+>> To fit this better. So if we, we can fit this with a higher
+
+23
+00:01:11,390 --> 00:01:14,180
+order polynomial and maybe it'll hit, all these
+
+24
+00:01:14,180 --> 00:01:16,240
+points much better. You know, so we have
+
+25
+00:01:16,240 --> 00:01:18,590
+this kind of, kind of other shape, and now it's doing this, it's
+
+26
+00:01:18,590 --> 00:01:23,720
+making weird predictions in certain places. So, really what we'd like to
+
+27
+00:01:23,720 --> 00:01:25,940
+do is, and what was your suggestion? If we trained on the
+
+28
+00:01:25,940 --> 00:01:29,650
+test set, we would do much better on the test set, wouldn't we?
+
+29
+00:01:29,650 --> 00:01:29,830
+>> Yes.
+
+30
+00:01:29,830 --> 00:01:31,970
+>> But that, that, that's definitely cheating.
+
+31
+00:01:31,970 --> 00:01:32,740
+>> Why is cheating?
+
+32
+00:01:32,740 --> 00:01:37,320
+>> Is there some, why is it cheating? Well, if we
+
+33
+00:01:37,320 --> 00:01:41,540
+exactly fit the error, the, the test set. That's not a function
+
+34
+00:01:41,540 --> 00:01:47,310
+at all, is it? [LAUGH] If we exactly fit the, the test set, then
+
+35
+00:01:47,310 --> 00:01:50,920
+again that's not going to generalize to how we use it in the real world.
+
+36
+00:01:50,920 --> 00:01:55,470
+>> So the goal is always to generalize. The test set is just
+
+37
+00:01:55,470 --> 00:02:00,260
+a stand-in For ,what we don't know we're going to see in the future.
+
+38
+00:02:00,260 --> 00:02:02,150
+>> Yes, very well said. Thank you.
+
+39
+00:02:02,150 --> 00:02:03,470
+>> Actually that suggests something very
+
+40
+00:02:03,470 --> 00:02:06,980
+important, right, it suggest that ,um,
+
+41
+00:02:06,980 --> 00:02:11,774
+nothing we do, on our training set or even if we cheat and use the test set
+
+42
+00:02:11,774 --> 00:02:15,970
+.Actually makes sense unless we believe that somehow the
+
+43
+00:02:15,970 --> 00:02:19,350
+training set and the test set represent the future.
+
+44
+00:02:19,350 --> 00:02:21,520
+>> Yes, that's a very good point, that
+
+45
+00:02:21,520 --> 00:02:24,310
+we are assuming that this data is representative of
+
+46
+00:02:24,310 --> 00:02:27,360
+how the system is ultimately going to be used. In
+
+47
+00:02:27,360 --> 00:02:32,600
+fact, there's an abbreviation that statisticians like to use.
+
+48
+00:02:32,600 --> 00:02:35,230
+That the data, we really count on
+
+49
+00:02:35,230 --> 00:02:38,900
+the data being independent and identically distributed,
+
+50
+00:02:38,900 --> 00:02:39,465
+>> Mm-hm.
+
+51
+00:02:39,465 --> 00:02:41,650
+>> which is to say that all the data that we have collected,
+
+52
+00:02:41,650 --> 00:02:44,590
+it's all really coming from the same source, so there is no, no
+
+53
+00:02:44,590 --> 00:02:47,440
+sort of weirdness that the training set looks different from testing set looks
+
+54
+00:02:47,440 --> 00:02:50,470
+different from the world but they are all drawn from the same distribution.
+
+55
+00:02:51,620 --> 00:02:53,960
+>> So would you call that a fundamental assumption of supervised learning?
+
+56
+00:02:53,960 --> 00:02:58,100
+>> I don't know that I'd call it a fundamental of supervised learning per se,
+
+57
+00:02:58,100 --> 00:02:59,600
+but it's a fundamental assumption in a lot
+
+58
+00:02:59,600 --> 00:03:01,230
+of the algorithms that we run, that's for sure.
+
+59
+00:03:01,230 --> 00:03:01,490
+>> Fair enough.
+
+60
+00:03:01,490 --> 00:03:03,850
+>> There's definitely people who have looked at, well
+
+61
+00:03:03,850 --> 00:03:06,660
+what happens in real data if these assumptions are violated?
+
+62
+00:03:06,660 --> 00:03:08,520
+Are there algorithms that we can apply that still do
+
+63
+00:03:08,520 --> 00:03:11,160
+reasonable things? But the stuff that we're talking about? Yes,
+
+64
+00:03:11,160 --> 00:03:15,880
+this is absolutely. A fundamental assumption. Alright, but here's,
+
+65
+00:03:15,880 --> 00:03:18,910
+here's where I'm trying to get with this stuff. So
+
+66
+00:03:18,910 --> 00:03:21,360
+what we really would like to do, is that we'd
+
+67
+00:03:21,360 --> 00:03:23,330
+like to use a model that's complex enough to actually
+
+68
+00:03:23,330 --> 00:03:25,950
+model the structure that's in the data that we're training on,
+
+69
+00:03:25,950 --> 00:03:29,110
+but no so complex that it's, it's matching that so directly that
+
+70
+00:03:29,110 --> 00:03:31,850
+it doesn't really work well on the test set. But unfortunately we
+
+71
+00:03:31,850 --> 00:03:35,320
+don't really have the test set to play with because that again,
+
+72
+00:03:35,320 --> 00:03:38,450
+is going to, it's too much teaching to the test. We need
+
+73
+00:03:38,450 --> 00:03:41,690
+to actually learn the true structure that is going to need to
+
+74
+00:03:41,690 --> 00:03:45,570
+be generalized. So, so how do we find out. How can we,
+
+75
+00:03:45,570 --> 00:03:48,470
+how can we pick a model that is complex enough to model
+
+76
+00:03:48,470 --> 00:03:52,110
+the data while making sure that it hasn't started to kind of diverege in
+
+77
+00:03:52,110 --> 00:03:55,940
+terms of how it's going to be applied to the test set. If we don't
+
+78
+00:03:55,940 --> 00:03:58,890
+have access to the test set, is there something that we can use in
+
+79
+00:03:58,890 --> 00:04:03,200
+the training set that we could have it kind of act like a test set?
+
+80
+00:04:03,200 --> 00:04:08,720
+>> Well, we could take some of the training
+
+81
+00:04:08,720 --> 00:04:13,570
+data and pretend its a test set and that wouldn't be cheating because its
+
+82
+00:04:13,570 --> 00:04:15,230
+not really the test set.
+
+83
+00:04:15,230 --> 00:04:18,760
+>> Excellent. Indeed, right, so there's nothing magic
+
+84
+00:04:18,760 --> 00:04:22,620
+about the training set all needing to be
+
+85
+00:04:22,620 --> 00:04:28,760
+used to fit the coefficient. It could be that we hold out some of it ,as
+
+86
+00:04:28,760 --> 00:04:33,350
+a kind of make pretend test set, a test test set, a trial test set, a
+
+87
+00:04:33,350 --> 00:04:35,119
+what we're going to say cross validation set.
+
+88
+00:04:36,220 --> 00:04:38,700
+And it's going to be a stand in for the
+
+89
+00:04:38,700 --> 00:04:43,140
+actual test data. That we can actually, make
+
+90
+00:04:43,140 --> 00:04:46,160
+use of that doesn't involve actually using the test
+
+91
+00:04:46,160 --> 00:04:48,050
+data directly which is ultimately going to be
+
+92
+00:04:48,050 --> 00:04:51,430
+cheating. So, this cross validation set is going to
+
+93
+00:04:51,430 --> 00:04:53,160
+be really helpful in figuring out what to
+
+94
+00:04:53,160 --> 00:04:56,610
+do. So. Alright, so here's how we're going to do
+
+95
+00:04:56,610 --> 00:04:59,280
+this, this concept of cross validation. We're going to take
+
+96
+00:04:59,280 --> 00:05:04,390
+our training data, and we're going to split it into
+
+97
+00:05:04,390 --> 00:05:06,890
+what are called folds. I'm not actually sure why they're
+
+98
+00:05:06,890 --> 00:05:09,700
+called folds. I don't know if that's a sheep reference.
+
+99
+00:05:09,700 --> 00:05:12,640
+>> Why would it be a sheep reference?
+
+100
+00:05:12,640 --> 00:05:16,060
+>> I think there's a sheep-related concept that is called a
+
+101
+00:05:16,060 --> 00:05:19,470
+fold. Like, You know, we're going to bring you back into the fold.
+
+102
+00:05:19,470 --> 00:05:19,810
+>> Oh.
+
+103
+00:05:19,810 --> 00:05:21,790
+>> It's like the, it's like the group of sheep.
+
+104
+00:05:21,790 --> 00:05:24,900
+>> You are just trunk full of knowledge.
+
+105
+00:05:24,900 --> 00:05:27,080
+>> Alright so what we're going to do is train
+
+106
+00:05:27,080 --> 00:05:29,600
+on the first three folds, and use the fourth one
+
+107
+00:05:29,600 --> 00:05:33,140
+to, to see how we did. Train on the [LAUGH]
+
+108
+00:05:33,140 --> 00:05:35,420
+second third and fourth fold and check on the first
+
+109
+00:05:35,420 --> 00:05:37,430
+one. And we're going to we're going to try all these different
+
+110
+00:05:37,430 --> 00:05:40,550
+combinations leaving out each fold as a kind of a,
+
+111
+00:05:40,550 --> 00:05:43,965
+a fake test set. And then average these errors. The
+
+112
+00:05:43,965 --> 00:05:47,850
+,uh, the, the goodness of fit. Average them all together,
+
+113
+00:05:47,850 --> 00:05:52,270
+to see how well we've done. And, the model class,
+
+114
+00:05:52,270 --> 00:05:55,140
+so like the degree of the polynomial in this case that
+
+115
+00:05:55,140 --> 00:05:58,330
+does the best job, the lowest error, is the
+
+116
+00:05:58,330 --> 00:06:01,070
+one that we're going to go with. Alright, so if
+
+117
+00:06:01,070 --> 00:06:02,720
+this is a little bit abstract still let me,
+
+118
+00:06:02,720 --> 00:06:05,590
+let me ground this back out in the housing example.

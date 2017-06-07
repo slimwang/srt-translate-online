@@ -1,0 +1,299 @@
+﻿1
+00:00:00,580 --> 00:00:03,209
+Let's dive into the firebase
+real time database structure.
+
+2
+00:00:04,250 --> 00:00:06,240
+All data is stored as JSON objects.
+
+3
+00:00:07,700 --> 00:00:11,900
+You can think of the database
+as a Cloud hosted JSON tree.
+
+4
+00:00:11,900 --> 00:00:16,579
+This means that your entire database
+is stored as a single JSON object.
+
+5
+00:00:16,579 --> 00:00:20,369
+The quicker side we are going to
+be spending the rest of this video
+
+6
+00:00:20,370 --> 00:00:24,920
+talking about JSON as it relates to
+the firebase real time database.
+
+7
+00:00:24,920 --> 00:00:27,330
+So if you would like
+more practice with JSON,
+
+8
+00:00:27,329 --> 00:00:30,019
+you can check out the course
+works links in the notes.
+
+9
+00:00:31,949 --> 00:00:33,450
+All right, back to the main topic.
+
+10
+00:00:34,649 --> 00:00:39,199
+When you add data to the JSON tree,
+it becomes what I'll call a nodes.
+
+11
+00:00:39,200 --> 00:00:41,290
+The existing JSON structure.
+
+12
+00:00:41,289 --> 00:00:43,019
+Nodes has keys and values.
+
+13
+00:00:44,100 --> 00:00:48,060
+You can provide your own keys such
+as user IDs or semantic names.
+
+14
+00:00:49,189 --> 00:00:53,539
+Keys are always strings and they must
+be unique within their contexts.
+
+15
+00:00:53,539 --> 00:00:56,670
+As you can expect from JSON,
+node values can have different types.
+
+16
+00:00:58,100 --> 00:01:01,820
+They can be integers, like the answer
+to the ultimate question of life,
+
+17
+00:01:01,820 --> 00:01:03,719
+the universe and everything.
+
+18
+00:01:03,719 --> 00:01:06,819
+Or there can be floats
+like the golden ratio, or
+
+19
+00:01:06,819 --> 00:01:09,399
+it can be a Boolean like true or false.
+
+20
+00:01:09,400 --> 00:01:11,960
+Like whether there's
+fog in San Francisco,
+
+21
+00:01:11,959 --> 00:01:13,969
+okay, that one is mostly true.
+
+22
+00:01:15,260 --> 00:01:19,620
+Failures can also be strings
+like this tasty palindrome, and
+
+23
+00:01:19,620 --> 00:01:24,140
+failures can be other message
+objects like this messages object.
+
+24
+00:01:24,140 --> 00:01:28,219
+The key is messages and
+it contains a list of search objects.
+
+25
+00:01:28,219 --> 00:01:30,000
+Each representing a single message.
+
+26
+00:01:31,299 --> 00:01:32,759
+So, here we see keys.
+
+27
+00:01:32,760 --> 00:01:34,040
+Message one and
+
+28
+00:01:34,040 --> 00:01:39,090
+message two which we created
+manually to enumerate each message.
+
+29
+00:01:40,420 --> 00:01:42,579
+But this can cause conflicts.
+
+30
+00:01:42,579 --> 00:01:46,289
+If two users are trying to write
+to the database at the same time.
+
+31
+00:01:46,290 --> 00:01:48,430
+Which of these users is
+the one adding message three?
+
+32
+00:01:50,079 --> 00:01:54,310
+That's why Firebase can create unique
+keys, to avoid these name conflicts.
+
+33
+00:01:55,799 --> 00:01:58,429
+But they are still ordered
+like numbered message keys.
+
+34
+00:01:59,659 --> 00:02:02,890
+These unique keys are called
+Push IDs in Firebase.
+
+35
+00:02:04,239 --> 00:02:07,789
+Because they are generated
+with the push function or
+
+36
+00:02:07,790 --> 00:02:10,349
+when your on iOS,
+the function corp chow by auto ID.
+
+37
+00:02:11,819 --> 00:02:13,859
+We'll talk about a push function later,
+and
+
+38
+00:02:13,860 --> 00:02:15,900
+we'll work with push ID's
+in the friendly chat app.
+
+39
+00:02:17,490 --> 00:02:21,469
+If you have extra time this weekend,
+you can learn more about push ids
+
+40
+00:02:21,469 --> 00:02:27,150
+in the Firebase blog posts The 2 to the
+120th ways to ensure unique identifiers.
+
+41
+00:02:27,150 --> 00:02:29,250
+The link is in the notes.
+
+42
+00:02:29,250 --> 00:02:32,930
+JSON also supports arrays
+in square brackets.
+
+43
+00:02:32,930 --> 00:02:36,620
+But arrays are not recommended in
+the Firebase Realtime Database,
+
+44
+00:02:36,620 --> 00:02:37,860
+only JSON dictionaries are.
+
+45
+00:02:39,210 --> 00:02:42,510
+Let's go over a few more terms that
+are good to know when you work with
+
+46
+00:02:42,509 --> 00:02:44,189
+a realtime database.
+
+47
+00:02:44,189 --> 00:02:47,139
+We'll focus on one message here,
+for the sake of explanation.
+
+48
+00:02:48,400 --> 00:02:51,159
+And when we navigate the database,
+we'll do so
+
+49
+00:02:51,159 --> 00:02:53,060
+by walking down the path of children.
+
+50
+00:02:54,280 --> 00:02:58,180
+In this case, the node for the message
+is the child of the messages node.
+
+51
+00:02:59,270 --> 00:03:01,130
+And if we go back up,
+
+52
+00:03:01,129 --> 00:03:05,280
+the messages node is the parents
+of the specific message node.
+
+53
+00:03:05,280 --> 00:03:08,340
+We can refer to a specific part
+of the database in the path.
+
+54
+00:03:09,740 --> 00:03:12,760
+A path look just like urls on the web.
+
+55
+00:03:12,759 --> 00:03:15,549
+We like a path to a file on
+your computer's file system.
+
+56
+00:03:17,090 --> 00:03:19,770
+A full path starts with a forward slash
+
+57
+00:03:19,770 --> 00:03:21,510
+which means that is starts
+at the root of the database.
+
+58
+00:03:21,509 --> 00:03:24,709
+And then each following path segment
+
+59
+00:03:24,710 --> 00:03:28,689
+is the key that walks us
+down a tree child by child.
+
+60
+00:03:28,689 --> 00:03:32,609
+The path we see here refresh
+with specific chat message.
+
+61
+00:03:32,610 --> 00:03:37,240
+In this case, the note is an object
+with two key value pairs,
+
+62
+00:03:37,240 --> 00:03:40,439
+name, Person and text Hello.
+
+63
+00:03:42,120 --> 00:03:45,770
+Now that you've seen the characteristics
+of the Firebase Database structure,
+
+64
+00:03:45,770 --> 00:03:46,350
+let's apply them.
+

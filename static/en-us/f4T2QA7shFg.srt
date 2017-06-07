@@ -1,0 +1,347 @@
+1
+00:00:00,310 --> 00:00:03,520
+Let's return to our polynomial
+identity verification algorithm and
+
+2
+00:00:03,520 --> 00:00:05,220
+see if we can improve it.
+
+3
+00:00:05,220 --> 00:00:08,650
+So far we've seen how if
+the two polynomials are equal,
+
+4
+00:00:08,650 --> 00:00:10,080
+then the algorithm will always say so.
+
+5
+00:00:11,220 --> 00:00:15,400
+But if the polynomials are different,
+there's up to a 1 in 100 probability
+
+6
+00:00:15,400 --> 00:00:18,570
+that the algorithm will say
+that they're the same anyway.
+
+7
+00:00:18,570 --> 00:00:20,080
+Maybe this isn't good enough.
+
+8
+00:00:20,080 --> 00:00:20,810
+We want to do better.
+
+9
+00:00:22,130 --> 00:00:26,860
+Well, one idea is to just change out
+this number 100 for a larger number.
+
+10
+00:00:26,860 --> 00:00:31,530
+This works, but on a real computer we
+might start running into range problems.
+
+11
+00:00:31,530 --> 00:00:34,330
+We don't want our algorithm to strain
+the difference between the theoretical
+
+12
+00:00:34,330 --> 00:00:35,780
+models in practice.
+
+13
+00:00:35,780 --> 00:00:38,230
+Another solution is repeated trials.
+
+14
+00:00:38,230 --> 00:00:39,500
+Instead of just testing for
+
+15
+00:00:39,500 --> 00:00:43,490
+equality at one point,
+we'll do it at several random ones.
+
+16
+00:00:43,490 --> 00:00:45,530
+Such an algorithm might look like this.
+
+17
+00:00:45,530 --> 00:00:48,780
+We start out by assuming that
+the two polynomials are equal.
+
+18
+00:00:48,780 --> 00:00:52,681
+Then we try different values for x,
+and if we ever find one where the two
+
+19
+00:00:52,681 --> 00:00:56,069
+polynomials are not equal,
+then we know that they aren't.
+
+20
+00:00:56,069 --> 00:00:59,621
+Note that we could terminate as
+soon as a difference is found, but
+
+21
+00:00:59,621 --> 00:01:04,120
+this version of the algorithm makes
+the analysis a little more clear.
+
+22
+00:01:04,120 --> 00:01:06,758
+For simplicity,
+we'll make this k equal to 2 so
+
+23
+00:01:06,758 --> 00:01:10,610
+that we can visualize the sample
+space with a 2D grid like so.
+
+24
+00:01:11,810 --> 00:01:15,378
+The row corresponds to the value of
+x chosen in the first iteration,
+
+25
+00:01:15,378 --> 00:01:19,480
+and the column to the value of x
+chosen in the second iteration.
+
+26
+00:01:19,480 --> 00:01:23,099
+Now the size of the sample
+space is 100d quantity squared.
+
+27
+00:01:24,196 --> 00:01:27,390
+And since there are at most
+d squared pairs of roots for
+
+28
+00:01:27,390 --> 00:01:29,600
+the difference between A and B,
+
+29
+00:01:29,600 --> 00:01:34,820
+at most d squared of these possibilities
+will make the algorithm fail.
+
+30
+00:01:34,820 --> 00:01:38,930
+We'll let F be the event that the
+algorithm fails on unequal polynomials.
+
+31
+00:01:40,030 --> 00:01:42,940
+By symmetry we can argue
+that all elements of
+
+32
+00:01:42,940 --> 00:01:45,970
+the sample space should
+have equal probability.
+
+33
+00:01:45,970 --> 00:01:50,433
+So the probability of the algorithm
+failing on two unequal polynomials
+
+34
+00:01:50,433 --> 00:01:53,938
+is just d squared divided
+by 100d quantity squared.
+
+35
+00:01:53,938 --> 00:01:56,782
+Which is 1 over 100 squares.
+
+36
+00:01:56,782 --> 00:02:01,910
+That's 1/100th of the probability for
+just one trial.
+
+37
+00:02:01,910 --> 00:02:04,940
+We can also make the argument by
+following the actual process of
+
+38
+00:02:04,940 --> 00:02:06,810
+the algorithm more closely.
+
+39
+00:02:06,810 --> 00:02:11,570
+We'll let E1 be the event that the
+polynomials are equal at the value for
+
+40
+00:02:11,570 --> 00:02:13,370
+x chosen in the first iteration.
+
+41
+00:02:14,390 --> 00:02:19,160
+In terms of our grid,
+this subset is a subset of the rows.
+
+42
+00:02:20,390 --> 00:02:25,340
+As we argued before,
+this probability is at most 1 over 100.
+
+43
+00:02:25,340 --> 00:02:29,540
+Similarly, we let E2 be the event
+that the polynomials are equal
+
+44
+00:02:29,540 --> 00:02:32,090
+at the value x chosen in
+the second iteration.
+
+45
+00:02:33,120 --> 00:02:37,090
+In the grid this corresponds to
+a certain subset of the columns.
+
+46
+00:02:38,140 --> 00:02:43,880
+Again, these columns take up at most
+1/100th of the whole probability mass.
+
+47
+00:02:43,880 --> 00:02:47,925
+We're interested in the probability
+of both E1 and the E2 happening,
+
+48
+00:02:47,925 --> 00:02:50,890
+i.e., the intersection
+of these two events
+
+49
+00:02:50,890 --> 00:02:53,580
+represented as the black
+region in our grid.
+
+50
+00:02:53,580 --> 00:02:56,270
+What fraction of the probability
+mass does it take up?
+
+51
+00:02:56,270 --> 00:03:00,140
+Notice that in order for
+a sample to fall into the black region,
+
+52
+00:03:00,140 --> 00:03:03,110
+the first iteration must
+restrict us to the blue region.
+
+53
+00:03:03,110 --> 00:03:07,590
+The probability of this happening
+is just the probability of E1.
+
+54
+00:03:07,590 --> 00:03:09,390
+Then from within the blue region,
+
+55
+00:03:09,390 --> 00:03:13,800
+we ask what fraction of
+the probability mass does E2 take up?
+
+56
+00:03:13,800 --> 00:03:19,300
+Well, that's just the probability of E1
+and E2 divided by the probability of E1.
+
+57
+00:03:20,540 --> 00:03:24,390
+And we want to multiply this
+quantity with the probability E1
+
+58
+00:03:24,390 --> 00:03:25,050
+to get the result.
+
+59
+00:03:26,380 --> 00:03:30,230
+This sort of ratio is common enough
+that it gets its own name and notation.
+
+60
+00:03:30,230 --> 00:03:36,240
+We notate it like so, and we read this
+as the probability of E2 given E1.
+
+61
+00:03:36,240 --> 00:03:38,760
+This is called
+a conditional probability.
+
+62
+00:03:38,760 --> 00:03:42,980
+The interpretation is that it gives
+the probability of E2 happening
+
+63
+00:03:42,980 --> 00:03:46,660
+given that E1 has already happened, or
+that it's somehow destined to happen.
+
+64
+00:03:48,060 --> 00:03:49,180
+More specifically,
+
+65
+00:03:49,180 --> 00:03:52,490
+it is the probability that the second
+iteration will pick a value
+
+66
+00:03:52,490 --> 00:03:56,930
+where the two polynomials are equal
+given that the first iteration did.
+
+67
+00:03:56,930 --> 00:04:00,580
+Well, of course, this is the same
+probability as E2 happening,
+
+68
+00:04:00,580 --> 00:04:03,470
+regardless of what happened
+in the first iteration.
+
+69
+00:04:03,470 --> 00:04:05,373
+So this is just the probability of E2.
+
+70
+00:04:05,373 --> 00:04:09,973
+This condition is known as independence,
+and it corresponds to our intuitive
+
+71
+00:04:09,973 --> 00:04:13,580
+notion that one event is
+not dependent on another.
+
+72
+00:04:13,580 --> 00:04:15,100
+Substituting these values,
+
+73
+00:04:15,100 --> 00:04:17,990
+we find that this approach gives
+the same result as the other one.

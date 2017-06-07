@@ -1,0 +1,218 @@
+﻿1
+00:00:00,380 --> 00:00:03,149
+Now, we're going to add two
+more checkbox preferences for
+
+2
+00:00:03,149 --> 00:00:07,359
+allowing users to toggle on and off
+whether they see this treble triangle or
+
+3
+00:00:07,360 --> 00:00:09,290
+this midrange square.
+
+4
+00:00:09,289 --> 00:00:12,500
+Now this process is very similar
+to the one that we just did for
+
+5
+00:00:12,500 --> 00:00:14,570
+the base circle checkbox preference.
+
+6
+00:00:14,570 --> 00:00:19,310
+So if you'd like some less guided
+practice, go ahead, pause this video,
+
+7
+00:00:19,309 --> 00:00:21,329
+and try this one out on your own.
+
+8
+00:00:21,329 --> 00:00:23,809
+Otherwise, you can follow along with me.
+
+9
+00:00:23,809 --> 00:00:27,099
+I'm going to start off here in
+this preference visualizer XML.
+
+10
+00:00:27,100 --> 00:00:29,900
+And I'm going to add two
+new check box preferences.
+
+11
+00:00:29,899 --> 00:00:31,779
+Now that I have these
+two new preferences,
+
+12
+00:00:31,780 --> 00:00:36,780
+as per best practices, I'm not going
+to hard code any of these values.
+
+13
+00:00:36,780 --> 00:00:40,009
+Instead, I'm going to go
+to the strings.xml file and
+
+14
+00:00:40,009 --> 00:00:43,159
+the bools.xml file to add
+all of these new values.
+
+15
+00:00:43,159 --> 00:00:44,649
+So let's do that now.
+
+16
+00:00:44,649 --> 00:00:47,021
+Here are all of the new string values.
+
+17
+00:00:47,021 --> 00:00:50,420
+I have one for the label and
+key for both of the preferences.
+
+18
+00:00:50,420 --> 00:00:53,840
+I'm also going to want to add two new
+Boolean values for the treble and
+
+19
+00:00:53,840 --> 00:00:54,810
+the midrange.
+
+20
+00:00:54,810 --> 00:00:57,190
+To see some difference in
+the default state of the app,
+
+21
+00:00:57,189 --> 00:00:59,009
+I'm going to set these two to false.
+
+22
+00:00:59,009 --> 00:01:02,149
+Now back at my XML, I can actually
+start adding these values.
+
+23
+00:01:02,149 --> 00:01:06,159
+Okay, now that's done, my preferences
+should show up on the settings screen.
+
+24
+00:01:06,159 --> 00:01:11,009
+And they do, but
+this isn't affecting the app yet.
+
+25
+00:01:11,010 --> 00:01:14,200
+To do that, I'm going to need
+to change my code in two places
+
+26
+00:01:14,200 --> 00:01:15,900
+here in the VisualizerActivity.
+
+27
+00:01:15,900 --> 00:01:17,230
+The first is onCreate.
+
+28
+00:01:17,230 --> 00:01:18,111
+Scrolling down,
+
+29
+00:01:18,111 --> 00:01:22,050
+in the setupSharedPreferences method
+which is called from onCreate.
+
+30
+00:01:22,049 --> 00:01:26,096
+I'm going to change this setShowMid
+call to look at sharedPreferences.
+
+31
+00:01:26,096 --> 00:01:30,079
+Here, I'm taking sharedPreferences and
+calling getBoolean from it.
+
+32
+00:01:30,079 --> 00:01:32,774
+Passing in the key and
+the default value.
+
+33
+00:01:32,775 --> 00:01:35,472
+I'm going to do the same for
+setShowTreble.
+
+34
+00:01:35,471 --> 00:01:36,155
+All right, so
+
+35
+00:01:36,156 --> 00:01:40,210
+now when the app first loads,
+it should have the correct preferences.
+
+36
+00:01:40,209 --> 00:01:42,686
+The other place that I need to
+change the code is down here in
+
+37
+00:01:42,686 --> 00:01:44,623
+the onSharedPreferenceChanged listener.
+
+38
+00:01:44,623 --> 00:01:47,909
+I'm going to make two
+additional if statements.
+
+39
+00:01:47,909 --> 00:01:50,489
+These if statements check
+which preference changed.
+
+40
+00:01:50,489 --> 00:01:54,918
+And then the update the VisualizerView
+in the exact same way that it was
+
+41
+00:01:54,918 --> 00:01:58,170
+updated up here,
+instead of sharedPreferences.
+
+42
+00:01:58,170 --> 00:01:59,000
+And that's it.
+
+43
+00:01:59,000 --> 00:02:00,250
+Let's try running it.
+
+44
+00:02:00,250 --> 00:02:01,159
+This is looking good.
+
+45
+00:02:01,159 --> 00:02:04,200
+It looks like it's reading
+the initial preferences.
+
+46
+00:02:04,200 --> 00:02:08,300
+Then here, if I change these,
+it updated the preferences.
+
+47
+00:02:08,300 --> 00:02:08,660
+Awesome.
+

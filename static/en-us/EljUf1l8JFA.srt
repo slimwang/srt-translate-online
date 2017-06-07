@@ -1,0 +1,181 @@
+﻿1
+00:00:00,580 --> 00:00:03,310
+We've said multiple times,
+that services are great for
+
+2
+00:00:03,310 --> 00:00:05,700
+long running background tasks.
+
+3
+00:00:05,700 --> 00:00:08,650
+There's one fact though that
+confuses a lot of developers.
+
+4
+00:00:08,650 --> 00:00:12,060
+All Android core components
+start on the main thread.
+
+5
+00:00:12,060 --> 00:00:16,675
+This means that Activities, Content
+Providers, Broadcast Receivers, and
+
+6
+00:00:16,675 --> 00:00:21,285
+yes even Services, start their life
+on the main application thread.
+
+7
+00:00:21,285 --> 00:00:24,675
+To be clearer, this based service
+class that I'm showing you here,
+
+8
+00:00:24,675 --> 00:00:26,190
+is started on the main thread.
+
+9
+00:00:26,190 --> 00:00:29,300
+And it will block your UI if
+you run a long running task.
+
+10
+00:00:29,300 --> 00:00:32,524
+To get around this, you'll need
+to create a background thread, or
+
+11
+00:00:32,524 --> 00:00:35,329
+AsyncTask, from within your service.
+
+12
+00:00:35,329 --> 00:00:37,149
+So what's the general
+process behind this?
+
+13
+00:00:37,149 --> 00:00:38,329
+How do you do this?
+
+14
+00:00:38,329 --> 00:00:41,879
+>From a high level, services like
+activities, have a lifecycle.
+
+15
+00:00:41,880 --> 00:00:44,550
+Their lifecycle is different
+from an activity's, though.
+
+16
+00:00:44,549 --> 00:00:48,500
+For a simple started service,
+the service is created when a context,
+
+17
+00:00:48,500 --> 00:00:52,469
+such as an activity, calls startService,
+passing in an intent.
+
+18
+00:00:52,469 --> 00:00:55,979
+This is very similar to how you
+start an activity using an intent
+
+19
+00:00:55,979 --> 00:00:57,320
+using startActivity.
+
+20
+00:00:57,320 --> 00:01:00,179
+What this does is trigger
+the service's onCreate method.
+
+21
+00:01:00,179 --> 00:01:03,719
+Just as with an activity,
+onCreate is responsible for any setup.
+
+22
+00:01:03,719 --> 00:01:06,560
+After that, onStartCommand is called.
+
+23
+00:01:06,560 --> 00:01:09,769
+And inside the onStartCommand method
+is where you should actually do
+
+24
+00:01:09,769 --> 00:01:11,819
+whatever it is that your service does.
+
+25
+00:01:11,819 --> 00:01:15,649
+When your service is done,
+you can signal this by calling stopSelf.
+
+26
+00:01:15,650 --> 00:01:16,980
+Note that you, as the developer,
+
+27
+00:01:16,980 --> 00:01:19,370
+are usually the one who will
+be calling this method.
+
+28
+00:01:19,370 --> 00:01:22,731
+Note that if you're using just
+the service class, you, as a developer,
+
+29
+00:01:22,731 --> 00:01:24,153
+will need to call this method.
+
+30
+00:01:24,153 --> 00:01:26,750
+Calling stopSelf will then
+trigger onDestroy and
+
+31
+00:01:26,751 --> 00:01:28,431
+the service will be destroyed.
+
+32
+00:01:28,430 --> 00:01:32,057
+So if you're using a service class,
+you can create an AsyncTask or
+
+33
+00:01:32,057 --> 00:01:33,650
+thread in onStartCommand.
+
+34
+00:01:33,650 --> 00:01:36,255
+And then inside the AsyncTask or
+thread, you can run your code.
+
+35
+00:01:36,254 --> 00:01:39,789
+Now running time consuming tasks from
+a service in a background thread
+
+36
+00:01:39,790 --> 00:01:41,880
+is a fairly common thing to do.
+
+37
+00:01:41,879 --> 00:01:44,862
+So the Android framework actually
+contains a helpful subclass of service
+
+38
+00:01:44,862 --> 00:01:45,876
+called IntentService.
+
+39
+00:01:45,876 --> 00:01:47,649
+Let's take a look at IntentService next
+

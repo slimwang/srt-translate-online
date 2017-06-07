@@ -1,0 +1,110 @@
+1
+00:00:00,110 --> 00:00:03,760
+Before answering we should consider the
+access algorithm, like single reader,
+
+2
+00:00:03,760 --> 00:00:06,840
+single writer, multiple reader,
+multiple writer.
+
+3
+00:00:06,840 --> 00:00:11,000
+If we only have single reader, single
+writer then migration is okay, but
+
+4
+00:00:11,000 --> 00:00:13,620
+it's not good in all of the other cases.
+
+5
+00:00:13,620 --> 00:00:16,720
+In a more general problem
+that has multiple readers and
+
+6
+00:00:16,720 --> 00:00:21,130
+multiple writers, with migration,
+pages would have to be flipped back and
+
+7
+00:00:21,130 --> 00:00:25,580
+forth between nodes, and so migration
+is really not a good technique.
+
+8
+00:00:25,580 --> 00:00:29,190
+Migration can in fact lead to
+an increase in latencies for
+
+9
+00:00:29,190 --> 00:00:30,850
+the more general problem.
+
+10
+00:00:30,850 --> 00:00:32,390
+If we look at the other two options,
+
+11
+00:00:32,390 --> 00:00:37,068
+caching brings the data on the node,
+where it's accessed, and therefore it
+
+12
+00:00:37,068 --> 00:00:41,530
+will definitely improve the latency of
+the subsequent operations to that data.
+
+13
+00:00:41,530 --> 00:00:46,030
+And similarly replication in
+general will create copies of
+
+14
+00:00:46,030 --> 00:00:50,640
+the data that are potentially closer
+to where the data is accessed and
+
+15
+00:00:50,640 --> 00:00:53,300
+therefore can leads to
+improvements in latency.
+
+16
+00:00:53,300 --> 00:00:57,020
+Now whenever there are multiple
+concurrent writes in the system,
+
+17
+00:00:57,020 --> 00:01:01,380
+caching and replication can
+also lead to high overheads.
+
+18
+00:01:01,380 --> 00:01:05,030
+If you remember in the distributed
+file system lecture,
+
+19
+00:01:05,030 --> 00:01:08,190
+we mentioned that in
+the sprite file system,
+
+20
+00:01:08,190 --> 00:01:12,560
+whenever it was detected that there
+are multiple concurrent writers,
+
+21
+00:01:12,560 --> 00:01:18,070
+caching or in general the presence of
+multiple copies of the particular state,
+
+22
+00:01:18,070 --> 00:01:21,400
+a file in that case, was disabled so
+
+23
+00:01:21,400 --> 00:01:26,390
+as not to have to deal with multiple
+invalidations or loss of consistency.

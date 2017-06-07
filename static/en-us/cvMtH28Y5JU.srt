@@ -1,0 +1,183 @@
+1
+00:00:00,280 --> 00:00:04,670
+So here we are back in models.py
+in our applications source code.
+
+2
+00:00:04,670 --> 00:00:08,480
+So far, you've created the profile
+entity class in your application, but
+
+3
+00:00:08,480 --> 00:00:10,990
+you haven't actually used if for
+saving data in the datastore.
+
+4
+00:00:10,990 --> 00:00:13,360
+The next step is to add
+code to do just that.
+
+5
+00:00:13,360 --> 00:00:16,666
+So you've already worked with
+the getProfileFromUser function in
+
+6
+00:00:16,666 --> 00:00:17,620
+conference.py.
+
+7
+00:00:17,620 --> 00:00:19,770
+So far, it creates and
+returns a profile object,
+
+8
+00:00:19,770 --> 00:00:22,260
+but it doesn't actually save
+the profile in datastore.
+
+9
+00:00:22,260 --> 00:00:23,580
+Let's add the code to do that.
+
+10
+00:00:23,580 --> 00:00:25,170
+Before you can save the profile entity,
+
+11
+00:00:25,170 --> 00:00:27,480
+you need a unique key
+to identify the user.
+
+12
+00:00:27,480 --> 00:00:29,610
+There are a bunch of choices
+we could use for this.
+
+13
+00:00:29,610 --> 00:00:34,570
+For now, we've provided a function in
+the utils module, utils.getUserId,
+
+14
+00:00:34,570 --> 00:00:37,660
+which takes a logged in user record and
+returns a unique ID.
+
+15
+00:00:37,660 --> 00:00:39,410
+Utils is provided in
+the additions folder,
+
+16
+00:00:39,410 --> 00:00:41,860
+since it's a new addition
+to the code base.
+
+17
+00:00:41,860 --> 00:00:46,070
+And then once you have the user ID,
+you can use nbd.Key to make a key.
+
+18
+00:00:46,070 --> 00:00:49,900
+The first argument is the kind of key
+you want to make, in this case, profile,
+
+19
+00:00:49,900 --> 00:00:52,810
+and the second is the string
+you want to make the key from.
+
+20
+00:00:52,810 --> 00:00:54,930
+And then you'll be able to
+save the profile entity.
+
+21
+00:00:54,930 --> 00:00:57,460
+Doing that is actually super easy
+since you've all ready created it.
+
+22
+00:00:57,460 --> 00:01:00,750
+You just have to use the put method
+on the entity you want to save.
+
+23
+00:01:00,750 --> 00:01:05,110
+So in this case, it will be profile.put
+and that's TODO 2 for this exercise.
+
+24
+00:01:05,110 --> 00:01:08,192
+I've shown you these two, but there are
+some other steps you have to do around
+
+25
+00:01:08,192 --> 00:01:09,963
+them which are described
+in the TODO steps.
+
+26
+00:01:09,963 --> 00:01:13,779
+Once we deploy and use the save
+profile method in the API Explorer,
+
+27
+00:01:13,779 --> 00:01:15,907
+the profile will actually be saved.
+
+28
+00:01:15,907 --> 00:01:19,524
+One thing you'll have to do in
+the API Explorer is to turn on OAuth for
+
+29
+00:01:19,524 --> 00:01:20,295
+this method.
+
+30
+00:01:20,295 --> 00:01:23,430
+This will authorize this
+method to access your account.
+
+31
+00:01:23,430 --> 00:01:26,360
+Once you've executed this method,
+you should be able to see the results in
+
+32
+00:01:26,360 --> 00:01:30,990
+the datastore,
+under Storage > Cloud Datastore > Query.
+
+33
+00:01:30,990 --> 00:01:32,490
+And there I am.
+
+34
+00:01:32,490 --> 00:01:35,340
+So now mark these steps as you complete
+them doing the TODOs including
+
+35
+00:01:35,340 --> 00:01:37,418
+the several steps of TODO 1 and
+number 2.
+
+36
+00:01:37,418 --> 00:01:41,090
+Testing on localhost and
+finding the profile in the datastore,
+
+37
+00:01:41,090 --> 00:01:44,420
+which properties do you see in
+the admin tool for your profile entity?
+
+38
+00:01:44,420 --> 00:01:47,670
+User_id, mainEmail,
+displayName or teeShirtSize.

@@ -1,0 +1,175 @@
+1
+00:00:00,100 --> 00:00:04,110
+At the start of the threads and concurrency lecture, we asked ourselves whether
+
+2
+00:00:04,110 --> 00:00:07,990
+threads are useful, and we mentioned there are a number of reasons why they are,
+
+3
+00:00:07,990 --> 00:00:12,210
+they allow us to gain speed up because we can parallelize problems,
+
+4
+00:00:12,210 --> 00:00:15,970
+they allow us to benefit from a hot cache because we can,
+
+5
+00:00:15,970 --> 00:00:19,880
+specialized what a particular thread is doing on a given CPU.
+
+6
+00:00:19,880 --> 00:00:24,630
+The implementations that have lower memory requirements and where it's cheaper
+
+7
+00:00:24,630 --> 00:00:29,980
+to synchronize compared to, multiprocess implementations of the same problem.
+
+8
+00:00:29,980 --> 00:00:33,340
+We said that threads are useful even on a single CPU because they
+
+9
+00:00:33,340 --> 00:00:36,340
+let us hide the latency of I/O operations.
+
+10
+00:00:36,340 --> 00:00:40,020
+However, how did we draw these conclusions, what were the workloads,
+
+11
+00:00:40,020 --> 00:00:44,170
+what where the, kinds of resources that were available in the system.
+
+12
+00:00:44,170 --> 00:00:47,390
+And ultimately, what were the different metrics that we were using when
+
+13
+00:00:47,390 --> 00:00:51,510
+comparing different implementations with and without threads.
+
+14
+00:00:51,510 --> 00:00:54,570
+And the way that we would measure whether something is useful or
+
+15
+00:00:54,570 --> 00:00:55,990
+not, would differ.
+
+16
+00:00:55,990 --> 00:00:58,950
+For instance, for a matrix multiply application,
+
+17
+00:00:58,950 --> 00:01:03,870
+we want to think about the execution time of an implementation or a solution.
+
+18
+00:01:03,870 --> 00:01:07,930
+Or for a web service application, maybe what we care for
+
+19
+00:01:07,930 --> 00:01:12,310
+is the number of requests per unit of time that we can handle.
+
+20
+00:01:12,310 --> 00:01:15,780
+Now in the context of that same application, if we think about things from
+
+21
+00:01:15,780 --> 00:01:19,780
+the client's perspective, maybe truly the response time though can be used to
+
+22
+00:01:19,780 --> 00:01:23,870
+evaluate whether something is better or more useful than the alternative.
+
+23
+00:01:23,870 --> 00:01:26,110
+For these kinds of properties of the system,
+
+24
+00:01:26,110 --> 00:01:28,750
+maybe I want to know their average values, or
+
+25
+00:01:28,750 --> 00:01:33,470
+whether they're maximum or minimum values, so their best and worst case values.
+
+26
+00:01:33,470 --> 00:01:38,910
+But also perhaps I'm concerned with just, what is the number of request per time
+
+27
+00:01:38,910 --> 00:01:43,090
+that I can service, or what is the response time that I deliver to clients, and
+
+28
+00:01:43,090 --> 00:01:48,760
+most of the time, 95% of the time or 99% of the time, so yes, there maybe few
+
+29
+00:01:48,760 --> 00:01:54,215
+outliers, few situations in which my, request trade drops, but as long as,
+
+30
+00:01:54,215 --> 00:01:59,450
+95% of the time it's exactly where I want it to be, that's a solution that's
+
+31
+00:01:59,450 --> 00:02:04,490
+good for me, so, because of the fact that these outliers, these remaining 5%,
+
+32
+00:02:04,490 --> 00:02:09,770
+may have very different behavior than the rest of the requests or
+
+33
+00:02:09,770 --> 00:02:13,660
+the rest of the time that the service is operating, then,
+
+34
+00:02:13,660 --> 00:02:18,810
+when you're using the average numbers for these values, the evaluation may
+
+35
+00:02:18,810 --> 00:02:23,400
+look very different than when we're using the 95 percentile values.
+
+36
+00:02:23,400 --> 00:02:27,540
+Or maybe we're designing some hardware chip, and in that case really,
+
+37
+00:02:27,540 --> 00:02:31,180
+from the hardware prospective the thing that we're really concerned with,
+
+38
+00:02:31,180 --> 00:02:37,270
+is, whether or not the overall utilization of the hardware of the CPU is better.
+
+39
+00:02:37,270 --> 00:02:42,590
+What these examples illustrate is that, to evaluate some solution, and
+
+40
+00:02:42,590 --> 00:02:44,410
+to determine whether it's useful or not,
+
+41
+00:02:44,410 --> 00:02:49,690
+it is important to determine what are the properties that we really care for,
+
+42
+00:02:49,690 --> 00:02:55,920
+what are the properties that capture the utility of that particular solution.
+
+43
+00:02:55,920 --> 00:03:01,440
+We call such properties metrics, so basically the evaluation, and the answer
+
+44
+00:03:01,440 --> 00:03:05,980
+to whether something is useful or not, will depend on the relevant metrics.

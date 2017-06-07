@@ -1,0 +1,251 @@
+1
+00:00:00,260 --> 00:00:03,340
+In this lesson we will be talking
+about another distributed service,
+
+2
+00:00:03,340 --> 00:00:05,300
+specifically distributed shared memory.
+
+3
+00:00:06,400 --> 00:00:09,640
+Now recall that in a previous
+lesson on memory management,
+
+4
+00:00:09,640 --> 00:00:13,630
+we made a visual analogy between
+the memory contents of a process and
+
+5
+00:00:13,630 --> 00:00:17,350
+the parts used by workers
+sharing a single work space.
+
+6
+00:00:17,350 --> 00:00:19,020
+Holding off of that analogy,
+
+7
+00:00:19,020 --> 00:00:23,510
+managing distributed shared memory
+is like managing the toy parts or
+
+8
+00:00:23,510 --> 00:00:27,240
+even the tools across all
+the work spaces in a toy shop.
+
+9
+00:00:27,240 --> 00:00:30,850
+As you can see from this image, it is
+very similar to the one that we used for
+
+10
+00:00:30,850 --> 00:00:34,790
+the distributed file systems because
+we want to show that there are multiple
+
+11
+00:00:34,790 --> 00:00:38,760
+distributive nodes that are working
+together towards providing a service.
+
+12
+00:00:38,760 --> 00:00:42,350
+The service that's provided is
+the sharing of the tools and
+
+13
+00:00:42,350 --> 00:00:48,330
+the toy parts among workers that are
+working on multiple such work benches.
+
+14
+00:00:48,330 --> 00:00:51,990
+So you imagine even in a single location
+like this, there will be multiple such
+
+15
+00:00:51,990 --> 00:00:57,680
+workbenches with multiple workers using
+certain toys and toy parts and tools and
+
+16
+00:00:57,680 --> 00:01:01,550
+this is what we want to facilitate,
+the sharing of those tools and parts.
+
+17
+00:01:01,550 --> 00:01:03,050
+For the management of tools and
+
+18
+00:01:03,050 --> 00:01:06,360
+toy parts in a toy shop there are three
+major decisions that must be made.
+
+19
+00:01:07,560 --> 00:01:10,820
+The first one is how are we going
+to place all these resources
+
+20
+00:01:10,820 --> 00:01:12,770
+in the distributed environment.
+
+21
+00:01:12,770 --> 00:01:17,360
+Next we must decide how and when to
+move tools around the different shops or
+
+22
+00:01:17,360 --> 00:01:21,350
+the different work benches in those
+shops, and finally we must establish
+
+23
+00:01:21,350 --> 00:01:25,240
+some rules how those toy parts and
+tools will be shared.
+
+24
+00:01:25,240 --> 00:01:25,810
+For instance,
+
+25
+00:01:25,810 --> 00:01:30,690
+regarding placement we would probably
+decide to place those resources close
+
+26
+00:01:30,690 --> 00:01:35,130
+to the workers that are currently
+needing them to perform their task.
+
+27
+00:01:35,130 --> 00:01:39,140
+When a worker on one work bench is
+done with a particular resource and
+
+28
+00:01:39,140 --> 00:01:43,600
+another worker on another workbench or
+potentially in another location
+
+29
+00:01:43,600 --> 00:01:47,820
+needs that resource we should
+move it as soon as possible.
+
+30
+00:01:47,820 --> 00:01:52,800
+And finally we must have policies on how
+long can a worker keep a tool on their
+
+31
+00:01:52,800 --> 00:01:57,860
+desk or when and how workers should
+let others know that a tool or
+
+32
+00:01:57,860 --> 00:02:01,260
+a toy part is ready and
+is available for use by others.
+
+33
+00:02:01,260 --> 00:02:03,550
+Or for instance when should the tools or
+
+34
+00:02:03,550 --> 00:02:08,810
+the toy parts be placed into a storage
+facility that others can access as well.
+
+35
+00:02:08,810 --> 00:02:13,900
+For managing distributed shared memory,
+we must make similar types of decisions
+
+36
+00:02:13,900 --> 00:02:17,420
+however clearly the details
+are going to be very different.
+
+37
+00:02:17,420 --> 00:02:19,730
+For instance, when deciding placement,
+
+38
+00:02:19,730 --> 00:02:25,120
+we should typically place the contents
+of memory or the contents of a page
+
+39
+00:02:25,120 --> 00:02:28,540
+in a physical memory that's
+close to a particular process.
+
+40
+00:02:28,540 --> 00:02:31,660
+This would be the process that
+either created that content and or
+
+41
+00:02:31,660 --> 00:02:33,350
+will be using that content.
+
+42
+00:02:33,350 --> 00:02:37,260
+When a process needs access to memory
+that's stored in a page param on
+
+43
+00:02:37,260 --> 00:02:40,780
+a remote node,
+we should come up with some policy
+
+44
+00:02:40,780 --> 00:02:43,420
+how to migrate that
+content to the local node.
+
+45
+00:02:43,420 --> 00:02:46,960
+For instance, we can copy
+that content that memory page
+
+46
+00:02:46,960 --> 00:02:49,345
+from the remote to
+the local physical memory.
+
+47
+00:02:49,345 --> 00:02:53,190
+Since the memory page may be
+concurrently accessed by multiple
+
+48
+00:02:53,190 --> 00:02:58,140
+processes, and in addition since we
+may have multiple copies of that page
+
+49
+00:02:58,140 --> 00:03:03,060
+in different locations in the system,
+it's important to establish some rules
+
+50
+00:03:03,060 --> 00:03:07,090
+how the different
+operations are ordered.
+
+51
+00:03:07,090 --> 00:03:10,310
+How they're propagated across
+the different copies, so
+
+52
+00:03:10,310 --> 00:03:13,440
+that there is a consistent
+view of the entire memory.

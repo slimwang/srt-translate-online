@@ -1,0 +1,130 @@
+1
+00:00:00,240 --> 00:00:03,840
+We start by adding a string for
+our SharedPreference.
+
+2
+00:00:03,840 --> 00:00:09,300
+In the Sunshine sync adapter, we add
+a function to set the location's status.
+
+3
+00:00:09,300 --> 00:00:15,475
+Since setLocationStatus will be used
+on a background thread, I use commit.
+
+4
+00:00:15,475 --> 00:00:18,620
+One would use apply if it
+were on a foreground thread.
+
+5
+00:00:18,620 --> 00:00:23,780
+In onPerformSync, if the server
+returns an empty string, or
+
+6
+00:00:23,780 --> 00:00:25,880
+I get an IOException.
+
+7
+00:00:25,880 --> 00:00:27,580
+I set the status of server down.
+
+8
+00:00:27,580 --> 00:00:33,370
+I set the status of server invalid if
+there is an exception parsing the Json.
+
+9
+00:00:33,370 --> 00:00:38,660
+We also set LOCATION_STATUS_OK
+at the end of a successful sync.
+
+10
+00:00:38,660 --> 00:00:41,810
+Let's put some breakpoints
+in to check to see if these
+
+11
+00:00:41,810 --> 00:00:43,950
+are actually getting set correctly.
+
+12
+00:00:43,950 --> 00:00:48,000
+For a URL that I know is going to
+produce an error not expected by our
+
+13
+00:00:48,000 --> 00:00:50,540
+app, I'm going to use this one.
+
+14
+00:00:50,540 --> 00:00:53,070
+Let's debug it and see what happens.
+
+15
+00:00:53,070 --> 00:00:56,740
+As before,
+I've uninstalled the app first.
+
+16
+00:00:56,740 --> 00:01:01,320
+And as you can see, we nicely get
+a location status of, server invalid.
+
+17
+00:01:01,320 --> 00:01:04,120
+Which of course leads us to no
+weather information available.
+
+18
+00:01:04,120 --> 00:01:07,920
+Which is what we do in the case
+of not knowing why something has
+
+19
+00:01:07,920 --> 00:01:09,120
+happened as of yet.
+
+20
+00:01:09,120 --> 00:01:10,540
+We'll fix this later.
+
+21
+00:01:10,540 --> 00:01:13,480
+Let's try a URL that
+we expect to be empty.
+
+22
+00:01:13,480 --> 00:01:16,880
+Once again,
+I'll uninstall the app first.
+
+23
+00:01:16,880 --> 00:01:18,729
+Now let's debug it and see what happens.
+
+24
+00:01:20,340 --> 00:01:25,410
+As you can see, we now get SERVER_DOWN
+rather than INVALID, as expected.
+
+25
+00:01:25,410 --> 00:01:30,210
+This will help us a lot when we move
+to the next part of our implementation.
+
+26
+00:01:30,210 --> 00:01:34,490
+Let's set everything back to normal to
+make sure we didn't break anything, and
+
+27
+00:01:34,490 --> 00:01:35,390
+there we are.
+
+28
+00:01:35,390 --> 00:01:37,240
+Everything's working
+just as we would expect.

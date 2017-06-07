@@ -1,0 +1,364 @@
+1
+00:00:00,250 --> 00:00:04,050
+So NS arrays and NS dictionaries can be
+persisted using an NS keyed archiver.
+
+2
+00:00:04,050 --> 00:00:06,620
+But what about custom structs and
+classes?
+
+3
+00:00:06,620 --> 00:00:09,460
+Let's say we have an array filled
+with three person structs.
+
+4
+00:00:09,460 --> 00:00:11,880
+Can we still persist it
+with a keyed archiver?
+
+5
+00:00:11,880 --> 00:00:13,810
+Turns out we can, but not for free.
+
+6
+00:00:13,810 --> 00:00:16,790
+If we want a custom structs to work in
+the system, we'll need to add a little
+
+7
+00:00:16,790 --> 00:00:20,190
+bit of machinery to each one of them,
+two methods to be exact.
+
+8
+00:00:20,190 --> 00:00:22,810
+We need them to conform to
+the protocol that will let them work
+
+9
+00:00:22,810 --> 00:00:24,190
+with the keyed archiver.
+
+10
+00:00:24,190 --> 00:00:26,480
+To see why the person structs
+need these two methods,
+
+11
+00:00:26,480 --> 00:00:28,840
+let's think through the mechanism
+from the beginning.
+
+12
+00:00:28,840 --> 00:00:29,760
+In this orange color,
+
+13
+00:00:29,760 --> 00:00:32,920
+let's follow an invocation of
+encode root object to file.
+
+14
+00:00:32,920 --> 00:00:36,170
+That's the invocation on the keyed
+archiver that asks it to save this
+
+15
+00:00:36,170 --> 00:00:36,860
+array as data.
+
+16
+00:00:36,860 --> 00:00:41,040
+And this keyed archiver begins its
+recording at the start of this array.
+
+17
+00:00:41,040 --> 00:00:44,160
+As it does its work,
+it's recording the data into the array.
+
+18
+00:00:44,160 --> 00:00:46,930
+Let's represent the data
+with some lines over here.
+
+19
+00:00:46,930 --> 00:00:50,410
+This will represent the data that'll
+eventually be written to the hard drive.
+
+20
+00:00:50,410 --> 00:00:52,060
+When the invocation is
+done with the array,
+
+21
+00:00:52,060 --> 00:00:54,390
+it comes down into the person object.
+
+22
+00:00:54,390 --> 00:00:57,190
+When the invocation flows
+into the person object,
+
+23
+00:00:57,190 --> 00:01:00,640
+the person object needs to be able to
+give its data to the keyed archiver.
+
+24
+00:01:00,640 --> 00:01:03,880
+That data will be added to
+the accumulating data over here.
+
+25
+00:01:03,880 --> 00:01:06,080
+The invocation will return to the array,
+so
+
+26
+00:01:06,080 --> 00:01:08,250
+we'll add some more data for the array.
+
+27
+00:01:08,250 --> 00:01:10,570
+After that,
+the persistence will continue.
+
+28
+00:01:10,570 --> 00:01:14,660
+The keyed archiver will go into
+the second person object and return.
+
+29
+00:01:14,660 --> 00:01:16,900
+And so the keyed archiver
+will accumulate data for
+
+30
+00:01:16,900 --> 00:01:18,570
+the second person object.
+
+31
+00:01:18,570 --> 00:01:22,900
+Finally, the invocation will flow into
+the last person object, and the red and
+
+32
+00:01:22,900 --> 00:01:25,730
+black lines over here will represent
+the last person object, and
+
+33
+00:01:25,730 --> 00:01:26,830
+the end of the array.
+
+34
+00:01:26,830 --> 00:01:30,590
+The question for us is, what method is
+being invoked on this person object?
+
+35
+00:01:30,590 --> 00:01:33,810
+How is receiving the keyed
+archiver in this invocation?
+
+36
+00:01:33,810 --> 00:01:37,480
+The person object needs to implement
+the encodeWithCoder method.
+
+37
+00:01:37,480 --> 00:01:40,240
+This NSCoder property is in fact,
+the keyed archiver.
+
+38
+00:01:40,240 --> 00:01:44,160
+When the keyed archiver gets passed in,
+it's received by the person with this
+
+39
+00:01:44,160 --> 00:01:48,130
+method, will write the method and
+inside, will encode our person object.
+
+40
+00:01:48,130 --> 00:01:50,050
+You'll see more during the lesson.
+
+41
+00:01:50,050 --> 00:01:52,010
+The parameter type might be confusing.
+
+42
+00:01:52,010 --> 00:01:55,620
+NSCoder is a protocol that the NS
+keyed archiver implements.
+
+43
+00:01:55,620 --> 00:01:58,900
+We've seen now how the contents of
+the data file get put together.
+
+44
+00:01:58,900 --> 00:02:01,470
+This data will be persisted
+on the hard drive.
+
+45
+00:02:01,470 --> 00:02:03,710
+Let's imagine that
+the app is turned off, so
+
+46
+00:02:03,710 --> 00:02:06,640
+all the objects in the app's
+active memory go away.
+
+47
+00:02:06,640 --> 00:02:09,060
+The data is still persistent
+on the hard drive.
+
+48
+00:02:09,060 --> 00:02:12,450
+The app may stay off for days, who
+knows, but someday the app will start
+
+49
+00:02:12,450 --> 00:02:15,430
+back up and we'll want to
+extract our array of actors.
+
+50
+00:02:15,430 --> 00:02:17,590
+When that day comes we'll be up and
+running again so
+
+51
+00:02:17,590 --> 00:02:18,880
+we can create objects in memory.
+
+52
+00:02:18,880 --> 00:02:22,070
+We'll start out with
+the Keyed Unarchiver,
+
+53
+00:02:22,070 --> 00:02:23,660
+it's the companion to
+the Keyed Archiver.
+
+54
+00:02:23,660 --> 00:02:25,740
+The Keyed Archiver made the data.
+
+55
+00:02:25,740 --> 00:02:29,640
+Now, the keyed unarchiver is going to
+turn the data back into the objects.
+
+56
+00:02:29,640 --> 00:02:31,660
+You might be able to imagine
+how this is going to work.
+
+57
+00:02:31,660 --> 00:02:33,290
+It'll start with the data in the file.
+
+58
+00:02:33,290 --> 00:02:37,280
+It will consume the beginning of the
+array and create the array in memory.
+
+59
+00:02:37,280 --> 00:02:41,660
+Then it will consume the first person
+object and reconstruct it in memory.
+
+60
+00:02:41,660 --> 00:02:43,000
+As it works through
+the rest of the data,
+
+61
+00:02:43,000 --> 00:02:45,150
+it will recreate
+the other person objects.
+
+62
+00:02:45,150 --> 00:02:47,750
+Finally, it'll consume
+the last bit of the array and
+
+63
+00:02:47,750 --> 00:02:49,830
+the array objects will be complete.
+
+64
+00:02:49,830 --> 00:02:52,220
+This is our persistent object graph.
+
+65
+00:02:52,220 --> 00:02:54,820
+To participate in this
+decoding project a persons
+
+66
+00:02:54,820 --> 00:02:57,180
+structs need to implement
+a special init method.
+
+67
+00:02:57,180 --> 00:03:00,290
+Which receives the NS Unarchiver
+as an argument.
+
+68
+00:03:00,290 --> 00:03:01,810
+Again, this is a protocol name.
+
+69
+00:03:01,810 --> 00:03:05,390
+The Keyed Unarchiver implements
+the NSDecoder protocol.
+
+70
+00:03:05,390 --> 00:03:08,170
+The interesting thing about this is
+that we don't need to control the whole
+
+71
+00:03:08,170 --> 00:03:08,880
+process.
+
+72
+00:03:08,880 --> 00:03:09,880
+That's the Archiver and
+
+73
+00:03:09,880 --> 00:03:12,620
+the Unarchiver's job, and
+they've already been written for us.
+
+74
+00:03:12,620 --> 00:03:14,780
+We just need to take
+care of our custom types.
+
+75
+00:03:14,780 --> 00:03:16,430
+The key is to have our person and
+
+76
+00:03:16,430 --> 00:03:20,280
+movie classes implement the two
+methods in the NS coding protocol.
+
+77
+00:03:20,280 --> 00:03:21,500
+Read on for the details.

@@ -1,0 +1,415 @@
+1
+00:00:00,310 --> 00:00:02,440
+Great, so given what we've
+learned in the last exercise,
+
+2
+00:00:02,440 --> 00:00:05,050
+now we have a diagram that we
+can keep in our heads as we
+
+3
+00:00:05,050 --> 00:00:08,150
+continue implementing the various
+parts of the Pets app.
+
+4
+00:00:08,150 --> 00:00:10,760
+So, you may have noticed that I've
+been replacing Content Provider
+
+5
+00:00:10,760 --> 00:00:14,090
+with more specific providers such
+as the Contacts Provider, or
+
+6
+00:00:14,090 --> 00:00:15,770
+in this case the Pet Provider.
+
+7
+00:00:15,770 --> 00:00:19,440
+And this is because Content Provider
+is an abstract class.
+
+8
+00:00:19,440 --> 00:00:21,770
+So, this means the methods
+aren't implemented.
+
+9
+00:00:21,770 --> 00:00:24,800
+So, in order to actually use it,
+we'll need to subclass it and
+
+10
+00:00:24,800 --> 00:00:26,620
+implement our own logic.
+
+11
+00:00:26,620 --> 00:00:30,030
+So, once we get the Pet Provider set up,
+this subclass here, will talk to our
+
+12
+00:00:30,030 --> 00:00:34,070
+PetDbHelper, which will help us get
+access to the underlying database.
+
+13
+00:00:35,460 --> 00:00:37,370
+So, here we are back in Android studio,
+and
+
+14
+00:00:37,370 --> 00:00:40,650
+let me show you what your code will
+look like by the end of this quiz.
+
+15
+00:00:40,650 --> 00:00:43,650
+First, we'll be creating a content
+provider for the Pets app.
+
+16
+00:00:43,650 --> 00:00:45,335
+And we'll call that
+provider PetProvider.
+
+17
+00:00:46,390 --> 00:00:50,266
+So, the PetProvider class will be
+a new Java file in the data package of
+
+18
+00:00:50,266 --> 00:00:50,800
+our app.
+
+19
+00:00:50,800 --> 00:00:54,208
+The PetProvider class will extend
+from the ContentProvider class and
+
+20
+00:00:54,208 --> 00:00:57,860
+because of that it will need
+to implement five methods.
+
+21
+00:00:57,860 --> 00:01:01,520
+Insert, query, update,
+delete, and getType.
+
+22
+00:01:01,520 --> 00:01:04,470
+So, the first four methods map to the
+CRUD operations that we've been talking
+
+23
+00:01:04,470 --> 00:01:06,170
+about since lesson one.
+
+24
+00:01:06,170 --> 00:01:08,970
+Now, next in the AndroidManifest file,
+you'll need to
+
+25
+00:01:08,970 --> 00:01:13,220
+add that you're using a content
+provider using this provider tag.
+
+26
+00:01:13,220 --> 00:01:16,510
+So, the code for this as well as what
+I showed in the PetProvider class
+
+27
+00:01:16,510 --> 00:01:17,750
+are shown in the gist below.
+
+28
+00:01:18,890 --> 00:01:23,778
+So, this first attribute here, is the
+name of the Java class of the provider.
+
+29
+00:01:23,778 --> 00:01:27,315
+Now, this next attribute is what
+we call the content authority,
+
+30
+00:01:27,315 --> 00:01:30,804
+which uniquely identifies
+the content provider on the device.
+
+31
+00:01:30,804 --> 00:01:33,953
+And usually, we can just use
+the package name of the app and
+
+32
+00:01:33,953 --> 00:01:36,919
+we'll also be talking more
+about the authority soon.
+
+33
+00:01:36,919 --> 00:01:39,811
+Now, the last attribute is exported and
+
+34
+00:01:39,811 --> 00:01:43,393
+this attribute can be either
+set to true or false.
+
+35
+00:01:43,393 --> 00:01:45,689
+So, the export attribute
+determines whether or
+
+36
+00:01:45,689 --> 00:01:49,150
+not your content provider is
+visible to other applications.
+
+37
+00:01:49,150 --> 00:01:53,110
+So, say for example, we have another
+app called Adopt a Pal, well,
+
+38
+00:01:53,110 --> 00:01:55,650
+maybe that app might want
+to talk to our provider.
+
+39
+00:01:55,650 --> 00:01:58,090
+And in that case,
+we need to set exported to true.
+
+40
+00:01:59,280 --> 00:02:02,770
+However, since in our situation,
+we're only building the content provider
+
+41
+00:02:02,770 --> 00:02:07,990
+to be accessed by our own Pets app,
+for now, we won't export the provider.
+
+42
+00:02:07,990 --> 00:02:09,735
+So, let's set exported equals to false.
+
+43
+00:02:10,850 --> 00:02:13,130
+Now, it's your turn to make
+these changes to your app.
+
+44
+00:02:13,130 --> 00:02:16,560
+So, go ahead and create and
+set up the PetProvider class.
+
+45
+00:02:16,560 --> 00:02:20,580
+And then after that,
+add the PetProvider to the manifest.
+
+46
+00:02:20,580 --> 00:02:24,140
+Now, to make it easier,
+like I mentioned, I've included a gist
+
+47
+00:02:24,140 --> 00:02:26,580
+in the link down below, where you
+can access the code snippets for
+
+48
+00:02:26,580 --> 00:02:30,547
+the PetProvider, as well as what needs
+to be added to the AndroidManifest file.
+
+49
+00:02:31,700 --> 00:02:34,760
+We're also providing you a template
+of the ContentProvider class, so
+
+50
+00:02:34,760 --> 00:02:36,940
+that you don't need to write
+your own from scratch.
+
+51
+00:02:36,940 --> 00:02:39,500
+And don't be alarmed if there are
+keywords there that you're not familiar
+
+52
+00:02:39,500 --> 00:02:40,740
+with just yet.
+
+53
+00:02:40,740 --> 00:02:43,200
+I want you to focus on
+what is familiar and
+
+54
+00:02:43,200 --> 00:02:47,240
+then follow along as we discuss
+all of it in more detail later on.
+
+55
+00:02:47,240 --> 00:02:50,550
+So, now I want you to copy over
+the PetProvider class, and
+
+56
+00:02:50,550 --> 00:02:53,250
+note that there is a TODO there
+that you'll need to complete.
+
+57
+00:02:53,250 --> 00:02:56,600
+It's listed here in the onCreate method
+and I've asked you to create and
+
+58
+00:02:56,600 --> 00:03:02,290
+initialize a PetDbHelper object in order
+to gain access to the pets database.
+
+59
+00:03:02,290 --> 00:03:04,770
+And remember make sure
+it's a global variable.
+
+60
+00:03:04,770 --> 00:03:06,056
+So, as a reminder, remember,
+
+61
+00:03:06,056 --> 00:03:08,740
+to do this TODO, when you're
+setting up your PetProvider class.
+
+62
+00:03:10,010 --> 00:03:12,040
+Now it's your turn to make
+these changes to your app.
+
+63
+00:03:12,040 --> 00:03:13,560
+So, here's what I'd like you to do.
+
+64
+00:03:13,560 --> 00:03:16,190
+First, create a PetProvider class.
+
+65
+00:03:16,190 --> 00:03:19,910
+This means copy over the contents from
+the gist I've linked down below, and
+
+66
+00:03:19,910 --> 00:03:23,310
+add it to a new file
+called PetProvider.java.
+
+67
+00:03:23,310 --> 00:03:26,820
+And inside this gist will be
+a TODO that I'll like you to do.
+
+68
+00:03:26,820 --> 00:03:29,410
+The second task will be
+to declare a PetProvider
+
+69
+00:03:29,410 --> 00:03:33,230
+as an application component of the Pets
+app inside your AndroidManifest file.
+
+70
+00:03:33,230 --> 00:03:36,579
+And you'll do so,
+using the XML tag.
+
+71
+00:03:36,579 --> 00:03:39,603
+So, to make these steps easier for
+you, like I've mentioned,
+
+72
+00:03:39,603 --> 00:03:43,187
+I've linked to a gist down below, where
+you can access the code snippets for
+
+73
+00:03:43,187 --> 00:03:46,437
+the PetProvider and what's needed
+to be added in AndroidManifest.
+
+74
+00:03:46,437 --> 00:03:47,826
+Additionally, in this gist,
+
+75
+00:03:47,826 --> 00:03:50,506
+we're providing you a template
+of the ContentProvider class,
+
+76
+00:03:50,506 --> 00:03:53,560
+which means you won't need to
+write your own from scratch.
+
+77
+00:03:53,560 --> 00:03:56,280
+And don't be alarmed if there are
+keywords in it that you're not familiar
+
+78
+00:03:56,280 --> 00:03:57,450
+with just yet.
+
+79
+00:03:57,450 --> 00:04:00,180
+I want you to focus on
+what is familiar and
+
+80
+00:04:00,180 --> 00:04:03,870
+follow along as we discuss all
+of it in more detail later on.
+
+81
+00:04:03,870 --> 00:04:08,301
+Also, in the PetProvider gist, like I
+said, there's a TODO in the onCreate
+
+82
+00:04:08,301 --> 00:04:11,721
+method, asking you to initialize
+the PetDbHelper class.
+
+83
+00:04:11,721 --> 00:04:14,129
+All right, so
+after you've created these steps,
+
+84
+00:04:14,129 --> 00:04:17,433
+you're going to be ready to start
+creating all the CRUD methods needed to
+
+85
+00:04:17,433 --> 00:04:19,680
+start interacting with
+the content provider.
+
+86
+00:04:19,680 --> 00:04:20,750
+All right, so get on it.

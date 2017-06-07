@@ -1,0 +1,265 @@
+1
+00:00:00,210 --> 00:00:05,750
+When a user first taps inside the emoji
+text field any existing text clears.
+
+2
+00:00:05,750 --> 00:00:09,400
+If you are able to discover that
+the text field did begin editing method
+
+3
+00:00:09,400 --> 00:00:13,560
+is called as soon as the user taps
+inside a text field you probably guessed
+
+4
+00:00:13,560 --> 00:00:17,890
+that this method is being implemented
+in the emoji text field delegate.
+
+5
+00:00:17,890 --> 00:00:19,510
+Both the emoji text field and
+
+6
+00:00:19,510 --> 00:00:23,290
+the colorizer text field
+are manipulating user generated text.
+
+7
+00:00:23,290 --> 00:00:25,683
+So we can guess that their
+delegates both implement,
+
+8
+00:00:25,683 --> 00:00:27,340
+should change characters in range.
+
+9
+00:00:29,090 --> 00:00:33,700
+We also know that in the colorizer the
+keyboard dismisses upon pressing return.
+
+10
+00:00:33,700 --> 00:00:36,970
+So we can guess that the colorizer
+delegate implements text field
+
+11
+00:00:36,970 --> 00:00:37,610
+should return.
+
+12
+00:00:39,330 --> 00:00:42,180
+The text field id end editing
+element is a good place to save
+
+13
+00:00:42,180 --> 00:00:44,430
+text once editing is finished.
+
+14
+00:00:44,430 --> 00:00:46,040
+Notice that neither the emoji nor
+
+15
+00:00:46,040 --> 00:00:50,260
+the colorizer text field does anything
+with the text after editing is finished.
+
+16
+00:00:50,260 --> 00:00:52,630
+Let's take a look at the emoji delegate.
+
+17
+00:00:52,630 --> 00:00:55,840
+If we look inside the text field
+did begin editing method down here
+
+18
+00:00:55,840 --> 00:00:59,910
+at the end of the file, we can see
+in this line of code that as soon
+
+19
+00:00:59,910 --> 00:01:03,580
+as the user clicks into the text
+field the text is cleared.
+
+20
+00:01:03,580 --> 00:01:06,493
+So what about the rest of
+emoji delegates functionality,
+
+21
+00:01:06,493 --> 00:01:09,320
+lets scroll up to the top of the file.
+
+22
+00:01:09,320 --> 00:01:12,490
+Up here we can see a dictionary
+that maps animal words
+
+23
+00:01:12,490 --> 00:01:15,830
+to emoji symbols to
+replace those words with.
+
+24
+00:01:15,830 --> 00:01:18,830
+By the way, don't worry if you've
+never seen a dictionary before.
+
+25
+00:01:18,830 --> 00:01:22,340
+We're going to discuss swift
+dictionaries in the next lesson.
+
+26
+00:01:22,340 --> 00:01:25,180
+Most of the action is happening in
+this should change characters in
+
+27
+00:01:25,180 --> 00:01:26,340
+range method.
+
+28
+00:01:26,340 --> 00:01:28,870
+Whenever the text changes,
+the delegate is told.
+
+29
+00:01:28,870 --> 00:01:31,070
+Then it proceeds through these steps.
+
+30
+00:01:31,070 --> 00:01:33,010
+It constructs a new string.
+
+31
+00:01:33,010 --> 00:01:35,030
+It looks for each emoji string, and
+
+32
+00:01:35,030 --> 00:01:38,140
+then replaces emoji strings
+with emoji characters.
+
+33
+00:01:38,140 --> 00:01:41,040
+If we replace a string with
+an emoji we return false here.
+
+34
+00:01:42,250 --> 00:01:44,180
+And if not, we return true.
+
+35
+00:01:44,180 --> 00:01:45,560
+And let the text field modify the text.
+
+36
+00:01:45,560 --> 00:01:49,290
+Now let's see how the colorizer works.
+
+37
+00:01:49,290 --> 00:01:52,590
+Remember the colorizer closed
+to the keyboard on pressing.
+
+38
+00:01:52,590 --> 00:01:55,230
+Which is probably the user
+experience we're after.
+
+39
+00:01:55,230 --> 00:01:57,320
+So let's take a look
+at how this was done.
+
+40
+00:01:57,320 --> 00:02:01,600
+You'll want to scroll down to where
+the text field show return method is.
+
+41
+00:02:01,600 --> 00:02:05,530
+And here in the text field show return
+method you can see this call to text
+
+42
+00:02:05,530 --> 00:02:08,169
+field resign first responder.
+
+43
+00:02:08,169 --> 00:02:12,780
+Anytime a keyboard starts editing, we
+say that it becomes the first responder.
+
+44
+00:02:12,780 --> 00:02:16,210
+That's why touches to the keyboard
+only show up in the current text view
+
+45
+00:02:16,210 --> 00:02:17,790
+instead of all of them.
+
+46
+00:02:17,790 --> 00:02:21,200
+Resigning this first responder
+status dismissed the keyboard.
+
+47
+00:02:21,200 --> 00:02:23,730
+So what else is going
+on in this delegate?
+
+48
+00:02:23,730 --> 00:02:28,180
+If we scroll up to the top we can
+see just like the emoji delegate.
+
+49
+00:02:28,180 --> 00:02:31,440
+This colorizer delegate
+also has a dictionary.
+
+50
+00:02:31,440 --> 00:02:35,680
+This dictionary maps color
+strings to UI color objects.
+
+51
+00:02:35,680 --> 00:02:37,490
+Whenever the text changes,
+
+52
+00:02:37,490 --> 00:02:40,910
+this loop finds all of the color
+words in the new string.
+
+53
+00:02:40,910 --> 00:02:45,320
+It creates an array of color objects
+corresponding to the color strings, and
+
+54
+00:02:45,320 --> 00:02:47,320
+then passes that array into a.
+
+55
+00:02:47,320 --> 00:02:49,930
+Helper method, which blends the colors.
+
+56
+00:02:49,930 --> 00:02:54,270
+You can see this blend color array
+helper method down here, and here you
+
+57
+00:02:54,270 --> 00:02:58,200
+can see the text color of the text field
+is being set to the blended color.

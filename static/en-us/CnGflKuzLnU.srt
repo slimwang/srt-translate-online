@@ -1,0 +1,319 @@
+1
+00:00:00,330 --> 00:00:03,885
+To help us understand kind of how to
+do this analysis of camera motion,
+
+2
+00:00:03,885 --> 00:00:06,015
+let's look at some of the motion models.
+
+3
+00:00:06,015 --> 00:00:08,703
+Now this will remind you
+of the stuff that we looked
+
+4
+00:00:08,703 --> 00:00:12,799
+at in one of the previous lectures about
+image transformations where we were
+
+5
+00:00:12,799 --> 00:00:16,648
+trying to model how an image would be
+transformed from one to the other.
+
+6
+00:00:16,648 --> 00:00:20,150
+Now, all of a sudden, this should start
+making sense in the context of how we
+
+7
+00:00:20,150 --> 00:00:21,259
+can do this with video.
+
+8
+00:00:21,259 --> 00:00:24,510
+So here, for example is a video
+that we are interested in.
+
+9
+00:00:24,510 --> 00:00:27,205
+What we are interested
+now in is finding,
+
+10
+00:00:27,205 --> 00:00:30,677
+in this image by these point
+moving around like this.
+
+11
+00:00:30,677 --> 00:00:35,282
+What's the best possible camera
+motion in terms of a variety
+
+12
+00:00:35,282 --> 00:00:37,097
+of degrees of freedom.
+
+13
+00:00:37,097 --> 00:00:37,821
+And of course,
+
+14
+00:00:37,821 --> 00:00:41,128
+we want to be able to model the least
+number of these degrees of freedom.
+
+15
+00:00:41,128 --> 00:00:44,122
+Remember, the degrees of freedom when
+we talked about image transformation?
+
+16
+00:00:44,122 --> 00:00:46,821
+Well, the image transformation
+is here is from one frame
+
+17
+00:00:46,821 --> 00:00:48,452
+to the other in the video volume and
+
+18
+00:00:48,452 --> 00:00:51,897
+we're now interested in finding out
+what those degrees of freedom are.
+
+19
+00:00:51,897 --> 00:00:56,106
+Let's start off with of course,
+the simplest one, translation.
+
+20
+00:00:56,106 --> 00:00:59,707
+So here, of course, we basically
+are looking for a translation where
+
+21
+00:00:59,707 --> 00:01:02,830
+the frame is just moving from one
+print to the other in x and y.
+
+22
+00:01:02,830 --> 00:01:05,843
+If we just did this,
+this is a two degree of freedom.
+
+23
+00:01:05,843 --> 00:01:09,086
+And here, you basically see the example
+that I've just modeled the two degree
+
+24
+00:01:09,086 --> 00:01:09,637
+of freedom.
+
+25
+00:01:09,637 --> 00:01:13,400
+And if I was to show you the result of
+how the stabilized crop window would
+
+26
+00:01:13,400 --> 00:01:15,608
+look like,
+that would be on the top here.
+
+27
+00:01:15,608 --> 00:01:18,325
+And you see it,
+it has a little bit of wobble still.
+
+28
+00:01:18,325 --> 00:01:23,481
+Which suggests that just by doing
+a two degree of freedom transformation
+
+29
+00:01:23,481 --> 00:01:27,970
+between frames here is not going to
+result in a very stable video.
+
+30
+00:01:27,970 --> 00:01:31,081
+You can see the jerkiness in
+the middle of the video here, right?
+
+31
+00:01:31,081 --> 00:01:34,772
+Of course, we have learned that when
+we can't actually model it with just
+
+32
+00:01:34,772 --> 00:01:38,461
+the translation x and y, we can also
+start thinking of adding rotation and
+
+33
+00:01:38,461 --> 00:01:40,204
+perhaps scale into the equation.
+
+34
+00:01:40,204 --> 00:01:41,255
+So let's do that.
+
+35
+00:01:41,255 --> 00:01:43,762
+Of course,
+we can look at translation in x and y.
+
+36
+00:01:43,762 --> 00:01:48,742
+But also let's add uniform scale,
+scale in both x and y and rotation.
+
+37
+00:01:48,742 --> 00:01:53,711
+Of course, we know very well that, that
+is basically a four degree of freedom,
+
+38
+00:01:53,711 --> 00:01:56,541
+where now we have a theta x and
+y and the scale.
+
+39
+00:01:56,541 --> 00:01:58,602
+It's a uniform scale, so
+it's the same in both.
+
+40
+00:01:58,602 --> 00:02:02,013
+That basically suggest that now my crop
+window can rotate a little bit, but
+
+41
+00:02:02,013 --> 00:02:04,246
+also can get bigger and
+smaller a little bit too.
+
+42
+00:02:04,246 --> 00:02:07,618
+And that actually results
+in this solution here.
+
+43
+00:02:07,618 --> 00:02:08,830
+Good.
+
+44
+00:02:08,830 --> 00:02:13,199
+It's not very shaky, but
+still has a lot of little, you know,
+
+45
+00:02:13,199 --> 00:02:15,604
+wobble in the middle of the image.
+
+46
+00:02:15,604 --> 00:02:17,287
+You can see this part shaking around.
+
+47
+00:02:17,287 --> 00:02:20,033
+Of course, let's move to homography.
+
+48
+00:02:20,033 --> 00:02:23,023
+We did all of this kind of stuff
+when we talked about image
+
+49
+00:02:23,023 --> 00:02:24,460
+transformations again.
+
+50
+00:02:24,460 --> 00:02:27,531
+In this case, we want to be able
+to translate the image from one
+
+51
+00:02:27,531 --> 00:02:30,059
+frame to the other in an x and
+y rotating scale, but
+
+52
+00:02:30,059 --> 00:02:32,908
+let's now add perspective and
+skew to the whole thing.
+
+53
+00:02:32,908 --> 00:02:36,618
+That basically now means is now we
+have an eight degree of freedom model.
+
+54
+00:02:36,618 --> 00:02:38,981
+We remember that from
+our early lectures.
+
+55
+00:02:38,981 --> 00:02:42,874
+And now, I basically have a crop
+window that can also have a shear and
+
+56
+00:02:42,874 --> 00:02:46,905
+perspective whole thing going on,
+in addition to the translation and
+
+57
+00:02:46,905 --> 00:02:48,837
+rotation and this is the output.
+
+58
+00:02:48,837 --> 00:02:51,078
+So, if you notice this
+looks much stable.
+
+59
+00:02:51,078 --> 00:02:55,376
+In essence, we're basically what we
+have done is now gone through the steps
+
+60
+00:02:55,376 --> 00:02:59,471
+of identifying the camera path by
+looking at these degrees of freedom for
+
+61
+00:02:59,471 --> 00:03:02,043
+this rectangular region,
+the crop window.
+
+62
+00:03:02,043 --> 00:03:04,915
+And if I can figure out those,
+those degrees of freedom are,
+
+63
+00:03:04,915 --> 00:03:07,066
+I can actually start
+generating a new video.
+
+64
+00:03:07,066 --> 00:03:09,140
+Just showing you the small region here,
+
+65
+00:03:09,140 --> 00:03:12,445
+which is basically moving around
+in the larger viewpoint here.
+
+66
+00:03:12,445 --> 00:03:16,347
+And remember, we are cropping the image,
+but of course, in this case,
+
+67
+00:03:16,347 --> 00:03:19,000
+we're getting something
+nice in the output there.

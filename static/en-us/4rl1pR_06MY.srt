@@ -1,0 +1,171 @@
+﻿1
+00:00:00,990 --> 00:00:03,219
+It's time to connect to the internet.
+
+2
+00:00:03,220 --> 00:00:06,005
+To make this a bit easier,
+we created a helper method called
+
+3
+00:00:06,004 --> 00:00:10,495
+getresponseFromHttpURL and network it
+tells that performs the connection.
+
+4
+00:00:10,494 --> 00:00:12,419
+Lets' talk about how this works.
+
+5
+00:00:13,740 --> 00:00:16,975
+Believe it or not, you've already done
+a big chunk of the work by creating
+
+6
+00:00:16,975 --> 00:00:19,620
+the URL object with
+the appropriate query.
+
+7
+00:00:19,620 --> 00:00:24,600
+In order to get an http connection,
+we just call an open connection on URL.
+
+8
+00:00:24,600 --> 00:00:27,390
+Note that this doesn't actually
+talk to the network yet.
+
+9
+00:00:27,390 --> 00:00:30,210
+It just creates the http
+URL connection object.
+
+10
+00:00:31,219 --> 00:00:34,710
+At this point, we could set the request
+method, or add header fields, or
+
+11
+00:00:34,710 --> 00:00:36,789
+change properties of the connection.
+
+12
+00:00:36,789 --> 00:00:39,109
+We then get an input stream
+from the open connection.
+
+13
+00:00:40,600 --> 00:00:43,640
+Next, we have to read the contents
+of this input stream.
+
+14
+00:00:43,640 --> 00:00:47,259
+There are many ways to do this in Java,
+but we've chosen to do using scanner.
+
+15
+00:00:47,259 --> 00:00:51,489
+Which is used to tokenize Streams,
+because it's simple an relatively fast.
+
+16
+00:00:51,490 --> 00:00:55,660
+By setting the delimiter to \A,
+beginning of the Stream.
+
+17
+00:00:55,659 --> 00:00:58,569
+We force the scanner to read
+the entire contents of the stream into
+
+18
+00:00:58,570 --> 00:01:00,200
+the next token stream.
+
+19
+00:01:00,200 --> 00:01:01,859
+It's a bit of a sneaky trick, but
+
+20
+00:01:01,859 --> 00:01:03,880
+it does a number of things
+automatically for us.
+
+21
+00:01:04,989 --> 00:01:06,216
+It buffers the data.
+
+22
+00:01:06,216 --> 00:01:10,039
+This means that it not only pulls the
+data from the network in small chunks,
+
+23
+00:01:10,039 --> 00:01:13,073
+but because http isn't required
+to give us a content size,
+
+24
+00:01:13,072 --> 00:01:16,368
+our code needs to be ready to
+handle buffers of different sizes.
+
+25
+00:01:16,368 --> 00:01:20,040
+This code automatically allocates and
+deallocates the buffers as needed.
+
+26
+00:01:20,040 --> 00:01:23,350
+It also handles the character
+encoding for us.
+
+27
+00:01:23,349 --> 00:01:27,829
+Specifically, it translates from UTF-8
+which is the default encoding for
+
+28
+00:01:27,829 --> 00:01:32,939
+json and JavaScript to UTF-16,
+the format used by android.
+
+29
+00:01:32,939 --> 00:01:35,750
+There are lots of ways to do this and
+
+30
+00:01:35,750 --> 00:01:38,890
+we've added a link to stack overflow
+where you can read about them.
+
+31
+00:01:38,890 --> 00:01:41,480
+Also there are some great libraries that
+
+32
+00:01:41,480 --> 00:01:46,300
+both simplify Android networking while
+adding functionality to the http stack.
+
+33
+00:01:46,299 --> 00:01:49,230
+We've added information
+on one of our favorites.
+
+34
+00:01:49,230 --> 00:01:53,400
+We're really close to achieving internet
+connectivity but we need to do one more
+
+35
+00:01:53,400 --> 00:01:57,260
+thing before Android will let us grab
+bits and bites from wherever we please.
+
+36
+00:01:57,260 --> 00:01:58,240
+We have to ask permission
+

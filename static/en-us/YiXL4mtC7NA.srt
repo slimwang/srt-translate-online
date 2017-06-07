@@ -1,0 +1,239 @@
+1
+00:00:00,320 --> 00:00:01,710
+Now that you got a POJO,
+
+2
+00:00:01,710 --> 00:00:05,460
+you might be really eager to start
+inserting items into your code.
+
+3
+00:00:05,460 --> 00:00:08,140
+But hold on a second,
+lets talk about performance.
+
+4
+00:00:08,140 --> 00:00:11,120
+I want you to consider a couple of
+different database organizations, or
+
+5
+00:00:11,120 --> 00:00:15,200
+data structure organizations that we
+could use for shopping list items.
+
+6
+00:00:15,200 --> 00:00:16,930
+Here's one I'm going to
+call Data Structure A.
+
+7
+00:00:16,930 --> 00:00:20,340
+We have our root, our active list,
+and then here's the data for
+
+8
+00:00:20,340 --> 00:00:21,670
+each of our lists.
+
+9
+00:00:21,670 --> 00:00:26,090
+When we add items, we'll go ahead and
+add them inside of each of these lists.
+
+10
+00:00:26,090 --> 00:00:29,445
+So, here are our lists of items
+within our shopping lists.
+
+11
+00:00:30,850 --> 00:00:35,060
+So for example, this shopping list here
+who's name is stored somewhere in here,
+
+12
+00:00:35,060 --> 00:00:40,670
+lets say Smores Supplies, has four
+different items each with their name and
+
+13
+00:00:40,670 --> 00:00:44,430
+their owner, and this shopping list
+has two items each with their name and
+
+14
+00:00:44,430 --> 00:00:46,620
+their owner and so on.
+
+15
+00:00:46,620 --> 00:00:48,280
+This basically has all
+the information for
+
+16
+00:00:48,280 --> 00:00:52,390
+a shopping list bundled together in
+nice little shopping list objects.
+
+17
+00:00:52,390 --> 00:00:56,360
+This organization matches what we're
+used to when we think of Java objects.
+
+18
+00:00:56,360 --> 00:00:59,520
+You'd probably have an array list
+of items within your Java shopping
+
+19
+00:00:59,520 --> 00:01:00,180
+list object.
+
+20
+00:01:00,180 --> 00:01:04,530
+Okay, let me show you something a little
+bit different, here's Data Structure B.
+
+21
+00:01:04,530 --> 00:01:08,760
+It starts out pretty similar,
+and then instead of storing items
+
+22
+00:01:08,760 --> 00:01:13,040
+as part of the shopping list,
+we make an entirely new node.
+
+23
+00:01:13,040 --> 00:01:15,950
+Maybe call it something like
+shopping list items, and
+
+24
+00:01:15,950 --> 00:01:19,260
+then store the items for
+the shopping lists here, separately.
+
+25
+00:01:19,260 --> 00:01:22,712
+So, my question to you is,
+which data structure is preferable.
+
+26
+00:01:22,712 --> 00:01:25,820
+All right, here are two data
+structures side by side.
+
+27
+00:01:25,820 --> 00:01:28,590
+To analyze which of these data
+structures is better, I want you to
+
+28
+00:01:28,590 --> 00:01:31,760
+take a look at the two main screens
+that we have in our app right now.
+
+29
+00:01:31,760 --> 00:01:34,390
+This right here is
+the ShoppingLists fragment screen.
+
+30
+00:01:34,390 --> 00:01:38,517
+And as you can see,
+it has all of our shopping lists, and
+
+31
+00:01:38,517 --> 00:01:39,210
+then we have the active
+list details screen, and
+
+32
+00:01:39,210 --> 00:01:41,090
+then we have the active
+list details activity.
+
+33
+00:01:41,090 --> 00:01:45,080
+And this is of course, the activity
+that will contain all the items on it,
+
+34
+00:01:45,080 --> 00:01:47,220
+as well as information
+about specific lists.
+
+35
+00:01:47,220 --> 00:01:50,390
+Now, before you answer this question,
+I want you to consider this fact.
+
+36
+00:01:50,390 --> 00:01:51,995
+Each time you grab a data snapshot,
+
+37
+00:01:51,995 --> 00:01:54,575
+it takes a picture of a specific
+portion of the database.
+
+38
+00:01:54,575 --> 00:01:56,797
+If you take a picture
+of active lists here,
+
+39
+00:01:56,797 --> 00:02:00,215
+it contains all of these active
+lists and all the children nodes.
+
+40
+00:02:00,215 --> 00:02:04,597
+If you take a snapshot of push ID K6215,
+it will also contain all of its
+
+41
+00:02:04,597 --> 00:02:08,310
+children, but none of these
+other nodes or parent nodes.
+
+42
+00:02:08,310 --> 00:02:11,240
+When shopping list ++ hopefully
+becomes very popular,
+
+43
+00:02:11,240 --> 00:02:14,290
+we're going to have a lot of shopping
+list items and a lot of users, and
+
+44
+00:02:14,290 --> 00:02:17,410
+we want to minimize the data sent
+between the server and the app.
+
+45
+00:02:17,410 --> 00:02:20,270
+So if you had to choose one of these
+two data structures solely for
+
+46
+00:02:20,270 --> 00:02:22,070
+getting all the information
+that you need for
+
+47
+00:02:22,070 --> 00:02:24,630
+the shopping list fragment screen,
+would you choose A or B?
+
+48
+00:02:24,630 --> 00:02:27,790
+In the same way, if you had to pick
+one of these two data structures for
+
+49
+00:02:27,790 --> 00:02:30,680
+active list details activity,
+which one would you pick A or B?

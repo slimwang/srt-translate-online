@@ -1,0 +1,424 @@
+1
+00:00:00,220 --> 00:00:03,430
+Now that all of our code is
+running fast and awesome, let's
+
+2
+00:00:03,430 --> 00:00:08,039
+talk a bit more about memory and how it
+affects the performance in our system.
+
+3
+00:00:08,039 --> 00:00:11,560
+Many programming languages that are
+known for being close to the hardware,
+
+4
+00:00:11,560 --> 00:00:13,900
+or rather, high performance,
+like C, C++,
+
+5
+00:00:13,900 --> 00:00:18,210
+and Fortran, usually programmers
+to manage memory themselves.
+
+6
+00:00:18,210 --> 00:00:20,390
+Effectively programmers
+are responsible for
+
+7
+00:00:20,390 --> 00:00:24,540
+allocating a block of memory and then
+sometime in the future de-allocating
+
+8
+00:00:24,540 --> 00:00:26,340
+it when they're actually done using it.
+
+9
+00:00:26,340 --> 00:00:30,900
+Since you define when and how much
+memory to allocate in free, the entire
+
+10
+00:00:30,900 --> 00:00:35,200
+quality of managing memory depends
+on your skills and effectiveness.
+
+11
+00:00:35,200 --> 00:00:36,310
+That's a lot of responsibility.
+
+12
+00:00:36,310 --> 00:00:39,900
+And the reality programmers aren't
+always the best at keeping track of
+
+13
+00:00:39,900 --> 00:00:42,410
+all those bits and pieces of memory.
+
+14
+00:00:42,410 --> 00:00:44,650
+I mean think about it,
+product development is a muddy and
+
+15
+00:00:44,650 --> 00:00:48,960
+crazy process and often memory ends
+up not getting freed properly.
+
+16
+00:00:48,960 --> 00:00:53,260
+These un-liberated blocks of memory, are
+called memory leaks and they just sit
+
+17
+00:00:53,260 --> 00:00:57,550
+around hogging resources, that you
+could use better or somewhere else.
+
+18
+00:00:57,550 --> 00:01:00,870
+To reduce this chaos, stress,
+and sometimes big money losses,
+
+19
+00:01:00,870 --> 00:01:05,400
+caused by memory leaks,
+managed memory languages were created.
+
+20
+00:01:05,400 --> 00:01:08,680
+The run times of these languages
+track memory allocations and
+
+21
+00:01:08,680 --> 00:01:11,600
+release memory back to the system
+when it's no longer being needed by
+
+22
+00:01:11,600 --> 00:01:15,740
+the application itself, all without
+any intervention from the programmer.
+
+23
+00:01:15,740 --> 00:01:20,000
+This art, or rather science,
+of reclaiming memory in a managed memory
+
+24
+00:01:20,000 --> 00:01:23,620
+environment is known as garbage
+collection, this concept was created by
+
+25
+00:01:23,620 --> 00:01:29,510
+John McCarthy in 1959 to solve problems
+in the lisp programming language.
+
+26
+00:01:29,510 --> 00:01:33,440
+The basic principles of garbage
+collection are as follows, number one,
+
+27
+00:01:33,440 --> 00:01:36,850
+find data objects in a program that
+cannot be accessed in the future for
+
+28
+00:01:36,850 --> 00:01:40,170
+example, any memory that is no
+longer referenced by the code.
+
+29
+00:01:40,170 --> 00:01:43,990
+And number two, reclaim
+the resources used by those objects.
+
+30
+00:01:43,990 --> 00:01:46,820
+Simple concept in theory, but
+it gets pretty complex once you've
+
+31
+00:01:46,820 --> 00:01:50,530
+got 2 million lines of code and
+four gigs worth of allocations.
+
+32
+00:01:50,530 --> 00:01:53,290
+Now think about it, garbage collection
+can be really gnarly, I mean,
+
+33
+00:01:53,290 --> 00:01:57,160
+if you've got some 20,000 allocations
+in your program right now.
+
+34
+00:01:57,160 --> 00:01:58,460
+Which ones aren't being needed anymore?
+
+35
+00:01:58,460 --> 00:02:01,350
+Or better yet, when should you
+execute a garbage collection event
+
+36
+00:02:01,350 --> 00:02:03,920
+to free up memory that isn't used?
+
+37
+00:02:03,920 --> 00:02:06,010
+These are actually very
+difficult questions, and
+
+38
+00:02:06,010 --> 00:02:09,729
+thankfully we've had about 50 years
+worth of innovation to improve them,
+
+39
+00:02:09,729 --> 00:02:11,850
+which is why the garbage
+collector in Android's Runtime,
+
+40
+00:02:11,850 --> 00:02:15,180
+is quite a bit more sophisticated
+than McCarthy's original proposal.
+
+41
+00:02:15,180 --> 00:02:18,890
+It's been built to be as fast and
+non-intrusive as possible.
+
+42
+00:02:18,890 --> 00:02:22,710
+Effectively the memory heaps in androids
+runtimes are segmented into spaces,
+
+43
+00:02:22,710 --> 00:02:24,290
+based on the type of allocation and
+
+44
+00:02:24,290 --> 00:02:28,380
+how best the system can organize
+allocations for future GC events.
+
+45
+00:02:28,380 --> 00:02:29,940
+As a new object is allocated,
+
+46
+00:02:29,940 --> 00:02:33,370
+these characteristics are taken into
+account to best fit what spaces should
+
+47
+00:02:33,370 --> 00:02:37,190
+be placed into depending what version
+of the android runtime you're using.
+
+48
+00:02:37,190 --> 00:02:38,780
+And here's the important part.
+
+49
+00:02:38,780 --> 00:02:40,610
+Each space has a set size,
+
+50
+00:02:40,610 --> 00:02:44,320
+as objects are allocated, we keep
+track of the combined sizes, and,
+
+51
+00:02:44,320 --> 00:02:47,340
+as a space starts to grow, the system
+will need to execute a garbage
+
+52
+00:02:47,340 --> 00:02:51,520
+collection event in an attempt to free
+up memory for future allocations.
+
+53
+00:02:51,520 --> 00:02:54,170
+Now it's worth putting out that
+GC events will behave differently
+
+54
+00:02:54,170 --> 00:02:56,690
+depending on what Android
+runtime you're using.
+
+55
+00:02:56,690 --> 00:03:01,190
+For example, in Dalvik many GC events
+are stop the world events, meaning
+
+56
+00:03:01,190 --> 00:03:05,090
+that any managed code that is running
+will stop until the operation completes.
+
+57
+00:03:05,090 --> 00:03:09,050
+Which can get very problematic, when
+these GCs take longer than normal or
+
+58
+00:03:09,050 --> 00:03:10,540
+there's a ton of them happening at once,
+
+59
+00:03:10,540 --> 00:03:13,610
+since it's going to significantly
+eat into your frame time.
+
+60
+00:03:13,610 --> 00:03:14,470
+>> And to be clear,
+
+61
+00:03:14,470 --> 00:03:17,790
+the Android engineers have spent a lot
+of time making sure that these events
+
+62
+00:03:17,790 --> 00:03:21,280
+are as fast as possible to reduce
+interruptions, that being said,
+
+63
+00:03:21,280 --> 00:03:25,390
+they can still cause some application
+performance problems in your code.
+
+64
+00:03:25,390 --> 00:03:29,160
+Firstly, understand that the more time
+your app is spending doing GCs in
+
+65
+00:03:29,160 --> 00:03:32,740
+a given frame, the less time it's got
+for the rest of the logic needed to keep
+
+66
+00:03:32,740 --> 00:03:35,200
+you under the 16 millisecond
+rendering barrier.
+
+67
+00:03:35,200 --> 00:03:38,440
+So if you got a lot of GCs or some long
+ones that are occurring right after
+
+68
+00:03:38,440 --> 00:03:42,290
+each other, it might put your frame
+processing time over the 16 millisecond
+
+69
+00:03:42,290 --> 00:03:46,640
+rendering barrier, which will cause
+visible hitching or jank for your users.
+
+70
+00:03:46,640 --> 00:03:50,300
+Secondly, understand that your code
+flow may be doing the kinds of work that
+
+71
+00:03:50,300 --> 00:03:54,980
+force GCs to occur more often, or making
+them last longer than normal duration.
+
+72
+00:03:54,980 --> 00:03:58,650
+For example, if you're allocating a
+hoard of objects in the inner most part
+
+73
+00:03:58,650 --> 00:04:01,540
+of a loop that runs for a long time,
+then you're going to be polluting your
+
+74
+00:04:01,540 --> 00:04:05,640
+memory heap with a lot of objects and
+you'll end up kicking off a lot of GCs
+
+75
+00:04:05,640 --> 00:04:09,010
+quickly, due to this
+additional memory pressure.
+
+76
+00:04:09,010 --> 00:04:12,170
+And even though we're in
+a managed memory environment,
+
+77
+00:04:12,170 --> 00:04:13,490
+memory leaks can still happen.
+
+78
+00:04:13,490 --> 00:04:16,769
+Although they're not as easy to
+create as the other languages.
+
+79
+00:04:16,769 --> 00:04:19,860
+These leaks can pollute your heat
+with objects that won't get freed
+
+80
+00:04:19,860 --> 00:04:23,680
+during a GC event, effectively reducing
+the amount of usable space you have and
+
+81
+00:04:23,680 --> 00:04:27,340
+forcing more GC events to be kicked off,
+in a regular fashion as a result.
+
+82
+00:04:27,340 --> 00:04:28,865
+So that's the deal, I mean,
+
+83
+00:04:28,865 --> 00:04:32,586
+if you want to reduce the amount of GC
+events that happen in a given frame,
+
+84
+00:04:32,586 --> 00:04:36,070
+then you need to focus on
+optimizing your apps memory usage.
+
+85
+00:04:36,070 --> 00:04:39,300
+From a code perspective, it might be
+difficult to track down where problems
+
+86
+00:04:39,300 --> 00:04:40,550
+like these are coming from, but
+
+87
+00:04:40,550 --> 00:04:45,310
+thankfully, the Android SDK has a set
+of powerful tools at your disposal.
+
+88
+00:04:45,310 --> 00:04:45,810
+Let's take a look.

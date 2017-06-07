@@ -1,0 +1,183 @@
+1
+00:00:00,180 --> 00:00:03,450
+Partial autocorrelation can
+be a pretty tricky concept.
+
+2
+00:00:03,450 --> 00:00:05,910
+It is the correlation between
+two variables controlling for
+
+3
+00:00:05,910 --> 00:00:08,450
+the values of another set of variables.
+
+4
+00:00:08,450 --> 00:00:12,620
+For example, if we consider three
+consecutive values in a time series,
+
+5
+00:00:12,620 --> 00:00:15,360
+they all have some amount of
+correlation with each other.
+
+6
+00:00:15,360 --> 00:00:17,210
+The correlation between
+the current period and
+
+7
+00:00:17,210 --> 00:00:20,180
+lag 2 would be autocorrelation.
+
+8
+00:00:20,180 --> 00:00:23,040
+The same calculation,
+controlling for the value of lag 1,
+
+9
+00:00:23,040 --> 00:00:25,960
+would be partial autocorrelation.
+
+10
+00:00:25,960 --> 00:00:28,600
+To understand more about
+partial autocorrelation,
+
+11
+00:00:28,600 --> 00:00:29,680
+see the link below the video.
+
+12
+00:00:30,980 --> 00:00:34,200
+So while the ACF calculate
+the correlations of each of the previous
+
+13
+00:00:34,200 --> 00:00:37,940
+points with a value, the PACF shows
+the correlation of these points,
+
+14
+00:00:37,940 --> 00:00:41,880
+controlling for the values of
+all previous lag variables.
+
+15
+00:00:41,880 --> 00:00:45,730
+Let's take a look at the PACF plot of
+our difference toothbrush dataset.
+
+16
+00:00:45,730 --> 00:00:50,020
+Note that the PACF plot has
+a significant spike only at Lag-1.
+
+17
+00:00:50,020 --> 00:00:53,849
+This means that all autocorrelation
+is effectively explained by Lag-1
+
+18
+00:00:53,849 --> 00:00:55,880
+autocorrelation.
+
+19
+00:00:55,880 --> 00:00:59,570
+Inspecting the PACF will suggest
+how many AR terms you need to use
+
+20
+00:00:59,570 --> 00:01:02,770
+to explain the article relation
+pattern in a time series.
+
+21
+00:01:02,770 --> 00:01:06,030
+If the partial autocorrelation
+drops off at lag number k,
+
+22
+00:01:06,030 --> 00:01:08,860
+it generally indicates an ARk Model.
+
+23
+00:01:08,860 --> 00:01:12,570
+If it drops off more gradually,
+it suggests a MA model.
+
+24
+00:01:12,570 --> 00:01:16,456
+Looking at our example,
+we see the PACF drops off after Lag-1,
+
+25
+00:01:16,456 --> 00:01:19,862
+which confirms that our
+series suggest an AR-1 model.
+
+26
+00:01:19,862 --> 00:01:22,170
+Whew, did you get all that?
+
+27
+00:01:22,170 --> 00:01:24,570
+Let's take a look at a few examples.
+
+28
+00:01:24,570 --> 00:01:28,220
+Let's jump over to Alteryx to take
+a look at where we can find the ACF and
+
+29
+00:01:28,220 --> 00:01:29,880
+PACF plots.
+
+30
+00:01:29,880 --> 00:01:33,560
+We'll begin by bringing
+in our TBSales.xlsx and
+
+31
+00:01:33,560 --> 00:01:35,365
+connecting it to a TS plot tool.
+
+32
+00:01:35,365 --> 00:01:38,245
+In the TS Plot tool configuration,
+
+33
+00:01:38,245 --> 00:01:41,730
+we'll set our target field to
+toothbrush sales, the target field
+
+34
+00:01:41,730 --> 00:01:45,790
+frequency will be monthly, and
+the plot type will be time series plot.
+
+35
+00:01:46,960 --> 00:01:50,600
+Now, add a browse tool to
+the interactive node and hit Run.
+
+36
+00:01:51,900 --> 00:01:56,680
+At the bottom of the resulting report,
+the ACF and PACF plots show the serial
+
+37
+00:01:56,680 --> 00:02:01,540
+correlation of the series or
+how correlated it is with itself.
+
+38
+00:02:01,540 --> 00:02:04,550
+Correlation coefficient
+is on the vertical axis,
+
+39
+00:02:04,550 --> 00:02:07,110
+while the lag value is
+on the horizontal axis.

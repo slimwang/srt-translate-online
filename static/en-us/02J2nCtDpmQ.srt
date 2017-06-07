@@ -1,0 +1,114 @@
+1
+00:00:00,126 --> 00:00:02,041
+Let's see another way to use memcache.
+
+2
+00:00:02,041 --> 00:00:05,380
+You don't have to set anything
+up to get ndb to use memcache,
+
+3
+00:00:05,380 --> 00:00:09,583
+but you can also use the memcache API
+directly and save custom strings to it.
+
+4
+00:00:09,583 --> 00:00:11,640
+So we're going to use memcache for
+saving and
+
+5
+00:00:11,640 --> 00:00:14,792
+getting announcements about
+conferences that are nearly sold out.
+
+6
+00:00:14,792 --> 00:00:18,906
+You can imagine, for example, that your
+web application might display a banner
+
+7
+00:00:18,906 --> 00:00:22,250
+ad to encourage people for
+conferences that are nearly sold out.
+
+8
+00:00:22,250 --> 00:00:25,667
+There might be other things you would
+want to announce on your website too.
+
+9
+00:00:25,667 --> 00:00:28,860
+Maybe if you get a special speaker for
+a particular conference or
+
+10
+00:00:28,860 --> 00:00:30,583
+to announce a special promotion.
+
+11
+00:00:30,583 --> 00:00:33,746
+For the sake of simplicity, we're just
+going to create announcements about
+
+12
+00:00:33,746 --> 00:00:35,353
+conferences that are nearly sold out,
+
+13
+00:00:35,353 --> 00:00:37,750
+because the goal here is just
+to learn how to use memcache.
+
+14
+00:00:37,750 --> 00:00:40,960
+But announcements are a good example of
+the kind of thing you might want to save
+
+15
+00:00:40,960 --> 00:00:43,130
+in memcache without saving
+them to the datastore.
+
+16
+00:00:43,130 --> 00:00:46,833
+If an announcement gets evicted from
+memcache, there's no loss of real data.
+
+17
+00:00:46,833 --> 00:00:50,167
+And it doesn't really matter,
+no business transactions are affected.
+
+18
+00:00:50,167 --> 00:00:52,292
+No one loses their
+place at a conference.
+
+19
+00:00:52,292 --> 00:00:55,250
+And the next announcement will
+likely come along soon, anyway.
+
+20
+00:00:55,250 --> 00:00:58,385
+Announcements are very transient and
+they don't need to be saved for
+
+21
+00:00:58,385 --> 00:00:59,583
+long-term or backed up.
+
+22
+00:00:59,583 --> 00:01:02,847
+So they're perfect candidates to be
+saved in memcache and only in Memcache,
+
+23
+00:01:02,847 --> 00:01:04,417
+they don't need to go in datastore.
+
+24
+00:01:04,417 --> 00:01:07,467
+That way you get all your announcements
+without using any datastore quota.

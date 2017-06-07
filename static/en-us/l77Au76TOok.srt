@@ -1,0 +1,215 @@
+1
+00:00:00,240 --> 00:00:02,805
+>> Dun, duh, dun, dun, duh, dun, dun, dun. Dun, duh, dun, dun, duh, dun, dun,
+
+2
+00:00:02,805 --> 00:00:05,920
+dun. Dun, duh, dun, dun, duh, dun, dun,
+
+3
+00:00:05,920 --> 00:00:09,860
+dun. Dun, duh, dun, dun, duh, dun, dun, dun.
+
+4
+00:00:09,860 --> 00:00:11,720
+>> Hi, I'm Michael Litman and welcome to
+
+5
+00:00:11,720 --> 00:00:15,260
+clustering and expectation maximization. I dunno, I feel
+
+6
+00:00:15,260 --> 00:00:17,030
+a little drama might help kind of wake us
+
+7
+00:00:17,030 --> 00:00:18,610
+up this morning. How are you doing Charles?
+
+8
+00:00:18,610 --> 00:00:20,020
+>> I'm doing fine. I just had a lot of ice cream.
+
+9
+00:00:20,020 --> 00:00:21,950
+>> [LAUGH] Dude, you really shouldn't eat
+
+10
+00:00:21,950 --> 00:00:23,215
+ice cream first thing in the morning.
+
+11
+00:00:23,215 --> 00:00:25,350
+>> It wasn't first thing in the morning. That was after I had
+
+12
+00:00:25,350 --> 00:00:29,600
+a muffin, and a breakfast burrito. So it was third thing in the morning.
+
+13
+00:00:29,600 --> 00:00:32,800
+>> You frighten me. As you may recall, the
+
+14
+00:00:32,800 --> 00:00:34,294
+mini course that we are doing now is on
+
+15
+00:00:34,294 --> 00:00:37,430
+unsupervised learning and we haven't really kind of set
+
+16
+00:00:37,430 --> 00:00:40,360
+down and, and introduced these concepts. So, I, I thought
+
+17
+00:00:40,360 --> 00:00:42,100
+it maybe worth taking a step back, even though
+
+18
+00:00:42,100 --> 00:00:44,370
+we are going to talk about some particular algorithms today,
+
+19
+00:00:44,370 --> 00:00:47,530
+to talk more generally about what unsupervised learning is.
+
+20
+00:00:47,530 --> 00:00:50,410
+So up to this point in the first mini course
+
+21
+00:00:50,410 --> 00:00:53,660
+we talked about supervised learning. Supervised learning,
+
+22
+00:00:53,660 --> 00:00:55,660
+in supervised learning we use labeled training
+
+23
+00:00:55,660 --> 00:00:58,610
+data to generalize labels to new instances.
+
+24
+00:00:58,610 --> 00:01:01,360
+And what unsupervised learning is is making
+
+25
+00:01:01,360 --> 00:01:04,129
+sense out of unlabeled data. So when I wrote these down I started to
+
+26
+00:01:04,129 --> 00:01:06,770
+think boy, they're more different than you'd
+
+27
+00:01:06,770 --> 00:01:08,840
+expect just by sticking an un in front.
+
+28
+00:01:08,840 --> 00:01:10,380
+>> How so?
+
+29
+00:01:10,380 --> 00:01:12,370
+>> Well they don't seem to really, the definitions don't seem to
+
+30
+00:01:12,370 --> 00:01:15,420
+have all the much in common. You know, it's not like this
+
+31
+00:01:15,420 --> 00:01:17,850
+one uses labeled training data to generalize labels to new
+
+32
+00:01:17,850 --> 00:01:21,520
+instances, and this one uses unlabeled training data to generalize labels
+
+33
+00:01:21,520 --> 00:01:24,200
+to new instances. Like I would think that you'd have the
+
+34
+00:01:24,200 --> 00:01:26,800
+definition of one. You just stick an extra un in there.
+
+35
+00:01:26,800 --> 00:01:30,270
+>> Well, that's kind of true, right? So you, if you,
+
+36
+00:01:30,270 --> 00:01:33,420
+if you do some data description and make sense out of
+
+37
+00:01:33,420 --> 00:01:35,230
+unlabeled data. And then I give you a new piece of
+
+38
+00:01:35,230 --> 00:01:38,540
+data. Somehow, using that description, you would know how to describe it.
+
+39
+00:01:38,540 --> 00:01:40,220
+>> Maybe. I mean there's definitely some,
+
+40
+00:01:40,220 --> 00:01:43,940
+some unsupervised learning algorithms that do some amount of generalization.
+
+41
+00:01:43,940 --> 00:01:44,490
+>> Mm-hm.
+
+42
+00:01:44,490 --> 00:01:46,880
+>> But but it's, it's not as, it's not as
+
+43
+00:01:46,880 --> 00:01:50,265
+unified. I think, in some sense the concern here is that
+
+44
+00:01:50,265 --> 00:01:52,890
+unsupervised learning is just not as unified a problem, or
+
+45
+00:01:52,890 --> 00:01:55,950
+as well defined, or crisply defined a problem as supervised learning.
+
+46
+00:01:55,950 --> 00:01:57,400
+>> Oh, I think that's definitely true.
+
+47
+00:01:57,400 --> 00:02:01,470
+>> So just as labels, and I think we talked about this in the
+
+48
+00:02:01,470 --> 00:02:03,580
+intro to the whole course. That supervised
+
+49
+00:02:03,580 --> 00:02:05,490
+learning, we can sometimes think of as function
+
+50
+00:02:05,490 --> 00:02:07,660
+approximation, which is learning how to match inputs
+
+51
+00:02:07,660 --> 00:02:11,460
+to outputs. Whereas, unsupervised learning is data description. It's
+
+52
+00:02:11,460 --> 00:02:14,120
+about taking the data you've got, and finding
+
+53
+00:02:14,120 --> 00:02:16,190
+some kind of more compact way of describing it.
+
+54
+00:02:16,190 --> 00:02:18,250
+>> Sure, I buy that. And it makes a lot of sense.

@@ -1,0 +1,179 @@
+﻿1
+00:00:00,410 --> 00:00:02,710
+Whether you use raw colors directly or
+
+2
+00:00:02,710 --> 00:00:06,599
+build a histogram of those values,
+you still haven't solved the problem of
+
+3
+00:00:06,599 --> 00:00:10,890
+representing objects of the same class
+that can be of different colors.
+
+4
+00:00:10,890 --> 00:00:14,585
+That is, you still haven't
+achieved color and variance.
+
+5
+00:00:14,585 --> 00:00:16,625
+Let's take this image, for example, and
+
+6
+00:00:16,625 --> 00:00:21,184
+look at how its color values
+are distributed in the RGB color space.
+
+7
+00:00:21,184 --> 00:00:26,914
+That is, using red, green, and
+blue intensities as three coordinates.
+
+8
+00:00:26,914 --> 00:00:28,644
+In this example, the red and
+
+9
+00:00:28,644 --> 00:00:32,594
+blue cars' pixels are clustered
+into two separate groups.
+
+10
+00:00:32,594 --> 00:00:35,844
+Although we could come up with a scheme
+to identify these groups using
+
+11
+00:00:35,844 --> 00:00:37,350
+RGB values,
+
+12
+00:00:37,350 --> 00:00:41,365
+it can get complicated very quickly as
+we try to accommodate different colors.
+
+13
+00:00:41,365 --> 00:00:43,920
+So, are there different
+properties that you
+
+14
+00:00:43,920 --> 00:00:48,454
+can derive from these color values
+that might be common across cars but
+
+15
+00:00:48,454 --> 00:00:51,539
+that distinguish them from
+the rest of the image?
+
+16
+00:00:51,539 --> 00:00:56,060
+In the lane finding lesson, you explored
+other color spaces like HLS and
+
+17
+00:00:56,060 --> 00:00:59,990
+LUV to see where alternated
+representations of color could make
+
+18
+00:00:59,990 --> 00:01:03,910
+the object you're looking for
+stand out against the background.
+
+19
+00:01:03,909 --> 00:01:06,979
+To me, it looks like cars
+are more saturated in color,
+
+20
+00:01:06,980 --> 00:01:08,859
+while the background is generally pale.
+
+21
+00:01:10,060 --> 00:01:13,570
+Perhaps you should look at saturation
+values instead of the raw red,
+
+22
+00:01:13,569 --> 00:01:16,329
+green, blue values you
+get from a camera.
+
+23
+00:01:16,329 --> 00:01:20,010
+Or maybe there is some other
+color transformation like HSV or
+
+24
+00:01:20,010 --> 00:01:22,490
+LUV that is more useful?
+
+25
+00:01:22,489 --> 00:01:26,549
+I'm curious what the pixels
+look like in HSV space.
+
+26
+00:01:26,549 --> 00:01:27,390
+Aha!
+
+27
+00:01:27,390 --> 00:01:28,579
+For this image,
+
+28
+00:01:28,579 --> 00:01:33,329
+the car pixels seem to cluster well
+on this saturation value plane.
+
+29
+00:01:33,329 --> 00:01:34,829
+Which kind of make sense.
+
+30
+00:01:34,829 --> 00:01:36,649
+Regardless of the color or
+
+31
+00:01:36,650 --> 00:01:41,210
+hue of a car, it is likely to
+have a more prominent appearance.
+
+32
+00:01:41,209 --> 00:01:43,919
+But this may not be true for
+other images.
+
+33
+00:01:43,920 --> 00:01:48,099
+What you essentially want to do is
+take a bunch of different images and
+
+34
+00:01:48,099 --> 00:01:52,750
+look at how their pixel values are
+distributed in a different color space.
+
+35
+00:01:52,750 --> 00:01:56,930
+And then you want to check if car
+pixels stand out from non-car pixels
+
+36
+00:01:56,930 --> 00:02:00,100
+in some dimensions of
+this transformed space.
+
+37
+00:02:00,099 --> 00:02:02,009
+Try a few different color spaces and
+
+38
+00:02:02,010 --> 00:02:04,770
+see if you can find one that
+gives you a useful feature.
+

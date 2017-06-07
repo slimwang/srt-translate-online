@@ -1,0 +1,313 @@
+1
+00:00:00,200 --> 00:00:03,650
+Now that we've covered exponential
+smoothing models in detail, let's begin
+
+2
+00:00:03,650 --> 00:00:08,220
+construction on a model to forecast
+bookings for Bates Hotel using Alteryx.
+
+3
+00:00:08,220 --> 00:00:11,620
+We'll begin by dragging and dropping
+an Input Data tool onto the canvas and
+
+4
+00:00:11,620 --> 00:00:14,185
+loading in the Bookings xlsx.
+
+5
+00:00:14,185 --> 00:00:17,009
+We'll be using this data to forecast
+the next six months of room bookings.
+
+6
+00:00:17,009 --> 00:00:21,645
+[BLANK_AUDIO]
+
+7
+00:00:21,645 --> 00:00:24,400
+Next, bring in a Record ID tool.
+
+8
+00:00:24,400 --> 00:00:25,950
+All this does is number our records,
+
+9
+00:00:25,950 --> 00:00:29,150
+but doing this will allow us to
+filter out a holdout sample.
+
+10
+00:00:29,150 --> 00:00:32,170
+We'll get more in depth on holdout
+samples later in the course.
+
+11
+00:00:32,170 --> 00:00:36,413
+For now, we'll filter out the last six
+records in our time series to use as
+
+12
+00:00:36,413 --> 00:00:40,657
+the holdout sample, by setting our
+filter to include records less than or
+
+13
+00:00:40,657 --> 00:00:42,241
+equal to RecordID 114.
+
+14
+00:00:42,241 --> 00:00:46,297
+Now that we've prepared our time series
+data for model construction, we can take
+
+15
+00:00:46,297 --> 00:00:49,939
+a look at the time series plots to
+determine how we should apply our trend,
+
+16
+00:00:49,939 --> 00:00:53,560
+seasonal and error components
+in our model calculation.
+
+17
+00:00:53,560 --> 00:00:56,760
+We'll connect a Record ID
+tool to a TS Plot tool.
+
+18
+00:00:56,760 --> 00:01:01,050
+In the TS Plot tool configuration, we'll
+select Bookings as the target field,
+
+19
+00:01:01,050 --> 00:01:06,100
+Monthly for our target field frequency,
+and Time series plot as our plot type.
+
+20
+00:01:06,100 --> 00:01:10,190
+Now, add a Browse tool to the
+interactive node of the TS Plot tool.
+
+21
+00:01:10,190 --> 00:01:12,040
+You can do this by
+right-clicking on the tool and
+
+22
+00:01:12,040 --> 00:01:14,810
+selecting Add Browse After
+(Interactive).
+
+23
+00:01:14,810 --> 00:01:15,280
+Now hit Run.
+
+24
+00:01:15,280 --> 00:01:20,430
+The interactive output for the TS Plot
+shows us a vast amount of information.
+
+25
+00:01:20,430 --> 00:01:23,040
+Let's take a look at
+the decomposition plot.
+
+26
+00:01:23,040 --> 00:01:26,270
+From this plot, we can tell our
+trend moves in a linear fashion,
+
+27
+00:01:26,270 --> 00:01:28,920
+suggesting applying trend additively.
+
+28
+00:01:28,920 --> 00:01:31,950
+The seasonality within our time series
+data looks to be about the same
+
+29
+00:01:31,950 --> 00:01:32,850
+every year.
+
+30
+00:01:32,850 --> 00:01:33,750
+But is it?
+
+31
+00:01:33,750 --> 00:01:36,558
+The seasonal portion of our
+decomposition plot allows us to that
+
+32
+00:01:36,558 --> 00:01:38,260
+confirm is this is true.
+
+33
+00:01:38,260 --> 00:01:40,510
+Looking at the seasonal peaks and
+valleys,
+
+34
+00:01:40,510 --> 00:01:44,180
+we can see that seasonality increases
+in volume each seasonal period.
+
+35
+00:01:44,180 --> 00:01:47,200
+This suggests applying seasonality
+in a multiplicative manner.
+
+36
+00:01:48,460 --> 00:01:50,675
+Lastly, our remainder, or error,
+
+37
+00:01:50,675 --> 00:01:54,080
+shows changing variance as
+the time series moves along.
+
+38
+00:01:54,080 --> 00:01:56,940
+This means we should use
+error multiplicatively.
+
+39
+00:01:56,940 --> 00:02:00,390
+The next step after determining
+the fashion of how to apply our trend,
+
+40
+00:02:00,390 --> 00:02:05,360
+seasonal, and error components, will
+be to build a model using the ETS tool.
+
+41
+00:02:05,360 --> 00:02:08,130
+Let's drag and
+drop an ETS tool onto the canvas.
+
+42
+00:02:08,130 --> 00:02:12,720
+We'll name our model MAM, to show how
+we're applying the different components.
+
+43
+00:02:12,720 --> 00:02:15,540
+Next, select Bookings as
+the target field, and
+
+44
+00:02:15,540 --> 00:02:17,410
+Monthly as target field frequency.
+
+45
+00:02:18,490 --> 00:02:22,210
+On the Model type tab, we can set
+the different component types.
+
+46
+00:02:22,210 --> 00:02:27,180
+Set Error to Multiplicative, Trend to
+Additive, Trend dampening to No, and
+
+47
+00:02:27,180 --> 00:02:28,690
+Seasonal type to Multiplicative.
+
+48
+00:02:30,560 --> 00:02:34,140
+On the Other options tab, let's input 6
+as the number of periods to include in
+
+49
+00:02:34,140 --> 00:02:38,190
+the forecast, and set the series
+starting point to 2006 period one.
+
+50
+00:02:39,730 --> 00:02:43,570
+Let's also test if trend dampening will
+have a positive effect on our model.
+
+51
+00:02:43,570 --> 00:02:48,150
+So, copy and
+paste the ETS tool on the canvas, and
+
+52
+00:02:48,150 --> 00:02:51,520
+make sure the configuration is
+the same as our first ETS model.
+
+53
+00:02:51,520 --> 00:02:54,790
+Except now,
+set Trend dampening to Yes, and
+
+54
+00:02:54,790 --> 00:02:56,920
+also make sure to add
+dampened to the model name so
+
+55
+00:02:56,920 --> 00:02:59,258
+we can tell the difference when
+referencing the final output.
+
+56
+00:02:59,258 --> 00:03:03,409
+Our alpha, or smoothing value
+is calculated automatically by
+
+57
+00:03:03,409 --> 00:03:09,030
+Alteryx to maximize error reduction,
+so we'll not have to set this.
+
+58
+00:03:09,030 --> 00:03:14,070
+Before we hit Run, auto-browse to
+the R or report node of the ETS tools.
+
+59
+00:03:14,070 --> 00:03:17,100
+We can click on the Play
+button to build our models.
+
+60
+00:03:17,100 --> 00:03:20,554
+The output from our ETS tool will
+show us important information such as
+
+61
+00:03:20,554 --> 00:03:26,260
+in-sample error measures, information
+criteria, and the selected alpha value.
+
+62
+00:03:26,260 --> 00:03:28,620
+We'll discuss how to compare,
+forecast, and
+
+63
+00:03:28,620 --> 00:03:30,890
+visualize these results in lesson four.
+
+64
+00:03:30,890 --> 00:03:32,306
+For now, save this workflow,
+
+65
+00:03:32,306 --> 00:03:34,984
+as we will come back to reference
+it later on in the course.
+
+66
+00:03:34,984 --> 00:03:36,149
+[BLANK_AUDIO]

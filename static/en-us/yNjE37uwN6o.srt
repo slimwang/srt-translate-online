@@ -1,0 +1,208 @@
+﻿1
+00:00:00,360 --> 00:00:04,919
+You already know that when you query for
+data, you have to do so asynchronously.
+
+2
+00:00:04,919 --> 00:00:08,550
+Which means you have to retrieve
+the data on a background thread.
+
+3
+00:00:08,550 --> 00:00:11,730
+This is because a query can
+be unreliable or slow, and
+
+4
+00:00:11,730 --> 00:00:15,150
+you want to make sure that your main
+UI thread runs quickly and smoothly.
+
+5
+00:00:16,289 --> 00:00:17,759
+So to handle queries for
+
+6
+00:00:17,760 --> 00:00:22,179
+our task data, we're going to
+be using an AsyncTask Loader.
+
+7
+00:00:22,179 --> 00:00:26,009
+This loader implements call back
+methods to start loading data,
+
+8
+00:00:26,010 --> 00:00:30,100
+perform a query in the background,
+and finally return that data.
+
+9
+00:00:30,100 --> 00:00:34,380
+We can also tell our loader to requery
+the task data whenever it changes,
+
+10
+00:00:34,380 --> 00:00:36,760
+like when we insert a new task.
+
+11
+00:00:36,759 --> 00:00:38,820
+In fact, in our main activity code,
+
+12
+00:00:38,820 --> 00:00:42,140
+there's already a requery that
+happens in the on resume method.
+
+13
+00:00:43,299 --> 00:00:47,149
+In the on resume method, we restart
+the loader so that any time you leave
+
+14
+00:00:47,149 --> 00:00:51,140
+the main activity and return,
+like when you go to AddTaskActivity
+
+15
+00:00:51,140 --> 00:00:56,079
+to insert a new task, the loader
+will restart and update the UI.
+
+16
+00:00:56,079 --> 00:01:00,079
+So all we need to do now is add some
+simple code to load our task data
+
+17
+00:01:00,079 --> 00:01:01,939
+on a background thread.
+
+18
+00:01:01,939 --> 00:01:04,539
+So let's scroll down to our
+loader callback methods.
+
+19
+00:01:05,579 --> 00:01:08,569
+In our loader callback method
+named loadInBackground,
+
+20
+00:01:08,569 --> 00:01:11,989
+we can use a content resolver to
+query for the tasks directory.
+
+21
+00:01:13,180 --> 00:01:17,370
+We'll surround our query in a try-catch,
+which means we'll try to query and
+
+22
+00:01:17,370 --> 00:01:19,770
+catch any error that may
+occur while loading data.
+
+23
+00:01:21,400 --> 00:01:24,960
+Here's the structure of a try catch,
+our catch will just log
+
+24
+00:01:24,959 --> 00:01:28,498
+any errors if the data fails to load,
+and return a null cursor.
+
+25
+00:01:29,590 --> 00:01:33,415
+Note that there isn't a return null
+statement outside of this try-catch.
+
+26
+00:01:35,129 --> 00:01:38,689
+And in the try we'll try
+to return a cursor of data.
+
+27
+00:01:38,689 --> 00:01:41,189
+We'll call query on
+the content resolver and
+
+28
+00:01:41,189 --> 00:01:44,569
+pass in the CONTENT_URI that
+points to our tasks directory.
+
+29
+00:01:45,769 --> 00:01:49,799
+The projection and selection arguments
+will all be null, since by default,
+
+30
+00:01:49,799 --> 00:01:51,259
+null will select all the data.
+
+31
+00:01:52,459 --> 00:01:56,209
+And the last argument we're going
+to pass in will be the sort order.
+
+32
+00:01:56,209 --> 00:01:58,549
+And we actually want to
+sort by priority, so
+
+33
+00:01:58,549 --> 00:02:02,409
+that the higher priority tasks
+show up at the top of our list.
+
+34
+00:02:02,409 --> 00:02:05,289
+So I'll put in COLUMN_PRIORITY
+as this last argument.
+
+35
+00:02:06,439 --> 00:02:10,508
+And after this data is loaded, this
+callback method returns this cursor.
+
+36
+00:02:11,629 --> 00:02:15,590
+And this cursor will actually be
+passed to our custom cursor adapter,
+
+37
+00:02:15,590 --> 00:02:18,590
+which creates the task views
+in the main recycler view.
+
+38
+00:02:18,590 --> 00:02:21,200
+So this simple query completes
+our main display code.
+
+39
+00:02:22,270 --> 00:02:25,900
+And if you want to learn more about the
+adapter code, check the notes below or
+
+40
+00:02:25,900 --> 00:02:28,520
+the comments inside that class.
+
+41
+00:02:28,520 --> 00:02:31,000
+Now it's time to try
+running the app again.
+
+42
+00:02:31,000 --> 00:02:34,150
+You should be able to
+insert new task data and
+
+43
+00:02:34,150 --> 00:02:35,900
+see that displayed on the main screen.
+

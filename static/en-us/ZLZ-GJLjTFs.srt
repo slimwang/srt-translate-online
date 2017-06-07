@@ -1,0 +1,235 @@
+1
+00:00:00,110 --> 00:00:04,130
+Now that your visualization is running we need to connect Storm to Flask and D3.
+
+2
+00:00:04,130 --> 00:00:06,300
+We've chosen Redis to make this connection, and
+
+3
+00:00:06,300 --> 00:00:11,330
+this is your first exercise in modifying Storm, and remember throughout this
+
+4
+00:00:11,330 --> 00:00:15,960
+course, at the end of each exercise, your code will match the following stage.
+
+5
+00:00:15,960 --> 00:00:19,550
+So at the end of this exercise your code will match stage two.
+
+6
+00:00:19,550 --> 00:00:22,390
+If you run in to any problems along the way, you can find the solution in
+
+7
+00:00:22,390 --> 00:00:27,280
+stage two, and come back and either modify your code or just continue on.
+
+8
+00:00:27,280 --> 00:00:30,070
+In step one, if you're following around with the videos you
+
+9
+00:00:30,070 --> 00:00:35,320
+already have a second tab open with your python flask server, but if not,
+
+10
+00:00:35,320 --> 00:00:39,430
+you can follow the commands to open another shell in your tab, Vagrant SSH in to
+
+11
+00:00:39,430 --> 00:00:44,970
+your machine, navigate to the correct lesson and restart your visualization.
+
+12
+00:00:44,970 --> 00:00:48,570
+Therefore, in Step two of the written instructions in your second tab,
+
+13
+00:00:48,570 --> 00:00:50,402
+you should already be at Lesson one,
+
+14
+00:00:50,402 --> 00:00:59,810
+Stage one, if not, simply cd into /vagrant/lesson1/stage1.
+
+15
+00:00:59,810 --> 00:01:04,000
+Ls should show your pom, source and target files.
+
+16
+00:01:04,000 --> 00:01:09,940
+In your text editor, navigate to lesson one, stage one, source,
+
+17
+00:01:09,940 --> 00:01:17,490
+jvm, udacity, storm and open the file ReporterExclaimationTopology.java.
+
+18
+00:01:17,490 --> 00:01:21,390
+Maven uses a ProjectObjectModel.xml file, or
+
+19
+00:01:21,390 --> 00:01:25,120
+the POM.xml, to manage product dependencies.
+
+20
+00:01:25,120 --> 00:01:27,130
+Therefore, to make our visualization run,
+
+21
+00:01:27,130 --> 00:01:32,840
+we're using the lettuce module to connect our Java program to redis.
+
+22
+00:01:32,840 --> 00:01:37,000
+So in the first to do part one of four, is to import the lettuce module into
+
+23
+00:01:37,000 --> 00:01:42,210
+the POM.xml file, the XML dependency must be located in the section.
+
+24
+00:01:42,210 --> 00:01:45,090
+If you are unfamiliar with XML we will cover this in detail in
+
+25
+00:01:45,090 --> 00:01:50,880
+the solution video so, copy and paste the dependencies into your palm file.
+
+26
+00:01:50,880 --> 00:01:55,360
+And your palm file is located in again lesson one, stage one and palm.xml, and
+
+27
+00:01:55,360 --> 00:01:58,350
+you can simply scroll down and find where I want you to copy and
+
+28
+00:01:58,350 --> 00:01:59,840
+paste the lettuce redis.
+
+29
+00:01:59,840 --> 00:02:02,040
+Once that's completed, go back to your command line and
+
+30
+00:02:02,040 --> 00:02:06,940
+type in mvn package simply to confirm the build success.
+
+31
+00:02:06,940 --> 00:02:11,392
+Once you have build success following along in step six of the written
+
+32
+00:02:11,392 --> 00:02:16,690
+instructions, you are going to go back into your ReporterExclamationTopology and
+
+33
+00:02:16,690 --> 00:02:18,839
+fill in the import statements for
+
+34
+00:02:18,839 --> 00:02:24,630
+your lambdaworks.redis.RedisClient and lambdaworks.redis.RedisConnection.
+
+35
+00:02:24,630 --> 00:02:28,530
+Once your import statements are entered in part one of four,
+
+36
+00:02:28,530 --> 00:02:30,605
+scroll down to step two of four.
+
+37
+00:02:30,605 --> 00:02:34,120
+In part two of four, we're in the class exclamation bolt and
+
+38
+00:02:34,120 --> 00:02:38,130
+we're going to create an instance of our redis connection redis.
+
+39
+00:02:38,130 --> 00:02:40,410
+After that's complete, scroll down to,
+
+40
+00:02:40,410 --> 00:02:45,380
+to do three of four and instantiate the redis connection and
+
+41
+00:02:45,380 --> 00:02:50,150
+the actual connection, and the syntax is provided in written instructions.
+
+42
+00:02:50,150 --> 00:02:54,460
+Finally, in step four of four, simply uncomment the long count and
+
+43
+00:02:54,460 --> 00:02:58,670
+the reddish.publish to the stream word count apology,
+
+44
+00:02:58,670 --> 00:03:03,990
+which will take in the exclamated word.toString, separated by the bar, and
+
+45
+00:03:03,990 --> 00:03:06,190
+our long to stream of account.
+
+46
+00:03:06,190 --> 00:03:10,330
+This is the connection that will connect up with D3 through our flat server to
+
+47
+00:03:10,330 --> 00:03:11,970
+run our visualization.
+
+48
+00:03:11,970 --> 00:03:15,510
+Finally in step seven, go back to your command line, and
+
+49
+00:03:15,510 --> 00:03:20,900
+package your program, and submit again, using storm, jar, target, udacity.
+
+50
+00:03:20,900 --> 00:03:28,070
+Remember the hyphen with dependencies, and this is udacity.storm and
+
+51
+00:03:28,070 --> 00:03:34,010
+this reporter exclamationTopology and hit enter.
+
+52
+00:03:34,010 --> 00:03:36,970
+And, once you hit enter to submit your storm topology,
+
+53
+00:03:36,970 --> 00:03:42,160
+you can bring back your visualization and you’ll see that names along with
+
+54
+00:03:42,160 --> 00:03:47,410
+three exclamation points or six exclamation points will be shown, and
+
+55
+00:03:47,410 --> 00:03:53,060
+if you hover over any of the names, you'll see the long count 30 appear.
+
+56
+00:03:53,060 --> 00:03:55,700
+So, good luck on connecting your visualization and once you
+
+57
+00:03:55,700 --> 00:04:00,100
+see your visualization running, congratulations on completing stage one.
+
+58
+00:04:00,100 --> 00:04:04,370
+Remember that your code will now match stage two, so any problems along the way,
+
+59
+00:04:04,370 --> 00:04:07,570
+simply look at stage two code in order to complete stage one

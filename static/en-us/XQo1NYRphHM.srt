@@ -1,0 +1,109 @@
+1
+00:00:00,290 --> 00:00:04,250
+While you shouldn't concern yourself
+with micro-optimizations like this one,
+
+2
+00:00:04,250 --> 00:00:07,280
+there are obviously steps you can
+take to ease JavaScript's burden on
+
+3
+00:00:07,280 --> 00:00:08,530
+the rendering pipeline.
+
+4
+00:00:08,530 --> 00:00:11,790
+And that should be obvious, because
+otherwise, there would be no need for
+
+5
+00:00:11,790 --> 00:00:13,405
+this lesson to exist.
+
+6
+00:00:13,405 --> 00:00:15,715
+Think back to the different
+stages of RAIL.
+
+7
+00:00:15,715 --> 00:00:18,815
+Each stage has a different
+window of time to
+
+8
+00:00:18,815 --> 00:00:22,115
+execute JavaScript without incurring
+a user experience penalty.
+
+9
+00:00:22,115 --> 00:00:25,875
+That is to say, you have a small amount
+of time to execute JavaScript, and
+
+10
+00:00:25,875 --> 00:00:28,315
+if all of it happens before
+the window of time is over,
+
+11
+00:00:28,315 --> 00:00:31,060
+the app will still feel snappy and
+smooth.
+
+12
+00:00:31,060 --> 00:00:34,980
+Looking at this timeframe for an
+animation, you realistically only have
+
+13
+00:00:34,980 --> 00:00:38,800
+about ten milliseconds to do everything
+you need to do to prepare the frame,
+
+14
+00:00:38,800 --> 00:00:41,500
+which includes running layout,
+compositing, and paint.
+
+15
+00:00:41,500 --> 00:00:45,570
+So, with that in mind, how do you make
+sure JavaScript is out of the way
+
+16
+00:00:45,570 --> 00:00:49,070
+as much as possible to hit
+that ten-millisecond deadline?
+
+17
+00:00:49,070 --> 00:00:52,910
+Should you optimize your JavaScript
+to eke every last nanosecond out
+
+18
+00:00:52,910 --> 00:00:53,900
+of your code?
+
+19
+00:00:53,900 --> 00:00:58,550
+Should you execute JavaScript every
+16 milliseconds on a rigid schedule?
+
+20
+00:00:58,550 --> 00:01:01,580
+Should you defer JavaScript
+to the very end of the frame,
+
+21
+00:01:01,580 --> 00:01:03,410
+to get the hard work done first?
+
+22
+00:01:03,410 --> 00:01:07,380
+Or should you execute JavaScript
+as early as possible every frame?
+
+23
+00:01:07,380 --> 00:01:08,549
+Pick one of these four answers.

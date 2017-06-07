@@ -1,0 +1,456 @@
+﻿1
+00:00:00,510 --> 00:00:03,280
+I'm going to get you started with
+implementing FirebaseRemoteConfig in
+
+2
+00:00:03,279 --> 00:00:04,339
+friendly chat.
+
+3
+00:00:04,339 --> 00:00:06,639
+Here's an overview of what
+you'll be implementing.
+
+4
+00:00:06,639 --> 00:00:10,469
+First, you'll set up a list of default
+parameters for FirebaseRemoteConfig.
+
+5
+00:00:10,470 --> 00:00:13,839
+These are the locally-defined
+fallback values that the app will use
+
+6
+00:00:13,839 --> 00:00:16,190
+if the parameters aren't defined
+in the Firebase console.
+
+7
+00:00:16,190 --> 00:00:19,710
+You'll set up a FirebaseRemoteConfig
+instance with these values.
+
+8
+00:00:19,710 --> 00:00:22,010
+Then you'll fetch the values
+of the fire-based console for
+
+9
+00:00:22,010 --> 00:00:24,310
+any remote config values
+that have changed.
+
+10
+00:00:24,309 --> 00:00:25,349
+After that fetch,
+
+11
+00:00:25,350 --> 00:00:28,590
+your object will be updated with
+the latest remote config values.
+
+12
+00:00:28,589 --> 00:00:29,350
+Simple enough?
+
+13
+00:00:29,350 --> 00:00:30,560
+Let's go to the code.
+
+14
+00:00:30,559 --> 00:00:33,810
+The first step like always is to
+include the correct gradle dependency.
+
+15
+00:00:33,810 --> 00:00:35,980
+We're doing remote config so
+I'm going to copy that.
+
+16
+00:00:37,049 --> 00:00:41,319
+And then over here,
+in my apps Gradle file, I'll add it.
+
+17
+00:00:41,320 --> 00:00:43,730
+And I'll sync to include
+the new library.
+
+18
+00:00:43,729 --> 00:00:45,559
+As with the other services
+that you've implemented,
+
+19
+00:00:45,560 --> 00:00:48,109
+you're going to need to make
+an object for this one as well.
+
+20
+00:00:48,109 --> 00:00:49,969
+So I'm going to scroll down here.
+
+21
+00:00:49,969 --> 00:00:56,259
+And in my instance variables I will
+add a FirebaseRemoteConfig object.
+
+22
+00:00:56,259 --> 00:00:59,629
+And you'll also initialize
+it in the on create method.
+
+23
+00:00:59,630 --> 00:01:02,690
+Okay and now I'm going to start setting
+things up at the bottom of the on create
+
+24
+00:01:02,689 --> 00:01:03,299
+method.
+
+25
+00:01:03,299 --> 00:01:06,239
+I'll start by using a handy trick
+provided by the FirebaseRemoteConfig
+
+26
+00:01:06,239 --> 00:01:07,039
+object.
+
+27
+00:01:07,040 --> 00:01:08,750
+Enabling Developer Mode.
+
+28
+00:01:08,750 --> 00:01:12,540
+You'll do this using a
+FirebaseRemoteConfigSettings object and
+
+29
+00:01:12,540 --> 00:01:16,150
+then you'll build it with
+Developer Mode enabled, like that.
+
+30
+00:01:16,150 --> 00:01:20,460
+Then you can take your RemoteConfig
+object and set the config settings
+
+31
+00:01:20,459 --> 00:01:22,989
+to the FirebaseRemoteConfigSettings
+that you just made.
+
+32
+00:01:22,989 --> 00:01:27,390
+Note that this BuildConfig.DEBUG is
+a boolean created at build time.
+
+33
+00:01:27,390 --> 00:01:31,549
+And it's true when you're using debug
+builds and false for release builds.
+
+34
+00:01:31,549 --> 00:01:33,959
+That allows you to keep this
+configuration code around for
+
+35
+00:01:33,959 --> 00:01:36,204
+both debug and release builds.
+
+36
+00:01:36,204 --> 00:01:39,129
+Okay, now that's done you're going to
+define the parameter values for
+
+37
+00:01:39,129 --> 00:01:40,329
+remote config.
+
+38
+00:01:40,329 --> 00:01:43,539
+You'll do that using a map object,
+and in the map object
+
+39
+00:01:43,540 --> 00:01:46,490
+you'll add the values to the parameters
+you're going to be using.
+
+40
+00:01:46,489 --> 00:01:49,179
+Now in friendlychat you only
+really have one parameter,
+
+41
+00:01:49,180 --> 00:01:50,810
+which is the message length.
+
+42
+00:01:50,810 --> 00:01:54,694
+So in our hash map we're going to add a
+key value pair for that message length.
+
+43
+00:01:54,694 --> 00:02:00,483
+The key will be a constant called
+FRIENDLY_MSG_LENGTH_KEY and
+
+44
+00:02:00,483 --> 00:02:06,000
+the default value for
+that will be the DEFAULT_MSG_LENGTH.
+
+45
+00:02:06,000 --> 00:02:07,560
+Okay, let's go ahead and
+define this key.
+
+46
+00:02:07,560 --> 00:02:10,750
+I'm going to scroll up to the top
+of the class and add it right here.
+
+47
+00:02:11,900 --> 00:02:13,330
+Okay, good.
+
+48
+00:02:13,330 --> 00:02:15,403
+Okay, so
+now my defaultConfigMap is setup.
+
+49
+00:02:15,402 --> 00:02:20,159
+And I'm going to take my RemoteConfig
+object and I'm going to call
+
+50
+00:02:20,159 --> 00:02:23,039
+the setDefaults method and
+pass in that map.
+
+51
+00:02:23,039 --> 00:02:26,289
+And that sets up FirebaseRemoteConfig.
+
+52
+00:02:26,289 --> 00:02:26,669
+Next.
+
+53
+00:02:26,669 --> 00:02:29,169
+You actually need to try to
+fetch values through the server
+
+54
+00:02:29,169 --> 00:02:32,099
+to see if any of the config values
+changed in your Firebase project.
+
+55
+00:02:32,099 --> 00:02:35,370
+I'm going to separate this out in
+a new method called fetchConfig()
+
+56
+00:02:35,370 --> 00:02:37,000
+which I'm going to call here.
+
+57
+00:02:37,000 --> 00:02:40,129
+Okay, now let me define this
+method at the bottom of the class.
+
+58
+00:02:40,129 --> 00:02:42,969
+The first thing you want to do is
+specify the cache expiration time.
+
+59
+00:02:42,969 --> 00:02:46,419
+I'm going to set it to an hour for
+production builds.
+
+60
+00:02:46,419 --> 00:02:49,989
+And I'll set it for zero for
+builds where developer mode is enabled.
+
+61
+00:02:49,990 --> 00:02:52,020
+This is where our config
+setting comes in.
+
+62
+00:02:52,020 --> 00:02:55,810
+This allows us when we're bugging it to
+get the latest values from firebase if
+
+63
+00:02:55,810 --> 00:02:58,159
+there are any changes immediately.
+
+64
+00:02:58,159 --> 00:03:01,299
+Next, we'll take our
+remote config object and
+
+65
+00:03:01,299 --> 00:03:03,675
+call it fetch to fetch the values.
+
+66
+00:03:03,675 --> 00:03:07,405
+And we will also pass in
+the cacheExpiration time.
+
+67
+00:03:07,405 --> 00:03:08,455
+But you're not finished yet.
+
+68
+00:03:08,455 --> 00:03:12,175
+Because you actually need to do
+something with those return values.
+
+69
+00:03:12,175 --> 00:03:15,505
+So what I'm going to do now is add
+two listeners, a success listener and
+
+70
+00:03:15,504 --> 00:03:16,375
+a failure listener.
+
+71
+00:03:17,400 --> 00:03:20,969
+Now when the fetch is successful,
+you can take your FirebaseRemoteConfig
+
+72
+00:03:20,969 --> 00:03:25,509
+object and
+call this method activateFetched.
+
+73
+00:03:25,509 --> 00:03:28,169
+And this will do something called
+activating your parameters.
+
+74
+00:03:28,169 --> 00:03:32,439
+And I'm going to make another helper
+method called applyRetrievedLengthLimit,
+
+75
+00:03:33,659 --> 00:03:35,979
+which I will define down here.
+
+76
+00:03:35,979 --> 00:03:38,649
+Okay, so
+point of the applied retrieve leg limit
+
+77
+00:03:38,650 --> 00:03:41,700
+is to appropriately update
+the edit text length.
+
+78
+00:03:41,699 --> 00:03:45,009
+And to do that, I'm going to take my
+firebased remote config object and
+
+79
+00:03:45,009 --> 00:03:48,889
+call this get long method,
+passing in the friendly message key.
+
+80
+00:03:48,889 --> 00:03:50,949
+Now if the fetch was successful,
+
+81
+00:03:50,949 --> 00:03:54,119
+friendly message legs will now
+contain what I got from the server.
+
+82
+00:03:54,120 --> 00:03:56,569
+Which then allows me to
+take my edit text and
+
+83
+00:03:56,569 --> 00:04:00,430
+apply a filter which updates
+the edit text length.
+
+84
+00:04:00,430 --> 00:04:02,010
+And this is similar to what I do above.
+
+85
+00:04:03,201 --> 00:04:06,560
+Here in on create when I
+first setting up the app.
+
+86
+00:04:06,560 --> 00:04:08,270
+Okay, well let's go back down.
+
+87
+00:04:08,270 --> 00:04:09,920
+And finally here I'll just go ahead and
+
+88
+00:04:09,919 --> 00:04:14,859
+add a log statement that prints out
+whatever our friendly message like this.
+
+89
+00:04:14,860 --> 00:04:18,139
+Okay, so that's everything I need for
+the success case.
+
+90
+00:04:18,139 --> 00:04:21,849
+For the failure case, I'm going to
+go ahead and write a log message.
+
+91
+00:04:21,850 --> 00:04:25,160
+And then I will also call
+apply retrieve length limit.
+
+92
+00:04:25,160 --> 00:04:27,610
+Now this failure case will
+happen if you're off line.
+
+93
+00:04:28,670 --> 00:04:32,680
+In which case down here,
+what I call mFirebaseRemoteConfig and
+
+94
+00:04:32,680 --> 00:04:35,699
+getlong, it's going to give
+me values for the cache.
+
+95
+00:04:35,699 --> 00:04:38,699
+The cache may be different from
+your default parameter mapping, so
+
+96
+00:04:38,699 --> 00:04:41,009
+it still makes sense to update
+the edit text length here.
+

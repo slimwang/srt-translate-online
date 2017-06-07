@@ -1,0 +1,275 @@
+1
+00:00:00,230 --> 00:00:02,480
+Okay, Michael, so you might ask me why we would
+
+2
+00:00:02,480 --> 00:00:06,040
+do feature transformation, and I think the answer is obvious
+
+3
+00:00:06,040 --> 00:00:09,140
+even to the most casual observer. We actually just went
+
+4
+00:00:09,140 --> 00:00:11,950
+through a couple of examples in the previous slide, like X
+
+5
+00:00:11,950 --> 00:00:14,700
+or the kernal methods, all these things we've done before
+
+6
+00:00:14,700 --> 00:00:17,780
+where effectively we were doing feature transformation. In fact, you
+
+7
+00:00:17,780 --> 00:00:20,950
+could argue that things like neural networks. Already doing feature
+
+8
+00:00:20,950 --> 00:00:25,010
+transformation. So we've been doing feature transformation all along, and so,
+
+9
+00:00:25,010 --> 00:00:27,640
+the real question here is, is there some specific
+
+10
+00:00:27,640 --> 00:00:30,930
+reason why we should do this feature transformation explicitly and
+
+11
+00:00:30,930 --> 00:00:34,570
+separate from some specific learning algorithm that is doing its
+
+12
+00:00:34,570 --> 00:00:37,090
+own feature transformation such as a perceptron or a neural
+
+13
+00:00:37,090 --> 00:00:41,180
+network, or support vector machines. So i'm just going to very
+
+14
+00:00:41,180 --> 00:00:44,370
+quickly go through a simple example that I hope illustrates
+
+15
+00:00:44,370 --> 00:00:46,270
+why you might want to do this, but it's still
+
+16
+00:00:46,270 --> 00:00:48,440
+kind of a large relevant example okay. You with me?
+
+17
+00:00:48,440 --> 00:00:49,970
+>> I'm ready.
+
+18
+00:00:49,970 --> 00:00:50,210
+>> Okay,
+
+19
+00:00:50,210 --> 00:00:53,280
+so here's the problem, I'm going to describe, and I'm not going to do it
+
+20
+00:00:53,280 --> 00:00:55,930
+in a lot of detail. I, I really just want to give you an
+
+21
+00:00:55,930 --> 00:01:00,200
+intuition. That problem is inforfmation retrieveal.
+
+22
+00:01:00,200 --> 00:01:02,462
+So in particular, I'm talking about what's
+
+23
+00:01:02,462 --> 00:01:06,940
+called, ad hoc retrieval. Do you know what the ad hoc retrieval problem is?
+
+24
+00:01:06,940 --> 00:01:09,500
+>> I assume that if you start with a
+
+25
+00:01:09,500 --> 00:01:12,310
+key, and you add hoc to it, you get hockey.
+
+26
+00:01:12,310 --> 00:01:15,130
+>> No, that would be a kind of feature transformation.
+
+27
+00:01:15,130 --> 00:01:17,930
+We would call that the pun transformation.
+
+28
+00:01:17,930 --> 00:01:20,200
+The ad hoc retrieval problem, maybe I can
+
+29
+00:01:20,200 --> 00:01:21,710
+help you out by calling it by another
+
+30
+00:01:21,710 --> 00:01:26,400
+nickname, it's the Google problem [LAUGH] which is,
+
+31
+00:01:26,400 --> 00:01:28,780
+you have a whole bunch of documents in
+
+32
+00:01:28,780 --> 00:01:31,660
+some database somewhere. This is me drawing a
+
+33
+00:01:31,660 --> 00:01:36,360
+database and you want to retrieve exactly the subset
+
+34
+00:01:36,360 --> 00:01:39,265
+of documents that are relevant to some query.
+
+35
+00:01:39,265 --> 00:01:41,470
+[SOUND]
+
+36
+00:01:41,470 --> 00:01:43,250
+So this is me drawing a data base. So I
+
+37
+00:01:43,250 --> 00:01:47,010
+might type in a word like machine-learning, into some text
+
+38
+00:01:47,010 --> 00:01:50,420
+box somewhere, click on some button, and then get back
+
+39
+00:01:50,420 --> 00:01:54,040
+a list of relevant documents nicely sorted against the white background.
+
+40
+00:01:54,040 --> 00:01:59,790
+>> [LAUGH] And this is the ad hoc query problem, the ad hoc retrieval
+
+41
+00:01:59,790 --> 00:02:04,710
+problem. I give you some features, which in this case are words, and you return
+
+42
+00:02:04,710 --> 00:02:07,610
+objects, in this case documents, that are somehow relative to the,
+
+43
+00:02:07,610 --> 00:02:11,160
+relevant to those features. Okay? So we do this all the time.
+
+44
+00:02:11,160 --> 00:02:13,360
+>> What makes it ad hoc as, as opposed
+
+45
+00:02:13,360 --> 00:02:16,890
+to what? There's various other kinds of information retrieval problems,
+
+46
+00:02:16,890 --> 00:02:18,590
+this one's just called that ad hoc one. What's ad
+
+47
+00:02:18,590 --> 00:02:20,110
+hoc about it is you don't already know what the
+
+48
+00:02:20,110 --> 00:02:22,340
+queries are. You aren't doing something like clustering the
+
+49
+00:02:22,340 --> 00:02:24,690
+documents. It's just that you're going to be given some unknown
+
+50
+00:02:24,690 --> 00:02:28,350
+query, which is in some feature space, and you're just
+
+51
+00:02:28,350 --> 00:02:30,440
+going to have to retrieve the things that are relevant so.
+
+52
+00:02:30,440 --> 00:02:32,460
+Its just always been called the ad hoc problem as far as I
+
+53
+00:02:32,460 --> 00:02:36,042
+know. I guess because you don't know what these are going to be beforehand.
+
+54
+00:02:36,042 --> 00:02:40,290
+>> Yeah, and like as opposed to maybe some kind of standing query, like
+
+55
+00:02:40,290 --> 00:02:42,770
+I want any information that talks about
+
+56
+00:02:42,770 --> 00:02:46,700
+the OMS program, you know, please alert me.
+
+57
+00:02:46,700 --> 00:02:48,810
+>> Right, exactly, and that's actually got
+
+58
+00:02:48,810 --> 00:02:51,670
+a name too, it's not the standing query
+
+59
+00:02:51,670 --> 00:02:53,710
+problem, but it's a kind of triage problem,
+
+60
+00:02:53,710 --> 00:02:55,780
+I can't remember what it's called right now.
+
+61
+00:02:55,780 --> 00:02:58,540
+But yeah, so there's different versions of this. This one is in some
+
+62
+00:02:58,540 --> 00:03:01,570
+ways the hardest, because you can't do a lot of very clever things up
+
+63
+00:03:01,570 --> 00:03:04,830
+front, in order to figure out the best way to store your documents,
+
+64
+00:03:04,830 --> 00:03:08,520
+because you don't know what this ad hoc query is going to be. Okay?
+
+65
+00:03:08,520 --> 00:03:09,280
+>> Yup.
+
+66
+00:03:09,280 --> 00:03:12,600
+>> All right. So. Why is this problem
+
+67
+00:03:12,600 --> 00:03:16,080
+hard, other than by saying I don't know what
+
+68
+00:03:16,080 --> 00:03:17,990
+this is going to be? So let's think about
+
+69
+00:03:17,990 --> 00:03:19,400
+it in terms of the features that you have.

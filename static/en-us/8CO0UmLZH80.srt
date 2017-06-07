@@ -1,0 +1,201 @@
+﻿1
+00:00:00,380 --> 00:00:04,410
+AsyncTask allows you to run a task on
+a background thread while publishing
+
+2
+00:00:04,410 --> 00:00:06,860
+results to the UI thread.
+
+3
+00:00:06,860 --> 00:00:10,669
+The UI thread has a message queue and
+a handler that allows you to send
+
+4
+00:00:10,669 --> 00:00:15,509
+a process runnable objects and
+messages, often from other threads.
+
+5
+00:00:15,509 --> 00:00:20,240
+AsyncTask wraps this behavior with
+a reasonably straightforward interface.
+
+6
+00:00:20,239 --> 00:00:22,839
+AsyncTask is a generic class.
+
+7
+00:00:22,839 --> 00:00:26,719
+Meaning that it takes parameterized
+types in its constructor.
+
+8
+00:00:26,719 --> 00:00:31,039
+Each one of these generic parameters
+is to find as a Java variable argument
+
+9
+00:00:31,039 --> 00:00:32,539
+with the three dots,
+
+10
+00:00:32,539 --> 00:00:37,310
+which means that it is technically
+passed as an array in Java world.
+
+11
+00:00:37,310 --> 00:00:41,039
+The three types used by
+an AsyncTask are the following.
+
+12
+00:00:41,039 --> 00:00:44,700
+Params, the parameter type sent
+to the task upon execution.
+
+13
+00:00:45,810 --> 00:00:49,829
+Progress, the type published to
+update progress using the background
+
+14
+00:00:49,829 --> 00:00:51,479
+computation.
+
+15
+00:00:51,479 --> 00:00:56,140
+And result, the type of the result
+of the background computation.
+
+16
+00:00:56,140 --> 00:00:58,950
+These three parameters
+correspond to three
+
+17
+00:00:58,950 --> 00:01:02,450
+primary functions you can
+override in AsyncTask.
+
+18
+00:01:02,450 --> 00:01:07,442
+doinBackground, onProgressUpdate and
+onPostExecute.
+
+19
+00:01:07,441 --> 00:01:10,939
+There is also an onPreExecute function
+to help complete the pattern.
+
+20
+00:01:12,219 --> 00:01:14,459
+In order to execute an AsyncTask,
+
+21
+00:01:14,459 --> 00:01:19,119
+you call Execute with the parameters
+to be set to the background task.
+
+22
+00:01:19,120 --> 00:01:22,160
+The AsyncTask then runs
+through several steps.
+
+23
+00:01:22,159 --> 00:01:26,119
+First, it calls onPreExecute
+on the UI thread.
+
+24
+00:01:26,120 --> 00:01:29,230
+So, you can initialize anything
+you might want to in the UI thread
+
+25
+00:01:29,230 --> 00:01:31,350
+before your background tasks starts.
+
+26
+00:01:32,400 --> 00:01:35,480
+Then, it calls a doInBackground
+on another thread,
+
+27
+00:01:35,480 --> 00:01:38,480
+which is where your long
+running task will run.
+
+28
+00:01:38,480 --> 00:01:42,130
+It's the only method that must
+be overridden to use the class.
+
+29
+00:01:42,129 --> 00:01:46,170
+And it is called with parameters
+you pass to the execute function.
+
+30
+00:01:46,170 --> 00:01:50,769
+If you want to update some UI with the
+progress from your long-running task,
+
+31
+00:01:50,769 --> 00:01:54,589
+you call publishProgress with
+the progress parameters.
+
+32
+00:01:54,590 --> 00:01:58,310
+This causes onProgressUpdate
+to be called on the UI thread
+
+33
+00:01:58,310 --> 00:02:00,040
+with your progress parameters.
+
+34
+00:02:00,040 --> 00:02:03,720
+You can call publshProgress as many
+times as you'd like from doinBackground.
+
+35
+00:02:04,840 --> 00:02:08,120
+Finally, you return the result
+when you're tasking running in
+
+36
+00:02:08,120 --> 00:02:10,159
+doinBackground is complete.
+
+37
+00:02:10,159 --> 00:02:12,789
+This causes the OnPost Execute
+function to get
+
+38
+00:02:12,789 --> 00:02:16,289
+called on the UI thread with
+the result you returned.
+
+39
+00:02:16,289 --> 00:02:19,259
+AsyncTask is a useful abstraction for
+threading and
+
+40
+00:02:19,259 --> 00:02:21,789
+messaging between threads on Android.
+
+41
+00:02:21,789 --> 00:02:24,069
+It's not right in every circumstance,
+but
+
+42
+00:02:24,069 --> 00:02:27,219
+it's a good start to get you coding
+in a multi-threaded environment.
+

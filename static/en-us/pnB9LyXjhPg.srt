@@ -1,0 +1,492 @@
+1
+00:00:00,170 --> 00:00:03,890
+So far we've looked at code
+snippets floating in isolation.
+
+2
+00:00:03,890 --> 00:00:08,460
+In this video we'll look at how
+the code fits within an Android map.
+
+3
+00:00:08,460 --> 00:00:11,680
+Well, since EarthquakeAsyncTask
+is its own class,
+
+4
+00:00:11,680 --> 00:00:13,460
+why don't we use a separate Java file?
+
+5
+00:00:14,460 --> 00:00:17,850
+Once we perform a network request for
+the earthquake data and
+
+6
+00:00:17,850 --> 00:00:23,350
+get back our result and our
+onPostExecute, we want to update the UI.
+
+7
+00:00:23,350 --> 00:00:27,500
+But how can we get a reference to
+the views on-screen to update?
+
+8
+00:00:27,500 --> 00:00:31,100
+Those views are part of the layout
+that we set in MainActivity.
+
+9
+00:00:31,100 --> 00:00:33,890
+In Java, it turns out that
+we can actually declare
+
+10
+00:00:33,890 --> 00:00:37,670
+the EarthquakeAsyncTask As
+an inner class.
+
+11
+00:00:37,670 --> 00:00:40,510
+That means the whole
+AsyncTask class definition
+
+12
+00:00:40,510 --> 00:00:43,520
+could go inside the MainActivity
+class definition.
+
+13
+00:00:43,520 --> 00:00:46,170
+An inner class like EarthquakeAsyncTask
+
+14
+00:00:46,170 --> 00:00:49,970
+holds an implicit reference to
+the outer MainActivity class.
+
+15
+00:00:49,970 --> 00:00:53,400
+An instance of
+the EarthquakeAsyncTask class
+
+16
+00:00:53,400 --> 00:00:56,950
+can only exist within an instance
+of the main activity.
+
+17
+00:00:56,950 --> 00:00:58,070
+Or in other words,
+
+18
+00:00:58,070 --> 00:01:03,570
+there is no EarthquakeAsyncTask
+without an enclosing main activity.
+
+19
+00:01:03,570 --> 00:01:06,740
+There are some real memory
+risks associated with this,
+
+20
+00:01:06,740 --> 00:01:08,730
+which we'll cover later in this lesson.
+
+21
+00:01:08,730 --> 00:01:13,640
+But for now know that as an inner class,
+the EarthquakeAsyncTask instance can
+
+22
+00:01:13,640 --> 00:01:18,530
+access any global variables and methods
+from the closing MainActivity instance.
+
+23
+00:01:18,530 --> 00:01:22,980
+For example, in the MainActivity,
+if we declare a global variable for
+
+24
+00:01:22,980 --> 00:01:26,830
+the TextView that shows the strength
+of the earthquake, we can refer to
+
+25
+00:01:26,830 --> 00:01:32,640
+the TextView in the AsyncTask
+onPostExecute method to update the text.
+
+26
+00:01:32,640 --> 00:01:36,530
+Another reason you may choose to declare
+something as an inner class of another
+
+27
+00:01:36,530 --> 00:01:40,800
+class, is to keep your code
+condensed and with fewer Java files.
+
+28
+00:01:40,800 --> 00:01:44,390
+This is particularly useful if
+the two classes are closely related.
+
+29
+00:01:44,390 --> 00:01:50,110
+For example, the EarthquakeAsyncTask
+is only ever used in the MainActivity,
+
+30
+00:01:50,110 --> 00:01:56,150
+so we can make the EarthquakeAsyncTask
+a private class instead of a public one.
+
+31
+00:01:56,150 --> 00:01:59,760
+Now I'll hand it over to Chris to walk
+you through an example with real code
+
+32
+00:01:59,760 --> 00:02:02,260
+instead of horizontal black lines.
+
+33
+00:02:02,260 --> 00:02:03,480
+>> With the sample I'm
+about to show you,
+
+34
+00:02:03,480 --> 00:02:06,660
+hopefully you'll start to see how all
+the concepts we've been talking about in
+
+35
+00:02:06,660 --> 00:02:08,530
+the last few videos come together.
+
+36
+00:02:08,530 --> 00:02:11,070
+This is the code in the project for
+the network connect app,
+
+37
+00:02:11,070 --> 00:02:14,490
+which is one of the sample apps
+available in Android Studio.
+
+38
+00:02:14,490 --> 00:02:17,820
+To get to it earlier I went to
+the File menu, selected New,
+
+39
+00:02:17,820 --> 00:02:20,010
+and then selected Import Sample.
+
+40
+00:02:21,770 --> 00:02:25,450
+Here you'll find a UI to browse all the
+sample code available on Android Studio.
+
+41
+00:02:25,450 --> 00:02:29,790
+As you can see you have a bunch of
+sub-menus here separated by topic,
+
+42
+00:02:29,790 --> 00:02:33,980
+things like Android TV, code samples
+about doing background work.
+
+43
+00:02:33,980 --> 00:02:38,430
+But I'm going to go ahead here and
+use the search bar and look for network.
+
+44
+00:02:40,070 --> 00:02:43,530
+And cool, underneath the connectivity
+menu, the second item
+
+45
+00:02:43,530 --> 00:02:47,130
+here is the network connect app, which
+is what we're going to talk about now.
+
+46
+00:02:47,130 --> 00:02:50,780
+So the network connect app is meant to
+fetch the first 500 characters of raw
+
+47
+00:02:50,780 --> 00:02:53,270
+HTML from the Google.com website.
+
+48
+00:02:53,270 --> 00:02:56,400
+When we click the Fetch Menu
+button the app goes ahead and
+
+49
+00:02:56,400 --> 00:02:59,210
+makes a network request
+on a background thread.
+
+50
+00:02:59,210 --> 00:03:01,980
+And we'll see the raw HTML
+response appear in the text view
+
+51
+00:03:01,980 --> 00:03:03,910
+in the bottom half of the screen.
+
+52
+00:03:03,910 --> 00:03:06,940
+Let's go ahead and look behind
+the scenes at how the code is written.
+
+53
+00:03:06,940 --> 00:03:10,990
+Here we see that the download
+task is a sub-class of AsyncTask.
+
+54
+00:03:10,990 --> 00:03:14,780
+It calls the load from network method,
+which performs a network request and
+
+55
+00:03:14,780 --> 00:03:17,620
+converts the resulting input string,
+which is just an arbitrary string of
+
+56
+00:03:17,620 --> 00:03:20,410
+data, into a string
+response that it returns.
+
+57
+00:03:21,670 --> 00:03:22,630
+Now if you noticed,
+
+58
+00:03:22,630 --> 00:03:27,270
+the download class is actually declared
+as an inner class of the MainActivity.
+
+59
+00:03:28,380 --> 00:03:33,000
+That means that the full download class
+definition is actually located between
+
+60
+00:03:33,000 --> 00:03:37,070
+the opening closing braces of the
+broader MainActivity class definition,
+
+61
+00:03:37,070 --> 00:03:39,180
+we'll see the implications
+of this later.
+
+62
+00:03:39,180 --> 00:03:42,200
+And when the app launches,
+the main activity is created, and
+
+63
+00:03:42,200 --> 00:03:44,150
+here we can see the layout is set up.
+
+64
+00:03:44,150 --> 00:03:47,090
+When the Fetch button is pressed
+in the options menu, a new
+
+65
+00:03:47,090 --> 00:03:51,910
+download task is created, and then the
+execute method is called on that task,
+
+66
+00:03:51,910 --> 00:03:56,650
+passing in the Google.com website
+as a URL, as a parameter.
+
+67
+00:03:56,650 --> 00:03:59,180
+Now let’s examine the download
+task more closely.
+
+68
+00:03:59,180 --> 00:04:01,910
+As mentioned before,
+we subclass AsyncTask and
+
+69
+00:04:01,910 --> 00:04:04,150
+then specify three generic parameters.
+
+70
+00:04:04,150 --> 00:04:07,700
+We specify the string data type for
+the first parameter which is the input
+
+71
+00:04:07,700 --> 00:04:11,510
+to the background method, then we use
+Void for the progress parameter, because
+
+72
+00:04:11,510 --> 00:04:15,320
+we don’t actually report incremental
+progress updates to the UI in this case.
+
+73
+00:04:15,320 --> 00:04:18,452
+The key giveaway is there's
+no actual onProgressUpdate
+
+74
+00:04:18,452 --> 00:04:20,089
+callback implemented here.
+
+75
+00:04:20,089 --> 00:04:23,570
+And lastly we have a string data type
+for the result of the doInBackground
+
+76
+00:04:23,570 --> 00:04:28,290
+method which is also passed in as
+the input to the onPostExecute method.
+
+77
+00:04:28,290 --> 00:04:31,200
+So looking more closely at the
+doInBackground method, which is called
+
+78
+00:04:31,200 --> 00:04:35,290
+when we first execute the task, we go
+ahead and we expect a variable number
+
+79
+00:04:35,290 --> 00:04:39,280
+of string input arguments which
+are stored in the array called URLs.
+
+80
+00:04:39,280 --> 00:04:40,900
+Then in the call to load from network,
+
+81
+00:04:40,900 --> 00:04:45,720
+we actually extract the first element
+in the URLs array using the zero index.
+
+82
+00:04:45,720 --> 00:04:47,390
+We then load data from the network.
+
+83
+00:04:47,390 --> 00:04:50,550
+Again, notice that the load from network
+definition is actually outside of
+
+84
+00:04:50,550 --> 00:04:53,794
+the opening and
+closing braces of the download task.
+
+85
+00:04:53,794 --> 00:04:56,920
+Now normally,
+we can't call private methods or
+
+86
+00:04:56,920 --> 00:04:59,420
+variables in a different class, but,
+
+87
+00:04:59,420 --> 00:05:03,270
+since download task is actually
+an inner class, this is acceptable.
+
+88
+00:05:03,270 --> 00:05:05,946
+Now after the background work is
+complete, the string response is
+
+89
+00:05:05,946 --> 00:05:09,270
+actually returned as the result
+of the doInBackground method.
+
+90
+00:05:09,270 --> 00:05:13,160
+After this method is executed, the
+system calls the onPostExecute method,
+
+91
+00:05:13,160 --> 00:05:16,490
+passing in the string result,
+then we log the message.
+
+92
+00:05:16,490 --> 00:05:19,500
+There's actually special behavior in
+this sample that makes the log fragment
+
+93
+00:05:19,500 --> 00:05:22,930
+work, which displays the system
+log messages on the screen.
+
+94
+00:05:22,930 --> 00:05:26,100
+So when you call log.i or
+log.v to log messages,
+
+95
+00:05:26,100 --> 00:05:29,450
+The output will be shown in the bottom
+half of the screen in our app as well.
+
+96
+00:05:29,450 --> 00:05:31,459
+You won't need to use
+the log fragment in your app,
+
+97
+00:05:31,459 --> 00:05:33,470
+but this is a helpful class for samples.
+
+98
+00:05:33,470 --> 00:05:37,880
+Anyways the key takeaway is in
+the AsyncTask onPostExecute method
+
+99
+00:05:37,880 --> 00:05:40,981
+we take the response from the background
+thread and update the UI.
+
+100
+00:05:40,981 --> 00:05:44,375
+Now that you've seen how an AsyncTask
+can be declared as an inner class
+
+101
+00:05:44,375 --> 00:05:47,315
+of an activity, you're going to
+have the chance to do the same
+
+102
+00:05:47,315 --> 00:05:50,280
+by writing your own subclass of
+AsyncTask in the Digifield app.

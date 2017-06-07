@@ -1,0 +1,333 @@
+﻿1
+00:00:00,450 --> 00:00:03,130
+Here's what the finished app
+looks like on an emulator.
+
+2
+00:00:03,129 --> 00:00:07,429
+The main activity uses a RecyclerView
+and adapter to display a list of tasks
+
+3
+00:00:07,429 --> 00:00:11,019
+that have some description and
+a priority number, one through three.
+
+4
+00:00:11,019 --> 00:00:13,379
+Initially, this activity
+won't display anything,
+
+5
+00:00:13,380 --> 00:00:15,130
+because the database will be empty.
+
+6
+00:00:15,130 --> 00:00:17,780
+But for this example,
+I've added a couple of tasks just so
+
+7
+00:00:17,780 --> 00:00:19,330
+you can see what they look like.
+
+8
+00:00:19,329 --> 00:00:22,049
+Adding task data will be done
+through a separate activity,
+
+9
+00:00:22,050 --> 00:00:24,179
+which is launched by this plus button.
+
+10
+00:00:24,179 --> 00:00:26,030
+You may have seen buttons
+like this before.
+
+11
+00:00:26,030 --> 00:00:29,690
+They're called floating action buttons,
+since they kind of float above a layout
+
+12
+00:00:29,690 --> 00:00:32,039
+and perform some action
+when they're clicked.
+
+13
+00:00:32,039 --> 00:00:35,729
+When you click this one, it opens
+another activity that lets a user
+
+14
+00:00:35,729 --> 00:00:38,549
+input a task with some
+selected priority.
+
+15
+00:00:38,549 --> 00:00:41,709
+There's also a color associated
+with each priority, red for
+
+16
+00:00:41,710 --> 00:00:44,359
+the highest, then orange and yellow.
+
+17
+00:00:44,359 --> 00:00:46,259
+So let's add a new task.
+
+18
+00:00:46,259 --> 00:00:48,849
+I'll type finish learning Android.
+
+19
+00:00:48,850 --> 00:00:52,710
+And I'll give it a medium priority,
+since it's below say, breathing.
+
+20
+00:00:52,710 --> 00:00:54,490
+And then I'll click this add button.
+
+21
+00:00:54,490 --> 00:00:56,149
+This returns to the main screen, and
+
+22
+00:00:56,149 --> 00:01:00,399
+you can see that the task has been added
+to the list and sorted by priority.
+
+23
+00:01:00,399 --> 00:01:03,341
+So this lands right between breathing,
+which is priority one, and
+
+24
+00:01:03,341 --> 00:01:05,954
+grocery shopping,
+which is the lowest priority, three.
+
+25
+00:01:05,954 --> 00:01:09,189
+Now, you won't start with
+all this functionality.
+
+26
+00:01:09,189 --> 00:01:13,051
+Instead, you'll be given starter code
+that includes only the basic UI and
+
+27
+00:01:13,051 --> 00:01:16,007
+an empty task database and
+content provider structure.
+
+28
+00:01:16,007 --> 00:01:19,391
+And throughout this lesson, we'll be
+building off that starter code so
+
+29
+00:01:19,391 --> 00:01:22,690
+that we can insert and
+display tasks like in this finished app.
+
+30
+00:01:22,689 --> 00:01:25,370
+So let's do a quick walk
+through of the starter code.
+
+31
+00:01:25,370 --> 00:01:28,460
+The todolist data package
+has three classes.
+
+32
+00:01:28,459 --> 00:01:31,244
+First, there's the shell of
+the TaskContentProvider class,
+
+33
+00:01:31,245 --> 00:01:33,800
+which we'll be completing
+throughout the lesson.
+
+34
+00:01:33,799 --> 00:01:37,129
+Then also TaskContract and
+TaskDbHelper classes.
+
+35
+00:01:37,129 --> 00:01:40,469
+And you've seen the likes of these
+before in the SQLite lesson.
+
+36
+00:01:40,469 --> 00:01:43,959
+The TaskDbHelper creates
+the databasethat stores our task data,
+
+37
+00:01:43,959 --> 00:01:46,199
+which you can see here in onCreate.
+
+38
+00:01:46,200 --> 00:01:50,299
+And the TaskContract class keeps track
+of any constants that help us access
+
+39
+00:01:50,299 --> 00:01:51,909
+the underlying data.
+
+40
+00:01:51,909 --> 00:01:56,409
+As you can see, right now it contains
+the name of our table and its columns.
+
+41
+00:01:56,409 --> 00:02:00,403
+Outside of this data folder, our
+starter code also includes UI code for
+
+42
+00:02:00,403 --> 00:02:04,001
+AddTaskActivity and
+Adapter and our MainActivity.
+
+43
+00:02:04,001 --> 00:02:07,469
+The MainActivity is going to
+set up our main layout code.
+
+44
+00:02:07,469 --> 00:02:11,330
+And all the layout code can be found
+in our resources layout folder.
+
+45
+00:02:11,330 --> 00:02:12,928
+But let's poke around our main activity.
+
+46
+00:02:12,927 --> 00:02:16,788
+Inside the onCreate function,
+we set up the RecyclerView and
+
+47
+00:02:16,788 --> 00:02:20,079
+adapter, which are responsible for
+displaying the task data.
+
+48
+00:02:20,080 --> 00:02:22,910
+Lower down, you see that there's
+a click listener attached to our
+
+49
+00:02:22,909 --> 00:02:26,079
+floating action button,
+our FAB button for short.
+
+50
+00:02:26,080 --> 00:02:29,490
+The FAB has an attached onClick
+listener so that when it's clicked,
+
+51
+00:02:29,490 --> 00:02:32,070
+it can launch an AddTaskActivity.
+
+52
+00:02:32,069 --> 00:02:34,889
+And the add task activity is where
+you'll have to write code to
+
+53
+00:02:34,889 --> 00:02:37,359
+accept user input and
+create new task data.
+
+54
+00:02:38,379 --> 00:02:41,819
+At the bottom of our main activity code,
+you'll find the LoaderCallbacks.
+
+55
+00:02:41,819 --> 00:02:43,090
+And you'll be responsible for
+
+56
+00:02:43,090 --> 00:02:46,390
+implementing these to retrieve
+data on a background thread.
+
+57
+00:02:46,389 --> 00:02:49,309
+And if any of this code looks
+unfamiliar, please take a look back at
+
+58
+00:02:49,310 --> 00:02:54,080
+Lessons three and four, which go over
+RecyclerViews and AsyncTaskLoaders.
+
+59
+00:02:54,080 --> 00:02:57,150
+So a lot of the UI code is
+provided in the starter code.
+
+60
+00:02:57,150 --> 00:02:59,289
+But if you run it, it won't do much.
+
+61
+00:02:59,289 --> 00:03:00,560
+Let's try it out.
+
+62
+00:03:00,560 --> 00:03:02,439
+Here's the starting state of our app.
+
+63
+00:03:02,439 --> 00:03:05,490
+Nothing will be displayed,
+and you can't add tasks yet.
+
+64
+00:03:05,490 --> 00:03:09,170
+To display tasks and make the add
+buttons work with our SQLite database,
+
+65
+00:03:09,169 --> 00:03:12,569
+we'll be building a content provider and
+hooking it up to this UI.
+
+66
+00:03:12,569 --> 00:03:15,400
+For now, I encourage you to look
+around this incomplete code,
+
+67
+00:03:15,400 --> 00:03:18,620
+look at the XML layouts, and read any
+of the comments if you want more detail
+
+68
+00:03:18,620 --> 00:03:20,840
+about what a class or function is for.
+
+69
+00:03:20,840 --> 00:03:23,039
+Next, let's see the structure
+of our task data so
+
+70
+00:03:23,039 --> 00:03:25,179
+that we can start building
+a provider to access it.
+

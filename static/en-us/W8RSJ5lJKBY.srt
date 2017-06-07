@@ -1,0 +1,191 @@
+1
+00:00:00,070 --> 00:00:02,810
+There is more that goes into dealing with deadlocks.
+
+2
+00:00:02,810 --> 00:00:05,840
+Detecting them, avoiding them, and recovering from them.
+
+3
+00:00:05,840 --> 00:00:10,760
+But for the sake of this class, remember that maintaining order of
+
+4
+00:00:10,760 --> 00:00:14,310
+the deadlocks will give you a deadlock-proof solution.
+
+5
+00:00:14,310 --> 00:00:18,270
+So in summary, a cycle in the wait graph is necessary and
+
+6
+00:00:18,270 --> 00:00:21,110
+sufficient for a deadlock to occur.
+
+7
+00:00:21,110 --> 00:00:24,980
+And this graph itself is one where the edges are from
+
+8
+00:00:24,980 --> 00:00:28,950
+the thread that's waiting on a resource to the thread that owns a resource.
+
+9
+00:00:28,950 --> 00:00:30,770
+So what can we do about this?
+
+10
+00:00:30,770 --> 00:00:32,840
+First we can try to prevent deadlocks.
+
+11
+00:00:32,840 --> 00:00:35,870
+Every single time a thread is about to issue a request for
+
+12
+00:00:35,870 --> 00:00:42,130
+a lock, we first have to see if that operation will cause a cycle in this graph.
+
+13
+00:00:42,130 --> 00:00:46,020
+If that is the case, then we must somehow delay that operation.
+
+14
+00:00:46,020 --> 00:00:49,210
+And in fact, we may even need to change our code so
+
+15
+00:00:49,210 --> 00:00:52,920
+that the thread first releases some resource and
+
+16
+00:00:52,920 --> 00:00:57,340
+only afterwards it attempts to perform that lock request.
+
+17
+00:00:57,340 --> 00:00:59,660
+Clearly this can be very expensive.
+
+18
+00:00:59,660 --> 00:01:05,870
+The alternative of completely preventing deadlocks is to detect deadlocks, and
+
+19
+00:01:05,870 --> 00:01:11,970
+if you detect that they have occurred, to have mechanisms to recover from them.
+
+20
+00:01:11,970 --> 00:01:17,140
+We do these kinds of things based on, basically, analysis of the graph to
+
+21
+00:01:17,140 --> 00:01:22,920
+determine whether at any given point of time, any cycles have occurred.
+
+22
+00:01:22,920 --> 00:01:28,330
+This maybe isn't as bad as monitoring and analyzing every single lock
+
+23
+00:01:28,330 --> 00:01:31,750
+request to see whether it will cause future deadlocks.
+
+24
+00:01:31,750 --> 00:01:37,100
+But it's still expensive in that it requires us to have ability to
+
+25
+00:01:37,100 --> 00:01:40,980
+roll back the execution so that we can recover.
+
+26
+00:01:40,980 --> 00:01:45,400
+And the only way that that can be possible is if we have maintained enough
+
+27
+00:01:45,400 --> 00:01:49,610
+state during the execution so that we can figure out how to recover.
+
+28
+00:01:49,610 --> 00:01:50,610
+And in some cases,
+
+29
+00:01:50,610 --> 00:01:54,580
+these rollback mechanisms are essentially impossible to perform.
+
+30
+00:01:54,580 --> 00:01:59,070
+If we have inputs and outputs that came from external sources,
+
+31
+00:01:59,070 --> 00:02:02,060
+we don't have ways to roll back their execution.
+
+32
+00:02:02,060 --> 00:02:06,050
+And finally we have the option to apply the Ostrich Algorithm.
+
+33
+00:02:06,050 --> 00:02:10,870
+And as sophisticated as that sounds, the Ostrich Algorithm is that, will
+
+34
+00:02:10,870 --> 00:02:15,550
+basically just hide like an ostrich with his head in the sand, and do nothing.
+
+35
+00:02:15,550 --> 00:02:19,690
+This is even more optimistic than this rollback based mechanism,
+
+36
+00:02:19,690 --> 00:02:24,680
+in which we were letting the system execute, allowing it to cause a deadlock,
+
+37
+00:02:24,680 --> 00:02:26,600
+and then recovering from him.
+
+38
+00:02:26,600 --> 00:02:30,540
+Here we're essentially just hoping the system will never deadlock, and
+
+39
+00:02:30,540 --> 00:02:32,900
+if we're wrong, then we'll just reboot.
+
+40
+00:02:32,900 --> 00:02:38,510
+The truth is that although we know that lock order will help remove
+
+41
+00:02:38,510 --> 00:02:42,960
+any cycles in the graph, when we have complex codes, when we have codes from
+
+42
+00:02:42,960 --> 00:02:48,080
+different sources, it's really hard to guarantee that all of the mutexes will be
+
+43
+00:02:48,080 --> 00:02:53,090
+acquired in exactly the same order across multiple source files.
+
+44
+00:02:53,090 --> 00:02:55,430
+And so deadlocks are a reality.
+
+45
+00:02:55,430 --> 00:02:58,740
+These types of techniques are possible, exist, and
+
+46
+00:02:58,740 --> 00:03:03,720
+they can help us deal with deadlocks, however they're rather expensive in
+
+47
+00:03:03,720 --> 00:03:08,440
+terms of the overheads they impose on the execution time of the system.
+
+48
+00:03:08,440 --> 00:03:12,517
+So typically they're applied only in really performance-critical systems.

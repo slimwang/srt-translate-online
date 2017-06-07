@@ -1,0 +1,200 @@
+1
+00:00:00,000 --> 00:00:03,963
+We will now look at NFS,
+a very popular distributive file system.
+
+2
+00:00:03,963 --> 00:00:08,026
+In NFS, clients acts as
+the remote server over a network.
+
+3
+00:00:08,026 --> 00:00:11,219
+And hence, the name Network File System.
+
+4
+00:00:11,219 --> 00:00:13,854
+It's another contribution
+to computer science made
+
+5
+00:00:13,854 --> 00:00:15,908
+by the great systems researchers at Sun.
+
+6
+00:00:15,908 --> 00:00:20,836
+In fact, one of the reasons why
+protocols like RPC were developed was to
+
+7
+00:00:20,836 --> 00:00:22,572
+help with the use of NFS.
+
+8
+00:00:22,572 --> 00:00:25,120
+Its architecture is
+shown in this figure.
+
+9
+00:00:25,120 --> 00:00:29,856
+Client requests an access files using
+the virtual file system interface and
+
+10
+00:00:29,856 --> 00:00:34,666
+using the same types of file descriptors
+that they use to access files in their
+
+11
+00:00:34,666 --> 00:00:35,713
+local storage.
+
+12
+00:00:35,713 --> 00:00:41,152
+The VSF layer will determine whether the
+file belongs to the local file system or
+
+13
+00:00:41,152 --> 00:00:44,559
+whether it needs to be
+pushed to the NFS client, so
+
+14
+00:00:44,559 --> 00:00:47,664
+that it can pass it to
+the remote file system.
+
+15
+00:00:47,664 --> 00:00:52,507
+The NFS client interacts via
+RPC with they NFS server
+
+16
+00:00:52,507 --> 00:00:55,709
+that resides on a remote machine.
+
+17
+00:00:55,709 --> 00:00:58,925
+This is the machine that
+actually stores the files.
+
+18
+00:00:58,925 --> 00:01:03,834
+The NFS server accepts the request,
+forms them into a proper file system
+
+19
+00:01:03,834 --> 00:01:08,342
+operation that's then issued to
+the local virtual file system and
+
+20
+00:01:08,342 --> 00:01:13,754
+from there, it gets passed to the local
+file system on top of the local storage.
+
+21
+00:01:13,754 --> 00:01:18,301
+What that means is that on the server
+machine, the requests that are coming
+
+22
+00:01:18,301 --> 00:01:23,064
+from the NFS server module are serviced
+as any other file system operation that
+
+23
+00:01:23,064 --> 00:01:26,332
+comes from any application
+running on this machine.
+
+24
+00:01:26,332 --> 00:01:29,516
+When an open request
+comes from the client,
+
+25
+00:01:29,516 --> 00:01:32,536
+the NFS server will
+create a file handle.
+
+26
+00:01:32,536 --> 00:01:36,344
+This will be a bite sequence that
+encodes both the server machine as well
+
+27
+00:01:36,344 --> 00:01:38,444
+as the server local file information.
+
+28
+00:01:38,444 --> 00:01:41,656
+This will be returned back
+to the client machine and
+
+29
+00:01:41,656 --> 00:01:46,435
+it will be maintained by the NFS client,
+so whenever the client application
+
+30
+00:01:46,435 --> 00:01:50,781
+tries to access files that are stored
+on the remote server on the NFS.
+
+31
+00:01:50,781 --> 00:01:55,577
+Internally, this file handle will be
+passed with every single request.
+
+32
+00:01:55,577 --> 00:01:59,658
+If the files get deleted or
+the server machine dies, using this
+
+33
+00:01:59,658 --> 00:02:04,446
+handle will result in an error,
+because we're trying to use stale data.
+
+34
+00:02:04,446 --> 00:02:06,292
+Data that's no longer valid.
+
+35
+00:02:06,292 --> 00:02:08,186
+On client's right operations,
+
+36
+00:02:08,186 --> 00:02:11,901
+the data that needs to be written
+to the file will be carried as part
+
+37
+00:02:11,901 --> 00:02:15,162
+of the RPC request from
+the client to the server machine.
+
+38
+00:02:15,162 --> 00:02:19,774
+And in file read, the data blocks that
+will be read from the file will be
+
+39
+00:02:19,774 --> 00:02:24,870
+the results from that RPC request that
+was sent from the client to the server.
+
+40
+00:02:24,870 --> 00:02:27,936
+And as such, they will be
+passed back to the NFS client.
+
+41
+00:02:27,936 --> 00:02:28,944
+And then ultimately,
+
+42
+00:02:28,944 --> 00:02:31,500
+back to the application that
+issued the read operation.

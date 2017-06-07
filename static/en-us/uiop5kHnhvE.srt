@@ -1,0 +1,292 @@
+1
+00:00:00,240 --> 00:00:01,350
+Wait a second.
+
+2
+00:00:01,350 --> 00:00:04,180
+Paul just mentioned something
+called a web worker.
+
+3
+00:00:04,180 --> 00:00:07,380
+These are really super useful, so
+you're going to be creating one for
+
+4
+00:00:07,380 --> 00:00:08,430
+this next quiz.
+
+5
+00:00:08,430 --> 00:00:10,090
+Web workers provide an interface for
+
+6
+00:00:10,090 --> 00:00:12,560
+spawning scripts to
+run in the background.
+
+7
+00:00:12,560 --> 00:00:16,540
+Normally, websites run in a single
+thread running on the operating system.
+
+8
+00:00:16,540 --> 00:00:20,350
+Web workers allow you to run JavaScript
+in a totally different scope than
+
+9
+00:00:20,350 --> 00:00:24,530
+the main window and on a totally
+separate operating system thread.
+
+10
+00:00:24,530 --> 00:00:26,270
+Whatever work is happening
+in the main thread,
+
+11
+00:00:26,270 --> 00:00:30,440
+in the main window, won't affect or
+be affected by the worker thread.
+
+12
+00:00:30,440 --> 00:00:32,200
+And of course the opposite is true.
+
+13
+00:00:32,200 --> 00:00:34,890
+Whatever work is happening in
+the worker thread won't affect or
+
+14
+00:00:34,890 --> 00:00:39,180
+be affected by the main window, but the
+two can send messages back and forth.
+
+15
+00:00:39,180 --> 00:00:42,180
+This means that you can isolate long
+running JavaScript inside a worker
+
+16
+00:00:42,180 --> 00:00:45,990
+thread and allow the main
+thread to run free unimpeded.
+
+17
+00:00:45,990 --> 00:00:48,740
+What's really cool though is that
+the web worker in the main thread
+
+18
+00:00:48,740 --> 00:00:50,510
+can't communicate with each other.
+
+19
+00:00:50,510 --> 00:00:54,090
+Altogether, web workers
+are an incredibly valuable strategy for
+
+20
+00:00:54,090 --> 00:00:58,880
+running long running code that does not
+create any jank on the main thread.
+
+21
+00:00:58,880 --> 00:01:00,380
+If you're unfamiliar with web workers,
+
+22
+00:01:00,380 --> 00:01:02,690
+check out the link in
+the instructor notes below.
+
+23
+00:01:02,690 --> 00:01:05,810
+Essentially you'll need to create a
+separate JavaScript file which your main
+
+24
+00:01:05,810 --> 00:01:08,590
+app will spawn into a new web worker.
+
+25
+00:01:08,590 --> 00:01:13,340
+For this quiz I want you to download and
+dejankify this small app.
+
+26
+00:01:13,340 --> 00:01:15,010
+You'll need a copy on
+your local machine and
+
+27
+00:01:15,010 --> 00:01:17,270
+you can find a link
+to download it below.
+
+28
+00:01:17,270 --> 00:01:20,470
+I want to point out the two
+main features of this app.
+
+29
+00:01:20,470 --> 00:01:23,390
+On the left side there is the Jank Timer
+which will tell you if any jank
+
+30
+00:01:23,390 --> 00:01:24,090
+appears on the page.
+
+31
+00:01:25,170 --> 00:01:27,300
+And on the right side there's
+the image manipulator,
+
+32
+00:01:27,300 --> 00:01:30,230
+which will let you pick a file
+from your local machine and
+
+33
+00:01:30,230 --> 00:01:32,460
+then do some type of
+image manipulation on it.
+
+34
+00:01:32,460 --> 00:01:36,320
+In this case I've just gone ahead and
+uploaded a Chrome logo.
+
+35
+00:01:37,340 --> 00:01:40,530
+The image manipulator's janky and
+needs a little bit of work.
+
+36
+00:01:40,530 --> 00:01:42,880
+Watch what happens when i click invert.
+
+37
+00:01:42,880 --> 00:01:43,580
+The page froze for
+
+38
+00:01:43,580 --> 00:01:46,300
+more than four seconds as this
+image was being inverted.
+
+39
+00:01:47,330 --> 00:01:50,850
+That is definitely a lot of jank and
+that needs to be fixed.
+
+40
+00:01:50,850 --> 00:01:54,470
+Your job for this quiz is to offload
+all of the image manipulation work
+
+41
+00:01:54,470 --> 00:01:57,360
+off the main thread and
+into a web worker.
+
+42
+00:01:57,360 --> 00:02:00,270
+You know you've done it correctly
+when the page doesn't freeze for
+
+43
+00:02:00,270 --> 00:02:03,370
+multiple seconds when you
+click one of these buttons.
+
+44
+00:02:03,370 --> 00:02:04,640
+As a second challenge,
+
+45
+00:02:04,640 --> 00:02:09,410
+there's also a massive performance bug
+in the way the image manipulators run.
+
+46
+00:02:09,410 --> 00:02:12,840
+I'm about to give you a big hint
+about where it is in the app.
+
+47
+00:02:12,840 --> 00:02:15,710
+So if you want to really nice
+challenge right now just stop and
+
+48
+00:02:15,710 --> 00:02:18,055
+click continue to quiz and
+skip this hint.
+
+49
+00:02:18,055 --> 00:02:20,470
+Okay, are you still here?
+
+50
+00:02:20,470 --> 00:02:20,982
+Here it comes.
+
+51
+00:02:20,982 --> 00:02:26,140
+Inside image-app.js you can find this
+loop, which includes the logic for
+
+52
+00:02:26,140 --> 00:02:29,130
+separating each pixel into
+the different channels, and
+
+53
+00:02:29,130 --> 00:02:31,270
+then running some manipulation on them.
+
+54
+00:02:31,270 --> 00:02:34,270
+This function, manipulate,
+is where you should start looking for
+
+55
+00:02:34,270 --> 00:02:35,730
+the performance bug.
+
+56
+00:02:35,730 --> 00:02:39,900
+To help you out with the web worker,
+I'm including a file called worker.js
+
+57
+00:02:39,900 --> 00:02:42,770
+that currently handles
+most of the web worker.
+
+58
+00:02:42,770 --> 00:02:45,640
+It's going to be your job
+to go into image-app.js and
+
+59
+00:02:45,640 --> 00:02:49,140
+then install worker.js as a web worker.
+
+60
+00:02:49,140 --> 00:02:53,140
+So, once you've moved the image
+manipulation work into a web worker and
+
+61
+00:02:53,140 --> 00:02:54,850
+you've found the performance bug,
+
+62
+00:02:54,850 --> 00:02:56,570
+check this box to let us
+know that you're done.

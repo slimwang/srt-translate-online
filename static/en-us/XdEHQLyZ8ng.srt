@@ -1,0 +1,492 @@
+1
+00:00:00,820 --> 00:00:01,810
+So in lesson two,
+
+2
+00:00:01,810 --> 00:00:05,400
+you learned about the importance
+of officially managing memory.
+
+3
+00:00:05,400 --> 00:00:07,610
+So this is critical in
+mobile because phones and
+
+4
+00:00:07,610 --> 00:00:10,330
+tablets have much more
+limited memories resources
+
+5
+00:00:10,330 --> 00:00:13,840
+compared to that of a traditional
+large desktop computer.
+
+6
+00:00:13,840 --> 00:00:17,610
+You begin to see that resource
+efficiency plays a significant factor in
+
+7
+00:00:17,610 --> 00:00:20,500
+influencing the way the Android
+framework is designed.
+
+8
+00:00:20,500 --> 00:00:23,410
+And we saw this for
+example in views recycling,
+
+9
+00:00:23,410 --> 00:00:26,370
+where we needed to design a way
+to efficiently display data.
+
+10
+00:00:26,370 --> 00:00:28,270
+Now that's only half the story.
+
+11
+00:00:29,390 --> 00:00:33,500
+In order for the Android device to run
+smoothly, respond quickly to user input,
+
+12
+00:00:33,500 --> 00:00:36,960
+as well as not drain the user's battery,
+developers like you and
+
+13
+00:00:36,960 --> 00:00:39,850
+me need to be memory-conscious as well.
+
+14
+00:00:39,850 --> 00:00:42,820
+Now one of the most important
+things you as a developer can do,
+
+15
+00:00:42,820 --> 00:00:46,030
+is to free up resources when
+they're no longer needed, so
+
+16
+00:00:46,030 --> 00:00:48,880
+that other apps on the device
+can use them as well.
+
+17
+00:00:48,880 --> 00:00:53,830
+Now Media Player is an excellent context
+for this type of developer behavior.
+
+18
+00:00:53,830 --> 00:00:56,830
+So let's take a closer look at what
+we have to do in order to play audio.
+
+19
+00:00:57,830 --> 00:01:01,620
+So first, we'll need to obtain
+an instance of the MediaPlayer class.
+
+20
+00:01:01,620 --> 00:01:04,060
+And remember that whenever
+you instantiate an object,
+
+21
+00:01:04,060 --> 00:01:06,890
+you're using some of the memory
+allocated on your app.
+
+22
+00:01:06,890 --> 00:01:09,440
+And then you need to
+pass in an audio file
+
+23
+00:01:09,440 --> 00:01:12,510
+which must consume memory in order for
+it to play.
+
+24
+00:01:12,510 --> 00:01:17,660
+Now all these things take up memory and
+it's also known as taking up resources.
+
+25
+00:01:17,660 --> 00:01:20,760
+So the optimal question or
+task becomes two fold.
+
+26
+00:01:20,760 --> 00:01:25,540
+One, how do you determine when you no
+longer need media player resources?
+
+27
+00:01:25,540 --> 00:01:28,030
+And two,
+how do you free up those resources.
+
+28
+00:01:29,490 --> 00:01:31,810
+Now in order to determine
+when you no longer need them,
+
+29
+00:01:31,810 --> 00:01:36,080
+we need to think back to the states
+the audio media player can be in.
+
+30
+00:01:36,080 --> 00:01:38,430
+So we know that when we first
+create the media player.
+
+31
+00:01:38,430 --> 00:01:42,150
+We used the create method and
+it moves it into the prepared state.
+
+32
+00:01:42,150 --> 00:01:44,170
+Afterwards it moves into the started.
+
+33
+00:01:44,170 --> 00:01:47,780
+And then pause state, or
+can move into the stopped, or
+
+34
+00:01:47,780 --> 00:01:50,140
+play back completed state as well.
+
+35
+00:01:50,140 --> 00:01:53,180
+Now there's a final crucial step here,
+the end state.
+
+36
+00:01:53,180 --> 00:01:57,060
+So once the media player object is in
+the end state, it can't be used anymore.
+
+37
+00:01:57,060 --> 00:01:59,860
+So we can move it into
+any other state again.
+
+38
+00:01:59,860 --> 00:02:03,550
+So when the MediaPlayer is destroyed
+the memory that was used by the player
+
+39
+00:02:03,550 --> 00:02:06,540
+can be reclaimed by the system for
+other tasks.
+
+40
+00:02:06,540 --> 00:02:08,280
+So back to our original question,
+
+41
+00:02:08,280 --> 00:02:11,660
+how do you determine when you
+no longer need memory resources?
+
+42
+00:02:11,660 --> 00:02:14,310
+Well our audio files are pretty short.
+
+43
+00:02:14,310 --> 00:02:15,980
+Only about a second or two long so
+
+44
+00:02:15,980 --> 00:02:19,800
+that means that playback will
+finish relatively quickly.
+
+45
+00:02:19,800 --> 00:02:21,540
+So after it's finished playing.
+
+46
+00:02:21,540 --> 00:02:23,630
+We don't need these resources anymore.
+
+47
+00:02:23,630 --> 00:02:26,770
+So we shouldn't hang on to the media
+player resources while wishing and
+
+48
+00:02:26,770 --> 00:02:29,350
+hoping that the user will
+click on the same list item.
+
+49
+00:02:29,350 --> 00:02:33,260
+We should just release the resources
+immediately by calling the release.
+
+50
+00:02:33,260 --> 00:02:37,420
+So this moves the player into the end
+state so that the systems over claim it.
+
+51
+00:02:37,420 --> 00:02:41,050
+So for the documentation
+specifically in this paragraph here,
+
+52
+00:02:41,050 --> 00:02:44,860
+it highlights that once the MediaPlayer
+object is no longer being used.
+
+53
+00:02:44,860 --> 00:02:47,385
+I call the release method so
+that the resources
+
+54
+00:02:47,385 --> 00:02:49,735
+are immediately released from
+the internal player engine.
+
+55
+00:02:49,735 --> 00:02:52,985
+It would cause future media player
+object instances, so ones for
+
+56
+00:02:52,985 --> 00:02:56,735
+future object files that we want to
+play, to not perform as efficiently or
+
+57
+00:02:56,735 --> 00:02:58,865
+even drain the batteries that we need.
+
+58
+00:02:58,865 --> 00:03:00,695
+So if you would like
+more details on this,
+
+59
+00:03:00,695 --> 00:03:04,520
+I highly suggest reading through
+the release method documentation.
+
+60
+00:03:04,520 --> 00:03:06,580
+Now back up to the state diagram.
+
+61
+00:03:06,580 --> 00:03:09,450
+In the case of the user clicks again,
+they will need to create
+
+62
+00:03:09,450 --> 00:03:13,900
+a new mediaplayer object for the same or
+even a different audio file and
+
+63
+00:03:13,900 --> 00:03:16,640
+go through this entire
+lifecycle once again.
+
+64
+00:03:16,640 --> 00:03:19,510
+Now in this exercise
+complete the following tasks
+
+65
+00:03:19,510 --> 00:03:22,130
+to clean up resources
+properly in our app.
+
+66
+00:03:22,130 --> 00:03:25,240
+So for this first step of using
+the provided code snippet
+
+67
+00:03:25,240 --> 00:03:28,100
+to release the resources after
+the sound file has finished playing.
+
+68
+00:03:29,190 --> 00:03:30,930
+We've provided you with
+the code snippet for
+
+69
+00:03:30,930 --> 00:03:34,050
+a helper method that calls
+the release method itself.
+
+70
+00:03:34,050 --> 00:03:36,120
+Now here's what that
+code snippet looks like.
+
+71
+00:03:36,120 --> 00:03:39,880
+So it's called a helper method because
+it performs a task that is meant to help
+
+72
+00:03:39,880 --> 00:03:41,250
+another part of your code.
+
+73
+00:03:41,250 --> 00:03:43,430
+So you can copy and
+paste this helper method,
+
+74
+00:03:43,430 --> 00:03:47,410
+that we've named here releaseMediaPlayer
+into the numbers activity,
+
+75
+00:03:47,410 --> 00:03:50,000
+as well as the other
+category activity files.
+
+76
+00:03:50,000 --> 00:03:54,420
+So this method checks whether or not
+the media player has been initialized.
+
+77
+00:03:54,420 --> 00:03:57,410
+So if the nMediaPlayer
+variable is not null or
+
+78
+00:03:57,410 --> 00:04:00,760
+not empty, then we have
+a invalid MediaPlayer object.
+
+79
+00:04:00,760 --> 00:04:02,330
+And we should call
+release on that object.
+
+80
+00:04:03,600 --> 00:04:06,870
+So you'll see this checking
+as common practice in Java.
+
+81
+00:04:06,870 --> 00:04:09,590
+So if you have a variable
+with an object at a type, so
+
+82
+00:04:09,590 --> 00:04:14,670
+here in this case MediaPlayer, and the
+default variable is null, meaning empty,
+
+83
+00:04:14,670 --> 00:04:17,269
+that means nothing was set
+equal to that variable.
+
+84
+00:04:17,269 --> 00:04:19,010
+And before you call
+a method on that variable,
+
+85
+00:04:19,010 --> 00:04:22,600
+you need to make sure that the variable
+is referencing a valid object.
+
+86
+00:04:22,600 --> 00:04:25,000
+Otherwise you'll get a java error.
+
+87
+00:04:25,000 --> 00:04:26,690
+So once we've called release,
+
+88
+00:04:26,690 --> 00:04:30,770
+we can clear out the variable by setting
+it equal to null and we use a no value
+
+89
+00:04:30,770 --> 00:04:34,750
+to indicate that the media player isn't
+currently configured to play audio.
+
+90
+00:04:34,750 --> 00:04:36,860
+So back to this exercise instructions.
+
+91
+00:04:36,860 --> 00:04:40,290
+You can copy and paste that method
+that we showed you in the code snippet
+
+92
+00:04:40,290 --> 00:04:43,970
+into all four of the category activity
+files, and then call the method
+
+93
+00:04:43,970 --> 00:04:46,770
+once the MediaPlayer has
+finished playing a sound file.
+
+94
+00:04:46,770 --> 00:04:49,570
+So you need to use what you
+learned in the last exercise
+
+95
+00:04:49,570 --> 00:04:53,020
+about getting a callback when
+a media file is done playing
+
+96
+00:04:53,020 --> 00:04:56,430
+in order to know when to call
+the releaseMediaPlayer method.
+
+97
+00:04:56,430 --> 00:04:59,830
+And lastly, I would like you to
+also call the helper method again,
+
+98
+00:04:59,830 --> 00:05:03,530
+in order to release the media player
+resources right before we start to
+
+99
+00:05:03,530 --> 00:05:07,750
+initialize another media player object,
+in order to play a different audio file.
+
+100
+00:05:07,750 --> 00:05:08,320
+And we do that.
+
+101
+00:05:08,320 --> 00:05:11,990
+So we clear out any resources Android
+was using to play the old file
+
+102
+00:05:11,990 --> 00:05:13,960
+before moving on to
+a brand new audio file.

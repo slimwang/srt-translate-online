@@ -1,0 +1,473 @@
+﻿1
+00:00:00,730 --> 00:00:04,320
+So we verified a listing is within
+a half an hour walk from work.
+
+2
+00:00:04,320 --> 00:00:08,359
+Doesn't make me take a ferry and we're
+able to verify that our pancake house,
+
+3
+00:00:08,359 --> 00:00:10,727
+gelateria, school, or
+hospital is in the area.
+
+4
+00:00:10,727 --> 00:00:14,971
+But after a search query turns up those
+results we want to see more about those
+
+5
+00:00:14,971 --> 00:00:17,436
+places in our potential
+new neighborhood.
+
+6
+00:00:17,437 --> 00:00:20,267
+Luckily the places library
+is a ridiculously large
+
+7
+00:00:20,266 --> 00:00:23,570
+database full of useful tidbits
+about the world around us.
+
+8
+00:00:24,789 --> 00:00:26,980
+Places returned in both
+our auto complete and
+
+9
+00:00:26,980 --> 00:00:29,519
+search box have unique
+identifiers called place IDs.
+
+10
+00:00:30,589 --> 00:00:33,140
+You should be aware that you can
+pass them just like latlongs and
+
+11
+00:00:33,140 --> 00:00:36,020
+many of the services such as
+distance matrix and directions APIs.
+
+12
+00:00:37,250 --> 00:00:41,119
+Place IDs are the keys that you get back
+tons of details about an establishment
+
+13
+00:00:41,119 --> 00:00:41,619
+or location.
+
+14
+00:00:42,759 --> 00:00:45,969
+When we get the list of results from
+our search box, we get place IDs for
+
+15
+00:00:45,969 --> 00:00:46,490
+all of them.
+
+16
+00:00:47,820 --> 00:00:50,810
+Let's take a look at a few
+examples of using the place IDs
+
+17
+00:00:50,810 --> 00:00:54,330
+in the place details web service to see
+what kind of details are available.
+
+18
+00:00:55,520 --> 00:00:57,370
+We already have a place
+ID here to test out.
+
+19
+00:00:58,450 --> 00:01:01,810
+We'll be getting the place IDs within
+our site from our search box or
+
+20
+00:01:01,810 --> 00:01:03,310
+text search query.
+
+21
+00:01:03,310 --> 00:01:07,010
+But for the web service request,
+we can get place IDs from the places,
+
+22
+00:01:07,010 --> 00:01:10,570
+text, nearby or radar searches.
+
+23
+00:01:10,569 --> 00:01:12,839
+Check out the link in the instructor
+notes for how to do that.
+
+24
+00:01:14,340 --> 00:01:16,290
+We need to use the place
+IDs to search for
+
+25
+00:01:16,290 --> 00:01:19,620
+place details which is the demonstration
+that we're about to do.
+
+26
+00:01:21,980 --> 00:01:25,549
+Again, I'm specifying that I'm doing
+a place detail search here and
+
+27
+00:01:25,549 --> 00:01:27,619
+that I want the response in JSON format.
+
+28
+00:01:29,400 --> 00:01:32,680
+I'm passing in a place ID and
+my API key.
+
+29
+00:01:34,659 --> 00:01:37,548
+Here's the response that we get back for
+the Google Sydney office.
+
+30
+00:01:38,969 --> 00:01:42,129
+I'm going to minimize the address
+components and the geometry.
+
+31
+00:01:43,969 --> 00:01:47,590
+We can see here that we get back an
+international phone number, the name for
+
+32
+00:01:47,590 --> 00:01:53,240
+the place, some photos, a rating,
+
+33
+00:01:53,239 --> 00:01:59,399
+not sure where those .5 points went,
+lots of reviews, and the type.
+
+34
+00:01:59,400 --> 00:02:04,821
+So we can tell this is an establishment,
+which means it's a business.
+
+35
+00:02:04,820 --> 00:02:07,456
+All of these photos have photo
+reference IDs, seen here.
+
+36
+00:02:07,456 --> 00:02:12,625
+We can build another simple URL
+to use the photo reference IDs
+
+37
+00:02:12,625 --> 00:02:17,830
+using an API key and
+a photo reference parameter, and a wif.
+
+38
+00:02:17,830 --> 00:02:20,340
+This time I'm making
+a places photo request.
+
+39
+00:02:21,340 --> 00:02:25,090
+Again I specify a width,
+the photo reference ID
+
+40
+00:02:25,090 --> 00:02:28,469
+that I got back from the place
+details request, and my API key.
+
+41
+00:02:28,469 --> 00:02:33,300
+That's the places photo that we were
+given in our place details request.
+
+42
+00:02:34,639 --> 00:02:37,239
+Let's do another place ID as an example.
+
+43
+00:02:37,240 --> 00:02:38,780
+This is a great little coffee shop.
+
+44
+00:02:38,780 --> 00:02:41,449
+You may or may not have heard of it.
+
+45
+00:02:41,449 --> 00:02:44,810
+We can see that this is the Starbucks
+on Broadway in the city.
+
+46
+00:02:44,810 --> 00:02:46,750
+Now we can see some pretty useful stuff.
+
+47
+00:02:46,750 --> 00:02:48,907
+Operating hours are really useful for
+one thing.
+
+48
+00:02:48,907 --> 00:02:53,309
+We'll use these on our site later when
+we will get place detail results.
+
+49
+00:02:53,310 --> 00:02:54,750
+Notice that we get back for
+
+50
+00:02:54,750 --> 00:02:59,370
+display purposes text, but also granular
+data of the periods when it's open.
+
+51
+00:03:01,639 --> 00:03:03,209
+Again we get back the photos.
+
+52
+00:03:05,590 --> 00:03:08,379
+We also again get back the rating and
+reviews.
+
+53
+00:03:08,379 --> 00:03:11,889
+So for example if I wanted to limit
+my results to things open for
+
+54
+00:03:11,889 --> 00:03:14,679
+certain hours or
+above a certain rating I could do that.
+
+55
+00:03:15,759 --> 00:03:18,329
+If you're making a restaurant reviewer
+search app these things could be
+
+56
+00:03:18,330 --> 00:03:18,949
+really important to you.
+
+57
+00:03:20,569 --> 00:03:21,419
+Let's get back to our site.
+
+58
+00:03:23,069 --> 00:03:26,680
+So we're already getting back all the
+place IDs when we do the text search or
+
+59
+00:03:26,680 --> 00:03:28,620
+the search box query.
+
+60
+00:03:28,620 --> 00:03:31,750
+So let's add an OnClick event
+on the markers that appear
+
+61
+00:03:31,750 --> 00:03:34,259
+that'll display some placed
+details about each marker.
+
+62
+00:03:35,789 --> 00:03:38,819
+Remember, we need the places
+library loaded to do this.
+
+63
+00:03:39,860 --> 00:03:42,870
+We already included it in order to
+use auto-complete, and search box.
+
+64
+00:03:44,199 --> 00:03:47,859
+We're going to add to our create
+markers for places function.
+
+65
+00:03:47,860 --> 00:03:49,860
+For each place marker that we create,
+
+66
+00:03:49,860 --> 00:03:54,060
+we're going to add an event listener
+to call a get details function.
+
+67
+00:03:54,060 --> 00:03:56,969
+We're going to create a single info
+window here that we'll share between
+
+68
+00:03:56,969 --> 00:04:01,900
+the different place markers that we only
+have set of place details open at once.
+
+69
+00:04:01,900 --> 00:04:05,860
+And then we'll add our event listener
+for a click event on the marker.
+
+70
+00:04:05,860 --> 00:04:08,440
+This will call a get
+place details function,
+
+71
+00:04:08,439 --> 00:04:13,169
+passing in the marker which is this and
+the placeInfoWindow.
+
+72
+00:04:13,169 --> 00:04:14,119
+Let's define that now.
+
+73
+00:04:15,629 --> 00:04:20,730
+Our getPlace details function is
+going to use the placeID to execute
+
+74
+00:04:20,730 --> 00:04:22,790
+a placeDetailSearch.
+
+75
+00:04:22,790 --> 00:04:26,340
+And then it's going to display a bunch
+of that information in an info window
+
+76
+00:04:26,339 --> 00:04:28,409
+above the place marker.
+
+77
+00:04:28,410 --> 00:04:33,150
+We'll create a new places service and
+use the getDetails method.
+
+78
+00:04:33,149 --> 00:04:37,379
+Passing in the place ID which
+we set as the marker ID before.
+
+79
+00:04:37,379 --> 00:04:39,100
+We'll get back the results.
+
+80
+00:04:39,100 --> 00:04:41,420
+Check that the status is okay.
+
+81
+00:04:41,420 --> 00:04:44,340
+And then parse through all that
+neat data that we saw before
+
+82
+00:04:44,339 --> 00:04:45,949
+in the web service call.
+
+83
+00:04:45,949 --> 00:04:49,189
+We'll put all of this data into
+the info window that we create,
+
+84
+00:04:49,189 --> 00:04:51,300
+including the first photo
+reference that we get.
+
+85
+00:04:52,899 --> 00:04:55,759
+Remember, not every place ID will return
+
+86
+00:04:55,759 --> 00:04:58,909
+all of the details that we
+saw in the web service calls.
+
+87
+00:04:58,910 --> 00:05:01,130
+Some of them may not have opening hours,
+
+88
+00:05:01,129 --> 00:05:04,180
+some of them may not have
+a phone number, et cetera.
+
+89
+00:05:04,180 --> 00:05:07,730
+So we have to check for the existence of
+each of these pieces of data before we
+
+90
+00:05:07,730 --> 00:05:09,319
+actually display it in the info window.
+
+91
+00:05:10,490 --> 00:05:11,220
+Let's test this out.
+
+92
+00:05:12,870 --> 00:05:15,840
+Let's click on some of these
+markers to get more results.
+
+93
+00:05:15,839 --> 00:05:18,799
+We can see the place name,
+the formatted address,
+
+94
+00:05:18,800 --> 00:05:24,870
+the phone number, the operating
+hours and a nice little thumbnail.
+
+95
+00:05:24,870 --> 00:05:26,810
+A 24 hour IHOP!
+
+96
+00:05:26,810 --> 00:05:28,899
+Jackpot.
+All right, so
+
+97
+00:05:28,899 --> 00:05:30,889
+I think this is really
+going to help our users.
+
+98
+00:05:30,889 --> 00:05:33,949
+At this point they'd be able to find the
+places of interest in the neighborhoods
+
+99
+00:05:33,949 --> 00:05:35,839
+that they could potentially live in.
+
+100
+00:05:35,839 --> 00:05:37,959
+Let's review our places
+API skills in a quiz.
+
+

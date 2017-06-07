@@ -1,0 +1,163 @@
+1
+00:00:00,170 --> 00:00:03,740
+When we had just one single process control block,
+
+2
+00:00:03,740 --> 00:00:06,470
+it was a large contiguous data structure.
+
+3
+00:00:06,470 --> 00:00:09,340
+We have to maintain separate copies for
+
+4
+00:00:09,340 --> 00:00:13,720
+every single thread, even though they may share some information.
+
+5
+00:00:13,720 --> 00:00:16,219
+Whenever we need to context switch we need to save and
+
+6
+00:00:16,219 --> 00:00:20,210
+restore this entire data structure, and it is large we said.
+
+7
+00:00:20,210 --> 00:00:23,740
+And finally, it's just this one data structure that's used for so
+
+8
+00:00:23,740 --> 00:00:25,010
+many different operations.
+
+9
+00:00:25,010 --> 00:00:28,700
+For scheduling, for memory management, for synchronization.
+
+10
+00:00:28,700 --> 00:00:32,450
+If we want to customize any aspect of that, we are potentially going to
+
+11
+00:00:32,450 --> 00:00:38,660
+affect multiple OS services, and so it makes updates a little bit challenges.
+
+12
+00:00:38,660 --> 00:00:42,110
+So all in all, there are multiple limitations to this approach of
+
+13
+00:00:42,110 --> 00:00:45,130
+using a single process control block structure to
+
+14
+00:00:45,130 --> 00:00:49,520
+represent all aspects of the execution state of a process.
+
+15
+00:00:49,520 --> 00:00:52,290
+Scalability is limited due to the size.
+
+16
+00:00:52,290 --> 00:00:56,800
+Overheads are limited because they need to have private copies.
+
+17
+00:00:56,800 --> 00:01:00,820
+Performance is affected because everything has to be saved and restored.
+
+18
+00:01:00,820 --> 00:01:04,343
+And then flexibility is affected by the fact that updates are a little bit
+
+19
+00:01:04,343 --> 00:01:05,810
+more difficult.
+
+20
+00:01:05,810 --> 00:01:10,900
+In contrast, when we have multiple data structures, we actually end up with mu,
+
+21
+00:01:10,900 --> 00:01:13,380
+multiple small data structures.
+
+22
+00:01:13,380 --> 00:01:17,580
+The information that was contained in the original process control block,
+
+23
+00:01:17,580 --> 00:01:23,370
+is now maintained via pointers by pointing to much smaller data elements.
+
+24
+00:01:23,370 --> 00:01:26,650
+Then it becomes easy to share portions of that information.
+
+25
+00:01:26,650 --> 00:01:30,270
+We will point to the same data structure for
+
+26
+00:01:30,270 --> 00:01:34,860
+those components of the state, which are identical across threads or processes.
+
+27
+00:01:34,860 --> 00:01:40,560
+And we will create new elements when we need to have different information.
+
+28
+00:01:40,560 --> 00:01:44,660
+On a context switch, only that portion of the state that actually needs to
+
+29
+00:01:44,660 --> 00:01:47,340
+change will be saved and restored.
+
+30
+00:01:47,340 --> 00:01:48,276
+And then both,
+
+31
+00:01:48,276 --> 00:01:52,747
+any kinds of modifications will impact only subset of the data elements.
+
+32
+00:01:52,747 --> 00:01:57,019
+And then the interactions between the user-level library and the system will
+
+33
+00:01:57,019 --> 00:02:02,090
+also be carried out through a much smaller more, more confined interfaces.
+
+34
+00:02:02,090 --> 00:02:06,530
+All in all, this trend to use multiple data structure leads to
+
+35
+00:02:06,530 --> 00:02:08,880
+improvements across the board.
+
+36
+00:02:08,880 --> 00:02:10,690
+We gain on scalability,
+
+37
+00:02:10,690 --> 00:02:15,210
+on overheads because we don't have to have separate copies for, for everyone.
+
+38
+00:02:15,210 --> 00:02:19,810
+We have improvements in performance because context which time can be reduced,
+
+39
+00:02:19,810 --> 00:02:21,850
+and we have more flexibility.
+
+40
+00:02:21,850 --> 00:02:26,430
+As a result, operating systems today typically adapt this type of approach for
+
+41
+00:02:26,430 --> 00:02:29,360
+organizing information about their execution contexts.

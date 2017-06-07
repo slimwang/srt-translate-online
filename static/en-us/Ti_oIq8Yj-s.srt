@@ -1,0 +1,275 @@
+1
+00:00:00,500 --> 00:00:01,065
+All right.
+
+2
+00:00:01,065 --> 00:00:05,840
+So, fundamentally to in terms of makes a good feature,
+
+3
+00:00:05,840 --> 00:00:09,170
+we need to talk about finding one and describing one.
+
+4
+00:00:09,170 --> 00:00:12,750
+And today we're going to talk about the notion of finding these features,
+
+5
+00:00:12,750 --> 00:00:15,180
+sometimes referred to as interest points.
+
+6
+00:00:15,180 --> 00:00:17,090
+And these are going to be defined to be the points of
+
+7
+00:00:17,090 --> 00:00:19,350
+the image that would likely make good features,
+
+8
+00:00:19,350 --> 00:00:22,120
+that is ones that satisfy all those criteria we just talked about.
+
+9
+00:00:23,280 --> 00:00:27,300
+So, let's start thinking about an image pattern and
+
+10
+00:00:27,300 --> 00:00:32,369
+imagine you're looking at a large black square against the white wall, okay?
+
+11
+00:00:33,570 --> 00:00:35,940
+Would the middle of the square be a good interest point?
+
+12
+00:00:37,130 --> 00:00:39,029
+Megan, what do you think?
+
+13
+00:00:39,029 --> 00:00:39,549
+>> Yes?
+
+14
+00:00:39,549 --> 00:00:40,762
+>> Wrong, no.
+
+15
+00:00:40,762 --> 00:00:44,100
+Look, remember one of the things we need to be able to do is
+
+16
+00:00:44,100 --> 00:00:45,980
+precisely locate this?
+
+17
+00:00:45,980 --> 00:00:48,700
+Well, in order to try to find the middle of some big square,
+
+18
+00:00:48,700 --> 00:00:49,580
+there's like nothing there.
+
+19
+00:00:49,580 --> 00:00:51,840
+It's all black, I wouldn't know where to land.
+
+20
+00:00:51,840 --> 00:00:55,320
+Okay, well, what about along the edge?
+
+21
+00:00:55,320 --> 00:00:58,120
+Will a point along the edge be a good interest point?
+
+22
+00:00:58,120 --> 00:00:59,680
+Megan what do you think?
+
+23
+00:00:59,680 --> 00:01:00,180
+>> Yes.
+
+24
+00:01:02,300 --> 00:01:02,950
+>> No.
+
+25
+00:01:02,950 --> 00:01:05,900
+Look, okay, so if my edge was vertical we're going to do this in a minute,
+
+26
+00:01:05,900 --> 00:01:09,330
+if my edge was vertical I could tell which way to move left and right.
+
+27
+00:01:09,330 --> 00:01:13,410
+But as I move up and down, nothing would really change, right?
+
+28
+00:01:13,410 --> 00:01:15,580
+I just have black on one side, white on the other side, and
+
+29
+00:01:15,580 --> 00:01:19,120
+this edge in the middle, and I wouldn't be able to tell where that point lands.
+
+30
+00:01:19,120 --> 00:01:20,090
+Okay, you ready, Megan?
+
+31
+00:01:20,090 --> 00:01:21,370
+Two strikes.
+
+32
+00:01:21,370 --> 00:01:23,730
+What about the top left-hand corner?
+
+33
+00:01:23,730 --> 00:01:25,290
+Would that be a good point?
+
+34
+00:01:25,290 --> 00:01:26,130
+>> Yes.
+
+35
+00:01:26,130 --> 00:01:27,810
+>> Yes! She got it right!
+
+36
+00:01:27,810 --> 00:01:29,680
+Swings and hits a home run, well, a triple.
+
+37
+00:01:30,720 --> 00:01:32,610
+That seems pretty good, right?
+
+38
+00:01:32,610 --> 00:01:35,190
+The idea is that, I know exactly where that point is.
+
+39
+00:01:35,190 --> 00:01:35,730
+If I told you,
+
+40
+00:01:35,730 --> 00:01:38,600
+go point to the left, top left hand corner, you'd know where it was.
+
+41
+00:01:38,600 --> 00:01:41,360
+Whereas if I said, go point to the middle of the square, the exact middle,
+
+42
+00:01:41,360 --> 00:01:42,970
+you'd look at it and say, I, I don't know.
+
+43
+00:01:42,970 --> 00:01:45,320
+You'd have to get Megan, and she wouldn't know either, and
+
+44
+00:01:45,320 --> 00:01:46,490
+she'd say, oh I'm sorry.
+
+45
+00:01:46,490 --> 00:01:48,810
+Anyway, okay, so let's take a look at this.
+
+46
+00:01:48,810 --> 00:01:49,560
+All right.
+
+47
+00:01:49,560 --> 00:01:53,600
+So that this really is the basic idea of corner detection, all right?
+
+48
+00:01:53,600 --> 00:01:57,880
+So here I have a black, sort of zoomed in on a black, kind of rounded
+
+49
+00:01:57,880 --> 00:02:03,030
+square against a white background, where there's brown little square is, right?
+
+50
+00:02:03,030 --> 00:02:06,560
+I could move that square up and down or left and right.
+
+51
+00:02:06,560 --> 00:02:10,229
+And basically the pixels underneath that square wouldn't change very much.
+
+52
+00:02:10,229 --> 00:02:12,450
+That's what is referred to as a flat region.
+
+53
+00:02:12,450 --> 00:02:14,980
+That is that there is no change in the intensity.
+
+54
+00:02:14,980 --> 00:02:16,260
+Well, here's our edge.
+
+55
+00:02:16,260 --> 00:02:18,770
+Okay, so now we've put our square over the edge.
+
+56
+00:02:18,770 --> 00:02:20,210
+So what do we see?
+
+57
+00:02:20,210 --> 00:02:22,380
+Well, it's the same thing we, we talked about before.
+
+58
+00:02:22,380 --> 00:02:25,170
+Now, I can know about moving left and right.
+
+59
+00:02:25,170 --> 00:02:27,650
+I would know exactly more or less where that edge is.
+
+60
+00:02:27,650 --> 00:02:29,720
+But if I were to move up and down.
+
+61
+00:02:29,720 --> 00:02:31,710
+Okay, I wouldn't be able to see any difference,
+
+62
+00:02:31,710 --> 00:02:33,300
+because there would be no change.
+
+63
+00:02:33,300 --> 00:02:37,140
+So finally what do we get to, aha, we get to corners.
+
+64
+00:02:37,140 --> 00:02:38,180
+Okay.
+
+65
+00:02:38,180 --> 00:02:42,980
+And the idea is that in the corner, basically because I have gradience
+
+66
+00:02:42,980 --> 00:02:48,190
+in more than one direction, no matter how I were to translate that square,
+
+67
+00:02:48,190 --> 00:02:50,820
+the pattern underneath the square will change.
+
+68
+00:02:51,830 --> 00:02:56,510
+And so I can know when I've lined up exactly where I was before, right?
+
+69
+00:02:56,510 --> 00:03:00,640
+So there's this idea that we need the gradients to have more than one direction.

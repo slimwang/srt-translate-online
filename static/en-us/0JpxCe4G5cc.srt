@@ -1,0 +1,175 @@
+﻿1
+00:00:00,890 --> 00:00:03,620
+The active life cycle is when your
+activity is in the foreground and
+
+2
+00:00:03,620 --> 00:00:04,116
+has focus.
+
+3
+00:00:04,116 --> 00:00:07,484
+[BLANK_AUDIO]
+
+4
+00:00:07,484 --> 00:00:10,439
+Here it's actively receiving
+input from user events.
+
+5
+00:00:10,439 --> 00:00:12,154
+And no other activities
+are obscuring it.
+
+6
+00:00:12,154 --> 00:00:14,272
+[SOUND].
+
+7
+00:00:14,272 --> 00:00:18,565
+onPause's call, and the active lifetime
+ends as soon as your activity is
+
+8
+00:00:18,565 --> 00:00:21,207
+partially obscured,
+like in this example.
+
+9
+00:00:21,207 --> 00:00:27,604
+[BLANK_AUDIO]
+
+10
+00:00:27,605 --> 00:00:32,423
+You can see here the permissions dialog
+is displayed in front of Google Play for
+
+11
+00:00:32,423 --> 00:00:34,240
+an app install.
+
+12
+00:00:34,240 --> 00:00:37,070
+Or the same thing happens when
+you have another activity
+
+13
+00:00:37,070 --> 00:00:40,118
+trying to fulfill an implicit intent and
+the user needs to make a selection.
+
+14
+00:00:41,210 --> 00:00:43,810
+So to make efficient use
+of limited resources,
+
+15
+00:00:43,810 --> 00:00:46,600
+you'll want to use these signals to
+adjust your app's resource burden.
+
+16
+00:00:47,679 --> 00:00:52,159
+So mo updates to your UI can be
+paused when this life time ends
+
+17
+00:00:52,159 --> 00:00:53,509
+which is announced by enforce.
+
+18
+00:00:55,039 --> 00:00:57,409
+But as you see,
+the app is still visible so
+
+19
+00:00:57,409 --> 00:01:00,199
+you shouldn't pause any processes
+that are drawing your UI.
+
+20
+00:01:01,200 --> 00:01:03,300
+The visible lifetime on the other hand,
+
+21
+00:01:03,299 --> 00:01:05,771
+continues whenever the app
+is at all visible and
+
+22
+00:01:05,771 --> 00:01:09,445
+ends as soon as it's completely
+obscured by another app, like this.
+
+23
+00:01:09,444 --> 00:01:14,122
+[BLANK_AUDIO]
+
+24
+00:01:14,123 --> 00:01:17,070
+At this point our app is
+moved to the background.
+
+25
+00:01:17,069 --> 00:01:20,229
+So when you see onStop you know
+the user can't see your app at all.
+
+26
+00:01:21,370 --> 00:01:22,500
+So while onCreate and
+
+27
+00:01:22,500 --> 00:01:25,825
+onDestroy will be called at most
+once each time your app is run,
+
+28
+00:01:25,825 --> 00:01:29,799
+these handlers are likely to be called
+many times while the app is running.
+
+29
+00:01:29,799 --> 00:01:32,899
+And this is where things
+get a little different.
+
+30
+00:01:32,900 --> 00:01:36,680
+On almost all platforms app
+life cycles are deterministic.
+
+31
+00:01:36,680 --> 00:01:38,190
+Generally you'll start a program and
+
+32
+00:01:38,189 --> 00:01:41,890
+it will keep running until either it
+completes or the user cancels it.
+
+33
+00:01:41,890 --> 00:01:44,659
+You look at traditional desktop
+development, that means your app
+
+34
+00:01:44,659 --> 00:01:48,750
+keeps running until your user chooses
+quit or exit from the file menu.
+
+35
+00:01:48,750 --> 00:01:51,799
+At that point, you can save state and
+free resources.
+
+36
+00:01:51,799 --> 00:01:55,359
+But as we know, on Android lifecycles
+work a little differently.
+
+37
+00:01:55,359 --> 00:01:57,950
+So let's take a closer look at
+exactly how that works now.
+

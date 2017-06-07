@@ -1,0 +1,130 @@
+1
+00:00:00,290 --> 00:00:04,650
+When data is placed in shared memory,
+it can be concurrently accessed by
+
+2
+00:00:04,650 --> 00:00:07,850
+all processes that have access
+to that shared memory region.
+
+3
+00:00:08,950 --> 00:00:12,180
+Therefore such accesses must be
+synchronized in order to avoid
+
+4
+00:00:12,180 --> 00:00:13,590
+race conditions.
+
+5
+00:00:13,590 --> 00:00:18,050
+This is analogous to the manner in which
+we synchronize threads when they're
+
+6
+00:00:18,050 --> 00:00:22,710
+sharing an address space, however it
+needs to be done for processes as well.
+
+7
+00:00:22,710 --> 00:00:25,490
+So we still must use certain
+synchronization constructs,
+
+8
+00:00:25,490 --> 00:00:28,420
+such as mute accessor
+condition variables, for
+
+9
+00:00:28,420 --> 00:00:31,460
+processes to synchronize when
+they're accessing shared data.
+
+10
+00:00:31,460 --> 00:00:35,060
+There are a couple of options
+in how this interprocess
+
+11
+00:00:35,060 --> 00:00:37,330
+synchronization can be handled.
+
+12
+00:00:37,330 --> 00:00:41,379
+First one can rely on the exact same
+mechanisms that are supported by
+
+13
+00:00:41,379 --> 00:00:45,011
+the threading libraries that
+can be used within processes.
+
+14
+00:00:45,011 --> 00:00:48,899
+So for instance two pthreads
+processes can synchronize amongst
+
+15
+00:00:48,899 --> 00:00:51,419
+each other using
+pthreads mute access and
+
+16
+00:00:51,419 --> 00:00:55,550
+condition variables that
+have been appropriately set.
+
+17
+00:00:55,550 --> 00:00:59,690
+In addition, the operating system
+itself supports certain mechanisms for
+
+18
+00:00:59,690 --> 00:01:04,239
+synchronization that are available for
+interprocess interactions.
+
+19
+00:01:04,239 --> 00:01:09,000
+Regardless of the method that is chosen,
+there must be mechanisms to coordinate
+
+20
+00:01:09,000 --> 00:01:13,020
+the number of concurrent accesses
+to the shared memory region.
+
+21
+00:01:13,020 --> 00:01:14,790
+For instance, for support for
+
+22
+00:01:14,790 --> 00:01:18,070
+mutual exclusion,
+mutexes provide this functionality.
+
+23
+00:01:19,150 --> 00:01:23,580
+And also must, to coordinate,
+when is data available
+
+24
+00:01:23,580 --> 00:01:28,490
+in the shared memory segment and ready
+to be consumed by the peer processes.
+
+25
+00:01:28,490 --> 00:01:31,890
+This is some sort of notification or
+signaling mechanism.
+
+26
+00:01:31,890 --> 00:01:35,370
+And condition variables are an example
+of a construct that provides this
+
+27
+00:01:35,370 --> 00:01:36,080
+functionality.

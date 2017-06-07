@@ -1,0 +1,155 @@
+1
+00:00:00,000 --> 00:00:05,000
+Now I'm going to look at the issue of reducing m, the depth of the tree.
+
+2
+00:00:05,000 --> 00:00:08,000
+Here, I've drawn a game tree and left out some bits,
+
+3
+00:00:08,000 --> 00:00:11,000
+but the idea is that is that it keeps on going and going.
+
+4
+00:00:11,000 --> 00:00:15,000
+There'll be too many nodes for us to evaluate at all. What can we do?
+
+5
+00:00:15,000 --> 00:00:20,000
+The simplest approach is to just by fiat cut off the search at a certain depth.
+
+6
+00:00:20,000 --> 00:00:23,000
+We'll say we're only going to search to level three,
+
+7
+00:00:23,000 --> 00:00:25,000
+and when we get down to level three,
+
+8
+00:00:25,000 --> 00:00:28,000
+we're going to pretend that these are all terminal nodes.
+
+9
+00:00:28,000 --> 00:00:35,000
+We'll draw them as the square boxes for terminals rather than the max nodes
+
+10
+00:00:35,000 --> 00:00:38,000
+and cut off the search at that point.
+
+11
+00:00:38,000 --> 00:00:41,000
+Now, of course, they aren't terminal, so according to the rules of the game,
+
+12
+00:00:41,000 --> 00:00:45,000
+we haven't either won or lost at this particular point.
+
+13
+00:00:45,000 --> 00:00:49,000
+We can't say for sure what the value is for each of these nodes,
+
+14
+00:00:49,000 --> 00:00:54,000
+but we can estimate it using something called an evaluation function,
+
+15
+00:00:54,000 --> 00:01:00,000
+which is given a state S and returns an estimate of the final value for that state.
+
+16
+00:01:00,000 --> 00:01:03,000
+What do we want out of our evaluation function and how do we get it?
+
+17
+00:01:03,000 --> 00:01:07,000
+We want the evaluation function to be stronger for positions that are stronger
+
+18
+00:01:07,000 --> 00:01:10,000
+and weaker for positions that are weaker.
+
+19
+00:01:10,000 --> 00:01:13,000
+We can get it one way from experience--
+
+20
+00:01:13,000 --> 00:01:16,000
+from playing the games before and seeing similar situations
+
+21
+00:01:16,000 --> 00:01:19,000
+and figuring out what their values are.
+
+22
+00:01:19,000 --> 00:01:24,000
+We can try to break that down into components by using experience with the game.
+
+23
+00:01:24,000 --> 00:01:30,000
+For example, in the game of chess it is traditional to say that a pawn is worth 1 point,
+
+24
+00:01:30,000 --> 00:01:34,000
+a knight 3 points, a bishop 3 points, a rook 5, and a queen 9.
+
+25
+00:01:34,000 --> 00:01:36,000
+You could add up all those points.
+
+26
+00:01:36,000 --> 00:01:40,000
+So we could have an evaluation function of S
+
+27
+00:01:40,000 --> 00:01:48,000
+which is equal to this weighted sum of the various weights times the various pieces--
+
+28
+00:01:48,000 --> 00:01:52,000
+positive weights for your pieces and negative weights for the opponent's pieces.
+
+29
+00:01:52,000 --> 00:01:55,000
+We've seen this idea before when we did machine learning
+
+30
+00:01:55,000 --> 00:01:59,000
+where we have a set of features, which could be the pieces,
+
+31
+00:01:59,000 --> 00:02:02,000
+and they could be other features of the game as well.
+
+32
+00:02:02,000 --> 00:02:05,000
+For example, in chess it's good to control the center,
+
+33
+00:02:05,000 --> 00:02:08,000
+it's good not to have a double pawn, and so on.
+
+34
+00:02:08,000 --> 00:02:13,000
+We could make up as many features as we can think of to represent each individual state
+
+35
+00:02:13,000 --> 00:02:18,000
+and then use machine learning from examples to figure out what the weight should be.
+
+36
+00:02:18,000 --> 00:02:21,000
+Then we have an evaluation function.
+
+37
+00:02:21,000 --> 00:02:25,000
+We apply the evaluation function to each state at the cutoff point
+
+38
+00:02:25,000 --> 00:02:28,000
+rather than doing a long search.
+
+39
+00:02:28,000 --> 99:59:59,999
+Then we have an estimate, and we back those values up just as if they were terminal values.

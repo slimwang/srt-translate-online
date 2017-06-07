@@ -1,0 +1,295 @@
+1
+00:00:00,440 --> 00:00:02,710
+So after you set up
+implementing this interface,
+
+2
+00:00:02,710 --> 00:00:06,580
+our LoaderCallback interface,
+let's start by initializing the loader.
+
+3
+00:00:06,580 --> 00:00:10,410
+Now to do so properly, I'll first
+make an integer loader constant for
+
+4
+00:00:10,410 --> 00:00:13,150
+my loader, and let's call it PET_LOADER.
+
+5
+00:00:13,150 --> 00:00:17,164
+Now I decided to arbitrarily choose
+the unique ID to be zero but
+
+6
+00:00:17,164 --> 00:00:20,980
+you can set it up as any
+other unique integer.
+
+7
+00:00:20,980 --> 00:00:24,670
+Now next, since further down I
+know I'll be using the adapter in
+
+8
+00:00:24,670 --> 00:00:28,190
+all the call back methods,
+let's create an instance of that class.
+
+9
+00:00:28,190 --> 00:00:31,380
+So let's create
+an mCursorAdapter object, and
+
+10
+00:00:31,380 --> 00:00:34,400
+lets have it be of
+type PetCursorAdapter.
+
+11
+00:00:34,400 --> 00:00:38,160
+So as a reminder, this will be
+our adapter for our ListView.
+
+12
+00:00:38,160 --> 00:00:42,750
+So next, let's jump down here and
+implement out these call back methods.
+
+13
+00:00:42,750 --> 00:00:45,620
+So first let's focus on, onCreateLoader.
+
+14
+00:00:45,620 --> 00:00:47,990
+So let me take a moment to type
+out the rest of this method, and
+
+15
+00:00:47,990 --> 00:00:49,620
+then we'll talk through it.
+
+16
+00:00:49,620 --> 00:00:52,770
+So here, this loader will execute
+the content provider's query method
+
+17
+00:00:52,770 --> 00:00:54,200
+on the background thread.
+
+18
+00:00:54,200 --> 00:00:57,500
+And notice that I've used parameters
+that are very similar to the ones that I
+
+19
+00:00:57,500 --> 00:00:59,240
+used for creating on the main thread.
+
+20
+00:00:59,240 --> 00:01:00,820
+I simply just moved these over.
+
+21
+00:01:00,820 --> 00:01:03,380
+And one of those parameter
+includes this projection.
+
+22
+00:01:03,380 --> 00:01:05,910
+And since we're changing our
+app to be more performant and
+
+23
+00:01:05,910 --> 00:01:08,585
+responsive by using a loader,
+I want ahead and
+
+24
+00:01:08,585 --> 00:01:13,760
+used a projection that was much smaller,
+only having the ID, the name, and breed.
+
+25
+00:01:13,760 --> 00:01:15,710
+So remember the ID column
+is always needed for
+
+26
+00:01:15,710 --> 00:01:19,930
+the cursor that you're going to
+pass to any cursor adapter.
+
+27
+00:01:19,930 --> 00:01:21,300
+Also when you're typing this out,
+
+28
+00:01:21,300 --> 00:01:24,510
+if you see that Android Studio can't
+resolve this cursor loader class,
+
+29
+00:01:24,510 --> 00:01:28,520
+that might be because the cursor
+loader class hasn't been imported yet.
+
+30
+00:01:28,520 --> 00:01:32,170
+So one of the easy shortcut for this on
+this computer, is going to be options,
+
+31
+00:01:32,170 --> 00:01:35,120
+return, and
+then I'll select this class import.
+
+32
+00:01:35,120 --> 00:01:38,600
+All right, so
+next stop is OnloadFinished.
+
+33
+00:01:38,600 --> 00:01:43,290
+So, here's the code to update the new
+cursor containing the updated pet data.
+
+34
+00:01:43,290 --> 00:01:45,980
+So we see the cursor with
+the pet data here, and
+
+35
+00:01:45,980 --> 00:01:48,800
+all I need to do is just
+pass into my CursorAdapter.
+
+36
+00:01:48,800 --> 00:01:51,510
+And I do so
+using the swap cursor method.
+
+37
+00:01:51,510 --> 00:01:55,070
+And the last call back method we need to
+implement out is the on loader reset.
+
+38
+00:01:56,170 --> 00:01:58,420
+So here's the completed code for
+this method.
+
+39
+00:01:58,420 --> 00:02:01,080
+So remember that this call back
+is called when the data needs to
+
+40
+00:02:01,080 --> 00:02:02,060
+be deleted.
+
+41
+00:02:02,060 --> 00:02:05,550
+And that's why I can just pass
+in null as the cursor here.
+
+42
+00:02:05,550 --> 00:02:08,800
+Now, the finishing touches on this
+will require us to remove our
+
+43
+00:02:08,800 --> 00:02:12,690
+displayDatabaseInfo method,
+so this up here.
+
+44
+00:02:12,690 --> 00:02:15,380
+As well as any references
+to that method.
+
+45
+00:02:15,380 --> 00:02:18,200
+So on start we had called
+displayDatabaseInfo here, so
+
+46
+00:02:18,200 --> 00:02:18,750
+let's delete that.
+
+47
+00:02:18,750 --> 00:02:23,541
+And then we also referenced it down
+here in our action_insert_dummy_data
+
+48
+00:02:23,541 --> 00:02:25,150
+switch case.
+
+49
+00:02:25,150 --> 00:02:25,956
+So we can delete that.
+
+50
+00:02:25,956 --> 00:02:29,680
+Now all that's left to do
+is to initialize the loader
+
+51
+00:02:29,680 --> 00:02:33,520
+as well as reestablish our adopter and
+attach it to our ListView.
+
+52
+00:02:33,520 --> 00:02:36,740
+Since that had been called in our
+displayDatabaseInfo method, and
+
+53
+00:02:36,740 --> 00:02:38,780
+we need to bring that back in.
+
+54
+00:02:38,780 --> 00:02:41,430
+So remember,
+I asked you to do that in onCreate.
+
+55
+00:02:41,430 --> 00:02:42,631
+So data in onCreate,
+
+56
+00:02:42,631 --> 00:02:47,855
+let's kick off the loader using our
+getLoaderManager .initLoader method.
+
+57
+00:02:47,855 --> 00:02:51,125
+Now all that's left to do is to
+set up the adapter again, and
+
+58
+00:02:51,125 --> 00:02:52,305
+then attach it to the ListView.
+
+59
+00:02:52,305 --> 00:02:55,765
+All right, so I've gone ahead and
+added these two lines here.
+
+60
+00:02:55,765 --> 00:03:00,445
+So this initialize our mCursorAdapter
+which we'd created up above, and
+
+61
+00:03:00,445 --> 00:03:04,555
+then down here we attach that
+CursorAdapter to our ListView.
+
+62
+00:03:04,555 --> 00:03:06,495
+So that takes care of
+this coding exercise.

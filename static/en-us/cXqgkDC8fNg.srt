@@ -1,0 +1,463 @@
+﻿1
+00:00:00,420 --> 00:00:03,600
+You've completed these three steps for
+your preferences, so
+
+2
+00:00:03,600 --> 00:00:04,860
+what about step four?
+
+3
+00:00:04,860 --> 00:00:08,028
+And also what exactly is
+a preference summary?
+
+4
+00:00:08,028 --> 00:00:10,810
+There's one annoying thing that
+you might have noticed about our
+
+5
+00:00:10,810 --> 00:00:12,775
+new shaped color preference.
+
+6
+00:00:12,775 --> 00:00:15,255
+When you change the color
+in the settings,
+
+7
+00:00:15,255 --> 00:00:18,875
+it's a little hard here to see
+what the current color is.
+
+8
+00:00:18,875 --> 00:00:21,195
+Now for the check box setting, here,
+
+9
+00:00:21,195 --> 00:00:25,734
+when we change the check box says we
+can actually see what that means.
+
+10
+00:00:25,734 --> 00:00:29,614
+For example, it's checked on so
+it's shown, checked off so it's hidden.
+
+11
+00:00:29,614 --> 00:00:33,100
+This smaller gray text here is
+known as the preference summary.
+
+12
+00:00:33,100 --> 00:00:36,880
+And it's meant to contain more info
+about what the preference is for or
+
+13
+00:00:36,880 --> 00:00:37,640
+its current value.
+
+14
+00:00:37,640 --> 00:00:41,980
+You can set the preference summary to
+some static text, but what I want to do
+
+15
+00:00:41,979 --> 00:00:45,669
+is have the preference summary
+show us what our current color is.
+
+16
+00:00:45,670 --> 00:00:46,539
+To do that,
+
+17
+00:00:46,539 --> 00:00:50,359
+I'll need to have the settings fragment
+update the summary programmatically.
+
+18
+00:00:50,359 --> 00:00:53,030
+This is done in a way that's
+very similar to how we load
+
+19
+00:00:53,030 --> 00:00:55,219
+the preferences in visualizer activity.
+
+20
+00:00:55,219 --> 00:00:57,589
+I'm going to head over
+the settings fragment now.
+
+21
+00:00:57,590 --> 00:01:00,460
+I'll start by getting
+a reference to sharedPreferences
+
+22
+00:01:00,460 --> 00:01:03,109
+in the onCreatePreferences function.
+
+23
+00:01:03,109 --> 00:01:06,069
+Here's my reference to sharedPreferences
+and notice that I'm using
+
+24
+00:01:06,069 --> 00:01:09,289
+the PreferenceScreen to get my
+reference to sharedPreferences.
+
+25
+00:01:09,290 --> 00:01:11,605
+I also get a reference to
+the PreferenceScreen so
+
+26
+00:01:11,605 --> 00:01:14,885
+that I can get a count of
+the total number of preferences.
+
+27
+00:01:14,885 --> 00:01:18,665
+Next, I'm going to iterate through
+all of my SharedPreferences.
+
+28
+00:01:18,665 --> 00:01:22,315
+And I do that by calling getPreference
+on the Preference screen and
+
+29
+00:01:22,314 --> 00:01:24,015
+passing in an index.
+
+30
+00:01:24,015 --> 00:01:28,210
+I'm going to create a helper method
+now called setPreferenceSummary.
+
+31
+00:01:28,209 --> 00:01:32,069
+And this method is going to take in
+a Preference and a String value.
+
+32
+00:01:32,069 --> 00:01:35,779
+The purpose of this method is to
+set the correct preference summary.
+
+33
+00:01:35,780 --> 00:01:39,430
+Setting the correct summary for a list
+preference is a little bit tricky.
+
+34
+00:01:39,430 --> 00:01:42,310
+We can't just use the key or
+the value string.
+
+35
+00:01:42,310 --> 00:01:46,519
+Remember, these words right here
+are the list preference labels and
+
+36
+00:01:46,519 --> 00:01:48,099
+they're what's shown in the UI.
+
+37
+00:01:48,099 --> 00:01:52,049
+The value and the key are both behind
+the scenes and the values are associated
+
+38
+00:01:52,049 --> 00:01:55,789
+with these labels while the key is
+associated with the entire preference.
+
+39
+00:01:55,790 --> 00:01:58,609
+In the summary,
+we want to display the current label.
+
+40
+00:01:58,609 --> 00:02:00,849
+Because if we make a localized
+version of the app,
+
+41
+00:02:00,849 --> 00:02:03,359
+the label will be translated but
+the value will not.
+
+42
+00:02:03,359 --> 00:02:07,938
+So the first thing I want to do in my
+set perfect summary of that it is check
+
+43
+00:02:07,938 --> 00:02:11,444
+if the preference is
+an instance of ListPreference.
+
+44
+00:02:11,444 --> 00:02:12,798
+If it is, I'm going to cast it,
+
+45
+00:02:12,798 --> 00:02:16,330
+then I'm going to find the index of the
+current preference which was selected.
+
+46
+00:02:16,330 --> 00:02:19,776
+And I'm doing that here using
+the findIndexOfValue, and
+
+47
+00:02:19,776 --> 00:02:21,960
+then passing in the value.
+
+48
+00:02:21,960 --> 00:02:24,200
+I'll then check if the index is valid,
+and
+
+49
+00:02:24,199 --> 00:02:28,250
+if it is, I'm going to use this
+setSummary method for my listPreference.
+
+50
+00:02:28,250 --> 00:02:30,030
+And what I'll pass in is,
+
+51
+00:02:30,030 --> 00:02:34,000
+I'm taking the listPreference here,
+I'm getting all of the labels, and
+
+52
+00:02:34,000 --> 00:02:39,689
+I'm indexing into that array using the
+listPreference index that I got up here.
+
+53
+00:02:39,689 --> 00:02:43,780
+So this is getting the label that
+is associated with this value.
+
+54
+00:02:43,780 --> 00:02:45,900
+Okay, now going back up here to my for
+
+55
+00:02:45,900 --> 00:02:49,280
+loop which again,
+is in the onCreatePreferences menu.
+
+56
+00:02:49,280 --> 00:02:54,390
+I'm going to take this preference, and
+check if it's a CheckBoxPreference.
+
+57
+00:02:54,389 --> 00:02:58,232
+And if it's not a CheckBoxPreference,
+what I'm going to do is I'm going to get
+
+58
+00:02:58,233 --> 00:03:02,509
+the value by taking my sharedPreferences
+object and using getString with the key.
+
+59
+00:03:02,509 --> 00:03:04,490
+And I'm going to pass that value and
+
+60
+00:03:04,491 --> 00:03:08,990
+those sharedPreferences to my
+setPreferenceSummary method.
+
+61
+00:03:08,990 --> 00:03:12,540
+Note that I am intentionally excluding
+the CheckBoxPreference here,
+
+62
+00:03:12,539 --> 00:03:15,929
+because I changed the CheckBoxSummary
+by using the on summary and
+
+63
+00:03:15,930 --> 00:03:17,920
+off summary XML attribute.
+
+64
+00:03:17,919 --> 00:03:21,353
+Also, this called a getString would
+cause a runtime error, because for
+
+65
+00:03:21,354 --> 00:03:24,420
+CheckBoxPreferences, the value
+type is a Boolean.
+
+66
+00:03:24,419 --> 00:03:27,417
+Okay, so I'm programmatically
+setting my preferences on load, so
+
+67
+00:03:27,418 --> 00:03:29,370
+let's go ahead and run the app.
+
+68
+00:03:29,370 --> 00:03:32,740
+And I can see here that
+it has a summary now.
+
+69
+00:03:32,740 --> 00:03:36,790
+But if I change this preference,
+it's not updating the summary.
+
+70
+00:03:36,789 --> 00:03:40,159
+For that, I'm going to need to use
+a OnSharedPreferenceChangeListener.
+
+71
+00:03:40,159 --> 00:03:42,939
+And this is just like in
+my visualizer activity.
+
+72
+00:03:42,939 --> 00:03:44,683
+So going to the top of
+my settings fragment,
+
+73
+00:03:44,683 --> 00:03:47,829
+I'm going to implement
+OnSharedPreferenceChangeListener.
+
+74
+00:03:47,830 --> 00:03:51,440
+And it is of course unhappy because
+I haven't implemented the associated
+
+75
+00:03:51,439 --> 00:03:54,349
+method which is
+OnSharedPreferenceChange, so
+
+76
+00:03:54,349 --> 00:03:55,469
+let's do that.
+
+77
+00:03:55,469 --> 00:03:58,090
+So here's the OnSharedPreferenceChange
+method, so
+
+78
+00:03:58,090 --> 00:04:02,140
+essentially what I'm doing here is I'm
+finding the preference by its key, and
+
+79
+00:04:02,139 --> 00:04:06,269
+if that preference isn't null and it's
+not an instanceof CheckBoxPreference,
+
+80
+00:04:06,270 --> 00:04:09,300
+then I'm getting the value and
+I'm calling setPreferenceSummary.
+
+81
+00:04:09,300 --> 00:04:12,200
+Again, that is almost identical
+to what I'm doing here.
+
+82
+00:04:12,199 --> 00:04:14,189
+Now that my
+OnSharedPreferenceChangeListener is
+
+83
+00:04:14,189 --> 00:04:17,610
+set up, I need to actually register and
+unregister it.
+
+84
+00:04:17,610 --> 00:04:21,939
+And I'll do that in the appropriate
+place which is onCreate and onDestroy.
+
+85
+00:04:21,939 --> 00:04:24,139
+So I'm going to scroll
+down to the bottom, and
+
+86
+00:04:24,139 --> 00:04:26,430
+I'm going to override onCreate.
+
+87
+00:04:26,430 --> 00:04:29,352
+And in onCreate,
+I'm going to get my PreferenceScreen,
+
+88
+00:04:29,351 --> 00:04:33,084
+getSharedPreferences and
+register the PreferenceChangeListener,
+
+89
+00:04:33,084 --> 00:04:34,212
+which again is this.
+
+90
+00:04:34,213 --> 00:04:38,782
+Because this up here is the class that
+has the onSharedPreferenceChangeListener
+
+91
+00:04:38,781 --> 00:04:40,169
+implemented.
+
+92
+00:04:40,170 --> 00:04:43,530
+And I'm going to unregister
+it by overriding onDestroy.
+
+93
+00:04:44,670 --> 00:04:47,670
+And here I'm just unregistering
+the listener as well.
+
+94
+00:04:47,670 --> 00:04:50,040
+Okay, let's run the code to see if
+the summaries are being updated.
+
+95
+00:04:50,040 --> 00:04:54,260
+Now I'm going to try updating
+the summary to blue, and
+
+96
+00:04:54,259 --> 00:04:55,480
+I see that the summary is updated.
+
+97
+00:04:56,509 --> 00:04:56,800
+Yes.
+

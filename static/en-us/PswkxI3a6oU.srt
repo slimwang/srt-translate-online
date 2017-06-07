@@ -1,0 +1,239 @@
+1
+00:00:00,430 --> 00:00:04,130
+Step one for the findARestaurant
+function was to geocode the location
+
+2
+00:00:04,130 --> 00:00:06,689
+into latitude and longitude coordinates.
+
+3
+00:00:06,689 --> 00:00:10,470
+Using the getGeocodeLocation
+function I previously created,
+
+4
+00:00:10,470 --> 00:00:15,040
+I can simply call it here, and store the
+coordinates in latitude and longitude.
+
+5
+00:00:15,040 --> 00:00:18,550
+I can now build the URL to
+access the Foursquare API.
+
+6
+00:00:18,550 --> 00:00:23,500
+Passing in the necessary Foursquare
+client ID, client secret, latitude,
+
+7
+00:00:23,500 --> 00:00:26,340
+longitude and
+meal type to query the search.
+
+8
+00:00:27,390 --> 00:00:31,780
+I send off the request using the HTTP
+library, like I did with geocoding, and
+
+9
+00:00:31,780 --> 00:00:33,540
+store the response in
+the result variable.
+
+10
+00:00:34,700 --> 00:00:36,840
+By exploring into the result object and
+
+11
+00:00:36,840 --> 00:00:41,710
+then going into response and then
+venues, and finding the zeroth item,
+
+12
+00:00:41,710 --> 00:00:44,580
+I found the first restaurant
+of my query to Foursquare.
+
+13
+00:00:44,580 --> 00:00:47,510
+And then extract important information
+about that restaurant as well, here.
+
+14
+00:00:48,840 --> 00:00:52,110
+I enclose this declaration inside
+an if statement to make sure at least
+
+15
+00:00:52,110 --> 00:00:52,960
+one result was found.
+
+16
+00:00:54,010 --> 00:00:56,850
+The venue_id will be necessary
+to find pictures taken in that
+
+17
+00:00:56,850 --> 00:00:58,770
+particular restaurant.
+
+18
+00:00:58,770 --> 00:01:00,510
+And the name of the restaurant
+is always helpful.
+
+19
+00:01:01,610 --> 00:01:04,140
+The address of the restaurant
+is a list that breaks up
+
+20
+00:01:04,140 --> 00:01:06,720
+each part of the restaurant,
+such as the street, state, and
+
+21
+00:01:06,720 --> 00:01:08,470
+country into a different entry.
+
+22
+00:01:09,780 --> 00:01:11,850
+I want to make my address
+one long string, so
+
+23
+00:01:11,850 --> 00:01:15,500
+I'm going to loop through the values and
+catenate them into an address string,
+
+24
+00:01:15,500 --> 00:01:19,660
+separated by spaces and
+then update my restaurant address.
+
+25
+00:01:19,660 --> 00:01:23,560
+Now I need to create another API
+request to the photos API in Foursquare
+
+26
+00:01:23,560 --> 00:01:25,210
+in order to grab a photo
+from the restaurant.
+
+27
+00:01:26,320 --> 00:01:29,780
+The venue ID gets passed in
+along with the client ID and
+
+28
+00:01:29,780 --> 00:01:32,930
+client secret in order to
+communicate with this API.
+
+29
+00:01:32,930 --> 00:01:35,220
+Some results can contain
+multiple images, and
+
+30
+00:01:35,220 --> 00:01:38,800
+other results can contain no images,
+so my code needs to account for that.
+
+31
+00:01:39,860 --> 00:01:43,100
+If images are available, I can
+retrieve the first one by referencing
+
+32
+00:01:43,100 --> 00:01:46,420
+the zero index value of
+this entry in my response.
+
+33
+00:01:46,420 --> 00:01:48,870
+As stated in the foursquare
+documentation,
+
+34
+00:01:48,870 --> 00:01:52,170
+this image contains a prefix and
+suffix string.
+
+35
+00:01:52,170 --> 00:01:56,360
+Between the two sub strings I can append
+dimensions for scaling the image.
+
+36
+00:01:56,360 --> 00:01:57,400
+So I'm going to make it 300 by 300.
+
+37
+00:01:57,400 --> 00:02:01,170
+And save this as the image URL variable.
+
+38
+00:02:01,170 --> 00:02:02,540
+If no images were found,
+
+39
+00:02:02,540 --> 00:02:05,970
+I will just use this stock photo
+of a cheeseburger in its place.
+
+40
+00:02:05,970 --> 00:02:08,919
+I'm now going to create a dictionary
+that contains the restaurant name,
+
+41
+00:02:08,919 --> 00:02:10,508
+address, and image.
+
+42
+00:02:10,508 --> 00:02:13,000
+I'll print these results so
+that they're in an easily readable
+
+43
+00:02:13,000 --> 00:02:16,940
+format from the terminal, and
+also return the restaurant info.
+
+44
+00:02:16,940 --> 00:02:18,250
+Outside of my if statement,
+
+45
+00:02:18,250 --> 00:02:21,110
+I can now handle the case that
+no restaurants were found.
+
+46
+00:02:21,110 --> 00:02:24,290
+I'll just make a print statement
+saying no restaurants found, and
+
+47
+00:02:24,290 --> 00:02:27,140
+return a string saying
+the same thing for now.
+
+48
+00:02:27,140 --> 00:02:31,340
+Now if I save and run my code, the find
+a restaurant method is called on several
+
+49
+00:02:31,340 --> 00:02:35,300
+different meal types and locations,
+which I can see from my terminal.
+
+50
+00:02:35,300 --> 00:02:37,830
+Code for this section is
+available in the instructor notes.

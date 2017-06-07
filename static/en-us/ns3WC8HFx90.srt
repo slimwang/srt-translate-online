@@ -1,0 +1,183 @@
+﻿1
+00:00:00,770 --> 00:00:02,972
+Now that we have our item layout and
+ViewHolder for
+
+2
+00:00:02,972 --> 00:00:07,000
+our RecyclerView, it's time to connect
+the RecyclerView to a data source.
+
+3
+00:00:07,000 --> 00:00:08,839
+And for that,
+we need to create an Adapter.
+
+4
+00:00:10,320 --> 00:00:13,720
+The adapter is called by
+the RecyclerView to create new items
+
+5
+00:00:13,720 --> 00:00:16,580
+in the form of ViewHolders,
+like the one we just created.
+
+6
+00:00:16,580 --> 00:00:19,929
+It also populates, or binds,
+these items with data.
+
+7
+00:00:19,929 --> 00:00:21,939
+And returns information about the data,
+
+8
+00:00:21,940 --> 00:00:24,500
+such as how many items there
+are in a given data source.
+
+9
+00:00:25,539 --> 00:00:29,905
+This data could come from an ArrayList,
+the JSON result of a network request, or
+
+10
+00:00:29,905 --> 00:00:32,375
+any other data source you can model.
+
+11
+00:00:32,375 --> 00:00:35,895
+The Adapter requires us to
+override three functions.
+
+12
+00:00:35,895 --> 00:00:37,860
+The first is onCreateViewHolder,
+
+13
+00:00:37,859 --> 00:00:42,322
+which is called when the RecyclerView
+instantiates a new ViewHolder instance.
+
+14
+00:00:42,322 --> 00:00:46,120
+The second is onBindViewHolder,
+which is called when RecyclerView
+
+15
+00:00:46,119 --> 00:00:49,131
+wants to populate the view
+with data from our model, so
+
+16
+00:00:49,131 --> 00:00:53,679
+that the user can see it, effectively
+binding it to the data source.
+
+17
+00:00:53,679 --> 00:00:57,789
+And third is getItemCount, which returns
+the number of items in our data source.
+
+18
+00:00:58,909 --> 00:01:01,479
+Let's talk a bit more about how
+these three functions are called.
+
+19
+00:01:02,679 --> 00:01:04,500
+Here we have an empty RecyclerView.
+
+20
+00:01:04,500 --> 00:01:08,730
+And our data source is an array of name
+objects that contain a family name and
+
+21
+00:01:08,730 --> 00:01:09,410
+a first name.
+
+22
+00:01:10,727 --> 00:01:14,859
+When the RecyclerView is being laid out
+and drawn, it will first ask the adapter
+
+23
+00:01:14,859 --> 00:01:17,390
+for the number of items
+that it will be displaying.
+
+24
+00:01:17,390 --> 00:01:20,150
+It may ask multiple times
+during the layout process.
+
+25
+00:01:20,150 --> 00:01:22,340
+So it's important that
+this be a fast operation.
+
+26
+00:01:23,599 --> 00:01:27,799
+The RecyclerView will then ask the
+Adapter to create ViewHolder objects.
+
+27
+00:01:27,799 --> 00:01:32,709
+And in the process, inflate individual
+item views from their corresponding XML
+
+28
+00:01:32,709 --> 00:01:35,099
+by calling onCreateViewHolder.
+
+29
+00:01:35,099 --> 00:01:37,859
+It will create as many
+ViewHolders as are necessary
+
+30
+00:01:37,859 --> 00:01:41,849
+to either display all of the items or
+fill and scroll the screen.
+
+31
+00:01:41,849 --> 00:01:43,894
+Whichever option requires
+fewer ViewHolders.
+
+32
+00:01:45,329 --> 00:01:49,530
+The onCreateViewHolder function is
+responsible for creating the views,
+
+33
+00:01:49,530 --> 00:01:53,840
+either by inflating the item views
+from XML or creating them in code.
+
+34
+00:01:53,840 --> 00:01:57,670
+It then returns a new ViewHolder
+object associated with this new view.
+
+35
+00:01:58,700 --> 00:02:03,240
+After each ViewHolder is created, the
+RecyclerView will call onBindViewHolder
+
+36
+00:02:03,239 --> 00:02:05,089
+to populate each item with data.
+
+37
+00:02:06,310 --> 00:02:10,000
+And when you scroll, the RecyclerView
+will reuse those ViewHolders,
+
+38
+00:02:10,000 --> 00:02:12,180
+asking the Adapter to
+bind new data to them.
+

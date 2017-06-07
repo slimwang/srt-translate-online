@@ -1,0 +1,267 @@
+1
+00:00:00,240 --> 00:00:02,800
+Now let's see how can
+this be implemented.
+
+2
+00:00:02,800 --> 00:00:06,930
+So at the lowest level,
+we need to be receiving some events,
+
+3
+00:00:06,930 --> 00:00:10,220
+some messages from the network or
+from the disk.
+
+4
+00:00:10,220 --> 00:00:14,450
+So information about completed requests
+to read a portion of the file,
+
+5
+00:00:14,450 --> 00:00:16,260
+write the file, etc.
+
+6
+00:00:16,260 --> 00:00:19,590
+The operating systems use
+these two abstractions to
+
+7
+00:00:19,590 --> 00:00:22,140
+typically represent networks or disks.
+
+8
+00:00:22,140 --> 00:00:26,290
+So sockets are typically used to
+represent interface to the network.
+
+9
+00:00:26,290 --> 00:00:30,040
+And then files are what's
+really stored on disks.
+
+10
+00:00:30,040 --> 00:00:33,130
+So these are the main abstractions
+when it comes to storage.
+
+11
+00:00:33,130 --> 00:00:36,330
+Now although they are called
+differently, sockets and files,
+
+12
+00:00:36,330 --> 00:00:40,940
+it is quite fortunate that internally,
+the actual data structure that's
+
+13
+00:00:40,940 --> 00:00:44,840
+used to represent these two different
+obstructions, is actually identical.
+
+14
+00:00:44,840 --> 00:00:47,250
+It's called the file descriptor.
+
+15
+00:00:47,250 --> 00:00:51,490
+So then an event in the context
+of this web server is
+
+16
+00:00:51,490 --> 00:00:55,300
+an input on any of the files descriptors
+that are associated with it.
+
+17
+00:00:55,300 --> 00:00:57,320
+So in any of the sockets.
+
+18
+00:00:57,320 --> 00:01:01,760
+Or any of the files that are being
+accessed by the connections that these
+
+19
+00:01:01,760 --> 00:01:02,790
+sockets carry.
+
+20
+00:01:02,790 --> 00:01:05,349
+To determine which file
+descriptor has input, so
+
+21
+00:01:05,349 --> 00:01:09,098
+to determine that there is an event
+that has arrived in this system.
+
+22
+00:01:09,098 --> 00:01:13,910
+The flash talks about
+using the select call.
+
+23
+00:01:13,910 --> 00:01:16,650
+The select call takes a range
+of file descriptors and
+
+24
+00:01:16,650 --> 00:01:21,080
+then returns the very first one
+that has some kind of input on it.
+
+25
+00:01:21,080 --> 00:01:24,430
+And that is regardless is whether
+that file descriptor is a socket or
+
+26
+00:01:24,430 --> 00:01:26,120
+a file ultimately.
+
+27
+00:01:26,120 --> 00:01:29,380
+Another alternative to
+this is to use a poll API.
+
+28
+00:01:29,380 --> 00:01:34,210
+So this is another system call that's
+provided by current operating systems.
+
+29
+00:01:34,210 --> 00:01:37,970
+The problem with both of these,
+is that they really have to scan through
+
+30
+00:01:37,970 --> 00:01:42,190
+potentially really large list of file
+descriptors, until they find one.
+
+31
+00:01:42,190 --> 00:01:46,640
+And, it is very likely that along
+that long list of file descriptors,
+
+32
+00:01:46,640 --> 00:01:49,270
+there going to be only
+very few that have inputs.
+
+33
+00:01:49,270 --> 00:01:52,260
+So, a lot of that search
+time will be wasted.
+
+34
+00:01:52,260 --> 00:01:56,770
+An alternative to these is a more recent
+type of API that's supported by, for
+
+35
+00:01:56,770 --> 00:01:59,850
+instance, the Linux kernel and
+that's e poll so
+
+36
+00:01:59,850 --> 00:02:04,240
+this eliminates some of the problems
+that select and poll have.
+
+37
+00:02:04,240 --> 00:02:08,830
+And a lot of the high performance
+servers that require high data rates and
+
+38
+00:02:08,830 --> 00:02:12,390
+low latency use this
+kind of mechanism today.
+
+39
+00:02:12,390 --> 00:02:16,850
+The benefits of the event driven
+model really come from its design.
+
+40
+00:02:16,850 --> 00:02:20,510
+It's a single address space,
+single flow of control.
+
+41
+00:02:20,510 --> 00:02:22,650
+As a result, the overheads are lower.
+
+42
+00:02:22,650 --> 00:02:24,970
+There's no need for context switching.
+
+43
+00:02:24,970 --> 00:02:28,240
+Overall, it's a much
+more compact process so
+
+44
+00:02:28,240 --> 00:02:30,820
+it has smaller memory requirements.
+
+45
+00:02:30,820 --> 00:02:32,280
+And the programming is simpler.
+
+46
+00:02:32,280 --> 00:02:35,320
+We don't need to worry about use
+of synchronization primitives,
+
+47
+00:02:35,320 --> 00:02:38,600
+about shared access to variables, etc.
+
+48
+00:02:38,600 --> 00:02:43,420
+Now, in the context of this single
+thread, we are switching among multiple
+
+49
+00:02:43,420 --> 00:02:48,020
+connections, so we are jumping all
+over the code base of this process and
+
+50
+00:02:48,020 --> 00:02:51,520
+executing different handlers,
+accessing different states.
+
+51
+00:02:51,520 --> 00:02:55,900
+That will have some effect on
+basically loss of localities and
+
+52
+00:02:55,900 --> 00:02:57,410
+cache pollution effects.
+
+53
+00:02:57,410 --> 00:03:01,920
+However, that will be significantly
+lower than would have been happening
+
+54
+00:03:01,920 --> 00:03:04,660
+if we were doing a full
+blown context switching.
+
+55
+00:03:04,660 --> 00:03:07,940
+So the overheads and some of
+the elimination of the synchronization,
+
+56
+00:03:07,940 --> 00:03:11,340
+these are some of the things that really
+make this an attractive approach.

@@ -1,0 +1,239 @@
+1
+00:00:00,000 --> 00:00:02,241
+Next, you'll learn about
+querying conferences and
+
+2
+00:00:02,241 --> 00:00:04,490
+it's helpful to have several
+conferences to query.
+
+3
+00:00:04,490 --> 00:00:06,545
+So, I'm going to create a few and
+you can do the same.
+
+4
+00:00:06,545 --> 00:00:10,375
+So the only required field for a
+conference is Name, but we'll generally
+
+5
+00:00:10,375 --> 00:00:14,221
+specify other fields, so that we have
+more interesting things to query.
+
+6
+00:00:14,221 --> 00:00:17,902
+So far, we haven't an implement that
+any functionality to true conferences.
+
+7
+00:00:17,902 --> 00:00:21,486
+We can use the data store admin
+interface to check that our conferences
+
+8
+00:00:21,486 --> 00:00:22,224
+got created.
+
+9
+00:00:22,224 --> 00:00:25,789
+Next, will be implementing the query
+conferences function to get conferences.
+
+10
+00:00:25,789 --> 00:00:28,975
+You already know how to get an entity
+out of the datastore by key,
+
+11
+00:00:28,975 --> 00:00:31,276
+but for conferences,
+we don't know the key,
+
+12
+00:00:31,276 --> 00:00:33,766
+because we let app engine
+allocate the key for us.
+
+13
+00:00:33,766 --> 00:00:35,728
+So we'll be querying for conferences.
+
+14
+00:00:35,728 --> 00:00:38,342
+So, one thing you can do
+is you can query by kind.
+
+15
+00:00:38,342 --> 00:00:40,687
+In which case,
+you'll get all entities of that kind.
+
+16
+00:00:40,687 --> 00:00:45,124
+Note that this q here, this variable
+is actually a query object and
+
+17
+00:00:45,124 --> 00:00:46,875
+not the result of a query.
+
+18
+00:00:46,875 --> 00:00:50,381
+To fetch a single result out of
+a query object, you call q.get.
+
+19
+00:00:50,381 --> 00:00:53,075
+To fetch all the results,
+you call q.fetch.
+
+20
+00:00:53,075 --> 00:00:57,161
+And to fetch say, only five results,
+you called q.fetch 5.
+
+21
+00:00:57,161 --> 00:01:01,424
+You can also use a query object
+as a standard iterator in Python.
+
+22
+00:01:01,424 --> 00:01:05,367
+Another thing you can do is put an order
+on the query instance by naming
+
+23
+00:01:05,367 --> 00:01:06,601
+a particular field.
+
+24
+00:01:06,601 --> 00:01:09,507
+You can also add filters
+before you fetch the results.
+
+25
+00:01:09,507 --> 00:01:13,667
+So for instance, if we wanted to fetch
+only conferences occurring in February,
+
+26
+00:01:13,667 --> 00:01:15,207
+we could do it just like that.
+
+27
+00:01:15,207 --> 00:01:18,396
+So let's first, implement this simple
+way to display all conferences and
+
+28
+00:01:18,396 --> 00:01:21,140
+worry about the filters later when
+you get this first step done.
+
+29
+00:01:21,140 --> 00:01:24,650
+First, you will need to add a new end
+point definition for query conferences.
+
+30
+00:01:24,650 --> 00:01:28,322
+And as you hopefully remember from
+the getProfile on setProfile endpoints,
+
+31
+00:01:28,322 --> 00:01:31,836
+you'll need ProtoRPC message classes for
+the request and the response.
+
+32
+00:01:31,836 --> 00:01:33,741
+There are some big differences, though.
+
+33
+00:01:33,741 --> 00:01:37,096
+With get and set profile, you're
+always working with just one entity,
+
+34
+00:01:37,096 --> 00:01:38,146
+one user's profile.
+
+35
+00:01:38,146 --> 00:01:40,142
+But when you're dealing
+with conferences,
+
+36
+00:01:40,142 --> 00:01:43,406
+you can have several filters and a query
+can return a list of conferences.
+
+37
+00:01:43,406 --> 00:01:47,126
+So you already have an outgoing
+ConferenceForm ProtoRPC message class
+
+38
+00:01:47,126 --> 00:01:48,433
+for single conference.
+
+39
+00:01:48,433 --> 00:01:52,106
+But since you need to send several
+conferences, we'll also need
+
+40
+00:01:52,106 --> 00:01:55,863
+a ConferenceForms message with
+a repeated field to contain them.
+
+41
+00:01:55,863 --> 00:01:57,569
+The same applies to query filters.
+
+42
+00:01:57,569 --> 00:02:00,657
+A single filter will go into
+ConferenceQueryForm and
+
+43
+00:02:00,657 --> 00:02:03,549
+several in ConferenceQueryForms for
+response.
+
+44
+00:02:03,549 --> 00:02:06,012
+So, I've provided some code
+to help you implement this.
+
+45
+00:02:06,012 --> 00:02:10,541
+Take a look in lesson slash four
+Additions in the files marked TODO_2.
+
+46
+00:02:10,541 --> 00:02:14,186
+After you've successfully implemented
+the query conference's endpoint,
+
+47
+00:02:14,186 --> 00:02:16,666
+you should both be able to use
+it in the APS explorer and
+
+48
+00:02:16,666 --> 00:02:19,609
+in the web front-end as well as
+long as you don't use filters.
+
+49
+00:02:19,609 --> 00:02:22,323
+So check off each of these
+steps as you complete them and
+
+50
+00:02:22,323 --> 00:02:23,740
+then put in your app ID here.

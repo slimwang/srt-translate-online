@@ -1,0 +1,343 @@
+1
+00:00:00,846 --> 00:00:03,568
+In problem 4, we’ve given a list of n numbers
+
+2
+00:00:03,568 --> 00:00:06,294
+and our task is to find the mode, within time
+
+3
+00:00:06,309 --> 00:00:08,678
+Theta (n). And there’s a lot of different ways to
+
+4
+00:00:08,678 --> 00:00:11,187
+do this and – so, what I’ve done is, I’ve gone
+
+5
+00:00:11,187 --> 00:00:13,672
+through and basically written five different ways
+
+6
+00:00:13,672 --> 00:00:16,662
+of doing it. All variations of the theme really. In
+
+7
+00:00:16,662 --> 00:00:18,403
+the first case, what we’re going to do is, we’re
+
+8
+00:00:18,403 --> 00:00:20,864
+going to use a dictionary and when we iterate
+
+9
+00:00:20,864 --> 00:00:23,995
+through the dictionary, keeping track of the
+
+10
+00:00:23,995 --> 00:00:28,480
+element that has been seen the most often. So,
+
+11
+00:00:28,480 --> 00:00:31,920
+here we’re just doing initialization, if we haven’t
+
+12
+00:00:31,920 --> 00:00:34,471
+seen this value before we’ll create a key value
+
+13
+00:00:34,471 --> 00:00:38,854
+pair and set its value to 1. If we have seen this
+
+14
+00:00:38,854 --> 00:00:41,625
+key – this value before, we’ll just increment the
+
+15
+00:00:41,625 --> 00:00:45,009
+value associated with it. As we’re going along,
+
+16
+00:00:45,009 --> 00:00:47,779
+we can keep track of what the value – what
+
+17
+00:00:47,779 --> 00:00:50,157
+value we’ve seen the most. So, if the value that
+
+18
+00:00:50,157 --> 00:00:52,833
+we’ve just updated is higher than the previous
+
+19
+00:00:52,833 --> 00:00:55,478
+maximum value, we will set the current
+
+20
+00:00:55,478 --> 00:00:57,831
+maximum value to be this current key value
+
+21
+00:00:57,831 --> 00:01:01,093
+pair. As a result, by the time we finish this loop,
+
+22
+00:01:01,093 --> 00:01:03,975
+which is 1 pass through the list, we will know
+
+23
+00:01:03,975 --> 00:01:06,643
+the mode or we’ll know one of the values in the
+
+24
+00:01:06,643 --> 00:01:08,612
+mode, if there’s more than one value that has
+
+25
+00:01:08,612 --> 00:01:12,976
+the same number of appearances and we’ll just
+
+26
+00:01:12,976 --> 00:01:15,429
+return that. There’s a lot of different ways you
+
+27
+00:01:15,429 --> 00:01:18,324
+can do this and a slight variation of that, that
+
+28
+00:01:18,324 --> 00:01:21,059
+let’s us shorten our code a little bit is when you
+
+29
+00:01:21,059 --> 00:01:24,230
+can use the default dictionary that Python has.
+
+30
+00:01:24,230 --> 00:01:26,121
+And what we’re doing here is, we’re saying
+
+31
+00:01:26,121 --> 00:01:29,440
+basically that the first time you see a key, you’re
+
+32
+00:01:29,440 --> 00:01:32,572
+going to give it an initial value using this int
+
+33
+00:01:32,572 --> 00:01:35,665
+function, and it’s going to give it a value of zero.
+
+34
+00:01:35,665 --> 00:01:38,181
+So what that allows us to do, it lets us get rid of
+
+35
+00:01:38,181 --> 00:01:41,601
+this little bit of code here, that check to see
+
+36
+00:01:41,601 --> 00:01:43,654
+whether or not the value existed already, which
+
+37
+00:01:43,654 --> 00:01:46,779
+is a single look-up in a hash table basically. So,
+
+38
+00:01:46,779 --> 00:01:50,234
+what we do now is we just increment the value
+
+39
+00:01:50,234 --> 00:01:54,012
+by 1 regardless, and so the first time it sees it,
+
+40
+00:01:54,012 --> 00:01:56,857
+it’ll use the default dictionary value of zero, add
+
+41
+00:01:56,857 --> 00:01:58,897
+1 to it and give us the value of 1, so it’s
+
+42
+00:01:58,897 --> 00:02:01,089
+basically the same as what we’ve done before.
+
+43
+00:02:01,089 --> 00:02:02,245
+And the rest of the code is the same, just
+
+44
+00:02:02,245 --> 00:02:03,846
+keeping track of the maximum value and
+
+45
+00:02:03,862 --> 00:02:07,530
+returning it. Another thing you could do is you
+
+46
+00:02:07,530 --> 00:02:10,625
+can use the – the built-in max feature of Python
+
+47
+00:02:10,625 --> 00:02:13,116
+and again when we’re just doing incremental
+
+48
+00:02:13,116 --> 00:02:15,004
+changes, we’re going to use the default
+
+49
+00:02:15,004 --> 00:02:17,043
+dictionary again, we’re going to increment the
+
+50
+00:02:17,043 --> 00:02:19,695
+value, but instead of keeping track as we go
+
+51
+00:02:19,695 --> 00:02:21,604
+through, what we’re going to do instead is do
+
+52
+00:02:21,604 --> 00:02:23,122
+see this max at the end, with a little lambda
+
+53
+00:02:23,122 --> 00:02:28,155
+function that basically returned the number of
+
+54
+00:02:28,155 --> 00:02:31,996
+appearances that a given value had in the list
+
+55
+00:02:31,996 --> 00:02:35,595
+and then returning the maximum key. And to
+
+56
+00:02:35,595 --> 00:02:37,514
+show you that you can make it even more
+
+57
+00:02:37,514 --> 00:02:40,316
+compact, you can actually use the set feature of
+
+58
+00:02:40,316 --> 00:02:44,865
+Python. Pick our initial value, our initial list, turn
+
+59
+00:02:44,865 --> 00:02:47,153
+it into a set which removes all duplicates and
+
+60
+00:02:47,153 --> 00:02:49,606
+then use the same max function. And then if
+
+61
+00:02:49,606 --> 00:02:52,553
+you want to be even more compact, you can
+
+62
+00:02:52,553 --> 00:02:55,574
+even do it as a one liner, if you wish, and here
+
+63
+00:02:55,574 --> 00:02:57,848
+what we’re doing is everything in one line, using
+
+64
+00:02:57,848 --> 00:03:01,220
+the max function, we’re creating a set from our
+
+65
+00:03:01,220 --> 00:03:03,646
+initial list, so that gives us all the unique values
+
+66
+00:03:03,646 --> 00:03:06,927
+that we want. And then we’re using the lambda
+
+67
+00:03:06,927 --> 00:03:09,945
+function to say, give us a count of the number
+
+68
+00:03:09,945 --> 00:03:14,878
+of times this value appeared in our initial list,
+
+69
+00:03:14,878 --> 00:03:17,745
+and then return that value. Now, we talked
+
+70
+00:03:17,745 --> 00:03:21,031
+before – in class, we’ve talked before about
+
+71
+00:03:21,031 --> 00:03:23,657
+performance. And this is great, this is one-liner
+
+72
+00:03:23,657 --> 00:03:27,640
+code and that’s fairly understandable, but it’s
+
+73
+00:03:27,640 --> 00:03:30,644
+actually not nearly as fast as some of the other
+
+74
+00:03:30,644 --> 00:03:36,297
+things that we’ve done. There is a lot of repeat
+
+75
+00:03:36,297 --> 00:03:38,273
+passes through the list that occurs because of
+
+76
+00:03:38,273 --> 00:03:41,009
+the way that we’re doing this. And actually –
+
+77
+00:03:41,009 --> 00:03:43,946
+probably the fastest one that I’ve seen so far is
+
+78
+00:03:43,946 --> 00:03:45,817
+this one. Now there are some people on the
+
+79
+00:03:45,817 --> 00:03:48,903
+forums that may have faster ones and we’ve
+
+80
+00:03:48,918 --> 00:03:51,633
+been using the comparison functions done by
+
+81
+00:03:51,633 --> 00:03:54,549
+Anthony Pace to run test on it and this is – it’s
+
+82
+00:03:54,549 --> 00:03:57,115
+fun to play with. So anyhow, any of these things
+
+83
+00:03:57,115 --> 00:03:59,634
+work – there’s lots of different ways to find the
+
+84
+00:03:59,634 --> 00:04:03,021
+mode and a simple and straightforward pass
+
+85
+00:04:03,021 --> 00:04:06,612
+through a dictionary is a nice way to do it.
+
+86
+00:04:06,612 --> 00:04:09,720
+And it clearly finishes in time for Theta(n).

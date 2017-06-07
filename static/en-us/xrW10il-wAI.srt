@@ -1,0 +1,167 @@
+1
+00:00:00,200 --> 00:00:03,620
+To explore the Redis connection, navigate to redis.io, and
+
+2
+00:00:03,620 --> 00:00:08,240
+you see that Redis is in open source, advanced key value, cash and store.
+
+3
+00:00:08,240 --> 00:00:11,210
+You can navigate to Commands, and in our Storm setup,
+
+4
+00:00:11,210 --> 00:00:16,129
+we focus on the Redis Publish, and Subscribe functionality rather than Storage.
+
+5
+00:00:16,129 --> 00:00:20,640
+Clicking into the command Publish, we see that Publish consist of a channel and
+
+6
+00:00:20,640 --> 00:00:23,530
+a message, implementing this in JavaScript is straight forward.
+
+7
+00:00:23,530 --> 00:00:28,200
+Remember that we used the lettuce package to connect from Redis in Java.
+
+8
+00:00:28,200 --> 00:00:31,580
+You can search in Google for Java Redis Lettuce, and
+
+9
+00:00:31,580 --> 00:00:35,040
+you'll see some of the exact code I had to follow to make this connection.
+
+10
+00:00:35,040 --> 00:00:37,660
+But let's focus on the redis connection here.
+
+11
+00:00:37,660 --> 00:00:40,270
+In your text editor, navigate to any ReportBolt.
+
+12
+00:00:40,270 --> 00:00:45,570
+I'm using lesson three, stage three and we search for redis.publish.
+
+13
+00:00:45,570 --> 00:00:49,730
+Here I use the Redis Publish syntax of channel that I've
+
+14
+00:00:49,730 --> 00:00:52,180
+named WordCountTopology.
+
+15
+00:00:52,180 --> 00:00:54,580
+And our message string.
+
+16
+00:00:54,580 --> 00:00:57,540
+Now that we have the publish side of our connection using Lettuce and
+
+17
+00:00:57,540 --> 00:01:01,520
+Redis, let's explore the subscribe side of our connection.
+
+18
+00:01:01,520 --> 00:01:03,920
+We navigate to the subscribe command and
+
+19
+00:01:03,920 --> 00:01:07,620
+we see the general syntax of subscribing to a given channel.
+
+20
+00:01:07,620 --> 00:01:11,980
+I do this in flask by following by a really cool Redis flask snippet.
+
+21
+00:01:11,980 --> 00:01:16,790
+You can search snippets or tutorials using the search command, and I search for
+
+22
+00:01:16,790 --> 00:01:19,480
+basic messaging queue and Redis.
+
+23
+00:01:19,480 --> 00:01:21,140
+Click on the snippet.
+
+24
+00:01:21,140 --> 00:01:24,230
+Next, my basic approach was to follow the basic messaging queue with
+
+25
+00:01:24,230 --> 00:01:28,440
+Redis snippet, and also searching for Python documentation.
+
+26
+00:01:28,440 --> 00:01:32,593
+And using the Python documentation for redis-py.
+
+27
+00:01:32,593 --> 00:01:37,394
+In the Python documentation, if you search for strict Redis, you find
+
+28
+00:01:37,394 --> 00:01:43,003
+the syntax that I used to make the connection with the conventional port 6379.
+
+29
+00:01:43,003 --> 00:01:47,830
+And in your text editor, navigate back to app.py for a fly server.
+
+30
+00:01:47,830 --> 00:01:54,190
+And you see the StrictRedis function with port 6379 by convention.
+
+31
+00:01:54,190 --> 00:01:57,940
+I used additional Python documentation on Redis, searching for
+
+32
+00:01:57,940 --> 00:02:00,860
+pubSub, which stands for publish subscribe.
+
+33
+00:02:00,860 --> 00:02:04,930
+You see the publish subscribe section to create a pubSub object.
+
+34
+00:02:04,930 --> 00:02:08,650
+Back in Flask, I create my pubsub object.
+
+35
+00:02:08,650 --> 00:02:13,910
+And finally use my pubSub object to subscribe again to the WordCountTopology.
+
+36
+00:02:13,910 --> 00:02:15,710
+We navigate back to the ReportBolt and
+
+37
+00:02:15,710 --> 00:02:18,950
+just confirm that we have our WordCountTopology.
+
+38
+00:02:18,950 --> 00:02:22,270
+Now that we've seen the ReportBolt using the publish and
+
+39
+00:02:22,270 --> 00:02:27,060
+subscribe functionality commands of Redis in flask.
+
+40
+00:02:27,060 --> 00:02:32,530
+It's time to look at how this combined drives our D3 visualization to
+
+41
+00:02:32,530 --> 00:02:35,830
+create the word clouds that we've been using throughout this course.
+
+42
+00:02:35,830 --> 00:02:37,360
+We'll cover this in the next video.

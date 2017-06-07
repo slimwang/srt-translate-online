@@ -1,0 +1,138 @@
+1
+00:00:00,130 --> 00:00:03,190
+In both formats,
+the page offset is six bits.
+
+2
+00:00:03,190 --> 00:00:08,150
+That means that each of the pages
+is 2 to the 6, that's 64 bytes.
+
+3
+00:00:08,150 --> 00:00:13,400
+In the first address format in the case
+of the single-level page table,
+
+4
+00:00:13,400 --> 00:00:17,150
+six bits are used for
+the virtual page number.
+
+5
+00:00:17,150 --> 00:00:21,350
+That means that there will
+be a total of 2 to the 6, so
+
+6
+00:00:21,350 --> 00:00:24,600
+64 different virtual pages and
+
+7
+00:00:24,600 --> 00:00:29,080
+in a single-level page table design,
+we have to have an entry for
+
+8
+00:00:29,080 --> 00:00:34,060
+every single virtual page number, so
+there will be a total of 64 elements.
+
+9
+00:00:34,060 --> 00:00:38,350
+In the second address format,
+the first two bits are used as an index
+
+10
+00:00:38,350 --> 00:00:42,050
+into the outer page table, so
+the page table directory, and
+
+11
+00:00:42,050 --> 00:00:47,200
+the inner four bits are used as
+an index into the inner page tables.
+
+12
+00:00:47,200 --> 00:00:51,240
+But, take a look at this address format,
+these two bits, so
+
+13
+00:00:51,240 --> 00:00:55,201
+the outer page table entries,
+will address 2 to the 10,
+
+14
+00:00:55,201 --> 00:01:00,070
+4 plus 6 virtual addresses from
+the virtual address space.
+
+15
+00:01:00,070 --> 00:01:04,989
+That means that every single element
+of the outer page table can be used
+
+16
+00:01:04,989 --> 00:01:10,360
+to hold the translations for
+one kilobyte of the virtual addresses.
+
+17
+00:01:10,360 --> 00:01:14,420
+Given that the process is such
+that only the first two and
+
+18
+00:01:14,420 --> 00:01:18,470
+the last one kilobyte of the virtual
+address space are allocated.
+
+19
+00:01:18,470 --> 00:01:23,000
+That means that one of the entries
+in the outer page table
+
+20
+00:01:23,000 --> 00:01:27,980
+will not really need to be populated
+with a corresponding inner page table.
+
+21
+00:01:27,980 --> 00:01:32,260
+So, we can save the memory that's
+required for that inner page table.
+
+22
+00:01:32,260 --> 00:01:36,470
+Now, the inner page table is
+the reuse of four bit index to
+
+23
+00:01:36,470 --> 00:01:41,010
+index into the inner page table, that
+means that, that will have 16 entries,
+
+24
+00:01:41,010 --> 00:01:44,860
+every single one of the inner
+page tables will hold 16 entries.
+
+25
+00:01:44,860 --> 00:01:47,790
+So therefore, the total number
+of entries that are needed
+
+26
+00:01:47,790 --> 00:01:51,980
+across the remaining inner
+page tables will be 48.
+
+27
+00:01:51,980 --> 00:01:56,660
+So, we reduce the page
+table size by 25% by
+
+28
+00:01:56,660 --> 00:02:00,920
+choosing this multi-level page table
+format in this particular example

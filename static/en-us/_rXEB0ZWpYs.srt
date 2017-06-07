@@ -1,0 +1,183 @@
+1
+00:00:00,190 --> 00:00:03,430
+Once you have a good understanding of how Storm is driving the basic D3
+
+2
+00:00:03,430 --> 00:00:06,750
+visualization, you can find inspiration starting in
+
+3
+00:00:06,750 --> 00:00:09,120
+Michael Bostock's blocks page.
+
+4
+00:00:09,120 --> 00:00:13,420
+This page, and blocks.org is an awesome place to start if you're looking for
+
+5
+00:00:13,420 --> 00:00:15,410
+really cool visualizations.
+
+6
+00:00:15,410 --> 00:00:18,420
+I wanted a word cloud visualization for this course.
+
+7
+00:00:18,420 --> 00:00:22,900
+So I searched word cloud blocks.org and clicked on the top link
+
+8
+00:00:22,900 --> 00:00:27,550
+to find Eric Coopley's awesome implementation of D3 Word Cloud.
+
+9
+00:00:27,550 --> 00:00:31,280
+The main difference between most D3 implementations I found compared to
+
+10
+00:00:31,280 --> 00:00:35,250
+what we are trying to do in Storm, with real time visualizations,
+
+11
+00:00:35,250 --> 00:00:39,430
+is that most examples use a static load once data set.
+
+12
+00:00:39,430 --> 00:00:44,410
+Here we see the frequency list that actually extends quite a bit to the right.
+
+13
+00:00:44,410 --> 00:00:50,250
+Inspecting further shows that Eric Coopley's implementation uses the format text
+
+14
+00:00:50,250 --> 00:00:50,750
+and size.
+
+15
+00:00:51,790 --> 00:00:57,420
+Therefore, our general process is mapping our data to the D3 format first,
+
+16
+00:00:57,420 --> 00:01:00,040
+then updating this dynamically to visualize.
+
+17
+00:01:00,040 --> 00:01:05,349
+So let's navigate to cloud.html and, in addition now to D3,
+
+18
+00:01:05,349 --> 00:01:09,246
+we pull in the app-cloud.js file and
+
+19
+00:01:09,246 --> 00:01:15,360
+the d3.layout.cloud.js file, both located in the static directory.
+
+20
+00:01:15,360 --> 00:01:20,020
+Scrolling down to the body and script tags, we see that the original static
+
+21
+00:01:20,020 --> 00:01:25,050
+frequency list has simply been updated to take in our d3.entries and
+
+22
+00:01:25,050 --> 00:01:27,690
+our hash function which is our associate array.
+
+23
+00:01:27,690 --> 00:01:33,110
+We then define our own variable frequency list that takes in the d3.entries of
+
+24
+00:01:33,110 --> 00:01:37,180
+the variable hash which is in java script in associate array.
+
+25
+00:01:37,180 --> 00:01:40,746
+Again, similar to the basic implementation, we select the body and
+
+26
+00:01:40,746 --> 00:01:42,100
+append an svg.
+
+27
+00:01:42,100 --> 00:01:46,520
+But here we have a d3.layout.cloud function that
+
+28
+00:01:46,520 --> 00:01:51,150
+uses a function words to bind the data to the frequency list.
+
+29
+00:01:51,150 --> 00:01:52,170
+In our own modification,
+
+30
+00:01:52,170 --> 00:01:56,600
+we use the same words function, bound to the frequency list.
+
+31
+00:01:56,600 --> 00:02:02,840
+And finally map the font size from d.size to fontSize d.value.
+
+32
+00:02:02,840 --> 00:02:06,902
+Navigating to our new app-cloud.js file we see
+
+33
+00:02:06,902 --> 00:02:12,450
+the basic structure has not changed but now our updateViz function
+
+34
+00:02:12,450 --> 00:02:17,602
+updates the same frequency list to d3.entries of hash, and
+
+35
+00:02:17,602 --> 00:02:24,570
+calls the same d3.layout.cloud function with frequency_list and d.value.
+
+36
+00:02:24,570 --> 00:02:29,270
+We then navigate away from the basic path to the cloud path,
+
+37
+00:02:29,270 --> 00:02:33,120
+ending in only /, and we see that with a few modifications,
+
+38
+00:02:33,120 --> 00:02:37,530
+we can use the same structure, the same data engineering pipeline.
+
+39
+00:02:37,530 --> 00:02:40,530
+And use open source D3 visualizations for
+
+40
+00:02:40,530 --> 00:02:42,918
+dynamic real time visualizations of data.
+
+41
+00:02:42,918 --> 00:02:45,110
+During our Hack-a-thon, Team A, or
+
+42
+00:02:45,110 --> 00:02:48,710
+Team Awesome, used a similar approach to find an open source map,
+
+43
+00:02:48,710 --> 00:02:52,370
+link this starting from the basic D3 implementation I provided.
+
+44
+00:02:52,370 --> 00:02:56,730
+And used color defined by Sentiment to visualize top tweets per county.
+
+45
+00:02:56,730 --> 00:02:59,570
+You'll see a few of their team members discuss their approach later on in
+
+46
+00:02:59,570 --> 00:03:03,550
+this lesson, along with their actual code provided as part of lesson four.

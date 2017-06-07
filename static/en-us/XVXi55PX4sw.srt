@@ -1,0 +1,479 @@
+1
+00:00:00,230 --> 00:00:01,420
+So, Charles, I kind of cheated.
+
+2
+00:00:01,420 --> 00:00:02,630
+>> Oh, tell me more.
+
+3
+00:00:02,630 --> 00:00:04,750
+>> So, Q-learning isn't really an
+
+4
+00:00:04,750 --> 00:00:07,130
+algorithm. Q-leaning is actually a family of
+
+5
+00:00:07,130 --> 00:00:10,604
+algorithms. There's lots of different reinforcement learning
+
+6
+00:00:10,604 --> 00:00:14,432
+algorithms, specific reinforcement learning algorithms that can
+
+7
+00:00:14,432 --> 00:00:16,940
+be reasonably called Q-learning, and they
+
+8
+00:00:16,940 --> 00:00:20,440
+vary typically along these three dimensions. How
+
+9
+00:00:20,440 --> 00:00:25,308
+do we initialize our estimate, Q hat, how do we decay our learning rates,
+
+10
+00:00:25,308 --> 00:00:29,530
+alpha sub-t? And how do we choose actions during learning?
+
+11
+00:00:29,530 --> 00:00:30,740
+>> Hm.
+
+12
+00:00:30,740 --> 00:00:33,440
+>> And different ways of making
+
+13
+00:00:33,440 --> 00:00:35,540
+these choices actually lead to algorithms with
+
+14
+00:00:35,540 --> 00:00:39,990
+fairly different behaviors. In particular when we use this in the context of
+
+15
+00:00:39,990 --> 00:00:42,660
+an MDP, well let's, let me, let me ask you. So like, what
+
+16
+00:00:42,660 --> 00:00:47,590
+do you think might matter about let's start with the last one, choosing actions?
+
+17
+00:00:47,590 --> 00:00:50,510
+>> Well. It see, well there's a bunch of dumb
+
+18
+00:00:50,510 --> 00:00:52,544
+things you could do, right? You could just, just pick an
+
+19
+00:00:52,544 --> 00:00:56,030
+amption, action, action every single time, like the same action every single
+
+20
+00:00:56,030 --> 00:00:59,180
+time independent of what you learned, that's kind of dumb. But,
+
+21
+00:00:59,180 --> 00:01:02,020
+it seems like the obvious smart thing to do is say look,
+
+22
+00:01:02,020 --> 00:01:04,129
+I'm learning, I'm getting better and better, so what I'm going to
+
+23
+00:01:04,129 --> 00:01:07,360
+do is at this next time steps is I actually have to
+
+24
+00:01:07,360 --> 00:01:10,060
+take an action. I'll just pick the action that my Q
+
+25
+00:01:10,060 --> 00:01:12,890
+hat tells me is the best action to take. And I'm done.
+
+26
+00:01:12,890 --> 00:01:15,593
+>> So all right, let me, let me see if I can capture some of what you
+
+27
+00:01:15,593 --> 00:01:18,690
+just said there. So, one way to choose actions
+
+28
+00:01:18,690 --> 00:01:22,170
+really badly is say, pick some action, call it a
+
+29
+00:01:22,170 --> 00:01:23,850
+sub 0. And no matter what state your in.
+
+30
+00:01:23,850 --> 00:01:26,040
+No matter what's happen so far, always choose that action.
+
+31
+00:01:26,040 --> 00:01:26,590
+>> Mm-hm.
+
+32
+00:01:26,590 --> 00:01:27,730
+>> Right, so this possibly can't
+
+33
+00:01:27,730 --> 00:01:30,340
+work. It's going to violate the Q-learning convergence
+
+34
+00:01:30,340 --> 00:01:33,970
+that says we have to visit each state action pair infinitely often, and update
+
+35
+00:01:33,970 --> 00:01:37,180
+them to converge and you know and, and it makes perfect sense. Like if
+
+36
+00:01:37,180 --> 00:01:40,720
+we never try something, like how do you know that you don't like something
+
+37
+00:01:40,720 --> 00:01:42,060
+if you've never even tried it.
+
+38
+00:01:42,060 --> 00:01:43,014
+>> Like spinach.
+
+39
+00:01:43,014 --> 00:01:46,200
+>> Exactly. Another idea would be to choose randomly.
+
+40
+00:01:46,200 --> 00:01:48,160
+And this seems kind of good and that we are going
+
+41
+00:01:48,160 --> 00:01:50,720
+to visit. You know, all the states that are visitable
+
+42
+00:01:50,720 --> 00:01:53,980
+and we will try all the actions that are actionable.
+
+43
+00:01:53,980 --> 00:01:58,100
+And we could actually learn Q this way. But, as
+
+44
+00:01:58,100 --> 00:02:00,380
+you pointed out, this is not a great idea because
+
+45
+00:02:00,380 --> 00:02:02,570
+we may have learned Q, but we haven't really used
+
+46
+00:02:02,570 --> 00:02:06,140
+it. We haven't really chosen actions using what we've learned,
+
+47
+00:02:06,140 --> 00:02:09,255
+so it's like we're wise but we are impotent.
+
+48
+00:02:09,255 --> 00:02:13,020
+>> No, I think it's more like we're wise but we're stupid. I mean.
+
+49
+00:02:13,020 --> 00:02:14,380
+>> We're wise but we still. We know a
+
+50
+00:02:14,380 --> 00:02:16,570
+lot but refuse to actually do anything about it.
+
+51
+00:02:16,570 --> 00:02:20,060
+>> Right. In particular in some sense the only difference between the two
+
+52
+00:02:20,060 --> 00:02:24,784
+is the the theorem, right? If I, if I'm just choosing randomly. Wha, what's
+
+53
+00:02:24,784 --> 00:02:26,500
+the problem with them always choosing a
+
+54
+00:02:26,500 --> 00:02:28,710
+sub 0. Well, you're don't going to converge
+
+55
+00:02:28,710 --> 00:02:31,160
+but the real problem is that you don't learn anything. Or you don't take
+
+56
+00:02:31,160 --> 00:02:33,660
+advantage of anything you learned. Choosing randomly is basically the same
+
+57
+00:02:33,660 --> 00:02:36,630
+thing, you basically, you never take advantage of anything that you learn.
+
+58
+00:02:36,630 --> 00:02:39,178
+What's the point in learning a Q function if you are always
+
+59
+00:02:39,178 --> 00:02:41,310
+going to behave randomly, you've learned enough
+
+60
+00:02:41,310 --> 00:02:43,065
+or you've learned but you [CROSSTALK].
+
+61
+00:02:43,065 --> 00:02:46,330
+>> [CROSSTALK] right you've actually learned the ultra policy but you're
+
+62
+00:02:46,330 --> 00:02:48,840
+not following it so you're not actually using what you know,
+
+63
+00:02:48,840 --> 00:02:51,930
+so you can't you know it doesn't, it doesn't work all
+
+64
+00:02:51,930 --> 00:02:56,450
+right. So then you had another idea. Which was to use
+
+65
+00:02:56,450 --> 00:02:58,200
+our estimate to choose actions.
+
+66
+00:02:58,200 --> 00:02:59,800
+>> Yeah.
+
+67
+00:02:59,800 --> 00:03:02,630
+>> And that seems like a good idea in that
+
+68
+00:03:02,630 --> 00:03:05,770
+we will use it. Is it possible that it won't learn?
+
+69
+00:03:05,770 --> 00:03:07,950
+>> Well, it will learn something.
+
+70
+00:03:07,950 --> 00:03:11,330
+>> Well, yeah. It might not learn anything all that good though.
+
+71
+00:03:11,330 --> 00:03:14,090
+So for example, what if we do something like this. So we
+
+72
+00:03:14,090 --> 00:03:16,740
+initialize, now we're back up to this, this first point here. We
+
+73
+00:03:16,740 --> 00:03:22,150
+initialize the, the estimate Q hat so that for every state, a0 looks
+
+74
+00:03:22,150 --> 00:03:24,500
+awesome and all the other actions look terrible.
+
+75
+00:03:24,500 --> 00:03:27,770
+>> Wait [INAUDIBLE] is that metric awesome? Or English awesome?
+
+76
+00:03:27,770 --> 00:03:29,740
+>> Oh you're right I'm sorry, I didn't
+
+77
+00:03:29,740 --> 00:03:32,335
+put units on that. That's in Chilean dollars.
+
+78
+00:03:32,335 --> 00:03:32,830
+>> [LAUGH]
+
+79
+00:03:32,830 --> 00:03:36,680
+>> Oh okay, so it's pretty awesome then. Okay. So, if
+
+80
+00:03:36,680 --> 00:03:40,140
+you do that, then well let's see what happens. It's almost
+
+81
+00:03:40,140 --> 00:03:43,380
+like always taking a0. The only thing that would save you
+
+82
+00:03:43,380 --> 00:03:47,610
+from taking a0 forever, is if, as you take a0, you learn
+
+83
+00:03:47,610 --> 00:03:50,840
+that, you update your Qs and you keep getting really, really
+
+84
+00:03:50,840 --> 00:03:54,769
+bad results. Really, really bad results, in fact, worse than terrible.
+
+85
+00:03:55,970 --> 00:03:58,620
+>> yes. Well let's imagine the terrible is worse than terrible.
+
+86
+00:03:58,620 --> 00:03:59,130
+>> Oh.
+
+87
+00:03:59,130 --> 00:04:02,060
+>> So, but you're right, yeah you're right. So, so there's, there's
+
+88
+00:04:02,060 --> 00:04:05,270
+at least the case that if this, if this terrible value is
+
+89
+00:04:05,270 --> 00:04:09,040
+actually lower than the value of always choosing a0, then we'll continue
+
+90
+00:04:09,040 --> 00:04:13,408
+to use a0 forever. This is, this is called the greedy action
+
+91
+00:04:13,408 --> 00:04:15,694
+selection strategy.
+
+92
+00:04:15,694 --> 00:04:17,149
+>> Mm-mh.
+
+93
+00:04:17,149 --> 00:04:20,700
+>> And that, this is the problem that runs into, it's a kind of local min.
+
+94
+00:04:20,700 --> 00:04:24,650
+>> Oh, I see. Oh and oh, okay, I see that. So, you, you didn't even have
+
+95
+00:04:24,650 --> 00:04:26,240
+to come up with this ridiculous example. If
+
+96
+00:04:26,240 --> 00:04:29,010
+you, if you well, not ridiculous, but you, extremely.
+
+97
+00:04:29,010 --> 00:04:30,900
+>> I was going to say, I'm, I'm sorry, ridiculous how?
+
+98
+00:04:30,900 --> 00:04:33,370
+>> Well, I'm sorry. It, it's a ridiculous situation
+
+99
+00:04:33,370 --> 00:04:37,040
+to be in. It's sort of the extremely unluicky example.
+
+100
+00:04:37,040 --> 00:04:38,510
+>> I think what you're saying is
+
+101
+00:04:38,510 --> 00:04:39,760
+that you don't like people from Chile.
+
+102
+00:04:39,760 --> 00:04:41,682
+>> [LAUGH] Oh no I love people from, I love
+
+103
+00:04:41,682 --> 00:04:45,285
+Chile. Especially with you know, just some good beans and some
+
+104
+00:04:45,285 --> 00:04:48,490
+nice meat. But the thing is that you, if you randomly
+
+105
+00:04:48,490 --> 00:04:51,210
+set your Q hat in such a way that a bad
+
+106
+00:04:51,210 --> 00:04:55,310
+action or let's say a suboptimal action ends up looking much
+
+107
+00:04:55,310 --> 00:04:58,510
+better to begin with then the optimal action. You can get
+
+108
+00:04:58,510 --> 00:05:01,320
+in a situation where you keep choosing the wrong action anyway
+
+109
+00:05:01,320 --> 00:05:03,610
+and so you are only going to learn things that reinforce that
+
+110
+00:05:03,610 --> 00:05:07,300
+action which might be good just not optimal. So you won't actually end up
+
+111
+00:05:07,300 --> 00:05:10,770
+converging onto the true Q hat and that's why you get into a local min.
+
+112
+00:05:10,770 --> 00:05:13,410
+>> That's right and so in that bad situation and you,
+
+113
+00:05:13,410 --> 00:05:17,420
+I admit it's a little contrived because I've never, I've never even
+
+114
+00:05:17,420 --> 00:05:21,350
+been to Chile is that it wont learn. It'd actually be
+
+115
+00:05:21,350 --> 00:05:24,020
+exactly the same as this first case, always choose a sub 0.
+
+116
+00:05:24,020 --> 00:05:25,281
+>> Mm-hm.
+
+117
+00:05:25,281 --> 00:05:28,820
+>> So, that seems problematic too and it interacts in an interesting
+
+118
+00:05:28,820 --> 00:05:35,580
+way with the initialization. Right. So maybe we can do this idea of using
+
+119
+00:05:35,580 --> 00:05:38,560
+Q hat, but we have to be much more careful about how we initialize.
+
+120
+00:05:38,560 --> 00:05:43,870
+>> Hm. So, you know, what I want to do is something like random restarts.

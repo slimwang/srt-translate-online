@@ -1,0 +1,123 @@
+1
+00:00:00,270 --> 00:00:03,090
+Now that we've found a way to
+clean up all those nasty leaks,
+
+2
+00:00:03,090 --> 00:00:06,880
+we run into an even larger
+problem called, memory churn.
+
+3
+00:00:06,880 --> 00:00:10,100
+>> Remember that each heap space has
+a finite size that limits the number of
+
+4
+00:00:10,100 --> 00:00:13,820
+objects that it can accommodate, and
+as the size of the heap gets too big,
+
+5
+00:00:13,820 --> 00:00:17,970
+a GC event is kicked off to eliminate
+unneeded objects to free up memory.
+
+6
+00:00:17,970 --> 00:00:21,770
+>> Now, memory churn is a term used
+to describe the process of allocating
+
+7
+00:00:21,770 --> 00:00:25,290
+lots of objects in a very
+short amount of time.
+
+8
+00:00:25,290 --> 00:00:28,750
+For example, if you're allocating a load
+of temporary objects in the middle of
+
+9
+00:00:28,750 --> 00:00:33,640
+a for loop, or you're allocating a bunch
+of objects in your on draw function.
+
+10
+00:00:33,640 --> 00:00:36,040
+>> This is effectively the same
+problem as an inner loop,
+
+11
+00:00:36,040 --> 00:00:39,040
+any time the screen needs to be
+redrawn or an animation is occurring,
+
+12
+00:00:39,040 --> 00:00:41,870
+you'll end up with calls to
+these functions every frame,
+
+13
+00:00:41,870 --> 00:00:45,330
+which can quickly add up,
+adding pressure to your heaps.
+
+14
+00:00:45,330 --> 00:00:48,690
+>> In both cases, we've created
+a scenario where a high volume of
+
+15
+00:00:48,690 --> 00:00:52,800
+objects can be created in
+a very short period of time.
+
+16
+00:00:52,800 --> 00:00:55,780
+And depending on how many of
+these objects are created, or
+
+17
+00:00:55,780 --> 00:00:59,380
+their size per object,
+you can end up quickly consuming
+
+18
+00:00:59,380 --> 00:01:04,610
+all of the available memory in the young
+generation, forcing a GC to kick off.
+
+19
+00:01:04,610 --> 00:01:06,170
+And as more of these are kicked off,
+
+20
+00:01:06,170 --> 00:01:09,210
+the more of your precious frame time
+is going to be eaten up by them.
+
+21
+00:01:09,210 --> 00:01:12,560
+As such, it makes sense that for
+a high performance application,
+
+22
+00:01:12,560 --> 00:01:16,300
+you would want to identify and
+move allocations out of inner loops or
+
+23
+00:01:16,300 --> 00:01:19,180
+any code that's going to
+be executed repeatedly.
+
+24
+00:01:19,180 --> 00:01:20,830
+To make finding these
+allocations easier,
+
+25
+00:01:20,830 --> 00:01:24,080
+Android Studio has a handy tool
+built just for this problem.

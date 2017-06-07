@@ -1,0 +1,224 @@
+1
+00:00:00,430 --> 00:00:03,590
+We have here in core raw asset sprites
+
+2
+00:00:03,590 --> 00:00:06,290
+all of the assets we've created for
+gigagal.
+
+3
+00:00:06,290 --> 00:00:09,090
+Now we don't want to have to
+individually load each one of these
+
+4
+00:00:09,090 --> 00:00:11,120
+files into our completed game.
+
+5
+00:00:11,120 --> 00:00:15,650
+What we really want to do is pack all of
+these images into a big texture atlas.
+
+6
+00:00:15,650 --> 00:00:18,260
+Then we can load that whole
+atlas all at once, and
+
+7
+00:00:18,260 --> 00:00:20,700
+we don't have to load
+a bunch of different files.
+
+8
+00:00:20,700 --> 00:00:25,070
+To do this we have to delve into the
+mystery that is the build.gradle file.
+
+9
+00:00:25,070 --> 00:00:28,210
+The to do's in the course code will
+show you exactly how to do this.
+
+10
+00:00:28,210 --> 00:00:29,000
+But first of all,
+
+11
+00:00:29,000 --> 00:00:34,110
+we need to add a dependency on the GDX
+tools package in the build script block.
+
+12
+00:00:34,110 --> 00:00:38,255
+That means that this code itself
+is dependant on GDX tools.
+
+13
+00:00:38,255 --> 00:00:40,220
+Then we need to import texture packer.
+
+14
+00:00:41,350 --> 00:00:45,740
+Then down in the block of the build
+script that applies to the core project,
+
+15
+00:00:45,740 --> 00:00:48,820
+we're adding a new task
+called packTextures.
+
+16
+00:00:48,820 --> 00:00:51,750
+That first of all,
+deletes the previous atlas, and
+
+17
+00:00:51,750 --> 00:00:55,370
+then processes our
+core/rawAssets/sprites directory.
+
+18
+00:00:55,370 --> 00:00:59,500
+Finally we ensure that every time
+the compileJava task is run,
+
+19
+00:00:59,500 --> 00:01:02,330
+the packTextures task is run first.
+
+20
+00:01:02,330 --> 00:01:06,280
+I am sure all of this Gradle stuff
+is still a gigantic mystery.
+
+21
+00:01:06,280 --> 00:01:07,390
+Don't worry about it.
+
+22
+00:01:07,390 --> 00:01:08,920
+Check out the To Dos in the course code,
+and
+
+23
+00:01:08,920 --> 00:01:11,670
+it'll explain it all in
+excruciating detail.
+
+24
+00:01:11,670 --> 00:01:15,800
+The upshot is that if we open
+up our project pane again and
+
+25
+00:01:15,800 --> 00:01:19,890
+we go into Android > Assets > Images,
+
+26
+00:01:19,890 --> 00:01:24,720
+we find a big PNG with all of our
+assets packed together in one image.
+
+27
+00:01:25,820 --> 00:01:30,050
+So how do we actually use the textures
+that we've packed into our atlas?
+
+28
+00:01:30,050 --> 00:01:32,080
+Well, the answer is kind of complicated.
+
+29
+00:01:32,080 --> 00:01:34,080
+First we have to create
+an asset manager and
+
+30
+00:01:34,080 --> 00:01:37,060
+have the asset manager
+go load up our atlas.
+
+31
+00:01:37,060 --> 00:01:40,360
+Then, we can use findRegion
+on our atlas to grab
+
+32
+00:01:40,360 --> 00:01:44,050
+particular regions of the atlas that
+contain the texture we're interested in.
+
+33
+00:01:45,070 --> 00:01:46,540
+So down here in the render callback.
+
+34
+00:01:46,540 --> 00:01:50,280
+We've got our standingRight texture
+region, we'll just get the texture and
+
+35
+00:01:50,280 --> 00:01:51,960
+we'll draw it using a spread batch.
+
+36
+00:01:51,960 --> 00:01:52,790
+Let's see what happens.
+
+37
+00:01:53,840 --> 00:01:57,710
+Whoops, okay, we just wanted the the
+standingRight texture right here, but
+
+38
+00:01:57,710 --> 00:02:00,530
+instead we got the entire atlas.
+
+39
+00:02:00,530 --> 00:02:03,270
+To get a texture region to
+draw correctly, we have to
+
+40
+00:02:03,270 --> 00:02:07,590
+use one of the more complicated versions
+of the draw method on the sprite batch.
+
+41
+00:02:07,590 --> 00:02:11,561
+That takes into account what portion
+of the incoming texture we actually
+
+42
+00:02:11,561 --> 00:02:12,285
+want to draw.
+
+43
+00:02:12,285 --> 00:02:16,125
+Again, the annotations in the course
+code will do a better job of explaining
+
+44
+00:02:16,125 --> 00:02:17,265
+this than I will here.
+
+45
+00:02:17,265 --> 00:02:20,930
+All right, time for you to go
+through the entire texture workflow.
+
+46
+00:02:20,930 --> 00:02:23,380
+From packing all of your
+textures into an atlas.
+
+47
+00:02:23,380 --> 00:02:26,650
+To loading textures back out of
+that atlas that you want to draw.
+
+48
+00:02:26,650 --> 00:02:27,790
+And then drawing them correctly.

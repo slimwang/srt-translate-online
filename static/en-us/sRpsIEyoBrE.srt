@@ -1,0 +1,199 @@
+1
+00:00:00,340 --> 00:00:04,310
+So in essence, what has happened in this process is we've generated a pyramid
+
+2
+00:00:04,310 --> 00:00:08,450
+where we can do coarse computations here at the top of the pyramid and
+
+3
+00:00:08,450 --> 00:00:11,150
+fine computations at the bottom of the pyramid.
+
+4
+00:00:11,150 --> 00:00:14,930
+Again, by just doing this recursion using this to compute this one,
+
+5
+00:00:14,930 --> 00:00:17,620
+using that and going up the pyramid.
+
+6
+00:00:17,620 --> 00:00:18,980
+And, of course, we can move down and
+
+7
+00:00:18,980 --> 00:00:21,860
+up the pyramid, do whatever kind of processing we want.
+
+8
+00:00:21,860 --> 00:00:25,080
+So now we know that given any g0,
+
+9
+00:00:25,080 --> 00:00:29,170
+I can compute g1 using the reduce function in a recursive manner.
+
+10
+00:00:29,170 --> 00:00:32,104
+So replace this by g0, and I can get g1.
+
+11
+00:00:33,370 --> 00:00:35,590
+Now the question is, if somebody gave me g1,
+
+12
+00:00:35,590 --> 00:00:40,510
+could I actually compute something equivalent to a g0, or
+
+13
+00:00:40,510 --> 00:00:44,420
+some application that could be used to generate something similar to it?
+
+14
+00:00:44,420 --> 00:00:47,980
+Basically, there is a function called expand which lets you
+
+15
+00:00:47,980 --> 00:00:53,510
+take any value from here, or information that is from here, to generate this.
+
+16
+00:00:53,510 --> 00:00:56,280
+Let's look at an example of that and we'll talk about in a bit.
+
+17
+00:00:56,280 --> 00:00:59,780
+Now I'm going to show you what the output would be from this function if you
+
+18
+00:00:59,780 --> 00:01:03,330
+were just given g1 to create a version of g0.
+
+19
+00:01:03,330 --> 00:01:07,120
+Of course, we will call that g0,1 and that's what the image looks like.
+
+20
+00:01:08,220 --> 00:01:11,100
+Which basically implies that it's g0, but
+
+21
+00:01:11,100 --> 00:01:14,700
+actually expanded once, from here to get there.
+
+22
+00:01:14,700 --> 00:01:18,810
+Now for those of you looking carefully you may see, oh not much of a difference.
+
+23
+00:01:18,810 --> 00:01:22,510
+Just to see what the difference is, what I'm going to do is I'm going to take
+
+24
+00:01:22,510 --> 00:01:28,450
+the expanded version of this image, and subtract it from the original image.
+
+25
+00:01:28,450 --> 00:01:29,910
+So this is what you see now here, and
+
+26
+00:01:29,910 --> 00:01:32,930
+this is basically, of course, showing you where the differences are.
+
+27
+00:01:32,930 --> 00:01:36,773
+You notice a lot of high frequency information is much more visible.
+
+28
+00:01:36,773 --> 00:01:41,690
+The eye-lines and all that kind of stuff are much nicely defined.
+
+29
+00:01:41,690 --> 00:01:46,630
+And in basically you can see that this is the output of which actually is
+
+30
+00:01:46,630 --> 00:01:51,500
+basically showing you the error in reconstructing it backwards.
+
+31
+00:01:51,500 --> 00:01:57,770
+Remember, g0 was the original image, g1 was the one we got by using reduce.
+
+32
+00:01:57,770 --> 00:02:01,060
+Then we basically said let's come up with a function that takes the reduced
+
+33
+00:02:01,060 --> 00:02:04,990
+image, and expands it back to the original which is g0,1.
+
+34
+00:02:04,990 --> 00:02:08,490
+We did this from the original one, that's why this is g0,1.
+
+35
+00:02:08,490 --> 00:02:12,430
+And of course, when we subtracted it, this is what the image we got.
+
+36
+00:02:12,430 --> 00:02:16,240
+So in essence, the expand is the inverse of the reduce.
+
+37
+00:02:16,240 --> 00:02:19,780
+As basically attempts to add new values between known ones.
+
+38
+00:02:19,780 --> 00:02:23,223
+Again, remember the example when we went by an eight by eight simple one to
+
+39
+00:02:23,223 --> 00:02:24,800
+generate a four by four.
+
+40
+00:02:24,800 --> 00:02:28,902
+In essence, what we are trying to do is go from a four by four to an eight by
+
+41
+00:02:28,902 --> 00:02:31,900
+eight, in essence meaning we will be adding new values.
+
+42
+00:02:31,900 --> 00:02:34,830
+Of course, there will be error, and we want to be able to measure it.
+
+43
+00:02:34,830 --> 00:02:37,262
+In this case again just to get the notation correct.
+
+44
+00:02:37,262 --> 00:02:41,440
+G, g0, 1, was basically attempting to
+
+45
+00:02:41,440 --> 00:02:46,110
+keep the value from g0 just being able to expanding once, in essence,
+
+46
+00:02:46,110 --> 00:02:51,370
+in general terms gj, n is gj expanded n times.
+
+47
+00:02:51,370 --> 00:02:55,950
+Remember, we could even go from g2 to g1 all the way to g0.
+
+48
+00:02:55,950 --> 00:03:01,310
+So, recursion is possible this way, where we go from g0 all the way to gn.
+
+49
+00:03:01,310 --> 00:03:03,730
+Or, or, g, you know, a larger numbers.
+
+50
+00:03:03,730 --> 00:03:08,600
+Or, we can go now from our gn, the level that we are at, back all the way here.

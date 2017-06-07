@@ -1,0 +1,155 @@
+1
+00:00:00,000 --> 00:00:03,000
+[Thrun] So let me give you some examples of this method in action.
+
+2
+00:00:03,000 --> 00:00:08,000
+Here we have an actual planning technique that uses dynamic programming
+
+3
+00:00:08,000 --> 00:00:10,000
+and understands how far things are away.
+
+4
+00:00:10,000 --> 00:00:15,000
+And on top of it, it also considers local rollouts to avoid local obstacles.
+
+5
+00:00:15,000 --> 00:00:18,000
+These local rollouts are continuous trajectories.
+
+6
+00:00:18,000 --> 00:00:20,000
+They are variant by discrete decisions,
+
+7
+00:00:20,000 --> 00:00:26,000
+like whether to change the lane, and by various small discrete nudges around obstacles
+
+8
+00:00:26,000 --> 00:00:29,000
+so we can avoid obstacles.
+
+9
+00:00:29,000 --> 00:00:32,000
+And in rolling out to a certain horizon, like up to here,
+
+10
+00:00:32,000 --> 00:00:34,000
+and then connecting to the dynamic programming value,
+
+11
+00:00:34,000 --> 00:00:41,000
+we can calculate in actual traffic situations what is the cost of going a certain path.
+
+12
+00:00:41,000 --> 00:00:43,000
+Here is an attempt to turn right.
+
+13
+00:00:43,000 --> 00:00:46,000
+You can see the vehicle approaching a stop sign.
+
+14
+00:00:46,000 --> 00:00:48,000
+There is an entire maze of streets.
+
+15
+00:00:48,000 --> 00:00:54,000
+The best way to go right and then into the left lane is to take the right turn
+
+16
+00:00:54,000 --> 00:00:58,000
+and then initiate a lane shift, which is happening right now,
+
+17
+00:00:58,000 --> 00:01:02,000
+to reach a target location that is indicated by this big orange circle
+
+18
+00:01:02,000 --> 00:01:04,000
+that it's crossing right now.
+
+19
+00:01:04,000 --> 00:01:09,000
+If we increase the cost of a lane shift to a much larger value,
+
+20
+00:01:09,000 --> 00:01:13,000
+the answer that emerges is really interesting.
+
+21
+00:01:13,000 --> 00:01:16,000
+It doesn't turn right because of the cost of the subsequent lane shift.
+
+22
+00:01:16,000 --> 00:01:19,000
+Instead this vehicle goes straight,
+
+23
+00:01:19,000 --> 00:01:27,000
+takes a left turn, which happens to be much cheaper than the lane shift.
+
+24
+00:01:27,000 --> 00:01:38,000
+It then follows this left turn, takes another left turn,
+
+25
+00:01:38,000 --> 00:01:44,000
+and eventually takes a third left turn just to get to the left lane.
+
+26
+00:01:44,000 --> 00:01:49,000
+And if you look very carefully, you can now reach the goal location
+
+27
+00:01:49,000 --> 00:01:57,000
+without a lane change maneuver which would have much higher cost.
+
+28
+00:01:57,000 --> 00:02:01,000
+So here it is now in the left lane, and without lane-changing maneuver
+
+29
+00:02:01,000 --> 00:02:03,000
+it manages to reach the goal.
+
+30
+00:02:03,000 --> 00:02:07,000
+This illustrates that dynamic programming in the context of controlling actual cars
+
+31
+00:02:07,000 --> 00:02:10,000
+has a big value to play.
+
+32
+00:02:10,000 --> 00:02:13,000
+Here is the same idea applied to a passing maneuver in normal driving.
+
+33
+00:02:13,000 --> 00:02:16,000
+You see our vehicle following another vehicle.
+
+34
+00:02:16,000 --> 00:02:19,000
+This is actual data in preparation for the Urban Challenge.
+
+35
+00:02:19,000 --> 00:02:23,000
+Now we placed an abandoned vehicle on the left lane,
+
+36
+00:02:23,000 --> 00:02:27,000
+and you can see how trainers are being made that incorporate dynamic obstacles
+
+37
+00:02:27,000 --> 00:02:31,000
+by virtue of those rollouts and a dynamic programming function
+
+38
+00:02:31,000 --> 00:02:36,000
+by virtue of the background green to red to find the optimal actions.
+
+39
+00:02:36,000 --> 99:59:59,999
+This method has really enabled us to navigate complicated situations with self-driving cars.

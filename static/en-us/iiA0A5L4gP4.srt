@@ -1,0 +1,227 @@
+1
+00:00:00,775 --> 00:00:04,800
+Now the Hello World project here that you've got, it's
+
+2
+00:00:04,800 --> 00:00:09,440
+a very simple, application that uses end points. What I want
+
+3
+00:00:09,440 --> 00:00:11,860
+to do now is just talk you quickly through the code
+
+4
+00:00:11,860 --> 00:00:14,660
+so that you understand how to define endpoints, so you see
+
+5
+00:00:14,660 --> 00:00:16,970
+how to call them from a web page. So let's
+
+6
+00:00:16,970 --> 00:00:18,900
+take a look at the files in the Hello World end
+
+7
+00:00:18,900 --> 00:00:22,043
+points application. So here, you see here in src > main
+
+8
+00:00:22,043 --> 00:00:25,928
+> java. In the com > google > training > helloworld
+
+9
+00:00:25,928 --> 00:00:28,120
+package, you see the Java files.
+
+10
+00:00:28,120 --> 00:00:32,081
+There are three Java files, Constants.java, HelloClass.java
+
+11
+00:00:32,081 --> 00:00:36,770
+and HelloWorldEndpoints.java. So Constants.java defines some constants,
+
+12
+00:00:36,770 --> 00:00:39,700
+as you might expect. HelloClass.java is a
+
+13
+00:00:39,700 --> 00:00:41,670
+very simple class we'll look at
+
+14
+00:00:41,670 --> 00:00:45,710
+in a minute. And then HelloWorldEndpoints.java defines
+
+15
+00:00:45,710 --> 00:00:48,200
+the endpoints used in the application. So
+
+16
+00:00:48,200 --> 00:00:51,650
+the source dir, contains the main folder,
+
+17
+00:00:51,650 --> 00:00:54,280
+which contains the java and the webapp folders.
+
+18
+00:00:54,280 --> 00:00:55,930
+We just looked at java, but now we're
+
+19
+00:00:55,930 --> 00:00:58,060
+going to look at webapp. So the webapp
+
+20
+00:00:58,060 --> 00:01:01,720
+folder contains the static files, the index.html, other
+
+21
+00:01:01,720 --> 00:01:05,140
+HTML files if you have them, JavaScript files,
+
+22
+00:01:05,140 --> 00:01:10,020
+any static content. It also contains the WEB-I-N-F,
+
+23
+00:01:10,020 --> 00:01:13,320
+or WEB-INF folder. And this folder's common to
+
+24
+00:01:13,320 --> 00:01:16,660
+all web applications, and it's where you configure
+
+25
+00:01:16,660 --> 00:01:20,250
+your application. So for app engine apps, you have
+
+26
+00:01:20,250 --> 00:01:24,630
+to have the appengine-web.xml file, which we already looked at,
+
+27
+00:01:24,630 --> 00:01:26,860
+which is where you configure the things that are specific
+
+28
+00:01:26,860 --> 00:01:29,700
+to your app engine app in, particular, you have to
+
+29
+00:01:29,700 --> 00:01:32,100
+specify the app ID if you want to deploy it
+
+30
+00:01:32,100 --> 00:01:36,190
+to Appspot. Another file in here is web.xml. And let's
+
+31
+00:01:36,190 --> 00:01:39,240
+take a quick look at that. So web.xml is where
+
+32
+00:01:39,240 --> 00:01:41,999
+you'd configure servers if you have them. In your web.xml
+
+33
+00:01:41,999 --> 00:01:43,626
+you should see that you have
+
+34
+00:01:43,626 --> 00:01:46,030
+the SystemsServiceServlet. And
+
+35
+00:01:46,030 --> 00:01:51,000
+it's mapped to com.google.api.server.spi.SystemServiceServlet.
+
+36
+00:01:51,000 --> 00:01:56,840
+And this spi, means end points. So this servlet is crucial to your application,
+
+37
+00:01:56,840 --> 00:01:58,480
+if you want to use end points.
+
+38
+00:01:58,480 --> 00:02:03,080
+Basically you must have com.google.api.server.spi.SystemServiceServlet in your
+
+39
+00:02:03,080 --> 00:02:07,050
+app if you want to use endpoints. Also see we define the welcome file
+
+40
+00:02:07,050 --> 00:02:09,639
+here which is index.html, which is pretty much
+
+41
+00:02:09,639 --> 00:02:12,480
+the default. Another configuration I want to draw your
+
+42
+00:02:12,480 --> 00:02:15,160
+attention to, is this one here for the
+
+43
+00:02:15,160 --> 00:02:20,370
+security constraint, where we specified that all web pages
+
+44
+00:02:20,370 --> 00:02:22,680
+must use HTTPS and this is how we
+
+45
+00:02:22,680 --> 00:02:26,740
+specify it, by setting the transport guarantee confidential. So
+
+46
+00:02:26,740 --> 00:02:30,270
+whenever you see this in your web.xml, it just
+
+47
+00:02:30,270 --> 00:02:32,650
+means that when the app's running on app spot,
+
+48
+00:02:32,650 --> 00:02:34,310
+if the user goes to it without using
+
+49
+00:02:34,310 --> 00:02:40,256
+HTTPS, they'll be redirected to HTTPS. Okay, so back
+
+50
+00:02:40,256 --> 00:02:42,627
+in the webapp dir, you see there's also
+
+51
+00:02:42,627 --> 00:02:46,770
+hello.js. And there's index.html. And these are the two
+
+52
+00:02:46,770 --> 00:02:49,410
+files that this app uses in the web
+
+53
+00:02:49,410 --> 00:02:52,800
+UI, or in the web front-end. Hello.js contains the
+
+54
+00:02:52,800 --> 00:02:55,810
+JavaScript functions used by the app, and index.html
+
+55
+00:02:55,810 --> 00:02:58,580
+is the home page for the app, and it
+
+56
+00:02:58,580 --> 00:03:01,730
+shows the two buttons, and the input field. And
+
+57
+00:03:01,730 --> 00:03:05,100
+here you see the two buttons, and the input failed.

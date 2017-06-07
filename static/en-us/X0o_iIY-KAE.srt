@@ -1,0 +1,227 @@
+1
+00:00:00,200 --> 00:00:00,980
+Okay.
+
+2
+00:00:00,980 --> 00:00:04,550
+So we actually haven't quite found out how the content resolver knows
+
+3
+00:00:04,550 --> 00:00:07,000
+magically what content provider to use.
+
+4
+00:00:07,000 --> 00:00:08,210
+To understand that, and
+
+5
+00:00:08,210 --> 00:00:12,970
+also what this parameter is doing, we're going to need to know what a URI is.
+
+6
+00:00:12,970 --> 00:00:16,149
+URI stands for uniform resource identifier.
+
+7
+00:00:16,149 --> 00:00:20,860
+If you're thinking that URI sounds a lot like URL, you'd be correct.
+
+8
+00:00:20,860 --> 00:00:23,380
+URLs are actually a subset of URIs.
+
+9
+00:00:23,380 --> 00:00:27,280
+URLs refer to a location, usually on a network.
+
+10
+00:00:27,280 --> 00:00:31,970
+Whereas a URI has a bit of a broader definition where it's meant to identify or
+
+11
+00:00:31,970 --> 00:00:34,070
+give the location of some data.
+
+12
+00:00:34,070 --> 00:00:37,520
+Okay, so I want to see what this URI actually looks like.
+
+13
+00:00:37,520 --> 00:00:40,920
+I'm going to go over to the code, and I'm going to put in a quick log statement
+
+14
+00:00:40,920 --> 00:00:44,240
+to see what the actual text is stored in this constant.
+
+15
+00:00:44,240 --> 00:00:45,590
+Okay, so I'm here in the code.
+
+16
+00:00:45,590 --> 00:00:48,000
+I'm going to go ahead and write my log statement.
+
+17
+00:00:48,000 --> 00:00:48,950
+Okay. There it is.
+
+18
+00:00:48,950 --> 00:00:51,660
+I'm going to go ahead and run this and then open logcat.
+
+19
+00:00:51,660 --> 00:00:55,150
+Okay, so you might have to peer a little bit closely at your screen, but
+
+20
+00:00:55,150 --> 00:00:56,620
+here's my log statement.
+
+21
+00:00:56,620 --> 00:01:00,500
+And it says, content://user_dictionary/words.
+
+22
+00:01:00,500 --> 00:01:03,910
+So I'm going to go ahead and take that sentence over to the other screen.
+
+23
+00:01:03,910 --> 00:01:06,880
+And we will tear it apart and take a look at it.
+
+24
+00:01:06,880 --> 00:01:10,248
+Okay, so this constant URI is equal to this.
+
+25
+00:01:10,248 --> 00:01:16,510
+Content:// is the standard way that content URI's start.
+
+26
+00:01:16,510 --> 00:01:18,220
+So we always start with this.
+
+27
+00:01:18,220 --> 00:01:21,930
+The word user_dictionary tells us what the content authority is.
+
+28
+00:01:21,930 --> 00:01:24,220
+The content authority is super important.
+
+29
+00:01:24,220 --> 00:01:28,650
+This little string right here says what content provider the content resolver is
+
+30
+00:01:28,650 --> 00:01:29,940
+supposed to be using.
+
+31
+00:01:29,940 --> 00:01:33,360
+And this last part here says that we want to get a list of words.
+
+32
+00:01:33,360 --> 00:01:36,010
+So all together we're saying this is
+
+33
+00:01:36,010 --> 00:01:41,050
+a content URI that's accessing the user_dictionary content provider.
+
+34
+00:01:41,050 --> 00:01:45,490
+And we know that because we're using the user dictionary's content authority.
+
+35
+00:01:45,490 --> 00:01:49,080
+And finally, we're specifically interested in looking at the words in
+
+36
+00:01:49,080 --> 00:01:50,440
+the user dictionary.
+
+37
+00:01:50,440 --> 00:01:51,300
+Okay.
+
+38
+00:01:51,300 --> 00:01:56,070
+So to review, the first line right here gives us the ContentResolver.
+
+39
+00:01:56,070 --> 00:02:00,480
+We then use the ContentResolver to go to the right content provider.
+
+40
+00:02:00,480 --> 00:02:02,980
+How do we know what the right content provider is?
+
+41
+00:02:02,980 --> 00:02:06,860
+We use this URI here, which specifies a content authority,
+
+42
+00:02:06,860 --> 00:02:10,610
+and the content authority matches the correct content provider.
+
+43
+00:02:10,610 --> 00:02:13,820
+How do we know what data we want to use in the content provider?
+
+44
+00:02:13,820 --> 00:02:17,170
+Well, we use this last part of the content URI,
+
+45
+00:02:17,170 --> 00:02:19,720
+which signifies that we're trying to get a list of words.
+
+46
+00:02:19,720 --> 00:02:22,410
+And when we want to know what we're going to do do that data,
+
+47
+00:02:22,410 --> 00:02:25,750
+we have the method call right here, which defines what we're doing.
+
+48
+00:02:25,750 --> 00:02:27,420
+In this case, we're querying.
+
+49
+00:02:27,420 --> 00:02:29,750
+Now, we have all these null parameters as well.
+
+50
+00:02:29,750 --> 00:02:31,740
+Which I'll mention what they are in the next node.
+
+51
+00:02:31,740 --> 00:02:34,160
+Right now though, I have a quiz for you.
+
+52
+00:02:34,160 --> 00:02:37,980
+All right, so with what you know, which of these six statements would you
+
+53
+00:02:37,980 --> 00:02:43,210
+most likely use if you wanted to change the color of all calendars to be red?
+
+54
+00:02:43,210 --> 00:02:47,900
+You can assume that this values object right here is the information that you
+
+55
+00:02:47,900 --> 00:02:51,230
+would need to define the values for one row of data.
+
+56
+00:02:51,230 --> 00:02:55,640
+Also, if you want to know more about the URIs here that I use you could go
+
+57
+00:02:55,640 --> 00:02:58,970
+ahead and check out the instructor notes for links to documentation.

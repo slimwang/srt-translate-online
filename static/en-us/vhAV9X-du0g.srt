@@ -1,0 +1,407 @@
+1
+00:00:00,330 --> 00:00:03,190
+At this point, you probably set
+downloading your database and
+
+2
+00:00:03,190 --> 00:00:05,460
+we'll see if your pet
+was inserted correctly.
+
+3
+00:00:05,460 --> 00:00:09,630
+So next, we're going to learn how
+to read from SQLite database.
+
+4
+00:00:09,630 --> 00:00:14,230
+So recall that you can execute pure
+SQL statements using this method,
+
+5
+00:00:14,230 --> 00:00:15,820
+execute SQL.
+
+6
+00:00:15,820 --> 00:00:18,570
+Additionally, there's a this raw query
+
+7
+00:00:18,570 --> 00:00:23,290
+which is a similar API used to
+read the database using pure SQL.
+
+8
+00:00:23,290 --> 00:00:26,210
+However, this isn't
+the recommended way to do it.
+
+9
+00:00:26,210 --> 00:00:29,980
+So much like there's this
+an SQLiteDatabase.insert method,
+
+10
+00:00:29,980 --> 00:00:32,800
+there's an SQLiteDatabase query method,
+and
+
+11
+00:00:32,800 --> 00:00:36,820
+this helps you avoid syntax errors
+by helping you structure your query.
+
+12
+00:00:36,820 --> 00:00:40,650
+So let's take a look at how this works
+by looking at this tutorial here.
+
+13
+00:00:40,650 --> 00:00:44,220
+Now, the first thing we see in this
+tutorial win to do Is to define an array
+
+14
+00:00:44,220 --> 00:00:46,520
+of strings called a projection.
+
+15
+00:00:46,520 --> 00:00:48,360
+And projections is just a fancy name for
+
+16
+00:00:48,360 --> 00:00:51,230
+the columns that were
+interested in getting back.
+
+17
+00:00:51,230 --> 00:00:56,680
+So remember from our cheat sheet how
+we use select name breed from pets,
+
+18
+00:00:56,680 --> 00:00:59,350
+so let's stick on like this, well
+
+19
+00:00:59,350 --> 00:01:03,890
+defining a projection lets you specify
+exactly the columns you want back.
+
+20
+00:01:03,890 --> 00:01:05,500
+So if you don't define a projection,
+
+21
+00:01:05,500 --> 00:01:08,420
+then by default you get
+all the columns back.
+
+22
+00:01:08,420 --> 00:01:14,400
+So similar to if you were
+executing select * from pets.
+
+23
+00:01:14,400 --> 00:01:17,550
+Now, an example in this tutorial,
+a projection is defined with
+
+24
+00:01:17,550 --> 00:01:22,280
+these three columns, ID,
+the name title and the name updated.
+
+25
+00:01:22,280 --> 00:01:25,450
+So as you can see the type
+is in a rare strings and
+
+26
+00:01:25,450 --> 00:01:29,190
+each string included as
+a column from the contract.
+
+27
+00:01:29,190 --> 00:01:33,040
+So next stop only to invoke
+the query method on the data base.
+
+28
+00:01:33,040 --> 00:01:35,820
+The query method takes
+a bunch of parameters.
+
+29
+00:01:35,820 --> 00:01:37,900
+The first one starting
+with the table name.
+
+30
+00:01:38,910 --> 00:01:41,750
+Now, the rest of these
+parameters are optional and
+
+31
+00:01:41,750 --> 00:01:44,720
+represent different parts
+of a select statement.
+
+32
+00:01:44,720 --> 00:01:48,050
+And when I say they're optional,
+it means that you can pass in null for
+
+33
+00:01:48,050 --> 00:01:52,400
+all of them, so what we taking
+a look at this three parameters.
+
+34
+00:01:52,400 --> 00:01:55,980
+And you can look over for the rest if
+you would like later in your free time.
+
+35
+00:01:55,980 --> 00:01:59,930
+So this parameter here, this first one
+is the projection we just made up here,
+
+36
+00:01:59,930 --> 00:02:04,205
+if you were to pass in null instead
+then all the roads would being selected.
+
+37
+00:02:04,205 --> 00:02:08,005
+So this is similar as if you were
+using the select asterisks from pets
+
+38
+00:02:08,005 --> 00:02:11,805
+instead of explicitly stating
+select name breed from pets.
+
+39
+00:02:11,805 --> 00:02:14,975
+So in this example we pass it
+in this particular projection.
+
+40
+00:02:14,975 --> 00:02:19,455
+As a side note, there is a performance
+implication to the projection size.
+
+41
+00:02:19,455 --> 00:02:23,330
+So passing in null all the time
+could lead to long queries,
+
+42
+00:02:23,330 --> 00:02:25,860
+if the dataset were really large.
+
+43
+00:02:25,860 --> 00:02:28,280
+Now, these next two parameters,
+selection and
+
+44
+00:02:28,280 --> 00:02:31,150
+selectionArgs deal with
+an optional WHERE clause.
+
+45
+00:02:32,240 --> 00:02:35,140
+So from our cheat sheet,
+we had one statement used for
+
+46
+00:02:35,140 --> 00:02:36,620
+selecting a single pet by id.
+
+47
+00:02:37,730 --> 00:02:39,979
+And remember, we did so
+using this WHERE clause.
+
+48
+00:02:41,020 --> 00:02:46,020
+So unfortunately this tutorial example
+doesn't have any example of this so
+
+49
+00:02:46,020 --> 00:02:48,510
+in that case I'll be showing
+you an example here.
+
+50
+00:02:48,510 --> 00:02:53,250
+So let's say I want to narrow my query
+search to this, so using my selection
+
+51
+00:02:53,250 --> 00:02:56,570
+and selections parameters this
+is what that will look like.
+
+52
+00:02:56,570 --> 00:03:00,327
+So the selection parameter is the actual
+statement that comes after the where
+
+53
+00:03:00,327 --> 00:03:00,856
+keyword.
+
+54
+00:03:00,856 --> 00:03:02,696
+And it is of type string, so
+
+55
+00:03:02,696 --> 00:03:07,656
+here you use a question mark as a place
+holder which I'm doing here which is
+
+56
+00:03:07,656 --> 00:03:12,480
+then filled in by the values in
+the selection arcs parameter.
+
+57
+00:03:12,480 --> 00:03:16,680
+Now, the selection arc is an array of
+string that replaces the question mark
+
+58
+00:03:16,680 --> 00:03:21,170
+up here In the selection, and
+I've indicated that I want it to be 1.
+
+59
+00:03:21,170 --> 00:03:24,125
+So why use a question mark and
+selectionArgs,
+
+60
+00:03:24,125 --> 00:03:26,869
+instead of explicitly just writing =1?
+
+61
+00:03:26,869 --> 00:03:30,250
+Well, in this case,
+it doesn't make a difference.
+
+62
+00:03:30,250 --> 00:03:33,280
+You could use null as
+your selectionArgs, and
+
+63
+00:03:33,280 --> 00:03:34,880
+just set this equal to 1.
+
+64
+00:03:34,880 --> 00:03:35,860
+But in some cases,
+
+65
+00:03:35,860 --> 00:03:39,870
+when a selection might come from a form,
+say the use of a placeholder
+
+66
+00:03:39,870 --> 00:03:45,220
+is a security measure to prevent a type
+of attack called an SQL injection.
+
+67
+00:03:45,220 --> 00:03:49,200
+So if you're interested in learning
+more about how SQL injections work,
+
+68
+00:03:49,200 --> 00:03:52,110
+I've added some explanation
+links down below.
+
+69
+00:03:52,110 --> 00:03:54,980
+So after all this is said and
+done, when the parameters
+
+70
+00:03:54,980 --> 00:03:59,670
+of the query method are set up, this
+code will return object called a cursor.
+
+71
+00:03:59,670 --> 00:04:02,020
+So I'll be talking more
+about cursors shortly.
+
+72
+00:04:02,020 --> 00:04:05,700
+But for now just imagine that a cursor
+looks like a table that appears when you
+
+73
+00:04:05,700 --> 00:04:09,030
+type the statements into the SQLite
+3 program on your computer.
+
+74
+00:04:09,030 --> 00:04:12,430
+So essentially, it's an object
+that captures a subsection
+
+75
+00:04:12,430 --> 00:04:15,060
+of all the data in your database.
+
+76
+00:04:15,060 --> 00:04:17,649
+So here's what I'd like you to do for
+this exercise.
+
+77
+00:04:17,649 --> 00:04:22,740
+Given this example table, so if you were
+to execute this query code from the app
+
+78
+00:04:22,740 --> 00:04:27,400
+what information in an objects
+called the Cursor would be returned?
+
+79
+00:04:27,400 --> 00:04:31,640
+So here's all that information
+compacted into this one slide.
+
+80
+00:04:31,640 --> 00:04:37,260
+So to reiterate, given the database
+table, the image I've linked also below.
+
+81
+00:04:37,260 --> 00:04:40,720
+If we execute the query code
+from the gist linked below,
+
+82
+00:04:40,720 --> 00:04:43,130
+describe the resulting cursor.
+
+83
+00:04:43,130 --> 00:04:45,160
+How many rows will it have?
+
+84
+00:04:45,160 --> 00:04:47,900
+As well as,
+how many columns will be present?
+
+85
+00:04:47,900 --> 00:04:48,750
+Check all that apply.

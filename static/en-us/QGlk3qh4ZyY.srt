@@ -1,0 +1,150 @@
+1
+00:00:00,265 --> 00:00:03,050
+SysV uses the following
+shared memory API for
+
+2
+00:00:03,050 --> 00:00:06,140
+the high-level operations
+we just discussed.
+
+3
+00:00:06,140 --> 00:00:11,740
+Shmget is used to create or
+open a segment of the appropriate size.
+
+4
+00:00:11,740 --> 00:00:15,090
+And the flags include the areas
+options like permissions.
+
+5
+00:00:15,090 --> 00:00:18,250
+This unique identifier is the key and
+
+6
+00:00:18,250 --> 00:00:21,840
+that is not actually magically
+created by the operating system.
+
+7
+00:00:21,840 --> 00:00:25,720
+Instead it is explicitly passed
+to the OS by the application.
+
+8
+00:00:25,720 --> 00:00:30,970
+To generate a unique identifier
+the API relies on another operation
+
+9
+00:00:30,970 --> 00:00:36,200
+ftok which generates a token
+based on its arguments.
+
+10
+00:00:36,200 --> 00:00:38,750
+If you pass to this operation
+the same arguments,
+
+11
+00:00:38,750 --> 00:00:41,020
+you will always get the same keys.
+
+12
+00:00:41,020 --> 00:00:42,660
+That's like a hash function.
+
+13
+00:00:42,660 --> 00:00:47,570
+This is how different processes can
+agree upon how they will obtain a unique
+
+14
+00:00:47,570 --> 00:00:51,380
+key for the shared memory segment
+they will be using to communicate.
+
+15
+00:00:51,380 --> 00:00:54,720
+The following call attaches
+the shared memory segments
+
+16
+00:00:54,720 --> 00:00:57,560
+into the virtual address
+space of the process.
+
+17
+00:00:57,560 --> 00:01:00,810
+So we'll map them into
+the user address space.
+
+18
+00:01:00,810 --> 00:01:05,040
+The programmer has an option to provide
+the specific virtual addresses where
+
+19
+00:01:05,040 --> 00:01:08,910
+the segment should be mapped, or
+if NULL is passed then the operating
+
+20
+00:01:08,910 --> 00:01:11,630
+system will choose and
+return some arbitrary
+
+21
+00:01:11,630 --> 00:01:16,600
+suitable addresses that are available
+in the processes address space.
+
+22
+00:01:16,600 --> 00:01:20,880
+The returned virtual memory can
+be interpreted in arbitrary ways.
+
+23
+00:01:20,880 --> 00:01:25,380
+So, it is the programmer's
+responsibility to cast that
+
+24
+00:01:25,380 --> 00:01:29,520
+address to that memory region
+to the appropriate type.
+
+25
+00:01:29,520 --> 00:01:34,850
+The following operation detaches the
+segment identified by this identifier,
+
+26
+00:01:34,850 --> 00:01:38,900
+so the virtual to physical memory
+mappings are no longer valid.
+
+27
+00:01:38,900 --> 00:01:44,160
+And then finally the control operation
+that the shared memory API supports
+
+28
+00:01:44,160 --> 00:01:47,790
+is used to pass certain commands
+related to the shared memory
+
+29
+00:01:47,790 --> 00:01:50,380
+segment management to
+the operating system.
+
+30
+00:01:50,380 --> 00:01:53,840
+Including the command to
+remove a particular segment.
+
+31
+00:01:53,840 --> 00:01:55,835
+And that command is IPC.RMID.

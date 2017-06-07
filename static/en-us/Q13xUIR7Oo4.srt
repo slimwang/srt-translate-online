@@ -1,0 +1,245 @@
+1
+00:00:00,470 --> 00:00:02,350
+So, let's start coding this up.
+
+2
+00:00:02,350 --> 00:00:05,650
+First thing we need is to set up our
+image cache in the service worker.
+
+3
+00:00:06,652 --> 00:00:09,430
+I'm going to create a variable to hold
+the name of this new image cache.
+
+4
+00:00:09,430 --> 00:00:13,570
+And I'm going to create an array to
+hold all the cache names we care about.
+
+5
+00:00:15,448 --> 00:00:17,360
+In our activate event
+that we wrote earlier,
+
+6
+00:00:17,360 --> 00:00:20,490
+we're deleting any cache
+that isn't the static cache.
+
+7
+00:00:20,490 --> 00:00:24,200
+That isn't good enough anymore as
+we start losing our image cache.
+
+8
+00:00:24,200 --> 00:00:27,680
+Instead, we want to delete any
+caches that aren't in our array
+
+9
+00:00:27,680 --> 00:00:28,830
+of caches that we care about.
+
+10
+00:00:29,990 --> 00:00:30,520
+Right.
+
+11
+00:00:30,520 --> 00:00:32,670
+Now, to handle those photo requests.
+
+12
+00:00:32,670 --> 00:00:36,230
+Over in our fetch handler, I'm going to
+handle URLs that have the same origin
+
+13
+00:00:36,230 --> 00:00:39,610
+and have a path that starts
+with slash photo slash.
+
+14
+00:00:39,610 --> 00:00:40,801
+When I see one of those,
+
+15
+00:00:40,801 --> 00:00:43,950
+I'm going to respond with whatever
+returns from serve photo.
+
+16
+00:00:43,950 --> 00:00:47,378
+All we need to do now is
+implement serve Photo.
+
+17
+00:00:48,390 --> 00:00:50,918
+I'm only wanting to store
+one copy of each photo, and
+
+18
+00:00:50,918 --> 00:00:52,620
+photo URLs look like this.
+
+19
+00:00:52,620 --> 00:00:54,190
+They have width information at the end.
+
+20
+00:00:54,190 --> 00:00:58,240
+So, I'm going to create a storage
+URL that doesn't have the size info.
+
+21
+00:00:58,240 --> 00:01:03,410
+I'm going to do that using a regular
+expression matching on dash,
+
+22
+00:01:03,410 --> 00:01:06,695
+some digits and then px.jpg.
+
+23
+00:01:06,695 --> 00:01:08,695
+And I'm going to replace
+that with nothing.
+
+24
+00:01:09,955 --> 00:01:13,125
+Now, I have the URL, but
+missing the size-specific stuff.
+
+25
+00:01:13,125 --> 00:01:15,875
+This is the URL I'm
+going to use in the cache.
+
+26
+00:01:15,875 --> 00:01:17,595
+And I reckon you can handle the rest.
+
+27
+00:01:17,595 --> 00:01:19,105
+Mike?
+Come in, Mike.
+
+28
+00:01:19,105 --> 00:01:20,155
+>> You rang?
+
+29
+00:01:20,155 --> 00:01:21,865
+>> Yes,
+we need to cache these photos in.
+
+30
+00:01:21,865 --> 00:01:23,795
+I figured the student could manage this.
+
+31
+00:01:23,795 --> 00:01:24,605
+>> I agree.
+
+32
+00:01:24,605 --> 00:01:25,923
+Let's do this.
+
+33
+00:01:25,923 --> 00:01:29,445
+>> To start, you'll want to catch
+up with the code Jake just wrote.
+
+34
+00:01:29,445 --> 00:01:33,956
+Do this by running Git reset hard to
+remove any local changes you have.
+
+35
+00:01:33,956 --> 00:01:39,930
+Then, git checkout task-cache-photos
+to get the stubbed methods.
+
+36
+00:01:39,930 --> 00:01:44,990
+Now, head over to public/js/sw/index.js.
+
+37
+00:01:44,990 --> 00:01:46,940
+The service worker script.
+
+38
+00:01:46,940 --> 00:01:50,060
+Your task is to implement serve photo.
+
+39
+00:01:50,060 --> 00:01:53,410
+The aim is to serve photos from
+the cache if they're there.
+
+40
+00:01:53,410 --> 00:01:56,700
+Otherwise, get them from the network,
+but put them into the cache for
+
+41
+00:01:56,700 --> 00:01:57,890
+the next time.
+
+42
+00:01:57,890 --> 00:02:00,510
+Remember to use storageURL
+when matching and
+
+43
+00:02:00,510 --> 00:02:04,580
+putting stuff into the image cache so
+you only end up with one photo in
+
+44
+00:02:04,580 --> 00:02:08,229
+the cache no matter how many
+different sizes are requested.
+
+45
+00:02:08,229 --> 00:02:11,980
+Once again, developing gets a lot easier
+if you have Developer Tools open and
+
+46
+00:02:11,980 --> 00:02:13,770
+Force Update on reload checked so
+
+47
+00:02:13,770 --> 00:02:16,090
+you only need to refresh
+once to see changes.
+
+48
+00:02:16,090 --> 00:02:19,940
+You know things are working when you
+see a Wittr content images cache in dev
+
+49
+00:02:19,940 --> 00:02:25,300
+tools where the URLs are missing the
+width and the ,jpg extension at the end.
+
+50
+00:02:25,300 --> 00:02:28,300
+You should be able to take the server
+offline, reload the page, and
+
+51
+00:02:28,300 --> 00:02:30,190
+still get images.
+
+52
+00:02:30,190 --> 00:02:33,518
+To double check everything is working,
+head to the settings page and
+
+53
+00:02:33,518 --> 00:02:36,960
+type cache-photos into the test
+field and press enter.

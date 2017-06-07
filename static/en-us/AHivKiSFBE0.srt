@@ -1,0 +1,131 @@
+1
+00:00:00,133 --> 00:00:04,366
+Now, the next question is where did these probabilities come from?
+
+2
+00:00:04,367 --> 00:00:07,466
+The honest answer for this simple example is I just made them up.
+
+3
+00:00:07,467 --> 00:00:13,966
+I just used my intuition to say that "the" and "a" are roughly equally probable,
+
+4
+00:00:13,967 --> 00:00:17,266
+and all the other probability judgments as well.
+
+5
+00:00:17,267 --> 00:00:21,699
+But in reality, numbers like this come from data.
+
+6
+00:00:21,700 --> 00:00:28,199
+So just as we've seen in the rest of the course, where we learn models by training on data,
+
+7
+00:00:28,200 --> 00:00:30,566
+we can do the same in natural language.
+
+8
+00:00:30,567 --> 00:00:34,199
+And the data that we have is naturally occurring text.
+
+9
+00:00:34,200 --> 00:00:41,666
+Now, when we dealt with word models, going from naturally occurring text to numbers that we can use in the model
+
+10
+00:00:41,667 --> 00:00:47,532
+was straight-forward because all we had to do was count, and then come up with some very simple smoothing techniques
+
+11
+00:00:47,533 --> 00:00:50,832
+in cases where our counts are zero or low.
+
+12
+00:00:50,833 --> 00:00:58,266
+In the case of dealing with parse trees, that's not the case, because we don't normally see a parse tree kind of out there in the wild.
+
+13
+00:00:58,267 --> 00:01:03,499
+People don't publish books full of parse trees. And so we have to go out and create our data.
+
+14
+00:01:03,500 --> 00:01:08,632
+And in the early 1990s that's what the field of natural language processing did.
+
+15
+00:01:08,633 --> 00:01:14,199
+They said, "We really need some more data having to do with parse trees, so let's go out and create it.
+
+16
+00:01:14,200 --> 00:01:21,666
+"Let's pay some people, let's train them to understand what parse trees we want, what they look like,
+
+17
+00:01:21,667 --> 00:01:28,366
+"And then we'll give them a lot of text and we'll have them mark it up. We'll have that resource that the whole field can use from then on."
+
+18
+00:01:28,367 --> 00:01:34,932
+And that's exactly what happened, and this is a sentence that's taken out of one of these resources.
+
+19
+00:01:34,933 --> 00:01:41,966
+It's called "the Penn tree bank." So "Penn" for the University of Pennsylvania, who put this all together.
+
+20
+00:01:41,967 --> 00:01:47,666
+And "tree bank", meaning it's a large bank consisting of parse trees.
+
+21
+00:01:47,667 --> 00:01:56,232
+And to do this, they had to decide on what the categories are, and we've seen some categories here that are different than what I showed.
+
+22
+00:01:56,233 --> 00:02:01,266
+These and Ns and so on are a little bit more complicated here.
+
+23
+00:02:01,267 --> 00:02:07,799
+So as a field, we had to agree on what the categories were, and agree on some techniques for deciding
+
+24
+00:02:07,800 --> 00:02:11,266
+what good parse trees are for a sentence, and then we have at it.
+
+25
+00:02:11,267 --> 00:02:19,432
+And now we can come up with those probabilities. So if we want to say, "What's the probability that a sentence
+
+26
+00:02:19,433 --> 00:02:23,566
+"is rewritten in a particular way?" we can look that up by counting.
+
+27
+00:02:23,567 --> 00:02:30,132
+So here we have a sentence, it is rewritten as a noun phrase followed by a verb phrase. This is a long verb phrase
+
+28
+00:02:30,133 --> 00:02:38,866
+that goes all the way down to here. Followed by a comma, followed by a sentence that's an adverbial phrase, and followed by a period.
+
+29
+00:02:38,867 --> 00:02:44,766
+And so that would count as one count for that particular rewrite of sentence, and then there'd be other trees
+
+30
+00:02:44,767 --> 00:02:49,766
+that counted for other rewrites. There might be others that were the same as this.
+
+31
+00:02:49,767 --> 00:02:56,599
+There'd probably be a lot where it's just a sentence consisting of a noun phrase followed by a verb phrase,
+
+32
+00:02:56,600 --> 00:03:02,266
+followed by a period. And we would go through and we'd have these counts, and that would be a resource
+
+33
+00:03:02,267 --> 00:03:07,167
+that people can draw on to create their probabilistic models.

@@ -1,0 +1,207 @@
+1
+00:00:00,130 --> 00:00:02,210
+So how do we find similar frames?
+
+2
+00:00:02,210 --> 00:00:04,570
+Again, what we are trying to
+compare each and every frame,
+
+3
+00:00:04,570 --> 00:00:10,630
+frame i versus frame j, basically we
+can do now is create a simple matrix.
+
+4
+00:00:10,630 --> 00:00:12,150
+And here is my output.
+
+5
+00:00:12,150 --> 00:00:14,620
+This is an interesting way
+of looking at things, right?
+
+6
+00:00:14,620 --> 00:00:20,760
+In this case, assume that if it's
+a black value, it's the most similar.
+
+7
+00:00:20,760 --> 00:00:22,160
+That is, they're pretty much the same.
+
+8
+00:00:22,160 --> 00:00:25,420
+If I did a Manhattan distance
+between two pixels, two frames that
+
+9
+00:00:25,420 --> 00:00:29,060
+are the same, so if I just did say
+that's our difference between f1 and
+
+10
+00:00:29,060 --> 00:00:31,210
+f1 itself, what would I get?
+
+11
+00:00:31,210 --> 00:00:32,540
+Well, I'd get distance zero.
+
+12
+00:00:32,540 --> 00:00:36,410
+In this case, zero would mean
+a black pixel in this image.
+
+13
+00:00:36,410 --> 00:00:39,160
+So basically, this kind of starts
+showing an interesting structure.
+
+14
+00:00:39,160 --> 00:00:41,580
+This is for
+the candle example we've looked at.
+
+15
+00:00:41,580 --> 00:00:42,830
+And now we start looking at it,
+
+16
+00:00:42,830 --> 00:00:46,890
+you kind of notice that yes, the most
+similar one is the image itself.
+
+17
+00:00:46,890 --> 00:00:48,620
+That's why the diagonal is black.
+
+18
+00:00:48,620 --> 00:00:51,510
+But once in a while, you see it
+sometimes off diagonal and off course.
+
+19
+00:00:51,510 --> 00:00:54,710
+You also see other
+frames that are similar
+
+20
+00:00:54,710 --> 00:00:56,520
+that are actually somewhere far off.
+
+21
+00:00:56,520 --> 00:00:59,230
+So, for example, here might be a frame.
+
+22
+00:00:59,230 --> 00:01:03,958
+This might be f50, but here it's f100.
+
+23
+00:01:03,958 --> 00:01:05,408
+That is also somewhat similar so
+
+24
+00:01:05,408 --> 00:01:08,400
+now I can actually look for
+these types of things.
+
+25
+00:01:08,400 --> 00:01:12,400
+So, we can compute the Euclidean
+distance between all of them for
+
+26
+00:01:12,400 --> 00:01:13,820
+all the N frames.
+
+27
+00:01:13,820 --> 00:01:16,910
+And now, basically,
+this is what our major axes looks like.
+
+28
+00:01:16,910 --> 00:01:17,820
+These were the most similar.
+
+29
+00:01:17,820 --> 00:01:21,300
+So of course, one way of transitioning
+in the traditional way in video is just
+
+30
+00:01:21,300 --> 00:01:23,020
+going this way, right?
+
+31
+00:01:23,020 --> 00:01:26,650
+We go from the beginning to the end,
+and we play all the frames.
+
+32
+00:01:26,650 --> 00:01:30,020
+In this matrix here,
+black are similar frames, because again,
+
+33
+00:01:30,020 --> 00:01:34,160
+the distance is almost zero, while and
+white are dissimilar frames.
+
+34
+00:01:34,160 --> 00:01:36,730
+Similar frames are the ones that
+would be the best to jump to.
+
+35
+00:01:36,730 --> 00:01:39,200
+So now I can of course go here, and
+
+36
+00:01:39,200 --> 00:01:42,270
+rather than go all the way there,
+I can jump to another one.
+
+37
+00:01:42,270 --> 00:01:44,950
+Black are the most similar frames,
+so I can move to this one.
+
+38
+00:01:44,950 --> 00:01:47,220
+And then of course I
+can jump back this way.
+
+39
+00:01:47,220 --> 00:01:49,260
+And that's the looping we come up with.
+
+40
+00:01:49,260 --> 00:01:51,720
+So I've already just shown
+you one simple loop.
+
+41
+00:01:51,720 --> 00:01:54,230
+You can imagine we can do
+loads of loops like this.
+
+42
+00:01:54,230 --> 00:01:57,330
+I can go up here and
+jump back and go there.
+
+43
+00:01:57,330 --> 00:01:59,980
+Go up here, jump here, and
+come around and keep on looping.
+
+44
+00:01:59,980 --> 00:02:03,190
+And that was the yellow dot you
+saw at the bottom of the candles
+
+45
+00:02:03,190 --> 00:02:03,790
+that I was showing you.

@@ -1,0 +1,223 @@
+1
+00:00:00,300 --> 00:00:02,900
+Hopefully you're able to complete lesson two, stage two.
+
+2
+00:00:02,900 --> 00:00:04,530
+I'll walk through my solution.
+
+3
+00:00:04,530 --> 00:00:08,740
+First after creating the sentence count topology, scrolling down to part one of
+
+4
+00:00:08,740 --> 00:00:12,530
+two, I asked you to import the random sentence spout,
+
+5
+00:00:12,530 --> 00:00:16,670
+which is located in the Spout folder of Storm Udacity.
+
+6
+00:00:16,670 --> 00:00:22,150
+Therefore, it's simply import udacity.storm.spout.RandomSentenceSpout.
+
+7
+00:00:22,150 --> 00:00:25,690
+Once this is imported, I ask you to make sure that your class name and
+
+8
+00:00:25,690 --> 00:00:30,440
+your constructor matches your file name, SentenceCountTopology.
+
+9
+00:00:30,440 --> 00:00:33,420
+Therefore public class SentenceCountTopology and
+
+10
+00:00:33,420 --> 00:00:36,440
+private SentenceCountTopology constructor.
+
+11
+00:00:36,440 --> 00:00:38,780
+Scrolling down to the main method and
+
+12
+00:00:38,780 --> 00:00:43,000
+your topology builder, I asked you to remove the word spout.
+
+13
+00:00:43,000 --> 00:00:44,610
+I simply commented it out.
+
+14
+00:00:44,610 --> 00:00:46,430
+But here's our word spout.
+
+15
+00:00:46,430 --> 00:00:49,888
+And attached the new sentence spout to the topology.
+
+16
+00:00:49,888 --> 00:00:55,543
+Simply that's .setSpout, sentence spout, and our anonymous declaration
+
+17
+00:00:55,543 --> 00:01:01,090
+instance of a new RandomSentenceSpout with a parallelism of one.
+
+18
+00:01:01,090 --> 00:01:03,970
+Next I asked you to attach the count bolt to
+
+19
+00:01:03,970 --> 00:01:07,050
+the sentence spout using a field grouping.
+
+20
+00:01:07,050 --> 00:01:08,530
+A field grouping was the third question.
+
+21
+00:01:08,530 --> 00:01:10,750
+Remember that a field grouping creates a hash or
+
+22
+00:01:10,750 --> 00:01:16,170
+a subset of all of the spout or connection into the bolt.
+
+23
+00:01:16,170 --> 00:01:20,260
+What this means is that each individual sentence, each unique sentence,
+
+24
+00:01:20,260 --> 00:01:25,130
+is going to be sent to the same bolt and therefore we increment the count.
+
+25
+00:01:25,130 --> 00:01:28,900
+I'll just scroll a bit to the right so we can see the rest of the syntax.
+
+26
+00:01:28,900 --> 00:01:32,720
+Notice that the fieldsGrouping connects the sentence-spout using the new
+
+27
+00:01:32,720 --> 00:01:34,400
+field, sentence.
+
+28
+00:01:34,400 --> 00:01:36,180
+This may have been a bit tricky but
+
+29
+00:01:36,180 --> 00:01:40,460
+I asked you to look at the declaration in random sentence style.
+
+30
+00:01:40,460 --> 00:01:41,620
+And scrolling down,
+
+31
+00:01:41,620 --> 00:01:46,680
+we see that the declare output field names the new field sentence.
+
+32
+00:01:46,680 --> 00:01:50,826
+Therefore, to connect the count-bolt to the RandomSentenceSpout,
+
+33
+00:01:50,826 --> 00:01:54,170
+we need to connect on the field sentence.
+
+34
+00:01:54,170 --> 00:01:58,770
+One final point is that the count-bolt is already connected to the report-bolt.
+
+35
+00:01:58,770 --> 00:02:03,510
+Using our color scheme once again we see that here is our RandomSentenceSpout.
+
+36
+00:02:03,510 --> 00:02:07,129
+Here is our count-bolt, and finally our report-bolt.
+
+37
+00:02:08,600 --> 00:02:12,650
+We're making the connection here using a fieldsGrouping.
+
+38
+00:02:12,650 --> 00:02:16,880
+And we're making this connection using the globalGrouping.
+
+39
+00:02:16,880 --> 00:02:22,210
+So hopefully that's clear on how our syntax translates to our visualization.
+
+40
+00:02:22,210 --> 00:02:26,290
+Finally, to run and build our topology, we go to our command line.
+
+41
+00:02:26,290 --> 00:02:27,280
+Submit our topology.
+
+42
+00:02:27,280 --> 00:02:32,330
+Storm space jar target tab udacity tab hyphen tab.
+
+43
+00:02:32,330 --> 00:02:35,570
+Again, with dependencies udacity.storm.
+
+44
+00:02:35,570 --> 00:02:39,080
+And this is our SentenceCountTopology.
+
+45
+00:02:39,080 --> 00:02:43,329
+Navigate to your visualization, and as you see Storm running with no errors.
+
+46
+00:02:44,950 --> 00:02:50,110
+We see the words from the random word spout growing with count.
+
+47
+00:02:50,110 --> 00:02:54,230
+You can also hover over one of the sentences to see the current count.
+
+48
+00:02:54,230 --> 00:02:55,110
+There we see 32.
+
+49
+00:02:55,110 --> 00:02:59,140
+And if we let it run a bit further, we see we have 49.
+
+50
+00:02:59,140 --> 00:03:02,990
+Finally, I asked you to go to the RandomSentenceSpout and change the random
+
+51
+00:03:02,990 --> 00:03:06,820
+sentences to your own personalized version of the RandomSentenceSpout.
+
+52
+00:03:06,820 --> 00:03:08,680
+Hopefully you were able to do that,
+
+53
+00:03:08,680 --> 00:03:12,464
+create your visualization, take a screenshot and post it to the forum.
+
+54
+00:03:12,464 --> 00:03:15,130
+And hopefully comment on two others.
+
+55
+00:03:15,130 --> 00:03:19,250
+Remember, that at the end of stage two, your code will match stage three.
+
+56
+00:03:19,250 --> 00:03:19,750
+Great job.

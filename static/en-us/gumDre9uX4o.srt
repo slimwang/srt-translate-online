@@ -1,0 +1,127 @@
+1
+00:00:00,160 --> 00:00:03,310
+So here, I'll showcase a much more detailed example, and this is
+
+2
+00:00:03,310 --> 00:00:06,730
+something you will be experimenting with with various programming assignments.
+
+3
+00:00:06,730 --> 00:00:08,670
+Given an image A, and image B,
+
+4
+00:00:08,670 --> 00:00:13,240
+we want to blend them, but actually we want to add one more constraint.
+
+5
+00:00:13,240 --> 00:00:17,080
+So in the previous one we basically looked at, merge it at half from this and
+
+6
+00:00:17,080 --> 00:00:17,780
+half from this.
+
+7
+00:00:17,780 --> 00:00:19,678
+But now actually, I want to give it a mask,
+
+8
+00:00:19,678 --> 00:00:22,360
+a region where I want most of the blending happening.
+
+9
+00:00:22,360 --> 00:00:26,100
+Just to make it a little bit of fun, what I've done is in this example,
+
+10
+00:00:26,100 --> 00:00:29,988
+the mask region is based on the hair and face of Einstein.
+
+11
+00:00:29,988 --> 00:00:36,230
+because what we're interested in is basically taking the face from Tigger and
+
+12
+00:00:36,230 --> 00:00:38,970
+merge it with just this region, and
+
+13
+00:00:38,970 --> 00:00:41,910
+ignore all of the information that's black here.
+
+14
+00:00:41,910 --> 00:00:44,910
+So this basically gives us a way of now kind of doing the blending in
+
+15
+00:00:44,910 --> 00:00:46,630
+a specific region.
+
+16
+00:00:46,630 --> 00:00:47,560
+How would we do this?
+
+17
+00:00:47,560 --> 00:00:49,890
+Well, first we'll build our Laplacian pyramids.
+
+18
+00:00:49,890 --> 00:00:52,520
+Of course, that requires us to build Gaussian pyramids, too.
+
+19
+00:00:52,520 --> 00:00:57,390
+Also, we want to do is build a Gaussian of just this mask region.
+
+20
+00:00:57,390 --> 00:01:01,870
+We will actually use this because we want to be able to use that as a kind of
+
+21
+00:01:01,870 --> 00:01:05,708
+a filter, a binary filter, with only positive values where it's one,
+
+22
+00:01:05,708 --> 00:01:08,360
+we'll actually go through and zero where it won't.
+
+23
+00:01:08,360 --> 00:01:12,660
+So form a combined pyramid using Gaussian for R.
+
+24
+00:01:14,050 --> 00:01:18,170
+And, this would be the way basically we'd create each and every Laplacian.
+
+25
+00:01:18,170 --> 00:01:23,240
+So Laplacian would combine the Gaussian of this region here with that of an A,
+
+26
+00:01:23,240 --> 00:01:25,020
+because we want all the pixels from here.
+
+27
+00:01:25,020 --> 00:01:26,754
+And then, of course, then subtract it.
+
+28
+00:01:26,754 --> 00:01:31,880
+So then we get all of the other, the, the composite of this one from B.
+
+29
+00:01:31,880 --> 00:01:36,770
+Basically, this how we would actually use it to create a combined Laplacian
+
+30
+00:01:36,770 --> 00:01:40,840
+pyramid, which would actually be blending information from one to the other.
+
+31
+00:01:40,840 --> 00:01:44,940
+And then, of course, after this thing has all been done for each and every
+
+32
+00:01:44,940 --> 00:01:50,380
+level, we would collapse the Laplacian pyramid to get the final blended image.

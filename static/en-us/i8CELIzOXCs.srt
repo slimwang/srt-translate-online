@@ -1,0 +1,233 @@
+﻿1
+00:00:00,400 --> 00:00:03,810
+The first couple of times you've
+run an app from Android studio,
+
+2
+00:00:03,810 --> 00:00:07,720
+you might have noticed a console popped
+up with a series of messages about kinds
+
+3
+00:00:07,719 --> 00:00:11,960
+of things, like a slow app needing
+to skip frames to keep up.
+
+4
+00:00:11,960 --> 00:00:17,140
+An error occurred, or perhaps
+some request or process finished.
+
+5
+00:00:17,140 --> 00:00:19,210
+These are all log messages.
+
+6
+00:00:19,210 --> 00:00:22,390
+Developers use log messages to
+communicate information about their
+
+7
+00:00:22,390 --> 00:00:23,679
+applications.
+
+8
+00:00:23,679 --> 00:00:27,519
+These messages can be fairly trivial
+like noting that an application has
+
+9
+00:00:27,519 --> 00:00:29,089
+refreshed some data or
+
+10
+00:00:29,089 --> 00:00:33,409
+indicate deeper problems like an error
+that crashes the application.
+
+11
+00:00:33,409 --> 00:00:36,799
+When you're logging a message in
+your app you need to determine what
+
+12
+00:00:36,799 --> 00:00:38,859
+log level it should be displayed at.
+
+13
+00:00:38,859 --> 00:00:43,039
+The levels are ERROR, WARN,
+INFO, DEBUG, and VERBOSE.
+
+14
+00:00:43,039 --> 00:00:46,329
+In terms of increasing
+verboseness in severity.
+
+15
+00:00:46,329 --> 00:00:51,149
+ERROR, WARN, and INFO level messages are
+always preserved in release versions.
+
+16
+00:00:51,149 --> 00:00:54,109
+So, if you think only to
+capture that later to diagnose
+
+17
+00:00:54,109 --> 00:00:58,140
+a problem after your app is
+released to the public, use them.
+
+18
+00:00:58,140 --> 00:01:02,549
+As I explain the different log levels,
+I'll be showing the signatures for them.
+
+19
+00:01:02,549 --> 00:01:05,819
+They take the general form
+of log dot some letter.
+
+20
+00:01:05,819 --> 00:01:09,089
+They take a String TAG and
+a message as parameters.
+
+21
+00:01:10,140 --> 00:01:12,040
+Tag can be any string you want but
+
+22
+00:01:12,040 --> 00:01:15,250
+a common strategy is to use
+the class name as the tag.
+
+23
+00:01:16,260 --> 00:01:18,900
+This make sit easier
+to search your logs as
+
+24
+00:01:18,900 --> 00:01:22,950
+all apps dump their log
+messages into the same bucket.
+
+25
+00:01:22,950 --> 00:01:25,769
+Use ERROR to log obvious errors.
+
+26
+00:01:25,769 --> 00:01:29,869
+WARN is best suited for things that
+don't make your application ERROR or
+
+27
+00:01:29,870 --> 00:01:32,130
+crash but remain a concern.
+
+28
+00:01:32,129 --> 00:01:36,209
+For example, a media app might
+log that there is low disk space.
+
+29
+00:01:36,209 --> 00:01:39,579
+This would help you diagnose why
+a user's app won't download videos
+
+30
+00:01:39,579 --> 00:01:40,789
+anymore.
+
+31
+00:01:40,790 --> 00:01:44,320
+INFO is commonly used for
+purely informational messages,
+
+32
+00:01:44,319 --> 00:01:46,839
+like being connected to the Internet.
+
+33
+00:01:46,840 --> 00:01:51,409
+During development, you can also
+use DEBUG and VERBOSE log messages.
+
+34
+00:01:51,409 --> 00:01:55,280
+I've often used DEBUG messages for
+things like outputting the URL that
+
+35
+00:01:55,280 --> 00:01:59,489
+a function has composed, or
+response from a web service.
+
+36
+00:01:59,489 --> 00:02:00,929
+VERBOSE messages are meant for
+
+37
+00:02:00,930 --> 00:02:04,860
+times when you want to give
+very granular information.
+
+38
+00:02:04,859 --> 00:02:08,469
+In most cases it isn't
+what you want to use.
+
+39
+00:02:08,469 --> 00:02:11,479
+If you've used a logging library
+in another programing language,
+
+40
+00:02:11,479 --> 00:02:15,169
+you might already be familiar
+with these logging levels.
+
+41
+00:02:15,169 --> 00:02:20,309
+Android has another very special logging
+level that is more severe than ERROR.
+
+42
+00:02:20,310 --> 00:02:27,033
+It is called WTF for
+What a Terrible Failure.
+
+43
+00:02:27,033 --> 00:02:29,264
+What did you think I was going to say?
+
+44
+00:02:29,264 --> 00:02:35,129
+The WTF level is for errors that
+should never, ever, ever happen.
+
+45
+00:02:35,129 --> 00:02:39,889
+And most developers should never,
+ever, ever use it.
+
+46
+00:02:39,889 --> 00:02:42,559
+On a DEBUG build of a device,
+
+47
+00:02:42,560 --> 00:02:47,129
+a WTF error may force the device
+to halt and output a debug report.
+
+48
+00:02:47,129 --> 00:02:51,789
+Because the behavior of WTF isn't
+clearly defined, it might be best to
+
+49
+00:02:51,789 --> 00:02:56,109
+only use the knowledge of this special
+log level to impress your friends.
+

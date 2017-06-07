@@ -1,0 +1,367 @@
+1
+00:00:00,250 --> 00:00:01,730
+Alright Michael, so there's lots of definitions
+
+2
+00:00:01,730 --> 00:00:03,230
+of game theory that we could use.
+
+3
+00:00:03,230 --> 00:00:04,790
+One that I like in particular is
+
+4
+00:00:04,790 --> 00:00:08,109
+that game theory is the mathematics of conflict.
+
+5
+00:00:08,109 --> 00:00:09,435
+>> Hm, [CROSSTALK] that's interesting.
+
+6
+00:00:09,435 --> 00:00:11,727
+>> I think it's kind of interesting. Or generally it's the
+
+7
+00:00:11,727 --> 00:00:16,218
+mathematics of conflicts of interest when trying to make optimal choices.
+
+8
+00:00:16,218 --> 00:00:17,082
+>> because I feel like a lot
+
+9
+00:00:17,082 --> 00:00:19,610
+of people have their own conflicts with mathematics.
+
+10
+00:00:19,610 --> 00:00:21,310
+>> I think everyone but mathematicians have
+
+11
+00:00:21,310 --> 00:00:22,990
+their conflicts with mathematics. I think that's fair.
+
+12
+00:00:22,990 --> 00:00:23,080
+>> I see.
+
+13
+00:00:23,080 --> 00:00:25,460
+>> But do you see if you, can you see
+
+14
+00:00:25,460 --> 00:00:28,760
+how worrying about the mathematical conflict might be a sort of
+
+15
+00:00:28,760 --> 00:00:31,870
+natural next thing to think about after you've learned a lot
+
+16
+00:00:31,870 --> 00:00:35,020
+about reinforcement learning? I guess then well the next bullet kind
+
+17
+00:00:35,020 --> 00:00:38,220
+of, kind of suggests a trend. So, so we've been talking about
+
+18
+00:00:38,220 --> 00:00:41,530
+decision making and it's almost always in the context of a
+
+19
+00:00:41,530 --> 00:00:44,030
+single agent that lives in a world and it's trying to maximize
+
+20
+00:00:44,030 --> 00:00:47,750
+reward. But that's kind of a lonely way to think about
+
+21
+00:00:47,750 --> 00:00:50,800
+things, so what if there's other agents in the world with you?
+
+22
+00:00:50,800 --> 00:00:53,200
+>> Right and of course evidence suggests that there are in
+
+23
+00:00:53,200 --> 00:00:56,370
+fact other agents in the world with you. And what we've been
+
+24
+00:00:56,370 --> 00:00:59,140
+doing with reinforcement learning which, you know, has worked out very well
+
+25
+00:00:59,140 --> 00:01:01,780
+for us, is we've been mostly pretending that those other agents are
+
+26
+00:01:01,780 --> 00:01:04,360
+just a part of the environment. Somehow all the stuff that
+
+27
+00:01:04,360 --> 00:01:08,160
+the other agents do is hidden inside of the transition model. But
+
+28
+00:01:08,160 --> 00:01:11,970
+truthfully it probably makes sense if you want to make optimal decisions
+
+29
+00:01:11,970 --> 00:01:15,990
+to try to take into account explicitly the desires and the goals
+
+30
+00:01:15,990 --> 00:01:18,710
+of all the other agents in the world with you. Does that seem fair?
+
+31
+00:01:18,710 --> 00:01:19,640
+>> Yeah.
+
+32
+00:01:19,640 --> 00:01:22,140
+>> Right. So that's what game theory helps us to do
+
+33
+00:01:22,140 --> 00:01:23,980
+and then at the very end I think we'll, we'll be
+
+34
+00:01:23,980 --> 00:01:27,910
+able to tie what we're going to learn Directly back into the
+
+35
+00:01:27,910 --> 00:01:31,600
+reinforcement learning that we've done and even into the Bellman equation.
+
+36
+00:01:31,600 --> 00:01:32,600
+>> Oh, okay, nice.
+
+37
+00:01:32,600 --> 00:01:34,960
+>> Yeah, so that is going to work out pretty well but,
+
+38
+00:01:34,960 --> 00:01:36,620
+but we have to get there first and there's a lot
+
+39
+00:01:36,620 --> 00:01:38,290
+of stuff that we have to do to get there. But
+
+40
+00:01:38,290 --> 00:01:41,020
+right now what I want you to think about is this notion
+
+41
+00:01:41,020 --> 00:01:45,000
+that, we're going to move from reinforcement learning world of single
+
+42
+00:01:45,000 --> 00:01:48,430
+agents to a game theory world of multiple agents and tie
+
+43
+00:01:48,430 --> 00:01:51,133
+it all back back together. It's a sort of general
+
+44
+00:01:51,133 --> 00:01:54,543
+note that I think that, that's worthwhile is that, game theory
+
+45
+00:01:54,543 --> 00:01:57,031
+sort of comes out of economics. And then in fact,
+
+46
+00:01:57,031 --> 00:01:59,931
+if you think about multiple agents there being millions and millions
+
+47
+00:01:59,931 --> 00:02:03,722
+of multiple agents, in some sense that's economics. Right? Economics is
+
+48
+00:02:03,722 --> 00:02:06,059
+kind of the math, and the science, and the art of
+
+49
+00:02:06,059 --> 00:02:09,251
+thinking about what happens when there are, lots, and lots, and
+
+50
+00:02:09,251 --> 00:02:13,127
+lots, and lots of people with their own goals possibility conflicting, trying
+
+51
+00:02:13,127 --> 00:02:16,460
+to work together to accomplish something, right. And so what game
+
+52
+00:02:16,460 --> 00:02:19,180
+theory does, is it gives us mathematical tools to think about that.
+
+53
+00:02:19,180 --> 00:02:22,340
+>> I feel like I feel like other fields
+
+54
+00:02:22,340 --> 00:02:25,170
+would care about some of these things too, like sociology.
+
+55
+00:02:25,170 --> 00:02:25,844
+>> Right.
+
+56
+00:02:25,844 --> 00:02:27,812
+>> And what about, I could kind
+
+57
+00:02:27,812 --> 00:02:31,560
+of imagine biology caring about these things, too.
+
+58
+00:02:31,560 --> 00:02:33,390
+>> Even biology, I like the idea of
+
+59
+00:02:33,390 --> 00:02:37,080
+biology. Biology. Why would biology care about this?
+
+60
+00:02:37,080 --> 00:02:38,460
+>> Well, I guess the way you described it
+
+61
+00:02:38,460 --> 00:02:42,010
+in terms of lots of individual agents that are interacting.
+
+62
+00:02:42,010 --> 00:02:45,180
+Like, you know, creatures that live and reproduce. I
+
+63
+00:02:45,180 --> 00:02:47,350
+feel like they, they have some of those same issues.
+
+64
+00:02:47,350 --> 00:02:52,490
+>> Sure. So certainly biology at at the level of entities, at the level of
+
+65
+00:02:52,490 --> 00:02:56,450
+mammals or level of insects, you might be able to think about it that way.
+
+66
+00:02:56,450 --> 00:02:58,560
+But perhaps even at the level of genes and at the level of
+
+67
+00:02:58,560 --> 00:03:01,380
+cells. Little virii and, and bacteria. You
+
+68
+00:03:01,380 --> 00:03:03,440
+could possibly think about it that way.
+
+69
+00:03:03,440 --> 00:03:05,470
+>> because they're in conflict too, I guess.
+
+70
+00:03:05,470 --> 00:03:07,920
+>> Yeah. Now there's probably this notion of
+
+71
+00:03:07,920 --> 00:03:10,170
+intention. It's not entirely clear what that means here
+
+72
+00:03:10,170 --> 00:03:11,900
+and I think implicit in the notion of
+
+73
+00:03:11,900 --> 00:03:13,800
+what we're doing here is this notion of intention
+
+74
+00:03:13,800 --> 00:03:16,490
+and explicit goals as opposed to ones that
+
+75
+00:03:16,490 --> 00:03:18,300
+are kind of built into your genes, but I think
+
+76
+00:03:18,300 --> 00:03:19,590
+that's a perfectly reasonable way of thinking about
+
+77
+00:03:19,590 --> 00:03:21,590
+it. I think the, the lesson from this discussion
+
+78
+00:03:21,590 --> 00:03:25,220
+though is that. What game theory sort of captures for us or
+
+79
+00:03:25,220 --> 00:03:28,590
+what would like for it to capture for us, is ways of thinking
+
+80
+00:03:28,590 --> 00:03:32,560
+about what happens when you're not the only thing with intention in
+
+81
+00:03:32,560 --> 00:03:36,070
+the world and how do you incorporate other goals from other people who
+
+82
+00:03:36,070 --> 00:03:38,450
+might not have your best interest at heart or might have your
+
+83
+00:03:38,450 --> 00:03:40,830
+best interest at heart. How do you make that work? And so if
+
+84
+00:03:40,830 --> 00:03:43,510
+you think about that problem then I think it makes sense that it's
+
+85
+00:03:43,510 --> 00:03:47,630
+been increasingly a part of AI over the years, and in some ways
+
+86
+00:03:47,630 --> 00:03:49,430
+machine learning has started to think of it
+
+87
+00:03:49,430 --> 00:03:51,800
+as being a mainstream part of what we do.
+
+88
+00:03:51,800 --> 00:03:52,860
+>> Cool.
+
+89
+00:03:52,860 --> 00:03:56,480
+>> Hence, why it's worth talking about today. Okay. Sound good.
+
+90
+00:03:56,480 --> 00:03:57,580
+>> Gotcha.
+
+91
+00:03:57,580 --> 00:03:59,050
+>> Okay. Let's, let's try to make this
+
+92
+00:03:59,050 --> 00:04:01,960
+concrete with a very simple sort of example.

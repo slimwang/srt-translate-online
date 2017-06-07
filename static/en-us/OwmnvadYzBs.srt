@@ -1,0 +1,236 @@
+1
+00:00:00,350 --> 00:00:03,660
+Here's how I implemented
+my solution using burlap.
+
+2
+00:00:03,660 --> 00:00:05,960
+Let's take a look at our constructor.
+
+3
+00:00:05,960 --> 00:00:08,087
+As before, we have six states.
+
+4
+00:00:08,087 --> 00:00:10,435
+We only have two parameters
+now instead of four,
+
+5
+00:00:10,435 --> 00:00:13,080
+not counting the discount factor.
+
+6
+00:00:13,080 --> 00:00:15,990
+And these parameters are now
+probabilities of transitions
+
+7
+00:00:15,990 --> 00:00:17,900
+instead of rewards.
+
+8
+00:00:17,900 --> 00:00:20,580
+I use these probabilities
+in the last parameter
+
+9
+00:00:20,580 --> 00:00:24,210
+In the stochastic transitions
+denoted in our state diagram.
+
+10
+00:00:24,210 --> 00:00:27,900
+Then, as before, we can conclude
+by generating the domain,
+
+11
+00:00:27,900 --> 00:00:32,509
+setting the initial state to 0, setting
+the reward and terminal functions,
+
+12
+00:00:33,680 --> 00:00:36,555
+and then instantiating
+a DiscreteStateHashFactory.
+
+13
+00:00:37,750 --> 00:00:42,590
+You'll notice that I'm using the classes
+SpecificRF, and SingleStateTF here.
+
+14
+00:00:42,590 --> 00:00:45,180
+These are custom classes I wrote
+to implement the reward and
+
+15
+00:00:45,180 --> 00:00:47,340
+terminal function interfaces.
+
+16
+00:00:47,340 --> 00:00:48,360
+We'll look at these next.
+
+17
+00:00:49,500 --> 00:00:53,540
+For the reward functions, since we now
+have non deterministic transitions,
+
+18
+00:00:53,540 --> 00:00:57,510
+we need to look at both the state
+s each transitions leaves, and
+
+19
+00:00:57,510 --> 00:01:00,650
+the state t each transition enters.
+
+20
+00:01:00,650 --> 00:01:02,760
+Like before, I get integer IDs for
+
+21
+00:01:02,760 --> 00:01:06,250
+the nodes by calling
+the static method getNodeId.
+
+22
+00:01:06,250 --> 00:01:11,090
+Then using our state diagram, I assign
+the appropriate value to the variable
+
+23
+00:01:11,090 --> 00:01:15,010
+r based on the state
+the transition leaves, and
+
+24
+00:01:15,010 --> 00:01:17,950
+then based on the state
+the transition enters.
+
+25
+00:01:17,950 --> 00:01:22,190
+I also have a few cases that throw
+exceptions for debugging purposes.
+
+26
+00:01:22,190 --> 00:01:24,860
+For the terminal function,
+my constructor takes a single
+
+27
+00:01:24,860 --> 00:01:27,970
+integer as an argument,
+the id of the terminal state,
+
+28
+00:01:27,970 --> 00:01:31,820
+and then stores it in the member field,
+terminal sid.
+
+29
+00:01:31,820 --> 00:01:34,730
+Then, whenever the isTerminal
+method is called,
+
+30
+00:01:34,730 --> 00:01:38,440
+it compares the id of the argument
+with the terminal sid.
+
+31
+00:01:38,440 --> 00:01:41,320
+If they are the same,
+then the method returns true, and
+
+32
+00:01:41,320 --> 00:01:42,880
+we know that the state is terminal.
+
+33
+00:01:42,880 --> 00:01:45,100
+Otherwise, the method returns false.
+
+34
+00:01:45,100 --> 00:01:45,860
+As before,
+
+35
+00:01:45,860 --> 00:01:50,540
+I have a private computeValue method
+that takes the discount factor gamma and
+
+36
+00:01:50,540 --> 00:01:54,100
+runs a value iteration from the initial
+state that we find in the constructor.
+
+37
+00:01:55,330 --> 00:01:57,960
+It then returns
+the ValueIteration object
+
+38
+00:01:57,960 --> 00:02:00,430
+with the values of each
+state stored in it.
+
+39
+00:02:00,430 --> 00:02:02,320
+In the bestActions method,
+
+40
+00:02:02,320 --> 00:02:08,550
+I pass this ValueIteration object as an
+argument to a GreedyQPolicy constructor.
+
+41
+00:02:08,550 --> 00:02:12,440
+This object allows me to access
+the best action to take at each state
+
+42
+00:02:12,440 --> 00:02:14,620
+based on the values in
+the ValueIteration object.
+
+43
+00:02:15,950 --> 00:02:18,990
+I do this by calling p.getAction,
+
+44
+00:02:18,990 --> 00:02:22,070
+followed by the state whose
+action I wish to query.
+
+45
+00:02:22,070 --> 00:02:26,120
+Since the output actions
+are either action0 or action1 for
+
+46
+00:02:26,120 --> 00:02:30,440
+these two states, and since their output
+needs to be in the form of letters a, b,
+
+47
+00:02:30,440 --> 00:02:35,240
+c, and d, I call some string replacement
+methods before returning the answer.
+
+48
+00:02:35,240 --> 00:02:38,020
+If you were able to come up with
+a solution for this problem, great.
+
+49
+00:02:38,020 --> 00:02:41,230
+You should be well on your way to being
+able to tackle further reinforcement
+
+50
+00:02:41,230 --> 00:02:43,290
+learning problems using
+the burlap library.

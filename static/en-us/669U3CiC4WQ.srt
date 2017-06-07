@@ -1,0 +1,63 @@
+1
+00:00:00,130 --> 00:00:03,425
+Before we conclude this lesson, let's discuss some useful
+
+2
+00:00:03,425 --> 00:00:07,740
+multithreading patterns for structuring applications that use threads.
+
+3
+00:00:07,740 --> 00:00:11,570
+We will look at the boss-workers pattern, the pipeline pattern, and
+
+4
+00:00:11,570 --> 00:00:12,720
+the layered pattern.
+
+5
+00:00:12,720 --> 00:00:16,430
+Before we start, let's take a look at the toy shop application.
+
+6
+00:00:16,430 --> 00:00:20,230
+We will describe these pattern in the context of this application.
+
+7
+00:00:20,230 --> 00:00:24,020
+In this application, for each toy order we receive, and let's say
+
+8
+00:00:24,020 --> 00:00:28,620
+we're sticking to wooden toy orders, we have to perform the following steps.
+
+9
+00:00:28,620 --> 00:00:31,470
+First, we have to accept the order from the customer.
+
+10
+00:00:31,470 --> 00:00:34,310
+Then, we have to parse the order to see what it's for.
+
+11
+00:00:34,310 --> 00:00:37,320
+Then, we have to start cutting the wooden parts for the toy.
+
+12
+00:00:37,320 --> 00:00:41,920
+Then, we need to paint and add decorations for the toy parts.
+
+13
+00:00:41,920 --> 00:00:45,580
+Then, all those parts need to be put together to assemble the wooden toy.
+
+14
+00:00:45,580 --> 00:00:47,540
+And finally, we need to ship the order.
+
+15
+00:00:47,540 --> 00:00:49,670
+Depending on the multithreading pattern,
+
+16
+00:00:49,670 --> 00:00:54,140
+these steps will be assigned differently to the workers in the workshop.

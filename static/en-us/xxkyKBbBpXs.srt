@@ -1,0 +1,521 @@
+1
+00:00:00,380 --> 00:00:01,810
+By now you're probably wondering,
+
+2
+00:00:01,810 --> 00:00:04,040
+why can't we just have one
+version of all the assets?
+
+3
+00:00:05,110 --> 00:00:07,000
+Well, let's take a look
+at this page here.
+
+4
+00:00:07,000 --> 00:00:10,169
+So I'm at design.google.com/devices.
+
+5
+00:00:10,169 --> 00:00:14,100
+And this page lists all
+the popular Android devices.
+
+6
+00:00:14,100 --> 00:00:18,220
+There are some phones,
+some tablets and even some watches.
+
+7
+00:00:18,220 --> 00:00:21,260
+But as it note,
+it doesn't list all the devices.
+
+8
+00:00:21,260 --> 00:00:25,560
+Now what's useful about this chart is
+that you can find both the dimensions
+
+9
+00:00:25,560 --> 00:00:28,770
+of the screen in dips as well
+as the density of the device.
+
+10
+00:00:28,770 --> 00:00:36,870
+So here we see some hdpis
+some xhdpis and some xxhdpis.
+
+11
+00:00:36,870 --> 00:00:40,450
+As you can tell, there's a huge
+range of Android devices and
+
+12
+00:00:40,450 --> 00:00:42,160
+they have different densities.
+
+13
+00:00:42,160 --> 00:00:45,859
+Now to refresh us about densities,
+let's take a look over at the Android
+
+14
+00:00:45,859 --> 00:00:50,690
+developer documentation at the topic
+Supporting Multiple Screens.
+
+15
+00:00:50,690 --> 00:00:54,970
+So down here for the definition of
+screen density, it says that density
+
+16
+00:00:54,970 --> 00:00:58,930
+means the number of pixels within
+the physical area of the screen and
+
+17
+00:00:58,930 --> 00:01:01,960
+it's usually referred to as DPIs or
+dots per inch.
+
+18
+00:01:03,110 --> 00:01:06,832
+We have five common density buckets
+that you should be familiar with.
+
+19
+00:01:06,832 --> 00:01:13,370
+An mdpi device or medium density device
+has about 160 dots per inch an hdpi,
+
+20
+00:01:13,370 --> 00:01:18,210
+device or high density device
+has about 240 dots per inch.
+
+21
+00:01:18,210 --> 00:01:24,220
+An xhdpi device or extra high density
+device has about 320 dots per inch.
+
+22
+00:01:24,220 --> 00:01:26,470
+And the number of dots
+just increase from there.
+
+23
+00:01:26,470 --> 00:01:29,720
+So with the extra extra extra
+high density device, and
+
+24
+00:01:29,720 --> 00:01:34,160
+that's three xs,
+it has about 640 dots per inch.
+
+25
+00:01:34,160 --> 00:01:36,910
+So as the name and numbers indicate,
+
+26
+00:01:36,910 --> 00:01:40,700
+the number of pixels on screens
+increase as we increase density.
+
+27
+00:01:40,700 --> 00:01:44,190
+So as time has passed, the device
+hardware has gotten even better.
+
+28
+00:01:44,190 --> 00:01:48,220
+We have even higher resolution devices
+meaning more pixels that can fit on
+
+29
+00:01:48,220 --> 00:01:53,160
+the screen than what's shown here, but
+for now let's just focus on these five.
+
+30
+00:01:53,160 --> 00:01:56,700
+So in the last course we learned about
+how we can specify the width and
+
+31
+00:01:56,700 --> 00:01:59,400
+height values in density
+independent pixels.
+
+32
+00:01:59,400 --> 00:02:03,900
+So that means we can say that a button
+should be 48 by 48 dips in size, and
+
+33
+00:02:03,900 --> 00:02:08,210
+in reality Android would translate that
+number into different numbers of pixels
+
+34
+00:02:08,210 --> 00:02:09,910
+depending on the screen
+density of the device.
+
+35
+00:02:09,910 --> 00:02:13,050
+So how would that work for
+something like an image.
+
+36
+00:02:13,050 --> 00:02:16,815
+Well as a developer you
+would declare the width and
+
+37
+00:02:16,815 --> 00:02:22,665
+height of an image to be in do values,
+such as 48 dp by 48dp, for example.
+
+38
+00:02:22,665 --> 00:02:25,575
+Then Android would make
+sure that all these images
+
+39
+00:02:25,575 --> 00:02:28,691
+appear roughly the same
+physical size across devices.
+
+40
+00:02:28,691 --> 00:02:31,815
+No matter if it has a small
+number of pixels per inch or
+
+41
+00:02:31,815 --> 00:02:34,195
+a very large number of pixels per inch.
+
+42
+00:02:34,195 --> 00:02:37,014
+However, if we only have
+a single version of the image,
+
+43
+00:02:37,014 --> 00:02:40,050
+Android may need to blow up or
+stretch out the image for
+
+44
+00:02:40,050 --> 00:02:44,120
+higher density devices which
+have more pixels on the screen.
+
+45
+00:02:44,120 --> 00:02:47,040
+Or on the other hand, if we have
+a version of the image with a lot of
+
+46
+00:02:47,040 --> 00:02:51,180
+pixels, Android might need to do
+the extra step of shrinking it down for
+
+47
+00:02:51,180 --> 00:02:53,140
+lower density devices.
+
+48
+00:02:53,140 --> 00:02:56,430
+And either way, the image might end
+up looking distorted or blurry and
+
+49
+00:02:56,430 --> 00:02:58,370
+that is not what we want.
+
+50
+00:02:58,370 --> 00:03:01,850
+So we can solve this problem by
+providing different-sized versions of
+
+51
+00:03:01,850 --> 00:03:04,890
+the same image for
+each of the density buckets.
+
+52
+00:03:04,890 --> 00:03:08,225
+And this will also have crisp
+images on all devices without
+
+53
+00:03:08,225 --> 00:03:11,357
+causing the Android device
+to do too much stretching or
+
+54
+00:03:11,357 --> 00:03:14,162
+shrinking of the image
+while the app is running.
+
+55
+00:03:14,162 --> 00:03:18,714
+So to know what size assets the designer
+should provide there are dp to pixel
+
+56
+00:03:18,714 --> 00:03:20,025
+conversion ratios.
+
+57
+00:03:20,025 --> 00:03:24,190
+For a medium density device,
+1 dp = 1 pixel.
+
+58
+00:03:24,190 --> 00:03:28,820
+So if we want the image to be
+48 dps by 48 dp in size, then
+
+59
+00:03:28,820 --> 00:03:34,110
+the mdpi version of the image should
+be 48 pixels by 48 pixels in size.
+
+60
+00:03:34,110 --> 00:03:38,820
+Now for
+high density devices 1 dp = 1.5 pixels.
+
+61
+00:03:38,820 --> 00:03:43,380
+So if we want the image to be
+48 dps by 48 dps in size, then
+
+62
+00:03:43,380 --> 00:03:48,440
+the hdpi version of the image should
+be 72 pixels by 72 pixels in size.
+
+63
+00:03:48,440 --> 00:03:50,290
+We can repeat similar calculations for
+
+64
+00:03:50,290 --> 00:03:53,550
+high resolutions using
+the provided ratios.
+
+65
+00:03:53,550 --> 00:03:57,680
+And as you can see here
+the xxxhdpi version of the image
+
+66
+00:03:57,680 --> 00:04:00,940
+will be a lot larger
+than the ndpi version.
+
+67
+00:04:00,940 --> 00:04:06,440
+But that's because the xxxhdpi device
+has a lot more pixels on its screen.
+
+68
+00:04:06,440 --> 00:04:10,380
+So in the end all these images will
+appear the same physical size to
+
+69
+00:04:10,380 --> 00:04:12,370
+the user on their respective devices.
+
+70
+00:04:13,450 --> 00:04:16,390
+Now let's take a closer look at
+the pixel size of the images we
+
+71
+00:04:16,390 --> 00:04:17,010
+provided you.
+
+72
+00:04:18,440 --> 00:04:21,079
+So let's jump into
+the drawable-ndpi folder.
+
+73
+00:04:22,410 --> 00:04:25,310
+I'm going to take a look
+at the son image.
+
+74
+00:04:25,310 --> 00:04:29,940
+So I'm going to selected it,
+right click and get info.
+
+75
+00:04:32,010 --> 00:04:34,950
+Now here for
+the ndpi version of this image,
+
+76
+00:04:34,950 --> 00:04:39,450
+we see that the dimension
+is 88 by 88 pixels.
+
+77
+00:04:39,450 --> 00:04:44,540
+So we'll be showing this image as
+88 dp by 88 dp in the final app.
+
+78
+00:04:44,540 --> 00:04:50,000
+So the size of this version has to
+be 88 pixels by 88 pixels since,
+
+79
+00:04:50,000 --> 00:04:53,720
+one dp equals one pixel
+on an mdpi device.
+
+80
+00:04:53,720 --> 00:04:58,930
+So what does the pixel size look like
+for a xxxhdpi version of the same image?
+
+81
+00:04:58,930 --> 00:05:04,540
+So I'm going to navigate
+to drawable-xxxhdpi.
+
+82
+00:05:04,540 --> 00:05:09,790
+Find the sun image,
+select it, and also Get Info.
+
+83
+00:05:12,790 --> 00:05:16,180
+So we find the image
+here is much larger, and
+
+84
+00:05:16,180 --> 00:05:21,850
+it's verified by the dimensions
+listed here as 352 by 352 pixels.
+
+85
+00:05:21,850 --> 00:05:25,060
+So what we're doing here is making
+a tradeoff between the amount of storage
+
+86
+00:05:25,060 --> 00:05:29,200
+space that our app will need and the
+amount of processing power it will need.
+
+87
+00:05:29,200 --> 00:05:31,660
+So when we provide multiple
+versions of an asset,
+
+88
+00:05:31,660 --> 00:05:36,360
+the app does take up more storage space
+but it uses less processing power.
+
+89
+00:05:36,360 --> 00:05:40,300
+And remember, for mobile devices,
+that's a really useful trade to make.
+
+90
+00:05:40,300 --> 00:05:43,180
+Because it means our app will
+run on less powerful devices
+
+91
+00:05:43,180 --> 00:05:45,450
+without running into performance issues.
+
+92
+00:05:45,450 --> 00:05:48,910
+All right, now we understand why there
+are different assets at different sizes
+
+93
+00:05:48,910 --> 00:05:50,620
+in different folders.
+
+94
+00:05:50,620 --> 00:05:53,260
+So, go ahead and
+add all these images to your app.
+
+95
+00:05:53,260 --> 00:05:54,980
+Copy over each drawable folder and
+
+96
+00:05:54,980 --> 00:05:58,840
+then add it to the res directory
+of our app in Android Studio.
+
+97
+00:05:58,840 --> 00:06:00,250
+So here in Android Studio,
+
+98
+00:06:00,250 --> 00:06:06,060
+we see that all the mdpi version of the
+images are in the drawable-mdpi folder.
+
+99
+00:06:07,070 --> 00:06:09,110
+Same for the hdpi folder.
+
+100
+00:06:09,110 --> 00:06:10,770
+So, all the hdpi images are here.
+
+101
+00:06:12,050 --> 00:06:15,170
+And for all the other resolutions,
+as well.
+
+102
+00:06:15,170 --> 00:06:17,918
+Once you're done making these
+additions to the res directory,
+
+103
+00:06:17,918 --> 00:06:20,469
+your app should have
+these five new folders.
+
+104
+00:06:21,630 --> 00:06:24,330
+All right so now that you
+understand why there are assets
+
+105
+00:06:24,330 --> 00:06:27,560
+at different sizes in different folders,
+I'd like you to go ahead and
+
+106
+00:06:27,560 --> 00:06:29,560
+add all these assets to your app.
+
+107
+00:06:29,560 --> 00:06:31,864
+So copy over each of
+the drawable folders and
+
+108
+00:06:31,864 --> 00:06:34,800
+add it to the res directory
+of our app in Android Studio.

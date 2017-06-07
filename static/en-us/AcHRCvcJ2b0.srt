@@ -1,0 +1,163 @@
+1
+00:00:00,000 --> 00:00:03,000
+So now we really want to use the full power of our rewrite rules
+
+2
+00:00:03,000 --> 00:00:06,000
+to help us complete the parsing chart.
+
+3
+00:00:06,000 --> 00:00:09,000
+We've already seen 2 possible ways to do it.
+
+4
+00:00:09,000 --> 00:00:13,000
+If the dot is right before a nonterminal,
+
+5
+00:00:13,000 --> 00:00:16,000
+then we take the closure or predict what's going to happen,
+
+6
+00:00:16,000 --> 00:00:19,000
+by bringing in and rewriting rules that start with a (c).
+
+7
+00:00:19,000 --> 00:00:21,000
+If, on the other hand, the dot is right before a terminal,
+
+8
+00:00:21,000 --> 00:00:24,000
+a token--a fixed part of the input--
+
+9
+00:00:24,000 --> 00:00:26,000
+we shift over it.
+
+10
+00:00:26,000 --> 00:00:29,000
+We just move our finger to the right, assuming that this new token, (c),
+
+11
+00:00:29,000 --> 00:00:32,000
+is exactly what we see in the input.
+
+12
+00:00:32,000 --> 00:00:35,000
+But there is a third case--a "corner" case:
+
+13
+00:00:35,000 --> 00:00:37,000
+3 corners--that's hard to draw;
+
+14
+00:00:37,000 --> 00:00:40,000
+actually, that's not hard to draw; something with 3 corners is a triangle--
+
+15
+00:00:40,000 --> 00:00:43,000
+in which there's nothing after the dot.
+
+16
+00:00:43,000 --> 00:00:46,000
+What if there's no (c) and there's no (d), and we've reached the end?
+
+17
+00:00:46,000 --> 00:00:48,000
+We've done a lot of shifting and our finger is already
+
+18
+00:00:48,000 --> 00:00:50,000
+as far to the right as it can go.
+
+19
+00:00:50,000 --> 00:00:52,000
+Well, now we're going to reduce--
+
+20
+00:00:52,000 --> 00:00:55,000
+by applying the rule: (x --> a b)
+
+21
+00:00:55,000 --> 00:00:57,000
+in reverse.
+
+22
+00:00:57,000 --> 00:01:01,000
+For example, let's say that the input was: <a b blah>
+
+23
+00:01:01,000 --> 00:01:04,000
+and we were right here--we'd seen these 2 characters--
+
+24
+00:01:04,000 --> 00:01:06,000
+and one of the rules in our grammar was:
+
+25
+00:01:06,000 --> 00:01:08,000
+(x --> a b).
+
+26
+00:01:08,000 --> 00:01:11,000
+I match up this (a) with this one, this (a) with this one--
+
+27
+00:01:11,000 --> 00:01:15,000
+and I'm going to take my input and conceptually change it,
+
+28
+00:01:15,000 --> 00:01:18,000
+removing the (a b) and replacing them with (x)
+
+29
+00:01:18,000 --> 00:01:21,000
+as if I'm constructing the parse tree
+
+30
+00:01:21,000 --> 00:01:24,000
+or applying the rewrite rules in reverse.
+
+31
+00:01:24,000 --> 00:01:27,000
+We've seen before how one direction
+
+32
+00:01:27,000 --> 00:01:29,000
+corresponds to string generation,
+
+33
+00:01:29,000 --> 00:01:32,000
+and one direction corresponds to parsing.
+
+34
+00:01:32,000 --> 00:01:34,000
+So once we've matched our predictions exactly,
+
+35
+00:01:34,000 --> 00:01:36,000
+the input has corresponded to (a)
+
+36
+00:01:36,000 --> 00:01:38,000
+and the input has corresponded to (b)
+
+37
+00:01:38,000 --> 00:01:40,000
+and we have rewrite rule: (x --> a b),
+
+38
+00:01:40,000 --> 00:01:44,000
+we're going to apply that rewrite rule in reverse
+
+39
+00:01:44,000 --> 00:01:48,000
+to do parsing--removing (a) and (b) from the input--conceptually--
+
+40
+00:01:48,000 --> 00:01:50,000
+and replacing them with (x).
+
+41
+00:01:50,000 --> 99:59:59,999
+This is called reduction.

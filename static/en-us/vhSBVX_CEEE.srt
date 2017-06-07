@@ -1,0 +1,223 @@
+1
+00:00:00,320 --> 00:00:03,147
+All right. So, we've talked about the model and the view, but
+
+2
+00:00:03,147 --> 00:00:07,100
+you also may have noticed the octopus object floating around.
+
+3
+00:00:07,100 --> 00:00:09,690
+Now, what the heck is it doing?
+
+4
+00:00:09,690 --> 00:00:13,850
+Well, as we discussed before, the octopus is what is tying our model and
+
+5
+00:00:13,850 --> 00:00:15,230
+our view together.
+
+6
+00:00:15,230 --> 00:00:17,480
+Now, you may have noticed that the model and
+
+7
+00:00:17,480 --> 00:00:22,440
+the view both never directly talk to each other, and that's by design.
+
+8
+00:00:22,440 --> 00:00:25,090
+Our octopus is the only thing that connects them.
+
+9
+00:00:25,090 --> 00:00:28,330
+I like to imagine the octopus as a sort of buffer,
+
+10
+00:00:28,330 --> 00:00:31,720
+connecting the view in the model, but also letting them move
+
+11
+00:00:31,720 --> 00:00:35,300
+more independently than if they were wired directly together.
+
+12
+00:00:35,300 --> 00:00:39,428
+That means you can change how your app looks without messing up your model code,
+
+13
+00:00:39,428 --> 00:00:41,320
+and vice versa.
+
+14
+00:00:41,320 --> 00:00:45,700
+So, the octopus is doing things to help out our view and to help out our model.
+
+15
+00:00:45,700 --> 00:00:46,922
+Let's go through those things.
+
+16
+00:00:46,922 --> 00:00:53,040
+Our addPizza function gets called by the view and adds a pizza to the model.
+
+17
+00:00:53,040 --> 00:00:55,982
+And lastly, tells the view to update itself.
+
+18
+00:00:55,982 --> 00:01:00,290
+Our removePizza function is also called by the view whenever you click on one of
+
+19
+00:01:00,290 --> 00:01:01,570
+the little x's.
+
+20
+00:01:01,570 --> 00:01:03,670
+It figures out what pizza was clicked and
+
+21
+00:01:03,670 --> 00:01:06,890
+it sets the clicked pizza's visibility to false.
+
+22
+00:01:06,890 --> 00:01:09,860
+And once again, it calls view.render.
+
+23
+00:01:09,860 --> 00:01:14,590
+You may notice these are the only two places that our data object,
+
+24
+00:01:14,590 --> 00:01:17,520
+our model, gets mutated or changed.
+
+25
+00:01:17,520 --> 00:01:22,300
+Once again, the view never changes the model directly, only the octopus.
+
+26
+00:01:22,300 --> 00:01:24,390
+Now we've got two more functions to go.
+
+27
+00:01:24,390 --> 00:01:26,650
+getVisiblePizzas is a function.
+
+28
+00:01:26,650 --> 00:01:32,140
+It's almost like a tunnel that the view uses to get the data from the model.
+
+29
+00:01:32,140 --> 00:01:36,310
+So rather than the view saying, hey model, what pizzas do we have?
+
+30
+00:01:36,310 --> 00:01:41,110
+The model asks the octopus and the octopus goes and gets the pizzas.
+
+31
+00:01:41,110 --> 00:01:44,360
+Now, why doesn't the view just do it directly?
+
+32
+00:01:44,360 --> 00:01:45,670
+Well, there are two reasons.
+
+33
+00:01:45,670 --> 00:01:47,730
+First of all, as we discussed before,
+
+34
+00:01:47,730 --> 00:01:51,220
+it's very important to separate out your view and your model.
+
+35
+00:01:51,220 --> 00:01:54,110
+If you don't, you end up with some pretty nasty code as your project
+
+36
+00:01:54,110 --> 00:01:55,070
+gets bigger.
+
+37
+00:01:55,070 --> 00:01:59,060
+But the second reason is that this getVisiblePizzas function doesn't just
+
+38
+00:01:59,060 --> 00:02:01,930
+return the pizzas directly to the view.
+
+39
+00:02:01,930 --> 00:02:04,280
+It actually filters them for us.
+
+40
+00:02:04,280 --> 00:02:09,210
+It takes all the pizzas from the model and it filters them, and
+
+41
+00:02:09,210 --> 00:02:13,890
+it only returns any pizzas where pizza.visible is true.
+
+42
+00:02:13,890 --> 00:02:16,180
+So if we go back over here to our application and
+
+43
+00:02:16,180 --> 00:02:19,520
+you add a whole bunch of pizzas and then you remove a bunch of them,
+
+44
+00:02:20,720 --> 00:02:26,280
+the way the application works, is that 1, 2, 7, 16, and 17 in this case, these
+
+45
+00:02:27,480 --> 00:02:33,860
+all exist in the model, but so do all of the other pizzas we ever made.
+
+46
+00:02:33,860 --> 00:02:38,460
+That getVisiblePizzas function in the middle on the octopus is taking all of
+
+47
+00:02:38,460 --> 00:02:42,810
+the pizzas and only giving the visible ones to our view.
+
+48
+00:02:42,810 --> 00:02:45,890
+And lastly, we have our octopus.init.
+
+49
+00:02:45,890 --> 00:02:46,960
+When you call that,
+
+50
+00:02:46,960 --> 00:02:51,330
+it does all the necessary things to get our application up and running.
+
+51
+00:02:51,330 --> 00:02:56,350
+In this case, the only thing it has to do is tell the view to initialize itself.
+
+52
+00:02:56,350 --> 00:02:59,240
+So, once again, big picture, if you have your model and
+
+53
+00:02:59,240 --> 00:03:03,540
+your view, your octopus is the thing that connects them to each other.
+
+54
+00:03:03,540 --> 00:03:05,580
+They never talk directly.
+
+55
+00:03:05,580 --> 00:03:08,710
+So all of these functions are different ways of
+
+56
+00:03:08,710 --> 00:03:10,380
+getting between the model and the view.

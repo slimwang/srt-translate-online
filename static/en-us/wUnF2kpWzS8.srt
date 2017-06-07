@@ -1,0 +1,131 @@
+1
+00:00:00,130 --> 00:00:05,480
+An alternative to having all workers in the system perform the exact same task,
+
+2
+00:00:05,480 --> 00:00:10,650
+so all workers be equal, is to have different workers specialized for
+
+3
+00:00:10,650 --> 00:00:12,240
+different sets of tasks.
+
+4
+00:00:12,240 --> 00:00:14,240
+In the context of the toy shop example,
+
+5
+00:00:14,240 --> 00:00:18,910
+this may mean that we have workers specialized for different types of toys.
+
+6
+00:00:18,910 --> 00:00:23,200
+Or it could mean that we have workers specialized for repairs versus for
+
+7
+00:00:23,200 --> 00:00:24,830
+brand new orders, or
+
+8
+00:00:24,830 --> 00:00:29,040
+even we can specialize the workers to deal with different types of customers.
+
+9
+00:00:29,040 --> 00:00:32,610
+One added stipulation in this case is that now the boss has to
+
+10
+00:00:32,610 --> 00:00:35,750
+do a little bit of more work for each order.
+
+11
+00:00:35,750 --> 00:00:39,960
+Because in addition to just accepting the order it has to take a look at it, and
+
+12
+00:00:39,960 --> 00:00:44,450
+decide which set of workers it should actually be passed to.
+
+13
+00:00:44,450 --> 00:00:47,680
+Now the fact that the boss has to do a little bit of more work per
+
+14
+00:00:47,680 --> 00:00:52,830
+order is likely offset by the fact that each of the worker threads will now be
+
+15
+00:00:52,830 --> 00:00:56,210
+more efficient, because they're specialized for the task.
+
+16
+00:00:56,210 --> 00:00:59,370
+So overall we can achieve better performance.
+
+17
+00:00:59,370 --> 00:01:03,970
+The real benefit of this approach is that it exploits locality.
+
+18
+00:01:03,970 --> 00:01:08,370
+Each of the threads, by having to do a subset of the tasks,
+
+19
+00:01:08,370 --> 00:01:12,730
+it ends up probably accessing only a subset of the state, and
+
+20
+00:01:12,730 --> 00:01:16,110
+therefore that state is more likely present in the cache.
+
+21
+00:01:16,110 --> 00:01:20,480
+And we already talked about the benefits of having state present in cache.
+
+22
+00:01:20,480 --> 00:01:24,360
+It is much faster to access than if we have to go to memory.
+
+23
+00:01:24,360 --> 00:01:29,140
+Also, by being able to assign different workers to different types of tasks or
+
+24
+00:01:29,140 --> 00:01:33,930
+different types of customers, we can do better quality of service management.
+
+25
+00:01:33,930 --> 00:01:37,490
+So we can assign more threads to those tasks or
+
+26
+00:01:37,490 --> 00:01:41,860
+those customers that we need to give higher quality of service to.
+
+27
+00:01:41,860 --> 00:01:45,650
+This main challenge in this variant of the boss-workers model comes from
+
+28
+00:01:45,650 --> 00:01:49,980
+the fact that it is now much more complicated to do the load balancing.
+
+29
+00:01:49,980 --> 00:01:53,460
+How many threads should we assign for the different tasks?
+
+30
+00:01:53,460 --> 00:01:58,950
+This is not necessarily a question that has a unique answer regardless of
+
+31
+00:01:58,950 --> 00:02:02,810
+the amount of flow, the number of requests that are coming in the system,
+
+32
+00:02:02,810 --> 00:02:07,050
+the kind of hardware, so the kind of tools that these threads use.
+
+33
+00:02:07,050 --> 00:02:10,038
+So it ends up being a more complicated type of question.

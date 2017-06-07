@@ -1,0 +1,574 @@
+1
+00:00:00,290 --> 00:00:01,630
+All right, in this lesson,
+
+2
+00:00:01,630 --> 00:00:04,860
+we're going to add Cast Support
+to the Universal Media Player.
+
+3
+00:00:04,860 --> 00:00:07,950
+We'll start with the version of UAMP
+that's missing a few key pieces
+
+4
+00:00:07,950 --> 00:00:10,970
+like the Cast button, and
+we'll add them back in one by one.
+
+5
+00:00:10,970 --> 00:00:14,000
+Specifically, we've removed the CCL,
+the Cast button,
+
+6
+00:00:14,000 --> 00:00:15,860
+as well as the logic to play media.
+
+7
+00:00:15,860 --> 00:00:19,300
+But most of the functionality to handle
+playback state has been left intact.
+
+8
+00:00:19,300 --> 00:00:20,900
+For this lesson,
+you're welcome to download and
+
+9
+00:00:20,900 --> 00:00:23,785
+follow along in code if you like, or you
+can just watch to get the gist of it.
+
+10
+00:00:23,785 --> 00:00:27,240
+I just downloaded the zip from
+the link in the instructor notes.
+
+11
+00:00:27,240 --> 00:00:30,060
+This will be a great point to ensure
+that your Android device is connected to
+
+12
+00:00:30,060 --> 00:00:32,770
+the same WiFi network
+as your cast device.
+
+13
+00:00:32,770 --> 00:00:35,110
+Notice there are a couple
+of layers in this project.
+
+14
+00:00:35,110 --> 00:00:37,860
+That's because UAMP uses
+the CCL to make things easier.
+
+15
+00:00:37,860 --> 00:00:40,490
+So the first thing we'll need
+to do is download and build it.
+
+16
+00:00:40,490 --> 00:00:43,532
+We're going to build the CCL as
+a standalone library that we'll
+
+17
+00:00:43,532 --> 00:00:45,460
+include as an application dependency.
+
+18
+00:00:45,460 --> 00:00:49,030
+First, we need to clone the CCL
+from the main GitHub repository.
+
+19
+00:00:49,030 --> 00:00:51,806
+To do so, open up a terminal and
+use the command shown here.
+
+20
+00:00:51,806 --> 00:00:54,720
+Next, we need to build the library,
+and we use Gradle to do so.
+
+21
+00:00:54,720 --> 00:00:56,725
+First to make sure that
+your Android Home and
+
+22
+00:00:56,725 --> 00:00:58,791
+Java Home environmental
+variables are set.
+
+23
+00:00:58,791 --> 00:01:02,065
+You can see how they look on my MAC
+using the Echo Command and take a look
+
+24
+00:01:02,065 --> 00:01:05,360
+at the instructor notes to see what
+to do if they're not set on yours.
+
+25
+00:01:06,770 --> 00:01:09,360
+Now go ahead and
+build gradle using the command.
+
+26
+00:01:09,360 --> 00:01:10,630
+You'll see a whole bunch of output and
+
+27
+00:01:10,630 --> 00:01:13,490
+at the end you'll see BUILD SUCCESSFUL
+if everything ran okay.
+
+28
+00:01:13,490 --> 00:01:15,550
+Here I've cleared the screen
+to get rid of some noise.
+
+29
+00:01:15,550 --> 00:01:18,260
+And if you have a look at
+the build output's AAR directory
+
+30
+00:01:18,260 --> 00:01:21,769
+you'll see the debug and a release
+version of the CastCompanionLibrary.
+
+31
+00:01:22,800 --> 00:01:25,550
+The next step is to copy these
+over to our UAMP source trees, so
+
+32
+00:01:25,550 --> 00:01:27,300
+we can link them to our application.
+
+33
+00:01:27,300 --> 00:01:30,500
+The directory you want to
+copy them to is mobile/Libs.
+
+34
+00:01:30,500 --> 00:01:33,680
+Now if we go back to Android Studio,
+we'll see them appear in our project.
+
+35
+00:01:33,680 --> 00:01:37,150
+The next step is to open up build.gradle
+and add the CCL as a dependency.
+
+36
+00:01:38,170 --> 00:01:40,130
+Here I've copied and
+pasted this line, and
+
+37
+00:01:40,130 --> 00:01:42,400
+notice that we're including
+the debugged version for now.
+
+38
+00:01:42,400 --> 00:01:44,600
+In the future you can
+include the release version.
+
+39
+00:01:44,600 --> 00:01:46,690
+Now go ahead and re-sync the project.
+
+40
+00:01:46,690 --> 00:01:49,250
+And if you run into a re-sync error
+like I have, just make sure that
+
+41
+00:01:49,250 --> 00:01:52,590
+the CastCompanionLibrary is actually
+named the way you included it.
+
+42
+00:01:52,590 --> 00:01:55,087
+Here we are inside UAMPApplication.java.
+
+43
+00:01:55,087 --> 00:01:59,170
+The CCL uses a singleton object
+to manage it's internal state.
+
+44
+00:01:59,170 --> 00:02:01,210
+Let's go ahead and initialize it.
+
+45
+00:02:01,210 --> 00:02:04,060
+Notice also that while we initialize
+it we can enable some features.
+
+46
+00:02:04,060 --> 00:02:06,170
+For instance, automatic reconnection.
+
+47
+00:02:06,170 --> 00:02:08,633
+Now UAMP does this inside
+its application class, but
+
+48
+00:02:08,633 --> 00:02:11,540
+I'd actually recommend doing so
+inside one of your activities.
+
+49
+00:02:11,540 --> 00:02:14,220
+The reason is that objects you
+initialize within your application class
+
+50
+00:02:14,220 --> 00:02:15,310
+are actually global.
+
+51
+00:02:15,310 --> 00:02:18,010
+And so if you're creating things that
+you don't necessarily need here later in
+
+52
+00:02:18,010 --> 00:02:20,050
+you application you're wasting memory.
+
+53
+00:02:20,050 --> 00:02:22,540
+Lazy initialization
+is usually preferred.
+
+54
+00:02:22,540 --> 00:02:25,100
+Notice also that we've enabled
+the debugging feature.
+
+55
+00:02:25,100 --> 00:02:25,950
+And for this lesson,
+
+56
+00:02:25,950 --> 00:02:30,060
+we're using an already registered styled
+media receiver that's hosted by Google.
+
+57
+00:02:30,060 --> 00:02:31,700
+Here I am in our menu main.xml.
+
+58
+00:02:31,700 --> 00:02:35,420
+One of the user experience principles
+is making sure the cast button
+
+59
+00:02:35,420 --> 00:02:36,830
+is always visible to the users.
+
+60
+00:02:36,830 --> 00:02:38,680
+They can control playback.
+
+61
+00:02:38,680 --> 00:02:42,380
+Its good practice to add the cast button
+to every activity in your application.
+
+62
+00:02:42,380 --> 00:02:45,840
+To do so we need to add a media route
+action provider item in the menu for
+
+63
+00:02:45,840 --> 00:02:49,482
+each activity and we'll do that
+by editing the menumain.xml file.
+
+64
+00:02:49,482 --> 00:02:51,460
+I'll just scroll over so
+you can see the whole thing.
+
+65
+00:02:52,520 --> 00:02:55,450
+This step assumes of course that your
+activity is a sub class of of action
+
+66
+00:02:55,450 --> 00:02:56,950
+bar activity.
+
+67
+00:02:56,950 --> 00:02:59,880
+Now lets head over to
+ActionBarCastActivity and
+
+68
+00:02:59,880 --> 00:03:02,140
+lets take a look at
+the on create method.
+
+69
+00:03:02,140 --> 00:03:03,850
+Now that the CCL is all set up,
+
+70
+00:03:03,850 --> 00:03:07,230
+any activity can call
+VideoCastManager.getInstance.
+
+71
+00:03:07,230 --> 00:03:10,060
+This instance provides all the
+capabilities we need to manage the life
+
+72
+00:03:10,060 --> 00:03:11,930
+cycle of CAST in our app.
+
+73
+00:03:11,930 --> 00:03:14,780
+It's good practice to first make sure
+that Google Play Services is set up
+
+74
+00:03:14,780 --> 00:03:15,630
+and enabled.
+
+75
+00:03:15,630 --> 00:03:18,300
+If not, the VideoCastManager
+will prompt the user to do so.
+
+76
+00:03:19,380 --> 00:03:20,940
+And, when our activity starts up,
+
+77
+00:03:20,940 --> 00:03:24,530
+we check to see if we can reconnect
+to an existing Cast session.
+
+78
+00:03:24,530 --> 00:03:27,580
+Next add the following line
+the on create options menu.
+
+79
+00:03:27,580 --> 00:03:29,350
+You'll want to do this in
+all your activities and
+
+80
+00:03:29,350 --> 00:03:32,650
+it will use the cast manager
+to add the cast button for us.
+
+81
+00:03:32,650 --> 00:03:35,550
+CCL keeps track of how many
+UI activities are running and
+
+82
+00:03:35,550 --> 00:03:39,110
+if at least one is active it will look
+for cast devices on the local network.
+
+83
+00:03:39,110 --> 00:03:40,940
+Inside on resume of your activity,
+
+84
+00:03:40,940 --> 00:03:44,220
+add the following snippet to
+tell CCL that you're active.
+
+85
+00:03:44,220 --> 00:03:48,340
+Likewise, inside on pause, add this
+snippet to decrement the UI counter so
+
+86
+00:03:48,340 --> 00:03:50,020
+CCL doesn't waste energy looking for
+
+87
+00:03:50,020 --> 00:03:52,310
+cast devices when your
+activities aren't running.
+
+88
+00:03:52,310 --> 00:03:55,250
+At this point, if you run your app,
+you'll see the cast button appear.
+
+89
+00:03:56,280 --> 00:03:57,990
+The next step is to create a callback so
+
+90
+00:03:57,990 --> 00:04:00,700
+we can update RUI when
+the receiver state changes.
+
+91
+00:04:00,700 --> 00:04:03,660
+For example, when it starts or
+stops playing media.
+
+92
+00:04:03,660 --> 00:04:06,490
+CCL provides a wide variety of
+callbacks you can use to be informed of
+
+93
+00:04:06,490 --> 00:04:07,700
+lifecycle events.
+
+94
+00:04:07,700 --> 00:04:09,980
+As you can see here,
+there's a ton of them.
+
+95
+00:04:09,980 --> 00:04:14,000
+To make our lives easier,
+CCL provides the VideoCastConsumerImpl.
+
+96
+00:04:14,000 --> 00:04:17,060
+This is a simple no-op
+implementation of all the callbacks.
+
+97
+00:04:17,060 --> 00:04:20,279
+So you can extend it and just override
+the ones you're interested in.
+
+98
+00:04:20,279 --> 00:04:22,430
+Here you can see we've implemented
+a method that's triggered when
+
+99
+00:04:22,430 --> 00:04:24,990
+a cast device is discovered
+on the local network.
+
+100
+00:04:24,990 --> 00:04:28,670
+We've also added logic to show
+a first time usage screen to the user.
+
+101
+00:04:28,670 --> 00:04:32,270
+We need to register our callback when
+the activity becomes active, and
+
+102
+00:04:32,270 --> 00:04:34,330
+likewise remove it when we're inactive.
+
+103
+00:04:34,330 --> 00:04:36,920
+At this point we've set up
+the CCL to inform us about
+
+104
+00:04:36,920 --> 00:04:39,040
+any events that are coming
+from the cast session.
+
+105
+00:04:39,040 --> 00:04:42,320
+Now let's see how to actually
+trigger the playback of some media.
+
+106
+00:04:42,320 --> 00:04:45,880
+To see how that's done, let's head
+over to the CastPlayback class.
+
+107
+00:04:45,880 --> 00:04:48,940
+This is an implementation of a simple
+interface that contains playback logic
+
+108
+00:04:48,940 --> 00:04:50,370
+for different devices.
+
+109
+00:04:50,370 --> 00:04:51,390
+Inside the play method,
+
+110
+00:04:51,390 --> 00:04:54,830
+the first thing we'll have our sender
+do is tell the receiver to load media.
+
+111
+00:04:54,830 --> 00:04:58,920
+The CCL uses the media info class to
+hold meta data about the media to play.
+
+112
+00:04:58,920 --> 00:05:01,360
+For example, its title and its URL.
+
+113
+00:05:01,360 --> 00:05:04,440
+Next we use the CastManager LoadMedia
+method to start playback
+
+114
+00:05:04,440 --> 00:05:05,560
+on the receiver.
+
+115
+00:05:05,560 --> 00:05:08,410
+Since we've already added a callback,
+we'll be informed of the events returned
+
+116
+00:05:08,410 --> 00:05:11,130
+from the CCL,
+when the receiver state changes.
+
+117
+00:05:11,130 --> 00:05:14,020
+And here's where we are informed of
+that state change inside the video
+
+118
+00:05:14,020 --> 00:05:15,560
+cast consumer.
+
+119
+00:05:15,560 --> 00:05:17,430
+That's adding Cast
+support in a nutshell.
+
+120
+00:05:17,430 --> 00:05:21,090
+As an exercise, you can continue to play
+with adding Cast support to UAMP or you
+
+121
+00:05:21,090 --> 00:05:24,110
+can check out one of the many examples
+on the Cast Developers homepage.

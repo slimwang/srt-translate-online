@@ -1,0 +1,131 @@
+1
+00:00:00,430 --> 00:00:03,150
+Returning to our digital tracker, remember that we were still left
+
+2
+00:00:03,150 --> 00:00:06,790
+with the problem of busy waiting. We were wasting CPU cycles, just
+
+3
+00:00:06,790 --> 00:00:09,520
+waiting for another thread to change the value of the variable.
+
+4
+00:00:09,520 --> 00:00:12,620
+We're going to solve this problem, by creating an additional weight variable. So
+
+5
+00:00:12,620 --> 00:00:14,940
+the code will look like this. Instead of having a wow
+
+6
+00:00:14,940 --> 00:00:17,880
+loop and whether the condition is met that does nothing, the wow
+
+7
+00:00:17,880 --> 00:00:22,370
+loop now makes a call to cond_wait. CPU's cycle save. The
+
+8
+00:00:22,370 --> 00:00:25,660
+second thing to notice is that the new text variable is back,
+
+9
+00:00:25,660 --> 00:00:29,260
+and it gets passed in along with the conditional
+
+10
+00:00:29,260 --> 00:00:33,530
+wait variable into the cond_wait procedure. We do this
+
+11
+00:00:33,530 --> 00:00:35,880
+because we want to make sure that the condition,
+
+12
+00:00:35,880 --> 00:00:38,520
+in this while loop still holds when we put the
+
+13
+00:00:38,520 --> 00:00:42,670
+thread onto the wait variable Q. The nightmare scenario
+
+14
+00:00:42,670 --> 00:00:45,825
+is that in between this check and the call to
+
+15
+00:00:45,825 --> 00:00:48,220
+cond_wait, another thread changes the condition and sends the
+
+16
+00:00:48,220 --> 00:00:50,720
+signal. Then we could be waiting for a signal that
+
+17
+00:00:50,720 --> 00:00:52,920
+might never come. So it's a good practice to lock
+
+18
+00:00:52,920 --> 00:00:55,840
+variables that might cause the condition to change before you
+
+19
+00:00:55,840 --> 00:00:59,300
+make the cond_wait call. The cond_wait method itself puts the
+
+20
+00:00:59,300 --> 00:01:02,260
+active thread on a waiting queue, and then unlocks the
+
+21
+00:01:02,260 --> 00:01:05,620
+new text so that another thread can change the condition
+
+22
+00:01:05,620 --> 00:01:09,130
+we are waiting on. When the conditional signal comes, the
+
+23
+00:01:09,130 --> 00:01:12,710
+method then reacquires the box before returning, that's why we
+
+24
+00:01:12,710 --> 00:01:15,760
+need to unlock it again down here. Now, somewhat surprisingly,
+
+25
+00:01:15,760 --> 00:01:18,670
+we need to recheck our waiting predicate that is, is bufavail
+
+26
+00:01:18,670 --> 00:01:22,520
+equal to zero again before moving on. That's why we have
+
+27
+00:01:22,520 --> 00:01:25,050
+the while statement here instead of an if. The reason for
+
+28
+00:01:25,050 --> 00:01:27,520
+this is that we might not have been the first thread to
+
+29
+00:01:27,520 --> 00:01:30,820
+acquire the lock. Another thread might have acquired it first and
+
+30
+00:01:30,820 --> 00:01:33,490
+changed back the condition to something where we would need to
+
+31
+00:01:33,490 --> 00:01:37,030
+wait again. In this digitizer example I guess maybe that would
+
+32
+00:01:37,030 --> 00:01:40,990
+be another tracker. Putting this in a while loop so that we
+
+33
+00:01:40,990 --> 00:01:45,710
+recheck the predicate after the signal comes is called rechecking the predicate.

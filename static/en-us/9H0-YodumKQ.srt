@@ -1,0 +1,439 @@
+1
+00:00:00,000 --> 00:00:02,000
+So now we have all the machinery we need
+
+2
+00:00:02,000 --> 00:00:04,000
+to tell if a string is valid.
+
+3
+00:00:04,000 --> 00:00:06,000
+However, it's going to turn out that's not enough.
+
+4
+00:00:06,000 --> 00:00:09,000
+Remember those upside down parse trees we talked about earlier?
+
+5
+00:00:09,000 --> 00:00:12,000
+We really wanted those, as well,
+
+6
+00:00:12,000 --> 00:00:15,000
+for our HTML and JavaScript programs
+
+7
+00:00:15,000 --> 00:00:19,000
+in order to interpret them--to get at their meaning correctly.
+
+8
+00:00:19,000 --> 00:00:22,000
+So here, I've written a pretty standard arithmetic expression grammar.
+
+9
+00:00:22,000 --> 00:00:24,000
+An expression can be a number
+
+10
+00:00:24,000 --> 00:00:26,000
+or an expression plus an expression
+
+11
+00:00:26,000 --> 00:00:28,000
+or an expression minus an expression or maybe
+
+12
+00:00:28,000 --> 00:00:30,000
+a negated expression, like negative 3.
+
+13
+00:00:30,000 --> 00:00:32,000
+And we'll want to build up parse trees for this.
+
+14
+00:00:32,000 --> 00:00:35,000
+Now this time, I've written the tokens as plus and minus and not
+
+15
+00:00:35,000 --> 00:00:37,000
+instead of the symbols, + or -.
+
+16
+00:00:37,000 --> 00:00:39,000
+That's our choice; we can do it either way we want.
+
+17
+00:00:39,000 --> 00:00:41,000
+And the particular format I'm going to pick
+
+18
+00:00:41,000 --> 00:00:44,000
+for our abstract syntax tree is
+
+19
+00:00:44,000 --> 00:00:47,000
+nested tuples--or nested lists, in Python.
+
+20
+00:00:47,000 --> 00:00:51,000
+So if we end up using this rule: expression goes to number,
+
+21
+00:00:51,000 --> 00:00:54,000
+we're just going to return the tuple:
+
+22
+00:00:54,000 --> 00:00:56,000
+("number", 5)--if the input was 5.
+
+23
+00:00:56,000 --> 00:01:00,000
+Similarly, if the input is something like: not 5,
+
+24
+00:01:00,000 --> 00:01:05,000
+We'll end up returning: ("not", of the "number", 5).
+
+25
+00:01:05,000 --> 00:01:07,000
+Note the nesting.
+
+26
+00:01:07,000 --> 00:01:09,000
+So let's say I call this number: number 1.
+
+27
+00:01:09,000 --> 00:01:11,000
+We really want to return this tuple:
+
+28
+00:01:11,000 --> 00:01:14,000
+"number"--in quotes, just as a string, so we know what it is--
+
+29
+00:01:14,000 --> 00:01:16,000
+followed by the value of the token.
+
+30
+00:01:16,000 --> 00:01:20,000
+If this was Thing Number 2 in our reduction rule--
+
+31
+00:01:20,000 --> 00:01:25,000
+not expression--I'd really want this to be filled with a 2.
+
+32
+00:01:25,000 --> 00:01:27,000
+If over here, this was a 3,
+
+33
+00:01:27,000 --> 00:01:29,000
+I would want to return "binop".
+
+34
+00:01:29,000 --> 00:01:32,000
+That stands for Binary Operator, binary just meaning "two things".
+
+35
+00:01:32,000 --> 00:01:34,000
+So things like: Plus, Minus, Times, and Divide--
+
+36
+00:01:34,000 --> 00:01:36,000
+those are arithmetic operations that take two arguments--
+
+37
+00:01:36,000 --> 00:01:38,000
+one on the left, and one on the right.
+
+38
+00:01:38,000 --> 00:01:42,000
+We call those Binary Operators, as a class, just to save space.
+
+39
+00:01:42,000 --> 00:01:44,000
+But whatever this third expression was,
+
+40
+00:01:44,000 --> 00:01:47,000
+that's what I'd want this subtree--
+
+41
+00:01:47,000 --> 00:01:49,000
+this subpart of my tuple--to be.
+
+42
+00:01:49,000 --> 00:01:51,000
+So just as we've seen before how we can
+
+43
+00:01:51,000 --> 00:01:55,000
+encode token rules in Python
+
+44
+00:01:55,000 --> 00:01:58,000
+and do some processing, like chopping off the quotes
+
+45
+00:01:58,000 --> 00:02:00,000
+after we've specified how the token works,
+
+46
+00:02:00,000 --> 00:02:02,000
+using regular expressions,
+
+47
+00:02:02,000 --> 00:02:05,000
+it's going to turn out that there's a similar way
+
+48
+00:02:05,000 --> 00:02:07,000
+for us to do that for grammar rules in Python.
+
+49
+00:02:07,000 --> 00:02:10,000
+Now let me explain a little bit about what's going on.
+
+50
+00:02:10,000 --> 00:02:12,000
+This format is totally arbitrary,
+
+51
+00:02:12,000 --> 00:02:14,000
+but it's going to be very easy for us to use
+
+52
+00:02:14,000 --> 00:02:16,000
+for assignments and to test your knowledge.
+
+53
+00:02:16,000 --> 00:02:19,000
+For tokens, we used a "t_" to mean
+
+54
+00:02:19,000 --> 00:02:21,000
+I'm defining a rule for a token.
+
+55
+00:02:21,000 --> 00:02:23,000
+For parsing rules,
+
+56
+00:02:23,000 --> 00:02:25,000
+we're going to use a "p_"
+
+57
+00:02:25,000 --> 00:02:27,000
+to define the name of a parsing rule.
+
+58
+00:02:27,000 --> 00:02:29,000
+And then here--just to help us out--
+
+59
+00:02:29,000 --> 00:02:32,000
+we're going to write down what the left-hand side of the rule is.
+
+60
+00:02:32,000 --> 00:02:34,000
+This is how you parse an expression
+
+61
+00:02:34,000 --> 00:02:36,000
+when that expression is a number.
+
+62
+00:02:36,000 --> 00:02:39,000
+And just as out token rules were, in some sense,
+
+63
+00:02:39,000 --> 00:02:42,000
+under-the-hood functions of this object, (t),
+
+64
+00:02:42,000 --> 00:02:46,000
+our parsing rules are under-the-hood functions of this object, (p).
+
+65
+00:02:46,000 --> 00:02:49,000
+And this is the parse tree--
+
+66
+00:02:49,000 --> 00:02:51,000
+or, more accurately, a number of parse trees.
+
+67
+00:02:51,000 --> 00:02:53,000
+Here's our rule, written out,
+
+68
+00:02:53,000 --> 00:02:55,000
+and this is very similar to:
+
+69
+00:02:55,000 --> 00:03:00,000
+(exp --> number)--except that there's no great way to write the arrow,
+
+70
+00:03:00,000 --> 00:03:02,000
+so instead, we'll just write a colon, by convention.
+
+71
+00:03:02,000 --> 00:03:05,000
+But you should view this as the arrow.
+
+72
+00:03:05,000 --> 00:03:08,000
+So this is: expression can be rewritten as NUMBER,
+
+73
+00:03:08,000 --> 00:03:10,000
+and we just put it in quotes, like a string, and then down here
+
+74
+00:03:10,000 --> 00:03:13,000
+we have to tell Python--or tell our parsing library--
+
+75
+00:03:13,000 --> 00:03:16,000
+how to build up the abstract syntax tree.
+
+76
+00:03:16,000 --> 00:03:20,000
+p[0] is our returned parse tree.
+
+77
+00:03:20,000 --> 00:03:25,000
+The numbering here is every one of these elements of our grammar rule--
+
+78
+00:03:25,000 --> 00:03:28,000
+except the colon gets a number.
+
+79
+00:03:28,000 --> 00:03:30,000
+So the expression on the left is zero,
+
+80
+00:03:30,000 --> 00:03:32,000
+This NUMBER over here is 1.
+
+81
+00:03:32,000 --> 00:03:35,000
+So the parse tree I want associated with this expression,
+
+82
+00:03:35,000 --> 00:03:37,000
+when we're all done,
+
+83
+00:03:37,000 --> 00:03:41,000
+is a tuple that I make, by combining the word "number"
+
+84
+00:03:41,000 --> 00:03:43,000
+with the value of this actual token.
+
+85
+00:03:43,000 --> 00:03:45,000
+Let me show you another one of these,
+
+86
+00:03:45,000 --> 00:03:47,000
+and then it'll be a little clearer.
+
+87
+00:03:47,000 --> 00:03:49,000
+So here, once again, I start with the (p_).
+
+88
+00:03:49,000 --> 00:03:51,000
+We're going to do that for all of our parsing rules.
+
+89
+00:03:51,000 --> 00:03:54,000
+Here's what I'm telling you how to parse; I'm telling you how to parse an expression.
+
+90
+00:03:54,000 --> 00:03:57,000
+There might be multiple different ways to parse an expression.
+
+91
+00:03:57,000 --> 00:03:59,000
+It could be a number, it could be a (not) expression.
+
+92
+00:03:59,000 --> 00:04:02,000
+So we use another underscore, in being a little more specific.
+
+93
+00:04:02,000 --> 00:04:05,000
+And then down here I've written out my grammar rule
+
+94
+00:04:05,000 --> 00:04:07,000
+in almost English--and again, this colon
+
+95
+00:04:07,000 --> 00:04:10,000
+is like the arrow that we would normally draw.
+
+96
+00:04:10,000 --> 00:04:12,000
+And then below that, I have written out
+
+97
+00:04:12,000 --> 00:04:15,000
+how to construct the final abstract syntax tree.
+
+98
+00:04:15,000 --> 00:04:18,000
+This expression is number zero, this (not) is number 1,
+
+99
+00:04:18,000 --> 00:04:21,000
+This expression is number 2, so we want our
+
+100
+00:04:21,000 --> 00:04:23,000
+parse tree for number zero
+
+101
+00:04:23,000 --> 00:04:26,000
+to be the tuple I make, by putting the word "not"--
+
+102
+00:04:26,000 --> 00:04:30,000
+so that I know what it is--in front of the parse tree for number 2.
+
+103
+00:04:30,000 --> 00:04:34,000
+If we were to see the input: NOT 5
+
+104
+00:04:34,000 --> 00:04:38,000
+executing these two rules, in the right order--
+
+105
+00:04:38,000 --> 00:04:40,000
+this one first, and then that one--
+
+106
+00:04:40,000 --> 00:04:42,000
+would give us this tree:
+
+107
+00:04:42,000 --> 00:04:45,000
+"not", ("number", 5).
+
+108
+00:04:45,000 --> 00:04:47,000
+Note the nesting.
+
+109
+00:04:47,000 --> 00:04:49,000
+I could alternatively draw it as--
+
+110
+00:04:49,000 --> 99:59:59,999
+This is just a Python was of encoding this visual representation.

@@ -1,0 +1,215 @@
+1
+00:00:00,400 --> 00:00:04,000
+Let's dive in a little deeper into this whole concept of edges.
+
+2
+00:00:04,000 --> 00:00:08,010
+But let's now look at images and derivatives of images.
+
+3
+00:00:08,010 --> 00:00:12,950
+So I'd like to define an edge basically as a point in an image, pixel or
+
+4
+00:00:12,950 --> 00:00:18,560
+group of pixel but there is a rapid change in the im, image intensity function.
+
+5
+00:00:18,560 --> 00:00:22,200
+So basically again we want to look at, the image intensities, at a three
+
+6
+00:00:22,200 --> 00:00:26,850
+pixel value, in a discrete form or in a function across the function itself.
+
+7
+00:00:26,850 --> 00:00:29,230
+And look for where there is any kind of rapid change.
+
+8
+00:00:29,230 --> 00:00:30,420
+Significant change.
+
+9
+00:00:30,420 --> 00:00:34,730
+Again the rapid change will somewhere where the threshold value will come in.
+
+10
+00:00:34,730 --> 00:00:38,670
+Small gradual change will be a few pixels, but also not just looking at
+
+11
+00:00:38,670 --> 00:00:42,700
+how one pixel to the other but a significant size of the neighborhood.
+
+12
+00:00:42,700 --> 00:00:45,530
+Just to keep things simple we're going to look at just the one
+
+13
+00:00:45,530 --> 00:00:46,870
+slice through this image.
+
+14
+00:00:46,870 --> 00:00:49,210
+This is a sample image that we will play with here.
+
+15
+00:00:49,210 --> 00:00:51,170
+And if I was to just construct of course,
+
+16
+00:00:51,170 --> 00:00:55,400
+the slice of this intensity, I would get this.
+
+17
+00:00:55,400 --> 00:00:59,360
+So in essence, as I traverse through an image, the intensity is high.
+
+18
+00:00:59,360 --> 00:01:01,410
+Where this grey values are.
+
+19
+00:01:01,410 --> 00:01:05,870
+Goes down to a little whole number but it's darker and then comes back up.
+
+20
+00:01:05,870 --> 00:01:08,950
+So this is basically, on this slice is the intensity map.
+
+21
+00:01:08,950 --> 00:01:12,330
+Here's what we want to do to this now data here, this the intensity map.
+
+22
+00:01:12,330 --> 00:01:16,090
+We want to actually just do a simple difference operation on it.
+
+23
+00:01:16,090 --> 00:01:18,430
+That is I want to take, for example, this value and
+
+24
+00:01:18,430 --> 00:01:21,020
+difference it from the next one coming after it.
+
+25
+00:01:21,020 --> 00:01:22,800
+And then similarly I want to basically each and
+
+26
+00:01:22,800 --> 00:01:26,140
+every value, I want to difference it from the previous one.
+
+27
+00:01:26,140 --> 00:01:30,650
+This is basically a simple first derivative by just doing simple differences.
+
+28
+00:01:30,650 --> 00:01:33,550
+And if you look at this, and actually if you look at this kind of stuff here
+
+29
+00:01:33,550 --> 00:01:38,200
+too, there is of course no changes here, and all of a sudden, many comes here.
+
+30
+00:01:38,200 --> 00:01:40,740
+There is a significant change.
+
+31
+00:01:40,740 --> 00:01:43,230
+This would of course when you look at it in difference form,
+
+32
+00:01:43,230 --> 00:01:45,170
+would give you this change of course.
+
+33
+00:01:45,170 --> 00:01:50,380
+When it gets here, it basically goes back to zero again, no change.
+
+34
+00:01:50,380 --> 00:01:52,170
+Another way to look at it, this would be for
+
+35
+00:01:52,170 --> 00:01:55,210
+example the slope of this line, the slope of this line is zero.
+
+36
+00:01:55,210 --> 00:02:01,030
+All of a sudden the slope goes from zero to a larger number and
+
+37
+00:02:01,030 --> 00:02:02,920
+then of course goes back to zero again.
+
+38
+00:02:02,920 --> 00:02:06,280
+So when you notice here, goes to larger number, goes back to zero.
+
+39
+00:02:06,280 --> 00:02:11,895
+Similarly when we come back to here, it's this way and again the slope changes.
+
+40
+00:02:11,895 --> 00:02:14,520
+End of this line again, comes back to zero.
+
+41
+00:02:14,520 --> 00:02:16,760
+So if you notice this is an interesting phenomenon,
+
+42
+00:02:16,760 --> 00:02:18,670
+that we will actually now capture.
+
+43
+00:02:18,670 --> 00:02:22,540
+This point here is basically an output of information that
+
+44
+00:02:22,540 --> 00:02:25,440
+cames from this region here.
+
+45
+00:02:25,440 --> 00:02:30,260
+And this region here was captured by this point.
+
+46
+00:02:30,260 --> 00:02:37,250
+So if you notice now, is, these extrema points refer to this edge, and
+
+47
+00:02:37,250 --> 00:02:39,835
+this extrema point refers to this edge.
+
+48
+00:02:39,835 --> 00:02:44,470
+We'll only look for derivatives in x, and these are the two edges.
+
+49
+00:02:44,470 --> 00:02:46,015
+But there's a rapid change.
+
+50
+00:02:46,015 --> 00:02:49,090
+As I traverse this way on the image.
+
+51
+00:02:49,090 --> 00:02:51,392
+Of course, using this now edges,
+
+52
+00:02:51,392 --> 00:02:54,820
+we would be able to find something that would always be similar.
+
+53
+00:02:54,820 --> 00:02:58,515
+Even if I actually took the image of this one slightly moved around to
+
+54
+00:02:58,515 --> 00:03:01,120
+a next part, or if this was translated in some way.

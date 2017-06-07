@@ -1,0 +1,283 @@
+﻿1
+00:00:00,300 --> 00:00:03,919
+To see hands on how the database
+organizes data, let's connect friendly
+
+2
+00:00:03,919 --> 00:00:08,089
+chat to the database and
+then write some code to send messages.
+
+3
+00:00:08,089 --> 00:00:10,800
+Now before we do anything, let's
+double check that we have the pods we
+
+4
+00:00:10,800 --> 00:00:13,640
+need to make a connection to
+the database, and send a message.
+
+5
+00:00:14,718 --> 00:00:18,559
+Which of these pods listed do you think
+is needed specifically to set up and
+
+6
+00:00:18,559 --> 00:00:20,379
+use your database?
+
+7
+00:00:20,379 --> 00:00:21,554
+You probably guessed it right away.
+
+8
+00:00:21,554 --> 00:00:25,100
+The Firebase/Database
+pod is the one we need.
+
+9
+00:00:26,320 --> 00:00:31,010
+Also for any Firebase app,
+the Firebase/Core pod is needed.
+
+10
+00:00:31,010 --> 00:00:34,050
+The code included in this
+pod is like the metaphorical
+
+11
+00:00:34,049 --> 00:00:37,250
+core of what makes Firebase
+work with your app.
+
+12
+00:00:37,250 --> 00:00:40,320
+Remember, if you're just now adding
+any of these pods to your pod file,
+
+13
+00:00:40,320 --> 00:00:44,929
+you still need to run pod install to
+pull in all the correct dependencies.
+
+14
+00:00:44,929 --> 00:00:48,070
+In my case, I've already run pod
+install, and these pods are ready to go.
+
+15
+00:00:49,229 --> 00:00:52,148
+Now let's tackle connecting our
+app to Firebase and the database.
+
+16
+00:00:53,280 --> 00:00:56,149
+To connect our app to the Firebase
+application that we've created in
+
+17
+00:00:56,149 --> 00:00:59,640
+the Firebase console,
+we'll want to start in the app delegate.
+
+18
+00:00:59,640 --> 00:01:02,240
+Make sure the Firebase module is
+imported because we'll want to use
+
+19
+00:01:02,240 --> 00:01:07,420
+a class that it contains called FIR app,
+which is short for Firebase app.
+
+20
+00:01:07,420 --> 00:01:11,548
+FIR App, or FIRApp, is the entry
+point for all Firebase features.
+
+21
+00:01:12,700 --> 00:01:18,310
+In the didFinishLoadingWithOptions
+function, add the line FIRApp.configure.
+
+22
+00:01:18,310 --> 00:01:21,016
+This call sets up the default
+connection to our Firebase app.
+
+23
+00:01:22,439 --> 00:01:25,349
+But wait a minute,
+it can't be that simple, right?
+
+24
+00:01:25,349 --> 00:01:27,609
+Actually, yeah, it is.
+
+25
+00:01:27,609 --> 00:01:30,810
+The GoogleService-info.plist
+file is the key.
+
+26
+00:01:32,439 --> 00:01:36,000
+The single line of code we've
+written utilizes this plist file
+
+27
+00:01:36,000 --> 00:01:36,989
+to set up the connection.
+
+28
+00:01:38,099 --> 00:01:39,769
+Awesome, now that's half the battle.
+
+29
+00:01:41,290 --> 00:01:45,880
+The next step is to configure
+the actual connection to the database.
+
+30
+00:01:45,879 --> 00:01:47,409
+Unlike the connection we just made,
+
+31
+00:01:47,409 --> 00:01:50,149
+we don't want to connect
+to the database right away.
+
+32
+00:01:50,150 --> 00:01:53,210
+Instead, we want to ensure
+the user has authenticated first
+
+33
+00:01:53,209 --> 00:01:55,870
+before we start doing anything
+related to the database.
+
+34
+00:01:56,989 --> 00:02:00,399
+So let's jump over to
+the FCViewController.swift file.
+
+35
+00:02:00,400 --> 00:02:02,020
+Here, in the viewDidLoad function,
+
+36
+00:02:02,019 --> 00:02:05,729
+we can determine when to make
+the connection to the database.
+
+37
+00:02:05,730 --> 00:02:08,379
+Since we'll take care of
+authentication in a little bit,
+
+38
+00:02:08,379 --> 00:02:13,340
+we'll just assume that the user has
+already successfully authenticated.
+
+39
+00:02:13,340 --> 00:02:17,060
+That's what we're seeing here with
+the SignedIn status function call.
+
+40
+00:02:17,060 --> 00:02:19,240
+It's being passed true,
+which by default,
+
+41
+00:02:19,240 --> 00:02:21,629
+assumes the user
+successfully authenticates.
+
+42
+00:02:22,810 --> 00:02:25,620
+Let's command click on signedInStatus
+to dive into the function.
+
+43
+00:02:26,729 --> 00:02:30,478
+You'll see that the signedInStatus
+function takes in a Boolean value called
+
+44
+00:02:30,479 --> 00:02:31,870
+isSignedIn as a parameter.
+
+45
+00:02:32,930 --> 00:02:36,278
+And based on its value, it decides
+whether to show or hide UI elements.
+
+46
+00:02:37,400 --> 00:02:39,469
+Also, assuming the user is signed in,
+
+47
+00:02:39,469 --> 00:02:42,520
+there's a conditional block for
+some additional setup.
+
+48
+00:02:42,520 --> 00:02:44,689
+This is where we can
+configure the database.
+
+49
+00:02:45,729 --> 00:02:50,489
+Assuming isSignedIn is true, we'll call
+our empty function configureDatabase.
+
+50
+00:02:50,490 --> 00:02:53,300
+Let's command click it too, which
+jumps us to the empty implementation.
+
+51
+00:02:54,669 --> 00:02:57,500
+Remember, at this point,
+we can assume the user is signed in and
+
+52
+00:02:57,500 --> 00:03:00,639
+that this function,
+configureDatabase, is called.
+
+53
+00:03:00,639 --> 00:03:03,569
+The only thing left to do is
+connect the app to the database.
+
+54
+00:03:04,680 --> 00:03:07,099
+To do this, we'll define
+a reference to the database.
+
+55
+00:03:07,099 --> 00:03:08,560
+It looks something like this.
+
+56
+00:03:09,740 --> 00:03:12,460
+This series of calls gives
+us a reference to the root
+
+57
+00:03:12,460 --> 00:03:15,120
+of our Firebase database, awesome.
+
+58
+00:03:15,120 --> 00:03:17,539
+So now we've established our
+connection to the database, and
+
+59
+00:03:17,539 --> 00:03:19,299
+next, we'll send our first message.
+

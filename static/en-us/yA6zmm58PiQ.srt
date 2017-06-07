@@ -1,0 +1,215 @@
+1
+00:00:00,740 --> 00:00:02,430
+All right, you're done.
+
+2
+00:00:02,430 --> 00:00:03,631
+Let me show you how I did it.
+
+3
+00:00:07,092 --> 00:00:08,809
+So the first thing, of course, we did,
+
+4
+00:00:08,809 --> 00:00:11,520
+we added the design library
+into the dependencies.
+
+5
+00:00:11,520 --> 00:00:13,310
+Now, I did this using
+the user interface,
+
+6
+00:00:13,310 --> 00:00:16,149
+but, this is actually what it did.
+
+7
+00:00:16,149 --> 00:00:20,910
+Note that we also want to make sure
+we are using a compatible version
+
+8
+00:00:20,910 --> 00:00:21,990
+of everything.
+
+9
+00:00:21,990 --> 00:00:24,418
+If we have an old version
+of appcompat in there,
+
+10
+00:00:24,418 --> 00:00:26,798
+it's not going to be
+compatible with design.
+
+11
+00:00:26,798 --> 00:00:28,660
+So you want to make sure
+all these versions match.
+
+12
+00:00:28,660 --> 00:00:30,050
+So it's probably good to go and
+
+13
+00:00:30,050 --> 00:00:33,380
+look in here if you're running into
+trouble because they have to match.
+
+14
+00:00:34,965 --> 00:00:39,457
+All right, hopefully it wouldn't
+compile if they didn't match.
+
+15
+00:00:39,457 --> 00:00:43,745
+Now as I said,
+I did use a frame layout here.
+
+16
+00:00:43,745 --> 00:00:46,225
+I ran into a bug that I couldn't
+work around without this.
+
+17
+00:00:47,255 --> 00:00:48,559
+It shouldn't really be necessary.
+
+18
+00:00:48,559 --> 00:00:51,781
+CoordinatorLayout should be
+able to be the outside layout.
+
+19
+00:00:51,781 --> 00:00:55,060
+I'm using an early beta
+version of this library.
+
+20
+00:00:55,060 --> 00:01:01,980
+So it might actually be fixed, but just
+in case, I'm leaving it in this way.
+
+21
+00:01:01,980 --> 00:01:06,814
+We have CoordinatorLayout here,
+which is doing all the fun work
+
+22
+00:01:06,814 --> 00:01:11,570
+of actually coordinating what's
+going on between our views.
+
+23
+00:01:11,570 --> 00:01:13,661
+It's our nested parent.
+
+24
+00:01:13,661 --> 00:01:19,540
+AppBarLayout is actually
+used to scroll the app bar.
+
+25
+00:01:19,540 --> 00:01:22,270
+And inside of that,
+you can see we have our Toolbar
+
+26
+00:01:22,270 --> 00:01:24,860
+containing our ImageView
+just like we had before.
+
+27
+00:01:24,860 --> 00:01:26,620
+So, no real difference here.
+
+28
+00:01:26,620 --> 00:01:29,926
+The only note is that we have
+to have scrollFlags now,
+
+29
+00:01:29,926 --> 00:01:32,870
+scroll|enterAlways for our toolbar.
+
+30
+00:01:32,870 --> 00:01:36,100
+And our AppBarLayout is going to
+use that to define behavior.
+
+31
+00:01:36,100 --> 00:01:37,260
+We could also pin it or
+
+32
+00:01:37,260 --> 00:01:41,720
+do one of the other cool things that
+AppBar can do with these flags.
+
+33
+00:01:43,130 --> 00:01:47,171
+And then below that, we have our
+RecyclerView, and we had to add this
+
+34
+00:01:47,171 --> 00:01:52,410
+layout_behavior, so app:layout_behavior
+= our scrolling_view_behavior.
+
+35
+00:01:52,410 --> 00:01:55,840
+This is actually defined in the design
+part of the support library.
+
+36
+00:01:55,840 --> 00:01:58,210
+And it is associated with our AppBar.
+
+37
+00:01:58,210 --> 00:02:01,020
+And note that we are actually
+inside of CoordinatorLayout here,
+
+38
+00:02:01,020 --> 00:02:02,790
+not inside of AppBarLayout.
+
+39
+00:02:02,790 --> 00:02:05,360
+And so this is what actually
+connects it all together.
+
+40
+00:02:05,360 --> 00:02:10,330
+Finally, for our TextView, which is
+also in our CoordinatorLayout for empty,
+
+41
+00:02:10,330 --> 00:02:13,999
+I decided it would be cool to
+anchor it to our recyclerview.
+
+42
+00:02:13,999 --> 00:02:18,639
+If you scroll while you are in the empty
+state, it will still scroll up
+
+43
+00:02:18,639 --> 00:02:23,284
+the AppBar, and this will actually
+follow it, which is kind of nice.
+
+44
+00:02:23,284 --> 00:02:24,387
+And so that's it.
+
+45
+00:02:24,387 --> 00:02:27,612
+That's all we had to do was
+modify this XML layout, and
+
+46
+00:02:27,612 --> 00:02:30,855
+we now have these lovely,
+lovely scrolling AppBars.

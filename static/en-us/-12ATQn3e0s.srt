@@ -1,0 +1,431 @@
+1
+00:00:00,430 --> 00:00:02,967
+Okay, so given all that, I've come
+up with a couple of alternative
+
+2
+00:00:02,967 --> 00:00:05,080
+ways we could have structured the data.
+
+3
+00:00:05,080 --> 00:00:06,880
+What do you think we should have done?
+
+4
+00:00:06,880 --> 00:00:09,310
+Before you dive in,
+I wanted to give you some tips so
+
+5
+00:00:09,310 --> 00:00:13,460
+that you have a foundation for analyzing
+the different database schema options.
+
+6
+00:00:13,460 --> 00:00:15,670
+First and foremost,
+when you're making your database schema,
+
+7
+00:00:15,670 --> 00:00:18,670
+you should be clear what
+you're optimizing for.
+
+8
+00:00:18,670 --> 00:00:21,190
+With Firebase, the first thing
+that you're trying to optimize for
+
+9
+00:00:21,190 --> 00:00:23,318
+is the amount of data
+transferred over the network.
+
+10
+00:00:23,318 --> 00:00:26,310
+You want it to be as small as possible.
+
+11
+00:00:26,310 --> 00:00:29,286
+This means that you shouldn't be pulling
+down tons and tons of data every time
+
+12
+00:00:29,286 --> 00:00:33,700
+the user changes a shopping list item
+if you don't need or use that data.
+
+13
+00:00:33,700 --> 00:00:37,590
+Of secondary importance is the number
+of network requests that you make.
+
+14
+00:00:37,590 --> 00:00:39,080
+When you're writing to your database,
+
+15
+00:00:39,080 --> 00:00:43,190
+this means being aware of whether you
+should use updateChildren or setValue.
+
+16
+00:00:43,190 --> 00:00:46,900
+setValue is great for writing data
+to one location in a database, but
+
+17
+00:00:46,900 --> 00:00:49,600
+if you need to write data to
+multiple locations in a database,
+
+18
+00:00:49,600 --> 00:00:51,670
+it's better to use updateChildren.
+
+19
+00:00:51,670 --> 00:00:54,600
+For reading, analyzing whether
+a series of network requests
+
+20
+00:00:54,600 --> 00:00:57,270
+is excessive is a little
+bit more complicated.
+
+21
+00:00:57,270 --> 00:01:00,720
+Mainly, you want to be aware of how
+many listeners that you're making.
+
+22
+00:01:00,720 --> 00:01:03,080
+I'll show you an example of how you
+can tell how many listeners that
+
+23
+00:01:03,080 --> 00:01:03,580
+you're creating.
+
+24
+00:01:04,580 --> 00:01:08,480
+Say that you want to have a screen
+that shows a user's friends.
+
+25
+00:01:08,480 --> 00:01:11,940
+One way you could organize the data is
+to have a list of friends' emails for
+
+26
+00:01:11,940 --> 00:01:13,360
+each user.
+
+27
+00:01:13,360 --> 00:01:17,330
+If we had six users, there'd be
+six friends' emails listed here.
+
+28
+00:01:17,330 --> 00:01:20,328
+Now, in the UI, it looks like you
+want to display the name of the user.
+
+29
+00:01:20,328 --> 00:01:24,170
+So what you'd probably end
+up doing is using the email
+
+30
+00:01:24,170 --> 00:01:28,680
+here as an index into the users data
+structure to be able to grab the name.
+
+31
+00:01:28,680 --> 00:01:32,631
+To count listeners, there'd be one here
+to get all of your friends' emails, and
+
+32
+00:01:32,631 --> 00:01:33,719
+then for each friend,
+
+33
+00:01:33,719 --> 00:01:36,774
+you'd have another listener that
+would then grab their name.
+
+34
+00:01:36,774 --> 00:01:41,420
+If you have six friends, that is
+a grand total of seven listeners.
+
+35
+00:01:41,420 --> 00:01:44,100
+But there are other alternatives
+that you can think about.
+
+36
+00:01:44,100 --> 00:01:48,940
+If, instead of just storing the email
+here, you stored the email and
+
+37
+00:01:48,940 --> 00:01:50,260
+the user's name,
+
+38
+00:01:50,260 --> 00:01:53,580
+this means that you would only need
+one listener to display this data.
+
+39
+00:01:53,580 --> 00:01:57,520
+Another alternative would be trying to
+cache the user data on the client side.
+
+40
+00:01:57,520 --> 00:02:00,160
+But at the end of the day, what you
+should really be thinking about is if
+
+41
+00:02:00,160 --> 00:02:03,350
+these extra listeners seem
+to be affecting the users.
+
+42
+00:02:03,350 --> 00:02:04,220
+If they don't,
+
+43
+00:02:04,220 --> 00:02:07,620
+then you could decide that the data
+structure's okay the way that it is.
+
+44
+00:02:07,620 --> 00:02:10,850
+But you should always be aware when you
+might be generating a bunch of overhead
+
+45
+00:02:10,850 --> 00:02:12,830
+by adding tons and
+tons of extra listeners.
+
+46
+00:02:13,920 --> 00:02:16,590
+My second tip is to
+think about the future.
+
+47
+00:02:16,590 --> 00:02:19,890
+And we really messed up with this
+one with ShoppingList++, and
+
+48
+00:02:19,890 --> 00:02:21,032
+look where we are now.
+
+49
+00:02:21,032 --> 00:02:23,686
+You should try to think about the parts
+of your database that are going to
+
+50
+00:02:23,686 --> 00:02:25,130
+get very big.
+
+51
+00:02:25,130 --> 00:02:29,540
+For example, you might ask yourself, how
+many users am I going to end up with?
+
+52
+00:02:29,540 --> 00:02:34,010
+If the app gets extremely popular,
+you could end up with millions of users.
+
+53
+00:02:34,010 --> 00:02:34,760
+On the other hand,
+
+54
+00:02:34,760 --> 00:02:37,310
+another thing we store in our
+app are shopping list items.
+
+55
+00:02:38,310 --> 00:02:41,530
+So you might be wondering how many
+shopping list items might we have for
+
+56
+00:02:41,530 --> 00:02:43,210
+a single shopping list.
+
+57
+00:02:43,210 --> 00:02:44,070
+Maybe ten?
+
+58
+00:02:45,520 --> 00:02:48,448
+Certainly the number's
+unlikely to go over 100.
+
+59
+00:02:48,448 --> 00:02:51,777
+So when you're trying to make a
+trade-off between a data structure that
+
+60
+00:02:51,777 --> 00:02:54,889
+would divide up the number of users
+that you need to search through or
+
+61
+00:02:54,889 --> 00:02:57,346
+display on a screen versus
+one that would optimize for
+
+62
+00:02:57,346 --> 00:03:00,022
+the number of items displayed for
+a single shopping list,
+
+63
+00:03:00,022 --> 00:03:03,219
+you would probably want to choose
+one that favors the number of users.
+
+64
+00:03:04,400 --> 00:03:07,480
+Remember, we kind of already did
+optimize for shopping list items
+
+65
+00:03:07,480 --> 00:03:10,800
+by dividing them up based on
+the shopping list that they're part of.
+
+66
+00:03:10,800 --> 00:03:12,350
+So, at least, that was good on us.
+
+67
+00:03:13,450 --> 00:03:17,100
+In tip one, I clarified what
+you're optimizing for in general.
+
+68
+00:03:17,100 --> 00:03:19,340
+To apply this specifically to your app,
+
+69
+00:03:19,340 --> 00:03:22,120
+you should be using your
+activities as guides.
+
+70
+00:03:22,120 --> 00:03:26,410
+And what I mean by that is, take all of
+the activities that are in your app, and
+
+71
+00:03:26,410 --> 00:03:30,310
+figure out, what information do
+they need from the database?
+
+72
+00:03:30,310 --> 00:03:33,379
+For each activity,
+you should be optimizing the database so
+
+73
+00:03:33,379 --> 00:03:37,533
+that it's able to quickly retrieve the
+exact information that it needs, again,
+
+74
+00:03:37,533 --> 00:03:40,745
+with minimal data transfer and
+not too many network requests.
+
+75
+00:03:40,745 --> 00:03:44,770
+My next tip is basically to
+take denormalization to heart.
+
+76
+00:03:44,770 --> 00:03:48,400
+Don't be afraid to have data that seems
+like it would be related in different
+
+77
+00:03:48,400 --> 00:03:52,610
+parts of the app if it optimizes
+displaying for one of these activities.
+
+78
+00:03:52,610 --> 00:03:54,875
+Just make sure that you always
+denormalize with a purpose.
+
+79
+00:03:54,875 --> 00:03:59,230
+A deeply nested database is often
+a symptom that somewhere in your app,
+
+80
+00:03:59,230 --> 00:04:02,660
+you're going to be forced to
+download a lot of unnecessary data.
+
+81
+00:04:02,660 --> 00:04:05,910
+If you see that you have a many-leveled
+nest, you should quickly look into
+
+82
+00:04:05,910 --> 00:04:10,370
+whether or not this is actually
+the case, and of course fix it if it is.
+
+83
+00:04:10,370 --> 00:04:13,470
+But if it's not the case that you're
+downloading a lot of extra data,
+
+84
+00:04:13,470 --> 00:04:15,374
+then a little nesting can be fine.
+
+85
+00:04:15,374 --> 00:04:19,216
+All right, with all of those tips in
+mind, here are some suggestions about
+
+86
+00:04:19,216 --> 00:04:23,245
+how we could have reorganized our data
+structure had we thought of it earlier.
+
+87
+00:04:23,245 --> 00:04:26,768
+Out of these, check off the ones that
+you think might have actually helped.
+
+88
+00:04:26,768 --> 00:04:29,792
+In the instructor notes below,
+I've given detailed explanations about
+
+89
+00:04:29,792 --> 00:04:33,480
+what exactly each of these means and
+what the data actually looks like.
+
+90
+00:04:33,480 --> 00:04:35,490
+So make sure to take a look at
+those before you answer anything.

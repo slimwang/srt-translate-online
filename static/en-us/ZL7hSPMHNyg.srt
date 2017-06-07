@@ -1,0 +1,356 @@
+1
+00:00:00,380 --> 00:00:01,510
+Image pyramids.
+
+2
+00:00:01,510 --> 00:00:04,140
+The phrase was popular back
+the late 70s, early 80s.
+
+3
+00:00:04,140 --> 00:00:07,480
+Paper that made it really famous was the
+Burt and Adelson, same Ted Adelson that
+
+4
+00:00:07,480 --> 00:00:11,210
+I showed you an example of from before,
+in terms of some visual illusions.
+
+5
+00:00:11,210 --> 00:00:16,050
+And they built something called a
+Gaussian Pyramid is just this reduction
+
+6
+00:00:16,050 --> 00:00:18,010
+just like I told you before.
+
+7
+00:00:18,010 --> 00:00:22,190
+One of things we can do with Gaussian
+images, or these reduced images,
+
+8
+00:00:22,190 --> 00:00:26,030
+is that we can also create
+something called band-pass images.
+
+9
+00:00:26,030 --> 00:00:30,550
+And having this ability to do both
+Gaussian and band-pass let's you deal
+
+10
+00:00:30,550 --> 00:00:33,560
+with scale very well, which is why I
+want to show you this a little bit here.
+
+11
+00:00:33,560 --> 00:00:38,530
+So, what you have here is,
+it says Gaussian pyramid and
+
+12
+00:00:38,530 --> 00:00:41,620
+it is a Gaussian pyramid, but
+it's blown back up again.
+
+13
+00:00:41,620 --> 00:00:43,490
+All right, in fact, go,
+remember these pictures,
+
+14
+00:00:43,490 --> 00:00:46,170
+where I'm showing you
+the different Van Gogh's and
+
+15
+00:00:46,170 --> 00:00:50,180
+it says half resolution, quarter and
+eighth, but they're the same size?
+
+16
+00:00:50,180 --> 00:00:52,570
+That's because I blew up
+the eighth-sized one,
+
+17
+00:00:52,570 --> 00:00:55,010
+back up to the original size,
+so you could see it, right?
+
+18
+00:00:55,010 --> 00:00:56,870
+So it would look the same way,
+all right.
+
+19
+00:00:56,870 --> 00:00:58,800
+So here, I did the same thing.
+
+20
+00:00:58,800 --> 00:01:02,140
+This our Lena picture that
+we talked of be-, before.
+
+21
+00:01:02,140 --> 00:01:06,170
+And these are, this is the original,
+then blurred, and sub-sampled,
+
+22
+00:01:06,170 --> 00:01:09,930
+and blown back up again blurred,
+sub-sampled, blown, again, again.
+
+23
+00:01:09,930 --> 00:01:13,830
+So these are the lower
+lower resolution images.
+
+24
+00:01:13,830 --> 00:01:15,500
+What I can do is,
+
+25
+00:01:15,500 --> 00:01:21,730
+I can subtract one picture from
+another to get this difference.
+
+26
+00:01:21,730 --> 00:01:24,650
+Right?
+So this is a difference image.
+
+27
+00:01:24,650 --> 00:01:30,480
+Two things, first of all this is called
+the Laplacian and you should know why.
+
+28
+00:01:32,070 --> 00:01:34,550
+If you remember when we
+did the detections, and
+
+29
+00:01:34,550 --> 00:01:39,410
+we first did Harris corners, and
+then we talked about the SIFT detectors.
+
+30
+00:01:39,410 --> 00:01:45,020
+David Lowe was talking about using
+extrema points in scale space.
+
+31
+00:01:45,020 --> 00:01:47,790
+And we said, well, one of the things you
+could do is you could run a Laplacian
+
+32
+00:01:47,790 --> 00:01:48,850
+over different scales.
+
+33
+00:01:48,850 --> 00:01:52,590
+Or you could take different
+Gaussians and subtract them.
+
+34
+00:01:52,590 --> 00:01:54,970
+Those were the difference of Gaussians.
+
+35
+00:01:54,970 --> 00:01:58,000
+And difference of Gaussians
+was approximately the same as
+
+36
+00:01:58,000 --> 00:02:03,730
+a Laplacian That's why these images
+are called Laplacian images, okay?
+
+37
+00:02:03,730 --> 00:02:06,110
+They're also approximately band-pass,
+and
+
+38
+00:02:06,110 --> 00:02:09,470
+we talked about this just a little bit
+when we talked about Fourier analysis.
+
+39
+00:02:09,470 --> 00:02:12,330
+But the idea is that
+the lowest frequency,
+
+40
+00:02:12,330 --> 00:02:16,745
+if this is frequen, i, frequency
+here has them fall off like that.
+
+41
+00:02:16,745 --> 00:02:21,020
+So the next one, if it had higher
+frequency, might look like that.
+
+42
+00:02:21,020 --> 00:02:23,250
+And if I subtract these two,
+
+43
+00:02:23,250 --> 00:02:25,660
+basically I'm mostly going to
+be looking at that space.
+
+44
+00:02:25,660 --> 00:02:29,480
+So this is the power of the frequency.
+
+45
+00:02:29,480 --> 00:02:35,400
+And so when you take a Gaussian blurred
+image and you subtract from that another
+
+46
+00:02:35,400 --> 00:02:39,970
+Gaussian blurred image that's close but
+not the same amount of blurring.
+
+47
+00:02:39,970 --> 00:02:45,230
+You get this section of frequency that
+you're mostly, that you're looking at.
+
+48
+00:02:45,230 --> 00:02:48,060
+It's not totally band-pass,
+cause stuff leaks out this side and
+
+49
+00:02:48,060 --> 00:02:49,510
+stuff leaks out that side.
+
+50
+00:02:49,510 --> 00:02:53,470
+But that's why they're called,
+in quotes, band-pass filtering.
+
+51
+00:02:53,470 --> 00:02:57,640
+So these images here,
+these are called the Laplacian images.
+
+52
+00:02:57,640 --> 00:03:02,820
+What's kind of cool about the Laplacian
+images is you can actually use them
+
+53
+00:03:02,820 --> 00:03:08,570
+to reconstruct the original
+image if you have one thing.
+
+54
+00:03:08,570 --> 00:03:10,250
+So what's that one
+thing you have to have?
+
+55
+00:03:10,250 --> 00:03:13,430
+You have to have the power.
+
+56
+00:03:13,430 --> 00:03:14,170
+No.
+
+57
+00:03:14,170 --> 00:03:20,250
+What you have to have is the smallest
+of the original blurred Gaussian,
+
+58
+00:03:20,250 --> 00:03:21,670
+the top of the Gaussian pyramid.
+
+59
+00:03:21,670 --> 00:03:25,410
+The reason I have to have that is,
+if I take this and
+
+60
+00:03:25,410 --> 00:03:28,250
+I add back in this, I'll get this one.
+
+61
+00:03:28,250 --> 00:03:30,360
+Here let me draw in Lena here like that.
+
+62
+00:03:30,360 --> 00:03:33,600
+Put in her hat and her eyes and
+her nos Yeah, there she is.
+
+63
+00:03:33,600 --> 00:03:35,080
+All right.
+Well once I have that,
+
+64
+00:03:35,080 --> 00:03:39,149
+I can add that to this and
+get a finer version of Lena,
+
+65
+00:03:39,149 --> 00:03:42,365
+and then I can add this and
+get back the original Okay?
+
+66
+00:03:42,365 --> 00:03:45,895
+So the Laplacian pyramid
+plus the coarsest of
+
+67
+00:03:45,895 --> 00:03:50,575
+the level from the Gaussian pyramid
+allows me to do reconstruction.
+
+68
+00:03:50,575 --> 00:03:51,095
+All right.
+
+69
+00:03:51,095 --> 00:03:52,495
+Keep going on this a little bit.
+
+70
+00:03:52,495 --> 00:03:55,975
+To show you how to do the construction
+of a Laplacian pyramid.
+
+71
+00:03:55,975 --> 00:04:00,070
+because you're going to use exactly
+the same steps for building a Laplacian
+
+72
+00:04:00,070 --> 00:04:05,640
+pyramid, you're going to use to
+run hierarchical Lukas and Kanade.
+
+73
+00:04:05,640 --> 00:04:08,120
+That's why we're doing this,
+so we can get over here.
+
+74
+00:04:08,120 --> 00:04:08,900
+You got that?
+
+75
+00:04:08,900 --> 00:04:09,400
+Good.

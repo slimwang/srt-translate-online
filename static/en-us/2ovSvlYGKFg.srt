@@ -1,0 +1,184 @@
+1
+00:00:00,230 --> 00:00:03,880
+What I would like to do know is step
+through a statement of a theorem.
+
+2
+00:00:03,880 --> 00:00:05,750
+We are not going to prove the theorem.
+
+3
+00:00:05,750 --> 00:00:07,540
+That's really up to people like.
+
+4
+00:00:07,540 --> 00:00:11,851
+But we are going to state the theorem
+and understand the theorem well enough
+
+5
+00:00:11,851 --> 00:00:15,320
+so we can apply is to showing
+that Q learning converges.
+
+6
+00:00:15,320 --> 00:00:16,670
+>> Okay.
+>> So, the first thing we are going to
+
+7
+00:00:16,670 --> 00:00:20,310
+do is just to make things
+simpler to write down,
+
+8
+00:00:20,310 --> 00:00:24,640
+we're going to say that Q learning and
+update algorithms like that
+
+9
+00:00:24,640 --> 00:00:28,140
+are going to update all state
+action values on all time steps.
+
+10
+00:00:28,140 --> 00:00:31,320
+However, if it's a state action value
+that doesn't actually correspond
+
+11
+00:00:31,320 --> 00:00:34,420
+to the current state action
+pair that we just experienced
+
+12
+00:00:34,420 --> 00:00:36,150
+then we just set the learning rate to 0.
+
+13
+00:00:36,150 --> 00:00:39,779
+Right so that just means leave the Q
+values alone except for in the state
+
+14
+00:00:39,779 --> 00:00:43,520
+action pair where you actually just
+experience and got a transition.
+
+15
+00:00:43,520 --> 00:00:45,060
+>> Okay.
+>> This is the beginning of the state
+
+16
+00:00:45,060 --> 00:00:49,130
+into the theorem so we're going to say B
+is going to be some contraction mapping.
+
+17
+00:00:49,130 --> 00:00:51,630
+So this is going to be
+the Bellman Operator ultimately.
+
+18
+00:00:51,630 --> 00:00:54,330
+Q star equals = BQ star.
+
+19
+00:00:54,330 --> 00:00:55,210
+That's the fixed point.
+
+20
+00:00:55,210 --> 00:00:56,960
+That's the solution to
+the Bellman Equation.
+
+21
+00:00:56,960 --> 00:00:59,190
+So Q star is like Q star.
+
+22
+00:00:59,190 --> 00:00:59,870
+>> Okay.
+>> And
+
+23
+00:00:59,870 --> 00:01:03,140
+let's imagine that we've got
+some sequence of Q functions.
+
+24
+00:01:03,140 --> 00:01:06,670
+That starts off with Q0 and the way
+we're going to generate the next step
+
+25
+00:01:06,670 --> 00:01:12,130
+from the previous step is we're going to
+have a new kind of operator, B sub T.
+
+26
+00:01:12,130 --> 00:01:17,000
+B sub t is going to be applied to Q sub
+t, producing an operator that we then
+
+27
+00:01:17,000 --> 00:01:22,530
+apply to Q sub t and that's what
+we assign Q t plus one to be.
+
+28
+00:01:22,530 --> 00:01:25,710
+So in the context of Q-learning,
+
+29
+00:01:25,710 --> 00:01:30,590
+this is essentially the Q-learning
+update, but we're going to separate out
+
+30
+00:01:30,590 --> 00:01:33,910
+the two different Q functions that
+are used in the Q-learning update.
+
+31
+00:01:33,910 --> 00:01:38,240
+One is the past Q function that
+we're using to average together,
+
+32
+00:01:38,240 --> 00:01:41,130
+to take care of the fact that
+there's noise in the transitions.
+
+33
+00:01:41,130 --> 00:01:44,600
+And then the other Q function is the one
+that we're using in one-step look ahead
+
+34
+00:01:44,600 --> 00:01:46,270
+as part of the Bellman equation.
+
+35
+00:01:46,270 --> 00:01:47,810
+But we'll get to that in a moment.
+
+36
+00:01:47,810 --> 00:01:48,830
+But here's the cool thing.
+
+37
+00:01:48,830 --> 00:01:53,290
+That this sequence of Q functions,
+starting from any Q0 that we want,
+
+38
+00:01:53,290 --> 00:01:57,890
+as long as keep applying this,
+is going to go to Q star, as long
+
+39
+00:01:57,890 --> 00:02:02,759
+as we have certain properties holding
+on how we defined these B sub t's.

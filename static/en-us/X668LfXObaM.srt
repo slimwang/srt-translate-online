@@ -1,0 +1,151 @@
+1
+00:00:00,160 --> 00:00:06,280
+One question that you can ask is also, are threads useful on a single CPU?
+
+2
+00:00:06,280 --> 00:00:09,470
+Or even more generally, are threads useful when the number of
+
+3
+00:00:09,470 --> 00:00:12,230
+threads is greater than the number of CPUs?
+
+4
+00:00:12,230 --> 00:00:13,500
+To answer this question,
+
+5
+00:00:13,500 --> 00:00:18,780
+let's consider a situation where a single thread, T1, makes a disk request.
+
+6
+00:00:19,940 --> 00:00:24,710
+As soon as the request comes in, the disk needs some amount of time to
+
+7
+00:00:24,710 --> 00:00:31,060
+move the disk spindle to get to the appropriate data and respond to the request.
+
+8
+00:00:31,060 --> 00:00:33,120
+Let's call this time t_idle.
+
+9
+00:00:33,120 --> 00:00:36,590
+During this time, thread 1 has nothing to do but wait.
+
+10
+00:00:37,650 --> 00:00:40,410
+So the CPU is idle and does nothing.
+
+11
+00:00:40,410 --> 00:00:45,350
+If this idle time is sufficiently longer than the time it takes to make
+
+12
+00:00:45,350 --> 00:00:50,680
+a context switch, then it starts making sense to perhaps context switch from
+
+13
+00:00:50,680 --> 00:00:56,260
+thread one to some other thread, T2, and have that thread do something useful.
+
+14
+00:00:56,260 --> 00:00:58,130
+Or specifically rather,
+
+15
+00:00:58,130 --> 00:01:02,990
+we need the execution context that's waiting on some event to be waiting for
+
+16
+00:01:02,990 --> 00:01:07,350
+an amount of time that's longer than, really, two context switches.
+
+17
+00:01:07,350 --> 00:01:10,280
+So that it would make sense to switch to another thread.
+
+18
+00:01:10,280 --> 00:01:12,900
+Have that thread perform some operation.
+
+19
+00:01:12,900 --> 00:01:14,210
+And then switch back.
+
+20
+00:01:14,210 --> 00:01:19,790
+So basically as long the time to context switch, t context switch,
+
+21
+00:01:19,790 --> 00:01:25,470
+is such that t idle is greater than twice the time to context switch,
+
+22
+00:01:25,470 --> 00:01:30,030
+it makes sense to context switch to another thread and hide the idling time.
+
+23
+00:01:30,030 --> 00:01:33,060
+Now this is true for both processes and threads.
+
+24
+00:01:33,060 --> 00:01:38,360
+However, recall from the last lesson, we said that one of the most costly steps
+
+25
+00:01:38,360 --> 00:01:44,000
+during the context switch is the time that's required to create the new virtual
+
+26
+00:01:44,000 --> 00:01:48,780
+to physical address mappings for the new process that, that will be scheduled.
+
+27
+00:01:48,780 --> 00:01:51,850
+Given that threads share an address space.
+
+28
+00:01:51,850 --> 00:01:53,990
+When we're context switching among threads,
+
+29
+00:01:53,990 --> 00:01:59,340
+it is not necessary to recreate new virtual to physical address mappings.
+
+30
+00:01:59,340 --> 00:02:02,870
+So in the threads case, this costly step is avoided.
+
+31
+00:02:02,870 --> 00:02:07,280
+For this reason, the time to contact switch among threads is less to
+
+32
+00:02:07,280 --> 00:02:09,990
+contact switch among processes.
+
+33
+00:02:09,990 --> 00:02:14,545
+The shorter the contact switching time is there will be more of these
+
+34
+00:02:14,545 --> 00:02:19,680
+t_idle situations when a thread is idling where it will make sense to
+
+35
+00:02:19,680 --> 00:02:25,440
+contact switch to another thread and hide the wasted, the idling time.
+
+36
+00:02:25,440 --> 00:02:29,740
+Therefore, multithreading is especially useful because it allow us to
+
+37
+00:02:29,740 --> 00:02:34,690
+hide more of the latency that's associated with IO operations and
+
+38
+00:02:34,690 --> 00:02:36,770
+this is useful even in a single CPU.

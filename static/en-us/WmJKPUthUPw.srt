@@ -1,0 +1,321 @@
+1
+00:00:00,160 --> 00:00:03,360
+I'm going to show writing the code on
+this data frame of grades with two exams
+
+2
+00:00:03,360 --> 00:00:04,170
+and five students.
+
+3
+00:00:05,300 --> 00:00:07,840
+First, I know that I'm going to
+need the mean of each column,
+
+4
+00:00:07,840 --> 00:00:10,650
+which I can get using grades_df.mean.
+
+5
+00:00:10,650 --> 00:00:15,490
+This gives me the mean for exam1 and
+the mean for exam2 in a Pandas series.
+
+6
+00:00:15,490 --> 00:00:18,170
+I'll also take a look at
+the original data frame here.
+
+7
+00:00:18,170 --> 00:00:20,390
+Now, in order to
+standardize each column,
+
+8
+00:00:20,390 --> 00:00:23,680
+I want to subtract the mean of
+each column from that column.
+
+9
+00:00:23,680 --> 00:00:28,170
+So I want to subtract the first mean
+from every value in the first column,
+
+10
+00:00:28,170 --> 00:00:31,240
+and I want to subtract the second mean
+from every value in the second column.
+
+11
+00:00:32,390 --> 00:00:34,690
+This works the same way you
+saw addition just working.
+
+12
+00:00:34,690 --> 00:00:38,129
+I'll take grades_dr
+minus grades_df.mean.
+
+13
+00:00:38,129 --> 00:00:41,249
+And sure enough, looking at
+the first two scores for exam1,
+
+14
+00:00:41,249 --> 00:00:44,789
+I see a negative score for Andre since
+his score was below the mean, and
+
+15
+00:00:44,789 --> 00:00:47,916
+a positive score for Barry since
+his score was above the mean.
+
+16
+00:00:47,916 --> 00:00:51,992
+Next I need to divide each column by
+its corresponding standard deviation,
+
+17
+00:00:51,992 --> 00:00:53,592
+which I can do in the same way.
+
+18
+00:00:53,592 --> 00:00:57,483
+I use grades_df.std to get the standard
+deviation of each column, and
+
+19
+00:00:57,483 --> 00:01:01,307
+then I divide the data frame by the
+series to divide each exam score by its
+
+20
+00:01:01,307 --> 00:01:03,670
+corresponding deviation.
+
+21
+00:01:03,670 --> 00:01:06,180
+As usual, watch out for the parentheses.
+
+22
+00:01:06,180 --> 00:01:07,310
+And running this again,
+
+23
+00:01:07,310 --> 00:01:11,430
+I can see that each exam has been
+put in standard deviation units.
+
+24
+00:01:11,430 --> 00:01:13,930
+Notice that this code actually
+looks exactly the same
+
+25
+00:01:13,930 --> 00:01:16,710
+as the code to standardize
+a single series.
+
+26
+00:01:16,710 --> 00:01:20,440
+That's pretty cool, but as you'll see
+in a minute, it's sort of deceptively
+
+27
+00:01:20,440 --> 00:01:24,720
+simple since standardizing each
+row is a little more involved.
+
+28
+00:01:24,720 --> 00:01:27,020
+So how would I go about
+standardizing each row?
+
+29
+00:01:27,020 --> 00:01:29,899
+Well, first I'll take a look at the
+original data frame again for reference.
+
+30
+00:01:31,070 --> 00:01:33,770
+I know that this time I'll
+need the mean of each row and
+
+31
+00:01:33,770 --> 00:01:36,610
+I can get that by using axis = columns.
+
+32
+00:01:36,610 --> 00:01:40,110
+Remember this means I'm taking
+the mean along each column
+
+33
+00:01:40,110 --> 00:01:42,250
+which will give me the mean of each row.
+
+34
+00:01:42,250 --> 00:01:46,150
+And sure enough this gave me the mean
+of each student across the two exams.
+
+35
+00:01:46,150 --> 00:01:49,710
+Now I need to subtract the first mean
+from the first row of the data frame,
+
+36
+00:01:49,710 --> 00:01:52,560
+the second mean from the second row and
+so on.
+
+37
+00:01:52,560 --> 00:01:57,090
+However, if I try to use grades df minus
+grades_df.mean like I did a minute ago,
+
+38
+00:01:57,090 --> 00:02:00,880
+it will try to subtract the amount of
+these values from one column of the data
+
+39
+00:02:00,880 --> 00:02:03,380
+frame which actually won't work since
+
+40
+00:02:03,380 --> 00:02:07,150
+the indexes of this series don't line up
+with the column names of the data frame.
+
+41
+00:02:07,150 --> 00:02:09,449
+So I would just get a bunch of demands.
+
+42
+00:02:09,449 --> 00:02:12,840
+Instead, I'll need to use the sub
+function which stands for subtract and
+
+43
+00:02:12,840 --> 00:02:16,990
+does the same thing as the minus sign
+but it can also take an access argument.
+
+44
+00:02:16,990 --> 00:02:19,890
+In this case, the access should
+be index since I want to match up
+
+45
+00:02:19,890 --> 00:02:24,240
+the elements of the series with elements
+of the data frame using the row indexes.
+
+46
+00:02:24,240 --> 00:02:25,960
+And now I'll try this out.
+
+47
+00:02:25,960 --> 00:02:28,170
+Here I can see that all
+the values in column one and
+
+48
+00:02:28,170 --> 00:02:31,250
+all the values of column two
+have the same absolute value.
+
+49
+00:02:31,250 --> 00:02:35,400
+Which is what happens when you subtract
+the mean from only two values.
+
+50
+00:02:35,400 --> 00:02:38,650
+I'll name this data frame
+mean_diffs to use later.
+
+51
+00:02:38,650 --> 00:02:41,430
+Next, to divide by the standard
+deviation I need very similar
+
+52
+00:02:41,430 --> 00:02:42,870
+code to before.
+
+53
+00:02:42,870 --> 00:02:45,640
+I'll take the standard deviation
+of the grades column with axis
+
+54
+00:02:45,640 --> 00:02:49,090
+equals columns so that I get
+the standard deviation of each row.
+
+55
+00:02:49,090 --> 00:02:52,860
+Then I'll use mean_diffs.div to
+divide the mean_diffs data frame
+
+56
+00:02:52,860 --> 00:02:54,709
+by the standard deviations series.
+
+57
+00:02:55,880 --> 00:02:59,490
+And then I'll use axis='index' to match
+up elements based on row indexes.
+
+58
+00:03:00,590 --> 00:03:02,340
+You can see here that
+the results are the same for
+
+59
+00:03:02,340 --> 00:03:05,000
+each row, which again happens
+because there's only two columns.
+
+60
+00:03:06,340 --> 00:03:09,890
+Now this code actually looks exactly
+the same as the code to standardize each
+
+61
+00:03:09,890 --> 00:03:14,870
+column, except that each axis argument
+was the opposite of the default.
+
+62
+00:03:14,870 --> 00:03:17,950
+This is something to watch out for
+when writing Pandas code.
+
+63
+00:03:17,950 --> 00:03:21,360
+If you're doing a very common operation
+then you likely won't need to specify
+
+64
+00:03:21,360 --> 00:03:24,590
+an axis since the default
+axis will be correct for you.
+
+65
+00:03:24,590 --> 00:03:27,410
+On the other hand, if you're doing
+something slightly unexpected
+
+66
+00:03:27,410 --> 00:03:30,720
+like standardizing each row instead
+of each column of a data frame
+
+67
+00:03:30,720 --> 00:03:34,020
+then you're going to have to specify
+non-default axes all over the place.

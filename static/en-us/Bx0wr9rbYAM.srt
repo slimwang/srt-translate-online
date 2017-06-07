@@ -1,0 +1,264 @@
+1
+00:00:00,280 --> 00:00:03,930
+Now, when it comes to running
+tasks that have the same priority,
+
+2
+00:00:03,930 --> 00:00:07,610
+we have other options in addition
+to the first-come first-serve or
+
+3
+00:00:07,610 --> 00:00:10,440
+shortest job first that we discussed so
+far.
+
+4
+00:00:10,440 --> 00:00:14,200
+A popular option is so-called
+a round robin scheduling.
+
+5
+00:00:14,200 --> 00:00:15,568
+So let's say we have
+the following scenario.
+
+6
+00:00:15,568 --> 00:00:19,025
+We have three tasks,
+they all show up at the same time, and
+
+7
+00:00:19,025 --> 00:00:20,659
+they're all in the queue.
+
+8
+00:00:20,659 --> 00:00:24,422
+With round robin scheduling, we'll pick
+up the first task from the queue just
+
+9
+00:00:24,422 --> 00:00:27,173
+like with the first-come,
+first-serve scheduling.
+
+10
+00:00:27,173 --> 00:00:30,595
+Now, let's say we pick up T1,
+that's the first in the queue, so
+
+11
+00:00:30,595 --> 00:00:31,834
+T1 starts executing.
+
+12
+00:00:31,834 --> 00:00:34,596
+Now, if they're executing for
+one time unit,
+
+13
+00:00:34,596 --> 00:00:38,470
+the task stopped because it now
+needs to wait on an I/O operation.
+
+14
+00:00:38,470 --> 00:00:42,700
+So it will yield the CPU and
+be blocked on that I/O operation.
+
+15
+00:00:42,700 --> 00:00:46,350
+This is unlike what we saw
+in first-come first-serve,
+
+16
+00:00:46,350 --> 00:00:51,720
+where we were assuming that each of
+the tasks executes until it completes.
+
+17
+00:00:51,720 --> 00:00:54,170
+If that's the case, we'll schedule T2.
+
+18
+00:00:54,170 --> 00:00:56,550
+T3 will move to the front of the queue.
+
+19
+00:00:56,550 --> 00:01:00,260
+Now, potentially,
+T1 will complete its I/O operation and
+
+20
+00:01:00,260 --> 00:01:03,670
+will be placed at the end
+of the queue behind T3.
+
+21
+00:01:03,670 --> 00:01:05,832
+Then when T2 completes,
+we will schedule T3.
+
+22
+00:01:05,832 --> 00:01:08,755
+The execution time here we
+assume is only two time units.
+
+23
+00:01:08,755 --> 00:01:13,019
+And then when that one completes, we'll
+finally pick up T1 from the queue and
+
+24
+00:01:13,019 --> 00:01:14,510
+complete T1.
+
+25
+00:01:14,510 --> 00:01:18,920
+If T1 had not been waiting on I/O,
+then the execution based on T1,
+
+26
+00:01:18,920 --> 00:01:22,320
+T2, T3, the order in which
+they were placed in the queue,
+
+27
+00:01:22,320 --> 00:01:23,770
+would've looked something like this.
+
+28
+00:01:23,770 --> 00:01:28,290
+So each of their tasks executes one
+by one in a round robin manner, and
+
+29
+00:01:28,290 --> 00:01:31,550
+the queue is traversed in
+a round robin manner one by one.
+
+30
+00:01:31,550 --> 00:01:35,655
+We can further generalize round
+robin to include priorities as well.
+
+31
+00:01:35,655 --> 00:01:39,389
+Let's assume that the tasks don't
+arrive at the same time, T2, and
+
+32
+00:01:39,389 --> 00:01:43,125
+T3 arrive a little later, and
+that their priorities are as follows,
+
+33
+00:01:43,125 --> 00:01:46,185
+T1's priority is the lowest and
+T3's is the highest.
+
+34
+00:01:46,185 --> 00:01:50,406
+So in that case, what happens is that
+when a higher priority task arrives,
+
+35
+00:01:50,406 --> 00:01:52,888
+the lower priority
+task will be preempted.
+
+36
+00:01:52,888 --> 00:01:56,060
+If T2 and T3, however,
+have the same priorities,
+
+37
+00:01:56,060 --> 00:02:01,270
+then the scheduler will just go round
+robin between them until they complete.
+
+38
+00:02:01,270 --> 00:02:04,010
+So basically,
+in order to incorporate priorities,
+
+39
+00:02:04,010 --> 00:02:08,600
+we have to include preemption, but
+otherwise the tasks will be scheduled
+
+40
+00:02:08,600 --> 00:02:11,460
+from the queue like in
+first-come first-serve.
+
+41
+00:02:11,460 --> 00:02:13,610
+So, the first task from the queue.
+
+42
+00:02:13,610 --> 00:02:17,960
+However, we will release the requirement
+that they have to control the CPU,
+
+43
+00:02:17,960 --> 00:02:21,370
+that they have to execute on
+the CPU until they complete.
+
+44
+00:02:21,370 --> 00:02:23,630
+Instead, they may explicitly yield.
+
+45
+00:02:23,630 --> 00:02:26,930
+And we will just round robin
+among the tasks on the queue.
+
+46
+00:02:26,930 --> 00:02:31,000
+A further modification that makes sense
+for round robin is not to wait for
+
+47
+00:02:31,000 --> 00:02:35,270
+the tasks to yield explicitly,
+but instead to interrupt them so
+
+48
+00:02:35,270 --> 00:02:40,100
+as to mix in all of the tasks that
+are in the system at the same time.
+
+49
+00:02:40,100 --> 00:02:42,930
+We call such mechanism time slicing.
+
+50
+00:02:42,930 --> 00:02:47,870
+So let's say we can give each of
+the tasks a time slice of one time unit.
+
+51
+00:02:47,870 --> 00:02:51,900
+And then, after a time unit, we will
+interrupt them, we will preempt them,
+
+52
+00:02:51,900 --> 00:02:55,920
+and we will schedule the next task in
+the queue in a round robin manner.
+
+53
+00:02:55,920 --> 00:03:00,420
+So we will cycle through them,
+T1, T2, T3, and then again.
+
+54
+00:03:00,420 --> 00:03:03,980
+We will focus our discussion next
+on timeslicing to better explain
+
+55
+00:03:03,980 --> 00:03:04,570
+this mechanism.

@@ -1,0 +1,321 @@
+﻿1
+00:00:00,370 --> 00:00:02,620
+Now that Friendly Chat is
+connected to the database,
+
+2
+00:00:02,620 --> 00:00:04,980
+let's write code to
+send a message to it.
+
+3
+00:00:04,980 --> 00:00:08,210
+If we think when our app is running,
+the best time to send a message would be
+
+4
+00:00:08,210 --> 00:00:11,370
+as soon as the send
+message button is tapped.
+
+5
+00:00:11,369 --> 00:00:14,303
+There's already an action wired up for
+this called, did send message.
+
+6
+00:00:17,504 --> 00:00:20,695
+That's what I'm looking at
+now in the FCViewController.
+
+7
+00:00:20,695 --> 00:00:23,004
+This function calls text
+field should return, and
+
+8
+00:00:23,004 --> 00:00:25,794
+it resets the message
+text field back to empty.
+
+9
+00:00:26,964 --> 00:00:29,155
+All right, there's our starting point.
+
+10
+00:00:29,155 --> 00:00:32,875
+Let's go a little bit deeper by diving
+into the text field should return
+
+11
+00:00:32,875 --> 00:00:34,395
+function and see what's happening there.
+
+12
+00:00:35,524 --> 00:00:39,320
+In text field should return,
+assuming the text field isn't empty.
+
+13
+00:00:39,320 --> 00:00:42,393
+We see the messages packaged
+into a data dictionary.
+
+14
+00:00:42,393 --> 00:00:46,640
+And then passed along to another
+function called send message.
+
+15
+00:00:46,640 --> 00:00:50,079
+Our data dictionary consists of
+a key which identifies the text
+
+16
+00:00:50,079 --> 00:00:50,829
+we're wanting to send.
+
+17
+00:00:50,829 --> 00:00:55,219
+And then the value is the actual string
+itself contained in our text field.
+
+18
+00:00:56,219 --> 00:00:58,359
+Let's keep following along
+the path through the code and
+
+19
+00:00:58,359 --> 00:00:59,609
+see what send message is doing.
+
+20
+00:01:00,649 --> 00:01:03,390
+Aha, the send message function is empty.
+
+21
+00:01:03,390 --> 00:01:07,019
+This is where we need to add the code
+to push the message to the database.
+
+22
+00:01:08,840 --> 00:01:11,780
+To do this, we'll use the database
+reference that we made earlier.
+
+23
+00:01:13,629 --> 00:01:16,959
+If we think about the database
+structure, the reference that we've made
+
+24
+00:01:16,959 --> 00:01:20,325
+starts at the topmost part,
+or the root of the JSON.
+
+25
+00:01:20,325 --> 00:01:24,019
+We're able to walk on in the JSON
+by using the child method.
+
+26
+00:01:25,969 --> 00:01:30,359
+For example, if I were to call
+ref.child and past messages,
+
+27
+00:01:30,359 --> 00:01:34,609
+that's like specifying the node
+of the path /messages.
+
+28
+00:01:34,609 --> 00:01:37,079
+If we recall the example
+structure we saw earlier,
+
+29
+00:01:37,079 --> 00:01:40,590
+we want to store each message
+as a child of messages,
+
+30
+00:01:40,590 --> 00:01:44,960
+using some kind of unique
+identifying string for each message.
+
+31
+00:01:44,959 --> 00:01:46,229
+So how would we achieve this?
+
+32
+00:01:47,579 --> 00:01:49,081
+Let me go ahead and remove that code.
+
+33
+00:01:49,081 --> 00:01:54,809
+And let's focus in on the mechanism for
+achieving this, childByAutoId.
+
+34
+00:01:54,810 --> 00:01:58,560
+This function generates a unique key
+that's prefixed with the time stamp, so
+
+35
+00:01:58,560 --> 00:02:02,049
+the resulting list of messages that we
+have, will be chronologically sorted.
+
+36
+00:02:03,219 --> 00:02:08,038
+So in our case, we'd be specifying
+a path that looks like /messages/ some
+
+37
+00:02:08,038 --> 00:02:09,786
+auto generated unique id.
+
+38
+00:02:09,786 --> 00:02:12,719
+And that's exactly what we want.
+
+39
+00:02:12,719 --> 00:02:15,620
+It ensures that the path is unique,
+and that the database will be able to
+
+40
+00:02:15,620 --> 00:02:19,090
+distinguish between messages,
+even if they contain the same text.
+
+41
+00:02:20,849 --> 00:02:22,530
+And then once we have
+our path constructed,
+
+42
+00:02:22,530 --> 00:02:25,539
+we can set a value at the path
+using the set value function.
+
+43
+00:02:26,879 --> 00:02:29,569
+For this, we could pass in
+the data argument directly, but
+
+44
+00:02:29,569 --> 00:02:31,319
+let's tweak the data a little bit first.
+
+45
+00:02:32,340 --> 00:02:34,689
+Let's also add a display
+name to the data, so
+
+46
+00:02:34,689 --> 00:02:37,469
+that when we set the value at this path,
+it includes the actual
+
+47
+00:02:37,469 --> 00:02:40,919
+text of the message, plus the display
+name of the user who sent it.
+
+48
+00:02:41,919 --> 00:02:44,888
+So to do this, we've created a copy
+of our data called end-data.
+
+49
+00:02:44,889 --> 00:02:47,659
+And then we've added a key value
+pair where the key is name,
+
+50
+00:02:47,659 --> 00:02:49,280
+and the value is our display name.
+
+51
+00:02:50,460 --> 00:02:53,350
+And then we pass M data to
+the set value function.
+
+52
+00:02:53,350 --> 00:02:56,139
+And this is what writes
+the message to the database.
+
+53
+00:02:57,780 --> 00:03:00,810
+Okay, let's run the app again to see
+if our message will actually send.
+
+54
+00:03:03,689 --> 00:03:05,689
+I'll send hello as our test message.
+
+55
+00:03:06,879 --> 00:03:07,680
+Well, that didn't work.
+
+56
+00:03:07,680 --> 00:03:09,420
+In the debug error,
+
+57
+00:03:09,419 --> 00:03:13,689
+we see that the app has been denied
+permission to set value or remove value.
+
+58
+00:03:13,689 --> 00:03:16,120
+We're not permitted to
+write to the database.
+
+59
+00:03:16,120 --> 00:03:17,539
+That's not good.
+
+60
+00:03:17,539 --> 00:03:19,269
+What's the problem?
+
+61
+00:03:19,270 --> 00:03:22,718
+If you go to the Database
+tab in the Firebase Console,
+
+62
+00:03:22,717 --> 00:03:24,641
+which we selected over here.
+
+63
+00:03:24,641 --> 00:03:28,409
+You'll notice that the message also
+didn't populate in the database.
+
+64
+00:03:28,409 --> 00:03:29,020
+So what do we do?
+
+65
+00:03:30,150 --> 00:03:33,283
+Well, it's just so happens that the
+database uses a set of rules to control
+
+66
+00:03:33,283 --> 00:03:35,144
+how the database can be viewed and
+changed.
+
+67
+00:03:35,144 --> 00:03:37,610
+And this is for our own good.
+
+68
+00:03:37,610 --> 00:03:39,670
+We'll look how to
+modify this rules next.
+

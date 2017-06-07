@@ -1,0 +1,226 @@
+1
+00:00:00,100 --> 00:00:04,460
+Let's first look at an example in which
+we will consider two CPU bound tasks.
+
+2
+00:00:04,460 --> 00:00:07,550
+So, these are tasks that are mostly
+just running on the CPU and
+
+3
+00:00:07,550 --> 00:00:09,620
+don't perform any I/O.
+
+4
+00:00:09,620 --> 00:00:12,860
+Let's assume their execution
+time is ten seconds, and
+
+5
+00:00:12,860 --> 00:00:15,960
+in this system let's assume that
+the time to context switch from
+
+6
+00:00:15,960 --> 00:00:19,240
+one context to another
+takes just 0.1 seconds.
+
+7
+00:00:20,270 --> 00:00:24,164
+For this scenario now let's take a look
+at what will happen when we consider two
+
+8
+00:00:24,164 --> 00:00:27,173
+different timeslice values,
+timeslice of one second, and
+
+9
+00:00:27,173 --> 00:00:29,360
+timeslice of five seconds.
+
+10
+00:00:29,360 --> 00:00:32,972
+With a timeslice of one second, the
+execution of these two tasks will look
+
+11
+00:00:32,972 --> 00:00:36,295
+something as follows, and
+let's assume that the thicker vertical
+
+12
+00:00:36,295 --> 00:00:40,298
+bars are trying to capture this context,
+which overhead in this case.
+
+13
+00:00:40,298 --> 00:00:44,710
+For the timeslice value of five seconds,
+the schedule will look as follows.
+
+14
+00:00:44,710 --> 00:00:48,830
+In the context switch overhead is
+only paid at this particular points.
+
+15
+00:00:48,830 --> 00:00:52,040
+That's in contrast with having to
+context switch at every single one of
+
+16
+00:00:52,040 --> 00:00:53,870
+these vertical bars here.
+
+17
+00:00:53,870 --> 00:00:57,680
+Now if we compute the metrics for
+throughput, average wait time, and
+
+18
+00:00:57,680 --> 00:01:02,830
+average completion time for these tasks,
+we will obtain the following results.
+
+19
+00:01:02,830 --> 00:01:05,840
+To complete the throughput,
+we calculate the total time that it
+
+20
+00:01:05,840 --> 00:01:10,340
+took to execute these tasks, and divide
+it by two, by the number of tasks.
+
+21
+00:01:10,340 --> 00:01:13,300
+To complete the average wait time,
+we look at the start
+
+22
+00:01:13,300 --> 00:01:18,130
+time of each of the tasks, and
+divide that by two, the number of tasks.
+
+23
+00:01:18,130 --> 00:01:20,130
+And to complete the average
+completion time,
+
+24
+00:01:20,130 --> 00:01:24,240
+we'll look at when each of the two tasks
+completed, and then we average that.
+
+25
+00:01:24,240 --> 00:01:28,050
+And the detailed calculations for both
+of these are in the instructors notes.
+
+26
+00:01:28,050 --> 00:01:30,230
+Looking at these metrics,
+we see that for
+
+27
+00:01:30,230 --> 00:01:34,500
+throughput, we are better off
+choosing a higher timeslice value.
+
+28
+00:01:34,500 --> 00:01:38,010
+For completion time, also, we're better
+off choosing a higher timeslice value.
+
+29
+00:01:38,010 --> 00:01:40,740
+And then for
+the average wait time of the task,
+
+30
+00:01:40,740 --> 00:01:44,310
+we are actually better off
+choosing a lower timeslice value.
+
+31
+00:01:44,310 --> 00:01:46,720
+However, these are CPU bound tasks.
+
+32
+00:01:46,720 --> 00:01:50,340
+We don't really care about
+their responsiveness and
+
+33
+00:01:50,340 --> 00:01:53,810
+the user is not necessarily going
+to perceive when they started.
+
+34
+00:01:53,810 --> 00:01:57,505
+The user really cares about
+when they complete, and
+
+35
+00:01:57,505 --> 00:02:01,845
+overall when all of the tasks
+submitted to the system complete.
+
+36
+00:02:01,845 --> 00:02:04,685
+So this really means that
+CPU bound tasks we're
+
+37
+00:02:04,685 --> 00:02:07,765
+really better off with
+choosing a larger timeslice.
+
+38
+00:02:07,765 --> 00:02:10,414
+This is the winning combination for us.
+
+39
+00:02:10,414 --> 00:02:14,656
+In fact, for CPU bound tasks,
+if we didn't know timeslicing at all, so
+
+40
+00:02:14,656 --> 00:02:19,800
+like the timeslice value is infinite,
+we'd end up with absolutely the best
+
+41
+00:02:19,800 --> 00:02:23,740
+performance in terms of the throughput
+and the average completion time, so
+
+42
+00:02:23,740 --> 00:02:28,210
+the metrics that we care for
+when we run CPU bound tasks.
+
+43
+00:02:28,210 --> 00:02:32,840
+Yes, of course, the average wait time of
+the task will be worse in that case, but
+
+44
+00:02:32,840 --> 00:02:33,850
+we don't care about that.
+
+45
+00:02:33,850 --> 00:02:34,950
+It's CPU bound task.
+
+46
+00:02:34,950 --> 00:02:36,540
+We won't notice that.
+
+47
+00:02:36,540 --> 00:02:40,000
+In summary, a CPU bound task
+prefers a larger timeslice.

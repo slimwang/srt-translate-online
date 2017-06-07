@@ -1,0 +1,159 @@
+1
+00:00:00,330 --> 00:00:05,272
+The first code snippet is correct because it perfectly aligns with the policy.
+
+2
+00:00:05,272 --> 00:00:08,180
+If new_order is equal to 3,
+
+3
+00:00:08,180 --> 00:00:11,560
+clearly an incoming thread will not be able to proceed.
+
+4
+00:00:12,580 --> 00:00:15,900
+So this will guarantee that there cannot be more than
+
+5
+00:00:15,900 --> 00:00:18,400
+three new orders processed in the toy shop.
+
+6
+00:00:18,400 --> 00:00:23,690
+Note, by the way, that new_ order cannot be larger than 3, given that the only
+
+7
+00:00:23,690 --> 00:00:27,960
+way that it will get updated is once we come out of this wait statement.
+
+8
+00:00:27,960 --> 00:00:32,080
+So, the maximum value that new_order can receive in this code is 3.
+
+9
+00:00:32,080 --> 00:00:36,040
+The second part of this statement also perfectly aligns with the second part of
+
+10
+00:00:36,040 --> 00:00:37,120
+the policy.
+
+11
+00:00:37,120 --> 00:00:41,430
+If we have a situation in which there are some number of old_orders in
+
+12
+00:00:41,430 --> 00:00:48,000
+the system, and one request for a new_order has already entered the toy shop,
+
+13
+00:00:48,000 --> 00:00:52,860
+then any incoming new_order will have to be blocked at the wait statement.
+
+14
+00:00:52,860 --> 00:00:55,660
+So, this piece of code, this answer, is correct.
+
+15
+00:00:55,660 --> 00:01:00,210
+The second code snippet is almost identical to the first one,
+
+16
+00:01:00,210 --> 00:01:03,390
+however, it uses if as opposed to while.
+
+17
+00:01:03,390 --> 00:01:08,110
+We explained that if creates a problem, in that, when we come out of
+
+18
+00:01:08,110 --> 00:01:14,030
+the statement, when we thought that this condition was satisfied.
+
+19
+00:01:14,030 --> 00:01:19,725
+It is possible that, in the meantime, another thread has come in and
+
+20
+00:01:19,725 --> 00:01:25,310
+executed this particular lock operation or even the critical section entry for
+
+21
+00:01:25,310 --> 00:01:29,990
+the old_order, and has therefore changed the value of this predicate.
+
+22
+00:01:29,990 --> 00:01:35,210
+If we don't go back to reevaluate the predicate, it is possible that
+
+23
+00:01:35,210 --> 00:01:40,200
+we will miss such a case and therefore enter the actual critical section.
+
+24
+00:01:40,200 --> 00:01:44,430
+So, enter the toy shop in a way that violates this policy.
+
+25
+00:01:44,430 --> 00:01:49,070
+So this answer is not correct because it uses this if as opposed to a while.
+
+26
+00:01:49,070 --> 00:01:52,420
+The third statement is incorrect because it
+
+27
+00:01:52,420 --> 00:01:56,430
+checks whether old_order is greater than or equal to 0.
+
+28
+00:01:56,430 --> 00:02:02,510
+So, what this means means if that a new incoming order will be blocked if
+
+29
+00:02:02,510 --> 00:02:08,560
+there is already one new_order in the system and old_order is equal to 0.
+
+30
+00:02:08,560 --> 00:02:12,040
+And basically no other orders for
+
+31
+00:02:12,040 --> 00:02:15,370
+toy repairs, no other old_orders are in the system.
+
+32
+00:02:15,370 --> 00:02:17,690
+That is clearly not the desired behavior.
+
+33
+00:02:17,690 --> 00:02:22,460
+We want to allow up to three new orders to be processed in the system.
+
+34
+00:02:22,460 --> 00:02:24,110
+So this statement is incorrect.
+
+35
+00:02:24,110 --> 00:02:27,676
+The fourth statement is basically identical to the first one except for
+
+36
+00:02:27,676 --> 00:02:30,130
+the fact that it uses greater than or equal to 3.
+
+37
+00:02:30,130 --> 00:02:34,022
+As we already pointed out, new_order will really not
+
+38
+00:02:34,022 --> 00:02:38,870
+even receive a value greater than 3 the way it's updated here.
+
+39
+00:02:38,870 --> 00:02:43,530
+So this statement will result in the identical behavior as the first statement.
+
+40
+00:02:43,530 --> 00:02:44,770
+So both of these are correct.

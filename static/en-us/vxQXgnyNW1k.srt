@@ -1,0 +1,143 @@
+1
+00:00:00,250 --> 00:00:02,000
+For the techniques we're
+going to learn in this course,
+
+2
+00:00:02,000 --> 00:00:05,010
+we need a sample app with a little
+more state than Pitch Perfect.
+
+3
+00:00:05,010 --> 00:00:09,410
+So we return to the movie DB API that
+Jared used in the networking course.
+
+4
+00:00:09,410 --> 00:00:11,870
+We made an app that's
+called My Favorite Actors.
+
+5
+00:00:11,870 --> 00:00:13,710
+It lets you keep track of
+a list of actors that you like.
+
+6
+00:00:13,710 --> 00:00:16,740
+We're going to persist the state
+of the app in two ways.
+
+7
+00:00:16,740 --> 00:00:18,680
+In this lesson, you'll see NSCoding.
+
+8
+00:00:18,680 --> 00:00:20,280
+In the next lessons,
+we'll use Core Data.
+
+9
+00:00:20,280 --> 00:00:24,680
+You'll find the app in the repository
+if you check out step 2.1.
+
+10
+00:00:24,680 --> 00:00:26,640
+We didn't choose this app
+completely at random.
+
+11
+00:00:26,640 --> 00:00:29,550
+The app is meant to have a really
+similar state to the Virtual Tourist
+
+12
+00:00:29,550 --> 00:00:32,070
+app, the portfolio app for this course.
+
+13
+00:00:32,070 --> 00:00:35,310
+If you can learn how to make this app
+persistent, you'll be really set up for
+
+14
+00:00:35,310 --> 00:00:36,280
+the Virtual Tourist app.
+
+15
+00:00:36,280 --> 00:00:40,560
+The list of actors corresponds to
+the pins in the Virtual Tourist app.
+
+16
+00:00:40,560 --> 00:00:43,900
+If we select an actor, we can see
+the actor's movie poster images.
+
+17
+00:00:43,900 --> 00:00:46,780
+These correspond to the Flickr
+images in the Virtual Tourist app.
+
+18
+00:00:46,780 --> 00:00:50,380
+We can add actors, which is similar
+to dropping pins in the map and
+
+19
+00:00:50,380 --> 00:00:53,430
+then we can go and
+download their movie posters as well.
+
+20
+00:00:53,430 --> 00:00:57,480
+In the code available in step 2.1,
+the app has no persistent state.
+
+21
+00:00:57,480 --> 00:00:59,720
+Every time we turn it off,
+we have to start over.
+
+22
+00:00:59,720 --> 00:01:01,980
+Now I'm going to turn it back on and
+everything's gone.
+
+23
+00:01:01,980 --> 00:01:03,380
+It's terrible really.
+
+24
+00:01:03,380 --> 00:01:04,599
+We need to fix this.
+
+25
+00:01:04,599 --> 00:01:07,230
+So let's pause for a second and
+imagine this app while it's running.
+
+26
+00:01:07,230 --> 00:01:10,080
+How does it organize the data
+that it's displaying?
+
+27
+00:01:10,080 --> 00:01:13,680
+Does it keep an internal table, like
+a spreadsheet with rows and columns?
+
+28
+00:01:13,680 --> 00:01:16,410
+Does it use arrays to
+hold struct instances?
+
+29
+00:01:16,410 --> 00:01:19,360
+Or does it use key value
+pairs like user defaults?
+
+30
+00:01:19,360 --> 00:01:20,730
+Check the answer that seems best to you.

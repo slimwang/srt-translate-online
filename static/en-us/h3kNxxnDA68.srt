@@ -1,0 +1,526 @@
+1
+00:00:00,180 --> 00:00:02,800
+It is now time to discuss
+the experimental approach in
+
+2
+00:00:02,800 --> 00:00:04,390
+the Flash paper.
+
+3
+00:00:04,390 --> 00:00:09,060
+In the paper, the experiments are
+designed so that they can make stronger
+
+4
+00:00:09,060 --> 00:00:13,360
+arguments about the contributions
+that the authors claim about Flash.
+
+5
+00:00:13,360 --> 00:00:16,250
+And this is something that you
+should always consider when
+
+6
+00:00:16,250 --> 00:00:17,640
+designing experiments.
+
+7
+00:00:17,640 --> 00:00:21,400
+That they should help you with the
+arguments that you're trying to make.
+
+8
+00:00:21,400 --> 00:00:24,150
+To do this,
+to achieve a good experimental design,
+
+9
+00:00:24,150 --> 00:00:26,560
+you need to answer
+a number of questions.
+
+10
+00:00:26,560 --> 00:00:27,250
+For instance,
+
+11
+00:00:27,250 --> 00:00:30,690
+you should ask yourself, what is
+it that you're actually comparing?
+
+12
+00:00:30,690 --> 00:00:33,610
+Are you comparing two
+software implementations?
+
+13
+00:00:33,610 --> 00:00:35,290
+The hardware the same.
+
+14
+00:00:35,290 --> 00:00:37,920
+Are you comparing two
+hardware platforms?
+
+15
+00:00:37,920 --> 00:00:40,550
+Make sure then the software is the same.
+
+16
+00:00:40,550 --> 00:00:44,600
+You need to outline the workloads
+that will be used for evaluation.
+
+17
+00:00:44,600 --> 00:00:46,808
+What are the inputs in the system?
+
+18
+00:00:46,808 --> 00:00:51,324
+Are you going to be able to run data
+that resembles what's seen in the real
+
+19
+00:00:51,324 --> 00:00:55,310
+world or are you going to
+generate some synthetic traces?
+
+20
+00:00:55,310 --> 00:00:57,560
+These are all important
+questions you need to resolve.
+
+21
+00:00:58,600 --> 00:01:02,820
+Not to forget the metrics, we talked
+about them earlier in this lesson
+
+22
+00:01:02,820 --> 00:01:05,640
+is that execution time or
+throughput or response time.
+
+23
+00:01:05,640 --> 00:01:10,670
+What is it that you care for and
+who are you designing this system for?
+
+24
+00:01:10,670 --> 00:01:12,430
+Is it the manager?
+
+25
+00:01:12,430 --> 00:01:15,290
+Is it resource usage in the system?
+
+26
+00:01:15,290 --> 00:01:17,770
+Or is it ultimately the customer's?
+
+27
+00:01:17,770 --> 00:01:21,280
+So let's see now how these questions
+were treated in the Flash paper.
+
+28
+00:01:21,280 --> 00:01:24,180
+Let's see what were the systems
+that they were comparing,
+
+29
+00:01:24,180 --> 00:01:26,130
+what were the comparison points?
+
+30
+00:01:26,130 --> 00:01:29,720
+First they include a comparison
+with a multiprocess version
+
+31
+00:01:29,720 --> 00:01:32,240
+of the same kind of Flash processing.
+
+32
+00:01:32,240 --> 00:01:36,700
+So a web server with the exact same
+optimizations that were applied in Flash
+
+33
+00:01:36,700 --> 00:01:40,820
+however, in a multiprocess,
+single-threaded configuration.
+
+34
+00:01:40,820 --> 00:01:44,390
+Then again, using the same optimizations
+as Flash, they put together
+
+35
+00:01:44,390 --> 00:01:48,510
+a multithreaded web server that
+follows the boss-worker model.
+
+36
+00:01:48,510 --> 00:01:52,280
+Then they compare Flash with
+a Single Process Event-Driven model, so
+
+37
+00:01:52,280 --> 00:01:56,410
+this is like the basic event-driven
+model that we discussed first.
+
+38
+00:01:56,410 --> 00:02:01,740
+And then they also use as a comparison,
+two existing web server implementations.
+
+39
+00:02:01,740 --> 00:02:06,220
+One was a more research implementation
+that followed the SPED model, however
+
+40
+00:02:06,220 --> 00:02:11,190
+it used two processes and this was to
+deal with the blocking I/O situation.
+
+41
+00:02:11,190 --> 00:02:16,250
+And then another one was Apache and this
+is the open-source Apache web server.
+
+42
+00:02:16,250 --> 00:02:20,810
+And this was at the time when this was
+then an older version obviously than
+
+43
+00:02:20,810 --> 00:02:26,370
+what's available today and at the time
+Apache was a multiprocess configuration.
+
+44
+00:02:26,370 --> 00:02:30,980
+Except for Apache, every single one
+of these implementations integrated
+
+45
+00:02:30,980 --> 00:02:34,510
+some of the optimizations that
+Flash already introduced.
+
+46
+00:02:34,510 --> 00:02:37,160
+And then, every single one
+of these implementations
+
+47
+00:02:37,160 --> 00:02:39,370
+is compared against Flash.
+
+48
+00:02:39,370 --> 00:02:43,967
+So this basically means, is that
+they're comparing the different models,
+
+49
+00:02:43,967 --> 00:02:47,362
+multiprocess, multithreaded
+SPED against the AMPED,
+
+50
+00:02:47,362 --> 00:02:50,840
+the asymmetric multiprocess
+event-driven model.
+
+51
+00:02:50,840 --> 00:02:53,010
+Given that all of these
+really implement,
+
+52
+00:02:53,010 --> 00:02:56,390
+otherwise the exact same code
+with the same optimizations.
+
+53
+00:02:56,390 --> 00:03:00,600
+Next let's see what are the workloads
+they chose to use for the evaluations.
+
+54
+00:03:00,600 --> 00:03:02,480
+To define useful inputs,
+
+55
+00:03:02,480 --> 00:03:07,200
+they wanted workloads that represent
+a realistic sequence of requests.
+
+56
+00:03:07,200 --> 00:03:11,390
+Because that's what will capture our
+distribution of web page accesses.
+
+57
+00:03:11,390 --> 00:03:13,940
+But they wanted to be able to reproduce,
+
+58
+00:03:13,940 --> 00:03:18,100
+to repeat the experiment with
+the same pattern of accesses.
+
+59
+00:03:19,260 --> 00:03:22,160
+Therefore, they used
+a trace-based approach where they
+
+60
+00:03:22,160 --> 00:03:25,310
+gathered traces from real web servers.
+
+61
+00:03:25,310 --> 00:03:27,870
+And then they replayed those traces so
+
+62
+00:03:27,870 --> 00:03:31,930
+as to be able to repeat the experiment
+with the different implementations.
+
+63
+00:03:31,930 --> 00:03:36,800
+So that every single one of the
+implementations can be evaluated against
+
+64
+00:03:36,800 --> 00:03:38,130
+the same trace.
+
+65
+00:03:38,130 --> 00:03:42,570
+What they ended up with were two real
+world traces, they were both gathered at
+
+66
+00:03:42,570 --> 00:03:45,810
+Rice University where the authors
+are from, actually were from.
+
+67
+00:03:45,810 --> 00:03:47,770
+Some of them are no longer there.
+
+68
+00:03:47,770 --> 00:03:49,890
+The first one was the CS web trace, and
+
+69
+00:03:49,890 --> 00:03:53,300
+the second one was
+the so-called Owlnet trace.
+
+70
+00:03:53,300 --> 00:03:57,650
+The CS trace represents
+the Rice University Web Server for
+
+71
+00:03:57,650 --> 00:03:59,470
+the Computer Science Department.
+
+72
+00:03:59,470 --> 00:04:03,800
+And it includes a large number of files
+and it doesn't really set in memory.
+
+73
+00:04:03,800 --> 00:04:05,050
+The Owlnet trace,
+
+74
+00:04:05,050 --> 00:04:09,908
+that one was from a web server that
+hosted the number of student webpages.
+
+75
+00:04:09,908 --> 00:04:11,381
+And it was much smaller, so
+
+76
+00:04:11,381 --> 00:04:14,210
+would typically fit in
+the memory of common server.
+
+77
+00:04:15,270 --> 00:04:16,899
+In addition to these two traces,
+
+78
+00:04:16,899 --> 00:04:20,329
+they also use the synthetic
+workload generator.
+
+79
+00:04:20,329 --> 00:04:22,400
+And with the synthetic
+workload generator,
+
+80
+00:04:22,400 --> 00:04:28,010
+as opposed to replaying these traces of
+real world page access distributions.
+
+81
+00:04:28,010 --> 00:04:32,030
+They would perform some best or
+worst type of analysis,
+
+82
+00:04:32,030 --> 00:04:34,710
+or run some what if questions.
+
+83
+00:04:34,710 --> 00:04:39,570
+Like what if the distribution of the web
+pages accesses had a certain pattern,
+
+84
+00:04:39,570 --> 00:04:42,480
+would something change
+about their observations?
+
+85
+00:04:42,480 --> 00:04:46,910
+And finally, let's look at what are the
+relevant metrics that the authors picked
+
+86
+00:04:46,910 --> 00:04:49,840
+in order to perform their comparisons.
+
+87
+00:04:49,840 --> 00:04:55,000
+First, when we talk about web servers,
+a common metric is clearly bandwidth.
+
+88
+00:04:55,000 --> 00:04:59,580
+So what is the total amount of useful
+bytes or the bytes transferred from
+
+89
+00:04:59,580 --> 00:05:04,090
+files, over the time that it
+took to make that transfer?
+
+90
+00:05:04,090 --> 00:05:06,240
+And the unit is clearly
+bytes per second,
+
+91
+00:05:06,240 --> 00:05:08,440
+megabytes per second and similar.
+
+92
+00:05:08,440 --> 00:05:11,590
+Second, because they were
+particularly concerned with
+
+93
+00:05:11,590 --> 00:05:15,180
+Flash's ability to deal
+with concurrent processing.
+
+94
+00:05:15,180 --> 00:05:19,450
+They wanted to see the impact
+on connection rate as a metric.
+
+95
+00:05:19,450 --> 00:05:22,230
+And that was defined
+as the total number of
+
+96
+00:05:22,230 --> 00:05:25,380
+client connections that
+are serviced over a period of time.
+
+97
+00:05:25,380 --> 00:05:29,710
+Both of these metrics were evaluated
+as a function of the file size, so
+
+98
+00:05:29,710 --> 00:05:32,640
+the understanding they
+were trying to gain was.
+
+99
+00:05:32,640 --> 00:05:37,210
+How does the workload property
+of requests that are made for
+
+100
+00:05:37,210 --> 00:05:40,750
+different file sizes impact
+either one of these metrics?
+
+101
+00:05:41,770 --> 00:05:44,570
+The intuition is that
+with a larger file size,
+
+102
+00:05:44,570 --> 00:05:47,810
+the connection cost can be ammortize.
+
+103
+00:05:47,810 --> 00:05:52,070
+And that you can at the same
+time push out more bytes, so
+
+104
+00:05:52,070 --> 00:05:54,650
+you can basically obtain
+higher bandwidth.
+
+105
+00:05:54,650 --> 00:05:57,160
+However, at the same
+time the larger the file,
+
+106
+00:05:57,160 --> 00:06:01,550
+the more work that the server will
+have to do for each connection.
+
+107
+00:06:01,550 --> 00:06:06,220
+Because it will have to read and send
+out more bytes from that larger file.
+
+108
+00:06:06,220 --> 00:06:10,450
+So that will potentially negatively
+impact the connection rate.
+
+109
+00:06:10,450 --> 00:06:15,090
+So this is why they chose that file
+size was a useful parameter to vary.
+
+110
+00:06:15,090 --> 00:06:18,090
+And then understand it's
+impact on these metrics for
+
+111
+00:06:18,090 --> 00:06:19,280
+the different implementations.

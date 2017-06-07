@@ -1,0 +1,147 @@
+1
+00:00:00,180 --> 00:00:04,300
+Let's start by looking at what happens in a single threaded process.
+
+2
+00:00:04,300 --> 00:00:07,900
+The process is described with all of the process-related state,
+
+3
+00:00:07,900 --> 00:00:12,450
+that includes the address space or the virtual to physical address mappings,
+
+4
+00:00:12,450 --> 00:00:15,590
+its stack, its register since it has a single thread.
+
+5
+00:00:15,590 --> 00:00:17,610
+Whenever this process makes a system call,
+
+6
+00:00:17,610 --> 00:00:21,370
+it tracks into the kernel, executes in the context of a kernel thread.
+
+7
+00:00:21,370 --> 00:00:24,430
+All of the information about the state of this process we said is
+
+8
+00:00:24,430 --> 00:00:26,670
+contained in its process control block.
+
+9
+00:00:26,670 --> 00:00:30,000
+And let's, for now, assume that we're dealing with just one CPU.
+
+10
+00:00:30,000 --> 00:00:34,580
+Let's now make the process multithreaded, so this will look like our many-to-one
+
+11
+00:00:34,580 --> 00:00:38,930
+model, where many user-level threads are supported by one kernel level thread,
+
+12
+00:00:38,930 --> 00:00:43,300
+and that there is a user level threading library that manages these threads.
+
+13
+00:00:43,300 --> 00:00:46,950
+This user-level library will need some way to represent threads so
+
+14
+00:00:46,950 --> 00:00:49,760
+that it can track their resource use and
+
+15
+00:00:49,760 --> 00:00:53,170
+make decisions regarding scheduling and synchronization.
+
+16
+00:00:53,170 --> 00:00:56,300
+So it will have some user-level thread data structure.
+
+17
+00:00:56,300 --> 00:00:59,800
+If we wanted it to be multiple kernel level threads associated with
+
+18
+00:00:59,800 --> 00:01:04,099
+this process, we see that currently we have the process control block by
+
+19
+00:01:04,099 --> 00:01:07,150
+containing the, all the virtual address mappings,
+
+20
+00:01:07,150 --> 00:01:10,740
+as well as the execution state of the process thread.
+
+21
+00:01:10,740 --> 00:01:14,260
+We don't want to have to replicate this entire data structure with
+
+22
+00:01:14,260 --> 00:01:18,450
+all this information, just so as to represent different stack and
+
+23
+00:01:18,450 --> 00:01:21,390
+register values for the kernel-level entities.
+
+24
+00:01:21,390 --> 00:01:25,585
+So we will start splitting up this process control block structure to separate
+
+25
+00:01:25,585 --> 00:01:29,970
+the information that's specifically useful to represent the execution state of
+
+26
+00:01:29,970 --> 00:01:33,910
+the kernel-level threads, so their stack and register pointer.
+
+27
+00:01:33,910 --> 00:01:37,010
+And this will still have, the process control block will still have the virtual
+
+28
+00:01:37,010 --> 00:01:40,930
+address mappings, as well as some additional information that's relevant for
+
+29
+00:01:40,930 --> 00:01:44,155
+the entire process, so for all of the kernel-level threads.
+
+30
+00:01:44,155 --> 00:01:48,310
+Note that from the perspective of the user-level threading library,
+
+31
+00:01:48,310 --> 00:01:53,130
+the underlying kernel-level threads look sort of like virtual CPUs.
+
+32
+00:01:53,130 --> 00:01:57,150
+So the threading library looks at the user-level threads and
+
+33
+00:01:57,150 --> 00:02:00,550
+decides which one of the user-level threads will be scheduled onto
+
+34
+00:02:00,550 --> 00:02:03,405
+the underlying kernel-level threads.
+
+35
+00:02:03,405 --> 00:02:07,610
+Unix-based systems, for instance, have certain operations called set jump and
+
+36
+00:02:07,610 --> 00:02:10,780
+long jump which are useful when we need to save and
+
+37
+00:02:10,780 --> 00:02:13,757
+restore the context of the user-level thread.

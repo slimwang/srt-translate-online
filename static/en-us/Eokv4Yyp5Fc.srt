@@ -1,0 +1,227 @@
+1
+00:00:00,000 --> 00:00:03,000
+The next homework problem was "Log in"
+
+2
+00:00:03,000 --> 00:00:06,000
+which generated a form like this and it had a couple of properties.
+
+3
+00:00:06,000 --> 00:00:09,000
+If you type in a name that doesn't exist and an invalid password
+
+4
+00:00:09,000 --> 00:00:12,000
+and click "Submit," you get an error message.
+
+5
+00:00:12,000 --> 00:00:15,000
+But if you type in a name that does exist and a valid password,
+
+6
+00:00:15,000 --> 00:00:18,000
+you get redirected to that same Welcome page.
+
+7
+00:00:18,000 --> 00:00:20,000
+So let's talk about the code that makes this work.
+
+8
+00:00:20,000 --> 00:00:24,000
+It's actually going to be 90% of the code we just saw for user registration,
+
+9
+00:00:24,000 --> 00:00:27,000
+so it should be pretty quick.
+
+10
+00:00:27,000 --> 00:00:30,000
+We have slash Login which goes to the Login Handler. Let's look at that.
+
+11
+00:00:30,000 --> 00:00:33,000
+Okay. So if you go to Get, it does Login from that HTML.
+
+12
+00:00:33,000 --> 00:00:35,000
+I'm sure you can imagine what that looks like.
+
+13
+00:00:35,000 --> 00:00:38,000
+It's just the basic form with the one error field and fields for user name and password.
+
+14
+00:00:38,000 --> 00:00:40,000
+Nothing magical there.
+
+15
+00:00:40,000 --> 00:00:44,000
+Out of the request we get the user name and the password.
+
+16
+00:00:44,000 --> 00:00:46,000
+Then what we do is we call this function "Login" on the user objects.
+
+17
+00:00:46,000 --> 00:00:49,000
+We'll go look at that in a sec.
+
+18
+00:00:49,000 --> 00:00:52,000
+Basically it returns the user, if this is a valid user name and password combination,
+
+19
+00:00:52,000 --> 00:00:55,000
+and "none" if it's not.
+
+20
+00:00:55,000 --> 00:01:00,000
+So if you recall the login function, which we'll look at also in a sec,
+
+21
+00:01:00,000 --> 00:01:03,000
+which sets the cookie just like it does for "Register."
+
+22
+00:01:03,000 --> 00:01:05,000
+You can actually see the "Register" code up here.
+
+23
+00:01:05,000 --> 00:01:06,000
+We log in the user and we redirect to the "Welcome page."
+
+24
+00:01:06,000 --> 00:01:09,000
+If it's not, if there is no "U," we rerun to the form
+
+25
+00:01:09,000 --> 00:01:12,000
+with an error message.that says "Invalid Login."
+
+26
+00:01:12,000 --> 00:01:16,000
+Let's look at this Login function here on the User Object,
+
+27
+00:01:16,000 --> 00:01:19,000
+and then the Login function here on the Log Handler.
+
+28
+00:01:19,000 --> 00:01:22,000
+And I realize I probably could have named those a little better
+
+29
+00:01:22,000 --> 00:01:24,000
+so they're not quite so confusing.
+
+30
+00:01:24,000 --> 00:01:26,000
+But these are actually different functions even though they have the same name.
+
+31
+00:01:26,000 --> 00:01:31,000
+First is the User Object. So here's the User Object and it has a class method called Login.
+
+32
+00:01:31,000 --> 00:01:33,000
+So we can say "User dot Login."
+
+33
+00:01:33,000 --> 00:01:38,000
+And what this does is it says Class By Name which just refers to itself.
+
+34
+00:01:38,000 --> 00:01:40,000
+It refers to the User Class so it's actually going to call this Function.
+
+35
+00:01:40,000 --> 00:01:43,000
+The reason we say Class by Name here and not User by Name
+
+36
+00:01:43,000 --> 00:01:45,000
+is so that we can overwrite this function later.
+
+37
+00:01:45,000 --> 00:01:47,000
+You can actually see I haven't been consistent about that.
+
+38
+00:01:47,000 --> 00:01:51,000
+This should really be Class. All of these should be CLS and not Upper Case User.
+
+39
+00:01:51,000 --> 00:01:56,000
+Since I haven't inherited this Class it's not a big deal, but that's a bug waiting to happen.
+
+40
+00:01:56,000 --> 00:01:58,000
+So now you get to see how bugs happen in the real world.
+
+41
+00:01:58,000 --> 00:02:03,000
+We call it By Name, which calls this function By Name which looks for a user of that name.
+
+42
+00:02:03,000 --> 00:02:11,000
+If it exists and it's a valid password, which is the Quiz Function we wrote before,
+
+43
+00:02:11,000 --> 00:02:15,000
+If the name and password entered in match the password hash,
+
+44
+00:02:15,000 --> 00:02:18,000
+from the object with that name in the database,
+
+45
+00:02:18,000 --> 00:02:20,000
+we return the user.
+
+46
+00:02:20,000 --> 00:02:23,000
+So that's that first login function which basically checks to see,
+
+47
+00:02:23,000 --> 00:02:25,000
+is this name and password combination valid?
+
+48
+00:02:25,000 --> 00:02:29,000
+If it is, we go up here to our Handler and we call this Login function.
+
+49
+00:02:29,000 --> 00:02:31,000
+Remember, down before we called Self that login?
+
+50
+00:02:31,000 --> 00:02:34,000
+Well, this is what it refers to--this function here.
+
+51
+00:02:34,000 --> 00:02:40,000
+And all this function does is it sets a secure cookie, user ID, and it equals the user's ID.
+
+52
+00:02:40,000 --> 00:02:45,000
+And this is how you get the user's ID and datastore.
+
+53
+00:02:45,000 --> 00:02:48,000
+Remember on our next request to the Welcome page,
+
+54
+00:02:48,000 --> 00:02:51,000
+we're going to call Initialize, as every request calls Initialize.
+
+55
+00:02:51,000 --> 00:02:55,000
+What this does is read a secure cookie called user ID and,
+
+56
+00:02:55,000 --> 00:02:58,000
+if that is valid, it sets Self dot User to dot User.
+
+57
+00:02:58,000 --> 00:03:02,000
+That's how Login works.

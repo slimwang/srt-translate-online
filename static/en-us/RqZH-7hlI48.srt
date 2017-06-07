@@ -1,0 +1,159 @@
+1
+00:00:00,012 --> 00:00:04,450
+Three.js gives you a bunch of ways to form rotation matrices. Here's what one of
+
+2
+00:00:04,450 --> 00:00:08,238
+them looks like. A rotation around the z axis. The Greek letter theta is the
+
+3
+00:00:08,238 --> 00:00:12,167
+angle of rotation. The cosine and sine of this angle are used to form a somewhat
+
+4
+00:00:12,167 --> 00:00:17,343
+symmetric piece of the matrix here. The rest of the matrix is left alone by
+
+5
+00:00:17,343 --> 00:00:22,015
+leaving these values in the third row 0 and this value here being 1 this has the
+
+6
+00:00:22,015 --> 00:00:26,810
+effect of leaving the z coordinate untouched. This makes sense since when you
+
+7
+00:00:26,810 --> 00:00:31,278
+rotate around the z axis the z values shouldn't change. Here's a real rotation
+
+8
+00:00:31,278 --> 00:00:36,934
+matrix around the z axis. For rotation angle of 53.1 degrees. As an example the
+
+9
+00:00:36,934 --> 00:00:42,849
+coordinate 1, 0, 0 transforms to the coordinate 0.6, 0.8, 0, the coordinate is
+
+10
+00:00:42,849 --> 00:00:47,818
+rotated counter clockwise around the origin. One way top look at things is the
+
+11
+00:00:47,818 --> 00:00:51,636
+rotating a point from one location to another. Another way to look at it is that
+
+12
+00:00:51,636 --> 00:00:55,572
+you're changing the frame of reference. The rotation transform can also be
+
+13
+00:00:55,572 --> 00:01:00,025
+thought of taking original point. I'm looking it up to see what value it has on
+
+14
+00:01:00,025 --> 00:01:05,592
+these two new axis. For example on our new x axis the point's coordinate is 0.6,
+
+15
+00:01:05,592 --> 00:01:10,960
+on our new y axis the point's coordinate is 0.8, on the left we're rotating
+
+16
+00:01:10,960 --> 00:01:16,712
+coordinate with respect to the axis. On the right we're rotating the axis and
+
+17
+00:01:16,712 --> 00:01:21,274
+then seeing where the coordinate lies with respect to these axis'. Either
+
+18
+00:01:21,274 --> 00:01:25,462
+interpretation is correct and both have their strengths. If we rotate the first
+
+19
+00:01:25,462 --> 00:01:29,947
+interpretation so that the x and y axis are aligned with the second, we see that
+
+20
+00:01:29,947 --> 00:01:34,506
+the transformed point is in the same orientation to the axis in both cases. This
+
+21
+00:01:34,506 --> 00:01:38,400
+second interpretation is the one that helped me understand how a dot product is
+
+22
+00:01:38,400 --> 00:01:42,191
+rotating a point. And in earlier lesson, we've talked about how the dot product
+
+23
+00:01:42,191 --> 00:01:45,510
+between two normalized vectors gives us the cosine of the angle between them.
+
+24
+00:01:45,510 --> 00:01:49,885
+Rotation is a similar use of the dot product. We use the cosine of the rotation
+
+25
+00:01:49,885 --> 00:01:53,980
+angle to give us two new axis, both of which are normalized, that is the links
+
+26
+00:01:53,980 --> 00:01:58,096
+are both one. The dot product between our test point coordinates, and each
+
+27
+00:01:58,096 --> 00:02:03,410
+rotation axis gives us the coordinate of the new location. For example, 0.6 is
+
+28
+00:02:03,410 --> 00:02:08,630
+here, and 0.8 goes over here. A dot product projects one vector onto another,
+
+29
+00:02:08,630 --> 00:02:12,970
+which is what gives us these coordinates. That was a simple test case where the
+
+30
+00:02:12,970 --> 00:02:16,726
+vector to our test point was of length one. If we do the same analysis for
+
+31
+00:02:16,726 --> 00:02:20,350
+another point, we get the same result with both ways of thinking. Here's a new
+
+32
+00:02:20,350 --> 00:02:24,606
+point, which has the same location on both of our graphs. On the left, we rotate
+
+33
+00:02:24,606 --> 00:02:29,680
+the point to its new position. Then read the coordinates off of its axis. On the
+
+34
+00:02:29,680 --> 00:02:34,036
+right, we rotate the axis and read the points coordinates with respect to these
+
+35
+00:02:34,036 --> 00:02:39,515
+axis. For example, here's X's and Y's. The way we read off these coordinates is
+
+36
+00:02:39,515 --> 00:02:44,162
+to take a dot product between each axis and the vector to the point. So here's
+
+37
+00:02:44,162 --> 00:02:48,295
+our x axis and here's our vector. And we take a dot product between the two to
+
+38
+00:02:48,295 --> 00:02:52,670
+get this value here. This is what a matrix does. It computes a dot product. When
+
+39
+00:02:52,670 --> 00:02:57,166
+we use the dot product for materials both vectors were normalized. Here our axis
+
+40
+00:02:57,166 --> 00:03:01,997
+is normalized, but the vector to the point is not. The vector here could be of any length.

@@ -1,0 +1,115 @@
+1
+00:00:00,000 --> 00:00:03,000
+[Norvig] So the *args notation appears in 2 places.
+
+2
+00:00:03,000 --> 00:00:08,000
+It appears in the definition of a function, and it can appear in a function call.
+
+3
+00:00:08,000 --> 00:00:13,000
+In the definition of a function, what it means is this function can take any number of arguments
+
+4
+00:00:13,000 --> 00:00:18,000
+and they should all be joined up into a tuple called args.
+
+5
+00:00:18,000 --> 00:00:23,000
+So if the call to the function looked like this, something(f, 1, 2, 3),
+
+6
+00:00:23,000 --> 00:00:27,000
+then 1, 2, 3 would be bound up into a tuple and assigned to args.
+
+7
+00:00:27,000 --> 00:00:33,000
+So within the body of something, args is equal to the tuple (1, 2, 3).
+
+8
+00:00:33,000 --> 00:00:39,000
+And then this part here means take that tuple and apply it not as a single argument
+
+9
+00:00:39,000 --> 00:00:42,000
+but rather, unpack it and apply it to all those arguments.
+
+10
+00:00:42,000 --> 00:00:49,000
+So fn(*args) is equivalent to writing fn(1, 2, 3).
+
+11
+00:00:49,000 --> 00:00:54,000
+It's just a way of packing and unpacking arguments with respect to function calls.
+
+12
+00:00:54,000 --> 00:00:59,000
+One thing I want you to notice here is that we used a function as a variable,
+
+13
+00:00:59,000 --> 00:01:03,000
+as a parameter or something that's passed into another function.
+
+14
+00:01:03,000 --> 00:01:08,000
+We're using the property of Python that functions are first class objects
+
+15
+00:01:08,000 --> 00:01:11,000
+just like integers and lists and everything else.
+
+16
+00:01:11,000 --> 00:01:13,000
+Functions are objects that you can pass around.
+
+17
+00:01:13,000 --> 00:01:18,000
+That's very powerful because that way we can control both what happens
+
+18
+00:01:18,000 --> 00:01:20,000
+and when it happens.
+
+19
+00:01:20,000 --> 00:01:23,000
+The idea here is that we want to call this function
+
+20
+00:01:23,000 --> 00:01:26,000
+but we want to delay calling of the function until we've already started the clock.
+
+21
+00:01:26,000 --> 00:01:31,000
+We want it to happen between the time we start the clock and the time we end the clock.
+
+22
+00:01:31,000 --> 00:01:34,000
+And in order to do that, if we tried to write something like this--
+
+23
+00:01:34,000 --> 00:01:40,000
+timedcall(zebra_puzzle())--then timedcall wouldn't work.
+
+24
+00:01:40,000 --> 00:01:43,000
+It would be too late because what we pass to timedcall
+
+25
+00:01:43,000 --> 00:01:45,000
+would be the result of zebra_puzzle.
+
+26
+00:01:45,000 --> 00:01:49,000
+We don't want to pass the result; we want to pass the function that we're going to call
+
+27
+00:01:49,000 --> 00:01:53,000
+and be able to delay execution of that function until the right time,
+
+28
+00:01:53,000 --> 00:01:55,000
+until we're ready to set the clock.
+
+29
+00:01:55,000 --> 99:59:59,999
+And so functions allow us to do that--to delay execution until later.

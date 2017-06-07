@@ -1,0 +1,343 @@
+1
+00:00:00,100 --> 00:00:02,800
+Let's move now to the kernel level data structures.
+
+2
+00:00:02,800 --> 00:00:07,100
+First for each process we maintain information about that process.
+
+3
+00:00:07,100 --> 00:00:10,970
+What are all the kernel level threads that execute within that
+
+4
+00:00:10,970 --> 00:00:13,200
+process address space?
+
+5
+00:00:13,200 --> 00:00:17,280
+So what are the mappings that are valid between the virtual and physical memory?
+
+6
+00:00:17,280 --> 00:00:18,760
+What are the user credentials?
+
+7
+00:00:18,760 --> 00:00:22,660
+For instance, if this process is trying to access a file,
+
+8
+00:00:22,660 --> 00:00:27,350
+we have to make sure that that particular user has access to that file.
+
+9
+00:00:27,350 --> 00:00:31,040
+And then, information like, what are the signal handlers that are valid for
+
+10
+00:00:31,040 --> 00:00:32,140
+this process.
+
+11
+00:00:32,140 --> 00:00:34,760
+We'll talk about this a little bit later, but for
+
+12
+00:00:34,760 --> 00:00:38,370
+now, know that this is information about how to respond to
+
+13
+00:00:38,370 --> 00:00:41,570
+certain events that can occur in the operating system.
+
+14
+00:00:41,570 --> 00:00:44,160
+Next, we have the lightweight process data structure and
+
+15
+00:00:44,160 --> 00:00:48,400
+this contains information for a sub subset of the process.
+
+16
+00:00:48,400 --> 00:00:51,960
+For instance, it can have information that's relevant to one or
+
+17
+00:00:51,960 --> 00:00:56,430
+more of the user level threads that are executing in the context of the process.
+
+18
+00:00:56,430 --> 00:01:01,340
+And keep track of their user-level registers and the system call arguments.
+
+19
+00:01:01,340 --> 00:01:04,720
+The information that's maintained in a light-weight process data structure is
+
+20
+00:01:04,720 --> 00:01:08,280
+in some ways similar to what we maintain at the user level in
+
+21
+00:01:08,280 --> 00:01:10,320
+the user-level thread data structure.
+
+22
+00:01:10,320 --> 00:01:15,050
+But this is what's visible to the kernel, so when the OS-level schedulers need
+
+23
+00:01:15,050 --> 00:01:19,840
+to make scheduling decisions they can see this information and act upon it.
+
+24
+00:01:19,840 --> 00:01:24,100
+Also note that we track resource usage information in this data structure.
+
+25
+00:01:24,100 --> 00:01:26,120
+At the operating system level,
+
+26
+00:01:26,120 --> 00:01:30,140
+the kernel tracks resource uses on a per kernel thread basis.
+
+27
+00:01:30,140 --> 00:01:33,170
+And this is maintained in the data structure for
+
+28
+00:01:33,170 --> 00:01:36,990
+the lightweight process that corresponds to that kernel level thread.
+
+29
+00:01:36,990 --> 00:01:40,200
+So if we want to find out the aggregate resource usage for
+
+30
+00:01:40,200 --> 00:01:43,670
+the entire process, we need to basically walk through all of
+
+31
+00:01:43,670 --> 00:01:46,520
+the lightweight processes that are associated with it.
+
+32
+00:01:46,520 --> 00:01:50,410
+The kernel level data structure includes the kernel level information,
+
+33
+00:01:50,410 --> 00:01:53,900
+like registers, stack pointers, scheduling class.
+
+34
+00:01:53,900 --> 00:01:58,600
+And it also has pointers to the various data structures that are associated with
+
+35
+00:01:58,600 --> 00:01:59,160
+this kernel.
+
+36
+00:01:59,160 --> 00:02:01,050
+So what is the lightweight process?
+
+37
+00:02:01,050 --> 00:02:03,400
+What is the actual address space?
+
+38
+00:02:03,400 --> 00:02:05,820
+What is the CPU where this is running?
+
+39
+00:02:05,820 --> 00:02:10,440
+One thing to note about these two data structures is that the kernel-level
+
+40
+00:02:10,440 --> 00:02:14,460
+thread structure, it has information about a kernel-level thread,
+
+41
+00:02:14,460 --> 00:02:18,110
+about an execution context, that is always needed.
+
+42
+00:02:18,110 --> 00:02:21,080
+They're operating system level services that
+
+43
+00:02:21,080 --> 00:02:25,320
+need to access some information even when a thread is not active.
+
+44
+00:02:25,320 --> 00:02:28,280
+Like, for instance, scheduling information if they need to
+
+45
+00:02:28,280 --> 00:02:31,010
+decide whether they need to activate that thread.
+
+46
+00:02:31,010 --> 00:02:33,770
+So this information is basically not swappable.
+
+47
+00:02:33,770 --> 00:02:35,560
+It always has to be present in memory.
+
+48
+00:02:36,715 --> 00:02:40,610
+Whereas in contrast the light weight process data structure, the information
+
+49
+00:02:40,610 --> 00:02:45,370
+that it maintains does not always have to be present in memory so.
+
+50
+00:02:45,370 --> 00:02:50,840
+If we're running under memory pressure, it is possible to swap out this content.
+
+51
+00:02:50,840 --> 00:02:55,570
+This also potentially allows the system to support larger number of
+
+52
+00:02:55,570 --> 00:02:58,920
+threads in a smaller memory footprint than what
+
+53
+00:02:58,920 --> 00:03:03,200
+would've been the case if everything needed to be constantly memory.
+
+54
+00:03:03,200 --> 00:03:04,920
+Next is the CPU data structure.
+
+55
+00:03:04,920 --> 00:03:09,540
+It has information like the current thread that's currently scheduled,
+
+56
+00:03:09,540 --> 00:03:12,580
+list of the other kernel level threads that ran there.
+
+57
+00:03:12,580 --> 00:03:17,340
+Some information how to actually execute the procedure for dispatching a thread,
+
+58
+00:03:17,340 --> 00:03:21,620
+or how to respond to various interrupts on the referral devices.
+
+59
+00:03:21,620 --> 00:03:25,240
+Note that if we have information about the CP and
+
+60
+00:03:25,240 --> 00:03:29,050
+a given CPU once we know the current thread through it we
+
+61
+00:03:29,050 --> 00:03:33,080
+can find that information about all of the different data structures that
+
+62
+00:03:33,080 --> 00:03:36,240
+are needed to rebuild the entire process state.
+
+63
+00:03:36,240 --> 00:03:40,720
+On the SPARC architecture that is used in the Solaris papers,
+
+64
+00:03:40,720 --> 00:03:44,060
+there are extra registers, so there are lots of registers.
+
+65
+00:03:44,060 --> 00:03:49,080
+And the implementation is such that there is one dedicated register that is
+
+66
+00:03:49,080 --> 00:03:52,590
+used to point to the current thread at any given point of time.
+
+67
+00:03:52,590 --> 00:03:56,230
+So you're in context which this register is updated.
+
+68
+00:03:56,230 --> 00:04:00,550
+But what it implies is that it's easy to just access that register and
+
+69
+00:04:00,550 --> 00:04:03,750
+then immediately be able to start tracking through these pointers to
+
+70
+00:04:03,750 --> 00:04:05,530
+find the right information.
+
+71
+00:04:05,530 --> 00:04:09,900
+That's in contrast to perhaps having to access memory to read the CPU
+
+72
+00:04:09,900 --> 00:04:14,030
+structure to then read the current thread information, et cetera.
+
+73
+00:04:14,030 --> 00:04:17,940
+Here's how the Eykholt paper on multithreading the SunOS kernel
+
+74
+00:04:17,940 --> 00:04:22,140
+describes the relationship between all of these data structures.
+
+75
+00:04:22,140 --> 00:04:24,300
+This is figure two in this paper.
+
+76
+00:04:24,300 --> 00:04:27,520
+A process data structure has information about the user, for instance
+
+77
+00:04:27,520 --> 00:04:33,210
+the address space, and then points to a list of kernel-level thread structures.
+
+78
+00:04:33,210 --> 00:04:37,430
+Each of the kernel-level thread structures points to the likely process that it
+
+79
+00:04:37,430 --> 00:04:41,270
+corresponds to, to it's stack, and to other information.
+
+80
+00:04:41,270 --> 00:04:42,860
+The lightweight processing stack.
+
+81
+00:04:42,860 --> 00:04:45,690
+This portion of the state is actually swappable.
+
+82
+00:04:45,690 --> 00:04:49,420
+What's not shown in this figure that was showed in the previous image is
+
+83
+00:04:49,420 --> 00:04:51,090
+any information about the CPU.
+
+84
+00:04:51,090 --> 00:04:52,800
+And there is some other information,
+
+85
+00:04:52,800 --> 00:04:56,850
+some other pointers that are not shown here so as not to clutter everything,
+
+86
+00:04:56,850 --> 00:04:59,270
+like from the thread going back to the process, et cetera.

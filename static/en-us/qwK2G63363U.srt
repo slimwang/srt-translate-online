@@ -1,0 +1,243 @@
+1
+00:00:00,200 --> 00:00:01,240
+Right.
+
+2
+00:00:01,240 --> 00:00:07,870
+so, I'm a very strong believer that given time and
+
+3
+00:00:07,870 --> 00:00:09,880
+open source like analytics stack and
+
+4
+00:00:09,880 --> 00:00:13,250
+the pieces of that will emerge as the standard in the valley.
+
+5
+00:00:13,250 --> 00:00:14,330
+And it's really determined by like,
+
+6
+00:00:14,330 --> 00:00:17,740
+companies and the problems that they're aiming to solve.
+
+7
+00:00:17,740 --> 00:00:19,732
+When I think of analytics I think primarily of-
+
+8
+00:00:19,732 --> 00:00:20,861
+[CROSSTALK].
+
+9
+00:00:20,861 --> 00:00:21,480
+>> Mm-hm.
+
+10
+00:00:21,480 --> 00:00:23,020
+So, I've spent a lot of time looking at,
+
+11
+00:00:23,020 --> 00:00:25,050
+like, what Twitter's architecture looks like.
+
+12
+00:00:25,050 --> 00:00:30,140
+And, I know for at least processing, stream, for
+
+13
+00:00:30,140 --> 00:00:32,685
+stream processing, you guys are a very big storm shop.
+
+14
+00:00:32,685 --> 00:00:33,740
+>> Mm-hm.
+
+15
+00:00:33,740 --> 00:00:36,110
+>> In terms of scaling out your infrastructure, I guess,
+
+16
+00:00:36,110 --> 00:00:39,485
+I know you guys use like, me cells a lot for, like, resource management.
+
+17
+00:00:39,485 --> 00:00:40,180
+>> Mm-hm.
+
+18
+00:00:40,180 --> 00:00:40,949
+>> Resource scheduling.
+
+19
+00:00:42,020 --> 00:00:45,540
+I'm kind of curious about the query side of things, and, and
+
+20
+00:00:45,540 --> 00:00:53,195
+I guess maybe the event the event handling side of things-
+
+21
+00:00:53,195 --> 00:00:53,940
+>> Mm-hm.
+
+22
+00:00:53,940 --> 00:00:56,850
+>> where, oh, sorry, event delivery side of things.
+
+23
+00:00:56,850 --> 00:00:58,580
+So, how you guys are solving that problem.
+
+24
+00:00:58,580 --> 00:01:01,150
+Yeah, I think like, I mean if you look at all of the [INAUDIBLE]
+
+25
+00:01:01,150 --> 00:01:04,250
+I mean some of the talks that they have given you here.
+
+26
+00:01:04,250 --> 00:01:04,750
+>> Right.
+
+27
+00:01:05,980 --> 00:01:09,890
+>> So I see you all know like the [INAUDIBLE] plane.
+
+28
+00:01:09,890 --> 00:01:12,528
+>> Yes >> As well as [INAUDIBLE] plane >> Yes.
+
+29
+00:01:12,528 --> 00:01:15,540
+>> And, the [INAUDIBLE] has turned into a lot of [INAUDIBLE] which is more of
+
+30
+00:01:15,540 --> 00:01:19,440
+a scribe, which kind of taps the data whenever the data,
+
+31
+00:01:19,440 --> 00:01:21,522
+the moment, instant data is produced.
+
+32
+00:01:21,522 --> 00:01:25,520
+And, from Scribe the data moves to a Scribe application systems,
+
+33
+00:01:25,520 --> 00:01:27,420
+from a Scribe application system it goes.
+
+34
+00:01:27,420 --> 00:01:28,080
+>> Okay. .
+
+35
+00:01:28,080 --> 00:01:29,480
+>> Into data loop.
+
+36
+00:01:29,480 --> 00:01:33,985
+It also goes to two cluster and cluster.
+
+37
+00:01:33,985 --> 00:01:36,876
+Andm at Kafka, we use it quite a bit.
+
+38
+00:01:36,876 --> 00:01:39,906
+>> Mm-hm. >> And it has been there for historic reasons.
+
+39
+00:01:39,906 --> 00:01:46,360
+>> Okay. >> And, the apologies kind of feed on those us data.
+
+40
+00:01:46,360 --> 00:01:46,860
+>> Mm-hm.
+
+41
+00:01:46,860 --> 00:01:48,900
+>> In order to produce the analytics and
+
+42
+00:01:48,900 --> 00:01:52,360
+the similarly passes bunch of back jobs.
+
+43
+00:01:52,360 --> 00:01:56,850
+And, the bad jobs are able to turn in the peg or
+
+44
+00:01:56,850 --> 00:01:59,785
+even scholarly because scholar is very popular.
+
+45
+00:01:59,785 --> 00:02:03,390
+>> Mm-hm. >> So, we use one of those two major things.
+
+46
+00:02:03,390 --> 00:02:06,905
+And, you can make your jobs like that or
+
+47
+00:02:06,905 --> 00:02:10,889
+on the real time you either directly express your data.
+
+48
+00:02:10,889 --> 00:02:15,610
+Sorry, you analytics using EPA, all of them are using some Hummingbird.
+
+49
+00:02:15,610 --> 00:02:18,170
+Again, Hummingbird is open source as well.
+
+50
+00:02:18,170 --> 00:02:21,610
+And these analytics are done in parallel or
+
+51
+00:02:21,610 --> 00:02:26,830
+in tandem, and will read the difference between the between the two.
+
+52
+00:02:26,830 --> 00:02:28,250
+And, once analytics is done,
+
+53
+00:02:28,250 --> 00:02:32,280
+then the output of these analytics are either turned into.
+
+54
+00:02:32,280 --> 00:02:34,530
+Some kind of key values [INAUDIBLE] cache,
+
+55
+00:02:34,530 --> 00:02:38,780
+depending upon the requirements of how long that [INAUDIBLE] has to be.
+
+56
+00:02:38,780 --> 00:02:40,920
+Either it has to be persistent or it's okay for
+
+57
+00:02:40,920 --> 00:02:43,978
+it [INAUDIBLE] then it's up to the [INAUDIBLE] writer to choose that.
+
+58
+00:02:43,978 --> 00:02:48,440
+Once it is written, then, then whoever is interested in
+
+59
+00:02:48,440 --> 00:02:53,080
+consuming analytics from what he called from an application point of view.
+
+60
+00:02:53,080 --> 00:02:56,340
+Then, they used appropriate API in where to get the data from.
+
+61
+00:02:56,340 --> 00:02:59,410
+Then, they had to obviously refresh the logic cache port.

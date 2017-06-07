@@ -1,0 +1,181 @@
+1
+00:00:00,410 --> 00:00:04,360
+You can't optimize your app's frame rate
+if you don't understand how the browser
+
+2
+00:00:04,360 --> 00:00:06,010
+actually renders a frame.
+
+3
+00:00:06,010 --> 00:00:08,790
+So you need to learn how a page is
+actually put together when it's
+
+4
+00:00:08,790 --> 00:00:09,870
+first loaded.
+
+5
+00:00:09,870 --> 00:00:12,290
+I'll go over the process
+briefly right now, but
+
+6
+00:00:12,290 --> 00:00:15,380
+if you want a more in-depth
+look at how the page is built
+
+7
+00:00:15,380 --> 00:00:18,500
+I highly recommend checking
+out the link to Cam's and
+
+8
+00:00:18,500 --> 00:00:23,050
+Ilia's website performance optimization
+course in the instructor notes.
+
+9
+00:00:23,050 --> 00:00:26,030
+Cam already mentioned it, but
+it's a super good course.
+
+10
+00:00:26,030 --> 00:00:27,870
+Although, don't go just yet, right?
+
+11
+00:00:27,870 --> 00:00:30,880
+Just stay here and, you know,
+I'd miss you if you went.
+
+12
+00:00:30,880 --> 00:00:31,870
+Check it out later.
+
+13
+00:00:31,870 --> 00:00:35,610
+Okay, so let's take a look at
+what goes into making a frame.
+
+14
+00:00:35,610 --> 00:00:39,650
+Initially the browser makes
+a get request to a server.
+
+15
+00:00:39,650 --> 00:00:42,310
+The server responds
+by sending some HTML.
+
+16
+00:00:42,310 --> 00:00:43,860
+At this point,
+
+17
+00:00:43,860 --> 00:00:47,430
+the browser does some pretty clever
+stuff with lookahead parsing.
+
+18
+00:00:47,430 --> 00:00:52,670
+But what we care about is that it parses
+the document and gives us these notes.
+
+19
+00:00:52,670 --> 00:00:55,340
+In Chrome DevTools,
+you'll see it as Parse HTML.
+
+20
+00:00:55,340 --> 00:00:58,280
+Okay, so this is what
+the DOM looks like as a tree.
+
+21
+00:00:59,380 --> 00:01:03,920
+But let's just make it a bit easier for
+ourselves, and call it the DOM.
+
+22
+00:01:03,920 --> 00:01:06,180
+As well as the DOM, we also have CSS.
+
+23
+00:01:06,180 --> 00:01:10,510
+And this comes from the user agent,
+it comes from your style sheets or
+
+24
+00:01:10,510 --> 00:01:14,050
+any inline styles you have, and
+perhaps third party styles.
+
+25
+00:01:14,050 --> 00:01:18,410
+The next part of the process
+is to combine the DOM and CSS.
+
+26
+00:01:18,410 --> 00:01:22,660
+In the tools you're going to
+see this as Recalculate Styles.
+
+27
+00:01:22,660 --> 00:01:27,750
+And when combined, we get a new
+tree called the Render Tree.
+
+28
+00:01:27,750 --> 00:01:30,400
+The Render Tree looks
+pretty similar to the DOM,
+
+29
+00:01:30,400 --> 00:01:31,780
+except that some things are missing.
+
+30
+00:01:31,780 --> 00:01:36,610
+For example, we don't have the head
+anymore, we don't have any scripts.
+
+31
+00:01:36,610 --> 00:01:40,908
+In fact, if we had some CSS that set
+the section paragraph to display none,
+
+32
+00:01:40,908 --> 00:01:44,030
+then it would be removed
+from the render tree.
+
+33
+00:01:44,030 --> 00:01:49,570
+Equally if we had some CSS that added
+a pseudo element like after or before,
+
+34
+00:01:49,570 --> 00:01:53,850
+this would get added to the render tree
+even though it doesn't live in the DOM.
+
+35
+00:01:53,850 --> 00:01:56,830
+It's important to note that only
+elements that will actually be
+
+36
+00:01:56,830 --> 00:01:59,750
+displayed on the page will
+make it into the render tree.
+
+37
+00:01:59,750 --> 00:02:03,410
+So this is essentially a simplified view
+of where the critical rendering path
+
+38
+00:02:03,410 --> 00:02:04,770
+optimization gets you.

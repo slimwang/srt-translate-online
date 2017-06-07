@@ -1,0 +1,131 @@
+1
+00:00:01,000 --> 00:00:08,000
+Our description of the algorithm has talked about paths in the state space.
+
+2
+00:00:08,000 --> 00:00:15,000
+I want to say a little bit now about how to implement that in terms of a computer algorithm.
+
+3
+00:00:15,000 --> 00:00:19,000
+We talk about paths, but we want to implement that in some ways.
+
+4
+00:00:19,000 --> 00:00:22,000
+In the implementation we talk about nodes.
+
+5
+00:00:22,000 --> 00:00:27,000
+A node is a data structure, and it has four fields.
+
+6
+00:00:27,000 --> 00:00:35,000
+The state field indicates the state at the end of the path.
+
+7
+00:00:35,000 --> 00:00:40,000
+The action was the action it took to get there.
+
+8
+00:00:40,000 --> 00:00:45,000
+The cost is the total cost,
+
+9
+00:00:45,000 --> 00:00:50,000
+and the parent is a pointer to another node.
+
+10
+00:00:50,000 --> 00:00:56,000
+In this case, the node that has state "S",
+
+11
+00:00:56,000 --> 00:01:06,000
+and it will have a parent which points to the node that has state "A",
+
+12
+00:01:06,000 --> 00:01:10,000
+and that will have a parent pointer that's null.
+
+13
+00:01:10,000 --> 00:01:15,000
+So we have a linked list of nodes representing the path.
+
+14
+00:01:15,000 --> 00:01:18,000
+We'll use the word "path" for the abstract idea,
+
+15
+00:01:18,000 --> 00:01:22,000
+and the word "node" for the representation in the computer memory.
+
+16
+00:01:22,000 --> 00:01:26,000
+But otherwise, you can think of those two terms as being synonyms,
+
+17
+00:01:26,000 --> 00:01:31,000
+because they're in a one-to-one correspondence.
+
+18
+00:01:31,000 --> 00:01:35,000
+Now there are two main data structures that deal with nodes.
+
+19
+00:01:35,000 --> 00:01:41,000
+We have the "frontier" and we have the "explored" list.
+
+20
+00:01:41,000 --> 00:01:44,000
+Let's talk about how to implement them.
+
+21
+00:01:44,000 --> 00:01:48,000
+In the frontier the operations we have to deal with
+
+22
+00:01:48,000 --> 00:01:52,000
+are removing the best item from the frontier and adding in new ones.
+
+23
+00:01:52,000 --> 00:01:55,000
+And that suggests we should implement it as a priority queue,
+
+24
+00:01:55,000 --> 00:01:59,000
+which knows how to keep track of the best items in proper order.
+
+25
+00:01:59,000 --> 00:02:03,000
+But we also need to have an additional operation
+
+26
+00:02:03,000 --> 00:02:07,000
+of a membership test as a new item in the frontier.
+
+27
+00:02:07,000 --> 00:02:10,000
+And that suggests representing it as a set,
+
+28
+00:02:10,000 --> 00:02:14,000
+which can be built from a hash table or a tree.
+
+29
+00:02:14,000 --> 00:02:20,000
+So the most efficient implementations of search actually have both representations.
+
+30
+00:02:20,000 --> 00:02:23,000
+The explored set, on the other hand, is easier.
+
+31
+00:02:23,000 --> 00:02:28,000
+All we have to do there is be able to add new members and check for membership.
+
+32
+00:02:28,000 --> 00:02:31,000
+So we represent that as a single set,
+
+33
+00:02:31,000 --> 99:59:59,999
+which again can be done with either a hash table or tree.

@@ -1,0 +1,789 @@
+﻿1
+00:00:00,340 --> 00:00:00,929
+Welcome back.
+
+2
+00:00:00,930 --> 00:00:04,169
+So, in this section we're going
+to be talking a little more
+
+3
+00:00:04,169 --> 00:00:08,189
+about what's going on, a little more
+theory, a little less project based.
+
+4
+00:00:08,189 --> 00:00:11,710
+And it's really just about trying to
+understand what are these weights doing?
+
+5
+00:00:11,710 --> 00:00:15,839
+What can I attach my mind to when I'm
+thinking about a neural net training
+
+6
+00:00:15,839 --> 00:00:19,079
+that's going to be able to help me debug
+it, help me be able to find better
+
+7
+00:00:19,079 --> 00:00:23,659
+signal and cut out better noise and just
+have a better framework to work from.
+
+8
+00:00:23,660 --> 00:00:25,109
+To think about things like that.
+
+9
+00:00:25,109 --> 00:00:30,149
+So things that we know, so we're taking
+this 1 that represents X1, right?
+
+10
+00:00:30,149 --> 00:00:32,310
+And we're summing it into layer_1 and
+we're making a prediction.
+
+11
+00:00:32,310 --> 00:00:36,020
+Now there's an interesting
+phenomenon that happens when,
+
+12
+00:00:36,020 --> 00:00:38,520
+especially when you have
+linear layers right here.
+
+13
+00:00:38,520 --> 00:00:39,920
+And I talked about this before
+
+14
+00:00:41,140 --> 00:00:44,109
+very briefly when I was saying that we
+wanted to have a linear layer here and
+
+15
+00:00:44,109 --> 00:00:46,799
+I said I would talk about it later,
+and now's the time.
+
+16
+00:00:46,799 --> 00:00:50,289
+When we have a linear layer like this,
+it's making a prediction.
+
+17
+00:00:51,429 --> 00:00:55,869
+What's really happening is these four,
+in this case or
+
+18
+00:00:55,869 --> 00:00:59,969
+more, however many you decide it to be,
+weights are feature detectors.
+
+19
+00:01:01,070 --> 00:01:05,319
+What they're doing is, they're trying to
+detect a certain state in this neuron,
+
+20
+00:01:05,319 --> 00:01:09,790
+or this neuron, or this neuron.
+
+21
+00:01:09,790 --> 00:01:11,710
+Right, and so
+if this is like a big negative number,
+
+22
+00:01:12,750 --> 00:01:16,370
+this is looking for
+this to be a big negative number.
+
+23
+00:01:16,370 --> 00:01:19,510
+But if this is zero or
+if this is a positive number,
+
+24
+00:01:19,510 --> 00:01:23,570
+it's going to have the opposite effect,
+right?
+
+25
+00:01:23,569 --> 00:01:26,479
+So these are looking for a certain set
+of states, it's looking for 0.5, 0.9,
+
+26
+00:01:26,480 --> 00:01:28,430
+1 and negative 2, right?
+
+27
+00:01:28,430 --> 00:01:33,040
+So there are certain hidden layers that
+cause this to output a high number and
+
+28
+00:01:33,040 --> 00:01:36,540
+a certain hidden layers that cause
+this to output a low number.
+
+29
+00:01:36,540 --> 00:01:40,310
+And it's just weighted sum,
+it's actually pretty simple, right?
+
+30
+00:01:40,310 --> 00:01:42,510
+If these are positive in
+all the same times or
+
+31
+00:01:42,510 --> 00:01:46,060
+all the same ways that these weights
+are positive, this puts a lot.
+
+32
+00:01:46,060 --> 00:01:49,344
+But if this is positive and
+this is negative and this is positive.
+
+33
+00:01:49,344 --> 00:01:50,155
+Positive, and this is negative.
+
+34
+00:01:50,155 --> 00:01:51,605
+And this is positive,
+and this is negative.
+
+35
+00:01:51,605 --> 00:01:52,814
+And this is positive,
+and this is negative.
+
+36
+00:01:52,814 --> 00:01:56,444
+Then this ends up being a really
+really low number, right?
+
+37
+00:01:56,444 --> 00:02:00,454
+So, when these have the same polarity,
+and
+
+38
+00:02:00,454 --> 00:02:04,084
+have high values in all the same places,
+this makes a high prediction.
+
+39
+00:02:04,084 --> 00:02:06,239
+So what does that mean for
+all this stuff back here?
+
+40
+00:02:06,239 --> 00:02:08,657
+Well, horrible and terrible,
+
+41
+00:02:08,657 --> 00:02:13,057
+when we think about what
+commonly happens in our data set.
+
+42
+00:02:13,057 --> 00:02:17,280
+They're associated with negativity,
+right?
+
+43
+00:02:17,280 --> 00:02:20,370
+Excellent, and fantastic,
+if that was another word up here,
+
+44
+00:02:20,370 --> 00:02:22,670
+are constantly trying
+to predict this one.
+
+45
+00:02:22,669 --> 00:02:28,169
+They're trying to relate to this
+vector in a certain way, right?
+
+46
+00:02:28,169 --> 00:02:32,750
+So what's interesting is that if
+these words are being trained,
+
+47
+00:02:32,750 --> 00:02:34,680
+which they're just rows in the matrix,
+right?
+
+48
+00:02:34,680 --> 00:02:40,780
+They're being trained to
+manipulate this in the same way,
+
+49
+00:02:40,780 --> 00:02:41,689
+to create a high value or a low value.
+
+50
+00:02:41,689 --> 00:02:45,060
+What does it mean when
+we've learned here.
+
+51
+00:02:45,060 --> 00:02:46,509
+We backup the gradients and
+
+52
+00:02:46,509 --> 00:02:50,769
+we update these to both
+exhibit the same phenomenon.
+
+53
+00:02:50,770 --> 00:02:55,210
+Horrible and terrible are both supposed
+to affect this node in the same way.
+
+54
+00:02:55,210 --> 00:02:58,810
+And as we're updating these weights to
+cause them to do that, what happens?
+
+55
+00:02:58,810 --> 00:03:01,370
+Their weights become similar, why?
+
+56
+00:03:01,370 --> 00:03:04,330
+Because both of them have the same goal,
+right?
+
+57
+00:03:04,330 --> 00:03:09,270
+So, if this one predicts positively,
+this thing's going to go no, no, no.
+
+58
+00:03:09,270 --> 00:03:13,490
+Update your weights,
+mister horrible vector, and
+
+59
+00:03:13,490 --> 00:03:18,140
+be a little more like this, because this
+is what causes me to predict negative.
+
+60
+00:03:18,139 --> 00:03:21,479
+That's what that propagation is all
+about, it's about this node being able
+
+61
+00:03:21,479 --> 00:03:26,019
+to tell these weights how to be better,
+how to be more accurate, right?
+
+62
+00:03:26,020 --> 00:03:29,890
+And because it's sending the same
+signal, horrible and terrible, right?
+
+63
+00:03:29,889 --> 00:03:31,669
+Be negative, right?
+
+64
+00:03:31,669 --> 00:03:36,639
+They end up congregating together,
+and it's really quite cool.
+
+65
+00:03:36,639 --> 00:03:37,379
+So check this out.
+
+66
+00:03:37,379 --> 00:03:39,379
+So we've got kind of a heuristic for
+
+67
+00:03:39,379 --> 00:03:44,189
+seeing how similar the different
+vectors are for each word, and
+
+68
+00:03:44,189 --> 00:03:48,300
+now we can go through and we can say,
+okay, show me the vectors.
+
+69
+00:03:48,300 --> 00:03:51,530
+The words that have the most
+similar vector to excellent.
+
+70
+00:03:51,530 --> 00:03:53,469
+I'm just using a simple .product.
+
+71
+00:03:53,469 --> 00:03:56,819
+Excellent, perfect, amazing, today,
+wonderful, fun, great, best, and
+
+72
+00:03:56,819 --> 00:03:59,129
+this is on a trained neural net.
+
+73
+00:03:59,129 --> 00:04:00,609
+Look at that!
+
+74
+00:04:00,610 --> 00:04:05,690
+After we trained, because these words,
+excellent, perfect, amazing, all were
+
+75
+00:04:05,689 --> 00:04:11,259
+supposed to create the same effect or
+very similar effect on the output.
+
+76
+00:04:11,259 --> 00:04:12,759
+They were given similar weights.
+
+77
+00:04:14,909 --> 00:04:21,886
+Inversely, if we say the opposite,
+if we say terrible.
+
+78
+00:04:21,886 --> 00:04:24,083
+[BLANK_AUDIO]
+
+79
+00:04:24,083 --> 00:04:28,901
+Worst, awful, waste, poor, terrible,
+dull, poorly, disappointment, fail,
+
+80
+00:04:28,901 --> 00:04:31,280
+disappointing, boring, unfortunate.
+
+81
+00:04:31,279 --> 00:04:32,479
+I mean, it just goes on, and on, and on.
+
+82
+00:04:32,480 --> 00:04:35,540
+This is actually an even better
+filter than out original counts.
+
+83
+00:04:35,540 --> 00:04:37,650
+I mean, our counts had
+these weird names in them,
+
+84
+00:04:37,649 --> 00:04:41,001
+and they just had a noise,
+but this is awesome.
+
+85
+00:04:41,002 --> 00:04:45,980
+It's clear, it's evident that
+the network has figured out
+
+86
+00:04:45,980 --> 00:04:48,000
+that these words are related, right?
+
+87
+00:04:48,000 --> 00:04:52,019
+These words are both trying to create
+the same effect on the output data,
+
+88
+00:04:52,019 --> 00:04:52,490
+right?
+
+89
+00:04:52,490 --> 00:04:55,379
+Now to be clear,
+we can't over state this.
+
+90
+00:04:55,379 --> 00:04:57,959
+It doesn't know that these have
+the same meaning generally.
+
+91
+00:04:57,959 --> 00:05:01,589
+All it knows is that they have
+the same meaning in the context
+
+92
+00:05:01,589 --> 00:05:05,019
+of this one output neuron, because
+it's the only output neuron there.
+
+93
+00:05:05,019 --> 00:05:07,329
+They exist to create the same
+effect as this neuron.
+
+94
+00:05:07,329 --> 00:05:12,649
+Now we had a bunch of different neurons
+that were pushing it in one way or
+
+95
+00:05:12,649 --> 00:05:14,729
+another to be the same or
+
+96
+00:05:14,730 --> 00:05:18,210
+different in a bunch of different ways,
+this could get a lot more complicated.
+
+97
+00:05:18,209 --> 00:05:21,789
+But basically it grouped
+words by sentiment, right?
+
+98
+00:05:23,579 --> 00:05:24,300
+It said hey,
+
+99
+00:05:24,300 --> 00:05:27,069
+all your negative words have a really
+similar vector coming out of you and
+
+100
+00:05:27,069 --> 00:05:30,620
+all your positive words have a really
+similar vector coming out of you.
+
+101
+00:05:30,620 --> 00:05:32,439
+And that's a really powerful intuition,
+
+102
+00:05:32,439 --> 00:05:35,660
+because that means you can look at
+a neural net like this and you can say,
+
+103
+00:05:35,660 --> 00:05:36,970
+hm, okay,
+we're going to trade it for this.
+
+104
+00:05:36,970 --> 00:05:41,600
+So it's probably going to group these
+vectors like this and these vectors like
+
+105
+00:05:41,600 --> 00:05:46,600
+this, and you can kind of start to think
+about what´s going on under the hood and
+
+106
+00:05:46,600 --> 00:05:51,660
+how you can, once again,
+identify signal and noise.
+
+107
+00:05:51,660 --> 00:05:55,700
+Because that´s what framing
+the problem is really all about.
+
+108
+00:05:55,699 --> 00:06:00,397
+Now to kind of add a bit of
+extra kind of jazz to this.
+
+109
+00:06:00,398 --> 00:06:05,527
+What I like to do is something
+that's called tf–idf.
+
+110
+00:06:05,526 --> 00:06:10,029
+So tf–idf, what it does is it takes
+a high dimensional vector, and
+
+111
+00:06:10,029 --> 00:06:14,269
+in our case, high dimensions
+might just be four, right?
+
+112
+00:06:14,269 --> 00:06:17,218
+And it clusters them
+into two dimensions, or
+
+113
+00:06:17,218 --> 00:06:21,870
+some other, with how many you pick, so
+we can plot them on an X Y graph and
+
+114
+00:06:21,870 --> 00:06:25,924
+see how they're naturally
+clustered in a higher dimension.
+
+115
+00:06:25,925 --> 00:06:30,939
+And the cool thing is
+that we can do that here.
+
+116
+00:06:30,939 --> 00:06:33,870
+So what I'm going to do is
+I'm going to cluster them,
+
+117
+00:06:33,870 --> 00:06:37,829
+but then I'm also going to say hey,
+the words that are our
+
+118
+00:06:37,829 --> 00:06:40,500
+ratio instead of really positive
+I'm going to make them green, and
+
+119
+00:06:40,500 --> 00:06:42,689
+the ones that were really negative
+I'm going to to make them black.
+
+120
+00:06:42,689 --> 00:06:45,560
+And so, in theory because all
+these vectors are really similar,
+
+121
+00:06:45,560 --> 00:06:49,175
+it should cluster, or it should
+show how they're clustered already.
+
+122
+00:06:49,175 --> 00:06:52,444
+And look at that.
+
+123
+00:06:52,444 --> 00:06:56,456
+So it's, I mean there's a couple
+that are scattered in between but,
+
+124
+00:06:56,456 --> 00:07:00,079
+the neural net that has
+clearly separated those.
+
+125
+00:07:00,079 --> 00:07:02,519
+There's this big long negative cluster,
+big long negative cluster.
+
+126
+00:07:02,519 --> 00:07:05,539
+And then these really
+nice positive clusters.
+
+127
+00:07:05,540 --> 00:07:06,069
+Let's take a look.
+
+128
+00:07:06,069 --> 00:07:07,480
+So I think we can add labels here.
+
+129
+00:07:07,480 --> 00:07:10,850
+I left them in, that was kind of messy.
+
+130
+00:07:10,850 --> 00:07:13,530
+Check this out.
+
+131
+00:07:13,529 --> 00:07:18,529
+So we click that real zoom,
+you can kind of look in.
+
+132
+00:07:18,529 --> 00:07:19,019
+Wow, interesting.
+
+133
+00:07:20,529 --> 00:07:23,729
+So unconvincing, dimensional, lousy.
+
+134
+00:07:25,350 --> 00:07:27,920
+Look at this.
+
+135
+00:07:27,920 --> 00:07:34,740
+Extraordinary, lovable,
+provoking, award, touched.
+
+136
+00:07:35,959 --> 00:07:37,489
+It's beautiful, it's awesome.
+
+137
+00:07:37,490 --> 00:07:38,400
+So we can kind of look around.
+
+138
+00:07:38,399 --> 00:07:42,775
+So this,
+maybe we'll call this a vector space.
+
+139
+00:07:42,776 --> 00:07:45,550
+And actually you see the ones that
+
+140
+00:07:45,550 --> 00:07:48,060
+are kind of agnostic are like
+the ones with those names.
+
+141
+00:07:48,060 --> 00:07:49,780
+So this is kind of a little
+bit of a noisier one.
+
+142
+00:07:49,779 --> 00:07:52,739
+It's like Dan right there.
+
+143
+00:07:52,740 --> 00:07:57,189
+[LAUGH] But
+still it did a really good job of
+
+144
+00:07:57,189 --> 00:08:00,170
+clustering vectors by sentiment
+automatically, right?
+
+145
+00:08:00,170 --> 00:08:03,835
+I guess I told it to do this because I
+gave it training data to allow it to do
+
+146
+00:08:03,834 --> 00:08:04,233
+this.
+
+147
+00:08:04,233 --> 00:08:07,939
+But all it was trying to do is predict
+accurately, but implicitly while
+
+148
+00:08:07,939 --> 00:08:11,644
+it was trying to predict accurately,
+it had to group these words to have
+
+149
+00:08:11,644 --> 00:08:15,908
+similar different vectors so that it can
+classify them in aggregate when they're
+
+150
+00:08:15,908 --> 00:08:19,485
+all summed together as being
+more positive or more negative.
+
+151
+00:08:19,485 --> 00:08:21,225
+And that's what the neural network did.
+
+152
+00:08:21,225 --> 00:08:25,580
+And it's really cool to kind of
+see it kind of behave this way.
+
+153
+00:08:25,579 --> 00:08:31,019
+And so I guess to close,
+this is what neural nets are all about.
+
+154
+00:08:31,019 --> 00:08:32,500
+This is what framing
+the problem's all about.
+
+155
+00:08:32,500 --> 00:08:34,620
+It's about understanding what's
+going on under the hood so
+
+156
+00:08:34,620 --> 00:08:37,928
+you can reduce the noise
+as much as possible.
+
+157
+00:08:37,928 --> 00:08:39,538
+Increase the signal as
+much as possible so
+
+158
+00:08:39,538 --> 00:08:42,379
+that it can find the structure that
+you're interested in it finding.
+
+159
+00:08:42,379 --> 00:08:47,090
+We didn't tell it that lovable and
+
+160
+00:08:47,090 --> 00:08:51,290
+extraordinary were similar
+terms in this context.
+
+161
+00:08:51,289 --> 00:08:54,149
+All we said was, hey,
+all these reviews are positive,
+
+162
+00:08:54,149 --> 00:08:55,970
+all these reviews are negative,
+figure it out.
+
+163
+00:08:55,970 --> 00:09:00,004
+And it figured out which terms were
+similar, which terms were different.
+
+164
+00:09:00,004 --> 00:09:01,664
+It was able to do that to
+make accurate predictions.
+
+165
+00:09:01,664 --> 00:09:05,625
+So I hope you've enjoyed this segment.
+
+166
+00:09:05,625 --> 00:09:09,485
+So we'll see you soon and
+continue to enjoy your course.
+

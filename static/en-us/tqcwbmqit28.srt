@@ -1,0 +1,347 @@
+1
+00:00:00,570 --> 00:00:06,490
+To motivate the need for dynamic management of data and metadata, it's useful to
+
+2
+00:00:06,490 --> 00:00:08,720
+look at the structure of a traditional
+
+3
+00:00:08,720 --> 00:00:12,600
+NFS server which is centralized. In a traditional
+
+4
+00:00:12,600 --> 00:00:16,940
+centralized NFS server what you have is
+
+5
+00:00:16,940 --> 00:00:20,670
+the data blocks are residing on the disks.
+
+6
+00:00:20,670 --> 00:00:26,610
+So in the memory of the server, the contents include the metadata for the files
+
+7
+00:00:26,610 --> 00:00:29,989
+like the iNote structures. And file cache which is
+
+8
+00:00:29,989 --> 00:00:32,905
+files that have been brought in from the disk
+
+9
+00:00:32,905 --> 00:00:36,170
+are stored in the memory in what is called
+
+10
+00:00:36,170 --> 00:00:39,160
+the file cache. So that future requests for the same
+
+11
+00:00:39,160 --> 00:00:41,480
+files can be served from the memory of the
+
+12
+00:00:41,480 --> 00:00:44,040
+server rather than going to the disk. And the server
+
+13
+00:00:44,040 --> 00:00:48,480
+also keeps the client caching directory. That is, who
+
+14
+00:00:48,480 --> 00:00:52,320
+on the local area network are currently accessing files that
+
+15
+00:00:52,320 --> 00:00:55,370
+is the propriety of this particular server. And
+
+16
+00:00:55,370 --> 00:00:58,600
+in a Unix file system the server is unconcerned
+
+17
+00:00:58,600 --> 00:01:00,980
+about the semantics of file sharing. In other
+
+18
+00:01:00,980 --> 00:01:04,660
+words, the assumption is that the server is caching
+
+19
+00:01:04,660 --> 00:01:08,920
+for each client completely independently. And therefore if
+
+20
+00:01:08,920 --> 00:01:11,960
+clients happened to share a file that is completely
+
+21
+00:01:11,960 --> 00:01:15,070
+the problem of the clients, and the server
+
+22
+00:01:15,070 --> 00:01:17,370
+is not concerned about that. So all of these
+
+23
+00:01:17,370 --> 00:01:20,538
+contents that I just described to you, metadata,
+
+24
+00:01:20,538 --> 00:01:24,340
+file cache, client caching directory. All of these are
+
+25
+00:01:24,340 --> 00:01:27,530
+in the memory of a particular server. And
+
+26
+00:01:27,530 --> 00:01:31,380
+if the server happens to be housing hot files
+
+27
+00:01:31,380 --> 00:01:34,280
+used by a lot of users that is
+
+28
+00:01:34,280 --> 00:01:37,100
+being served by this particular server. Then that's bad
+
+29
+00:01:37,100 --> 00:01:39,430
+news for the server in terms of scalability, because
+
+30
+00:01:39,430 --> 00:01:42,600
+it has to worry about the requests simultaneously coming
+
+31
+00:01:42,600 --> 00:01:45,560
+from lots of clients for these hot files. And
+
+32
+00:01:45,560 --> 00:01:48,650
+so it is constrained by the bandwidth that's available to
+
+33
+00:01:48,650 --> 00:01:51,200
+access the files from the disk. It is constrained
+
+34
+00:01:51,200 --> 00:01:54,710
+by the amount of memory space it's got, for caching
+
+35
+00:01:54,710 --> 00:01:56,780
+files, and the metadata of the files, and so
+
+36
+00:01:56,780 --> 00:02:00,020
+on. At the same time, there could be another server
+
+37
+00:02:00,020 --> 00:02:04,500
+that also has adequate bandwidth to the storage, and, and
+
+38
+00:02:04,500 --> 00:02:08,470
+memory space. But unfortunately it may be housing cold files.
+
+39
+00:02:08,470 --> 00:02:11,030
+And therefore, there are not many clients for
+
+40
+00:02:11,030 --> 00:02:14,070
+this server. So you can immediately see that
+
+41
+00:02:14,070 --> 00:02:16,550
+the sort of centralization of the traditional file
+
+42
+00:02:16,550 --> 00:02:20,070
+system results in hot spots. And that's the
+
+43
+00:02:20,070 --> 00:02:22,330
+thing that we're trying to avoid in a
+
+44
+00:02:22,330 --> 00:02:25,790
+distributed file system, and that's where dynamic management
+
+45
+00:02:25,790 --> 00:02:29,170
+comes into play. So in XFS, it provides
+
+46
+00:02:29,170 --> 00:02:34,510
+the same functionality as a centralized NFS Server,
+
+47
+00:02:34,510 --> 00:02:38,220
+but it is distributed and the metadata management
+
+48
+00:02:38,220 --> 00:02:41,210
+is dynamic. And that is, in a centralized
+
+49
+00:02:41,210 --> 00:02:46,060
+file server, the mapping between the manager node
+
+50
+00:02:46,060 --> 00:02:49,500
+for a file and the location of the
+
+51
+00:02:49,500 --> 00:02:55,090
+file is the same. Or in other words, if the file happens to reside on the disk
+
+52
+00:02:55,090 --> 00:02:59,660
+of this server, then this server is the guy that is going to handle the metadata
+
+53
+00:02:59,660 --> 00:03:01,670
+management for this file as well. On the
+
+54
+00:03:01,670 --> 00:03:07,330
+other hand, in XFS, metadata management is dynamically distributed.
+
+55
+00:03:07,330 --> 00:03:12,874
+So, let's say that you have F1, F2, and F3 are the hot files. In that case,
+
+56
+00:03:12,874 --> 00:03:15,800
+metadata management for files F2 and F3 can
+
+57
+00:03:15,800 --> 00:03:19,060
+be done by some other node, say S3. And
+
+58
+00:03:19,060 --> 00:03:22,290
+this server may have the cache for the
+
+59
+00:03:22,290 --> 00:03:25,170
+file. So, in other words, all the data structures
+
+60
+00:03:25,170 --> 00:03:29,740
+that we've talked about that has to reside in the memory of a particular server
+
+61
+00:03:29,740 --> 00:03:33,830
+like metadata, file cache, and the caching information
+
+62
+00:03:33,830 --> 00:03:36,240
+about who's having the files and so on.
+
+63
+00:03:36,240 --> 00:03:38,200
+All of that can be distributed with
+
+64
+00:03:38,200 --> 00:03:42,015
+dynamic management of data and metadata, which is
+
+65
+00:03:42,015 --> 00:03:45,700
+the idea in XFS. And I'll shortly explain
+
+66
+00:03:45,700 --> 00:03:50,910
+how exactly this dynamic management is facilitated by
+
+67
+00:03:50,910 --> 00:03:55,050
+the implementation of XFS. So, in any systems research,
+
+68
+00:03:55,050 --> 00:03:57,950
+there is always first the idea and then there's
+
+69
+00:03:57,950 --> 00:04:01,092
+implementation. So the idea in XFS is that we
+
+70
+00:04:01,092 --> 00:04:05,790
+want to manage the data and metadata management dynamically, and
+
+71
+00:04:05,790 --> 00:04:11,120
+we'll see how that is done. And also, what we want to do is we don't want the
+
+72
+00:04:11,120 --> 00:04:13,560
+cache for the files to be only at the
+
+73
+00:04:13,560 --> 00:04:15,930
+server. What we would like to be able to do
+
+74
+00:04:15,930 --> 00:04:20,290
+is, if a file is accessed by several different
+
+75
+00:04:20,290 --> 00:04:23,340
+nodes, then they're living in the client caches of
+
+76
+00:04:23,340 --> 00:04:26,810
+the different nodes. If a file is residing in
+
+77
+00:04:26,810 --> 00:04:30,030
+the cache of a peer node, then it makes
+
+78
+00:04:30,030 --> 00:04:32,450
+sense that if a new request comes from the
+
+79
+00:04:32,450 --> 00:04:35,478
+same file, then getting that file from a peer
+
+80
+00:04:35,478 --> 00:04:38,200
+cache may be much more efficient than getting it
+
+81
+00:04:38,200 --> 00:04:41,400
+from the disk. And that way we can also conserve
+
+82
+00:04:41,400 --> 00:04:44,390
+the total amount of memory that's available on the servers and use it
+
+83
+00:04:44,390 --> 00:04:47,170
+more frugally by exploiting the memories that
+
+84
+00:04:47,170 --> 00:04:49,720
+are available in the clients, so that
+
+85
+00:04:49,720 --> 00:04:55,470
+the caching of the files can be done cooperatively among the clients. And that's
+
+86
+00:04:55,470 --> 00:04:58,855
+the other nugget in the technical contribution
+
+87
+00:04:58,855 --> 00:05:01,319
+of XFS, is the cooperative client caching.

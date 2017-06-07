@@ -1,0 +1,159 @@
+﻿1
+00:00:01,110 --> 00:00:04,790
+Android throws an exception when you
+try to access the network on the main
+
+2
+00:00:04,790 --> 00:00:06,839
+thread, but what does that mean?
+
+3
+00:00:08,140 --> 00:00:10,019
+Like any modern operating system,
+
+4
+00:00:10,019 --> 00:00:12,910
+Android supports doing
+multiple things at once.
+
+5
+00:00:12,910 --> 00:00:16,213
+You see that when you hit the Recents
+key to swap to other running apps or
+
+6
+00:00:16,213 --> 00:00:18,742
+when you do things like play
+music in the background.
+
+7
+00:00:18,742 --> 00:00:22,850
+But Android multitasking
+goes much deeper than that.
+
+8
+00:00:23,949 --> 00:00:27,730
+Each Android app can be divided
+into multiple threads of execution,
+
+9
+00:00:27,730 --> 00:00:29,800
+that can all run concurrently.
+
+10
+00:00:29,800 --> 00:00:34,090
+On modern Android devices, these threads
+of execution can be scheduled by the OS
+
+11
+00:00:34,090 --> 00:00:36,430
+to run on different CPU cores.
+
+12
+00:00:36,429 --> 00:00:40,340
+But the system might choose to time
+slice the amount of single CPU
+
+13
+00:00:40,340 --> 00:00:42,570
+which means running each for
+a period of time.
+
+14
+00:00:43,679 --> 00:00:44,359
+Either way,
+
+15
+00:00:44,359 --> 00:00:48,530
+to your application it appears as if
+the threads are running concurrently.
+
+16
+00:00:49,840 --> 00:00:52,140
+To make things easier on the developer,
+
+17
+00:00:52,140 --> 00:00:55,369
+Android apps have a single
+user interface thread.
+
+18
+00:00:55,369 --> 00:00:58,959
+This thread is responsible for getting
+events from the various sensors and
+
+19
+00:00:58,960 --> 00:01:01,310
+setting up the next frame to draw.
+
+20
+00:01:01,310 --> 00:01:05,510
+To run at an ideal 60 frames per
+second We need to make sure that all
+
+21
+00:01:05,510 --> 00:01:09,785
+the computation between draws
+takes less than 17 milliseconds,
+
+22
+00:01:09,784 --> 00:01:11,215
+which is pretty fast.
+
+23
+00:01:11,215 --> 00:01:15,607
+In other words, we want to do as little
+as possible on this main thread, but
+
+24
+00:01:15,608 --> 00:01:19,935
+networking can take seconds, which
+means you're app would be frozen for
+
+25
+00:01:19,935 --> 00:01:23,969
+all that time if the networking
+call is on the main thread.
+
+26
+00:01:23,969 --> 00:01:26,120
+The user couldn't interact with it.
+
+27
+00:01:26,120 --> 00:01:28,800
+After five seconds of
+ignoring user input,
+
+28
+00:01:28,799 --> 00:01:32,019
+Android would actually prompt
+the user to close your app.
+
+29
+00:01:32,019 --> 00:01:33,439
+So to use network,
+
+30
+00:01:33,439 --> 00:01:38,219
+we need to run the network task
+on a secondary execution thread.
+
+31
+00:01:38,219 --> 00:01:41,191
+But we need to make changes
+to the user interface,
+
+32
+00:01:41,191 --> 00:01:44,885
+like setting the text view to
+show the result in the UI thread.
+
+33
+00:01:44,885 --> 00:01:49,740
+Fortunately, Android provides a helpful
+framework pattern to do this.
+
+34
+00:01:49,739 --> 00:01:51,409
+Enter Async task,
+

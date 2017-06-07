@@ -1,0 +1,319 @@
+1
+00:00:00,320 --> 00:00:03,600
+So it's time to introduce
+the Kalman filter.
+
+2
+00:00:03,600 --> 00:00:07,780
+The Kalman filter is a method
+of tracking linear dynamical
+
+3
+00:00:07,780 --> 00:00:10,500
+systems with Gaussian noise.
+
+4
+00:00:10,500 --> 00:00:14,380
+And what's really cool is,
+both the predicted states and
+
+5
+00:00:14,380 --> 00:00:17,670
+the corrected states are Gaussians,
+right?
+
+6
+00:00:17,670 --> 00:00:19,890
+So you're only maintaining the mean and
+
+7
+00:00:19,890 --> 00:00:25,350
+the covariance of your state,
+in order to run your filter.
+
+8
+00:00:25,350 --> 00:00:27,690
+And also, the calculations
+are very straightforward.
+
+9
+00:00:27,690 --> 00:00:29,950
+I'm not even going to
+derive the equations here.
+
+10
+00:00:29,950 --> 00:00:31,539
+We'll be able to get some intuitions.
+
+11
+00:00:31,539 --> 00:00:36,210
+But you can show that it's a relatively
+straightforward manipulation of
+
+12
+00:00:36,210 --> 00:00:38,100
+these linear matrices.
+
+13
+00:00:38,100 --> 00:00:40,629
+So in pictures,
+the Kalman Filter can be,
+
+14
+00:00:40,629 --> 00:00:43,450
+can be described as the following,
+all right.
+
+15
+00:00:43,450 --> 00:00:48,820
+You start off in the blue here is top
+left, that's your prior belief, right?
+
+16
+00:00:48,820 --> 00:00:50,830
+So let's oppose we have some density.
+
+17
+00:00:50,830 --> 00:00:52,870
+Now what kind of shape is it?
+
+18
+00:00:52,870 --> 00:00:54,189
+It's a Gaussian, why?
+
+19
+00:00:54,189 --> 00:00:57,520
+because this is a Kalman Filter, okay?
+
+20
+00:00:57,520 --> 00:01:00,220
+Kalman filters are built on Gaussians.
+
+21
+00:01:00,220 --> 00:01:02,650
+You want to have a non-Gaussian?
+
+22
+00:01:02,650 --> 00:01:06,270
+Too bad, this is a Kalman filter,
+things are Gaussians.
+
+23
+00:01:06,270 --> 00:01:08,160
+We'll do some other little stuff later.
+
+24
+00:01:08,160 --> 00:01:09,449
+For now, everything is.
+
+25
+00:01:09,449 --> 00:01:12,268
+So the first thing that happens is,
+in this picture,
+
+26
+00:01:12,268 --> 00:01:14,660
+it's referred to as
+a deterministic shift.
+
+27
+00:01:14,660 --> 00:01:18,710
+Remember when we multiply
+it by that linear system.
+
+28
+00:01:18,710 --> 00:01:21,560
+So basically, that's the part
+that you know what happens.
+
+29
+00:01:21,560 --> 00:01:24,140
+And that's shown here in green,
+where the,
+
+30
+00:01:24,140 --> 00:01:27,060
+the Gaussian bump is just
+slid over to the right.
+
+31
+00:01:27,060 --> 00:01:30,560
+So if I'm a Gaussian bump, which I've
+been accused of on a variety of times,
+
+32
+00:01:30,560 --> 00:01:33,250
+the first thing that happens
+is I slide over to my right.
+
+33
+00:01:33,250 --> 00:01:34,360
+That would be your left.
+
+34
+00:01:34,360 --> 00:01:37,080
+Now Megan is wondering,
+should I move the camera?
+
+35
+00:01:37,080 --> 00:01:39,140
+I don't know what this
+guy's going to do.
+
+36
+00:01:39,140 --> 00:01:40,260
+I'm going to come back in a minute.
+
+37
+00:01:40,260 --> 00:01:40,850
+All right.
+
+38
+00:01:40,850 --> 00:01:43,290
+Anyway, so the first thing
+we do is we slide, beca, and
+
+39
+00:01:43,290 --> 00:01:46,520
+we know that's the deterministic part.
+
+40
+00:01:46,520 --> 00:01:50,230
+Then comes the part that's referred to
+in this picture, and I left it in here
+
+41
+00:01:50,230 --> 00:01:53,820
+because I think it's a cool way of
+thinking about it, stochastic diffusion.
+
+42
+00:01:53,820 --> 00:01:56,680
+But it's basically
+the addition of noise,
+
+43
+00:01:56,680 --> 00:01:59,560
+and this is referred
+to the process noise.
+
+44
+00:01:59,560 --> 00:02:01,250
+So now we've done two things.
+
+45
+00:02:01,250 --> 00:02:05,080
+We've deterministically stepped one
+way and we've grown a little fatter.
+
+46
+00:02:06,170 --> 00:02:07,380
+Both problems.
+
+47
+00:02:07,380 --> 00:02:09,419
+Anyway, the idea is,
+
+48
+00:02:09,419 --> 00:02:13,650
+when I'm taking a step forward in time,
+I use the part that I know.
+
+49
+00:02:13,650 --> 00:02:17,010
+I know, I think I was moving,
+you know, three meters per second and
+
+50
+00:02:17,010 --> 00:02:17,740
+it's a second later.
+
+51
+00:02:17,740 --> 00:02:18,680
+So I think I've moved three,
+
+52
+00:02:18,680 --> 00:02:23,170
+but I also know that I'm not
+perfect in my knowledge, right?
+
+53
+00:02:23,170 --> 00:02:25,290
+That's never my problem,
+that's somebody else's.
+
+54
+00:02:25,290 --> 00:02:27,840
+But, no, anyway, I know I'm not
+perfect in my knowledge, so
+
+55
+00:02:27,840 --> 00:02:32,020
+therefore, you know over
+here my variance is wider.
+
+56
+00:02:32,020 --> 00:02:36,720
+Okay.
+So I've now expanded my uncertainty.
+
+57
+00:02:36,720 --> 00:02:42,090
+Then what happens is I take a
+measurement, and that's shown here as Z.
+
+58
+00:02:42,090 --> 00:02:44,250
+Okay, so I take some measurement and
+
+59
+00:02:44,250 --> 00:02:47,490
+what happens is if you take a look
+at the density in the blue here,
+
+60
+00:02:47,490 --> 00:02:51,560
+you'll notice that it is shifted
+back a little bit based upon the Z.
+
+61
+00:02:51,560 --> 00:02:55,190
+And it has also gotten narrower, okay.
+
+62
+00:02:55,190 --> 00:02:57,900
+It's very important to think about
+this in the Kalman sense, and
+
+63
+00:02:57,900 --> 00:03:00,130
+we're going to do more of
+this in a minute, right.
+
+64
+00:03:00,130 --> 00:03:04,490
+We shift, expand, measure, shrink.
+
+65
+00:03:04,490 --> 00:03:08,010
+Okay, actually, shift, expand,
+measure, correct, shrink.
+
+66
+00:03:08,010 --> 00:03:11,250
+That shrinkage happens because
+whenever you take a measurement,
+
+67
+00:03:11,250 --> 00:03:13,090
+you're getting new information.
+
+68
+00:03:13,090 --> 00:03:17,500
+New information can only
+reduce your uncertainty.
+
+69
+00:03:17,500 --> 00:03:19,520
+That's going to come back in
+a minute to be a little strange.

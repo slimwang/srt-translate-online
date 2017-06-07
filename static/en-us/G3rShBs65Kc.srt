@@ -1,0 +1,442 @@
+1
+00:00:00,120 --> 00:00:01,180
+Hint portion.
+
+2
+00:00:01,180 --> 00:00:02,430
+In the first portion of this video,
+
+3
+00:00:02,430 --> 00:00:06,360
+I'll write some pseudocode describing
+how I structure the algorithm.
+
+4
+00:00:06,360 --> 00:00:10,370
+Then in the second portion of the video,
+I'll fill in some of the details.
+
+5
+00:00:10,370 --> 00:00:12,780
+If you just want to see
+the pseudocode as a hint,
+
+6
+00:00:12,780 --> 00:00:17,050
+watch up until the timestamp listed
+in the instructor notes on this page.
+
+7
+00:00:17,050 --> 00:00:21,130
+In general, to compute triangular form,
+we will need to proceed downward
+
+8
+00:00:21,130 --> 00:00:24,090
+through the equations in
+our system one at a time.
+
+9
+00:00:24,090 --> 00:00:26,360
+Let's start with a for loop to do this.
+
+10
+00:00:26,360 --> 00:00:30,982
+Let m equal the number of equations and
+then start the for
+
+11
+00:00:30,982 --> 00:00:34,880
+loop with for each row i = 0 to m -1.
+
+12
+00:00:34,880 --> 00:00:37,820
+I'm specifying the start
+index here as 0.
+
+13
+00:00:37,820 --> 00:00:41,770
+Since many languages use 0 as a start
+index for a list or an array.
+
+14
+00:00:41,770 --> 00:00:45,690
+Next, we need to check the coefficient
+of the appropriate variable
+
+15
+00:00:45,690 --> 00:00:46,860
+in the current row.
+
+16
+00:00:46,860 --> 00:00:49,190
+How do we know which
+variable is appropriate?
+
+17
+00:00:49,190 --> 00:00:49,720
+Of course,
+
+18
+00:00:49,720 --> 00:00:53,250
+we'll want to start at the left most
+variable on the first equation.
+
+19
+00:00:53,250 --> 00:00:57,890
+But sometimes, we won't want to examine
+the ith variable, in the ith row.
+
+20
+00:00:57,890 --> 00:01:00,150
+We'll want to skip
+down to further terms.
+
+21
+00:01:00,150 --> 00:01:03,770
+Let's say that j will represent
+the current variable.
+
+22
+00:01:03,770 --> 00:01:08,100
+So, for this example, j = 0,
+would mean the x term,
+
+23
+00:01:08,100 --> 00:01:13,410
+j = 1 would mean the y term, and
+j = 2 would mean the z term.
+
+24
+00:01:13,410 --> 00:01:15,970
+Let n equal the number of variables and
+
+25
+00:01:15,970 --> 00:01:20,970
+let j = 0 and we'll put both of these
+initializations outside the for loop.
+
+26
+00:01:20,970 --> 00:01:22,790
+Now at the top of the for loop,
+
+27
+00:01:22,790 --> 00:01:27,480
+let's call c the coefficient of
+the jth variable in the ith row.
+
+28
+00:01:27,480 --> 00:01:32,670
+In most cases, we'll just want to
+clear all the terms below this term.
+
+29
+00:01:32,670 --> 00:01:36,770
+So let's add that instruction
+near the bottom of our for loop.
+
+30
+00:01:36,770 --> 00:01:41,150
+Clear all terms with
+variable j below row i and
+
+31
+00:01:41,150 --> 00:01:44,378
+then we'll increment j to
+move on to the next variable.
+
+32
+00:01:44,378 --> 00:01:48,250
+However, if c, the current coefficient,
+
+33
+00:01:48,250 --> 00:01:52,520
+equals 0, then we will need to
+swap with an appropriate row.
+
+34
+00:01:52,520 --> 00:01:57,950
+So let's add, if c is equal to
+0 after our assignment of c.
+
+35
+00:01:57,950 --> 00:02:02,170
+If we find a row under row i
+with a non zero coefficient for
+
+36
+00:02:02,170 --> 00:02:06,670
+variable j, then let's go ahead and
+swap that row with row i.
+
+37
+00:02:06,670 --> 00:02:10,740
+Of course, it could be possible that
+there's no row underneath row i
+
+38
+00:02:10,740 --> 00:02:13,730
+that has a non zero coefficient for
+the jth variable.
+
+39
+00:02:13,730 --> 00:02:17,610
+If this is the case, then we are done
+clearing the jth variable and
+
+40
+00:02:17,610 --> 00:02:19,330
+we need to move on to the next one.
+
+41
+00:02:19,330 --> 00:02:21,210
+So we will increment j.
+
+42
+00:02:21,210 --> 00:02:24,610
+We also need to make sure
+that j isn't getting too big.
+
+43
+00:02:24,610 --> 00:02:27,700
+However, we don't want to
+increment the row counter i,
+
+44
+00:02:27,700 --> 00:02:30,810
+until we've performed
+a successful variable clearing.
+
+45
+00:02:30,810 --> 00:02:34,620
+How I solve this problem is I put
+a while loop inside the for loop.
+
+46
+00:02:34,620 --> 00:02:36,810
+While j is less than n.
+
+47
+00:02:36,810 --> 00:02:40,900
+Then, we need to make sure we perform
+this check, is j less than n,
+
+48
+00:02:40,900 --> 00:02:46,410
+after we increment j after failing
+a row swap or after a clearing.
+
+49
+00:02:46,410 --> 00:02:47,900
+So, if a swap fails and
+
+50
+00:02:47,900 --> 00:02:51,900
+we have to increment j, we'll run
+another iteration of the while loop.
+
+51
+00:02:51,900 --> 00:02:55,030
+And then when we clear
+a variable underneath the row,
+
+52
+00:02:55,030 --> 00:02:58,960
+we'll break out of the while loop to
+allow an increment of the for loop.
+
+53
+00:02:58,960 --> 00:03:02,200
+So this is the basic structure
+of my solution to the problem.
+
+54
+00:03:02,200 --> 00:03:05,610
+What's left is to rewrite all
+this in proper syntax and
+
+55
+00:03:05,610 --> 00:03:09,230
+then to fill in what is meant
+by these two statements.
+
+56
+00:03:09,230 --> 00:03:13,230
+If there's a row under row I
+with non zero coefficient for
+
+57
+00:03:13,230 --> 00:03:19,040
+variable j, and clear all terms
+with variable j below row i.
+
+58
+00:03:19,040 --> 00:03:20,660
+In the solution portion of this video,
+
+59
+00:03:20,660 --> 00:03:23,820
+we will define these
+functions more precisely.
+
+60
+00:03:23,820 --> 00:03:25,950
+This is the end of
+the Hint Portion of the video.
+
+61
+00:03:25,950 --> 00:03:28,210
+The full solution will now follow.
+
+62
+00:03:28,210 --> 00:03:31,620
+Okay, here's the function
+compute_triangular_form,
+
+63
+00:03:31,620 --> 00:03:33,960
+now in proper Python syntax.
+
+64
+00:03:33,960 --> 00:03:39,302
+Instead of the non descriptive letters
+m and n, I've used num_equations and
+
+65
+00:03:39,302 --> 00:03:43,710
+num_variables to represent the number
+of equations, that is the length of
+
+66
+00:03:43,710 --> 00:03:47,690
+the system and the number of variables
+given by the system's dimension.
+
+67
+00:03:47,690 --> 00:03:51,690
+Some technical changes I've made
+from the pseudocode include wrapping
+
+68
+00:03:51,690 --> 00:03:56,450
+the value of c in a MyDecimal
+object because I want to allow for
+
+69
+00:03:56,450 --> 00:03:58,830
+some tolerance in what is considered 0.
+
+70
+00:03:58,830 --> 00:04:02,918
+So instead of asking if c
+equals equals zero, I use c.
+
+71
+00:04:02,918 --> 00:04:05,880
+is_near zero instead.
+
+72
+00:04:05,880 --> 00:04:10,460
+If c.is_near_zero, then I call
+system.swap with row below for
+
+73
+00:04:10,460 --> 00:04:13,080
+non zero coefficient, if able.
+
+74
+00:04:13,080 --> 00:04:15,510
+This is somewhat of an unwieldy name but
+
+75
+00:04:15,510 --> 00:04:17,750
+it's fairly descriptive of
+what's supposed to happen.
+
+76
+00:04:17,750 --> 00:04:22,370
+It will return either true or false
+depending on whether the swap succeeded.
+
+77
+00:04:22,370 --> 00:04:26,400
+I also call the function
+system.clear_coefficients_below
+
+78
+00:04:26,400 --> 00:04:30,610
+which clears all coefficients
+of variable j below row i.
+
+79
+00:04:30,610 --> 00:04:34,190
+Looking at the swap with row
+below etcetera function,
+
+80
+00:04:34,190 --> 00:04:36,490
+we can see that it's
+fairly straightforward.
+
+81
+00:04:36,490 --> 00:04:40,440
+It looks at all rows beneath
+the given row looking for a non zero
+
+82
+00:04:40,440 --> 00:04:45,700
+coefficient for the given variable,
+specified as COL short for column.
+
+83
+00:04:45,700 --> 00:04:48,570
+If it finds such a coefficient
+that isn't near zero
+
+84
+00:04:48,570 --> 00:04:50,840
+then it makes the swap and returns true.
+
+85
+00:04:50,840 --> 00:04:52,850
+Otherwise, it returns false.
+
+86
+00:04:52,850 --> 00:04:56,510
+The clear_coefficients below function
+is also fairly straightforward.
+
+87
+00:04:56,510 --> 00:05:00,810
+It computes the ratio alpha it
+needs to multiply the given row by,
+
+88
+00:05:00,810 --> 00:05:04,750
+in order to clear each row
+k underneath the given row.
+
+89
+00:05:04,750 --> 00:05:09,120
+And then it adds alpha times
+the given row to row k.
+
+90
+00:05:09,120 --> 00:05:14,355
+To compute alpha, it multiplies
+the reciprocal of the coefficient
+
+91
+00:05:14,355 --> 00:05:20,195
+of the given row times the negative of
+the corresponding coefficient in row k.
+
+92
+00:05:20,195 --> 00:05:22,815
+Now, let's run our test code and
+make sure it works.
+
+93
+00:05:22,815 --> 00:05:25,795
+Hooray, no fill your messages
+were printed, let's move on.

@@ -1,0 +1,315 @@
+1
+00:00:00,140 --> 00:00:03,980
+Let's start looking at this with a little bit of an eye for the mathematics.
+
+2
+00:00:03,980 --> 00:00:07,010
+What we're interested in is computing the change in appearance by
+
+3
+00:00:07,010 --> 00:00:09,010
+shifting the window.
+
+4
+00:00:09,010 --> 00:00:13,900
+And we're shifting the window in two different directions, u and v.
+
+5
+00:00:13,900 --> 00:00:16,570
+So of course this is my measure that I want to look at.
+
+6
+00:00:17,670 --> 00:00:18,690
+This is my image.
+
+7
+00:00:18,690 --> 00:00:21,670
+Basically what I do with this image is I move it by u and
+
+8
+00:00:21,670 --> 00:00:23,870
+v in different directions.
+
+9
+00:00:23,870 --> 00:00:25,860
+And of course subtracted by the original and
+
+10
+00:00:25,860 --> 00:00:29,440
+look over some squared differences or the difference in the square of it.
+
+11
+00:00:30,570 --> 00:00:32,530
+Of course, to help us look at this carefully,
+
+12
+00:00:32,530 --> 00:00:36,490
+we'll also create a small function, a box function like this.
+
+13
+00:00:36,490 --> 00:00:39,660
+Which basically, any time I'm with in this, I get the answer one.
+
+14
+00:00:39,660 --> 00:00:41,030
+Outside I get 0.
+
+15
+00:00:41,030 --> 00:00:44,020
+Or I can put a Gaussian curve like this.
+
+16
+00:00:44,020 --> 00:00:46,740
+So, in essence this is my intensity function.
+
+17
+00:00:46,740 --> 00:00:48,420
+This is my shifted intensity.
+
+18
+00:00:48,420 --> 00:00:51,090
+Again, recall all the kinds of stuff we've done with intensities.
+
+19
+00:00:51,090 --> 00:00:54,150
+And how we've looked at the neighborhoods of it in all of our work on
+
+20
+00:00:54,150 --> 00:00:56,570
+convolutions and correlations and filtering.
+
+21
+00:00:56,570 --> 00:00:59,120
+And this is the window function, how big the window is and
+
+22
+00:00:59,120 --> 00:01:04,019
+how actually want to keep the size of the window impacting what I'm looking at.
+
+23
+00:01:04,019 --> 00:01:07,710
+And this is my function, which basically captures the change in appearance.
+
+24
+00:01:08,810 --> 00:01:11,770
+Let me actually showcase a little bit of how we can compute this by
+
+25
+00:01:11,770 --> 00:01:12,890
+the simple example.
+
+26
+00:01:12,890 --> 00:01:15,580
+What we basically want to do, is compute the change in appearance by
+
+27
+00:01:15,580 --> 00:01:19,810
+shifting a window by you know, it's small u and small v.
+
+28
+00:01:19,810 --> 00:01:22,910
+Here's a simple image, and here I've basically shown you
+
+29
+00:01:22,910 --> 00:01:26,260
+a small window within this that I won't actually compute information on.
+
+30
+00:01:26,260 --> 00:01:29,320
+So here is the response function E u, v for this one.
+
+31
+00:01:29,320 --> 00:01:32,140
+Computed by using an equation like this.
+
+32
+00:01:32,140 --> 00:01:37,340
+And again, just assume that we picked up one w x y to allow us to do this.
+
+33
+00:01:37,340 --> 00:01:39,770
+And the value, of course, here is E 0, 0.
+
+34
+00:01:39,770 --> 00:01:41,150
+And this is the window that I have.
+
+35
+00:01:41,150 --> 00:01:45,340
+And of course, I can now compute the whole E u, v, for that window u, v.
+
+36
+00:01:45,340 --> 00:01:50,630
+I can also compute the E three, two for this win, pixel here.
+
+37
+00:01:50,630 --> 00:01:54,260
+Which is three down and two up, or three sideways and two up.
+
+38
+00:01:54,260 --> 00:01:57,030
+Which allows me to kind of look at the whole function which would
+
+39
+00:01:57,030 --> 00:01:58,350
+be this part here.
+
+40
+00:01:58,350 --> 00:02:03,640
+And of course, that results in an additional window, like this.
+
+41
+00:02:03,640 --> 00:02:05,860
+This allows me to do the computation I want.
+
+42
+00:02:05,860 --> 00:02:08,377
+And again, remember the tools we looked at again,
+
+43
+00:02:08,377 --> 00:02:11,137
+that lets you do neighborhood calculations on images.
+
+44
+00:02:11,137 --> 00:02:14,700
+And in essence, this basically allows us to do that kind of stuff.
+
+45
+00:02:14,700 --> 00:02:18,560
+Looking again this corner mathematics, let's build on this concept a bit more.
+
+46
+00:02:18,560 --> 00:02:20,310
+So let's take this equation.
+
+47
+00:02:20,310 --> 00:02:24,370
+And take a quadratic approximation of it using Taylor expansion.
+
+48
+00:02:24,370 --> 00:02:26,250
+And the result is something like this.
+
+49
+00:02:26,250 --> 00:02:29,570
+An approximation where E u v basically now is written in
+
+50
+00:02:29,570 --> 00:02:33,930
+a matrix form with u and v, M u and v transpose.
+
+51
+00:02:33,930 --> 00:02:34,590
+So what is M?
+
+52
+00:02:34,590 --> 00:02:40,550
+M is the second moment matrix computed from the image derivatives, Ix and Iy.
+
+53
+00:02:41,820 --> 00:02:43,470
+Remember how to compute I x and I y?
+
+54
+00:02:43,470 --> 00:02:47,080
+We have done this before when we looked at derivatives of images.
+
+55
+00:02:47,080 --> 00:02:53,580
+So a second normal matrix is a matrix derived from the gradient of a function.
+
+56
+00:02:53,580 --> 00:02:58,290
+And in essence, it summarizes the predominant directions of the gradient in
+
+57
+00:02:58,290 --> 00:03:00,790
+a specified neighborhood point.
+
+58
+00:03:00,790 --> 00:03:04,900
+Then again, repeating, it summarizes the predominant directions of
+
+59
+00:03:04,900 --> 00:03:08,570
+the gradient in a specified neighborhood of the point.
+
+60
+00:03:08,570 --> 00:03:11,810
+And the degree of this, basically what happens with this,
+
+61
+00:03:11,810 --> 00:03:13,820
+is the degree to which the directions are coherent.
+
+62
+00:03:13,820 --> 00:03:17,910
+Allow you to say something specific about an image or a feature.
+
+63
+00:03:17,910 --> 00:03:23,638
+In essence what that means is M, again with the weighted window here, is the x
+
+64
+00:03:23,638 --> 00:03:29,930
+derivative twice squared of that one, x and y derivatives and x and y.
+
+65
+00:03:29,930 --> 00:03:32,800
+Well the, the forms of the off diagonal terms, and
+
+66
+00:03:32,800 --> 00:03:36,040
+of course, the square of y would be here.
+
+67
+00:03:36,040 --> 00:03:38,900
+Visually what this means is that if I had an image like this,
+
+68
+00:03:38,900 --> 00:03:44,330
+for any point here, basically I'm looking for, two axes.
+
+69
+00:03:45,480 --> 00:03:49,910
+And in essence, what I'm looking for is the maximal directions that allow me
+
+70
+00:03:49,910 --> 00:03:54,850
+to kind of encode the information that makes this feature unique.
+
+71
+00:03:54,850 --> 00:03:57,620
+So in essence, at the gradient of the function,
+
+72
+00:03:57,620 --> 00:04:03,360
+it gives you the predominant directions of the gradient in a specific point.
+
+73
+00:04:03,360 --> 00:04:06,970
+And we compute this using this methodology here,
+
+74
+00:04:06,970 --> 00:04:09,830
+where basically we compute the Ix and Iy's.
+
+75
+00:04:09,830 --> 00:04:11,500
+And use this to create a matrix.
+
+76
+00:04:11,500 --> 00:04:15,130
+And it basically starts giving me information about how the gradient
+
+77
+00:04:15,130 --> 00:04:18,610
+directions are dominant for this image at this point.
+
+78
+00:04:19,820 --> 00:04:20,540
+Remember [INAUDIBLE].
+
+79
+00:04:20,540 --> 00:04:22,210
+We'll come back to this in a second.

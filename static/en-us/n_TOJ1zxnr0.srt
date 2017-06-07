@@ -1,0 +1,84 @@
+1
+00:00:00,008 --> 00:00:02,910
+So in main.py,
+we have this SetAnnouncementHandler and
+
+2
+00:00:02,910 --> 00:00:06,760
+all it's going to do is call
+cacheAnnouncement in the ConferenceApi.
+
+3
+00:00:06,760 --> 00:00:10,322
+And then in conference.py, we have
+getAnnouncement, which needs to get
+
+4
+00:00:10,322 --> 00:00:13,090
+the MEMCHACHE_ANNOUNCEMENTS_KEY
+from memcache.
+
+5
+00:00:13,090 --> 00:00:15,730
+And if it's not there,
+this is going to return none so
+
+6
+00:00:15,730 --> 00:00:18,030
+we need to make that
+a null string instead.
+
+7
+00:00:18,030 --> 00:00:20,750
+So that we can initialize
+the string message with the string.
+
+8
+00:00:20,750 --> 00:00:21,990
+Once you have all this, and
+
+9
+00:00:21,990 --> 00:00:25,368
+you deploy it on App Engine, you'll be
+able to call the getAnnouncement method,
+
+10
+00:00:25,368 --> 00:00:28,790
+and probably just get back a null
+string in the data in the response.
+
+11
+00:00:28,790 --> 00:00:33,005
+And you'll also be able to access
+the URL /crons/set_announcement.
+
+12
+00:00:33,005 --> 00:00:35,220
+It'll just return an empty page.
+
+13
+00:00:35,220 --> 00:00:38,300
+But it's actually trying and setting
+the announcement in the back end.
+
+14
+00:00:38,300 --> 00:00:41,620
+If, by the way,
+you get back a NeedIndexError,
+
+15
+00:00:41,620 --> 00:00:43,410
+well we've seen that before.
+
+16
+00:00:43,410 --> 00:00:47,740
+You just need to deploy the app locally,
+so that index.yaml gets updated.
+
+17
+00:00:47,740 --> 00:00:49,530
+And then deploy it to App Engine.
+
+18
+00:00:49,530 --> 00:00:50,490
+And then this will go away.

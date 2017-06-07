@@ -1,0 +1,187 @@
+1
+00:00:00,440 --> 00:00:02,110
+Okay, so, it seems very much.
+
+2
+00:00:02,110 --> 00:00:04,170
+This is going to be
+broken up into pieces.
+
+3
+00:00:04,170 --> 00:00:09,180
+So, our first distributed
+responsibility here is that
+
+4
+00:00:09,180 --> 00:00:15,210
+the height is now changed, and
+it gets reported to the viewport.
+
+5
+00:00:15,210 --> 00:00:17,060
+>> Okay.
+>> The viewport will look at its
+
+6
+00:00:17,060 --> 00:00:22,360
+current height and make a determination
+of whether it's grown, shrank.
+
+7
+00:00:22,360 --> 00:00:28,740
+Essentially, then having to
+distribute to the scroll bar,
+
+8
+00:00:28,740 --> 00:00:32,990
+the handle that needs to move, and
+also if its proportion needs to change.
+
+9
+00:00:32,990 --> 00:00:33,740
+>> Okay.
+
+10
+00:00:33,740 --> 00:00:38,626
+>> That in turn,
+will be distributed down
+
+11
+00:00:38,626 --> 00:00:43,670
+to the file manager from the scroll bar.
+
+12
+00:00:43,670 --> 00:00:48,557
+It could be that the first distributor
+responsibility goes to the scroll bar,
+
+13
+00:00:48,557 --> 00:00:51,370
+waits on something to come back.
+
+14
+00:00:51,370 --> 00:00:53,760
+So, actually I think that's the case.
+
+15
+00:00:53,760 --> 00:00:56,860
+>> Okay, so Jared has raised
+an interesting point here.
+
+16
+00:00:56,860 --> 00:00:59,020
+We know we're eventually going to
+have to go to the file manager
+
+17
+00:00:59,020 --> 00:00:59,940
+to get some more lines.
+
+18
+00:00:59,940 --> 00:01:02,020
+Is it the scroll bar that
+informs the file manager?
+
+19
+00:01:02,020 --> 00:01:04,060
+Is it the viewport that
+informs the file manage?
+
+20
+00:01:04,060 --> 00:01:06,880
+Because both of them are dependent,
+right?
+
+21
+00:01:06,880 --> 00:01:07,600
+>> Right.
+
+22
+00:01:07,600 --> 00:01:08,640
+I think it's the viewport.
+
+23
+00:01:08,640 --> 00:01:11,900
+Because our last example kind
+of did a similar thing when
+
+24
+00:01:11,900 --> 00:01:13,160
+we just moved the handle.
+
+25
+00:01:13,160 --> 00:01:14,932
+It eventually came back to the viewport.
+
+26
+00:01:14,932 --> 00:01:19,270
+The viewport reported down to the file
+manager, I need these new lines.
+
+27
+00:01:19,270 --> 00:01:20,310
+It seems like it's going to.
+
+28
+00:01:20,310 --> 00:01:22,090
+Let's recap here.
+
+29
+00:01:22,090 --> 00:01:23,470
+We're going to resize the window.
+
+30
+00:01:23,470 --> 00:01:26,100
+The height is going to
+come to the viewport.
+
+31
+00:01:26,100 --> 00:01:28,170
+It going to then report, or
+
+32
+00:01:28,170 --> 00:01:33,220
+send a message to the handle about where
+it needs to be and its proportion.
+
+33
+00:01:33,220 --> 00:01:35,215
+That will come back to the viewport, and
+
+34
+00:01:35,215 --> 00:01:39,450
+the viewport will request from the file
+manager any nuance that it needs.
+
+35
+00:01:39,450 --> 00:01:46,430
+>> Okay, and one of the takeaways from
+this is that distributed is just that.
+
+36
+00:01:46,430 --> 00:01:50,350
+There's different choices
+as to who's going to tell
+
+37
+00:01:50,350 --> 00:01:53,450
+whom else about what's going on, okay?
+
+38
+00:01:53,450 --> 00:01:58,980
+So although each particular event is,
+
+39
+00:01:58,980 --> 00:02:01,580
+each particular segment of
+code is probably fairly small,
+
+40
+00:02:01,580 --> 00:02:04,360
+consisting of some method calls,
+that are distributed all over the place,
+
+41
+00:02:04,360 --> 00:02:05,690
+which might make them
+hard to understand.

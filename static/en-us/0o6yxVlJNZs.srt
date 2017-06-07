@@ -1,0 +1,91 @@
+1
+00:00:00,110 --> 00:00:03,000
+And finally, one more point regarding signal handling.
+
+2
+00:00:03,000 --> 00:00:05,350
+We have two types of signals.
+
+3
+00:00:05,350 --> 00:00:08,690
+The first type are the so-called one-shot signals.
+
+4
+00:00:08,690 --> 00:00:14,560
+One property of these signals is that we know that if they're multiple instances
+
+5
+00:00:14,560 --> 00:00:19,190
+of the same signal that will occur, they will be handled at least once.
+
+6
+00:00:19,190 --> 00:00:23,890
+So it is possible that if we have a situation in which only one signal of
+
+7
+00:00:23,890 --> 00:00:28,710
+that kind occurred versus n signals of that same kind occurred,
+
+8
+00:00:28,710 --> 00:00:33,210
+that only one execution of the actual signal handler is performed.
+
+9
+00:00:33,210 --> 00:00:37,784
+The other thing about the one-shot signals is that the handling routine must be
+
+10
+00:00:37,784 --> 00:00:40,180
+re-enabled every single time.
+
+11
+00:00:40,180 --> 00:00:45,860
+So, if the process wants to install some custom handler for a particular signal,
+
+12
+00:00:45,860 --> 00:00:51,026
+then invoking the operation will mean that once when the signal occurs,
+
+13
+00:00:51,026 --> 00:00:54,760
+the process specific handling routine will be invoked.
+
+14
+00:00:54,760 --> 00:00:59,450
+However, any future instances of that signal will be handled by
+
+15
+00:00:59,450 --> 00:01:01,640
+the default operating system action.
+
+16
+00:01:01,640 --> 00:01:05,379
+Or, if the operating system chooses to ignore such signals then they
+
+17
+00:01:05,379 --> 00:01:06,540
+will be lost.
+
+18
+00:01:06,540 --> 00:01:10,800
+Another type of signals are so-called real time signals that are supported in
+
+19
+00:01:10,800 --> 00:01:13,150
+an operating system like Linux, for instance.
+
+20
+00:01:13,150 --> 00:01:18,540
+And their behavior is such that if a signal is raised n times,
+
+21
+00:01:18,540 --> 00:01:22,340
+then the handler is guaranteed to be called n times as well.
+
+22
+00:01:22,340 --> 00:01:28,290
+So, they have sort of a queuing behavior as opposed to an overriding behavior,
+
+23
+00:01:28,290 --> 00:01:30,010
+as is the case with the one-shot signals.

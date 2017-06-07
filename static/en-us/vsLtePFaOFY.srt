@@ -1,0 +1,150 @@
+1
+00:00:00,240 --> 00:00:02,540
+I mentioned that the shift
+function might be helpful.
+
+2
+00:00:02,540 --> 00:00:05,850
+So I'll start off by looking
+at the documentation for that.
+
+3
+00:00:05,850 --> 00:00:09,560
+The documentation says that the function
+will shift the index by the desired
+
+4
+00:00:09,560 --> 00:00:13,260
+number of periods with
+an optional time frequency.
+
+5
+00:00:13,260 --> 00:00:15,440
+Now that seems pretty cryptic to me.
+
+6
+00:00:15,440 --> 00:00:18,360
+So, I'm just going to try the function
+out and see what it does.
+
+7
+00:00:18,360 --> 00:00:19,930
+One thing I do see here,
+
+8
+00:00:19,930 --> 00:00:23,360
+is that the shift function needs to
+take an argument called periods,
+
+9
+00:00:23,360 --> 00:00:26,090
+which is an integer indicating
+the number of periods to move.
+
+10
+00:00:27,250 --> 00:00:30,540
+So, I'll try shifting the example
+entries and exits data frame and
+
+11
+00:00:30,540 --> 00:00:34,530
+to start off with, I'll shift with
+a number of periods equal to one.
+
+12
+00:00:34,530 --> 00:00:35,450
+When I try this out,
+
+13
+00:00:35,450 --> 00:00:39,520
+it looks like the first row of
+the resulting DataFrame contains NaNs.
+
+14
+00:00:39,520 --> 00:00:43,460
+The second row corresponds to the first
+row of the original DataFrame,
+
+15
+00:00:43,460 --> 00:00:47,010
+the third row corresponds to
+the second row, and so on.
+
+16
+00:00:47,010 --> 00:00:50,870
+Just to make sure I understand, I've
+also run this function with the argument
+
+17
+00:00:50,870 --> 00:00:53,890
+2, and
+this time the first two rows are NaNs.
+
+18
+00:00:53,890 --> 00:00:57,140
+And the third row of the resulting data
+frame corresponds to the first row of
+
+19
+00:00:57,140 --> 00:00:58,180
+the original data frame.
+
+20
+00:00:59,300 --> 00:01:03,090
+To calculate the hourly entries and
+exits, I want to take each value in
+
+21
+00:01:03,090 --> 00:01:06,760
+the data frame and subtract
+the value from the previous row,
+
+22
+00:01:06,760 --> 00:01:11,520
+which I can do using vectorized
+operations and the shift function.
+
+23
+00:01:11,520 --> 00:01:15,040
+Here I've taken each value in
+the data frame and subtracted,
+
+24
+00:01:15,040 --> 00:01:19,070
+that dataframe shifted by one,
+which will give me the previous row.
+
+25
+00:01:19,070 --> 00:01:21,450
+When I run this function
+on the example dataframe,
+
+26
+00:01:21,450 --> 00:01:24,420
+I get the following output,
+which looks reasonable.
+
+27
+00:01:24,420 --> 00:01:27,370
+One odd thing is that the first
+row contains NaNs, but
+
+28
+00:01:27,370 --> 00:01:29,710
+when you think about it,
+this makes sense.
+
+29
+00:01:29,710 --> 00:01:33,410
+Because for the first row in the data
+frame, you dont know how many hourly
+
+30
+00:01:33,410 --> 00:01:37,130
+entries and exits there were, since
+there's no previous row to compare to.
+
+31
+00:01:37,130 --> 00:01:40,730
+It might make sense though to drop this
+row or replace these values with zero.

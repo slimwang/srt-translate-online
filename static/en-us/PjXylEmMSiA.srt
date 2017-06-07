@@ -1,0 +1,151 @@
+1
+00:00:00,000 --> 00:00:03,000
+Let's talk about particle filters for localization
+
+2
+00:00:03,000 --> 00:00:06,000
+that is commonly called Monte Carlo localization.
+
+3
+00:00:06,000 --> 00:00:12,000
+We learned in the particle filter lesson that the state is retained by a set of particles.
+
+4
+00:00:12,000 --> 00:00:15,000
+Each particle is a three-dimensional vector here,
+
+5
+00:00:15,000 --> 00:00:18,000
+comprising x,y, and the heading direction theta,
+
+6
+00:00:18,000 --> 00:00:22,000
+as indicated by these little arrows that I'm going to just draw here.
+
+7
+00:00:22,000 --> 00:00:28,000
+A set of particles like these would be a representation for the distribution at any point in time.
+
+8
+00:00:28,000 --> 00:00:31,000
+Now let me look at the 2 main steps in particle filters.
+
+9
+00:00:31,000 --> 00:00:35,000
+On is the prediction step, and one if the measurement step. Let's start with prediction.
+
+10
+00:00:35,000 --> 00:00:40,000
+Just to make things simpler, let's assume our vehicle has only 2 wheels.
+
+11
+00:00:40,000 --> 00:00:47,000
+It's called a differential-drive robot, and it can navigate by moving both wheels forward,
+
+12
+00:00:47,000 --> 00:00:51,000
+but if 1 wheel moves faster than the other one, it'll turn.
+
+13
+00:00:51,000 --> 00:00:56,000
+Let's understand how to apply a particle filter to a robot on that simplicity.
+
+14
+00:00:56,000 --> 00:01:01,000
+This is simpler than a car, but not much simpler. It's about the same complexity.
+
+15
+00:01:01,000 --> 00:01:07,000
+As I said, the state of this vehicle is given by the following 3 values: x, y, and θ.
+
+16
+00:01:07,000 --> 00:01:11,000
+And to predict the outcome of an action, we need to write a function
+
+17
+00:01:11,000 --> 00:01:19,000
+that predicts those values based on values Δt over here where Δt might be a 10th of a second.
+
+18
+00:01:19,000 --> 00:01:23,000
+Now the math for this in first approximation is very simple.
+
+19
+00:01:23,000 --> 00:01:28,000
+It turns out this approximation is good enough to do pretty much anything in robotics
+
+20
+00:01:28,000 --> 00:01:30,000
+even though it is not very accurate.
+
+21
+00:01:30,000 --> 00:01:35,000
+Let's assume the robot just keeps moving forward at a fixed velocity v.
+
+22
+00:01:35,000 --> 00:01:44,000
+Then the new x is given by the old x plus the progress it makes along axis x with velocity v.
+
+23
+00:01:44,000 --> 00:01:49,000
+So you get v times Δt, which is the total distance traversed,
+
+24
+00:01:49,000 --> 00:01:53,000
+but the x portion of it is cos θ.
+
+25
+00:01:53,000 --> 00:01:58,000
+Similarly, for the y coordinates, you get the old y plus the distance traversed--
+
+26
+00:01:58,000 --> 00:02:03,000
+velocity times Δt times sin θ.
+
+27
+00:02:03,000 --> 00:02:07,000
+This is a robot that doesn't really change heading directions,
+
+28
+00:02:07,000 --> 00:02:11,000
+and it'll be sufficient for very small Δt to assume that robot doesn't change heading directions.
+
+29
+00:02:11,000 --> 00:02:15,000
+These are actually good equations even if the robot is turning.
+
+30
+00:02:15,000 --> 00:02:17,000
+However, to understand the change of heading direction,
+
+31
+00:02:17,000 --> 00:02:20,000
+we also have to assume that there is an angular velocity,
+
+32
+00:02:20,000 --> 00:02:24,000
+and we call this ω [omega], which is a Greek letter.
+
+33
+00:02:24,000 --> 00:02:31,000
+So the new heading direction is the old one plus ω times Δt.
+
+34
+00:02:31,000 --> 00:02:36,000
+These are really nice equations to model relatively complex mobile robots.
+
+35
+00:02:36,000 --> 00:02:39,000
+They're really simple geometry. If you understand cosine and sine,
+
+36
+00:02:39,000 --> 00:02:46,000
+you realize this is basically a robot that moves on a fixed straight trajectory.
+
+37
+00:02:46,000 --> 00:02:55,000
+For time Δt it then applies the rotation and it moves again for fixed time Δt on a straight trajectory,
+
+38
+00:02:55,000 --> 00:02:59,000
+which is an approximation to the actual curve the robot might be taking.

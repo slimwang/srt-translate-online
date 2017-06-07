@@ -1,0 +1,91 @@
+1
+00:00:00,000 --> 00:00:03,000
+Now let's define a function value of S,
+
+2
+00:00:03,000 --> 00:00:07,000
+which tells us how to compute the value for a given state,
+
+3
+00:00:07,000 --> 00:00:10,000
+and therefore will allow us to make the best possible move.
+
+4
+00:00:10,000 --> 00:00:15,000
+If S is a terminal state, then the value is just the utility of the state
+
+5
+00:00:15,000 --> 00:00:18,000
+given by the definition of the game.
+
+6
+00:00:18,000 --> 00:00:25,000
+If S is a maximizing state, then we'll return something called max value of S,
+
+7
+00:00:25,000 --> 00:00:32,000
+and if S is a minimizing state, then we'll return min value of S.
+
+8
+00:00:32,000 --> 00:00:37,000
+Now we can define max value to just iterate over all the successors
+
+9
+00:00:37,000 --> 00:00:40,000
+and figure out the values of each of those.
+
+10
+00:00:40,000 --> 00:00:46,000
+We'll initialize a value m equals minus infinity,
+
+11
+00:00:46,000 --> 00:00:54,000
+and then we'll say for all pairs of actions and successors states in successors of S,
+
+12
+00:00:54,000 --> 00:00:59,000
+we'll say the value is--and let's call this S-prime so we don't get confused--
+
+13
+00:00:59,000 --> 00:01:07,000
+the value of S-prime and M for keeping track of the maximum so far and the new value.
+
+14
+00:01:07,000 --> 00:01:12,000
+Then when we're all done we return the M with the maximum value.
+
+15
+00:01:12,000 --> 00:01:16,000
+This will compute the maximum at a maximum node over all the states
+
+16
+00:01:16,000 --> 00:01:19,000
+that we have from all the possible moves.
+
+17
+00:01:19,000 --> 00:01:24,000
+The definition for min value is roughly equivalent but just reversed,
+
+18
+00:01:24,000 --> 00:01:26,000
+taking the minimum instead.
+
+19
+00:01:26,000 --> 00:01:30,000
+With these three recursive routines--value, max value, and min value--
+
+20
+00:01:30,000 --> 00:01:33,000
+we can determine the value of any node in the tree.
+
+21
+00:01:33,000 --> 00:01:37,000
+Now to do that efficiently, you'd want a little bit of bookkeeping
+
+22
+00:01:37,000 --> 00:01:40,000
+so you aren't recomputing the same thing over and over again,
+
+23
+00:01:40,000 --> 99:59:59,999
+but conceptually, this will answer any two-player, deterministic, finite game.

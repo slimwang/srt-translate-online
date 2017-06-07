@@ -1,0 +1,207 @@
+1
+00:00:00,580 --> 00:00:05,666
+It sounds like being able to decide on a good topology involves being able
+
+2
+00:00:05,666 --> 00:00:09,123
+to analyze what the performance of one topology is.
+
+3
+00:00:09,123 --> 00:00:13,693
+So does Storm provide like real-time analytics.
+
+4
+00:00:13,693 --> 00:00:14,395
+>> Real-time analytics.
+
+5
+00:00:14,395 --> 00:00:17,649
+>> For when you want to run a topology.
+
+6
+00:00:17,649 --> 00:00:20,301
+>> Yeah, I mean we certainly have that.
+
+7
+00:00:20,301 --> 00:00:20,832
+>> Okay.
+
+8
+00:00:20,832 --> 00:00:25,969
+>> But not in using Storm, but we have this separate stack that allows you to
+
+9
+00:00:25,969 --> 00:00:29,305
+know how much resources each instance is taking.
+
+10
+00:00:29,305 --> 00:00:30,601
+>> I agree.
+
+11
+00:00:30,601 --> 00:00:34,346
+>> Memory as well as JVM, and how much CPU is being used, how many
+
+12
+00:00:34,346 --> 00:00:38,975
+tuples are emitted and consumed, how much time is spent on each one of them.
+
+13
+00:00:38,975 --> 00:00:40,754
+We have a whole can of metrics that you can look at it.
+
+14
+00:00:40,754 --> 00:00:41,380
+>> Okay.
+
+15
+00:00:41,380 --> 00:00:45,450
+>> So that if there are some problems, then it's an issue, yeah.
+
+16
+00:00:45,450 --> 00:00:48,523
+>> But then you're saying it's external to Storm itself.
+
+17
+00:00:48,523 --> 00:00:50,098
+>> That is external to Storm, yes.
+
+18
+00:00:50,098 --> 00:00:50,958
+>> Okay.
+
+19
+00:00:50,958 --> 00:00:52,299
+>> Yeah.
+
+20
+00:00:52,299 --> 00:00:53,193
+And that is a,
+
+21
+00:00:53,193 --> 00:00:57,602
+that is a good way to see barely work, especially we use for topology.
+
+22
+00:00:57,602 --> 00:00:58,337
+>> Right.
+
+23
+00:00:58,337 --> 00:01:02,818
+>> Because, I mean, a lot of teams like yours, when you write the topologies and
+
+24
+00:01:02,818 --> 00:01:06,535
+evaluated we have some issues here we don't know how to figure out.
+
+25
+00:01:06,535 --> 00:01:10,250
+Then we look at these huge humongous charts to figure out, okay, there it is.
+
+26
+00:01:10,250 --> 00:01:10,830
+This is the issue.
+
+27
+00:01:10,830 --> 00:01:11,600
+>> Yeah.
+
+28
+00:01:11,600 --> 00:01:15,850
+>> And one other problem that we face often is distributed debugging.
+
+29
+00:01:15,850 --> 00:01:19,100
+Especially with this case of running on so many nodes.
+
+30
+00:01:19,100 --> 00:01:22,390
+Then if one bolt is misbehaving how do you figure out which bolt is
+
+31
+00:01:22,390 --> 00:01:23,260
+misbehaving, right?
+
+32
+00:01:23,260 --> 00:01:24,960
+So that's very hard to do.
+
+33
+00:01:24,960 --> 00:01:27,425
+So, one of the things that we, and
+
+34
+00:01:27,425 --> 00:01:31,678
+Storm architecture also makes it more complex, because of
+
+35
+00:01:31,678 --> 00:01:37,308
+the fact that the Storm workers are running multiple tasks in a single worker.
+
+36
+00:01:37,308 --> 00:01:41,396
+So when I see the logs that you get, because each one can have a log,
+
+37
+00:01:41,396 --> 00:01:42,937
+a JVM based log, right.
+
+38
+00:01:42,937 --> 00:01:46,557
+All the logs are kind of an aggregation of
+
+39
+00:01:46,557 --> 00:01:50,280
+logs coming from these separate tasks.
+
+40
+00:01:50,280 --> 00:01:53,580
+So I don't know which one is spewing what logs, right.
+
+41
+00:01:53,580 --> 00:01:56,090
+So it's very hard to debug that.
+
+42
+00:01:56,090 --> 00:01:56,770
+>> Yeah.
+
+43
+00:01:56,770 --> 00:01:58,200
+>> So and, so because of that,
+
+44
+00:01:58,200 --> 00:02:03,280
+we have come up with an analytic system called log indexing, so that
+
+45
+00:02:03,280 --> 00:02:08,740
+all the logs that we produce about these topologies are indexed separately so
+
+46
+00:02:08,740 --> 00:02:13,052
+that I'm, each task is given a unique ID and the topology name is unique.
+
+47
+00:02:13,052 --> 00:02:15,651
+And you have [INAUDIBLE] topology name, this task, this task,
+
+48
+00:02:15,651 --> 00:02:18,468
+then to bring up the log that is pointing to that.
+
+49
+00:02:18,468 --> 00:02:21,330
+So at a one single place I can go and take a look at it.
+
+50
+00:02:21,330 --> 00:02:23,256
+Otherwise it becomes very hard to even debug anything.
+
+51
+00:02:25,240 --> 00:02:28,610
+And you can spend hours and even days to debug a particular issue.
+
+52
+00:02:28,610 --> 00:02:30,420
+And sometimes, you are not able to even figure that out.

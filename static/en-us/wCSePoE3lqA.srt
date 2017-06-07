@@ -1,0 +1,226 @@
+﻿1
+00:00:00,370 --> 00:00:04,030
+One of the reasons that using a pattern
+like recycler view is useful,
+
+2
+00:00:04,030 --> 00:00:06,900
+is that it makes it easy
+to handle clicks on items.
+
+3
+00:00:06,900 --> 00:00:10,720
+Recycler view doesn't include
+any type of click listeners, but
+
+4
+00:00:10,720 --> 00:00:12,820
+it's pretty straight
+forward to implement.
+
+5
+00:00:12,820 --> 00:00:14,285
+>> In the last exercise,
+
+6
+00:00:14,285 --> 00:00:19,304
+recycler view click handling, we need to
+make a few changes in the green adapter.
+
+7
+00:00:19,304 --> 00:00:23,605
+The first step is to create an interface
+that will define your listener.
+
+8
+00:00:23,605 --> 00:00:26,500
+The signature can be
+anything you want it to be.
+
+9
+00:00:26,500 --> 00:00:28,769
+Let's call it list item click listener.
+
+10
+00:00:29,800 --> 00:00:33,359
+We only care about the adapter
+item index that was clicked
+
+11
+00:00:33,359 --> 00:00:34,829
+which is an integer.
+
+12
+00:00:34,829 --> 00:00:38,619
+So let's give it a method
+called on list item click
+
+13
+00:00:38,619 --> 00:00:40,669
+that takes in an integer as a parameter.
+
+14
+00:00:42,500 --> 00:00:45,960
+Next we'll add a member
+variable to the green adapter,
+
+15
+00:00:45,960 --> 00:00:49,070
+to store a reference to
+a list item click listener.
+
+16
+00:00:50,109 --> 00:00:54,200
+And to initialize that we need to
+modify our green adapter constructor.
+
+17
+00:00:55,880 --> 00:01:00,679
+The constructor needs to take an extra
+parameter list item click listener.
+
+18
+00:01:00,679 --> 00:01:04,159
+This allows us to use the green
+adaptor as a component,
+
+19
+00:01:04,159 --> 00:01:08,629
+with an external click handler,
+such as from our activity.
+
+20
+00:01:08,629 --> 00:01:10,269
+So inside our constructor,
+
+21
+00:01:10,269 --> 00:01:14,420
+we'll initialize the unclick listener
+to the past ten listener parameter.
+
+22
+00:01:15,530 --> 00:01:18,620
+Now that the adaptor has
+access to a listener,
+
+23
+00:01:18,620 --> 00:01:22,540
+we need to pass it to the view holder so
+that the view can invoke it.
+
+24
+00:01:24,359 --> 00:01:30,620
+So we change the number of view holder,
+to implement View.OnClickListener.
+
+25
+00:01:30,620 --> 00:01:34,430
+Doing so, means that we need to
+override the on click method,
+
+26
+00:01:35,599 --> 00:01:40,030
+set the body of the function to get the
+adaptor position, which is the item that
+
+27
+00:01:40,030 --> 00:01:45,629
+was clicked, and then invoke the onClick
+listener of the other class.
+
+28
+00:01:45,629 --> 00:01:48,799
+By passing in the clicked
+position value.
+
+29
+00:01:48,799 --> 00:01:52,969
+Lastly in the green adaptor, you need
+to call the set onClick listener,
+
+30
+00:01:52,969 --> 00:01:55,750
+on itemView in the constructor to this.
+
+31
+00:01:56,959 --> 00:02:02,769
+Now flipping over to our main activity,
+we'll start by adding an nToast member
+
+32
+00:02:02,769 --> 00:02:07,780
+variable, to allow us to cancel toasts
+if the user rapidly clicks on items.
+
+33
+00:02:07,780 --> 00:02:10,038
+We'll see how we'll
+use that in a second.
+
+34
+00:02:10,038 --> 00:02:13,239
+But first we have to have our
+main activity to implement
+
+35
+00:02:13,240 --> 00:02:16,189
+our greenAdapter.listItem
+click listener,
+
+36
+00:02:16,189 --> 00:02:20,689
+and by doing that we also have
+to implement the function.
+
+37
+00:02:20,689 --> 00:02:24,949
+And we'll change our green
+adaptor constructors to pass in
+
+38
+00:02:24,949 --> 00:02:28,419
+the parameter this for both cases.
+
+39
+00:02:28,419 --> 00:02:32,429
+In the previously created
+onListItemClick function,
+
+40
+00:02:32,430 --> 00:02:37,189
+we create a toast message using
+the clickedItemIndex and show it.
+
+41
+00:02:38,659 --> 00:02:43,669
+If we run the app right now it works,
+but if you click a bunch of items,
+
+42
+00:02:45,189 --> 00:02:48,469
+you would notice that the toast
+messages aren't delayed.
+
+43
+00:02:48,469 --> 00:02:50,990
+That's because they're being queued up.
+
+44
+00:02:50,990 --> 00:02:55,120
+To avoid that, we can check if
+the previous test is not null, and if so
+
+45
+00:02:55,120 --> 00:02:58,039
+we just cancel it, and
+then show the new one.
+
+46
+00:02:58,039 --> 00:03:00,569
+Now you can see that
+clicking on the items
+
+47
+00:03:00,569 --> 00:03:02,400
+refresh the toast message immediately
+

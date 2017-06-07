@@ -1,0 +1,295 @@
+1
+00:00:00,190 --> 00:00:03,400
+To do this we're going to make
+some simplifying assumptions.
+
+2
+00:00:04,560 --> 00:00:09,820
+The first assumption is
+a Markovian assumption and
+
+3
+00:00:09,820 --> 00:00:13,120
+that's that only
+the immediate past matters.
+
+4
+00:00:13,120 --> 00:00:18,400
+So what this says is,
+if I know all of the states up through
+
+5
+00:00:18,400 --> 00:00:24,410
+t minus 1, and I want a prediction
+of this state at time t.
+
+6
+00:00:24,410 --> 00:00:27,620
+That just depends on
+the state of t minus 1.
+
+7
+00:00:27,620 --> 00:00:29,710
+Now these are Xs, not the Ys.
+
+8
+00:00:29,710 --> 00:00:32,600
+These are if I actually knew the state.
+
+9
+00:00:32,600 --> 00:00:37,230
+What this tells me is if I wanted to
+predict the state on Wednesday, and
+
+10
+00:00:37,230 --> 00:00:42,440
+I knew the state on Tuesday,
+Monday, Sunday, Saturday.
+
+11
+00:00:42,440 --> 00:00:45,390
+It's all the same as knowing
+the state on Tuesday.
+
+12
+00:00:45,390 --> 00:00:47,860
+Okay?
+I only have to know one prior state.
+
+13
+00:00:47,860 --> 00:00:50,650
+Now some of you might ask, but,
+wait a minute, if I know Monday and
+
+14
+00:00:50,650 --> 00:00:54,550
+Tuesday, I might be able to estimate
+the velocity for Wednesday.
+
+15
+00:00:54,550 --> 00:00:55,520
+>> If I know Monday and
+
+16
+00:00:55,520 --> 00:00:59,600
+Tuesday, I might be able to
+estimate the velocity on Wednesday.
+
+17
+00:00:59,600 --> 00:01:03,000
+>> So that's right, except not, because.
+
+18
+00:01:03,000 --> 00:01:06,780
+Your state could also
+include the velocity, right?
+
+19
+00:01:06,780 --> 00:01:10,932
+So, if I knew the position and the
+velocity on Tuesday I make a prediction
+
+20
+00:01:10,932 --> 00:01:14,208
+about Wednesday, so
+this is the Markovian assumption.
+
+21
+00:01:14,208 --> 00:01:17,065
+This probability of Xt given Xt minus 1,
+
+22
+00:01:17,065 --> 00:01:23,690
+that's what we refer to as the dynamics
+model, that's how things are changing.
+
+23
+00:01:23,690 --> 00:01:25,920
+Second simplifying assumption.
+
+24
+00:01:25,920 --> 00:01:29,870
+We're going to assume
+that the measurements,
+
+25
+00:01:29,870 --> 00:01:34,410
+the probability of the measurements,
+remember, these are noisy measurements.
+
+26
+00:01:34,410 --> 00:01:36,340
+Given everything in the past, and
+
+27
+00:01:36,340 --> 00:01:40,750
+the current state,
+only depends on the current state.
+
+28
+00:01:40,750 --> 00:01:44,450
+So this is where we say that
+the probability of a measurement,
+
+29
+00:01:44,450 --> 00:01:48,640
+given a particular state and everything
+else, only depends upon the state.
+
+30
+00:01:48,640 --> 00:01:53,748
+By the way this is called the
+observation model and I will tell you,
+
+31
+00:01:53,748 --> 00:01:58,792
+it is this particular assumption
+that is sometimes the most suspect.
+
+32
+00:01:58,792 --> 00:02:02,924
+One way you can think about this,
+suppose you have some noise in your
+
+33
+00:02:02,924 --> 00:02:06,708
+sensor that is related to some
+other processes going on.
+
+34
+00:02:06,708 --> 00:02:10,725
+And it changes in a particular way
+that you might be able to estimate.
+
+35
+00:02:10,725 --> 00:02:11,675
+This thing says, well,
+
+36
+00:02:11,675 --> 00:02:16,095
+I don't look at my previous measurements
+in order to make that prediction.
+
+37
+00:02:16,095 --> 00:02:18,990
+So for everything we're going to do,
+
+38
+00:02:18,990 --> 00:02:21,480
+we're going to make use of
+this observation model,
+
+39
+00:02:21,480 --> 00:02:24,640
+where the likelihood of the measurement
+depends only on the current state.
+
+40
+00:02:24,640 --> 00:02:27,500
+Just know that for more advanced things
+like conditional random fields and
+
+41
+00:02:27,500 --> 00:02:28,940
+other, other approaches.
+
+42
+00:02:28,940 --> 00:02:31,890
+We'll actually be able to
+make the current measurement
+
+43
+00:02:31,890 --> 00:02:34,860
+tied to previous measurements, but
+we're not going to do that here.
+
+44
+00:02:34,860 --> 00:02:38,620
+I know some of you have taken various
+machine learning courses, and
+
+45
+00:02:38,620 --> 00:02:40,800
+you're familiar with graphical models.
+
+46
+00:02:40,800 --> 00:02:44,040
+And, if I were to draw up this
+set of simplifying assumptions
+
+47
+00:02:44,040 --> 00:02:46,640
+as a graphical model,
+it would look like this.
+
+48
+00:02:46,640 --> 00:02:51,580
+And what this says is that some state X,
+depends only on the state at time T,
+
+49
+00:02:51,580 --> 00:02:54,990
+depends only on the state
+at time T minus 1.
+
+50
+00:02:54,990 --> 00:03:00,530
+And furthermore, it says that my
+measurement depends only on the state.
+
+51
+00:03:00,530 --> 00:03:02,660
+And whenever I look at that,
+I always think to myself, hm.
+
+52
+00:03:03,740 --> 00:03:05,000
+Okay, that's a joke.
+
+53
+00:03:05,000 --> 00:03:05,840
+Why?
+
+54
+00:03:05,840 --> 00:03:10,370
+because those of you who know what this
+is, this is a hidden mark up model.
+
+55
+00:03:10,370 --> 00:03:11,520
+An HMM.
+
+56
+00:03:11,520 --> 00:03:14,350
+See, now Megan, who's helping with
+the slides, she didn't know that, so
+
+57
+00:03:14,350 --> 00:03:16,300
+she didn't know how funny that was.
+
+58
+00:03:16,300 --> 00:03:18,230
+So she's now what is it?
+
+59
+00:03:18,230 --> 00:03:19,850
+ROTL?
+
+60
+00:03:19,850 --> 00:03:22,760
+No, ROTFL, sorry, I,
+I left out the floor.
+
+61
+00:03:22,760 --> 00:03:25,420
+It's really hard to say emoticon things.
+
+62
+00:03:25,420 --> 00:03:27,417
+Not emoti, what do you call those thing,
+whatever they are.
+
+63
+00:03:27,417 --> 00:03:28,583
+She's, now she's getting up.

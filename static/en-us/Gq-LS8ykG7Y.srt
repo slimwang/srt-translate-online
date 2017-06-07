@@ -1,0 +1,206 @@
+1
+00:00:00,080 --> 00:00:02,510
+So we've written the code that goes
+out to Google to authenticate.
+
+2
+00:00:03,600 --> 00:00:06,620
+Now let's write a callback method to
+handle the response that Google sends
+
+3
+00:00:06,620 --> 00:00:07,820
+back to the client.
+
+4
+00:00:07,820 --> 00:00:10,020
+Remember that along with
+a successful response,
+
+5
+00:00:10,020 --> 00:00:14,580
+the Google API server will also provide
+a one-time code to authorize our server,
+
+6
+00:00:14,580 --> 00:00:17,700
+and an access token that the client
+can use to make API calls from within
+
+7
+00:00:17,700 --> 00:00:19,100
+the browser as well.
+
+8
+00:00:19,100 --> 00:00:22,320
+Just before the closing body
+tag in my login.html page,
+
+9
+00:00:22,320 --> 00:00:24,850
+I'm going to add opening and
+closing script tags.
+
+10
+00:00:24,850 --> 00:00:28,170
+I will define the sign-in callback
+function that takes in an authResult
+
+11
+00:00:28,170 --> 00:00:28,960
+object as input.
+
+12
+00:00:29,970 --> 00:00:32,420
+If that object contains
+a parameter called code,
+
+13
+00:00:32,420 --> 00:00:35,960
+then we know that the authorization with
+the Google API server was successful,
+
+14
+00:00:35,960 --> 00:00:38,290
+and our one time use code is present.
+
+15
+00:00:38,290 --> 00:00:42,030
+Now that the app has been authorized,
+we can hide the Google+ sign in button.
+
+16
+00:00:42,030 --> 00:00:44,710
+Now, I will use jQuery to
+create an Ajax call that
+
+17
+00:00:44,710 --> 00:00:47,690
+passes the one time code Google
+gave the client onto the server.
+
+18
+00:00:47,690 --> 00:00:50,620
+I will specify it as a POST method here.
+
+19
+00:00:50,620 --> 00:00:53,520
+The URL this method will
+call I will name /gconnect.
+
+20
+00:00:53,520 --> 00:00:57,220
+I will define this method on
+my server in the next video.
+
+21
+00:00:57,220 --> 00:00:59,810
+Along with this method I
+pass the server state token
+
+22
+00:00:59,810 --> 00:01:03,990
+as an argument to verify against
+the cross-site reference forgery attack.
+
+23
+00:01:03,990 --> 00:01:07,770
+Setting processData to false indicates
+that we do not want jQuery to process
+
+24
+00:01:07,770 --> 00:01:09,158
+the response into a string.
+
+25
+00:01:09,158 --> 00:01:12,480
+Furthermore this
+application/octet-stream
+
+26
+00:01:12,480 --> 00:01:15,288
+indicates that we are sending
+an arbitrary binary stream of data.
+
+27
+00:01:15,288 --> 00:01:19,533
+And the charset equal to utf-8 indicates
+that it is formatted using a universal
+
+28
+00:01:19,533 --> 00:01:21,850
+character set called Unicode.
+
+29
+00:01:21,850 --> 00:01:25,080
+Here we specify the data that we're
+going to send along to our server,
+
+30
+00:01:25,080 --> 00:01:26,840
+the one time use code.
+
+31
+00:01:26,840 --> 00:01:31,010
+When we receive a 200 or a successful
+response code from our server,
+
+32
+00:01:31,010 --> 00:01:33,990
+let's return a successful
+login message to the user, and
+
+33
+00:01:33,990 --> 00:01:37,650
+then redirect to the main restaurant's
+page after about four seconds.
+
+34
+00:01:37,650 --> 00:01:40,540
+If the server has any additional
+response information to pass to
+
+35
+00:01:40,540 --> 00:01:43,500
+the client, we can present it
+with this result variable.
+
+36
+00:01:43,500 --> 00:01:46,700
+So, let's go ahead and add an empty div
+named result that we can populate with
+
+37
+00:01:46,700 --> 00:01:49,150
+a response method just above
+the opening script tag.
+
+38
+00:01:50,170 --> 00:01:52,040
+In the event that an error
+was returned by Google,
+
+39
+00:01:52,040 --> 00:01:54,810
+I will report this error
+to the console.log.
+
+40
+00:01:54,810 --> 00:01:57,730
+In the event that no response was
+returned by my server to the callback
+
+41
+00:01:57,730 --> 00:02:01,530
+function, I will return this
+error message to my result div.
+
+42
+00:02:01,530 --> 00:02:05,580
+Before I can test and see if this works,
+I will create the server-side G-connect
+
+43
+00:02:05,580 --> 00:02:08,870
+page that will accept the one-time code
+for my client's callback function.

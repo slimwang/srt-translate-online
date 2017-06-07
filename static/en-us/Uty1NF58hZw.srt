@@ -1,0 +1,263 @@
+1
+00:00:00,025 --> 00:00:01,475
+So now let's ask the question,
+
+2
+00:00:01,475 --> 00:00:04,939
+what are the different factors that impact the size of this window?
+
+3
+00:00:04,939 --> 00:00:10,390
+And we want to be able to find the most optimal window for a series of
+
+4
+00:00:10,390 --> 00:00:14,840
+target images to generate a novel image that gives us the best possible blend.
+
+5
+00:00:14,840 --> 00:00:17,460
+So to avoid seams of any form.
+
+6
+00:00:17,460 --> 00:00:22,540
+The size of the window that we want should be equal to the size of
+
+7
+00:00:22,540 --> 00:00:24,890
+the largest prominent feature.
+
+8
+00:00:24,890 --> 00:00:28,090
+So in this case if you look at it, the results look good here.
+
+9
+00:00:28,090 --> 00:00:32,960
+But we do know that this image does have some issues with
+
+10
+00:00:32,960 --> 00:00:35,360
+this spot kind of feeling a little cut up.
+
+11
+00:00:35,360 --> 00:00:37,780
+Well, if we had actually kept the window size big enough for
+
+12
+00:00:37,780 --> 00:00:39,580
+this one, we would have actually done better.
+
+13
+00:00:39,580 --> 00:00:41,370
+Similarly, I mean this does very well for
+
+14
+00:00:41,370 --> 00:00:43,770
+this because the window size is decent for this one.
+
+15
+00:00:43,770 --> 00:00:47,610
+So in essence what we need is we want to have
+
+16
+00:00:47,610 --> 00:00:53,190
+a window that basically is equal to the largest prominent feature on an image.
+
+17
+00:00:53,190 --> 00:00:57,250
+Another rule of thumb here is that to avoid any kind of ghosting artifact,
+
+18
+00:00:57,250 --> 00:01:01,750
+where actually you saw in the previous image where some transparent spots were
+
+19
+00:01:01,750 --> 00:01:03,550
+visible across the images.
+
+20
+00:01:03,550 --> 00:01:06,420
+We want to have a window that's less than or
+
+21
+00:01:06,420 --> 00:01:10,885
+equal to 2 times the size of the smallest prominent feature.
+
+22
+00:01:10,885 --> 00:01:15,899
+You take any small feature, we want to make sure our window is twice as big.
+
+23
+00:01:15,899 --> 00:01:19,557
+So again if this was the feature we wanted to make sure our window size is
+
+24
+00:01:19,557 --> 00:01:22,223
+big enough for that to be able to kind of hide away and
+
+25
+00:01:22,223 --> 00:01:23,970
+not have any ghostly artifacts.
+
+26
+00:01:23,970 --> 00:01:25,670
+And again you don't see any here.
+
+27
+00:01:25,670 --> 00:01:26,810
+You do see it a little bit but
+
+28
+00:01:26,810 --> 00:01:31,730
+remember we are only doing kind of blending in this direction here.
+
+29
+00:01:31,730 --> 00:01:34,610
+This is where some of the stuff we discussed earlier with
+
+30
+00:01:34,610 --> 00:01:36,230
+Fourier transforms comes in.
+
+31
+00:01:36,230 --> 00:01:41,333
+Remember this example where we looked at basically a synthetic image which
+
+32
+00:01:41,333 --> 00:01:45,395
+has these bands are going across the image at 45 degrees.
+
+33
+00:01:45,395 --> 00:01:48,702
+If you were to compute the Fourier transform of this image, we would get this.
+
+34
+00:01:48,702 --> 00:01:52,374
+Which basically kind of now shows the frequency spectrum and
+
+35
+00:01:52,374 --> 00:01:55,150
+the repetitious nature of this image.
+
+36
+00:01:55,150 --> 00:01:55,850
+Among other things,
+
+37
+00:01:55,850 --> 00:02:01,590
+this repetitious nature also gives us a sense of the scale of different features
+
+38
+00:02:01,590 --> 00:02:05,760
+that exist in this image and perhaps also the repetitions of this feature.
+
+39
+00:02:05,760 --> 00:02:10,130
+So, in essence, this frequency spectrum is showcasing how big
+
+40
+00:02:10,130 --> 00:02:14,800
+the features are in the sampling space, and how we can actually take
+
+41
+00:02:14,800 --> 00:02:19,640
+the sampling size of the signal to account for what we want to look at.
+
+42
+00:02:19,640 --> 00:02:22,770
+Again, something you may recall, we discussed in the last lecture.
+
+43
+00:02:22,770 --> 00:02:29,020
+So using this and by then doing any kind of specific frequencies to look at,
+
+44
+00:02:29,020 --> 00:02:31,630
+either low pass or high pass or band pass.
+
+45
+00:02:31,630 --> 00:02:35,850
+We can now actually look at specific frequency information within an image.
+
+46
+00:02:35,850 --> 00:02:39,240
+So for example, I could just create a region.
+
+47
+00:02:39,240 --> 00:02:42,300
+And I would look at all of the frequency information just in that one and
+
+48
+00:02:42,300 --> 00:02:45,810
+concentrate on just those to be able to extract the window size.
+
+49
+00:02:45,810 --> 00:02:47,950
+And of course this is just basically how I'm showing it.
+
+50
+00:02:47,950 --> 00:02:51,100
+I'm ignoring all of the information everywhere else but just here.
+
+51
+00:02:51,100 --> 00:02:54,340
+So, in essence what we are arguing for here is, we want to be able to
+
+52
+00:02:54,340 --> 00:02:58,730
+start using the Fourier domain to help us extract optimal window sizes.
+
+53
+00:02:58,730 --> 00:03:01,800
+Here I share with you some of the well known methods,
+
+54
+00:03:01,800 --> 00:03:03,000
+how we can actually do this.
+
+55
+00:03:03,000 --> 00:03:07,075
+For example, if the largest frequency of the signal was less than or
+
+56
+00:03:07,075 --> 00:03:11,649
+equal to twice the size of the smallest frequency that would help us be able to
+
+57
+00:03:11,649 --> 00:03:14,022
+kind of look for the right window size.
+
+58
+00:03:14,022 --> 00:03:17,033
+And the other thing to remember here is that the image
+
+59
+00:03:17,033 --> 00:03:19,770
+frequency content should occupy one octave.
+
+60
+00:03:19,770 --> 00:03:22,445
+That is just be able to look at within the powers of
+
+61
+00:03:22,445 --> 00:03:25,260
+2 of the frequency signal itself.
+
+62
+00:03:25,260 --> 00:03:29,470
+And that will allow us to also determine the window size of this kind of stuff.
+
+63
+00:03:29,470 --> 00:03:33,140
+Again, these are theoretical foundations of how we want to do this.
+
+64
+00:03:33,140 --> 00:03:35,850
+As we go on further we'll learn that we actually can learn and
+
+65
+00:03:35,850 --> 00:03:39,570
+model these things quite well to be able to do kind of blending that we
+
+66
+00:03:39,570 --> 00:03:42,410
+saw in the example of the cricket field earlier.

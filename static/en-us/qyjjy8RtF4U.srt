@@ -1,0 +1,95 @@
+1
+00:00:00,350 --> 00:00:02,750
+The answer is c. We are indeed allowed to write
+
+2
+00:00:02,750 --> 00:00:05,003
+to memory more than once in a threaded program, so its
+
+3
+00:00:05,003 --> 00:00:08,270
+not that. The threads will indeed go into an infinite
+
+4
+00:00:08,270 --> 00:00:11,980
+loop, but that's intentional. We want our tracker to run continuously.
+
+5
+00:00:11,980 --> 00:00:14,668
+Actually since bufavail is a global variable, it's shared among
+
+6
+00:00:14,668 --> 00:00:18,610
+the threads. So that eliminates this option. The real problem is
+
+7
+00:00:18,610 --> 00:00:21,710
+that bufavail might get out of sync. Going back to the
+
+8
+00:00:21,710 --> 00:00:25,370
+code, observe that these two lines might get executed at about
+
+9
+00:00:25,370 --> 00:00:27,680
+the same time. Our fear is that something
+
+10
+00:00:27,680 --> 00:00:30,680
+like the following might happen. The Incrementing line might
+
+11
+00:00:30,680 --> 00:00:33,480
+take the value currently in memory 3, load
+
+12
+00:00:33,480 --> 00:00:36,390
+it up, but then gets suspended. And then control
+
+13
+00:00:36,390 --> 00:00:39,150
+goes to the Decrementing line which loads the
+
+14
+00:00:39,150 --> 00:00:43,350
+value 3 into memory and then decrements it, turning
+
+15
+00:00:43,350 --> 00:00:47,240
+that value in the CPU register here to 2.
+
+16
+00:00:47,240 --> 00:00:50,444
+And then copying that back to memory, making this
+
+17
+00:00:50,444 --> 00:00:52,370
+2 as it should be, and when the increment
+
+18
+00:00:52,370 --> 00:00:55,400
+finishes, it should restore it back to 3. But it
+
+19
+00:00:55,400 --> 00:00:58,510
+doesn't, because it's already done its load. So instead when
+
+20
+00:00:58,510 --> 00:01:01,650
+it goes to do its increment, it changes the value
+
+21
+00:01:01,650 --> 00:01:05,600
+to 4 and then writes that value into memory, meaning
+
+22
+00:01:05,600 --> 00:01:08,310
+that we have a value one higher here than we
+
+23
+00:01:08,310 --> 00:01:11,660
+should. And as you can imagine, this might through our
+
+24
+00:01:11,660 --> 00:01:14,360
+queue out of sync if this happened too many times.

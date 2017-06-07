@@ -1,0 +1,456 @@
+1
+00:00:00,000 --> 00:00:01,705
+Now, I do want to be clear.
+
+2
+00:00:01,705 --> 00:00:06,650
+There is no single one right answer,
+as long as you're separating concerns.
+
+3
+00:00:06,650 --> 00:00:09,064
+So rather then compare my code to yours,
+
+4
+00:00:09,064 --> 00:00:13,408
+instead look at how my code is organized
+and draw inspiration from that.
+
+5
+00:00:13,408 --> 00:00:16,507
+Now to show out,
+I'll show you my index.html file.
+
+6
+00:00:16,507 --> 00:00:17,808
+This is very simple.
+
+7
+00:00:17,808 --> 00:00:22,067
+I have a ul called cat list and
+a div with an id of cat.
+
+8
+00:00:22,067 --> 00:00:25,829
+It has a cat-name, cat-count and
+cat-image inside of it.
+
+9
+00:00:25,829 --> 00:00:29,263
+These things are things that
+the view is going to hook on to and
+
+10
+00:00:29,263 --> 00:00:31,588
+update whenever it's told to render.
+
+11
+00:00:31,588 --> 00:00:33,481
+Let's dive into the JavaScript now.
+
+12
+00:00:36,289 --> 00:00:38,182
+First, we'll take a look at the model.
+
+13
+00:00:38,182 --> 00:00:41,930
+Now, in this case,
+the model is simply and object literal
+
+14
+00:00:41,930 --> 00:00:46,843
+with currentCat set to null and cats
+being this very large array of objects.
+
+15
+00:00:46,843 --> 00:00:50,813
+Each one of these objects represents
+a cat and inside of each of these cats,
+
+16
+00:00:50,813 --> 00:00:54,483
+I've got clickCount, name,
+image source and image attribution.
+
+17
+00:00:54,483 --> 00:00:56,989
+Now lets scroll down and
+look at our octopus.
+
+18
+00:00:56,989 --> 00:01:01,900
+In our octopus, I have the init method,
+which starts off the entire application.
+
+19
+00:01:01,900 --> 00:01:05,522
+I also have a getCurrentCat and
+getCat function.
+
+20
+00:01:05,522 --> 00:01:09,983
+The view calls both of those in order to
+get the current cat or all of the cats,
+
+21
+00:01:09,983 --> 00:01:12,163
+so that way you can render properly.
+
+22
+00:01:12,163 --> 00:01:14,543
+We also have a setCurrentCat function.
+
+23
+00:01:14,543 --> 00:01:16,067
+You passed it in object and
+
+24
+00:01:16,067 --> 00:01:19,546
+it sets the CurrentCat equal to
+the object that you pass in.
+
+25
+00:01:19,546 --> 00:01:22,066
+And lastly, we have incrementCounter.
+
+26
+00:01:22,066 --> 00:01:26,501
+What that does is it takes our current
+cat and it increments it's ClickCount.
+
+27
+00:01:26,501 --> 00:01:29,867
+Now whenever that happens,
+it tells the catView to render.
+
+28
+00:01:29,867 --> 00:01:32,597
+Let's take a quick look at our
+view before we see the flow of
+
+29
+00:01:32,597 --> 00:01:33,501
+the application.
+
+30
+00:01:33,501 --> 00:01:35,161
+First, we have the catView.
+
+31
+00:01:35,161 --> 00:01:39,039
+The catView is object with an init
+function and a render function.
+
+32
+00:01:39,039 --> 00:01:43,220
+I've separated these out, so that I
+can render it whenever I want to, but
+
+33
+00:01:43,220 --> 00:01:44,844
+init only gets called once.
+
+34
+00:01:44,844 --> 00:01:49,312
+For example, I don't want to grab all of
+these DOM elements from the DOM every
+
+35
+00:01:49,312 --> 00:01:50,707
+single time we render.
+
+36
+00:01:50,707 --> 00:01:54,584
+I may as well just do it once and
+store them here on the catView.
+
+37
+00:01:54,584 --> 00:01:59,739
+Similarly, I only want to add the click
+listener for the catView once.
+
+38
+00:01:59,739 --> 00:02:05,319
+Now the reason is because as I click
+between cats over here in index.html,
+
+39
+00:02:05,319 --> 00:02:08,341
+it just changes this information here.
+
+40
+00:02:08,341 --> 00:02:10,616
+It does not replace the entire div.
+
+41
+00:02:10,616 --> 00:02:14,586
+This div is always here and
+this image element is always here.
+
+42
+00:02:14,586 --> 00:02:17,165
+So, I can add the event
+listener one time.
+
+43
+00:02:17,165 --> 00:02:21,495
+And then no matter cat I change to,
+these elements will always be the same,
+
+44
+00:02:21,495 --> 00:02:25,164
+they'll just have differing content and
+a source attribute.
+
+45
+00:02:25,164 --> 00:02:29,338
+And lastly in our catView init method,
+we call this.render,
+
+46
+00:02:29,338 --> 00:02:31,236
+which will update the view.
+
+47
+00:02:31,236 --> 00:02:32,583
+What does render do?
+
+48
+00:02:32,583 --> 00:02:35,722
+All it does is it gets our
+current cat from the octopus,
+
+49
+00:02:35,722 --> 00:02:38,119
+which of course, gets it from the model.
+
+50
+00:02:38,119 --> 00:02:41,279
+And then we set the count element and
+the name and
+
+51
+00:02:41,279 --> 00:02:46,582
+the image to the clickCount and the name
+and the image source of our CurrentCat.
+
+52
+00:02:46,582 --> 00:02:50,113
+Remember that these on the left
+hand are the DOM elements, so
+
+53
+00:02:50,113 --> 00:02:51,713
+that's our catListView.
+
+54
+00:02:51,713 --> 00:02:54,999
+Render gets called over and
+over and over again, but
+
+55
+00:02:54,999 --> 00:02:56,799
+init only gets called once.
+
+56
+00:02:56,799 --> 00:02:59,237
+We'll see where that gets
+called in just a moment.
+
+57
+00:02:59,237 --> 00:03:01,199
+Let's take a look at our catListView.
+
+58
+00:03:01,199 --> 00:03:03,335
+Our catListView is
+actually a bit simpler.
+
+59
+00:03:03,335 --> 00:03:06,097
+Here we have our init method,
+which only gets called once.
+
+60
+00:03:06,097 --> 00:03:10,794
+We grab the catListElement from the DOM
+and put it in this variable here and
+
+61
+00:03:10,794 --> 00:03:12,936
+then we say, render ourselves.
+
+62
+00:03:12,936 --> 00:03:14,362
+Let's see what render does.
+
+63
+00:03:14,362 --> 00:03:18,827
+We first get the cats from the octopus,
+which of course originally would get
+
+64
+00:03:18,827 --> 00:03:22,758
+it from the model, then we empty our ul,
+which lists all the cats.
+
+65
+00:03:22,758 --> 00:03:26,962
+And then we go over all of the cat
+objects and we create an li and
+
+66
+00:03:26,962 --> 00:03:29,281
+we do all of the necessary stuff.
+
+67
+00:03:29,281 --> 00:03:33,484
+That being setting the text content
+equal to the name of the cat and
+
+68
+00:03:33,484 --> 00:03:35,098
+adding EventListener.
+
+69
+00:03:35,098 --> 00:03:38,584
+Now here's my little closure trick
+that I had to do in order to make this
+
+70
+00:03:38,584 --> 00:03:40,062
+EventListener inside the for
+
+71
+00:03:40,062 --> 00:03:43,921
+loop work and you'll find that this is
+a common thing that you'll have to do.
+
+72
+00:03:43,921 --> 00:03:47,214
+If you're adding EventListeners
+inside of a for loop,
+
+73
+00:03:47,214 --> 00:03:51,136
+you actually need to create a larger
+function, pass in your cat and
+
+74
+00:03:51,136 --> 00:03:55,636
+then return the function, which does
+the stuff that you want with that cat.
+
+75
+00:03:55,636 --> 00:03:59,324
+So ultimately, all of this code says,
+when you click on the element,
+
+76
+00:03:59,324 --> 00:04:02,886
+tell the octopus to set the CurrentCat
+and then render the catView,
+
+77
+00:04:02,886 --> 00:04:04,215
+because it's changed.
+
+78
+00:04:04,215 --> 00:04:08,733
+And lastly, add all of our lis
+inside of this for loop that we've
+
+79
+00:04:08,733 --> 00:04:13,096
+created to our CatListElement,
+the unordered list of cats.
+
+80
+00:04:13,096 --> 00:04:15,093
+Now, let's run through this really fast.
+
+81
+00:04:15,093 --> 00:04:18,099
+Octopus.init, this makes
+everything happen.
+
+82
+00:04:18,099 --> 00:04:20,793
+When this gets called,
+the following things happen.
+
+83
+00:04:20,793 --> 00:04:27,340
+We say, hey, model, set your CurrentCat
+property equal to model.Cats 0.
+
+84
+00:04:27,340 --> 00:04:30,975
+In other words,
+the first cat in the list.
+
+85
+00:04:30,975 --> 00:04:35,536
+And then we say,
+catListView.init and catView.init.
+
+86
+00:04:35,536 --> 00:04:38,218
+We tell our views to
+initialize themselves.
+
+87
+00:04:38,218 --> 00:04:41,380
+And then the views handle all
+the stuff they need to do without
+
+88
+00:04:41,380 --> 00:04:43,373
+the octopus needing to get involved.
+
+89
+00:04:43,373 --> 00:04:45,202
+Now if you liked to go over this code,
+
+90
+00:04:45,202 --> 00:04:47,634
+you can find a link to it
+in the Instructor Notes.
+
+91
+00:04:47,634 --> 00:04:51,726
+I would definitely suggest you dive in
+and see if you can figure out exactly
+
+92
+00:04:51,726 --> 00:04:55,029
+how every part of this works,
+then compare it to your code.
+
+93
+00:04:55,029 --> 00:04:58,918
+If you want to go back to your code and
+make any changes, go ahead and
+
+94
+00:04:58,918 --> 00:05:01,194
+do that now, but don't copy my code.
+
+95
+00:05:01,194 --> 00:05:04,549
+Remember, this is not my project,
+this is your project.
+
+96
+00:05:04,549 --> 00:05:08,450
+So, only use my code as
+organizational inspiration.
+
+97
+00:05:08,450 --> 00:05:12,448
+Once you're satisfied with your version
+of Cat Clicker Premium, go ahead and
+
+98
+00:05:12,448 --> 00:05:13,610
+click to continue on.

@@ -1,0 +1,464 @@
+1
+00:00:00,090 --> 00:00:04,320
+To explain the file sharing semantics
+in a distributed file system,
+
+2
+00:00:04,320 --> 00:00:07,790
+let's see what these look like first
+in a single node environment and
+
+3
+00:00:07,790 --> 00:00:12,250
+then compare how they differ from
+the distributed multi-node environment.
+
+4
+00:00:12,250 --> 00:00:14,400
+On the single node in
+a Unix environment,
+
+5
+00:00:14,400 --> 00:00:16,480
+we have the following semantics.
+
+6
+00:00:16,480 --> 00:00:21,980
+Whenever a file is modified by any
+process, in this case process A write c,
+
+7
+00:00:21,980 --> 00:00:27,275
+that change will immediately be visible
+by any other process on that machine.
+
+8
+00:00:27,275 --> 00:00:30,465
+So Process B will immediately
+
+9
+00:00:30,465 --> 00:00:35,135
+see that c when it performs a read
+on this file, will get abc.
+
+10
+00:00:35,135 --> 00:00:38,825
+This will be the case, even if
+the change isn't actually pushed out to
+
+11
+00:00:38,825 --> 00:00:43,295
+disk, because both of these processes
+have access to the same buffer cache.
+
+12
+00:00:43,295 --> 00:00:46,195
+In distributed file systems,
+that's not the case.
+
+13
+00:00:46,195 --> 00:00:50,435
+Even if the fact that Process A
+performed an update, wrote c to this
+
+14
+00:00:50,435 --> 00:00:55,630
+file, gets pushed to the file
+server immediately, that message,
+
+15
+00:00:55,630 --> 00:00:59,620
+it may take some time before that
+message actually arrives here.
+
+16
+00:00:59,620 --> 00:01:04,562
+So it is possible for Process B to
+not be able to see that message for
+
+17
+00:01:04,562 --> 00:01:08,800
+a while, and whenever it performs
+a read operation on that file,
+
+18
+00:01:08,800 --> 00:01:12,420
+even in that period after
+this file was written to,
+
+19
+00:01:12,420 --> 00:01:16,620
+it will continue seeing that the file
+consists of only the elements a and b.
+
+20
+00:01:16,620 --> 00:01:21,832
+Given that message latencies may vary,
+we have no way of determining how much
+
+21
+00:01:21,832 --> 00:01:26,730
+should we delay every possible read
+operation in order to make sure that any
+
+22
+00:01:26,730 --> 00:01:31,010
+write that may have happened anywhere in
+the system arrives to the file server,
+
+23
+00:01:31,010 --> 00:01:33,930
+so that we can guarantee
+that this Process B
+
+24
+00:01:33,930 --> 00:01:36,990
+does read the most recent
+version of the file.
+
+25
+00:01:36,990 --> 00:01:39,710
+So in order to maintain
+acceptable performance,
+
+26
+00:01:39,710 --> 00:01:44,430
+distributed systems would typically
+sacrifice some of the consistency,
+
+27
+00:01:44,430 --> 00:01:48,920
+and they will accept some more
+relaxed file sharing semantics.
+
+28
+00:01:48,920 --> 00:01:52,810
+Let's see what are some possible,
+meaningful file sharing semantics for
+
+29
+00:01:52,810 --> 00:01:54,760
+distributed file systems.
+
+30
+00:01:54,760 --> 00:01:58,960
+As a baseline we will contrast this to
+the case when your file system is on
+
+31
+00:01:58,960 --> 00:02:02,840
+the single machine where every
+write is immediately visible, and
+
+32
+00:02:02,840 --> 00:02:04,550
+this is what's referred
+to as UNIX semantics.
+
+33
+00:02:05,640 --> 00:02:10,240
+Something that makes sense to do is to
+enforce what we call session semantics.
+
+34
+00:02:10,240 --> 00:02:15,050
+Whenever a file is closed,
+the client writes back to the server
+
+35
+00:02:15,050 --> 00:02:19,110
+all of the changes that it has
+applied to that file in its cache.
+
+36
+00:02:19,110 --> 00:02:23,107
+Whenever a client needs to open a file,
+it doesn't use the cache contents,
+
+37
+00:02:23,107 --> 00:02:26,105
+instead, goes and
+checks with the file server whether or
+
+38
+00:02:26,105 --> 00:02:29,250
+not there is a more recent
+version of that file.
+
+39
+00:02:29,250 --> 00:02:33,250
+We call the session semantics with
+the period between the file open and
+
+40
+00:02:33,250 --> 00:02:37,510
+the file close being
+referred to as one session.
+
+41
+00:02:37,510 --> 00:02:39,860
+With session semantics
+it is very possible for
+
+42
+00:02:39,860 --> 00:02:44,540
+one client to be reading a stale version
+of a file while another client is either
+
+43
+00:02:44,540 --> 00:02:48,510
+updating that file or even reading
+a more recent version of the file.
+
+44
+00:02:48,510 --> 00:02:53,140
+But at least by knowing that when we
+open or when we close the file, we will
+
+45
+00:02:53,140 --> 00:02:57,650
+be consistent with the rest of the file
+system at that particular moment.
+
+46
+00:02:57,650 --> 00:03:01,464
+We can reason something about
+what kind of sharing guarantees
+
+47
+00:03:01,464 --> 00:03:05,293
+do we have when we run in this
+type of distributed file system?
+
+48
+00:03:05,293 --> 00:03:10,068
+Although session semantics are intuitive
+to reason about, they're really not good
+
+49
+00:03:10,068 --> 00:03:14,244
+for situations when clients want to
+concurrently share a file, write to it
+
+50
+00:03:14,244 --> 00:03:18,574
+and see each other's updates, then have
+to open it and close it repeatedly.
+
+51
+00:03:18,574 --> 00:03:23,626
+And also when files stay open or are
+being updated for long periods of time,
+
+52
+00:03:23,626 --> 00:03:28,373
+these can result in long periods of
+inconsistency in the file system.
+
+53
+00:03:28,373 --> 00:03:29,447
+For that reason,
+
+54
+00:03:29,447 --> 00:03:34,650
+it makes sense to introduce some time
+intervals when these updates happen.
+
+55
+00:03:34,650 --> 00:03:37,680
+With introducing time intervals,
+the client updates,
+
+56
+00:03:37,680 --> 00:03:41,210
+writes, will be propagated
+to the server periodically.
+
+57
+00:03:41,210 --> 00:03:45,740
+One way to think about this is that
+the client has some sort of lease on
+
+58
+00:03:45,740 --> 00:03:48,350
+how long they can use the cached data.
+
+59
+00:03:48,350 --> 00:03:51,611
+However in this case know that we don't
+really mean that it's an exclusive
+
+60
+00:03:51,611 --> 00:03:52,820
+lease, like locking.
+
+61
+00:03:52,820 --> 00:03:54,900
+This is a completely separate issue.
+
+62
+00:03:54,900 --> 00:03:57,320
+In the same way,
+the server notifications,
+
+63
+00:03:57,320 --> 00:04:01,340
+the invalidations, are also
+periodically sent out to the clients.
+
+64
+00:04:01,340 --> 00:04:04,750
+This can establish some sort
+of time bounds during which
+
+65
+00:04:04,750 --> 00:04:07,810
+the system can potentially
+be inconsistent.
+
+66
+00:04:07,810 --> 00:04:11,530
+So at least if there are any conflicts,
+it will be easier to correct for them.
+
+67
+00:04:11,530 --> 00:04:14,960
+There will be likely fewer of
+them that have accumulated
+
+68
+00:04:14,960 --> 00:04:16,899
+during the period of these updates.
+
+69
+00:04:18,070 --> 00:04:21,899
+Since the client doesn't really have
+any idea about what are the start and
+
+70
+00:04:21,899 --> 00:04:24,610
+the end times of these
+synchronization periods,
+
+71
+00:04:24,610 --> 00:04:28,840
+the file system can also provide some
+explicit operations to let the client
+
+72
+00:04:28,840 --> 00:04:31,890
+flush its updates to the remote server.
+
+73
+00:04:31,890 --> 00:04:36,110
+Just like what we do with flushing the
+updates to disk when it comes to local
+
+74
+00:04:36,110 --> 00:04:41,930
+storage, and also to explicitly sync its
+state with that of the remote server.
+
+75
+00:04:41,930 --> 00:04:45,700
+Again these types of operations are not
+necessarily distributed file system
+
+76
+00:04:45,700 --> 00:04:50,190
+specific, they're used in regular,
+local file systems as well.
+
+77
+00:04:50,190 --> 00:04:54,500
+Other file sharing policies also exist
+and make sense for certain situations.
+
+78
+00:04:54,500 --> 00:04:58,430
+For instance, files may be simply
+immutable, you never really modify
+
+79
+00:04:58,430 --> 00:05:03,440
+a file, you simply delete it, or
+you create a new file with a new name.
+
+80
+00:05:03,440 --> 00:05:06,190
+When you're sharing photos
+via Instagram or Facebook,
+
+81
+00:05:06,190 --> 00:05:10,060
+you don't really upload a photo and then
+go and edit it, if you need to change
+
+82
+00:05:10,060 --> 00:05:13,450
+the photo you change the photo and
+you upload the modified photo.
+
+83
+00:05:13,450 --> 00:05:17,940
+These types of distributed storage have
+these kind of semantics immutable files.
+
+84
+00:05:17,940 --> 00:05:20,580
+Another useful file sharing
+semantics would be for
+
+85
+00:05:20,580 --> 00:05:24,050
+the file system to provide
+transactional guarantees.
+
+86
+00:05:24,050 --> 00:05:27,440
+What this would mean is that
+the file system will need to
+
+87
+00:05:27,440 --> 00:05:30,270
+export some interfaces, some API so
+
+88
+00:05:30,270 --> 00:05:35,190
+that the clients can specify what is the
+collection of files or the collection
+
+89
+00:05:35,190 --> 00:05:39,370
+of operations that need to be treated
+like a certain single transaction?
+
+90
+00:05:39,370 --> 00:05:43,900
+And then, the file system can make
+some guarantees that all those changes
+
+91
+00:05:43,900 --> 00:05:48,410
+are atomically committed, atomically
+made visible into the file system.
+
+92
+00:05:48,410 --> 00:05:50,050
+As we work through
+the rest of the lesson,
+
+93
+00:05:50,050 --> 00:05:53,720
+we will look at what are some of
+the file sharing semantics that
+
+94
+00:05:53,720 --> 00:05:57,010
+are supported in some distributed
+file systems, and also what
+
+95
+00:05:57,010 --> 00:06:00,820
+are the mechanisms that are required
+to achieve these types of semantics.

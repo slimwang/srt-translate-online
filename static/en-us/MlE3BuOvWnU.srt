@@ -1,0 +1,210 @@
+1
+00:00:00,270 --> 00:00:03,700
+There's another useful operation you can
+do when you have two NumPy arrays of
+
+2
+00:00:03,700 --> 00:00:05,120
+the same length.
+
+3
+00:00:05,120 --> 00:00:08,710
+This time, the second NumPy array
+needs to contain booleans, and
+
+4
+00:00:08,710 --> 00:00:11,190
+the first can contain any type,
+not just numbers.
+
+5
+00:00:12,270 --> 00:00:16,630
+For example, suppose your first array,
+a, contains the numbers 1, 2,
+
+6
+00:00:16,630 --> 00:00:19,280
+3, 4, and 5.
+
+7
+00:00:19,280 --> 00:00:23,500
+And your second array, b, contains
+the booleans false, false, true,
+
+8
+00:00:23,500 --> 00:00:25,050
+true and true.
+
+9
+00:00:25,050 --> 00:00:29,550
+Then the code a[b]
+would return a shorter
+
+10
+00:00:29,550 --> 00:00:33,610
+array containing only the elements 3,4,
+and 5.
+
+11
+00:00:33,610 --> 00:00:36,630
+The second array is called
+an index array, and
+
+12
+00:00:36,630 --> 00:00:39,550
+it tells you which elements
+of the first array to keep.
+
+13
+00:00:39,550 --> 00:00:43,400
+So here we didn't keep 1
+because that element was false.
+
+14
+00:00:43,400 --> 00:00:45,530
+We didn't keep 2 because that was false.
+
+15
+00:00:45,530 --> 00:00:49,480
+But we did keep 3, 4, and
+5 because those were true.
+
+16
+00:00:49,480 --> 00:00:52,440
+When you combine this with the
+vectorized operations you learned about
+
+17
+00:00:52,440 --> 00:00:54,410
+previously, this can be very powerful.
+
+18
+00:00:55,450 --> 00:00:58,425
+In this example,
+I kept all the elements greater than 2.
+
+19
+00:00:58,425 --> 00:01:06,395
+So I could have created the boolean
+array b with the code b = a > 2.
+
+20
+00:01:06,395 --> 00:01:09,770
+I could also have created this array
+without using the variable b at all.
+
+21
+00:01:10,940 --> 00:01:18,950
+To do this I would use the code a [a>2],
+and that would have the same result.
+
+22
+00:01:18,950 --> 00:01:21,600
+In my opinion,
+this piece of code is a very concise and
+
+23
+00:01:21,600 --> 00:01:25,830
+clear way of saying keep all the
+elements of a that are greater than two.
+
+24
+00:01:25,830 --> 00:01:29,170
+Right now it may take more effort to
+understand this piece of code than it
+
+25
+00:01:29,170 --> 00:01:31,590
+would have taken you
+to understand a loop.
+
+26
+00:01:31,590 --> 00:01:33,840
+First, you have to remember
+that a is an array.
+
+27
+00:01:33,840 --> 00:01:37,040
+Then you have to remember that comparing
+an array to a single number is
+
+28
+00:01:37,040 --> 00:01:40,280
+a vectorized operation that
+returns an array of booleans, and
+
+29
+00:01:40,280 --> 00:01:42,740
+then you have to remember
+about index arrays.
+
+30
+00:01:42,740 --> 00:01:45,610
+However once you're used to it this
+can really speed up the process of
+
+31
+00:01:45,610 --> 00:01:46,850
+writing your code.
+
+32
+00:01:46,850 --> 00:01:50,664
+And as usual, this code will run faster
+than the loop since all the operations
+
+33
+00:01:50,664 --> 00:01:51,787
+are implemented in C.
+
+34
+00:01:51,787 --> 00:01:55,137
+To give you some practice using index
+arrays I'm going to take an example from
+
+35
+00:01:55,137 --> 00:01:56,645
+the previous lesson.
+
+36
+00:01:56,645 --> 00:01:59,785
+I want you to write a function
+that takes in two NumPy arrays.
+
+37
+00:01:59,785 --> 00:02:02,575
+The first, time_spent,
+contains the total time
+
+38
+00:02:02,575 --> 00:02:04,763
+each student spends in
+the classroom in the first week.
+
+39
+00:02:04,763 --> 00:02:07,795
+The second, days_to_cancel,
+
+40
+00:02:07,795 --> 00:02:11,065
+contains contains the number of
+days before that student cancelled.
+
+41
+00:02:11,065 --> 00:02:14,105
+I want you to calculate the mean
+time spent in the first week
+
+42
+00:02:14,105 --> 00:02:18,190
+among only students who do not
+cancel for at least 7 days.
+
+43
+00:02:18,190 --> 00:02:21,990
+As a hint, you'll first want to convert
+days_to_cancel into an array of
+
+44
+00:02:21,990 --> 00:02:24,050
+booleans that you can
+use as an index array.

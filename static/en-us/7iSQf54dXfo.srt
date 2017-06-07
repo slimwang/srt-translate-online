@@ -1,0 +1,211 @@
+1
+00:00:00,130 --> 00:00:02,800
+For a distributive shared
+memory solution to be useful,
+
+2
+00:00:02,800 --> 00:00:05,790
+it must provide good
+performance to applications.
+
+3
+00:00:05,790 --> 00:00:09,140
+If we think about the core service
+that's provided by distributive shared
+
+4
+00:00:09,140 --> 00:00:12,700
+memory systems,
+accessing memory locations,
+
+5
+00:00:12,700 --> 00:00:16,590
+then it's obvious that the performance
+metric that's relevant for
+
+6
+00:00:16,590 --> 00:00:21,500
+DSM systems is what is
+the latency with which processes
+
+7
+00:00:21,500 --> 00:00:26,760
+running on any one of these nodes can
+perform such remote memory accesses.
+
+8
+00:00:26,760 --> 00:00:30,650
+Clearly, accessing local memory
+is faster than remote memory.
+
+9
+00:00:30,650 --> 00:00:33,830
+So, what can we do in order
+to maximize the number of
+
+10
+00:00:33,830 --> 00:00:37,380
+cases where local memory's
+accessed versus remote?
+
+11
+00:00:37,380 --> 00:00:40,530
+One way to maximize the number
+of local accesses and
+
+12
+00:00:40,530 --> 00:00:44,590
+achieve low latency is to use
+a technique called migration.
+
+13
+00:00:44,590 --> 00:00:48,300
+Whenever a process on another node
+needs to access remote state,
+
+14
+00:00:48,300 --> 00:00:51,730
+we literally copy that state
+over to the other node.
+
+15
+00:00:51,730 --> 00:00:56,180
+This makes sense for situations where
+we have a single reader, single writer.
+
+16
+00:00:56,180 --> 00:00:59,470
+Since only one node at a time
+will be accessing this state, so
+
+17
+00:00:59,470 --> 00:01:04,200
+it does make sense to move the state
+over to where that single entity is.
+
+18
+00:01:04,200 --> 00:01:06,600
+However, this requires moving the data,
+
+19
+00:01:06,600 --> 00:01:11,500
+copying the data over to the remote
+node, and that incurs some overheads.
+
+20
+00:01:11,500 --> 00:01:15,780
+So even for these single reader, single
+writer cases, we should be careful when
+
+21
+00:01:15,780 --> 00:01:19,800
+we trigger these types of mechanisms
+because if it's only going to be
+
+22
+00:01:19,800 --> 00:01:25,190
+a single access that will be performed
+in this other location, then migrating,
+
+23
+00:01:25,190 --> 00:01:30,180
+copying over the entire state over
+to node four, it won't be amortized.
+
+24
+00:01:30,180 --> 00:01:34,190
+We won't get much in terms
+of low latency improvements
+
+25
+00:01:34,190 --> 00:01:39,000
+if we have to copy all this data just
+for a single read or write access.
+
+26
+00:01:39,000 --> 00:01:42,770
+For the more general case, however,
+when there are multiple readers and
+
+27
+00:01:42,770 --> 00:01:47,300
+multiple writers, migrating the state
+all over the place doesn't make any
+
+28
+00:01:47,300 --> 00:01:51,920
+sense since it needs to be accessed
+by multiple nodes at the same time.
+
+29
+00:01:51,920 --> 00:01:56,420
+So, a mechanism such as replication
+where the state is copied on multiple
+
+30
+00:01:56,420 --> 00:02:00,650
+nodes, potentially on all nodes,
+is a more general mechanism.
+
+31
+00:02:00,650 --> 00:02:02,270
+Use of caching techniques,
+
+32
+00:02:02,270 --> 00:02:07,150
+which create a copy of the state on
+each node where the state was accessed,
+
+33
+00:02:07,150 --> 00:02:11,320
+can lead to some similar behavior
+as what's seen with replication.
+
+34
+00:02:11,320 --> 00:02:15,080
+One problem with this is that it
+requires consistency management.
+
+35
+00:02:15,080 --> 00:02:19,680
+Now this state will be accessed
+concurrently on multiple nodes.
+
+36
+00:02:19,680 --> 00:02:23,730
+And we have to make sure we coordinate
+those operations, as we said,
+
+37
+00:02:23,730 --> 00:02:28,370
+to order all of the writes,
+propagate the most recent write
+
+38
+00:02:28,370 --> 00:02:33,570
+operation to wherever or whomever is
+performing the next read operation.
+
+39
+00:02:33,570 --> 00:02:35,580
+This is some overhead.
+
+40
+00:02:35,580 --> 00:02:39,790
+One way to control the overhead is to
+perhaps limit the number of replicas,
+
+41
+00:02:39,790 --> 00:02:44,250
+the number of copies that can exist in
+this system at any given point of time
+
+42
+00:02:44,250 --> 00:02:48,890
+since the consistency management has
+overhead that's proportional with
+
+43
+00:02:48,890 --> 00:02:51,370
+the number of copies that need
+to be maintained consistently.

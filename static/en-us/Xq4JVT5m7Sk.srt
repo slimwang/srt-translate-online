@@ -1,0 +1,308 @@
+1
+00:00:00,160 --> 00:00:03,300
+You can extend intent service to create
+your own recommendation service.
+
+2
+00:00:03,300 --> 00:00:05,050
+When you need to refresh
+your recommendations,
+
+3
+00:00:05,050 --> 00:00:07,640
+invoke the service by sending an intent.
+
+4
+00:00:07,640 --> 00:00:11,070
+Inside this method, we find items to
+recommend from our Media Library.
+
+5
+00:00:11,070 --> 00:00:12,210
+This is just dummy code.
+
+6
+00:00:12,210 --> 00:00:14,705
+And of course you replace
+it with something smarter.
+
+7
+00:00:14,705 --> 00:00:16,875
+Once we have items to recommend,
+here's where we'll
+
+8
+00:00:16,875 --> 00:00:20,365
+use our RecommendationBuilder
+to construct the notifications.
+
+9
+00:00:20,365 --> 00:00:23,235
+After they're constructed,
+we'll post the notifications by calling
+
+10
+00:00:23,235 --> 00:00:25,880
+the notification manager's
+notifying method.
+
+11
+00:00:25,880 --> 00:00:27,230
+This part is important.
+
+12
+00:00:27,230 --> 00:00:28,930
+The first parameter is
+the notification ID,
+
+13
+00:00:28,930 --> 00:00:31,340
+and you'll need to keep track of this.
+
+14
+00:00:31,340 --> 00:00:35,470
+It's required when we'd like to update
+or dismiss an existing recommendation.
+
+15
+00:00:35,470 --> 00:00:38,920
+Later on, if you'd like to remove a
+recommendation, you can do so by calling
+
+16
+00:00:38,920 --> 00:00:42,270
+the cancel method on the notification
+manager with a notifications ID.
+
+17
+00:00:43,400 --> 00:00:44,600
+Here's a gotcha.
+
+18
+00:00:44,600 --> 00:00:48,060
+If you want to update a recommendation,
+don't cancel and resend it.
+
+19
+00:00:48,060 --> 00:00:50,110
+This could cause the position
+of your recommendation to
+
+20
+00:00:50,110 --> 00:00:53,590
+change on the recommendations row and
+that could annoy users.
+
+21
+00:00:53,590 --> 00:00:55,930
+Instead update your recommendation.
+
+22
+00:00:55,930 --> 00:00:58,340
+To do so,
+simply create a new notification and
+
+23
+00:00:58,340 --> 00:01:01,160
+issue it by calling the notification
+manager, dot notify method,
+
+24
+00:01:01,160 --> 00:01:04,789
+with the same notification ID as the
+recommendation you'd like to replace.
+
+25
+00:01:05,850 --> 00:01:08,960
+Earlier, we said we'd add a pending
+intent to our notifications to take
+
+26
+00:01:08,960 --> 00:01:11,470
+the user directly to our content.
+
+27
+00:01:11,470 --> 00:01:15,120
+We construct that intent using
+this build pending intent method.
+
+28
+00:01:15,120 --> 00:01:16,020
+This is pretty standard.
+
+29
+00:01:16,020 --> 00:01:18,900
+The most important part is to
+keep track of the movie and
+
+30
+00:01:18,900 --> 00:01:21,830
+the notification id by
+putting them in the bundle.
+
+31
+00:01:21,830 --> 00:01:23,620
+There's one last thing to do here.
+
+32
+00:01:23,620 --> 00:01:26,290
+Our Movie Details fragment is
+the fragment that's actually going to
+
+33
+00:01:26,290 --> 00:01:27,100
+receive this intent.
+
+34
+00:01:28,220 --> 00:01:30,780
+We need to insure that it responds
+properly when it receives the pending
+
+35
+00:01:30,780 --> 00:01:33,800
+intent as opposed to being started
+up directly from the Android TV
+
+36
+00:01:33,800 --> 00:01:36,210
+home screen, or from a search activity.
+
+37
+00:01:36,210 --> 00:01:40,150
+To do so, we check for the pending
+intent inside the onCreate method.
+
+38
+00:01:40,150 --> 00:01:43,770
+Now we have our intent service ready
+to go, but how can we start it up?
+
+39
+00:01:43,770 --> 00:01:46,460
+One option is just to update
+your recommendations when users
+
+40
+00:01:46,460 --> 00:01:47,800
+are using your app.
+
+41
+00:01:47,800 --> 00:01:50,450
+Alternatively, you can use
+an AlarmManager to always update them in
+
+42
+00:01:50,450 --> 00:01:51,760
+the background.
+
+43
+00:01:51,760 --> 00:01:52,800
+That's our approach here and
+
+44
+00:01:52,800 --> 00:01:55,900
+we'll kick off that AlarmManager
+when the TV boots up.
+
+45
+00:01:55,900 --> 00:01:58,370
+Let's head to the BootupActivity
+to see how this is accomplished.
+
+46
+00:01:59,610 --> 00:02:02,460
+And by the way, this class really
+should have been named BootupReceiver.
+
+47
+00:02:02,460 --> 00:02:03,590
+This is a typo and, hopefully,
+
+48
+00:02:03,590 --> 00:02:05,479
+we'll have it fixed by
+the time you take this class.
+
+49
+00:02:06,720 --> 00:02:09,880
+To start it when an Android TV boots up,
+we'll declared this intent filter.
+
+50
+00:02:11,030 --> 00:02:14,480
+Inside boot up activity we created an
+alarm manager with a pending intent to
+
+51
+00:02:14,480 --> 00:02:15,650
+update our recommendations.
+
+52
+00:02:16,660 --> 00:02:18,180
+And here's a performance tip.
+
+53
+00:02:18,180 --> 00:02:19,090
+When you set alarms,
+
+54
+00:02:19,090 --> 00:02:23,450
+it's important to use set in exact
+repeating instead of set repeating.
+
+55
+00:02:23,450 --> 00:02:26,110
+The former lets Android adjust
+your delivery time slightly
+
+56
+00:02:26,110 --> 00:02:28,549
+to keep the device in sleep mode for
+as long as possible.
+
+57
+00:02:29,660 --> 00:02:32,520
+This saves power and is especially
+important on mobile devices.
+
+58
+00:02:32,520 --> 00:02:34,960
+Although it's still
+counts on Android TV.
+
+59
+00:02:34,960 --> 00:02:37,640
+If you're like to learn more about
+Android Performance Patterns, check out
+
+60
+00:02:37,640 --> 00:02:41,040
+the Android Performance Patterns
+course linked in the instructor notes.
+
+61
+00:02:41,040 --> 00:02:42,750
+And that's all there is to it.
+
+62
+00:02:42,750 --> 00:02:44,780
+Remember that high quality
+recommendations will
+
+63
+00:02:44,780 --> 00:02:45,910
+lead to more clicks.
+
+64
+00:02:45,910 --> 00:02:48,760
+And those will in turn lead to your
+recommendations being featured more
+
+65
+00:02:48,760 --> 00:02:50,110
+prominently.
+
+66
+00:02:50,110 --> 00:02:52,510
+Also, please keep your
+recommendations family safe.

@@ -1,0 +1,241 @@
+1
+00:00:00,300 --> 00:00:03,450
+Regular Android applications
+use the notification API
+
+2
+00:00:03,450 --> 00:00:06,660
+to show important information to
+the user of phones and tablets.
+
+3
+00:00:06,660 --> 00:00:07,770
+Android Auto Support for
+
+4
+00:00:07,770 --> 00:00:12,590
+messaging uses the same notification
+API to the underlying implementation.
+
+5
+00:00:12,590 --> 00:00:16,230
+The Android Auto app that runs on the
+phone looks at the notification screen
+
+6
+00:00:16,230 --> 00:00:17,490
+being generated, and
+
+7
+00:00:17,490 --> 00:00:21,670
+it notices those that contain the car
+extender, like these two red ones here.
+
+8
+00:00:21,670 --> 00:00:25,100
+Let's look inside one of these
+objects to see what it contains.
+
+9
+00:00:25,100 --> 00:00:28,600
+The Unread Conversation object contains
+the text to speak out to the driver,
+
+10
+00:00:28,600 --> 00:00:31,240
+and this is handled automatically for
+you.
+
+11
+00:00:31,240 --> 00:00:34,430
+Speech Recognition is then used
+to get the reply from the driver.
+
+12
+00:00:34,430 --> 00:00:37,290
+And Remote Input is used to
+help capture this for you and
+
+13
+00:00:37,290 --> 00:00:40,510
+give you a string of the spoken
+audio via this intent here.
+
+14
+00:00:40,510 --> 00:00:44,780
+Remember, the phone is handling the text
+to speech and speech recognition, and
+
+15
+00:00:44,780 --> 00:00:47,580
+the car is just displaying images and
+capturing audio.
+
+16
+00:00:47,580 --> 00:00:51,260
+Let's get started with some code to
+understand how notifications work and
+
+17
+00:00:51,260 --> 00:00:52,825
+how to add these extensions.
+
+18
+00:00:52,825 --> 00:00:56,380
+We'll use the basic notification sample,
+which is the same starting point
+
+19
+00:00:56,380 --> 00:00:59,180
+that we use when we discuss
+notifications on Android Wear.
+
+20
+00:00:59,180 --> 00:01:02,910
+So, let's find a sample in Android
+Studio that demonstrates what we need.
+
+21
+00:01:02,910 --> 00:01:07,690
+So here, we go to File, Import Sample,
+and we're going to look for
+
+22
+00:01:07,690 --> 00:01:09,400
+a sample called Basic Notifications.
+
+23
+00:01:09,400 --> 00:01:13,260
+See it there, we hit Next, and
+
+24
+00:01:13,260 --> 00:01:15,070
+we can leave everything
+with the default values.
+
+25
+00:01:16,220 --> 00:01:18,020
+So now we've got a new
+project on our machine
+
+26
+00:01:18,020 --> 00:01:19,500
+with the basic notification sample.
+
+27
+00:01:19,500 --> 00:01:22,020
+You've had this dialogue box here,
+we just hit yes to that because we just
+
+28
+00:01:22,020 --> 00:01:24,820
+want to reload it after some small
+changes that have been made, and
+
+29
+00:01:24,820 --> 00:01:26,970
+now we have our sample
+that we can get started.
+
+30
+00:01:26,970 --> 00:01:29,110
+The next thing we need to do is
+get an emulator ready to start
+
+31
+00:01:29,110 --> 00:01:30,120
+the sample within.
+
+32
+00:01:30,120 --> 00:01:33,990
+Go to Tools, Android, and
+start the AVD manager.
+
+33
+00:01:33,990 --> 00:01:36,830
+Now what we do here is we
+create a virtual device, and
+
+34
+00:01:36,830 --> 00:01:38,640
+you need to select a phone
+model to use here.
+
+35
+00:01:38,640 --> 00:01:39,920
+I'm going to pick a Galaxy Nexus,
+
+36
+00:01:39,920 --> 00:01:42,500
+since it's an older device
+with a small display and
+
+37
+00:01:42,500 --> 00:01:46,060
+a smaller memory footprint that will
+work on my small laptop display easily.
+
+38
+00:01:46,060 --> 00:01:47,820
+So, now we hit Next.
+
+39
+00:01:47,820 --> 00:01:50,685
+And it's important here that
+we select Lollipop API 21,
+
+40
+00:01:50,685 --> 00:01:53,220
+although any newer API
+will work as well.
+
+41
+00:01:53,220 --> 00:01:56,543
+And we need to make sure we pick the
+Google APIs, since that's required for
+
+42
+00:01:56,543 --> 00:01:57,775
+the Android Auto Support.
+
+43
+00:01:57,775 --> 00:02:00,585
+If you pick the x86 emulator, and
+have the HAXM driver installed,
+
+44
+00:02:00,585 --> 00:02:02,530
+the emulator will also run a lot faster.
+
+45
+00:02:02,530 --> 00:02:03,660
+So we hit Next.
+
+46
+00:02:03,660 --> 00:02:08,100
+Now here on this scale, you may need to
+select 2DP on device is 1px on screen
+
+47
+00:02:08,100 --> 00:02:10,100
+to make sure the emulator
+fits on your screen.
+
+48
+00:02:10,100 --> 00:02:12,090
+Otherwise, leave all
+the defaults as they are, and
+
+49
+00:02:12,090 --> 00:02:14,560
+then click finish to create the ADV.
+
+50
+00:02:14,560 --> 00:02:17,820
+Now you have a list of emulators
+available, so select it and
+
+51
+00:02:17,820 --> 00:02:19,610
+click on the play button
+to get it started.

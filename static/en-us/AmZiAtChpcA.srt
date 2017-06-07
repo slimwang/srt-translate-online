@@ -1,0 +1,126 @@
+1
+00:00:00,460 --> 00:00:02,250
+All right, you're done.
+
+2
+00:00:02,250 --> 00:00:04,200
+Let's take a look at my solution.
+
+3
+00:00:04,200 --> 00:00:09,120
+First, we add a function to utility to
+reset the location status to unknown.
+
+4
+00:00:09,120 --> 00:00:12,750
+Note that we use the shared preferences
+editor apply function rather than
+
+5
+00:00:12,750 --> 00:00:15,870
+commit, since this will be
+called from the UI thread.
+
+6
+00:00:15,870 --> 00:00:19,860
+Next, we call that function to reset
+the location status if the user
+
+7
+00:00:19,860 --> 00:00:23,270
+changes the location
+within settings activity.
+
+8
+00:00:23,270 --> 00:00:26,730
+Next, we add the location
+status invalid.
+
+9
+00:00:26,730 --> 00:00:31,820
+Remember, we have to add the constant
+and then add it to the indef annotation.
+
+10
+00:00:31,820 --> 00:00:37,870
+Next, in get weather data from Json,
+we add the message code Json definition.
+
+11
+00:00:37,870 --> 00:00:40,210
+Now let's check to see
+if we have an error.
+
+12
+00:00:40,210 --> 00:00:41,850
+If the message code is 200,
+
+13
+00:00:41,850 --> 00:00:45,750
+which happens to be the same as HTTP_OK,
+we can continue.
+
+14
+00:00:45,750 --> 00:00:49,200
+But if the message code
+equals HTTP not found,
+
+15
+00:00:49,200 --> 00:00:52,090
+then we set the location
+status to invalid.
+
+16
+00:00:52,090 --> 00:00:56,010
+If it is any other error, we assume
+a server failure of some kind and
+
+17
+00:00:56,010 --> 00:00:58,220
+set the status to server down.
+
+18
+00:00:58,220 --> 00:01:03,200
+And then we add a string to display,
+when this case happens.
+
+19
+00:01:03,200 --> 00:01:06,650
+Finally, we add this new
+case to update empty view.
+
+20
+00:01:06,650 --> 00:01:07,570
+Done.
+
+21
+00:01:07,570 --> 00:01:09,280
+Let's test this.
+
+22
+00:01:09,280 --> 00:01:11,210
+All right, let's first of all
+run this on our emulator.
+
+23
+00:01:12,260 --> 00:01:14,010
+All right,
+let's put an invalid location.
+
+24
+00:01:15,250 --> 00:01:18,670
+London.
+And then we get our new message.
+
+25
+00:01:18,670 --> 00:01:20,310
+No weather information available.
+
+26
+00:01:20,310 --> 00:01:24,020
+The location in settings is not
+recognized by the weather server.
+
+27
+00:01:24,020 --> 00:01:24,520
+Awesome.

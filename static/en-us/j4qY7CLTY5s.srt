@@ -1,0 +1,246 @@
+1
+00:00:00,150 --> 00:00:03,940
+Before we talk about the kernel-level
+allocators, I want to describe
+
+2
+00:00:03,940 --> 00:00:07,840
+a particular memory allocation
+challenge that needs to be addressed.
+
+3
+00:00:07,840 --> 00:00:10,670
+Consider a page-based
+memory manager that needs
+
+4
+00:00:10,670 --> 00:00:13,820
+to manage these 16 physical page frames.
+
+5
+00:00:13,820 --> 00:00:18,540
+Let's say this memory manager takes
+requests of sizes two or four page
+
+6
+00:00:18,540 --> 00:00:24,190
+frames, and let's say it's facing the
+following sequence of memory requests.
+
+7
+00:00:24,190 --> 00:00:28,109
+The first memory allocation is for
+the request of two page frames and
+
+8
+00:00:28,109 --> 00:00:31,670
+then the rest of the requests are for
+four pages.
+
+9
+00:00:31,670 --> 00:00:36,750
+So let's say the memory allocator
+allocates these requests in order,
+
+10
+00:00:36,750 --> 00:00:40,960
+and the end result of this will be that
+this will be the memory allocation,
+
+11
+00:00:40,960 --> 00:00:44,905
+how the physical memory is used
+to satisfy these requests, and
+
+12
+00:00:44,905 --> 00:00:47,050
+their two free page frames.
+
+13
+00:00:47,050 --> 00:00:51,020
+Let's say next the two pages that
+were initially allocated or freed.
+
+14
+00:00:52,020 --> 00:00:55,307
+So now you likely can already
+imagine what the problem is.
+
+15
+00:00:55,307 --> 00:00:59,526
+If at this point a next request
+comes to allocate four pages,
+
+16
+00:00:59,526 --> 00:01:02,351
+there are four free pages in the system.
+
+17
+00:01:02,351 --> 00:01:06,159
+However, this particular allocator
+cannot satisfy this request
+
+18
+00:01:06,159 --> 00:01:09,140
+since these pages are not contiguous.
+
+19
+00:01:09,140 --> 00:01:12,930
+Let's say the requirement with
+these allocation requests was for
+
+20
+00:01:12,930 --> 00:01:15,490
+these memory pages to be contiguous.
+
+21
+00:01:15,490 --> 00:01:19,800
+So in that case, this allocator
+cannot meet this requirement.
+
+22
+00:01:19,800 --> 00:01:23,890
+This example illustrates a problem
+that's called external fragmentation.
+
+23
+00:01:23,890 --> 00:01:27,100
+This occurs where we have
+multiple interleaved allocate and
+
+24
+00:01:27,100 --> 00:01:29,710
+free operations, and
+as a result of them,
+
+25
+00:01:29,710 --> 00:01:34,760
+we have basically holes of free
+memory that's not contiguous.
+
+26
+00:01:34,760 --> 00:01:36,480
+And therefore, requests for
+
+27
+00:01:36,480 --> 00:01:41,110
+largest contiguous memory
+allocations cannot be satisfied.
+
+28
+00:01:41,110 --> 00:01:42,557
+In the previous example,
+
+29
+00:01:42,557 --> 00:01:45,911
+the allocator had a policy in
+which the free memory was handed
+
+30
+00:01:45,911 --> 00:01:50,074
+out to consecutive requests in a sort
+of first come, first served manner.
+
+31
+00:01:50,074 --> 00:01:54,619
+Let's consider an alternative in which
+the allocator probably knows something
+
+32
+00:01:54,619 --> 00:01:56,698
+about the requests that are coming.
+
+33
+00:01:56,698 --> 00:02:00,786
+It knows that they will be coming for
+consecutive regions of two and
+
+34
+00:02:00,786 --> 00:02:01,960
+four page frames.
+
+35
+00:02:01,960 --> 00:02:04,953
+In the second case when
+the second request for an,
+
+36
+00:02:04,953 --> 00:02:09,889
+allocating four pages comes,
+the memory allocator isn't allocating it
+
+37
+00:02:09,889 --> 00:02:15,480
+immediately after the first allocation
+but instead is leaving some gap.
+
+38
+00:02:15,480 --> 00:02:20,490
+The second allocation for four pages
+comes in at a granularity of four pages,
+
+39
+00:02:20,490 --> 00:02:24,360
+and then the rest of the allocations
+are satisfied further below.
+
+40
+00:02:25,780 --> 00:02:30,370
+Now when the free request comes in,
+these two first pages are freed.
+
+41
+00:02:30,370 --> 00:02:32,936
+The system again has four free pages.
+
+42
+00:02:32,936 --> 00:02:34,920
+However, they're consecutive.
+
+43
+00:02:34,920 --> 00:02:36,960
+Therefore, this next request for
+
+44
+00:02:36,960 --> 00:02:40,063
+four pages can actually be
+satisfied in the system.
+
+45
+00:02:40,063 --> 00:02:44,250
+What we see in this example is
+that when these pages are freed,
+
+46
+00:02:44,250 --> 00:02:48,116
+there was an opportunity for
+the allocator to coalesce,
+
+47
+00:02:48,116 --> 00:02:53,210
+to aggregate these adjacent areas of
+free pages into one larger free area.
+
+48
+00:02:53,210 --> 00:02:54,911
+That way, it was more likely for
+
+49
+00:02:54,911 --> 00:02:58,680
+the allocator to satisfy
+these future larger requests.
+
+50
+00:02:58,680 --> 00:03:02,710
+This example illustrates some of
+the issues that an allocation algorithm
+
+51
+00:03:02,710 --> 00:03:08,350
+needs to be concerned with to avoid or
+to limit the extent of fragmentation and
+
+52
+00:03:08,350 --> 00:03:11,900
+to allow for quick coalescing and
+aggregation of freed areas.

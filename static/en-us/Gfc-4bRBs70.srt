@@ -1,0 +1,212 @@
+1
+00:00:00,080 --> 00:00:01,845
+So then I said that
+Android isn't a horse.
+
+2
+00:00:01,845 --> 00:00:05,689
+>> [LAUGH] One sec.
+
+3
+00:00:05,689 --> 00:00:07,865
+Sorry my phone appears to be crashing.
+
+4
+00:00:07,865 --> 00:00:09,005
+>> That's not good.
+
+5
+00:00:09,005 --> 00:00:09,925
+>> No kidding.
+
+6
+00:00:09,925 --> 00:00:12,705
+I think it has something to
+do with Shopping List ++.
+
+7
+00:00:12,705 --> 00:00:14,879
+Ever since I downloaded
+the newest version and
+
+8
+00:00:14,879 --> 00:00:17,760
+started using it my phone's
+been really sluggish.
+
+9
+00:00:17,760 --> 00:00:21,800
+And sometimes it feels like it gets
+super warm, which is pleasant during
+
+10
+00:00:21,800 --> 00:00:25,360
+the cool nights I spend coding, but
+probably isn't great for the phone.
+
+11
+00:00:25,360 --> 00:00:28,032
+>> Hmm, any ideas what could
+be causing the slow down?
+
+12
+00:00:28,032 --> 00:00:31,990
+>> Hm, well I've been so wrapped up
+with getting the features out the door,
+
+13
+00:00:31,990 --> 00:00:35,100
+I haven't even thought about
+what might be going on.
+
+14
+00:00:35,100 --> 00:00:37,630
+It's probably some sort of memory leak,
+and
+
+15
+00:00:37,630 --> 00:00:40,640
+it probably has something to do
+with not cleaning up the listeners.
+
+16
+00:00:40,640 --> 00:00:42,100
+Right, I'm looking at the docs now,
+
+17
+00:00:42,100 --> 00:00:44,400
+there's a detach listener
+that looks useful.
+
+18
+00:00:44,400 --> 00:00:48,300
+>> Hm, well I'm surprised that or
+Walter or one of the other users
+
+19
+00:00:48,300 --> 00:00:49,310
+hasn't complained-
+>> No!
+
+20
+00:00:49,310 --> 00:00:50,855
+My phone!
+
+21
+00:00:50,855 --> 00:00:52,255
+It died!
+
+22
+00:00:52,255 --> 00:00:53,609
+Why?
+
+23
+00:00:53,609 --> 00:00:55,855
+>> Shoot, I should probably
+see what that was all about.
+
+24
+00:00:55,855 --> 00:00:57,835
+>> Wait!
+
+25
+00:00:57,835 --> 00:00:59,635
+Well, I got the docs here.
+
+26
+00:00:59,635 --> 00:01:02,303
+At least you and
+I can go over removing listeners, and
+
+27
+00:01:02,303 --> 00:01:03,615
+maybe you can fix the app.
+
+28
+00:01:03,615 --> 00:01:06,315
+The code you're looking for
+is removeEventListner.
+
+29
+00:01:06,315 --> 00:01:09,220
+To use this method,
+you'll pass in the event listener.
+
+30
+00:01:10,380 --> 00:01:12,965
+However, the single location
+has multiple listeners,
+
+31
+00:01:12,965 --> 00:01:16,410
+you need to make sure to go through and
+remove each listener.
+
+32
+00:01:16,410 --> 00:01:19,030
+Keep in mind this doesn't
+remove child listeners.
+
+33
+00:01:19,030 --> 00:01:21,830
+You'll need to call
+removeEventListner(childEventListener)
+
+34
+00:01:21,830 --> 00:01:23,740
+for any child listeners.
+
+35
+00:01:23,740 --> 00:01:28,690
+Lastly, Fire based list adapters
+will also need to be cleaned up.
+
+36
+00:01:28,690 --> 00:01:31,170
+Generally, you should keep
+a reference to every listener and
+
+37
+00:01:31,170 --> 00:01:35,490
+location you add, and
+then remove them in an onDestroy method.
+
+38
+00:01:35,490 --> 00:01:40,241
+However, for Firebase list adapters you
+can call the handy cleanup method to
+
+39
+00:01:40,241 --> 00:01:44,935
+have them self destruct and destroy
+any references they're holding on to.
+
+40
+00:01:44,935 --> 00:01:46,715
+>> Okay, what did I miss?
+
+41
+00:01:46,715 --> 00:01:48,315
+>> Is everything okay?
+
+42
+00:01:48,315 --> 00:01:49,955
+>> Well, Kagure's okay.
+
+43
+00:01:49,955 --> 00:01:52,275
+Her phone, poor thing.
+
+44
+00:01:52,275 --> 00:01:55,271
+>> I told the developer about
+removing event listeners.
+
+45
+00:01:55,271 --> 00:01:56,035
+>> Great.
+
+46
+00:01:56,035 --> 00:01:58,300
+Can you remove them and
+then fix up the memory leak?

@@ -1,0 +1,188 @@
+1
+00:00:00,240 --> 00:00:03,969
+In addition shared memory
+accesses can by synchronized
+
+2
+00:00:03,969 --> 00:00:08,320
+operating system provided mechanisms for
+inter process interactions.
+
+3
+00:00:08,320 --> 00:00:13,070
+This is particularly important
+because the process shared option for
+
+4
+00:00:13,070 --> 00:00:16,210
+the mutex condition
+variables with p threads,
+
+5
+00:00:16,210 --> 00:00:20,580
+isn't necessarily supported
+on every single platform.
+
+6
+00:00:20,580 --> 00:00:24,670
+Instead, we rely on other forms
+of IPC for synchronization,
+
+7
+00:00:24,670 --> 00:00:27,440
+such as message queues or semaphores.
+
+8
+00:00:27,440 --> 00:00:29,370
+With message queues for instance,
+
+9
+00:00:29,370 --> 00:00:33,860
+we can implement mutual exclusion
+via send/receive operations.
+
+10
+00:00:33,860 --> 00:00:36,630
+Here is an example of protocol
+how this can be achieved.
+
+11
+00:00:36,630 --> 00:00:39,910
+Two processes are communicating
+via shared memory and
+
+12
+00:00:39,910 --> 00:00:42,380
+they're using message
+cues to synchronize.
+
+13
+00:00:42,380 --> 00:00:46,420
+The first process writes to the data
+that's in shared memory and
+
+14
+00:00:46,420 --> 00:00:49,090
+then it sends a ready
+message on the message queue.
+
+15
+00:00:50,250 --> 00:00:53,180
+The second process receives
+that ready message,
+
+16
+00:00:53,180 --> 00:00:56,590
+knows that it's okay to read
+the data from the shared memory.
+
+17
+00:00:56,590 --> 00:01:01,364
+And then it sends another type of
+response, an OK message back to P1.
+
+18
+00:01:01,364 --> 00:01:03,687
+Another option is to use Semaphores.
+
+19
+00:01:03,687 --> 00:01:08,633
+Semaphores are an operating system
+supported synchronisation contract and
+
+20
+00:01:08,633 --> 00:01:12,490
+a binary semaphore can have two values,
+zero one.
+
+21
+00:01:12,490 --> 00:01:13,510
+And it can be achieved,
+
+22
+00:01:13,510 --> 00:01:17,670
+the similar type of behavior like
+what is achieved with a mutex.
+
+23
+00:01:17,670 --> 00:01:22,290
+Depending on the value of semaphore,
+a process is either allowed to
+
+24
+00:01:22,290 --> 00:01:27,170
+proceed or it will be stopped at the
+semaphore and it will have to wait for
+
+25
+00:01:27,170 --> 00:01:28,620
+something to change.
+
+26
+00:01:28,620 --> 00:01:29,270
+For instance,
+
+27
+00:01:29,270 --> 00:01:33,880
+a binary semaphore with value zero and
+one, we use it in a following way.
+
+28
+00:01:33,880 --> 00:01:37,970
+If its value's zero,
+the process will be blocked.
+
+29
+00:01:37,970 --> 00:01:43,090
+And if its value is one, the semantics
+of the semaphore construct is such that
+
+30
+00:01:43,090 --> 00:01:46,860
+a process will automatically
+decrement that values.
+
+31
+00:01:46,860 --> 00:01:49,960
+It will turn it to zero,
+and it will proceed.
+
+32
+00:01:49,960 --> 00:01:54,040
+So this decrement operation is
+equivalent to obtained a lock.
+
+33
+00:01:54,040 --> 00:01:59,330
+In the instructor's notes, I'm providing
+a code example that uses shared memory
+
+34
+00:01:59,330 --> 00:02:03,590
+and message queues and
+semaphores for synchronization.
+
+35
+00:02:03,590 --> 00:02:08,419
+And the example uses the System V, or
+the System five API as a reference.
+
+36
+00:02:08,419 --> 00:02:13,490
+The system five APIs for these two
+IPC mechanisms is really somewhat
+
+37
+00:02:13,490 --> 00:02:18,400
+similar to those that we saw for shared
+memory in terms of how you create and
+
+38
+00:02:18,400 --> 00:02:21,390
+close, et cetera,
+message queues or semaphores.
+
+39
+00:02:21,390 --> 00:02:24,720
+For both of these constructs
+are also posex equivalent to APIs.,

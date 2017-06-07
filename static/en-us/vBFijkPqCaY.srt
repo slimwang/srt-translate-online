@@ -1,0 +1,71 @@
+1
+00:00:00,380 --> 00:00:02,060
+I've got the Flame view open, and
+
+2
+00:00:02,060 --> 00:00:06,540
+it's pretty apparent that some kind of
+work is being repeated over and over.
+
+3
+00:00:06,540 --> 00:00:08,980
+I'll just go ahead and
+zoom into one of these chunks.
+
+4
+00:00:08,980 --> 00:00:10,340
+With this closer inspection,
+
+5
+00:00:10,340 --> 00:00:14,790
+it becomes pretty obvious that render is
+causing InitWebGLObjects to be called.
+
+6
+00:00:14,790 --> 00:00:18,130
+At the top, you can see that the code
+ran for about 60 milliseconds,
+
+7
+00:00:18,130 --> 00:00:21,390
+which is well over the 16
+millisecond budget per frame.
+
+8
+00:00:21,390 --> 00:00:25,490
+This unfortunately means that there is
+no way this app is going to run at 60
+
+9
+00:00:25,490 --> 00:00:26,550
+frames per second.
+
+10
+00:00:26,550 --> 00:00:29,390
+Looking at the frame viewer at the top,
+you can see that these frames are made
+
+11
+00:00:29,390 --> 00:00:33,050
+up almost entirely of JavaScript,
+hence all the yellow bars.
+
+12
+00:00:33,050 --> 00:00:36,010
+This means that this code is definitely
+going to need some refactoring
+
+13
+00:00:36,010 --> 00:00:38,460
+if it's going to run at
+60 frames per second.
+
+14
+00:00:38,460 --> 00:00:42,080
+So the correct answers are,
+render as the function and, no,
+
+15
+00:00:42,080 --> 00:00:44,680
+it is not going to run
+at 60 frames per second.

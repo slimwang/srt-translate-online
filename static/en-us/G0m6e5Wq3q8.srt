@@ -1,0 +1,231 @@
+1
+00:00:00,240 --> 00:00:04,660
+Now that we have a basic understanding of how interrupts are typically handled,
+
+2
+00:00:04,660 --> 00:00:07,880
+let's look at the relationship between interrupts and threads.
+
+3
+00:00:07,880 --> 00:00:11,530
+Recall from the previous example that when an interrupt occurred there was
+
+4
+00:00:11,530 --> 00:00:13,900
+a possibility of a deadlock.
+
+5
+00:00:13,900 --> 00:00:18,910
+And this was happening because the interrupt handling routine was waiting on
+
+6
+00:00:18,910 --> 00:00:23,720
+something, was trying to lock a mutex that was already held by the thread that
+
+7
+00:00:23,720 --> 00:00:26,430
+was interrupted by that interrupt routine.
+
+8
+00:00:26,430 --> 00:00:30,880
+A similar situation could have happened for the signal handling routine.
+
+9
+00:00:30,880 --> 00:00:32,530
+So how can we solve this?
+
+10
+00:00:32,530 --> 00:00:37,092
+One way that's illustrated in the SunOS paper is to allow interrupts to
+
+11
+00:00:37,092 --> 00:00:39,490
+become full-fledged threads.
+
+12
+00:00:39,490 --> 00:00:42,890
+And that this should be happening every time they're potentially
+
+13
+00:00:42,890 --> 00:00:45,180
+performing blocking operations.
+
+14
+00:00:45,180 --> 00:00:46,110
+In this case,
+
+15
+00:00:46,110 --> 00:00:50,010
+although the interrupt handler is blocked at this particular point,
+
+16
+00:00:50,010 --> 00:00:54,860
+it has its own context, its own stack, and therefore it can remain blocked.
+
+17
+00:00:54,860 --> 00:00:55,620
+So at that point,
+
+18
+00:00:55,620 --> 00:01:00,350
+the thread scheduler can schedule the original thread back on the CPU.
+
+19
+00:01:00,350 --> 00:01:02,570
+And that one will continue executing.
+
+20
+00:01:02,570 --> 00:01:06,120
+Eventually the original thread will unlock the mutex and
+
+21
+00:01:06,120 --> 00:01:08,890
+at that point, the thread that corresponds to
+
+22
+00:01:08,890 --> 00:01:13,010
+the interrupt handling routine will be free to actually execute.
+
+23
+00:01:13,010 --> 00:01:15,790
+The way this happens looks as follows.
+
+24
+00:01:15,790 --> 00:01:16,990
+Whenever an interrupt or
+
+25
+00:01:16,990 --> 00:01:20,930
+a signal occurs, it interrupts the execution of a thread.
+
+26
+00:01:20,930 --> 00:01:26,250
+And by default, that handling routine should start executing in the context of
+
+27
+00:01:26,250 --> 00:01:30,060
+the interrupted thread using its stack and its registers.
+
+28
+00:01:30,060 --> 00:01:34,960
+If the handling routine is going to be performing synchronization operations, in
+
+29
+00:01:34,960 --> 00:01:39,820
+that case, that handler code will execute in the context of a separate thread.
+
+30
+00:01:39,820 --> 00:01:45,420
+When the locking operation is reached, if it turns out that this one blocks,
+
+31
+00:01:45,420 --> 00:01:49,650
+then the handler code and its thread will be placed in a wait queue
+
+32
+00:01:49,650 --> 00:01:54,280
+associated with the mutex, and instead the original thread will be scheduled.
+
+33
+00:01:54,280 --> 00:01:59,415
+When the unlock operation happens, we go back and we unschedule,
+
+34
+00:01:59,415 --> 00:02:04,810
+we de-queue the handler code from the queue that's associated with the mutex and
+
+35
+00:02:04,810 --> 00:02:06,490
+the handling routine can complete.
+
+36
+00:02:06,490 --> 00:02:08,130
+This sounds like it makes sense.
+
+37
+00:02:08,130 --> 00:02:12,080
+However, one concern is that the dynamic thread creation is expensive.
+
+38
+00:02:12,080 --> 00:02:16,980
+The decision that needs to be made dynamically is whether or not the handler
+
+39
+00:02:16,980 --> 00:02:22,370
+should be handled on the stack of the interrupted thread or as a real thread.
+
+40
+00:02:22,370 --> 00:02:25,670
+The rule that's described in the SunOS paper that's used
+
+41
+00:02:25,670 --> 00:02:31,450
+in the Solaris system is that if the handler routine doesn't include locks,
+
+42
+00:02:31,450 --> 00:02:33,630
+then it's definitely not going to block and
+
+43
+00:02:33,630 --> 00:02:37,590
+so it's safe to execute it on the stack of the interrupted thread.
+
+44
+00:02:37,590 --> 00:02:41,390
+However if there is a possibility of the handler to block because it
+
+45
+00:02:41,390 --> 00:02:45,100
+tries to lock mutexes, then we turn it into a real thread.
+
+46
+00:02:45,100 --> 00:02:49,270
+In order to eliminate the need to dynamically create threads,
+
+47
+00:02:49,270 --> 00:02:53,480
+whenever it's determined that a handler can potentially lock,
+
+48
+00:02:53,480 --> 00:02:57,900
+the kernel precreates and preinitializes a number of threads for
+
+49
+00:02:57,900 --> 00:03:00,900
+the various interrupt routines that it can support.
+
+50
+00:03:00,900 --> 00:03:05,020
+What this means is that the kernel will precreate the number of threads and
+
+51
+00:03:05,020 --> 00:03:07,610
+their associated thread data structures.
+
+52
+00:03:07,610 --> 00:03:11,250
+It will initialize those data structures too so that they point to
+
+53
+00:03:11,250 --> 00:03:16,090
+the appropriate place in the interrupt handling routine, so that any interrupt
+
+54
+00:03:16,090 --> 00:03:21,040
+internal data is appropriately allocated, and similar types of activities.
+
+55
+00:03:21,040 --> 00:03:24,420
+As a result, the creation of a thread is
+
+56
+00:03:24,420 --> 00:03:28,490
+removed from the fast path of the interrupt processing.
+
+57
+00:03:28,490 --> 00:03:32,540
+So, we don't pay that cost when an interrupt actually occurs, and
+
+58
+00:03:32,540 --> 00:03:35,800
+therefore the interrupt handling time can be significantly sped up.

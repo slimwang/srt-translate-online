@@ -1,0 +1,240 @@
+1
+00:00:00,500 --> 00:00:04,040
+Signing an app gives you a cryptographic
+way to associate your app
+
+2
+00:00:04,040 --> 00:00:06,350
+with a secret key that you control.
+
+3
+00:00:06,350 --> 00:00:09,320
+To sign this app,
+we need to do three things.
+
+4
+00:00:09,320 --> 00:00:11,920
+First, we need to create a keystore and
+a key.
+
+5
+00:00:11,920 --> 00:00:15,770
+Second, we need to create a signing
+config in our build.gradle file.
+
+6
+00:00:15,770 --> 00:00:18,337
+The signing config basically
+describes where to find and
+
+7
+00:00:18,337 --> 00:00:20,235
+access the keystore and key.
+
+8
+00:00:20,235 --> 00:00:23,040
+Then finally, we need to assign the
+signing configuration to a build type.
+
+9
+00:00:24,170 --> 00:00:26,760
+You can do the entire signing
+process via command line tool,
+
+10
+00:00:26,760 --> 00:00:29,910
+so don't think there's
+anything magic happening here.
+
+11
+00:00:29,910 --> 00:00:32,750
+We have here a completely
+stock android project and
+
+12
+00:00:32,750 --> 00:00:36,420
+note, that there is no
+install release task.
+
+13
+00:00:36,420 --> 00:00:39,370
+That's because we haven't assigned
+the release build type a signing
+
+14
+00:00:39,370 --> 00:00:41,860
+configuration, so
+it can't yet be installed.
+
+15
+00:00:41,860 --> 00:00:43,690
+Let's go ahead and
+generate our keystore.
+
+16
+00:00:43,690 --> 00:00:47,470
+We can do that by navigating to
+Build > Generate > Signed APK,
+
+17
+00:00:47,470 --> 00:00:49,010
+up in the toolbar.
+
+18
+00:00:49,010 --> 00:00:51,550
+We'll say yes, we want to generate
+the signed APK of the app module.
+
+19
+00:00:51,550 --> 00:00:54,025
+And now we'll create a new keystore.
+
+20
+00:00:55,420 --> 00:00:58,253
+We can choose to put the keystore in
+our project directory just by clicking
+
+21
+00:00:58,253 --> 00:00:58,810
+this button.
+
+22
+00:00:59,910 --> 00:01:03,810
+So we're creating a keystore called
+keystore in the root of our project.
+
+23
+00:01:03,810 --> 00:01:05,960
+We're giving it a password, password.
+
+24
+00:01:05,960 --> 00:01:09,670
+Then inside the keystore we're
+creating a key with the alias udacity,
+
+25
+00:01:09,670 --> 00:01:11,800
+also giving it the password, password.
+
+26
+00:01:11,800 --> 00:01:15,400
+Then we're specifying some demographic
+information in our certificate.
+
+27
+00:01:15,400 --> 00:01:17,368
+If we just want to create
+a one-off signed APK,
+
+28
+00:01:17,368 --> 00:01:19,740
+we can continue on
+through this dialogue.
+
+29
+00:01:19,740 --> 00:01:22,490
+However, we'd really like to
+configure automatic signing.
+
+30
+00:01:22,490 --> 00:01:25,680
+So we'll go ahead and use a different
+wizard to get that setup.
+
+31
+00:01:25,680 --> 00:01:29,480
+To configure automatic signing, we'll
+right-click on the app directory and
+
+32
+00:01:29,480 --> 00:01:31,200
+select Open Module Settings.
+
+33
+00:01:32,220 --> 00:01:36,630
+Then in the Signing tab, we can
+create a new signing configuration.
+
+34
+00:01:36,630 --> 00:01:39,210
+Go ahead and enter in
+the information about the key alias,
+
+35
+00:01:39,210 --> 00:01:41,870
+the keystore locations,
+and the passwords.
+
+36
+00:01:41,870 --> 00:01:46,340
+Now we can open up the Build Types tab,
+select our release build type, and
+
+37
+00:01:46,340 --> 00:01:48,411
+assign the config, Signing Config.
+
+38
+00:01:49,430 --> 00:01:52,370
+Now you'll not that that
+wizard actually added some
+
+39
+00:01:52,370 --> 00:01:54,580
+configuration to our build.gradle file.
+
+40
+00:01:54,580 --> 00:01:56,350
+We had the sign and configs block and
+
+41
+00:01:56,350 --> 00:02:00,530
+then the config, Signing Config
+with that information we entered.
+
+42
+00:02:00,530 --> 00:02:02,780
+Also, down in the build types block,
+
+43
+00:02:02,780 --> 00:02:06,440
+our release build type now has
+a signing config assigned to it.
+
+44
+00:02:06,440 --> 00:02:08,910
+And after we sync our gradle files,
+
+45
+00:02:08,910 --> 00:02:11,410
+you'll note we now have
+an install release task.
+
+46
+00:02:12,410 --> 00:02:15,420
+Note that the store file field
+is using an absolute path,
+
+47
+00:02:15,420 --> 00:02:17,360
+which isn't very portable.
+
+48
+00:02:17,360 --> 00:02:20,570
+There are various issues you might want
+to consider regarding the security of
+
+49
+00:02:20,570 --> 00:02:23,950
+checking your keystore and passwords
+in the version control, but the most
+
+50
+00:02:23,950 --> 00:02:27,680
+expedient thing to do is use groovy
+string interpolation and the rootdir
+
+51
+00:02:27,680 --> 00:02:31,570
+property on the product object to
+make this a relative path instead.

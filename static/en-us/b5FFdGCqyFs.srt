@@ -1,0 +1,300 @@
+﻿1
+00:00:00,880 --> 00:00:04,370
+The first step in implementing photo
+messages is to handle uploading
+
+2
+00:00:04,370 --> 00:00:05,730
+photos to Firebase storage.
+
+3
+00:00:06,980 --> 00:00:09,000
+Just like we implemented the code for
+sending and
+
+4
+00:00:09,000 --> 00:00:13,339
+receiving text messages, we'll start
+by configuring the Firebase storage.
+
+5
+00:00:14,740 --> 00:00:17,480
+We'll do this by adding a call
+to configure storage in
+
+6
+00:00:17,480 --> 00:00:20,785
+the SC view controller's signed
+in status function, and we'll
+
+7
+00:00:20,785 --> 00:00:24,638
+want to add that call in the isSignedIn
+block that we have highlighted here.
+
+8
+00:00:25,940 --> 00:00:27,070
+And here we've added the call.
+
+9
+00:00:28,269 --> 00:00:31,539
+The configure storage will look similar
+to the configure database function.
+
+10
+00:00:33,149 --> 00:00:36,229
+We'll create a reference to
+the location of our Firebase storage.
+
+11
+00:00:37,564 --> 00:00:41,204
+This line of code is surprisingly simple
+because of the Google service info P
+
+12
+00:00:41,204 --> 00:00:43,655
+list file that we added to our project.
+
+13
+00:00:43,655 --> 00:00:47,285
+That P list contains all the information
+necessary for this line of code to
+
+14
+00:00:47,284 --> 00:00:50,264
+determine the location of our storage
+and create a reference to it.
+
+15
+00:00:52,240 --> 00:00:54,380
+And now that we have a reference
+we can use it to add and
+
+16
+00:00:54,380 --> 00:00:56,000
+retrieve photos from storage.
+
+17
+00:00:56,000 --> 00:00:58,734
+[BLANK_AUDIO]
+
+18
+00:00:58,734 --> 00:01:01,869
+The logical place for us to handle
+adding photos to storage is when
+
+19
+00:01:01,869 --> 00:01:04,381
+an ImagePickerView has
+finished selecting media.
+
+20
+00:01:04,382 --> 00:01:07,582
+If we scroll down in
+the FCViewController Swift file you'll
+
+21
+00:01:07,581 --> 00:01:10,906
+find an extension to
+the FCViewController that's focusing on
+
+22
+00:01:10,906 --> 00:01:15,689
+implementing the behavior after an image
+picker has finished selecting media.
+
+23
+00:01:15,689 --> 00:01:16,349
+And here it is.
+
+24
+00:01:17,349 --> 00:01:18,962
+Assuming the image is selected,
+
+25
+00:01:18,962 --> 00:01:22,199
+we store the data about that image
+in a constant called photoData.
+
+26
+00:01:22,200 --> 00:01:27,810
+And we use the UI JPEG
+representation function to do this.
+
+27
+00:01:27,810 --> 00:01:32,240
+This function transforms the UI image
+into JPEG data which is what we want for
+
+28
+00:01:32,239 --> 00:01:32,670
+storage.
+
+29
+00:01:34,349 --> 00:01:36,964
+Then, we call send photo message and
+pass the photoData.
+
+30
+00:01:38,579 --> 00:01:40,969
+Finally, we dismiss
+the image picker controller.
+
+31
+00:01:42,150 --> 00:01:45,670
+We also have this function for handling
+if the user cancels out of the UI image
+
+32
+00:01:45,670 --> 00:01:47,810
+picker controller instead
+of selecting a photo.
+
+33
+00:01:49,079 --> 00:01:50,859
+And here we also just
+dismissed the view.
+
+34
+00:01:53,159 --> 00:01:57,789
+So once the image is chosen, we pass the
+data to the sendPhotoMessage function.
+
+35
+00:01:57,790 --> 00:01:58,920
+Let's dive into that function..
+
+36
+00:02:00,500 --> 00:02:01,579
+Right now, it's empty, but
+
+37
+00:02:01,579 --> 00:02:04,019
+what we want to do is to
+save our image to storage.
+
+38
+00:02:05,340 --> 00:02:08,629
+We'll start by building a path using
+the folder name, chat_photos and
+
+39
+00:02:08,629 --> 00:02:10,508
+then the user's id and a timestamp.
+
+40
+00:02:10,508 --> 00:02:12,000
+[BLANK_AUDIO]
+
+41
+00:02:12,000 --> 00:02:16,981
+Then, we can use Firebase Storage
+metadata to set the content type for
+
+42
+00:02:16,981 --> 00:02:18,933
+the image to image/jpeg.
+
+43
+00:02:21,000 --> 00:02:24,270
+Finally, we create a child node
+to hold the image path and
+
+44
+00:02:24,270 --> 00:02:28,450
+add the photo to storage using the
+photoData and metadata as parameters.
+
+45
+00:02:29,610 --> 00:02:31,930
+This writes the photo
+to Firebase Storage.
+
+46
+00:02:33,479 --> 00:02:36,169
+But if we want the photo message
+to show up in the table view,
+
+47
+00:02:36,169 --> 00:02:39,419
+we also have to make sure to send
+the image URL to the database.
+
+48
+00:02:41,240 --> 00:02:42,084
+Time to test our progress.
+
+49
+00:02:42,084 --> 00:02:45,157
+[BLANK_AUDIO]
+
+50
+00:02:45,157 --> 00:02:48,069
+I'm going to tap on the camera,
+and I'll select this photo.
+
+51
+00:02:48,068 --> 00:02:51,849
+But our photo doesn't
+show up in the app.
+
+52
+00:02:51,849 --> 00:02:52,670
+Well, that's because we
+
+53
+00:02:52,670 --> 00:02:54,659
+haven't added that functionality
+to the table view just yet.
+
+54
+00:02:54,659 --> 00:02:58,180
+It only knows how to
+display messages with text.
+
+55
+00:03:00,129 --> 00:03:03,669
+But we can go back to Firebase console
+to see if the photo message appeared in
+
+56
+00:03:03,669 --> 00:03:05,000
+storage.
+
+57
+00:03:05,000 --> 00:03:06,479
+Yep, here it is.
+
+58
+00:03:06,479 --> 00:03:08,549
+Right now it's sort of like
+a message in a bottle.
+
+59
+00:03:08,550 --> 00:03:11,469
+We send it out but it's just floating,
+waiting to be received.
+
+60
+00:03:13,310 --> 00:03:15,360
+We need to turn this photo into
+a message that can be read in the app.
+
+61
+00:03:15,360 --> 00:03:19,834
+And if we look in the database we
+can see that this image has been
+
+62
+00:03:19,834 --> 00:03:22,439
+added with the key image URL.
+
+63
+00:03:22,439 --> 00:03:24,849
+Now, we just need to figure
+out a way to display it.
+
+64
+00:03:24,849 --> 00:03:25,769
+Let's tackle that next.
+

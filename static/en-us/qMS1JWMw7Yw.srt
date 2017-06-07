@@ -1,0 +1,266 @@
+1
+00:00:00,090 --> 00:00:05,743
+The first system has
+the parameterization x equals
+
+2
+00:00:05,743 --> 00:00:11,676
+negative 1.346- t, y = t and z = 0.585.
+
+3
+00:00:11,676 --> 00:00:16,874
+The second system has
+the parameterization
+
+4
+00:00:16,874 --> 00:00:21,932
+x = negative 0.301- 0.091t,
+
+5
+00:00:21,932 --> 00:00:28,263
+y = negative 0.492 plus 0.509T and
+z = t.
+
+6
+00:00:28,263 --> 00:00:31,510
+The third system has a two
+parameter parametrization.
+
+7
+00:00:31,510 --> 00:00:38,319
+X = negative 10.647 minus 1.882t
+
+8
+00:00:38,319 --> 00:00:44,030
++ 10.016s, y = t and z = s.
+
+9
+00:00:44,030 --> 00:00:46,510
+And here's my code for
+solving the problem.
+
+10
+00:00:46,510 --> 00:00:50,720
+I still use complete solution to
+wrap my Gaussian elimination method.
+
+11
+00:00:50,720 --> 00:00:54,935
+Which I've now renamed to
+do_gaussian_elimination_and_parametrize-
+
+12
+00:00:54,935 --> 00:00:58,800
+_solution to reflect the fact that
+it now parametrizes a solution.
+
+13
+00:00:58,800 --> 00:01:01,900
+I no longer check for infinitely
+many solutions as an exception
+
+14
+00:01:01,900 --> 00:01:04,569
+since that's what parameterizing
+is supposed to handle.
+
+15
+00:01:04,569 --> 00:01:07,690
+But if a no solutions
+exception is raised,
+
+16
+00:01:07,690 --> 00:01:09,640
+it is still handled at this level.
+
+17
+00:01:09,640 --> 00:01:14,180
+In the Gaussian elimination method,
+I again first compute the rref of
+
+18
+00:01:14,180 --> 00:01:17,800
+the system and then I check for
+contradictory equations.
+
+19
+00:01:17,800 --> 00:01:20,010
+Then I use two methods.
+
+20
+00:01:20,010 --> 00:01:24,610
+One to extract the direction vectors and
+one to extract a base point for
+
+21
+00:01:24,610 --> 00:01:26,010
+the parametrization.
+
+22
+00:01:26,010 --> 00:01:30,240
+I then create and return
+the appropriate parametrization object.
+
+23
+00:01:30,240 --> 00:01:34,620
+In my case, I still use this object
+even if there is a unique solution.
+
+24
+00:01:34,620 --> 00:01:39,170
+In this case, the variable direction
+vectors would just equal an empty list.
+
+25
+00:01:39,170 --> 00:01:43,000
+In the vector extraction method,
+I determine which variables
+
+26
+00:01:43,000 --> 00:01:46,860
+are free variables by seeing
+which aren't pivot variables.
+
+27
+00:01:46,860 --> 00:01:51,290
+And then for each free variable,
+I construct a direction_vector.
+
+28
+00:01:51,290 --> 00:01:55,110
+The coordinate corresponding to
+the free variable will be one
+
+29
+00:01:55,110 --> 00:01:58,180
+to reflect our setting
+the variable equal to itself.
+
+30
+00:01:58,180 --> 00:02:02,970
+For example, z equals z or
+y equals y in the parametrization.
+
+31
+00:02:02,970 --> 00:02:07,950
+Then for each equation in the system,
+I determine the pivot variable,
+
+32
+00:02:07,950 --> 00:02:11,480
+find the coefficient of the free
+variable in that equation.
+
+33
+00:02:11,480 --> 00:02:15,410
+And then I set the coordinate
+corresponding to the pivot variable
+
+34
+00:02:15,410 --> 00:02:18,310
+equal to the negative
+of that coefficient.
+
+35
+00:02:18,310 --> 00:02:21,170
+Since we have to subtract the free
+variables from both sides of
+
+36
+00:02:21,170 --> 00:02:23,870
+the equation when we set
+up our parameterizations.
+
+37
+00:02:23,870 --> 00:02:29,650
+For example, in x + y + z = 1,
+we set x equal to 1- y,
+
+38
+00:02:29,650 --> 00:02:34,930
+one of the free variables and minus z,
+another one of the free variables.
+
+39
+00:02:34,930 --> 00:02:38,010
+I do something similar for
+computing the base point.
+
+40
+00:02:38,010 --> 00:02:42,940
+One observation is that only coordinates
+corresponding to pivot variables
+
+41
+00:02:42,940 --> 00:02:44,410
+can be non-zero.
+
+42
+00:02:44,410 --> 00:02:49,110
+Looking again at our example, there are
+no constant terms in the equations for
+
+43
+00:02:49,110 --> 00:02:50,560
+free variables.
+
+44
+00:02:50,560 --> 00:02:53,670
+So we can just set all
+the coordinates initially to zero and
+
+45
+00:02:53,670 --> 00:02:56,170
+then just loop through
+the pivot variables.
+
+46
+00:02:56,170 --> 00:03:00,260
+Since the constant term is already on
+the right-hand side of each equation and
+
+47
+00:03:00,260 --> 00:03:04,550
+the variables are on the left-hand side,
+we don't need to do any subtraction.
+
+48
+00:03:04,550 --> 00:03:06,198
+And now the moment of truth.
+
+49
+00:03:06,198 --> 00:03:07,820
+If I run the code down here,
+
+50
+00:03:07,820 --> 00:03:11,510
+we can see the nice output of
+the parametrized solution sets.
+
+51
+00:03:11,510 --> 00:03:13,580
+The first and second systems,
+
+52
+00:03:13,580 --> 00:03:18,010
+since they only have one parameter
+in their solution set will be lines.
+
+53
+00:03:18,010 --> 00:03:22,440
+However, the third system solution since
+it has two parameters will be a plane.
+
+54
+00:03:22,440 --> 00:03:25,720
+This is because all the equations
+in the system actually defined at
+
+55
+00:03:25,720 --> 00:03:26,840
+the same plane.
+
+56
+00:03:26,840 --> 00:03:29,607
+So their intersection is a plane
+which is a two-dimensional object.

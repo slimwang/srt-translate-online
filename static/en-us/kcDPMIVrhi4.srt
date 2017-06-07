@@ -1,0 +1,321 @@
+﻿1
+00:00:00,690 --> 00:00:04,240
+Now that we know a little bit
+about data persistence on Android,
+
+2
+00:00:04,240 --> 00:00:09,000
+it's clear that shared preferences is
+a promising option for saving data.
+
+3
+00:00:09,000 --> 00:00:12,779
+This is because shared preferences
+saves data between app restarts.
+
+4
+00:00:12,779 --> 00:00:17,070
+And even when something drastic happens,
+like the device loses power.
+
+5
+00:00:17,070 --> 00:00:18,179
+We can save information,
+
+6
+00:00:18,179 --> 00:00:22,079
+like my shapes should be RED,
+in primitive key value pairs.
+
+7
+00:00:22,079 --> 00:00:26,500
+The key being something like shape_color
+and the value being a string like RED.
+
+8
+00:00:27,519 --> 00:00:32,219
+In fact, shared preferences were built
+with saving app preferences in mind.
+
+9
+00:00:32,219 --> 00:00:35,109
+That's why they're called
+shared preferences.
+
+10
+00:00:35,109 --> 00:00:38,299
+Because shared preferences
+are usually used for app settings,
+
+11
+00:00:38,299 --> 00:00:41,439
+they work hand-in-hand with another
+part of the Android framework.
+
+12
+00:00:41,439 --> 00:00:45,070
+Which was meant for creating a user
+interface for settings activities.
+
+13
+00:00:45,070 --> 00:00:47,890
+This framework class is
+called PreferenceFragment.
+
+14
+00:00:47,890 --> 00:00:50,539
+Before I get into how
+PreferenceFragment works,
+
+15
+00:00:50,539 --> 00:00:53,689
+I want to talk a little bit about
+what a fragment is in general.
+
+16
+00:00:53,689 --> 00:00:56,399
+A fragment is a class that
+represents a modular and
+
+17
+00:00:56,399 --> 00:00:58,390
+reusable piece of an activity.
+
+18
+00:00:58,390 --> 00:01:02,480
+For example, sometimes in your app,
+you might want the ability to split up
+
+19
+00:01:02,479 --> 00:01:05,649
+portions of the activity
+UI into fragments.
+
+20
+00:01:05,650 --> 00:01:09,870
+This is so that you can reuse those
+portions of the UI on different screens.
+
+21
+00:01:09,870 --> 00:01:13,200
+A common use case for this is if
+you want to provide a phone and
+
+22
+00:01:13,200 --> 00:01:14,820
+a tablet layout for your app.
+
+23
+00:01:14,819 --> 00:01:16,779
+For example,
+you might have an app which,
+
+24
+00:01:16,780 --> 00:01:19,849
+on the phone,
+shows a list of book recommendations.
+
+25
+00:01:19,849 --> 00:01:21,484
+When you click on a recommendation,
+
+26
+00:01:21,484 --> 00:01:23,656
+it then shows you a detail
+screen about the book.
+
+27
+00:01:23,656 --> 00:01:26,978
+In the tablet version though,
+because you have quite a but more room,
+
+28
+00:01:26,977 --> 00:01:30,744
+you might want to actually have both
+of these UIs on the same screen.
+
+29
+00:01:30,745 --> 00:01:32,715
+You can only have one activity, though.
+
+30
+00:01:32,715 --> 00:01:36,745
+So instead of duplicating the code,
+you can put the list in a fragment and
+
+31
+00:01:36,745 --> 00:01:38,355
+the detail view in a fragment.
+
+32
+00:01:38,355 --> 00:01:41,035
+Then you could reuse
+both of these fragments.
+
+33
+00:01:41,034 --> 00:01:43,994
+In the app for the phone, you'd show
+them each on a separate screen.
+
+34
+00:01:43,995 --> 00:01:47,094
+And in the tablet version,
+you'd show the fragments side-by-side.
+
+35
+00:01:47,094 --> 00:01:50,459
+Now looking back at setting screens,
+you'll usually have an activity,
+
+36
+00:01:50,459 --> 00:01:54,991
+that can contain one or more subclasses
+of fragments, called PreferenceFragment.
+
+37
+00:01:54,992 --> 00:01:57,280
+The PreferenceFragment subclass
+is specifically built for
+
+38
+00:01:57,280 --> 00:01:58,689
+displaying preferences.
+
+39
+00:01:58,689 --> 00:01:59,625
+There's also a class called
+
+40
+00:01:59,625 --> 00:02:02,474
+PreferenceActivity which I don't
+want you to confuse things with.
+
+41
+00:02:02,474 --> 00:02:03,390
+Since Honeycomb,
+
+42
+00:02:03,390 --> 00:02:06,829
+it's been deprecated in favor of
+the more flexible fragment version.
+
+43
+00:02:06,829 --> 00:02:08,907
+Since we want to stick to best
+practices in this course,
+
+44
+00:02:08,907 --> 00:02:11,039
+we'll be using a PreferenceFragment.
+
+45
+00:02:11,038 --> 00:02:14,989
+PreferenceFragments populate themselves
+with preferences defined in XML.
+
+46
+00:02:14,990 --> 00:02:18,540
+This is much like how our activity
+layouts are also created in XML.
+
+47
+00:02:18,539 --> 00:02:21,870
+The XML is used to generate
+UI widgets in the fragment.
+
+48
+00:02:21,870 --> 00:02:25,770
+When the user changes these values in
+the widgets, this automagically updates
+
+49
+00:02:25,770 --> 00:02:29,460
+associated key value pairs in
+the shared preferences file.
+
+50
+00:02:29,460 --> 00:02:32,030
+Then when you need to actually
+know the value of the preference,
+
+51
+00:02:32,030 --> 00:02:35,189
+you can then read from the shared
+preferences file in your app.
+
+52
+00:02:35,189 --> 00:02:39,710
+To start, we're going to create a new
+activity called SettingsActivity.
+
+53
+00:02:39,710 --> 00:02:41,969
+And we'll open it when you
+click on a menu item for
+
+54
+00:02:41,969 --> 00:02:43,840
+the main visualizer activity.
+
+55
+00:02:43,840 --> 00:02:46,890
+Second, we'll add a PreferenceFragment
+to that settings activity.
+
+56
+00:02:46,889 --> 00:02:48,389
+Along with the PreferenceFragment,
+
+57
+00:02:48,389 --> 00:02:52,419
+we'll create an XML file that defines
+what preferences are in the fragment.
+
+58
+00:02:52,419 --> 00:02:55,383
+We'll pick what the preference names
+are, the keys that are used in
+
+59
+00:02:55,383 --> 00:02:58,549
+the shared preferences file,
+and their default values.
+
+60
+00:02:58,550 --> 00:03:02,990
+Then third, we'll talk on what happens
+after your user sets the preference.
+
+61
+00:03:02,990 --> 00:03:05,556
+You will see how to load up preference
+from that file when your app first
+
+62
+00:03:05,556 --> 00:03:06,270
+opens.
+
+63
+00:03:06,270 --> 00:03:09,570
+And how you can be triggered whenever
+that preference actually changes.
+
+64
+00:03:09,569 --> 00:03:12,919
+Finally, we'll spruce our
+PreferenceFragment with a UI component
+
+65
+00:03:12,919 --> 00:03:14,739
+known as the preference summary,
+
+66
+00:03:14,740 --> 00:03:16,800
+which shows the current
+state of the preference.
+
+67
+00:03:16,800 --> 00:03:19,010
+Okay, those are the four steps,
+so let's get started.
+

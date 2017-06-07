@@ -1,0 +1,36 @@
+1
+00:00:00,510 --> 00:00:03,830
+The solution is absolutely not.
+
+2
+00:00:03,830 --> 00:00:05,658
+We should not use dispatch_sync here,
+
+3
+00:00:05,658 --> 00:00:08,760
+because we don't know what
+the completion closure will do.
+
+4
+00:00:08,760 --> 00:00:09,990
+What if it blocks?
+
+5
+00:00:09,990 --> 00:00:13,590
+Then the whole call to,
+with BigImage will stall.
+
+6
+00:00:13,590 --> 00:00:16,090
+Which it wouldn't if
+we use dispatch_async.
+
+7
+00:00:16,090 --> 00:00:19,770
+The bottom line is,
+always use dispatch_async,
+
+8
+00:00:19,770 --> 00:00:21,920
+unless you know very
+well what you're doing.

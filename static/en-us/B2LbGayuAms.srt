@@ -1,0 +1,599 @@
+1
+00:00:00,210 --> 00:00:02,240
+So let's talk about, how to enable a mobile
+
+2
+00:00:02,240 --> 00:00:05,320
+applications, to access the end point functions that you've defined,
+
+3
+00:00:05,320 --> 00:00:08,690
+in your Conference Central application. So, here's the Android
+
+4
+00:00:08,690 --> 00:00:11,740
+app that we have, that will access the Conference Central
+
+5
+00:00:11,740 --> 00:00:14,640
+app, running on Udacity. So you've already learned about
+
+6
+00:00:14,640 --> 00:00:18,150
+setting the client Ids, to specify the clients that are
+
+7
+00:00:18,150 --> 00:00:22,010
+allowed to access your backend API. Well, to allow
+
+8
+00:00:22,010 --> 00:00:25,210
+a mobile application to access the backend API. You have
+
+9
+00:00:25,210 --> 00:00:30,255
+to add the client ID for your mobile app as well. So here we're looking at the
+
+10
+00:00:30,255 --> 00:00:34,200
+@api definition at api definition in the conference
+
+11
+00:00:34,200 --> 00:00:38,620
+api class. And here we've specified the clientIDs. We've
+
+12
+00:00:38,620 --> 00:00:40,962
+got the web client ID. And here you
+
+13
+00:00:40,962 --> 00:00:45,460
+see we've specified the Android client ID. And if
+
+14
+00:00:45,460 --> 00:00:50,910
+we had an iOS ID, we would specify that here as well. We have the API explorer
+
+15
+00:00:50,910 --> 00:00:55,024
+client ID. And we've been using the Constants.Java
+
+16
+00:00:55,024 --> 00:00:57,600
+class to hold our client IDs, as well as
+
+17
+00:00:57,600 --> 00:01:01,280
+other constants. So this is my client ID, my
+
+18
+00:01:01,280 --> 00:01:04,340
+web client ID. And then here is where I
+
+19
+00:01:04,340 --> 00:01:08,900
+would put the Android client ID when I have it. So one other thing that you need
+
+20
+00:01:08,900 --> 00:01:11,700
+to set for Android apps, is you need to
+
+21
+00:01:11,700 --> 00:01:16,020
+specify the Android audience. So the client IDs list
+
+22
+00:01:16,020 --> 00:01:19,550
+protects the backend API list from unauthorized clients.
+
+23
+00:01:19,550 --> 00:01:22,070
+But further protection is needed to protect the client,
+
+24
+00:01:22,070 --> 00:01:24,110
+so that their [INAUDIBLE] can work only for
+
+25
+00:01:24,110 --> 00:01:27,630
+the intended backend API. And for Android clients we
+
+26
+00:01:27,630 --> 00:01:31,190
+use the audiences attribute to specify which backend
+
+27
+00:01:31,190 --> 00:01:33,720
+API's they can connect to. So the value of
+
+28
+00:01:33,720 --> 00:01:37,660
+the audience's attribute needs to be, the web client
+
+29
+00:01:37,660 --> 00:01:41,040
+ID of the apps that the Android app will
+
+30
+00:01:41,040 --> 00:01:45,800
+connect to. So, looking again at constance.java, in this case
+
+31
+00:01:45,800 --> 00:01:49,760
+we set the android audience to be the Web Client
+
+32
+00:01:49,760 --> 00:01:53,796
+ID of this conference central application. So, when you create
+
+33
+00:01:53,796 --> 00:01:56,247
+your Android Client ID, you're going to need to know
+
+34
+00:01:56,247 --> 00:01:58,193
+a couple of things. You got to need to know
+
+35
+00:01:58,193 --> 00:02:01,007
+the package name of the classes in your Android application
+
+36
+00:02:01,007 --> 00:02:03,087
+and you're also going to need to have to show
+
+37
+00:02:03,087 --> 00:02:06,340
+one fingerprint of your application. When you build your Android
+
+38
+00:02:06,340 --> 00:02:09,410
+app in debug mode, the STK automatically creates the
+
+39
+00:02:09,410 --> 00:02:12,550
+debug key inside the application with it. You can also
+
+40
+00:02:12,550 --> 00:02:15,010
+generate a new key. To do this, you'll need
+
+41
+00:02:15,010 --> 00:02:17,210
+to specify the key's full name and the key store
+
+42
+00:02:17,210 --> 00:02:19,250
+alias. So I'm going to go ahead and generate
+
+43
+00:02:19,250 --> 00:02:23,200
+a new key. So I call the keytool passings dash
+
+44
+00:02:23,200 --> 00:02:27,330
+genkey and then I specify the keystore name, which
+
+45
+00:02:27,330 --> 00:02:31,720
+I've very kindly called keystore dash name.keystore. Need to specify
+
+46
+00:02:31,720 --> 00:02:35,040
+an alias for the keystore, which I've cunningly named keystore dash
+
+47
+00:02:35,040 --> 00:02:38,560
+alias. Then I'm going to need to enter a password. And you
+
+48
+00:02:38,560 --> 00:02:42,090
+can pick whatever password you want, just remember it. Then it's
+
+49
+00:02:42,090 --> 00:02:46,100
+going to ask some questions. Go ahead and answer the questions. Then
+
+50
+00:02:46,100 --> 00:02:48,420
+at the end, make sure you say yes to actually go
+
+51
+00:02:48,420 --> 00:02:50,710
+ahead and do it. And then it's going to ask you to
+
+52
+00:02:50,710 --> 00:02:53,300
+enter the password for the keystore alias. And if you want
+
+53
+00:02:53,300 --> 00:02:56,530
+to use the same password as you just entered before, then just
+
+54
+00:02:56,530 --> 00:02:59,700
+press Return. Now I've created my new key. To
+
+55
+00:02:59,700 --> 00:03:02,130
+create the Android client ID, I'm actually going to need
+
+56
+00:03:02,130 --> 00:03:05,000
+the SHA1 fingerprint of the new key. And to
+
+57
+00:03:05,000 --> 00:03:07,890
+get that, I'm going to call keytool, and you specify
+
+58
+00:03:07,890 --> 00:03:12,250
+the ex, -exportcert. You need to provide the alias.
+
+59
+00:03:12,250 --> 00:03:15,370
+My case it was just keystore-alias. And the keystore name
+
+60
+00:03:15,370 --> 00:03:19,100
+under my case it was just keystore-name.keystore. So now
+
+61
+00:03:19,100 --> 00:03:21,710
+I need to enter the password. And you see here
+
+62
+00:03:21,710 --> 00:03:25,240
+it gives us the certificate fingerprint. And here is is
+
+63
+00:03:25,240 --> 00:03:28,310
+actually the SHA1 value. So I'm going to need to copy
+
+64
+00:03:28,310 --> 00:03:32,100
+this whole thing here. You don't include the SHA1 colon,
+
+65
+00:03:32,100 --> 00:03:35,710
+but you include all the value of the SHA1. You're
+
+66
+00:03:35,710 --> 00:03:38,220
+going to need to copy that. You'll need that when you
+
+67
+00:03:38,220 --> 00:03:40,960
+create your Android client id. Okay, so now I'm going to
+
+68
+00:03:40,960 --> 00:03:44,230
+create my Android client id. And just as you did
+
+69
+00:03:44,230 --> 00:03:46,820
+with your client id for web application, you create your
+
+70
+00:03:46,820 --> 00:03:49,735
+Android client id in the developer's console over at
+
+71
+00:03:49,735 --> 00:03:54,340
+console.developers.google.com. So to do that, you choose the Credentials
+
+72
+00:03:54,340 --> 00:03:56,750
+screen and the app is in auth. Choose create
+
+73
+00:03:56,750 --> 00:03:59,460
+new client ID. And then this time, make sure
+
+74
+00:03:59,460 --> 00:04:04,160
+you choose install application. Select Android. Then you're going to
+
+75
+00:04:04,160 --> 00:04:06,500
+need to provide the package name, and this is
+
+76
+00:04:06,500 --> 00:04:08,440
+the package name of the classes in your android
+
+77
+00:04:08,440 --> 00:04:09,710
+app. And in our
+
+78
+00:04:09,710 --> 00:04:14,320
+case the package is com.google.devrel.training.conference.android.
+
+79
+00:04:14,320 --> 00:04:16,880
+going to need to copy over the shell one finger print.
+
+80
+00:04:16,880 --> 00:04:20,310
+Hope I got that right, you can leave deep linking disabled
+
+81
+00:04:20,310 --> 00:04:22,980
+and you create your client ID. Okay now you say,
+
+82
+00:04:22,980 --> 00:04:26,010
+I have the client ID for web application and the client
+
+83
+00:04:26,010 --> 00:04:28,730
+ID for android application and I am going to need to
+
+84
+00:04:28,730 --> 00:04:33,230
+take this client ID here and copy it. And over here,
+
+85
+00:04:33,230 --> 00:04:37,030
+in my source code, I need to enter the android client
+
+86
+00:04:37,030 --> 00:04:39,340
+ID. So one more thing you're going to need to do
+
+87
+00:04:39,340 --> 00:04:42,260
+is to generate the client library containing your endpoints
+
+88
+00:04:42,260 --> 00:04:45,750
+API. Once you've got the client library, your mobile app
+
+89
+00:04:45,750 --> 00:04:47,330
+will be able to include it so that it
+
+90
+00:04:47,330 --> 00:04:50,930
+can make calls to the endpoints API. For Android apps
+
+91
+00:04:50,930 --> 00:04:54,080
+generating the client library is very straight forward. In
+
+92
+00:04:54,080 --> 00:04:56,943
+the terminal window go to the directory containing your projects
+
+93
+00:04:56,943 --> 00:05:02,590
+pom.xml file. Here's my pom.xml. Then you need to run the command to get the
+
+94
+00:05:02,590 --> 00:05:10,728
+client live. MVN appgengine:endpoints_get_client_lib.
+
+95
+00:05:10,728 --> 00:05:15,660
+Now the process runs. âKay. Build success. I
+
+96
+00:05:15,660 --> 00:05:18,320
+always like the sound of that. Now whenever
+
+97
+00:05:18,320 --> 00:05:20,280
+you do a build the results go into
+
+98
+00:05:20,280 --> 00:05:24,300
+a target directory. So hereâs our target directory.
+
+99
+00:05:24,300 --> 00:05:29,960
+Letâs go into it. And here you see the endpoints dash client dash libs. So go
+
+100
+00:05:29,960 --> 00:05:33,390
+into endpoints dash client dash libs and youâll
+
+101
+00:05:33,390 --> 00:05:36,230
+see a folder with the name of your project.
+
+102
+00:05:36,230 --> 00:05:38,990
+Go into that folder. Now go ahead and
+
+103
+00:05:38,990 --> 00:05:41,610
+invoke maven to build the client library. This is
+
+104
+00:05:41,610 --> 00:05:46,470
+very simple. You just do MVN. Install. Now it's
+
+105
+00:05:46,470 --> 00:05:50,900
+building. Now it's done. This builds the required class
+
+106
+00:05:50,900 --> 00:05:53,310
+files and it creates the jar files that you're
+
+107
+00:05:53,310 --> 00:05:55,130
+going to need to add your client project. So now
+
+108
+00:05:55,130 --> 00:05:58,020
+we're done and we've got the target folder. And
+
+109
+00:05:58,020 --> 00:06:01,500
+you see, in the target folder we have this
+
+110
+00:06:01,500 --> 00:06:03,910
+snapshot jar. So this is the name of the
+
+111
+00:06:03,910 --> 00:06:08,670
+project. This is the version. Snapshot.jar. This is the
+
+112
+00:06:08,670 --> 00:06:12,150
+client library jar. You'll need to add this client
+
+113
+00:06:12,150 --> 00:06:15,510
+library jar to your Android app. The process of adding
+
+114
+00:06:15,510 --> 00:06:17,910
+the client library jar to your Android app and
+
+115
+00:06:17,910 --> 00:06:20,620
+also how to call the endpoints API inside your
+
+116
+00:06:20,620 --> 00:06:24,550
+Android client. It's very documented in the developer docs.
+
+117
+00:06:24,550 --> 00:06:26,680
+So we have, it explains how to generate the client
+
+118
+00:06:26,680 --> 00:06:29,990
+library, actually we already did that. So the docs explain how
+
+119
+00:06:29,990 --> 00:06:32,550
+to add the client library to the project. There's a couple
+
+120
+00:06:32,550 --> 00:06:34,050
+other things you need to do, you need to create a
+
+121
+00:06:34,050 --> 00:06:37,590
+service object and then there's a discussion of how to call
+
+122
+00:06:37,590 --> 00:06:40,500
+the backend API. And as well as the information in the
+
+123
+00:06:40,500 --> 00:06:43,780
+developer docs, so we've written a document that takes you through
+
+124
+00:06:43,780 --> 00:06:47,030
+the steps that you're going to need to do to get
+
+125
+00:06:47,030 --> 00:06:50,710
+an Android application to use the conference central end points API.
+
+126
+00:06:51,710 --> 00:06:53,230
+You'll also need to remember that if you do
+
+127
+00:06:53,230 --> 00:06:56,710
+change your backend API, you're going to regenerate your client
+
+128
+00:06:56,710 --> 00:07:00,780
+libraries and readd them to your clients. You can also
+
+129
+00:07:00,780 --> 00:07:04,430
+access your backend API from IOS apps. But since these
+
+130
+00:07:04,430 --> 00:07:07,010
+don't use Java, the process to generate the client
+
+131
+00:07:07,010 --> 00:07:09,980
+library is slightly different, and it's well documented in the
+
+132
+00:07:09,980 --> 00:07:13,200
+developer docs as well. So, you can read about it
+
+133
+00:07:13,200 --> 00:07:16,950
+in the developer documentation. Now that you've got the client
+
+134
+00:07:16,950 --> 00:07:19,590
+library for your mobile device, it's up to you how
+
+135
+00:07:19,590 --> 00:07:23,060
+to use the conference API in your mobile app. So the
+
+136
+00:07:23,060 --> 00:07:25,930
+Android app that comes with this course, the conf, the Udacity
+
+137
+00:07:25,930 --> 00:07:29,000
+Conference Central app, you can get it from Play store, is
+
+138
+00:07:29,000 --> 00:07:31,350
+very simple. And it's really only meant to be a
+
+139
+00:07:31,350 --> 00:07:35,020
+demo, so it's not fully functional. Basically, all it will do,
+
+140
+00:07:35,020 --> 00:07:37,990
+if it will query for the conferences, it will let you
+
+141
+00:07:37,990 --> 00:07:41,980
+register, and it'll let you unregister. But it doesn't do very
+
+142
+00:07:41,980 --> 00:07:44,310
+much else. Feel free to get the source code for the
+
+143
+00:07:44,310 --> 00:07:46,720
+Android app and to hook it up to work with your own
+
+144
+00:07:46,720 --> 00:07:50,310
+conference central application. You may need to make some small changes
+
+145
+00:07:50,310 --> 00:07:53,560
+to your backend API code, so be sure to check the instruction
+
+146
+00:07:53,560 --> 00:07:56,850
+notes for this video. These changes will make your backend API
+
+147
+00:07:56,850 --> 00:08:00,110
+code more [UNKNOWN] for all client apps. So we'll continue to work
+
+148
+00:08:00,110 --> 00:08:03,960
+with your WebUI clients as well as with Android apps. So also
+
+149
+00:08:03,960 --> 00:08:07,120
+feel free to extend the source code from the Android app to
+
+150
+00:08:07,120 --> 00:08:09,950
+call more of the back end API, as you like.

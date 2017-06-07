@@ -1,0 +1,498 @@
+1
+00:00:00,460 --> 00:00:01,920
+So you've made your contract.
+
+2
+00:00:01,920 --> 00:00:03,120
+Nice work.
+
+3
+00:00:03,120 --> 00:00:05,990
+Now, before you move on,
+a word of warning.
+
+4
+00:00:05,990 --> 00:00:08,090
+So you'll be using a contract
+in many parts of the app.
+
+5
+00:00:08,090 --> 00:00:10,700
+And throughout the rest of the course,
+
+6
+00:00:10,700 --> 00:00:14,390
+we'll be giving you a code that
+refers to these constants as well.
+
+7
+00:00:14,390 --> 00:00:19,220
+So because the code that will be giving
+you has constant in the contract,
+
+8
+00:00:19,220 --> 00:00:21,030
+we have two choices.
+
+9
+00:00:21,030 --> 00:00:24,480
+First, you can either change your
+contract to reflect the constant names
+
+10
+00:00:24,480 --> 00:00:29,475
+that we’ve chosen, or make sure that
+you update any code that will give you
+
+11
+00:00:29,475 --> 00:00:32,935
+in this lesson and beyond to match
+the constant names that you've chosen.
+
+12
+00:00:34,425 --> 00:00:40,148
+So to regenerate, now is the time to
+either match our constant names or
+
+13
+00:00:40,148 --> 00:00:46,067
+be willing to resolve a few naming
+errors when copying our code later on.
+
+14
+00:00:46,067 --> 00:00:48,857
+Back to our regularly scheduled program.
+
+15
+00:00:48,857 --> 00:00:52,827
+So now that we have a contract that
+defines the schema of our database,
+
+16
+00:00:52,827 --> 00:00:56,935
+we can actually implement another
+Android class that will help us create
+
+17
+00:00:56,935 --> 00:00:59,260
+the database in SQLite.
+
+18
+00:00:59,260 --> 00:01:02,680
+So Android provides a class
+that helps us create, open, and
+
+19
+00:01:02,680 --> 00:01:04,750
+manage database connections.
+
+20
+00:01:04,750 --> 00:01:08,030
+And that class is called
+the SQLiteOpenHelper class.
+
+21
+00:01:09,060 --> 00:01:12,950
+And here are some of the handy things
+that this SQLiteOpenHelper class
+
+22
+00:01:12,950 --> 00:01:14,260
+can help us do.
+
+23
+00:01:14,260 --> 00:01:18,080
+First, when an app first
+accesses the database.
+
+24
+00:01:19,100 --> 00:01:23,590
+The SQLiteOpenHelper class will create
+the database that we're using, and
+
+25
+00:01:23,590 --> 00:01:27,520
+it does so by either using the get
+readable database method or
+
+26
+00:01:27,520 --> 00:01:29,870
+a get writable database method.
+
+27
+00:01:29,870 --> 00:01:35,420
+Next, the next time that we open up the
+app on the device, instead of creating
+
+28
+00:01:35,420 --> 00:01:41,750
+a new database, SQLite will help us get
+access to the one that already exist.
+
+29
+00:01:41,750 --> 00:01:46,510
+Thirdly, this SQLite open
+helper class will assist us
+
+30
+00:01:46,510 --> 00:01:50,890
+in updating the schema of the database
+if the version ever changes.
+
+31
+00:01:50,890 --> 00:01:56,320
+So because our SQLiteOpenHelper class
+is in charge of creating the database,
+
+32
+00:01:56,320 --> 00:01:58,480
+it's what we need to implement next.
+
+33
+00:01:58,480 --> 00:02:01,590
+And doing so involves these five steps.
+
+34
+00:02:01,590 --> 00:02:04,830
+So first off,
+we need to create a class that extends
+
+35
+00:02:04,830 --> 00:02:08,050
+from this SQLiteOpenHelper
+abstract class.
+
+36
+00:02:08,050 --> 00:02:11,720
+Secondly, we need to create
+constants for the database name and
+
+37
+00:02:11,720 --> 00:02:13,310
+the database version.
+
+38
+00:02:13,310 --> 00:02:15,810
+Following, we'll need to
+create a constructor, and
+
+39
+00:02:15,810 --> 00:02:19,700
+then implement the onCreate method,
+and this method is used for
+
+40
+00:02:19,700 --> 00:02:25,140
+when the database is first created, as
+well as implement an onUpgrade method.
+
+41
+00:02:25,140 --> 00:02:29,530
+In this method is used when the database
+schema for the database changes.
+
+42
+00:02:29,530 --> 00:02:33,060
+And this happens say when we're
+adding a new column to the database.
+
+43
+00:02:34,140 --> 00:02:37,750
+So because we're sub classing
+the abstract class or
+
+44
+00:02:37,750 --> 00:02:42,340
+SQLiteOpenHelper class that's why we'll
+need to implement these two methods,
+
+45
+00:02:42,340 --> 00:02:45,560
+our onCreate and onUpgrade methods.
+
+46
+00:02:45,560 --> 00:02:48,130
+So looking at the feed
+reader example and
+
+47
+00:02:48,130 --> 00:02:52,250
+the link to this code can be found in
+the notes below we notice that the feed
+
+48
+00:02:52,250 --> 00:02:57,920
+reader db helper class extends
+from our SQL open helper class.
+
+49
+00:02:57,920 --> 00:02:59,210
+So our step one.
+
+50
+00:02:59,210 --> 00:03:04,210
+Step two it contains the constants for
+the database name.
+
+51
+00:03:04,210 --> 00:03:05,130
+And the database version.
+
+52
+00:03:06,160 --> 00:03:07,390
+So the name or
+
+53
+00:03:07,390 --> 00:03:12,040
+database name is a string representing
+the file name of the database.
+
+54
+00:03:12,040 --> 00:03:17,180
+Here it's called FeedReader.db and
+version is an integer.
+
+55
+00:03:18,340 --> 00:03:21,080
+And by convention
+the integer sets as one.
+
+56
+00:03:21,080 --> 00:03:23,400
+So for our next two steps,
+three and four,
+
+57
+00:03:25,200 --> 00:03:30,980
+our constructor was created here and
+ourCreate method was set up here.
+
+58
+00:03:30,980 --> 00:03:35,340
+And lastly, is our onUpgrade method.
+
+59
+00:03:35,340 --> 00:03:37,840
+So notice inside the onUpgrade method,
+
+60
+00:03:37,840 --> 00:03:40,200
+the version number will
+be very important here.
+
+61
+00:03:41,300 --> 00:03:44,480
+So let's zoom in on the onCreate method.
+
+62
+00:03:44,480 --> 00:03:47,930
+Notice the parameter it takes
+in is an SQLite database object.
+
+63
+00:03:49,100 --> 00:03:52,630
+So this is an object
+representing your database.
+
+64
+00:03:52,630 --> 00:03:55,000
+So at our stage right now
+our database is blank.
+
+65
+00:03:55,000 --> 00:03:59,704
+But you can execute this execSQL method
+
+66
+00:03:59,704 --> 00:04:04,830
+in order to create and initialize
+the schema using our SQL statements.
+
+67
+00:04:04,830 --> 00:04:07,965
+So notice here this method
+takes on the parameter
+
+68
+00:04:07,965 --> 00:04:13,350
+SQL_CREATE_ENTRIES, So
+this is a constant here.
+
+69
+00:04:13,350 --> 00:04:16,480
+So from the same page that
+this documentation was found
+
+70
+00:04:16,480 --> 00:04:22,100
+we see that this constant
+SQL_CREATE_ENTRIES is a section of code
+
+71
+00:04:22,100 --> 00:04:26,560
+that's a string containing
+the create table SQL statement.
+
+72
+00:04:26,560 --> 00:04:30,820
+So let me point out two things
+about our execSQL method.
+
+73
+00:04:30,820 --> 00:04:36,540
+So first off, this method must not
+be used with any select statements,
+
+74
+00:04:36,540 --> 00:04:39,200
+and that's because this method
+doesn't return any actual data,
+
+75
+00:04:40,530 --> 00:04:41,530
+it's simply designed for
+
+76
+00:04:41,530 --> 00:04:46,140
+executing statements that modify the
+database configuration and structure.
+
+77
+00:04:46,140 --> 00:04:51,060
+So to summarize,
+this method takes in different SQL
+
+78
+00:04:51,060 --> 00:04:55,490
+statements such as create table and
+it executes them.
+
+79
+00:04:56,510 --> 00:05:00,680
+So notice that this statement
+will heavily use consents
+
+80
+00:05:00,680 --> 00:05:04,520
+from the contract in order to ensure
+consistency and avoid errors.
+
+81
+00:05:05,650 --> 00:05:10,640
+So an example of that is in our
+feed reader database helper class.
+
+82
+00:05:10,640 --> 00:05:11,640
+Inside onCreate.
+
+83
+00:05:12,730 --> 00:05:16,290
+This method takes in this constant.
+
+84
+00:05:16,290 --> 00:05:17,610
+SQL_CREATE_ENTRIES.
+
+85
+00:05:18,840 --> 00:05:20,540
+In else where this constant or
+
+86
+00:05:20,540 --> 00:05:25,600
+SQL create entries was defined as
+this create table SQL statement.
+
+87
+00:05:25,600 --> 00:05:30,480
+And this statement itself takes
+in quite a few constants.
+
+88
+00:05:30,480 --> 00:05:34,760
+Our second method onUpgrade
+is also implemented here.
+
+89
+00:05:34,760 --> 00:05:39,910
+And what it does is simply drop
+the database table and recreates it.
+
+90
+00:05:39,910 --> 00:05:44,175
+So notice in onUpgrade,
+it executes this SQL statement.
+
+91
+00:05:44,175 --> 00:05:47,390
+SQL_DELETE_ENTRIES.
+
+92
+00:05:47,390 --> 00:05:49,350
+And that constant define here.
+
+93
+00:05:50,610 --> 00:05:53,330
+So this constant is defined
+as this SQL statement.
+
+94
+00:05:53,330 --> 00:05:56,070
+DROP TABLE IF EXISTS and
+the name of the table.
+
+95
+00:05:57,200 --> 00:05:59,140
+And then, it creates a new table.
+
+96
+00:06:00,140 --> 00:06:02,300
+So this leads me to my second comment.
+
+97
+00:06:02,300 --> 00:06:04,720
+So the purpose of
+the onUpgrade method is that,
+
+98
+00:06:04,720 --> 00:06:07,720
+it gives you the opportunity
+to update the database file
+
+99
+00:06:07,720 --> 00:06:10,730
+based on changes that you've made
+to the structure in your code.
+
+100
+00:06:10,730 --> 00:06:14,440
+So for newer version of your
+application, say, alters a table or
+
+101
+00:06:14,440 --> 00:06:16,180
+maybe adds a column.
+
+102
+00:06:16,180 --> 00:06:21,190
+So for example, if we add a column maybe
+a height column to our pets table,
+
+103
+00:06:21,190 --> 00:06:22,880
+we can implement the database version.
+
+104
+00:06:24,360 --> 00:06:29,370
+And this update information
+is passed to the helper and
+
+105
+00:06:29,370 --> 00:06:34,110
+on upgrade lets you then execute
+additional SQL statements to modify
+
+106
+00:06:34,110 --> 00:06:38,130
+the database file so that our app is
+using the most recent information.

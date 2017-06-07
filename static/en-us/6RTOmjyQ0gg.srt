@@ -1,0 +1,328 @@
+1
+00:00:00,210 --> 00:00:03,469
+So now how do we generate the video
+textures of the dynamic regions?
+
+2
+00:00:03,469 --> 00:00:07,070
+Again, those pixels that were just
+the dynamic parts of the image
+
+3
+00:00:07,070 --> 00:00:10,470
+are the ones now we're going
+to figure out how to basically
+
+4
+00:00:10,470 --> 00:00:12,040
+convert them into video textures.
+
+5
+00:00:13,270 --> 00:00:15,080
+So just to kind of start
+thinking about it,
+
+6
+00:00:15,080 --> 00:00:18,680
+I'm now laying out this whole thing and
+I'm basically kind of saying is,
+
+7
+00:00:18,680 --> 00:00:21,690
+this is the y axis, and
+this is x and this is time.
+
+8
+00:00:21,690 --> 00:00:23,680
+So basically now we're
+going to stack each and
+
+9
+00:00:23,680 --> 00:00:27,460
+every of these images in time and
+just show the X and t.
+
+10
+00:00:28,480 --> 00:00:31,790
+So as time evolves, of course, we're
+getting more and more of these frames.
+
+11
+00:00:31,790 --> 00:00:34,840
+So in this case, I'm basically kind of
+saying is, this is one frame, second
+
+12
+00:00:34,840 --> 00:00:38,620
+frame, third frame and all of them kind
+of create this video volume, right?
+
+13
+00:00:38,620 --> 00:00:40,880
+Let's think about it
+a little differently.
+
+14
+00:00:40,880 --> 00:00:43,450
+And that basically
+suggests is let's actually
+
+15
+00:00:43,450 --> 00:00:46,180
+only concentrate on the dynamic regions.
+
+16
+00:00:46,180 --> 00:00:49,360
+So here, this part of the frame,
+not the whole frame,
+
+17
+00:00:49,360 --> 00:00:52,120
+this is the only part of the frame
+where there is some dynamic.
+
+18
+00:00:52,120 --> 00:00:55,160
+And again as I go down in time,
+there other frames come in.
+
+19
+00:00:55,160 --> 00:00:59,930
+Remember again, this is similar to
+the whole part that we looked at before
+
+20
+00:00:59,930 --> 00:01:03,010
+which said that if I
+had an image like this,
+
+21
+00:01:03,010 --> 00:01:06,770
+there's only a part of this
+image where the dynamics is.
+
+22
+00:01:06,770 --> 00:01:09,650
+So, in essence that basically
+means if this is my X,
+
+23
+00:01:09,650 --> 00:01:13,890
+I'm going to be only looking for small
+parts in that image, not the whole part.
+
+24
+00:01:13,890 --> 00:01:16,570
+And in this case I'm basically
+kind of suggesting for each and
+
+25
+00:01:16,570 --> 00:01:18,550
+every image in the region.
+
+26
+00:01:18,550 --> 00:01:22,680
+Only a part of it is the one that
+is where the dynamics is, and
+
+27
+00:01:22,680 --> 00:01:26,160
+as I move further into time,
+this part may have moved here.
+
+28
+00:01:26,160 --> 00:01:27,620
+And that's where I have other frames.
+
+29
+00:01:27,620 --> 00:01:28,670
+So, in essence,
+
+30
+00:01:28,670 --> 00:01:32,270
+this is the only part of the dynamics
+that I actually want to model.
+
+31
+00:01:32,270 --> 00:01:34,680
+So how do we use that information?
+
+32
+00:01:34,680 --> 00:01:39,450
+Well, for example, what we can now start
+doing is build video textures just for
+
+33
+00:01:39,450 --> 00:01:41,060
+those small regions.
+
+34
+00:01:41,060 --> 00:01:44,020
+So in essence what that basically means,
+this is where the video texture is,
+
+35
+00:01:44,020 --> 00:01:46,120
+I don't actually have to do it for
+the whole part of it.
+
+36
+00:01:46,120 --> 00:01:51,170
+I can find a sub part of this region and
+use that to generate a video texture.
+
+37
+00:01:51,170 --> 00:01:54,990
+So the video volume in this instance
+would simply be in time, in,
+
+38
+00:01:54,990 --> 00:01:59,610
+in the local coordinate X,
+simply a part like this.
+
+39
+00:01:59,610 --> 00:02:01,810
+So this would be my small video region,
+and again,
+
+40
+00:02:01,810 --> 00:02:04,250
+I have well defined slits here.
+
+41
+00:02:04,250 --> 00:02:08,008
+So this allows me to create now
+a smoother transition from each and
+
+42
+00:02:08,008 --> 00:02:10,060
+every one of the frames and
+generate a nicer,
+
+43
+00:02:10,060 --> 00:02:13,560
+smoother video volume to
+represent this region here.
+
+44
+00:02:13,560 --> 00:02:17,100
+So, in this case what it basically
+says we're going to map the continuous
+
+45
+00:02:17,100 --> 00:02:21,230
+diagonal slice of the input video
+volume to the output panorama.
+
+46
+00:02:21,230 --> 00:02:23,860
+That's what we actually will do,
+in outputting
+
+47
+00:02:23,860 --> 00:02:28,260
+the video textures onto panorama, again
+in that region where the dynamics are.
+
+48
+00:02:28,260 --> 00:02:32,500
+Of course, in this case we will restrict
+the boundaries to each and every frame.
+
+49
+00:02:32,500 --> 00:02:35,610
+So each and every frame basically is
+kind of looking at just that frame and
+
+50
+00:02:35,610 --> 00:02:37,760
+you're going to find
+a match the next frame.
+
+51
+00:02:37,760 --> 00:02:40,810
+And the problem with this is,
+while it works fine,
+
+52
+00:02:40,810 --> 00:02:44,230
+actually creates some sort of
+shearing motions across time.
+
+53
+00:02:44,230 --> 00:02:47,289
+Now remember we actually had these
+issues when we talked about video
+
+54
+00:02:47,289 --> 00:02:50,455
+textures too, and we basically said,
+match one frame to the other and
+
+55
+00:02:50,455 --> 00:02:53,137
+of course, either you'll get
+a little bit of blurriness,
+
+56
+00:02:53,137 --> 00:02:54,717
+because it has not the best match.
+
+57
+00:02:54,717 --> 00:02:57,431
+Or you might actually
+see unnecessary motions
+
+58
+00:02:57,431 --> 00:03:01,610
+that are impacted because how things are
+matching from one frame to the other.
+
+59
+00:03:01,610 --> 00:03:02,830
+What does that mean?
+
+60
+00:03:02,830 --> 00:03:04,275
+Well, let's look at that example.
+
+61
+00:03:04,275 --> 00:03:06,765
+This is my original video frame or
+sequence,
+
+62
+00:03:06,765 --> 00:03:10,564
+just from the part from the water
+flow is happening and approximately
+
+63
+00:03:10,564 --> 00:03:15,700
+the same region, where we basically are
+now doing a continuous diagonal slices.
+
+64
+00:03:15,700 --> 00:03:18,641
+So here's my original video,
+you kind of see nicer motion, and
+
+65
+00:03:18,641 --> 00:03:21,977
+here you basically see a little bit
+of you know, shearing going on.
+
+66
+00:03:21,977 --> 00:03:25,567
+Motion is not the most cleanest, and in
+fact, basically its the first frame, and
+
+67
+00:03:25,567 --> 00:03:28,847
+it actually generates it, because it's
+not actually doing a very good job
+
+68
+00:03:28,847 --> 00:03:32,460
+ungenerating the video volume, it's
+actually keeping the boundaries stable.

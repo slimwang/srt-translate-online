@@ -1,0 +1,256 @@
+1
+00:00:00,120 --> 00:00:03,710
+Another useful operating system service,
+that can benefit
+
+2
+00:00:03,710 --> 00:00:08,410
+from the hardware support from
+memory management is checkpointing.
+
+3
+00:00:08,410 --> 00:00:12,690
+Checkpointing is a technique that's
+used as part of the failure and recovery
+
+4
+00:00:12,690 --> 00:00:17,490
+management that operating systems or
+systems software, in general, supports.
+
+5
+00:00:17,490 --> 00:00:20,700
+The idea behind checkpointing
+is to periodically save
+
+6
+00:00:20,700 --> 00:00:22,940
+the entire process state.
+
+7
+00:00:22,940 --> 00:00:26,560
+The failure may be unavoidable
+however with checkpointing,
+
+8
+00:00:26,560 --> 00:00:30,030
+the process doesn't have to be
+restarted from the beginning.
+
+9
+00:00:30,030 --> 00:00:33,830
+It can be restarted from
+the nearest checkpoint point.
+
+10
+00:00:33,830 --> 00:00:36,470
+And so the recovery will be much faster.
+
+11
+00:00:36,470 --> 00:00:39,350
+A simple approach to
+checkpointing would be to pause
+
+12
+00:00:39,350 --> 00:00:43,030
+the execution of the process and
+copy its entire state.
+
+13
+00:00:43,030 --> 00:00:46,610
+A better approach will take advantage
+of the hardware support for
+
+14
+00:00:46,610 --> 00:00:50,810
+memory management and
+will try to optimize the disruption
+
+15
+00:00:50,810 --> 00:00:55,120
+the checkpointing will cause on
+the execution of the process.
+
+16
+00:00:55,120 --> 00:01:00,020
+Using the hardware support, we can write
+protect the entire address space of
+
+17
+00:01:00,020 --> 00:01:03,830
+the process and
+try to copy everything at once.
+
+18
+00:01:03,830 --> 00:01:08,080
+However, since the process will
+continue executing, we won't pause it.
+
+19
+00:01:08,080 --> 00:01:10,220
+It will continue dirtying pages.
+
+20
+00:01:10,220 --> 00:01:15,790
+So, then we can track the dirtied pages,
+again using the hardware MMU support,
+
+21
+00:01:15,790 --> 00:01:20,750
+and we will copy only the diffs, only
+those pages that have been modified.
+
+22
+00:01:20,750 --> 00:01:24,390
+That will allow us to provide for
+an incremental check point.
+
+23
+00:01:24,390 --> 00:01:28,430
+If we check point using these
+partial diffs of just dirtied pages,
+
+24
+00:01:28,430 --> 00:01:33,200
+we will somewhat make the recovery
+process more complex since we will have
+
+25
+00:01:33,200 --> 00:01:38,140
+to rebuild the image of the process
+using multiple such diffs, potentially.
+
+26
+00:01:38,140 --> 00:01:42,590
+Or also, in the background,
+these diffs can be aggregated to produce
+
+27
+00:01:42,590 --> 00:01:45,590
+more complete checkpoints
+of the process.
+
+28
+00:01:45,590 --> 00:01:49,280
+The basic mechanisms used in
+checkpointing can also be used in
+
+29
+00:01:49,280 --> 00:01:50,780
+other services.
+
+30
+00:01:50,780 --> 00:01:56,240
+For instance, debugging relies often
+on a technique called Rewind-Replay.
+
+31
+00:01:56,240 --> 00:02:00,880
+Here rewind means that we will restart
+the execution of the same process from
+
+32
+00:02:00,880 --> 00:02:02,080
+some earlier point.
+
+33
+00:02:02,080 --> 00:02:05,980
+So we will restart it from a checkpoint,
+and then we will move forward and
+
+34
+00:02:05,980 --> 00:02:10,479
+see whether we can establish what is the
+error, what is the bug in our program.
+
+35
+00:02:10,479 --> 00:02:12,800
+We can gradually go back to older and
+
+36
+00:02:12,800 --> 00:02:15,790
+older checkpoints until
+we find the error.
+
+37
+00:02:15,790 --> 00:02:19,860
+Migration is another service that can
+benefit from similar kinds of memory
+
+38
+00:02:19,860 --> 00:02:23,810
+management mechanisms that we described
+are useful for checkpointing.
+
+39
+00:02:23,810 --> 00:02:28,420
+With migration, it's like we checkpoint
+the process to another machine and
+
+40
+00:02:28,420 --> 00:02:30,580
+then we restart it on
+that other machine.
+
+41
+00:02:30,580 --> 00:02:33,990
+It will continue its execution
+on the other location.
+
+42
+00:02:33,990 --> 00:02:37,180
+This is useful in scenarios
+such as disaster recoveries, so
+
+43
+00:02:37,180 --> 00:02:41,320
+as to continue the process on
+another machine that will not crash.
+
+44
+00:02:41,320 --> 00:02:45,240
+Or, in consolidation that is
+common in today's data centers,
+
+45
+00:02:45,240 --> 00:02:50,650
+when we try to migrate processes and
+migrate load onto as few machines
+
+46
+00:02:50,650 --> 00:02:55,580
+as possible so that we can save on power
+and energy or utilize resources better.
+
+47
+00:02:55,580 --> 00:03:01,080
+One way in which migration can be
+implemented is as if we are performing
+
+48
+00:03:01,080 --> 00:03:05,870
+repeated checkpoints in a fast
+loop until ultimately, there is so
+
+49
+00:03:05,870 --> 00:03:09,990
+few dirtied state from the process
+that something like the pause and
+
+50
+00:03:09,990 --> 00:03:12,550
+copy approach becomes acceptable.
+
+51
+00:03:12,550 --> 00:03:15,652
+Or maybe at that point, simply we
+really don't have another choice.
+
+52
+00:03:15,652 --> 00:03:20,230
+The process keeps dirtying enough pages
+that we have to stop it in order to copy
+
+53
+00:03:20,230 --> 00:03:21,110
+the remaining contents.

@@ -1,0 +1,203 @@
+1
+00:00:00,000 --> 00:00:04,000
+[Narrator] So even for the simple grid world,
+
+2
+00:00:04,000 --> 00:00:08,000
+the optimal control policy assuming stochastic actions
+
+3
+00:00:08,000 --> 00:00:12,000
+and no costs of moving, except for the final absorbing costs,
+
+4
+00:00:12,000 --> 00:00:14,000
+is somewhat nontrivial.
+
+5
+00:00:14,000 --> 00:00:17,000
+Take a second to look at this.
+
+6
+00:00:17,000 --> 00:00:19,000
+Along here it seems pretty obvious, but
+
+7
+00:00:19,000 --> 00:00:24,000
+for the state over here, B3, and for the state over here, C4,
+
+8
+00:00:24,000 --> 00:00:27,000
+we choose an action that just avoids falling into the minus 100,
+
+9
+00:00:27,000 --> 00:00:32,000
+which is more important than trying to make progress towards the plus 100.
+
+10
+00:00:32,000 --> 00:00:35,000
+Now obviously this is not the general case of an MDP,
+
+11
+00:00:35,000 --> 00:00:38,000
+and it's somewhat frustrating they'd be willing to run through the wall,
+
+12
+00:00:38,000 --> 00:00:41,000
+just so as to avoid falling into the minus 100,
+
+13
+00:00:41,000 --> 00:00:43,000
+and the reason why this seems unintuitive is
+
+14
+00:00:43,000 --> 00:00:46,000
+because we're really forgetting the issue of costs.
+
+15
+00:00:46,000 --> 00:00:49,000
+In normal life, there is a cost associated with moving.
+
+16
+00:00:49,000 --> 00:00:53,000
+MDPs are gentle enough to have a cost factor,
+
+17
+00:00:53,000 --> 00:00:56,000
+and the way we're going to denote costs
+
+18
+00:00:56,000 --> 00:01:00,000
+is by defining our award function over any possible state.
+
+19
+00:01:00,000 --> 00:01:03,000
+We are reaching the state A4,
+
+20
+00:01:03,000 --> 00:01:07,000
+gives us plus 100, minus 100 for B4,
+
+21
+00:01:07,000 --> 00:01:10,000
+and perhaps minus 3 for every other state,
+
+22
+00:01:10,000 --> 00:01:13,000
+which reflects the fact that if you take a step somewhere
+
+23
+00:01:13,000 --> 00:01:15,000
+that we will pay minus 3.
+
+24
+00:01:15,000 --> 00:01:19,000
+So this gives an incentive to shorten the final action sequence.
+
+25
+00:01:19,000 --> 00:01:23,000
+So we're now ready to state the actual objective
+
+26
+00:01:23,000 --> 00:01:25,000
+of an MDP which is to minimize not
+
+27
+00:01:25,000 --> 00:01:29,000
+just the momentary costs, but the sum
+
+28
+00:01:29,000 --> 00:01:32,000
+of all future rewards,
+
+29
+00:01:32,000 --> 00:01:35,000
+but you're going to write RT to denote the fact that
+
+30
+00:01:35,000 --> 00:01:38,000
+this reward has received time T, and because
+
+31
+00:01:38,000 --> 00:01:41,000
+our reward itself is stochastic,
+
+32
+00:01:41,000 --> 00:01:44,000
+we have to complete the expectation over those,
+
+33
+00:01:44,000 --> 00:01:46,000
+and that we seek to maximize.
+
+34
+00:01:46,000 --> 00:01:50,000
+So we seek to find the policy that maximizes the expression over here.
+
+35
+00:01:50,000 --> 00:01:54,000
+Now another interesting caveat is a sentence people put
+
+36
+00:01:54,000 --> 00:01:57,000
+a so called discount factor into this equation
+
+37
+00:01:57,000 --> 00:02:01,000
+with an exponent of T, where a discount factor was going to be 0.9,
+
+38
+00:02:01,000 --> 00:02:04,000
+and what this does is it decays future reward
+
+39
+00:02:04,000 --> 00:02:07,000
+relative to more immediate rewards, and it's
+
+40
+00:02:07,000 --> 00:02:10,000
+kind of an alternative way to specify costs.
+
+41
+00:02:10,000 --> 00:02:13,000
+So we can make this explicit by a negative reward per state
+
+42
+00:02:13,000 --> 00:02:16,000
+or we can bring in a discount factor
+
+43
+00:02:16,000 --> 00:02:19,000
+that discounts the plus 100 by the
+
+44
+00:02:19,000 --> 00:02:23,000
+number of steps that it went by before it reached the plus 100.
+
+45
+00:02:23,000 --> 00:02:27,000
+This also gives an incentive to get to the goal as fast as possible.
+
+46
+00:02:27,000 --> 00:02:30,000
+The nice mathematical thing about discount factor is
+
+47
+00:02:30,000 --> 00:02:33,000
+it keeps this expectation bounded.
+
+48
+00:02:33,000 --> 00:02:36,000
+It easy to show that this expression over here
+
+49
+00:02:36,000 --> 00:02:41,000
+will always be smaller or equal to 1 over 1 minus gamma times the
+
+50
+00:02:41,000 --> 00:02:44,000
+absolute reward maximizing value and
+
+51
+00:02:44,000 --> 99:59:59,999
+which in this case would be plus 100.

@@ -1,0 +1,103 @@
+1
+00:00:00,280 --> 00:00:03,670
+Now, let's add some code to disconnect
+the user from the Google account,
+
+2
+00:00:03,670 --> 00:00:04,890
+logging them out of our web application.
+
+3
+00:00:05,930 --> 00:00:09,280
+This is done by telling the server
+to reject its access token.
+
+4
+00:00:09,280 --> 00:00:12,720
+Let's create another route and
+method, both called gdisconnect.
+
+5
+00:00:12,720 --> 00:00:15,680
+I'll grab the credentials from
+my login object session again.
+
+6
+00:00:15,680 --> 00:00:19,010
+If the credentials field is empty,
+we don't have record of a user.
+
+7
+00:00:19,010 --> 00:00:21,690
+So there's no one to disconnect
+from the application.
+
+8
+00:00:21,690 --> 00:00:24,150
+I'll return a 401 error for this case.
+
+9
+00:00:24,150 --> 00:00:27,500
+Now I will use the access token and
+pass it into Google's url for
+
+10
+00:00:27,500 --> 00:00:29,470
+revoking tokens like so.
+
+11
+00:00:29,470 --> 00:00:32,860
+Then I will store Google's response
+in an object called result.
+
+12
+00:00:32,860 --> 00:00:36,650
+If a response of 200 was received, then
+I successfully disconnected the users
+
+13
+00:00:36,650 --> 00:00:38,480
+Google account from my application.
+
+14
+00:00:38,480 --> 00:00:43,430
+Using the del command in python,
+I will delete the credentials, gplus_id,
+
+15
+00:00:43,430 --> 00:00:48,410
+username, email address and
+picture from my login_session object.
+
+16
+00:00:48,410 --> 00:00:51,250
+Then I will create a response to
+indicate that a user successfully
+
+17
+00:00:51,250 --> 00:00:52,130
+logged out of my application.
+
+18
+00:00:53,190 --> 00:00:56,460
+If I got any other response back
+from Google besides the 200,
+
+19
+00:00:56,460 --> 00:00:58,545
+then I assume something went
+wrong in the disconnect process.
+
+20
+00:00:58,545 --> 00:01:02,960
+And return a 400 message to the client
+with a statement of what happened.
+
+21
+00:01:02,960 --> 00:01:06,020
+Now, when I visit the /gdisconnect URL,
+
+22
+00:01:06,020 --> 00:01:08,150
+my user successfully logged
+out of my application.

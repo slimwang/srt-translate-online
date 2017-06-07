@@ -1,0 +1,215 @@
+1
+00:00:00,000 --> 00:00:04,000
+Now so far we've dealt only with games that take a single turn--
+
+2
+00:00:04,000 --> 00:00:08,000
+that is there are two players, they both simultaneously reveal their move,
+
+3
+00:00:08,000 --> 00:00:10,000
+and the game is over.
+
+4
+00:00:10,000 --> 00:00:12,000
+But game theory can also deal with more complex games
+
+5
+00:00:12,000 --> 00:00:16,000
+that have multiple rounds of turn taking.
+
+6
+00:00:16,000 --> 00:00:19,000
+Here I'm describing a simple game of poker,
+
+7
+00:00:19,000 --> 00:00:22,000
+the simplest type of poker you've probably ever seen.
+
+8
+00:00:22,000 --> 00:00:24,000
+The deck only has four cards.
+
+9
+00:00:24,000 --> 00:00:26,000
+One card is dealt to each player.
+
+10
+00:00:26,000 --> 00:00:28,000
+There are two rounds.
+
+11
+00:00:28,000 --> 00:00:34,000
+In the first, player one has a choice to either raise--to bet a dollar--or to check.
+
+12
+00:00:34,000 --> 00:00:40,000
+Then in the second round, the second player has the chance to call--
+
+13
+00:00:40,000 --> 00:00:44,000
+to say I want to see what's up--or to fold.
+
+14
+00:00:44,000 --> 00:00:48,000
+Now this format begins to look very much like the game tree
+
+15
+00:00:48,000 --> 00:00:51,000
+that we talked about in the previous unit.
+
+16
+00:00:51,000 --> 00:00:54,000
+It starts out and there's a chance node.
+
+17
+00:00:54,000 --> 00:01:00,000
+This corresponds to dealing the cards with the 1/6 that the first player gets an Ace
+
+18
+00:01:00,000 --> 00:01:02,000
+and the second player gets an Ace.
+
+19
+00:01:02,000 --> 00:01:08,000
+One-third that the first player gets and Ace and the second Player gets a Kind, and so on.
+
+20
+00:01:08,000 --> 00:01:12,000
+There there are maximizing nodes and minimizing nodes.
+
+21
+00:01:12,000 --> 00:01:15,000
+What this format, which is known as the sequential game format,
+
+22
+00:01:15,000 --> 00:01:22,000
+is especially good at is keeping track of the belief states of the possibilities
+
+23
+00:01:22,000 --> 00:01:27,000
+of what each agent knows and doesn't know.
+
+24
+00:01:27,000 --> 00:01:30,000
+The tree as a whole describes everything that's going on,
+
+25
+00:01:30,000 --> 00:01:35,000
+but each agent doesn't know at which point in the tree they are.
+
+26
+00:01:35,000 --> 00:01:38,000
+So if you're agent number one, you know that you have an Ace,
+
+27
+00:01:38,000 --> 00:01:43,000
+so you know you're in one of these two states denoted by the dotted lines.
+
+28
+00:01:43,000 --> 00:01:47,000
+You're either in the state where you have an Ace and the other player has an Ace,
+
+29
+00:01:47,000 --> 00:01:51,000
+or in the state where you have an Ace and the other player has a King,
+
+30
+00:01:51,000 --> 00:01:53,000
+But you don't know which one you're at.
+
+31
+00:01:53,000 --> 00:01:57,000
+Similarly, over here there is confusion for the second player as to what state they're in.
+
+32
+00:01:57,000 --> 00:02:00,000
+Now, we can solve this game using this game tree approach,
+
+33
+00:02:00,000 --> 00:02:05,000
+and it's not quite the same as the max and the min approach,
+
+34
+00:02:05,000 --> 00:02:11,000
+because where you are in the states, what you know about the partial information,
+
+35
+00:02:11,000 --> 00:02:15,000
+affects your strategy in a way that we haven't dealt with before.
+
+36
+00:02:15,000 --> 00:02:20,000
+One possibility for how you can evaluate again like this
+
+37
+00:02:20,000 --> 00:02:22,000
+is just to convert it to the other form.
+
+38
+00:02:22,000 --> 00:02:25,000
+The form we've seen before is called the normal form or matrix form.
+
+39
+00:02:25,000 --> 00:02:29,000
+This is the sequential game in extensive form.
+
+40
+00:02:29,000 --> 00:02:33,000
+If we convert the extensive form, we get something like this.
+
+41
+00:02:33,000 --> 00:02:36,000
+Here for each player, we've denoted by a two-letter strategy
+
+42
+00:02:36,000 --> 00:02:42,000
+what you should do when you have an Ace and what you should do when you have a King.
+
+43
+00:02:42,000 --> 00:02:46,000
+So we end up with an exponentially large search space,
+
+44
+00:02:46,000 --> 00:02:50,000
+but here the game was so simple, that it ends up being rather small,
+
+45
+00:02:50,000 --> 00:02:53,000
+and the game is rather trivial, and you can solve it.
+
+46
+00:02:53,000 --> 00:03:00,000
+It turns out that there are two equilibrium corresponding to the strategy for player two,
+
+47
+00:03:00,000 --> 00:03:05,000
+which is he should check when he has an Ace, and he should fold when he has a King,
+
+48
+00:03:05,000 --> 00:03:12,000
+and strategy for player one is it doesn't matter if he raises or checks when has an Ace,
+
+49
+00:03:12,000 --> 00:03:14,000
+but he should check when he has a King.
+
+50
+00:03:14,000 --> 00:03:18,000
+That would give the game a value of zero.
+
+51
+00:03:18,000 --> 00:03:21,000
+Now this works fine for the simple version of poker.
+
+52
+00:03:21,000 --> 00:03:26,000
+For real poker, this table would have about 10^18 states,
+
+53
+00:03:26,000 --> 00:03:28,000
+and it would be impossible to deal with.
+
+54
+00:03:28,000 --> 99:59:59,999
+So we need some strategies for getting back down to a reasonable number of states.

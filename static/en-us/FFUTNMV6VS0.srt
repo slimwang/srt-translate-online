@@ -1,0 +1,236 @@
+1
+00:00:01,020 --> 00:00:03,790
+All right, for this exercise we
+want to do the same thing, but for
+
+2
+00:00:03,790 --> 00:00:06,180
+the latitude and longitude search.
+
+3
+00:00:06,180 --> 00:00:07,520
+One caveat to the search,
+
+4
+00:00:07,520 --> 00:00:10,200
+is that we need to convert
+the values from the latitude and
+
+5
+00:00:10,200 --> 00:00:14,213
+longitude text fields, into the bbox
+parameter that Flickr expects.
+
+6
+00:00:15,500 --> 00:00:18,920
+Remember from our demonstration
+using the Eiffel Tower's coordinates
+
+7
+00:00:18,920 --> 00:00:21,530
+that the bounding box string
+needs to be a list of
+
+8
+00:00:21,530 --> 00:00:25,370
+four values in the order from minimum
+longitude to minimum latitude,
+
+9
+00:00:25,370 --> 00:00:28,470
+maximum longitude and
+then finally maximum latitude.
+
+10
+00:00:29,650 --> 00:00:31,480
+So I'm going to help you get started.
+
+11
+00:00:31,480 --> 00:00:34,830
+First, I'm going to copy over the
+parameters from the text search while
+
+12
+00:00:34,830 --> 00:00:36,889
+making sure to remove
+the text parameter.
+
+13
+00:00:39,124 --> 00:00:43,386
+Then, we'll add a B box parameter and
+I'm going to recommend that we populate
+
+14
+00:00:43,386 --> 00:00:45,998
+this value using a method
+called bboxString.
+
+15
+00:00:48,474 --> 00:00:52,330
+So that method doesn't exist yet,
+so we should be getting an error.
+
+16
+00:00:52,330 --> 00:00:54,166
+And then, we can just put this anywhere.
+
+17
+00:00:54,166 --> 00:01:01,405
+We'll say private func
+bboxString ( ) --> String.
+
+18
+00:01:03,844 --> 00:01:06,705
+Now it's going to be your job
+to implement this method.
+
+19
+00:01:07,985 --> 00:01:11,115
+Before you get started, I want to
+point our four useful constants in
+
+20
+00:01:11,115 --> 00:01:13,145
+the constants.swiftall
+that can help you.
+
+21
+00:01:15,417 --> 00:01:18,677
+The first two are called
+SearchBBoxHalfWidth and
+
+22
+00:01:18,677 --> 00:01:20,447
+SearchBBoxHalfHeight.
+
+23
+00:01:21,777 --> 00:01:24,587
+What these constants represent
+is the amount that you want to
+
+24
+00:01:24,587 --> 00:01:28,787
+vary the latitude up and down and
+the longitude left to right.
+
+25
+00:01:30,270 --> 00:01:33,930
+Now feel free to adjust these constants
+if you want to vary the overall size of
+
+26
+00:01:33,930 --> 00:01:37,350
+your bounding box, but
+the one default value should be fine.
+
+27
+00:01:38,930 --> 00:01:41,430
+The other two constants
+are the SearchLatRange and
+
+28
+00:01:41,430 --> 00:01:45,240
+SearchLonRange tuples,
+notice these are tuples.
+
+29
+00:01:45,240 --> 00:01:49,274
+And you should try to use these two
+constants to ensure the bounding box you
+
+30
+00:01:49,274 --> 00:01:51,096
+create, does not use latitude or
+
+31
+00:01:51,096 --> 00:01:54,366
+longitude values that fall
+outside of the accepted range.
+
+32
+00:01:54,366 --> 00:01:59,673
+For example, if a user enters
+the latitude of negative 89.5,
+
+33
+00:01:59,673 --> 00:02:04,598
+and then you use this half,
+I guess that would be half Height,
+
+34
+00:02:04,598 --> 00:02:07,153
+to vary it by one up and one down,
+
+35
+00:02:07,153 --> 00:02:12,108
+it would result in negative 90.5 and
+negative 88.5.
+
+36
+00:02:12,108 --> 00:02:14,930
+Now the negative 88.5 value is fine.
+
+37
+00:02:14,930 --> 00:02:16,780
+It falls within this range.
+
+38
+00:02:16,780 --> 00:02:19,740
+However, the negative 90.5 value falls
+
+39
+00:02:19,740 --> 00:02:24,510
+outside of the accepted range because
+it is lower than negative 90.
+
+40
+00:02:24,510 --> 00:02:28,860
+So you can use these constants and
+perhaps combine them with Swift's max or
+
+41
+00:02:28,860 --> 00:02:32,910
+min functions to ensure that this
+kind of error doesn't happen.
+
+42
+00:02:32,910 --> 00:02:36,870
+If you never used Swift's max or
+min functions before, I've posted a link
+
+43
+00:02:36,870 --> 00:02:40,730
+to a stack overflow post that describes
+them in the instructor notes.
+
+44
+00:02:42,090 --> 00:02:44,990
+Now I'll leave the implementation
+of the bbox method up to you.
+
+45
+00:02:47,100 --> 00:02:50,800
+If you correctly implement the method
+you should see a URL like this one
+
+46
+00:02:50,800 --> 00:02:52,110
+assuming the half width and
+
+47
+00:02:52,110 --> 00:02:55,945
+half height constants are set to their
+default values of one, and the user does
+
+48
+00:02:55,945 --> 00:03:01,635
+a Lat/Lon search with a latitude
+of 48.85 and a longitude of 2.29.
+
+49
+00:03:01,635 --> 00:03:04,265
+Check this box when you're done.
+
+50
+00:03:04,265 --> 00:03:04,765
+Good luck.

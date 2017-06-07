@@ -1,0 +1,267 @@
+﻿1
+00:00:00,470 --> 00:00:04,389
+For the road images you've seen, you
+know that they're all composed of red,
+
+2
+00:00:04,389 --> 00:00:07,199
+green, and blue values or RGB.
+
+3
+00:00:07,200 --> 00:00:10,359
+And in the past, you've used
+some combination of masking and
+
+4
+00:00:10,359 --> 00:00:14,914
+color thresholds on these RGB values
+to pick out bright white lane pixels.
+
+5
+00:00:14,914 --> 00:00:19,739
+And this lane detection can work
+well alongside gradient detection
+
+6
+00:00:19,739 --> 00:00:23,159
+which relies on grayscale
+intensity measurements.
+
+7
+00:00:23,160 --> 00:00:27,509
+However, RGB thresholding doesn't work
+that well in images that include varying
+
+8
+00:00:27,510 --> 00:00:31,198
+light conditions or when lanes
+are a different color like yellow.
+
+9
+00:00:31,198 --> 00:00:33,170
+Let me show you what I mean.
+
+10
+00:00:33,170 --> 00:00:34,770
+Take this image of a road.
+
+11
+00:00:34,770 --> 00:00:37,880
+We can break it down into
+it's separate RGB components
+
+12
+00:00:37,880 --> 00:00:40,160
+which are often called channels.
+
+13
+00:00:40,159 --> 00:00:44,079
+Here are the three channels
+represented in grayscale intensity.
+
+14
+00:00:44,079 --> 00:00:47,939
+The brighter pixels indicate higher
+values of red, green, or blue,
+
+15
+00:00:47,939 --> 00:00:49,609
+respectively.
+
+16
+00:00:49,609 --> 00:00:52,149
+Looking at the lane lines,
+you can see that the red and
+
+17
+00:00:52,149 --> 00:00:55,949
+green channels are high for
+both the white and yellow lane lines.
+
+18
+00:00:55,950 --> 00:00:57,415
+But if we look at the blue channel,
+
+19
+00:00:57,414 --> 00:00:59,750
+there's almost no blue
+component in the yellow lane.
+
+20
+00:01:00,789 --> 00:01:05,250
+So the R and G channels will be the most
+useful for isolating both white and
+
+21
+00:01:05,250 --> 00:01:07,060
+yellow lane pixels.
+
+22
+00:01:07,060 --> 00:01:10,189
+But you can also see that the red and
+green values change
+
+23
+00:01:10,189 --> 00:01:13,259
+under different levels of brightness
+at the back of the image.
+
+24
+00:01:13,260 --> 00:01:14,820
+They get lower under shadow and
+
+25
+00:01:14,819 --> 00:01:18,729
+don't consistently recognize
+the lane under extreme brightness.
+
+26
+00:01:18,730 --> 00:01:21,740
+Let's see if there's a better
+way to detect these lanes.
+
+27
+00:01:21,739 --> 00:01:24,829
+There are many other ways to
+represent the colors in an image
+
+28
+00:01:24,829 --> 00:01:28,379
+besides just composed of red,
+green and blue values.
+
+29
+00:01:28,379 --> 00:01:32,729
+These different color representations
+are often called color spaces.
+
+30
+00:01:32,730 --> 00:01:36,040
+RGB is red, green, blue color space.
+
+31
+00:01:36,040 --> 00:01:38,859
+You can think of this
+as a 3D space where
+
+32
+00:01:38,859 --> 00:01:44,569
+any color can be represented by a 3D
+coordinate of R, G, and B values.
+
+33
+00:01:44,569 --> 00:01:49,639
+There's also HSV color space,
+for hue, saturation, and value.
+
+34
+00:01:49,640 --> 00:01:53,599
+And there's HLS, for hue,
+lightness, and saturation.
+
+35
+00:01:53,599 --> 00:01:57,569
+These are some of the most commonly
+used color spaces in image analysis.
+
+36
+00:01:57,569 --> 00:02:01,759
+For both of these,
+H has a range from 0 to 179 for
+
+37
+00:02:01,760 --> 00:02:05,070
+degrees around
+the cylindrical color space.
+
+38
+00:02:05,069 --> 00:02:09,219
+And you can see details about the
+mathematical conversion from RGB to HLS
+
+39
+00:02:09,219 --> 00:02:11,250
+space in the notes below.
+
+40
+00:02:11,250 --> 00:02:15,189
+We'll be going through
+an example in HLS color space.
+
+41
+00:02:15,189 --> 00:02:20,090
+This isolates the lightness or
+L component of each pixel in an image.
+
+42
+00:02:20,090 --> 00:02:23,409
+And this is the component that varies
+the most under different lighting
+
+43
+00:02:23,409 --> 00:02:24,930
+conditions.
+
+44
+00:02:24,930 --> 00:02:28,590
+But the H and S channels stay
+fairly consistent under shadow or
+
+45
+00:02:28,590 --> 00:02:30,080
+excessive brightness.
+
+46
+00:02:30,080 --> 00:02:32,070
+And if we use these channels only and
+
+47
+00:02:32,069 --> 00:02:35,719
+discard the information in the L
+channel, we should be able to detect
+
+48
+00:02:35,719 --> 00:02:39,639
+different colors of lane lines more
+reliably than in RGB color space.
+
+49
+00:02:40,719 --> 00:02:45,599
+Here's that same RGB road image
+converted to HLS color space.
+
+50
+00:02:45,599 --> 00:02:48,969
+If we break it down into the separate H,
+L, and S channels,
+
+51
+00:02:48,969 --> 00:02:53,889
+we can really see the difference between
+this color space and RGB color space.
+
+52
+00:02:53,889 --> 00:02:57,449
+Here, it looks like the S channel
+detects lane lines pretty well,
+
+53
+00:02:57,449 --> 00:03:00,544
+as well as dark sections
+of the H channel.
+
+54
+00:03:00,544 --> 00:03:03,905
+And we can use this channels to
+create a smart color threshold
+
+55
+00:03:03,905 --> 00:03:07,414
+that reliably detects lane line
+pixels of different colors.
+
+56
+00:03:07,414 --> 00:03:10,125
+Let see an example of color
+thresholding in code next.
+

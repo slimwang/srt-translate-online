@@ -1,0 +1,452 @@
+1
+00:00:00,320 --> 00:00:03,200
+All right, so now we're going to
+take what we just learned, and
+
+2
+00:00:03,200 --> 00:00:05,170
+think about what generalized
+MDPs might need.
+
+3
+00:00:06,240 --> 00:00:07,910
+Generalized Markoff Decision Processes.
+
+4
+00:00:07,910 --> 00:00:12,181
+So the Bellman Equation for
+generalized MDPs looks like this.
+
+5
+00:00:12,181 --> 00:00:16,712
+Q*(s,a)=R(s,a)+Gamma times
+
+6
+00:00:16,712 --> 00:00:21,773
+kind of a summish thing
+over s prime of a maxish
+
+7
+00:00:21,773 --> 00:00:26,576
+thing over a prime of Q
+star s prime a prime.
+
+8
+00:00:26,576 --> 00:00:30,025
+So basically all I'm trying to say here,
+is that we can take out,
+
+9
+00:00:30,025 --> 00:00:33,251
+we can substitute various things in for
+this plus operator.
+
+10
+00:00:33,251 --> 00:00:34,961
+And this times operator and
+
+11
+00:00:34,961 --> 00:00:39,650
+we get different sequential decision
+making problems that come out of it.
+
+12
+00:00:39,650 --> 00:00:42,340
+So just to make sure that you
+understand what I'm talking about,
+
+13
+00:00:42,340 --> 00:00:44,080
+let's do the first one together here.
+
+14
+00:00:44,080 --> 00:00:49,344
+The first idea here is that
+we're going to replace this plus
+
+15
+00:00:49,344 --> 00:00:54,610
+symbol with a sum over all
+s prime of the probability
+
+16
+00:00:54,610 --> 00:00:58,410
+of reaching s prime times then
+whatever function we're plus-ing.
+
+17
+00:00:58,410 --> 00:01:04,300
+Which in this case is the X thing,
+applied to Q star so the X thing here
+
+18
+00:01:04,300 --> 00:01:09,650
+is written to be the max operator,
+so max over all next actions.
+
+19
+00:01:12,750 --> 00:01:14,410
+Well, it says F S primate prime, but
+
+20
+00:01:14,410 --> 00:01:16,892
+here we're going to be substituting
+in the Q star s prime a prime.
+
+21
+00:01:18,190 --> 00:01:20,770
+So, if we were actually to do
+the substitution in the first line,
+
+22
+00:01:20,770 --> 00:01:23,900
+put this summation thing
+instead of the plus thing, and
+
+23
+00:01:23,900 --> 00:01:26,930
+this max thing instead of
+kind of the times or X thing,
+
+24
+00:01:28,970 --> 00:01:33,910
+what decision process sort of
+thing would we get from that?
+
+25
+00:01:33,910 --> 00:01:36,741
+>> That's just a regular MDP.
+
+26
+00:01:36,741 --> 00:01:38,539
+>> Yes,
+that's just how I would have said it.
+
+27
+00:01:38,539 --> 00:01:42,301
+So, it just gives us back the ordinary
+Bellman equation for MDPs.
+
+28
+00:01:42,301 --> 00:01:46,045
+It's just, again, kind of a weird way of
+writing it, but the point is that we're
+
+29
+00:01:46,045 --> 00:01:49,357
+going to allow different kinds of
+operators to be substituted in here and
+
+30
+00:01:49,357 --> 00:01:52,997
+we're still going to get very reasonable
+things out, things that we can run value
+
+31
+00:01:52,997 --> 00:01:56,510
+iteration on, things that we can
+run q learning on and so forth.
+
+32
+00:01:56,510 --> 00:02:00,470
+So, if you think you get that let's
+do the rest of this as a quiz.
+
+33
+00:02:00,470 --> 00:02:02,240
+Basically what I'd like you to do is for
+
+34
+00:02:02,240 --> 00:02:05,680
+each line here,
+if we were to do the substitution,
+
+35
+00:02:05,680 --> 00:02:09,050
+where the plus operators define here and
+the time operators define here,
+
+36
+00:02:10,229 --> 00:02:12,480
+what kind of decision process
+would we get out of that?
+
+37
+00:02:14,160 --> 00:02:15,620
+>> I think I follow that.
+
+38
+00:02:15,620 --> 00:02:19,580
+I'm looking over these to make
+certain it all makes sense to me.
+
+39
+00:02:19,580 --> 00:02:20,980
+I think I get what you are saying.
+
+40
+00:02:20,980 --> 00:02:26,120
+In the regular MDP we have
+an expectation over maxes, and
+
+41
+00:02:26,120 --> 00:02:30,280
+so the first line is basically
+an expectation over a max.
+
+42
+00:02:30,280 --> 00:02:33,120
+So that's what a regular MDP is.
+
+43
+00:02:33,120 --> 00:02:37,850
+So the next one is a min,
+instead of an expectation, over a max.
+
+44
+00:02:37,850 --> 00:02:43,861
+And then in the third one's
+an expectation over a peordida.
+
+45
+00:02:43,861 --> 00:02:44,801
+>> Oh yeah, sorry.
+
+46
+00:02:44,801 --> 00:02:46,960
+I just made up some notation there.
+
+47
+00:02:46,960 --> 00:02:47,860
+Let me explain what that means.
+
+48
+00:02:47,860 --> 00:02:52,350
+So, the basic idea is that we're
+going to take a weighted combination of
+
+49
+00:02:52,350 --> 00:02:57,300
+all the actions and the weights
+depend on the rank of the action.
+
+50
+00:02:57,300 --> 00:03:00,510
+And in particular we can have
+a weight for the max and a weight for
+
+51
+00:03:00,510 --> 00:03:03,340
+the min and a weight for
+the second largest,
+
+52
+00:03:03,340 --> 00:03:06,400
+the third largest, the fourth largest,
+and those weights are consistent.
+
+53
+00:03:06,400 --> 00:03:08,406
+They're going to be just a constant.
+
+54
+00:03:08,406 --> 00:03:10,462
+>> Oh, okay.
+
+55
+00:03:10,462 --> 00:03:13,013
+Does that imply that we have,
+no matter where we are,
+
+56
+00:03:13,013 --> 00:03:14,722
+we have the same number of actions?
+
+57
+00:03:14,722 --> 00:03:16,428
+>> Yes.
+
+58
+00:03:16,428 --> 00:03:17,148
+>> Okay.
+
+59
+00:03:17,148 --> 00:03:18,656
+Is there any relationship
+between those weights?
+
+60
+00:03:18,656 --> 00:03:21,185
+They can be negative, they can be a
+million, they can be anything you want?
+
+61
+00:03:21,185 --> 00:03:21,776
+>> Oh, sorry.
+
+62
+00:03:21,776 --> 00:03:22,763
+Yeah, good.
+
+63
+00:03:22,763 --> 00:03:24,934
+So the row of the weight for
+
+64
+00:03:24,934 --> 00:03:29,682
+a given rank should be It
+should be a convex combination.
+
+65
+00:03:29,682 --> 00:03:32,596
+They should all sum to one and
+be non-negative.
+
+66
+00:03:32,596 --> 00:03:33,421
+>> Okay, okay, okay.
+
+67
+00:03:33,421 --> 00:03:34,002
+Sure.
+
+68
+00:03:34,002 --> 00:03:38,739
+So it's like doing an expectation but
+
+69
+00:03:38,739 --> 00:03:42,743
+based on how good the action is.
+
+70
+00:03:42,743 --> 00:03:43,684
+Sort of.
+
+71
+00:03:43,684 --> 00:03:45,216
+>> Yeah where it falls in the list yeah.
+
+72
+00:03:45,216 --> 00:03:48,304
+So this actually generalizes
+the first line max.
+
+73
+00:03:48,304 --> 00:03:53,408
+Because max is what we get if we put the
+row of the largest rank to be one and
+
+74
+00:03:53,408 --> 00:03:55,978
+the row everything else to be zero.
+
+75
+00:03:55,978 --> 00:03:58,381
+But it also let's us get min right.
+
+76
+00:03:58,381 --> 00:04:02,974
+Where we have the row of
+the smallest rank equal to one and
+
+77
+00:04:02,974 --> 00:04:04,941
+everything else zero.
+
+78
+00:04:04,941 --> 00:04:10,234
+And everything in between, like
+uniform waiting over all the actions.
+
+79
+00:04:10,234 --> 00:04:12,683
+>> Okay, I think I've got it.
+
+80
+00:04:12,683 --> 00:04:13,195
+And let's see.
+
+81
+00:04:13,195 --> 00:04:14,704
+Let's double check the last one.
+
+82
+00:04:14,704 --> 00:04:18,976
+The last line,
+certification over minimax.
+
+83
+00:04:18,976 --> 00:04:19,858
+I think I know what that means, okay.
+
+84
+00:04:19,858 --> 00:04:22,459
+>> Well, just to make sure.
+
+85
+00:04:22,459 --> 00:04:23,781
+So it's a little bit weird.
+
+86
+00:04:23,781 --> 00:04:27,958
+I'm kind of abusing notation here,
+because minimax is usually defined when
+
+87
+00:04:27,958 --> 00:04:31,898
+you've got two different actors,
+kind of a player one and a player two.
+
+88
+00:04:31,898 --> 00:04:35,055
+And here I'm just writing
+it as if it were one actor.
+
+89
+00:04:35,055 --> 00:04:37,275
+But, you should think of it as,
+
+90
+00:04:37,275 --> 00:04:41,324
+this a prime represents a joint
+action by the two players.
+
+91
+00:04:41,324 --> 00:04:42,636
+>> All right.
+
+92
+00:04:42,636 --> 00:04:46,456
+Okay, I think I got it or at least
+got it enough to work it through.
+
+93
+00:04:46,456 --> 00:04:47,001
+>> All right.
+
+94
+00:04:47,001 --> 00:04:48,905
+Why don't you give it a shot, and
+
+95
+00:04:48,905 --> 00:04:53,061
+if you don't get exactly the way I
+was thinking about it, that's okay.
+
+96
+00:04:53,061 --> 00:04:56,137
+It's mostly to just sort of get you
+thinking about how we're substituting in
+
+97
+00:04:56,137 --> 00:04:58,041
+different pieces to get
+this generalized MDP.
+
+98
+00:04:58,041 --> 00:04:58,878
+>> All right, I like it.
+
+99
+00:04:58,878 --> 00:05:00,010
+Okay, go.

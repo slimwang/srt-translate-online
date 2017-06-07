@@ -1,0 +1,309 @@
+1
+00:00:00,250 --> 00:00:04,200
+Given the strict consistency is
+next to impossible to achieve,
+
+2
+00:00:04,200 --> 00:00:08,880
+the next best option with reasonable
+cost is sequential consistency.
+
+3
+00:00:08,880 --> 00:00:12,610
+If you look at the example from
+the previous idiom, if x and
+
+4
+00:00:12,610 --> 00:00:15,290
+y are completely unrelated,.
+
+5
+00:00:15,290 --> 00:00:20,192
+And P2 computed the value of y
+independently without any reference
+
+6
+00:00:20,192 --> 00:00:22,256
+to the memory location m1.
+
+7
+00:00:22,256 --> 00:00:26,433
+Then these two operations don't really
+have to strictly appear in this
+
+8
+00:00:26,433 --> 00:00:28,545
+particular order.
+
+9
+00:00:28,545 --> 00:00:31,565
+For instance, it is possible for
+P3 to observe,
+
+10
+00:00:31,565 --> 00:00:37,315
+just like what we did in the previous
+case, that the value of m1 has become x.
+
+11
+00:00:37,315 --> 00:00:40,912
+And then to see that
+the value of m2 has become y.
+
+12
+00:00:40,912 --> 00:00:45,862
+But it is also perfectly reasonable for
+P3 at a particular point
+
+13
+00:00:45,862 --> 00:00:50,918
+in time to access the value of m1 and
+to see that it's still zero.
+
+14
+00:00:50,918 --> 00:00:54,182
+So it doesn't know that this
+right operation happened.
+
+15
+00:00:54,182 --> 00:01:00,272
+However, at a subsequent moment when it
+tries to read the memory location m2,
+
+16
+00:01:00,272 --> 00:01:03,210
+it sees that it has
+already been updated to y.
+
+17
+00:01:03,210 --> 00:01:07,956
+This is the equivalent of what would
+happen in a regular shared memory system
+
+18
+00:01:07,956 --> 00:01:09,819
+if we have multiple threads.
+
+19
+00:01:09,819 --> 00:01:12,032
+And if we don't use any
+additional controls and
+
+20
+00:01:12,032 --> 00:01:15,160
+your walking sequentializations and
+anything like that.
+
+21
+00:01:15,160 --> 00:01:17,624
+When these two operations are issued,
+
+22
+00:01:17,624 --> 00:01:20,394
+they will be applied in
+some way some order.
+
+23
+00:01:20,394 --> 00:01:24,549
+But we don't necessarily have control
+which is the order that these operations
+
+24
+00:01:24,549 --> 00:01:26,310
+will be applied in.
+
+25
+00:01:26,310 --> 00:01:31,202
+So that's why we say that as long as the
+ordering that's observed is equivalent
+
+26
+00:01:31,202 --> 00:01:34,205
+to some possible ordering
+of these operations.
+
+27
+00:01:34,205 --> 00:01:37,871
+If they executed on a single
+shared memory system,
+
+28
+00:01:37,871 --> 00:01:41,680
+then that would be considered
+a legal operation.
+
+29
+00:01:41,680 --> 00:01:44,880
+According to this sequential
+consistency model.
+
+30
+00:01:44,880 --> 00:01:48,830
+So, in summary, according to sequential
+consistency, the memory updates from
+
+31
+00:01:48,830 --> 00:01:52,750
+different processors may
+be arbitrarily interleaved.
+
+32
+00:01:52,750 --> 00:01:57,788
+However, if, we let one process
+see one ordering of these updates.
+
+33
+00:01:57,788 --> 00:02:02,040
+We have to make sure that all other
+processes see the exact same ordering of
+
+34
+00:02:02,040 --> 00:02:03,640
+those updates.
+
+35
+00:02:03,640 --> 00:02:07,930
+For instance, it is not okay
+to let process P3 see that
+
+36
+00:02:07,930 --> 00:02:10,913
+the update to m1 with the value x.
+
+37
+00:02:10,913 --> 00:02:15,680
+Appear before the update
+of m2 with the value y.
+
+38
+00:02:15,680 --> 00:02:19,460
+And instead,
+at the same time to allow process 4 to
+
+39
+00:02:19,460 --> 00:02:23,760
+think that the value
+of m1 was still zero.
+
+40
+00:02:23,760 --> 00:02:28,660
+When the value of m2 was
+already updated to y.
+
+41
+00:02:28,660 --> 00:02:29,340
+In this case,
+
+42
+00:02:29,340 --> 00:02:34,900
+process P4 thinks that m2 has been
+updated before the memory location m1.
+
+43
+00:02:34,900 --> 00:02:38,680
+It would be too hard to reason about
+what exactly will happen in a program
+
+44
+00:02:38,680 --> 00:02:39,370
+execution.
+
+45
+00:02:39,370 --> 00:02:43,970
+If every processor can see completely
+different ordering of some updates,.
+
+46
+00:02:43,970 --> 00:02:48,930
+And if we, the software or the
+programmer doesn't have an understand
+
+47
+00:02:48,930 --> 00:02:51,620
+how and when are those updates reorder.
+
+48
+00:02:51,620 --> 00:02:54,690
+What this means is that
+the sequential consistency,
+
+49
+00:02:54,690 --> 00:02:58,510
+every single process will see
+the exact same interleaving.
+
+50
+00:02:58,510 --> 00:03:02,550
+This interleaving may not correspond
+to the real way in which these
+
+51
+00:03:02,550 --> 00:03:04,270
+operations were ordered.
+
+52
+00:03:04,270 --> 00:03:09,223
+However, sequential consistency at least
+guarantees that every single process in
+
+53
+00:03:09,223 --> 00:03:09,997
+the system.
+
+54
+00:03:09,997 --> 00:03:15,360
+Will see the exact same sequential
+ordering of all of this.
+
+55
+00:03:15,360 --> 00:03:19,160
+And one constraint of the interleaving
+is that the updates that are made by
+
+56
+00:03:19,160 --> 00:03:22,320
+the same process will not
+be arbitrarily interleaved.
+
+57
+00:03:22,320 --> 00:03:25,850
+For instance, if P1 makes
+another update in the future.
+
+58
+00:03:25,850 --> 00:03:30,300
+Then on any of the other processes,
+it will not be possible to
+
+59
+00:03:30,300 --> 00:03:34,980
+first observe that the value z was
+written to the memory location, m3.
+
+60
+00:03:34,980 --> 00:03:39,870
+And only then, find out that the value
+x was written to memory location m1.
+
+61
+00:03:39,870 --> 00:03:42,440
+So for instance, what we see on P4.
+
+62
+00:03:42,440 --> 00:03:45,860
+This will be correct under
+sequential consistency because
+
+63
+00:03:45,860 --> 00:03:51,320
+the updates to m1 and
+m3 are observed here in the correct way.
+
+64
+00:03:51,320 --> 00:03:54,160
+When it sees that the value of m3 was z,
+
+65
+00:03:54,160 --> 00:03:57,930
+it already knew that
+the value of m1 had become x.

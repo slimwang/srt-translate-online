@@ -1,0 +1,400 @@
+1
+00:00:00,272 --> 00:00:03,675
+All right, before we go into the code
+of displaying an Interstitial Ad,
+
+2
+00:00:03,675 --> 00:00:05,640
+let's discuss this a little bit.
+
+3
+00:00:05,640 --> 00:00:09,930
+Because there are two important things
+to think about with Interstitial Ads.
+
+4
+00:00:09,930 --> 00:00:13,550
+The first one, is about
+the format of an Interstitial Ad.
+
+5
+00:00:13,550 --> 00:00:18,100
+As we know, the Interstitial Ad consumes
+the entire screen of the device.
+
+6
+00:00:18,100 --> 00:00:20,960
+Therefore, it's important
+not to interrupt the user
+
+7
+00:00:20,960 --> 00:00:22,990
+while they are engaging with your app.
+
+8
+00:00:22,990 --> 00:00:27,630
+So the first important things to think
+about, is to display Interstitial Ads
+
+9
+00:00:27,630 --> 00:00:33,870
+with our natural breaks in your app,
+for example, between levels in a game.
+
+10
+00:00:33,870 --> 00:00:37,060
+The second important thing with
+Interstitial Ads is to prepare
+
+11
+00:00:37,060 --> 00:00:40,100
+the loading of the ad before showing it.
+
+12
+00:00:40,100 --> 00:00:41,918
+Why is this important?
+
+13
+00:00:41,918 --> 00:00:45,870
+Well, loading an Interstitial Ad
+can take time, in particular,
+
+14
+00:00:45,870 --> 00:00:47,400
+if the network is slow.
+
+15
+00:00:47,400 --> 00:00:51,570
+When the time has come to display an
+Interstitial Ad, you don't want the user
+
+16
+00:00:51,570 --> 00:00:56,340
+to sit there and wait for it to load,
+you want it to be displayed immediately.
+
+17
+00:00:56,340 --> 00:00:58,290
+Therefore, we load it in advance.
+
+18
+00:00:58,290 --> 00:01:02,030
+We prepare the loading
+before we're showing the ad.
+
+19
+00:01:02,030 --> 00:01:03,720
+So how do we do that.
+
+20
+00:01:03,720 --> 00:01:07,480
+Well, let's start by looking
+at the class Interstitial Ad.
+
+21
+00:01:07,480 --> 00:01:11,550
+This is the class we use to load and
+show an Interstitial Ad.
+
+22
+00:01:11,550 --> 00:01:13,630
+So it has a method called loadAd.
+
+23
+00:01:13,630 --> 00:01:18,360
+But this method is just requesting
+the ad to be loaded and
+
+24
+00:01:18,360 --> 00:01:20,110
+to avoid blocking the UI thread,
+
+25
+00:01:20,110 --> 00:01:24,260
+it will return immediately
+before the ad has been loaded.
+
+26
+00:01:24,260 --> 00:01:26,360
+So how do we know when
+the ad has been loaded?
+
+27
+00:01:26,360 --> 00:01:30,710
+By setting an AdListener,
+we can overload to onAdLoaded method.
+
+28
+00:01:30,710 --> 00:01:35,280
+So when the Interstitial Ad has finished
+loading, this method will be called, and
+
+29
+00:01:35,280 --> 00:01:38,880
+we can then proceed to call
+show on the Interstitial Ad.
+
+30
+00:01:38,880 --> 00:01:41,540
+So, this is the flow that we
+will implement in our app.
+
+31
+00:01:41,540 --> 00:01:46,140
+You should also know that Interstitial
+Ad has a method called isLoaded.
+
+32
+00:01:46,140 --> 00:01:50,500
+So if you're not interested in knowing
+exactly when the ad has been loaded,
+
+33
+00:01:50,500 --> 00:01:52,140
+then you could simply call loadAd.
+
+34
+00:01:52,140 --> 00:01:56,670
+And when the time has come to show the
+ad, you check if the ad has been loaded.
+
+35
+00:01:56,670 --> 00:02:00,000
+If it has been loaded,
+then you call the show method.
+
+36
+00:02:00,000 --> 00:02:02,330
+Otherwise, you do not
+show the ad at all.
+
+37
+00:02:02,330 --> 00:02:04,370
+Now let's check out the code
+to implement this flow.
+
+38
+00:02:06,060 --> 00:02:09,139
+Let's open up
+the InterstitialActivity Java file.
+
+39
+00:02:09,139 --> 00:02:14,210
+The first thing we've done here is to
+add an InterstitialAd field called
+
+40
+00:02:14,210 --> 00:02:18,610
+mInterstital, there are no
+changes to the onCreate method.
+
+41
+00:02:18,610 --> 00:02:21,430
+So let's go and
+look at the loadInsterstitial method.
+
+42
+00:02:21,430 --> 00:02:24,200
+This code should already be there
+because we set it in the previous
+
+43
+00:02:24,200 --> 00:02:25,340
+exercise.
+
+44
+00:02:25,340 --> 00:02:27,110
+So let's look at the other code.
+
+45
+00:02:27,110 --> 00:02:30,550
+First, we're creating an instance
+of the InterstatialAd.
+
+46
+00:02:30,550 --> 00:02:32,830
+Then, we're setting the AdUnitId.
+
+47
+00:02:32,830 --> 00:02:36,710
+And we set it to this string that
+will return test InterstitialAds.
+
+48
+00:02:36,710 --> 00:02:40,430
+And this string, we defined in our
+resource string file, so we have to get
+
+49
+00:02:40,430 --> 00:02:44,880
+it using the getResources().getString
+and then the resource ID.
+
+50
+00:02:44,880 --> 00:02:47,060
+And now comes the flow
+that we talked about.
+
+51
+00:02:47,060 --> 00:02:50,970
+Here, you can see that we're setting
+the listener for the InterstitialAd.
+
+52
+00:02:50,970 --> 00:02:53,050
+Let's talk about this in a little while.
+
+53
+00:02:53,050 --> 00:02:57,220
+But we're setting a listener here and
+then the execution drops down here.
+
+54
+00:02:57,220 --> 00:03:01,120
+So now, you can see, we're creating
+an AdRequest using the builder.
+
+55
+00:03:01,120 --> 00:03:05,680
+And then we're calling the loadAd
+method on our InterstitialAd instance.
+
+56
+00:03:05,680 --> 00:03:08,979
+Providing the AdRequest as an argument,
+and as we saw before,
+
+57
+00:03:08,979 --> 00:03:11,656
+this method will start
+the ad loading process, but
+
+58
+00:03:11,656 --> 00:03:15,680
+it will return immediately
+before the ad has been loaded.
+
+59
+00:03:15,680 --> 00:03:19,000
+That's where our listener comes
+into play, and as you can see,
+
+60
+00:03:19,000 --> 00:03:23,420
+we're creating an anonymous class here
+based on our ToastAdListener class.
+
+61
+00:03:23,420 --> 00:03:27,170
+And as you can see,
+we're overloading the onAdLoaded method.
+
+62
+00:03:27,170 --> 00:03:29,150
+So since we're setting
+the listener here,
+
+63
+00:03:29,150 --> 00:03:33,110
+this method will be called when
+the ad has completed loading.
+
+64
+00:03:33,110 --> 00:03:36,400
+So we call our parent method that
+will display the toast message,
+
+65
+00:03:36,400 --> 00:03:39,199
+since that is what we defined
+in the ToastAdListener class.
+
+66
+00:03:40,510 --> 00:03:44,520
+And then we set the text of our
+disable button to Show Interstitial.
+
+67
+00:03:44,520 --> 00:03:46,960
+And we also enabled that button.
+
+68
+00:03:46,960 --> 00:03:49,910
+That means that the user
+can now press this button.
+
+69
+00:03:49,910 --> 00:03:51,230
+And when that happens,
+
+70
+00:03:51,230 --> 00:03:54,690
+the showInterstitial callback
+method will be called.
+
+71
+00:03:54,690 --> 00:03:57,010
+So what are we doing
+is showInterstitial.
+
+72
+00:03:57,010 --> 00:04:00,690
+Well, with simple check if
+the Interstitial Ad has been loaded, and
+
+73
+00:04:00,690 --> 00:04:02,700
+this may seem like an unnecessary check,
+
+74
+00:04:02,700 --> 00:04:06,690
+since we know the ad has been
+loaded since onAdLoaded was called.
+
+75
+00:04:06,690 --> 00:04:08,670
+But we're doing it any how.
+
+76
+00:04:08,670 --> 00:04:12,450
+And then the time has come to actually
+show the Interstitial Ad, and
+
+77
+00:04:12,450 --> 00:04:16,029
+when this happens, the ad will actually
+be displayed in full screen mode.
+
+78
+00:04:17,050 --> 00:04:19,310
+And for the button,
+we go back to a previous state,
+
+79
+00:04:19,310 --> 00:04:23,450
+setting the text Interstitial Not Ready
+and then disabling it.
+
+80
+00:04:23,450 --> 00:04:26,100
+And finally, going back to our listener.
+
+81
+00:04:26,100 --> 00:04:30,360
+If the ad could not be loaded, the
+onAdFailedToLoad method will be called.
+
+82
+00:04:30,360 --> 00:04:33,510
+In that case, again,
+we show the toast message and
+
+83
+00:04:33,510 --> 00:04:37,070
+then we set the ErrorReason
+to the text of the button.
+
+84
+00:04:37,070 --> 00:04:40,610
+That's it, that's the code we have
+to implement the Interstitial Ad.

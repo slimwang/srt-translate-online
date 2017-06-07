@@ -1,0 +1,70 @@
+1
+00:00:00,140 --> 00:00:05,100
+We said that spinlocks are one of the
+most basic synchronization primitives.
+
+2
+00:00:05,100 --> 00:00:08,930
+And that they're also used in creating
+some more complex synchronization
+
+3
+00:00:08,930 --> 00:00:10,280
+constructs.
+
+4
+00:00:10,280 --> 00:00:14,040
+For that reason it makes sense to
+focus the remainder of this lesson
+
+5
+00:00:14,040 --> 00:00:18,760
+on understanding how exactly
+spinlocks can be implemented.
+
+6
+00:00:18,760 --> 00:00:21,260
+And what types of opportunities
+are available for
+
+7
+00:00:21,260 --> 00:00:23,090
+their efficient implementation.
+
+8
+00:00:23,090 --> 00:00:27,500
+To do this, we will follow the paper The
+Performance of Spin Lock Alternatives
+
+9
+00:00:27,500 --> 00:00:31,500
+on Shared Memory Multiprocessors
+by Tom Anderson.
+
+10
+00:00:31,500 --> 00:00:35,740
+The paper discusses different
+implementations of spinlocks and
+
+11
+00:00:35,740 --> 00:00:37,290
+this is relevant also for
+
+12
+00:00:37,290 --> 00:00:41,450
+other synchronization constructs
+that use internally spinlocks.
+
+13
+00:00:41,450 --> 00:00:45,180
+Also some of the techniques that
+are described in this paper that concern
+
+14
+00:00:45,180 --> 00:00:49,227
+the use of atomic instructions
+generalize to other constructs and
+
+15
+00:00:49,227 --> 00:00:49,941
+other situations.

@@ -1,0 +1,351 @@
+﻿1
+00:00:00,480 --> 00:00:01,510
+Welcome back.
+
+2
+00:00:01,510 --> 00:00:06,782
+This is my solution to the sentiment
+analysis with TFLearn exercise.
+
+3
+00:00:06,782 --> 00:00:09,589
+I'm going to walk through it and
+show you how I implemented this network.
+
+4
+00:00:11,150 --> 00:00:12,440
+First off, the bag of words.
+
+5
+00:00:13,810 --> 00:00:16,649
+I started by creating
+an empty Counter object,
+
+6
+00:00:16,649 --> 00:00:19,820
+this is where I'm going to
+store the word counts.
+
+7
+00:00:19,820 --> 00:00:24,510
+Here, I'm iterating through the rows in
+the data set with iterrows, this returns
+
+8
+00:00:24,510 --> 00:00:28,679
+the row index, which I don't really care
+about which is why it's an underscore,
+
+9
+00:00:28,679 --> 00:00:30,234
+and the row data itself.
+
+10
+00:00:30,234 --> 00:00:34,229
+Row[0] here, returns the review text and
+
+11
+00:00:34,229 --> 00:00:39,259
+then I split it into words, then I use
+these words to update the counter.
+
+12
+00:00:39,259 --> 00:00:42,710
+This will count up each
+word in this review, so,
+
+13
+00:00:42,710 --> 00:00:46,120
+this will go through each review and
+count up all the words.
+
+14
+00:00:46,119 --> 00:00:50,839
+And we get 74,000 and
+74 total words in the dataset.
+
+15
+00:00:52,520 --> 00:00:55,800
+Then, keep the most
+frequent 10,000 words, and
+
+16
+00:00:55,799 --> 00:01:00,439
+this is what it looks like for the first
+60, mostly it's a bunch of small words.
+
+17
+00:01:00,439 --> 00:01:04,128
+But there's also movie and
+film, which is to be expected,
+
+18
+00:01:04,129 --> 00:01:05,870
+because it's a bunch of movie reviews.
+
+19
+00:01:07,079 --> 00:01:09,179
+Okay, onto the word to index part.
+
+20
+00:01:10,439 --> 00:01:13,189
+Here's how I built my
+word to index dictionary.
+
+21
+00:01:13,189 --> 00:01:17,668
+If you haven't seen this syntax before,
+this is a dictionary comprehension.
+
+22
+00:01:18,790 --> 00:01:22,840
+Here, I'm sending the dictionary
+key to the word in vocab and
+
+23
+00:01:22,840 --> 00:01:24,760
+the value to an integer i.
+
+24
+00:01:24,760 --> 00:01:31,210
+The words are coming from vocab and the
+integers from the enumerate function.
+
+25
+00:01:31,209 --> 00:01:33,419
+enumerate iterates through vocab and,
+
+26
+00:01:33,420 --> 00:01:36,450
+at each step,
+also returns an incrementing integer.
+
+27
+00:01:36,450 --> 00:01:39,340
+So 0 the first time,
+1 the second time, and so on.
+
+28
+00:01:40,560 --> 00:01:43,659
+Comprehensions are amazingly useful,
+and if you get the hang of it,
+
+29
+00:01:43,659 --> 00:01:45,810
+you'll wonder how you
+ever lived without them.
+
+30
+00:01:47,030 --> 00:01:49,930
+Okay, now on to
+the text_to_vector function.
+
+31
+00:01:51,049 --> 00:01:54,829
+First, I start off by creating
+the empty array of zeros for
+
+32
+00:01:54,829 --> 00:01:55,899
+keeping our word count.
+
+33
+00:01:57,180 --> 00:02:00,585
+Then here, I'm iterating
+through each word and text.
+
+34
+00:02:02,010 --> 00:02:06,120
+>From the word2idx dictionary,
+I get the index for the word.
+
+35
+00:02:06,120 --> 00:02:09,030
+If the word didn't exist,
+then I'm just going to skip it, so,
+
+36
+00:02:09,030 --> 00:02:11,210
+if idx is None, continue.
+
+37
+00:02:11,210 --> 00:02:15,800
+This goes straight to the next iteration
+of the loop, if the word does exist,
+
+38
+00:02:15,800 --> 00:02:17,860
+I increment the value at the index for
+that word.
+
+39
+00:02:17,860 --> 00:02:21,050
+Once it goes through all the words,
+it returns the array.
+
+40
+00:02:22,069 --> 00:02:23,949
+Now, onto the network.
+
+41
+00:02:25,000 --> 00:02:30,169
+Here I created the input layer, our
+input vectors are 10,000 elements long,
+
+42
+00:02:30,169 --> 00:02:34,519
+so we need 10,000 input unit,
+that's pretty straightforward.
+
+43
+00:02:34,520 --> 00:02:40,310
+Then I added a couple hidden layers,
+one with 200 units and another with 25.
+
+44
+00:02:40,310 --> 00:02:45,000
+You could probably have a quite accurate
+network with just one layer, but
+
+45
+00:02:45,000 --> 00:02:46,158
+I wanted to get fancy.
+
+46
+00:02:47,240 --> 00:02:52,680
+For the output layer I have two
+units with the softmax activation.
+
+47
+00:02:52,680 --> 00:02:55,514
+And here I set the training
+parameters with regression.
+
+48
+00:02:55,514 --> 00:03:00,575
+I set the learning_rate as 0.1, this
+is typically a good rate to start at,
+
+49
+00:03:00,574 --> 00:03:02,824
+if the network has problems training,
+
+50
+00:03:02,824 --> 00:03:05,714
+then, I'll load it a bit until
+the training looks good.
+
+51
+00:03:06,935 --> 00:03:08,694
+Finally, create the model and return it.
+
+52
+00:03:09,745 --> 00:03:14,694
+If you're wondering about this
+tf.reset_default_graph function here,
+
+53
+00:03:14,694 --> 00:03:18,185
+it fixes the problem
+tflearn has in notebooks.
+
+54
+00:03:18,185 --> 00:03:21,784
+I'm not sure why it happens but if you
+try to reinitialize the model after
+
+55
+00:03:21,784 --> 00:03:26,064
+training, if there was an error, and
+you have to restart the notebook kernel.
+
+56
+00:03:26,064 --> 00:03:29,409
+reset_default_graph clears out
+all the internal variables and
+
+57
+00:03:29,409 --> 00:03:31,359
+parameters tflearn stored and
+
+58
+00:03:31,360 --> 00:03:34,549
+allows you to reinitialize
+the model without any problem.
+
+59
+00:03:36,090 --> 00:03:37,810
+Finally, time to train this thing.
+
+60
+00:03:37,810 --> 00:03:41,979
+At first, I trained for 200FX, it got
+the validation accuracy to around 75%,
+
+61
+00:03:41,979 --> 00:03:45,419
+but I thought I could do better,
+so I trained it more.
+
+62
+00:03:45,419 --> 00:03:46,439
+And eventually,
+
+63
+00:03:46,439 --> 00:03:51,210
+as you see I got to around 89% on
+the validation set, this is pretty good.
+
+64
+00:03:51,210 --> 00:03:56,020
+Of course, I could have kept training,
+but I thought this was good enough.
+
+65
+00:03:56,020 --> 00:03:58,610
+Now that I'm happy with
+the validation accuracy,
+
+66
+00:03:58,610 --> 00:04:00,450
+it's time to write it
+on the testing set.
+
+67
+00:04:01,460 --> 00:04:04,679
+Here, I got 85.5% accuracy,
+
+68
+00:04:04,679 --> 00:04:08,670
+you'll notice that this is a fair
+bit lower than the validation score.
+
+69
+00:04:08,669 --> 00:04:11,349
+Since you set the network
+hyperparameters using the validation
+
+70
+00:04:11,349 --> 00:04:15,169
+set, you're actually overfitting
+the network to the validation set.
+
+71
+00:04:15,169 --> 00:04:19,250
+The test data is completely unseen
+by the network and by you, so
+
+72
+00:04:19,250 --> 00:04:21,740
+it's the best way to get
+a completely unbiased measurement
+
+73
+00:04:21,740 --> 00:04:22,629
+of the network's performance.
+
+74
+00:04:23,689 --> 00:04:27,449
+All right, that's it for my solution,
+how well did your network do?
+

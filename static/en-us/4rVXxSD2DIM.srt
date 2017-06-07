@@ -1,0 +1,564 @@
+1
+00:00:00,110 --> 00:00:01,092
+So let's do the first stage.
+
+2
+00:00:01,092 --> 00:00:02,110
+We're going to select.
+
+3
+00:00:02,110 --> 00:00:04,170
+Well, how do we do selection in an MDP?
+
+4
+00:00:04,170 --> 00:00:05,988
+Well we follow a policy, right?
+
+5
+00:00:05,988 --> 00:00:09,430
+So there's going to be
+some policy that we have.
+
+6
+00:00:09,430 --> 00:00:11,020
+Let's not worry about where
+it comes from right now.
+
+7
+00:00:11,020 --> 00:00:13,860
+But some policy based on experience.
+
+8
+00:00:13,860 --> 00:00:16,730
+That tells us what we ought
+to be doing in some state.
+
+9
+00:00:16,730 --> 00:00:18,860
+So let's say for the sake of argument.
+
+10
+00:00:18,860 --> 00:00:20,744
+I'm in this particular state,
+
+11
+00:00:20,744 --> 00:00:24,388
+and my policy tells me that I
+should take a particular action.
+
+12
+00:00:24,388 --> 00:00:25,648
+And I take that action.
+
+13
+00:00:25,648 --> 00:00:26,890
+Let's say it's this one.
+
+14
+00:00:26,890 --> 00:00:29,790
+And, it ends me up in this state.
+
+15
+00:00:29,790 --> 00:00:32,317
+Well, once we end up in
+this particular state,
+
+16
+00:00:32,317 --> 00:00:36,400
+let's say the policy still tells us
+what to do, and it says take an action.
+
+17
+00:00:36,400 --> 00:00:38,020
+And I take that action.
+
+18
+00:00:38,020 --> 00:00:39,950
+I end up in yet another state.
+
+19
+00:00:39,950 --> 00:00:43,279
+And the policy says well from here,
+you should take a particular action.
+
+20
+00:00:43,279 --> 00:00:46,460
+So I take that action, and
+then I end up in this state.
+
+21
+00:00:46,460 --> 00:00:47,817
+Okay.
+So, I have a policy.
+
+22
+00:00:47,817 --> 00:00:50,324
+The policy tells me how
+to select what to do.
+
+23
+00:00:50,324 --> 00:00:51,619
+What actions I should take.
+
+24
+00:00:51,619 --> 00:00:53,252
+And it gets me through the tree,
+
+25
+00:00:53,252 --> 00:00:55,865
+until I get to a place where
+I don't know what to do.
+
+26
+00:00:55,865 --> 00:00:57,244
+So at this point in the tree.
+
+27
+00:00:57,244 --> 00:00:59,230
+And in fact, just so you know.
+
+28
+00:00:59,230 --> 00:01:01,090
+The way I've drawn this tree,
+
+29
+00:01:01,090 --> 00:01:04,720
+all the leaves of the tree are places
+where I don't know where to go next.
+
+30
+00:01:04,720 --> 00:01:06,680
+I don't have a policy for it.
+
+31
+00:01:06,680 --> 00:01:08,300
+I've gotta figure out what to do.
+
+32
+00:01:08,300 --> 00:01:09,280
+So here's what I'm going to do.
+
+33
+00:01:09,280 --> 00:01:13,450
+I'm at this state, I don't know what
+to do next, I have to do something, so
+
+34
+00:01:13,450 --> 00:01:17,010
+I'm going to do expansion, and
+then I'm going to do simulation.
+
+35
+00:01:17,010 --> 00:01:20,666
+So, here's how the expansion
+state expansion step works.
+
+36
+00:01:20,666 --> 00:01:22,390
+From this state.
+
+37
+00:01:22,390 --> 00:01:24,590
+I can take a bunch of actions right.
+
+38
+00:01:24,590 --> 00:01:27,440
+And from those actions I can
+get to a bunch of states.
+
+39
+00:01:27,440 --> 00:01:29,090
+In fact,
+I can just look at my transition model.
+
+40
+00:01:29,090 --> 00:01:32,702
+And I can see all the possible
+next states I might end up at.
+
+41
+00:01:32,702 --> 00:01:34,241
+Based upon the actions that I take.
+
+42
+00:01:34,241 --> 00:01:35,780
+And often that's what you would do.
+
+43
+00:01:35,780 --> 00:01:39,800
+That's what you would do in
+a normal kind of game tree search.
+
+44
+00:01:39,800 --> 00:01:42,285
+The problem here of course, is that we
+might have many, many, many, many, many,
+
+45
+00:01:42,285 --> 00:01:45,660
+many, many, many, many, many, many,
+many, many, many, many, many states.
+
+46
+00:01:45,660 --> 00:01:48,580
+And so, we don't want to
+expand out the tree that much.
+
+47
+00:01:48,580 --> 00:01:51,033
+So instead what we're going to do is
+we're going to kind of do a sort of
+
+48
+00:01:51,033 --> 00:01:51,703
+sampling step.
+
+49
+00:01:51,703 --> 00:01:54,990
+We're going to say, well, for
+each of the actions that I might take.
+
+50
+00:01:54,990 --> 00:01:57,950
+Why don't I take that action and
+then simulate, for
+
+51
+00:01:57,950 --> 00:02:00,040
+one step what state I might end up in.
+
+52
+00:02:00,040 --> 00:02:02,150
+And then do that for another action.
+
+53
+00:02:02,150 --> 00:02:03,850
+And then do that for another action.
+
+54
+00:02:03,850 --> 00:02:04,740
+And so on and so forth.
+
+55
+00:02:04,740 --> 00:02:09,803
+Until I have a few possible next
+state action pairs that I might see.
+
+56
+00:02:09,803 --> 00:02:11,290
+And maybe that number's really small.
+
+57
+00:02:11,290 --> 00:02:12,790
+Maybe it's six, maybe it's 100.
+
+58
+00:02:12,790 --> 00:02:15,040
+It sort of depends
+upon your state space.
+
+59
+00:02:15,040 --> 00:02:16,810
+So I've done the expansion step.
+
+60
+00:02:16,810 --> 00:02:19,990
+I've figured out where I might end
+up next given all the actions that I
+
+61
+00:02:19,990 --> 00:02:20,800
+might take.
+
+62
+00:02:20,800 --> 00:02:22,580
+So I'm not drawing this because
+there's not a lot of room.
+
+63
+00:02:22,580 --> 00:02:27,412
+But, each one of these edges represents
+some particular action I could
+
+64
+00:02:27,412 --> 00:02:30,479
+have taken, or
+I did take in my imagination.
+
+65
+00:02:30,479 --> 00:02:34,670
+And the state that I ended up in,
+or what the nodes represent.
+
+66
+00:02:34,670 --> 00:02:38,430
+And so each one of these edges has
+some action that's associated with it.
+
+67
+00:02:38,430 --> 00:02:39,978
+I'm just not writing it
+down because of space.
+
+68
+00:02:39,978 --> 00:02:40,486
+Okay?
+
+69
+00:02:40,486 --> 00:02:41,245
+>> Mm-hm.
+
+70
+00:02:41,245 --> 00:02:42,799
+>> All right, so now I've got this.
+
+71
+00:02:42,799 --> 00:02:45,140
+So I now expanded sort of the fringe.
+
+72
+00:02:45,140 --> 00:02:48,350
+Here's all the things that I might do,
+and where I might end up next.
+
+73
+00:02:48,350 --> 00:02:52,520
+And now I have to use that to kind of
+decide what I actually ought to do.
+
+74
+00:02:52,520 --> 00:02:54,740
+Now if we were doing the normal
+kind of tree search,
+
+75
+00:02:54,740 --> 00:02:56,250
+like we talked about with game search.
+
+76
+00:02:56,250 --> 00:02:59,630
+I would just use my evaluation function,
+but I don't have an evaluation function.
+
+77
+00:02:59,630 --> 00:03:02,470
+So instead, I'm going to do simulation.
+
+78
+00:03:02,470 --> 00:03:05,140
+And what that means is I'm
+going to follow some other policy.
+
+79
+00:03:05,140 --> 00:03:06,310
+We typically have a name for that.
+
+80
+00:03:06,310 --> 00:03:07,745
+We call it the roll out policy.
+
+81
+00:03:07,745 --> 00:03:10,350
+And just for
+the sake of discussion here.
+
+82
+00:03:10,350 --> 00:03:12,058
+Let's just say it's a random policy.
+
+83
+00:03:12,058 --> 00:03:14,240
+So I'm going to say I took
+this particular action.
+
+84
+00:03:14,240 --> 00:03:15,730
+I ended up in this particular state.
+
+85
+00:03:15,730 --> 00:03:18,630
+And then I'm just going to
+behave randomly for awhile.
+
+86
+00:03:18,630 --> 00:03:20,129
+And then I'm going to
+do the same thing here.
+
+87
+00:03:20,129 --> 00:03:21,490
+>> [LAUGH]
+>> Yeah, that looks random.
+
+88
+00:03:21,490 --> 00:03:22,430
+And I'm going to do that here.
+
+89
+00:03:22,430 --> 00:03:23,670
+And then I'm going to do that here.
+
+90
+00:03:23,670 --> 00:03:24,860
+And then I'm going to do that here.
+
+91
+00:03:24,860 --> 00:03:26,070
+And I'm going to do that here.
+
+92
+00:03:26,070 --> 00:03:26,780
+And I'm going to do that here.
+
+93
+00:03:26,780 --> 00:03:28,330
+And I'm going to get
+a whole bunch of spaghetti.
+
+94
+00:03:29,390 --> 00:03:31,680
+Now, the spaghetti actually
+has a nice little bits.
+
+95
+00:03:31,680 --> 00:03:32,590
+I know spaghetti is delicious.
+
+96
+00:03:32,590 --> 00:03:37,112
+The spaghetti actually has all kinds
+of nice information associated with it.
+
+97
+00:03:37,112 --> 00:03:40,430
+As I move through this path, and through
+this trajectory by behaving randomly.
+
+98
+00:03:40,430 --> 00:03:42,520
+Say from this particular state.
+
+99
+00:03:42,520 --> 00:03:45,240
+I actually see a bunch of
+rewards along the way.
+
+100
+00:03:45,240 --> 00:03:48,040
+And I can just take that
+out as far as I need to.
+
+101
+00:03:48,040 --> 00:03:50,530
+Given my horizon say,
+my discount factor.
+
+102
+00:03:50,530 --> 00:03:51,730
+So I do this for a long time.
+
+103
+00:03:51,730 --> 00:03:54,074
+And I collect rewards along the way.
+
+104
+00:03:54,074 --> 00:03:57,487
+That gives me an estimate
+of being in this state, and
+
+105
+00:03:57,487 --> 00:03:59,670
+taking this particular action.
+
+106
+00:03:59,670 --> 00:04:02,930
+And since I might take the same action
+multiple times, and get to these states.
+
+107
+00:04:02,930 --> 00:04:05,890
+I now can do a sort of average
+over all of these possibilities.
+
+108
+00:04:05,890 --> 00:04:08,550
+Get lots and lots of,
+sort of estimates of this.
+
+109
+00:04:08,550 --> 00:04:11,520
+And then that gives me
+an estimate of a Q value for
+
+110
+00:04:11,520 --> 00:04:12,920
+each of the actions that I might take.
+
+111
+00:04:12,920 --> 00:04:16,546
+So all I'm really doing is building
+an evaluation function by doing well,
+
+112
+00:04:16,546 --> 00:04:18,339
+Monte Carlo simulation from there.
+
+113
+00:04:18,339 --> 00:04:19,067
+So I'm in this state.
+
+114
+00:04:19,067 --> 00:04:20,238
+I took a bunch of actions.
+
+115
+00:04:20,238 --> 00:04:22,230
+That gives me a concrete
+set of next states.
+
+116
+00:04:22,230 --> 00:04:24,960
+From there,
+I just behave randomly for a while.
+
+117
+00:04:24,960 --> 00:04:27,290
+I use that to gather a bunch
+of estimates of rewards.
+
+118
+00:04:27,290 --> 00:04:28,210
+I add them all up.
+
+119
+00:04:28,210 --> 00:04:29,770
+I average them appropriately.
+
+120
+00:04:29,770 --> 00:04:32,560
+And now that gives me
+an estimate of the Q function.
+
+121
+00:04:32,560 --> 00:04:33,790
+But by the way, it does more than that.
+
+122
+00:04:33,790 --> 00:04:36,985
+Now that I have an estimate of
+the Q function for this state.
+
+123
+00:04:36,985 --> 00:04:41,710
+Backed up from here, I can actually back
+up information all the way to the top.
+
+124
+00:04:41,710 --> 00:04:45,520
+And that updates the estimate
+of this particular node.
+
+125
+00:04:45,520 --> 00:04:47,630
+This particular node, and
+this particular node.

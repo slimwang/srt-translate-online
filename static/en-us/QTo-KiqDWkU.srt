@@ -1,0 +1,113 @@
+1
+00:00:00,150 --> 00:00:04,250
+Here is the block device stack figure
+from the previous morsel, as we said,
+
+2
+00:00:04,250 --> 00:00:08,790
+it has well-defined interfaces among the
+applications and the kernel level file
+
+3
+00:00:08,790 --> 00:00:13,020
+system and this is what makes it easy to
+change the implementation of the file
+
+4
+00:00:13,020 --> 00:00:17,760
+system that we want to use without
+making any changes to the applications.
+
+5
+00:00:17,760 --> 00:00:21,690
+In the same way we can also change what
+is the particular type of a device that
+
+6
+00:00:21,690 --> 00:00:26,570
+a file system uses without really
+making changes further up the stack.
+
+7
+00:00:26,570 --> 00:00:30,970
+However, what if we want to make
+sure that the user applications
+
+8
+00:00:30,970 --> 00:00:32,100
+can seamlessly,
+
+9
+00:00:32,100 --> 00:00:37,790
+as a single file system, see files that
+are distributed across multiple devices?
+
+10
+00:00:37,790 --> 00:00:41,760
+And, if on top of that, different types
+of devices work better with different
+
+11
+00:00:41,760 --> 00:00:45,000
+file system implementations,
+or what if the files
+
+12
+00:00:45,000 --> 00:00:49,070
+aren't even local on that particular
+machine, on some of the devices?
+
+13
+00:00:49,070 --> 00:00:51,800
+What if they need to be
+accessed via the network?
+
+14
+00:00:51,800 --> 00:00:54,930
+To deal with these differences,
+operating systems like Linux
+
+15
+00:00:54,930 --> 00:00:59,580
+use a virtual file system layer,
+the virtual file system will hide from
+
+16
+00:00:59,580 --> 00:01:04,080
+applications all details regarding
+the underlying file system.
+
+17
+00:01:04,080 --> 00:01:08,960
+Whether there is one or more, whether
+they use one or more local devices or
+
+18
+00:01:08,960 --> 00:01:13,480
+a file systems they reference remote
+servers and use remote storage.
+
+19
+00:01:13,480 --> 00:01:17,100
+Applications continue to interact
+with this virtual filesystem
+
+20
+00:01:17,100 --> 00:01:21,710
+using the same type of API,
+for instance the POSIX API and
+
+21
+00:01:21,710 --> 00:01:25,520
+the virtual file system will
+specify a more detailed set
+
+22
+00:01:25,520 --> 00:01:29,210
+of all system related abstractions that
+every single one of the underlined file
+
+23
+00:01:29,210 --> 00:01:32,800
+systems must implement, so that it can
+perform the necessary translations.

@@ -1,0 +1,135 @@
+1
+00:00:00,200 --> 00:00:05,570
+As a whole, we refer to this process representation as an address space.
+
+2
+00:00:05,570 --> 00:00:09,590
+We said earlier that the potential range of addresses from
+
+3
+00:00:09,590 --> 00:00:15,360
+v0 to vmax represents the maximum size of the process address space.
+
+4
+00:00:15,360 --> 00:00:18,150
+And we call these addresses virtual addresses.
+
+5
+00:00:18,150 --> 00:00:21,620
+So these, between v0 and vmax are the addresses that
+
+6
+00:00:21,620 --> 00:00:25,070
+are used by the process to reference some of its state.
+
+7
+00:00:25,070 --> 00:00:29,820
+We call these addresses virtual, because they don't have to correspond to
+
+8
+00:00:29,820 --> 00:00:33,230
+actual locations in the physical memory.
+
+9
+00:00:33,230 --> 00:00:36,520
+Instead, the memory management hardware and
+
+10
+00:00:36,520 --> 00:00:41,090
+operating system components responsible for memory management, like page tables
+
+11
+00:00:41,090 --> 00:00:45,590
+maintain a mapping between the virtual addresses and the physical addresses.
+
+12
+00:00:45,590 --> 00:00:49,970
+By using this type of mapping, we decouple the layout of
+
+13
+00:00:49,970 --> 00:00:54,420
+the data in the virtual address space, which may be complex and
+
+14
+00:00:54,420 --> 00:00:59,380
+it may depend on the specifics of the application or the tools that we used,
+
+15
+00:00:59,380 --> 00:01:02,900
+like how the compiler chose to lay that data out.
+
+16
+00:01:02,900 --> 00:01:07,730
+That's completely decoupled with how that data is laid out in physical memory.
+
+17
+00:01:07,730 --> 00:01:12,730
+And that will allow us to maintain physical memory management simple and
+
+18
+00:01:12,730 --> 00:01:17,930
+not in any way dictate it by the data layout or processes that are executing.
+
+19
+00:01:17,930 --> 00:01:23,010
+For instance, the variable x may be at a location 03c5
+
+20
+00:01:23,010 --> 00:01:25,240
+in the virtual address space.
+
+21
+00:01:25,240 --> 00:01:28,110
+And this may correspond to a completely different address,
+
+22
+00:01:29,150 --> 00:01:31,440
+0f0f in physical memory.
+
+23
+00:01:31,440 --> 00:01:36,460
+The way this happens is when the process requests some
+
+24
+00:01:36,460 --> 00:01:40,020
+memory to be allocated to it at a particular virtual address.
+
+25
+00:01:41,040 --> 00:01:45,730
+The address of the physical memory that the operating system actually allocates
+
+26
+00:01:45,730 --> 00:01:50,720
+may be completely different, and instead of notifying the process about
+
+27
+00:01:50,720 --> 00:01:55,830
+the details of where exactly in memory that variable really is.
+
+28
+00:01:55,830 --> 00:02:00,700
+The operating system will create a mapping between this virtual address,
+
+29
+00:02:00,700 --> 00:02:06,490
+03c5, and the physical address, 0f0f, where x actually is.
+
+30
+00:02:06,490 --> 00:02:12,170
+So then whenever the process tries to access x, this mapping is referenced,
+
+31
+00:02:12,170 --> 00:02:18,070
+and in reality the exact physical location where x is will be accessed.
+
+32
+00:02:18,070 --> 00:02:25,500
+As long as the mapping between 03c5 and 0f0f is present in this mapping table,
+
+33
+00:02:25,500 --> 00:02:31,290
+this is a page table and this is a page table entry, any access of the process
+
+34
+00:02:31,290 --> 00:02:36,570
+to x will, in fact, access the correct physical location where x is stored.

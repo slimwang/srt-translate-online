@@ -1,0 +1,339 @@
+1
+00:00:00,240 --> 00:00:02,680
+There isn't just one correct
+way to answer this question.
+
+2
+00:00:02,680 --> 00:00:06,151
+It really depends on what's most useful
+for you to identify the difference
+
+3
+00:00:06,151 --> 00:00:09,245
+between the incorrect app behavior and
+the correct app behavior.
+
+4
+00:00:09,245 --> 00:00:12,640
+Here are some of
+the thing that I noticed.
+
+5
+00:00:12,640 --> 00:00:15,990
+In the incorrect app behavior,
+when you click on the order button
+
+6
+00:00:15,990 --> 00:00:19,990
+the quantity changes to the same value
+each time and it shouldn't change.
+
+7
+00:00:19,990 --> 00:00:22,320
+Next I also notice that
+the price was correct for
+
+8
+00:00:22,320 --> 00:00:25,010
+this quantity value, but
+really the price should be for
+
+9
+00:00:25,010 --> 00:00:28,310
+the last quantity that was
+selected in the quantity picker.
+
+10
+00:00:28,310 --> 00:00:31,570
+Again, this is related to the fact
+that quantity shouldn't change.
+
+11
+00:00:31,570 --> 00:00:34,230
+Let's look at the existing code for
+why this is happening.
+
+12
+00:00:35,390 --> 00:00:39,320
+In the activity_main layout file,
+We have the Order button declared here.
+
+13
+00:00:39,320 --> 00:00:40,576
+When the Order button is clicked,
+
+14
+00:00:40,576 --> 00:00:43,102
+we're going to call a method in
+the main activity called submitOrder.
+
+15
+00:00:43,102 --> 00:00:47,890
+In the MainActivity.java file,
+here's the submitOrder method.
+
+16
+00:00:47,890 --> 00:00:51,030
+This is old code from a long time
+ago that we haven't changed yet.
+
+17
+00:00:51,030 --> 00:00:54,570
+But we create an integer quantity
+variable and initialize it to 5.
+
+18
+00:00:54,570 --> 00:00:56,300
+We display that to the screen.
+
+19
+00:00:56,300 --> 00:01:00,610
+We also display price as the number
+of cups of coffee times $5 each.
+
+20
+00:01:00,610 --> 00:01:03,700
+Already this code don't make a lot of
+sense, because as we're trying to submit
+
+21
+00:01:03,700 --> 00:01:06,530
+the order we're trying
+to update the quantity.
+
+22
+00:01:06,530 --> 00:01:09,411
+And another problem is that we're
+creating an integer quantity variable
+
+23
+00:01:09,411 --> 00:01:12,478
+when we already have a global quantity
+variable that's supposed to keep track
+
+24
+00:01:12,478 --> 00:01:13,747
+of the number of cups of coffee.
+
+25
+00:01:13,747 --> 00:01:18,026
+In the MainActivity we already
+have a global quantity variable,
+
+26
+00:01:18,026 --> 00:01:22,520
+so any method inside here can
+refer to this quantity variable.
+
+27
+00:01:22,520 --> 00:01:27,060
+However, in the submitOrder method we're
+creating a new local quantity variable.
+
+28
+00:01:27,060 --> 00:01:30,410
+Technically you can have a local
+variable called the same name
+
+29
+00:01:30,410 --> 00:01:32,200
+as a global variable.
+
+30
+00:01:32,200 --> 00:01:34,812
+This just means that in
+the context of this method,
+
+31
+00:01:34,812 --> 00:01:38,581
+after this variable has been declared,
+whenever you refer to quantity,
+
+32
+00:01:38,581 --> 00:01:41,985
+it actually refers to this local
+quantity variable with value 5,
+
+33
+00:01:41,985 --> 00:01:44,396
+not the global quantity
+variable of value 2.
+
+34
+00:01:44,396 --> 00:01:46,310
+So display(quantity) and
+
+35
+00:01:46,310 --> 00:01:51,500
+displayPrice(quantity *5) both
+refer to this quantity value.
+
+36
+00:01:51,500 --> 00:01:54,080
+This is the scope of
+this local variable.
+
+37
+00:01:54,080 --> 00:01:55,490
+Outside of this scope,
+
+38
+00:01:55,490 --> 00:01:59,490
+whenever you refer to quantity it
+means this global variable quantity.
+
+39
+00:01:59,490 --> 00:02:00,330
+If you think about it,
+
+40
+00:02:00,330 --> 00:02:03,430
+though, it doesn't really make sense
+that when you submit your order,
+
+41
+00:02:03,430 --> 00:02:07,040
+you would create a new quantity and
+then display that on the screen.
+
+42
+00:02:07,040 --> 00:02:10,370
+What you really want to do is just use
+the quantity that we've been keeping
+
+43
+00:02:10,370 --> 00:02:14,900
+track of as we've been increasing and
+decreasing the number of cups of coffee.
+
+44
+00:02:14,900 --> 00:02:18,040
+So that's what we should
+calculate our price off of.
+
+45
+00:02:18,040 --> 00:02:22,070
+To fix our code, we should not
+declare a local quantity variable.
+
+46
+00:02:22,070 --> 00:02:25,130
+Instead we should just use
+this global quantity variable.
+
+47
+00:02:25,130 --> 00:02:28,550
+We should also stop trying to
+update the quantity on the screen.
+
+48
+00:02:28,550 --> 00:02:31,270
+The plus and minus buttons already
+handle updating the screen
+
+49
+00:02:31,270 --> 00:02:33,520
+with the proper quantity value.
+
+50
+00:02:33,520 --> 00:02:37,570
+We do, however, want the submitOrder
+button to still update the price.
+
+51
+00:02:37,570 --> 00:02:41,600
+But this time we're going to
+calculate the price as quantity * 5
+
+52
+00:02:41,600 --> 00:02:43,990
+using the global quantity variable.
+
+53
+00:02:43,990 --> 00:02:47,720
+I'm going to update the code so that
+it reflects what we just talked about.
+
+54
+00:02:47,720 --> 00:02:50,860
+Notice that the quantity variable
+has turned into a purple font color,
+
+55
+00:02:50,860 --> 00:02:54,030
+which means that we're using the global
+quantity variable in the MainActivity.
+
+56
+00:02:54,030 --> 00:02:57,940
+When the button is pressed it will
+trigger the submitOrder method.
+
+57
+00:02:57,940 --> 00:02:59,580
+This will display
+the price on the screen,
+
+58
+00:02:59,580 --> 00:03:03,934
+where the price is calculated as
+the global quantity variable times 5.
+
+59
+00:03:04,970 --> 00:03:06,670
+This looks correct, so
+let's run it on our device.
+
+60
+00:03:07,680 --> 00:03:09,530
+Okay, now for the ultimate test.
+
+61
+00:03:09,530 --> 00:03:13,660
+I'm going to change the quantity to 6
+and then click on the Order button, and
+
+62
+00:03:13,660 --> 00:03:14,510
+yay, it's $30.
+
+63
+00:03:14,510 --> 00:03:17,630
+Let me try other values as well so
+I know it's not a fluke.
+
+64
+00:03:17,630 --> 00:03:18,958
+That looks correct.
+That looks correct.
+
+65
+00:03:18,958 --> 00:03:22,600
+Cool, it works!
+
+66
+00:03:22,600 --> 00:03:24,310
+You just fixed your first bug.
+
+67
+00:03:24,310 --> 00:03:26,400
+You did really well on that task.
+
+68
+00:03:26,400 --> 00:03:28,970
+The functionality of our
+app is working really well.
+
+69
+00:03:28,970 --> 00:03:32,280
+But I have to admit,
+the UI is a little bit ugly.
+
+70
+00:03:32,280 --> 00:03:35,800
+In particular, the quantity
+picker could use some UI love, so
+
+71
+00:03:35,800 --> 00:03:36,740
+let's work on that next.

@@ -1,0 +1,487 @@
+1
+00:00:00,000 --> 00:00:03,000
+So let's look at this example again--let me redraw the data.
+
+2
+00:00:03,000 --> 00:00:05,000
+What makes these clusters so different
+
+3
+00:00:05,000 --> 00:00:08,000
+is not the absolute location of each data point,
+
+4
+00:00:08,000 --> 00:00:11,000
+but the connectedness of these data points.
+
+5
+00:00:11,000 --> 00:00:13,000
+The fact that these 2 points belong together
+
+6
+00:00:13,000 --> 00:00:16,000
+is likely because there's lots of points in-between.
+
+7
+00:00:16,000 --> 00:00:18,000
+In other words, it's the affinity
+
+8
+00:00:18,000 --> 00:00:21,000
+that defines those clusters, not the absolute location.
+
+9
+00:00:21,000 --> 00:00:25,000
+So spectral clustering gets annotation of affinity
+
+10
+00:00:25,000 --> 00:00:27,000
+to make clustering happen.
+
+11
+00:00:27,000 --> 00:00:30,000
+So let me look at the simple example for spectral clustering
+
+12
+00:00:30,000 --> 00:00:33,000
+that would also work for K-means or EM,
+
+13
+00:00:33,000 --> 00:00:36,000
+but they'll be useful to illustrate spectral clustering.
+
+14
+00:00:36,000 --> 00:00:39,000
+Let's assume there's 9 data points as shown over here,
+
+15
+00:00:39,000 --> 00:00:43,000
+and I've colored them differently in blue, red, and black.
+
+16
+00:00:43,000 --> 00:00:46,000
+But to clustering algorithms, they all come with the same color.
+
+17
+00:00:46,000 --> 00:00:48,000
+Now the key element of spectral clustering
+
+18
+00:00:48,000 --> 00:00:50,000
+is called the affinity martrix,
+
+19
+00:00:50,000 --> 00:00:53,000
+which is a 9 by 9 matrix in this case,
+
+20
+00:00:53,000 --> 00:00:56,000
+where each data point gets graphed
+
+21
+00:00:56,000 --> 00:00:58,000
+realtive to each other data point.
+
+22
+00:00:58,000 --> 00:01:00,000
+So let me write down all the 9 data points
+
+23
+00:01:00,000 --> 00:01:03,000
+into the different rows of this matrix--
+
+24
+00:01:03,000 --> 00:01:05,000
+the red ones, the black ones, and the blue ones.
+
+25
+00:01:05,000 --> 00:01:09,000
+And in the columns, I graphed the exact same 9 data points.
+
+26
+00:01:09,000 --> 00:01:13,000
+I then calculate for each pair of data points their affinity,
+
+27
+00:01:13,000 --> 00:01:16,000
+where I use for now affinity as the
+
+28
+00:01:16,000 --> 00:01:19,000
+quadratic distance in this diagram over here.
+
+29
+00:01:19,000 --> 00:01:22,000
+Clearly, the red dots to each other have a high affinity,
+
+30
+00:01:22,000 --> 00:01:24,000
+which means a small quadratic distance.
+
+31
+00:01:24,000 --> 00:01:26,000
+Let me indicate this as follows--
+
+32
+00:01:26,000 --> 00:01:29,000
+But realtive to all the other points, the affinity is weak.
+
+33
+00:01:29,000 --> 00:01:32,000
+So there's a very small value in these elements over here.
+
+34
+00:01:32,000 --> 00:01:34,000
+Similarly, the affinity of the black
+
+35
+00:01:34,000 --> 00:01:36,000
+data points to each other is very high,
+
+36
+00:01:36,000 --> 00:01:38,000
+which means that the following block diagonal
+
+37
+00:01:38,000 --> 00:01:41,000
+in this matrix will have a very large value.
+
+38
+00:01:41,000 --> 00:01:44,000
+Yet the affinity to all the other data points will be low.
+
+39
+00:01:44,000 --> 00:01:47,000
+And of course, the same is true for the blue data points.
+
+40
+00:01:47,000 --> 00:01:49,000
+The interesting thing to notice now
+
+41
+00:01:49,000 --> 00:01:52,000
+is that this is an approximately rank-deficient matrix.
+
+42
+00:01:52,000 --> 00:01:56,000
+And further, the data points that belong to the same class--
+
+43
+00:01:56,000 --> 00:01:59,000
+like the 3 red dots or the 3 black dots,
+
+44
+00:01:59,000 --> 00:02:03,000
+have a singular affinitive vector to all the other data points.
+
+45
+00:02:03,000 --> 00:02:06,000
+So this vector over here is similar to this vector over here.
+
+46
+00:02:06,000 --> 00:02:08,000
+It's similar to this vector over here,
+
+47
+00:02:08,000 --> 00:02:10,000
+but it's very different to this vector over here,
+
+48
+00:02:10,000 --> 00:02:13,000
+which then itself is similar to the vector over here,
+
+49
+00:02:13,000 --> 00:02:15,000
+yet different to the previous ones.
+
+50
+00:02:15,000 --> 00:02:17,000
+Such a situation is easily addressed by what's called
+
+51
+00:02:17,000 --> 00:02:21,000
+principal component analysis, or PCA.
+
+52
+00:02:21,000 --> 00:02:25,000
+PCA is a method to identify vectors that are similar
+
+53
+00:02:25,000 --> 00:02:28,000
+in an approximate rank-deficient matrix.
+
+54
+00:02:28,000 --> 00:02:31,000
+Consider once again our affinity matrix
+
+55
+00:02:31,000 --> 00:02:33,000
+with prinicple component analysis,
+
+56
+00:02:33,000 --> 00:02:36,000
+which is a standard linear trick,
+
+57
+00:02:36,000 --> 00:02:38,000
+we can re-represent this matrix
+
+58
+00:02:38,000 --> 00:02:42,000
+by the most dominant tivectors you'll find there.
+
+59
+00:02:42,000 --> 00:02:44,000
+And the first one, might look like this.
+
+60
+00:02:44,000 --> 00:02:47,000
+The second one, which would be orthogonal, may look like this.
+
+61
+00:02:47,000 --> 00:02:49,000
+The third one, like this.
+
+62
+00:02:49,000 --> 00:02:51,000
+These are called eigenvectors, and the principle component
+
+63
+00:02:51,000 --> 00:02:53,000
+now is each eigenvector has an item of value
+
+64
+00:02:53,000 --> 00:02:57,000
+that states how prevalent this vector is in the original data.
+
+65
+00:02:57,000 --> 00:03:00,000
+And for these 3 vectors, you're going to find a large eigenvalue
+
+66
+00:03:00,000 --> 00:03:03,000
+because there's a number data points that represent
+
+67
+00:03:03,000 --> 00:03:06,000
+these vectors quite prevalently
+
+68
+00:03:06,000 --> 00:03:09,000
+like the first 3 does for this guy over here.
+
+69
+00:03:09,000 --> 00:03:12,000
+There might be additional eigenvectors like something like this,
+
+70
+00:03:12,000 --> 00:03:15,000
+but such eigenvectors will have a small eigenvalue
+
+71
+00:03:15,000 --> 00:03:17,000
+simply because this vector isn't really
+
+72
+00:03:17,000 --> 00:03:19,000
+required to explain the data over here.
+
+73
+00:03:19,000 --> 00:03:21,000
+It might just be explaining some of the noise
+
+74
+00:03:21,000 --> 00:03:23,000
+in the affinity matrix
+
+75
+00:03:23,000 --> 00:03:25,000
+that I didn't even dare draw in here.
+
+76
+00:03:25,000 --> 00:03:27,000
+Now if you take the eigenvectors with the largest
+
+77
+00:03:27,000 --> 00:03:29,000
+eigenvalues--3 in this case,
+
+78
+00:03:29,000 --> 00:03:32,000
+you first discover that the dimensionality
+
+79
+00:03:32,000 --> 00:03:34,000
+of the underlying data space.
+
+80
+00:03:34,000 --> 00:03:37,000
+The dimensionality equals the number of large eigenvalues.
+
+81
+00:03:37,000 --> 00:03:40,000
+Further, if you re-represent each data vector
+
+82
+00:03:40,000 --> 00:03:42,000
+using those eigenvectors,
+
+83
+00:03:42,000 --> 00:03:44,000
+you'll find a 3 dimensional space
+
+84
+00:03:44,000 --> 00:03:48,000
+where original data falls into a varity of different places.
+
+85
+00:03:48,000 --> 00:03:51,000
+And these places are easily told apart by conventional clustering.
+
+86
+00:03:51,000 --> 00:03:53,000
+So in summary, spectral clustering builds
+
+87
+00:03:53,000 --> 00:03:55,000
+an affinity matrix of the data points.
+
+88
+00:03:55,000 --> 00:03:58,000
+It strikes the eigenvectors with the largest eigenvalues,
+
+89
+00:03:58,000 --> 00:04:01,000
+and then re-map those vecotrs into a new space
+
+90
+00:04:01,000 --> 00:04:05,000
+with the data points easily clustering the conventional way.
+
+91
+00:04:05,000 --> 00:04:09,000
+This is called affinity-based clustering or spectral clustering.
+
+92
+00:04:09,000 --> 00:04:11,000
+Let me illustrate this once again with the
+
+93
+00:04:11,000 --> 00:04:13,000
+data set that has a different spectral clustering
+
+94
+00:04:13,000 --> 00:04:15,000
+than a conventional clustering.
+
+95
+00:04:15,000 --> 00:04:17,000
+In this data set, the different clusters belong
+
+96
+00:04:17,000 --> 00:04:19,000
+together because they're affinity is similar.
+
+97
+00:04:19,000 --> 00:04:21,000
+These 2 points belong together
+
+98
+00:04:21,000 --> 00:04:23,000
+because there is a point in-between.
+
+99
+00:04:23,000 --> 00:04:26,000
+If we now draw the affinity matrix for those data points,
+
+100
+00:04:26,000 --> 00:04:29,000
+you find that the first and second data points are close together
+
+101
+00:04:29,000 --> 00:04:32,000
+and the second and the third, but not the first and the third.
+
+102
+00:04:32,000 --> 00:04:35,000
+Hence these 2 off diagonal elements here have remained small.
+
+103
+00:04:35,000 --> 00:04:38,000
+Similarly for the red points as shown here
+
+104
+00:04:38,000 --> 00:04:40,000
+with these 2 elements over here relatively small.
+
+105
+00:04:40,000 --> 00:04:42,000
+And also for the black points
+
+106
+00:04:42,000 --> 00:04:44,000
+where these 2 elements over here are small.
+
+107
+00:04:44,000 --> 00:04:47,000
+And interestingly enough, even though these aren't blocked diagonal,
+
+108
+00:04:47,000 --> 00:04:50,000
+your first 3 largest eigenvectors
+
+109
+00:04:50,000 --> 00:04:52,000
+will still look the same as before.
+
+110
+00:04:52,000 --> 00:04:54,000
+I find this quite remarkable
+
+111
+00:04:54,000 --> 00:04:56,000
+that even though these aren't exactly blocks,
+
+112
+00:04:56,000 --> 00:04:59,000
+those vecotrs still represent the 3 most
+
+113
+00:04:59,000 --> 00:05:01,000
+important vectors for which to recover
+
+114
+00:05:01,000 --> 00:05:04,000
+the data using principle component analysis.
+
+115
+00:05:04,000 --> 00:05:06,000
+So in this case, spectral clustering would easily
+
+116
+00:05:06,000 --> 00:05:10,000
+assign those guys and those guys and those guys
+
+117
+00:05:10,000 --> 00:05:12,000
+to the respective same cluster,
+
+118
+00:05:12,000 --> 00:05:14,000
+which wouldn't be quite as easily the case for
+
+119
+00:05:14,000 --> 00:05:16,000
+expectation-maximization or k-means.
+
+120
+00:05:16,000 --> 00:05:18,000
+So let me ask you the following quiz.
+
+121
+00:05:18,000 --> 00:05:20,000
+Suppose we have 8 data points.
+
+122
+00:05:20,000 --> 99:59:59,999
+How many elements will the affinity matrix have?

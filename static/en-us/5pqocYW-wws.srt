@@ -1,0 +1,633 @@
+1
+00:00:00,420 --> 00:00:03,160
+So let's take a look at a diagram
+of our current situation.
+
+2
+00:00:03,160 --> 00:00:08,470
+So right now our editor and catalog
+activities are both directly calling
+
+3
+00:00:08,470 --> 00:00:11,880
+into PetDbHelper in order
+to access the database.
+
+4
+00:00:13,370 --> 00:00:17,110
+So for example,
+we can directly access the PetDbHelper
+
+5
+00:00:17,110 --> 00:00:21,947
+in order to insert a new pet which has
+a weight of 7kg into the database.
+
+6
+00:00:21,947 --> 00:00:26,700
+And the PetDbHelper will help us insert
+that pet directly into the database.
+
+7
+00:00:27,720 --> 00:00:31,470
+So this set up works well if we know the
+information we're inserting is correct.
+
+8
+00:00:31,470 --> 00:00:33,890
+However, what if we have a typo and
+
+9
+00:00:33,890 --> 00:00:37,180
+say we accidentally insert
+bad data into the activity.
+
+10
+00:00:37,180 --> 00:00:39,610
+So in this example,
+if we enter a new pet.
+
+11
+00:00:39,610 --> 00:00:42,125
+But actually type in a negative
+weight value of 10 kg,
+
+12
+00:00:42,125 --> 00:00:44,950
+well this direct interaction method
+
+13
+00:00:44,950 --> 00:00:49,160
+has a pitfall of inserting invalid
+data directly into our database.
+
+14
+00:00:49,160 --> 00:00:51,840
+So we would end up inserting that
+negative 10 value directly into
+
+15
+00:00:51,840 --> 00:00:53,470
+the database.
+
+16
+00:00:53,470 --> 00:00:56,200
+Now this is where the content
+provider comes in.
+
+17
+00:00:56,200 --> 00:00:58,360
+We can centralize the accessing and
+
+18
+00:00:58,360 --> 00:01:01,760
+editing of the data via
+the content provider.
+
+19
+00:01:01,760 --> 00:01:06,040
+So in this schema, our UI code will
+then directly interact with the content
+
+20
+00:01:06,040 --> 00:01:09,960
+provider instead of directly
+interacting with the database.
+
+21
+00:01:09,960 --> 00:01:14,820
+The content provider, as a layer of
+data validation, which we saw we needed,
+
+22
+00:01:14,820 --> 00:01:17,650
+when we incorrectly entered
+invalid weight values.
+
+23
+00:01:17,650 --> 00:01:20,140
+So, if there ends up being a bug,
+we can catch it here.
+
+24
+00:01:21,280 --> 00:01:25,590
+So, the content provider, as this added
+layer between the data source and
+
+25
+00:01:25,590 --> 00:01:28,540
+UI code, is called an abstraction layer.
+
+26
+00:01:28,540 --> 00:01:33,150
+And this is because the content
+provider abstracts the way or
+
+27
+00:01:33,150 --> 00:01:36,110
+hides the details of
+how the data is stored.
+
+28
+00:01:36,110 --> 00:01:40,880
+So the UI code just communicates with
+the provider for any access to the data.
+
+29
+00:01:40,880 --> 00:01:44,040
+And it doesn't need to care about
+the internals of how the provider is
+
+30
+00:01:44,040 --> 00:01:45,730
+getting this job done.
+
+31
+00:01:45,730 --> 00:01:46,960
+So in other words,
+
+32
+00:01:46,960 --> 00:01:51,880
+the content provider black-boxes
+the underlying data from the UI.
+
+33
+00:01:51,880 --> 00:01:55,860
+Because the UI doesn't care if
+the data is stored in a database or
+
+34
+00:01:55,860 --> 00:01:57,960
+in individual text files.
+
+35
+00:01:57,960 --> 00:02:01,210
+We could even store photo files,
+and the content provider could
+
+36
+00:02:01,210 --> 00:02:04,998
+perfectly handle interacting with
+the UI code in order to display those.
+
+37
+00:02:04,998 --> 00:02:09,300
+So in a later version of the app, if you
+decided to swap out the database for
+
+38
+00:02:09,300 --> 00:02:13,770
+a different type of storage, the UI
+code would still remain the same, and
+
+39
+00:02:13,770 --> 00:02:16,830
+continue talking to
+the existing content provider.
+
+40
+00:02:16,830 --> 00:02:20,350
+So in addition to the database,
+if we were to add photo files for
+
+41
+00:02:20,350 --> 00:02:23,280
+each pet, this could work as well.
+
+42
+00:02:23,280 --> 00:02:27,360
+Or even if the data were stored as text
+files, instead of the database along
+
+43
+00:02:27,360 --> 00:02:30,880
+with photo files, our content
+provider could handle that as well.
+
+44
+00:02:30,880 --> 00:02:35,510
+Now you might be thinking, wow,
+the content provider sounds great, but
+
+45
+00:02:35,510 --> 00:02:38,560
+how does it go about
+interacting with my UI?
+
+46
+00:02:38,560 --> 00:02:41,550
+So the UI code interacts
+with the provider
+
+47
+00:02:41,550 --> 00:02:46,250
+by using various methods such
+as query in order to get data.
+
+48
+00:02:47,970 --> 00:02:55,850
+There's insert as well as update, used
+to update the existing rows of data.
+
+49
+00:02:55,850 --> 00:02:59,020
+And lastly delete,
+used to delete rows of data.
+
+50
+00:03:00,270 --> 00:03:03,580
+Now, notice all these methods
+are similar to database methods that we
+
+51
+00:03:03,580 --> 00:03:04,770
+used before.
+
+52
+00:03:04,770 --> 00:03:08,860
+In all these CRUD operations,
+the UI code calls that
+
+53
+00:03:08,860 --> 00:03:12,214
+method to the content provider,
+and that content provider itself,
+
+54
+00:03:12,214 --> 00:03:16,470
+calls its own form of the code
+to the data source itself.
+
+55
+00:03:16,470 --> 00:03:18,340
+Now, let's take a moment to pause and
+
+56
+00:03:18,340 --> 00:03:20,510
+summarize what we've covered,
+because it's big.
+
+57
+00:03:21,520 --> 00:03:22,290
+So first off,
+
+58
+00:03:22,290 --> 00:03:26,400
+the content provider helps us manage
+access to a structured set of data.
+
+59
+00:03:27,530 --> 00:03:29,950
+So they can act as
+a good abstraction layer
+
+60
+00:03:29,950 --> 00:03:33,180
+between the data source and the UI code.
+
+61
+00:03:33,180 --> 00:03:38,910
+Which can add data validation,
+help us modify how the data is stored,
+
+62
+00:03:38,910 --> 00:03:41,430
+while the UI code
+remaining is unaffected.
+
+63
+00:03:43,020 --> 00:03:46,030
+Now this brings me to the next big
+advantage of counter providers I want to
+
+64
+00:03:46,030 --> 00:03:47,150
+discuss.
+
+65
+00:03:47,150 --> 00:03:48,360
+So what is it?
+
+66
+00:03:48,360 --> 00:03:51,850
+Well, they work well with
+other framework classes.
+
+67
+00:03:51,850 --> 00:03:56,170
+So to explain what that means, so
+take a look at this list of pets here.
+
+68
+00:03:56,170 --> 00:03:58,710
+So currently if pets are added or
+removed, and
+
+69
+00:03:58,710 --> 00:04:02,660
+we want the latest information displayed
+in the UI, we must call the query and
+
+70
+00:04:02,660 --> 00:04:04,610
+insert method each time.
+
+71
+00:04:04,610 --> 00:04:07,220
+Well, instead of doing
+it that tedious method,
+
+72
+00:04:07,220 --> 00:04:11,600
+we can leverage the power of a framework
+class called the Cursor Loader.
+
+73
+00:04:11,600 --> 00:04:12,990
+So when pets are added or
+
+74
+00:04:12,990 --> 00:04:18,029
+removed to this list, the list will
+stay updated via our Cursor Loader.
+
+75
+00:04:18,029 --> 00:04:21,790
+Which will automatically check when any
+changes have been made in the data, and
+
+76
+00:04:21,790 --> 00:04:25,860
+then automatically refresh the list
+when that data does change.
+
+77
+00:04:25,860 --> 00:04:29,060
+So the Cursor Loader works in
+conjunction with the ListView and
+
+78
+00:04:29,060 --> 00:04:32,880
+the Cursor Adapter,
+which we covered in the last course.
+
+79
+00:04:32,880 --> 00:04:37,710
+And doing so, these display
+the changes that are made in the list.
+
+80
+00:04:37,710 --> 00:04:41,570
+So implementing the Cursor Loader
+requires use of the content provider.
+
+81
+00:04:42,830 --> 00:04:46,720
+So content providers and cursor
+loaders make our lives a lot easier
+
+82
+00:04:46,720 --> 00:04:49,260
+because we don't need to
+manually query the data over and
+
+83
+00:04:49,260 --> 00:04:51,410
+over again,
+If any changes are made to it.
+
+84
+00:04:53,690 --> 00:04:56,220
+So to recap that second big advantage,
+
+85
+00:04:56,220 --> 00:04:59,160
+content providers work well
+with other framework classes.
+
+86
+00:05:00,280 --> 00:05:03,250
+So we just saw an example of
+how it helps automate how data
+
+87
+00:05:03,250 --> 00:05:05,200
+in a list is refreshed.
+
+88
+00:05:05,200 --> 00:05:08,040
+Well, it also works with
+home screen widgets,
+
+89
+00:05:08,040 --> 00:05:11,470
+something called sync adapters
+that sync our data to the cloud.
+
+90
+00:05:11,470 --> 00:05:14,330
+As well as provides search
+suggestions in your app.
+
+91
+00:05:14,330 --> 00:05:17,100
+So the framework team wanted
+to make content providers
+
+92
+00:05:17,100 --> 00:05:20,920
+a consistent way to manage access to
+a structured set of data in android.
+
+93
+00:05:20,920 --> 00:05:24,975
+And without it, you'd have to admin
+a lot of that functionality on your own.
+
+94
+00:05:24,975 --> 00:05:28,133
+So we'll be seeing more of how all
+these plays out in lesson four.
+
+95
+00:05:28,133 --> 00:05:30,575
+After we have spent much
+more time in lesson three,
+
+96
+00:05:30,575 --> 00:05:31,825
+setting up the content provider.
+
+97
+00:05:33,175 --> 00:05:36,025
+Now there's one more big
+advantage I want to discuss, and
+
+98
+00:05:36,025 --> 00:05:37,935
+that's sharing data.
+
+99
+00:05:37,935 --> 00:05:39,385
+So when you have text data or
+
+100
+00:05:39,385 --> 00:05:43,355
+files inside your app,
+currently no other apps can access it.
+
+101
+00:05:44,555 --> 00:05:48,900
+So in the case of our Pet shelter app,
+this information is siloed and
+
+102
+00:05:48,900 --> 00:05:52,780
+say there's a vets app or
+adoptions app or even a pet lovers app.
+
+103
+00:05:52,780 --> 00:05:56,080
+Well, they can't have access
+to our existing database.
+
+104
+00:05:56,080 --> 00:06:01,490
+Well, we can expose our data to these
+other apps using a content provider.
+
+105
+00:06:01,490 --> 00:06:05,500
+Doing so, other apps can access this
+information by interacting with
+
+106
+00:06:05,500 --> 00:06:10,535
+the provider using the same query,
+insert, update, and delete methods.
+
+107
+00:06:10,535 --> 00:06:13,750
+Well doing so
+could be a security concern.
+
+108
+00:06:13,750 --> 00:06:16,810
+Because maybe you don't want
+a particular app to access and
+
+109
+00:06:16,810 --> 00:06:18,380
+modify all your app data.
+
+110
+00:06:19,610 --> 00:06:23,240
+Potentially, a malicious app could
+delete an entire database table.
+
+111
+00:06:23,240 --> 00:06:28,080
+So opening up your data to other apps,
+could be dangerous if not done properly.
+
+112
+00:06:28,080 --> 00:06:30,590
+Well again,
+the framework team has this covered.
+
+113
+00:06:31,640 --> 00:06:35,130
+The content provider manages
+access to data in a secure way.
+
+114
+00:06:35,130 --> 00:06:39,990
+If you want other apps to prompt
+the user to grant certain permission
+
+115
+00:06:39,990 --> 00:06:44,380
+to access the data, then the content
+provider can help enforce this.
+
+116
+00:06:44,380 --> 00:06:48,308
+So, other apps without proper permission
+won't be able to access the data.
+
+117
+00:06:48,308 --> 00:06:50,702
+[BLANK_AUDIO]
+
+118
+00:06:50,702 --> 00:06:54,187
+So, to summarize the three points that
+I want to call out of why content
+
+119
+00:06:54,187 --> 00:06:56,490
+providers are pretty awesome.
+
+120
+00:06:56,490 --> 00:06:59,840
+Is it they act as a good abstraction
+layer between our data source and
+
+121
+00:06:59,840 --> 00:07:03,080
+our UI code,
+helping us with data validation.
+
+122
+00:07:03,080 --> 00:07:07,380
+Secondly, they help us work well
+with other framework classes.
+
+123
+00:07:07,380 --> 00:07:11,860
+And lastly, they help us easily
+share data with other apps.
+
+124
+00:07:11,860 --> 00:07:16,190
+So for this exercise, I like you to
+go ahead and check the boxes for
+
+125
+00:07:16,190 --> 00:07:18,600
+the accurate reasons of
+using a content provider.
+
+126
+00:07:19,600 --> 00:07:21,190
+I've listed six here.
+
+127
+00:07:21,190 --> 00:07:24,160
+So do they help share data
+more easily with other apps?
+
+128
+00:07:24,160 --> 00:07:27,450
+Do they directly improve
+an app's performance?
+
+129
+00:07:27,450 --> 00:07:30,290
+Perhaps they provide a good
+abstraction layer, or
+
+130
+00:07:30,290 --> 00:07:33,860
+maybe they only manage
+access to text data.
+
+131
+00:07:33,860 --> 00:07:37,100
+Maybe they also work well with
+other Android framework classes, or
+
+132
+00:07:37,100 --> 00:07:40,610
+maybe content providers are only written
+in XML, and that might be good for us.

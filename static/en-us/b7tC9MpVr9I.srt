@@ -1,0 +1,361 @@
+1
+00:00:00,080 --> 00:00:02,770
+So we write that like this, all right?
+
+2
+00:00:02,770 --> 00:00:05,510
+So just as we said before,
+we're going to maximize two divided by
+
+3
+00:00:05,510 --> 00:00:08,680
+the magnitude of W,
+subject to the constraint,
+
+4
+00:00:08,680 --> 00:00:12,090
+we want to correctly classify
+all the points, right?
+
+5
+00:00:12,090 --> 00:00:14,510
+So for
+the positive X's where Y is plus one,
+
+6
+00:00:14,510 --> 00:00:18,440
+we want X dot W plus B to be
+greater than or equal to one.
+
+7
+00:00:18,440 --> 00:00:21,140
+And if, XI is negative,
+
+8
+00:00:21,140 --> 00:00:24,770
+we want W dot, X dot W plus B
+to be less than negative one.
+
+9
+00:00:24,770 --> 00:00:26,130
+All right?
+
+10
+00:00:26,130 --> 00:00:30,430
+So this is a standard, what's called
+a quadratic optimization problem,
+
+11
+00:00:30,430 --> 00:00:36,810
+we want to sut, we want to minimize
+this term that's over here, okay?
+
+12
+00:00:36,810 --> 00:00:40,130
+Because if you minimize the square of W,
+
+13
+00:00:40,130 --> 00:00:44,760
+then that's going to maximize
+two over the norm of W.
+
+14
+00:00:44,760 --> 00:00:47,050
+Subject to a constraint, right?
+
+15
+00:00:47,050 --> 00:00:48,590
+Here's our constraints.
+
+16
+00:00:48,590 --> 00:00:51,820
+You'll notice that what we did
+is by multiplying by the YI
+
+17
+00:00:51,820 --> 00:00:54,652
+we can say that this thing is always
+greater than or equal to one, right?
+
+18
+00:00:54,652 --> 00:00:58,620
+because YI flips the sign, because YI is
+positive when it's a positive example,
+
+19
+00:00:58,620 --> 00:01:02,220
+and YI is negative when it's a negative
+example, so multiplying it through
+
+20
+00:01:02,220 --> 00:01:05,099
+keeps that constraint always
+greater than or equal to one.
+
+21
+00:01:05,099 --> 00:01:08,518
+The solution to this, and I'm not
+going to go through the solutions, but
+
+22
+00:01:08,518 --> 00:01:11,387
+it's sort of a standard
+quadratic optimization and
+
+23
+00:01:11,387 --> 00:01:14,476
+some of the multipliers,
+things like that, but what matters is,
+
+24
+00:01:14,476 --> 00:01:17,500
+is the form of the solution,
+not how we got there.
+
+25
+00:01:17,500 --> 00:01:20,645
+It's just the linear sum for
+
+26
+00:01:20,645 --> 00:01:26,290
+W of some weights times,
+and it's the YI times XI.
+
+27
+00:01:26,290 --> 00:01:28,720
+So, remember Yi sort of flips,
+flips the sign.
+
+28
+00:01:28,720 --> 00:01:30,500
+All right?
+
+29
+00:01:30,500 --> 00:01:36,050
+And the XIs that you use
+are the support vectors and
+
+30
+00:01:36,050 --> 00:01:39,390
+the alpha Is are these learned weights.
+
+31
+00:01:39,390 --> 00:01:42,260
+And another way of thinking
+about it is that the weights,
+
+32
+00:01:42,260 --> 00:01:45,050
+you can think of that of alpha Is for
+all of the XIs, but
+
+33
+00:01:45,050 --> 00:01:48,850
+they're only non-zero for
+the support vectors.
+
+34
+00:01:48,850 --> 00:01:50,650
+Okay?
+So when I, when I solve this,
+
+35
+00:01:50,650 --> 00:01:53,750
+I end up with a whole bunch of alpha Is,
+most of which are zero.
+
+36
+00:01:53,750 --> 00:01:59,080
+But the alpha Is for
+the support vectors are not zero.
+
+37
+00:01:59,080 --> 00:01:59,770
+Okay?
+
+38
+00:01:59,770 --> 00:02:05,330
+Well then I can just sort of substitute
+in, we have this equation that for
+
+39
+00:02:05,330 --> 00:02:11,044
+any support vector W transpose X
+plus B is equal to positive one or
+
+40
+00:02:11,044 --> 00:02:14,120
+negative one, depending upon the YI,
+depending upon whether it's positive or
+
+41
+00:02:14,120 --> 00:02:14,900
+negative in this example.
+
+42
+00:02:14,900 --> 00:02:16,930
+So that can be written like this.
+
+43
+00:02:16,930 --> 00:02:21,800
+Remember the YIs are plus one or
+minus one, depending upon the example.
+
+44
+00:02:21,800 --> 00:02:26,430
+So I can write,
+just substitute in for W.
+
+45
+00:02:26,430 --> 00:02:29,750
+Okay, so I substitute in for
+both B and for W.
+
+46
+00:02:29,750 --> 00:02:33,570
+Given this, we can now create
+a classification function.
+
+47
+00:02:33,570 --> 00:02:36,320
+So remember, what we were doing
+was we were drawing a line
+
+48
+00:02:36,320 --> 00:02:38,230
+W X plus B equals zero.
+
+49
+00:02:38,230 --> 00:02:42,070
+Everything on one side of the line we
+were going to call positive everything
+
+50
+00:02:42,070 --> 00:02:44,490
+on the other side we were
+going to call negative, right?
+
+51
+00:02:44,490 --> 00:02:47,451
+Our support vectors are out here
+where that function equals one, but,
+
+52
+00:02:47,451 --> 00:02:50,240
+but if something's on the inside,
+if it's greater than zero,
+
+53
+00:02:50,240 --> 00:02:53,360
+we'll call it positive, less than zero,
+we'll call it negative.
+
+54
+00:02:53,360 --> 00:02:56,350
+So I'm going to build
+a classification function,
+
+55
+00:02:56,350 --> 00:02:57,740
+which is right what it says here.
+
+56
+00:02:57,740 --> 00:03:02,000
+It says, okay, I'm just going to
+take the sign of W dot X plus B.
+
+57
+00:03:02,000 --> 00:03:03,980
+Greater than zero,
+I'll call it positive,
+
+58
+00:03:03,980 --> 00:03:08,120
+less than zero, I'll call it
+negative I substitute in the, for
+
+59
+00:03:08,120 --> 00:03:13,500
+W this expression here, okay?
+
+60
+00:03:13,500 --> 00:03:19,210
+And take that sign, and if this
+function, F of X is less than zero, I'll
+
+61
+00:03:19,210 --> 00:03:22,710
+call it negative, and if it's greater
+than zero, I'll call it positive.
+
+62
+00:03:22,710 --> 00:03:23,350
+Okay?
+
+63
+00:03:23,350 --> 00:03:26,659
+So this all depends on you being
+able to solve for those alphas, and
+
+64
+00:03:26,659 --> 00:03:28,960
+I'll tell you the support vector.
+
+65
+00:03:28,960 --> 00:03:30,590
+Machinery will do that.
+
+66
+00:03:30,590 --> 00:03:32,740
+And realize by solving for the alphas,
+
+67
+00:03:32,740 --> 00:03:37,570
+by finding some non zero alphas that's
+selecting your support vectors.
+
+68
+00:03:37,570 --> 00:03:38,820
+Okay?
+
+69
+00:03:38,820 --> 00:03:42,890
+A critical, critical,
+critical element of this equation
+
+70
+00:03:42,890 --> 00:03:48,180
+is that it only depends
+on this dot product.
+
+71
+00:03:48,180 --> 00:03:49,630
+Okay?
+It highlighted here in red,
+
+72
+00:03:49,630 --> 00:03:51,730
+I'll highlight it in red again.
+
+73
+00:03:51,730 --> 00:03:56,640
+The only thing I need to know is
+the dot product between some new
+
+74
+00:03:56,640 --> 00:04:01,210
+point X and the support vectors XI, and
+
+75
+00:04:01,210 --> 00:04:05,170
+then I multiply it by the alpha,
+sum them up, and build my classifier.
+
+76
+00:04:05,170 --> 00:04:07,250
+That dot product element, or
+
+77
+00:04:07,250 --> 00:04:11,600
+that dot product structure, is what
+makes what we're about to do work.

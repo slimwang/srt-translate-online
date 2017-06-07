@@ -1,0 +1,271 @@
+1
+00:00:00,550 --> 00:00:05,030
+Congratulations on completing Stage 2, and implementing bolts in Python.
+
+2
+00:00:05,030 --> 00:00:08,250
+You're exploring some of the more advanced concepts of Storm apologies, and
+
+3
+00:00:08,250 --> 00:00:11,040
+now we're going to add more cool functionality.
+
+4
+00:00:11,040 --> 00:00:16,290
+In Lesson 3, Stage 4, rather than displaying a word cloud,
+
+5
+00:00:16,290 --> 00:00:20,390
+what we're going to do is calculate and display the top N words.
+
+6
+00:00:20,390 --> 00:00:23,070
+In this stage we're going to switch out the rolling CountBolt for
+
+7
+00:00:23,070 --> 00:00:26,840
+the CountBolt, and we're going to use open source bolts,
+
+8
+00:00:26,840 --> 00:00:29,810
+the total rankings bolt, and the intermediate rankings bolt.
+
+9
+00:00:31,260 --> 00:00:35,555
+This is an extremely useful function, and one of the applications is
+
+10
+00:00:35,555 --> 00:00:40,890
+display the top-N hashtags, that continuously update in real time.
+
+11
+00:00:40,890 --> 00:00:44,020
+This is a complex assignment that requires some patience to import and
+
+12
+00:00:44,020 --> 00:00:45,480
+connect successfully.
+
+13
+00:00:45,480 --> 00:00:48,130
+But this is also an authentic real world assignment that you may
+
+14
+00:00:48,130 --> 00:00:50,710
+want to use as the basis of a starter project.
+
+15
+00:00:50,710 --> 00:00:53,650
+Our hackathon groups use this stage as a launching point for
+
+16
+00:00:53,650 --> 00:00:55,540
+most of their ideas, let's get started.
+
+17
+00:00:56,900 --> 00:01:00,090
+In part 0, add your credentials to your Tweet Topology, and
+
+18
+00:01:00,090 --> 00:01:03,080
+rename your Tweet Topology to the TopNTweetTopology.
+
+19
+00:01:04,160 --> 00:01:08,620
+Next, in part 1 remove the RollingCountBolt, and use the CountBolt.
+
+20
+00:01:08,620 --> 00:01:12,350
+And as a hint, remember this requires modifications to connect.
+
+21
+00:01:12,350 --> 00:01:17,322
+Next, import and connect the total rankings bolt, and required dependencies.
+
+22
+00:01:17,322 --> 00:01:20,920
+At this stage I give multiple hints below in the reading node, to help you
+
+23
+00:01:20,920 --> 00:01:24,080
+along, but I would really urge you to try working this out on your own first.
+
+24
+00:01:24,080 --> 00:01:27,110
+This is a realistic experience working with open source tools, and
+
+25
+00:01:27,110 --> 00:01:28,950
+it requires some trial and error.
+
+26
+00:01:28,950 --> 00:01:31,480
+Delving into code and finding examples.
+
+27
+00:01:31,480 --> 00:01:32,220
+Use the hints or
+
+28
+00:01:32,220 --> 00:01:35,290
+simply check out my approach in Stage 5, if you want further help.
+
+29
+00:01:35,290 --> 00:01:37,970
+If you're still with me and you want further hints,
+
+30
+00:01:37,970 --> 00:01:41,900
+one is to use MavinPackage often and learn from build failures.
+
+31
+00:01:41,900 --> 00:01:47,140
+Mainly to bring in import statements not listed as dependencies.
+
+32
+00:01:47,140 --> 00:01:51,550
+And then two, after you've duplicated the total rankings bolt, read very
+
+33
+00:01:51,550 --> 00:01:55,850
+carefully that the total rankings bolt, requires the intermediate rankings bolt,
+
+34
+00:01:55,850 --> 00:01:59,480
+and that this bolt is configured using a global grouping.
+
+35
+00:01:59,480 --> 00:02:03,220
+In hint three remember that the tuple schema must match between the count
+
+36
+00:02:03,220 --> 00:02:04,910
+bolt and the intermediate rankings bolt.
+
+37
+00:02:04,910 --> 00:02:09,449
+I also suggest connecting the count bolt to the report bolt,
+
+38
+00:02:09,449 --> 00:02:11,860
+as a type of print statement to test your implementation.
+
+39
+00:02:11,860 --> 00:02:16,670
+But remember that this connection can fail when the tuple schema is changed.
+
+40
+00:02:16,670 --> 00:02:19,670
+In hint 4, I give some helpful syntax to connect the ReportBolt to
+
+41
+00:02:19,670 --> 00:02:21,950
+the TotalTankingBolt if needed.
+
+42
+00:02:21,950 --> 00:02:25,630
+But remember that since we're using open source bolts with no documentation,
+
+43
+00:02:25,630 --> 00:02:30,250
+I actually had to look though all the dependencies in order to get this syntax.
+
+44
+00:02:30,250 --> 00:02:33,230
+Once completed with part one, in part two, visualize your topology and
+
+45
+00:02:33,230 --> 00:02:37,570
+change the TopN variable you created, to change the number of words to keep.
+
+46
+00:02:37,570 --> 00:02:40,230
+Displaying TopN words is an extremely useful function, and
+
+47
+00:02:40,230 --> 00:02:43,680
+one of the applications is, display the TopN hashtags.
+
+48
+00:02:43,680 --> 00:02:48,870
+We can go from our word cloud that looks like this, to displaying,
+
+49
+00:02:48,870 --> 00:02:53,660
+say the top 100 words that looks like this, and finally to this,
+
+50
+00:02:53,660 --> 00:02:57,250
+where we are displaying the top 20 hashtags.
+
+51
+00:02:57,250 --> 00:03:00,945
+Next, in part three, add a filter using skip words list,
+
+52
+00:03:00,945 --> 00:03:04,050
+to the parse tweet bolt to skip undesirable words.
+
+53
+00:03:04,050 --> 00:03:07,260
+What I did was actually use my top N visualization,
+
+54
+00:03:07,260 --> 00:03:11,540
+to choose the words to skip based on words that come up often in Twitter.
+
+55
+00:03:11,540 --> 00:03:15,150
+Next, in part four, update the tweet spout to emit hashtags instead of words,
+
+56
+00:03:15,150 --> 00:03:19,390
+and remember that, hashtags simply begin with the # character.
+
+57
+00:03:19,390 --> 00:03:22,420
+This is a fairly trivial update, and finally in part 5,
+
+58
+00:03:22,420 --> 00:03:24,510
+visualize the top end hashtags.
+
+59
+00:03:24,510 --> 00:03:28,840
+Remember to hit refresh periodically, and you can also use
+
+60
+00:03:28,840 --> 00:03:35,287
+the Visualization http://127.0.0.1 :5000/basic.
+
+61
+00:03:35,287 --> 00:03:38,160
+This visualization is simpler, and
+
+62
+00:03:38,160 --> 00:03:41,790
+can be used as the starting point for some of your project ideas.
+
+63
+00:03:41,790 --> 00:03:45,170
+But as you can see as the counter updated the size and
+
+64
+00:03:45,170 --> 00:03:48,270
+location, of our top hashtags move along the screen.
+
+65
+00:03:48,270 --> 00:03:51,630
+Once you're completed with the top and hashtags, take a screenshot and
+
+66
+00:03:51,630 --> 00:03:52,730
+post it to the forums,
+
+67
+00:03:52,730 --> 00:03:57,390
+comment on two other posts and, why not Tweet your image to your followers?
+
+68
+00:03:57,390 --> 00:03:57,890
+Good luck.

@@ -1,0 +1,214 @@
+1
+00:00:00,000 --> 00:00:02,583
+Using the Memcache API is really simple.
+
+2
+00:00:02,583 --> 00:00:06,603
+You call the set, get or
+delete commands supplying the key for
+
+3
+00:00:06,603 --> 00:00:08,000
+the Memcache entry.
+
+4
+00:00:08,000 --> 00:00:12,103
+In the case of the set method, you also
+supply the string that you'd like to be
+
+5
+00:00:12,103 --> 00:00:16,292
+the value and the get method will return
+the value for the key that you provide.
+
+6
+00:00:16,292 --> 00:00:17,583
+They key can be any string.
+
+7
+00:00:17,583 --> 00:00:21,252
+For our code, we'll make it a constant,
+because we'll be using it repeatedly
+
+8
+00:00:21,252 --> 00:00:24,125
+when retrieving and
+deleting announcements from Memcache.
+
+9
+00:00:24,125 --> 00:00:27,795
+You also need a method that queries
+conferences to find if they're any you
+
+10
+00:00:27,795 --> 00:00:29,167
+want to put into the cache.
+
+11
+00:00:29,167 --> 00:00:32,250
+An if so,
+setting an entry in the Memcache API.
+
+12
+00:00:32,250 --> 00:00:35,422
+You want to query for
+conferences that are almost sold out,
+
+13
+00:00:35,422 --> 00:00:38,792
+that have seats less than or
+equal to five, but more than zero.
+
+14
+00:00:38,792 --> 00:00:42,032
+You don't really want to expose this
+functionality as an endpoint, so
+
+15
+00:00:42,032 --> 00:00:43,544
+this should be a private method.
+
+16
+00:00:43,544 --> 00:00:47,460
+Later, we'll talk about using
+scheduled job or cron jobs.
+
+17
+00:00:47,460 --> 00:00:51,222
+We will need to find a way to call
+this function via a regular, but
+
+18
+00:00:51,222 --> 00:00:52,208
+protected URL.
+
+19
+00:00:52,208 --> 00:00:56,953
+What we'll do is create a separate file,
+main.py that will have a function there
+
+20
+00:00:56,953 --> 00:00:59,775
+that uses that
+cacheAnnouncements function and
+
+21
+00:00:59,775 --> 00:01:01,583
+also sets ahead the furry URL.
+
+22
+00:01:01,583 --> 00:01:05,695
+We'll also add this to app.yaml
+in the form of an entry forward
+
+23
+00:01:05,695 --> 00:01:07,875
+/crons/set_announcement.
+
+24
+00:01:07,875 --> 00:01:10,083
+Secured by having login: admin.
+
+25
+00:01:10,083 --> 00:01:11,988
+Login: admin means that cron and
+
+26
+00:01:11,988 --> 00:01:16,625
+application developers will be able to
+access this URL, but not regular users.
+
+27
+00:01:16,625 --> 00:01:20,294
+And it'll let you test it just by going
+to your app and adding this path.
+
+28
+00:01:20,294 --> 00:01:24,126
+You can implement this on your own or
+take a look at the provided sample code.
+
+29
+00:01:24,126 --> 00:01:26,583
+The application logic in this
+case is not that important.
+
+30
+00:01:26,583 --> 00:01:29,917
+Mostly, this is just to demonstrate
+the use of the Memcache API.
+
+31
+00:01:29,917 --> 00:01:33,366
+So now there also has to be an endpoint
+method for getting the announcement, so
+
+32
+00:01:33,366 --> 00:01:35,208
+it can be displayed
+somewhere in the app.
+
+33
+00:01:35,208 --> 00:01:37,042
+You'll also have to
+finish the code here.
+
+34
+00:01:37,042 --> 00:01:39,586
+And for endpoints, we'll also
+need a simple message class for
+
+35
+00:01:39,586 --> 00:01:41,125
+the outgoing message announcement.
+
+36
+00:01:41,125 --> 00:01:43,680
+Because you can't just use
+strings with endpoints,
+
+37
+00:01:43,680 --> 00:01:45,333
+you have to use ProtoRPC classes.
+
+38
+00:01:45,333 --> 00:01:48,958
+So let's call that class StringMessage
+and have just one field in there,
+
+39
+00:01:48,958 --> 00:01:49,958
+which is required.
+
+40
+00:01:49,958 --> 00:01:51,375
+So there's quite a bit of work to do.
+
+41
+00:01:51,375 --> 00:01:54,250
+Take a look again at the TODO
+in the provided code.
+
+42
+00:01:54,250 --> 00:01:57,553
+Remember, you can test your announcement
+setting function by searching for
+
+43
+00:01:57,553 --> 00:01:59,500
+that Memcache key in
+the developer console.
+
+44
+00:01:59,500 --> 00:02:03,239
+And you can see if your announcement
+reading endpoint method works by testing
+
+45
+00:02:03,239 --> 00:02:04,458
+it in the APIs Explorer.
+
+46
+00:02:04,458 --> 00:02:07,950
+So, as you complete these steps, check
+them off and then put your app id here.

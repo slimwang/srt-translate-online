@@ -1,0 +1,210 @@
+1
+00:00:00,140 --> 00:00:04,370
+So far, we have described how the
+operating system controls the processes'
+
+2
+00:00:04,370 --> 00:00:06,250
+access to physical memory.
+
+3
+00:00:06,250 --> 00:00:10,510
+But what we didn't explain was how
+the operating system decides how to
+
+4
+00:00:10,510 --> 00:00:15,870
+allocate a particular portion of the
+memory to a process in the first place.
+
+5
+00:00:15,870 --> 00:00:19,720
+This is the job of the memory
+allocation mechanisms that are part of
+
+6
+00:00:19,720 --> 00:00:23,340
+the memory management subsystem
+of an operating system.
+
+7
+00:00:23,340 --> 00:00:27,470
+Memory allocation incorporates
+mechanisms that decide
+
+8
+00:00:27,470 --> 00:00:30,400
+what are the physical pages that will be
+
+9
+00:00:30,400 --> 00:00:33,240
+allocated to particular
+virtual memory regions.
+
+10
+00:00:33,240 --> 00:00:37,080
+So what are the physical addresses
+that will correspond to a specific
+
+11
+00:00:37,080 --> 00:00:38,420
+virtual address.
+
+12
+00:00:38,420 --> 00:00:41,820
+Once the memory allocator
+establishes a mapping,
+
+13
+00:00:41,820 --> 00:00:45,270
+the mechanisms that we discussed so
+far, like the address translation,
+
+14
+00:00:45,270 --> 00:00:47,080
+use of page tables, et cetera.
+
+15
+00:00:47,080 --> 00:00:51,210
+They're simply used to determine
+a physical address from a virtual
+
+16
+00:00:51,210 --> 00:00:54,450
+address that the process
+presents to the CPU.
+
+17
+00:00:54,450 --> 00:00:58,900
+And also to perform all necessary checks
+regarding the validity of the access or
+
+18
+00:00:58,900 --> 00:01:00,620
+the access permissions.
+
+19
+00:01:00,620 --> 00:01:04,575
+Memory allocators can exist at the
+kernel level, as well as the user level.
+
+20
+00:01:04,575 --> 00:01:09,180
+Kernel-level allocators are responsible
+for allocating memory regions,
+
+21
+00:01:09,180 --> 00:01:14,260
+such as pages for the kernel, so for
+various components of the kernel state.
+
+22
+00:01:14,260 --> 00:01:18,390
+And also these are used for certain
+static states, for the processes when
+
+23
+00:01:18,390 --> 00:01:22,510
+they're created, like for their codes,
+stack, or initialized datum.
+
+24
+00:01:22,510 --> 00:01:25,780
+In addition, the kernel-level
+allocators are responsible for
+
+25
+00:01:25,780 --> 00:01:29,912
+keeping track of the free memory
+that's available in the system.
+
+26
+00:01:29,912 --> 00:01:33,930
+The user-level allocators are used for
+dynamic process state, for
+
+27
+00:01:33,930 --> 00:01:35,610
+instance, for the heap.
+
+28
+00:01:35,610 --> 00:01:40,330
+So this is state that's dynamically
+allocated during the process execution.
+
+29
+00:01:40,330 --> 00:01:44,580
+The basic interface for these
+allocators includes malloc and free.
+
+30
+00:01:44,580 --> 00:01:48,500
+What these calls do is that they request
+from the kernel some amount of memory
+
+31
+00:01:48,500 --> 00:01:52,620
+from its free pages, and then ultimately
+release it when they're done.
+
+32
+00:01:52,620 --> 00:01:56,370
+Once the kernel allocates
+some memory to a malloc call,
+
+33
+00:01:56,370 --> 00:02:00,300
+the kernel is no longer involved
+in the management of that space.
+
+34
+00:02:00,300 --> 00:02:05,290
+That memory will at that point be used
+by whatever user-level allocator is
+
+35
+00:02:05,290 --> 00:02:09,370
+being used, and there are a number
+of options out there right now.
+
+36
+00:02:09,370 --> 00:02:13,900
+That have certain different trade-offs
+in terms of their cache efficiency or
+
+37
+00:02:13,900 --> 00:02:18,160
+friendliness with respect to how they
+behaved in a multithreaded environment
+
+38
+00:02:18,160 --> 00:02:19,640
+or other aspects.
+
+39
+00:02:19,640 --> 00:02:22,200
+We will not discuss the internals
+of these user-level
+
+40
+00:02:22,200 --> 00:02:24,010
+allocators in this course.
+
+41
+00:02:24,010 --> 00:02:28,370
+Instead, we will briefly describe some
+of the basic mechanisms that are used in
+
+42
+00:02:28,370 --> 00:02:30,580
+the kernel-level allocators.
+
+43
+00:02:30,580 --> 00:02:34,680
+And the same kinds of design principles
+are used in the design of some of
+
+44
+00:02:34,680 --> 00:02:37,000
+the user-level allocators
+that are out there today.

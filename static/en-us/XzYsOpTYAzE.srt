@@ -1,0 +1,185 @@
+1
+00:00:00,540 --> 00:00:03,060
+Here are the answers.
+
+2
+00:00:03,060 --> 00:00:07,194
+The answer is 1.083, 2.672.
+
+3
+00:00:07,194 --> 00:00:12,539
+For the second question,
+the answer is -8.350,
+
+4
+00:00:12,539 --> 00:00:15,272
+3.376, -1.434.
+
+5
+00:00:15,272 --> 00:00:18,141
+For the last question,
+
+6
+00:00:18,141 --> 00:00:23,738
+the answers are 1.969, -2.811,
+
+7
+00:00:23,738 --> 00:00:29,191
+0.848, 2.680 plus 1.040,
+
+8
+00:00:29,191 --> 00:00:35,088
+-3.361, 2.844 and -5.190.
+
+9
+00:00:35,088 --> 00:00:37,084
+You could've put these in either order.
+
+10
+00:00:37,084 --> 00:00:39,297
+So I didn't specify which
+one was parallel and
+
+11
+00:00:39,297 --> 00:00:41,340
+which one was perpendicular.
+
+12
+00:00:41,340 --> 00:00:43,790
+The first vector is
+the parallel component, and
+
+13
+00:00:43,790 --> 00:00:46,890
+the second vector is
+the perpendicular component.
+
+14
+00:00:47,910 --> 00:00:50,080
+To add this functionality
+to my python code,
+
+15
+00:00:50,080 --> 00:00:53,838
+I implemented the functions
+component_parallel_to and
+
+16
+00:00:53,838 --> 00:00:57,140
+component_orthogonal_to in
+my vector class.
+
+17
+00:00:57,140 --> 00:01:00,140
+Let's look at
+component_parallel_to first.
+
+18
+00:01:00,140 --> 00:01:02,620
+I used the formula derived previously.
+
+19
+00:01:02,620 --> 00:01:05,590
+That the projection of
+a vector onto a basis vector
+
+20
+00:01:05,590 --> 00:01:10,310
+is found by first normalizing the basis
+vector to form a unit vector u.
+
+21
+00:01:10,310 --> 00:01:14,660
+Then, taking the dot product of u,
+with the vector we're projecting.
+
+22
+00:01:14,660 --> 00:01:19,280
+In this case self, and then multiplying
+u by the result of that dot product.
+
+23
+00:01:19,280 --> 00:01:23,360
+The only problem that could happen
+here is if the basis vector is zero.
+
+24
+00:01:23,360 --> 00:01:27,610
+In this case the normalization will
+fail, and an exception will be raised.
+
+25
+00:01:27,610 --> 00:01:31,410
+I check for the appropriate message and
+raise a new exception detailing
+
+26
+00:01:31,410 --> 00:01:34,340
+that there is not a unique parallel
+component to the zero vector.
+
+27
+00:01:35,450 --> 00:01:38,580
+Now having coded
+the component_parallel_to function
+
+28
+00:01:38,580 --> 00:01:42,110
+I can implement
+the component_orthogonal_to function.
+
+29
+00:01:42,110 --> 00:01:46,730
+I do this by recalling the fact that
+v equals the parallel plus v perp.
+
+30
+00:01:46,730 --> 00:01:52,120
+Which I can re-express as the equation
+v perp equals v-v parallel.
+
+31
+00:01:52,120 --> 00:01:57,390
+So I find the parallel component,
+set it to the projection variable and
+
+32
+00:01:57,390 --> 00:02:00,540
+then return self.minus(projection).
+
+33
+00:02:00,540 --> 00:02:04,520
+In the case an exception is raised
+by finding the parallel component,
+
+34
+00:02:04,520 --> 00:02:05,300
+I check to see if
+
+35
+00:02:05,300 --> 00:02:09,270
+the NO_UNIQUE_PARALLEL_COMPONENT_MSG
+is found.
+
+36
+00:02:09,270 --> 00:02:12,305
+If so, I raise a corresponding
+exception with the message
+
+37
+00:02:12,305 --> 00:02:15,210
+NO_UNIQUIE_ORTHOGONAL_COMPONENT.
+
+38
+00:02:15,210 --> 00:02:17,540
+Now that I'm done
+coding those functions,
+
+39
+00:02:17,540 --> 00:02:21,250
+here's the code corresponding
+to the questions asked earlier.
+
+40
+00:02:21,250 --> 00:02:23,040
+And here's the output after I run it.

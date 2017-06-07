@@ -1,0 +1,103 @@
+1
+00:00:00,120 --> 00:00:03,920
+Another multithreading pattern is what we call a layered pattern.
+
+2
+00:00:03,920 --> 00:00:05,910
+Let's return to the toy shop example.
+
+3
+00:00:05,910 --> 00:00:10,620
+Steps one, two and six, all of them deal with order processing,
+
+4
+00:00:10,620 --> 00:00:13,440
+accept the order, parse the order, ship the order.
+
+5
+00:00:13,440 --> 00:00:17,431
+Steps three and five deal with cutting and assembling the wooden pieces for
+
+6
+00:00:17,431 --> 00:00:17,944
+the toy.
+
+7
+00:00:17,944 --> 00:00:21,566
+Step four deals with decorating or painting the toy.
+
+8
+00:00:21,566 --> 00:00:26,829
+A layered model is one in which each layer is assigned a group of related tasks,
+
+9
+00:00:26,829 --> 00:00:31,135
+and the threads that are assigned to a layer can perform any one of
+
+10
+00:00:31,135 --> 00:00:33,640
+the subtasks that correspond to it.
+
+11
+00:00:33,640 --> 00:00:38,934
+End to end, though, a task must pass up and down through all the layers.
+
+12
+00:00:38,934 --> 00:00:41,306
+So, unlike in the pipeline pattern,
+
+13
+00:00:41,306 --> 00:00:45,350
+we must be able to go in both directions across the stages.
+
+14
+00:00:45,350 --> 00:00:49,280
+The benefit of the approach is that it provides for specialization and
+
+15
+00:00:49,280 --> 00:00:52,630
+locality, just like what we saw in the pipeline approach.
+
+16
+00:00:52,630 --> 00:00:56,775
+But it's less fine-grained than the pipeline, so it may become a little bit
+
+17
+00:00:56,775 --> 00:01:00,431
+easier to decide, how many threads should you allocate per layer?
+
+18
+00:01:00,431 --> 00:01:05,570
+The downsides are that this approach, this pattern, may not be suitable for
+
+19
+00:01:05,570 --> 00:01:10,786
+all applications since, in some cases, it may not make sense for the first and
+
+20
+00:01:10,786 --> 00:01:14,502
+the last step in the processing to be grouped together,
+
+21
+00:01:14,502 --> 00:01:16,823
+to be assigned to the same thread.
+
+22
+00:01:16,823 --> 00:01:21,119
+You may not be able to get any benefits from specialization in that case.
+
+23
+00:01:21,119 --> 00:01:26,280
+The other potential issue with the approach is that a synchronization it
+
+24
+00:01:26,280 --> 00:01:30,424
+requires is a little more complex than what we saw before,
+
+25
+00:01:30,424 --> 00:01:35,754
+since every single layer needs to coordinate with both the layers above and
+
+26
+00:01:35,754 --> 00:01:39,920
+below, to both receive inputs, as well as pass results.

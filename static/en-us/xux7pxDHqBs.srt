@@ -1,0 +1,409 @@
+1
+00:00:00,470 --> 00:00:04,160
+We've already seen some examples of
+how to create the class, extend it,
+
+2
+00:00:04,160 --> 00:00:06,080
+and then create some of the methods.
+
+3
+00:00:07,142 --> 00:00:11,870
+I'm here in my project, and inside my
+data package I've created a java class
+
+4
+00:00:11,870 --> 00:00:17,570
+called PetDbHelper and this class
+extends the SQLiteOpenHelper class.
+
+5
+00:00:17,570 --> 00:00:20,900
+Now let's go ahead and make some
+constants for the database name and
+
+6
+00:00:20,900 --> 00:00:22,470
+versions that we want.
+
+7
+00:00:22,470 --> 00:00:27,050
+First off here, I created a database
+constant named DATABASE_NAME and
+
+8
+00:00:27,050 --> 00:00:30,090
+the value is shelter.db,
+and then the constant for
+
+9
+00:00:30,090 --> 00:00:33,160
+the DATABASE_VERSION as a value of 1.
+
+10
+00:00:33,160 --> 00:00:36,330
+For continuity we're going to
+be using the same database name
+
+11
+00:00:36,330 --> 00:00:40,140
+that we used when we were working
+directly with SQLite in the terminal.
+
+12
+00:00:40,140 --> 00:00:43,910
+And it's also standard for
+database versions to start with 1.
+
+13
+00:00:43,910 --> 00:00:46,170
+Next up, let's make the constructor.
+
+14
+00:00:46,170 --> 00:00:48,220
+And here's the code for the constructor.
+
+15
+00:00:48,220 --> 00:00:52,610
+Because we're subclassing from another
+class, we call it the pair constructor
+
+16
+00:00:52,610 --> 00:00:56,400
+via super, so we can take in
+the first parameter context
+
+17
+00:00:56,400 --> 00:01:00,400
+from all that's passed in, and the other
+parameters are the database name,
+
+18
+00:01:00,400 --> 00:01:04,300
+a cursor factory which we can just
+set to null to use the default, and
+
+19
+00:01:04,300 --> 00:01:07,170
+then the database version which
+we created constant for up here.
+
+20
+00:01:07,170 --> 00:01:10,640
+All right, so nice work, and
+the constructor is all set up, but
+
+21
+00:01:10,640 --> 00:01:13,870
+it looks like there is still an error
+with this class up here, and
+
+22
+00:01:13,870 --> 00:01:15,500
+let's take a look at why.
+
+23
+00:01:15,500 --> 00:01:17,800
+The error message reminds us that
+we actually need to implement
+
+24
+00:01:17,800 --> 00:01:19,400
+the onCreate method.
+
+25
+00:01:19,400 --> 00:01:22,760
+Remember from the documentation,
+that because we are sublcassing
+
+26
+00:01:22,760 --> 00:01:27,615
+SQL open helper, we need to implement
+the onCreate and onUpgrade methods.
+
+27
+00:01:27,615 --> 00:01:28,750
+To help us out,
+
+28
+00:01:28,750 --> 00:01:32,690
+we can click this red light bulb here
+and then click implement methods.
+
+29
+00:01:32,690 --> 00:01:36,091
+It's already sorted for us that onCreate
+and onUpgrade methods we need, and
+
+30
+00:01:36,091 --> 00:01:37,742
+then click OK.
+
+31
+00:01:37,742 --> 00:01:41,860
+The onCreate method is called when the
+database is created for the first time.
+
+32
+00:01:41,860 --> 00:01:43,633
+And this is where the creation and
+
+33
+00:01:43,633 --> 00:01:46,045
+initial population of
+a tables will happen.
+
+34
+00:01:46,045 --> 00:01:49,428
+Recall the SQL statement we used
+to create our pets table earlier.
+
+35
+00:01:49,428 --> 00:01:51,250
+Remember the one that looked like this?
+
+36
+00:01:51,250 --> 00:01:53,680
+Well we can use the same
+pattern here but
+
+37
+00:01:53,680 --> 00:01:56,440
+our SQL statement needs to be a string.
+
+38
+00:01:56,440 --> 00:02:00,949
+In order to make the string, we can use
+the constants defined in our contract.
+
+39
+00:02:00,949 --> 00:02:06,014
+Let's add an import statement to our pet
+contract from our pet contract here.
+
+40
+00:02:06,014 --> 00:02:09,339
+And we're going to import all the way
+into the pet entry class because our
+
+41
+00:02:09,339 --> 00:02:12,010
+constants live inside that inner class.
+
+42
+00:02:12,010 --> 00:02:15,010
+Back onCreate, let's start
+creating that string statement.
+
+43
+00:02:15,010 --> 00:02:18,636
+Using that same syntax,
+we can start off with create table and
+
+44
+00:02:18,636 --> 00:02:21,290
+concatenate on the table name.
+
+45
+00:02:21,290 --> 00:02:24,040
+And next we need to add
+in the parentheses.
+
+46
+00:02:24,040 --> 00:02:27,470
+Now we can begin adding the column
+names, like we did here.
+
+47
+00:02:27,470 --> 00:02:31,160
+First we'll need the ID, and
+we want that to be of type integer.
+
+48
+00:02:31,160 --> 00:02:35,200
+We also want it to be our primary key,
+and we want that auto increment.
+
+49
+00:02:35,200 --> 00:02:39,590
+These SQL keywords should be familiar
+from our discussion in lesson one.
+
+50
+00:02:39,590 --> 00:02:45,160
+So far, we have this section of our
+SQL command matching the string here.
+
+51
+00:02:45,160 --> 00:02:49,130
+All's we need to do now, is finish up
+the rest of the command, and to do so
+
+52
+00:02:49,130 --> 00:02:52,730
+I'll just need to concatenate the rest
+of the columns and their data types.
+
+53
+00:02:52,730 --> 00:02:56,550
+With that, our SQL command has
+been translated into a string.
+
+54
+00:02:56,550 --> 00:02:58,605
+But we'll need to set it
+to a string constant, so
+
+55
+00:02:58,605 --> 00:03:00,940
+that you can easily reference it.
+
+56
+00:03:00,940 --> 00:03:05,770
+I've set MySQL command to
+be SQL CREATE PETS TABLE.
+
+57
+00:03:05,770 --> 00:03:08,128
+Now onto the task of
+actually creating the table.
+
+58
+00:03:08,128 --> 00:03:09,223
+And to do so,
+
+59
+00:03:09,223 --> 00:03:15,110
+we can use a method from the SQLite
+Database Class called execute SQL.
+
+60
+00:03:15,110 --> 00:03:17,180
+And this is what that looks like.
+
+61
+00:03:17,180 --> 00:03:20,770
+This method here, takes in an SQL
+statement as it's parameter and
+
+62
+00:03:20,770 --> 00:03:22,600
+executes that statement.
+
+63
+00:03:22,600 --> 00:03:25,850
+We can pass in our
+SQL CREATE PETS TABLE command.
+
+64
+00:03:26,860 --> 00:03:31,900
+Because this isn't a static method,
+we'll need to execute SQL method
+
+65
+00:03:31,900 --> 00:03:35,640
+on the correct SQLite Database
+class instance.
+
+66
+00:03:35,640 --> 00:03:40,640
+Notice onCreate method,
+takes in an SQLite Database object.
+
+67
+00:03:40,640 --> 00:03:46,300
+By default this object is named
+SQLite Database with SQL in lower case.
+
+68
+00:03:46,300 --> 00:03:49,860
+But we can always rename
+this variable here and for
+
+69
+00:03:49,860 --> 00:03:53,870
+simplicity let's rename it for
+DB, short for database.
+
+70
+00:03:53,870 --> 00:03:59,114
+That means I can update
+my SQL method here and
+
+71
+00:03:59,114 --> 00:04:01,819
+call it db.execSQL.
+
+72
+00:04:01,819 --> 00:04:04,630
+With that, our onCreate method is done.
+
+73
+00:04:04,630 --> 00:04:06,980
+Now on to onUpgrade method.
+
+74
+00:04:06,980 --> 00:04:10,060
+Currently, since our database
+only has one version,
+
+75
+00:04:10,060 --> 00:04:13,510
+this method can remain as is, so empty.
+
+76
+00:04:13,510 --> 00:04:17,410
+However in an upcoming lesson, we'll
+need to migrate the database schema, so
+
+77
+00:04:17,410 --> 00:04:18,589
+then we'll come back and
+
+78
+00:04:18,589 --> 00:04:23,520
+revisit this method later, when we'll
+have another version of our database.
+
+79
+00:04:23,520 --> 00:04:27,450
+The final step of the exercise, was we
+needed to add that mysterious function
+
+80
+00:04:27,450 --> 00:04:30,030
+to the catalog activities
+onCreate method.
+
+81
+00:04:30,030 --> 00:04:35,200
+And I did that over here,
+this displayDatabaseInfo method.
+
+82
+00:04:35,200 --> 00:04:37,910
+If I did everything correctly,
+when I open up the app,
+
+83
+00:04:37,910 --> 00:04:42,030
+it should show that there are zero
+rows currently in the database table.
+
+84
+00:04:42,030 --> 00:04:43,980
+Let's run it and see.
+
+85
+00:04:43,980 --> 00:04:44,650
+And perfect.
+
+86
+00:04:44,650 --> 00:04:48,520
+As expected the catalog activity, now
+has this logging statement that tells us
+
+87
+00:04:48,520 --> 00:04:50,900
+how many rows are in our
+pets database table.

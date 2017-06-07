@@ -1,0 +1,837 @@
+1
+00:00:00,690 --> 00:00:04,410
+So our starter code presents the user
+with an option to be able to enter data
+
+2
+00:00:04,410 --> 00:00:07,980
+into these edit text fields
+of the editor activity.
+
+3
+00:00:07,980 --> 00:00:11,530
+Now for this part of the lesson,
+we'll focus on how to be able to save
+
+4
+00:00:11,530 --> 00:00:15,220
+off the data that the user's
+entered here into our database.
+
+5
+00:00:15,220 --> 00:00:18,440
+So first, let me start by showing you
+what the app will be able to do by
+
+6
+00:00:18,440 --> 00:00:20,190
+the end of the following quiz.
+
+7
+00:00:20,190 --> 00:00:23,020
+Let's start by going back
+to the catalogue activity.
+
+8
+00:00:23,020 --> 00:00:26,890
+So here, note that there are currently
+zero rows in the database.
+
+9
+00:00:26,890 --> 00:00:29,870
+So let me we click the floating
+action button to the editor activity,
+
+10
+00:00:29,870 --> 00:00:32,130
+where I can enter some pet information.
+
+11
+00:00:32,130 --> 00:00:37,420
+So let's enter a pet name Toto,
+let's make him a terrier.
+
+12
+00:00:37,420 --> 00:00:41,110
+And give him a gender of,
+let's say, male, and
+
+13
+00:00:41,110 --> 00:00:44,720
+he will weigh 4 kg, so little tiny guy.
+
+14
+00:00:44,720 --> 00:00:47,910
+So after I've entered this information,
+I'm going to click the Save button, and
+
+15
+00:00:47,910 --> 00:00:50,710
+once I do that,
+a toast appears at the bottom
+
+16
+00:00:50,710 --> 00:00:53,670
+showing me the ID of the pet
+that I've just saved off.
+
+17
+00:00:53,670 --> 00:00:56,660
+Also notice here that the number
+of rows in the pet database has
+
+18
+00:00:56,660 --> 00:00:58,380
+increased to one.
+
+19
+00:00:58,380 --> 00:01:01,720
+Now to double check that this is
+correct, I can download my database and
+
+20
+00:01:01,720 --> 00:01:05,420
+then check that Toto was
+saved to our shelter.db file.
+
+21
+00:01:05,420 --> 00:01:09,400
+So to review again how to do that, first
+off, remember that this can only be done
+
+22
+00:01:09,400 --> 00:01:14,080
+with a rooted physical device or
+on an emulator, like I'm doing here.
+
+23
+00:01:14,080 --> 00:01:16,970
+Next open up your
+Android Device Monitor,
+
+24
+00:01:16,970 --> 00:01:20,090
+then select the device that you want,
+so I want the emulator.
+
+25
+00:01:20,090 --> 00:01:24,500
+Open up the Data folder,
+down again to the second data folder and
+
+26
+00:01:24,500 --> 00:01:26,305
+then down to the package.
+
+27
+00:01:26,305 --> 00:01:28,834
+And then down into databases,
+and then we see here,
+
+28
+00:01:28,834 --> 00:01:31,180
+we have the shelter.db file.
+
+29
+00:01:31,180 --> 00:01:35,890
+So I'm going to save that off, and
+let's save it onto our desktop.
+
+30
+00:01:35,890 --> 00:01:38,750
+So once it's saved off,
+we can open it up in the terminal.
+
+31
+00:01:38,750 --> 00:01:41,860
+And we can find that directly
+here in Android Studio,
+
+32
+00:01:41,860 --> 00:01:46,510
+it's the command prompt in Windows,
+if you are using a Windows device.
+
+33
+00:01:46,510 --> 00:01:49,240
+So now let's head into the desktop.
+
+34
+00:01:49,240 --> 00:01:51,524
+So let's CD out of this folder.
+
+35
+00:01:51,524 --> 00:01:55,629
+All right, and then now let's
+open up the sqlite3 program and
+
+36
+00:01:55,629 --> 00:01:58,277
+directly open up our shelter.db file.
+
+37
+00:01:58,277 --> 00:02:02,715
+So now, in the sqlite3 program,
+remember the command to select
+
+38
+00:02:02,715 --> 00:02:05,750
+all the information from
+a certain table is SELECT *.
+
+39
+00:02:05,750 --> 00:02:10,479
+Selects all rows and
+columns from our pets table and
+
+40
+00:02:10,479 --> 00:02:13,018
+then end with a semicolon.
+
+41
+00:02:13,018 --> 00:02:16,269
+And if I hit Enter,
+I see here that the information for
+
+42
+00:02:16,269 --> 00:02:21,260
+the first row of my table is what I
+entered into the editor activity.
+
+43
+00:02:21,260 --> 00:02:22,840
+So with that demonstration in mind,
+
+44
+00:02:22,840 --> 00:02:26,440
+let's take a look at how we can
+execute that in the code now.
+
+45
+00:02:26,440 --> 00:02:28,920
+So to start adding that
+functionality we just saw,
+
+46
+00:02:28,920 --> 00:02:31,330
+we first need to figure
+out when to save a pet.
+
+47
+00:02:31,330 --> 00:02:35,050
+So when we press the Save button,
+that means you're done editing and
+
+48
+00:02:35,050 --> 00:02:36,820
+that's when the pet should be saved.
+
+49
+00:02:36,820 --> 00:02:40,220
+So after that happens, we'll need to
+grab the data from the edit text fields
+
+50
+00:02:40,220 --> 00:02:43,260
+and then put them into
+a content values object.
+
+51
+00:02:43,260 --> 00:02:45,470
+And after we've created
+this content values object,
+
+52
+00:02:45,470 --> 00:02:49,380
+we'll use the insert method to
+store it off into our database.
+
+53
+00:02:49,380 --> 00:02:53,100
+So as an overview, here are the four
+steps that we'll need to complete.
+
+54
+00:02:53,100 --> 00:02:56,730
+First we'll need to trigger when
+the Save button is pressed.
+
+55
+00:02:56,730 --> 00:03:00,640
+Second we need to get all the data
+from the EditText fields.
+
+56
+00:03:00,640 --> 00:03:06,360
+Next we'll save that information into
+a ContentValues object, and then lastly,
+
+57
+00:03:06,360 --> 00:03:10,290
+we'll need to insert the ContentValues
+object into the pets table.
+
+58
+00:03:10,290 --> 00:03:14,360
+So, you should be familiar with
+how to do steps 2, 3, and 4.
+
+59
+00:03:14,360 --> 00:03:16,250
+And step 1,
+I know is a new step for you.
+
+60
+00:03:16,250 --> 00:03:18,090
+So, we'll go over how to do that.
+
+61
+00:03:18,090 --> 00:03:21,710
+In addition, I'll also review
+how to cover steps 2, 3, and 4.
+
+62
+00:03:22,710 --> 00:03:27,190
+So, first let's recap how we get
+a value from the EditText field.
+
+63
+00:03:27,190 --> 00:03:30,260
+If you remember, we actually did
+this back in the Just-Java app,
+
+64
+00:03:30,260 --> 00:03:32,080
+which I have open here.
+
+65
+00:03:32,080 --> 00:03:35,130
+So first,
+let's navigate to the MainActivity.
+
+66
+00:03:35,130 --> 00:03:38,293
+Remember that you can easily
+do this by hitting T, and
+
+67
+00:03:38,293 --> 00:03:41,824
+this pulls up a search through
+all the files in the project.
+
+68
+00:03:41,824 --> 00:03:43,188
+And then I'm going to search for
+MainActivity.
+
+69
+00:03:43,188 --> 00:03:48,430
+Now, down in the submit order method,
+when you press the Submit button
+
+70
+00:03:48,430 --> 00:03:53,280
+in order to send an email, we needed to
+grab the name from the EditText field.
+
+71
+00:03:53,280 --> 00:03:57,860
+And the id of this EditText
+is R.id.name_field.
+
+72
+00:03:57,860 --> 00:04:00,570
+So first,
+we used the find view by id method
+
+73
+00:04:00,570 --> 00:04:03,860
+in order to get the EditText
+with the correct ID.
+
+74
+00:04:03,860 --> 00:04:05,493
+And then we used getText and
+
+75
+00:04:05,493 --> 00:04:09,630
+toString in order to get
+the string from that EditText.
+
+76
+00:04:09,630 --> 00:04:13,320
+So let's apply similar
+principles to our pets app.
+
+77
+00:04:13,320 --> 00:04:16,959
+So here I am back in our pets
+app inside the editor activity.
+
+78
+00:04:16,959 --> 00:04:22,320
+And right above our onCreate options
+menu, I've added this insertPet method.
+
+79
+00:04:22,320 --> 00:04:26,180
+So as it says here,
+it gets user input from the editor, and
+
+80
+00:04:26,180 --> 00:04:28,810
+then saves a new pet into the database.
+
+81
+00:04:28,810 --> 00:04:32,310
+So this method will be called when
+the user clicks that Save button
+
+82
+00:04:32,310 --> 00:04:35,880
+in order to save their inputted
+data into the database.
+
+83
+00:04:35,880 --> 00:04:38,490
+Notice that I've set it to private,
+and right now,
+
+84
+00:04:38,490 --> 00:04:40,520
+it doesn't have any return variable.
+
+85
+00:04:40,520 --> 00:04:43,710
+So the focus now will be
+setting up this method, and
+
+86
+00:04:43,710 --> 00:04:47,320
+we'll figure out how to call it from
+the Save button trigger later on.
+
+87
+00:04:48,330 --> 00:04:52,100
+So to get the data from the EditText
+field, if you remember back to the Java
+
+88
+00:04:52,100 --> 00:04:55,330
+example, we first need to
+reference the EditText.
+
+89
+00:04:55,330 --> 00:04:58,740
+So in this case,
+let's just focus on the pet's name.
+
+90
+00:04:58,740 --> 00:05:00,556
+So I could use find view by ID,
+
+91
+00:05:00,556 --> 00:05:04,635
+which we did in the Java example,
+in order to get the name EditText.
+
+92
+00:05:04,635 --> 00:05:07,347
+So since I've already done this
+up here in the onCreate method,
+
+93
+00:05:07,347 --> 00:05:09,615
+we can go ahead and use this variable.
+
+94
+00:05:09,615 --> 00:05:12,178
+So I can call getText on
+this EditText object,
+
+95
+00:05:12,178 --> 00:05:16,530
+and then in order to make a string,
+let's call toString on it.
+
+96
+00:05:16,530 --> 00:05:19,610
+So doing so returns whatever
+was typed here as a string.
+
+97
+00:05:20,630 --> 00:05:24,260
+So one more method I
+wanted to add is .trim.
+
+98
+00:05:24,260 --> 00:05:26,570
+And doing so eliminates any leading or
+
+99
+00:05:26,570 --> 00:05:29,490
+trailing white space from
+the string that we got.
+
+100
+00:05:29,490 --> 00:05:33,395
+So for example, if the user had typed in
+extra spaces after they entered the name
+
+101
+00:05:33,395 --> 00:05:38,550
+Toto, this will just trim it off, so
+that we only have the string T-O-T-O.
+
+102
+00:05:38,550 --> 00:05:43,396
+Now, to create a variable so that we can
+use the string, let's create a string,
+
+103
+00:05:43,396 --> 00:05:47,407
+just name it nameString, and
+set that information to that value.
+
+104
+00:05:47,407 --> 00:05:51,202
+All right, so now, if I want to
+make a new content values object,
+
+105
+00:05:51,202 --> 00:05:55,068
+I can use the key value pair,
+where the key is the name column, and
+
+106
+00:05:55,068 --> 00:05:57,840
+the value is the name
+from the EditText field.
+
+107
+00:05:58,840 --> 00:06:01,270
+So I'll leave setting up
+the remaining fields up to you.
+
+108
+00:06:01,270 --> 00:06:04,990
+So that leaves the breed,
+the gender, and the weight.
+
+109
+00:06:04,990 --> 00:06:08,090
+And those will look similar
+to the setup we did here.
+
+110
+00:06:08,090 --> 00:06:10,790
+However, there are two key
+things that I want you to note.
+
+111
+00:06:10,790 --> 00:06:15,300
+First, in order to convert a string into
+an integer, what you'll might need to do
+
+112
+00:06:15,300 --> 00:06:19,990
+for some of those values,
+you can use the integer.parseInt method.
+
+113
+00:06:19,990 --> 00:06:23,350
+So this method will take whatever
+stream was passed in here and
+
+114
+00:06:23,350 --> 00:06:25,580
+convert it into integer form.
+
+115
+00:06:25,580 --> 00:06:27,660
+So we'll take this
+string version of 1 and
+
+116
+00:06:27,660 --> 00:06:31,350
+then change it to
+an integer variable of 1.
+
+117
+00:06:31,350 --> 00:06:35,197
+My second hint to you is if you're
+wondering how to get the value for
+
+118
+00:06:35,197 --> 00:06:38,785
+gender, remember that we stored
+it in the variable M gender.
+
+119
+00:06:38,785 --> 00:06:43,025
+All right, so now you should know how
+to get started on steps 2, 3, and 4.
+
+120
+00:06:43,025 --> 00:06:47,087
+And that leaves the question of when do
+we know when the user has pressed that
+
+121
+00:06:47,087 --> 00:06:50,451
+Save button, meaning we can
+trigger that insertPet method.
+
+122
+00:06:50,451 --> 00:06:53,741
+All right, so to answer that question,
+let's take a look back in our
+
+123
+00:06:53,741 --> 00:06:57,010
+Editor Activity in our
+onOptionsItemsSelectedMenu.
+
+124
+00:06:57,010 --> 00:07:00,199
+So this is where we can set up what
+happens when a user clicks on different
+
+125
+00:07:00,199 --> 00:07:02,440
+options in the app bar overflow menu.
+
+126
+00:07:02,440 --> 00:07:05,922
+So currently, we have a case already for
+our Save button, so
+
+127
+00:07:05,922 --> 00:07:07,300
+this action save here.
+
+128
+00:07:07,300 --> 00:07:09,970
+But right now,
+it's not set up to do anything.
+
+129
+00:07:09,970 --> 00:07:13,200
+So if we want it to trigger the
+insertPet method when the user clicks on
+
+130
+00:07:13,200 --> 00:07:15,550
+that Save button,
+let's just do that now.
+
+131
+00:07:15,550 --> 00:07:20,130
+So instead of doing nothing, let's
+change it to save pet to the database,
+
+132
+00:07:20,130 --> 00:07:23,350
+and that means we'll call
+our insertPet method.
+
+133
+00:07:23,350 --> 00:07:28,160
+So after the pet insertion's done here,
+we actually want to exit that editor.
+
+134
+00:07:28,160 --> 00:07:31,107
+And in order to do that,
+we'll call our finished method,
+
+135
+00:07:31,107 --> 00:07:33,042
+which closes up the editor activity.
+
+136
+00:07:33,042 --> 00:07:36,448
+And then that returns us automatically
+back to the catalog activity where we
+
+137
+00:07:36,448 --> 00:07:38,250
+originally came from.
+
+138
+00:07:38,250 --> 00:07:40,394
+So let's add that in.
+
+139
+00:07:40,394 --> 00:07:44,213
+All right, so to summarize,
+what we're doing here is setting up,
+
+140
+00:07:44,213 --> 00:07:47,027
+so that when the user clicks
+on the Save button, so
+
+141
+00:07:47,027 --> 00:07:50,090
+in this case,
+these two actions happened.
+
+142
+00:07:50,090 --> 00:07:53,280
+First, the insertPet method is called,
+and then afterwards,
+
+143
+00:07:53,280 --> 00:07:58,130
+we exit the activity and
+jump back to our catalog activity.
+
+144
+00:07:58,130 --> 00:07:59,980
+So combining all of
+the information I just covered,
+
+145
+00:07:59,980 --> 00:08:02,570
+I'd like you to finish
+the code to successfully save
+
+146
+00:08:02,570 --> 00:08:05,610
+a new pet into the database from
+the editor activity screen.
+
+147
+00:08:06,660 --> 00:08:08,520
+Also as I showed in the demo,
+
+148
+00:08:08,520 --> 00:08:11,600
+I'd like you to make a toast message
+that shows the id of the pet
+
+149
+00:08:11,600 --> 00:08:16,040
+displayed in the catalogue activity when
+the user has clicked the Save button.
+
+150
+00:08:16,040 --> 00:08:20,000
+So, one more thing before you head off,
+in the catalogue activity,
+
+151
+00:08:20,000 --> 00:08:22,580
+I'd like you to add this block of code.
+
+152
+00:08:22,580 --> 00:08:25,343
+So here,
+I'm overriding the onStart method, and
+
+153
+00:08:25,343 --> 00:08:27,727
+that means when
+the activity starts again.
+
+154
+00:08:27,727 --> 00:08:31,359
+So this means after it comes back after
+the user has clicked Save in the editor
+
+155
+00:08:31,359 --> 00:08:35,179
+activity that the list will refresh
+with the new pet in the database.
+
+156
+00:08:35,179 --> 00:08:38,150
+So this will allow the row count
+on the screen to increase.
+
+157
+00:08:38,150 --> 00:08:42,020
+And you'll be able to find this snippet
+of code down in the quiz below.
+
+158
+00:08:42,020 --> 00:08:44,530
+So I know there's a lot
+that I just covered, and
+
+159
+00:08:44,530 --> 00:08:47,610
+here's a summary of what I'd
+like you to do in this exercise.
+
+160
+00:08:47,610 --> 00:08:49,750
+So I'd like you to modify
+the editor activity, so
+
+161
+00:08:49,750 --> 00:08:52,510
+that when the user clicks
+the Save button in the app bar,
+
+162
+00:08:52,510 --> 00:08:57,400
+it first inserts a pet into
+the database and shows a toast message.
+
+163
+00:08:57,400 --> 00:09:03,550
+I want the toast message to say the pet
+saved with ID and the number of the ID.
+
+164
+00:09:03,550 --> 00:09:06,228
+If the insertion wasn't successful,
+if it was not,
+
+165
+00:09:06,228 --> 00:09:08,142
+then show this host message instead.
+
+166
+00:09:08,142 --> 00:09:10,360
+There was an error with saving the pet.
+
+167
+00:09:10,360 --> 00:09:12,990
+Also remember to add
+the snippet of code, so
+
+168
+00:09:12,990 --> 00:09:15,380
+that the catalogue activity restarts.
+
+169
+00:09:15,380 --> 00:09:20,120
+And the row count updates, and that
+snippet of code is down below this quiz.
+
+170
+00:09:20,120 --> 00:09:23,820
+So I know there's quite a few steps
+you need to complete this exercise.
+
+171
+00:09:23,820 --> 00:09:27,390
+So as a suggestion, go back to
+the four steps I listed earlier, and
+
+172
+00:09:27,390 --> 00:09:29,130
+think of the connection
+points between each of them.
+
+173
+00:09:29,130 --> 00:09:32,580
+And that will help you figure out
+where you need to execute different
+
+174
+00:09:32,580 --> 00:09:33,310
+parts of the code.

@@ -1,0 +1,87 @@
+1
+00:00:00,330 --> 00:00:01,280
+I'll start with a first one,
+
+2
+00:00:01,280 --> 00:00:04,670
+which in fact does cause
+a forCED synchronous layout.
+
+3
+00:00:04,670 --> 00:00:07,060
+Take a look here at window.scrollY.
+
+4
+00:00:07,060 --> 00:00:11,170
+This is one of those properties that,
+when accessed, will cause layout.
+
+5
+00:00:11,170 --> 00:00:14,340
+So, you're causing layout and
+then you're updating styles.
+
+6
+00:00:14,340 --> 00:00:17,930
+This is putting the browser in a bad
+read/write cycle between recalculate
+
+7
+00:00:17,930 --> 00:00:18,920
+styles and layout.
+
+8
+00:00:18,920 --> 00:00:21,630
+So, this is a forced synchronous layout.
+
+9
+00:00:21,630 --> 00:00:25,740
+The second option also causes
+a forced synchronous layout.
+
+10
+00:00:25,740 --> 00:00:29,390
+Once again, accessing offset height
+causes the browser to run layout, and
+
+11
+00:00:29,390 --> 00:00:32,270
+then bam, here comes a style change.
+
+12
+00:00:32,270 --> 00:00:34,870
+This option is definitely bad for
+performance.
+
+13
+00:00:34,870 --> 00:00:39,150
+This means that the third one does not
+cause a forced synchronous layout.
+
+14
+00:00:39,150 --> 00:00:42,970
+Notice our accessing offset width
+is happening outside of the loop.
+
+15
+00:00:42,970 --> 00:00:44,210
+That's a good strategy.
+
+16
+00:00:44,210 --> 00:00:47,310
+Layout runs once and then you batch
+update the styles afterwards.
+
+17
+00:00:47,310 --> 00:00:48,380
+Very nice.
+
+18
+00:00:48,380 --> 00:00:52,280
+So the question is then,
+how do you fix these two options?
+
+19
+00:00:52,280 --> 00:00:53,950
+You'll have to check out
+the next quiz to find out.

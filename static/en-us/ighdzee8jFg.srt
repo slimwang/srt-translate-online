@@ -1,0 +1,411 @@
+1
+00:00:00,220 --> 00:00:03,070
+Dependency injection is
+a way to design software so
+
+2
+00:00:03,070 --> 00:00:07,700
+that code, like a function does not have
+its dependencies hard coded into it.
+
+3
+00:00:07,700 --> 00:00:11,422
+Instead, the information that the
+function needs is given to the function
+
+4
+00:00:11,422 --> 00:00:12,435
+when it's called.
+
+5
+00:00:12,435 --> 00:00:14,440
+There are a number of reasons for this.
+
+6
+00:00:14,440 --> 00:00:17,930
+It decreases the coupling between
+a function and it's dependencies.
+
+7
+00:00:17,930 --> 00:00:20,800
+It can decrease the complexity
+of that function.
+
+8
+00:00:20,800 --> 00:00:23,870
+And it makes it easy to configure
+the function if it needs a new or
+
+9
+00:00:23,870 --> 00:00:24,790
+different dependency.
+
+10
+00:00:25,850 --> 00:00:29,140
+This topic can be a little
+convoluted to work through though.
+
+11
+00:00:29,140 --> 00:00:31,337
+So I've got some friends
+to help me explain it.
+
+12
+00:00:31,337 --> 00:00:32,723
+We've got Brittany.
+
+13
+00:00:32,723 --> 00:00:34,336
+>> Hi.
+>> Cameron.
+
+14
+00:00:34,336 --> 00:00:35,715
+>> Hello.
+
+15
+00:00:35,715 --> 00:00:36,691
+>> Kogure.
+
+16
+00:00:36,691 --> 00:00:38,154
+>> Hi
+>> Walter.
+
+17
+00:00:38,154 --> 00:00:39,623
+>> Hi.
+
+18
+00:00:39,623 --> 00:00:40,760
+>> And Mike.
+
+19
+00:00:40,760 --> 00:00:42,262
+>> Hey.
+
+20
+00:00:42,262 --> 00:00:45,874
+>> Here's what a typical day looks
+like in a dependency injection world.
+
+21
+00:00:45,874 --> 00:00:46,848
+[SOUND].
+
+22
+00:00:46,848 --> 00:00:47,960
+>> Hey, what's up, Brittany?
+
+23
+00:00:47,960 --> 00:00:49,280
+>> Hey, Cameron, what's going on?
+
+24
+00:00:49,280 --> 00:00:52,600
+>> Well, I've got a lot of tires,
+any kind, any shape, any size.
+
+25
+00:00:52,600 --> 00:00:54,140
+>> Great, and where do you sit?
+
+26
+00:00:55,530 --> 00:00:56,380
+>> Over there.
+
+27
+00:00:56,380 --> 00:00:57,420
+>> Okay, great, thanks.
+
+28
+00:00:57,420 --> 00:00:57,920
+>> Cool.
+
+29
+00:01:00,367 --> 00:01:01,360
+>> Hey.
+
+30
+00:01:01,360 --> 00:01:03,141
+>> Hey.
+>> I just got in and I've got that-
+
+31
+00:01:03,141 --> 00:01:04,040
+>> Okay, what do you got for me?
+
+32
+00:01:05,500 --> 00:01:06,180
+>> Blue bricks?
+
+33
+00:01:06,180 --> 00:01:07,880
+>> Okay, of what sizes?
+
+34
+00:01:07,880 --> 00:01:10,567
+>> One by the ones.
+
+35
+00:01:10,567 --> 00:01:12,680
+I think there's like a two by two.
+
+36
+00:01:12,680 --> 00:01:14,619
+There may have been
+like a bridge four by-
+
+37
+00:01:14,619 --> 00:01:16,380
+>> Okay, okay, you have it all.
+
+38
+00:01:16,380 --> 00:01:18,320
+Got it.
+Where do you sit?
+
+39
+00:01:18,320 --> 00:01:18,960
+>> Over there.
+
+40
+00:01:18,960 --> 00:01:19,850
+>> Okay, awesome, great.
+
+41
+00:01:19,850 --> 00:01:20,350
+Thank you.
+
+42
+00:01:23,277 --> 00:01:24,050
+>> You're welcome.
+
+43
+00:01:25,380 --> 00:01:26,020
+>> Hi.
+
+44
+00:01:26,020 --> 00:01:26,995
+>> Hi.
+>> Reporting for duty.
+
+45
+00:01:26,995 --> 00:01:27,689
+>> Okay, okay, okay.
+
+46
+00:01:27,689 --> 00:01:28,730
+What do you have?
+
+47
+00:01:28,730 --> 00:01:30,240
+How much do you have?
+And where do you sit?
+
+48
+00:01:30,240 --> 00:01:31,210
+>> Red bricks.
+
+49
+00:01:31,210 --> 00:01:33,010
+A whole bucket full of them.
+
+50
+00:01:33,010 --> 00:01:34,380
+Over by the wall, third from the left.
+
+51
+00:01:34,380 --> 00:01:34,880
+>> Okay.
+Thank you.
+
+52
+00:01:44,966 --> 00:01:47,803
+>> Man, another prop for a course.
+
+53
+00:01:47,803 --> 00:01:54,150
+[NOISE].
+
+54
+00:01:54,150 --> 00:01:55,248
+No.
+
+55
+00:01:55,248 --> 00:01:59,431
+Hm.
+
+56
+00:01:59,431 --> 00:02:00,283
+Hey Brittany.
+
+57
+00:02:00,283 --> 00:02:03,350
+>> Hey what do you need babe,
+because whatever it is, I got it.
+
+58
+00:02:03,350 --> 00:02:05,860
+>> Yeah, I need a prop for
+an upcoming course.
+
+59
+00:02:05,860 --> 00:02:08,250
+I can do it, but I still need some
+red bricks, some blue bricks,
+
+60
+00:02:08,250 --> 00:02:09,270
+and some tires.
+
+61
+00:02:09,270 --> 00:02:10,750
+For the blockades I'll need-
+>> Okay, okay.
+
+62
+00:02:10,750 --> 00:02:12,520
+I got it don't worry
+I'll be right there.
+
+63
+00:02:12,520 --> 00:02:15,852
+Okay blue bricks plus red
+bricks plus Walter, tires.
+
+64
+00:02:15,852 --> 00:02:17,155
+Okay.
+
+65
+00:02:17,155 --> 00:02:18,213
+Quick we need blue bricks.
+
+66
+00:02:21,188 --> 00:02:24,317
+>> Walter, Walter, Walter,
+we need red bricks.
+
+67
+00:02:24,317 --> 00:02:29,943
+My god [NOISE].
+
+68
+00:02:29,943 --> 00:02:31,003
+Let's go.
+
+69
+00:02:37,910 --> 00:02:39,055
+>> You need tires?
+
+70
+00:02:39,055 --> 00:02:40,647
+>> Yes.
+>> All right, let's do it.
+
+71
+00:02:40,647 --> 00:02:42,027
+>> Let's go, okay.
+
+72
+00:02:50,280 --> 00:02:50,790
+Okay.
+
+73
+00:02:50,790 --> 00:02:52,180
+He's got the red bricks.
+
+74
+00:02:52,180 --> 00:02:53,940
+We got wheels right here.
+
+75
+00:02:53,940 --> 00:02:56,280
+We got the other bricks right here.
+
+76
+00:02:56,280 --> 00:02:57,223
+Okay, are we good?
+>> Yeah, we're good.
+
+77
+00:02:57,223 --> 00:02:58,664
+>> Okay, I gotta go back to work.
+>> Thanks, Brittany.
+
+78
+00:03:01,013 --> 00:03:04,526
+[SOUND]
+>> So
+
+79
+00:03:04,526 --> 00:03:07,490
+that was a fun little skit to make.
+
+80
+00:03:07,490 --> 00:03:11,320
+But dependency injection is an important
+architectural software pattern, and
+
+81
+00:03:11,320 --> 00:03:14,780
+I want to make sure you
+understand what's happening.
+
+82
+00:03:14,780 --> 00:03:18,380
+Instead of being in charge of all
+of the bricks and the tires myself,
+
+83
+00:03:18,380 --> 00:03:22,300
+I just depended on these outside
+resources to be provided to me.
+
+84
+00:03:22,300 --> 00:03:24,470
+Brittany, the injector
+in our real life app,
+
+85
+00:03:24,470 --> 00:03:27,130
+knows where all of the information and
+services are.
+
+86
+00:03:27,130 --> 00:03:28,880
+Whenever an app needs some service or
+
+87
+00:03:28,880 --> 00:03:31,990
+information it tells
+the injector its requirements.
+
+88
+00:03:31,990 --> 00:03:33,990
+Then the injector fetches
+those requirements and
+
+89
+00:03:33,990 --> 00:03:36,090
+provides them to the calling code.
+
+90
+00:03:36,090 --> 00:03:39,660
+Then the code uses those
+services to accomplish its task.
+
+91
+00:03:39,660 --> 00:03:41,981
+Dependency injection is
+heavily used in Angular.
+
+92
+00:03:41,981 --> 00:03:45,942
+We'll make use of it ourselves in
+the next video on Angular services.
+
+93
+00:03:45,942 --> 00:03:50,179
+[MUSIC]

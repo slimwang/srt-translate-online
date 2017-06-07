@@ -1,0 +1,244 @@
+1
+00:00:00,430 --> 00:00:02,980
+At this point I'm going to move
+on from the wrangling phase to
+
+2
+00:00:02,980 --> 00:00:04,580
+the exploration phase.
+
+3
+00:00:04,580 --> 00:00:07,560
+Although of course I might find more
+problems later and need to fix them.
+
+4
+00:00:08,760 --> 00:00:12,150
+What I want to look at first is how the
+numbers in the daily engagement table
+
+5
+00:00:12,150 --> 00:00:12,900
+differ for
+
+6
+00:00:12,900 --> 00:00:17,190
+students who eventually pass the first
+project versus those who don't.
+
+7
+00:00:17,190 --> 00:00:19,840
+However, there are a few
+things about this question as
+
+8
+00:00:19,840 --> 00:00:23,560
+stated that are under specified or
+would be a bit weird.
+
+9
+00:00:23,560 --> 00:00:26,860
+First, if I look at all records
+in the daily engagement table,
+
+10
+00:00:26,860 --> 00:00:30,710
+that will include data from
+after the project was submitted.
+
+11
+00:00:30,710 --> 00:00:34,090
+That data isn't really relevant, so
+I might want to only look at engagement
+
+12
+00:00:34,090 --> 00:00:36,190
+data from before the submission
+of the first project.
+
+13
+00:00:37,700 --> 00:00:41,860
+Second, if I do only look at engagement
+from before the first submission and
+
+14
+00:00:41,860 --> 00:00:44,310
+students submit after
+different lengths of time
+
+15
+00:00:44,310 --> 00:00:47,930
+then I'm comparing engagement data
+from different lengths of time, but
+
+16
+00:00:47,930 --> 00:00:50,590
+student's engagement might
+have trends over time.
+
+17
+00:00:50,590 --> 00:00:54,830
+For example, engagement might tend to
+drop off after the first few days.
+
+18
+00:00:54,830 --> 00:00:58,340
+If that were the case, then comparing
+average engagement over one month for
+
+19
+00:00:58,340 --> 00:01:01,610
+one student versus two months for
+another might be misleading.
+
+20
+00:01:01,610 --> 00:01:04,349
+And third since the daily
+engagement table we've been using
+
+21
+00:01:04,349 --> 00:01:07,650
+includes engagement numbers for
+the entire nano degree program.
+
+22
+00:01:07,650 --> 00:01:08,820
+It's including engagement for
+
+23
+00:01:08,820 --> 00:01:12,200
+courses that are not related to the
+first project, which is little weird.
+
+24
+00:01:13,200 --> 00:01:16,090
+To handle the first two problems,
+I'm only going to look at engagement
+
+25
+00:01:16,090 --> 00:01:18,780
+data from the students'
+first week of enrollment and
+
+26
+00:01:18,780 --> 00:01:21,630
+I'm going to exclude students
+who cancel within a week.
+
+27
+00:01:21,630 --> 00:01:24,320
+That way I'll be comparing
+equal amounts of time.
+
+28
+00:01:24,320 --> 00:01:27,230
+This will also have the benefit of
+excluding people who cancelled during
+
+29
+00:01:27,230 --> 00:01:30,420
+the free trial which was seven days
+at the time this data was collected.
+
+30
+00:01:31,630 --> 00:01:33,870
+The third issue doesn't seem
+like a showstopper to me.
+
+31
+00:01:34,910 --> 00:01:36,950
+I'm going to go ahead and
+look at engagement numbers for
+
+32
+00:01:36,950 --> 00:01:39,930
+any course in the nano degree program
+and just keep this decision in mind.
+
+33
+00:01:40,970 --> 00:01:43,770
+If you did want to look at engagement
+data in only the first course of
+
+34
+00:01:43,770 --> 00:01:46,780
+the nano degree you could do
+that using the daily engagement
+
+35
+00:01:46,780 --> 00:01:49,500
+full table available in
+the downloadable section
+
+36
+00:01:49,500 --> 00:01:52,160
+which includes a breakdown
+by course as well.
+
+37
+00:01:52,160 --> 00:01:56,330
+But since this file is pretty big,
+computations on it can take longer.
+
+38
+00:01:56,330 --> 00:02:00,200
+So, to make things easier, or in case
+your computer doesn't have that much
+
+39
+00:02:00,200 --> 00:02:03,640
+memory, I'm going use
+the non-granular version, for now.
+
+40
+00:02:04,720 --> 00:02:05,960
+As a first step,
+
+41
+00:02:05,960 --> 00:02:09,680
+create a dictionary of students
+who either haven't cancelled yet.
+
+42
+00:02:09,680 --> 00:02:12,530
+Or who stayed enrolled for
+more than seven days before cancelling.
+
+43
+00:02:13,560 --> 00:02:17,860
+If the student hasn't cancelled yet
+the days_to_cancel column will be None.
+
+44
+00:02:17,860 --> 00:02:19,050
+And if they've stayed enrolled for
+
+45
+00:02:19,050 --> 00:02:22,761
+more than 7 days,
+the days_to_cancel field will be > 7.
+
+46
+00:02:22,761 --> 00:02:26,250
+The keys of your dictionary
+should be account keys and
+
+47
+00:02:26,250 --> 00:02:29,545
+the values should be the date that the
+student enrolled, since this date will
+
+48
+00:02:29,545 --> 00:02:33,335
+be useful later to find engagement
+records during the first week.
+
+49
+00:02:33,335 --> 00:02:36,805
+You should name your
+dictionary paid_students.
+
+50
+00:02:36,805 --> 00:02:39,375
+Enter the number of students who
+meet these conditions in this box.

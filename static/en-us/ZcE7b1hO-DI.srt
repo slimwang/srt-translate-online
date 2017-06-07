@@ -1,0 +1,290 @@
+1
+00:00:00,450 --> 00:00:02,160
+Jake, did you manage that one?
+
+2
+00:00:02,160 --> 00:00:03,290
+>> I did.
+And here's how.
+
+3
+00:00:03,290 --> 00:00:06,750
+I'm going to bump the version
+number of the database and
+
+4
+00:00:06,750 --> 00:00:08,790
+add a new section to
+the switch statement.
+
+5
+00:00:10,210 --> 00:00:12,550
+Then I'll get the people object
+store just as I did before.
+
+6
+00:00:14,000 --> 00:00:17,430
+I'm going to add a new index called
+age that sorts by the age property.
+
+7
+00:00:19,150 --> 00:00:23,230
+Getting people by age is almost the same
+as getting people by animal as we
+
+8
+00:00:23,230 --> 00:00:24,970
+did before.
+
+9
+00:00:24,970 --> 00:00:25,940
+I create a transaction.
+
+10
+00:00:27,020 --> 00:00:29,940
+Get the object store and get the index.
+
+11
+00:00:31,210 --> 00:00:34,000
+Now I called get all on it and
+log out the results.
+
+12
+00:00:37,090 --> 00:00:41,423
+If I run that in the browser, I can
+see all the people being logged, but
+
+13
+00:00:41,423 --> 00:00:43,200
+this time, ordered by age.
+
+14
+00:00:44,550 --> 00:00:47,740
+Also as confirmation, the index
+appears in the resources panel.
+
+15
+00:00:49,850 --> 00:00:54,150
+Right this is it,
+the final bit of the IDB crash course.
+
+16
+00:00:54,150 --> 00:00:55,210
+Deep breath, here we go.
+
+17
+00:00:56,360 --> 00:00:58,560
+At the moment, we're getting
+all the items out of the store.
+
+18
+00:00:58,560 --> 00:01:01,718
+But we can actually go through
+them one at a time using cursors.
+
+19
+00:01:01,718 --> 00:01:07,090
+Taking the age code from above,
+rather than calling get all,
+
+20
+00:01:07,090 --> 00:01:08,200
+I'm going to open a cursor.
+
+21
+00:01:09,990 --> 00:01:13,340
+This returns a promise for a cursor
+objects representing the first item in
+
+22
+00:01:13,340 --> 00:01:16,650
+the index or
+undefined if there isn't one.
+
+23
+00:01:16,650 --> 00:01:19,296
+So if it's undefined,
+I'm just going to return.
+
+24
+00:01:19,296 --> 00:01:22,350
+Otherwise, I'll log it.
+
+25
+00:01:22,350 --> 00:01:27,270
+The first person in the index
+is in cursor.value.
+
+26
+00:01:27,270 --> 00:01:32,310
+Then I'll call cursor.continue
+to move on to the next item.
+
+27
+00:01:32,310 --> 00:01:33,660
+This returns a promise for
+
+28
+00:01:33,660 --> 00:01:37,230
+a cursor representing the next item or
+undefined if there isn't one.
+
+29
+00:01:39,590 --> 00:01:40,710
+Now here's a neat trick.
+
+30
+00:01:40,710 --> 00:01:44,020
+I'm going to name the function
+we're in log person.
+
+31
+00:01:44,020 --> 00:01:47,017
+And I’m going to call at once
+cursor.continue resolves.
+
+32
+00:01:48,060 --> 00:01:52,010
+This sets up a kind of asynchronous
+loop until cursor is undefined.
+
+33
+00:01:52,010 --> 00:01:53,389
+Meaning we're at the end of the list.
+
+34
+00:01:54,770 --> 00:01:56,460
+So when we hit this next
+step in the promise chain,
+
+35
+00:01:56,460 --> 00:01:58,660
+we'll have gone through
+the whole object stall.
+
+36
+00:02:00,520 --> 00:02:04,710
+If I refresh the browser,
+there's all the people being logged.
+
+37
+00:02:04,710 --> 00:02:07,410
+At the moment this is just
+a complicated way of calling getAll.
+
+38
+00:02:07,410 --> 00:02:10,419
+But cursors become really useful
+when you want to modify items
+
+39
+00:02:10,419 --> 00:02:12,310
+as you're looping through.
+
+40
+00:02:12,310 --> 00:02:16,410
+You can use cursor.update to change
+the value or cursor.delete to remove it.
+
+41
+00:02:18,610 --> 00:02:20,520
+You can also skip some items.
+
+42
+00:02:20,520 --> 00:02:23,550
+Here I'm going to call
+cursor.advance and
+
+43
+00:02:23,550 --> 00:02:26,170
+pass 2 in to skip the first two items.
+
+44
+00:02:27,890 --> 00:02:31,470
+Now over in the browser
+if I hit refresh, yep,
+
+45
+00:02:31,470 --> 00:02:32,659
+we just get the last two logged.
+
+46
+00:02:34,790 --> 00:02:37,320
+Okay, you've just taken in the majority
+
+47
+00:02:37,320 --> 00:02:41,520
+of the index DV API in a very short
+space of time, but in next chapter,
+
+48
+00:02:41,520 --> 00:02:45,100
+will put some of that knowledge
+into practice on Witter itself.
+
+49
+00:02:45,100 --> 00:02:48,220
+Don't worry if you can't remember all
+of the syntax we've gone through.
+
+50
+00:02:48,220 --> 00:02:50,990
+You can always come back to this video
+and check out the instructor's notes for
+
+51
+00:02:50,990 --> 00:02:55,190
+links to the IDb API and the promise
+base Shim that we're going to be using.
+
+52
+00:02:55,190 --> 00:02:57,870
+Or better still play around with
+the code I've just written and
+
+53
+00:02:57,870 --> 00:02:59,480
+use it as a reference.
+
+54
+00:02:59,480 --> 00:03:02,990
+It covers all of the patterns we'll
+be using in the rest of the course.
+
+55
+00:03:02,990 --> 00:03:06,020
+You can check out this code
+by running git reset hard
+
+56
+00:03:06,020 --> 00:03:07,634
+to remove any local changes you have.
+
+57
+00:03:07,634 --> 00:03:11,440
+And then git check out idb
+cursoring get the latest code.
+
+58
+00:03:12,720 --> 00:03:16,480
+Once you get to grips with IDB,
+you may even start to like it,
+
+59
+00:03:16,480 --> 00:03:17,690
+that's what happened to me.
+
+60
+00:03:17,690 --> 00:03:19,700
+But I can't decide if
+that's a good thing or
+
+61
+00:03:19,700 --> 00:03:22,500
+if I just have Stockholm syndrome or
+something.
+
+62
+00:03:22,500 --> 00:03:25,920
+Anyway, in the next chapter we'll
+create a database for Witter posts.

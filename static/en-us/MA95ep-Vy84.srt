@@ -1,0 +1,269 @@
+1
+00:00:00,070 --> 00:00:05,880
+We see that every page table entry will
+have the physical page frame number and
+
+2
+00:00:05,880 --> 00:00:08,540
+that it will also have
+at least a valid bit.
+
+3
+00:00:08,540 --> 00:00:12,780
+This is also called the present bit
+since it indicates whether the contents
+
+4
+00:00:12,780 --> 00:00:17,400
+of the virtual memory are actually
+present in physical memory or not.
+
+5
+00:00:17,400 --> 00:00:22,160
+There are a number of other fields
+that are part of each page table entry
+
+6
+00:00:22,160 --> 00:00:25,930
+that the operating system uses
+during memory management operations,
+
+7
+00:00:25,930 --> 00:00:30,840
+and also that the hardware understands
+and knows how to interpret.
+
+8
+00:00:30,840 --> 00:00:33,760
+For instance,
+most hardware supports a dirty bit,
+
+9
+00:00:33,760 --> 00:00:37,240
+which gets set whenever
+a page is written to.
+
+10
+00:00:37,240 --> 00:00:39,790
+This is useful, for
+instance, in file systems,
+
+11
+00:00:39,790 --> 00:00:41,940
+where files are cached in memory.
+
+12
+00:00:41,940 --> 00:00:46,200
+And then we can detect using this dirty
+bit which files have been written to and
+
+13
+00:00:46,200 --> 00:00:48,120
+need to be updated on disk.
+
+14
+00:00:48,120 --> 00:00:51,750
+Also useful is to keep
+track of an accessed bit.
+
+15
+00:00:51,750 --> 00:00:55,120
+This can keep track of in general
+whether the page has been accessed,
+
+16
+00:00:55,120 --> 00:00:57,400
+period, for read or for write.
+
+17
+00:00:57,400 --> 00:01:00,650
+Other useful information that can
+be maintained as part of the page
+
+18
+00:01:00,650 --> 00:01:03,990
+table entry also would include
+certain protection bits.
+
+19
+00:01:03,990 --> 00:01:07,620
+Whether a page can be only read or
+also written to, or
+
+20
+00:01:07,620 --> 00:01:10,250
+maybe some other
+operation is permissible.
+
+21
+00:01:10,250 --> 00:01:13,700
+So that was a generic discussion
+of a page table entry.
+
+22
+00:01:13,700 --> 00:01:19,120
+Here is the specifics of
+the Pentium x86 page table entry.
+
+23
+00:01:19,120 --> 00:01:21,800
+The flags present, dirty, and accessed,
+
+24
+00:01:21,800 --> 00:01:26,520
+have identical meaning as in the generic
+page table entry we just discussed.
+
+25
+00:01:26,520 --> 00:01:30,724
+The bit read/write, it's a single
+bit that indicates permission.
+
+26
+00:01:30,724 --> 00:01:35,127
+If its value's 0, that means that,
+that particular page can be accessed for
+
+27
+00:01:35,127 --> 00:01:38,596
+read only, whereas if it's 1,
+that means that both read and
+
+28
+00:01:38,596 --> 00:01:40,990
+write accesses are permissible.
+
+29
+00:01:40,990 --> 00:01:44,070
+U/S is another type of
+permission bit which
+
+30
+00:01:44,070 --> 00:01:48,310
+indicates whether the page can
+be accessed from user mode or
+
+31
+00:01:48,310 --> 00:01:52,320
+only from supervisor mode, from when
+you're in the kernel, basically.
+
+32
+00:01:52,320 --> 00:01:56,410
+Some of the other flags here dictate
+some things regarding the behavior of
+
+33
+00:01:56,410 --> 00:01:59,600
+the caching subsystem
+that the hardware has.
+
+34
+00:01:59,600 --> 00:02:04,300
+So, for instance, you can specify things
+like whether or not caching is disabled.
+
+35
+00:02:04,300 --> 00:02:08,570
+That's an operation that's
+supported on modern architectures.
+
+36
+00:02:08,570 --> 00:02:13,320
+And also there are some parts and bits
+in the page table entry that are unused,
+
+37
+00:02:13,320 --> 00:02:18,180
+and hopefully in the future we'll have
+good uses for these bits as well.
+
+38
+00:02:18,180 --> 00:02:24,250
+The MMU uses the page table entries not
+just to perform the address translation,
+
+39
+00:02:24,250 --> 00:02:29,150
+but also relies on these bits to
+establish the validity of the access.
+
+40
+00:02:29,150 --> 00:02:32,700
+If the hardware determines that
+a physical memory access cannot be
+
+41
+00:02:32,700 --> 00:02:35,570
+performed, it causes a page fault.
+
+42
+00:02:35,570 --> 00:02:39,890
+If this happens,
+then the CPU will place an error code
+
+43
+00:02:39,890 --> 00:02:45,150
+on the stack of the kernel, and then it
+will generate a trap into the OS kernel.
+
+44
+00:02:45,150 --> 00:02:48,600
+That will in turn generate
+a page fault handler.
+
+45
+00:02:48,600 --> 00:02:50,380
+And the page fault handler,
+
+46
+00:02:50,380 --> 00:02:54,370
+it will determine what is
+the action that needs to be taken
+
+47
+00:02:54,370 --> 00:02:58,415
+depending on the error code as well
+as the address that caused the fault.
+
+48
+00:02:58,415 --> 00:03:02,770
+Key pieces of information in this
+error code will include whether or
+
+49
+00:03:02,770 --> 00:03:06,600
+not the fault was caused because
+the page was not present,
+
+50
+00:03:06,600 --> 00:03:08,530
+it needs to be brought in from disk.
+
+51
+00:03:08,530 --> 00:03:12,800
+Or because there is some sort of
+permission protection that was violated,
+
+52
+00:03:12,800 --> 00:03:15,550
+and that's why the page
+access is forbidden.
+
+53
+00:03:15,550 --> 00:03:20,550
+On x86 platforms, the error code
+information is generated from some of
+
+54
+00:03:20,550 --> 00:03:23,090
+the flags in the page table entry.
+
+55
+00:03:23,090 --> 00:03:27,120
+And the faulting address that's also
+needed during the page fault handler,
+
+56
+00:03:27,120 --> 00:03:29,610
+that one is stored in a register, CR2.

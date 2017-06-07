@@ -1,0 +1,191 @@
+1
+00:00:00,000 --> 00:00:02,687
+To calculate the size of the page table,
+
+2
+00:00:02,687 --> 00:00:07,591
+we know that a page table has number of
+entries that is equal to the number of
+
+3
+00:00:07,591 --> 00:00:11,645
+virtual page numbers that exist
+in a virtual address space.
+
+4
+00:00:11,645 --> 00:00:13,406
+For every one of these entries,
+
+5
+00:00:13,406 --> 00:00:17,124
+we know that the page table needs
+to hold the physical frame number,
+
+6
+00:00:17,124 --> 00:00:21,070
+as well as some other information
+like the permission bits.
+
+7
+00:00:21,070 --> 00:00:24,270
+Here is something that would make
+sense on a 32-bit architecture.
+
+8
+00:00:24,270 --> 00:00:27,900
+So, each of the page table
+entries is 4 bytes and
+
+9
+00:00:27,900 --> 00:00:32,310
+that includes the page frame
+number as well as the flags.
+
+10
+00:00:32,310 --> 00:00:35,160
+The total number of page table entries,
+
+11
+00:00:35,160 --> 00:00:39,150
+that will depend on
+the total number of VPNs.
+
+12
+00:00:39,150 --> 00:00:43,740
+And how many VPNs we can have,
+that's going to depend on the size of
+
+13
+00:00:43,740 --> 00:00:48,360
+the addresses, of the virtual addresses,
+and of the page size itself.
+
+14
+00:00:48,360 --> 00:00:50,970
+So let's say in this example,
+we have a 32-bit,
+
+15
+00:00:50,970 --> 00:00:56,080
+both physical memory as well
+as 32-bit virtual addresses.
+
+16
+00:00:56,080 --> 00:00:57,750
+So that will be 2 to the 32nd and
+
+17
+00:00:57,750 --> 00:01:00,890
+that will have to be divided
+by the actual page size.
+
+18
+00:01:01,960 --> 00:01:05,340
+Different hardware platforms
+support different page sizes, but
+
+19
+00:01:05,340 --> 00:01:10,490
+let's say we pick a common 4
+kilobyte page size for this example.
+
+20
+00:01:10,490 --> 00:01:15,770
+In that case, if you do the math,
+you will see that the page table
+
+21
+00:01:15,770 --> 00:01:21,060
+will be 4 megabytes and it will be 4
+megabytes for every single process.
+
+22
+00:01:21,060 --> 00:01:25,110
+With many active processes in
+an operating system today,
+
+23
+00:01:25,110 --> 00:01:27,450
+this can get to be quite large.
+
+24
+00:01:27,450 --> 00:01:30,390
+If we try to work through
+the same kind of example for
+
+25
+00:01:30,390 --> 00:01:36,560
+a 64-bit architecture that, say,
+has a page table entry size of 8 bytes,
+
+26
+00:01:36,560 --> 00:01:40,560
+and let's say we use also
+the same 4 kilobyte page size,
+
+27
+00:01:40,560 --> 00:01:45,550
+we come up with a really scary
+number of 3 petabytes per process.
+
+28
+00:01:45,550 --> 00:01:47,570
+So where does one store all of this?
+
+29
+00:01:48,680 --> 00:01:52,720
+Before we answer that question,
+it's important to know that a process
+
+30
+00:01:52,720 --> 00:01:57,226
+likely will not use all of the
+theoretical available virtual memory.
+
+31
+00:01:57,226 --> 00:02:02,240
+Even on 32-bit architecture,
+it's not all of the 4 gigabytes of
+
+32
+00:02:02,240 --> 00:02:07,130
+virtual address space is used
+by every single type of process.
+
+33
+00:02:07,130 --> 00:02:10,949
+The problem is that the page
+table as we described it so
+
+34
+00:02:10,949 --> 00:02:16,290
+far, it assumes that there is
+an entry for every single VPN.
+
+35
+00:02:16,290 --> 00:02:19,210
+And that is regardless of
+whether the corresponding
+
+36
+00:02:19,210 --> 00:02:23,310
+virtual memory region is
+needed by the process or not.
+
+37
+00:02:23,310 --> 00:02:27,370
+So this page table design really
+explodes the requirements of
+
+38
+00:02:27,370 --> 00:02:28,900
+the page table size.
+
+39
+00:02:28,900 --> 00:02:29,950
+And what we'll do next,
+
+40
+00:02:29,950 --> 00:02:33,210
+we'll look at some alternatives
+of how to represent a page table.

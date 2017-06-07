@@ -1,0 +1,289 @@
+1
+00:00:00,540 --> 00:00:04,280
+You just saw that the PetDbHelper
+provides a connection
+
+2
+00:00:04,280 --> 00:00:06,280
+to this SQLiteDatabase object.
+
+3
+00:00:07,450 --> 00:00:10,050
+This object let's you manipulate
+the underlying database.
+
+4
+00:00:11,070 --> 00:00:14,600
+That means you can execute any
+statement from our cheat sheet
+
+5
+00:00:14,600 --> 00:00:17,977
+on this underlying database
+using the SQLiteDatabase object.
+
+6
+00:00:19,210 --> 00:00:22,910
+Note, if you do want to create,
+update or
+
+7
+00:00:22,910 --> 00:00:28,080
+delete, you'll need to call
+the getWritableDatabase method,
+
+8
+00:00:28,080 --> 00:00:31,390
+instead of our
+getReadableDatabase.method.
+
+9
+00:00:31,390 --> 00:00:34,920
+However, for read or select type
+actions, you can go ahead and
+
+10
+00:00:34,920 --> 00:00:36,830
+use the getReadableDatabase method.
+
+11
+00:00:38,030 --> 00:00:41,570
+Here's our cheat sheet with
+all our CRUD operations.
+
+12
+00:00:41,570 --> 00:00:43,336
+And from the tutorial
+I showed you before,
+
+13
+00:00:43,336 --> 00:00:46,760
+we can see that there are examples
+with the Feedreader app
+
+14
+00:00:46,760 --> 00:00:50,940
+showing how to create, read,
+update, and delete information.
+
+15
+00:00:50,940 --> 00:00:52,050
+And in this lesson,
+
+16
+00:00:52,050 --> 00:00:56,240
+you're just getting a taste of what
+using SQLite in Android is really like.
+
+17
+00:00:56,240 --> 00:01:00,110
+What we're doing now, won't be the final
+code that we'll be using in our app.
+
+18
+00:01:00,110 --> 00:01:03,540
+And so for now we're just inserting
+some data and then reading it out.
+
+19
+00:01:03,540 --> 00:01:05,810
+First, let's take a look
+at how to insert data.
+
+20
+00:01:07,290 --> 00:01:10,710
+First, let's take a look at the INSERT
+statement from our cheat sheet.
+
+21
+00:01:10,710 --> 00:01:14,320
+When you insert data, you won't be
+able to see it on the screen just yet.
+
+22
+00:01:14,320 --> 00:01:16,490
+Because right now,
+we're just inserting it, and
+
+23
+00:01:16,490 --> 00:01:18,070
+not selecting
+the information out to read.
+
+24
+00:01:19,390 --> 00:01:21,816
+But, if you do download the database,
+
+25
+00:01:21,816 --> 00:01:25,869
+you will be able to see that the new
+data was added to the database.
+
+26
+00:01:25,869 --> 00:01:30,592
+To help us visually see that the
+information was added to the database in
+
+27
+00:01:30,592 --> 00:01:35,237
+the app, we can use our handy dandy
+display database info method which
+
+28
+00:01:35,237 --> 00:01:38,248
+displays the number of
+rows in our database.
+
+29
+00:01:38,248 --> 00:01:41,792
+This is an easy way for us to get
+quick information about whether or
+
+30
+00:01:41,792 --> 00:01:45,720
+not the database was updated with
+the information that we insert in.
+
+31
+00:01:45,720 --> 00:01:49,230
+Writing the SQL might seem like
+a good idea, but that's actually very
+
+32
+00:01:49,230 --> 00:01:53,965
+prone to typos and errors, so actually
+a much better way to write this.
+
+33
+00:01:53,965 --> 00:01:57,395
+Looking at this section in the Android
+documentation in Saving Data
+
+34
+00:01:57,395 --> 00:02:01,955
+in SQL Databases under the Put
+Information into Database section,
+
+35
+00:02:01,955 --> 00:02:07,375
+I can see that this example is using
+a class called Content Values.
+
+36
+00:02:07,375 --> 00:02:11,905
+Now Content Values is a class that
+stores a bunch of key value pairs,
+
+37
+00:02:11,905 --> 00:02:15,410
+where the key is the column
+name in the database and
+
+38
+00:02:15,410 --> 00:02:18,890
+the value,
+is whatever value you want insert in.
+
+39
+00:02:18,890 --> 00:02:19,750
+Here's an example of that.
+
+40
+00:02:21,390 --> 00:02:26,110
+Say we have a pet with the name
+Garfield, of the breed tabby,
+
+41
+00:02:26,110 --> 00:02:29,730
+of the gender male and
+weighing in at 14 kilograms.
+
+42
+00:02:30,900 --> 00:02:35,627
+These are the associated key and
+value pairs for all of that information.
+
+43
+00:02:35,627 --> 00:02:38,496
+Using Content Values is super easy.
+
+44
+00:02:38,496 --> 00:02:41,691
+All you need to do is make
+a ContentValue object and
+
+45
+00:02:41,691 --> 00:02:46,570
+then call the put methods with the
+associated column name and column value.
+
+46
+00:02:47,670 --> 00:02:50,190
+Note this chunk of code here,
+
+47
+00:02:50,190 --> 00:02:53,770
+doesn't actually insert anything
+into our database just yet.
+
+48
+00:02:53,770 --> 00:02:57,680
+All this is doing is creating an object,
+with the column rows and
+
+49
+00:02:57,680 --> 00:02:58,740
+associated values.
+
+50
+00:02:59,760 --> 00:03:02,145
+Now to actually create
+a new row in the database,
+
+51
+00:03:02,145 --> 00:03:07,700
+we'll need to use the insert method
+from the SQLiteDatabase class.
+
+52
+00:03:07,700 --> 00:03:11,910
+Now, from the developer documentation
+for the SQLiteDatabase class,
+
+53
+00:03:11,910 --> 00:03:15,480
+we see that the insert method
+takes the name of the table,
+
+54
+00:03:17,030 --> 00:03:21,780
+secondly an optional parameter which
+we'll always be setting to null, and
+
+55
+00:03:21,780 --> 00:03:24,530
+the content values that you create in.
+
+56
+00:03:24,530 --> 00:03:26,640
+This null parameter here,
+
+57
+00:03:26,640 --> 00:03:32,280
+will only be used if you're inserting an
+entirely empty row into your database.
+
+58
+00:03:32,280 --> 00:03:34,710
+And a final thing to note
+about the insert method,
+
+59
+00:03:34,710 --> 00:03:37,740
+is that it returns the ID
+of the newly inserted row.
+
+60
+00:03:37,740 --> 00:03:41,750
+And if there was an error,
+it will return back negative 1 to us.

@@ -1,0 +1,342 @@
+1
+00:00:00,130 --> 00:00:04,070
+One important aspect of distributed
+shared memory systems is,
+
+2
+00:00:04,070 --> 00:00:06,720
+how do we determine where
+a particular page is?
+
+3
+00:00:06,720 --> 00:00:11,510
+In order to do this the DSM component
+has to maintain some metadata.
+
+4
+00:00:11,510 --> 00:00:14,260
+First, let's see how is a page
+identified in this system in
+
+5
+00:00:14,260 --> 00:00:15,990
+the first place.
+
+6
+00:00:15,990 --> 00:00:18,000
+Well, the page has its address.
+
+7
+00:00:18,000 --> 00:00:21,460
+And that may be some notion of
+the node identifier plus the page
+
+8
+00:00:21,460 --> 00:00:24,200
+frame number locally at that node.
+
+9
+00:00:24,200 --> 00:00:27,270
+And we said that the node
+identifier also identifies the home
+
+10
+00:00:27,270 --> 00:00:28,750
+node of the system.
+
+11
+00:00:28,750 --> 00:00:33,240
+Considering this address format then,
+we see that the address itself
+
+12
+00:00:33,240 --> 00:00:38,280
+directly identifies what is
+the manager node, the home node.
+
+13
+00:00:38,280 --> 00:00:41,950
+That knows everything about
+that particular page.
+
+14
+00:00:41,950 --> 00:00:44,700
+Every single node in
+the system just by looking
+
+15
+00:00:44,700 --> 00:00:47,030
+at the address of a particular page.
+
+16
+00:00:47,030 --> 00:00:51,100
+Can uniquely determine what is
+the manager node for that page.
+
+17
+00:00:51,100 --> 00:00:54,810
+So it's as if the manager
+information is available on
+
+18
+00:00:54,810 --> 00:00:57,560
+every single node in the system.
+
+19
+00:00:57,560 --> 00:01:02,090
+This could be captured via a global
+map that has to be replicated
+
+20
+00:01:02,090 --> 00:01:07,430
+that will tell us how for
+a particular object we find the manager.
+
+21
+00:01:07,430 --> 00:01:11,640
+What that means is that the information
+about the manager is available on
+
+22
+00:01:11,640 --> 00:01:13,170
+every single node.
+
+23
+00:01:13,170 --> 00:01:15,858
+So it's as if the information
+about the manager is
+
+24
+00:01:15,858 --> 00:01:17,650
+available on every single node.
+
+25
+00:01:17,650 --> 00:01:22,211
+Since whenever any of the nodes in
+the system wants to access a particular
+
+26
+00:01:22,211 --> 00:01:26,060
+address, they just need to
+look at the node identifier.
+
+27
+00:01:26,060 --> 00:01:30,550
+And we'll be able to get to the specific
+manager, the specific home node for
+
+28
+00:01:30,550 --> 00:01:31,760
+that address.
+
+29
+00:01:31,760 --> 00:01:36,061
+This information, that captures
+the translation from an identifier of
+
+30
+00:01:36,061 --> 00:01:37,969
+an object, a page in this case.
+
+31
+00:01:37,969 --> 00:01:41,520
+To the management node of that object.
+
+32
+00:01:41,520 --> 00:01:43,680
+Represents a global map.
+
+33
+00:01:43,680 --> 00:01:45,620
+And this needs to be replicated.
+
+34
+00:01:45,620 --> 00:01:46,830
+It needs to exist.
+
+35
+00:01:46,830 --> 00:01:50,790
+This information needs to be available
+on every single one of the nodes.
+
+36
+00:01:50,790 --> 00:01:53,080
+Once we get to a particular manager,
+
+37
+00:01:53,080 --> 00:01:58,355
+that's the entity that will have
+the per-page, or per-object, metadata.
+
+38
+00:01:58,355 --> 00:02:03,180
+That's necessary in order to perform
+this specific access to that page or
+
+39
+00:02:03,180 --> 00:02:05,210
+to enforce its consistency.
+
+40
+00:02:05,210 --> 00:02:09,050
+What this means is that in
+the DSM system, the metadata for
+
+41
+00:02:09,050 --> 00:02:11,465
+individual objects or individual pages.
+
+42
+00:02:11,465 --> 00:02:14,638
+It's partitioned across
+all of the home nodes.
+
+43
+00:02:14,638 --> 00:02:17,090
+All of the management
+nodes in the system.
+
+44
+00:02:17,090 --> 00:02:22,220
+But in order to quickly find where the
+manager for a particular data item is.
+
+45
+00:02:22,220 --> 00:02:25,390
+It is necessary to maintain
+an additional data structure,
+
+46
+00:02:25,390 --> 00:02:29,670
+a global map, that will be replicated
+on every single one of the nodes.
+
+47
+00:02:29,670 --> 00:02:34,930
+That will in some way take an object
+identifier and map it to that manager.
+
+48
+00:02:34,930 --> 00:02:39,050
+One final note,
+in the example that we discussed so far.
+
+49
+00:02:39,050 --> 00:02:42,430
+We somehow implied that
+certain bits from the address
+
+50
+00:02:42,430 --> 00:02:45,420
+are used to identify
+the node identifier.
+
+51
+00:02:45,420 --> 00:02:48,060
+And that means that for
+every single page,
+
+52
+00:02:48,060 --> 00:02:54,040
+there will be a fixed manager uniquely
+identified from that page identifier.
+
+53
+00:02:54,040 --> 00:02:59,680
+If we want some additional flexibility,
+we can take that object identifier and
+
+54
+00:02:59,680 --> 00:03:03,670
+then use it as an index
+into a mapping table.
+
+55
+00:03:03,670 --> 00:03:08,560
+This mapping table is the one that
+will be used at every single node for
+
+56
+00:03:08,560 --> 00:03:10,000
+the global map.
+
+57
+00:03:10,000 --> 00:03:15,560
+And every entry in that mapping table
+will actually encode a manager node.
+
+58
+00:03:15,560 --> 00:03:19,307
+So for a particular object or
+a particular page identifier,
+
+59
+00:03:19,307 --> 00:03:22,107
+we will first index into
+that mapping table.
+
+60
+00:03:22,107 --> 00:03:26,870
+Using some bytes from the object id or
+some hash function.
+
+61
+00:03:26,870 --> 00:03:28,820
+That's applied on top of this object id.
+
+62
+00:03:29,850 --> 00:03:33,900
+And then, the entry at the particular
+location at the mapping table will tell
+
+63
+00:03:33,900 --> 00:03:36,510
+us what the manager node for
+that page is.
+
+64
+00:03:36,510 --> 00:03:38,360
+What's nice about this approach is.
+
+65
+00:03:38,360 --> 00:03:42,670
+If for any reason, we want to
+change who is the manager node for
+
+66
+00:03:42,670 --> 00:03:45,950
+a particular object or
+of a particular page.
+
+67
+00:03:45,950 --> 00:03:48,390
+Whether the original manager field or
+
+68
+00:03:48,390 --> 00:03:52,380
+whether we need to rebalance
+the system or any other reason.
+
+69
+00:03:52,380 --> 00:03:55,110
+We just need to update
+the mapping table.
+
+70
+00:03:55,110 --> 00:03:58,890
+There is no need to consider
+making any kind of changes for
+
+71
+00:03:58,890 --> 00:04:00,290
+the object identifier.
+
+72
+00:04:00,290 --> 00:04:04,580
+The object can remain identified
+in the exact same way
+
+73
+00:04:04,580 --> 00:04:07,997
+as it was before we chose to make
+a change into the manager nodes.

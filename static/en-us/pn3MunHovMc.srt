@@ -1,0 +1,113 @@
+1
+00:00:00,180 --> 00:00:03,580
+When you want to insert data
+into a table from your code,
+
+2
+00:00:03,580 --> 00:00:07,500
+there's one more step you have to do
+after executing your insert queries.
+
+3
+00:00:07,500 --> 00:00:10,240
+You have to commit your
+changes to the database.
+
+4
+00:00:10,240 --> 00:00:12,200
+Why do we have this extra step?
+
+5
+00:00:12,200 --> 00:00:14,410
+Well imagine that we were
+writing an accounting system.
+
+6
+00:00:14,410 --> 00:00:16,780
+And we wanting to debit some
+money out of one account, and
+
+7
+00:00:16,780 --> 00:00:18,510
+credit it to another account.
+
+8
+00:00:18,510 --> 00:00:21,410
+That might even be changes
+to two different tables.
+
+9
+00:00:21,410 --> 00:00:24,080
+But, we want them both to take
+affect at the same time, or
+
+10
+00:00:24,080 --> 00:00:27,050
+if something goes wrong,
+we would want neither to take affect.
+
+11
+00:00:27,050 --> 00:00:30,840
+And if some other user was accessing the
+database at the same time that we were,
+
+12
+00:00:30,840 --> 00:00:33,800
+we wouldn't ever want them to see
+one change and not the other.
+
+13
+00:00:33,800 --> 00:00:36,440
+This is one of the big
+ideas of databases.
+
+14
+00:00:36,440 --> 00:00:38,310
+When we make changes such as inserts,
+
+15
+00:00:38,310 --> 00:00:41,240
+they go into what's called
+a transaction in the database.
+
+16
+00:00:41,240 --> 00:00:44,630
+When we call commit,
+the transaction actually takes effect.
+
+17
+00:00:44,630 --> 00:00:46,670
+If we close the connection
+without committing,
+
+18
+00:00:46,670 --> 00:00:47,830
+our changes will get rolled back.
+
+19
+00:00:49,270 --> 00:00:51,890
+On the next page,
+there's some python code that tries to
+
+20
+00:00:51,890 --> 00:00:55,010
+insert a row into a table,
+but it doesn't commit.
+
+21
+00:00:55,010 --> 00:00:56,080
+It then reconnects and
+
+22
+00:00:56,080 --> 00:00:59,060
+tries to find that row, but
+that row has been rolled back.
+
+23
+00:00:59,060 --> 00:01:00,930
+Try running the code as it is, and
+
+24
+00:01:00,930 --> 00:01:04,150
+then add the commit call in the right
+place to make the changes get saved.

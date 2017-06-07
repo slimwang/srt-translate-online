@@ -1,0 +1,244 @@
+1
+00:00:00,220 --> 00:00:01,569
+All right, you're done.
+
+2
+00:00:01,569 --> 00:00:03,280
+You are over the hurdle.
+
+3
+00:00:03,280 --> 00:00:07,110
+This is the hardest thing we're going
+to teach in this entire class, I think,
+
+4
+00:00:07,110 --> 00:00:10,190
+in a lot of ways, or
+at least the most involved.
+
+5
+00:00:10,190 --> 00:00:12,790
+Let me show you what my
+solution looked like.
+
+6
+00:00:12,790 --> 00:00:16,329
+So we talked a lot about what was
+going to happen in ForecastAdapter.
+
+7
+00:00:16,329 --> 00:00:19,370
+This is where most of the code for
+this one actually was,
+
+8
+00:00:19,370 --> 00:00:22,720
+it was in ForecastAdapter still.
+
+9
+00:00:22,720 --> 00:00:25,100
+So the first thing we did is we
+created a member variable for
+
+10
+00:00:25,100 --> 00:00:28,122
+this ForecastAdapter onClick handler.
+
+11
+00:00:28,122 --> 00:00:31,240
+This onClick handler's one that was
+designed for our specific use case,
+
+12
+00:00:31,240 --> 00:00:34,550
+it's not just a duplicate of
+the framework's onClick handlers,
+
+13
+00:00:34,550 --> 00:00:37,000
+because it actually
+returns a view holder.
+
+14
+00:00:37,000 --> 00:00:40,780
+And as well as we're destroying this
+empty view construct, so that we can
+
+15
+00:00:40,780 --> 00:00:46,390
+have a view that we can alter
+depending on how many items we have.
+
+16
+00:00:46,390 --> 00:00:51,230
+Then we have our view holder implement
+view.OnClickListener, which is very,
+
+17
+00:00:51,230 --> 00:00:52,470
+very important.
+
+18
+00:00:52,470 --> 00:00:56,490
+Then, as I said before, when we create
+the view holder in the constructor,
+
+19
+00:00:56,490 --> 00:00:58,440
+we can set an OnClickListener.
+
+20
+00:00:58,440 --> 00:01:00,320
+So here's what we're actually
+going to do on this onClick handler.
+
+21
+00:01:00,320 --> 00:01:02,010
+because this is kind of important.
+
+22
+00:01:02,010 --> 00:01:06,822
+We're actually going to get the date,
+which is what we need to do actually,
+
+23
+00:01:06,822 --> 00:01:08,890
+use onClick.
+
+24
+00:01:08,890 --> 00:01:12,030
+And then we're going to send that
+blissfully away into our click handler,
+
+25
+00:01:13,250 --> 00:01:15,300
+which is a lot nicer than
+actually sending the cursor in.
+
+26
+00:01:15,300 --> 00:01:17,429
+This is a nice data abstraction
+thing we're doing here.
+
+27
+00:01:18,560 --> 00:01:21,320
+And as you can see,
+here's the interface we created for
+
+28
+00:01:21,320 --> 00:01:26,330
+that OnClickHandler, which is going to
+return a date along with our ViewHolder.
+
+29
+00:01:26,330 --> 00:01:29,410
+And as you can see in our constructor
+now, we're actually taking
+
+30
+00:01:29,410 --> 00:01:34,480
+the OnClickHandler and the emptyView,
+and in fact, those are both final.
+
+31
+00:01:34,480 --> 00:01:41,540
+So if we didn’t construct them here,
+we could not survive as a class.
+
+32
+00:01:41,540 --> 00:01:46,090
+So one more change we do here is that
+in swapCursor, we have a cursor.
+
+33
+00:01:46,090 --> 00:01:48,720
+We can check to see what
+the item count is, and
+
+34
+00:01:48,720 --> 00:01:51,080
+make ourselves visible or invisible.
+
+35
+00:01:51,080 --> 00:01:53,610
+Very nice to have that now
+that we have an empty view.
+
+36
+00:01:53,610 --> 00:01:55,961
+So that’s most of the work for
+this, actually.
+
+37
+00:01:55,961 --> 00:01:59,759
+But there's a little bit to do
+in ForecastFragment as well.
+
+38
+00:01:59,759 --> 00:02:02,800
+So again, we already had
+our empty view here before.
+
+39
+00:02:02,800 --> 00:02:06,604
+Now what we're going to do is
+we're going to pass that into our
+
+40
+00:02:06,604 --> 00:02:11,144
+ForecastAdapter as well as create
+now a ForecastAdapter OnClickHandler
+
+41
+00:02:11,144 --> 00:02:13,455
+that gets a date and our ViewHolder.
+
+42
+00:02:13,455 --> 00:02:16,175
+And the reason why we're getting the
+ViewHolder is actually because I want
+
+43
+00:02:16,175 --> 00:02:17,165
+the adapter position.
+
+44
+00:02:18,505 --> 00:02:20,425
+So I could've just sent
+the position back, but
+
+45
+00:02:20,425 --> 00:02:22,160
+it was kind of nice to have that there.
+
+46
+00:02:22,160 --> 00:02:24,590
+And so that'll make onClick work again.
+
+47
+00:02:24,590 --> 00:02:25,220
+Yeah, so that's it.
+
+48
+00:02:25,220 --> 00:02:27,380
+We didn't have to do much
+at all in ForecastFragment.
+
+49
+00:02:27,380 --> 00:02:29,950
+So that's it for
+this using RecyclerView part two.
+
+50
+00:02:29,950 --> 00:02:33,275
+You guys are over the hump
+now with RecyclerView.
+
+51
+00:02:33,275 --> 00:02:36,590
+You're feeling confident that you can
+use this in your programs, hopefully.
+
+52
+00:02:36,590 --> 00:02:38,950
+And, let's get on to the next.

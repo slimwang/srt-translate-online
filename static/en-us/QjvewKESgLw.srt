@@ -1,0 +1,208 @@
+1
+00:00:00,170 --> 00:00:05,910
+In the makeHttpRequest method, we should
+only perform the HttpRequest if the URL
+
+2
+00:00:05,910 --> 00:00:10,490
+is not null and it doesn't make sense to
+make a connection into an invalid URL.
+
+3
+00:00:10,490 --> 00:00:14,020
+So at the beginning of the method,
+let's check if the URL is null.
+
+4
+00:00:14,020 --> 00:00:18,349
+If it is, then we exit the method early
+by returning a jsonResponse that simply
+
+5
+00:00:18,349 --> 00:00:19,865
+contains an empty string.
+
+6
+00:00:19,865 --> 00:00:22,492
+So now let's move on to
+the core task in this quiz,
+
+7
+00:00:22,492 --> 00:00:25,280
+which is to check the response code.
+
+8
+00:00:25,280 --> 00:00:27,290
+After the connection
+has been established,
+
+9
+00:00:27,290 --> 00:00:31,960
+you want to check the response code by
+calling urlConnection.getResponseCode().
+
+10
+00:00:31,960 --> 00:00:34,900
+If you check the documentation,
+you'll know that it returns an integer.
+
+11
+00:00:34,900 --> 00:00:37,542
+So in this test condition for
+the if statement,
+
+12
+00:00:37,542 --> 00:00:39,796
+we check if the response code = 200.
+
+13
+00:00:39,796 --> 00:00:43,206
+If so we then proceed to read
+from the inputStream and
+
+14
+00:00:43,206 --> 00:00:45,100
+extract the jsonResponse.
+
+15
+00:00:45,100 --> 00:00:47,380
+Otherwise, if we have
+an error response code,
+
+16
+00:00:47,380 --> 00:00:49,170
+in other words not 200, we do nothing.
+
+17
+00:00:49,170 --> 00:00:53,480
+And we're going to go down here and
+return the jsonResponse, that was
+
+18
+00:00:53,480 --> 00:00:58,210
+initialized earlier to an empty string,
+which brings us to an important point.
+
+19
+00:00:58,210 --> 00:01:02,320
+If the return value of the make HTTP
+request method can be an empty string,
+
+20
+00:01:02,320 --> 00:01:05,730
+then we need to make sure that
+the method that takes the jsonResponse
+
+21
+00:01:05,730 --> 00:01:08,900
+as input is handling
+that empty string case.
+
+22
+00:01:08,900 --> 00:01:11,880
+So lets look at
+the extractFeatureFromJson method.
+
+23
+00:01:11,880 --> 00:01:15,120
+Before we proceed from extracting
+information from the jsonResponse,
+
+24
+00:01:15,120 --> 00:01:18,470
+we should check if the info parameter
+is either the empty string or
+
+25
+00:01:18,470 --> 00:01:22,880
+null by calling TextUtils.isEmpty and
+passing in the string.
+
+26
+00:01:22,880 --> 00:01:24,083
+So I'm going to go ahead and
+
+27
+00:01:24,083 --> 00:01:27,651
+just jump to the declaration of this
+isEmpty function to see what it does.
+
+28
+00:01:27,651 --> 00:01:31,180
+I do it by doing a shortcut
+of the Cmd+click.
+
+29
+00:01:31,180 --> 00:01:35,846
+You notice here that in fact,
+the isEmpty method within the TextUtils
+
+30
+00:01:35,846 --> 00:01:39,973
+class is checking for an empty string or
+if the string is null.
+
+31
+00:01:39,973 --> 00:01:41,308
+So back to our code.
+
+32
+00:01:41,308 --> 00:01:44,304
+Now if this string is empty,
+then this expression will be true and
+
+33
+00:01:44,304 --> 00:01:46,700
+we'll return early from the method.
+
+34
+00:01:46,700 --> 00:01:49,950
+Now we've returned null because
+there is no valid event object from
+
+35
+00:01:49,950 --> 00:01:51,300
+the jsonResponse.
+
+36
+00:01:51,300 --> 00:01:55,710
+Notice how this extract feature from
+JSON method returns an event data type.
+
+37
+00:01:55,710 --> 00:01:59,319
+We'll explain the full execution path
+of the Tsunami AsyuncTask later in
+
+38
+00:01:59,319 --> 00:02:00,200
+the next lesson.
+
+39
+00:02:00,200 --> 00:02:03,540
+But if there is a null earthquake,
+then we won't update the UI.
+
+40
+00:02:03,540 --> 00:02:05,290
+The key is that it's
+okay to return null for
+
+41
+00:02:05,290 --> 00:02:08,880
+a method, as long as the null
+case will be handled gracefully.
+
+42
+00:02:08,880 --> 00:02:11,140
+Now you know how to check
+the HTP status code and
+
+43
+00:02:11,140 --> 00:02:14,680
+adjust the behavior of the app depending
+on whether you receive a successful or
+
+44
+00:02:14,680 --> 00:02:16,030
+unsuccessful response code.

@@ -1,0 +1,167 @@
+1
+00:00:00,000 --> 00:00:02,000
+Okay, here's my solution.
+
+2
+00:00:02,000 --> 00:00:05,000
+I define deal. It takes the number of hands and the number of cards in each hand.
+
+3
+00:00:05,000 --> 00:00:09,000
+And then I've also added in an optional parameter
+
+4
+00:00:09,000 --> 00:00:11,000
+to make the function a little bit more general.
+
+5
+00:00:11,000 --> 00:00:14,000
+Here I built up a normal poker deck
+
+6
+00:00:14,000 --> 00:00:18,000
+with the 13 different ranks and 4 different suits.
+
+7
+00:00:18,000 --> 00:00:20,000
+I have a list comprehension that goes over both of them
+
+8
+00:00:20,000 --> 00:00:22,000
+and makes a 52-card deck.
+
+9
+00:00:22,000 --> 00:00:25,000
+But I provide that as a parameter because you might want to
+
+10
+00:00:25,000 --> 00:00:27,000
+deal different types of decks.
+
+11
+00:00:27,000 --> 00:00:31,000
+In other games like pinochle, you have a different number of cards.
+
+12
+00:00:31,000 --> 00:00:33,000
+I just want to make deal a little bit more general, so I provide that
+
+13
+00:00:33,000 --> 00:00:35,000
+as an optional parameter.
+
+14
+00:00:35,000 --> 00:00:38,000
+Then I randomly shuffle the deck,
+
+15
+00:00:38,000 --> 00:00:41,000
+and if you looked up in the random module, you see there is a function called shuffle.
+
+16
+00:00:41,000 --> 00:00:43,000
+That's the one you want.
+
+17
+00:00:43,000 --> 00:00:46,000
+And then I go through, and for the number of hands
+
+18
+00:00:46,000 --> 00:00:49,000
+I take a slice out of the deck which has been shuffled
+
+19
+00:00:49,000 --> 00:00:52,000
+and accumulate that into the result list.
+
+20
+00:00:52,000 --> 00:00:54,000
+Now, let's look a little bit more carefully at exactly
+
+21
+00:00:54,000 --> 00:00:59,000
+what this expression here means, pulling out this slice.
+
+22
+00:00:59,000 --> 00:01:03,000
+I've got a deck of cards which have been shuffled,
+
+23
+00:01:03,000 --> 00:01:05,000
+so they're not in any particular order.
+
+24
+00:01:05,000 --> 00:01:12,000
+Say the 3 of clubs is first, and then the 7 of spades, and so on.
+
+25
+00:01:12,000 --> 00:01:16,000
+And now I want to pull out this slice out of the deck,
+
+26
+00:01:16,000 --> 00:01:22,000
+which is defined as the deck starting at n x i
+
+27
+00:01:22,000 --> 00:01:27,000
+and going up to n x (i + 1).
+
+28
+00:01:27,000 --> 00:01:30,000
+And we'll assume for now that n = 5.
+
+29
+00:01:30,000 --> 00:01:37,000
+When i = 0, then this will go from 0 to 5.
+
+30
+00:01:37,000 --> 00:01:40,000
+And we'll pull out the first 5 cards, 1, 2, 3, 4, 5.
+
+31
+00:01:40,000 --> 00:01:44,000
+That slice will be the first element that we'll pull out.
+
+32
+00:01:44,000 --> 00:01:49,000
+Now when i is equal to 1, we're dealing to the second player,
+
+33
+00:01:49,000 --> 00:01:56,000
+and 5 x 1 is 5, 5 x 1 + 1 is 10,
+
+34
+00:01:56,000 --> 00:02:00,000
+and we'll pull out the next 5 cards.
+
+35
+00:02:00,000 --> 00:02:04,000
+1, 2, 3, 4, 5, and so on.
+
+36
+00:02:04,000 --> 00:02:09,000
+We'll keep on going until we get numhands different cards and return them in a list.
+
+37
+00:02:09,000 --> 00:02:11,000
+Now let's just make sure this works.
+
+38
+00:02:11,000 --> 00:02:15,000
+Let's print, and let's just deal out 2 hands.
+
+39
+00:02:15,000 --> 00:02:18,000
+And there we see we get 2 hands back.
+
+40
+00:02:18,000 --> 00:02:22,000
+There are 2 total hands, and each of them has 5 cards.
+
+41
+00:02:22,000 --> 00:02:26,000
+If we wanted to, we could deal different numbers of cards,
+
+42
+00:02:26,000 --> 99:59:59,999
+so here we deal 2 hands, and they each have 7 cards.

@@ -1,0 +1,179 @@
+1
+00:00:00,000 --> 00:00:04,000
+Now we said we have three ways to reduce this exponential b to the m--
+
+2
+00:00:04,000 --> 00:00:08,000
+reducing the branching factor b, reducing the depth of the tree m,
+
+3
+00:00:08,000 --> 00:00:11,000
+and converting the tree to a graph
+
+4
+00:00:11,000 --> 00:00:13,000
+Let's see how each of those fare.
+
+5
+00:00:13,000 --> 00:00:19,000
+First, for reducing b we came up with this alpha-beta pruning technique.
+
+6
+00:00:19,000 --> 00:00:21,000
+In fact, that is very effective.
+
+7
+00:00:21,000 --> 00:00:29,000
+That takes us from a regime where we're in order b to the m to one where,
+
+8
+00:00:29,000 --> 00:00:34,000
+if we do a good jog, we can get to order b to the m/2.
+
+9
+00:00:34,000 --> 00:00:36,000
+Now what do I mean by doing a good job?
+
+10
+00:00:36,000 --> 00:00:39,000
+Well, we get different amounts of pruning depending on the order
+
+11
+00:00:39,000 --> 00:00:42,000
+in which we expand each branch from a node.
+
+12
+00:00:42,000 --> 00:00:45,000
+If we expand the good nodes first, then we get a lot of pruning,
+
+13
+00:00:45,000 --> 00:00:49,000
+because we do a good job of getting to the cutoff points.
+
+14
+00:00:49,000 --> 00:00:53,000
+If we expand the poor nodes first, then we don't do any pruning,
+
+15
+00:00:53,000 --> 00:00:56,000
+because we don't get to that cutoff point until later.
+
+16
+00:00:56,000 --> 00:01:01,000
+But if we can do well, then we get to the square root of the number of nodes.
+
+17
+00:01:01,000 --> 00:01:05,000
+In other words, we get to search twice as deep into the search tree.
+
+18
+00:01:05,000 --> 00:01:12,000
+That's all 100% perfect in terms of not changing the result.
+
+19
+00:01:12,000 --> 00:01:15,000
+We'd still get the exact evaluation.
+
+20
+00:01:15,000 --> 00:01:18,000
+We just stop doing work that we didn't have to do.
+
+21
+00:01:18,000 --> 00:01:21,000
+Now for the tree to the graph, we haven't talked that yet.
+
+22
+00:01:21,000 --> 00:01:25,000
+In fact, it depends on the particular game, but in many games it can be very useful.
+
+23
+00:01:25,000 --> 00:01:29,000
+In games like chess, we have opening books.
+
+24
+00:01:29,000 --> 00:01:32,000
+That is, we look at the past openings
+
+25
+00:01:32,000 --> 00:01:36,000
+and we just memorize those positions and what are the good moves.
+
+26
+00:01:36,000 --> 00:01:38,000
+It doesn't matter how we get to those positions.
+
+27
+00:01:38,000 --> 00:01:41,000
+We can get to them in multiple paths through a tree,
+
+28
+00:01:41,000 --> 00:01:43,000
+and we can just consider it a single graph.
+
+29
+00:01:43,000 --> 00:01:48,000
+We also have closing books, where we can memorize all the positions
+
+30
+00:01:48,000 --> 00:01:52,000
+with five or fewer pieces and know exactly what to do.
+
+31
+00:01:52,000 --> 00:01:57,000
+In the midgame when there are too many positions to memorize all of them,
+
+32
+00:01:57,000 --> 00:02:04,000
+we can still search through a graph if we want to or if we want we can just do part of that.
+
+33
+00:02:04,000 --> 00:02:09,000
+One thing that has proven effective in games like chess is called the killer-move heuristic.
+
+34
+00:02:09,000 --> 00:02:14,000
+What that says is if there's one really good move in part of a search tree,
+
+35
+00:02:14,000 --> 00:02:19,000
+then try the other move in the sister branches for that tree.
+
+36
+00:02:19,000 --> 00:02:25,000
+In other words, if I try making one move and I find that the opponent takes my queen,
+
+37
+00:02:25,000 --> 00:02:28,000
+then when I try making another move from that same position,
+
+38
+00:02:28,000 --> 00:02:32,000
+I should also check if the opponent has that response of taking my queen.
+
+39
+00:02:32,000 --> 00:02:35,000
+Converting from a tree to graph, also doesn't lose information.
+
+40
+00:02:35,000 --> 00:02:38,000
+It can just help us make the search go faster.
+
+41
+00:02:38,000 --> 00:02:42,000
+The third possibility was reducing m, the depth of the tree,
+
+42
+00:02:42,000 --> 00:02:46,000
+by just cutting off search and going to an evaluation function.
+
+43
+00:02:46,000 --> 00:02:51,000
+That is imperfect in that it is an estimate of the true value of the tree
+
+44
+00:02:51,000 --> 00:02:53,000
+but won't give you the exact value.
+
+45
+00:02:53,000 --> 99:59:59,999
+We can get into trouble. Let me show you an example of that.

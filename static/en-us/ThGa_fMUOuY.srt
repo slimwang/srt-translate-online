@@ -1,0 +1,126 @@
+1
+00:00:00,580 --> 00:00:04,870
+When the framework can run in the
+background it is said to be thread safe.
+
+2
+00:00:04,870 --> 00:00:08,930
+However, there are several frameworks
+that are not thread safe and
+
+3
+00:00:08,930 --> 00:00:11,570
+can only run in the main queue.
+
+4
+00:00:11,570 --> 00:00:14,210
+There or
+two notable cases in the apple stack.
+
+5
+00:00:14,210 --> 00:00:18,340
+These are two banana peels waiting for
+a newbie to step on them.
+
+6
+00:00:18,340 --> 00:00:21,460
+These are UIKit and Core data.
+
+7
+00:00:21,460 --> 00:00:22,460
+Let's start with UIKit.
+
+8
+00:00:22,460 --> 00:00:27,070
+You cannot run anything from
+UIKit in the background, or
+
+9
+00:00:27,070 --> 00:00:29,570
+your app will crash intermittently.
+
+10
+00:00:29,570 --> 00:00:31,710
+That's the beauty of concurrency bugs.
+
+11
+00:00:31,710 --> 00:00:34,710
+Sometimes they show up,
+sometimes they don't.
+
+12
+00:00:34,710 --> 00:00:39,330
+The bottom line is never use
+anything who's name ends with
+
+13
+00:00:39,330 --> 00:00:41,080
+view in the background.
+
+14
+00:00:41,080 --> 00:00:41,660
+Or else.
+
+15
+00:00:42,710 --> 00:00:44,750
+Core data is a bit more complicated, and
+
+16
+00:00:44,750 --> 00:00:48,470
+we will deal with this in greater
+detail once we reach core data.
+
+17
+00:00:48,470 --> 00:00:52,750
+The thing to remember here is
+that ns manage object context
+
+18
+00:00:52,750 --> 00:00:56,460
+can only be used in the same
+queue it was created.
+
+19
+00:00:56,460 --> 00:00:59,960
+Therefore, if you created
+the context in the main queue,
+
+20
+00:00:59,960 --> 00:01:02,710
+you may only use it in the main queue.
+
+21
+00:01:02,710 --> 00:01:06,660
+However, if you create
+a context in a background que,
+
+22
+00:01:06,660 --> 00:01:09,740
+then you may only use
+it in the background.
+
+23
+00:01:09,740 --> 00:01:14,760
+My recommendation is to wait until we
+feel really confident with core data and
+
+24
+00:01:14,760 --> 00:01:17,790
+GCD before you try to mix them together.
+
+25
+00:01:17,790 --> 00:01:21,700
+Core data in the background is second
+than core data, so tread carefully,
+
+26
+00:01:21,700 --> 00:01:22,374
+Daniel son.
+
+27
+00:01:22,374 --> 00:01:27,460
+Until then, wax on wax off.
+
+28
+00:01:27,460 --> 00:01:31,410
+Remember to breath, very important, hai.

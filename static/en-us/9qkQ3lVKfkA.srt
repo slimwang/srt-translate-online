@@ -1,0 +1,323 @@
+1
+00:00:00,300 --> 00:00:02,715
+So I've got, I've got a question about the collector.
+
+2
+00:00:02,715 --> 00:00:07,675
+>> Mm-hm. >> And so I just kind of wanted to ask in more detail how it works.
+
+3
+00:00:07,675 --> 00:00:12,950
+>> Mm-hm. >> And, and what, for example, would be the difference for it to just,
+
+4
+00:00:12,950 --> 00:00:17,110
+instead of having a collector just to return a tuple for that function and.
+
+5
+00:00:17,110 --> 00:00:22,660
+>> If you, I mean, output collector is the only way Storm knows which to put to.
+
+6
+00:00:23,970 --> 00:00:27,212
+Put it into the, pass it on to the next stage.
+
+7
+00:00:27,212 --> 00:00:29,605
+>> So, so how does it pass it on, exactly?
+
+8
+00:00:29,605 --> 00:00:33,131
+>> So, like the data, the way the, when you do an image-
+
+9
+00:00:33,131 --> 00:00:33,976
+>> Mm-hm.
+
+10
+00:00:33,976 --> 00:00:38,851
+>> So once you have the image, then internally, it captures into the queues.
+
+11
+00:00:38,851 --> 00:00:41,906
+I mean, [INAUDIBLE] remember, I was talking about the destructive queues, and
+
+12
+00:00:41,906 --> 00:00:43,920
+all the various other things.
+
+13
+00:00:43,920 --> 00:00:49,393
+When you do an code you're doing all those queues or whatever it did.
+
+14
+00:00:49,393 --> 00:00:53,587
+And again then the tuples on those queues are doubly collected by
+
+15
+00:00:53,587 --> 00:00:57,510
+the center thread and assembled into a global send thread.
+
+16
+00:00:57,510 --> 00:01:00,372
+And which in turn goes to the appropriate destination.
+
+17
+00:01:00,372 --> 00:01:03,104
+>> And this is all within a Java virtual machine.
+
+18
+00:01:03,104 --> 00:01:05,566
+>> With it all running in the Storm worker JVM process.
+
+19
+00:01:05,566 --> 00:01:06,171
+>> Okay.
+
+20
+00:01:06,171 --> 00:01:07,111
+>> Yeah.
+
+21
+00:01:07,111 --> 00:01:10,125
+So that's, that is the connect begin, the collector and
+
+22
+00:01:10,125 --> 00:01:11,855
+how it goes underneath, right.
+
+23
+00:01:11,855 --> 00:01:12,430
+>> Mm-hm.
+
+24
+00:01:12,430 --> 00:01:14,780
+>> So, under collect results.
+
+25
+00:01:14,780 --> 00:01:16,020
+Also, in addition to that,
+
+26
+00:01:16,020 --> 00:01:20,940
+I believe that you can do even something about stats collections, too.
+
+27
+00:01:22,050 --> 00:01:25,870
+So collec, output collectors already collecting the output tuples.
+
+28
+00:01:25,870 --> 00:01:28,522
+But also it can collect some stats also.
+
+29
+00:01:28,522 --> 00:01:30,832
+>> And so can you emit anything?
+
+30
+00:01:30,832 --> 00:01:35,302
+Like, what's, what's kind of the restrictions on what can you emit?
+
+31
+00:01:35,302 --> 00:01:37,780
+>> Collectors, I think they do a bunch of methods, right?
+
+32
+00:01:37,780 --> 00:01:42,110
+I mean, I mean I known all the image methods, and they make a particular tuple.
+
+33
+00:01:42,110 --> 00:01:44,690
+They make a ten set of columns, or whatever it is.
+
+34
+00:01:44,690 --> 00:01:48,650
+So there are, these all order emits that you can do,
+
+35
+00:01:48,650 --> 00:01:51,420
+to emit different ways and different forms.
+
+36
+00:01:51,420 --> 00:01:54,396
+>> Well, I mean, within the tuple, you emit values, right?
+
+37
+00:01:54,396 --> 00:01:55,230
+>> Mm-hm.
+
+38
+00:01:55,230 --> 00:01:59,170
+>> And then the value takes a bunch of arguments.
+
+39
+00:01:59,170 --> 00:02:01,860
+>> Yes. >> Can those arguments be any object?
+
+40
+00:02:01,860 --> 00:02:03,020
+>> Yeah, it can be any objects.
+
+41
+00:02:03,020 --> 00:02:04,770
+Yes, it can be any objects.
+
+42
+00:02:04,770 --> 00:02:09,710
+And in the schema where the declare outputs field or whatever, right?
+
+43
+00:02:09,710 --> 00:02:12,060
+There's another layer third or low, right?
+
+44
+00:02:12,060 --> 00:02:16,772
+You can say column one is named word, column two is sentiments col,
+
+45
+00:02:16,772 --> 00:02:18,570
+like something like that, right?
+
+46
+00:02:18,570 --> 00:02:21,441
+So then whenever you do Emmet you deal with only the columns,
+
+47
+00:02:21,441 --> 00:02:22,580
+the number of columns.
+
+48
+00:02:22,580 --> 00:02:26,188
+You don't deal with key value kind of thing where word is this one and
+
+49
+00:02:26,188 --> 00:02:27,212
+this one, right?
+
+50
+00:02:27,212 --> 00:02:27,961
+>> Mm-hm.
+
+51
+00:02:27,961 --> 00:02:31,265
+>> So, so what the thing is like it's kind of like an [INAUDIBLE] to
+
+52
+00:02:31,265 --> 00:02:33,686
+put any kind of object that's powerful enough.
+
+53
+00:02:33,686 --> 00:02:39,474
+Because ultimately, we do serialization, right.
+
+54
+00:02:39,474 --> 00:02:43,204
+So either Java serialization or the serialization or whatever.
+
+55
+00:02:43,204 --> 00:02:49,204
+So that objects are all serialized, then again deserialized on the don't stream.
+
+56
+00:02:49,204 --> 00:02:51,288
+>> What's the best programming method for
+
+57
+00:02:51,288 --> 00:02:55,584
+when you emit, to make sure that the order, because you access by offset, right?
+
+58
+00:02:55,584 --> 00:02:56,487
+Zero, one and two?
+
+59
+00:02:56,487 --> 00:02:59,147
+Of the tuple? But you don't know-
+
+60
+00:02:59,147 --> 00:03:02,061
+>> The offset is nothing but column number.
+
+61
+00:03:02,061 --> 00:03:02,754
+>> I see.
+
+62
+00:03:02,754 --> 00:03:08,124
+>> Columnal, it's a column like we don't say that going So for
+
+63
+00:03:08,124 --> 00:03:11,528
+example, let us say you are emitting a tuple which has four columns.
+
+64
+00:03:11,528 --> 00:03:12,293
+>> Right.
+
+65
+00:03:12,293 --> 00:03:16,273
+>> Like Word 1, Word 2, Word 3, Word 4, an offset of zero means you are one.
+
+66
+00:03:16,273 --> 00:03:18,642
+Offsets of one means you are two.
+
+67
+00:03:18,642 --> 00:03:21,023
+>> But in the emitter, you emit, you emit by position, so
+
+68
+00:03:21,023 --> 00:03:22,249
+it's position dependent.
+
+69
+00:03:22,249 --> 00:03:25,258
+It's just a programming question, if I switch the order in the emitter then,
+
+70
+00:03:25,258 --> 00:03:28,009
+I have to tell everybody downstream that's looking that they have to.
+
+71
+00:03:28,009 --> 00:03:28,919
+>> They aren't looking, yeah.
+
+72
+00:03:28,919 --> 00:03:31,975
+You always stick to the scheme of whatever you are providing,
+
+73
+00:03:31,975 --> 00:03:34,815
+because that is the only contract that you have, right?
+
+74
+00:03:34,815 --> 00:03:39,122
+Because if you don't stick to the schema, whatever >> Right.
+
+75
+00:03:42,196 --> 00:03:45,939
+>> In the wrong >> Yeah.
+
+76
+00:03:45,939 --> 00:03:46,765
+>> So.
+
+77
+00:03:46,765 --> 00:03:48,608
+>> Just over time I noticed when I added something, you know.
+
+78
+00:03:48,608 --> 00:03:49,371
+>> Mm-hm.
+
+79
+00:03:49,371 --> 00:03:50,638
+>> You always had to add it at the end or I'd break everything.
+
+80
+00:03:50,638 --> 00:03:51,371
+>> Yes.
+
+81
+00:03:51,371 --> 00:03:53,020
+>> Which was, which was a little troublesome.

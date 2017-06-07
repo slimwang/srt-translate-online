@@ -1,0 +1,239 @@
+1
+00:00:00,320 --> 00:00:03,780
+Okay so let's talk about step two, accessing the content provider.
+
+2
+00:00:03,780 --> 00:00:05,770
+I'm going to go over to the code right now.
+
+3
+00:00:05,770 --> 00:00:07,930
+Okay so we're here at the MainActivity.
+
+4
+00:00:07,930 --> 00:00:11,620
+And the two lines of code that I want you to look at are these lines right here.
+
+5
+00:00:11,620 --> 00:00:13,750
+Let's go ahead and take a closer look at those.
+
+6
+00:00:13,750 --> 00:00:15,430
+Okay, so here's the code again.
+
+7
+00:00:15,430 --> 00:00:16,670
+And we've got some new concepts and
+
+8
+00:00:16,670 --> 00:00:20,030
+some new words here like ContentResolver and cursor.
+
+9
+00:00:20,030 --> 00:00:22,860
+So we're going to break this all down in the next few nodes.
+
+10
+00:00:22,860 --> 00:00:25,480
+I'm going to start by looking at the first line here, and
+
+11
+00:00:25,480 --> 00:00:28,960
+specifically we're going to talk about the ContentResolver.
+
+12
+00:00:28,960 --> 00:00:32,159
+So, this our original diagram that I've been showing you a lot.
+
+13
+00:00:32,159 --> 00:00:33,300
+It's pretty simplistic.
+
+14
+00:00:33,300 --> 00:00:35,220
+It's actually a bit too simplistic, so
+
+15
+00:00:35,220 --> 00:00:37,500
+let me show you something that's a little bit more accurate.
+
+16
+00:00:37,500 --> 00:00:41,330
+So the more accurate version has this class called a ContentResolver.
+
+17
+00:00:41,330 --> 00:00:43,570
+What is a ContentResolver?
+
+18
+00:00:43,570 --> 00:00:47,090
+As I mentioned before, there are a lot of content providers.
+
+19
+00:00:47,090 --> 00:00:50,080
+Besides the user dictionary provider that we're talking right now,
+
+20
+00:00:50,080 --> 00:00:52,150
+there's a context content provider.
+
+21
+00:00:52,150 --> 00:00:54,010
+There's a calendar content provider.
+
+22
+00:00:54,010 --> 00:00:55,880
+There's an alarms content provider.
+
+23
+00:00:55,880 --> 00:00:59,230
+And a handful of other standard Android content providers.
+
+24
+00:00:59,230 --> 00:01:02,450
+Also, your app is not the only app on the system.
+
+25
+00:01:02,450 --> 00:01:06,730
+So, what helps all of these apps communicate with the content providers that
+
+26
+00:01:06,730 --> 00:01:08,040
+they're interested in?
+
+27
+00:01:08,040 --> 00:01:10,722
+Well that, my friend, is the job of the content resolver.
+
+28
+00:01:10,722 --> 00:01:14,770
+The ContentResolver helps your app connect with the correct content provider.
+
+29
+00:01:14,770 --> 00:01:18,200
+It does this by looking at whatever request that your app sends to
+
+30
+00:01:18,200 --> 00:01:19,580
+the content resolver.
+
+31
+00:01:19,580 --> 00:01:23,050
+And then, looking up which content provider it happens to be for.
+
+32
+00:01:23,050 --> 00:01:26,980
+Using a ContentResolver, it's really easy for your app to talk to one or
+
+33
+00:01:26,980 --> 00:01:29,230
+two or even more content providers.
+
+34
+00:01:29,230 --> 00:01:32,480
+Knowing that, let's go back to the code, and take a look at what's happening.
+
+35
+00:01:32,480 --> 00:01:36,320
+Okay, so, now, this line of code right here, should be pretty clear.
+
+36
+00:01:36,320 --> 00:01:38,010
+This statement here,
+
+37
+00:01:38,010 --> 00:01:41,310
+is asking the Android system to give us access to a ContentResolver.
+
+38
+00:01:41,310 --> 00:01:44,780
+And it's saving it in an instance variable called resolver.
+
+39
+00:01:44,780 --> 00:01:47,600
+Now that we have the resolver, we're calling this query method on it.
+
+40
+00:01:47,600 --> 00:01:48,790
+So what does this method do?
+
+41
+00:01:48,790 --> 00:01:52,260
+There are really four major things that you want to do with data.
+
+42
+00:01:52,260 --> 00:01:54,610
+The first is, you want to read from the data.
+
+43
+00:01:54,610 --> 00:01:57,580
+You also might want to add one or more values to the data.
+
+44
+00:01:57,580 --> 00:02:00,270
+You could also change a pre-existing value in the data.
+
+45
+00:02:00,270 --> 00:02:02,220
+Or delete something from the data.
+
+46
+00:02:02,220 --> 00:02:07,360
+And these four actions map to four methods, query, insert, update, and delete.
+
+47
+00:02:07,360 --> 00:02:10,300
+So you can call resolver.query to read the data.
+
+48
+00:02:10,300 --> 00:02:12,760
+Note, when you call resolver.query,
+
+49
+00:02:12,760 --> 00:02:16,550
+it's calling the corresponding query method in the Content Provider.
+
+50
+00:02:16,550 --> 00:02:19,970
+Okay, so right now we know what the content resolver is and
+
+51
+00:02:19,970 --> 00:02:23,420
+we know how it helps us in some way access the correct content provider.
+
+52
+00:02:23,420 --> 00:02:25,860
+Although, we're going to talk about that a little bit more.
+
+53
+00:02:25,860 --> 00:02:28,280
+We've also talked a little bit about step three.
+
+54
+00:02:28,280 --> 00:02:29,050
+Right here we're
+
+55
+00:02:29,050 --> 00:02:32,220
+actually using the content provider through the content resolver.
+
+56
+00:02:32,220 --> 00:02:33,450
+We have a couple more mysteries to
+
+57
+00:02:33,450 --> 00:02:36,790
+solve before we can print out this information to the UI.
+
+58
+00:02:36,790 --> 00:02:39,540
+First of all there's all of these parameters in here which we
+
+59
+00:02:39,540 --> 00:02:40,770
+need to talk about.
+
+60
+00:02:40,770 --> 00:02:43,970
+We also need to learn exactly what a cursor is, so let's get started.

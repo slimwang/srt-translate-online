@@ -1,0 +1,131 @@
+1
+00:00:00,380 --> 00:00:04,400
+So I've recorded my timeline
+trace with the paint profiler on.
+
+2
+00:00:04,400 --> 00:00:05,990
+I've clicked on one of these boxes, and
+
+3
+00:00:05,990 --> 00:00:09,890
+I can immediately see that there
+is one section besides document.
+
+4
+00:00:09,890 --> 00:00:11,790
+I'll click on tote's promoted.
+
+5
+00:00:11,790 --> 00:00:14,960
+Thank you again for
+that great name Paul.
+
+6
+00:00:14,960 --> 00:00:17,060
+And I can see that this
+layer was composited,
+
+7
+00:00:17,060 --> 00:00:20,250
+because it overlaps with
+other composited content.
+
+8
+00:00:20,250 --> 00:00:24,540
+In this case the other content is
+the color block section behind it.
+
+9
+00:00:24,540 --> 00:00:27,640
+Looking in the layers panel, you can
+see that underneath the root document
+
+10
+00:00:27,640 --> 00:00:30,030
+there are two layers on the page.
+
+11
+00:00:30,030 --> 00:00:33,240
+Looking at the source for the page you
+can see that the color block element
+
+12
+00:00:33,240 --> 00:00:36,450
+has a translateZ
+transform applied to it.
+
+13
+00:00:36,450 --> 00:00:38,630
+This means it's promoted
+to its own layer.
+
+14
+00:00:38,630 --> 00:00:42,620
+In order to maintain the draw order,
+the section in the text with it,
+
+15
+00:00:42,620 --> 00:00:44,140
+this box right here.
+
+16
+00:00:44,140 --> 00:00:48,560
+Must also now have its own layer and
+be placed on top of the color block.
+
+17
+00:00:48,560 --> 00:00:52,780
+If you promote an element to a layer,
+you need to be careful because you could
+
+18
+00:00:52,780 --> 00:00:56,650
+accidentally create a lot of other
+layers with it due to overlap.
+
+19
+00:00:56,650 --> 00:00:58,330
+So anyways, there you have it.
+
+20
+00:00:58,330 --> 00:01:01,290
+The paint profiler gives you an awesome
+way to keep track of the layers that
+
+21
+00:01:01,290 --> 00:01:02,280
+you're creating.
+
+22
+00:01:02,280 --> 00:01:06,410
+The main thing is to try to balance
+the compositing time in layer management
+
+23
+00:01:06,410 --> 00:01:09,090
+with time that you spend in
+other parts of the pipeline.
+
+24
+00:01:09,090 --> 00:01:11,440
+Applying will-change: transform or
+
+25
+00:01:11,440 --> 00:01:15,970
+translate z0 to all of your
+elements might seem appealing, but
+
+26
+00:01:15,970 --> 00:01:19,730
+it's going to send your memory usage and
+compositing time through the roof.
+
+27
+00:01:19,730 --> 00:01:23,050
+In the end, you might cause
+more problems than you solve.
+
+28
+00:01:23,050 --> 00:01:24,750
+Which is especially a problem on mobile.

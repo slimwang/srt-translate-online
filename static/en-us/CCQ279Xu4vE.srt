@@ -1,0 +1,251 @@
+1
+00:00:00,140 --> 00:00:04,750
+So let's explain all of this with an actual reader writer example.
+
+2
+00:00:04,750 --> 00:00:10,010
+The actual shared file is accessed via these read data and
+
+3
+00:00:10,010 --> 00:00:12,060
+write data operations.
+
+4
+00:00:12,060 --> 00:00:17,520
+As we see, these read data and write data operations are outside of
+
+5
+00:00:17,520 --> 00:00:23,360
+any lock construct both in the case of the readers, as well as of the writers.
+
+6
+00:00:23,360 --> 00:00:26,590
+So what that means is that the actual access to
+
+7
+00:00:26,590 --> 00:00:29,110
+the file is not really controlled.
+
+8
+00:00:29,110 --> 00:00:34,540
+Instead, what we do is we introduce this helper variable, resource_counter.
+
+9
+00:00:34,540 --> 00:00:38,930
+And then we make sure that in our code, on both the readers and
+
+10
+00:00:38,930 --> 00:00:44,510
+the writer side, before we perform the read operation, we first
+
+11
+00:00:44,510 --> 00:00:50,180
+perform a controlled operation in which the resource counter is updated.
+
+12
+00:00:50,180 --> 00:00:51,690
+Similarly on the writer side.
+
+13
+00:00:51,690 --> 00:00:52,720
+Before we write,
+
+14
+00:00:52,720 --> 00:00:57,750
+we have to make sure that first the resource counter is set to negative 1.
+
+15
+00:00:57,750 --> 00:01:02,161
+Now that, the changes to this proxy variable, that will be what will be
+
+16
+00:01:02,161 --> 00:01:07,620
+controlled, that will be what will be protected within the lock operations.
+
+17
+00:01:07,620 --> 00:01:11,170
+Once we are done with the actual shared resource access,
+
+18
+00:01:11,170 --> 00:01:16,950
+with reading the file or writing the file, we again go into these lock blocks.
+
+19
+00:01:16,950 --> 00:01:19,930
+This is where we update the resource counter value to
+
+20
+00:01:19,930 --> 00:01:22,090
+reflect that the resource is now free.
+
+21
+00:01:22,090 --> 00:01:24,730
+That this one reader finished accessing it,
+
+22
+00:01:24,730 --> 00:01:28,170
+or that no writer is currently accessing that resource.
+
+23
+00:01:28,170 --> 00:01:33,080
+So it will need, basically in our, in our program, we will need a mutex.
+
+24
+00:01:33,080 --> 00:01:35,180
+That, that's the counter mutex.
+
+25
+00:01:35,180 --> 00:01:38,500
+This is the mutex that will always have to be acquired whenever
+
+26
+00:01:38,500 --> 00:01:41,200
+the resource counter variable is accessed.
+
+27
+00:01:41,200 --> 00:01:45,000
+And then we will also need two variables, read_phase and write_phase,
+
+28
+00:01:45,000 --> 00:01:49,670
+which will tell us whether the readers or the writers need to go next.
+
+29
+00:01:49,670 --> 00:01:50,805
+So lets explain this.
+
+30
+00:01:50,805 --> 00:01:55,360
+Let's see what happens when the very first reader tries to access the file.
+
+31
+00:01:55,360 --> 00:01:58,930
+The reader will come in, it will log the mutex,
+
+32
+00:01:58,930 --> 00:02:03,110
+it will check what the resource counter value is, and it will be zeroed.
+
+33
+00:02:03,110 --> 00:02:06,050
+That's what the resource counter was initialized at.
+
+34
+00:02:06,050 --> 00:02:08,580
+So it is not negative 1, perfect.
+
+35
+00:02:08,580 --> 00:02:13,065
+We continue to the next operation, we increment resource_counter.
+
+36
+00:02:13,065 --> 00:02:15,110
+Resource_counter will now have a value of 1.
+
+37
+00:02:15,110 --> 00:02:20,370
+And then we unlock the mutex and we proceed accessing the file.
+
+38
+00:02:20,370 --> 00:02:24,360
+A subsequent reader comes in, and let's say, while it's executing this
+
+39
+00:02:24,360 --> 00:02:30,268
+operation, before it came to the unlock statement, the next reader comes in.
+
+40
+00:02:30,268 --> 00:02:31,240
+The next reader,
+
+41
+00:02:31,240 --> 00:02:36,160
+when it comes in, it will see that it can not proceed with that lock operation.
+
+42
+00:02:36,160 --> 00:02:38,700
+So it will be blocked on the lock operation.
+
+43
+00:02:38,700 --> 00:02:43,355
+So this way, basically, we are protecting how resource_counter gets updated.
+
+44
+00:02:43,355 --> 00:02:46,190
+So only one thread at a time both on the readers and
+
+45
+00:02:46,190 --> 00:02:50,890
+the writer side will be able to update to access this resource counter.
+
+46
+00:02:50,890 --> 00:02:56,040
+However, let's say when that second reader came to the unlock operation,
+
+47
+00:02:56,040 --> 00:03:01,960
+it will be able to join the first reader in this read data portion of the code.
+
+48
+00:03:01,960 --> 00:03:06,410
+So we will have two threads at the same reading the file.
+
+49
+00:03:06,410 --> 00:03:09,290
+Now let's say a writer thread now comes in.
+
+50
+00:03:09,290 --> 00:03:13,660
+So the writer locks the mutex, let's say the mutex is now free, and
+
+51
+00:03:13,660 --> 00:03:16,030
+it checks the resource_counter value.
+
+52
+00:03:16,030 --> 00:03:19,050
+The resource_counter value will have some positive number.
+
+53
+00:03:19,050 --> 00:03:22,290
+We already allowed some number of readers to be accessing it, so
+
+54
+00:03:22,290 --> 00:03:23,940
+it will be, let's say, two.
+
+55
+00:03:23,940 --> 00:03:26,420
+So clearly the writer has to wait.
+
+56
+00:03:26,420 --> 00:03:31,750
+Now, it will wait, in the wait operation it specifies the counter mutex,
+
+57
+00:03:31,750 --> 00:03:34,260
+and it says it's going to wait for the write phase.
+
+58
+00:03:34,260 --> 00:03:35,640
+What will happen at this point,
+
+59
+00:03:35,640 --> 00:03:40,130
+remember, we are performing this wait operation within the lock construct, so
+
+60
+00:03:40,130 --> 00:03:45,730
+the writer has the counter mutex, it's the owner of the counter mutex.
+
+61
+00:03:45,730 --> 00:03:51,350
+However when it enters the wait operation, the mutex is automatically released.
+
+62
+00:03:51,350 --> 00:03:55,680
+So the writer is somewhere suspended on a queue that's associated with
+
+63
+00:03:55,680 --> 00:04:00,085
+the write_phase condition variable, and the mutex is at this point free.

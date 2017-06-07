@@ -1,0 +1,403 @@
+1
+00:00:00,400 --> 00:00:04,620
+Okay Michael, so, this is it. Why don't you help me remember what we
+
+2
+00:00:04,620 --> 00:00:06,460
+learned in this one marathon session that
+
+3
+00:00:06,460 --> 00:00:08,400
+was not all distributed over multiple months.
+
+4
+00:00:08,400 --> 00:00:10,800
+>> [LAUGH] Sure. Or years.
+
+5
+00:00:10,800 --> 00:00:11,690
+>> Mm hm.
+
+6
+00:00:11,690 --> 00:00:14,150
+>> So, MDPs. So, we talked about mark-off
+
+7
+00:00:14,150 --> 00:00:17,453
+decision processes, and we said what that meant. [LAUGH]
+
+8
+00:00:17,453 --> 00:00:20,260
+>> Okay, so, that's the first thing we did is we talked about MDPs.
+
+9
+00:00:20,260 --> 00:00:26,740
+>> And that, that MDP consists of states and rewards and actions and
+
+10
+00:00:26,740 --> 00:00:29,430
+like that, transitions, discounts.
+
+11
+00:00:29,430 --> 00:00:33,680
+>> So you said discounts and I just want to point out that there are
+
+12
+00:00:33,680 --> 00:00:37,900
+some people who think that that's a part of the definition of the problem
+
+13
+00:00:37,900 --> 00:00:40,940
+and there are some people who think that that's more of a parameter to
+
+14
+00:00:40,940 --> 00:00:43,090
+your algorithm. okay, alright. So there's some
+
+15
+00:00:43,090 --> 00:00:44,610
+people who think of it the right way.
+
+16
+00:00:44,610 --> 00:00:47,260
+>> Like me. And some people think of it the wrong way. So, I
+
+17
+00:00:47,260 --> 00:00:49,700
+tend to think of the discount as
+
+18
+00:00:49,700 --> 00:00:51,760
+being something that you're allowed to fiddle with,
+
+19
+00:00:51,760 --> 00:00:53,970
+as opposed to it being a fundamental part of the.
+
+20
+00:00:55,740 --> 00:00:57,195
+>> Then why not fiddle with the rewards?
+
+21
+00:00:57,195 --> 00:00:59,670
+>> Sure. You are allowed to fiddle with the rewards.
+
+22
+00:00:59,670 --> 00:01:02,640
+>> Oh! You are very open minded!
+
+23
+00:01:02,640 --> 00:01:06,190
+>> I am open minded, i believe that rewards should be able
+
+24
+00:01:06,190 --> 00:01:08,820
+to marry other rewards. In any case, the important thing here is
+
+25
+00:01:08,820 --> 00:01:12,660
+that there is some under lying process that you care about that
+
+26
+00:01:12,660 --> 00:01:14,000
+is suppose to represent the world,
+
+27
+00:01:14,000 --> 00:01:16,810
+states, rewards, actions, and transitions and capture
+
+28
+00:01:16,810 --> 00:01:20,250
+that fairly well. Discount is, in some sense, an important part of the
+
+29
+00:01:20,250 --> 00:01:23,470
+problem, because it tells you how much you want to care about the future
+
+30
+00:01:23,470 --> 00:01:28,370
+versus the past. But it's reasonable to think of that as something that you
+
+31
+00:01:28,370 --> 00:01:32,750
+might want to change outside of the kind of underlying physics of the world.
+
+32
+00:01:32,750 --> 00:01:36,890
+>> I see. Okay, that's fair. Yeah, in some sense, the states and
+
+33
+00:01:36,890 --> 00:01:39,630
+the actions and the transitions represent.
+
+34
+00:01:39,630 --> 00:01:41,880
+The physical world and the rewards and
+
+35
+00:01:41,880 --> 00:01:44,980
+the discount represent the kind of task description.
+
+36
+00:01:44,980 --> 00:01:48,570
+>> Right. And of course, you say that, but
+
+37
+00:01:48,570 --> 00:01:51,960
+if you, you could decide to define states differently, and
+
+38
+00:01:51,960 --> 00:01:54,120
+doing that would impact both your actions and the
+
+39
+00:01:54,120 --> 00:01:56,010
+transition function and so on and so forth. But the
+
+40
+00:01:56,010 --> 00:01:58,350
+basic idea is right, which is, there's some underlying
+
+41
+00:01:58,350 --> 00:02:01,410
+process we're trying to capture, and I think it's exactly
+
+42
+00:02:01,410 --> 00:02:04,210
+right to say, states, actions, and transitions. Sort of capture
+
+43
+00:02:04,210 --> 00:02:07,130
+that. And rewards and discounts capture more about the nature
+
+44
+00:02:07,130 --> 00:02:09,389
+of the task, you're trying to do in that underlying world.
+
+45
+00:02:09,389 --> 00:02:11,200
+>> Okay. And in, in that context we talked
+
+46
+00:02:11,200 --> 00:02:16,582
+about two really important concepts. Policies and, value functions?
+
+47
+00:02:16,582 --> 00:02:17,364
+>> Mm-hm.
+
+48
+00:02:17,364 --> 00:02:18,850
+>> Which we sometimes call utilities.
+
+49
+00:02:18,850 --> 00:02:19,250
+>> Right.
+
+50
+00:02:19,250 --> 00:02:22,790
+>> And how do utilities differ from rewards? The utilities factor in the
+
+51
+00:02:22,790 --> 00:02:26,110
+long term aspects, and the rewards are just telling you the moment to moment.
+
+52
+00:02:26,110 --> 00:02:26,750
+>> Right.
+
+53
+00:02:26,750 --> 00:02:30,550
+>> Utilities are like a group of rewards. Like a gaggle.
+
+54
+00:02:31,850 --> 00:02:32,390
+>> Or a murder.
+
+55
+00:02:32,390 --> 00:02:38,720
+>> Of crows. So, that we talked about how we
+
+56
+00:02:38,720 --> 00:02:42,283
+can assign value to an infinite sequence of rewards. Mm-hm.
+
+57
+00:02:42,283 --> 00:02:44,930
+>> But it helps if we use discounting to
+
+58
+00:02:44,930 --> 00:02:47,490
+do that so that we don't get infinitely large sums.
+
+59
+00:02:47,490 --> 00:02:52,530
+>> And that allowed us to deal with infinite sequences, but threat them as if
+
+60
+00:02:52,530 --> 00:02:57,660
+their value is, in fact, finite, thus solving the immortality problem.
+
+61
+00:02:57,660 --> 00:03:03,840
+>> [LAUGH] And, let's see, then we kind of.
+
+62
+00:03:03,840 --> 00:03:05,990
+And the stationarity was a really important part of that.
+
+63
+00:03:05,990 --> 00:03:09,220
+>> Yep. In fact kind of drove everything.
+
+64
+00:03:09,220 --> 00:03:11,710
+>> Yeah. And all these things were
+
+65
+00:03:11,710 --> 00:03:14,760
+tied up together in the bellman equation itself.
+
+66
+00:03:14,760 --> 00:03:19,880
+>> Yes which is an awesome equation and deserves capital letters. [LAUGH]
+
+67
+00:03:19,880 --> 00:03:22,720
+Is that it? And then, well then we solve the Bellman
+
+68
+00:03:22,720 --> 00:03:24,880
+equation using value iteration and policy iteration.
+
+69
+00:03:24,880 --> 00:03:25,100
+>> Oh, yes.
+
+70
+00:03:25,100 --> 00:03:27,030
+>> I think that was it. Alright,
+
+71
+00:03:27,030 --> 00:03:29,250
+so are any of these polynomial time algorithms?
+
+72
+00:03:29,250 --> 00:03:34,790
+>> Well, the way we've been talking about them, no, but you can map
+
+73
+00:03:34,790 --> 00:03:36,470
+these into linear programs and turn them
+
+74
+00:03:36,470 --> 00:03:39,700
+into polynomial problems, or polynomial. So, yes these
+
+75
+00:03:39,700 --> 00:03:42,120
+problems can be solved that way. But
+
+76
+00:03:42,120 --> 00:03:44,120
+actually, that reminds me, of something that
+
+77
+00:03:44,120 --> 00:03:45,720
+we haven't said and that we haven't
+
+78
+00:03:45,720 --> 00:03:47,760
+learned today, that I think is worth mentioning.
+
+79
+00:03:47,760 --> 00:03:50,810
+Which is we been talking about, you know, this section
+
+80
+00:03:50,810 --> 00:03:53,410
+of the class is about over the course is about
+
+81
+00:03:53,410 --> 00:03:57,300
+reinforcement learning. But, we actually haven't done any reinforcement learning
+
+82
+00:03:57,300 --> 00:03:59,750
+here because we know everything, we know the states, we
+
+83
+00:03:59,750 --> 00:04:01,450
+know the rewards, we know the actions, we know the
+
+84
+00:04:01,450 --> 00:04:05,320
+transitions. We have some discount, we have been solving MDP's,
+
+85
+00:04:05,320 --> 00:04:08,970
+but that's not quite the same thing [SOUND] as doing
+
+86
+00:04:08,970 --> 00:04:12,770
+reinforcement learning, however, it's very important to do these things,
+
+87
+00:04:12,770 --> 00:04:15,960
+to make it easier to think about how reinforcement learning works. So,
+
+88
+00:04:15,960 --> 00:04:18,200
+in reinforcement learning, the difference is,
+
+89
+00:04:18,200 --> 00:04:21,550
+you don't necessarily know, the rewards
+
+90
+00:04:21,550 --> 00:04:23,790
+and the transitions or even the states and the actions, for that
+
+91
+00:04:23,790 --> 00:04:27,640
+matter. I see. So when are we going to get into reinforcement learning then?
+
+92
+00:04:27,640 --> 00:04:32,320
+>> Next time. And when I say we next time, I mean you next
+
+93
+00:04:32,320 --> 00:04:34,360
+time. That's your assignment. Learn all about
+
+94
+00:04:34,360 --> 00:04:36,380
+reinforcement learning and talk about it next time.
+
+95
+00:04:36,380 --> 00:04:37,940
+>> All right. I gotta go and get
+
+96
+00:04:37,940 --> 00:04:38,390
+to work then.
+
+97
+00:04:38,390 --> 00:04:40,400
+>> Okay. Well, you have a good one Michael.
+
+98
+00:04:40,400 --> 00:04:42,340
+>> Thanks for all this. It's really cool.
+
+99
+00:04:42,340 --> 00:04:43,910
+>> It is cool. Bye.
+
+100
+00:04:43,910 --> 00:04:44,490
+>> Bye.
+
+101
+00:04:44,490 --> 00:04:45,130
+>> Bye.

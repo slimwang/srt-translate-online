@@ -1,0 +1,432 @@
+1
+00:00:00,232 --> 00:00:03,285
+Okay, so in that last video
+you made a new task here.
+
+2
+00:00:03,285 --> 00:00:05,743
+The ACTION_CHARGING_REMINDER task.
+
+3
+00:00:05,743 --> 00:00:09,027
+And that task increments
+the charging reminder.
+
+4
+00:00:09,028 --> 00:00:11,730
+And then sets up that notification.
+
+5
+00:00:11,730 --> 00:00:14,583
+And you also made
+WaterReminderFirebaseJobService.
+
+6
+00:00:14,583 --> 00:00:18,030
+Which often the main
+thread executes that task.
+
+7
+00:00:18,030 --> 00:00:19,790
+And also cleans itself up effectively.
+
+8
+00:00:20,920 --> 00:00:24,900
+The next thing that you now have to
+do is actually schedule that job.
+
+9
+00:00:24,899 --> 00:00:28,019
+So to do that I have actually made
+this class called ReminderUtilities
+
+10
+00:00:28,019 --> 00:00:28,710
+which I'll open up now.
+
+11
+00:00:28,710 --> 00:00:32,109
+And the whole point of this
+ReminderUtilities class
+
+12
+00:00:32,109 --> 00:00:34,390
+is to hold a method
+which schedules my job.
+
+13
+00:00:34,390 --> 00:00:37,073
+Before I get into the nitty gritty
+of that I'm going to add a couple of
+
+14
+00:00:37,073 --> 00:00:37,978
+constants at the top.
+
+15
+00:00:37,978 --> 00:00:41,012
+The first constant I have here
+is REMINDER_INTERVAL_MINUTES.
+
+16
+00:00:41,012 --> 00:00:44,692
+Which is the number of minutes I want
+the job to wait before it starts.
+
+17
+00:00:44,692 --> 00:00:46,734
+Next, I have this
+REMINDER_INTERVAL_SECONDS.
+
+18
+00:00:46,734 --> 00:00:51,612
+Which uses the timeUnit class to
+convert the minutes to seconds.
+
+19
+00:00:51,612 --> 00:00:54,239
+Finally, I have a constant
+called SYNC_FLEXTIME_SECONDS.
+
+20
+00:00:54,238 --> 00:00:58,774
+Which is the number of seconds of leeway
+you want to give your execution window.
+
+21
+00:00:58,774 --> 00:01:03,473
+And finally, I'm going to add one
+more constant, REMINDER_JOB_TAG.
+
+22
+00:01:03,473 --> 00:01:06,405
+Which is the unique tag that's
+going to identify my job.
+
+23
+00:01:06,406 --> 00:01:08,100
+And I'm also going to make one variable.
+
+24
+00:01:08,099 --> 00:01:11,250
+Which is going to be
+a private static variable.
+
+25
+00:01:11,250 --> 00:01:14,840
+And also, I'm going to make one variable
+which is a private static boolean
+
+26
+00:01:15,950 --> 00:01:17,210
+called sInitialized.
+
+27
+00:01:18,390 --> 00:01:21,469
+And the point of sInitialized is just to
+keep track of whether the job is started
+
+28
+00:01:21,469 --> 00:01:21,679
+or not.
+
+29
+00:01:22,930 --> 00:01:25,770
+Okay, now I'm going to write the method
+of this class that actually starts
+
+30
+00:01:25,769 --> 00:01:26,689
+the job.
+
+31
+00:01:26,689 --> 00:01:29,890
+And that's going to be called
+scheduleChargingReminder.
+
+32
+00:01:29,890 --> 00:01:32,599
+This method is going to be synchronized.
+
+33
+00:01:32,599 --> 00:01:35,823
+And that's because we never want
+this method to execute more
+
+34
+00:01:35,823 --> 00:01:36,905
+than once at a time.
+
+35
+00:01:36,906 --> 00:01:42,289
+Inside of this method,
+the very first thing I'll
+
+36
+00:01:42,289 --> 00:01:47,171
+do is check if the job
+has already been set up.
+
+37
+00:01:47,171 --> 00:01:49,960
+And if it has I am going to return.
+
+38
+00:01:49,959 --> 00:01:54,762
+Otherwise am going to make a driver
+which is equal to a new Google Play
+
+39
+00:01:54,762 --> 00:01:55,471
+driver.
+
+40
+00:01:55,471 --> 00:01:58,338
+Then I'm going to make
+a FirebaseJobDispatcher object.
+
+41
+00:01:58,337 --> 00:02:00,702
+And I just need to pass in that driver.
+
+42
+00:02:00,703 --> 00:02:03,912
+So now let's actually schedule this
+job with all of the constraints.
+
+43
+00:02:03,912 --> 00:02:08,061
+So we're going to make a new job
+called constraintRemainderJob.
+
+44
+00:02:08,062 --> 00:02:11,740
+And we're going to set it equal to
+something that the dispatcher builds.
+
+45
+00:02:11,740 --> 00:02:16,578
+First I'm going to set the service
+to my job service that I just made.
+
+46
+00:02:16,578 --> 00:02:18,729
+Next, I'm going to set the tag
+to the tag that I just created.
+
+47
+00:02:19,740 --> 00:02:23,399
+After this I am going to start setting
+the constraints of my job service.
+
+48
+00:02:23,399 --> 00:02:25,479
+I'll then set the constraints so
+
+49
+00:02:25,479 --> 00:02:29,203
+that the job service only occurs
+if the device is charging.
+
+50
+00:02:29,204 --> 00:02:32,707
+And because I want the job to
+execute basically forever.
+
+51
+00:02:32,707 --> 00:02:34,502
+Even if the device restarts.
+
+52
+00:02:34,502 --> 00:02:37,428
+And because I want the job to
+execute basically forever.
+
+53
+00:02:37,429 --> 00:02:39,082
+Even between reboots.
+
+54
+00:02:39,082 --> 00:02:42,629
+I'm going to set the lifetime
+to lifetime forever.
+
+55
+00:02:42,629 --> 00:02:45,549
+And I'm also going to
+tell the job to recur.
+
+56
+00:02:45,550 --> 00:02:48,630
+Okay, now I need to define how
+often this job is going to be run.
+
+57
+00:02:48,629 --> 00:02:51,150
+So I'm going to use
+the settrigger method and
+
+58
+00:02:51,151 --> 00:02:53,471
+basically make a window of execution.
+
+59
+00:02:53,471 --> 00:02:56,626
+And that window's going to be
+between REMINDER_INTERVAL_SECONDS.
+
+60
+00:02:56,626 --> 00:03:00,990
+And REMINDER_INTERVAL_SECONDS plus
+those FLEXTIME_SECONDS that I defined.
+
+61
+00:03:00,990 --> 00:03:03,159
+So this will wait at least 15 minutes.
+
+62
+00:03:03,159 --> 00:03:05,828
+And then the job has about
+50 minutes of wiggle room.
+
+63
+00:03:05,828 --> 00:03:10,503
+And then finally,
+I'm going to set ReplaceCurrent to true.
+
+64
+00:03:10,503 --> 00:03:12,453
+Which means that if
+the job is ever remade.
+
+65
+00:03:12,453 --> 00:03:15,270
+We're going to replace the old
+job with the new one.
+
+66
+00:03:15,270 --> 00:03:17,939
+And then finally I'm
+going to build the job.
+
+67
+00:03:17,939 --> 00:03:18,520
+Okay there.
+
+68
+00:03:18,520 --> 00:03:22,888
+I have a job, and then I just take
+my dispatcher and I schedule it.
+
+69
+00:03:22,888 --> 00:03:23,840
+And then finally so
+
+70
+00:03:23,840 --> 00:03:27,063
+that this sInitialized variable
+is actually doing something.
+
+71
+00:03:27,063 --> 00:03:29,121
+I am going to set it to true.
+
+72
+00:03:29,122 --> 00:03:33,892
+Okay, so now this method will have
+everything to set up reoccurring jobs.
+
+73
+00:03:33,891 --> 00:03:35,299
+Almost done.
+
+74
+00:03:35,300 --> 00:03:36,770
+I just need to actually
+call this method.
+
+75
+00:03:36,770 --> 00:03:39,530
+I'll do that in MainActivity.
+
+76
+00:03:39,530 --> 00:03:40,969
+Scrolling down into On Create.
+
+77
+00:03:40,969 --> 00:03:45,219
+I will go ahead and
+set up my repeating job here.
+
+78
+00:03:45,219 --> 00:03:48,900
+By calling the ReminderUtilities
+class that I just finished.
+
+79
+00:03:48,900 --> 00:03:51,439
+And the method scheduleChargingReminder.
+
+80
+00:03:51,439 --> 00:03:53,859
+And I'll pass in this as the context.
+
+81
+00:03:53,860 --> 00:03:54,880
+Whew, okay.
+
+82
+00:03:54,879 --> 00:03:56,579
+So now, I will run my app.
+
+83
+00:03:58,129 --> 00:04:01,799
+Okay, so, I'm charging, and
+I'm going to wait about 15 minutes.
+
+84
+00:04:01,800 --> 00:04:03,635
+Huzzah, a notification.
+
+85
+00:04:03,634 --> 00:04:06,176
+Now, if you prefer not to sit
+around waiting for 15 minutes.
+
+86
+00:04:06,176 --> 00:04:09,283
+You could always change this
+to a smaller time interval.
+
+87
+00:04:09,283 --> 00:04:11,489
+I do that for
+testing purposes only though.
+
+88
+00:04:11,490 --> 00:04:12,338
+And as clean up,
+
+89
+00:04:12,338 --> 00:04:15,692
+I also want to remove things like
+this test notification method.
+
+90
+00:04:15,692 --> 00:04:18,639
+And our test button that we
+had on the screen before.
+
+91
+00:04:18,639 --> 00:04:25,209
+Because all of that was before we had
+our nice scheduled notifications.
+
+92
+00:04:25,209 --> 00:04:26,589
+Okay, now it's your turn.
+
+93
+00:04:26,589 --> 00:04:27,019
+Give it a go.
+

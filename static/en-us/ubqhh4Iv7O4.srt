@@ -1,0 +1,915 @@
+﻿1
+00:00:00,550 --> 00:00:05,232
+Okay, so in this section we're going to
+talk about noise versus signal.
+
+2
+00:00:05,232 --> 00:00:09,839
+Now job is to look for correlation and
+neural nets can do very,
+
+3
+00:00:09,839 --> 00:00:10,580
+very good at that.
+
+4
+00:00:10,580 --> 00:00:14,449
+However, once again,
+this talks about framing the problem so
+
+5
+00:00:14,449 --> 00:00:17,289
+that the neural nets have the most
+advantage and can train and
+
+6
+00:00:17,289 --> 00:00:20,890
+understand the most complicated
+patterns of these as possible.
+
+7
+00:00:20,890 --> 00:00:24,810
+And so what we saw on our last
+section is that wow this thing
+
+8
+00:00:24,809 --> 00:00:27,109
+really wasn't training very quickly.
+
+9
+00:00:27,109 --> 00:00:31,600
+It seemed like there's a lot more signal
+in this, excellent, versus terrible,
+
+10
+00:00:31,600 --> 00:00:33,929
+versus moving, versus, you know,
+
+11
+00:00:33,929 --> 00:00:38,445
+what we can some of these other words
+that are really positive or negative.
+
+12
+00:00:38,445 --> 00:00:42,409
+It just seems like if I as a human was
+looking at this text I could predict
+
+13
+00:00:42,409 --> 00:00:46,429
+better than 60% accuracy
+using just the words.
+
+14
+00:00:46,429 --> 00:00:49,659
+So what we want to do is go back to, but
+
+15
+00:00:49,659 --> 00:00:52,487
+before we start getting fancy
+with crazy regularization or
+
+16
+00:00:52,487 --> 00:00:55,335
+fancy things in the neural net
+we want to go back to the data.
+
+17
+00:00:55,335 --> 00:00:58,120
+The data is where all of the gold is.
+
+18
+00:00:58,119 --> 00:01:01,539
+Like the neural net is just
+the backhoe that we're going to
+
+19
+00:01:01,539 --> 00:01:02,820
+dig all the gold out of the ground with.
+
+20
+00:01:02,820 --> 00:01:06,629
+But if we're not finding much gold,
+especially in the beginning,
+
+21
+00:01:06,629 --> 00:01:08,349
+it's probably not
+a problem with our backhoe.
+
+22
+00:01:08,349 --> 00:01:13,259
+It's probably a problem with where we're
+digging, the dirt that we're choosing,
+
+23
+00:01:13,260 --> 00:01:14,540
+how we're manipulating it.
+
+24
+00:01:14,540 --> 00:01:18,935
+And so, what I want to talk about here
+is noise versus signal because that's
+
+25
+00:01:18,935 --> 00:01:19,926
+the whole game.
+
+26
+00:01:19,926 --> 00:01:23,656
+The whole game is saying we have a ton
+of data, we know there's a pattern in
+
+27
+00:01:23,656 --> 00:01:26,200
+here, we want the neural
+net to be able to find it.
+
+28
+00:01:26,200 --> 00:01:30,740
+Now earlier, by kind of sheer luck,
+when we created this update_input_layer,
+
+29
+00:01:30,739 --> 00:01:32,039
+I saw an 18 here.
+
+30
+00:01:32,040 --> 00:01:34,710
+And at the time,
+it kind of checked off my mind.
+
+31
+00:01:34,709 --> 00:01:37,069
+Wow, that's really high.
+
+32
+00:01:37,069 --> 00:01:41,289
+Consider from me what it's like if
+there was an 18 right here, right?
+
+33
+00:01:41,290 --> 00:01:46,040
+So what this is, this for
+propagation, it's a weighted sum so
+
+34
+00:01:46,040 --> 00:01:49,215
+there's four weights coming out
+of this input layer, right?
+
+35
+00:01:49,215 --> 00:01:54,719
+One gets multiplied times four,
+one gets multiplied times these four and
+
+36
+00:01:54,719 --> 00:01:57,019
+then those two vectors are summed here.
+
+37
+00:01:57,019 --> 00:01:58,554
+So it's a weighted sum,
+
+38
+00:01:58,555 --> 00:02:02,877
+well it's actually a weighted sums
+of weighted sums, but whatever.
+
+39
+00:02:02,876 --> 00:02:05,719
+This vector is
+characteristic of horrible.
+
+40
+00:02:05,719 --> 00:02:09,270
+So when I say vector, I mean the list of
+weights, so this weight, this weight,
+
+41
+00:02:09,270 --> 00:02:14,895
+and this weight, have a certain
+impact on these four nodes.
+
+42
+00:02:14,895 --> 00:02:18,164
+[LAUGH] You know it's funny, they
+kind of interpret each other, right?
+
+43
+00:02:18,163 --> 00:02:23,061
+So how high this number
+is affects how dominantly
+
+44
+00:02:23,062 --> 00:02:27,370
+these weights control this hidden layer.
+
+45
+00:02:27,370 --> 00:02:31,659
+And these weights control how dominantly
+this input affects this hidden layer.
+
+46
+00:02:31,659 --> 00:02:34,530
+So they're multiplied by each other and
+it's an associative thing, so
+
+47
+00:02:34,530 --> 00:02:37,370
+that they both kind of interplay
+with each other in that way.
+
+48
+00:02:37,370 --> 00:02:39,930
+However, if this is multiplied by 18,
+and
+
+49
+00:02:39,930 --> 00:02:44,860
+this is multiplied by 1,
+this is going to be the dominant.
+
+50
+00:02:44,860 --> 00:02:45,190
+I mean,
+
+51
+00:02:45,189 --> 00:02:49,800
+this vector is basically going to be
+exactly the same as these four weights.
+
+52
+00:02:49,800 --> 00:02:54,710
+For horrible, multiplied by 18, like
+is a percentage of the amount of energy
+
+53
+00:02:54,710 --> 00:02:58,530
+that's in these nodes it's going
+to be mostly this word and so
+
+54
+00:02:58,530 --> 00:03:01,669
+I was looking at this and was going,
+okay which one is being weighted by 18?
+
+55
+00:03:01,669 --> 00:03:02,913
+Well if we look at word index,
+
+56
+00:03:02,913 --> 00:03:06,667
+[BLANK_AUDIO]
+
+57
+00:03:06,668 --> 00:03:09,950
+Sorry, vocab 0,
+because this is the zeroth position.
+
+58
+00:03:09,950 --> 00:03:16,947
+Or is that review vocab,
+reviews, is it reviews vocab?
+
+59
+00:03:16,948 --> 00:03:19,424
+Might have been,
+I might have deleted it.
+
+60
+00:03:19,424 --> 00:03:20,181
+Get back here.
+
+61
+00:03:20,181 --> 00:03:25,131
+[BLANK_AUDIO].
+
+62
+00:03:25,131 --> 00:03:28,580
+[INAUDIBLE] We'll add.
+
+63
+00:03:28,580 --> 00:03:29,193
+Okay, so this is it.
+
+64
+00:03:29,193 --> 00:03:30,762
+So it's nothing.
+
+65
+00:03:30,762 --> 00:03:34,709
+[LAUGH] So when I took [INAUDIBLE]
+one of the words is a nothing word.
+
+66
+00:03:34,709 --> 00:03:37,750
+And I look in here and
+I go well there was 18 of them.
+
+67
+00:03:37,750 --> 00:03:39,900
+One of them is probably fine, and
+the neural net can sort that out.
+
+68
+00:03:39,900 --> 00:03:43,719
+But you know it's seeing mostly
+nothing in this vector, and
+
+69
+00:03:43,719 --> 00:03:47,300
+then word over here,
+word over here, very softly, right?
+
+70
+00:03:47,300 --> 00:03:49,675
+You know I look at kind
+of the rest of things.
+
+71
+00:03:49,675 --> 00:03:57,872
+So let's just review
+that split [SOUND] space,
+
+72
+00:03:57,872 --> 00:04:02,082
+review 0 space space.
+
+73
+00:04:02,081 --> 00:04:03,043
+Okay.
+
+74
+00:04:03,043 --> 00:04:04,795
+[BLANK_AUDIO]
+
+75
+00:04:04,795 --> 00:04:07,001
+Empty, empty, empty.
+
+76
+00:04:07,002 --> 00:04:09,455
+Look at that, empty, empty.
+
+77
+00:04:09,455 --> 00:04:12,215
+So at first I'm thinking okay,
+maybe a tokenization error, but
+
+78
+00:04:12,215 --> 00:04:15,391
+then there's a whole bunch of periods
+in here, so period happens a bunch.
+
+79
+00:04:15,391 --> 00:04:17,115
+I wonder what the distribution is?
+
+80
+00:04:17,115 --> 00:04:21,562
+So a single review_counter = counter,
+right?
+
+81
+00:04:21,562 --> 00:04:27,038
+So for words is reviews(0).split,
+
+82
+00:04:27,038 --> 00:04:31,877
+review_counter word equals one.
+
+83
+00:04:31,877 --> 00:04:33,120
+So, once again, using these counters.
+
+84
+00:04:33,120 --> 00:04:34,210
+I love these counters.
+
+85
+00:04:34,211 --> 00:04:37,949
+Review counter, most common, show me.
+
+86
+00:04:37,949 --> 00:04:40,365
+Wow, look at that.
+
+87
+00:04:40,365 --> 00:04:42,792
+Look at that.
+
+88
+00:04:42,791 --> 00:04:46,379
+The dominant words,
+these have nothing to do with sentiment.
+
+89
+00:04:47,980 --> 00:04:51,480
+So there's going to be some
+standard words down here,
+
+90
+00:04:51,480 --> 00:04:55,230
+but, insightful it's right there.
+
+91
+00:04:55,230 --> 00:04:59,240
+But when you look at this, most
+
+92
+00:05:00,639 --> 00:05:06,719
+of this review are completely irrelevant
+filler words like the, to, I, is, of, a.
+
+93
+00:05:06,720 --> 00:05:12,472
+And this waiting is causing it to have
+a dominant effect in the hidden layer,
+
+94
+00:05:12,471 --> 00:05:15,129
+and the hidden layer is all
+of the output layer gets to
+
+95
+00:05:15,129 --> 00:05:16,290
+use to try to make a prediction.
+
+96
+00:05:16,290 --> 00:05:18,360
+So if this hidden layer
+doesn't have rich information,
+
+97
+00:05:18,360 --> 00:05:20,550
+the output layer is going to struggle.
+
+98
+00:05:20,550 --> 00:05:24,175
+So now I'm sitting here going okay wait,
+we decided to do counts earlier.
+
+99
+00:05:24,175 --> 00:05:29,939
+Maybe counts was a bad idea, because
+the counts doesn't highlight the signal.
+
+100
+00:05:29,939 --> 00:05:33,180
+When I'm looking at these counts it
+seems like it highlights the noise.
+
+101
+00:05:33,180 --> 00:05:36,209
+But when I say highlight what I
+mean is weights it most heavily.
+
+102
+00:05:36,209 --> 00:05:38,419
+Neural nets they're just weights and
+functions.
+
+103
+00:05:38,420 --> 00:05:42,585
+Like you take this, these set of values,
+you re-weight them, right,
+
+104
+00:05:42,584 --> 00:05:45,603
+into these four nodes, and
+then you run a function.
+
+105
+00:05:45,603 --> 00:05:48,719
+In this case we don't do a function
+here, but it's a linear function.
+
+106
+00:05:48,720 --> 00:05:50,870
+And then we re-weight them again,
+and we do a function, and
+
+107
+00:05:50,870 --> 00:05:52,360
+that's our prediction, right?
+
+108
+00:05:52,360 --> 00:05:55,810
+So if our weighting is off, or
+how we're creating our input data,
+
+109
+00:05:55,810 --> 00:05:58,310
+it's going to make it really
+hard to find the signal.
+
+110
+00:05:58,310 --> 00:05:58,769
+That's noise.
+
+111
+00:05:58,769 --> 00:06:01,505
+That means that the way that
+we're framing the problem is
+
+112
+00:06:01,505 --> 00:06:03,393
+adding a significant amount of noise.
+
+113
+00:06:03,394 --> 00:06:08,076
+Because in these weights, the neural
+net has to learn to be like, hey,
+
+114
+00:06:08,076 --> 00:06:09,571
+period, quiet down.
+
+115
+00:06:09,571 --> 00:06:14,150
+Hey entity, quiet down, v,
+two, I, high, is, of, a.
+
+116
+00:06:14,149 --> 00:06:15,039
+Quiet down.
+
+117
+00:06:15,040 --> 00:06:17,073
+I need to hear insightful.
+
+118
+00:06:17,072 --> 00:06:19,091
+I need to hear welcome.
+
+119
+00:06:19,091 --> 00:06:22,930
+I need to hear other positive,
+because this is positive view.
+
+120
+00:06:22,930 --> 00:06:26,504
+I don't know if it's a negative
+review we could look too, but
+
+121
+00:06:26,504 --> 00:06:30,975
+this neural net is trying to quiet down
+all the words that aren't relevant and
+
+122
+00:06:30,975 --> 00:06:34,300
+listen more attentively to
+the words that are relevant.
+
+123
+00:06:34,300 --> 00:06:38,520
+But we're not helping it by causing the
+weight to be the things that are most
+
+124
+00:06:38,519 --> 00:06:39,129
+frequent.
+
+125
+00:06:39,129 --> 00:06:41,961
+And so I think that we
+should try eliminating this.
+
+126
+00:06:41,961 --> 00:06:47,790
+So in project four I think
+we're going to try that.
+
+127
+00:06:47,790 --> 00:06:49,890
+So let me go ahead and
+describe what that's going to be.
+
+128
+00:06:49,889 --> 00:06:54,644
+So we're going to grab
+
+129
+00:06:54,644 --> 00:06:59,958
+the code that we had for
+
+130
+00:06:59,958 --> 00:07:03,040
+Project 3.
+
+131
+00:07:03,040 --> 00:07:05,578
+So we going to go down to Project 4,
+and say okay,
+
+132
+00:07:05,577 --> 00:07:08,119
+Project 4: Reducing Noise
+in our Input Data.
+
+133
+00:07:08,120 --> 00:07:09,009
+Right?
+
+134
+00:07:09,009 --> 00:07:11,779
+And we're going to take this network and
+we're going to say, okay, how can
+
+135
+00:07:11,779 --> 00:07:16,409
+we modify this network so that we don't
+weight it by these counts anymore?
+
+136
+00:07:18,029 --> 00:07:19,459
+Well, if we don't weigh
+it by its counts anymore,
+
+137
+00:07:19,459 --> 00:07:22,039
+then that means that this would
+always be a one or a zero.
+
+138
+00:07:22,040 --> 00:07:23,730
+So at this point we're changing it so
+
+139
+00:07:23,730 --> 00:07:26,410
+that it's just a representation
+to vocabulary in general.
+
+140
+00:07:27,600 --> 00:07:30,692
+If we did that that should work
+actually, because then okay, so
+
+141
+00:07:30,692 --> 00:07:33,554
+the period and the the, and to,
+and I will still be in here,
+
+142
+00:07:33,553 --> 00:07:36,563
+the neural net has to decided
+which words are most important.
+
+143
+00:07:36,564 --> 00:07:40,205
+But it doesn't have to say okay,
+period times 27, so
+
+144
+00:07:40,204 --> 00:07:44,769
+27 times the weights where period
+going into the hidden layer.
+
+145
+00:07:44,769 --> 00:07:48,942
+That's a lot of signal to push back
+down, where as if we just say ones and
+
+146
+00:07:48,942 --> 00:07:53,579
+zeros, and do a binary representation,
+that should be a lot less noisy and
+
+147
+00:07:53,579 --> 00:07:55,240
+a lot easier for
+the neuron to figure out.
+
+148
+00:07:55,240 --> 00:07:59,925
+Now I think in here, that's actually
+going to be pretty easy to change, and
+
+149
+00:07:59,925 --> 00:08:02,430
+I'll just do that project right here.
+
+150
+00:08:02,430 --> 00:08:05,894
+So it's in our update_input_layer.
+
+151
+00:08:07,160 --> 00:08:11,852
+Before we were incrementing it, if we
+just get rid of that plus we're going to
+
+152
+00:08:11,851 --> 00:08:15,945
+set it to equal one so to each value
+in layer zero we're going to set to
+
+153
+00:08:15,946 --> 00:08:18,639
+equal one if that
+vocabulary term exists.
+
+154
+00:08:18,639 --> 00:08:20,670
+Okay so let's rebuild that.
+
+155
+00:08:20,670 --> 00:08:24,030
+And then let's grab our
+training value from up here.
+
+156
+00:08:25,620 --> 00:08:26,298
+We'll do our original one.
+
+157
+00:08:26,298 --> 00:08:29,374
+[BLANK_AUDIO]
+
+158
+00:08:29,374 --> 00:08:32,340
+And we need our trained one too.
+
+159
+00:08:32,340 --> 00:08:36,009
+Copy that and get rid of that.
+
+160
+00:08:36,009 --> 00:08:40,029
+So have a record, go down here.
+
+161
+00:08:40,029 --> 00:08:42,120
+Create our network.
+
+162
+00:08:43,320 --> 00:08:47,773
+And this is our,
+basically our new class, and hit train.
+
+163
+00:08:47,773 --> 00:08:50,753
+Look at that, look at that.
+
+164
+00:08:50,753 --> 00:08:55,704
+It's already to 60%
+after 2% of progress.
+
+165
+00:08:55,703 --> 00:08:58,549
+This is amazing progress, look at that.
+
+166
+00:08:58,549 --> 00:09:04,189
+So we eliminated a lot of our noise,
+right, by getting rid of this weighting.
+
+167
+00:09:05,190 --> 00:09:07,830
+And the neural net was able to
+find correlation so much faster.
+
+168
+00:09:07,830 --> 00:09:08,964
+Look at that, 70%.
+
+169
+00:09:08,964 --> 00:09:12,021
+And we're only 9% into training.
+
+170
+00:09:12,020 --> 00:09:17,134
+See, this is what increasing a signal
+and reducing the noise is all about.
+
+171
+00:09:17,134 --> 00:09:20,408
+It's about making it more obvious for
+your neural net so
+
+172
+00:09:20,408 --> 00:09:23,196
+that it can get to work at
+handling the signal and
+
+173
+00:09:23,196 --> 00:09:27,951
+then combining it in interesting ways
+and looking for more difficult patterns.
+
+174
+00:09:27,951 --> 00:09:30,049
+And you just kind of get rid of
+the noise in your training data.
+
+175
+00:09:30,049 --> 00:09:35,149
+We could have spent days and days and
+days up here just tweaking our little
+
+176
+00:09:35,149 --> 00:09:38,870
+alpha, just moving it around, lowering
+it down, trying to get the train to
+
+177
+00:09:38,870 --> 00:09:42,552
+happen slowly but in reality we can have
+a big fat alpha and make huge steps and
+
+178
+00:09:42,552 --> 00:09:47,029
+progress really quickly if we just
+get rid of this really silly noise,
+
+179
+00:09:47,029 --> 00:09:50,259
+because we're trying to train our
+neural nets to do interesting stuff.
+
+180
+00:09:50,259 --> 00:09:52,367
+Interesting stuff is not ignore periods.
+
+181
+00:09:52,368 --> 00:09:57,129
+Interesting stuff is identify
+which words are relevent.
+
+182
+00:09:57,129 --> 00:10:00,080
+Identify which combinations
+of words are relevent.
+
+183
+00:10:00,080 --> 00:10:01,530
+That's what we want
+our neural net to do.
+
+184
+00:10:01,529 --> 00:10:03,000
+Finding interesting representations,
+
+185
+00:10:03,000 --> 00:10:06,440
+doing interesting things
+in this hidden layer
+
+186
+00:10:06,440 --> 00:10:11,390
+to really understand the vocabulary
+of what's being said in the review.
+
+187
+00:10:13,580 --> 00:10:14,700
+That's what we want to be happening.
+
+188
+00:10:14,700 --> 00:10:16,850
+Man, look at that, almost 80%.
+
+189
+00:10:16,850 --> 00:10:18,960
+So I'll go ahead and
+let this keep training.
+
+190
+00:10:18,960 --> 00:10:23,546
+Go ahead and train this yourself, and
+
+191
+00:10:23,546 --> 00:10:27,564
+yeah, so this is looking great.
+
+192
+00:10:27,563 --> 00:10:31,370
+The next thing I'm noticing, I guess
+maybe just because this is a video.
+
+193
+00:10:31,370 --> 00:10:33,620
+I would like for
+this to be training a lot faster.
+
+194
+00:10:33,620 --> 00:10:36,649
+So the next thing that I would like for
+us to be able to do is kind of take
+
+195
+00:10:36,649 --> 00:10:38,309
+a look inside the neural net,
+understanding what's going on,
+
+196
+00:10:38,309 --> 00:10:41,179
+and see if we can kind of crank
+out a little bit more speed.
+
+197
+00:10:41,179 --> 00:10:43,409
+But for now, I'm going to
+let this go ahead and train.
+

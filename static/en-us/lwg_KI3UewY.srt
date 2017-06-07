@@ -1,0 +1,167 @@
+1
+00:00:00,000 --> 00:00:04,000
+[Thrun] So here is our algorithm particle filter.
+
+2
+00:00:04,000 --> 00:00:09,000
+It sets as an input a set of particles with associated important weights,
+
+3
+00:00:09,000 --> 00:00:12,000
+a control, and a measurement vector,
+
+4
+00:00:12,000 --> 00:00:16,000
+and it constructs a new particle set as prime
+
+5
+00:00:16,000 --> 00:00:20,000
+and in doing so it also has an auxiliary variable, eta.
+
+6
+00:00:20,000 --> 00:00:22,000
+Here is the algorithm.
+
+7
+00:00:22,000 --> 00:00:27,000
+Initially we go through all new particles of which there are n
+
+8
+00:00:27,000 --> 00:00:32,000
+and we sample in index j according to the distribution
+
+9
+00:00:32,000 --> 00:00:38,000
+defined by the importance weights associated with the particle set over here.
+
+10
+00:00:38,000 --> 00:00:41,000
+Put differently, we have a set of particles over here
+
+11
+00:00:41,000 --> 00:00:45,000
+and we have associated importance factors which we will construct a little bit later on,
+
+12
+00:00:45,000 --> 00:00:48,000
+and now we pick one of these particles with replacement
+
+13
+00:00:48,000 --> 00:00:55,000
+where the probability of picking this particle is exactly the importance weight, w.
+
+14
+00:00:55,000 --> 00:01:01,000
+For this particle we now sample a possible successor state
+
+15
+00:01:01,000 --> 00:01:06,000
+according to the state transition probability using our controls
+
+16
+00:01:06,000 --> 00:01:11,000
+and that specific particle as an input. We call it sj over here.
+
+17
+00:01:11,000 --> 00:01:16,000
+We also compute an importance weight, which is the measurement probability
+
+18
+00:01:16,000 --> 00:01:20,000
+for that specific particle over here.
+
+19
+00:01:20,000 --> 00:01:25,000
+This gives us a new particle, and this gives us a new non-normalized importance weight.
+
+20
+00:01:25,000 --> 00:01:32,000
+For now we just add them into our new particle set as prime and we reiterate.
+
+21
+00:01:32,000 --> 00:01:37,000
+The only thing missing now is at the very end we have to normalize all the weights.
+
+22
+00:01:37,000 --> 00:01:40,000
+For this we keep our running counter, eta,
+
+23
+00:01:40,000 --> 00:01:45,000
+and we have a For loop in which we take all the weights in the set over here
+
+24
+00:01:45,000 --> 00:01:48,000
+and just normalize them accordingly.
+
+25
+00:01:48,000 --> 00:01:51,000
+This is the entire algorithm.
+
+26
+00:01:51,000 --> 00:01:55,000
+We feed in over here particles with associated important weights
+
+27
+00:01:55,000 --> 00:01:58,000
+and a control and a measurement,
+
+28
+00:01:58,000 --> 00:02:05,000
+and then we construct the new set of particles by picking particles from our previous set
+
+29
+00:02:05,000 --> 00:02:10,000
+at random with replacement but in accordance to the importance weights,
+
+30
+00:02:10,000 --> 00:02:13,000
+so important particles are picked more frequently.
+
+31
+00:02:13,000 --> 00:02:16,000
+We guess for this particle this will be a state.
+
+32
+00:02:16,000 --> 00:02:20,000
+We guess what a new state might be by just sampling it,
+
+33
+00:02:20,000 --> 00:02:23,000
+and we attach it an importance weight which we later normalize
+
+34
+00:02:23,000 --> 00:02:28,000
+that is proportional to the measurement probability for this thing over here.
+
+35
+00:02:28,000 --> 00:02:31,000
+So you're going to upweigh the particles that look consistent with the measurements
+
+36
+00:02:31,000 --> 00:02:34,000
+and downweigh the ones that are non-consistent.
+
+37
+00:02:34,000 --> 00:02:38,000
+We add all of these things back to our particle sets and reiterate.
+
+38
+00:02:38,000 --> 00:02:40,000
+I promised you it would be an easy algorithm.
+
+39
+00:02:40,000 --> 00:02:45,000
+You can look at this, and you could actually implement this really easily.
+
+40
+00:02:45,000 --> 00:02:48,000
+Just remember how much difficulty we introduced
+
+41
+00:02:48,000 --> 00:02:54,000
+with talking about Bayes networks and hidden Markov models and all that stuff.
+
+42
+00:02:54,000 --> 99:59:59,999
+This is all there is to implement particle filters.

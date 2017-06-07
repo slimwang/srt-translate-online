@@ -1,0 +1,215 @@
+1
+00:00:00,260 --> 00:00:04,650
+We're onto streaming joints, that last major topic in the course.
+
+2
+00:00:04,650 --> 00:00:07,450
+Let's first look at basic exclamation topology we
+
+3
+00:00:07,450 --> 00:00:10,930
+started with to see just how far we've come.
+
+4
+00:00:10,930 --> 00:00:14,470
+In lesson one we started with a simple TestWordSpout, and while
+
+5
+00:00:14,470 --> 00:00:18,400
+simple these spouts are very useful as you develop storm topologies to test.
+
+6
+00:00:18,400 --> 00:00:22,730
+In the final lesson one program and exercise, we implemented simple exclamation
+
+7
+00:00:22,730 --> 00:00:26,810
+topologies to connect multiple bolts to the same spout.
+
+8
+00:00:26,810 --> 00:00:30,610
+We're able to simply connect multiple bolts to the same spout, so
+
+9
+00:00:30,610 --> 00:00:33,970
+if we have multiple spouts, linear topologies are simple.
+
+10
+00:00:33,970 --> 00:00:37,020
+We haven't, however, covered this configuration.
+
+11
+00:00:37,020 --> 00:00:40,076
+How do we connect multiple streams to a single bolt, and
+
+12
+00:00:40,076 --> 00:00:43,719
+process two bolts received from different streams differently,
+
+13
+00:00:43,719 --> 00:00:46,139
+depending on which component produced it?
+
+14
+00:00:46,139 --> 00:00:48,548
+This is the final topic we'll cover in this course,
+
+15
+00:00:48,548 --> 00:00:50,280
+a process called streaming joints.
+
+16
+00:00:50,280 --> 00:00:53,710
+It would be great in our topology if we could simply use what we
+
+17
+00:00:53,710 --> 00:00:58,040
+know about stream groupings and simply connect them to multiple bolts.
+
+18
+00:00:58,040 --> 00:01:00,830
+Here we have builder.set bolt, bolt 1,
+
+19
+00:01:00,830 --> 00:01:04,932
+then new exclamation bolt with a parallelism of 1 using a shuffle grouping to
+
+20
+00:01:04,932 --> 00:01:07,890
+spout 1, which is the topology I've drawn on the left.
+
+21
+00:01:07,890 --> 00:01:13,420
+It would be great if we can simply change our topology from this to this and
+
+22
+00:01:13,420 --> 00:01:18,900
+add a shuffle grouping to spout 2 to make the connection from spout 2 to bolt 1,
+
+23
+00:01:18,900 --> 00:01:21,210
+and storm allows us to do just that.
+
+24
+00:01:21,210 --> 00:01:25,220
+Adding input streams is as simple as method chaining multiple stream groupings,
+
+25
+00:01:25,220 --> 00:01:27,360
+and we will explore this in the next assignment.
+
+26
+00:01:27,360 --> 00:01:31,150
+We will see that if the downstream bolt handles incoming two poles in
+
+27
+00:01:31,150 --> 00:01:32,820
+the exact same way, we're done.
+
+28
+00:01:33,980 --> 00:01:37,750
+However, what if two poles arriving from different sources are arriving in
+
+29
+00:01:37,750 --> 00:01:38,770
+different forms?
+
+30
+00:01:38,770 --> 00:01:40,880
+Here for example a tuple of a key,
+
+31
+00:01:40,880 --> 00:01:45,430
+and a second tuple coming from the second spout of a key and a value.
+
+32
+00:01:45,430 --> 00:01:49,620
+How does the downstream bolt dynamically handle tuples from different sources?
+
+33
+00:01:49,620 --> 00:01:51,220
+Perhaps with different fields or
+
+34
+00:01:51,220 --> 00:01:54,390
+even different object types in the same locations.
+
+35
+00:01:54,390 --> 00:01:59,930
+The answer is to use the tuple method, getSourceComponent that returns a string
+
+36
+00:01:59,930 --> 00:02:05,290
+with a componentId defined in the topology as the componentId for
+
+37
+00:02:05,290 --> 00:02:07,730
+example spout 1 or spout 2.
+
+38
+00:02:07,730 --> 00:02:10,210
+And finally, once we have the componentId,
+
+39
+00:02:10,210 --> 00:02:14,810
+we can define in our ExclamationBolt file how to dynamically handle different
+
+40
+00:02:14,810 --> 00:02:17,790
+tuple schema using simple code with the executed methods.
+
+41
+00:02:17,790 --> 00:02:19,720
+Such as accessing tuples and
+
+42
+00:02:19,720 --> 00:02:23,360
+processing them differently depending on which spout they came from.
+
+43
+00:02:23,360 --> 00:02:25,930
+In this code, in the exclamation bolt for example,
+
+44
+00:02:25,930 --> 00:02:30,952
+I'm basically check if the component ID here equals spout 1,
+
+45
+00:02:30,952 --> 00:02:35,900
+notice that spout-1 is the component ID I defined in the topology.
+
+46
+00:02:35,900 --> 00:02:38,100
+And if so access spout 1 tuple,
+
+47
+00:02:38,100 --> 00:02:41,560
+here this could be the key, and do some cool stuff.
+
+48
+00:02:41,560 --> 00:02:47,820
+Else if the component equals spout 2 here, access about two components,
+
+49
+00:02:47,820 --> 00:02:52,360
+perhaps the key and the value, and do some other cool stuff.
+
+50
+00:02:52,360 --> 00:02:57,922
+Now, once we have this comp set completed, we can design simple or complex
+
+51
+00:02:57,922 --> 00:03:04,038
+topologies, such as this, or this, or this, or anything else you can imagine.
+
+52
+00:03:04,038 --> 00:03:07,628
+Simply chain together stream groupings, including all groupings and
+
+53
+00:03:07,628 --> 00:03:10,795
+field groupings, on one or more fields, and you can construct
+
+54
+00:03:10,795 --> 00:03:14,280
+real-time processes to fit your needs, let's see this in action.

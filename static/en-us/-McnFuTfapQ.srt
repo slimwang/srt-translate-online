@@ -1,0 +1,223 @@
+1
+00:00:00,040 --> 00:00:01,920
+We'll start by adding 
+our callback functions
+
+2
+00:00:01,920 --> 00:00:03,810
+to our ForecastFragment.
+
+3
+00:00:03,810 --> 00:00:05,613
+Now know we have 
+two different options here
+
+4
+00:00:05,613 --> 00:00:06,886
+for loader callbacks.
+
+5
+00:00:06,886 --> 00:00:10,700
+We want to make sure we're choosing 
+the <i>android.support.v4</i> callback
+
+6
+00:00:10,700 --> 00:00:12,670
+so we're compatible with Gingerbread.
+
+7
+00:00:12,670 --> 00:00:14,543
+These take generic type.
+
+8
+00:00:14,543 --> 00:00:17,196
+We're going to want to use Cursor.
+
+9
+00:00:17,196 --> 00:00:21,000
+And yes, that is <i>andriod.database.cursor</i>.
+
+10
+00:00:21,000 --> 00:00:24,350
+Now, let's move down to where 
+we want to actually insert this code.
+
+11
+00:00:24,350 --> 00:00:28,040
+Here at the bottom, and of course, 
+we use <i>CTRL+I</i> to actually insert.
+
+12
+00:00:28,040 --> 00:00:31,920
+And there we have it beautifully, 
+our loader pattern with cursor.
+
+13
+00:00:31,920 --> 00:00:34,446
+Now, let's do some work 
+that will help us out.
+
+14
+00:00:34,446 --> 00:00:36,374
+First we're going to add 
+an array of columns
+
+15
+00:00:36,374 --> 00:00:38,022
+to the top of our ForecastFragment.
+
+16
+00:00:38,022 --> 00:00:41,300
+These are the columns that are going 
+to be used in our query.
+
+17
+00:00:41,300 --> 00:00:43,830
+Note, that since both 
+WeatherEntry and LocationEntry
+
+18
+00:00:43,830 --> 00:00:47,010
+have the underscore ID field, 
+we must fully qualify
+
+19
+00:00:47,010 --> 00:00:49,980
+which ID we want in our projection 
+for this query to work.
+
+20
+00:00:49,980 --> 00:00:53,730
+And in fact this query requires 
+a projection to work at all,
+
+21
+00:00:53,730 --> 00:00:55,870
+otherwise [inaudible].
+
+22
+00:00:55,870 --> 00:00:59,590
+Next, here are indices
+that are tied to these columns.
+
+23
+00:00:59,590 --> 00:01:02,486
+This will make some 
+of our work easier, later on.
+
+24
+00:01:02,486 --> 00:01:05,182
+Note, that these actually must match.
+
+25
+00:01:05,182 --> 00:01:08,480
+Then we create some public indices 
+for us to use in our adapter.
+
+26
+00:01:08,480 --> 00:01:11,720
+This allows us to make our code
+tiny and efficient in the adapter,
+
+27
+00:01:11,720 --> 00:01:13,880
+but it means we must 
+maintain the relationship
+
+28
+00:01:13,880 --> 00:01:16,940
+between these column indices
+and the projection.
+
+29
+00:01:16,940 --> 00:01:19,093
+Each loader has an ID.
+
+30
+00:01:19,093 --> 00:01:22,366
+It allows a fragment to have 
+multiple loaders active at once.
+
+31
+00:01:22,366 --> 00:01:25,080
+We're goint to place this,
+along with an instance variable
+
+32
+00:01:25,080 --> 00:01:28,000
+to stave off our location here 
+at the top of our class.
+
+33
+00:01:28,000 --> 00:01:31,625
+Next we're going to override
+onActivityCreated.
+
+34
+00:01:31,625 --> 00:01:34,190
+Loaders are initialized
+in onActivity Created
+
+35
+00:01:34,190 --> 00:01:37,020
+because their lifecycle
+is actually bound to the activity
+
+36
+00:01:37,020 --> 00:01:38,746
+not the fragment.
+
+37
+00:01:38,772 --> 00:01:42,200
+Note the use of the loader ID:
+FORECAST_LOADER.
+
+38
+00:01:42,200 --> 00:01:45,330
+Then we return 
+to the onCreateLoader function.
+
+39
+00:01:45,330 --> 00:01:48,063
+We add a new CursorLoader.
+
+40
+00:01:48,063 --> 00:01:50,306
+This CursorLoader has our query,
+
+41
+00:01:50,306 --> 00:01:54,210
+including start date, 
+columns, and sort order.
+
+42
+00:01:54,210 --> 00:01:57,030
+Our start date is actually in our URI.
+
+43
+00:01:57,030 --> 00:01:59,760
+Our columns are the ones 
+we defined earlier.
+
+44
+00:01:59,760 --> 00:02:04,580
+And our sort order is going to be based 
+upon COLUMN_DATETEXT ascending ("ASC").
+
+45
+00:02:04,580 --> 00:02:06,310
+Let's do one last check.
+
+46
+00:02:06,310 --> 00:02:08,580
+We want to make sure we're using 
+the support library version
+
+47
+00:02:08,580 --> 00:02:10,184
+of all of these classes,
+
+48
+00:02:10,184 --> 00:02:13,684
+otherwise we won't get 
+Android 2.3 compatibility.

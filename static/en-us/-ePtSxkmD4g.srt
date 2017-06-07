@@ -1,0 +1,499 @@
+1
+00:00:00,700 --> 00:00:03,250
+>> Okay. So, we're still talking about support vector
+
+2
+00:00:03,250 --> 00:00:05,225
+machines, although I haven't told you what support vector
+
+3
+00:00:05,225 --> 00:00:07,880
+machines are yet, we're getting there, Michael. Bear with
+
+4
+00:00:07,880 --> 00:00:11,445
+me. And what we got from our last discussion is
+
+5
+00:00:11,445 --> 00:00:14,420
+that what we want to do somehow is maximize
+
+6
+00:00:14,420 --> 00:00:18,330
+a particular equation, that is, 2 over the length of
+
+7
+00:00:18,330 --> 00:00:20,920
+W. And as a reminder, W the parameters of
+
+8
+00:00:20,920 --> 00:00:25,410
+our hyperplane. So somehow, we want to maximize that equation,
+
+9
+00:00:25,410 --> 00:00:30,500
+subject to the constraints that we still classify everything correctly.
+
+10
+00:00:32,020 --> 00:00:36,790
+Okay, so we want to maximize 2 over the length of W while classifying everything
+
+11
+00:00:36,790 --> 00:00:39,770
+correctly. But, while classifying everything correctly
+
+12
+00:00:39,770 --> 00:00:45,510
+is not a very mathematically satisfying expression,
+
+13
+00:00:45,510 --> 00:00:50,550
+but it turns out we can turn that into a mathematically satisfying expression.
+
+14
+00:00:50,550 --> 00:00:52,470
+And let me show you how to do that. So
+
+15
+00:00:52,470 --> 00:00:55,440
+here's a simple equation. While classifying everything correctly turns out to
+
+16
+00:00:55,440 --> 00:00:57,800
+be the same as, and I'm just going to write, I'm
+
+17
+00:00:57,800 --> 00:00:59,430
+going to write it out for you, Michael, and see if
+
+18
+00:00:59,430 --> 00:01:03,980
+you can, you can guess why this works. So, what I've
+
+19
+00:01:03,980 --> 00:01:09,290
+written here is YI times W transpose XI plus B greater
+
+20
+00:01:09,290 --> 00:01:12,050
+than or equal to 1 for all I. That is, for
+
+21
+00:01:12,050 --> 00:01:15,320
+all of our training data examples. So why does this work?
+
+22
+00:01:15,320 --> 00:01:15,690
+>> Well, what we
+
+23
+00:01:15,690 --> 00:01:20,920
+really want is that the, that linear classifier, WTXI plus
+
+24
+00:01:20,920 --> 00:01:23,550
+B, is greater than or equal to 1 for the positive
+
+25
+00:01:23,550 --> 00:01:26,640
+examples, and less than or equal to negative one for
+
+26
+00:01:26,640 --> 00:01:30,770
+the negative examples. But you cleverly multiply it by the label
+
+27
+00:01:30,770 --> 00:01:33,110
+on the lefthand side, which does exactly that. If YI
+
+28
+00:01:33,110 --> 00:01:35,679
+is 1, it leaves it untouched. And if YI is negative
+
+29
+00:01:35,679 --> 00:01:38,546
+1, it flips everything around. So that we're really talking about
+
+30
+00:01:38,546 --> 00:01:40,820
+less than or equal to minus 1. That's, that's very clever.
+
+31
+00:01:40,820 --> 00:01:43,440
+>> It is very clever, and I'm going to pretend that I came up with that
+
+32
+00:01:43,440 --> 00:01:47,090
+idea myself. So, it turns out that trying
+
+33
+00:01:47,090 --> 00:01:51,577
+to solve this particular problem, maximizing 2 over
+
+34
+00:01:51,577 --> 00:01:54,390
+W, while satisfying that constraint, is a little
+
+35
+00:01:54,390 --> 00:01:57,110
+painful to do. But that we can solve
+
+36
+00:01:57,110 --> 00:01:59,640
+an equivalent problem, which turns out to be
+
+37
+00:01:59,640 --> 00:02:02,160
+much easier to do, and that is this problem.
+
+38
+00:02:04,310 --> 00:02:09,055
+That is, rather than trying to maximize 2 over W, we can instead try to minimize
+
+39
+00:02:09,055 --> 00:02:12,180
+1/2 times W squared. Now can you see
+
+40
+00:02:12,180 --> 00:02:14,350
+that those will always have the same answer?
+
+41
+00:02:14,350 --> 00:02:16,960
+>> Yes, so, well, not the same answer, but it will be minimum,
+
+42
+00:02:16,960 --> 00:02:21,460
+the point that maximizes one will minimize the other. Yeah, because the, we
+
+43
+00:02:21,460 --> 00:02:24,720
+took the reciprocal. As long as we're talking about positive things. And since
+
+44
+00:02:24,720 --> 00:02:27,300
+these are lengths, they'll be positive. Taking
+
+45
+00:02:27,300 --> 00:02:29,310
+the reciprocal exactly, you know, changes the
+
+46
+00:02:29,310 --> 00:02:34,120
+direction, of what the answer is. And the squaring is, is,
+
+47
+00:02:34,120 --> 00:02:37,630
+makes it monotone. It doesn't, it doesn't, it magnifies it but it
+
+48
+00:02:37,630 --> 00:02:40,610
+doesn't change the ordering of things. So yeah. That, that, that seems
+
+49
+00:02:40,610 --> 00:02:42,980
+fine. I don't why that's any easier, but it seems the same.
+
+50
+00:02:42,980 --> 00:02:45,580
+>> Well, do you want to know why it's easier? Cause I'll tell you.
+
+51
+00:02:45,580 --> 00:02:46,540
+>> Please.
+
+52
+00:02:46,540 --> 00:02:50,052
+>> This is easier because when you have an optimization
+
+53
+00:02:50,052 --> 00:02:54,250
+problem of this form, something like minimizing a W squared,
+
+54
+00:02:54,250 --> 00:02:56,170
+subject to a bunch of constraints,
+
+55
+00:02:56,170 --> 00:02:58,815
+that is called a quadratic programming problem.
+
+56
+00:02:58,815 --> 00:03:00,710
+And people know how to solve
+
+57
+00:03:00,710 --> 00:03:04,441
+quadratic programming problems in relatively straightforward ways.
+
+58
+00:03:04,441 --> 00:03:05,100
+>> Awesome.
+
+59
+00:03:05,100 --> 00:03:07,490
+>> Now, what else is nice about that is a couple of
+
+60
+00:03:07,490 --> 00:03:13,052
+things. One is, it turns out that these always have a solution, and
+
+61
+00:03:13,052 --> 00:03:15,942
+in fact have a unique solution. Now I am not going to
+
+62
+00:03:15,942 --> 00:03:19,374
+tell you how to solve quadratic programming problems because I don't know how
+
+63
+00:03:19,374 --> 00:03:21,396
+to do it other than to call it up in the MATLAB.
+
+64
+00:03:21,396 --> 00:03:23,993
+But there's a whole set of classes out there, where they teach
+
+65
+00:03:23,993 --> 00:03:27,430
+you how to do quadratic programming. We could take an aside, I
+
+66
+00:03:27,430 --> 00:03:30,040
+could learn all about quadratic programming, and then we could talk about it
+
+67
+00:03:30,040 --> 00:03:33,350
+for two hours. But it's really beside the point. The important thing
+
+68
+00:03:33,350 --> 00:03:37,650
+is, that we have defined a specific optimization problem, and that there
+
+69
+00:03:37,650 --> 00:03:40,740
+are known techniques that come from linear algebra that tell us how
+
+70
+00:03:40,740 --> 00:03:44,450
+to solve them. And we can just plug and play and go. Okay?
+
+71
+00:03:44,450 --> 00:03:45,060
+>> Okay, fair enough.
+
+72
+00:03:45,060 --> 00:03:47,710
+>> Okay, fair enough. So, in particular, it
+
+73
+00:03:47,710 --> 00:03:51,120
+turns out that we can transform, again, this
+
+74
+00:03:51,120 --> 00:03:54,430
+particular quadratic programming problem into a different quadratic
+
+75
+00:03:54,430 --> 00:03:59,160
+programming problem. Or actually, truthfully, into the normal form
+
+76
+00:03:59,160 --> 00:04:01,390
+for a quadratic programming problem, that has the
+
+77
+00:04:01,390 --> 00:04:04,040
+following form. So here's what this equation tells
+
+78
+00:04:04,040 --> 00:04:06,080
+you, Michael. We have basically started out by
+
+79
+00:04:06,080 --> 00:04:09,706
+trying to maximize the margin. And that's the same
+
+80
+00:04:09,706 --> 00:04:12,426
+thing as trying to maximize 2 over the length of
+
+81
+00:04:12,426 --> 00:04:15,554
+W, I think I convinced you of, subject to a particular
+
+82
+00:04:15,554 --> 00:04:18,478
+set of constraints, which are how we codify that we
+
+83
+00:04:18,478 --> 00:04:22,250
+want to classify every data point correctly in the training set.
+
+84
+00:04:22,250 --> 00:04:26,050
+We've argued that that's equivalent to minimizing 1/2 times the
+
+85
+00:04:26,050 --> 00:04:29,210
+length of W squared, subject to the same constraints. And then
+
+86
+00:04:29,210 --> 00:04:32,080
+notice, because we happen to know this, that you can
+
+87
+00:04:32,080 --> 00:04:34,760
+convert that into a quadratic programming problem, which we know how
+
+88
+00:04:34,760 --> 00:04:36,820
+to solve. And it turns out that quadratic
+
+89
+00:04:36,820 --> 00:04:40,670
+programming problem has a very particular form. Rather than
+
+90
+00:04:40,670 --> 00:04:43,150
+try to minimize 1/2 of W squared, we can
+
+91
+00:04:43,150 --> 00:04:46,050
+try to maximize another function that has a different
+
+92
+00:04:46,050 --> 00:04:49,150
+set of parameters, which I'll call alpha. And that
+
+93
+00:04:49,150 --> 00:04:53,420
+equation has the following form. It's the sum over
+
+94
+00:04:53,420 --> 00:04:56,050
+all of the data points I, indexed by I,
+
+95
+00:04:56,050 --> 00:05:00,210
+of this new set of parameters alpha, minus 1/2
+
+96
+00:05:00,210 --> 00:05:07,590
+times, for every pair of examples, the product of their alphas, their labels,
+
+97
+00:05:07,590 --> 00:05:11,510
+and their values, subject to a different set of constraints. Namely that all
+
+98
+00:05:11,510 --> 00:05:15,600
+of the alphas are non-negative, and that the sum of the product of
+
+99
+00:05:15,600 --> 00:05:18,940
+the alphas, and the labels that go along with them, are equal to zero.
+
+100
+00:05:18,940 --> 00:05:21,290
+>> Holy cow.
+
+101
+00:05:21,290 --> 00:05:23,380
+>> Now, it's so obvious how you get from one
+
+102
+00:05:23,380 --> 00:05:25,480
+step to the other I'm not going to bother to explain
+
+103
+00:05:25,480 --> 00:05:27,840
+it to you. But instead tell you to go read a
+
+104
+00:05:27,840 --> 00:05:31,230
+quadratic programming book. What I really need you to believe, though,
+
+105
+00:05:31,230 --> 00:05:34,207
+mainly because I'm asserting it, is that these are equivalent. So
+
+106
+00:05:34,207 --> 00:05:37,340
+if you buy up to the point that we are trying to
+
+107
+00:05:37,340 --> 00:05:40,100
+maximize the margin, and that is the same thing as maximizing
+
+108
+00:05:40,100 --> 00:05:43,580
+2 over the length of W, and you buy that it's the
+
+109
+00:05:43,580 --> 00:05:48,150
+same as trying to minimize 1/2 times W squared, then you
+
+110
+00:05:48,150 --> 00:05:50,600
+just have to take a leap of faith here that, if we
+
+111
+00:05:50,600 --> 00:05:54,087
+instead maximize this other equation, it turns out that we
+
+112
+00:05:54,087 --> 00:05:55,940
+are solving the same problem. And that we know how
+
+113
+00:05:55,940 --> 00:05:58,570
+to do it using quadratic programming. Or other people know
+
+114
+00:05:58,570 --> 00:06:01,110
+how to do it and they've written code for us. Okay?
+
+115
+00:06:01,110 --> 00:06:02,250
+>> All right.
+
+116
+00:06:02,250 --> 00:06:05,586
+>> All right, so trust me on this. This is what it
+
+117
+00:06:05,586 --> 00:06:08,140
+is that we want to solve. Now, it turns out that we
+
+118
+00:06:08,140 --> 00:06:10,980
+can run little programs to solve this, and you end up with
+
+119
+00:06:10,980 --> 00:06:15,760
+answers. But what's really interesting is what this equation actually tells us
+
+120
+00:06:15,760 --> 00:06:18,410
+about what we're trying to do. So let me
+
+121
+00:06:18,410 --> 00:06:19,970
+just show you. This'll be just, talk a little bit
+
+122
+00:06:19,970 --> 00:06:22,270
+about the properties of this equation, and the property
+
+123
+00:06:22,270 --> 00:06:24,810
+of the solutions to this equation for a second. Okay?
+
+124
+00:06:24,810 --> 00:06:24,990
+>> hm.
+
+125
+00:06:24,990 --> 00:06:28,280
+>> Okay. So let me move a few things around so that we can look at it

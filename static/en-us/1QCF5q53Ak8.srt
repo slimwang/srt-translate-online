@@ -1,0 +1,233 @@
+1
+00:00:00,490 --> 00:00:03,969
+So, in order to learn about
+supported vector machines,
+
+2
+00:00:03,969 --> 00:00:07,070
+we have to talk about what
+are called linear classifiers.
+
+3
+00:00:07,070 --> 00:00:09,760
+And linear classifiers
+are exactly what you might think.
+
+4
+00:00:09,760 --> 00:00:11,750
+So here I have some data points.
+
+5
+00:00:11,750 --> 00:00:14,750
+I got blue ones and, and pink ones.
+
+6
+00:00:14,750 --> 00:00:16,110
+And the idea would be,
+
+7
+00:00:16,110 --> 00:00:20,650
+what if we just wanted to find a linear
+separator that separated things.
+
+8
+00:00:20,650 --> 00:00:22,900
+Well, in this particular case,
+we could do that, no problem.
+
+9
+00:00:22,900 --> 00:00:24,365
+So it would be something like that.
+
+10
+00:00:24,365 --> 00:00:26,291
+Ta-da, there's our,
+our linear classifier.
+
+11
+00:00:26,291 --> 00:00:30,783
+And you know, what we'd like to do is to
+talk about finding these kinds of things
+
+12
+00:00:30,783 --> 00:00:34,584
+automatically, and then the whole
+point of support vector machines,
+
+13
+00:00:34,584 --> 00:00:39,141
+is to do these in well, what you'll see
+are some higher dimensional spaces which
+
+14
+00:00:39,141 --> 00:00:41,928
+will give us some very
+effective classifications,
+
+15
+00:00:41,928 --> 00:00:44,330
+some powerful classification machinery.
+
+16
+00:00:44,330 --> 00:00:47,470
+So, let's talk a little bit about lines.
+
+17
+00:00:47,470 --> 00:00:50,570
+So here's just lines in,
+in regular 2D space.
+
+18
+00:00:50,570 --> 00:00:54,746
+So here's an equation of our line, and
+this is the normalized equation, and
+
+19
+00:00:54,746 --> 00:00:58,332
+we used to write ax plus by plus c
+equals 0 when we did a bunch of things.
+
+20
+00:00:58,332 --> 00:01:02,210
+And I'm not doing that here because in
+SVM land, where it's derived, b has
+
+21
+00:01:02,210 --> 00:01:06,470
+a particular value, it talks about, it,
+it, it's written in a particular way.
+
+22
+00:01:06,470 --> 00:01:11,930
+So I wrote it as px + qy + b equals 0.
+
+23
+00:01:11,930 --> 00:01:15,789
+And really, what I mean to say is that
+we're going to let some w, here it's,
+
+24
+00:01:15,789 --> 00:01:19,430
+be pq, and pretty soon those will go
+away and we'll only talk about w.
+
+25
+00:01:19,430 --> 00:01:21,460
+Let w be pq, and
+
+26
+00:01:21,460 --> 00:01:26,600
+if we have some point, x, which
+will be sort of little x, little y.
+
+27
+00:01:26,600 --> 00:01:30,400
+Then the line, px plus qy plus b,
+
+28
+00:01:30,400 --> 00:01:34,650
+that's the same thing as this
+line w dot x plus b equals 0.
+
+29
+00:01:34,650 --> 00:01:35,640
+All right?
+
+30
+00:01:35,640 --> 00:01:41,200
+And w here, this vector here, that's
+going to be in this direction there.
+
+31
+00:01:41,200 --> 00:01:41,700
+Okay?
+
+32
+00:01:42,710 --> 00:01:44,810
+One thing that should be
+clear from this, right?
+
+33
+00:01:44,810 --> 00:01:47,860
+I could scale w and b and
+it'll still be 0, right?
+
+34
+00:01:47,860 --> 00:01:50,740
+Multiply both of them by 3 and
+I get the same value.
+
+35
+00:01:50,740 --> 00:01:52,290
+All right.
+
+36
+00:01:52,290 --> 00:01:55,412
+Now, if I have some point, x0, y0,
+
+37
+00:01:55,412 --> 00:02:01,040
+I might want to talk about the distance
+cap D of that point to the line.
+
+38
+00:02:01,040 --> 00:02:03,320
+Okay?
+So here we have our,
+
+39
+00:02:03,320 --> 00:02:06,770
+our point and then there's this question
+of what that distance D is, all right?
+
+40
+00:02:07,820 --> 00:02:09,600
+Well, given the equation of the line,
+
+41
+00:02:09,600 --> 00:02:13,510
+we can express that distance in
+just the, the following way.
+
+42
+00:02:13,510 --> 00:02:18,670
+It's just essentially,
+find the dot product of that on w,
+
+43
+00:02:18,670 --> 00:02:21,570
+subtract off or, or
+think of that as being connected to b.
+
+44
+00:02:21,570 --> 00:02:25,050
+Whatever that value is,
+that's how far off the line it is, and
+
+45
+00:02:25,050 --> 00:02:30,190
+you then have to normalize because from
+a distance, by the magnitude of p and
+
+46
+00:02:30,190 --> 00:02:34,350
+q, so that's why it's divided by the
+square root of p squared plus q squared.
+
+47
+00:02:34,350 --> 00:02:36,390
+And that can be just written like this.
+
+48
+00:02:36,390 --> 00:02:40,530
+Okay, so it's just w transposed,
+x plus b,
+
+49
+00:02:40,530 --> 00:02:45,230
+the line equation up there,
+divided by the magnitude of w.
+
+50
+00:02:45,230 --> 00:02:46,690
+Okay, so that's the distance D.

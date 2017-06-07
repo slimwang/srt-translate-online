@@ -1,0 +1,143 @@
+1
+00:00:00,210 --> 00:00:03,143
+Burrell recognizes that this can be a common situation in
+
+2
+00:00:03,143 --> 00:00:05,330
+multithreaded environments.
+
+3
+00:00:05,330 --> 00:00:09,890
+And argues for a new construct, a condition variable.
+
+4
+00:00:09,890 --> 00:00:12,550
+He says that such condition variables should be used in
+
+5
+00:00:12,550 --> 00:00:16,920
+conjunction with Mutexes to control the behavior of concurrent threads.
+
+6
+00:00:16,920 --> 00:00:20,940
+In this modified version of the producer consumer code.
+
+7
+00:00:20,940 --> 00:00:26,480
+The consumer locks the mutex and checks and if the list is not full,
+
+8
+00:00:26,480 --> 00:00:30,740
+it then suspends itself and waits for the list to become full.
+
+9
+00:00:30,740 --> 00:00:36,230
+The producers on the other hand, once they insert an element into the list,
+
+10
+00:00:36,230 --> 00:00:41,280
+they check to see whether that insertion resulted in the list becoming full.
+
+11
+00:00:41,280 --> 00:00:43,390
+And only if that is the case,
+
+12
+00:00:43,390 --> 00:00:48,400
+if the list actually is full will they signal that the list is full.
+
+13
+00:00:48,400 --> 00:00:52,570
+This signal operation is clearly intended for whomever is
+
+14
+00:00:52,570 --> 00:00:58,280
+waiting on this particular list_full notification, in this case, the consumers.
+
+15
+00:00:58,280 --> 00:01:01,600
+Not that while the consumer is waiting,
+
+16
+00:01:01,600 --> 00:01:06,650
+the only way that this predicate that its waiting on can change, so
+
+17
+00:01:06,650 --> 00:01:11,020
+the only way that the list can become full, is if a producer thread
+
+18
+00:01:11,020 --> 00:01:16,650
+actually obtains the mutex and inserts an element onto the list.
+
+19
+00:01:16,650 --> 00:01:20,990
+What that means, is that, the semantics of the wait operation must be
+
+20
+00:01:20,990 --> 00:01:26,100
+such that this mutex that was acquired when we got to this point,
+
+21
+00:01:26,100 --> 00:01:31,950
+has to be automatically released when we go into the wait statement.
+
+22
+00:01:31,950 --> 00:01:36,370
+And then automatically reacquired once we come out of the wait statement.
+
+23
+00:01:36,370 --> 00:01:39,870
+Because we see, after we come out of the wait statement,
+
+24
+00:01:39,870 --> 00:01:45,830
+we actually need to modify the list and this mutex m was protecting our list.
+
+25
+00:01:45,830 --> 00:01:48,760
+So when a consumer sees that it must wait
+
+26
+00:01:48,760 --> 00:01:52,900
+it specifies the condition variable that it must wait on.
+
+27
+00:01:52,900 --> 00:01:55,670
+And the wait operation takes its parameters,
+
+28
+00:01:55,670 --> 00:01:59,010
+both the condition variables as well as this mutex.
+
+29
+00:01:59,010 --> 00:02:03,200
+Internally the implementation of the weight must ensure the proper semantics.
+
+30
+00:02:03,200 --> 00:02:06,510
+It must ensure that the mutex is released.
+
+31
+00:02:06,510 --> 00:02:11,690
+And then, when we're actually removed from the wait operation,
+
+32
+00:02:11,690 --> 00:02:16,400
+when this notification is received, we have to reacquire the mutex.
+
+33
+00:02:16,400 --> 00:02:20,220
+At that point, the consumer, so it has the mutex, it's
+
+34
+00:02:20,220 --> 00:02:25,360
+allowed to modify the list, so to print its contents and remove its contents.
+
+35
+00:02:25,360 --> 00:02:30,620
+And then the consumer will reach this curly bracket, this unlock operation, and
+
+36
+00:02:30,620 --> 00:02:33,150
+at that point the mutex will indeed be released

@@ -1,0 +1,175 @@
+1
+00:00:00,000 --> 00:00:02,000
+For the remainder of this unit,
+
+2
+00:00:02,000 --> 00:00:05,000
+I am going to talk about linear dimensionality reduction.
+
+3
+00:00:05,000 --> 00:00:08,000
+Where the idea is that the given data points like this,
+
+4
+00:00:08,000 --> 00:00:13,000
+and we seek to find a linear subspace in which to perfect the data.
+
+5
+00:00:13,000 --> 00:00:17,000
+In this case, I would submit this is probably the most suitable linear subspace.
+
+6
+00:00:17,000 --> 00:00:23,000
+So we remap the data onto the space over here, with x1 over here and x2 over here.
+
+7
+00:00:23,000 --> 00:00:25,000
+Then we can capture the data in just 1 dimension.
+
+8
+00:00:25,000 --> 00:00:28,000
+The algorithm is amazingly simple.
+
+9
+00:00:28,000 --> 00:00:31,000
+Number 1: Fit a gaussian; we now know how this works.
+
+10
+00:00:31,000 --> 00:00:34,000
+The gaussian will look something like this.
+
+11
+00:00:34,000 --> 00:00:39,000
+Number 2: Caluclate the eigenvalues and eigenvectors of this gaussian.
+
+12
+00:00:39,000 --> 00:00:42,000
+In this gaussian this would be the dominant eigenvector,
+
+13
+00:00:42,000 --> 00:00:45,000
+and this would be the 2nd eigenvector over here.
+
+14
+00:00:45,000 --> 00:00:50,000
+Step 3 is take those eigenvectors whose eigenvalues are the largest.
+
+15
+00:00:50,000 --> 00:00:55,000
+Step 4 is to project the data onto the subspace of eigenvectors you chose.
+
+16
+00:00:55,000 --> 00:00:59,000
+Now to understand this, you have to be familiar with eigenvectors and eigenvalues.
+
+17
+00:00:59,000 --> 00:01:02,000
+I give you an intuitive familiarity with those.
+
+18
+00:01:02,000 --> 00:01:07,000
+This is standard statistics material, and you will find this in many linear algebra classes.
+
+19
+00:01:07,000 --> 00:01:09,000
+So let me just go through this very quickly
+
+20
+00:01:09,000 --> 00:01:14,000
+and give you an intuition how to do linear dimensionality reduction.
+
+21
+00:01:14,000 --> 00:01:16,000
+Suppose you're given the following data points:
+
+22
+00:01:16,000 --> 00:01:20,000
+Your axes are 0, 1, 2, 3, and 4,
+
+23
+00:01:20,000 --> 00:01:28,000
+4 x1, and 1.9, 3.1, 4, 5.1, and 5.9.
+
+24
+00:01:28,000 --> 00:01:33,000
+These are essentially 2, 3, 4, 5, 6,
+
+25
+00:01:33,000 --> 00:01:38,000
+but slightly modified to define actual variance over this dimension.
+
+26
+00:01:38,000 --> 00:01:40,000
+So I draw this in here.
+
+27
+00:01:40,000 --> 00:01:44,000
+What I get is a set of points that doesn't quite fit a line, but almost.
+
+28
+00:01:44,000 --> 00:01:47,000
+There is a little error over here, a little error over here, and here and here.
+
+29
+00:01:47,000 --> 00:01:50,000
+The mean is easily calculated; it's 2 and 4.
+
+30
+00:01:50,000 --> 00:01:53,000
+The covairance matrix looks as follows.
+
+31
+00:01:53,000 --> 00:01:59,000
+Notice the slightly different covairance for the 1st variable, which is exactly 2,
+
+32
+00:01:59,000 --> 00:02:02,000
+to the 2nd variable, which is 2.008.
+
+33
+00:02:02,000 --> 00:02:13,000
+The eigenvectors happen to be 0.7064 and 0.7078 with an eigenvalue of 4.004,
+
+34
+00:02:13,000 --> 00:02:18,000
+and the 2nd one is orthogonal with an eigenvalue much smaller.
+
+35
+00:02:18,000 --> 00:02:22,000
+So obviously this is the eigenvector that dominates the spread of the data points.
+
+36
+00:02:22,000 --> 00:02:27,000
+If you look at this vector over here, it is centered around the mean,
+
+37
+00:02:27,000 --> 00:02:31,000
+which sits over here, and is exactly this vector shown over here.
+
+38
+00:02:31,000 --> 00:02:34,000
+Where this one is the orthogonal vector shown over here.
+
+39
+00:02:34,000 --> 00:02:39,000
+So this single dimension with a large weight explains the data relative to
+
+40
+00:02:39,000 --> 00:02:41,000
+any other dimension, which is a very small eidenvalue.
+
+41
+00:02:41,000 --> 00:02:47,000
+I should mention why these numerical examples might look confusing.
+
+42
+00:02:47,000 --> 00:02:49,000
+This is very standard linear algebra.
+
+43
+00:02:49,000 --> 00:02:53,000
+When you estimate covariance from data and try to understand which direction they point,
+
+44
+00:02:53,000 --> 99:59:59,999
+this kind of eigenvalue anylysis gives you the right answer.

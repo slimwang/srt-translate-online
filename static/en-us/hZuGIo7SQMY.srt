@@ -1,0 +1,167 @@
+1
+00:00:00,480 --> 00:00:04,640
+So, I think, I guess in today's day and age, somebody, a lot of customers I
+
+2
+00:00:04,640 --> 00:00:08,550
+could see wanting some kind of GUI interface to be able to see this index.
+
+3
+00:00:08,550 --> 00:00:09,363
+>> Okay.
+
+4
+00:00:09,363 --> 00:00:13,199
+>> And then also, if we're going to have a GUI, there needs to be a smart,
+
+5
+00:00:13,199 --> 00:00:16,441
+intuitive way to search through what we've just sorted,
+
+6
+00:00:16,441 --> 00:00:18,650
+the keywords that we've just sorted.
+
+7
+00:00:18,650 --> 00:00:23,760
+And, I think finally we want to a way to have that data persist.
+
+8
+00:00:23,760 --> 00:00:27,472
+So if we wanted to add more titles later, remove some titles out,
+
+9
+00:00:27,472 --> 00:00:32,070
+because they're outdated or something then supporting that as well.
+
+10
+00:00:32,070 --> 00:00:35,670
+>> We certainly wouldn't want to have to go through the whole parsing,
+
+11
+00:00:35,670 --> 00:00:39,475
+sorting, cer, shifting process, anytime anybody want to be using this.
+
+12
+00:00:39,475 --> 00:00:40,730
+>> Mm-hm. >> Okay.
+
+13
+00:00:40,730 --> 00:00:43,970
+So, in fact, there's a lot, there, there are all these needs and
+
+14
+00:00:43,970 --> 00:00:44,890
+there's lots more.
+
+15
+00:00:44,890 --> 00:00:52,850
+For example it may be the case that the form of the input changes over time.
+
+16
+00:00:52,850 --> 00:00:57,180
+People might want to have input that if we're talking about titles,
+
+17
+00:00:57,180 --> 00:01:00,310
+comes out of some bibliographic databases in a different format.
+
+18
+00:01:00,310 --> 00:01:04,140
+We might want to use, re-use some of these components in other applications.
+
+19
+00:01:04,140 --> 00:01:08,210
+That's, that's a, a form of, of evolution as well.
+
+20
+00:01:09,340 --> 00:01:15,000
+We might want to for performance reasons, or, or other reasons
+
+21
+00:01:15,000 --> 00:01:20,290
+change the processing algorithm, so that we do the shifting of lines as they're
+
+22
+00:01:20,290 --> 00:01:26,270
+read in or we wait until, doing the shifting until they're all read in.
+
+23
+00:01:26,270 --> 00:01:29,900
+We might want to shift lines on demand we might want to
+
+24
+00:01:29,900 --> 00:01:33,010
+use an incremental rather than a batch sort.
+
+25
+00:01:33,010 --> 00:01:38,000
+That is, have some kind of sorted pre-structure that we add each title to as it
+
+26
+00:01:38,000 --> 00:01:41,530
+comes in rather than when you get them all in and do a sort.
+
+27
+00:01:41,530 --> 00:01:46,200
+You might want to add new functionalities such as we indicated before,
+
+28
+00:01:46,200 --> 00:01:48,259
+in terms of stop words and eliminating those.
+
+29
+00:01:49,320 --> 00:01:51,590
+We might want to support deletions, like, like you mentioned.
+
+30
+00:01:52,720 --> 00:01:57,510
+We might want to use external stores, that is along the lines of
+
+31
+00:01:57,510 --> 00:02:02,270
+persistence we might imagine the database on disc that holds these either in
+
+32
+00:02:02,270 --> 00:02:06,120
+their original format or in some partially processed format.
+
+33
+00:02:06,120 --> 00:02:11,050
+We might want to change the data representation.
+
+34
+00:02:11,050 --> 00:02:13,500
+Imagine that we are moving to
+
+35
+00:02:15,180 --> 00:02:20,884
+a different library to support our our in-memory storage.
+
+36
+00:02:20,884 --> 00:02:25,360
+And we, so we might need a new representation of the lines and, and so on.
+
+37
+00:02:25,360 --> 00:02:26,870
+Variety of changes.
+
+38
+00:02:26,870 --> 00:02:31,490
+And the question then is, of the various approaches to the architectural
+
+39
+00:02:31,490 --> 00:02:36,150
+breakdown of things, which ones are resilient to which changes?
+
+40
+00:02:36,150 --> 00:02:38,510
+If you could anticipate the changes coming in,
+
+41
+00:02:38,510 --> 00:02:44,320
+you could pick an architecture that, if not already able to provide
+
+42
+00:02:44,320 --> 00:02:48,910
+that particular change would be able to easily adapt to that change.

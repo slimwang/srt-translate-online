@@ -1,0 +1,501 @@
+﻿1
+00:00:00,510 --> 00:00:03,629
+As we've talked about before
+users can either be signed in or
+
+2
+00:00:03,629 --> 00:00:05,740
+signed out in friendly chat.
+
+3
+00:00:05,740 --> 00:00:08,929
+Moments a go, we just set up what
+happens when they're signed out.
+
+4
+00:00:08,929 --> 00:00:11,241
+FirebaseUI will display
+a sign in flow for them.
+
+5
+00:00:11,242 --> 00:00:14,583
+Now when they're signed in,
+we need to do a few things.
+
+6
+00:00:14,583 --> 00:00:16,623
+We need to set up
+a display message list,
+
+7
+00:00:16,623 --> 00:00:19,563
+and we also need to make it possible so
+that when they type in
+
+8
+00:00:19,562 --> 00:00:24,149
+a nice friendly message, their user
+name will appear right next to it.
+
+9
+00:00:24,149 --> 00:00:26,759
+In this way it'll actually
+be clear who's talking.
+
+10
+00:00:26,760 --> 00:00:29,210
+When signed out,
+we need to do the opposite, and
+
+11
+00:00:29,210 --> 00:00:31,080
+tear down the message screen.
+
+12
+00:00:31,079 --> 00:00:33,000
+Once the message screen
+has been torn down,
+
+13
+00:00:33,000 --> 00:00:36,600
+we'll send them back to the sign in
+screen, like we're already doing.
+
+14
+00:00:36,600 --> 00:00:39,490
+Let's add a little bit more
+code to our Auth State listener
+
+15
+00:00:39,490 --> 00:00:41,010
+to deal with these UI changes.
+
+16
+00:00:42,630 --> 00:00:46,090
+Okay, so here's my handy
+dandy AuthStateListener and
+
+17
+00:00:46,090 --> 00:00:48,020
+I'm actually going to
+add two helper methods.
+
+18
+00:00:49,100 --> 00:00:52,245
+The first one will be in
+place of the toast and
+
+19
+00:00:52,244 --> 00:00:55,655
+it's going to be called
+onSignedInInitialize.
+
+20
+00:00:55,655 --> 00:01:00,739
+And the second, I'll call here, and
+I'm going to call it onSignedOutCleanup.
+
+21
+00:01:05,590 --> 00:01:10,570
+Now, for onSignedInInitialize,
+I'm going to pass in the user name, and
+
+22
+00:01:10,569 --> 00:01:14,509
+I can get the user name by taking
+the Firebase user object that I have and
+
+23
+00:01:14,510 --> 00:01:15,859
+calling getDisplayName.
+
+24
+00:01:16,859 --> 00:01:19,810
+I'm going to now scroll down
+to the bottom of our class and
+
+25
+00:01:19,810 --> 00:01:21,310
+actually create those two methods.
+
+26
+00:01:22,959 --> 00:01:26,689
+On signed in initialize, I'm going to
+go ahead and set the user name, and
+
+27
+00:01:26,689 --> 00:01:30,909
+I can do that by taking my
+user name member variable and
+
+28
+00:01:30,909 --> 00:01:32,659
+sending it to user name
+that I just passed in.
+
+29
+00:01:33,810 --> 00:01:36,490
+Now what does setting this
+user name variable do?
+
+30
+00:01:36,489 --> 00:01:42,099
+Well if I scroll up to here to where
+I am performing the database rights.
+
+31
+00:01:42,099 --> 00:01:44,640
+You'll see that when I make
+the friendly message object for
+
+32
+00:01:44,640 --> 00:01:49,500
+my new message that I am
+including a username, mUsername.
+
+33
+00:01:49,500 --> 00:01:53,900
+So once mUsername is set, any message
+that is sent will have that username.
+
+34
+00:01:53,900 --> 00:01:55,290
+Okay, let's scroll back
+down to the bottom.
+
+35
+00:01:56,370 --> 00:01:58,079
+Now, beyond setting the username here.
+
+36
+00:01:58,079 --> 00:02:00,649
+This is a great place to
+attach a read listener.
+
+37
+00:02:00,650 --> 00:02:04,200
+You might have noticed that
+reading isn't quite working, and
+
+38
+00:02:04,200 --> 00:02:06,670
+that's due to where I
+attached the read listener.
+
+39
+00:02:06,670 --> 00:02:09,490
+So let's scroll up and
+see where that is now.
+
+40
+00:02:09,490 --> 00:02:13,280
+Here we go, here in onCreate is where
+I'm attaching that read listener.
+
+41
+00:02:13,280 --> 00:02:16,250
+The problem is,
+the user isn't logged in yet here.
+
+42
+00:02:16,250 --> 00:02:18,449
+Because this is an onCreate.
+
+43
+00:02:18,449 --> 00:02:21,769
+Before the AuthStateListener
+is even made or attached,
+
+44
+00:02:21,770 --> 00:02:25,219
+our database rules say that you have
+to be authenticated to be able to read.
+
+45
+00:02:25,219 --> 00:02:28,099
+So what's happening is it doesn't
+have the permission to successfully
+
+46
+00:02:28,099 --> 00:02:29,659
+pull the messages from the database.
+
+47
+00:02:30,680 --> 00:02:34,824
+So it'll actually only be effectual to
+attach this read listener when the user
+
+48
+00:02:34,824 --> 00:02:36,097
+is actually signed in.
+
+49
+00:02:36,097 --> 00:02:40,417
+So I'm going to go ahead and copy all
+of this code that creates and attaches
+
+50
+00:02:40,417 --> 00:02:45,460
+the read listener, cut it, scroll down
+to the bottom and move it down here.
+
+51
+00:02:45,460 --> 00:02:47,010
+Now, you're only setting
+the username and
+
+52
+00:02:47,009 --> 00:02:49,179
+pulling the messages list when
+the user's actually logged in.
+
+53
+00:02:50,469 --> 00:02:53,400
+Now onSignedOutCleanup is going to
+actually do the opposite to
+
+54
+00:02:53,400 --> 00:02:55,050
+tear down the UI.
+
+55
+00:02:55,050 --> 00:02:58,200
+It's going to unset the user name,
+clear the messages list, and
+
+56
+00:02:58,199 --> 00:02:59,069
+detach the listener.
+
+57
+00:03:00,150 --> 00:03:02,260
+I'm actually going to
+go one step further and
+
+58
+00:03:02,259 --> 00:03:07,159
+take this attaching read listener
+code and put it in a separate method.
+
+59
+00:03:07,159 --> 00:03:10,259
+So here I've created a method,
+attachDatabaseReadListener.
+
+60
+00:03:10,259 --> 00:03:12,789
+And I'll go ahead and call that instead.
+
+61
+00:03:12,789 --> 00:03:15,530
+This allows me to have a single
+place to attach listeners,
+
+62
+00:03:15,530 --> 00:03:18,129
+which can help keep
+things more organized.
+
+63
+00:03:18,129 --> 00:03:21,909
+Now, onSignedOutCleanup will do
+the opposite teardown to the UI.
+
+64
+00:03:21,909 --> 00:03:25,277
+So, instead of setting the username,
+it will unset the username,
+
+65
+00:03:25,277 --> 00:03:28,423
+then clear the messages, and
+finally, detach the listener.
+
+66
+00:03:28,423 --> 00:03:32,427
+So the first of those three things
+is to take the Username, and
+
+67
+00:03:32,427 --> 00:03:36,319
+to un-set it by changing
+it back to ANONYMOUS.
+
+68
+00:03:36,319 --> 00:03:40,159
+Next I can take my Adapter and
+clear the messages from it.
+
+69
+00:03:40,159 --> 00:03:43,659
+And we're doing this because
+a user who is no longer signed in
+
+70
+00:03:43,659 --> 00:03:45,569
+shouldn't be able to see those messages.
+
+71
+00:03:45,569 --> 00:03:48,699
+Also, if you didn't clear the messages,
+you get a bug where you'd find
+
+72
+00:03:48,699 --> 00:03:52,229
+duplicate messages when you're logging
+in and logging out multiple times.
+
+73
+00:03:53,569 --> 00:03:56,269
+Similarly, I'm going to want to
+detach the read listeners here.
+
+74
+00:03:57,319 --> 00:04:01,109
+And just like I created
+a attachDatabaseReadListener method,
+
+75
+00:04:01,110 --> 00:04:03,529
+I'm going to create
+a detachDatabaseReadListener method.
+
+76
+00:04:04,909 --> 00:04:06,439
+And I will define that method down here.
+
+77
+00:04:07,729 --> 00:04:12,322
+And to remove the listener,
+I'm going to call removeEventListener,
+
+78
+00:04:12,322 --> 00:04:16,379
+passing in mChildEventListener.
+
+79
+00:04:16,379 --> 00:04:19,879
+Now you can make this code more robust
+by enforcing that you only ever attach
+
+80
+00:04:19,879 --> 00:04:22,259
+or detach a listener at one time.
+
+81
+00:04:22,259 --> 00:04:23,909
+So in detatchDatabaseListener,
+
+82
+00:04:23,910 --> 00:04:29,560
+I'll write an if statement, making sure
+that childEventListener is not null.
+
+83
+00:04:29,560 --> 00:04:32,673
+And then after it's detached,
+I will set childEventListener to null.
+
+84
+00:04:32,673 --> 00:04:34,523
+[BLANK_AUDIO]
+
+85
+00:04:34,523 --> 00:04:36,960
+I'll do a similar thing
+with the attach method.
+
+86
+00:04:38,175 --> 00:04:41,990
+I'll add a check up here to see
+if child event listener is null.
+
+87
+00:04:41,990 --> 00:04:43,360
+And only if it is null,
+
+88
+00:04:43,360 --> 00:04:47,960
+meaning that is has been detached,
+will I create and attach the listener.
+
+89
+00:04:49,279 --> 00:04:50,979
+Okay, and now one final step.
+
+90
+00:04:52,060 --> 00:04:57,949
+The ReadListener is attached up here
+in the onSignedInitialize method.
+
+91
+00:04:57,949 --> 00:05:03,360
+OnSignedInitialized is called when
+authentication state changed is called.
+
+92
+00:05:03,360 --> 00:05:07,718
+AuthStateChanged is called when it is
+added to our FirebaseAuth object which
+
+93
+00:05:07,718 --> 00:05:10,465
+is a long way of saying,
+if you resume the code and
+
+94
+00:05:10,464 --> 00:05:13,899
+the user's logged in a database
+listener will be attached.
+
+95
+00:05:13,899 --> 00:05:17,699
+So we should also make sure
+to detach it on pause.
+
+96
+00:05:17,699 --> 00:05:18,860
+Okay, one more thing.
+
+97
+00:05:19,910 --> 00:05:23,600
+Because we attach
+the AuthStateListener in on resume,
+
+98
+00:05:23,600 --> 00:05:27,310
+which if the users logged in,
+will then trigger on site and
+
+99
+00:05:27,310 --> 00:05:30,709
+initialize which will
+then add a read listener.
+
+100
+00:05:30,709 --> 00:05:33,839
+We should also be sure to
+detach the read listener here.
+
+101
+00:05:33,839 --> 00:05:36,009
+As well as clear the adapter.
+
+102
+00:05:36,009 --> 00:05:39,896
+These two lines of code also make sure
+that when the activity is destroyed in
+
+103
+00:05:39,896 --> 00:05:43,966
+a way that has noting to do with signing
+out such as a that the listener is
+
+104
+00:05:43,966 --> 00:05:46,139
+effectively cleaned up.
+
+105
+00:05:46,139 --> 00:05:46,870
+Okay, you're done.
+

@@ -1,0 +1,161 @@
+﻿1
+00:00:00,700 --> 00:00:03,560
+I'm going to hook up the delete
+function in main activity, so
+
+2
+00:00:03,560 --> 00:00:04,944
+that we can swipe to delete.
+
+3
+00:00:04,944 --> 00:00:07,593
+Okay, so I'm going to scroll
+down in my on create, and
+
+4
+00:00:07,593 --> 00:00:11,269
+here you're going to see some code
+that's similar to the wait list app code
+
+5
+00:00:11,269 --> 00:00:13,769
+that you made for the SQL Lite lesson.
+
+6
+00:00:13,769 --> 00:00:18,350
+Basically, we have a item touch
+hopper which we create and
+
+7
+00:00:18,350 --> 00:00:21,780
+then attached down here
+to the RecyclerView.
+
+8
+00:00:21,780 --> 00:00:24,679
+Now, the important function here is
+on-swipe which you can probably see
+
+9
+00:00:24,679 --> 00:00:25,504
+from this to this.
+
+10
+00:00:25,504 --> 00:00:29,619
+On-swipe is called whenever a user
+swipes left to right of the screen.
+
+11
+00:00:29,620 --> 00:00:31,750
+In here I'm going to start
+by getting the ID for
+
+12
+00:00:31,750 --> 00:00:34,409
+the item that's being
+swiped in our RecyclerView.
+
+13
+00:00:34,409 --> 00:00:38,850
+The value of this tag was set in the
+adapter class to be the ID of the view,
+
+14
+00:00:38,850 --> 00:00:40,417
+which is why this works.
+
+15
+00:00:40,417 --> 00:00:43,689
+Then we're going to construct the uri
+that points to the specific task.
+
+16
+00:00:43,689 --> 00:00:47,471
+And I'll do that by turning
+the ID into a string and
+
+17
+00:00:47,470 --> 00:00:51,353
+then appending it to
+the content URI of task entry.
+
+18
+00:00:51,353 --> 00:00:55,826
+Okay, so now we have this uri that
+is pointing to the specific item so
+
+19
+00:00:55,826 --> 00:00:57,089
+let's delete it.
+
+20
+00:00:57,090 --> 00:01:01,220
+We will delete it by colleague or
+ContentResolver and
+
+21
+00:01:01,219 --> 00:01:04,060
+telling it to delete
+the item using that uri.
+
+22
+00:01:04,060 --> 00:01:07,409
+Remember that these two selection
+arguments here will be null.
+
+23
+00:01:07,409 --> 00:01:10,799
+This is because we construct them later
+on in the content provider code and
+
+24
+00:01:10,799 --> 00:01:13,560
+we do it based off of the URI path.
+
+25
+00:01:13,560 --> 00:01:16,549
+Now because we've deleted the task,
+the task director is changed.
+
+26
+00:01:16,549 --> 00:01:18,730
+So we're going to need
+to reload all that data.
+
+27
+00:01:18,730 --> 00:01:21,660
+So I'm going to call
+getSupportLoaderManager and
+
+28
+00:01:21,659 --> 00:01:23,429
+I'm going to restart the loader.
+
+29
+00:01:23,430 --> 00:01:25,910
+This will handle the query at the
+background turn, which is what we want.
+
+30
+00:01:25,909 --> 00:01:28,819
+And then after you've completed this
+UI code, you could go ahead and
+
+31
+00:01:28,819 --> 00:01:29,339
+run the app.
+
+32
+00:01:30,459 --> 00:01:35,775
+Okay, moment of truth, let's see if
+I could swipe something off the list.
+
+33
+00:01:35,775 --> 00:01:37,289
+Cool, and it updated.
+
+34
+00:01:37,290 --> 00:01:39,550
+Now, I can swipe left or
+right to delete any task.
+

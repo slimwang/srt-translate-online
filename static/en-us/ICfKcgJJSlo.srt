@@ -1,0 +1,222 @@
+1
+00:00:00,200 --> 00:00:05,030
+Similarly to the generic description of
+RPC, like some other PC, the client and
+
+2
+00:00:05,030 --> 00:00:09,180
+the server are allowed to interact
+via a procedure called interface.
+
+3
+00:00:09,180 --> 00:00:15,038
+The server specifies the interface that
+it supports in a .x file written in XDR.
+
+4
+00:00:15,038 --> 00:00:20,240
+Also Sun RPC includes a compiler
+called rpcgen that will compile
+
+5
+00:00:20,240 --> 00:00:25,450
+the interface specified in the .x
+file to language specific stub.
+
+6
+00:00:25,450 --> 00:00:28,700
+It will generate separate stubs for
+the client side and for
+
+7
+00:00:28,700 --> 00:00:30,630
+the server side stuff.
+
+8
+00:00:30,630 --> 00:00:34,380
+The server process when launched
+will register itself with their
+
+9
+00:00:34,380 --> 00:00:37,680
+registry daemon that's
+available on the local machine.
+
+10
+00:00:37,680 --> 00:00:41,590
+The per machine registry will keep track
+of information that includes the name of
+
+11
+00:00:41,590 --> 00:00:45,360
+the service, the version, many of
+the protocols that are supported with
+
+12
+00:00:45,360 --> 00:00:49,160
+the service, and also the port
+number that needs to be contacted
+
+13
+00:00:49,160 --> 00:00:53,580
+when the client side RPC sends
+a request through the server.
+
+14
+00:00:53,580 --> 00:00:56,360
+The client must explicitly
+contact the registry
+
+15
+00:00:56,360 --> 00:01:00,390
+on the target machine in order to obtain
+information about the server process.
+
+16
+00:01:01,400 --> 00:01:05,840
+When the binding happens,
+the client creates an RPC handle, and
+
+17
+00:01:05,840 --> 00:01:10,710
+this handle is used whenever
+the client makes any RPC calls.
+
+18
+00:01:10,710 --> 00:01:11,350
+And in this way,
+
+19
+00:01:11,350 --> 00:01:17,138
+the runtime is able to track all of
+the per-client RPC-related state.
+
+20
+00:01:17,138 --> 00:01:20,500
+I should note that with Sun RPC,
+or any other RPC, for
+
+21
+00:01:20,500 --> 00:01:24,510
+that matter, the client and the server
+process that are communicating
+
+22
+00:01:24,510 --> 00:01:27,290
+amongst each other may be
+on different machines.
+
+23
+00:01:27,290 --> 00:01:29,140
+Or they may be on the same machine,
+
+24
+00:01:29,140 --> 00:01:32,400
+just two processes running
+on the same physical node.
+
+25
+00:01:32,400 --> 00:01:36,800
+So, the RPC in that case works
+like other forms of IPC,
+
+26
+00:01:36,800 --> 00:01:39,560
+except it has a much
+higher level semantics.
+
+27
+00:01:39,560 --> 00:01:41,700
+It has procedure called semantics,
+
+28
+00:01:41,700 --> 00:01:46,120
+which is more complex than the IPC
+mechanisms that we saw before.
+
+29
+00:01:46,120 --> 00:01:48,670
+Before we look at the key
+components of Sun RPC,
+
+30
+00:01:48,670 --> 00:01:52,140
+if you would like to view
+a more complete reference.
+
+31
+00:01:52,140 --> 00:01:54,630
+Then, take a look at these
+Sun RPC tutorial and
+
+32
+00:01:54,630 --> 00:01:57,500
+examples that are now
+maintained by Oracle.
+
+33
+00:01:57,500 --> 00:01:59,760
+Oracle purchased Sun in 2010.
+
+34
+00:01:59,760 --> 00:02:03,030
+The link to this is provided
+in the instructor notes.
+
+35
+00:02:03,030 --> 00:02:08,280
+At that link, you will find references
+to TI-RPC as opposed to Sun RPC.
+
+36
+00:02:08,280 --> 00:02:11,540
+TI stands for transfer independent RPC.
+
+37
+00:02:11,540 --> 00:02:14,660
+And that means that the protocol
+that will be used for the client and
+
+38
+00:02:14,660 --> 00:02:18,350
+server communication doesn't have
+to be specified at compile time.
+
+39
+00:02:18,350 --> 00:02:21,210
+It can be specified
+dynamically at run time.
+
+40
+00:02:21,210 --> 00:02:24,520
+Other than that and a few smaller
+issues the documentation and
+
+41
+00:02:24,520 --> 00:02:27,920
+the examples closely follow
+the original Sun RPC
+
+42
+00:02:27,920 --> 00:02:32,270
+specification as well as the XDR
+interface definition language.
+
+43
+00:02:32,270 --> 00:02:36,550
+Also, a number of older online
+references are still valid reference
+
+44
+00:02:36,550 --> 00:02:37,450
+points.
+
+45
+00:02:37,450 --> 00:02:42,700
+And you can, finally, look at the Linux
+man pages by looking for man rpc.
+
+46
+00:02:42,700 --> 00:02:45,210
+This will give you all of
+the Linux supported APIs.

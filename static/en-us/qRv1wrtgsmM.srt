@@ -1,0 +1,879 @@
+1
+00:00:00,510 --> 00:00:03,930
+So, now moving on from programming,
+I wanted to go next to more like
+
+2
+00:00:03,930 --> 00:00:08,330
+a practical application of data science,
+maybe something like machine learning.
+
+3
+00:00:08,330 --> 00:00:11,110
+>> Okay.
+>> So, it's really more of a thought,
+
+4
+00:00:11,110 --> 00:00:13,668
+it's a thought process that I
+want to go with you right now.
+
+5
+00:00:13,668 --> 00:00:18,871
+And yeah, so,
+this is when we work for Google, and
+
+6
+00:00:18,871 --> 00:00:26,028
+we are trying to build this spam
+classification algorithm for Gmail.
+
+7
+00:00:26,028 --> 00:00:27,113
+>> Okay.
+
+8
+00:00:27,113 --> 00:00:28,413
+>> Okay.
+
+9
+00:00:28,413 --> 00:00:31,520
+So, the first question, I guess,
+
+10
+00:00:31,520 --> 00:00:36,919
+is what features would you think,
+would you put it into this?
+
+11
+00:00:36,919 --> 00:00:37,919
+It's algorithm, right?
+
+12
+00:00:37,919 --> 00:00:40,655
+So, a user receives an e-mail, and now,
+
+13
+00:00:40,655 --> 00:00:43,475
+we decide whether this email is spam or
+not.
+
+14
+00:00:43,475 --> 00:00:45,378
+>> Mm-hm.
+
+15
+00:00:45,378 --> 00:00:48,117
+>> I want to see, if you could like,
+come up with some numerical
+
+16
+00:00:48,117 --> 00:00:51,478
+features that we could eventually
+feed to a machine learning algorithm.
+
+17
+00:00:51,478 --> 00:00:56,825
+>> Okay, so
+an email comes with some things and
+
+18
+00:00:56,825 --> 00:01:01,024
+we'll figure out what we can use.
+
+19
+00:01:01,024 --> 00:01:05,022
+So, inside an email,
+
+20
+00:01:05,022 --> 00:01:10,289
+we've got a sender address.
+
+21
+00:01:13,780 --> 00:01:17,598
+I guess we've probably got some kind of,
+I'm not very good on how email works.
+
+22
+00:01:17,598 --> 00:01:19,529
+>> Okay.
+>> But there's a metainformation,
+
+23
+00:01:19,529 --> 00:01:20,428
+like maybe some.
+
+24
+00:01:20,428 --> 00:01:23,308
+>> Yeah, like IP addresses or
+something like that, it might be there.
+
+25
+00:01:27,908 --> 00:01:29,948
+We've got the subject.
+
+26
+00:01:35,828 --> 00:01:39,610
+I guess we've got time and date.
+
+27
+00:01:39,610 --> 00:01:40,630
+>> Yes.
+
+28
+00:01:40,630 --> 00:01:44,527
+>> We've, obviously,
+we've got the body of the email.
+
+29
+00:01:44,527 --> 00:01:46,576
+We've got attachments.
+
+30
+00:01:50,676 --> 00:01:52,910
+I'm trying to think what
+else we might have.
+
+31
+00:01:52,910 --> 00:01:56,050
+I guess, what's the name?
+
+32
+00:01:56,050 --> 00:01:56,810
+Recipients.
+
+33
+00:01:56,810 --> 00:02:00,770
+So, it could just go to this one person,
+but it could go to others as well.
+
+34
+00:02:02,620 --> 00:02:06,980
+I guess it's kind of in the subject
+line, but whether it's a reply or
+
+35
+00:02:06,980 --> 00:02:09,288
+a forward, or something like that.
+
+36
+00:02:09,288 --> 00:02:10,518
+>> Okay.
+
+37
+00:02:10,518 --> 00:02:16,638
+>> That's about all I can think
+of right now, I think, so.
+
+38
+00:02:16,638 --> 00:02:18,980
+>> Yeah, I think that's
+a great list to start with.
+
+39
+00:02:18,980 --> 00:02:19,710
+>> Yeah.
+>> So,
+
+40
+00:02:19,710 --> 00:02:23,430
+how can we start deriving some
+nice features from this list?
+
+41
+00:02:24,660 --> 00:02:30,998
+>> So, I think a common thing you'll
+see with spam is subject matter.
+
+42
+00:02:30,998 --> 00:02:36,936
+It's probably adverts for things that
+you don't want or some kind of scam.
+
+43
+00:02:36,936 --> 00:02:39,698
+So, there's words in it that
+you might not talk about a lot.
+
+44
+00:02:39,698 --> 00:02:46,331
+So in here and in here, like you've
+got text, you've got text and
+
+45
+00:02:46,331 --> 00:02:50,430
+you can break that down into words and-
+>> Okay.
+
+46
+00:02:50,430 --> 00:02:51,850
+>> look at what words are in there.
+
+47
+00:02:51,850 --> 00:02:56,770
+So, maybe there are some words
+there people never, in general,
+
+48
+00:02:56,770 --> 00:02:57,880
+never talk about.
+
+49
+00:02:57,880 --> 00:03:00,890
+I guess, at the first thought,
+I wouldn't do this but
+
+50
+00:03:00,890 --> 00:03:05,036
+maybe later on, like might look at
+what that particular user talks about.
+
+51
+00:03:05,036 --> 00:03:05,590
+>> Okay.
+
+52
+00:03:05,590 --> 00:03:10,560
+>> So, but
+they're also kind of in general things.
+
+53
+00:03:10,560 --> 00:03:12,706
+>> Okay.
+Yeah, let's try to make something,
+
+54
+00:03:12,706 --> 00:03:16,398
+some similar features that I think might
+be, because going without the text
+
+55
+00:03:16,398 --> 00:03:18,981
+is a little more complicated for
+right now but, or
+
+56
+00:03:18,981 --> 00:03:23,226
+something like actually straight off the
+bat, like very simple features that you
+
+57
+00:03:23,226 --> 00:03:26,273
+could even ask right out of
+the sender side, for example.
+
+58
+00:03:26,273 --> 00:03:27,890
+Let's look at the first one.
+
+59
+00:03:27,890 --> 00:03:33,080
+>> Okay, so, sender address, they could
+be in the person's address book or
+
+60
+00:03:33,080 --> 00:03:36,010
+have received an email
+from that person before.
+
+61
+00:03:36,010 --> 00:03:41,825
+So, known or unknown to the,
+I guess, to the Gmail account.
+
+62
+00:03:41,825 --> 00:03:43,450
+>> Okay.
+
+63
+00:03:43,450 --> 00:03:46,400
+>> Also,
+there might be a known spammers list.
+
+64
+00:03:47,700 --> 00:03:51,860
+So, they could have been
+marked in Gmail as spam,
+
+65
+00:03:51,860 --> 00:03:54,270
+in the past by another user or
+by this user.
+
+66
+00:03:54,270 --> 00:03:54,890
+>> Okay.
+
+67
+00:03:54,890 --> 00:03:58,640
+>> And the same could kind of go for
+this, as well, I guess.
+
+68
+00:03:58,640 --> 00:03:59,720
+>> IP addresses, okay.
+
+69
+00:03:59,720 --> 00:04:02,666
+So, let's go to known and
+unknown addresses.
+
+70
+00:04:02,666 --> 00:04:04,186
+So, I think that's a great feature,
+right.
+
+71
+00:04:04,186 --> 00:04:06,562
+So, if it's someone that
+you have sent an email to,
+
+72
+00:04:06,562 --> 00:04:08,508
+it's more likely to not be a spam,
+right?
+
+73
+00:04:08,508 --> 00:04:10,048
+What about unknown, right?
+
+74
+00:04:10,048 --> 00:04:12,948
+So, there's a lot of unknown email
+addresses that are not spam.
+
+75
+00:04:12,948 --> 00:04:13,850
+>> Okay.
+
+76
+00:04:13,850 --> 00:04:16,420
+>> So, do you think there might be other
+
+77
+00:04:16,420 --> 00:04:19,880
+things about the email address
+that might help us see unknown?
+
+78
+00:04:21,170 --> 00:04:27,250
+I guess there might well be
+a whitelist of known email providers,
+
+79
+00:04:27,250 --> 00:04:30,420
+so if it was from a Gmail address,
+you might trust it more, or
+
+80
+00:04:30,420 --> 00:04:33,840
+if it was from a known company,
+you might trust it more.
+
+81
+00:04:33,840 --> 00:04:36,700
+And whether the address,
+I don't know how to explain it,
+
+82
+00:04:36,700 --> 00:04:40,260
+but whether the address
+actually matches, the address
+
+83
+00:04:40,260 --> 00:04:43,910
+shown is matching the address
+underneath, do you know what I mean?
+
+84
+00:04:43,910 --> 00:04:44,880
+>> I know exactly what you mean.
+
+85
+00:04:44,880 --> 00:04:46,460
+>> Like spoofing, I guess it's called.
+
+86
+00:04:46,460 --> 00:04:48,230
+>> That's a great,
+that's a great feature too, yeah.
+
+87
+00:04:48,230 --> 00:04:55,880
+>> So, we've got, within the unknowns,
+we've got spoofed or not.
+
+88
+00:04:55,880 --> 00:04:57,410
+That's a big red flag.
+
+89
+00:04:57,410 --> 00:05:05,930
+We've got maybe known email provider.
+
+90
+00:05:09,900 --> 00:05:15,140
+I would be tempted to say something
+like whether the words in there
+
+91
+00:05:15,140 --> 00:05:18,035
+make any sense as dictionary words,
+but I think that's kind of a bit far,
+
+92
+00:05:18,035 --> 00:05:21,950
+because people's names and people's
+online identities can be kind of
+
+93
+00:05:21,950 --> 00:05:25,304
+different from the normal
+dictionary words.
+
+94
+00:05:25,304 --> 00:05:26,538
+>> Yeah, and then, so yeah,
+
+95
+00:05:26,538 --> 00:05:29,820
+I think that's a great set of features
+from the sender's address list.
+
+96
+00:05:29,820 --> 00:05:33,040
+Let's look at the IP address.
+
+97
+00:05:33,040 --> 00:05:38,163
+>> Okay, so,
+I guess I don't know too much
+
+98
+00:05:38,163 --> 00:05:43,136
+about how that all works but I, is there
+
+99
+00:05:43,136 --> 00:05:47,923
+a sense, is there a way of like-
+>> Let's
+
+100
+00:05:47,923 --> 00:05:51,884
+say we can map the IP
+address to a country.
+
+101
+00:05:51,884 --> 00:05:53,464
+>> Okay, let me.
+
+102
+00:05:53,464 --> 00:05:57,844
+So, country.
+
+103
+00:05:57,844 --> 00:06:01,733
+So, I guess, whether it's the same
+country as the person is in, or
+
+104
+00:06:01,733 --> 00:06:05,557
+the same country as other people
+who send this person emails like,
+
+105
+00:06:05,557 --> 00:06:07,766
+I'm not from the country I live in so.
+
+106
+00:06:07,766 --> 00:06:08,895
+>> Yeah.
+
+107
+00:06:08,895 --> 00:06:15,096
+No country for
+
+108
+00:06:15,096 --> 00:06:20,790
+recipient.
+
+109
+00:06:20,790 --> 00:06:25,590
+I guess that maybe also
+fitting the language,
+
+110
+00:06:25,590 --> 00:06:27,670
+because whilst I haven't
+written it down,
+
+111
+00:06:27,670 --> 00:06:31,990
+I imagine that's pretty easy to extract
+from the subject line in the body.
+
+112
+00:06:33,290 --> 00:06:36,460
+Not too hard, so whether the country and
+the language match or
+
+113
+00:06:36,460 --> 00:06:39,400
+not might be relevant.
+
+114
+00:06:39,400 --> 00:06:43,005
+I guess they're are kind of
+when spammers send emails,
+
+115
+00:06:43,005 --> 00:06:46,238
+they route them around all
+kinds of funny places.
+
+116
+00:06:46,238 --> 00:06:49,274
+But I don't know how would you,
+how would you do,
+
+117
+00:06:49,274 --> 00:06:52,833
+how would you do that without
+just putting a bias, right?
+
+118
+00:06:52,833 --> 00:06:55,762
+because if you said there are lots
+of spammers in x country,
+
+119
+00:06:55,762 --> 00:06:59,505
+there are also lots of people in
+that country who send valid emails.
+
+120
+00:06:59,505 --> 00:07:02,476
+>> Yeah, so to a certain degree right,
+that's where the machine learning
+
+121
+00:07:02,476 --> 00:07:04,782
+algorithm eventually may be
+able to come with, right?
+
+122
+00:07:04,782 --> 00:07:05,287
+So they,
+
+123
+00:07:05,287 --> 00:07:09,531
+there's a higher likelihood that someone
+from a certain country is a spammer,
+
+124
+00:07:09,531 --> 00:07:13,604
+relative to other countries, not because
+the person is from that country.
+
+125
+00:07:13,604 --> 00:07:15,300
+It only means there's
+going to be a spam.
+
+126
+00:07:15,300 --> 00:07:19,415
+>> Okay, so
+prevalence of spam in that country.
+
+127
+00:07:19,415 --> 00:07:21,415
+>> Mm-hm.
+
+128
+00:07:21,415 --> 00:07:25,595
+Yeah, so you'd have like a conditional
+probability of whether somebody from
+
+129
+00:07:25,595 --> 00:07:28,187
+that country is-
+>> Yeah, that sounds perfect.
+
+130
+00:07:28,187 --> 00:07:32,945
+>> I guess,
+knowing a little bit about Google,
+
+131
+00:07:32,945 --> 00:07:35,085
+I know that they really try and
+avoid bias.
+
+132
+00:07:35,085 --> 00:07:38,959
+So, they would not want to be biased,
+[LAUGH] but
+
+133
+00:07:38,959 --> 00:07:41,565
+they obviously need to make
+spam filters that work.
+
+134
+00:07:43,910 --> 00:07:44,890
+Okay.
+
+135
+00:07:44,890 --> 00:07:48,270
+>> Yeah, so actually I think this is
+a great list of features we can start
+
+136
+00:07:48,270 --> 00:07:50,088
+fitting into an algorithm, right?
+
+137
+00:07:50,088 --> 00:07:52,288
+So, let's look at our algorithms, right.
+
+138
+00:07:52,288 --> 00:07:56,880
+So what, what we feed it to?
+
+139
+00:07:56,880 --> 00:08:00,023
+Let's say we have, let's say
+you're Goggle, right, you have,
+
+140
+00:08:00,023 --> 00:08:01,016
+you have millions and
+
+141
+00:08:01,016 --> 00:08:04,626
+millions of users you need to be able to
+train an algorithm with all that data.
+
+142
+00:08:04,626 --> 00:08:06,980
+>> Okay.
+
+143
+00:08:06,980 --> 00:08:09,445
+>> And this is a more philosophical
+question more than anything,
+
+144
+00:08:09,445 --> 00:08:10,680
+because there's no right answer.
+
+145
+00:08:12,730 --> 00:08:15,160
+Yeah, so what are your thoughts?
+
+146
+00:08:15,160 --> 00:08:20,407
+>> Well, so
+this is a binary classification problem.
+
+147
+00:08:20,407 --> 00:08:26,100
+So, I think that one thing that can
+work well with large data sets for
+
+148
+00:08:26,100 --> 00:08:29,990
+this kind of problem and
+even with text is Naive Bayes.
+
+149
+00:08:29,990 --> 00:08:34,200
+So, the problem with
+Naive Bayes would be
+
+150
+00:08:34,200 --> 00:08:37,340
+that it treats everything as separate.
+
+151
+00:08:37,340 --> 00:08:39,940
+So, especially around these things.
+
+152
+00:08:39,940 --> 00:08:45,040
+You've got some kind of interactions
+between, I remembered the word, [LAUGH],
+
+153
+00:08:45,040 --> 00:08:49,660
+interactions between the features
+that you would lose at Naive Bayes.
+
+154
+00:08:49,660 --> 00:08:52,700
+But you can get good performance.
+
+155
+00:08:52,700 --> 00:08:58,398
+I guess there are other ways too,
+
+156
+00:08:58,398 --> 00:09:02,678
+so what else could I use?
+
+157
+00:09:02,678 --> 00:09:06,698
+So, I guess support vector machines-
+>> Support vector machines
+
+158
+00:09:06,698 --> 00:09:09,545
+>> Can split things into categories
+
+159
+00:09:09,545 --> 00:09:12,498
+which might work too, actually.
+
+160
+00:09:12,498 --> 00:09:18,213
+>> So, what are maybe some pros and
+some cons, I guess,
+
+161
+00:09:18,213 --> 00:09:24,066
+of using a support vector machine for
+a case like this?
+
+162
+00:09:24,066 --> 00:09:28,931
+>> I suppose, I'm not super comfortable,
+
+163
+00:09:28,931 --> 00:09:35,650
+in real life, I would be going away and
+looking it up.
+
+164
+00:09:35,650 --> 00:09:40,439
+I think,
+my understanding is that they can be
+
+165
+00:09:40,439 --> 00:09:44,471
+a bit slower at least to train things,
+
+166
+00:09:44,471 --> 00:09:49,050
+at least to train on large data sets.
+
+167
+00:09:49,050 --> 00:09:51,930
+I'm not quite sure,
+are they are they okay with
+
+168
+00:09:53,910 --> 00:09:57,130
+testing new data or
+are they going to be slow there?
+
+169
+00:09:57,130 --> 00:10:01,147
+>> They take a lot of memory,
+so that one is pretty fast, but
+
+170
+00:10:01,147 --> 00:10:05,380
+it's slow in the training,
+very slow at training,yeah.
+
+171
+00:10:05,380 --> 00:10:09,470
+>> And I can imagine with something like
+this, you're going to want to retrain or
+
+172
+00:10:09,470 --> 00:10:13,090
+reinforcement kind of
+idea all the way through,
+
+173
+00:10:13,090 --> 00:10:16,190
+because people are clicking
+this is spam, all the time.
+
+174
+00:10:16,190 --> 00:10:16,780
+>> Yeah.
+
+175
+00:10:16,780 --> 00:10:20,620
+There's going to be also come about so.
+
+176
+00:10:20,620 --> 00:10:24,760
+Your current thoughts were support
+vector machine on these base algorithms.
+
+177
+00:10:24,760 --> 00:10:30,030
+Are there any other algorithm that maybe
+is just more standard, more simple?
+
+178
+00:10:30,030 --> 00:10:32,090
+Some type of regression maybe?
+
+179
+00:10:32,090 --> 00:10:37,390
+>> Well, a logistic regression would
+separate things into parts, I guess.
+
+180
+00:10:38,580 --> 00:10:42,588
+That could, yeah,
+I guess that could work.
+
+181
+00:10:42,588 --> 00:10:44,056
+Yeah, I don't know tons about
+logistic regression, so
+
+182
+00:10:44,056 --> 00:10:45,232
+I don't want to say
+things that aren't true.
+
+183
+00:10:45,232 --> 00:10:48,120
+>> Okay.
+
+184
+00:10:48,120 --> 00:10:55,158
+>> But I can see how that would do
+the classification that we might want.
+
+185
+00:10:55,158 --> 00:10:56,118
+>> Yeah, that's great.
+
+186
+00:10:56,118 --> 00:11:00,500
+That's great, so yeah, and now we are
+ready to, you know, go work for Google,
+
+187
+00:11:00,500 --> 00:11:01,670
+and no just kidding.
+
+188
+00:11:01,670 --> 00:11:02,411
+We want to.
+
+189
+00:11:02,411 --> 00:11:04,910
+>> [LAUGH]
+>> [LAUGH] Then go with them.
+
+190
+00:11:04,910 --> 00:11:05,820
+Yeah, great.

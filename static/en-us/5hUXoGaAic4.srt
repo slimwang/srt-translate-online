@@ -1,0 +1,242 @@
+1
+00:00:00,370 --> 00:00:03,170
+Now, handling audio focus in
+our app is going to be a pretty
+
+2
+00:00:03,170 --> 00:00:04,750
+significant code change.
+
+3
+00:00:04,750 --> 00:00:08,010
+So before you go off on your own,
+let's walk through the major decisions
+
+4
+00:00:08,010 --> 00:00:10,570
+you'll need to make when
+using the Audio Manager API.
+
+5
+00:00:11,680 --> 00:00:15,480
+So remember, API just refers to the
+classes and methods that are offered by
+
+6
+00:00:15,480 --> 00:00:19,120
+the Android framework that
+you as a developer can use.
+
+7
+00:00:19,120 --> 00:00:23,070
+Now let's start by requesting
+audio focus from the AudioManager.
+
+8
+00:00:23,070 --> 00:00:25,830
+In order to begin playing
+the audio on the app.
+
+9
+00:00:25,830 --> 00:00:30,840
+In the last quiz, we found that we need
+to call the requestAudioFocus method and
+
+10
+00:00:30,840 --> 00:00:36,049
+it requires three inputs,
+onAudioFocusChangeListener object,
+
+11
+00:00:36,049 --> 00:00:38,410
+a streamType and a durationHint.
+
+12
+00:00:39,690 --> 00:00:42,443
+So these last two inputs here,
+the streamType and
+
+13
+00:00:42,443 --> 00:00:44,303
+the durationHint are integers.
+
+14
+00:00:44,303 --> 00:00:48,300
+Now when we call this method
+requestAudioFocus what should we pass in
+
+15
+00:00:48,300 --> 00:00:51,550
+as a stream type which will
+be our second parameter and
+
+16
+00:00:51,550 --> 00:00:54,560
+this refers to the type of
+audio they we're playing?
+
+17
+00:00:54,560 --> 00:00:56,540
+So is this a song or ring tone?
+
+18
+00:00:57,610 --> 00:01:01,130
+And for the second question,
+which we pass in as the durationHint?
+
+19
+00:01:01,130 --> 00:01:02,550
+So the third parameter.
+
+20
+00:01:02,550 --> 00:01:05,780
+And this refers to how long
+we need audio focus for.
+
+21
+00:01:05,780 --> 00:01:09,350
+So do we need it for a short period
+time or a long period of time?
+
+22
+00:01:09,350 --> 00:01:13,050
+So as a hint, both of these answer
+choices should be integers, and
+
+23
+00:01:13,050 --> 00:01:16,990
+more specifically they should be integer
+constants that have already been defined
+
+24
+00:01:16,990 --> 00:01:19,280
+in the AudioManager class.
+
+25
+00:01:19,280 --> 00:01:23,110
+So in the reference documentation for
+the AudioManager class, if we scroll
+
+26
+00:01:23,110 --> 00:01:27,100
+down to this public constant section and
+then go down a little bit further.
+
+27
+00:01:27,100 --> 00:01:29,030
+So these are all the possible
+stream types that you can
+
+28
+00:01:29,030 --> 00:01:31,280
+pass into a requestAudioFocus method.
+
+29
+00:01:31,280 --> 00:01:34,686
+And you can refer to them
+as audiomanager.stream or
+
+30
+00:01:34,686 --> 00:01:38,650
+audiomanager.stream.DTMF and so on and
+
+31
+00:01:38,650 --> 00:01:42,730
+so on and the descriptions for
+each stream type is on the right column.
+
+32
+00:01:44,070 --> 00:01:48,400
+So let's click into the stream along
+constant to get some more details.
+
+33
+00:01:48,400 --> 00:01:51,680
+Now remember a constant is a fixed
+value the never changes, and
+
+34
+00:01:51,680 --> 00:01:55,090
+by convention we name the variable
+in all capital letters.
+
+35
+00:01:55,090 --> 00:01:57,620
+So it's often used to
+communicate a certain state.
+
+36
+00:01:57,620 --> 00:02:00,830
+So this case are stream alone
+has a value of four and
+
+37
+00:02:00,830 --> 00:02:02,490
+that will never change.
+
+38
+00:02:02,490 --> 00:02:05,420
+So when we pass in this constant
+value to the AudioManager,
+
+39
+00:02:05,420 --> 00:02:07,690
+it knows that we mean this
+particular stream type.
+
+40
+00:02:07,690 --> 00:02:10,610
+All right so this takes care of it for
+our stream types.
+
+41
+00:02:10,610 --> 00:02:12,100
+What about our durationHint?
+
+42
+00:02:12,100 --> 00:02:15,110
+Let's navigate over here to
+requestAudioFocus method and
+
+43
+00:02:15,110 --> 00:02:17,295
+notice here the different
+valid options for
+
+44
+00:02:17,295 --> 00:02:20,140
+durationHint are listed in
+the method description.
+
+45
+00:02:20,140 --> 00:02:22,764
+So we have different ones such
+as audioFocus_Gain_Transient,
+
+46
+00:02:22,764 --> 00:02:25,030
+audioFocus_Gain_Transient_May_Duck and
+
+47
+00:02:25,030 --> 00:02:28,370
+then a couple other ones and
+each of these have explanations
+
+48
+00:02:28,370 --> 00:02:31,590
+to help you choose which one is
+the appropriate one to pick.
+
+49
+00:02:31,590 --> 00:02:32,970
+So feel free to search online for
+
+50
+00:02:32,970 --> 00:02:35,850
+tutorials if you need help
+answering these two questions.
+
+51
+00:02:35,850 --> 00:02:38,750
+And I'd like you to fill out your
+answers here and then continue on.

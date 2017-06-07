@@ -1,0 +1,225 @@
+1
+00:00:00,170 --> 00:00:02,210
+So when a new conference is created,
+
+2
+00:00:02,210 --> 00:00:05,100
+there might be a variety of
+tasks that need to be executed,
+
+3
+00:00:05,100 --> 00:00:08,340
+such as starting the process to book
+the venue, or creating the agenda,
+
+4
+00:00:08,340 --> 00:00:11,922
+organizing the catering, or sending
+a confirmation email to the organizer.
+
+5
+00:00:11,922 --> 00:00:15,850
+You want to do all of these tasks in the
+background, rather than try to complete
+
+6
+00:00:15,850 --> 00:00:18,820
+everything before the create
+conference function returns.
+
+7
+00:00:18,820 --> 00:00:21,660
+In this exercise, you're going
+to use the default task queue to
+
+8
+00:00:21,660 --> 00:00:24,250
+send the confirmation email when
+someone creates a conference.
+
+9
+00:00:24,250 --> 00:00:27,590
+The learning goal is to understand
+how to use task queues.
+
+10
+00:00:27,590 --> 00:00:30,250
+But you can imagine there are many
+other tasks that need to be completed
+
+11
+00:00:30,250 --> 00:00:32,060
+when a new conference is created.
+
+12
+00:00:32,060 --> 00:00:34,770
+To execute a task in
+the background using a task queue,
+
+13
+00:00:34,770 --> 00:00:37,430
+the first thing you need to do
+is define the work to be done.
+
+14
+00:00:37,430 --> 00:00:39,860
+It's up to you to write
+the code to execute the task.
+
+15
+00:00:39,860 --> 00:00:42,950
+This can be in a separate handler or
+an endpoints method, or
+
+16
+00:00:42,950 --> 00:00:45,150
+anywhere else that can
+be accessed by a URL.
+
+17
+00:00:45,150 --> 00:00:47,280
+We've provided the email sending code,
+however, so
+
+18
+00:00:47,280 --> 00:00:49,720
+you can focus on thinking about queues.
+
+19
+00:00:49,720 --> 00:00:53,150
+An optional thing you might want to
+do is configure queue in queue.yaml.
+
+20
+00:00:53,150 --> 00:00:55,338
+One exception is that if you're
+using the default queue,
+
+21
+00:00:55,338 --> 00:00:57,090
+then you don't need to
+do any configuration.
+
+22
+00:00:57,090 --> 00:00:59,284
+You'll use the default
+queue in this case.
+
+23
+00:00:59,284 --> 00:01:02,700
+But you can check the documentation for
+configuration options.
+
+24
+00:01:02,700 --> 00:01:05,420
+And then you'll need to write
+code to add tasks to the queue.
+
+25
+00:01:05,420 --> 00:01:07,920
+Using the default task queue
+in Python is pretty easy.
+
+26
+00:01:07,920 --> 00:01:11,330
+To end queue a task,
+you'll call the taskqueue.add function.
+
+27
+00:01:11,330 --> 00:01:14,970
+In this simple case, you only need
+to provide the URL to use and
+
+28
+00:01:14,970 --> 00:01:17,590
+additional parameters that
+you want to pass to that URL.
+
+29
+00:01:17,590 --> 00:01:20,350
+In this case, you at least want
+the user's email to send to,
+
+30
+00:01:20,350 --> 00:01:22,290
+and the conference information.
+
+31
+00:01:22,290 --> 00:01:24,020
+If you're going to use
+the non-default queue,
+
+32
+00:01:24,020 --> 00:01:26,270
+you'd also pass in
+the queue name as well.
+
+33
+00:01:26,270 --> 00:01:29,850
+You can also set other configuration
+options such as the name of the task,
+
+34
+00:01:29,850 --> 00:01:32,880
+the HTTP method,
+retry options and so forth.
+
+35
+00:01:32,880 --> 00:01:35,730
+Once you've implemented all this,
+deployed to appspot and added a new
+
+36
+00:01:35,730 --> 00:01:39,500
+conference to kick off the process, you
+can then go to the developer console and
+
+37
+00:01:39,500 --> 00:01:41,600
+look at the queues and
+tasks and their status.
+
+38
+00:01:41,600 --> 00:01:44,430
+As well as delete tasks that
+are currently in a queue, etc.
+
+39
+00:01:44,430 --> 00:01:47,840
+One thing to remember is that unless
+you specified how many times to
+
+40
+00:01:47,840 --> 00:01:51,800
+retry a task,
+if you specified an incorrect URL,
+
+41
+00:01:51,800 --> 00:01:55,450
+it will retry indefinitely so
+test your queues carefully.
+
+42
+00:01:55,450 --> 00:01:58,195
+And now it's your turn to add
+task queues to your application.
+
+43
+00:01:58,195 --> 00:02:00,415
+We've provided most of the code
+in the additions folder,
+
+44
+00:02:00,415 --> 00:02:02,915
+under todo2,
+you just have to put it all together.
+
+45
+00:02:02,915 --> 00:02:05,035
+See the TODO 2 comments
+in the relevant files.
+
+46
+00:02:05,035 --> 00:02:09,830
+You'll need to modify app.yaml,
+main.py, and conference.py.

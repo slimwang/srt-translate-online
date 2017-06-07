@@ -1,0 +1,167 @@
+1
+00:00:00,000 --> 00:00:03,000
+[Norvig] Now I want to talk about 1 more representation for planning
+
+2
+00:00:03,000 --> 00:00:07,000
+called situation calculus.
+
+3
+00:00:07,000 --> 00:00:12,000
+To motivate this, suppose we wanted to have the goal of moving all the cargo
+
+4
+00:00:12,000 --> 00:00:17,000
+from airport A to airport B, regardless of how many pieces of cargo there are.
+
+5
+00:00:17,000 --> 00:00:22,000
+You can't express the notion of All in propositional languages like classical planning,
+
+6
+00:00:22,000 --> 00:00:25,000
+but you can in first order logic.
+
+7
+00:00:25,000 --> 00:00:27,000
+There are several ways to use first order logic for planning.
+
+8
+00:00:27,000 --> 00:00:30,000
+The best known is situation calculus.
+
+9
+00:00:30,000 --> 00:00:32,000
+It's not a new kind of logic;
+
+10
+00:00:32,000 --> 00:00:36,000
+rather, it's regular first order logic with a set of conventions
+
+11
+00:00:36,000 --> 00:00:38,000
+for how to represent states and actions.
+
+12
+00:00:38,000 --> 00:00:41,000
+I'll show you what the conventions are.
+
+13
+00:00:41,000 --> 00:00:49,000
+First, actions are represented as objects in first order logic,
+
+14
+00:00:49,000 --> 00:00:51,000
+normally by functions.
+
+15
+00:00:51,000 --> 00:00:56,000
+And so we would have a function like the function Fly
+
+16
+00:00:56,000 --> 00:01:02,000
+of a plane and a From Airport and a To Airport
+
+17
+00:01:02,000 --> 00:01:08,000
+which represents an object, which is the action.
+
+18
+00:01:08,000 --> 00:01:16,000
+Then we have situations, and situations are also objects in the logic,
+
+19
+00:01:16,000 --> 00:01:22,000
+and they correspond not to states but rather to paths--
+
+20
+00:01:22,000 --> 00:01:27,000
+the paths of actions that we have in state space search.
+
+21
+00:01:27,000 --> 00:01:33,000
+So if you arrive at what would be the same world state by 2 different sets of actions,
+
+22
+00:01:33,000 --> 00:01:37,000
+those would be considered 2 different situations in situation calculus.
+
+23
+00:01:37,000 --> 00:01:43,000
+We describe the situations by objects, so we usually have an initial situation,
+
+24
+00:01:43,000 --> 00:01:46,000
+often called S0,
+
+25
+00:01:46,000 --> 00:01:52,000
+and then we have a function on situations called Result.
+
+26
+00:01:52,000 --> 00:02:02,000
+So the result of a situation object and an action object is equal to another situation.
+
+27
+00:02:02,000 --> 00:02:07,000
+And now instead of describing the actions that are applicable
+
+28
+00:02:07,000 --> 00:02:14,000
+in a situation with a predicate Actions of S,
+
+29
+00:02:14,000 --> 00:02:17,000
+situation calculus for some reason decided not to do that
+
+30
+00:02:17,000 --> 00:02:23,000
+and instead we're going to talk about the actions that are possible in the state,
+
+31
+00:02:23,000 --> 00:02:28,000
+and we're going to do that with a predicate.
+
+32
+00:02:28,000 --> 00:02:37,000
+If we have a predicate Possible of A and S, is an action A possible in a state?
+
+33
+00:02:37,000 --> 00:02:43,000
+There's a specific form for describing these predicates,
+
+34
+00:02:43,000 --> 00:02:52,000
+and in general, it has the form of some precondition of state S
+
+35
+00:02:52,000 --> 00:02:59,000
+implies that it's possible to do action A in state S.
+
+36
+00:02:59,000 --> 00:03:04,000
+I'll show you the possibility axiom for the Fly action.
+
+37
+00:03:04,000 --> 00:03:10,000
+We would say if there is some P, which is the plane in state S,
+
+38
+00:03:10,000 --> 00:03:16,000
+and there is some X, which is an airport in state S,
+
+39
+00:03:16,000 --> 00:03:21,000
+and there is some Y, which is also an airport in state S,
+
+40
+00:03:21,000 --> 00:03:28,000
+and P is at location X in state S,
+
+41
+00:03:28,000 --> 00:03:41,000
+then that implies that it's possible to fly P from X to Y in state S.
+
+42
+00:03:41,000 --> 99:59:59,999
+And that's known as the possibility axiom for the action Fly.

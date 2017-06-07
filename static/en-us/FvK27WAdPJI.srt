@@ -1,0 +1,226 @@
+1
+00:00:00,700 --> 00:00:02,960
+Let's go ahead and
+create a new Android project and
+
+2
+00:00:02,960 --> 00:00:04,530
+then have a look at
+the default build scripts.
+
+3
+00:00:06,570 --> 00:00:08,650
+We'll give our app a domain,
+and a location.
+
+4
+00:00:08,650 --> 00:00:10,680
+We'll set a min SDK and
+
+5
+00:00:10,680 --> 00:00:14,450
+we'll add a blank add
+a Blank Activity with a Fragment.
+
+6
+00:00:14,450 --> 00:00:15,799
+We'll leave the defaults for
+the fragment.
+
+7
+00:00:17,790 --> 00:00:20,390
+So, here we are in our
+newly created Android app.
+
+8
+00:00:20,390 --> 00:00:23,710
+If we go ahead and
+haul out the ancient test device and
+
+9
+00:00:23,710 --> 00:00:25,850
+then run our application,
+let's see what happens.
+
+10
+00:00:27,280 --> 00:00:29,390
+All right, sweet,
+it looks like we're up and running.
+
+11
+00:00:29,390 --> 00:00:33,800
+So let's dive into what Gradle
+configuration is present by default.
+
+12
+00:00:33,800 --> 00:00:37,590
+Again, the project pane has defaulted to
+this Android-centric setup, but I find
+
+13
+00:00:37,600 --> 00:00:39,830
+this kind of confusing, so I'm going
+to switch back to the project view,
+
+14
+00:00:39,830 --> 00:00:41,660
+to just show the straight
+up project layout.
+
+15
+00:00:43,210 --> 00:00:45,820
+So here's our project, and
+here's our build.gradle file.
+
+16
+00:00:46,890 --> 00:00:50,360
+There's a whole lot going on in
+the default Android buildscript.
+
+17
+00:00:50,360 --> 00:00:53,450
+For starters, this is actually
+a multi-project build and
+
+18
+00:00:53,450 --> 00:00:56,120
+the Android app itself is a sub project.
+
+19
+00:00:56,120 --> 00:00:59,400
+We'll talk all about
+multi-project builds in Lesson 4.
+
+20
+00:00:59,400 --> 00:01:03,600
+But it's set up this way, so it's easy
+to add other sub projects that we want
+
+21
+00:01:03,600 --> 00:01:07,250
+to build together with the app
+like libraries or even a backend.
+
+22
+00:01:07,250 --> 00:01:09,790
+There are two things to notice
+in this root buildscript.
+
+23
+00:01:09,790 --> 00:01:12,440
+First, we declare
+a buildscript dependency
+
+24
+00:01:12,440 --> 00:01:16,130
+on come.android.tools.build:gradle:1.2.2.
+
+25
+00:01:16,130 --> 00:01:20,600
+There are two things to
+note in this buildscript.
+
+26
+00:01:20,600 --> 00:01:24,200
+First, we declare a buildscript
+dependency on this artifact coordinate.
+
+27
+00:01:24,200 --> 00:01:27,300
+This is where the Android plugin for
+Gradle lives.
+
+28
+00:01:27,300 --> 00:01:30,390
+Second, and we'll talk about this
+part of the Gradle API soon.
+
+29
+00:01:30,390 --> 00:01:34,630
+This block adds the jcenter repository
+to every subproject of this build.
+
+30
+00:01:34,630 --> 00:01:37,399
+That means every subproject can
+just declare dependencies and
+
+31
+00:01:37,400 --> 00:01:40,230
+they'll automatically be
+retrieved from jcenter.
+
+32
+00:01:40,230 --> 00:01:42,110
+Now let's take a look at
+the build script specifically for
+
+33
+00:01:42,110 --> 00:01:44,300
+the Android build,
+which is in the app directory.
+
+34
+00:01:46,500 --> 00:01:48,179
+So here's the build script for
+the Android app.
+
+35
+00:01:48,180 --> 00:01:51,320
+Note that it first applies the Android
+plug in which it fetched from jCenter.
+
+36
+00:01:52,350 --> 00:01:56,199
+All configuration happens in
+the Android configuration block.
+
+37
+00:01:56,200 --> 00:01:59,320
+All that's absolutely required
+are the first two lines defining
+
+38
+00:01:59,320 --> 00:02:01,179
+the SDK version and
+the build tools version.
+
+39
+00:02:02,410 --> 00:02:06,610
+The default config block configures
+the attributes of the Android manifest.
+
+40
+00:02:06,610 --> 00:02:09,520
+We'll talk about the build
+types block momentarily.
+
+41
+00:02:09,520 --> 00:02:13,180
+Finally, the dependencies block
+works just like Java dependencies.
+
+42
+00:02:13,180 --> 00:02:16,490
+This declares the compile time
+dependencies on every jar in the libs
+
+43
+00:02:16,490 --> 00:02:19,630
+directory and
+on the Android Support Library.
+
+44
+00:02:19,630 --> 00:02:23,660
+Finally, this dependencies block
+works just like Java dependencies.
+
+45
+00:02:23,660 --> 00:02:27,547
+Here we're declaring a dependency on
+every jar in the libs directory as well
+
+46
+00:02:27,547 --> 00:02:29,380
+as on the Android Support Library.
+

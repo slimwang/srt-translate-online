@@ -1,0 +1,603 @@
+1
+00:00:00,150 --> 00:00:04,240
+In the introductory lecture on processes
+and process management, we discussed,
+
+2
+00:00:04,240 --> 00:00:08,050
+briefly, a few basic mechanisms
+related to Memory Management.
+
+3
+00:00:08,050 --> 00:00:11,640
+The goal of this lesson is to
+complete our discussion with a more
+
+4
+00:00:11,640 --> 00:00:15,620
+detailed description of
+OS-level Memory Management components.
+
+5
+00:00:15,620 --> 00:00:19,900
+Let's remind ourselves one of the roles
+of the operating system is to manage
+
+6
+00:00:19,900 --> 00:00:21,260
+the physical resources.
+
+7
+00:00:21,260 --> 00:00:24,080
+In this case,
+the physical memory (DRAM).
+
+8
+00:00:24,080 --> 00:00:27,600
+On behalf of one or
+more executing processes.
+
+9
+00:00:27,600 --> 00:00:30,470
+In order not to post any
+limits on the size and
+
+10
+00:00:30,470 --> 00:00:34,490
+the layout of an address space based
+on the amount of physical memory or
+
+11
+00:00:34,490 --> 00:00:39,430
+how it shared with other processes, we
+said that we will decouple the notion of
+
+12
+00:00:39,430 --> 00:00:44,470
+Physical memory from the Virtual
+memory that used by the address space.
+
+13
+00:00:44,470 --> 00:00:48,130
+In fact, pretty much everything
+uses virtual addresses, and
+
+14
+00:00:48,130 --> 00:00:50,100
+these are translated to the actual,
+
+15
+00:00:50,100 --> 00:00:54,050
+physical addresses where
+the particular state is stored.
+
+16
+00:00:54,050 --> 00:00:58,240
+The range of the virtual addresses,
+from V0 to Vmax here,
+
+17
+00:00:58,240 --> 00:01:02,730
+establishes the amount of virtual
+memory that's visible in the system.
+
+18
+00:01:02,730 --> 00:01:06,910
+And this can be much larger than
+the actual amount of physical memory.
+
+19
+00:01:06,910 --> 00:01:11,940
+In order to manage the physical memory,
+the operating system must then be able
+
+20
+00:01:11,940 --> 00:01:18,270
+to allocate Physical memory and
+also arbitrate how it's being accessed.
+
+21
+00:01:18,270 --> 00:01:22,800
+Allocation requires that the operating
+system incorporates certain mechanisms
+
+22
+00:01:22,800 --> 00:01:27,220
+or an algorithm as well as data
+structures so that it can track
+
+23
+00:01:27,220 --> 00:01:32,440
+how Physical memory is used and also
+what is free among the Physical memory.
+
+24
+00:01:32,440 --> 00:01:37,280
+In addition is the Physical memory
+smaller than this Virtual memory.
+
+25
+00:01:37,280 --> 00:01:40,390
+It is likely that some of
+the contents that are needed
+
+26
+00:01:40,390 --> 00:01:44,670
+in the virtual address space
+are not present in Physical memory.
+
+27
+00:01:44,670 --> 00:01:48,630
+They may be stored on some
+secondary storage like on disk.
+
+28
+00:01:48,630 --> 00:01:52,230
+So, the operating system must
+have mechanisms to decide
+
+29
+00:01:52,230 --> 00:01:57,280
+how to basically replace the contents
+that are currently in Physical memory.
+
+30
+00:01:57,280 --> 00:02:00,170
+With needed content that's
+on some temporary storage.
+
+31
+00:02:00,170 --> 00:02:04,770
+So, there is basically some dynamic
+component to the memory management
+
+32
+00:02:04,770 --> 00:02:09,530
+process that determines when content
+should be brought in from disk and
+
+33
+00:02:09,530 --> 00:02:13,250
+then which contents from memory
+should be stored on disk,
+
+34
+00:02:13,250 --> 00:02:15,910
+depending on the kinds of
+processes that are running.
+
+35
+00:02:15,910 --> 00:02:16,930
+The second task,
+
+36
+00:02:16,930 --> 00:02:21,650
+Arbitration, requires that the operating
+system is quickly able to.
+
+37
+00:02:21,650 --> 00:02:25,340
+Interpret and
+verify a process memory axis.
+
+38
+00:02:25,340 --> 00:02:28,350
+That means that, when looking
+at a virtual address, the OS
+
+39
+00:02:28,350 --> 00:02:33,150
+should quickly be able to translate that
+virtual address into a physical address.
+
+40
+00:02:33,150 --> 00:02:37,410
+And to validate it, to verify that
+that is, indeed, a legal axis.
+
+41
+00:02:37,410 --> 00:02:41,940
+For this current operating systems rely
+on a combination of hardware support as
+
+42
+00:02:41,940 --> 00:02:46,470
+well as smartly designed data structures
+that are used in the process of
+
+43
+00:02:46,470 --> 00:02:48,750
+address translation and validation.
+
+44
+00:02:48,750 --> 00:02:53,650
+The figure here illustrates that the
+virtual address space is subdivided into
+
+45
+00:02:53,650 --> 00:02:56,440
+fixed sized segments
+that are called pages.
+
+46
+00:02:56,440 --> 00:02:59,370
+The Virtual memory not
+to scale these two.
+
+47
+00:02:59,370 --> 00:03:03,780
+Is divided into page
+frames of the same size.
+
+48
+00:03:03,780 --> 00:03:08,910
+In terms of allocation then the role
+of the operating system is to map
+
+49
+00:03:08,910 --> 00:03:14,170
+pages from the Virtual memory into
+page frames of the Physical memory.
+
+50
+00:03:14,170 --> 00:03:16,960
+In this type of Page-based
+memory management
+
+51
+00:03:16,960 --> 00:03:21,410
+system the arbitration of
+the axis is done via page tables.
+
+52
+00:03:21,410 --> 00:03:25,750
+Paging is not the only way to decouple
+the Virtual and the Physical memories.
+
+53
+00:03:25,750 --> 00:03:27,970
+Another approach is segmentations, so
+
+54
+00:03:27,970 --> 00:03:30,860
+that would be a Segment-based
+memory management approach.
+
+55
+00:03:30,860 --> 00:03:36,210
+With segmentation, the allocation
+process doesn't use thick-sized pages.
+
+56
+00:03:36,210 --> 00:03:41,660
+Instead it uses more flexibly-sized
+segments that can then be mapped to some
+
+57
+00:03:41,660 --> 00:03:45,820
+regions in Physical memory as well as
+swapped in and out of Physical memory.
+
+58
+00:03:45,820 --> 00:03:49,190
+Arbitration of accesses in
+order to either translate or
+
+59
+00:03:49,190 --> 00:03:51,740
+validate the appropriate access
+
+60
+00:03:51,740 --> 00:03:56,400
+uses segment registers that are
+typically supported on modern hardware.
+
+61
+00:03:56,400 --> 00:04:00,020
+Paging is the dominant method used
+in current operating systems and
+
+62
+00:04:00,020 --> 00:04:03,685
+we'll primarily focus our discussion
+on Page-based memory management.
+
+63
+00:04:03,685 --> 00:04:07,500
+That will mention segments a little
+bit more later in this lesson again.
+
+64
+00:04:07,500 --> 00:04:11,560
+As I already hinted memory management
+isn't purely done by the operating
+
+65
+00:04:11,560 --> 00:04:13,100
+system alone.
+
+66
+00:04:13,100 --> 00:04:18,010
+In order to make these tasks efficient
+over the last decades the hardware
+
+67
+00:04:18,010 --> 00:04:22,770
+has evolved to integrate a number of
+mechanism that make it easier, faster,
+
+68
+00:04:22,770 --> 00:04:25,290
+or more reliable to
+perform allocation and
+
+69
+00:04:25,290 --> 00:04:28,280
+arbitration tasks regarding
+the memory management.
+
+70
+00:04:28,280 --> 00:04:32,100
+First every CPU package is equipped
+with a Memory Management Unit.
+
+71
+00:04:32,100 --> 00:04:36,970
+The CPU issues virtual addresses
+to the Memory Management Unit, and
+
+72
+00:04:36,970 --> 00:04:41,190
+it's responsible for translating them
+into the appropriate physical address.
+
+73
+00:04:41,190 --> 00:04:44,080
+Or potentially the MMU
+can generate a fault.
+
+74
+00:04:44,080 --> 00:04:45,830
+The faults are an exception or
+
+75
+00:04:45,830 --> 00:04:50,670
+signal that's generated by the MMU,
+that can indicate one of several things.
+
+76
+00:04:50,670 --> 00:04:54,250
+For instance, it can say that
+the access is illegal, like for
+
+77
+00:04:54,250 --> 00:04:59,320
+instance that the memory address that's
+requested hasn't been allocated at all.
+
+78
+00:04:59,320 --> 00:05:02,740
+Or it can indicate that there
+inadequate permissions to perform
+
+79
+00:05:02,740 --> 00:05:04,300
+a particular access.
+
+80
+00:05:04,300 --> 00:05:08,650
+For instance, the memory reference
+may be part of a store instruction,
+
+81
+00:05:08,650 --> 00:05:13,260
+so the process is trying to override
+a particular memory location.
+
+82
+00:05:13,260 --> 00:05:17,230
+However, it doesn't have a right
+permissions for that particular access.
+
+83
+00:05:17,230 --> 00:05:20,080
+That page is what we
+call right protected.
+
+84
+00:05:20,080 --> 00:05:23,830
+Or another type of fault may be
+an indication that the particular.
+
+85
+00:05:23,830 --> 00:05:27,520
+Page that's being referenced
+isn't present in memory and
+
+86
+00:05:27,520 --> 00:05:29,360
+must be fetched from disk.
+
+87
+00:05:29,360 --> 00:05:32,020
+Another way hardware
+supports memory management
+
+88
+00:05:32,020 --> 00:05:37,060
+is by using designated registers during
+the address translation process.
+
+89
+00:05:37,060 --> 00:05:41,300
+For instance in a Page-based system
+there are registers that are used to
+
+90
+00:05:41,300 --> 00:05:45,610
+point to the currently active
+page table or in a segment based
+
+91
+00:05:45,610 --> 00:05:49,640
+memory management the registers that
+are used to indicate the base address of
+
+92
+00:05:49,640 --> 00:05:54,530
+the segment potentially its limit,
+so its overall size of the segment.
+
+93
+00:05:54,530 --> 00:05:58,230
+Maybe the total number of segments and
+similar information.
+
+94
+00:05:58,230 --> 00:06:02,260
+Since the memory address translation
+happens on pretty much every memory
+
+95
+00:06:02,260 --> 00:06:06,520
+reference, most memory
+management units would integrate
+
+96
+00:06:06,520 --> 00:06:11,300
+a small cache of valid virtual to
+physical address translations.
+
+97
+00:06:11,300 --> 00:06:15,090
+This is called the translation
+lookaside buffer or TLB.
+
+98
+00:06:15,090 --> 00:06:19,020
+The presence of a TLB will make the
+entire translation process much faster.
+
+99
+00:06:19,020 --> 00:06:24,060
+Since if this translation is present
+in this cache then there's no
+
+100
+00:06:24,060 --> 00:06:28,900
+need to perform any additional
+operations to access the page table or
+
+101
+00:06:28,900 --> 00:06:30,760
+the segment and to interpret.
+
+102
+00:06:30,760 --> 00:06:32,540
+the validity of the axis.
+
+103
+00:06:32,540 --> 00:06:36,690
+And finally, the actual generation of
+the physical address from the virtual
+
+104
+00:06:36,690 --> 00:06:40,920
+address, so the translation process,
+that's done by the hardware.
+
+105
+00:06:40,920 --> 00:06:45,030
+The operating system will maintain
+certain data structures such as the page
+
+106
+00:06:45,030 --> 00:06:49,700
+table, to maintain certain information
+that's necessary for the translation
+
+107
+00:06:49,700 --> 00:06:54,920
+process, however, the actual
+translation, the hardware performs it.
+
+108
+00:06:54,920 --> 00:06:58,270
+This also implies that
+the hardware will dictate what
+
+109
+00:06:58,270 --> 00:07:00,630
+type of memory management
+modes are supported.
+
+110
+00:07:00,630 --> 00:07:02,440
+Can you support paging?
+
+111
+00:07:02,440 --> 00:07:04,470
+Can you support segmentation or both?
+
+112
+00:07:04,470 --> 00:07:07,830
+So basically, are there any
+kinds of registers of this sort?
+
+113
+00:07:07,830 --> 00:07:11,930
+It will also potentially imply
+what kinds of pages can there be.
+
+114
+00:07:11,930 --> 00:07:15,220
+What is the virtual address
+format as well as the physical
+
+115
+00:07:15,220 --> 00:07:18,950
+address format since the hardware
+needs to understand both of these?
+
+116
+00:07:18,950 --> 00:07:22,530
+There are other aspects of memory
+management that are more flexible in
+
+117
+00:07:22,530 --> 00:07:25,550
+terms of their design since
+they are performed in software.
+
+118
+00:07:25,550 --> 00:07:29,930
+For instance, the actual allocation
+basically determining which portions of
+
+119
+00:07:29,930 --> 00:07:34,190
+the Main Memory will be used by which
+process that's done by software or
+
+120
+00:07:34,190 --> 00:07:35,630
+the replacement.
+
+121
+00:07:35,630 --> 00:07:40,000
+Policies that determine which portions
+of state will be in main memory versus
+
+122
+00:07:40,000 --> 00:07:40,730
+on disk.
+
+123
+00:07:40,730 --> 00:07:45,610
+So we will focus our discussion on those
+software aspects of memory management,
+
+124
+00:07:45,610 --> 00:07:48,780
+since that's more relevant from
+an operating systems course perspective.

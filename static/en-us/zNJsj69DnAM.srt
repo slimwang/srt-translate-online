@@ -1,0 +1,544 @@
+﻿1
+00:00:00,180 --> 00:00:02,350
+In addition to this Places Autocomplete,
+
+2
+00:00:02,350 --> 00:00:07,160
+we can use other features of the Places
+library to add more to our site.
+
+3
+00:00:07,160 --> 00:00:09,169
+Let's give the user
+the ability to search for
+
+4
+00:00:09,169 --> 00:00:11,570
+places of interest within the map.
+
+5
+00:00:11,570 --> 00:00:13,349
+>> Instead of using Autocomplete,
+
+6
+00:00:13,349 --> 00:00:16,750
+I'm going to add a search box to
+enhance the users search experience.
+
+7
+00:00:16,750 --> 00:00:20,179
+Search box predicts what the user
+is typing in much the same way as
+
+8
+00:00:20,179 --> 00:00:21,649
+Autocomplete.
+
+9
+00:00:21,649 --> 00:00:24,879
+The differences are that search
+box supplies an extended list of
+
+10
+00:00:24,879 --> 00:00:29,859
+predictions, which can include places,
+as defined by the Google Places API.
+
+11
+00:00:29,859 --> 00:00:33,500
+Plus suggested search queries such
+as pizza near the Google office.
+
+12
+00:00:34,600 --> 00:00:38,090
+However, we aren't able to restrict
+the search as much as Autocomplete.
+
+13
+00:00:38,090 --> 00:00:41,460
+>> Let's add the ability for the user
+to view nearby points of interest like
+
+14
+00:00:41,460 --> 00:00:44,539
+restaurants, parks,
+museums, etc, in our site.
+
+15
+00:00:45,710 --> 00:00:47,619
+>> In addition to Place's Autocomplete,
+
+16
+00:00:47,619 --> 00:00:51,089
+we can use other features of Place's
+library to add value to our site.
+
+17
+00:00:52,200 --> 00:00:54,140
+Let's give the user
+the ability to search for
+
+18
+00:00:54,140 --> 00:00:56,530
+places of interest within the map.
+
+19
+00:00:56,530 --> 00:00:58,810
+This is going to be a place search.
+
+20
+00:00:58,810 --> 00:01:00,730
+Instead of using Autocomplete,
+
+21
+00:01:00,729 --> 00:01:03,399
+I'm going to add a search box to
+enhance the user's experience.
+
+22
+00:01:04,890 --> 00:01:07,379
+Search box predicts
+what the user is typing
+
+23
+00:01:07,379 --> 00:01:09,859
+in much the same way as
+Places Autocomplete.
+
+24
+00:01:09,859 --> 00:01:14,269
+The differences are that search box
+applies an extended list of predictions
+
+25
+00:01:14,269 --> 00:01:17,979
+which can include places,
+as defined by the Google Places API.
+
+26
+00:01:17,980 --> 00:01:21,320
+Plus suggested search queries,
+like pizza near the Google office.
+
+27
+00:01:22,329 --> 00:01:26,959
+However, we aren't able to restrict
+the search as much as Autocomplete.
+
+28
+00:01:26,959 --> 00:01:30,619
+Let's add the ability for the user
+to view nearby points of interest
+
+29
+00:01:30,620 --> 00:01:34,810
+like restaurants, parks,
+museums, etc, in our site.
+
+30
+00:01:34,810 --> 00:01:38,519
+We're going to add one last section to
+our HTML here, search for nearby places.
+
+31
+00:01:39,810 --> 00:01:41,109
+We'll add a new text input,
+
+32
+00:01:42,209 --> 00:01:46,629
+prompting the user to enter places of
+interest search, and another go button.
+
+33
+00:01:46,629 --> 00:01:50,140
+I'm creating a new search box instance
+in the initialized function and
+
+34
+00:01:50,140 --> 00:01:53,390
+binding it to that text
+input that we just created.
+
+35
+00:01:53,390 --> 00:01:56,909
+I'm also biasing the search box
+to within the bounds of the map.
+
+36
+00:01:56,909 --> 00:01:59,590
+And I'm actually going to create
+two event listeners here.
+
+37
+00:02:00,659 --> 00:02:03,939
+One for when the user selects
+an option from the pick list, so
+
+38
+00:02:03,939 --> 00:02:05,759
+that's our places changed event.
+
+39
+00:02:07,370 --> 00:02:09,770
+And one if the user
+types in something and
+
+40
+00:02:09,770 --> 00:02:14,409
+clicks go without actually selecting
+one of the suggested search queries.
+
+41
+00:02:14,409 --> 00:02:16,319
+So that's our click event.
+
+42
+00:02:16,319 --> 00:02:21,060
+I'm creating a global placemarkers
+array here to use in both functions, so
+
+43
+00:02:21,060 --> 00:02:24,370
+we can control the markers separately
+from our listings markers.
+
+44
+00:02:24,370 --> 00:02:27,550
+And so that we have only one set of
+placemarkers on our map at a time.
+
+45
+00:02:28,770 --> 00:02:31,830
+Also, remember our
+hideListings function?
+
+46
+00:02:31,830 --> 00:02:34,300
+This one iterated through
+our markers array, and
+
+47
+00:02:34,300 --> 00:02:37,610
+set the map to null on
+all of the markers.
+
+48
+00:02:37,610 --> 00:02:40,576
+We're actually going to expand
+that to make it generic.
+
+49
+00:02:40,575 --> 00:02:44,424
+By making the markers array
+a variable that I pass into this,
+
+50
+00:02:44,425 --> 00:02:48,160
+I actually allow us to use it for
+all of our sets of markers.
+
+51
+00:02:48,159 --> 00:02:50,875
+So we're going to use this any
+time we want to hide an array of
+
+52
+00:02:50,875 --> 00:02:52,419
+markers on the map.
+
+53
+00:02:52,419 --> 00:02:55,589
+Everywhere we used this before,
+I'm just going to pass in markers,
+
+54
+00:02:55,590 --> 00:02:57,129
+which is our global listings array.
+
+55
+00:02:58,210 --> 00:03:02,590
+I'm also going to use it now to
+control our placemarkers array.
+
+56
+00:03:02,590 --> 00:03:06,319
+Now let's create the function that will
+execute when the user chooses a picklist
+
+57
+00:03:06,319 --> 00:03:10,530
+value from the searchBox,
+I'm calling it searchBoxPlaces.
+
+58
+00:03:10,530 --> 00:03:14,800
+When a user enters a value, they
+will be given common search queries.
+
+59
+00:03:14,800 --> 00:03:17,969
+When the user then chooses one of
+those values from the options given in
+
+60
+00:03:17,969 --> 00:03:19,849
+the search box, first,
+
+61
+00:03:19,849 --> 00:03:24,379
+we'll hide any place markers we have
+on the map from our last search.
+
+62
+00:03:24,379 --> 00:03:27,990
+Then, we'll find all the places
+that match our query.
+
+63
+00:03:27,990 --> 00:03:31,620
+We'll do this using
+the searchBox.getPlaces method, and
+
+64
+00:03:31,620 --> 00:03:33,990
+assign them all into this Places array.
+
+65
+00:03:33,990 --> 00:03:37,550
+If we didn't find any places,
+we'll alert that to the user.
+
+66
+00:03:37,550 --> 00:03:41,561
+If we do find places, we'll then call
+this, createMarkersForPlaces function,
+
+67
+00:03:41,561 --> 00:03:42,896
+which we'll define soon.
+
+68
+00:03:42,895 --> 00:03:45,459
+And pass in our Places array.
+
+69
+00:03:45,460 --> 00:03:50,460
+We're separating this out, because, in
+both our search box places function, and
+
+70
+00:03:50,460 --> 00:03:51,960
+our text search function.
+
+71
+00:03:51,960 --> 00:03:56,153
+Which is the other event listener that
+we created, we'll do the same thing.
+
+72
+00:03:56,153 --> 00:03:59,259
+Now we'll define our text
+search places function.
+
+73
+00:03:59,259 --> 00:04:02,030
+So again, this is the function
+that will execute if,
+
+74
+00:04:02,030 --> 00:04:04,620
+instead of choosing a value
+from the pick list,
+
+75
+00:04:04,620 --> 00:04:08,920
+the user enters a search query or a
+location and then clicks on a go button.
+
+76
+00:04:08,919 --> 00:04:11,049
+First, we'll capture
+the bounds of the map.
+
+77
+00:04:11,050 --> 00:04:14,240
+Then, we'll hide any existing
+placemarkers that may already be
+
+78
+00:04:14,240 --> 00:04:15,379
+on the map.
+
+79
+00:04:15,379 --> 00:04:19,139
+We'll then create a new
+places service instance and
+
+80
+00:04:19,139 --> 00:04:21,019
+call the text search function.
+
+81
+00:04:21,019 --> 00:04:24,889
+We'll pass in our user-entered query and
+the bounds of the map.
+
+82
+00:04:24,889 --> 00:04:29,990
+When we get the results back, which is
+the Places array, if the status is okay,
+
+83
+00:04:29,990 --> 00:04:33,449
+we'll call the same
+createMarkersForPlaces function,
+
+84
+00:04:33,449 --> 00:04:35,709
+passing in that Places array.
+
+85
+00:04:35,709 --> 00:04:38,680
+Let's create this
+createMarkersForPlaces function now.
+
+86
+00:04:39,790 --> 00:04:44,921
+Okay, so at this point, we've gotten
+an array of places back from both
+
+87
+00:04:44,920 --> 00:04:50,069
+our places service text search and
+our searchBox.getPlaces method.
+
+88
+00:04:50,069 --> 00:04:53,329
+What we need to do with these
+places is iterate through them and
+
+89
+00:04:53,329 --> 00:04:55,649
+create a marker per place.
+
+90
+00:04:55,649 --> 00:04:58,889
+So for each of the places in this
+places array we'll capture a bunch
+
+91
+00:04:58,889 --> 00:05:00,199
+of the information about the place.
+
+92
+00:05:01,279 --> 00:05:04,869
+We'll get the icon which
+we'll use as the marker icon.
+
+93
+00:05:06,019 --> 00:05:10,375
+This is either a fork and knife for
+a restaurant, a martini glass for
+
+94
+00:05:10,375 --> 00:05:11,069
+a bar etc.
+
+95
+00:05:11,069 --> 00:05:12,930
+It's just kind of a cute feature.
+
+96
+00:05:12,930 --> 00:05:16,555
+We'll get the place name,
+which we'll use as the marker title.
+
+97
+00:05:16,555 --> 00:05:21,077
+We'll get the place's location, which
+we'll use as the marker's position, and
+
+98
+00:05:21,077 --> 00:05:24,250
+we'll capture the place
+ID as the marker ID.
+
+99
+00:05:24,250 --> 00:05:25,949
+We'll use that place ID later so
+
+100
+00:05:25,949 --> 00:05:29,769
+that we can more details if
+a user clicks on that marker.
+
+101
+00:05:29,769 --> 00:05:34,379
+We'll push each marker that we create
+into our placeMarkers array, and
+
+102
+00:05:34,379 --> 00:05:37,290
+we'll adjust the balance of
+the map to appropriately fit
+
+103
+00:05:37,290 --> 00:05:39,910
+all of the placeMarkers that we return.
+
+104
+00:05:39,910 --> 00:05:43,220
+By default 20 places are returned
+in both of these searches.
+
+105
+00:05:44,259 --> 00:05:46,860
+Let's test out both searches.
+
+106
+00:05:46,860 --> 00:05:48,870
+First, I'm going to I'm going to
+enter a search query and
+
+107
+00:05:48,870 --> 00:05:51,069
+choose one from the pick list.
+
+108
+00:05:51,069 --> 00:05:52,411
+These are all of our places.
+
+109
+00:05:52,411 --> 00:05:53,660
+It's pretty concentrated here.
+
+110
+00:05:54,990 --> 00:05:58,879
+Next I'm going to enter a query and
+click the Go button.
+
+111
+00:05:58,879 --> 00:06:02,500
+So far we can see the title if
+we hover over the marker but
+
+112
+00:06:02,500 --> 00:06:04,720
+we're going to need to get a lot
+more details about these places.
+
+113
+00:06:06,149 --> 00:06:08,919
+We'll find out how to do
+that in the next lesson.
+
+114
+00:06:08,920 --> 00:06:12,100
+>> Let's take a break before getting
+all the details about these places
+
+115
+00:06:12,100 --> 00:06:14,345
+to see just how fast Autocomplete is.
+
+

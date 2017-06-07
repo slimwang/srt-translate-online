@@ -1,0 +1,151 @@
+1
+00:00:00,100 --> 00:00:05,366
+Now, we've seen how to assign a probability to a tree, but how do we come up with the trees to begin with?
+
+2
+00:00:05,367 --> 00:00:10,032
+In other words, how do we parse a sentence like this into a tree structure?
+
+3
+00:00:10,033 --> 00:00:17,066
+Well, we can do that as a process of search, and we can use any of the search algorithms that we saw earlier in the class.
+
+4
+00:00:17,067 --> 00:00:24,099
+And in particular, we can go in either direction--either from the goal of having a sentence,
+
+5
+00:00:24,100 --> 00:00:33,132
+or from the raw words themselves, and because we usually draw trees with the derivation of the sentence at the top,
+
+6
+00:00:33,133 --> 00:00:41,499
+we speak of that as being top-down, so top-down search would say that a sentence can be broken up into a noun phrase
+
+7
+00:00:41,500 --> 00:00:49,432
+or a verb phrase, or a bottom-up search. And a bottom-up search would say that "Fed" can be a noun,
+
+8
+00:00:49,433 --> 00:00:53,866
+"raises" can be a noun, but could also be a verb,
+
+9
+00:00:53,867 --> 00:00:57,299
+and same with these other words in the sentence.
+
+10
+00:00:57,300 --> 00:01:04,831
+And then the search is a process of trying to connect these up so that we get a tree that spans all the words in the sentence,
+
+11
+00:01:04,833 --> 00:01:08,499
+and comes up as an S node at the top.
+
+12
+00:01:08,500 --> 00:01:17,099
+Most of the search techniques break it down by a process of saying, "If a sentence consists of a noun phrase and a verb phrase,
+
+13
+00:01:17,100 --> 00:01:24,432
+"and that has to span the entire set of words, then we can break that up at either point."
+
+14
+00:01:24,433 --> 00:01:30,066
+So we can say, "Maybe the first word is a noun phrase and the other three are the verb phrase.
+
+15
+00:01:30,067 --> 00:01:35,932
+"Maybe the first two words are the noun phrase, and the remaining other verb phrase," and so on.
+
+16
+00:01:35,933 --> 00:01:41,999
+And we would just enumerate those possibilities. And so here, in fact, it is very simple to say that
+
+17
+00:01:42,000 --> 00:01:50,766
+the first word can be a noun phrase, and then the second one, we can break verb phrase up into several possibilities.
+
+18
+00:01:50,767 --> 00:01:57,366
+Verb plus noun phrase, or verb plus noun phrase plus noun phrase, and let's choose one of them.
+
+19
+00:01:57,367 --> 00:02:05,299
+And the idea is that this is a search. If this works out, fine. If it doesn't work out, we would backtrack and try one of the other possibilities.
+
+20
+00:02:05,300 --> 00:02:14,232
+But in fact, this one hooks up quite easily by rewriting a noun phrase as noun plus noun.
+
+21
+00:02:14,233 --> 00:02:20,399
+So there we have one parse. But we could continue backtracking and come up with other parses.
+
+22
+00:02:20,400 --> 00:02:27,066
+So for example, still staying with the choice of having the first word be the initial noun phrase,
+
+23
+00:02:27,067 --> 00:02:32,132
+we could break up this verb phrase into a different constituent.
+
+24
+00:02:32,133 --> 00:02:37,432
+Instead of a verb plus noun phrase, we could have it be a verb plus two noun phrases.
+
+25
+00:02:37,433 --> 00:02:44,066
+And then we'd continue to search. And in fact, we'd find that there's an alternative parse there.
+
+26
+00:02:44,067 --> 00:02:50,832
+And we would continue going through for each category, all its possibilities, and try to match them up.
+
+27
+00:02:50,833 --> 00:02:53,799
+And we can enumerate all the possible parses.
+
+28
+00:02:53,800 --> 00:02:59,266
+Now, in terms of attaching probabilities, that could be done in the same way.
+
+29
+00:02:59,267 --> 00:03:02,399
+We just, for each rule, put in the appropriate probability.
+
+30
+00:03:02,400 --> 00:03:07,799
+And one of the nice things about this type of approach of using context free grammars is that,
+
+31
+00:03:07,800 --> 00:03:13,099
+when we make a choice in one part of the tree, it doesn't affect the choices in the other part of the tree.
+
+32
+00:03:13,100 --> 00:03:20,566
+So if we break it up into a noun phrase plus verb phrase, and if the noun phrase is some large constituent with many words in it,
+
+33
+00:03:20,567 --> 00:03:25,199
+and the verb phrase is as well, there's no interaction between the two pieces.
+
+34
+00:03:25,200 --> 00:03:28,999
+We just know any noun phrase can combine with any verb phrase.
+
+35
+00:03:29,000 --> 00:03:34,399
+And when we're going for a probabilistic parse, it means we can take the highest probability
+
+36
+00:03:34,400 --> 00:03:40,932
+of the product of the noun phrase and the verb phrase, so we get one best parse, even though there may be
+
+37
+00:03:40,933 --> 00:03:45,399
+dozens or hundreds of possible parses for each of the constituent.
+
+38
+00:03:45,400 --> 00:03:48,500
+That's the advantage of being context-free.

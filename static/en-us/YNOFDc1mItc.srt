@@ -1,0 +1,299 @@
+1
+00:00:00,480 --> 00:00:04,120
+When we discussed spin, I mentioned that
+
+2
+00:00:05,120 --> 00:00:08,770
+memory management and CPU management are core
+
+3
+00:00:08,770 --> 00:00:10,875
+services that any operating system has to
+
+4
+00:00:10,875 --> 00:00:13,650
+provide; and we discussed how spin had its
+
+5
+00:00:13,650 --> 00:00:19,399
+own way of dealing with those core services. We will do the same analysis
+
+6
+00:00:19,399 --> 00:00:21,474
+for exokernel as to how it does
+
+7
+00:00:21,474 --> 00:00:26,276
+memory management and CPU scheduling, first memory management.
+
+8
+00:00:26,276 --> 00:00:32,512
+Specifically let's see how exokernel will handle a page fault incurred by
+
+9
+00:00:32,512 --> 00:00:38,597
+a library operating system. So in this picture that I'm showing you, here is an
+
+10
+00:00:38,597 --> 00:00:41,713
+application thread running, and maybe this
+
+11
+00:00:41,713 --> 00:00:45,321
+application thread, belongs to a specific library
+
+12
+00:00:45,321 --> 00:00:47,781
+operating system and so long as this
+
+13
+00:00:47,781 --> 00:00:51,553
+application thread is doing normal memory accesses,
+
+14
+00:00:51,553 --> 00:00:54,423
+where all its virtual addresses have been
+
+15
+00:00:54,423 --> 00:00:57,710
+mapped to physical page frames. The thread is
+
+16
+00:00:57,710 --> 00:01:03,030
+executing at hardware speeds on the CPU. Life is good. But life may not be
+
+17
+00:01:03,030 --> 00:01:08,760
+always good. Because this thread my incur a page fault. And when it incurs a
+
+18
+00:01:08,760 --> 00:01:12,220
+page fault, the page fault is first fielded
+
+19
+00:01:12,220 --> 00:01:16,620
+by Exokernel. Exokernel knows which library operating system
+
+20
+00:01:16,620 --> 00:01:20,250
+is currently executing on the CPU, it has no knowledge
+
+21
+00:01:20,250 --> 00:01:23,170
+of processes within a library operating system. All it knows
+
+22
+00:01:23,170 --> 00:01:26,360
+is that this library operating system is doing something on
+
+23
+00:01:26,360 --> 00:01:29,130
+the CPU... And it knows that there is a page
+
+24
+00:01:29,130 --> 00:01:32,060
+fault incurred, and it can kick it up to the
+
+25
+00:01:32,060 --> 00:01:35,280
+library operating system through a registered handler and we will
+
+26
+00:01:35,280 --> 00:01:38,650
+talk about how these handlers are known to Exokernel later
+
+27
+00:01:38,650 --> 00:01:41,630
+on. Right now, I just want to give you road map
+
+28
+00:01:41,630 --> 00:01:47,070
+of how a page fault is handled in Exokernel. Because the library operating
+
+29
+00:01:47,070 --> 00:01:51,480
+system knows about processes, whereas Exokernel has
+
+30
+00:01:51,480 --> 00:01:54,110
+no knowledge about that, and it services
+
+31
+00:01:54,110 --> 00:02:00,350
+the page fault. And servicing the page fault may involve requesting Exokernel
+
+32
+00:02:00,350 --> 00:02:06,650
+for a page frame to host the specific page that is missing. And if it does
+
+33
+00:02:06,650 --> 00:02:10,300
+that as we detailed before, that will involve
+
+34
+00:02:10,300 --> 00:02:13,990
+the library asking Exokernel for a page frame and
+
+35
+00:02:13,990 --> 00:02:16,690
+Exokernel creating a binding for a page frame.
+
+36
+00:02:16,690 --> 00:02:20,070
+And returning an encrypted key for the page frame.
+
+37
+00:02:20,070 --> 00:02:22,550
+Assume for the moment that the library operating
+
+38
+00:02:22,550 --> 00:02:26,450
+system has page frames already with it and all
+
+39
+00:02:26,450 --> 00:02:28,600
+that it is doing at this point is
+
+40
+00:02:28,600 --> 00:02:31,900
+in servicing the page fault, it establishes a mapping
+
+41
+00:02:31,900 --> 00:02:39,090
+between the virtual piece that was missing and the page frame that contains
+
+42
+00:02:39,090 --> 00:02:45,410
+the contents of the virtual page. Once it does that, that mapping between
+
+43
+00:02:45,410 --> 00:02:52,100
+the virtual page and the frame that it corresponds to has to be presented
+
+44
+00:02:52,100 --> 00:02:57,530
+to the Exokernel. So the library presents that mapping to the Exokernel
+
+45
+00:02:57,530 --> 00:03:01,960
+along with the TLB entry, where it wants
+
+46
+00:03:01,960 --> 00:03:03,920
+this mapping to be placed in the hardware
+
+47
+00:03:03,920 --> 00:03:07,890
+TLB. Remember that, when the process runs the
+
+48
+00:03:07,890 --> 00:03:11,440
+CPU is consulting the hardware TLB, to see if
+
+49
+00:03:11,440 --> 00:03:14,780
+there's a valid mapping between the virtual page
+
+50
+00:03:14,780 --> 00:03:18,100
+number and a physical frame, so that the CPU
+
+51
+00:03:18,100 --> 00:03:20,560
+can go and access that page. And we
+
+52
+00:03:20,560 --> 00:03:22,610
+got the page fault because the mapping did not
+
+53
+00:03:22,610 --> 00:03:25,240
+exist, and the whole point of this
+
+54
+00:03:25,240 --> 00:03:28,100
+exercise is for the library operating system to
+
+55
+00:03:28,100 --> 00:03:30,920
+reestablish a mapping. But it cannot do
+
+56
+00:03:30,920 --> 00:03:34,060
+that directly into the TLB, so it presents
+
+57
+00:03:34,060 --> 00:03:36,870
+a mapping to Exokernel along with the
+
+58
+00:03:36,870 --> 00:03:41,770
+encrypted key that represents the capability that the
+
+59
+00:03:41,770 --> 00:03:44,830
+library operating system has to a specific TLB
+
+60
+00:03:44,830 --> 00:03:47,730
+entry where it wants this to be placed.
+
+61
+00:03:47,730 --> 00:03:51,530
+Exokernel will validate the encrypted key presented by
+
+62
+00:03:51,530 --> 00:03:54,706
+the library operating system, and assuming all is good,
+
+63
+00:03:54,706 --> 00:03:59,960
+it will go ahead and install the mapping in the hardware TLB, and this is a, a
+
+64
+00:03:59,960 --> 00:04:03,820
+privileged operation, meaning that it can be done
+
+65
+00:04:03,820 --> 00:04:07,570
+only in the kernel mode of the processor. That's
+
+66
+00:04:07,570 --> 00:04:09,660
+the reason that you have the red line between
+
+67
+00:04:09,660 --> 00:04:13,270
+the library operating system that runs at the non-privileged
+
+68
+00:04:13,270 --> 00:04:16,190
+level, and Exokernel that runs at the privileged level
+
+69
+00:04:16,190 --> 00:04:20,339
+to do certain operations such as, installing an entry
+
+70
+00:04:20,339 --> 00:04:23,690
+into the TLB. And once the entry had be
+
+71
+00:04:23,690 --> 00:04:27,100
+installed in the TLB, if the library operating system
+
+72
+00:04:27,100 --> 00:04:31,000
+is once again scheduled on the processor and if
+
+73
+00:04:31,000 --> 00:04:33,180
+the same process is run by the library operating
+
+74
+00:04:33,180 --> 00:04:36,730
+system when it generates the same virtual address we're
+
+75
+00:04:36,730 --> 00:04:39,050
+going to find a valid mapping and life will be good.

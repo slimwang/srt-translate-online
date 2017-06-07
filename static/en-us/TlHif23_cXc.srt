@@ -1,0 +1,284 @@
+1
+00:00:00,620 --> 00:00:03,510
+So there should have been four
+unnecessary backgrounds in
+
+2
+00:00:03,510 --> 00:00:04,970
+the remaining files.
+
+3
+00:00:04,970 --> 00:00:06,660
+Let's go ahead and review.
+
+4
+00:00:06,660 --> 00:00:11,360
+In our base activities XML, remember,
+we wanted to keep this white background.
+
+5
+00:00:11,360 --> 00:00:12,770
+Now, in the XML file for
+
+6
+00:00:12,770 --> 00:00:16,550
+our chat fragment, we've declared an
+unnecessary white background right here.
+
+7
+00:00:17,640 --> 00:00:21,130
+We don't need this because we can use
+the white one from our main activity.
+
+8
+00:00:21,130 --> 00:00:22,000
+That's it for this file.
+
+9
+00:00:23,420 --> 00:00:25,460
+Now, in the XML for
+our individual chat items,
+
+10
+00:00:25,460 --> 00:00:28,220
+we have three unnecessary backgrounds.
+
+11
+00:00:28,220 --> 00:00:32,980
+We have one right here that we don't
+need, one right here that we don't need,
+
+12
+00:00:32,980 --> 00:00:38,320
+and lastly, down here, we don't this
+white background in our text view.
+
+13
+00:00:38,320 --> 00:00:39,509
+So we can go ahead and remove these.
+
+14
+00:00:42,040 --> 00:00:42,820
+All right.
+Cool.
+
+15
+00:00:42,820 --> 00:00:45,580
+Let's see what kind of progress we
+made as far as overdraw is concerned.
+
+16
+00:00:47,070 --> 00:00:48,680
+Now this is what your
+screen should look like
+
+17
+00:00:48,680 --> 00:00:51,040
+with these backgrounds removed properly.
+
+18
+00:00:51,040 --> 00:00:51,770
+Much cleaner, right?
+
+19
+00:00:52,980 --> 00:00:54,560
+Okay, good work.
+
+20
+00:00:54,560 --> 00:00:55,420
+Now, we're just about done,
+
+21
+00:00:55,420 --> 00:00:58,980
+but there's actually one last
+optimization you can make.
+
+22
+00:00:58,980 --> 00:01:01,550
+Notice there's overdraw
+here by the avatars,
+
+23
+00:01:01,550 --> 00:01:05,410
+because we are drawing a rectangle and
+then the avatar image on top of it.
+
+24
+00:01:05,410 --> 00:01:07,400
+Let's try and be a bit smarter here,
+
+25
+00:01:07,400 --> 00:01:10,920
+let's only set a background
+when an avatar can't be found.
+
+26
+00:01:10,920 --> 00:01:12,500
+Now, we can do this with
+some conditional code.
+
+27
+00:01:12,500 --> 00:01:14,040
+All right,.
+
+28
+00:01:14,040 --> 00:01:16,870
+So let's jump into our chat adapter
+code, which is responsible for
+
+29
+00:01:16,870 --> 00:01:20,410
+filling in our individual chat
+items as they get loaded.
+
+30
+00:01:20,410 --> 00:01:22,740
+Let's go to our get view method.
+
+31
+00:01:22,740 --> 00:01:25,760
+Now, down here at the bottom we actually
+have some logic that's displaying both
+
+32
+00:01:25,760 --> 00:01:29,410
+the avatar and setting a background
+color at the same time.
+
+33
+00:01:29,410 --> 00:01:31,610
+Let's see if we can get
+a bit more intelligent here.
+
+34
+00:01:31,610 --> 00:01:34,190
+Let's write some code that
+only sets the background color
+
+35
+00:01:34,190 --> 00:01:36,210
+when an avatar isn't present.
+
+36
+00:01:36,210 --> 00:01:39,650
+And when it is, we'll set the background
+color to be transparent and
+
+37
+00:01:39,650 --> 00:01:41,340
+just load the avatar.
+
+38
+00:01:41,340 --> 00:01:43,210
+We can do it like this.
+
+39
+00:01:43,210 --> 00:01:45,520
+All right, so here's our updated code.
+
+40
+00:01:45,520 --> 00:01:49,020
+Notice that when an avatar isn't
+present, what we're going to do is load
+
+41
+00:01:49,020 --> 00:01:52,480
+a transparent color into where
+the avatar would normally be, and
+
+42
+00:01:52,480 --> 00:01:55,670
+then set a true background color for
+the avatar.
+
+43
+00:01:55,670 --> 00:01:58,820
+Now, in the else case, which
+represents when the avatar is present,
+
+44
+00:01:58,820 --> 00:02:01,160
+we'll go ahead and
+load the avatar properly,
+
+45
+00:02:01,160 --> 00:02:04,590
+and then we're going to set
+the background color to transparent.
+
+46
+00:02:04,590 --> 00:02:05,830
+This way we're minimizing overdraw.
+
+47
+00:02:06,982 --> 00:02:09,070
+All right, so let's go ahead and
+see how this improvement helps us out.
+
+48
+00:02:10,160 --> 00:02:10,949
+Nice.
+
+49
+00:02:10,949 --> 00:02:12,960
+As you can see here now by our avatars,
+
+50
+00:02:12,960 --> 00:02:15,902
+much less overdraw
+with our updated code.
+
+51
+00:02:15,902 --> 00:02:19,040
+All right, so that was our last
+optimization, which means we're done.
+
+52
+00:02:19,040 --> 00:02:20,670
+Let's go ahead and recap.
+
+53
+00:02:20,670 --> 00:02:23,630
+When we started,
+our overdraw was much more prominent.
+
+54
+00:02:23,630 --> 00:02:26,840
+The first thing we did was set
+the background drawable to null.
+
+55
+00:02:26,840 --> 00:02:31,010
+The second thing we did was remove
+unnecessary background declarations from
+
+56
+00:02:31,010 --> 00:02:31,850
+our XML markup.
+
+57
+00:02:32,890 --> 00:02:36,580
+Now, the third and last thing we
+did was display a background color
+
+58
+00:02:36,580 --> 00:02:39,240
+only if there is no avatar present.
+
+59
+00:02:39,240 --> 00:02:42,240
+Now, with these changes,
+we ended up with this.
+
+60
+00:02:42,240 --> 00:02:44,970
+Much, much cleaner in terms
+of overdraw performance.
+
+61
+00:02:44,970 --> 00:02:46,790
+So, awesome job.
+
+62
+00:02:46,790 --> 00:02:48,600
+And remember, perf matters.

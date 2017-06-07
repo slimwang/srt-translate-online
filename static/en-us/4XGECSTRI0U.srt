@@ -1,0 +1,362 @@
+1
+00:00:00,490 --> 00:00:03,401
+Okay, we're going to explain this pretty
+quickly because this is a review from
+
+2
+00:00:03,401 --> 00:00:04,660
+the last course.
+
+3
+00:00:04,660 --> 00:00:07,180
+So if you need a refresher,
+the link's below.
+
+4
+00:00:07,180 --> 00:00:11,010
+To achieve this desired screenshot,
+we need to modify the list so
+
+5
+00:00:11,010 --> 00:00:13,920
+that each list item
+shows more information.
+
+6
+00:00:13,920 --> 00:00:17,210
+Now, instead of using the simple list
+item XML layout that's provided by
+
+7
+00:00:17,210 --> 00:00:20,220
+the framework, we'll need to
+create our own XML layout for
+
+8
+00:00:20,220 --> 00:00:22,904
+a single list item that will
+contain three TextViews.
+
+9
+00:00:24,180 --> 00:00:25,724
+Now in order to do this,
+
+10
+00:00:25,724 --> 00:00:30,146
+I created a new layout file
+called earthquake_list_item.xml.
+
+11
+00:00:30,146 --> 00:00:34,440
+If we go over here to the TextView,
+we can take a look at our XML layout.
+
+12
+00:00:34,440 --> 00:00:36,078
+Now in this list item file,
+
+13
+00:00:36,078 --> 00:00:40,070
+I have a horizontal LinearLayout
+that contains three TextViews,
+
+14
+00:00:40,070 --> 00:00:44,150
+one for the magnitude, one for
+the location, and one for the date.
+
+15
+00:00:45,610 --> 00:00:47,950
+We don't need to worry about
+what it looks like now.
+
+16
+00:00:47,950 --> 00:00:52,880
+So I just evenly spaced out all the
+views using a layout width of 0dp and
+
+17
+00:00:52,880 --> 00:00:54,900
+a layout weight of 1 for
+all the children.
+
+18
+00:00:54,900 --> 00:01:00,010
+I also added 16 dips padding
+on the list item layout so
+
+19
+00:01:00,010 --> 00:01:01,930
+that the list items won't
+be too short in height.
+
+20
+00:01:03,100 --> 00:01:07,540
+Now if we switch to the design pane, we
+can see our temporary placeholder data
+
+21
+00:01:07,540 --> 00:01:09,540
+to make sure that the layout
+looks like the way we want.
+
+22
+00:01:10,560 --> 00:01:15,250
+Next, we add the XML tools namespace
+to the root LinearLayout element,
+
+23
+00:01:15,250 --> 00:01:18,480
+under the line where we
+declare the Android namespace.
+
+24
+00:01:18,480 --> 00:01:22,720
+Then we can use the tools:text
+attribute on each TextView and
+
+25
+00:01:22,720 --> 00:01:24,920
+add some placeholder text.
+
+26
+00:01:24,920 --> 00:01:28,400
+What this does is add text that will
+be shown in the Android Studio preview
+
+27
+00:01:28,400 --> 00:01:31,010
+pane, but not on our phone
+when we actually run the app.
+
+28
+00:01:32,100 --> 00:01:35,920
+Cool, now our custom
+list item layout is done.
+
+29
+00:01:35,920 --> 00:01:39,000
+Now we need a Java object to hold
+all the earthquake information
+
+30
+00:01:39,000 --> 00:01:41,350
+that will be shown in each list item.
+
+31
+00:01:41,350 --> 00:01:44,830
+So now I'll hop back to our
+Earthquake.java file, where we've
+
+32
+00:01:44,830 --> 00:01:49,420
+defined a new earthquake class that
+represents a single earthquake.
+
+33
+00:01:49,420 --> 00:01:53,000
+Then we've defined three global
+variables of type string,
+
+34
+00:01:53,000 --> 00:01:55,300
+one to hold the magnitude, the location,
+
+35
+00:01:55,300 --> 00:01:59,090
+and the date, because each
+earthquake has these attributes.
+
+36
+00:01:59,090 --> 00:02:00,390
+Then in the public constructor for
+
+37
+00:02:00,390 --> 00:02:03,360
+the Earthquake class, we initialized
+the three member variables
+
+38
+00:02:03,360 --> 00:02:06,370
+based on the values that were
+passed into the constructor.
+
+39
+00:02:06,370 --> 00:02:09,970
+Since these global variables are
+private, we need to create public getter
+
+40
+00:02:09,970 --> 00:02:14,768
+methods so that other classes can access
+this information about the earthquake.
+
+41
+00:02:14,768 --> 00:02:17,300
+Now I'm going to go over to
+our EarthquakeActivity class,
+
+42
+00:02:17,300 --> 00:02:20,030
+where we can actually create new
+earthquake objects by calling
+
+43
+00:02:20,030 --> 00:02:22,189
+the constructor that we just created.
+
+44
+00:02:23,370 --> 00:02:25,040
+Now take a note to this line.
+
+45
+00:02:25,040 --> 00:02:27,233
+Instead of creating
+an ArrayList of strings,
+
+46
+00:02:27,233 --> 00:02:30,520
+I want an ArrayList of
+actual earthquake objects.
+
+47
+00:02:30,520 --> 00:02:32,550
+Then I created a new
+earthquake object and
+
+48
+00:02:32,550 --> 00:02:35,420
+then added it to the list,
+one at a time.
+
+49
+00:02:35,420 --> 00:02:37,920
+Now for each earthquake,
+I made up some fake values for
+
+50
+00:02:37,920 --> 00:02:40,210
+the magnitude and for the date.
+
+51
+00:02:40,210 --> 00:02:42,970
+Then we had to create our
+own EarthquakeAdapter,
+
+52
+00:02:42,970 --> 00:02:46,000
+which is customized to display
+a list of earthquakes.
+
+53
+00:02:46,000 --> 00:02:50,175
+Now we define the EarthquakeAdapter as
+extending from the ArrayAdapter super
+
+54
+00:02:50,175 --> 00:02:52,880
+class and
+overriding the getView method so
+
+55
+00:02:52,880 --> 00:02:56,040
+that we control how the list
+item views get created.
+
+56
+00:02:56,040 --> 00:03:00,600
+When getView is called, we can check
+to see if we can use a recycled view.
+
+57
+00:03:00,600 --> 00:03:03,180
+Otherwise, we inflate a new
+list item layout defined in
+
+58
+00:03:03,180 --> 00:03:05,640
+the earthquake_list_item XML file.
+
+59
+00:03:05,640 --> 00:03:08,930
+Then we can use the position parameter
+passed in to get a reference to
+
+60
+00:03:08,930 --> 00:03:12,280
+the appropriate earthquake object
+from the list of earthquakes.
+
+61
+00:03:12,280 --> 00:03:15,940
+Next, we can start binding the data from
+the earthquake object to the views in
+
+62
+00:03:15,940 --> 00:03:17,750
+the list item layout.
+
+63
+00:03:17,750 --> 00:03:21,140
+We find each TextView in
+the list based on the view ID and
+
+64
+00:03:21,140 --> 00:03:22,990
+set the corresponding data onto them.
+
+65
+00:03:24,130 --> 00:03:27,110
+Once the list item has the correct data
+for a single earthquake at the given
+
+66
+00:03:27,110 --> 00:03:30,310
+position, then we can return
+the view to the caller.
+
+67
+00:03:30,310 --> 00:03:34,510
+The caller in this case is the ListView,
+who will take all these list items and
+
+68
+00:03:34,510 --> 00:03:35,414
+display them on the screen.
+
+69
+00:03:35,414 --> 00:03:38,690
+For a more thorough
+explanation of ListView and
+
+70
+00:03:38,690 --> 00:03:42,760
+adapters, check out the last course
+which has a whole lesson on this topic.
+
+71
+00:03:42,760 --> 00:03:44,790
+And the link is located below.
+
+72
+00:03:44,790 --> 00:03:47,220
+So let's go back to our
+EarthquakeActivity.
+
+73
+00:03:47,220 --> 00:03:51,029
+We can create a new earthquake
+adapter by passing in the list of
+
+74
+00:03:51,029 --> 00:03:54,730
+earthquakes and then setting
+the adapter on the ListView.
+
+75
+00:03:54,730 --> 00:03:57,644
+Now let's run it on our device.
+
+76
+00:03:57,644 --> 00:03:59,390
+And this is what it looks like, cool.

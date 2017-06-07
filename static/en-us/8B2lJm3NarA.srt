@@ -1,0 +1,238 @@
+1
+00:00:00,610 --> 00:00:04,384
+Now that we know about how Unity
+handles colliders and rigidbodies,
+
+2
+00:00:04,384 --> 00:00:07,508
+let's dive into how we can use
+physics to detect if we're
+
+3
+00:00:07,508 --> 00:00:10,258
+looking at a specific
+object in the island scene.
+
+4
+00:00:10,258 --> 00:00:12,881
+[BLANK_AUDIO]
+
+5
+00:00:12,881 --> 00:00:16,210
+For that we need to
+talk about raycasting.
+
+6
+00:00:16,210 --> 00:00:20,230
+Raycasting is like the name
+suggests shooting a ray out
+
+7
+00:00:20,230 --> 00:00:24,570
+from a given point in the hopes of
+getting a collider in our scene.
+
+8
+00:00:24,570 --> 00:00:28,290
+Raycasting has a lot of applications but
+one of the biggest use cases is for
+
+9
+00:00:28,290 --> 00:00:30,940
+detecting what someone
+in VR is looking at.
+
+10
+00:00:30,940 --> 00:00:33,360
+A ray requires two
+pieces of information.
+
+11
+00:00:33,360 --> 00:00:37,673
+The position it's located at and
+the direction it's traveling in.
+
+12
+00:00:37,673 --> 00:00:41,471
+In VR, we're fortunate to always
+know both of those details,
+
+13
+00:00:41,471 --> 00:00:43,918
+which makes it really
+easy to cast a ray.
+
+14
+00:00:43,918 --> 00:00:44,969
+So let's do that.
+
+15
+00:00:44,969 --> 00:00:48,643
+First thing we need to do is add
+a collateral to all the objects we want
+
+16
+00:00:48,643 --> 00:00:49,296
+to detect.
+
+17
+00:00:49,296 --> 00:00:52,860
+In this case, let's make sure
+there's one on our treasure chest.
+
+18
+00:00:52,860 --> 00:00:58,570
+Once we do that, let's create a C#
+script and call it, Detect Treasure.
+
+19
+00:00:58,570 --> 00:01:00,430
+Now before we dive into writing code,
+
+20
+00:01:00,430 --> 00:01:04,470
+let's first take a look at
+the documentation for Raycasting.
+
+21
+00:01:04,470 --> 00:01:05,710
+If we scroll down a bit,
+
+22
+00:01:05,710 --> 00:01:07,939
+we can see that there's some
+sample code that we can use.
+
+23
+00:01:08,990 --> 00:01:12,200
+Even though there aren't many
+lines to do a simple raycast,
+
+24
+00:01:12,200 --> 00:01:14,520
+there's quite a lot going on here.
+
+25
+00:01:14,520 --> 00:01:18,990
+For starters, instead of using update,
+the sample uses fixed update.
+
+26
+00:01:18,990 --> 00:01:23,200
+Fixed update is a method in Unity that
+works very similarly to the update
+
+27
+00:01:23,200 --> 00:01:27,340
+method, but is the proper place to write
+code that deals with rigidbodies, and
+
+28
+00:01:27,340 --> 00:01:28,626
+the Unity physics engine.
+
+29
+00:01:28,626 --> 00:01:34,050
+Since Raycasting uses physics,
+we should be using fixed update.
+
+30
+00:01:34,050 --> 00:01:36,380
+Next, the code defines a forward vector.
+
+31
+00:01:37,730 --> 00:01:42,090
+This is the direction that our object
+is facing and in the Unity editor,
+
+32
+00:01:42,090 --> 00:01:45,155
+it's represented by this
+blue arrow right here.
+
+33
+00:01:45,155 --> 00:01:49,113
+After that, we have this line here
+that actually does the Raycasting.
+
+34
+00:01:49,113 --> 00:01:51,380
+So let's break that down,
+starting from the middle.
+
+35
+00:01:52,460 --> 00:01:55,220
+So first,
+we have this call to raycast, and
+
+36
+00:01:55,220 --> 00:01:59,200
+we provide it the position,
+our forward vector and
+
+37
+00:01:59,200 --> 00:02:02,769
+how far we want the ray to travel,
+which in this case is ten meters.
+
+38
+00:02:03,870 --> 00:02:08,275
+Then, outside of our raycast, we have if
+conditional which checks to see if our
+
+39
+00:02:08,275 --> 00:02:10,199
+ray actually hit anything or not.
+
+40
+00:02:11,390 --> 00:02:15,732
+If we do hit an object, then we get
+to print this little message here and
+
+41
+00:02:15,732 --> 00:02:18,617
+that's the power of just
+a few lines of codes.
+
+42
+00:02:18,617 --> 00:02:24,815
+Let's go ahead and copy this and put
+that into our detect treasure script.
+
+43
+00:02:24,815 --> 00:02:29,420
+And at this point, let's just add
+the component to our main camera and
+
+44
+00:02:29,420 --> 00:02:30,601
+then test it out.
+
+45
+00:02:30,601 --> 00:02:34,340
+Once we hit Play and look at
+the treasure chest in the center of our
+
+46
+00:02:34,340 --> 00:02:38,091
+vision, we'll see that we get
+the message here in the console.
+
+47
+00:02:38,091 --> 00:02:41,180
+And if we look away, then we
+don't get these messages anymore.
+
+48
+00:02:42,340 --> 00:02:45,770
+So now that we know that we're
+correctly detecting our treasure chest,
+
+49
+00:02:45,770 --> 00:02:48,110
+let's have the treasure chest open.
+
+50
+00:02:48,110 --> 00:02:51,400
+But first, we need to create an
+animation for it, which we'll do next.

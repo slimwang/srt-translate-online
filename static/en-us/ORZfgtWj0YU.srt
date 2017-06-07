@@ -1,0 +1,319 @@
+1
+00:00:00,210 --> 00:00:03,990
+So let's expand on this whole concept of filtering using a kernel.
+
+2
+00:00:03,990 --> 00:00:07,950
+And this time around, what I'd like to take the concept of cross-correlation to
+
+3
+00:00:07,950 --> 00:00:10,530
+define the concept of convolution.
+
+4
+00:00:10,530 --> 00:00:13,310
+Let's start off with a, again, a simple image.
+
+5
+00:00:13,310 --> 00:00:17,450
+Here, actually, there's, of course, an interesting variant on this image.
+
+6
+00:00:17,450 --> 00:00:21,060
+This is sometimes referred to as an impulse image because in essence what I
+
+7
+00:00:21,060 --> 00:00:24,180
+have is zeroes everywhere else and then a peak.
+
+8
+00:00:24,180 --> 00:00:26,370
+A brightest value and then down to zero.
+
+9
+00:00:26,370 --> 00:00:31,710
+And again, there's only one simple impulse in this image right here.
+
+10
+00:00:31,710 --> 00:00:33,550
+So zeroes everywhere else and
+
+11
+00:00:33,550 --> 00:00:37,450
+a bright peak in the middle is what we're looking at with this image.
+
+12
+00:00:37,450 --> 00:00:39,300
+We want to do a cross correlation.
+
+13
+00:00:39,300 --> 00:00:43,030
+In this case, a filter with a kernel like this.
+
+14
+00:00:43,030 --> 00:00:45,520
+And we will take a kernel just to have values.
+
+15
+00:00:45,520 --> 00:00:49,460
+We've been playing around with these parametric values of a, b, c, d, e, f,
+
+16
+00:00:49,460 --> 00:00:52,320
+g, h, i, to represent this kernel.
+
+17
+00:00:52,320 --> 00:00:57,190
+We're now interested in asking the question, what happens if we slide this
+
+18
+00:00:57,190 --> 00:01:02,800
+kernel over this image here, this example image, then what would be the output?
+
+19
+00:01:02,800 --> 00:01:06,350
+So this would be the the output that we would actually like to generate.
+
+20
+00:01:06,350 --> 00:01:09,740
+Of course, this is the output G[i,j].
+
+21
+00:01:09,740 --> 00:01:14,430
+What we would like to do is now take the cross correlation of
+
+22
+00:01:14,430 --> 00:01:18,450
+this with kernel and start filling in the values here.
+
+23
+00:01:18,450 --> 00:01:19,690
+Let's start off with a region here.
+
+24
+00:01:19,690 --> 00:01:22,900
+Again we just do a cross-correlation of this with that.
+
+25
+00:01:22,900 --> 00:01:26,580
+All of the values here are multiplied by 0.
+
+26
+00:01:26,580 --> 00:01:29,460
+So their answer here would be 0.
+
+27
+00:01:29,460 --> 00:01:32,910
+Let's now move this one like that.
+
+28
+00:01:32,910 --> 00:01:36,440
+And of course the computation here, if you look at this region with this,
+
+29
+00:01:36,440 --> 00:01:40,890
+f multiplied by 1 the answer here would be f.
+
+30
+00:01:40,890 --> 00:01:42,087
+Move this by 1 again.
+
+31
+00:01:42,087 --> 00:01:45,780
+Do the computation e multiplies by 1, the rest of them are 0.
+
+32
+00:01:45,780 --> 00:01:48,420
+The response output here would be e.
+
+33
+00:01:48,420 --> 00:01:51,030
+Next one, d multiplies by 1.
+
+34
+00:01:51,030 --> 00:01:53,085
+Response here would be d.
+
+35
+00:01:53,085 --> 00:01:56,490
+Moving one more, we get to 0.
+
+36
+00:01:56,490 --> 00:02:00,990
+And of course, now, we should fill in the other two rows also.
+
+37
+00:02:00,990 --> 00:02:04,200
+So this is basically what my response would look like if I
+
+38
+00:02:04,200 --> 00:02:07,930
+took an impulse function with a cross-correlation kernel.
+
+39
+00:02:07,930 --> 00:02:11,030
+A kernel like this, do a cross-correlation and that's what,
+
+40
+00:02:11,030 --> 00:02:12,820
+our response would be this.
+
+41
+00:02:12,820 --> 00:02:17,690
+To reiterate, taking this kernel on an impulse image like this,
+
+42
+00:02:17,690 --> 00:02:19,150
+doing cross-correlation.
+
+43
+00:02:19,150 --> 00:02:20,560
+This is the response we get.
+
+44
+00:02:20,560 --> 00:02:22,750
+Let's look at this three by three region.
+
+45
+00:02:22,750 --> 00:02:26,270
+If you notice, an interesting thing happened, and we constructed this and
+
+46
+00:02:26,270 --> 00:02:28,360
+you noticed what was happening.
+
+47
+00:02:28,360 --> 00:02:35,780
+D, e, and f got switched, and similarly b, e, h, h, e, b have been switched.
+
+48
+00:02:35,780 --> 00:02:40,670
+So in essence what has happened is this there's been a flip in this axis.
+
+49
+00:02:42,560 --> 00:02:48,840
+Right, and there has been a flip in this axis, both axes there's been a flip.
+
+50
+00:02:48,840 --> 00:02:53,560
+So this is what my output region this three by three looks like, and
+
+51
+00:02:53,560 --> 00:02:55,630
+again as I noted they've been rotated.
+
+52
+00:02:57,440 --> 00:03:01,740
+One axis, another axis, and of course I can flip it.
+
+53
+00:03:01,740 --> 00:03:03,740
+And this is my kernel.
+
+54
+00:03:03,740 --> 00:03:09,290
+In essence, what happened by doing this process was the internal parts all got
+
+55
+00:03:09,290 --> 00:03:10,340
+flipped around.
+
+56
+00:03:10,340 --> 00:03:14,390
+So, the bottom line of this exercise we went through was to showcase that if
+
+57
+00:03:14,390 --> 00:03:16,300
+you have an impulse function like this and
+
+58
+00:03:16,300 --> 00:03:20,710
+you have a kernel that has different properties like this, these values here.
+
+59
+00:03:20,710 --> 00:03:25,520
+We do cross correlation, the result is a reverse response.
+
+60
+00:03:25,520 --> 00:03:27,390
+Let's look at that with a real example.
+
+61
+00:03:27,390 --> 00:03:30,740
+Here what I've done is basically created an original impulse function.
+
+62
+00:03:30,740 --> 00:03:32,910
+Black values here, white peak in the middle.
+
+63
+00:03:34,680 --> 00:03:37,510
+Let's actually create a simpler version of this too.
+
+64
+00:03:37,510 --> 00:03:41,610
+Showcased here, black value, white here, and ramps going up this way and
+
+65
+00:03:41,610 --> 00:03:42,860
+also coming up this way.
+
+66
+00:03:42,860 --> 00:03:45,330
+So different gray values here.
+
+67
+00:03:45,330 --> 00:03:47,710
+Zero, one and different values here.
+
+68
+00:03:47,710 --> 00:03:50,360
+And let's see what happens when we run this process.
+
+69
+00:03:50,360 --> 00:03:54,490
+So the actual output is, again, if you noticed just like this,
+
+70
+00:03:54,490 --> 00:04:00,300
+but flipped in both axes, both in x and y or horizontal and vertical.
+
+71
+00:04:00,300 --> 00:04:02,418
+So now let's look at exactly what happened.
+
+72
+00:04:02,418 --> 00:04:05,020
+This is referred to as a convolution method, and
+
+73
+00:04:05,020 --> 00:04:08,390
+a convolution is basically a mathematical operation where we
+
+74
+00:04:08,390 --> 00:04:11,830
+take two different function, F was our input, h was our kernel.
+
+75
+00:04:11,830 --> 00:04:17,750
+And it actually produced a third function that actually modifies the answer.
+
+76
+00:04:17,750 --> 00:04:22,210
+And it actually gives the area of overlap between the two first functions.
+
+77
+00:04:22,210 --> 00:04:26,010
+And it actually does that by basically showing an amount that one of
+
+78
+00:04:26,010 --> 00:04:28,570
+the original functions is translated by.
+
+79
+00:04:28,570 --> 00:04:32,720
+Lots of words, basically showing what we actually looked at in mathematical
+
+80
+00:04:32,720 --> 00:04:35,720
+version, or at least a practical version, let's look at it with math.

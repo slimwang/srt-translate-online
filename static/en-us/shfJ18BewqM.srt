@@ -1,0 +1,446 @@
+﻿1
+00:00:00,360 --> 00:00:03,790
+Another specific we need to know
+before doing our genetic algorithms'
+
+2
+00:00:03,790 --> 00:00:07,080
+example is that there are 28
+possible pairs of attacking queens
+
+3
+00:00:07,080 --> 00:00:08,699
+on this eight by eight board.
+
+4
+00:00:08,699 --> 00:00:10,489
+>> How did you figure that out?
+
+5
+00:00:10,490 --> 00:00:11,679
+>> Well, we have eight queens, and
+
+6
+00:00:11,679 --> 00:00:14,320
+we want to examine every possible
+pair that could attack each other.
+
+7
+00:00:14,320 --> 00:00:16,285
+So that has eight choose two or
+
+8
+00:00:16,285 --> 00:00:21,030
+8 factorial over 8 minus 2
+factorial times 2 factorial.
+
+9
+00:00:21,030 --> 00:00:24,170
+>> That's good to know, since our
+goal with n queens is to reduce
+
+10
+00:00:24,170 --> 00:00:26,320
+the number of attacking
+pairs of queens to zero.
+
+11
+00:00:26,320 --> 00:00:28,469
+We're going to find
+a fitness function for
+
+12
+00:00:28,469 --> 00:00:33,109
+a board to be the maximum number of
+attacking pairs of queens, which is 28,
+
+13
+00:00:33,109 --> 00:00:36,549
+minus the number of attacking queens for
+a given board.
+
+14
+00:00:36,549 --> 00:00:40,638
+In the case of eight queens,
+when the fitness function reaches 28,
+
+15
+00:00:40,639 --> 00:00:42,109
+we'll know we've won.
+
+16
+00:00:42,109 --> 00:00:46,420
+Genetic algorithms is an analogy
+to natural selection in biology.
+
+17
+00:00:46,420 --> 00:00:50,451
+It uses breeding and mutation to find
+the optimal answer to a problem.
+
+18
+00:00:50,451 --> 00:00:54,049
+I think it's best to explain
+Genetic Algorithms with an example.
+
+19
+00:00:54,049 --> 00:00:56,750
+Okay, then lets welcome
+the eight queens problem.
+
+20
+00:00:56,750 --> 00:00:59,576
+To get thing started,
+let's choose four random boards.
+
+21
+00:00:59,576 --> 00:01:01,643
+These four boards represent
+our gene pool, and
+
+22
+00:01:01,643 --> 00:01:05,829
+we're going to try a breed better boards
+by combining them in different patterns.
+
+23
+00:01:05,829 --> 00:01:08,000
+>> How do we choose which ones to use?
+
+24
+00:01:08,000 --> 00:01:10,060
+>> Easy, survival of fittest.
+
+25
+00:01:10,060 --> 00:01:13,365
+We'll evaluate each board according to
+the fitness function we just described.
+
+26
+00:01:13,364 --> 00:01:16,015
+The top board only had
+four attacking pairs,
+
+27
+00:01:16,015 --> 00:01:18,953
+which means it had a score
+of 28 minus 4 or 24.
+
+28
+00:01:18,953 --> 00:01:22,670
+The next one had five attacking pairs,
+so its score is 23.
+
+29
+00:01:22,670 --> 00:01:25,992
+The remaining two have scores of 20 and
+11, respectively.
+
+30
+00:01:25,992 --> 00:01:27,072
+>> Poor number 4.
+
+31
+00:01:27,072 --> 00:01:29,161
+He will probably never get to have kids.
+
+32
+00:01:29,162 --> 00:01:30,475
+Evolution can be cruel.
+
+33
+00:01:30,475 --> 00:01:33,096
+[MUSIC]
+
+34
+00:01:33,096 --> 00:01:36,960
+>> Anyway, from these fitness scores, we
+will create proportional probabilities
+
+35
+00:01:36,960 --> 00:01:39,314
+for how likely each one is to breed.
+
+36
+00:01:39,314 --> 00:01:41,778
+>> So basically,
+we're going to add the four scores and
+
+37
+00:01:41,778 --> 00:01:43,600
+normalize each one into a percentage.
+
+38
+00:01:43,600 --> 00:01:44,459
+>> Yep.
+
+39
+00:01:44,459 --> 00:01:50,759
+>> Okay, so 24 plus 23 plus
+20 plus 11 is equal to 78.
+
+40
+00:01:50,760 --> 00:01:53,820
+And, 24/78=31%.
+
+41
+00:01:53,819 --> 00:01:58,652
+So, our most fit board has a 31%
+chance to be chosen as a parent.
+
+42
+00:01:58,653 --> 00:01:59,910
+>> That's right.
+
+43
+00:01:59,909 --> 00:02:04,673
+We'll continue to calculate these
+percentages for each board and
+
+44
+00:02:04,673 --> 00:02:07,403
+we get 29%, 26%, and 14%.
+
+45
+00:02:07,403 --> 00:02:08,818
+>> Poor number four.
+
+46
+00:02:08,818 --> 00:02:10,317
+>> Would you stop it?
+
+47
+00:02:10,317 --> 00:02:13,629
+>> [SOUND]
+>> Okay,
+
+48
+00:02:13,629 --> 00:02:17,569
+now we're going to select four
+parents to create four new children.
+
+49
+00:02:17,569 --> 00:02:21,090
+To do that we basically roll a 100
+sided die to select the first parent.
+
+50
+00:02:21,090 --> 00:02:23,611
+If it is 1 to 31,
+we select the first board.
+
+51
+00:02:23,611 --> 00:02:26,067
+And if 32 to 60, the second, and so on.
+
+52
+00:02:26,068 --> 00:02:30,150
+Say we roll a 55, so for the first
+parent, we get the second board.
+
+53
+00:02:30,150 --> 00:02:33,831
+>> And we roll the 100 sided die again,
+and for the second parent,
+
+54
+00:02:33,830 --> 00:02:35,093
+I get the first board.
+
+55
+00:02:35,093 --> 00:02:36,949
+>> And we continue this process.
+
+56
+00:02:36,949 --> 00:02:39,414
+The third parent will
+be the second board.
+
+57
+00:02:39,414 --> 00:02:40,514
+>> Lucky board.
+
+58
+00:02:40,514 --> 00:02:42,784
+>> And for the last parent,
+we get the third board.
+
+59
+00:02:42,784 --> 00:02:43,884
+>> Poor-
+>> Don't say it.
+
+60
+00:02:45,085 --> 00:02:49,635
+>> Okay, so for these lucky boards,
+they are going to produce offspring.
+
+61
+00:02:49,634 --> 00:02:52,350
+How many children will we produce for
+each set of parents?
+
+62
+00:02:52,350 --> 00:02:52,990
+>> Two.
+
+63
+00:02:52,991 --> 00:02:54,610
+>> Is there any reason for that?
+
+64
+00:02:54,610 --> 00:02:58,334
+>> Well with genetic algorithms, there
+are many parameters we can change to
+
+65
+00:02:58,334 --> 00:03:01,229
+try to optimize how quickly
+we converge to a good result.
+
+66
+00:03:01,229 --> 00:03:03,780
+Let's stick with two here for
+convenience.
+
+67
+00:03:03,780 --> 00:03:06,590
+>> Okay, so now that we know
+which parents we have and
+
+68
+00:03:06,590 --> 00:03:11,240
+how many children we will produce,
+how do we make children?
+
+69
+00:03:11,240 --> 00:03:13,320
+>> That's a process we call crossover.
+
+70
+00:03:13,319 --> 00:03:16,465
+You see we've selected a point
+along each pair of parents.
+
+71
+00:03:16,465 --> 00:03:17,925
+We pick this point randomly and
+
+72
+00:03:17,925 --> 00:03:21,219
+then we create the first child by taking
+the first part of the first parent and
+
+73
+00:03:21,219 --> 00:03:24,009
+then tack that on to the last
+part of the second parent.
+
+74
+00:03:24,009 --> 00:03:28,019
+This process sounds more like assembling
+Frankenstein's monster from body parts
+
+75
+00:03:28,020 --> 00:03:29,344
+than breeding, but okay.
+
+76
+00:03:31,225 --> 00:03:34,448
+>> Then for the second child we take
+the first part of the second parent and
+
+77
+00:03:34,448 --> 00:03:37,080
+add it to the last part
+of the first parent.
+
+78
+00:03:37,080 --> 00:03:39,518
+We do the same process with
+the second set of parents here.
+
+79
+00:03:39,518 --> 00:03:41,484
+>> It's alive.
+
+80
+00:03:41,484 --> 00:03:45,614
+>> [LAUGH]
+>> So hopefully in
+
+81
+00:03:45,614 --> 00:03:49,358
+at least one of the children, we get
+the best attributes of the parents.
+
+82
+00:03:49,358 --> 00:03:52,230
+It kind of reminds me of the movie
+Twins with Arnold Schwarzenegger and
+
+83
+00:03:52,230 --> 00:03:52,879
+Danny DeVito.
+
+84
+00:03:52,879 --> 00:03:56,740
+>> You're showing your age, I wasn't
+born yet when that movie came out.
+
+85
+00:03:56,740 --> 00:03:58,615
+>> Still, it was a good movie.
+
+86
+00:03:58,615 --> 00:04:02,965
+>> But I actually had a point, what if,
+like in the supposition in the movie,
+
+87
+00:04:02,965 --> 00:04:05,735
+one child gets all the good
+aspects of the parents and
+
+88
+00:04:05,735 --> 00:04:08,025
+the other one gets all the bad aspects?
+
+89
+00:04:08,025 --> 00:04:11,417
+>> Well, then in the next generation,
+the one with less attacking queens will
+
+90
+00:04:11,417 --> 00:04:14,812
+have a higher fitness function and
+have a higher chance to create children.
+
+91
+00:04:14,812 --> 00:04:18,016
+And the one with more attacking queens
+will have a lower fitness function and
+
+92
+00:04:18,016 --> 00:04:19,430
+less chance to create children.
+
+93
+00:04:19,430 --> 00:04:23,168
+>> And we hope that by having enough
+generations, we will eventually evolve
+
+94
+00:04:23,168 --> 00:04:25,836
+an eight queens gameboard
+that solves the problem.
+
+95
+00:04:25,836 --> 00:04:27,534
+>> There's one more critical step, but
+
+96
+00:04:27,535 --> 00:04:29,720
+first let's review
+crossover more carefully.
+

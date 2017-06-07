@@ -1,0 +1,451 @@
+﻿1
+00:00:00,140 --> 00:00:04,040
+You're going to use a dynamic broadcast
+receiver to change the UI depending on
+
+2
+00:00:04,040 --> 00:00:06,057
+whether the device is plugged in or not.
+
+3
+00:00:06,057 --> 00:00:08,772
+When the app is not plugged in,
+as we can see here,
+
+4
+00:00:08,772 --> 00:00:11,451
+then this charger icon
+down here should be gray.
+
+5
+00:00:11,451 --> 00:00:15,470
+But when it is plugged in,
+as we can see up here, it is now,
+
+6
+00:00:15,470 --> 00:00:19,015
+this charger icon down here
+should change to pink.
+
+7
+00:00:19,015 --> 00:00:23,755
+To do this, you're going to create
+a method that changes the plug to either
+
+8
+00:00:23,754 --> 00:00:25,422
+a grey icon or a pink icon.
+
+9
+00:00:25,422 --> 00:00:28,010
+Make an intent filter for
+the charging status.
+
+10
+00:00:28,010 --> 00:00:32,273
+Make a broadcast receiver that updates
+the UI to pink if the broadcast receiver
+
+11
+00:00:32,273 --> 00:00:36,200
+is triggered because the phone
+is charging, and gray otherwise.
+
+12
+00:00:36,200 --> 00:00:36,790
+Create and
+
+13
+00:00:36,789 --> 00:00:40,549
+register this broadcast receiver with
+the intent filter that you just made.
+
+14
+00:00:40,549 --> 00:00:43,549
+And clean up the broadcast
+receiver in onPause.
+
+15
+00:00:43,549 --> 00:00:47,117
+This exercise is going to take place on
+the MainActivity so let's open that up.
+
+16
+00:00:47,118 --> 00:00:49,998
+The first thing I'm going to do is
+create a new method called showCharging
+
+17
+00:00:49,997 --> 00:00:51,809
+which takes in a boolean.
+
+18
+00:00:51,810 --> 00:00:57,170
+What I'll do in this method, is check
+that if the boolean passed in is true,
+
+19
+00:00:57,170 --> 00:01:00,950
+what showCharging will do is it'll
+take the boolean that's passed in, and
+
+20
+00:01:00,950 --> 00:01:04,650
+use it to determine the source image
+of the image view for the charger.
+
+21
+00:01:04,650 --> 00:01:09,907
+So if it's charging, we're going
+to set the image view to pink.
+
+22
+00:01:09,906 --> 00:01:14,822
+Otherwise, it's not charging, and
+we'll set the image view to grey.
+
+23
+00:01:14,822 --> 00:01:18,442
+All right, now that I'm done with this,
+I'm going to create an intent filter.
+
+24
+00:01:18,441 --> 00:01:21,556
+And I'm not going to create it
+in the manifest like you saw.
+
+25
+00:01:21,557 --> 00:01:22,996
+I'm going to make it dynamically.
+
+26
+00:01:22,995 --> 00:01:26,329
+Up top here, I'm going to make
+a new variable for my IntentFilter.
+
+27
+00:01:26,329 --> 00:01:30,340
+And then down here in the onCreate I'm
+going to actually exsanguinate it.
+
+28
+00:01:30,340 --> 00:01:33,060
+Up here, I'm going to create
+a variable for my IntentFilter.
+
+29
+00:01:34,250 --> 00:01:36,680
+And then down here in OnCreate.
+
+30
+00:01:36,680 --> 00:01:38,455
+I'm going to actually instantiate it.
+
+31
+00:01:38,454 --> 00:01:40,658
+I'm going to take my intent filter and
+
+32
+00:01:40,659 --> 00:01:45,890
+I'm going to use the addAction method
+to add the action powerConnected.
+
+33
+00:01:45,890 --> 00:01:48,570
+I will also add the action
+powerDisconnected.
+
+34
+00:01:48,569 --> 00:01:52,279
+This intent filter is now set up
+to catch when either the device is
+
+35
+00:01:52,280 --> 00:01:54,710
+connected to power or
+disconnected for power.
+
+36
+00:01:54,709 --> 00:01:59,231
+Cool, but my intent filter is not super
+useful without a broadcast receiver, so
+
+37
+00:01:59,231 --> 00:02:00,572
+let's make that next.
+
+38
+00:02:00,572 --> 00:02:03,972
+Now because I'm only going to be using
+the broadcast receiver in this main
+
+39
+00:02:03,972 --> 00:02:06,362
+activity class I'm going to
+make it an inner class.
+
+40
+00:02:06,362 --> 00:02:09,104
+So we're going to scroll
+down to the bottom, and
+
+41
+00:02:09,104 --> 00:02:13,605
+I'm going to make a private class
+called ChargingBroadcastReceiver, and
+
+42
+00:02:13,604 --> 00:02:17,194
+it's going to extend
+BroadcastReceiver as you see here.
+
+43
+00:02:17,194 --> 00:02:19,784
+Now I'm going to implement
+the onReceive method,
+
+44
+00:02:19,784 --> 00:02:23,370
+and inside of here I want to call my
+ShowChargingMethod to update the UI.
+
+45
+00:02:23,370 --> 00:02:27,242
+And I am going to use my ShowCharging
+method to update the UI.
+
+46
+00:02:27,241 --> 00:02:31,068
+Now inside onRecieve I want to be able
+to use my ShowCharging method to update
+
+47
+00:02:31,068 --> 00:02:34,819
+the UI but how do I know whether
+it's actually charging or not?
+
+48
+00:02:34,819 --> 00:02:39,447
+Well, because I plan on using this
+broadcast filter with this intent
+
+49
+00:02:39,447 --> 00:02:40,096
+filter.
+
+50
+00:02:40,096 --> 00:02:43,259
+I know the intent that my
+broadcaster receiver gets,
+
+51
+00:02:43,259 --> 00:02:47,900
+Will only be an intent that either has
+the action ACTION_POWER_CONNECTED or
+
+52
+00:02:47,901 --> 00:02:49,969
+ACTION_POWER_DISCONNECTED.
+
+53
+00:02:49,969 --> 00:02:52,626
+That intent is passed down here.
+
+54
+00:02:52,626 --> 00:02:55,933
+So what I can do is I
+can get a String_action,
+
+55
+00:02:55,933 --> 00:02:59,329
+and set it equal to the intent's action.
+
+56
+00:02:59,330 --> 00:03:04,980
+And then whether it's charging or
+not will be equal to whether that action
+
+57
+00:03:04,979 --> 00:03:08,069
+is equivalent to
+a POWER_CONNECTED action here.
+
+58
+00:03:08,069 --> 00:03:11,909
+And then finally I can take this
+boolean that I just made, and
+
+59
+00:03:11,909 --> 00:03:13,689
+pass it on to showCharging.
+
+60
+00:03:13,689 --> 00:03:18,295
+So isCharging will only be true if
+the broadcast receiver received a system
+
+61
+00:03:18,295 --> 00:03:21,525
+intent with
+an ACTION_POWER_CONNECTED action.
+
+62
+00:03:21,526 --> 00:03:23,330
+Otherwise, it'll be false.
+
+63
+00:03:23,330 --> 00:03:26,917
+If showCharging receives true here, it's
+going to update the plug to be pink,
+
+64
+00:03:26,917 --> 00:03:29,069
+otherwise, it should be gray.
+
+65
+00:03:29,069 --> 00:03:30,930
+Now that I have this broadcast receiver,
+
+66
+00:03:30,930 --> 00:03:33,780
+let's actually make
+an instance of it in onCreate.
+
+67
+00:03:33,780 --> 00:03:36,616
+Here at the top, I'm going to
+make a new instance variable for
+
+68
+00:03:36,616 --> 00:03:40,040
+my broadcast receiver and then down
+here, I'm going to instantiate it.
+
+69
+00:03:40,040 --> 00:03:43,050
+I still need to actually register
+the receiver to receive updates.
+
+70
+00:03:43,050 --> 00:03:48,109
+I'm going to register the receiver in
+onResume, and unregister it in onPause.
+
+71
+00:03:48,110 --> 00:03:51,282
+This is because the receiver only
+really needs to update the UI
+
+72
+00:03:51,282 --> 00:03:53,358
+when the activity is in the foreground.
+
+73
+00:03:53,358 --> 00:03:57,753
+So here, I'll call registerReceiver
+with my broadcastReceiver and
+
+74
+00:03:57,752 --> 00:03:58,949
+my intent filter.
+
+75
+00:03:59,979 --> 00:04:05,579
+And here in the onPause I will call
+unregisteredReceiver with my receiver.
+
+76
+00:04:05,580 --> 00:04:07,758
+And with that I'm almost done.
+
+77
+00:04:07,758 --> 00:04:09,697
+Let's run the code.
+
+78
+00:04:09,697 --> 00:04:12,536
+So I'm going to use some ADB
+commands to simulate plugging and
+
+79
+00:04:12,536 --> 00:04:13,682
+unplugging the phone.
+
+80
+00:04:13,682 --> 00:04:15,930
+So right now the phone's unplugged.
+
+81
+00:04:15,930 --> 00:04:18,180
+And now I'm going to plug the phone in,
+and woohoo,
+
+82
+00:04:18,180 --> 00:04:19,399
+it updated to pink, that's great.
+
+83
+00:04:19,399 --> 00:04:21,360
+Now we can see here it's plugged in.
+
+84
+00:04:21,360 --> 00:04:25,927
+And then if I unplug the phone it's
+gray again which is also good.
+
+85
+00:04:25,927 --> 00:04:29,293
+But you might notice,
+if you navigate away from the app, and
+
+86
+00:04:29,293 --> 00:04:31,737
+say plug in the phone,
+like I just did here.
+
+87
+00:04:31,737 --> 00:04:33,247
+And then go back to the app.
+
+88
+00:04:33,247 --> 00:04:37,346
+You get in a kind of inconsistent state,
+because the phone is plugged in, but
+
+89
+00:04:37,346 --> 00:04:38,112
+this is gray.
+
+90
+00:04:38,112 --> 00:04:39,925
+We're going to be fixing that bug next.
+
+91
+00:04:39,925 --> 00:04:42,285
+But for now, go ahead and
+finish this exercise.
+
+92
+00:04:42,285 --> 00:04:44,933
+When you're done you should
+be able to see that while
+
+93
+00:04:44,932 --> 00:04:47,774
+the app is in the foreground
+this changes effectively.
+
+94
+00:04:47,774 --> 00:04:51,576
+I've also added some helpful commands
+for simulating plugging in the phone and
+
+95
+00:04:51,576 --> 00:04:54,705
+unplugging the phone, in both
+the emulator and the live device.
+
+96
+00:04:54,704 --> 00:04:55,519
+Okay, good luck.
+

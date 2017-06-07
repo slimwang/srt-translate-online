@@ -1,0 +1,192 @@
+1
+00:00:00,270 --> 00:00:03,160
+The immediate question
+is why does this work.
+
+2
+00:00:03,160 --> 00:00:08,060
+What is the benefit of having a single
+thread that's just going to be switching
+
+3
+00:00:08,060 --> 00:00:12,830
+among the processing of different
+requests compared to simply assigning
+
+4
+00:00:12,830 --> 00:00:15,470
+different requests to
+different execution contexts,
+
+5
+00:00:15,470 --> 00:00:17,960
+to different threads or
+even to different processings.
+
+6
+00:00:19,010 --> 00:00:22,560
+Recall our introductory lecture
+about threads, in which we said that
+
+7
+00:00:22,560 --> 00:00:27,580
+on a single CPU threads can be useful
+because they help hide latency.
+
+8
+00:00:27,580 --> 00:00:30,850
+The main takeaway from
+that discussion was that,
+
+9
+00:00:30,850 --> 00:00:36,060
+if a thread is going to wait more than
+twice the amount of time it takes to
+
+10
+00:00:36,060 --> 00:00:40,770
+perform a contact switch,
+then it makes sense to go ahead and
+
+11
+00:00:40,770 --> 00:00:44,870
+context switch it to another thread
+that will do some useful work.
+
+12
+00:00:44,870 --> 00:00:48,315
+And in that way we hide
+this waiting latency.
+
+13
+00:00:48,315 --> 00:00:50,200
+If there really isn't any idle time.
+
+14
+00:00:50,200 --> 00:00:55,040
+So if the processing of a request
+doesn't resolve in some type of blocking
+
+15
+00:00:55,040 --> 00:01:00,530
+idle operation on which it has to wait,
+then there are no idle periods.
+
+16
+00:01:00,530 --> 00:01:02,750
+It doesn't make sense to context switch.
+
+17
+00:01:02,750 --> 00:01:07,170
+The context switching time will be just
+cycles that are spent on copying and
+
+18
+00:01:07,170 --> 00:01:12,050
+restoring a thread or
+a process information, and those cycles
+
+19
+00:01:12,050 --> 00:01:15,490
+could have been much better spent
+actually performing request processing.
+
+20
+00:01:16,530 --> 00:01:20,650
+So in the event driven model, a request
+will be processed in the context
+
+21
+00:01:20,650 --> 00:01:24,330
+of a single thread,
+as long as it doesn't have to wait.
+
+22
+00:01:24,330 --> 00:01:25,975
+Whenever a wait needs to happen,
+
+23
+00:01:25,975 --> 00:01:30,640
+then the execution thread will
+switch to servicing another request.
+
+24
+00:01:30,640 --> 00:01:32,480
+If we have multiple CPUs,
+
+25
+00:01:32,480 --> 00:01:37,220
+the event driven model still makes
+sense, especially when we need to handle
+
+26
+00:01:37,220 --> 00:01:41,260
+more concurrent requests
+than the number of CPUs.
+
+27
+00:01:41,260 --> 00:01:46,010
+For instance, each CPU could host
+a single event-driven process, and
+
+28
+00:01:46,010 --> 00:01:49,960
+then handle multiple concurrent
+requests within that one context.
+
+29
+00:01:49,960 --> 00:01:53,191
+And this could be done with
+less overhead than if each of
+
+30
+00:01:53,191 --> 00:01:56,776
+the CPUs had to context-switch
+among multiple processes or
+
+31
+00:01:56,776 --> 00:02:00,941
+multiple threads where each of those
+is handling a separate request.
+
+32
+00:02:00,941 --> 00:02:02,680
+There is one gotcha, though, here.
+
+33
+00:02:02,680 --> 00:02:06,530
+It is important to have
+mechanisms that will steer,
+
+34
+00:02:06,530 --> 00:02:12,090
+that will direct the right set of
+events to the appropriate CPU,
+
+35
+00:02:12,090 --> 00:02:16,720
+at the appropriate instance
+of the event-driven process.
+
+36
+00:02:16,720 --> 00:02:18,620
+And there are mechanisms to do this, and
+
+37
+00:02:18,620 --> 00:02:23,330
+there's current support, a networking
+hardware to do these sorts of things,
+
+38
+00:02:23,330 --> 00:02:26,135
+but I'm not going to go into
+this in any further detail.
+
+39
+00:02:26,135 --> 00:02:28,280
+So just know that overall in the model,
+
+40
+00:02:28,280 --> 00:02:32,750
+this is how the event-driven model would
+be applied a multi-CPU environment.

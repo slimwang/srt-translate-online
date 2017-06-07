@@ -1,0 +1,159 @@
+1
+00:00:00,000 --> 00:00:03,000
+So to get a better feel for this last way to fill out the chart,
+
+2
+00:00:03,000 --> 00:00:07,000
+I'm going to walk through a bit of a parse to show you how it goes.
+
+3
+00:00:07,000 --> 00:00:10,000
+I've got the grammar here in the upper right and here's my input string,
+
+4
+00:00:10,000 --> 00:00:12,000
+and I'm going to abuse notation a bit,
+
+5
+00:00:12,000 --> 00:00:15,000
+by using this red dot again to mean: Where We Are.
+
+6
+00:00:15,000 --> 00:00:19,000
+So, conceptually, one of the first things we'll do is shift.
+
+7
+00:00:19,000 --> 00:00:21,000
+We saw the integer token,
+
+8
+00:00:21,000 --> 00:00:24,000
+and we were expecting that because one of our parse states here was:
+
+9
+00:00:24,000 --> 00:00:27,000
+(E --> red dot int) from zero.
+
+10
+00:00:27,000 --> 00:00:31,000
+But now we want to turn this (int) into an (E)
+
+11
+00:00:31,000 --> 00:00:34,000
+by using this rule, in reverse.
+
+12
+00:00:34,000 --> 00:00:37,000
+And that's a bit magical for now, but we'll see why we want to do it, real shortly.
+
+13
+00:00:37,000 --> 00:00:39,000
+Then we'll want to shift over the (+).
+
+14
+00:00:39,000 --> 00:00:42,000
+It fits with our grammar and it's the input token we saw,
+
+15
+00:00:42,000 --> 00:00:44,000
+and next, we'll want to shift over this (int).
+
+16
+00:00:44,000 --> 00:00:47,000
+And now we'll want to replace this (int) with an (E),
+
+17
+00:00:47,000 --> 00:00:49,000
+just like we did above.
+
+18
+00:00:49,000 --> 00:00:51,000
+So this was another instance of magic
+
+19
+00:00:51,000 --> 00:00:53,000
+or this third new rule that we're going to be talking about.
+
+20
+00:00:53,000 --> 00:00:56,000
+And then, finally, now we've got an (E + E)
+
+21
+00:00:56,000 --> 00:00:58,000
+and if we look up here in our grammar,
+
+22
+00:00:58,000 --> 00:01:00,000
+(E) can be rewritten as (E + E).
+
+23
+00:01:00,000 --> 00:01:03,000
+So we use magic once again, and the process will continue.
+
+24
+00:01:03,000 --> 00:01:05,000
+Each of these times, when we've taken
+
+25
+00:01:05,000 --> 00:01:07,000
+a token or a terminal in the input
+
+26
+00:01:07,000 --> 00:01:10,000
+and replaced it with a nonterminal,
+
+27
+00:01:10,000 --> 00:01:13,000
+has been an instance of reduction.
+
+28
+00:01:13,000 --> 00:01:16,000
+And if we were to view this in the opposite order,
+
+29
+00:01:16,000 --> 00:01:18,000
+we'd see it as a parse tree.
+
+30
+00:01:18,000 --> 00:01:21,000
+At the end of the day, I'm going to ally it a lot of details.
+
+31
+00:01:21,000 --> 00:01:23,000
+We'd end up with this; and the shrinking input,
+
+32
+00:01:23,000 --> 00:01:26,000
+as I replace these terminals or tokens with nonterminals,
+
+33
+00:01:26,000 --> 00:01:31,000
+sort of corresponds to how my tree
+
+34
+00:01:31,000 --> 00:01:35,000
+edges in here--same sort of pattern.
+
+35
+00:01:35,000 --> 00:01:37,000
+I have more and more Whitespace on the left,
+
+36
+00:01:37,000 --> 00:01:39,000
+more and more Whitespace on the left.
+
+37
+00:01:39,000 --> 00:01:41,000
+So the relationship between this magic step
+
+38
+00:01:41,000 --> 00:01:43,000
+and parsing should be pretty clear,
+
+39
+00:01:43,000 --> 00:01:45,000
+but I still need to tell you how to do it--
+
+40
+00:01:45,000 --> 99:59:59,999
+how do we actually perform reductions.

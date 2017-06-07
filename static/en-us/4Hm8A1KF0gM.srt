@@ -1,0 +1,313 @@
+﻿1
+00:00:00,470 --> 00:00:04,389
+In this example, your cursor contains
+all of the words and definitions.
+
+2
+00:00:04,389 --> 00:00:08,379
+There are a variety of ways to get
+information from your cursor object.
+
+3
+00:00:08,380 --> 00:00:11,620
+And working with cursors return from
+the content provider is exactly the same
+
+4
+00:00:11,619 --> 00:00:14,539
+as working with cursors return for
+the sequel like database.
+
+5
+00:00:14,539 --> 00:00:15,229
+To help out though,
+
+6
+00:00:15,230 --> 00:00:17,879
+I'm going to review a couple of key
+methods that you should know about now.
+
+7
+00:00:17,879 --> 00:00:22,379
+I will also show how to iterate
+through the rows inside of a cursor.
+
+8
+00:00:22,379 --> 00:00:24,570
+You'll need to know how to do some
+of this to be able to finish out
+
+9
+00:00:24,570 --> 00:00:26,129
+the exercise.
+
+10
+00:00:26,129 --> 00:00:29,119
+The data of a cursor is tabular,
+as seen here.
+
+11
+00:00:29,120 --> 00:00:31,580
+The data returned in your
+cursor is pretty simple.
+
+12
+00:00:31,579 --> 00:00:33,359
+There are only three columns.
+
+13
+00:00:33,359 --> 00:00:37,119
+A cursor has a position, which is
+the row it's currently pointing to.
+
+14
+00:00:37,119 --> 00:00:39,419
+When you first get your cursor
+back from the query method,
+
+15
+00:00:39,420 --> 00:00:42,289
+in it's position at row negative one,
+which is nothing.
+
+16
+00:00:43,409 --> 00:00:47,629
+When you call move to next, it moves
+the cursor to the next row that it can.
+
+17
+00:00:47,630 --> 00:00:49,710
+And then it will either return true or
+
+18
+00:00:49,710 --> 00:00:53,225
+false depending on if the move
+was successful or not.
+
+19
+00:00:53,225 --> 00:00:57,355
+So here, it would have returned true,
+and then every time you call moveToNext
+
+20
+00:00:57,354 --> 00:01:00,354
+again, it will move
+the cursor one more row down.
+
+21
+00:01:00,354 --> 00:01:03,515
+Again, here returning true each time.
+
+22
+00:01:03,515 --> 00:01:05,060
+Now once you get to the final row,
+
+23
+00:01:05,060 --> 00:01:08,900
+It won't be able to move the cursor
+anymore, and then it will return false.
+
+24
+00:01:08,900 --> 00:01:11,700
+If you want to move the cursor somewhere
+else besides the next position,
+
+25
+00:01:11,700 --> 00:01:13,769
+there are a few other move to methods.
+
+26
+00:01:14,810 --> 00:01:15,740
+This includes but
+
+27
+00:01:15,739 --> 00:01:20,140
+isn't limited to moveToFirst, which
+moves the cursor back to the first row.
+
+28
+00:01:20,140 --> 00:01:22,650
+Each column in the cursor has an index.
+
+29
+00:01:22,650 --> 00:01:25,240
+When you're at a row and
+you want to know some information
+
+30
+00:01:25,239 --> 00:01:29,589
+such as what word is at that row,
+it's important to know the column index.
+
+31
+00:01:29,590 --> 00:01:33,880
+You can look up this column index by
+using the getColumnIndex method, and
+
+32
+00:01:33,879 --> 00:01:35,640
+passing column heading.
+
+33
+00:01:35,640 --> 00:01:38,180
+The column heading is
+found in the contract.
+
+34
+00:01:38,180 --> 00:01:42,420
+Then, you can use one of the get
+methods to get the actual value.
+
+35
+00:01:42,420 --> 00:01:45,070
+Which get method you use depends
+on the type of data that you're
+
+36
+00:01:45,069 --> 00:01:46,479
+expecting to get back.
+
+37
+00:01:46,480 --> 00:01:50,225
+For example, if you're getting a word,
+you'd use get string.
+
+38
+00:01:50,225 --> 00:01:53,849
+If you're trying to get the ID,
+you'd use get integer.
+
+39
+00:01:53,849 --> 00:01:56,659
+Again, you need to pass
+in the column index.
+
+40
+00:01:56,659 --> 00:01:59,849
+Get count returns the number of
+rows that are in the cursor.
+
+41
+00:01:59,849 --> 00:02:02,681
+And close should be called when you're
+done interacting with your cursor.
+
+42
+00:02:02,682 --> 00:02:06,536
+If you don't do this you could create
+a memory leak which will leave nobody
+
+43
+00:02:06,536 --> 00:02:06,980
+happy.
+
+44
+00:02:06,980 --> 00:02:09,860
+Your app might crash, so
+just don't forget to do it.
+
+45
+00:02:10,909 --> 00:02:14,299
+Here's a handy code snippet for
+iterating over all of the rows that
+
+46
+00:02:14,300 --> 00:02:17,640
+are cursor and then finally
+printing out what was in the table.
+
+47
+00:02:17,639 --> 00:02:20,099
+It contains some of
+the methods that we just saw.
+
+48
+00:02:20,099 --> 00:02:21,497
+Let's take a look at it in the code.
+
+49
+00:02:21,497 --> 00:02:25,370
+So here the code snippet
+in our actual code.
+
+50
+00:02:25,370 --> 00:02:27,759
+I put it in the on
+post execute method so
+
+51
+00:02:27,759 --> 00:02:30,599
+that I have the cursor available to me.
+
+52
+00:02:30,599 --> 00:02:34,669
+These two lines of code are simply
+using the getColumnIndex method
+
+53
+00:02:34,669 --> 00:02:38,339
+to get the index of the word and
+definition column.
+
+54
+00:02:38,340 --> 00:02:43,020
+I use constants from the contract class
+to be able to actually loop this up.
+
+55
+00:02:43,020 --> 00:02:46,380
+This loop here will move
+the cursor from row to row.
+
+56
+00:02:46,379 --> 00:02:50,079
+And for each row, it gets the value
+of the word of the row and
+
+57
+00:02:50,080 --> 00:02:52,450
+the value of the definition of that row.
+
+58
+00:02:52,449 --> 00:02:54,780
+And then finally prints
+it in a log message.
+
+59
+00:02:55,819 --> 00:02:59,359
+After that, we are a good Android
+citizen and we close up our cursor.
+
+60
+00:03:00,439 --> 00:03:01,879
+Okay, lets see what
+the output looks like.
+
+61
+00:03:03,789 --> 00:03:07,489
+Now the app UI on the cellphone actually
+changed but if I go over here and
+
+62
+00:03:07,490 --> 00:03:09,040
+look at the log messages.
+
+63
+00:03:09,039 --> 00:03:12,829
+I'll see that for every single word that
+was in the cursor, I have that word and
+
+64
+00:03:12,830 --> 00:03:14,270
+its definition.
+
+65
+00:03:14,270 --> 00:03:16,950
+Hopefully, this is enough about
+cursors to get you started.
+
+66
+00:03:16,949 --> 00:03:19,310
+If you're looking for more information,
+check out the links below.
+

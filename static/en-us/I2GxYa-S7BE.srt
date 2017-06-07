@@ -1,0 +1,100 @@
+1
+00:00:00,090 --> 00:00:04,040
+This, then, clearly represents
+a single threaded process.
+
+2
+00:00:04,040 --> 00:00:06,500
+One easy way to achieve concurrency
+
+3
+00:00:06,500 --> 00:00:10,520
+is to have multiple instances
+of the same process.
+
+4
+00:00:10,520 --> 00:00:14,060
+And that way we have
+a multi-process implementation.
+
+5
+00:00:14,060 --> 00:00:18,800
+This illustration is adapted from Vivek
+Pai's paper, Flash, An Efficient and
+
+6
+00:00:18,800 --> 00:00:22,670
+Portable Web Server, and
+it appears as figure two in the paper.
+
+7
+00:00:22,670 --> 00:00:25,523
+The benefits of this approach
+is that it is simple.
+
+8
+00:00:25,523 --> 00:00:29,531
+Once we have correctly developed
+the sequence of steps for one process,
+
+9
+00:00:29,531 --> 00:00:32,372
+we just spawn multiple processes.
+
+10
+00:00:32,372 --> 00:00:33,900
+There are some downsides, however,
+
+11
+00:00:33,900 --> 00:00:36,780
+with running multiple
+processes in a platform.
+
+12
+00:00:36,780 --> 00:00:40,940
+We'll have to allocate memory for every
+one of them and this will ultimately
+
+13
+00:00:40,940 --> 00:00:45,460
+put high load on the memory subsystem
+and it will hurt performance.
+
+14
+00:00:45,460 --> 00:00:47,050
+Given that these are processes,
+
+15
+00:00:47,050 --> 00:00:51,660
+we already talked about the cost
+of context switch among processes.
+
+16
+00:00:51,660 --> 00:00:56,640
+Also it can be rather expensive to
+maintain shared state across processes
+
+17
+00:00:56,640 --> 00:01:00,440
+because the communication mechanisms and
+the synchronization mechanisms that
+
+18
+00:01:00,440 --> 00:01:04,260
+are available across processes,
+those are little bit higher overhead.
+
+19
+00:01:04,260 --> 00:01:07,700
+And in some cases it may even be
+a little bit tricky to do certain things
+
+20
+00:01:07,700 --> 00:01:12,000
+like, for instance,
+forcing multiple processes to be able to
+
+21
+00:01:12,000 --> 00:01:16,170
+respond to a single address and
+to share an actual socket port.

@@ -1,0 +1,287 @@
+1
+00:00:00,170 --> 00:00:03,120
+Let's go back to our polynomial
+verification algorithm with repeated
+
+2
+00:00:03,120 --> 00:00:05,110
+trials and review its behavior.
+
+3
+00:00:05,110 --> 00:00:06,937
+If the two polynomials are equal,
+
+4
+00:00:06,937 --> 00:00:09,837
+then the probability that
+the algorithm says so is 1.
+
+5
+00:00:09,837 --> 00:00:13,707
+On the other hand, if the polynomials
+are different, there is a chance that
+
+6
+00:00:13,707 --> 00:00:17,819
+the algorithm will get the wrong answer,
+but this only happens with probability
+
+7
+00:00:17,819 --> 00:00:21,700
+100 to the -k, where k is
+the number of trials that we did.
+
+8
+00:00:21,700 --> 00:00:24,473
+We just need to extend
+the argument we made before,
+
+9
+00:00:24,473 --> 00:00:26,152
+where k equals 2 to general k.
+
+10
+00:00:26,152 --> 00:00:29,594
+The fact that our algorithm might
+sometimes return an incorrect answer
+
+11
+00:00:29,594 --> 00:00:33,710
+makes it what computer scientists
+call a Monte Carlo Algorithm.
+
+12
+00:00:33,710 --> 00:00:37,110
+And because it makes mistakes
+only when the polynomials differ,
+
+13
+00:00:37,110 --> 00:00:39,230
+it is called a one-sided
+Monte Carlo Algorithm.
+
+14
+00:00:40,400 --> 00:00:43,310
+This idea can be extended
+to arbitrary languages.
+
+15
+00:00:43,310 --> 00:00:47,740
+Here, strings in the language
+represent equal polynomials.
+
+16
+00:00:47,740 --> 00:00:52,400
+This algorithm only makes mistakes
+on strings not in the language.
+
+17
+00:00:52,400 --> 00:00:55,500
+Of course, it's possible for
+the situation to be reversed, so
+
+18
+00:00:55,500 --> 00:00:59,410
+that the algorithm makes mistakes
+on strings in the language.
+
+19
+00:00:59,410 --> 00:01:02,040
+This is another kind of
+one-sided Monte Carlo Algorithm.
+
+20
+00:01:03,330 --> 00:01:06,400
+I should say that there also
+two-sided Monte Carlo Algorithms
+
+21
+00:01:06,400 --> 00:01:10,680
+where both arrows are possible, but
+regardless of which input is given
+
+22
+00:01:10,680 --> 00:01:13,280
+the answer is more likely
+to be correct than not.
+
+23
+00:01:13,280 --> 00:01:17,410
+Suppose, however, that any
+possibility of error is intolerable.
+
+24
+00:01:17,410 --> 00:01:19,010
+Can we still use randomization?
+
+25
+00:01:19,010 --> 00:01:20,350
+Well, yes we can.
+
+26
+00:01:20,350 --> 00:01:25,300
+Instead of picking a new point uniformly
+at random, from the 100d possible
+
+27
+00:01:25,300 --> 00:01:29,890
+choices, we pick one from the choices
+that we haven't picked before.
+
+28
+00:01:29,890 --> 00:01:32,890
+This is known as sampling
+without replacement.
+
+29
+00:01:32,890 --> 00:01:37,140
+Since we don't place the sample we took
+back in the pool before choosing again.
+
+30
+00:01:38,400 --> 00:01:40,630
+Since there are only d possible routes.
+
+31
+00:01:40,630 --> 00:01:46,680
+By the time we've picked the d+1 point,
+we must have picked 1 of the non routes.
+
+32
+00:01:46,680 --> 00:01:49,380
+This algorithm uses randomization,
+but nevertheless,
+
+33
+00:01:49,380 --> 00:01:51,710
+it always gives a correct answer.
+
+34
+00:01:51,710 --> 00:01:55,130
+If the polynomials are equal, the
+probability that the algorithm says so
+
+35
+00:01:55,130 --> 00:01:56,340
+is 1.
+
+36
+00:01:56,340 --> 00:01:59,920
+If they're unequal,
+the probability that it says so is 0.
+
+37
+00:01:59,920 --> 00:02:02,790
+The fact that this algorithm
+never returns an incorrect answer
+
+38
+00:02:02,790 --> 00:02:05,120
+makes it a Las Vegas Algorithm.
+
+39
+00:02:05,120 --> 00:02:09,160
+The randomization can affect the running
+time but not the correctness.
+
+40
+00:02:09,160 --> 00:02:12,280
+If the polynomials are equal
+the algorithm definitely takes d+1
+
+41
+00:02:12,280 --> 00:02:16,490
+iterations, but when they're unequal,
+it gets a little more complicated.
+
+42
+00:02:16,490 --> 00:02:19,370
+Let Ei be the event that A and
+
+43
+00:02:19,370 --> 00:02:23,930
+B are equal at the ith
+element of the order array.
+
+44
+00:02:23,930 --> 00:02:28,587
+Then, we characterize the probability
+that the algorithm takes at
+
+45
+00:02:28,587 --> 00:02:32,518
+least k steps as the intersection
+of E0 through Ek- 1.
+
+46
+00:02:32,518 --> 00:02:35,880
+Note, however, that these events
+are no longer independent.
+
+47
+00:02:35,880 --> 00:02:41,270
+If A and B are equal at the first
+element of the order list,
+
+48
+00:02:41,270 --> 00:02:45,827
+then that's one fewer root that could
+been have chosen to be the second.
+
+49
+00:02:45,827 --> 00:02:48,600
+So how do we go about
+calculating this probability?
+
+50
+00:02:48,600 --> 00:02:52,550
+Returning to the Las Vegas version
+of our polynomial identifier,
+
+51
+00:02:52,550 --> 00:02:55,660
+we can write the probability that
+we don't detect a difference
+
+52
+00:02:55,660 --> 00:02:58,260
+in k iterations as this product here.
+
+53
+00:02:59,640 --> 00:03:02,600
+With a little more work,
+we can get a tighter bound than this.
+
+54
+00:03:02,600 --> 00:03:05,310
+But for our purposes,
+this simple bound works.
+
+55
+00:03:06,760 --> 00:03:09,570
+Note that even though
+the probabilities here are the same,
+
+56
+00:03:09,570 --> 00:03:12,060
+the meanings are different.
+
+57
+00:03:12,060 --> 00:03:15,380
+In the Monte Carlo Algorithm,
+the probability represents
+
+58
+00:03:15,380 --> 00:03:18,769
+the chances that the algorithm
+will return an incorrect answer.
+
+59
+00:03:19,830 --> 00:03:22,990
+In the Las Vegas Algorithm, it says
+something about the running time for
+
+60
+00:03:22,990 --> 00:03:25,760
+an algorithm that will always
+produce the correct answer.

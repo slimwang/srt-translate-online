@@ -1,0 +1,151 @@
+1
+00:00:00,210 --> 00:00:04,360
+One of the most basic synchronization
+constructs that's commonly supported in
+
+2
+00:00:04,360 --> 00:00:07,220
+an operating system is spinlock.
+
+3
+00:00:07,220 --> 00:00:10,490
+In some ways,
+spinlocks are similar to a mutex.
+
+4
+00:00:10,490 --> 00:00:15,320
+The lock is used to protect the critical
+section to provide mutual exclusion
+
+5
+00:00:15,320 --> 00:00:17,440
+among potentially multiple threads or
+
+6
+00:00:17,440 --> 00:00:21,270
+processes that are trying to
+perform this critical section.
+
+7
+00:00:21,270 --> 00:00:25,080
+And it has certain constructs that
+are equivalent to the lock and
+
+8
+00:00:25,080 --> 00:00:27,870
+unlock constructs that
+we saw with mutexes.
+
+9
+00:00:27,870 --> 00:00:29,190
+The use of these lock and
+
+10
+00:00:29,190 --> 00:00:33,260
+unlock operations is similar
+to the case of the mutexes.
+
+11
+00:00:33,260 --> 00:00:36,410
+If the lock is free,
+then we can acquire it and
+
+12
+00:00:36,410 --> 00:00:39,300
+proceed with the execution
+of the critical section.
+
+13
+00:00:39,300 --> 00:00:44,180
+And if the lock is not free, we will be
+suspended at this particular point and
+
+14
+00:00:44,180 --> 00:00:45,800
+unable to go on.
+
+15
+00:00:45,800 --> 00:00:51,250
+The way spinlocks differ than mutexes,
+however, is that when the lock is busy,
+
+16
+00:00:51,250 --> 00:00:55,350
+the thread that's suspended in its
+execution at this particular point of
+
+17
+00:00:55,350 --> 00:01:01,530
+time isn't blocked, like in the case of
+mutexes, but instead, it is spinning.
+
+18
+00:01:01,530 --> 00:01:03,440
+It is running on the CPU and
+
+19
+00:01:03,440 --> 00:01:07,880
+repeatedly checking to see
+whether this lock became free.
+
+20
+00:01:07,880 --> 00:01:12,160
+With mutexes, the thread would have
+relinquished the CPU and allowed for
+
+21
+00:01:12,160 --> 00:01:13,710
+another thread to run.
+
+22
+00:01:13,710 --> 00:01:16,120
+With spinlocks, the thread will spin.
+
+23
+00:01:16,120 --> 00:01:20,620
+It will burn CPU cycles until
+the lock becomes free or
+
+24
+00:01:20,620 --> 00:01:23,520
+until the thread gets preempted for
+some reason.
+
+25
+00:01:23,520 --> 00:01:28,110
+For instance, maybe it was spinning
+until ultimately its time slice expired,
+
+26
+00:01:28,110 --> 00:01:31,410
+or potentially a higher
+priority thread became runable.
+
+27
+00:01:31,410 --> 00:01:36,320
+Because of their simplicities, spinlocks
+are a basic synchronization primitive,
+
+28
+00:01:36,320 --> 00:01:39,120
+and they can be used to
+implement more complex,
+
+29
+00:01:39,120 --> 00:01:41,990
+more sophisticated
+synchronization constructs.
+
+30
+00:01:41,990 --> 00:01:43,670
+Because they're a basic construct,
+
+31
+00:01:43,670 --> 00:01:47,610
+we will revisit spinlocks a little bit
+later in this lesson, and we will spend
+
+32
+00:01:47,610 --> 00:01:51,490
+some time discussing different
+implementation strategies for spinlocks.

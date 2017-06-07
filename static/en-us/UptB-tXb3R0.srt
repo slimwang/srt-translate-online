@@ -1,0 +1,108 @@
+1
+00:00:00,140 --> 00:00:02,910
+We can make a small adjustment in
+our code to prevent excessive churn.
+
+2
+00:00:02,910 --> 00:00:04,590
+Let's take a look at a comparison view.
+
+3
+00:00:04,590 --> 00:00:07,880
+Rather than concatenate one cell value
+at a time to build each row, let's use
+
+4
+00:00:07,880 --> 00:00:11,580
+a StringBuilder instance, and construct
+each row using a single string.
+
+5
+00:00:11,580 --> 00:00:14,400
+Note that the StringBuilder's
+instantiated outside the loop, and
+
+6
+00:00:14,400 --> 00:00:16,050
+thus its memory is allocated once.
+
+7
+00:00:16,050 --> 00:00:17,960
+And then we simply use
+it as a buffer for
+
+8
+00:00:17,960 --> 00:00:21,200
+each iteration of the loop where we
+first clear it, and then we append
+
+9
+00:00:21,200 --> 00:00:24,420
+a single string of ints to represent
+the row for that loop iteration.
+
+10
+00:00:24,420 --> 00:00:27,250
+Now see the instructor notes for
+more details into this code segment.
+
+11
+00:00:27,250 --> 00:00:28,490
+All right, now it's time to verify.
+
+12
+00:00:28,490 --> 00:00:30,880
+You want to go ahead and
+load the improved branch of code,
+
+13
+00:00:30,880 --> 00:00:36,240
+which is called memory_churn_optimized,
+into both trace view and memory monitor
+
+14
+00:00:36,240 --> 00:00:39,690
+to confirm we've reduced the amount of
+GC's occurring in the short time window.
+
+15
+00:00:39,690 --> 00:00:42,620
+You may also use allocation
+tracker to verify.
+
+16
+00:00:42,620 --> 00:00:44,250
+If you use allocation tracker, or
+
+17
+00:00:44,250 --> 00:00:47,770
+if you got something unexpected
+in trace view, or memory monitor.
+
+18
+00:00:47,770 --> 00:00:50,710
+Share a screenshot of your
+output in the discussion forums.
+
+19
+00:00:50,710 --> 00:00:51,920
+We're interested in
+seeing what you've got.
+
+20
+00:00:52,925 --> 00:00:58,715
+Now for us, even with these changes,
+the Perf pirate still pauses.
+
+21
+00:00:58,715 --> 00:00:59,745
+But this time for less time.
+
+22
+00:01:00,755 --> 00:01:03,365
+Now this point, this also might mean
+that this function is probably a good
+
+23
+00:01:03,365 --> 00:01:04,515
+candidate to be backgrounded.

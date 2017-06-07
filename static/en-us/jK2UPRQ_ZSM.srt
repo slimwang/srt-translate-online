@@ -1,0 +1,98 @@
+1
+00:00:00,140 --> 00:00:02,460
+So, what are we doing with
+these filters, anyway?
+
+2
+00:00:02,460 --> 00:00:05,220
+Well, in the app,
+we want to allow users to search for
+
+3
+00:00:05,220 --> 00:00:07,418
+conferences according to
+any of these criteria.
+
+4
+00:00:07,418 --> 00:00:10,180
+That's why we're storing
+an index in them, after all.
+
+5
+00:00:10,180 --> 00:00:13,310
+As usual, the front end for
+this is already implemented.
+
+6
+00:00:13,310 --> 00:00:15,520
+Next up,
+we'll be adding the back end logic.
+
+7
+00:00:15,520 --> 00:00:18,420
+Currently, if we add a filter over here,
+all that happens
+
+8
+00:00:18,420 --> 00:00:22,870
+is the query conferences method gets
+called, and the filter is just ignored.
+
+9
+00:00:22,870 --> 00:00:24,690
+It just returns all the conferences.
+
+10
+00:00:24,690 --> 00:00:27,700
+But if you look up here in this message,
+you'll see the filter data
+
+11
+00:00:27,700 --> 00:00:30,290
+that the front end is
+sending to the back end API.
+
+12
+00:00:30,290 --> 00:00:35,510
+We see filters, fields, city, operator,
+eq for equals, value, London,
+
+13
+00:00:35,510 --> 00:00:42,150
+just like this, and field max attendees
+operator gt for greater than value ten.
+
+14
+00:00:42,150 --> 00:00:44,830
+But it isn't actually
+applying these filters.
+
+15
+00:00:44,830 --> 00:00:47,416
+That's because currently,
+our query conferences method takes
+
+16
+00:00:47,416 --> 00:00:50,920
+a conference query forms message,
+which contains all these filters.
+
+17
+00:00:50,920 --> 00:00:52,760
+Right now it doesn't
+do anything with it.
+
+18
+00:00:52,760 --> 00:00:55,580
+The next chunk of code we'll be
+seeing will interpret this filter
+
+19
+00:00:55,580 --> 00:00:58,700
+data structure, and turn it into
+actual data store filters, and
+
+20
+00:00:58,700 --> 00:01:00,780
+you'll be modifying query
+conferences to use them.

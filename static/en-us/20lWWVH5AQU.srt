@@ -1,0 +1,225 @@
+1
+00:00:00,380 --> 00:00:03,200
+There are a few terms related
+to Packer that you need to know.
+
+2
+00:00:03,200 --> 00:00:05,720
+A template is a JSON
+file that defines one or
+
+3
+00:00:05,720 --> 00:00:08,760
+more builds by configuring
+the various components of Packer.
+
+4
+00:00:08,760 --> 00:00:10,240
+Packer will read the template and
+
+5
+00:00:10,240 --> 00:00:13,220
+use that information to create
+multiple machine images in parallel.
+
+6
+00:00:13,220 --> 00:00:16,720
+Builders are components of Packer that
+are able to create a machine image for
+
+7
+00:00:16,720 --> 00:00:17,890
+a single platform.
+
+8
+00:00:17,890 --> 00:00:20,600
+Builders read in some configuration and
+use that to run and
+
+9
+00:00:20,600 --> 00:00:22,150
+generate a machine image.
+
+10
+00:00:22,150 --> 00:00:24,740
+A builder is invoked as
+part of a build in order to
+
+11
+00:00:24,740 --> 00:00:27,060
+create the actual resulting image.
+
+12
+00:00:27,060 --> 00:00:30,380
+Example builders include VirtualBox,
+VMware,
+
+13
+00:00:30,380 --> 00:00:35,280
+Amazon EC2 and more can be created and
+added to Packer in the form of plug-ins.
+
+14
+00:00:35,280 --> 00:00:38,850
+Builders take a source image that is
+different for each specific builder.
+
+15
+00:00:38,850 --> 00:00:42,600
+So, this Virtual Box builder
+will have an ISO as a source.
+
+16
+00:00:42,600 --> 00:00:45,792
+Where as an Amazon EC2 builder
+will have an AMI as a source.
+
+17
+00:00:45,792 --> 00:00:49,065
+Provisioners are components
+of Packer that install and
+
+18
+00:00:49,065 --> 00:00:51,645
+configure software within
+a running machine,
+
+19
+00:00:51,645 --> 00:00:54,815
+prior to that machine being
+turned into a static image.
+
+20
+00:00:54,815 --> 00:00:58,555
+They perform the major work of making
+the image contain useful software.
+
+21
+00:00:58,555 --> 00:01:02,345
+Examples of provisioners include
+shell scripts, and also Chef or
+
+22
+00:01:02,345 --> 00:01:05,084
+Puppet scripts, that install software.
+
+23
+00:01:05,084 --> 00:01:08,840
+Post-processors are Packer components
+that take the result of a builder or
+
+24
+00:01:08,840 --> 00:01:12,590
+another post-processor and
+process that to create a new artifact.
+
+25
+00:01:12,590 --> 00:01:16,132
+Examples of post-processors
+are compressed to compress artifacts,
+
+26
+00:01:16,132 --> 00:01:20,710
+upload/upvote artifacts, in this case,
+vagrant builder vagrant box.
+
+27
+00:01:20,710 --> 00:01:24,380
+Artifacts are the result of a single
+build and are usually a set of ID's or
+
+28
+00:01:24,380 --> 00:01:26,480
+files to represent a machine image.
+
+29
+00:01:26,480 --> 00:01:28,920
+Every builder produces
+a single artifact.
+
+30
+00:01:28,920 --> 00:01:32,410
+And a build is a single task that
+eventually produces an image.
+
+31
+00:01:32,410 --> 00:01:37,130
+For example, the same Packer script
+could run builds for VMware,
+
+32
+00:01:37,130 --> 00:01:38,710
+AWS, and VirtualBox.
+
+33
+00:01:38,710 --> 00:01:43,080
+So Packer reads a template file,
+picks the appropriate builder for each
+
+34
+00:01:43,080 --> 00:01:47,310
+platform that's listed in the template,
+and runs a build to produce an image.
+
+35
+00:01:47,310 --> 00:01:48,480
+Then once the machine is up and
+
+36
+00:01:48,480 --> 00:01:51,800
+running on that platform using that
+image, it runs the appropriate
+
+37
+00:01:51,800 --> 00:01:55,980
+provisioners to install whatever other
+software configuration you need it to.
+
+38
+00:01:55,980 --> 00:01:58,690
+That's then saved out
+as a modified image.
+
+39
+00:01:58,690 --> 00:02:02,889
+And after that's done, it optionally
+runs one or more post-processors on it,
+
+40
+00:02:02,889 --> 00:02:05,740
+and in the end saves
+the resulting artifact.
+
+41
+00:02:05,740 --> 00:02:07,470
+So, given what you've seen here,
+
+42
+00:02:07,470 --> 00:02:10,470
+how would you switch from
+Ubuntu to CentOS in Packer?
+
+43
+00:02:10,470 --> 00:02:15,010
+Would you run Packer on a machine or
+VM that's already running CentOS?
+
+44
+00:02:15,010 --> 00:02:17,990
+Would you change the source
+in the builder configuration?
+
+45
+00:02:17,990 --> 00:02:20,950
+Would you change the source in
+the provisioner configuration?
+
+46
+00:02:20,950 --> 00:02:24,250
+Would you change the target in
+the post-processor configuration?
+
+47
+00:02:24,250 --> 00:02:27,420
+Or is the answer that you can't,
+Packer only supports Ubuntu?

@@ -1,0 +1,257 @@
+1
+00:00:00,150 --> 00:00:02,080
+When you're thinking about
+using the orderBy methods,
+
+2
+00:00:02,080 --> 00:00:04,220
+you should always take a look
+at your data structure.
+
+3
+00:00:04,220 --> 00:00:06,850
+Here under the root node,
+I have activeLists.
+
+4
+00:00:06,850 --> 00:00:09,470
+And in activeLists,
+there's a bunch of shopping lists.
+
+5
+00:00:09,470 --> 00:00:11,690
+Now the shopping lists
+are what we are sorting.
+
+6
+00:00:11,690 --> 00:00:12,760
+And because of that,
+
+7
+00:00:12,760 --> 00:00:16,450
+the location that you're interested
+in is the location activeLists.
+
+8
+00:00:16,450 --> 00:00:18,270
+It is the parent of all
+these shopping lists.
+
+9
+00:00:18,270 --> 00:00:20,820
+So you'll make a Firebase
+reference location here.
+
+10
+00:00:20,820 --> 00:00:22,385
+And then you'll use
+the orderBy methods on it.
+
+11
+00:00:22,385 --> 00:00:25,212
+And the question is for
+each of our three sorting options,
+
+12
+00:00:25,212 --> 00:00:28,039
+sort by list name, sort by owner and
+sort by publish time,
+
+13
+00:00:28,039 --> 00:00:30,730
+which of these ordering
+options should we be using?
+
+14
+00:00:30,730 --> 00:00:32,229
+So my thought for order by name and
+
+15
+00:00:32,229 --> 00:00:34,840
+order by email is that we
+should use orderByChild.
+
+16
+00:00:34,840 --> 00:00:36,060
+That's because for each list, and
+
+17
+00:00:36,060 --> 00:00:39,180
+you can see a full list expanded out
+here, there's a owner property and
+
+18
+00:00:39,180 --> 00:00:41,800
+a listName property, and
+that's what we want to sort by.
+
+19
+00:00:41,800 --> 00:00:45,440
+It is the child of the list objects that
+you're looking at that you want to sort
+
+20
+00:00:45,440 --> 00:00:46,600
+all these lists by.
+
+21
+00:00:46,600 --> 00:00:48,780
+And depending on which property
+you actually want to sort on,
+
+22
+00:00:48,780 --> 00:00:52,920
+you should put that property in
+as the argument that you pass in.
+
+23
+00:00:52,920 --> 00:00:54,370
+Okay, so that's looking good for
+those two.
+
+24
+00:00:54,370 --> 00:00:56,260
+Let's talk about publish time.
+
+25
+00:00:56,260 --> 00:00:58,397
+Okay, so orderByChild is
+a good choice for these two.
+
+26
+00:00:58,397 --> 00:01:02,772
+orderByKey doesn't make a lot of
+sense for sorting by listName or
+
+27
+00:01:02,772 --> 00:01:06,630
+owner because here the keys
+are listName and owner.
+
+28
+00:01:06,630 --> 00:01:11,425
+And you're not actually taking the value
+into any account if you tell it to sort
+
+29
+00:01:11,425 --> 00:01:12,315
+by key.
+
+30
+00:01:12,315 --> 00:01:16,990
+orderByValue would be used if these
+top level lists here weren't objects.
+
+31
+00:01:16,990 --> 00:01:19,060
+Now we know they're objects because
+they're composed of a bunch
+
+32
+00:01:19,060 --> 00:01:20,278
+of different properties.
+
+33
+00:01:20,278 --> 00:01:24,220
+But if there's a single value, like
+this push ID just had a single number or
+
+34
+00:01:24,220 --> 00:01:27,325
+single string associated with it,
+then you could use orderByValue.
+
+35
+00:01:28,570 --> 00:01:32,660
+But it doesn't, it has children and
+so you need to be using orderByChild.
+
+36
+00:01:32,660 --> 00:01:35,370
+And you wouldn't choose orderByPriority
+in this case because that
+
+37
+00:01:35,370 --> 00:01:36,920
+method is deprecated just in general.
+
+38
+00:01:38,160 --> 00:01:40,890
+Now ordering by publish time
+is a little bit different.
+
+39
+00:01:40,890 --> 00:01:43,240
+While you could choose
+to order by child,
+
+40
+00:01:43,240 --> 00:01:45,940
+a better answer is to order by the key.
+
+41
+00:01:45,940 --> 00:01:48,310
+So how does ordering by
+key work in this case?
+
+42
+00:01:48,310 --> 00:01:50,580
+Well, the keys for
+all these lists are the push IDs.
+
+43
+00:01:50,580 --> 00:01:53,640
+And if you remember,
+push IDs have a special property.
+
+44
+00:01:53,640 --> 00:01:58,177
+Push IDs are created, in part, using
+the time that they were actually made.
+
+45
+00:01:58,177 --> 00:02:00,523
+And when you sort a bunch of
+push IDs lexigraphically,
+
+46
+00:02:00,523 --> 00:02:03,170
+they are sorted by the time
+that they were created.
+
+47
+00:02:03,170 --> 00:02:04,420
+So because the push IDs,
+
+48
+00:02:04,420 --> 00:02:08,560
+which are the keys, have this property,
+you can use orderByKey.
+
+49
+00:02:08,560 --> 00:02:11,430
+And because for each of these
+objects there's only one key,
+
+50
+00:02:11,430 --> 00:02:13,520
+you don't have to pass
+any arguments in here.
+
+51
+00:02:13,520 --> 00:02:15,650
+It's very clear what we're sorting by.
+
+52
+00:02:15,650 --> 00:02:18,250
+Okay, so to summarize for
+sorting by listName and
+
+53
+00:02:18,250 --> 00:02:20,340
+owner you can use orderByChild.
+
+54
+00:02:20,340 --> 00:02:23,465
+And for sorting by the time
+created you can use orderByKey.

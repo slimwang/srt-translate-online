@@ -1,0 +1,494 @@
+﻿1
+00:00:00,440 --> 00:00:01,700
+Let's start by curating a dataset.
+
+2
+00:00:03,060 --> 00:00:06,589
+Neural networks by themselves
+can't really do anything.
+
+3
+00:00:06,589 --> 00:00:08,960
+All a neural network really
+does is search for direct or
+
+4
+00:00:08,960 --> 00:00:11,250
+indirect correlation
+between two datasets.
+
+5
+00:00:11,250 --> 00:00:13,839
+So in order for
+neural network to train anything,
+
+6
+00:00:13,839 --> 00:00:16,750
+we have to present it with
+two meaningful datasets.
+
+7
+00:00:16,750 --> 00:00:19,109
+The first dataset must
+represent what we know.
+
+8
+00:00:19,109 --> 00:00:21,875
+And the second dataset must
+represent what we want to know,
+
+9
+00:00:21,875 --> 00:00:24,620
+what we want the neural
+net to be able to tell us.
+
+10
+00:00:24,620 --> 00:00:27,650
+As the network trains, it's going to
+search for correlation between these
+
+11
+00:00:27,649 --> 00:00:31,289
+two data sets, so that eventually it can
+take one and learn to predict the other.
+
+12
+00:00:31,289 --> 00:00:35,140
+Let me show you what I mean
+with our example data set.
+
+13
+00:00:35,140 --> 00:00:39,700
+Right here we're going to kind of load
+into a list a set of IMDB movie reviews.
+
+14
+00:00:39,700 --> 00:00:42,640
+So these are movie reviews that
+people uploaded to the site IMDB.
+
+15
+00:00:43,750 --> 00:00:47,270
+These labels come with those reviews as
+
+16
+00:00:47,270 --> 00:00:49,660
+people have labeled them
+with one to five stars.
+
+17
+00:00:49,659 --> 00:00:53,769
+In this case we've bucketed them
+into just positive reviews being
+
+18
+00:00:53,770 --> 00:00:56,750
+higher than three stars and
+negative reviews being lower.
+
+19
+00:00:56,750 --> 00:00:58,079
+So, we have 25,000 reviews.
+
+20
+00:00:58,079 --> 00:01:03,917
+Here's an example of one of those
+reviews which is a negative review,
+
+21
+00:01:03,917 --> 00:01:04,679
+I believe, yeah.
+
+22
+00:01:04,680 --> 00:01:09,690
+And then, this one, we could see
+if it's a positive review and
+
+23
+00:01:09,689 --> 00:01:11,870
+the label comes with a positive label.
+
+24
+00:01:11,870 --> 00:01:13,439
+So, this is our dataset.
+
+25
+00:01:13,439 --> 00:01:14,789
+Actually it's two data sets, right?
+
+26
+00:01:14,790 --> 00:01:17,230
+So we have this data set
+which is what we know, and
+
+27
+00:01:17,230 --> 00:01:18,810
+what we will know in the future, right?
+
+28
+00:01:18,810 --> 00:01:20,829
+And then this is what we want
+to know about the data set.
+
+29
+00:01:20,829 --> 00:01:23,361
+So in this case we have
+two example data sets.
+
+30
+00:01:23,361 --> 00:01:26,609
+We're going to try to train a neural
+network to take this as input and
+
+31
+00:01:26,609 --> 00:01:28,790
+be able to accurately predict this.
+
+32
+00:01:28,790 --> 00:01:33,920
+So that when we see more human generated
+text in the future, in theory,
+
+33
+00:01:33,920 --> 00:01:35,260
+our neural net will be able to classify.
+
+34
+00:01:36,609 --> 00:01:39,150
+The first thing we want to do when
+we encounter a dataset like is
+
+35
+00:01:39,150 --> 00:01:40,990
+develop a predictive theory.
+
+36
+00:01:40,989 --> 00:01:44,929
+Now, a predictive theory is really about
+saying, okay, if I was the neural net,
+
+37
+00:01:44,930 --> 00:01:48,720
+and I was going to try to
+figure out how to look for
+
+38
+00:01:48,719 --> 00:01:51,340
+correlation in the data set,
+where would I look?
+
+39
+00:01:51,340 --> 00:01:55,150
+Best thing that I like to do when
+developing predictive theory is just
+
+40
+00:01:55,150 --> 00:01:56,280
+take a look at the dataset.
+
+41
+00:01:56,280 --> 00:01:58,989
+Try to figure out if I can
+solve this problem myself.
+
+42
+00:01:58,989 --> 00:02:00,519
+And then sort of look inward and say,
+
+43
+00:02:00,519 --> 00:02:05,949
+okay, what am I using maybe under
+the hood to kind of understand
+
+44
+00:02:05,950 --> 00:02:08,669
+whether this had a positive or
+negative sentiment.
+
+45
+00:02:08,669 --> 00:02:10,150
+So let's just read a few.
+
+46
+00:02:10,150 --> 00:02:13,289
+This movie was terrible, but
+it has some good effects.
+
+47
+00:02:13,289 --> 00:02:17,229
+Negative review,
+adrian pasdar is excellent in this film,
+
+48
+00:02:17,229 --> 00:02:19,379
+he makes a fascinating woman.
+
+49
+00:02:19,379 --> 00:02:23,699
+Negative review, comment,
+this movie is impossible, is terrible,
+
+50
+00:02:23,699 --> 00:02:25,780
+very improbable, bad interpretation.
+
+51
+00:02:25,780 --> 00:02:29,599
+Positive, excellent episode movie
+ala pulp fiction, days suicides,
+
+52
+00:02:29,599 --> 00:02:31,250
+it doesn't get more, and
+then it continues on.
+
+53
+00:02:32,280 --> 00:02:34,650
+So already I'm starting
+to kind of get a feel.
+
+54
+00:02:34,650 --> 00:02:39,349
+It seems to me pretty obvious these
+are really polarized examples.
+
+55
+00:02:39,349 --> 00:02:42,389
+But what I'm going to be looking for
+is, okay, what in this
+
+56
+00:02:42,389 --> 00:02:46,459
+is creating a correlation between my
+reviews data set and my labels data set.
+
+57
+00:02:47,770 --> 00:02:49,689
+Well what is it in here?
+
+58
+00:02:49,689 --> 00:02:51,169
+This is a list of characters, right?
+
+59
+00:02:51,169 --> 00:02:55,409
+So when I actually load it in, it says
+native format and it's just a list of,
+
+60
+00:02:55,409 --> 00:02:58,799
+I guess in this case 26
+plus different characters.
+
+61
+00:03:00,129 --> 00:03:02,090
+Is there correlation
+in its current state?
+
+62
+00:03:02,090 --> 00:03:07,390
+Well I don't really think that letter M
+or letter T has much predicted power.
+
+63
+00:03:07,389 --> 00:03:11,919
+Right, so we have M in negative examples
+and we have M in positive examples.
+
+64
+00:03:11,919 --> 00:03:15,139
+It doesn't really help us, so I don't
+think that would be a good source.
+
+65
+00:03:15,139 --> 00:03:18,809
+So the native state it's in right
+now is probably not very good.
+
+66
+00:03:18,810 --> 00:03:21,550
+Now let's consider kind of the opposite
+
+67
+00:03:21,550 --> 00:03:26,610
+spectrum where we take the entire
+review as sort of what this dataset is.
+
+68
+00:03:26,610 --> 00:03:29,100
+Well it is very predictive.
+
+69
+00:03:29,099 --> 00:03:33,819
+I mean, this review, every time we
+saw it, it was negative example.
+
+70
+00:03:33,819 --> 00:03:35,509
+Unfortunately, we only saw it once.
+
+71
+00:03:35,509 --> 00:03:38,359
+And I think I can likely
+expect that most reviews we
+
+72
+00:03:38,360 --> 00:03:40,220
+see in the future are going
+to be relatively original.
+
+73
+00:03:40,219 --> 00:03:42,500
+We're going to see some people
+say this movie was terrible,
+
+74
+00:03:42,500 --> 00:03:45,349
+or this movie was great, or really
+straightforward, things like that.
+
+75
+00:03:45,349 --> 00:03:47,442
+But most reviews have nuance.
+
+76
+00:03:47,442 --> 00:03:50,990
+They have a particular
+choice of words and
+
+77
+00:03:50,990 --> 00:03:54,300
+sequence that's not just not really
+going to be duplicated very often.
+
+78
+00:03:54,300 --> 00:03:57,903
+So, training a neural net on the entire
+review might not work that well in
+
+79
+00:03:57,902 --> 00:04:00,689
+the real world because we
+just don't see it very often.
+
+80
+00:04:00,689 --> 00:04:03,520
+So, great correlation but
+kind of poor generalization.
+
+81
+00:04:04,520 --> 00:04:06,909
+What about kind of in between
+characters in the full review?
+
+82
+00:04:06,909 --> 00:04:12,164
+So I noticed that in NEGATIVE examples,
+we see words like terrible, and
+
+83
+00:04:12,164 --> 00:04:19,060
+improbable, and terrible, and terrible,
+and trash, and individual words that
+
+84
+00:04:20,600 --> 00:04:25,100
+might have some correlation with
+these POSITIVE and NEGATIVE labels,
+
+85
+00:04:25,100 --> 00:04:30,460
+in contrast to excellent, or
+fascinating, or excellent quality.
+
+86
+00:04:30,459 --> 00:04:35,659
+So maybe it's just actually the counts
+of the different kinds of words
+
+87
+00:04:35,660 --> 00:04:38,020
+that are occurring in this,
+in these reviews.
+
+88
+00:04:38,019 --> 00:04:41,250
+I think that's kind of a better theory.
+
+89
+00:04:41,250 --> 00:04:42,550
+Certainly better than characters and
+
+90
+00:04:42,550 --> 00:04:45,199
+certainly better than
+the reviews as a whole.
+
+91
+00:04:45,199 --> 00:04:47,860
+But before we just kind of run
+off creating a neural net,
+
+92
+00:04:47,860 --> 00:04:50,850
+I find that it's best to sort
+of do a quick validate, right?
+
+93
+00:04:50,850 --> 00:04:56,410
+So, this is something that we think
+is true with the theory that we have.
+
+94
+00:04:56,410 --> 00:04:57,820
+But before we actually go and
+
+95
+00:04:57,819 --> 00:05:03,509
+do everything, we should see if what
+we have is naively predictable, right?
+
+96
+00:05:03,509 --> 00:05:06,449
+Now what I typically do here is I just,
+I count them.
+
+97
+00:05:06,449 --> 00:05:11,500
+Or I formulate a count based
+heuristic to try to see, okay, does
+
+98
+00:05:11,500 --> 00:05:16,855
+this phenomenon seem to happen more for
+this label than it does for this label?
+
+99
+00:05:16,855 --> 00:05:18,764
+Right, is it a good [INAUDIBLE].
+
+100
+00:05:18,764 --> 00:05:21,230
+So the first project that I
+would like for you to tackle and
+
+101
+00:05:21,230 --> 00:05:25,930
+then I will show you how I tackle it, is
+to just think about how you would take
+
+102
+00:05:25,930 --> 00:05:30,590
+this data set and validate our theory
+that words are predictive of labels.
+
+103
+00:05:31,740 --> 00:05:35,420
+So go ahead and take a few minutes and
+take a crack at it and see if you can
+
+104
+00:05:35,420 --> 00:05:39,949
+kind of just come up with a way of
+showing either is or is not predictive.
+

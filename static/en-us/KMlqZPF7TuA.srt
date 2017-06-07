@@ -1,0 +1,506 @@
+1
+00:00:00,540 --> 00:00:03,340
+So you saw in theory how
+the process works, but
+
+2
+00:00:03,340 --> 00:00:06,550
+now I'm going to show you a way that
+you can actually witness the peDbHelper
+
+3
+00:00:06,550 --> 00:00:10,940
+class creating a database by exploring
+your device's file system and
+
+4
+00:00:10,940 --> 00:00:14,920
+then watching the .db file appear when
+the database is actually created.
+
+5
+00:00:14,920 --> 00:00:17,320
+So as a note,
+the method I'm about to show you,
+
+6
+00:00:17,320 --> 00:00:19,740
+I highly suggest you
+run on your emulator.
+
+7
+00:00:19,740 --> 00:00:22,760
+And this is because if you're
+using a physical device,
+
+8
+00:00:22,760 --> 00:00:24,630
+that device needs to be rooted.
+
+9
+00:00:24,630 --> 00:00:27,170
+Also, all the steps that
+we've seen in this video,
+
+10
+00:00:27,170 --> 00:00:29,000
+I'll be showing as text below.
+
+11
+00:00:29,000 --> 00:00:32,345
+So be sure to check that out
+after you watch this video.
+
+12
+00:00:32,345 --> 00:00:35,760
+So in the CatalogActivity of our
+project, I'm going to start by
+
+13
+00:00:35,760 --> 00:00:39,973
+commenting out the call to this method,
+our displayDatabaseInfo method.
+
+14
+00:00:39,973 --> 00:00:42,490
+So we can actually, pretty much,
+ignore this method right now.
+
+15
+00:00:42,490 --> 00:00:47,055
+And instead, I want to execute
+the first line that it was calling
+
+16
+00:00:47,055 --> 00:00:51,900
+which was this one, creating
+an instance of a PetDbHelper class.
+
+17
+00:00:51,900 --> 00:00:55,410
+Next, I'm going to go into my device and
+clear out the data and
+
+18
+00:00:55,410 --> 00:00:56,550
+the cache as well.
+
+19
+00:00:56,550 --> 00:00:58,250
+Here's how that's done.
+
+20
+00:00:58,250 --> 00:01:02,820
+So you need to head over into settings,
+go down to apps,
+
+21
+00:01:02,820 --> 00:01:04,950
+go to the app that we're interested in,
+so
+
+22
+00:01:04,950 --> 00:01:09,990
+the pet's app, head over to Storage and
+then clear cache as well as clear data.
+
+23
+00:01:11,360 --> 00:01:14,950
+So the instructions for what I just
+did there will also be listed below.
+
+24
+00:01:14,950 --> 00:01:18,282
+So what happened clearing
+out the data and the cache,
+
+25
+00:01:18,282 --> 00:01:22,540
+it erases any pre-existing
+SQLite database for the app.
+
+26
+00:01:22,540 --> 00:01:26,080
+And so this should mean that, going
+back to the app, nothing should appear.
+
+27
+00:01:26,080 --> 00:01:27,150
+So as expected,
+
+28
+00:01:27,150 --> 00:01:31,870
+our CatalogActivity isn't calling
+displayDatabaseInfo anymore.
+
+29
+00:01:31,870 --> 00:01:36,340
+So, at this point no database has
+been created because we didn't call
+
+30
+00:01:36,340 --> 00:01:40,700
+any getWritableDatabase method or
+any getReadableDatabase method,
+
+31
+00:01:40,700 --> 00:01:44,870
+which we had done in our
+displayDatabaseInfo method down here.
+
+32
+00:01:44,870 --> 00:01:48,200
+So to confirm this, I'm going to show
+you how you can check up the data that's
+
+33
+00:01:48,200 --> 00:01:51,570
+on our device, and show you that
+there's no database in it juts yet.
+
+34
+00:01:51,570 --> 00:01:55,570
+And, as a reminder, the method will
+require you running it on an emulator
+
+35
+00:01:55,570 --> 00:01:58,410
+instead of the physical device,
+unless you do have a rooted device.
+
+36
+00:01:58,410 --> 00:02:03,050
+So start off by heading to the Android
+Device Monitor, this button right here.
+
+37
+00:02:04,170 --> 00:02:04,850
+So from here,
+
+38
+00:02:04,850 --> 00:02:08,180
+with our emulator selected,
+head over to the File Explorer, and
+
+39
+00:02:08,180 --> 00:02:11,180
+this feature allows us to
+explore a device's file system.
+
+40
+00:02:11,180 --> 00:02:13,765
+So what I'm interested
+in is this data folder.
+
+41
+00:02:13,765 --> 00:02:19,140
+If we click into that, scroll down just
+a bit, we find another data folder, and
+
+42
+00:02:19,140 --> 00:02:23,580
+scrolling into it, I want to find
+the package that we're interested in
+
+43
+00:02:23,580 --> 00:02:28,690
+which is com.example.android.pet,
+and that should be right here.
+
+44
+00:02:28,690 --> 00:02:30,410
+So if you click that open,
+
+45
+00:02:30,410 --> 00:02:34,240
+you can see the data that's
+associated with this application.
+
+46
+00:02:34,240 --> 00:02:38,640
+So if we click through it, we see
+there's some files associated with this
+
+47
+00:02:38,640 --> 00:02:43,920
+app already but none of them
+are database files so no .db files.
+
+48
+00:02:43,920 --> 00:02:45,742
+And remember,
+that's because this line of code,
+
+49
+00:02:45,742 --> 00:02:49,610
+our getReadableDatabase method
+hasn't even been called yet.
+
+50
+00:02:49,610 --> 00:02:52,713
+So we've skipped it because we're
+skipping over our displayDatabaseInfo
+
+51
+00:02:52,713 --> 00:02:54,020
+method here.
+
+52
+00:02:54,020 --> 00:02:59,140
+So instead, I want to copy and paste it
+up into this onCreate method up here.
+
+53
+00:02:59,140 --> 00:03:01,290
+So now I'm going to rerun the app and
+see what happens.
+
+54
+00:03:02,320 --> 00:03:04,890
+So if you have not
+initiated Instant Run yet,
+
+55
+00:03:04,890 --> 00:03:06,670
+be sure to do that if
+it's the first time.
+
+56
+00:03:06,670 --> 00:03:10,940
+So tools &gt; Android and
+Enable ADB Integration.
+
+57
+00:03:10,940 --> 00:03:15,250
+I'm going to click run again,
+all right, so the updated code ran.
+
+58
+00:03:15,250 --> 00:03:18,029
+And let's see what happens
+in our data package.
+
+59
+00:03:18,029 --> 00:03:22,602
+So back in the emulator,
+File Explorer, back into data &gt;
+
+60
+00:03:22,602 --> 00:03:26,980
+data again, and then down into
+the package that we're interested in.
+
+61
+00:03:26,980 --> 00:03:30,180
+So notice that a new folder
+called databases is created.
+
+62
+00:03:30,180 --> 00:03:32,130
+If we open that up, perfect.
+
+63
+00:03:32,130 --> 00:03:36,290
+So as expected we have
+a shelter database file now.
+
+64
+00:03:36,290 --> 00:03:40,460
+So we just saw that adding the method
+call, getReadableDatabase,
+
+65
+00:03:40,460 --> 00:03:42,800
+actually created
+something on our device.
+
+66
+00:03:42,800 --> 00:03:47,100
+So if I decide to run the app again,
+no new file will appear
+
+67
+00:03:47,100 --> 00:03:51,750
+because the getReadableDatabase method
+will simply be providing a connection
+
+68
+00:03:51,750 --> 00:03:55,730
+to this existing database,
+instead of re-creating it.
+
+69
+00:03:55,730 --> 00:03:59,660
+So if I want to see the contents of
+our shelter.db file, I can download it
+
+70
+00:03:59,660 --> 00:04:04,195
+through our DDMS, which is our
+Dalvik Device Monitoring Service,
+
+71
+00:04:04,195 --> 00:04:08,800
+or which is what we're seeing here,
+by pressing this button here.
+
+72
+00:04:08,800 --> 00:04:12,560
+So what this does, is that it
+pulls the file from the device.
+
+73
+00:04:12,560 --> 00:04:16,430
+So I want to call it shelter.db, and
+let's save it off to our desktop.
+
+74
+00:04:17,500 --> 00:04:20,500
+So that file name looks really
+similar to what we worked with
+
+75
+00:04:20,500 --> 00:04:22,240
+when we were in the terminal.
+
+76
+00:04:22,240 --> 00:04:24,600
+And that's exactly what we're
+going to do right now, so
+
+77
+00:04:24,600 --> 00:04:26,190
+head over to the terminal.
+
+78
+00:04:26,190 --> 00:04:30,150
+So one quick way to see that is
+actually through Android Studio.
+
+79
+00:04:30,150 --> 00:04:34,010
+Clicking this button here takes us to
+the terminal on our computer already.
+
+80
+00:04:34,010 --> 00:04:38,530
+So remember, the keyword to get into
+the SQLite 3 program was sqlite3,
+
+81
+00:04:38,530 --> 00:04:42,750
+followed by, actually remember that
+I saved it off onto my desktop.
+
+82
+00:04:42,750 --> 00:04:45,960
+So I'm going to make sure I
+head over to the desktop,
+
+83
+00:04:45,960 --> 00:04:47,980
+I'm going to cd into my desktop.
+
+84
+00:04:47,980 --> 00:04:51,530
+And then from here,
+I'm going to open up sqlite3 program and
+
+85
+00:04:51,530 --> 00:04:54,340
+the shelter database file that's on it.
+
+86
+00:04:54,340 --> 00:04:57,350
+So from here I can use
+my .tables command.
+
+87
+00:04:57,350 --> 00:04:59,250
+So I see that there are two tables.
+
+88
+00:04:59,250 --> 00:05:00,145
+So the first one here,
+
+89
+00:05:00,145 --> 00:05:04,000
+android_metadata is one that's
+created by the android system.
+
+90
+00:05:04,000 --> 00:05:09,965
+And the second one pets was created by
+us in onCreate method of petDdHelper.
+
+91
+00:05:11,010 --> 00:05:14,200
+Now, I can use
+the PRAGMA TABLE_INFO command
+
+92
+00:05:14,200 --> 00:05:16,390
+to see the columns in my database,
+so let's use that.
+
+93
+00:05:17,490 --> 00:05:20,090
+And, remember,
+because this is an SQL command,
+
+94
+00:05:20,090 --> 00:05:22,510
+I'm going to end it with a semi-column.
+
+95
+00:05:22,510 --> 00:05:25,185
+So, this shows all
+the columns in my table.
+
+96
+00:05:25,185 --> 00:05:28,330
+Remember, we can use .scheme command
+
+97
+00:05:28,330 --> 00:05:32,240
+to show SQL statement that I use
+on my code to make the table.
+
+98
+00:05:32,240 --> 00:05:35,610
+Now downloading the database from your
+device can be kind of laborious, but
+
+99
+00:05:35,610 --> 00:05:39,420
+it is one useful way that allows
+you to debug your SQL code.
+
+100
+00:05:39,420 --> 00:05:42,580
+So if you're trying this out and
+your table doesn't look like this,
+
+101
+00:05:42,580 --> 00:05:45,710
+then something probably went wrong
+with the creation statement here.
+
+102
+00:05:45,710 --> 00:05:49,210
+So you can erase the database
+by uninstalling the app and
+
+103
+00:05:49,210 --> 00:05:52,360
+then fix the code and
+then reinstall the app again.
+
+104
+00:05:52,360 --> 00:05:54,050
+So when the database is matched and
+
+105
+00:05:54,050 --> 00:05:56,190
+it's working correctly,
+you can move on to the next step.

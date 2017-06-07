@@ -1,0 +1,244 @@
+1
+00:00:00,120 --> 00:00:04,030
+To understand Winter threats useful,
+let's start to think about what
+
+2
+00:00:04,030 --> 00:00:06,890
+are the different ways to
+provide concurrency and
+
+3
+00:00:06,890 --> 00:00:09,940
+what are the trade offs
+among those implementation.
+
+4
+00:00:09,940 --> 00:00:12,450
+So far we've talked about
+multi threaded applications.
+
+5
+00:00:12,450 --> 00:00:15,140
+But an application can
+be implemented by having
+
+6
+00:00:15,140 --> 00:00:17,900
+multiple concurrently running processes.
+
+7
+00:00:17,900 --> 00:00:21,829
+We mentioned this in the earlier
+lecture on Threads and Concurrency.
+
+8
+00:00:21,829 --> 00:00:24,790
+So let's start by
+comparing these two models.
+
+9
+00:00:24,790 --> 00:00:28,730
+To make the discussion concrete we will
+do this analysis in the context of
+
+10
+00:00:28,730 --> 00:00:30,170
+a web server.
+
+11
+00:00:30,170 --> 00:00:34,535
+And for a web server it's important to
+be able to concurrently process client
+
+12
+00:00:34,535 --> 00:00:35,214
+requests.
+
+13
+00:00:35,214 --> 00:00:38,080
+So that is the concurrency
+that we care for there.
+
+14
+00:00:38,080 --> 00:00:41,770
+Before we continue let's talk for a
+second about what are the steps involved
+
+15
+00:00:41,770 --> 00:00:44,250
+in the operation of a simple web server.
+
+16
+00:00:44,250 --> 00:00:46,120
+At the very first, the client or
+
+17
+00:00:46,120 --> 00:00:50,250
+the browser needs to send a request
+that the web server will accept.
+
+18
+00:00:50,250 --> 00:00:53,964
+So let's say this is a request
+to www.contact.edu and
+
+19
+00:00:53,964 --> 00:00:58,001
+the web server at Georgia Tech
+needs to accept that request.
+
+20
+00:00:58,001 --> 00:01:02,269
+After the request is accepted,
+there are a number of processing steps
+
+21
+00:01:02,269 --> 00:01:07,510
+that the web server needs to perform
+before finally responding with the file.
+
+22
+00:01:07,510 --> 00:01:09,803
+Now, we will talk about
+a simple web server.
+
+23
+00:01:09,803 --> 00:01:14,238
+So if we take a look at what these
+steps are, so we accept the connection,
+
+24
+00:01:14,238 --> 00:01:18,459
+we read the request that there is
+an HTTP request that's received and
+
+25
+00:01:18,459 --> 00:01:20,810
+we need to parse that request.
+
+26
+00:01:20,810 --> 00:01:24,520
+We need to then find the file
+in the local file system,
+
+27
+00:01:24,520 --> 00:01:26,480
+that's at the server side.
+
+28
+00:01:26,480 --> 00:01:30,383
+Once we have extracted the file,
+we need to compute the header,
+
+29
+00:01:30,383 --> 00:01:34,794
+send out the header and then also send
+out the file or potentially send out
+
+30
+00:01:34,794 --> 00:01:38,801
+an error message along with the header
+that the file is not found.
+
+31
+00:01:38,801 --> 00:01:42,344
+So for the rest of this lesson we'll
+really focus on this simple web server
+
+32
+00:01:42,344 --> 00:01:43,830
+processing.
+
+33
+00:01:43,830 --> 00:01:48,172
+One of the things that's worth pointing
+out is that there's some differences
+
+34
+00:01:48,172 --> 00:01:49,298
+among these steps.
+
+35
+00:01:49,298 --> 00:01:53,120
+Some of them are more computational
+intensive, so it's mostly,
+
+36
+00:01:53,120 --> 00:01:54,700
+the work is done by the CPU.
+
+37
+00:01:55,950 --> 00:01:59,378
+For instance, parsing the request or
+computing the header.
+
+38
+00:01:59,378 --> 00:02:01,510
+This is mostly done by the CPU.
+
+39
+00:02:01,510 --> 00:02:04,650
+Other steps may require some
+interaction with the network,
+
+40
+00:02:04,650 --> 00:02:08,979
+like accepting connection,
+reading request, or sending the data.
+
+41
+00:02:08,979 --> 00:02:12,330
+Or the disk, for instance,
+when finding the file and
+
+42
+00:02:12,330 --> 00:02:14,160
+then reading the file from the disk.
+
+43
+00:02:14,160 --> 00:02:18,810
+These steps may potentially block, but
+whether or not they block will really
+
+44
+00:02:18,810 --> 00:02:23,043
+depend on what is the state of the
+system at a particular point of time.
+
+45
+00:02:23,043 --> 00:02:26,947
+So for instance, the connection may
+already be pending or the data for
+
+46
+00:02:26,947 --> 00:02:31,183
+the file may already be cached in memory
+because of the previous request that
+
+47
+00:02:31,183 --> 00:02:32,392
+serviced that file.
+
+48
+00:02:32,392 --> 00:02:37,070
+So in those cases, these will not result
+in an actual call to the device, so
+
+49
+00:02:37,070 --> 00:02:40,265
+an actual implication of the disk or
+the network and
+
+50
+00:02:40,265 --> 00:02:43,070
+will be serviced much more quickly.
+
+51
+00:02:43,070 --> 00:02:46,910
+Once the file or potentially the error
+message are sent out to the client,
+
+52
+00:02:46,910 --> 00:02:48,210
+then the processing is complete.

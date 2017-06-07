@@ -1,0 +1,301 @@
+﻿1
+00:00:00,400 --> 00:00:04,990
+Let's try to understand a little
+better how uniform cost search works.
+
+2
+00:00:04,990 --> 00:00:06,169
+We started on start state, and
+
+3
+00:00:07,889 --> 00:00:13,259
+then we start expanding out from
+there looking at different paths.
+
+4
+00:00:13,259 --> 00:00:16,759
+And what we end up doing is expanding
+
+5
+00:00:16,760 --> 00:00:20,410
+in terms of contours like
+on a topological map.
+
+6
+00:00:20,410 --> 00:00:23,748
+Where first we expand out
+to a certain distance,
+
+7
+00:00:23,748 --> 00:00:27,747
+then to a farther distance and
+then to a farther distance.
+
+8
+00:00:27,748 --> 00:00:29,850
+Now, at some point,
+we meet up with the goal.
+
+9
+00:00:29,850 --> 00:00:32,240
+Let's say the goal is here.
+
+10
+00:00:32,240 --> 00:00:36,630
+Now, we found a path from
+the start to the goal.
+
+11
+00:00:36,630 --> 00:00:40,593
+But notice that the search really wasn't
+directed at any way towards the goal.
+
+12
+00:00:40,593 --> 00:00:44,323
+It was expanding out
+everywhere in this space.
+
+13
+00:00:44,323 --> 00:00:48,497
+And depending on where the goal is, we
+should expect to have to explore half of
+
+14
+00:00:48,497 --> 00:00:50,954
+the space on average
+before we find the goal.
+
+15
+00:00:50,954 --> 00:00:53,335
+If the space this small,
+that can be fine.
+
+16
+00:00:53,335 --> 00:00:58,807
+But when spaces are large, that won't
+get us to the goal fast enough.
+
+17
+00:00:58,807 --> 00:01:01,891
+Unfortunately, there's really nothing we
+
+18
+00:01:01,890 --> 00:01:05,063
+can do with what we know
+to do better than that.
+
+19
+00:01:05,063 --> 00:01:09,096
+And so if we want to improve, if we
+want to be able to find the goal faster,
+
+20
+00:01:09,096 --> 00:01:11,609
+we're going to have to
+add more knowledge.
+
+21
+00:01:11,609 --> 00:01:15,313
+The type of knowledge
+that's proven most useful,
+
+22
+00:01:15,313 --> 00:01:20,578
+in search is an estimate of the distance
+from the start state to the goal.
+
+23
+00:01:20,578 --> 00:01:25,677
+So let's say we're dealing
+with a route finding problem,
+
+24
+00:01:25,677 --> 00:01:31,590
+and we can move in any direction,
+up or down, right or left.
+
+25
+00:01:31,590 --> 00:01:34,490
+And we'll take as our estimate,
+
+26
+00:01:34,489 --> 00:01:38,429
+the straight line distance
+between a state and goal.
+
+27
+00:01:38,430 --> 00:01:43,426
+And we'll try to use that estimate
+to find our way to the goal fastest.
+
+28
+00:01:43,426 --> 00:01:48,888
+Now, an algorithm called greedy
+best-first search does exactly that.
+
+29
+00:01:48,888 --> 00:01:54,979
+It expands first the path that's closest
+to the goal according to the estimate.
+
+30
+00:01:54,980 --> 00:01:57,680
+So what are the contours
+look like in this approach?
+
+31
+00:01:58,879 --> 00:02:01,488
+Well, we start here, and then we
+look at all the neighboring states.
+
+32
+00:02:02,536 --> 00:02:06,989
+And the ones that appear to be closest
+to the goal, we would expand first.
+
+33
+00:02:06,989 --> 00:02:12,889
+So we'd start expanding like this and
+like this, and like this,
+
+34
+00:02:12,889 --> 00:02:19,250
+and like this, and
+that would lead us directly to the goal.
+
+35
+00:02:19,250 --> 00:02:23,109
+So now, instead of exploring whole
+circles that go out everywhere in
+
+36
+00:02:23,109 --> 00:02:26,516
+the search space,
+our search is directed towards the goal.
+
+37
+00:02:26,515 --> 00:02:29,144
+In this case,
+it gets us immediately towards the goal.
+
+38
+00:02:29,145 --> 00:02:33,800
+But that won't always be the case if
+there are obstacles along the way.
+
+39
+00:02:33,800 --> 00:02:38,110
+Consider this search space,
+we have a start state and a goal.
+
+40
+00:02:38,110 --> 00:02:39,690
+And there's an impassable barrier.
+
+41
+00:02:40,770 --> 00:02:45,876
+Now a greedy best-first search will
+start expanding out as before,
+
+42
+00:02:45,876 --> 00:02:48,262
+trying to get towards the goal.
+
+43
+00:02:48,262 --> 00:02:51,228
+And when it reaches the barrier,
+what will it do next?
+
+44
+00:02:51,228 --> 00:02:54,520
+Well, it will try to increase along
+a path that's getting closer and
+
+45
+00:02:54,520 --> 00:02:55,290
+closer to the goal.
+
+46
+00:02:56,340 --> 00:02:59,990
+So it won't consider going back this
+way, which is farther from the goal.
+
+47
+00:02:59,990 --> 00:03:03,980
+Rather, it will continue
+expanding out along this lines,
+
+48
+00:03:03,979 --> 00:03:07,129
+which always get closer and
+closer to the goal, and
+
+49
+00:03:07,129 --> 00:03:09,310
+eventually will find its
+way towards the goal.
+
+50
+00:03:10,550 --> 00:03:15,181
+So does find the path, and it does it by
+expanding a small number of nodes, but
+
+51
+00:03:15,181 --> 00:03:19,048
+it's willing to accept a path
+which is longer than other paths.
+
+52
+00:03:19,048 --> 00:03:21,973
+Now if we can explore it
+in the other direction,
+
+53
+00:03:21,973 --> 00:03:25,780
+we could have found a much simpler path,
+a much shorter path,
+
+54
+00:03:25,780 --> 00:03:30,042
+by just popping over the barrier and
+then going directly to the goal.
+
+55
+00:03:30,042 --> 00:03:34,384
+But greedy best-first search wouldn't
+have done that because that would have
+
+56
+00:03:34,384 --> 00:03:38,465
+involved getting to this point, which
+is this distance from the goal, and
+
+57
+00:03:38,465 --> 00:03:41,736
+then considering states which
+were farther from the goal.
+
+58
+00:03:41,736 --> 00:03:46,229
+What we would really like is an
+algorithm that combines the best parts
+
+59
+00:03:46,229 --> 00:03:51,186
+of greedy search, which explores a small
+number of nodes in many cases, and
+
+60
+00:03:51,187 --> 00:03:55,771
+uniform cost search, which is
+guaranteed to find the shortest path.
+
+61
+00:03:55,770 --> 00:04:03,769
+We'll show how to do that next using
+an algorithm called the A* algorithm.
+
+62
+00:04:03,770 --> 00:04:07,439
+[BLANK_AUDIO]
+

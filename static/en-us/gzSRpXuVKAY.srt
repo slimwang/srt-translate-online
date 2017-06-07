@@ -1,0 +1,449 @@
+1
+00:00:00,430 --> 00:00:01,370
+All right, you're done.
+
+2
+00:00:02,900 --> 00:00:05,240
+Let's talk about how I did this one.
+
+3
+00:00:05,240 --> 00:00:09,540
+First thing I did was added
+the transition name to the detail icon.
+
+4
+00:00:09,540 --> 00:00:13,080
+In this case,
+detail_icon_transition_name.
+
+5
+00:00:13,080 --> 00:00:14,600
+Of course, non translatable,
+
+6
+00:00:14,600 --> 00:00:17,730
+since there's no point in translating
+something that's used by the system.
+
+7
+00:00:17,730 --> 00:00:21,760
+And I called it TN_DetailIcon.
+
+8
+00:00:21,760 --> 00:00:23,630
+Which isn't particularly important.
+
+9
+00:00:23,630 --> 00:00:26,200
+The next thing I did, and
+this was specific to implementation.
+
+10
+00:00:26,200 --> 00:00:29,050
+But I suggested it so
+some of you might have done it.
+
+11
+00:00:29,050 --> 00:00:32,479
+I added an attribute to
+the ForecastFragment stylable
+
+12
+00:00:32,479 --> 00:00:35,760
+called sharedElementTransitions,
+and it's a boolean fragment.
+
+13
+00:00:35,760 --> 00:00:41,110
+So, this way when I create the
+ForecastFragment which I create in XML,
+
+14
+00:00:41,110 --> 00:00:43,840
+I can actually pass this as a parameter.
+
+15
+00:00:43,840 --> 00:00:49,000
+And that way I'll know whether to do
+any shared element transitiony stuff
+
+16
+00:00:49,000 --> 00:00:51,092
+in the fragment.
+
+17
+00:00:51,092 --> 00:00:51,660
+All right, so
+
+18
+00:00:51,660 --> 00:00:55,740
+you can see I actually take advantage
+of that attribute in activity_main.
+
+19
+00:00:55,740 --> 00:00:59,190
+And we only have to do this of course
+for the non-tablet version because we
+
+20
+00:00:59,190 --> 00:01:02,510
+are only doing these transitions for
+the non-tablet version.
+
+21
+00:01:02,510 --> 00:01:05,360
+And we set
+sharedElementTransitions=true.
+
+22
+00:01:05,360 --> 00:01:11,320
+That's great, because now, my fragment
+code can actually know that for
+
+23
+00:01:11,320 --> 00:01:16,070
+the phone version that I actually
+want to execute this code for
+
+24
+00:01:16,070 --> 00:01:16,930
+postponing, etc.
+
+25
+00:01:17,970 --> 00:01:20,050
+Let's take a look at that fragment code.
+
+26
+00:01:20,050 --> 00:01:24,000
+So first of all,
+I declare an mHoldForTransition flag.
+
+27
+00:01:24,000 --> 00:01:30,420
+And then, in uninflate, I set this flag,
+based upon this stylable here.
+
+28
+00:01:30,420 --> 00:01:32,470
+Defaulting, of course, to false.
+
+29
+00:01:32,470 --> 00:01:36,400
+We actually use this,
+sort of, in on load finished.
+
+30
+00:01:36,400 --> 00:01:38,910
+Remember, I actually want to
+know when the RecyclerView
+
+31
+00:01:38,910 --> 00:01:40,840
+views are actually added.
+
+32
+00:01:40,840 --> 00:01:44,450
+So we use this view tree observer
+here to find out when that happens.
+
+33
+00:01:44,450 --> 00:01:49,020
+So if we're in mHoldForTransition state.
+
+34
+00:01:49,020 --> 00:01:54,040
+Then, at that point once I see that
+I have views in my view tree for
+
+35
+00:01:54,040 --> 00:01:59,200
+the RecyclerView, I can call support
+start postponed enter transition.
+
+36
+00:01:59,200 --> 00:02:03,240
+Now not, it's actually pretty safe to
+call support start postponed enter
+
+37
+00:02:03,240 --> 00:02:07,310
+transition in any case, because as you
+can see I'm not even using the flag
+
+38
+00:02:07,310 --> 00:02:09,199
+in the case where there's no count.
+
+39
+00:02:09,199 --> 00:02:11,120
+It was kind of a impressive effort for
+
+40
+00:02:11,120 --> 00:02:12,640
+something that wasn't
+particularly needed.
+
+41
+00:02:13,740 --> 00:02:14,860
+But there,
+
+42
+00:02:14,860 --> 00:02:20,470
+you can see that's how we're using
+it in the case of ForecastFragment.
+
+43
+00:02:20,470 --> 00:02:23,750
+Now, for DetailFragment we do
+something slightly different.
+
+44
+00:02:23,750 --> 00:02:28,918
+So, you can see I created a string
+called DetailTransitionAnimation here
+
+45
+00:02:28,918 --> 00:02:35,110
+which is a string that is package
+visible, inside of DetailActivity,
+
+46
+00:02:35,110 --> 00:02:38,000
+which of course only gets called
+if we're not in two-pane mode,
+
+47
+00:02:38,000 --> 00:02:39,720
+if we're in phone mode.
+
+48
+00:02:39,720 --> 00:02:42,130
+We can add this argument for
+
+49
+00:02:42,130 --> 00:02:46,200
+the detail transition animation
+to let our fragment know that
+
+50
+00:02:47,220 --> 00:02:51,770
+it's actually going to be executing
+those shared element transitions.
+
+51
+00:02:51,770 --> 00:02:57,870
+So then, inside of DetailedFragment
+we declare mTransitionAnimation here.
+
+52
+00:02:57,870 --> 00:03:04,200
+And then in onCreateView you can see
+we're setting mTransitionAnimation.
+
+53
+00:03:04,200 --> 00:03:10,500
+Based upon that string being
+set that we just created.
+
+54
+00:03:11,540 --> 00:03:15,180
+And then, the important
+thing is an on-load finish.
+
+55
+00:03:15,180 --> 00:03:19,480
+We actually call support start
+postponed enter transition.
+
+56
+00:03:19,480 --> 00:03:23,260
+One thing I should mention is where
+we actually stop the transitioning
+
+57
+00:03:23,260 --> 00:03:25,030
+from stop the transition from happening.
+
+58
+00:03:25,030 --> 00:03:26,500
+That's really important.
+
+59
+00:03:26,500 --> 00:03:29,520
+So we want to stop it
+as early as possible.
+
+60
+00:03:29,520 --> 00:03:32,880
+So we actually stop it inside
+of detail activity right here,
+
+61
+00:03:32,880 --> 00:03:34,950
+supportPostponeEnterTransition.
+
+62
+00:03:34,950 --> 00:03:36,470
+And it's really,
+
+63
+00:03:36,470 --> 00:03:41,220
+really important that after we do this
+we really start the transition up again.
+
+64
+00:03:41,220 --> 00:03:43,410
+Because we are now stuck in this state.
+
+65
+00:03:43,410 --> 00:03:48,920
+The system is waiting for
+that to happen and we do a similar thing
+
+66
+00:03:48,920 --> 00:03:53,690
+inside of our MainActivity, so
+
+67
+00:03:53,690 --> 00:03:56,890
+we do this on ActivityCreated.
+
+68
+00:03:56,890 --> 00:03:59,582
+If we have mHoldForRransition, and
+
+69
+00:03:59,582 --> 00:04:02,820
+not ActivityCreated inside
+of our Forecast Fragment,
+
+70
+00:04:02,820 --> 00:04:06,950
+we then stop the world to wait for
+that transition to happen and
+
+71
+00:04:06,950 --> 00:04:11,770
+the only time this is actually important
+is when we're transitioning back from.
+
+72
+00:04:11,770 --> 00:04:15,340
+Another activity, and
+perhaps we've rotated the screen so
+
+73
+00:04:15,340 --> 00:04:16,790
+we've been destroyed.
+
+74
+00:04:16,790 --> 00:04:21,230
+So this'll give us a shot at actually
+having that icon transition back
+
+75
+00:04:21,230 --> 00:04:24,380
+even though it's transitioning
+into a brand new activity.
+
+76
+00:04:25,550 --> 00:04:27,380
+It's kind of cool and it works.
+
+77
+00:04:27,380 --> 00:04:28,470
+On the other things that I did,
+
+78
+00:04:28,470 --> 00:04:32,720
+which are probably worth mentioning is I
+wanted to align up the animation better.
+
+79
+00:04:33,960 --> 00:04:38,040
+So I actually changed the duration of
+these animations to 250 milliseconds,
+
+80
+00:04:38,040 --> 00:04:41,290
+which is a lot closer to what
+the systems actually using for
+
+81
+00:04:41,290 --> 00:04:45,730
+these transitions, so it just lines
+up all the animation really nicely.
+
+82
+00:04:45,730 --> 00:04:48,470
+And as I like to try to do,
+let's run this in the emulator and
+
+83
+00:04:48,470 --> 00:04:50,500
+see what we get.
+
+84
+00:04:50,500 --> 00:04:55,180
+So here we are, as you can see
+when we click on one these guys
+
+85
+00:04:56,650 --> 00:04:58,010
+we get a nice little animation.
+
+86
+00:04:59,860 --> 00:05:01,670
+And we can even rotate the device here.
+
+87
+00:05:03,130 --> 00:05:08,170
+And if we're lucky, it'll animate
+back down, which is pretty cool.
+
+88
+00:05:08,170 --> 00:05:10,340
+Even though you're even off the screen,
+it still sort of found it.
+
+89
+00:05:11,340 --> 00:05:15,210
+So that is activity
+transition animations.
+
+90
+00:05:15,210 --> 00:05:16,550
+And it really is pretty
+fun to play with.
+
+91
+00:05:17,970 --> 00:05:22,040
+Now, inside of our forecastAdapter we're
+actually going to give that icon view
+
+92
+00:05:22,040 --> 00:05:23,270
+a transition name of its own.
+
+93
+00:05:23,270 --> 00:05:26,470
+And we're going to do
+this based upon position.
+
+94
+00:05:26,470 --> 00:05:29,800
+And the reason why that's important
+is all of these have to be unique
+
+95
+00:05:29,800 --> 00:05:31,450
+within the RecycleView.
+
+96
+00:05:31,450 --> 00:05:35,570
+This is the name that Android will
+use when we return from the activity.
+
+97
+00:05:35,570 --> 00:05:37,920
+If you try to restore the animation.

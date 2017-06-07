@@ -1,0 +1,331 @@
+1
+00:00:00,170 --> 00:00:01,810
+Let's take a look at authentication.
+
+2
+00:00:01,810 --> 00:00:07,460
+That is, Alice needs to prove to Bob
+that she's really Alice, and vice versa.
+
+3
+00:00:07,460 --> 00:00:11,630
+Meaning that Bob needs to
+prove to Alice that he is Bob.
+
+4
+00:00:11,630 --> 00:00:15,940
+Suppose that Alice and
+Bob share a secret key, KAB.
+
+5
+00:00:15,940 --> 00:00:20,420
+That is, only Bob and
+Alice know this key, KAB.
+
+6
+00:00:20,420 --> 00:00:24,090
+Here's an authentication protocol
+using symmetricartography.
+
+7
+00:00:24,090 --> 00:00:28,380
+First Alice says to Bob, hey I'm Alice.
+
+8
+00:00:28,380 --> 00:00:30,900
+Second, Bob said to Alice, really?
+
+9
+00:00:30,900 --> 00:00:31,960
+Prove it.
+
+10
+00:00:31,960 --> 00:00:36,530
+And he sends a random value R1,
+which we will call a challenge.
+
+11
+00:00:36,530 --> 00:00:41,480
+Third, Alice then encrypts
+R1 using the shared key KAB.
+
+12
+00:00:41,480 --> 00:00:46,970
+And sends Bob the cybertext, which we'll
+call it the response to the challenge.
+
+13
+00:00:46,970 --> 00:00:50,380
+When Bob receives the response,
+he decrypts it and
+
+14
+00:00:50,380 --> 00:00:54,900
+see if it matches the plain text,
+R1 that he just sent to Alice.
+
+15
+00:00:54,900 --> 00:00:59,950
+If it matches, then he knows that the
+party that he's communicating with must
+
+16
+00:00:59,950 --> 00:01:06,710
+be Alice, because R then, himself,
+only Alice knows the shared key KAB.
+
+17
+00:01:06,710 --> 00:01:10,300
+And without KAB,
+R1 cannot be encrypted properly.
+
+18
+00:01:10,300 --> 00:01:16,110
+That is the server text that he receives
+won't be decrypted properly to R1.
+
+19
+00:01:16,110 --> 00:01:20,260
+Fourth, now it is Alice's
+turn to authenticate Bob.
+
+20
+00:01:20,260 --> 00:01:24,980
+So, similarly,
+she sends Bob a random challenge, R2.
+
+21
+00:01:24,980 --> 00:01:31,970
+Fifth, Bob encrypts R2 with the shared
+key KAB and sends a cyber text to Alice.
+
+22
+00:01:31,970 --> 00:01:37,460
+Upon receiving the response from Bob,
+Alice decrypts the cyber text and
+
+23
+00:01:37,460 --> 00:01:41,520
+if the result matches the plain
+text R2 that she just sent to Bob,
+
+24
+00:01:41,520 --> 00:01:45,970
+then she knows that the party that
+she's communicating with must be Bob.
+
+25
+00:01:45,970 --> 00:01:49,960
+Note that if only one-way
+authentication is required, for
+
+26
+00:01:49,960 --> 00:01:54,610
+example, Alice is a client and
+needs to authenticate to Bob,
+
+27
+00:01:54,610 --> 00:01:58,708
+which is a server, but Bob does
+not need to authenticate to Alice,
+
+28
+00:01:58,708 --> 00:02:02,140
+then only the first three
+steps are necessary.
+
+29
+00:02:03,170 --> 00:02:08,320
+And if Alice is a human user,
+then typically the key KAB
+
+30
+00:02:08,320 --> 00:02:13,350
+can be derived from a password hash,
+which is known to Bob.
+
+31
+00:02:13,350 --> 00:02:18,470
+We just discussed how challenge and
+response are used in authentication.
+
+32
+00:02:18,470 --> 00:02:21,940
+It is very important for
+the challenges, say R1 and R2,
+
+33
+00:02:21,940 --> 00:02:25,820
+to be not easily repeatable or
+predictable.
+
+34
+00:02:25,820 --> 00:02:30,590
+Otherwise an intruder such as
+Trudy can record the challenge and
+
+35
+00:02:30,590 --> 00:02:36,340
+response between Alice and Bob and
+replay them to impersonate Alice or Bob.
+
+36
+00:02:36,340 --> 00:02:37,380
+For example,
+
+37
+00:02:37,380 --> 00:02:42,580
+an intruder called Trudy wants to
+impersonate either Alice or Bob.
+
+38
+00:02:42,580 --> 00:02:45,440
+Suppose Trudy has spent time recording
+
+39
+00:02:45,440 --> 00:02:50,120
+the authentication messages between
+Alice and Bob across multiple sessions.
+
+40
+00:02:50,120 --> 00:02:55,700
+Now, if when Trudy tries to impersonate
+Alice and Bob happens to send R1,
+
+41
+00:02:55,700 --> 00:03:01,530
+a challenge that has been used
+previously and recorded by Trudy, then
+
+42
+00:03:01,530 --> 00:03:07,500
+Trudy can just simply send the response
+that she has recorded from Alice.
+
+43
+00:03:07,500 --> 00:03:12,570
+That is, Trudy is able to send
+the cyber text of R1 to Bob and
+
+44
+00:03:12,570 --> 00:03:16,500
+Bob will be tricked to
+believe that she is Alice.
+
+45
+00:03:16,500 --> 00:03:21,760
+As another example, suppose the
+challenges always increase in values.
+
+46
+00:03:21,760 --> 00:03:26,390
+Then Trudy can first impersonate Bob and
+send a large challenge,
+
+47
+00:03:26,390 --> 00:03:31,770
+say R1 equal to 1000, and
+record the response from Alice.
+
+48
+00:03:31,770 --> 00:03:35,408
+Meanwhile, the real Bob
+is using a smaller R1,
+
+49
+00:03:35,408 --> 00:03:40,645
+say R1 equal to 950, then Trudy
+can impersonate Alice some time in
+
+50
+00:03:40,645 --> 00:03:45,735
+the future when the real Bob
+finally sends R1 equal to 1,000.
+
+51
+00:03:45,735 --> 00:03:49,602
+To recap, first of all,
+the messages that were sent over
+
+52
+00:03:49,602 --> 00:03:53,560
+the Internet can be
+captured by intruder Trudy.
+
+53
+00:03:53,560 --> 00:03:57,670
+And our job is to prevent these
+messages being replayed so
+
+54
+00:03:57,670 --> 00:04:00,650
+that Trudy can't impersonate Alice and
+Bob.
+
+55
+00:04:00,650 --> 00:04:03,990
+And in order to do that,
+the random challengers R1 and
+
+56
+00:04:03,990 --> 00:04:08,200
+R2 should really be not easily
+repeatable or predictable.
+
+57
+00:04:08,200 --> 00:04:13,210
+Again, the most important precaution
+of using this authentication protocol
+
+58
+00:04:13,210 --> 00:04:18,060
+is that R1 and R2 should not be
+easily repeatable or predictable.
+
+59
+00:04:18,060 --> 00:04:22,150
+Otherwise an intruder such as
+Trudy can impersonate Alice and
+
+60
+00:04:22,150 --> 00:04:25,700
+Bob by simply doing record and replay.
+
+61
+00:04:25,700 --> 00:04:30,260
+Therefore, R1 and
+R2 should be large, random values.
+
+62
+00:04:30,260 --> 00:04:34,140
+Another security precaution is
+that the shared secret key,
+
+63
+00:04:34,140 --> 00:04:36,540
+KAB, needs to be protected.
+
+64
+00:04:36,540 --> 00:04:39,520
+Because if Trudy can
+steal a copy of the key,
+
+65
+00:04:39,520 --> 00:04:43,060
+let's say from one of the complication
+end points either on Alice or
+
+66
+00:04:43,060 --> 00:04:47,410
+Bob, then she can impersonate
+either Alice or Bob.
+
+67
+00:04:47,410 --> 00:04:50,840
+In other words,
+the security of the end points is
+
+68
+00:04:50,840 --> 00:04:54,970
+as important as the security of
+the link between the two end points.

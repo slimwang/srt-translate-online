@@ -1,0 +1,152 @@
+1
+00:00:00,820 --> 00:00:03,620
+If we look at our spec runner,
+we'll see that we have three specs and
+
+2
+00:00:03,620 --> 00:00:05,450
+one of them failed.
+
+3
+00:00:05,450 --> 00:00:07,930
+It says expected false to be true.
+
+4
+00:00:07,930 --> 00:00:11,130
+This is the value of our
+initial complete variable and
+
+5
+00:00:11,130 --> 00:00:12,940
+we wanted that to be true.
+
+6
+00:00:12,940 --> 00:00:17,240
+The reason this is failing is because
+our test, or our expectation,
+
+7
+00:00:17,240 --> 00:00:22,420
+is running before the asynchronous
+function can complete its tasks.
+
+8
+00:00:22,420 --> 00:00:23,960
+Let's go back and fix that test,
+
+9
+00:00:23,960 --> 00:00:27,300
+so we can properly test
+this asynchronous function.
+
+10
+00:00:27,300 --> 00:00:29,460
+You might think to just put our test, or
+
+11
+00:00:29,460 --> 00:00:34,480
+our expectation here in the call back
+of our asynchronous function, but
+
+12
+00:00:34,480 --> 00:00:39,480
+that won't work either because then this
+expectation will be run within the scope
+
+13
+00:00:39,480 --> 00:00:43,560
+of our application, and not within
+the scope of the testing framework.
+
+14
+00:00:43,560 --> 00:00:47,710
+We can solve this problem by using
+beforeEach, like we did before.
+
+15
+00:00:47,710 --> 00:00:50,990
+And we'll also use a new
+special function, called done,
+
+16
+00:00:50,990 --> 00:00:55,640
+that signals to the framework when an
+asynchronous function has completed, and
+
+17
+00:00:55,640 --> 00:00:57,100
+we're ready to go run our tests.
+
+18
+00:00:58,170 --> 00:00:59,810
+We've refactored our test a little.
+
+19
+00:00:59,810 --> 00:01:03,400
+First we moved addressBook up
+into the suite level scope.
+
+20
+00:01:03,400 --> 00:01:05,990
+We then added a beforeEach function, and
+
+21
+00:01:05,990 --> 00:01:08,558
+you can see that we passed
+done to the callback here.
+
+22
+00:01:08,558 --> 00:01:12,630
+We call addressBook.getInitialContacts,
+
+23
+00:01:12,630 --> 00:01:18,140
+just as normal, but within its callback
+we then call the done function.
+
+24
+00:01:18,140 --> 00:01:21,820
+This will signal to the framework
+that our asynchronous function
+
+25
+00:01:21,820 --> 00:01:24,450
+is done doing what we needed it to do.
+
+26
+00:01:24,450 --> 00:01:25,629
+And we can continue testing.
+
+27
+00:01:26,870 --> 00:01:30,190
+The only other thing we need to
+do is signal to the framework
+
+28
+00:01:30,190 --> 00:01:34,360
+which of our tests rely upon
+that asynchronous execution.
+
+29
+00:01:34,360 --> 00:01:37,200
+Again, we use done to signal this.
+
+30
+00:01:37,200 --> 00:01:41,750
+We passed done to our
+function within our spec.
+
+31
+00:01:41,750 --> 00:01:45,070
+We then just called
+done after our tests.
+
+32
+00:01:45,070 --> 00:01:48,030
+If we go back and run our spec runner,
+we'll see that everything's green.
+
+33
+00:01:48,030 --> 00:01:52,170
+3 specs, 0 failures including
+our asynchronous function.

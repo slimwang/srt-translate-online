@@ -1,0 +1,135 @@
+1
+00:00:00,000 --> 00:00:01,369
+Let's look at an example.
+
+2
+00:00:01,369 --> 00:00:04,619
+And, for instance, we said one of the responsibilities of
+
+3
+00:00:04,619 --> 00:00:07,810
+the operating system is to manage resources like memory.
+
+4
+00:00:07,810 --> 00:00:11,400
+So, we'll look at a memory management based example.
+
+5
+00:00:11,400 --> 00:00:16,219
+To do that, the operating system uses a memory page as an abstraction.
+
+6
+00:00:16,219 --> 00:00:20,230
+And this abstraction corresponds to some addressable region of memory of
+
+7
+00:00:20,230 --> 00:00:23,020
+some fixed size, for instance, four k.
+
+8
+00:00:23,020 --> 00:00:27,290
+The operating system also integrates a number of mechanisms to
+
+9
+00:00:27,290 --> 00:00:28,390
+operate on that page.
+
+10
+00:00:29,460 --> 00:00:33,240
+It can allocate that page in DRAM, and
+
+11
+00:00:33,240 --> 00:00:38,010
+it can map that page into the address piece of the process.
+
+12
+00:00:38,010 --> 00:00:42,420
+By doing that it, allows the process to access the actual physical memory that
+
+13
+00:00:42,420 --> 00:00:44,690
+corresponds to the contents of that page.
+
+14
+00:00:45,780 --> 00:00:47,170
+In fact, over time,
+
+15
+00:00:47,170 --> 00:00:52,860
+this page may be moved across different locations in physical memory.
+
+16
+00:00:52,860 --> 00:00:57,340
+Or, it sometimes may even be stored on disk, if we need to make room for
+
+17
+00:00:57,340 --> 00:01:00,070
+some other content in physical memory.
+
+18
+00:01:00,070 --> 00:01:04,769
+This last one brings us to the third element, policies.
+
+19
+00:01:04,769 --> 00:01:08,900
+Since it is faster to access data from memory then on disk,
+
+20
+00:01:08,900 --> 00:01:13,630
+the operating system must have some policies to decide whether the contents of
+
+21
+00:01:13,630 --> 00:01:18,820
+this page will be stored in physical memory or copied on disk.
+
+22
+00:01:18,820 --> 00:01:24,180
+And, a common policy that operating systems incorporate is one that decides that
+
+23
+00:01:24,180 --> 00:01:29,500
+the pages that have been least recently used over a period of time are the ones
+
+24
+00:01:29,500 --> 00:01:34,420
+that will no longer be in physical memory, and instead will be copied on this.
+
+25
+00:01:34,420 --> 00:01:36,390
+We refer to this also as swappings.
+
+26
+00:01:36,390 --> 00:01:37,490
+So, we swap the pages.
+
+27
+00:01:37,490 --> 00:01:40,980
+It's no longer in physical memory, it's in disk.
+
+28
+00:01:40,980 --> 00:01:45,320
+The rational for that is that pages that have not been accessed in a while, so
+
+29
+00:01:45,320 --> 00:01:50,330
+the least recently used ones, are likely not to be as important, or
+
+30
+00:01:50,330 --> 00:01:54,190
+likely will not even be used any time in the near future.
+
+31
+00:01:54,190 --> 00:01:57,160
+And, that's why we can afford to copy them on disk.
+
+32
+00:01:57,160 --> 00:02:01,340
+The ones that have been accessed more frequently are likely more important, or
+
+33
+00:02:01,340 --> 00:02:05,490
+likely recurrently working on that particular part of the content, so
+
+34
+00:02:05,490 --> 00:02:09,758
+we will continue accessing them, and that's why we maintain them in memory.

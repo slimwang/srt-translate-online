@@ -1,0 +1,203 @@
+1
+00:00:00,370 --> 00:00:02,880
+Coming up soon we'll be adding multiple cats, so
+
+2
+00:00:02,880 --> 00:00:06,660
+we're going to get ready by moving the model to a separate area.
+
+3
+00:00:06,660 --> 00:00:10,930
+Because if we left the model where it is in the ViewModel, we'd be putting all
+
+4
+00:00:10,930 --> 00:00:16,219
+of this into a for loop, and making it again, and again, and again.
+
+5
+00:00:16,219 --> 00:00:20,100
+There's gotta be a more separated and readable way to do this.
+
+6
+00:00:20,100 --> 00:00:23,000
+All of this code that I'm selecting here should move
+
+7
+00:00:23,000 --> 00:00:25,730
+into a special function which will make us new Cats.
+
+8
+00:00:27,160 --> 00:00:28,760
+I'm going to cut all of it.
+
+9
+00:00:28,760 --> 00:00:31,420
+And wow look at how simple our ViewModel is.
+
+10
+00:00:31,420 --> 00:00:34,740
+We'll call this function Cat with a capital C.
+
+11
+00:00:34,740 --> 00:00:39,460
+As you can see, all of the cat logic is here inside of our Cat function.
+
+12
+00:00:39,460 --> 00:00:42,730
+And our ViewModel down here is super, super simple.
+
+13
+00:00:42,730 --> 00:00:45,960
+Now, we do still need to actually make this cat.
+
+14
+00:00:45,960 --> 00:00:49,390
+I'm going to store our cat in a currentCat variable,
+
+15
+00:00:49,390 --> 00:00:52,110
+specifically, a Knockout observable.
+
+16
+00:00:52,110 --> 00:00:55,270
+And instead of passing in an object literal, like this,.
+
+17
+00:00:55,270 --> 00:00:58,820
+I'm going to pass in a new cat and that should work.
+
+18
+00:00:58,820 --> 00:00:59,960
+Well, almost.
+
+19
+00:01:01,060 --> 00:01:03,920
+We actually just changed where our cat lives.
+
+20
+00:01:03,920 --> 00:01:07,470
+Now instead of finding our cat's properties right on the ViewModel,
+
+21
+00:01:07,470 --> 00:01:10,980
+we need to look inside of the currentCat variable.
+
+22
+00:01:10,980 --> 00:01:14,960
+So over in our html, we need to make a couple changes.
+
+23
+00:01:14,960 --> 00:01:18,390
+So here in our html, we need to change all the data-bind properties that
+
+24
+00:01:18,390 --> 00:01:21,520
+are looking for cat-related properties.
+
+25
+00:01:21,520 --> 00:01:27,247
+They all need to be currentCat.name, currentCat.title, et cetera.
+
+26
+00:01:27,247 --> 00:01:32,249
+That's because, once again, our cat is not living on the ViewModel anymore,
+
+27
+00:01:32,249 --> 00:01:36,180
+our cat is living in the currentCat observable.
+
+28
+00:01:36,180 --> 00:01:40,490
+And remember, we put the parentheses here because currentCat is actually
+
+29
+00:01:40,490 --> 00:01:44,250
+a knockout observable, which is a function.
+
+30
+00:01:44,250 --> 00:01:48,090
+In order to get the currentCat value, we need to run that function and
+
+31
+00:01:48,090 --> 00:01:50,190
+it will return the value to us.
+
+32
+00:01:50,190 --> 00:01:53,740
+Let's hop over to our browser and hit refresh.
+
+33
+00:01:53,740 --> 00:01:56,110
+Sure enough, everything seems to work just fine.
+
+34
+00:01:56,110 --> 00:02:00,610
+We have our nicknames, our cat image, and all of this.
+
+35
+00:02:00,610 --> 00:02:02,130
+If we try to click, however,
+
+36
+00:02:02,130 --> 00:02:07,730
+we get an uncaught TypeError, undefined is not a function, line 34.
+
+37
+00:02:07,730 --> 00:02:12,990
+In our code, app.js, for me line 34 is this right here.
+
+38
+00:02:14,180 --> 00:02:15,578
+Now what's the problem with this?
+
+39
+00:02:15,578 --> 00:02:18,860
+What is this.clickCount?
+
+40
+00:02:18,860 --> 00:02:24,370
+Well, this represents the ViewModel and there is no clickCount on the ViewModel.
+
+41
+00:02:24,370 --> 00:02:28,240
+Remember, clickCount is now living inside of our currentCat.
+
+42
+00:02:29,420 --> 00:02:34,228
+In this case, I need to save this.currentCat.clickcount is
+
+43
+00:02:34,228 --> 00:02:38,420
+going to be this.currentCat.clickcount plus one.
+
+44
+00:02:38,420 --> 00:02:40,290
+And now if I hop back into the browser and
+
+45
+00:02:40,290 --> 00:02:44,580
+I hit refresh, sure enough my clicking works just fine.
+
+46
+00:02:44,580 --> 00:02:46,610
+Go ahead and make those main changes.
+
+47
+00:02:46,610 --> 00:02:50,980
+First of all, moving your cat into a separate cat function.
+
+48
+00:02:50,980 --> 00:02:54,750
+Secondly, updating the bindings in your index.html file.
+
+49
+00:02:54,750 --> 00:02:57,610
+And finally, updating our increment counter so
+
+50
+00:02:57,610 --> 00:03:01,310
+that way it can get the click count properly from the model.
+
+51
+00:03:01,310 --> 00:03:02,516
+Go ahead and make those changes.

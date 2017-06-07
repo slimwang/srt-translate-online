@@ -1,0 +1,273 @@
+1
+00:00:00,380 --> 00:00:03,000
+Okay.
+So the first one is
+
+2
+00:00:03,000 --> 00:00:07,560
+switching CPU from one process to
+another when a process blocks.
+
+3
+00:00:07,560 --> 00:00:10,220
+When you go from one
+process to another process
+
+4
+00:00:10,220 --> 00:00:11,930
+the address spaces are going to change.
+
+5
+00:00:11,930 --> 00:00:12,660
+Yes.
+
+6
+00:00:12,660 --> 00:00:16,462
+The address spaces are going to change
+because the incoming process now is
+
+7
+00:00:16,462 --> 00:00:19,450
+going to use its own page table
+to access its data and code.
+
+8
+00:00:19,450 --> 00:00:21,370
+Where can we change address spaces?
+
+9
+00:00:21,370 --> 00:00:24,290
+Remember as soon as you change
+address space, you changing what
+
+10
+00:00:24,290 --> 00:00:28,650
+portions of physical memory can be
+accessed by whoever is executing.
+
+11
+00:00:28,650 --> 00:00:33,070
+Address space change always has to be
+in the operating system because that's
+
+12
+00:00:33,070 --> 00:00:34,430
+how we protect memory.
+
+13
+00:00:34,430 --> 00:00:39,000
+Okay the operating system manages
+what page table currently can be used
+
+14
+00:00:39,000 --> 00:00:43,460
+by the process that has the CPU and
+is currently executing and so on.
+
+15
+00:00:43,460 --> 00:00:47,220
+So that has to go in
+the operating system.
+
+16
+00:00:47,220 --> 00:00:50,420
+Page fault handling we didn't
+talk about virtual memory that
+
+17
+00:00:50,420 --> 00:00:52,830
+page fault handling
+comes in virtual memory.
+
+18
+00:00:52,830 --> 00:00:57,590
+So if some virtual page is not
+currently in physical memory then
+
+19
+00:00:57,590 --> 00:01:00,540
+the page table entry is going
+to say it's not in memory.
+
+20
+00:01:00,540 --> 00:01:05,730
+It's not a valid frame that this
+logical or virtual page maps to.
+
+21
+00:01:05,730 --> 00:01:08,520
+In that case,
+we have what is called a page fault.
+
+22
+00:01:08,520 --> 00:01:12,770
+We have to bring this from disc,
+or swap area, or whatever it is.
+
+23
+00:01:12,770 --> 00:01:15,220
+Find some free space in memory, and
+
+24
+00:01:15,220 --> 00:01:19,410
+then update the page table of
+this process to point to this new
+
+25
+00:01:19,410 --> 00:01:23,920
+page in physical memory where this
+information was just brought in.
+
+26
+00:01:23,920 --> 00:01:28,530
+So if you update page tables, again you
+have to be in the operating system.
+
+27
+00:01:28,530 --> 00:01:33,390
+If you could update a page table
+from user space than you can update
+
+28
+00:01:33,390 --> 00:01:37,530
+with a different frame number or
+physical memory, some other place.
+
+29
+00:01:37,530 --> 00:01:40,490
+And then you can go there,
+even if it doesn't belong to you.
+
+30
+00:01:40,490 --> 00:01:44,110
+So in user mode you should never
+be able to update page tables, and
+
+31
+00:01:44,110 --> 00:01:47,150
+that's why it belongs in
+the operating system.
+
+32
+00:01:47,150 --> 00:01:48,610
+The third question we have,
+
+33
+00:01:48,610 --> 00:01:52,550
+in changing who can access
+a protected resource such as a file?
+
+34
+00:01:52,550 --> 00:01:54,200
+Changing permissions.
+
+35
+00:01:54,200 --> 00:01:56,510
+I can't do that at the user level.
+
+36
+00:01:56,510 --> 00:01:58,000
+If I can change permissions for
+
+37
+00:01:58,000 --> 00:02:03,290
+files that belong to a different user,
+Alice can do this for Bob's file.
+
+38
+00:02:03,290 --> 00:02:06,580
+Well, she could go access Bob's
+file even if Bob doesn't want
+
+39
+00:02:06,580 --> 00:02:08,169
+her to access it.
+
+40
+00:02:08,169 --> 00:02:10,038
+The way we should do it is,
+
+41
+00:02:10,038 --> 00:02:15,000
+go to the operating system,
+request that can we have access to it?
+
+42
+00:02:15,000 --> 00:02:19,190
+If Bob has done something that
+allows Alice to gain this access.
+
+43
+00:02:19,190 --> 00:02:22,180
+That's fine, otherwise the operating
+system is not going to add
+
+44
+00:02:22,180 --> 00:02:24,690
+this permission for Alice to the file.
+
+45
+00:02:24,690 --> 00:02:28,260
+So, this is another function
+protected resource accessed to it,
+
+46
+00:02:28,260 --> 00:02:30,260
+the operating system should do it.
+
+47
+00:02:30,260 --> 00:02:34,050
+Last one, setting up a new stack frame
+when an application program calls
+
+48
+00:02:34,050 --> 00:02:35,500
+one of its functions.
+
+49
+00:02:35,500 --> 00:02:37,120
+We know that happens at the user level.
+
+50
+00:02:37,120 --> 00:02:41,780
+If we call functions back and forth,
+every time we call a function, a stack
+
+51
+00:02:41,780 --> 00:02:46,290
+frame is set up and that doesn't require
+intervention of the operating system.
+
+52
+00:02:46,290 --> 00:02:49,040
+So this could be done at the user level.
+
+53
+00:02:49,040 --> 00:02:54,320
+Okay, so keep in mind that
+memory protection isolation
+
+54
+00:02:54,320 --> 00:02:58,980
+relies completely on how
+page tables are managed.
+
+55
+00:02:58,980 --> 00:03:03,510
+Page tables are used to
+implement address spaces.
+
+56
+00:03:03,510 --> 00:03:08,443
+So management of page tables, whether
+we update, when a page fault occurs,
+
+57
+00:03:08,443 --> 00:03:12,270
+or switch them, all that has to
+be done in the operating system.
+
+58
+00:03:12,270 --> 00:03:15,300
+That's the only way we can get
+the isolation that we're talking about.

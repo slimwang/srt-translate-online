@@ -1,0 +1,527 @@
+1
+00:00:00,490 --> 00:00:01,260
+Let's review.
+
+2
+00:00:01,260 --> 00:00:04,080
+So far we've learned that a linear
+layout can have an orientation that's
+
+3
+00:00:04,080 --> 00:00:05,650
+horizontal or vertical.
+
+4
+00:00:06,890 --> 00:00:09,610
+But now let's think about whether these
+views are taking full advantage of
+
+5
+00:00:09,610 --> 00:00:11,240
+the screen real estate.
+
+6
+00:00:11,240 --> 00:00:13,750
+When I say real estate, I mean
+the available space on the screen.
+
+7
+00:00:14,930 --> 00:00:16,490
+For our Nexus 6 phone,
+
+8
+00:00:16,490 --> 00:00:20,740
+say we have a vertical linear layout
+that has three child text views inside.
+
+9
+00:00:20,740 --> 00:00:22,420
+Tom, Tim and Todd.
+
+10
+00:00:22,420 --> 00:00:25,500
+When we hold the device in portrait
+mode like this in our hand,
+
+11
+00:00:25,500 --> 00:00:28,380
+then all the text views are grouped
+in the top left corner of the screen.
+
+12
+00:00:29,380 --> 00:00:32,320
+There's all this blank
+space left unused.
+
+13
+00:00:32,320 --> 00:00:35,480
+Similarly, if we rotated
+the device to Landscape mode,
+
+14
+00:00:35,480 --> 00:00:40,120
+then the text is on the top left corner
+and there's all this blank space left.
+
+15
+00:00:40,120 --> 00:00:42,110
+It's even more noticeable
+on a tablet device,
+
+16
+00:00:42,110 --> 00:00:44,260
+where the screen is a lot bigger.
+
+17
+00:00:44,260 --> 00:00:47,280
+We're only using a small amount
+of the screen real estate, and
+
+18
+00:00:47,280 --> 00:00:48,252
+the rest of it is blank.
+
+19
+00:00:48,252 --> 00:00:51,680
+We're going to learn about how we can
+more equally spread out these views
+
+20
+00:00:51,680 --> 00:00:55,190
+across the screen to take up
+more of the available room.
+
+21
+00:00:55,190 --> 00:00:56,560
+This applies to other views as well.
+
+22
+00:00:56,560 --> 00:00:59,500
+You can have bigger images
+across the screen for
+
+23
+00:00:59,500 --> 00:01:03,460
+a better experience, instead of having
+them really tiny in the top left corner.
+
+24
+00:01:04,489 --> 00:01:05,180
+Same with buttons,
+
+25
+00:01:05,180 --> 00:01:09,785
+you could have bigger buttons so that
+it's easier To tap on those buttons.
+
+26
+00:01:09,785 --> 00:01:13,155
+For the purposes of our example,
+we're going to stick with text views.
+
+27
+00:01:13,155 --> 00:01:16,325
+So let's go to the XML visualizer
+to figure out how we can spread out
+
+28
+00:01:16,325 --> 00:01:17,005
+these views.
+
+29
+00:01:18,115 --> 00:01:20,545
+So here's the code for
+Tom, Tim, and Todd.
+
+30
+00:01:20,545 --> 00:01:23,975
+I have three text views within
+a vertical linear layout and
+
+31
+00:01:23,975 --> 00:01:25,389
+this is what they look
+like on the device.
+
+32
+00:01:26,570 --> 00:01:29,810
+Now, I want to show you how you can
+spread out these three text views.
+
+33
+00:01:29,810 --> 00:01:31,060
+So that Tom is up here.
+
+34
+00:01:31,060 --> 00:01:31,980
+Tim is here.
+
+35
+00:01:31,980 --> 00:01:33,910
+And Todd is down here.
+
+36
+00:01:33,910 --> 00:01:37,950
+Clearly, setting height for
+wrap_content is not doing the job.
+
+37
+00:01:37,950 --> 00:01:41,350
+The other thing we learned is to set
+a fixed dp value for the height.
+
+38
+00:01:41,350 --> 00:01:44,510
+So I'm going to set the height to be,
+for example, 200dp.
+
+39
+00:01:45,760 --> 00:01:48,340
+Cool.
+So that left a lot more space for Tom.
+
+40
+00:01:48,340 --> 00:01:51,320
+If I do the same for
+the other TextViews,
+
+41
+00:01:51,320 --> 00:01:54,570
+then they also spread out more
+evenly across the screen.
+
+42
+00:01:54,570 --> 00:01:57,920
+But this solution will only work for
+the sides of a device.
+
+43
+00:01:57,920 --> 00:02:01,510
+If I have a tablet like I showed you
+earlier, then these views are still
+
+44
+00:02:01,510 --> 00:02:04,640
+going to be grouped in somewhat
+of the top left corner.
+
+45
+00:02:04,640 --> 00:02:08,880
+The other option for setting height is
+match parent which we learned earlier.
+
+46
+00:02:08,880 --> 00:02:11,750
+When you set match parent for
+the Tom TextView
+
+47
+00:02:11,750 --> 00:02:15,540
+it takes the height of the whole
+parent which is a whole screen.
+
+48
+00:02:15,540 --> 00:02:19,230
+That pushes the other text views off
+the screen so you can't even see them.
+
+49
+00:02:19,230 --> 00:02:20,930
+So let's not do that.
+
+50
+00:02:20,930 --> 00:02:23,870
+Well now we're out of ideas
+because we tried wrap content for
+
+51
+00:02:23,870 --> 00:02:25,490
+the height, which had a fixed DP value.
+
+52
+00:02:25,490 --> 00:02:27,300
+And we tried match parent.
+
+53
+00:02:27,300 --> 00:02:32,930
+And none of those give us the right
+spacing across all different devices.
+
+54
+00:02:32,930 --> 00:02:36,420
+Let's Google search for
+a potential solution to this problem.
+
+55
+00:02:36,420 --> 00:02:38,360
+We're using a linear layout view group.
+
+56
+00:02:38,360 --> 00:02:40,580
+And we want to equally space
+out the children views.
+
+57
+00:02:40,580 --> 00:02:42,260
+So let's search for that.
+
+58
+00:02:42,260 --> 00:02:44,680
+Okay, so
+there's a bunch of search results, but
+
+59
+00:02:44,680 --> 00:02:46,920
+let's click on this first one.
+
+60
+00:02:46,920 --> 00:02:49,358
+This is a link to
+the Stackoverflow site.
+
+61
+00:02:49,358 --> 00:02:51,780
+It's a Q&amp;A site where you
+can post questions and
+
+62
+00:02:51,780 --> 00:02:53,785
+get answers from other
+Android developers.
+
+63
+00:02:53,785 --> 00:02:58,005
+I use it all the time when I'm stuck and
+I need help on a problem.
+
+64
+00:02:58,005 --> 00:03:00,515
+Often times other people will
+have already asked a question
+
+65
+00:03:00,515 --> 00:03:01,975
+that I'm having.
+
+66
+00:03:01,975 --> 00:03:05,425
+So this question here is about
+how to evenly distribute buttons
+
+67
+00:03:05,425 --> 00:03:07,657
+across the width of a linear layout.
+
+68
+00:03:07,657 --> 00:03:09,677
+This is similar to
+what we're looking for,
+
+69
+00:03:09,677 --> 00:03:12,627
+except instead of buttons
+we're working with text views.
+
+70
+00:03:12,627 --> 00:03:15,877
+And instead of the width of the linear
+layout we're trying to spread it across
+
+71
+00:03:15,877 --> 00:03:17,767
+the height of the linear layout.
+
+72
+00:03:17,767 --> 00:03:20,710
+We can read through the question or
+we can skim it.
+
+73
+00:03:20,710 --> 00:03:23,070
+Usually I just skim for the answer.
+
+74
+00:03:23,070 --> 00:03:27,590
+So this solution received 88 votes and
+has a green checkmark on it.
+
+75
+00:03:27,590 --> 00:03:30,840
+It talks about how you can
+set layout_width to 0dp and
+
+76
+00:03:30,840 --> 00:03:33,240
+set the layout_weight for
+each of the buttons to be 1.
+
+77
+00:03:33,240 --> 00:03:36,899
+And that splits the available
+width equally across the buttons.
+
+78
+00:03:37,910 --> 00:03:41,170
+You may not fully understand the answer
+at this point, but that's okay.
+
+79
+00:03:41,170 --> 00:03:44,620
+One key phrase that we saw is
+this linear layout_weight.
+
+80
+00:03:44,620 --> 00:03:47,950
+We haven't encountered this before,
+but it sounds important to the answer.
+
+81
+00:03:47,950 --> 00:03:49,640
+So lets copy it and Google search for
+
+82
+00:03:49,640 --> 00:03:52,005
+more information Information
+about layout_weight.
+
+83
+00:03:52,005 --> 00:03:55,205
+So let's search for
+linear layout layout_weight.
+
+84
+00:03:55,205 --> 00:03:57,605
+The first result is an article for
+linear layout and
+
+85
+00:03:57,605 --> 00:04:00,085
+it's on the developer.android.com site,
+so let's click on it.
+
+86
+00:04:01,285 --> 00:04:03,845
+So this is an article
+about the Linear Layout.
+
+87
+00:04:03,845 --> 00:04:08,015
+We already learned the stuff at the top
+about the Android orientation attribute,
+
+88
+00:04:08,015 --> 00:04:11,230
+but then there's new information
+about something called Layout Weight.
+
+89
+00:04:11,230 --> 00:04:14,270
+There's also an example at the bottom
+of the screen here with some code and
+
+90
+00:04:14,270 --> 00:04:15,650
+a screenshot.
+
+91
+00:04:15,650 --> 00:04:17,149
+I could summarize all of this for
+
+92
+00:04:17,149 --> 00:04:21,260
+you, but first I want to give you
+a chance to read this document.
+
+93
+00:04:21,260 --> 00:04:23,710
+And try to figure it out on your own.
+
+94
+00:04:23,710 --> 00:04:26,180
+This is going to be a lot more similar
+to how you're going to solve problems
+
+95
+00:04:26,180 --> 00:04:28,220
+after this course is over.
+
+96
+00:04:28,220 --> 00:04:30,510
+You'll look for
+some information online and
+
+97
+00:04:30,510 --> 00:04:33,350
+try to figure out how that can
+be used to solve your problem.
+
+98
+00:04:34,500 --> 00:04:37,340
+Okay, so this is the layout
+that we have now on the device.
+
+99
+00:04:37,340 --> 00:04:39,120
+And this is what we want to achieve.
+
+100
+00:04:39,120 --> 00:04:42,780
+The three texts are spread-out evenly
+across the height of the device.
+
+101
+00:04:42,780 --> 00:04:43,720
+To solve this problem,
+
+102
+00:04:43,720 --> 00:04:46,760
+I want you to read the Linear Layout
+article that we linked below.
+
+103
+00:04:47,830 --> 00:04:48,980
+It's perfectly normal for
+
+104
+00:04:48,980 --> 00:04:52,490
+you to not understand everything
+that's in the article.
+
+105
+00:04:52,490 --> 00:04:55,390
+Often times you just want to
+have some vague understanding
+
+106
+00:04:55,390 --> 00:04:59,250
+of how the concepts in the article
+may be able to help you in your work.
+
+107
+00:05:00,320 --> 00:05:03,390
+Then I want you to provide some ideas
+on how we can build this desired
+
+108
+00:05:03,390 --> 00:05:05,100
+layout in XML.
+
+109
+00:05:05,100 --> 00:05:07,550
+You don't need to provide
+the full XML layout code
+
+110
+00:05:07,550 --> 00:05:10,420
+because we're going to walk through
+that together in the next video.
+
+111
+00:05:10,420 --> 00:05:12,350
+But here you could write
+a couple sentences or
+
+112
+00:05:12,350 --> 00:05:16,920
+bullet points on how the information in
+the article could relate to our problem

@@ -1,0 +1,227 @@
+1
+00:00:00,330 --> 00:00:02,940
+Okay, so what'd you think? Was that enough information
+
+2
+00:00:02,940 --> 00:00:04,330
+to kind of chew on it a little bit?
+
+3
+00:00:04,330 --> 00:00:08,690
+>> Maybe. [LAUGH] So, let's see, I have, I guess,
+
+4
+00:00:08,690 --> 00:00:12,500
+k hypotheses I have to chose from. I know that basically
+
+5
+00:00:12,500 --> 00:00:15,090
+you always return the output of one. I don't get
+
+6
+00:00:15,090 --> 00:00:19,890
+to chose what those examples are, they're drawn from some distribution.
+
+7
+00:00:19,890 --> 00:00:20,310
+>> Right.
+
+8
+00:00:20,310 --> 00:00:25,670
+>> And I want to know whether I'm going to need to see, another of examples
+
+9
+00:00:25,670 --> 00:00:28,360
+that are, polynomial, in the error that I'm
+
+10
+00:00:28,360 --> 00:00:31,380
+interested in, with the certainty that I'm interested in.
+
+11
+00:00:31,380 --> 00:00:33,240
+And I gotta be able to come up with
+
+12
+00:00:33,240 --> 00:00:34,670
+an algorithim, a learning algorithm that will do that.
+
+13
+00:00:34,670 --> 00:00:37,560
+>> Exactly. So what do you think?
+
+14
+00:00:37,560 --> 00:00:39,530
+>> I want to say the answer is yes.
+
+15
+00:00:39,530 --> 00:00:41,860
+>> So how would you argue that though?
+
+16
+00:00:41,860 --> 00:00:43,830
+Do you have a particular algarythm in mind?
+
+17
+00:00:43,830 --> 00:00:46,900
+>> Well I actually did, I was going to keep the
+
+18
+00:00:46,900 --> 00:00:50,190
+all the hypothesis that are consistent with the data that I've seen.
+
+19
+00:00:50,190 --> 00:00:51,270
+>> Okay, alright
+
+20
+00:00:51,270 --> 00:00:52,136
+and what is that called?
+
+21
+00:00:52,136 --> 00:00:54,689
+>> The version space.
+
+22
+00:00:54,689 --> 00:00:55,600
+>> Right. Okay.
+
+23
+00:00:55,600 --> 00:00:59,220
+>> So keep track of that and then, whenever I stop getting samples, I have
+
+24
+00:00:59,220 --> 00:01:04,280
+to pick one of those. So I'm just going to, pick one of them uniformly.
+
+25
+00:01:04,280 --> 00:01:06,450
+>> Okay. Well that seems good so far. You
+
+26
+00:01:06,450 --> 00:01:09,740
+could pick one uniformly. So what makes you think that
+
+27
+00:01:09,740 --> 00:01:13,380
+that's actually going to. Be able to return the
+
+28
+00:01:13,380 --> 00:01:16,500
+right answer, or a, a close enough answer with not
+
+29
+00:01:16,500 --> 00:01:20,110
+that much data. How do we actually bound the number of samples that we need
+
+30
+00:01:20,110 --> 00:01:24,810
+to make it so that when we pick uniformly we actually get a good answer?
+
+31
+00:01:24,810 --> 00:01:27,570
+>> Well, it's a little hard, I mean my, my intuition is that, given
+
+32
+00:01:27,570 --> 00:01:32,100
+what we don't know what the concept is only the class that it comes from
+
+33
+00:01:32,100 --> 00:01:37,250
+If I do anything other than choose uniformly, then I can be very unlucky.
+
+34
+00:01:37,250 --> 00:01:39,270
+I basically... uniformly basically means in this
+
+35
+00:01:39,270 --> 00:01:42,220
+case I don't know anything else to do.
+
+36
+00:01:42,220 --> 00:01:45,110
+So there's sort of no better algorithm than the one that
+
+37
+00:01:45,110 --> 00:01:46,850
+we just came up with, which is find all the
+
+38
+00:01:46,850 --> 00:01:49,690
+hypotheses that are consistent... And you have no reason to
+
+39
+00:01:49,690 --> 00:01:52,540
+choose one over the other because you don't have anymore data.
+
+40
+00:01:52,540 --> 00:01:54,960
+So you should just close your eyes and pick one.
+
+41
+00:01:54,960 --> 00:01:58,680
+And if you do anything else, then in the absence of
+
+42
+00:01:58,680 --> 00:02:01,980
+some specific domain knowledge that tells you to do otherwise,
+
+43
+00:02:01,980 --> 00:02:04,280
+you know, you can just basically end up being very unlucky.
+
+44
+00:02:04,280 --> 00:02:07,290
+>> So, I, I agree with you and this is a good algorithm. But what we
+
+45
+00:02:07,290 --> 00:02:09,788
+lack at the moment is an argument as to why the number of
+
+46
+00:02:09,788 --> 00:02:12,170
+samples that it needs, isn't exponential.
+
+47
+00:02:12,170 --> 00:02:14,460
+Right? Cause there's an exponentially. Large, you
+
+48
+00:02:14,460 --> 00:02:17,710
+know, 2 to the K different possible inputs. If we had to see
+
+49
+00:02:17,710 --> 00:02:20,170
+all of them to be able to guess right, that would be too many.
+
+50
+00:02:20,170 --> 00:02:20,310
+>> Mm hm.
+
+51
+00:02:20,310 --> 00:02:24,000
+>> So, we really want it to be, you know,
+
+52
+00:02:24,000 --> 00:02:26,884
+a polynomial in, in K. Not an exponential in K. So
+
+53
+00:02:26,884 --> 00:02:29,640
+I'm going to say that we don't have enough background
+
+54
+00:02:29,640 --> 00:02:32,320
+yet to be able to answer this definitively. The, yes is
+
+55
+00:02:32,320 --> 00:02:34,640
+the right answer. But we're going to need to dive in a little bit more
+
+56
+00:02:34,640 --> 00:02:36,820
+deeply, and develop some more concepts to be
+
+57
+00:02:36,820 --> 00:02:38,600
+able to argue why that's the right answer.

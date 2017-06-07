@@ -1,0 +1,1115 @@
+1
+00:00:00,580 --> 00:00:02,050
+All right.
+So brace yourself for
+
+2
+00:00:02,050 --> 00:00:03,390
+a kind of long solution video.
+
+3
+00:00:03,390 --> 00:00:06,150
+But we'll tackle it one step at a time.
+
+4
+00:00:06,150 --> 00:00:08,790
+So first,
+we want to request audio focus,
+
+5
+00:00:08,790 --> 00:00:11,380
+which means that we need
+an audio manager object instance.
+
+6
+00:00:12,630 --> 00:00:16,050
+Now, within the NumbersActivity, I'm
+going to create a global variable for
+
+7
+00:00:16,050 --> 00:00:20,010
+the audio managers that I can initialize
+it once during the lifetime activity.
+
+8
+00:00:20,010 --> 00:00:22,212
+Next, within the entre method
+of the numbers activity.
+
+9
+00:00:22,212 --> 00:00:26,020
+I'm going to initialize the Audio
+Manager by calling get system service
+
+10
+00:00:26,020 --> 00:00:28,410
+and passing in the audio
+service constant.
+
+11
+00:00:28,410 --> 00:00:30,750
+Now the reason that I knew
+to write this line of code,
+
+12
+00:00:30,750 --> 00:00:33,170
+was because I saw in this
+media player tutorial,
+
+13
+00:00:33,170 --> 00:00:37,260
+that it shows how to get a reference
+to the Audio Manager system service.
+
+14
+00:00:37,260 --> 00:00:39,100
+Now once we have
+the audio manager object.
+
+15
+00:00:39,100 --> 00:00:41,910
+We can call the request
+audio focused method on it.
+
+16
+00:00:41,910 --> 00:00:44,730
+So let's copy this snippet of code and
+then add into our app.
+
+17
+00:00:47,310 --> 00:00:50,370
+Now where's the proper place
+to request audio focus?
+
+18
+00:00:50,370 --> 00:00:51,900
+Now, I know that when
+an item is clicked on.
+
+19
+00:00:51,900 --> 00:00:55,060
+I want to use the Audio Manager
+to request audio focus there
+
+20
+00:00:55,060 --> 00:00:57,430
+before setting up the media
+player to play the sound.
+
+21
+00:00:57,430 --> 00:01:01,168
+So I'm going to paste the code in
+here after we've gotten the code for
+
+22
+00:01:01,168 --> 00:01:04,724
+the word object, and
+after we've released our media player.
+
+23
+00:01:04,724 --> 00:01:07,124
+Now, I want to be more descriptive
+with these variable names.
+
+24
+00:01:07,124 --> 00:01:11,870
+So I'm going to change the current
+variable name from am to mAudioManager.
+
+25
+00:01:11,870 --> 00:01:13,500
+Now when we request audio focus.
+
+26
+00:01:13,500 --> 00:01:15,540
+I'm going to pass in three inputs.
+
+27
+00:01:15,540 --> 00:01:16,620
+I need to pass in a listener.
+
+28
+00:01:16,620 --> 00:01:19,490
+I need to specify the music stream type.
+
+29
+00:01:19,490 --> 00:01:21,710
+And also,
+how long we need to request audio for.
+
+30
+00:01:22,790 --> 00:01:26,580
+So the code sample we copied
+over requested AUDIOFOCUS_GAIN.
+
+31
+00:01:26,580 --> 00:01:30,690
+In order to request audio focus for
+a long unknown duration period for
+
+32
+00:01:30,690 --> 00:01:32,750
+something like playing a music song.
+
+33
+00:01:32,750 --> 00:01:36,400
+However, in army walk up our audio clips
+are only about one or two seconds long.
+
+34
+00:01:36,400 --> 00:01:39,420
+So we only need audio focus for
+short period of time.
+
+35
+00:01:39,420 --> 00:01:42,415
+Hence we're going to
+change AUDIOOCUS_GAIN to
+
+36
+00:01:42,415 --> 00:01:44,570
+AUDIOOCUS_GAIN_TARNSIENT.
+
+37
+00:01:44,570 --> 00:01:46,630
+All right, so it looks like we're
+still getting a couple of errors here.
+
+38
+00:01:46,630 --> 00:01:49,550
+And that's because Android Studio
+is still reporting an error that
+
+39
+00:01:49,550 --> 00:01:51,070
+it doesn't recognize
+the listener define.
+
+40
+00:01:51,070 --> 00:01:53,570
+And that's because we haven't
+defined a listener yet.
+
+41
+00:01:53,570 --> 00:01:55,460
+But we can get back
+to fixing this later.
+
+42
+00:01:55,460 --> 00:01:57,100
+Now if we head back to our tutorial, and
+
+43
+00:01:57,100 --> 00:01:59,840
+check more into the request
+audio focus method.
+
+44
+00:01:59,840 --> 00:02:02,680
+We see that this method
+returned an integer.
+
+45
+00:02:02,680 --> 00:02:03,430
+And guess what?
+
+46
+00:02:03,430 --> 00:02:05,870
+The result is also a constant value.
+
+47
+00:02:05,870 --> 00:02:08,270
+So down here in the documentation for
+the method.
+
+48
+00:02:08,270 --> 00:02:11,260
+It shows the two possible return
+values are the constants.
+
+49
+00:02:11,260 --> 00:02:15,580
+AudioFocus _request_failed or
+audiofocus_request_granted.
+
+50
+00:02:15,580 --> 00:02:19,210
+So each of these constants
+are static final variables
+
+51
+00:02:19,210 --> 00:02:21,940
+that are equal to a fixed integer value.
+
+52
+00:02:21,940 --> 00:02:23,960
+Now if we go back to
+the code sample here.
+
+53
+00:02:23,960 --> 00:02:27,890
+If the result is equal to
+audio focus request granted.
+
+54
+00:02:27,890 --> 00:02:30,280
+Then we've successfully
+gained audio focus, and
+
+55
+00:02:30,280 --> 00:02:32,720
+can proceed with playing
+audio on our app.
+
+56
+00:02:32,720 --> 00:02:33,660
+So back in our code.
+
+57
+00:02:33,660 --> 00:02:37,440
+We added that if statement under this
+block where we requested audio focus.
+
+58
+00:02:37,440 --> 00:02:39,200
+Now once we've gained audio focus.
+
+59
+00:02:39,200 --> 00:02:41,680
+We want to create and
+start the media player, and
+
+60
+00:02:41,680 --> 00:02:43,570
+then set up the completion listener.
+
+61
+00:02:43,570 --> 00:02:47,145
+So, this block of code here needs
+to go within our if statement.
+
+62
+00:02:47,145 --> 00:02:51,885
+So, I'm going to move this
+closing bracket, down here.
+
+63
+00:02:51,885 --> 00:02:53,485
+So, I'm going to modify this comment.
+
+64
+00:02:53,485 --> 00:02:56,825
+I'm going to say,
+we have audio focus now.
+
+65
+00:02:56,825 --> 00:02:58,745
+And then,
+I'm going to indent these lines of code.
+
+66
+00:02:58,745 --> 00:03:00,705
+Because they're inside the if statement.
+
+67
+00:03:00,705 --> 00:03:02,730
+So if we don't receive audio focus.
+
+68
+00:03:02,730 --> 00:03:04,670
+Then we don't need to
+set up the media player.
+
+69
+00:03:04,670 --> 00:03:06,650
+The user will have to
+click the list item again.
+
+70
+00:03:06,650 --> 00:03:09,305
+And hopefully at that point,
+we can gain audio focus.
+
+71
+00:03:09,305 --> 00:03:12,844
+All right, so that took care of task
+number one, requesting audio focus.
+
+72
+00:03:12,844 --> 00:03:17,365
+Now let's focus on implementing
+the OnAudioFocusChangeListener.
+
+73
+00:03:17,365 --> 00:03:20,445
+And that will help us get rid of
+the current air that's in our code.
+
+74
+00:03:20,445 --> 00:03:22,400
+Let's figure out what
+the listener should look like.
+
+75
+00:03:22,400 --> 00:03:23,805
+So if you scroll down on this tutorial.
+
+76
+00:03:23,805 --> 00:03:26,290
+There's an example of what
+the listener could be.
+
+77
+00:03:26,290 --> 00:03:29,220
+So since we need to pass in the listener
+as an input every time we request
+
+78
+00:03:29,220 --> 00:03:30,290
+audio focus.
+
+79
+00:03:30,290 --> 00:03:32,440
+Let's make this listener
+a global variable.
+
+80
+00:03:32,440 --> 00:03:34,960
+So we can reuse the same one each time.
+
+81
+00:03:34,960 --> 00:03:36,200
+So I'm going to ahead and just copy and
+
+82
+00:03:36,200 --> 00:03:39,440
+paste this code snippet, and
+paste it into our numbers activity.
+
+83
+00:03:40,960 --> 00:03:44,619
+So I'm going to paste that code snippet
+below all our other global variables.
+
+84
+00:03:45,690 --> 00:03:48,130
+So you can rename this
+variable to whatever you want.
+
+85
+00:03:48,130 --> 00:03:53,170
+In my case, I'm going to rename it
+to mOnAudioFocusChangeListener.
+
+86
+00:03:53,170 --> 00:03:56,280
+All right, so here we're creating
+a new object instance that implements
+
+87
+00:03:56,280 --> 00:03:57,940
+the listener interface.
+
+88
+00:03:57,940 --> 00:04:02,130
+So this means that we'll need to
+override the onAudioFocusChange method.
+
+89
+00:04:02,130 --> 00:04:06,900
+The one that's taking in one parameter,
+which is a new audio focus state.
+
+90
+00:04:06,900 --> 00:04:09,740
+So within this method
+on audio focus change.
+
+91
+00:04:09,740 --> 00:04:11,200
+We're putting in our instructions for
+
+92
+00:04:11,200 --> 00:04:14,010
+what should happen when
+the system calls this method.
+
+93
+00:04:14,010 --> 00:04:16,310
+Because the audio focus state
+has changed within our app.
+
+94
+00:04:17,410 --> 00:04:20,240
+So the smart thing to do here would be
+to figure out what the new state is,
+
+95
+00:04:20,240 --> 00:04:23,230
+by looking at the focus change
+variable that we passed in.
+
+96
+00:04:23,230 --> 00:04:26,780
+So here we're using the conditional if
+else statements to check what the value
+
+97
+00:04:26,780 --> 00:04:28,810
+of the focus change variable is.
+
+98
+00:04:28,810 --> 00:04:32,000
+Remember that the double equal
+sign checks that both the left and
+
+99
+00:04:32,000 --> 00:04:33,190
+right hand values are equal.
+
+100
+00:04:33,190 --> 00:04:34,910
+And if so,
+this whole expression is true.
+
+101
+00:04:34,910 --> 00:04:38,320
+And then we execute the code
+that's in this if block.
+
+102
+00:04:38,320 --> 00:04:39,980
+Otherwise, if this expression is false.
+
+103
+00:04:39,980 --> 00:04:42,052
+Then we skip over this
+first block of code and
+
+104
+00:04:42,052 --> 00:04:44,305
+go down here straight to
+the else if statement.
+
+105
+00:04:44,305 --> 00:04:48,225
+If the audio focus variable is equal
+to audio focus loss transient state.
+
+106
+00:04:48,225 --> 00:04:51,470
+Then we've temporarily lost audio focus.
+
+107
+00:04:51,470 --> 00:04:53,370
+So this means that we can
+pause the media player.
+
+108
+00:04:53,370 --> 00:04:55,170
+So I add that line of code here.
+
+109
+00:04:55,170 --> 00:04:56,850
+So with the media player seek to method.
+
+110
+00:04:56,850 --> 00:04:59,425
+I'm going to change the position
+to start at the beginning of
+
+111
+00:04:59,425 --> 00:05:00,485
+the audio file.
+
+112
+00:05:00,485 --> 00:05:01,885
+So start at position zero.
+
+113
+00:05:01,885 --> 00:05:04,295
+And this is because,
+if we do gain audio focus back.
+
+114
+00:05:04,295 --> 00:05:05,195
+It would be better for
+
+115
+00:05:05,195 --> 00:05:07,625
+the user to hear the word from
+the beginning of the audio file.
+
+116
+00:05:07,625 --> 00:05:09,235
+Instead of just hearing
+the remaining of the word.
+
+117
+00:05:09,235 --> 00:05:11,512
+Since our words are pretty short anyway.
+
+118
+00:05:11,512 --> 00:05:13,411
+Now I want to modify
+this test case here.
+
+119
+00:05:13,411 --> 00:05:16,812
+because I want this behavior to be
+applied also to the loss transient
+
+120
+00:05:16,812 --> 00:05:18,217
+can duck state.
+
+121
+00:05:18,217 --> 00:05:21,052
+I'm also going to resolve this
+error here by specifying that it's
+
+122
+00:05:21,052 --> 00:05:24,168
+AudioManager.AUDIOFOCUS_LOSS_TRANSIENT.
+
+123
+00:05:24,168 --> 00:05:25,838
+So if you recall from the last quiz.
+
+124
+00:05:25,838 --> 00:05:29,580
+We decided that these two states,
+AUDIOFOCUS_LOSS_TRANSIENT, and
+
+125
+00:05:29,580 --> 00:05:34,618
+AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK, are
+two states that can be handled the same.
+
+126
+00:05:34,618 --> 00:05:37,738
+So the media player should
+be paused in both cases.
+
+127
+00:05:37,738 --> 00:05:40,648
+So we can use this double
+vertical bar symbol to mean or.
+
+128
+00:05:40,648 --> 00:05:41,698
+So O-R.
+
+129
+00:05:41,698 --> 00:05:43,198
+Now this is the first
+time that we're using it.
+
+130
+00:05:43,198 --> 00:05:45,708
+So it's expected if it looks unfamiliar.
+
+131
+00:05:45,708 --> 00:05:48,000
+So using that, this statement reads.
+
+132
+00:05:48,000 --> 00:05:52,620
+If the focusChange variable equals
+the AUDIOFOCUS_LOSS_TRANSIENT state,
+
+133
+00:05:52,620 --> 00:05:55,270
+or if the focusChange variable equals
+
+134
+00:05:55,270 --> 00:05:58,060
+the AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
+state.
+
+135
+00:05:58,060 --> 00:06:00,450
+Then this whole expression is true.
+
+136
+00:06:00,450 --> 00:06:03,000
+And we can execute the if block of code.
+
+137
+00:06:03,000 --> 00:06:06,700
+This means that either expression
+to the left of the or symbol, or
+
+138
+00:06:06,700 --> 00:06:09,500
+the expression to the right of the or
+symbol must be true for
+
+139
+00:06:09,500 --> 00:06:12,680
+this entire expression
+to be valid it is true.
+
+140
+00:06:12,680 --> 00:06:14,445
+Now, if you don't want to use this or
+symbol.
+
+141
+00:06:14,445 --> 00:06:16,980
+You could have simply created
+another ELSE IF block.
+
+142
+00:06:16,980 --> 00:06:20,860
+In order to check the audio focus
+loss transient can duck state.
+
+143
+00:06:20,860 --> 00:06:23,080
+Now in our case,
+we just combined into one check.
+
+144
+00:06:23,080 --> 00:06:24,800
+Because the logic for pausing and
+
+145
+00:06:24,800 --> 00:06:28,058
+resetting the position of the media
+player will be the same for both cases.
+
+146
+00:06:28,058 --> 00:06:31,175
+So I'm going to add a comment to help
+you remember why we chose this behavior.
+
+147
+00:06:31,175 --> 00:06:31,867
+All right, so
+
+148
+00:06:31,867 --> 00:06:35,055
+if the focus change variable is
+not any of these two above states.
+
+149
+00:06:35,055 --> 00:06:38,700
+Then we check if it's equal
+to the AUDIOFOCUS_GAIN state.
+
+150
+00:06:38,700 --> 00:06:40,490
+Now, back to the table from last quiz.
+
+151
+00:06:40,490 --> 00:06:43,710
+When we gain audio focus, remember
+that we can resume the media player.
+
+152
+00:06:43,710 --> 00:06:47,220
+In the media player API,
+there is no resume method.
+
+153
+00:06:47,220 --> 00:06:49,720
+Remember that you can just
+call the start method, and
+
+154
+00:06:49,720 --> 00:06:51,600
+it'll pick up from where
+you last left off.
+
+155
+00:06:51,600 --> 00:06:58,510
+So I'll change this comment
+to be mMediaPlayer.start().
+
+156
+00:06:58,510 --> 00:07:00,800
+I'll also add in a comment to
+help describe that case as well.
+
+157
+00:07:01,840 --> 00:07:05,190
+Now lastly, if our focus change
+variable is not equal to any of
+
+158
+00:07:05,190 --> 00:07:08,890
+these three states, but it's equal
+to the audio focus loss state.
+
+159
+00:07:08,890 --> 00:07:11,270
+Then we execute this block of code.
+
+160
+00:07:11,270 --> 00:07:13,600
+Now once again back to our
+table from the last quiz.
+
+161
+00:07:13,600 --> 00:07:15,060
+We said that we would stop and
+
+162
+00:07:15,060 --> 00:07:18,980
+clean up the media player when
+we permanently lose audio focus.
+
+163
+00:07:18,980 --> 00:07:19,650
+And luckily,
+
+164
+00:07:19,650 --> 00:07:23,930
+we have a helper method called release
+media player to help us handle that.
+
+165
+00:07:23,930 --> 00:07:25,742
+So inside this last else if block.
+
+166
+00:07:25,742 --> 00:07:27,620
+I'm going to delete the sample code, and
+
+167
+00:07:27,620 --> 00:07:30,760
+color our own release
+media player method.
+
+168
+00:07:30,760 --> 00:07:32,974
+And I'll also add in
+a comment to be consistent,
+
+169
+00:07:32,974 --> 00:07:34,650
+and help describe what's going on.
+
+170
+00:07:34,650 --> 00:07:36,800
+All right, so
+that took care of task number two.
+
+171
+00:07:36,800 --> 00:07:39,520
+Creating an instance of
+the focus change listener, and
+
+172
+00:07:39,520 --> 00:07:41,350
+overwriting the callback method.
+
+173
+00:07:41,350 --> 00:07:43,340
+And that also took care
+of task number three.
+
+174
+00:07:43,340 --> 00:07:47,470
+So we modify the media playback behavior
+based on these focus state changes.
+
+175
+00:07:47,470 --> 00:07:49,240
+Looks like we just have
+one more task left.
+
+176
+00:07:49,240 --> 00:07:52,285
+We need to release audio focus
+when we're done playing audio.
+
+177
+00:07:52,285 --> 00:07:54,944
+Now going back to our managing
+audio focus tutorial.
+
+178
+00:07:54,944 --> 00:07:59,710
+There was an example code snippet
+here for abandoning audio focus.
+
+179
+00:07:59,710 --> 00:08:02,010
+So this paragraph above
+the code snippet here.
+
+180
+00:08:02,010 --> 00:08:05,540
+Says that when you're done playing
+audio, you should abandon audio focus.
+
+181
+00:08:05,540 --> 00:08:08,600
+So this unregisters
+the listener that's specified.
+
+182
+00:08:08,600 --> 00:08:10,375
+So our input parameter here.
+
+183
+00:08:10,375 --> 00:08:13,625
+So that we no longer get
+notified of focus state changes.
+
+184
+00:08:13,625 --> 00:08:17,545
+It also says that if you request
+a transient focus, which we did.
+
+185
+00:08:17,545 --> 00:08:21,580
+It allows any interrupted app on the
+device to continue with their playback.
+
+186
+00:08:21,580 --> 00:08:24,250
+So let's copy this code and
+paste into our app.
+
+187
+00:08:24,250 --> 00:08:26,870
+So where should we put that line
+of code in our numbers activity?
+
+188
+00:08:26,870 --> 00:08:28,850
+Well, once we finish
+playing the audio file.
+
+189
+00:08:28,850 --> 00:08:30,110
+We should've been in focus.
+
+190
+00:08:30,110 --> 00:08:33,558
+So we could paste it in the on
+completion callback of the media player.
+
+191
+00:08:33,558 --> 00:08:36,799
+But, we also want to be careful
+of the activity life-cycle.
+
+192
+00:08:36,799 --> 00:08:38,020
+So we added code earlier.
+
+193
+00:08:38,020 --> 00:08:40,909
+So that when the activity is stopped,
+and also hidden from the user.
+
+194
+00:08:40,909 --> 00:08:43,400
+We stop and clean up the media player.
+
+195
+00:08:43,400 --> 00:08:46,390
+So we want to abandon audio
+focus in both places.
+
+196
+00:08:46,390 --> 00:08:50,190
+And both places already call
+the release Media Player method.
+
+197
+00:08:50,190 --> 00:08:53,340
+So let's just abandon audio
+focus within that helper method,
+
+198
+00:08:53,340 --> 00:08:54,250
+release media player.
+
+199
+00:08:55,520 --> 00:08:56,940
+Now at the bottom of this method,
+
+200
+00:08:56,940 --> 00:08:59,500
+I'm going to add the line
+to abandon audio focus.
+
+201
+00:08:59,500 --> 00:09:01,840
+I'm going to add that with in dif block.
+
+202
+00:09:01,840 --> 00:09:04,260
+We know it's safe to release
+the audio focus here,
+
+203
+00:09:04,260 --> 00:09:06,150
+because we no longer are playing audio.
+
+204
+00:09:07,450 --> 00:09:10,060
+So, I'm going to have to switch
+our variable names from A.M.
+
+205
+00:09:10,060 --> 00:09:12,470
+to M Audio Manager.
+
+206
+00:09:12,470 --> 00:09:16,830
+And also change our listener name
+to be mOnAudioFocusChangeListener.
+
+207
+00:09:16,830 --> 00:09:19,160
+So I'll also update the comments
+to this section as well.
+
+208
+00:09:19,160 --> 00:09:20,150
+All right.
+
+209
+00:09:20,150 --> 00:09:22,210
+So that took care of step number four.
+
+210
+00:09:22,210 --> 00:09:24,220
+So I know there were a lot
+of code changes, but
+
+211
+00:09:24,220 --> 00:09:26,100
+we're done with all four steps now.
+
+212
+00:09:26,100 --> 00:09:27,350
+So give yourselves a pat on the back.
+
+213
+00:09:28,720 --> 00:09:31,351
+And if there are any remaining
+variables that need to be updated.
+
+214
+00:09:31,351 --> 00:09:33,045
+Let's make those changes here.
+
+215
+00:09:33,045 --> 00:09:34,784
+All right, so no more errors.
+
+216
+00:09:34,784 --> 00:09:36,680
+Now let's make sure the app is working.
+
+217
+00:09:36,680 --> 00:09:37,230
+So let's run it.
+
+218
+00:09:38,420 --> 00:09:40,050
+So here's the app running on my device.
+
+219
+00:09:40,050 --> 00:09:43,145
+And let's make sure that it's still
+working it behaves as expected.
+
+220
+00:09:43,145 --> 00:09:45,445
+So let's go into our numbers activity.
+
+221
+00:09:45,445 --> 00:09:50,074
+>> [FOREIGN]
+>> All right, so
+
+222
+00:09:50,074 --> 00:09:52,720
+the audio is stopping when
+another one starts playing.
+
+223
+00:09:52,720 --> 00:09:55,170
+But I won't go through all
+the test cases right now.
+
+224
+00:09:55,170 --> 00:09:57,950
+If you want to test that we're
+handling audio interruptions properly.
+
+225
+00:09:57,950 --> 00:10:00,350
+You should try playing the sound
+in the middle of a phone call.
+
+226
+00:10:00,350 --> 00:10:02,120
+Or even pulling down
+the notification shade
+
+227
+00:10:02,120 --> 00:10:03,750
+while you're trying to play a sound.
+
+228
+00:10:03,750 --> 00:10:06,360
+So ideally you want to test
+every case that we have here,
+
+229
+00:10:06,360 --> 00:10:07,560
+in our if else statements.
+
+230
+00:10:07,560 --> 00:10:10,230
+To make sure that we can pause
+the audio when we lose focus, and
+
+231
+00:10:10,230 --> 00:10:13,050
+then resume it back again
+when we gain focus.
+
+232
+00:10:13,050 --> 00:10:14,572
+So once I have the numbers
+activity working.
+
+233
+00:10:14,572 --> 00:10:17,360
+I'm going to apply the same
+changes to the other activities.
+
+234
+00:10:17,360 --> 00:10:19,130
+So here are what the code
+changes look like for
+
+235
+00:10:19,130 --> 00:10:23,390
+the colors activity, family activity,
+and phrases activity.
+
+236
+00:10:24,490 --> 00:10:27,110
+So for a link to the solution code,
+see the notes below.
+
+237
+00:10:28,460 --> 00:10:30,875
+Wow.
+So that was a major beast of a feature.
+
+238
+00:10:30,875 --> 00:10:34,040
+And congratulations on finishing
+the app focus coding task.

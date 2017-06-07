@@ -1,0 +1,552 @@
+1
+00:00:00,280 --> 00:00:01,960
+>> Okay, Michael. You got an answer for me?
+
+2
+00:00:01,960 --> 00:00:06,890
+>> Yeah, I think so. I kind of like the method of dropping features
+
+3
+00:00:06,890 --> 00:00:10,580
+that we don't need. So I'm going to see if I can apply that idea.
+
+4
+00:00:10,580 --> 00:00:10,980
+>> OK.
+
+5
+00:00:10,980 --> 00:00:13,625
+>> So, for the decision tree case, if I had all
+
+6
+00:00:13,625 --> 00:00:17,720
+4 features, could I even learn this thing? I think I
+
+7
+00:00:17,720 --> 00:00:22,290
+could. Let's see, I could do A. And if A is
+
+8
+00:00:22,290 --> 00:00:25,210
+true, then I can split on B. And if B is true,
+
+9
+00:00:25,210 --> 00:00:28,410
+then I output A plus, otherwise I output minuses.
+
+10
+00:00:28,410 --> 00:00:32,330
+>> So, hm. Is that a function? Do you know what function that is?
+
+11
+00:00:32,330 --> 00:00:33,740
+>> It's a decision tree.
+
+12
+00:00:33,740 --> 00:00:34,915
+>> Yes, but what, do you know if
+
+13
+00:00:34,915 --> 00:00:37,420
+there's a Boolean function that decision tree represents?
+
+14
+00:00:37,420 --> 00:00:39,870
+>> I don't know. Do you want to draw it and I can look at it?
+
+15
+00:00:39,870 --> 00:00:44,530
+>> Yeah, sure. Let's do that. So first you split on A. Then you said A is
+
+16
+00:00:44,530 --> 00:00:50,350
+either zero or 1. And then in the case where it was a 1,
+
+17
+00:00:50,350 --> 00:00:57,720
+you split on B. And if that were a zero, you output no, and if that is
+
+18
+00:00:57,720 --> 00:01:02,795
+a 1, you output yes. And over here, you output no. That's what you said, right?
+
+19
+00:01:02,795 --> 00:01:04,920
+>> Yep. And that works for this example.
+
+20
+00:01:04,920 --> 00:01:05,780
+>> Mm hm.
+
+21
+00:01:05,780 --> 00:01:10,840
+>> Or this set of examples. And, let's see, so with 1 plus, oh
+
+22
+00:01:10,840 --> 00:01:15,410
+I see. So it's it's AND right? So it, if A and B are true,
+
+23
+00:01:15,410 --> 00:01:16,960
+then the output's true, otherwise not.
+
+24
+00:01:16,960 --> 00:01:21,490
+>> Right. And in fact that is exactly the function that I was thinking of.
+
+25
+00:01:21,490 --> 00:01:22,040
+>> Oh.
+
+26
+00:01:22,040 --> 00:01:26,480
+>> So this, the true underlying function here is in fact AND of A and B.
+
+27
+00:01:26,480 --> 00:01:30,850
+>> All right. And oh, I see, so in particular, now we've
+
+28
+00:01:30,850 --> 00:01:34,820
+answered the first question. Because I, I need, well okay I, I, I
+
+29
+00:01:34,820 --> 00:01:37,950
+only need A and B. And in fact, having just one of them
+
+30
+00:01:37,950 --> 00:01:40,430
+alone isn't going to be enough. If I just had A then the
+
+31
+00:01:40,430 --> 00:01:42,730
+decision tree can't learn it. And if I just had B,
+
+32
+00:01:42,730 --> 00:01:45,092
+then the decision tree can't learn it. It needs more information.
+
+33
+00:01:45,092 --> 00:01:47,110
+>> Right, and even in these examples you haven't,
+
+34
+00:01:47,110 --> 00:01:50,030
+you can't really luck up and have picked C or
+
+35
+00:01:50,030 --> 00:01:53,300
+D to learn this. Because C is always 1, and
+
+36
+00:01:53,300 --> 00:01:56,200
+so you can't output the correct answer for all cases.
+
+37
+00:01:56,200 --> 00:01:59,400
+And D is 1 in the wrong place, and
+
+38
+00:01:59,400 --> 00:02:01,220
+zero in the wrong place, but zero in the right
+
+39
+00:02:01,220 --> 00:02:03,140
+place a couple of times. So you can't do something
+
+40
+00:02:03,140 --> 00:02:05,380
+like take the not of D and haven't gotten lucky.
+
+41
+00:02:05,380 --> 00:02:05,660
+>> I see.
+
+42
+00:02:05,660 --> 00:02:08,870
+Well yeah, and C in particular seems exceptionally useless.
+
+43
+00:02:08,870 --> 00:02:10,050
+>> Ooh, I like that word.
+
+44
+00:02:10,050 --> 00:02:10,219
+>> [LAUGH]
+
+45
+00:02:10,219 --> 00:02:15,280
+>> I am going to say useless. Useless. Okay, fine.
+
+46
+00:02:15,280 --> 00:02:17,480
+So, that's right. So, it, and maybe this helps you
+
+47
+00:02:17,480 --> 00:02:19,370
+a little bit with the next one. I know that
+
+48
+00:02:19,370 --> 00:02:21,430
+you now know what the true function is. It's AND
+
+49
+00:02:21,430 --> 00:02:23,820
+A or B. And you've decided that D doesn't help
+
+50
+00:02:23,820 --> 00:02:25,910
+a lot, and C is completely useless. Why'd you say
+
+51
+00:02:25,910 --> 00:02:28,000
+it was useless, by the way? Because it's the same
+
+52
+00:02:28,000 --> 00:02:30,900
+in all the cases. It doesn't discriminate between the positive and
+
+53
+00:02:30,900 --> 00:02:31,610
+the negative labels.
+
+54
+00:02:31,610 --> 00:02:35,830
+>> That's right. So it is useless in that regard. So, good. This is
+
+55
+00:02:35,830 --> 00:02:37,820
+the answer I was looking for, for
+
+56
+00:02:37,820 --> 00:02:39,780
+decision trees. What about for the simple perceptron?
+
+57
+00:02:39,780 --> 00:02:42,700
+>> Okay, right. So I'm not great at doing this kind of
+
+58
+00:02:42,700 --> 00:02:45,505
+thing in my head. But I guess the good news is, oh, how
+
+59
+00:02:45,505 --> 00:02:48,020
+about this? How about this? Since we got it down to only these
+
+60
+00:02:48,020 --> 00:02:52,380
+two features matter, we can draw it as a two dimensional plane, right?
+
+61
+00:02:52,380 --> 00:02:52,840
+>> OK.
+
+62
+00:02:52,840 --> 00:02:55,670
+>> So mark 0,0. Put a minus at 0, 0.
+
+63
+00:02:55,670 --> 00:02:55,860
+>> OK.
+
+64
+00:02:55,860 --> 00:02:56,680
+>> Put
+
+65
+00:03:01,220 --> 00:03:02,492
+a minus at 0,1.
+
+66
+00:03:02,492 --> 00:03:02,894
+>> Mmhm.
+
+67
+00:03:02,894 --> 00:03:04,604
+>> Put a minus at 1,0.
+
+68
+00:03:04,604 --> 00:03:05,006
+>> Mmhm.
+
+69
+00:03:05,006 --> 00:03:07,980
+>> And put a plus at 1,1. So that's
+
+70
+00:03:07,980 --> 00:03:09,860
+when we're using the A and the B features.
+
+71
+00:03:09,860 --> 00:03:09,950
+>> Yep.
+
+72
+00:03:09,950 --> 00:03:14,640
+>> And this is great, because it's linearly separable. So we just need to,
+
+73
+00:03:14,640 --> 00:03:17,350
+yeah, we just need a set of weights that can do that. And let's
+
+74
+00:03:17,350 --> 00:03:20,530
+see. So, how do we do that? So, if we add, let's see. If
+
+75
+00:03:20,530 --> 00:03:23,420
+we do a weight of 1 on A, and a weight of 1 on B.
+
+76
+00:03:23,420 --> 00:03:24,040
+>> Mm-hm.
+
+77
+00:03:24,040 --> 00:03:24,456
+>> Then.
+
+78
+00:03:24,456 --> 00:03:24,872
+>>
+>> Then.
+
+79
+00:03:24,872 --> 00:03:26,504
+>> Let me, let me draw it.
+
+80
+00:03:26,504 --> 00:03:29,845
+Maybe that will, that will help. So, you want to pick a
+
+81
+00:03:29,845 --> 00:03:33,360
+weight vector which is, you said, 1 for A and 1 for B.
+
+82
+00:03:33,360 --> 00:03:34,686
+>> Mm-hm.
+
+83
+00:03:34,686 --> 00:03:37,546
+>> Okay, all right. Go.
+
+84
+00:03:37,546 --> 00:03:41,240
+>> And that will give us for the first example, that gives us an
+
+85
+00:03:41,240 --> 00:03:44,250
+output of zero. For the next one an output of 1, the next one
+
+86
+00:03:44,250 --> 00:03:47,940
+an output of 1, and the last one an output of 2. So, we
+
+87
+00:03:47,940 --> 00:03:51,510
+would like, if it was like, uh-oh. Wait. So, if it, if the weight
+
+88
+00:03:51,510 --> 00:03:54,290
+vector was that, then what we really want it to be
+
+89
+00:03:54,290 --> 00:03:58,830
+is WTX greater than 1. But we can't. It says zero there.
+
+90
+00:03:58,830 --> 00:04:05,500
+>> Mm hmm. In fact, wait, isn't it the case that if you don't have, if it's
+
+91
+00:04:05,500 --> 00:04:07,300
+greater than or equal to zero, it's, we're
+
+92
+00:04:07,300 --> 00:04:09,100
+really talking about lines that go through the origin.
+
+93
+00:04:09,100 --> 00:04:11,860
+>> Yep that's right. This is an origin limited perceptron.
+
+94
+00:04:11,860 --> 00:04:16,800
+>> So it seems like we're hosed, right? There isn't going to be a separator
+
+95
+00:04:16,800 --> 00:04:19,870
+that goes to the origin that lops off the plus.
+
+96
+00:04:19,870 --> 00:04:20,711
+>> That's right.
+
+97
+00:04:21,990 --> 00:04:25,310
+>> So, I guess what we usually do in
+
+98
+00:04:25,310 --> 00:04:29,950
+perceptrons is we include, was it like a bias
+
+99
+00:04:29,950 --> 00:04:33,350
+unit, like a, like a, something that's all 1's.
+
+100
+00:04:33,350 --> 00:04:35,270
+And then that lets us move the threshold around.
+
+101
+00:04:35,270 --> 00:04:37,815
+>> Right. So normally this would look like
+
+102
+00:04:37,815 --> 00:04:41,930
+this. W transpose X plus B is greater
+
+103
+00:04:41,930 --> 00:04:45,810
+than zero. But I didn't let you have that, so you can't have that.
+
+104
+00:04:48,110 --> 00:04:50,930
+>> But maybe I can. You say I can add B in.
+
+105
+00:04:50,930 --> 00:04:53,850
+What if I could add C in? Because if you look at this
+
+106
+00:04:53,850 --> 00:04:54,680
+>> Well, what would that give you?
+
+107
+00:04:54,680 --> 00:04:57,050
+>> Well, look at the C column, it's all 1's. It's the same as if
+
+108
+00:04:57,050 --> 00:04:59,950
+it was, it like, the thing that you called B a moment ago, the, this,
+
+109
+00:04:59,950 --> 00:05:04,200
+this bias unit. So if we actually include A, B, and C as our features,
+
+110
+00:05:04,200 --> 00:05:05,970
+then we can represent this with a,
+
+111
+00:05:05,970 --> 00:05:08,589
+what did you call it, origin limited perceptron.
+
+112
+00:05:08,589 --> 00:05:10,630
+>> Right. So then, and I'll even draw it in a
+
+113
+00:05:10,630 --> 00:05:13,050
+different color, if we had WB, what did you have? 1, 1,
+
+114
+00:05:13,050 --> 00:05:13,280
+and.
+
+115
+00:05:13,280 --> 00:05:17,560
+>> I'm going to say negative 1.
+
+116
+00:05:17,560 --> 00:05:20,230
+>> Negative 1, and that's A, B, and C.
+
+117
+00:05:20,230 --> 00:05:23,270
+Then what would that give you, in the first case?
+
+118
+00:05:23,270 --> 00:05:29,600
+>> So negative 1, zero, zero, 1.
+
+119
+00:05:29,600 --> 00:05:30,390
+>> Yep.
+
+120
+00:05:30,390 --> 00:05:32,300
+>> So it's only, the positive example is the
+
+121
+00:05:32,300 --> 00:05:35,190
+only one that's greater than zero, strictly greater than zero.
+
+122
+00:05:35,190 --> 00:05:37,710
+>> Yep, that's exactly right. So,
+
+123
+00:05:38,960 --> 00:05:40,210
+you still think C is useless?
+
+124
+00:05:40,210 --> 00:05:42,749
+>> I see. Well, when I said useless.
+
+125
+00:05:42,749 --> 00:05:45,820
+>> Mm-hm.
+
+126
+00:05:45,820 --> 00:05:49,080
+>> I meant it didn't give any information.
+
+127
+00:05:49,080 --> 00:05:50,740
+>> And that's exactly right. It doesn't give
+
+128
+00:05:50,740 --> 00:05:52,970
+any information. But that does not make it useless.
+
+129
+00:05:52,970 --> 00:05:56,890
+>> Interesting. Okay, well, I now regret that word choice.
+
+130
+00:05:56,890 --> 00:06:00,957
+>> C's everywhere across the world are thanking you. [LAUGH]
+
+131
+00:06:00,957 --> 00:06:02,400
+>> So this actually brings me to the
+
+132
+00:06:02,400 --> 00:06:04,050
+last point that I want to make about feature
+
+133
+00:06:04,050 --> 00:06:08,780
+selection, which really gets down to noticing the difference between useless
+
+134
+00:06:08,780 --> 00:06:11,440
+and what I'm going to call relevant. So let's dive into that, okay?
+
+135
+00:06:11,440 --> 00:06:14,120
+>> Yeah, that, that would be really helpful. Is
+
+136
+00:06:14,120 --> 00:06:16,050
+that, and that's the right answer? The first three?
+
+137
+00:06:16,050 --> 00:06:17,390
+>> Yes, that's the right answer.
+
+138
+00:06:17,390 --> 00:06:17,930
+>> Cool.

@@ -1,0 +1,207 @@
+1
+00:00:00,000 --> 00:00:03,000
+So, let's look at this a little bit more formally and talk about maximum likelihood.
+
+2
+00:00:03,000 --> 00:00:12,000
+Obviously, we're observing 8 messages: spam, spam, spam, and 5 times ham.
+
+3
+00:00:12,000 --> 00:00:17,000
+And what we care about is what's our prior probability of spam
+
+4
+00:00:17,000 --> 00:00:20,000
+that maximizes the likelihood of this data?
+
+5
+00:00:20,000 --> 00:00:24,000
+So, let's assume we're going to assign a value of pi to this,
+
+6
+00:00:24,000 --> 00:00:29,000
+and we wish to find the pi that maximizes the likelihood of this data over here,
+
+7
+00:00:29,000 --> 00:00:33,000
+assuming that each email is drawn independently
+
+8
+00:00:33,000 --> 00:00:37,000
+according to an identical distribution.
+
+9
+00:00:37,000 --> 00:00:48,000
+The probability of the p(yi) data item is then pi if yi = spam,
+
+10
+00:00:48,000 --> 00:00:53,000
+and 1 - pi if yi = ham.
+
+11
+00:00:53,000 --> 00:00:59,000
+If we rewrite the data as 1, 1, 1, 0, 0, 0, 0, 0,
+
+12
+00:00:59,000 --> 00:01:13,000
+we can write p(yi) as follows: pi to the yi times (1 - pi) to the 1 - yi.
+
+13
+00:01:13,000 --> 00:01:16,000
+It's not that easy to see that this is equivalent,
+
+14
+00:01:16,000 --> 00:01:19,000
+but say yi = 1.
+
+15
+00:01:19,000 --> 00:01:22,000
+Then this term will fall out.
+
+16
+00:01:22,000 --> 00:01:28,000
+It's not proficient by 1 because the exponent is zero, and we get pi as over here.
+
+17
+00:01:28,000 --> 00:01:36,000
+If yi = 0, then this term falls out, and this one here becomes 1 - pi as over here.
+
+18
+00:01:36,000 --> 00:01:44,000
+Now assuming independence, we get for the entire data set
+
+19
+00:01:44,000 --> 00:01:49,000
+that the joint probability of all data items is the product
+
+20
+00:01:49,000 --> 00:01:52,000
+of the individual data items over here,
+
+21
+00:01:52,000 --> 00:01:56,000
+which can now be written as follows:
+
+22
+00:01:56,000 --> 00:02:03,000
+pi to the count of instances where yi = 1 times
+
+23
+00:02:03,000 --> 00:02:09,000
+1 - pi to the count of the instances where yi = 0.
+
+24
+00:02:09,000 --> 00:02:13,000
+And we know in our example, this count over here is 3,
+
+25
+00:02:13,000 --> 00:02:22,000
+and this count over here is 5, so we get pi to the 3rd times 1 - pi to the 5th.
+
+26
+00:02:22,000 --> 00:02:28,000
+We now wish to find the pi that maximizes this expression over here.
+
+27
+00:02:28,000 --> 00:02:33,000
+We can also maximize the logarithm of this expression,
+
+28
+00:02:33,000 --> 00:02:42,000
+which is 3 times log pi + 5 times log (1 - pi)
+
+29
+00:02:42,000 --> 00:02:50,000
+Optimizing the log is the same as optimizing p because the log is monotonic to p.
+
+30
+00:02:50,000 --> 00:02:54,000
+The maximum of this function is attained with a derivative of 0,
+
+31
+00:02:54,000 --> 00:03:00,000
+so let's compute with a derivative and set it to 0.
+
+32
+00:03:00,000 --> 00:03:05,000
+This is the derivative, 3 over pi - 5 over 1 - pi.
+
+33
+00:03:05,000 --> 00:03:09,000
+We now bring this expression to the right side,
+
+34
+00:03:09,000 --> 00:03:18,000
+multiply the denominators up, and sort all the expressions containing pi to the left,
+
+35
+00:03:18,000 --> 00:03:26,000
+which gives us pi = 3/8, exactly the number we were at before.
+
+36
+00:03:26,000 --> 00:03:33,000
+We just derived mathematically that the data likelihood maximizing number
+
+37
+00:03:33,000 --> 00:03:37,000
+for the probability is indeed the empirical count,
+
+38
+00:03:37,000 --> 00:03:41,000
+which means when we looked at this quiz before
+
+39
+00:03:41,000 --> 00:03:49,000
+and we said a maximum likelihood for the prior probability of spam is 3/8,
+
+40
+00:03:49,000 --> 00:03:54,000
+by simply counting 3 over 8 emails were spam,
+
+41
+00:03:54,000 --> 00:03:57,000
+we actually followed proper mathematical principles
+
+42
+00:03:57,000 --> 00:03:59,000
+to do maximum likelihood estimation.
+
+43
+00:03:59,000 --> 00:04:03,000
+Now, you might not fully have gotten the derivation of this,
+
+44
+00:04:03,000 --> 00:04:07,000
+and I recommend you to watch it again, but it's not that important
+
+45
+00:04:07,000 --> 00:04:09,000
+for the progress in this class.
+
+46
+00:04:09,000 --> 00:04:11,000
+So, here's another quiz.
+
+47
+00:04:11,000 --> 00:04:17,000
+I'd like the maximum likelihood, or ML solutions,
+
+48
+00:04:17,000 --> 00:04:19,000
+for the following probabilities.
+
+49
+00:04:19,000 --> 00:04:21,000
+The probability that the word "secret" comes up,
+
+50
+00:04:21,000 --> 00:04:25,000
+assuming that we already know a message is spam,
+
+51
+00:04:25,000 --> 00:04:28,000
+and the probability that the same word "secret" comes up
+
+52
+00:04:28,000 --> 99:59:59,999
+if we happen to know the message is not spam, it's ham.

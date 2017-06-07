@@ -1,0 +1,666 @@
+1
+00:00:00,300 --> 00:00:02,210
+Here are the answers.
+
+2
+00:00:02,210 --> 00:00:04,280
+So how did you find this exercise?
+
+3
+00:00:04,280 --> 00:00:06,850
+Now if you found it difficult
+because you misread a question or
+
+4
+00:00:06,850 --> 00:00:10,540
+had trouble typing the class names
+correctly, that's not a big deal.
+
+5
+00:00:10,540 --> 00:00:13,060
+If you had trouble because you're
+not super familiar with the Android
+
+6
+00:00:13,060 --> 00:00:14,330
+framework or the Java,
+
+7
+00:00:14,330 --> 00:00:18,600
+I would take some time to brush up on
+both of those topics before continuing.
+
+8
+00:00:18,600 --> 00:00:21,300
+I've put some resources in the
+instructor notes to get you started if
+
+9
+00:00:21,300 --> 00:00:23,270
+you need them, and please trust me.
+
+10
+00:00:23,270 --> 00:00:26,780
+You'll enjoy making this app more and
+learning Firebase if you're not also
+
+11
+00:00:26,780 --> 00:00:29,970
+trying to learn Java and
+the Android framework at the same time.
+
+12
+00:00:29,970 --> 00:00:32,855
+I'll show you how I got to these
+answers, but before we get to that,
+
+13
+00:00:32,855 --> 00:00:35,540
+let's just take a look at
+what the app actually does.
+
+14
+00:00:35,540 --> 00:00:41,250
+Right now, it's two screens, a meal
+screen and a shopping list screen.
+
+15
+00:00:41,250 --> 00:00:43,790
+Now meals are a feature that you're
+going to implement much later in
+
+16
+00:00:43,790 --> 00:00:46,590
+the course, so we're not
+going to focus on them right now.
+
+17
+00:00:46,590 --> 00:00:50,080
+Shopping lists are what you're going to
+be working with in the immediate future.
+
+18
+00:00:50,080 --> 00:00:53,720
+If you're curious what this sliding
+motion here is controlled by, it's done
+
+19
+00:00:53,720 --> 00:00:57,420
+by a layout manager called Viewpager
+which you'll see in the code soon.
+
+20
+00:00:57,420 --> 00:00:59,240
+In this area here we're
+going to actually be
+
+21
+00:00:59,240 --> 00:01:01,760
+listing out all of the shopping
+lists that we make.
+
+22
+00:01:01,760 --> 00:01:04,030
+I took the liberty of putting
+a single list item for
+
+23
+00:01:04,030 --> 00:01:07,900
+one shopping list here,
+that's not filled in with any data yet.
+
+24
+00:01:07,900 --> 00:01:11,840
+The green floating action button
+down here is for adding a new list.
+
+25
+00:01:11,840 --> 00:01:12,480
+When I press it,
+
+26
+00:01:12,480 --> 00:01:16,910
+it opens up a DialogFragment, and
+here I can enter the name of a new list.
+
+27
+00:01:16,910 --> 00:01:20,150
+Now, when I hit create, eventually
+it'll add the list to Firebase and
+
+28
+00:01:20,150 --> 00:01:22,010
+show it on this screen.
+
+29
+00:01:22,010 --> 00:01:23,270
+It doesn't do anything yet, but
+
+30
+00:01:23,270 --> 00:01:26,310
+that's because you haven't
+incorporated Firebase yet.
+
+31
+00:01:26,310 --> 00:01:28,000
+Not to blame anyone, though, you're new.
+
+32
+00:01:28,000 --> 00:01:30,940
+And that's pretty much what
+I've coded for you so far, so
+
+33
+00:01:30,940 --> 00:01:33,210
+let's take a look at
+the actual code now.
+
+34
+00:01:33,210 --> 00:01:36,590
+Here, I've got a list of the packages
+and classes that are in the app.
+
+35
+00:01:36,590 --> 00:01:39,990
+In the main shopping list plus plus
+package, I've got a UI package and
+
+36
+00:01:39,990 --> 00:01:41,510
+a Utils package.
+
+37
+00:01:41,510 --> 00:01:44,950
+The Utils package contains a class for
+utility functions and
+
+38
+00:01:44,950 --> 00:01:46,920
+a class for constants in the app.
+
+39
+00:01:46,920 --> 00:01:51,730
+Meanwhile the UI package contains code
+related to all the screens in the app.
+
+40
+00:01:51,730 --> 00:01:55,390
+In it you'll find the main activity
+which controls the first screen you see.
+
+41
+00:01:55,390 --> 00:01:59,400
+There's also a base activity class which
+all activities in the app extend from.
+
+42
+00:01:59,400 --> 00:02:01,550
+It's meant to do some setups
+that's common between all
+
+43
+00:02:01,550 --> 00:02:03,130
+the classes in the app.
+
+44
+00:02:03,130 --> 00:02:06,710
+Then we have these two sub packages
+here, activeLists and meals.
+
+45
+00:02:06,710 --> 00:02:09,770
+And those are for the two major
+parts of the screen that we saw.
+
+46
+00:02:09,770 --> 00:02:11,900
+In activeLists we have
+the ShoppingListsFragment,
+
+47
+00:02:11,900 --> 00:02:14,580
+which controls what we see
+on the ShoppingLists screen.
+
+48
+00:02:14,580 --> 00:02:18,320
+And AddListDiaglogFragment which is
+a dialog fragment that appears when you
+
+49
+00:02:18,320 --> 00:02:20,400
+press this green plus button.
+
+50
+00:02:20,400 --> 00:02:23,690
+The two classes here are similar to
+the classes found in activeLists, but
+
+51
+00:02:23,690 --> 00:02:24,650
+they're for meals instead.
+
+52
+00:02:25,670 --> 00:02:28,870
+And before I forget, you also have
+a ShoppingListApplication class
+
+53
+00:02:28,870 --> 00:02:31,670
+which you'll use to set up
+global application state.
+
+54
+00:02:31,670 --> 00:02:34,720
+The first question was, what's
+the name of the class that creates and
+
+55
+00:02:34,720 --> 00:02:38,170
+controls the meals fragment and
+the shopping list fragment?
+
+56
+00:02:38,170 --> 00:02:41,750
+And you can answer either
+MainActivity or more specifically,
+
+57
+00:02:41,750 --> 00:02:43,760
+section page or adapter.
+
+58
+00:02:43,760 --> 00:02:45,727
+Let's go ahead and
+take a look at the MainActivity class.
+
+59
+00:02:47,040 --> 00:02:49,990
+Okay, I'm going to go ahead and
+open up main activity.
+
+60
+00:02:49,990 --> 00:02:52,540
+So here we are in
+the main activity class.
+
+61
+00:02:52,540 --> 00:02:57,540
+And if you scroll down to here, you'll
+see that SectionPagerAdapter is a public
+
+62
+00:02:57,540 --> 00:03:01,460
+inner class, and it's extending
+FragmentStatePagerAdapter.
+
+63
+00:03:01,460 --> 00:03:04,240
+Scrolling a little farther down,
+I can see there's the logic for
+
+64
+00:03:04,240 --> 00:03:08,690
+switching between the fragments and
+getting the titles for the fragments.
+
+65
+00:03:08,690 --> 00:03:14,330
+Farther up in MainActivity,
+here in the initialized screen method,
+
+66
+00:03:14,330 --> 00:03:16,830
+which is called in
+MainActivities on create.
+
+67
+00:03:16,830 --> 00:03:19,220
+And here I'm actually making
+the section pager adapter and
+
+68
+00:03:19,220 --> 00:03:21,680
+setting everything up so
+that's part of the screen.
+
+69
+00:03:21,680 --> 00:03:25,710
+Okay so the answer for what's making
+those fragments is section pager adapter
+
+70
+00:03:25,710 --> 00:03:28,330
+but I would have also
+accepted main activity.
+
+71
+00:03:28,330 --> 00:03:29,590
+The next question is,
+
+72
+00:03:29,590 --> 00:03:34,380
+what is the method called when the green
+floating action button is clicked?
+
+73
+00:03:34,380 --> 00:03:37,970
+And we're given a hint that
+the XML on click method is used.
+
+74
+00:03:37,970 --> 00:03:40,830
+To solve this one, the first thing you
+should do is try to figure out what
+
+75
+00:03:40,830 --> 00:03:44,850
+layout XML has this floating
+action bar button in it.
+
+76
+00:03:44,850 --> 00:03:47,650
+Now it seems to me like it's pretty
+necessary to this part of the shopping
+
+77
+00:03:47,650 --> 00:03:48,950
+list screen here, so
+
+78
+00:03:48,950 --> 00:03:51,750
+I'm going to guess that it's part
+of the ShoppingListsFragment.
+
+79
+00:03:51,750 --> 00:03:53,530
+Let's take a look at that code.
+
+80
+00:03:53,530 --> 00:03:55,230
+Here I am in the ShoppingListsFragment.
+
+81
+00:03:55,230 --> 00:03:57,850
+I'm going to scroll down
+to the CreateView method,
+
+82
+00:03:57,850 --> 00:04:01,130
+which is where the layout
+typically gets inflated.
+
+83
+00:04:01,130 --> 00:04:03,940
+And here in the onCreateView method,
+
+84
+00:04:03,940 --> 00:04:08,120
+I can see that it's inflating a layout
+called fragment shopping list.
+
+85
+00:04:08,120 --> 00:04:14,190
+So I'm going to go over
+here to the res directory,
+
+86
+00:04:14,190 --> 00:04:18,140
+layout and open fragment shopping lists.
+
+87
+00:04:18,140 --> 00:04:23,080
+Okay and down in this file,
+I see that the fab is right here, woo!
+
+88
+00:04:23,080 --> 00:04:27,580
+And somewhere in here there should
+be an OnClick attribute, here it is.
+
+89
+00:04:27,580 --> 00:04:30,680
+And since the method that's
+calling is showAddListDialog.
+
+90
+00:04:30,680 --> 00:04:33,010
+So that's the answer to
+the second question.
+
+91
+00:04:33,010 --> 00:04:37,490
+When I click the green tab, this is
+the method that's immediately called.
+
+92
+00:04:37,490 --> 00:04:38,850
+So the next question is,
+
+93
+00:04:38,850 --> 00:04:44,240
+what static method do you call to
+create an AddListDialogFragment?
+
+94
+00:04:44,240 --> 00:04:47,620
+If you remember from a second ago,
+when you pressed the green fab,
+
+95
+00:04:47,620 --> 00:04:51,630
+it called a method called
+Show AddListDialog.
+
+96
+00:04:51,630 --> 00:04:54,500
+So this is probably where
+the List Dialog gets created, so
+
+97
+00:04:54,500 --> 00:04:56,380
+I can see how it's created.
+
+98
+00:04:56,380 --> 00:05:00,020
+Okay, I'm here in
+the main activity class.
+
+99
+00:05:00,020 --> 00:05:03,150
+And I'm looking at the method
+showaddlistdialog and
+
+100
+00:05:03,150 --> 00:05:04,410
+right here in the first line,
+
+101
+00:05:04,410 --> 00:05:08,660
+I create a dialog fragment using
+the static method new instance.
+
+102
+00:05:08,660 --> 00:05:11,420
+Using new instance is the best
+practice to create fragments
+
+103
+00:05:11,420 --> 00:05:13,750
+due to how the fragment lifecycle works.
+
+104
+00:05:13,750 --> 00:05:16,450
+When you destroy your fragment such
+as when you rotate the screen of your
+
+105
+00:05:16,450 --> 00:05:19,340
+phone, it rebuilds
+the fragment from scratch.
+
+106
+00:05:19,340 --> 00:05:23,029
+The issue is it rebuilds it
+using a save state bundle.
+
+107
+00:05:23,029 --> 00:05:25,202
+If you create your fragment
+using a constructor and
+
+108
+00:05:25,202 --> 00:05:26,818
+you pass a lot of parameters in there,
+
+109
+00:05:26,818 --> 00:05:29,810
+those all get lost if they're
+not stored within that bundle.
+
+110
+00:05:29,810 --> 00:05:33,270
+By default, the fragment is
+recreated with the instructor.
+
+111
+00:05:33,270 --> 00:05:36,271
+Okay, so now I'm in
+the AdListDialogFragment class, and
+
+112
+00:05:36,271 --> 00:05:38,435
+I'm looking at this new instance method.
+
+113
+00:05:38,435 --> 00:05:41,849
+Now, you can see here,
+what's it's actually doing is it's
+
+114
+00:05:41,849 --> 00:05:45,462
+using the empty constructor to
+make a new ListDialogFragment and
+
+115
+00:05:45,462 --> 00:05:47,777
+then it is sending
+a Bundle of Arguments.
+
+116
+00:05:47,777 --> 00:05:50,450
+Now this Bundle of Arguments
+doesn't contain anything yet.
+
+117
+00:05:50,450 --> 00:05:53,490
+But in the future,
+you can add some parameters here,
+
+118
+00:05:53,490 --> 00:05:56,210
+shove those arguments in this bundle,
+and then attach the bundle.
+
+119
+00:05:56,210 --> 00:06:00,430
+And that'll let you pass
+values even between rotations.
+
+120
+00:06:00,430 --> 00:06:03,300
+Hopefully, you're at least a little bit
+familiar with the fragment life cycle in
+
+121
+00:06:03,300 --> 00:06:06,140
+Bundles because we will be
+using those in the future.
+
+122
+00:06:06,140 --> 00:06:08,050
+Let's take a look at the final question.
+
+123
+00:06:08,050 --> 00:06:11,120
+And that final question is what method
+is called when you press the Create
+
+124
+00:06:11,120 --> 00:06:12,630
+button in the dialog?
+
+125
+00:06:12,630 --> 00:06:16,290
+So you press the tab, a dialog pops up
+and then you press the Create button and
+
+126
+00:06:16,290 --> 00:06:17,950
+what method gets called?
+
+127
+00:06:17,950 --> 00:06:21,800
+The answer to this will be in
+the AddListDialogFragment class, so
+
+128
+00:06:21,800 --> 00:06:23,640
+I'm going to go ahead and open that up.
+
+129
+00:06:23,640 --> 00:06:25,898
+Okay here I am in AddListDialogFragment.
+
+130
+00:06:25,898 --> 00:06:28,750
+Okay, and now I'm going to scroll down.
+
+131
+00:06:28,750 --> 00:06:31,960
+And here's where the dialog builder
+is actually building the dialog.
+
+132
+00:06:31,960 --> 00:06:34,920
+And here's where the Positive
+button is set up.
+
+133
+00:06:34,920 --> 00:06:37,130
+We see that it's made to
+save the string create.
+
+134
+00:06:37,130 --> 00:06:40,260
+So that's actually the Create button,
+this positive button.
+
+135
+00:06:40,260 --> 00:06:43,130
+And when you click it,
+this onClick method occurs and
+
+136
+00:06:43,130 --> 00:06:47,770
+that adds a shopping list using
+the addShoppingList method right here.
+
+137
+00:06:47,770 --> 00:06:51,420
+So you could have said onClick but
+addShoppingList is more interesting.
+
+138
+00:06:51,420 --> 00:06:53,870
+Right now that is not doing much, but
+
+139
+00:06:53,870 --> 00:06:56,650
+that's because you
+are going to code this.
+
+140
+00:06:56,650 --> 00:06:59,725
+Okay so if that wasn't too tricky,
+you're now ready to learn some Firebase.

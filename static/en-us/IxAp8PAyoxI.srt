@@ -1,0 +1,528 @@
+1
+00:00:00,520 --> 00:00:02,870
+We're going to start with
+a fully built workflow.
+
+2
+00:00:02,870 --> 00:00:08,039
+Where we have a master database of all
+people who've been contacted in the past
+
+3
+00:00:08,039 --> 00:00:09,320
+for direct marketing campaigns.
+
+4
+00:00:10,340 --> 00:00:16,070
+Notice that the fields at the end of
+the file are marked with zeros and ones.
+
+5
+00:00:16,070 --> 00:00:20,480
+The ones represent the customers
+who were contacted on that date for
+
+6
+00:00:20,480 --> 00:00:22,770
+a particular marketing campaign.
+
+7
+00:00:22,770 --> 00:00:27,320
+The second data set are customers
+who were contacted on the last
+
+8
+00:00:27,320 --> 00:00:32,110
+direct marketing campaign,
+on January 15, 2013.
+
+9
+00:00:32,110 --> 00:00:35,020
+Whenever we fuzzy match
+two datasets together,
+
+10
+00:00:35,020 --> 00:00:39,430
+the dataset's actually need to
+be merged into one dataset.
+
+11
+00:00:39,430 --> 00:00:44,340
+However we use an ID field
+to identify each record and
+
+12
+00:00:44,340 --> 00:00:48,830
+we use a sort field to identify
+where the record is coming from.
+
+13
+00:00:48,830 --> 00:00:53,950
+So that in that way we can differentiate
+the data that comes from each file.
+
+14
+00:00:53,950 --> 00:00:57,200
+In our scenario,
+these fields already exist.
+
+15
+00:00:57,200 --> 00:01:00,690
+However, if we don't have
+these fields in our data sets,
+
+16
+00:01:00,690 --> 00:01:02,540
+we need to create them.
+
+17
+00:01:02,540 --> 00:01:07,490
+Coming back to the merging, what we're
+actually doing is appending the records
+
+18
+00:01:07,490 --> 00:01:12,260
+from the customer file to
+the records from the master dataset.
+
+19
+00:01:12,260 --> 00:01:14,500
+So we use Union tool.
+
+20
+00:01:14,500 --> 00:01:18,790
+We can see the fields from the two
+datasets lined up, with the date fields
+
+21
+00:01:18,790 --> 00:01:22,830
+not lined up, because they're
+unique to the individual files.
+
+22
+00:01:22,830 --> 00:01:24,340
+That's okay.
+
+23
+00:01:24,340 --> 00:01:28,000
+In the next step,
+we'll do the actual fuzzy matching.
+
+24
+00:01:28,000 --> 00:01:32,070
+We choose the Merge mode because,
+as mentioned earlier,
+
+25
+00:01:32,070 --> 00:01:36,250
+we're working with two datasets that
+were merged or unioned together.
+
+26
+00:01:37,290 --> 00:01:42,280
+The Source ID is the field that
+contains the source of the data.
+
+27
+00:01:42,280 --> 00:01:44,980
+This field is called source and
+
+28
+00:01:44,980 --> 00:01:50,120
+you can see the contents contain
+the words master or customer.
+
+29
+00:01:50,120 --> 00:01:52,570
+We can see that by running the workflow.
+
+30
+00:01:52,570 --> 00:01:57,060
+The Record ID field is the field
+that contains the unique ID,
+
+31
+00:01:58,180 --> 00:02:00,120
+identifying each record.
+
+32
+00:02:00,120 --> 00:02:03,100
+In our case, it's called, HHID.
+
+33
+00:02:03,100 --> 00:02:06,480
+Lastly, we have to set
+the match threshold.
+
+34
+00:02:06,480 --> 00:02:10,949
+The match threshold is the minimum score
+achieved by the fuzzy matching, for
+
+35
+00:02:10,949 --> 00:02:13,340
+it to be considered to be a match.
+
+36
+00:02:13,340 --> 00:02:17,320
+The higher the score, the closer or
+the more accurate the match.
+
+37
+00:02:17,320 --> 00:02:20,180
+The lower the score,
+the less accurate the match.
+
+38
+00:02:20,180 --> 00:02:22,810
+However, more records will pass through.
+
+39
+00:02:22,810 --> 00:02:24,970
+We have set this to 60% here.
+
+40
+00:02:26,650 --> 00:02:29,230
+Now we have to identify
+the match fields,
+
+41
+00:02:29,230 --> 00:02:32,090
+these are the fields that we'll
+use in the Fuzzy Matching process.
+
+42
+00:02:33,270 --> 00:02:36,120
+We're going to use pre existing
+templates, that have been
+
+43
+00:02:36,120 --> 00:02:40,770
+set up as standard ways that you
+can Fuzzy Match to those fields.
+
+44
+00:02:40,770 --> 00:02:48,470
+The field we're going to match on
+are primary address, zip, and last name.
+
+45
+00:02:50,710 --> 00:02:53,660
+The primary address is
+the address field, but
+
+46
+00:02:53,660 --> 00:02:56,840
+I'm not sure if it has any suites or
+apartments in it.
+
+47
+00:02:56,840 --> 00:03:01,330
+So we can simply choose
+address in the match style.
+
+48
+00:03:01,330 --> 00:03:03,490
+If we are sure that
+there are no suites or
+
+49
+00:03:03,490 --> 00:03:07,080
+apartments, we could choose
+the Address No Suite option.
+
+50
+00:03:09,060 --> 00:03:13,440
+We're then adding the ZIP field as
+an additional field to match on, and
+
+51
+00:03:13,440 --> 00:03:15,030
+using the ZIP Code style.
+
+52
+00:03:17,130 --> 00:03:21,820
+Last, we're matching on last name, and
+for this, we choose the Name style.
+
+53
+00:03:24,920 --> 00:03:27,205
+Out of the Fuzzy Match tool,
+
+54
+00:03:27,205 --> 00:03:31,976
+we can see the records that
+match between the two datasets.
+
+55
+00:03:31,976 --> 00:03:38,315
+Household ID 100390855 matches
+
+56
+00:03:38,315 --> 00:03:47,299
+to Household ID 200011862
+in the second dataset.
+
+57
+00:03:47,299 --> 00:03:51,140
+We may find that there are duplicate
+matches to the same records based on
+
+58
+00:03:51,140 --> 00:03:54,130
+the way that
+the Fuzzy Matching tool works.
+
+59
+00:03:54,130 --> 00:04:00,168
+So, we use the unique tool
+from the preparation category,
+
+60
+00:04:00,168 --> 00:04:04,290
+and set the fields to HHID, and HHID2.
+
+61
+00:04:04,290 --> 00:04:09,854
+The unique tool pulls one set of records
+that are unique through the U side,
+
+62
+00:04:09,854 --> 00:04:13,450
+and the duplicates come out the D side.
+
+63
+00:04:13,450 --> 00:04:18,440
+We don't need the duplicates so we
+continue our workflow out of the U side.
+
+64
+00:04:18,440 --> 00:04:20,779
+Now that we know which
+records are matches,
+
+65
+00:04:20,779 --> 00:04:24,680
+we need to link to IDs
+back to the original files
+
+66
+00:04:24,680 --> 00:04:28,460
+to pull through the rest of
+the information about those records.
+
+67
+00:04:28,460 --> 00:04:32,295
+To see how well the address name and
+zip code fields matched.
+
+68
+00:04:33,330 --> 00:04:37,710
+If we look closely at the numbers,
+we can tell that the Master files have
+
+69
+00:04:37,710 --> 00:04:42,680
+numbers that start with a one
+in that Household ID field, yet
+
+70
+00:04:42,680 --> 00:04:47,330
+the customer file starts with
+a two in the Household ID field.
+
+71
+00:04:48,510 --> 00:04:54,430
+So we use a join tool and we connect the
+Household ID field to the Household ID
+
+72
+00:04:54,430 --> 00:04:59,510
+field of the Master dataset,
+pulling through all of the fields.
+
+73
+00:04:59,510 --> 00:05:05,170
+We do remove the Household ID field on
+the right though, since it's duplicated.
+
+74
+00:05:05,170 --> 00:05:08,820
+You can tell it's duplicated
+because it's added Right_ as
+
+75
+00:05:09,830 --> 00:05:12,020
+a prefix to this field.
+
+76
+00:05:12,020 --> 00:05:16,665
+Additionally, you might notice
+that we've renamed some
+
+77
+00:05:16,665 --> 00:05:19,896
+of the fields with a prefix of Master_.
+
+78
+00:05:19,896 --> 00:05:24,282
+We add this to the additional field
+names, so that we can identify these
+
+79
+00:05:24,282 --> 00:05:27,880
+fields more easily after we
+join to the customer records.
+
+80
+00:05:28,920 --> 00:05:33,720
+Now we use a second join tool,
+so that we can join the records
+
+81
+00:05:33,720 --> 00:05:38,230
+to the customer file, to pull in
+the customer fields by joining
+
+82
+00:05:38,230 --> 00:05:43,690
+Household ID2 to Household ID
+in the customer file.
+
+83
+00:05:43,690 --> 00:05:49,150
+In this case, we again remove the second
+Household ID field by unchecking it.
+
+84
+00:05:50,160 --> 00:05:55,240
+And we reorder the fields in the Join
+tool so that the address, zip code and
+
+85
+00:05:55,240 --> 00:05:58,670
+name fields are side by side for
+the two files.
+
+86
+00:05:58,670 --> 00:06:04,640
+Also, the fields that we have done the
+Fuzzy Matching on also have a prefix,
+
+87
+00:06:04,640 --> 00:06:07,370
+in this case, of Customer_.
+
+88
+00:06:07,370 --> 00:06:11,116
+So we'll move
+Customer_Primary_Address so
+
+89
+00:06:11,116 --> 00:06:15,241
+that it's next to
+the Master_Primary_Address.
+
+90
+00:06:16,530 --> 00:06:22,220
+Customer_Zip, so
+it's next to the Master_Zip.
+
+91
+00:06:22,220 --> 00:06:26,970
+And Customer_LastName, so
+it's next to the Master_LastName.
+
+92
+00:06:28,075 --> 00:06:32,185
+Now we can see how all the records
+matched, and how the Fuzzy Matching was
+
+93
+00:06:32,185 --> 00:06:36,245
+able to match the records that
+are not spelled exactly the same.
+
+94
+00:06:36,245 --> 00:06:42,485
+Notice how the Fuzzy Matching was able
+to match many names that sound the same,
+
+95
+00:06:42,485 --> 00:06:44,515
+but are not spelled the same.
+
+96
+00:06:44,515 --> 00:06:48,845
+The Fuzzy Matched records are just
+a subset of the master dataset.
+
+97
+00:06:48,845 --> 00:06:54,620
+So next we need to union in the records
+that did not match the ones that fell
+
+98
+00:06:54,620 --> 00:07:00,380
+out on the left side to put the entire
+master dataset back together.
+
+99
+00:07:00,380 --> 00:07:03,700
+And then, deselect out
+the fields that we don't need.
+
+100
+00:07:05,060 --> 00:07:11,515
+The final output represented in the
+browse, is the entire master dataset.
+
+101
+00:07:12,610 --> 00:07:16,430
+Notice how the top records
+represent the records that matched.
+
+102
+00:07:16,430 --> 00:07:20,460
+And the bottom records represent
+the original master records that did not
+
+103
+00:07:20,460 --> 00:07:23,190
+match to any records
+in the customer file.
+
+104
+00:07:23,190 --> 00:07:26,260
+Note that all of these records,
+have the value of 1,
+
+105
+00:07:26,260 --> 00:07:30,710
+in the date field,
+the new date, January 15, 2013.
+
+106
+00:07:30,710 --> 00:07:35,370
+And the rest are empty with nulls
+because they did not match.
+
+107
+00:07:35,370 --> 00:07:39,530
+We can replace these later
+on with zeroes if we like.
+
+108
+00:07:39,530 --> 00:07:44,180
+So this final dataset, shown in
+the Browse tool, represents the entire
+
+109
+00:07:44,180 --> 00:07:49,359
+master file with the records
+that were Fuzzy Matched,
+
+110
+00:07:49,359 --> 00:07:52,890
+identified as 1's in the January 15,
+2013 column.

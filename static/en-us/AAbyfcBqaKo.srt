@@ -1,0 +1,283 @@
+1
+00:00:00,130 --> 00:00:03,030
+Most mobile devices these
+days have tons of hardware.
+
+2
+00:00:03,030 --> 00:00:07,140
+Touchscreens, cameras, GPS,
+accelerometers, gyroscopes, you name it.
+
+3
+00:00:07,140 --> 00:00:08,950
+TVs, of course, don't.
+
+4
+00:00:08,950 --> 00:00:11,472
+So if you're developing an app that
+will work on both TV and mobile,
+
+5
+00:00:11,472 --> 00:00:14,910
+then you have to handle hardware that's
+not supported on one of the devices.
+
+6
+00:00:14,910 --> 00:00:17,950
+For example, let's say we have
+a camera app for a mobile device.
+
+7
+00:00:17,950 --> 00:00:21,230
+Imagine it has two activities,
+one to take pictures and
+
+8
+00:00:21,230 --> 00:00:23,130
+another to display a photo gallery.
+
+9
+00:00:23,130 --> 00:00:26,490
+If we're extending this app to also work
+on TV, then we could disable the picture
+
+10
+00:00:26,490 --> 00:00:30,280
+taking activity and create a version of
+the photo gallery for the big screen.
+
+11
+00:00:30,280 --> 00:00:33,300
+First, though, we'd have to update our
+manifest to make sure we don't require
+
+12
+00:00:33,300 --> 00:00:36,080
+any hardware that's not
+available on the TV.
+
+13
+00:00:36,080 --> 00:00:40,120
+Here's how we declare the uses camera
+feature as optional in our manifest.
+
+14
+00:00:40,120 --> 00:00:42,620
+This will enable our app to be
+installed on both mobile devices
+
+15
+00:00:42,620 --> 00:00:45,160
+as well as TVs in the same APK.
+
+16
+00:00:45,160 --> 00:00:48,860
+Before using the camera, we check to see
+if our device has a camera and runtime,
+
+17
+00:00:48,860 --> 00:00:52,340
+and you can use the PackageManager
+to do so, like this.
+
+18
+00:00:52,340 --> 00:00:55,350
+You can also check if your app is
+running on a TV device at runtime
+
+19
+00:00:55,350 --> 00:00:58,230
+by using the uiModeManager like this.
+
+20
+00:00:58,230 --> 00:01:02,330
+Use this same strategy to handle other
+hardware that's not supported on TVs.
+
+21
+00:01:02,330 --> 00:01:05,830
+First, mark the hardware as
+not required in your manifest.
+
+22
+00:01:05,830 --> 00:01:09,380
+And second, check whether it's available
+at runtime before trying to use it.
+
+23
+00:01:09,380 --> 00:01:12,130
+One gotcha to be aware
+about is permissions.
+
+24
+00:01:12,130 --> 00:01:15,270
+Permissions can imply
+hardware requirements.
+
+25
+00:01:15,270 --> 00:01:17,980
+This means that requesting some
+permissions in your app manifest
+
+26
+00:01:17,980 --> 00:01:21,140
+can exclude your app from
+being installed on TV devices.
+
+27
+00:01:21,140 --> 00:01:24,700
+So if you use the permission, be sure
+to mark the hardware as not required.
+
+28
+00:01:24,700 --> 00:01:27,710
+Be sure your app can handle events from
+dedicated media buttons found on remote
+
+29
+00:01:27,710 --> 00:01:29,730
+controls like play and pause.
+
+30
+00:01:29,730 --> 00:01:33,350
+Also, be sure your UI can handle
+key events from buttons like A and
+
+31
+00:01:33,350 --> 00:01:34,990
+B on game controllers.
+
+32
+00:01:34,990 --> 00:01:37,720
+If you're using the Leanback Support
+library fragments and
+
+33
+00:01:37,720 --> 00:01:40,760
+a MediaSession.Callback,
+then all of this is handled for
+
+34
+00:01:40,760 --> 00:01:44,380
+you and this is the approach we take in
+our sample apps later in this course.
+
+35
+00:01:44,380 --> 00:01:46,450
+If you're designing your
+own UI from scratch though,
+
+36
+00:01:46,450 --> 00:01:50,160
+you can learn more about key events
+in the game section of this class and
+
+37
+00:01:50,160 --> 00:01:52,330
+see the instructor notes for
+more detail.
+
+38
+00:01:52,330 --> 00:01:55,298
+It's common for TV apps to use
+location information, but of course,
+
+39
+00:01:55,298 --> 00:01:59,060
+most TVs don't have a GPS because,
+obviously, they're stationary devices.
+
+40
+00:01:59,060 --> 00:02:02,120
+So here's a tip,
+you can often get the static location
+
+41
+00:02:02,120 --> 00:02:04,840
+that was optionally configured
+during the TV device setup.
+
+42
+00:02:04,840 --> 00:02:07,640
+If this fails, you can prompt
+the user for their ZIP code.
+
+43
+00:02:07,640 --> 00:02:09,508
+Last tip, TV remote controls and
+
+44
+00:02:09,508 --> 00:02:12,300
+game controllers occasionally
+go to sleep to save power.
+
+45
+00:02:12,300 --> 00:02:15,530
+Remember, they're powered by Bluetooth,
+and the radio consumes battery.
+
+46
+00:02:15,530 --> 00:02:18,190
+When they go to sleep,
+this triggers a disconnect event.
+
+47
+00:02:18,190 --> 00:02:20,482
+To prevent this event from
+interrupting your app,
+
+48
+00:02:20,482 --> 00:02:22,250
+just add these lines to your manifest.
+
+49
+00:02:22,250 --> 00:02:25,610
+If you're building an Android TV app,
+disconnects are not such a big deal but
+
+50
+00:02:25,610 --> 00:02:28,246
+if you're building a game,
+see that section of the class for
+
+51
+00:02:28,246 --> 00:02:29,091
+much more detail.
+
+52
+00:02:29,091 --> 00:02:31,102
+Let's say you have
+an existing mobile app, and
+
+53
+00:02:31,102 --> 00:02:33,850
+you'd like to extend it to
+also run on an Android TV.
+
+54
+00:02:33,850 --> 00:02:36,490
+Your existing app has this
+permission in its manifest.
+
+55
+00:02:36,490 --> 00:02:39,780
+Now remember, permissions can
+imply hardware requirements.
+
+56
+00:02:39,780 --> 00:02:42,593
+So what two lines do you need to add
+to your manifest to mark the implied
+
+57
+00:02:42,593 --> 00:02:44,310
+hardware as not required?
+
+58
+00:02:44,310 --> 00:02:46,980
+The instructor notes have a link to
+developer training that you can look at
+
+59
+00:02:46,980 --> 00:02:47,830
+to answer this question.

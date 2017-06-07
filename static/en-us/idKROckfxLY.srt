@@ -1,0 +1,582 @@
+1
+00:00:00,170 --> 00:00:03,762
+So the first one I've checked
+here that it could defeat is any
+
+2
+00:00:03,762 --> 00:00:06,910
+password of length
+greater than 12 bytes.
+
+3
+00:00:06,910 --> 00:00:11,930
+So then what happens when give it a
+password that is greater then 12 bytes?
+
+4
+00:00:11,930 --> 00:00:13,825
+This get s that we have here,
+
+5
+00:00:13,825 --> 00:00:16,602
+Is going to read whatever
+string you provide to it.
+
+6
+00:00:16,602 --> 00:00:19,775
+The one we have here is only for
+12 characters.
+
+7
+00:00:19,775 --> 00:00:21,185
+So it's 12 bytes long.
+
+8
+00:00:21,185 --> 00:00:24,345
+But when we executing this
+function says, get string.
+
+9
+00:00:24,345 --> 00:00:25,655
+It has no idea.
+
+10
+00:00:25,655 --> 00:00:27,430
+It's going to accept a string.
+
+11
+00:00:27,430 --> 00:00:30,920
+Whatever length you provide.
+
+12
+00:00:30,920 --> 00:00:32,659
+Since it's greater than 12 bytes.
+
+13
+00:00:32,659 --> 00:00:35,820
+The first 12 characters is
+going to get stored here.
+
+14
+00:00:35,820 --> 00:00:37,860
+And those are going to
+compared with this.
+
+15
+00:00:37,860 --> 00:00:39,900
+And where would
+the remaining characters go?
+
+16
+00:00:39,900 --> 00:00:43,580
+Well remember this
+variable starts some place
+
+17
+00:00:43,580 --> 00:00:45,330
+In the stack frame that
+we are talking about.
+
+18
+00:00:45,330 --> 00:00:47,190
+On the stack, it's allocated space.
+
+19
+00:00:47,190 --> 00:00:50,960
+And when the 12 bytes run out, and
+we have more input, what do we do?
+
+20
+00:00:50,960 --> 00:00:52,030
+We keep going.
+
+21
+00:00:52,030 --> 00:00:53,550
+So, starting address, and
+
+22
+00:00:53,550 --> 00:00:58,530
+then we fill the memory starting at that
+address, as with the data that we have.
+
+23
+00:00:58,530 --> 00:01:00,300
+So, if it's 20 characters,
+
+24
+00:01:00,300 --> 00:01:04,920
+we're gong to store these characters we
+get in the string in the next 20 bytes.
+
+25
+00:01:04,920 --> 00:01:09,960
+So think about what happens if
+this variable allowed login is
+
+26
+00:01:09,960 --> 00:01:13,160
+right after this variable
+password string.
+
+27
+00:01:13,160 --> 00:01:17,345
+If that's the case, then the bytes
+of password string, that are beyond
+
+28
+00:01:17,345 --> 00:01:21,640
+12 okay, the characters in these
+string that come after the first 12,
+
+29
+00:01:21,640 --> 00:01:25,650
+actually going to going to memory
+we have assigned to this variable.
+
+30
+00:01:25,650 --> 00:01:29,511
+Initial value is zero, this characters
+that we're going to read and
+
+31
+00:01:29,511 --> 00:01:32,908
+store in the locations or
+memory that is actually allowed for
+
+32
+00:01:32,908 --> 00:01:35,500
+that's allocated for allowed login.
+
+33
+00:01:35,500 --> 00:01:39,290
+Well, that value zero is going to change
+to something else depending on whatever
+
+34
+00:01:39,290 --> 00:01:41,070
+character that we're reading.
+
+35
+00:01:41,070 --> 00:01:43,850
+Even if the string doesn't match here.
+
+36
+00:01:43,850 --> 00:01:47,200
+Because this is whatever string
+we are saying, any password so
+
+37
+00:01:47,200 --> 00:01:48,260
+it doesn't match.
+
+38
+00:01:48,260 --> 00:01:49,980
+We are not going to assign one here.
+
+39
+00:01:49,980 --> 00:01:53,035
+We're not going to come and
+sign allow login one here.
+
+40
+00:01:53,035 --> 00:01:57,745
+After the comparison that we do,
+but some data has already
+
+41
+00:01:57,745 --> 00:02:01,735
+over flown when we read this
+strength into this variable.
+
+42
+00:02:01,735 --> 00:02:04,465
+And because that's what's
+going to happen when we check,
+
+43
+00:02:04,465 --> 00:02:09,255
+do this check here to this side if
+login could be rejected or allowed.
+
+44
+00:02:09,255 --> 00:02:10,685
+Is it going to be zero?
+
+45
+00:02:10,685 --> 00:02:13,430
+It won't be zero because some data.
+
+46
+00:02:13,430 --> 00:02:17,750
+That was input as a result of
+get as function that we called,
+
+47
+00:02:17,750 --> 00:02:22,580
+has written into this location that was
+allocated, so we have this overflow.
+
+48
+00:02:22,580 --> 00:02:26,580
+Remember, we started talking about
+memory overflow, or buffer overflow.
+
+49
+00:02:26,580 --> 00:02:29,280
+So, if you sort of assume that there was
+
+50
+00:02:29,280 --> 00:02:33,520
+some likelihood that this variable was
+sitting right next to this variable.
+
+51
+00:02:33,520 --> 00:02:37,320
+And if that is the case,
+then if we had too much data for
+
+52
+00:02:37,320 --> 00:02:40,970
+password string it will end
+getting stored into this
+
+53
+00:02:40,970 --> 00:02:44,340
+variable that will change it's value
+from zero to something else, and
+
+54
+00:02:44,340 --> 00:02:46,490
+the outcome of this check
+will be very different.
+
+55
+00:02:46,490 --> 00:02:50,910
+So even if the password Is different
+from my password one, two, three, and
+
+56
+00:02:50,910 --> 00:02:53,580
+this check fails and
+we don't set it here.
+
+57
+00:02:53,580 --> 00:02:56,760
+This is still going
+to say login allowed,
+
+58
+00:02:56,760 --> 00:02:59,650
+because it's going to
+find a known zero value.
+
+59
+00:02:59,650 --> 00:03:02,540
+Because this zero value
+has been corrupted
+
+60
+00:03:02,540 --> 00:03:04,590
+because of the overflow that we have.
+
+61
+00:03:04,590 --> 00:03:07,970
+Because the string that we read
+was greater than 12 bytes.
+
+62
+00:03:07,970 --> 00:03:12,470
+So it keeps going, writes into the space
+that belongs to this variable and
+
+63
+00:03:12,470 --> 00:03:14,620
+as a result it's value
+is no longer zero.
+
+64
+00:03:14,620 --> 00:03:17,290
+It's value is no longer
+what it initially was,
+
+65
+00:03:17,290 --> 00:03:19,590
+which was in the case zero.
+
+66
+00:03:19,590 --> 00:03:23,610
+So this is the way to think
+about how we defeated
+
+67
+00:03:23,610 --> 00:03:28,450
+is by changing the value of a variable
+that is important obviously for
+
+68
+00:03:28,450 --> 00:03:31,840
+making, deciding which
+way this check goes.
+
+69
+00:03:31,840 --> 00:03:34,500
+Corrupting it by supplying input.
+
+70
+00:03:34,500 --> 00:03:37,271
+Okay, that exceeds the amount
+we had allocated for
+
+71
+00:03:37,271 --> 00:03:40,290
+this variable in which we
+we're reading this input.
+
+72
+00:03:40,290 --> 00:03:43,040
+So all our flows always going to
+be something like this.
+
+73
+00:03:43,040 --> 00:03:46,610
+It's going to all float,
+over write something, and
+
+74
+00:03:46,610 --> 00:03:49,280
+we going to talk about
+read only book flows also.
+
+75
+00:03:49,280 --> 00:03:51,040
+But typically, it's going to write and
+
+76
+00:03:51,040 --> 00:03:55,690
+corrupt those values or going to write
+some values that attacker wants.
+
+77
+00:03:55,690 --> 00:03:56,590
+So in this case,
+
+78
+00:03:56,590 --> 00:04:01,540
+that hacker wants log in to be allowed
+so, doesn't have to guess the password.
+
+79
+00:04:01,540 --> 00:04:03,550
+By carefully crafting input and
+
+80
+00:04:03,550 --> 00:04:08,110
+over writing this variable that hacker
+is able to achieve the outcome,
+
+81
+00:04:08,110 --> 00:04:12,470
+which in this case is going to
+be able to log in by doing this.
+
+82
+00:04:12,470 --> 00:04:16,200
+The same thing would happen in case
+two because we haven't all four here
+
+83
+00:04:16,200 --> 00:04:16,839
+as well.
+
+84
+00:04:16,839 --> 00:04:19,505
+So any password of length
+greater than 16 bytes,
+
+85
+00:04:19,505 --> 00:04:21,560
+it doesn't matter where it begins with.
+
+86
+00:04:21,560 --> 00:04:24,660
+Lets say after that because
+we had checking 12 bytes,
+
+87
+00:04:24,660 --> 00:04:28,460
+we going to check the eight
+that we have here.
+
+88
+00:04:28,460 --> 00:04:32,150
+So the next set of
+characters may be different
+
+89
+00:04:32,150 --> 00:04:35,280
+than what the initialized
+value here was.
+
+90
+00:04:35,280 --> 00:04:37,350
+So even if there isn't a match.
+
+91
+00:04:37,350 --> 00:04:38,810
+There is an overflow and
+
+92
+00:04:38,810 --> 00:04:42,310
+because of that we have the same
+stuff happened that happened before.
+
+93
+00:04:42,310 --> 00:04:45,510
+Again, our input is not good here.
+
+94
+00:04:45,510 --> 00:04:49,510
+It is larger than the expected
+input which is no more than 12,
+
+95
+00:04:49,510 --> 00:04:52,320
+so that's why we can
+potentially defeat is.
+
+96
+00:04:52,320 --> 00:04:54,970
+And we'll see exactly
+how that is happening.
+
+97
+00:04:54,970 --> 00:04:58,400
+If the password is
+greater than eight bytes.
+
+98
+00:04:58,400 --> 00:05:00,890
+Well as long as it's not.
+
+99
+00:05:00,890 --> 00:05:02,070
+So it's any password.
+
+100
+00:05:02,070 --> 00:05:05,380
+It doesn't have to start with my or
+my password or whatever it is.
+
+101
+00:05:05,380 --> 00:05:09,370
+But if it's nine bytes
+ten bytes 11 bytes.
+
+102
+00:05:09,370 --> 00:05:10,730
+As you keep going.
+
+103
+00:05:10,730 --> 00:05:12,970
+Until the amount of
+space that we have here.
+
+104
+00:05:12,970 --> 00:05:14,480
+This will not fail.
+
+105
+00:05:14,480 --> 00:05:15,910
+Because we're not overflowing.
+
+106
+00:05:15,910 --> 00:05:21,140
+But if it's greater than 12 as we saw
+before, then we get into the same.
+
+107
+00:05:21,140 --> 00:05:24,980
+So if the password was nine characters
+long, the check will not fail.
+
+108
+00:05:24,980 --> 00:05:27,050
+And that's why I did not check this.
+
+109
+00:05:27,050 --> 00:05:29,860
+The password check
+code is going to output
+
+110
+00:05:29,860 --> 00:05:32,790
+the right value because we
+don't have an overflow.
+
+111
+00:05:32,790 --> 00:05:37,960
+So, here we talked about playing with or
+manipulating the logic of this program,
+
+112
+00:05:37,960 --> 00:05:41,360
+which is the password checking,
+and achieving that or
+
+113
+00:05:41,360 --> 00:05:45,490
+accomplishing that by
+providing input that is bad.
+
+114
+00:05:45,490 --> 00:05:50,110
+We considered some examples of input
+where the password is different than
+
+115
+00:05:50,110 --> 00:05:53,600
+this password that was expected for
+a certain user, but
+
+116
+00:05:53,600 --> 00:05:58,650
+we still able to get this program to
+say that our login should be allowed.
+
+117
+00:05:58,650 --> 00:06:02,460
+Our login request is proper and
+should be allowed.
+
+118
+00:06:02,460 --> 00:06:07,090
+So this is what bad input
+can do to a program.
+
+119
+00:06:07,090 --> 00:06:09,510
+We're not changing the instructions.
+
+120
+00:06:09,510 --> 00:06:13,910
+Before we call the function,
+we didn't get our hands on this code and
+
+121
+00:06:13,910 --> 00:06:16,640
+modify, okay, that's a lot harder to do.
+
+122
+00:06:16,640 --> 00:06:19,390
+We just calling a function
+that we're allowed to do, and
+
+123
+00:06:19,390 --> 00:06:23,310
+give it a password, except we're
+giving it a bad input when it ask for
+
+124
+00:06:23,310 --> 00:06:26,930
+a password and that's how we're
+manipulating the execution of this code.

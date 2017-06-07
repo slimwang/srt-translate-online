@@ -1,0 +1,638 @@
+1
+00:00:00,380 --> 00:00:03,380
+Now in communicating with the provider,
+you may have noticed that there was
+
+2
+00:00:03,380 --> 00:00:07,150
+a heavy reliance on setting
+the correct URI as input.
+
+3
+00:00:07,150 --> 00:00:10,050
+And this is because we need to let
+the provider know what data we need
+
+4
+00:00:10,050 --> 00:00:12,140
+to access or modified.
+
+5
+00:00:12,140 --> 00:00:15,430
+So let's take sometime to talk
+more about your eyes right now.
+
+6
+00:00:15,430 --> 00:00:18,950
+In communicating with the provider, you
+basically need to tell it two things.
+
+7
+00:00:18,950 --> 00:00:21,610
+First, what operation you want to do.
+
+8
+00:00:21,610 --> 00:00:22,820
+So, what action?
+
+9
+00:00:22,820 --> 00:00:26,750
+And secondly, what data you
+want to use in that operation?
+
+10
+00:00:26,750 --> 00:00:30,196
+So, the method that you call here,
+defines what action you're taking.
+
+11
+00:00:30,196 --> 00:00:33,850
+And these map to the methods
+in your content provider.
+
+12
+00:00:33,850 --> 00:00:36,630
+And there should be ones that
+you're pretty familiar with.
+
+13
+00:00:36,630 --> 00:00:39,930
+So, there's query, insert,
+update, and delete.
+
+14
+00:00:39,930 --> 00:00:44,922
+Well, the URI helps define the data
+that we want to do the operation on.
+
+15
+00:00:44,922 --> 00:00:48,204
+Well, what in the world is URI?
+
+16
+00:00:48,204 --> 00:00:53,680
+So URI stands for
+Uniform Rsource Identifier.
+
+17
+00:00:53,680 --> 00:00:57,976
+And they're identifiers as the name
+in place that tells the name,
+
+18
+00:00:57,976 --> 00:01:02,589
+location or potentially both of
+something that we're interested in.
+
+19
+00:01:02,589 --> 00:01:04,778
+So you might have heard of URLs before.
+
+20
+00:01:04,778 --> 00:01:10,700
+For example, this one listed
+here,: https://udacity.com.
+
+21
+00:01:10,700 --> 00:01:12,599
+So it looks like a common web address.
+
+22
+00:01:12,599 --> 00:01:16,730
+Well, URLs are actually
+a subset of URIs.
+
+23
+00:01:16,730 --> 00:01:21,100
+And URLs stand for
+Uniform Resource Locator.
+
+24
+00:01:21,100 --> 00:01:26,440
+And they specifically give us the
+location of a file or data on the web.
+
+25
+00:01:26,440 --> 00:01:30,740
+So we're interested in using URIs to
+identify the location of some data.
+
+26
+00:01:30,740 --> 00:01:36,460
+And in this case, the location is on a
+an SQL like database file on our phone.
+
+27
+00:01:36,460 --> 00:01:40,200
+So we'll be particularly
+interested in content URI's.
+
+28
+00:01:40,200 --> 00:01:44,150
+So these are URI's used to
+identify data in a provider.
+
+29
+00:01:44,150 --> 00:01:46,640
+So they can point to part of a database.
+
+30
+00:01:46,640 --> 00:01:51,370
+So whether that's a single row, a table,
+or maybe a combination of tables.
+
+31
+00:01:51,370 --> 00:01:53,700
+And they can also point to a file.
+
+32
+00:01:53,700 --> 00:01:57,340
+Perhaps a text, a photo,
+or other media file.
+
+33
+00:01:57,340 --> 00:02:01,040
+So to give you an example,
+here is some content URI's.
+
+34
+00:02:01,040 --> 00:02:04,610
+First is the sign here with
+the contacts provider.
+
+35
+00:02:04,610 --> 00:02:07,600
+So notice that we're calling
+into the contacts provider
+
+36
+00:02:07,600 --> 00:02:11,070
+with this content authority which
+we kind of discussed earlier and
+
+37
+00:02:11,070 --> 00:02:14,280
+we're specifically interested in
+the contacts information from it.
+
+38
+00:02:14,280 --> 00:02:17,930
+In this next example of the calendar
+provider, we're particularly interested
+
+39
+00:02:17,930 --> 00:02:21,090
+in the events information
+from this calendar provider.
+
+40
+00:02:21,090 --> 00:02:23,620
+Next, in this user dictionary provider,
+
+41
+00:02:23,620 --> 00:02:27,190
+we want to focus on the words
+information from that provider.
+
+42
+00:02:27,190 --> 00:02:31,490
+Now can you spot something common
+amongst all these content URIs?
+
+43
+00:02:31,490 --> 00:02:33,998
+Well, if you notice that they all
+start with the same label here.
+
+44
+00:02:33,998 --> 00:02:37,560
+content:// then you're correct.
+
+45
+00:02:37,560 --> 00:02:41,130
+So all content URIs will
+start with the same scheme.
+
+46
+00:02:41,130 --> 00:02:45,580
+And this leads us into a good discussion
+about the structure of content URI's.
+
+47
+00:02:45,580 --> 00:02:48,580
+So content URI's are made
+up of three parts.
+
+48
+00:02:48,580 --> 00:02:51,160
+So the scheme,
+the content authority, and
+
+49
+00:02:51,160 --> 00:02:54,660
+lastly the information about the type
+of data that we want to see.
+
+50
+00:02:54,660 --> 00:02:57,140
+So diving into the first part,
+the scheme.
+
+51
+00:02:57,140 --> 00:03:01,870
+In this case, we're using content://
+because like I had mentioned before,
+
+52
+00:03:01,870 --> 00:03:03,420
+it's a content URI.
+
+53
+00:03:03,420 --> 00:03:06,340
+So this is a standard way to
+start URI's on an Android app.
+
+54
+00:03:06,340 --> 00:03:09,771
+Much like how we use HTTP:// or
+
+55
+00:03:09,771 --> 00:03:15,390
+HTTPS:// as the prefix of web URL's.
+
+56
+00:03:15,390 --> 00:03:18,810
+The next part is the critically
+important bit of the URI
+
+57
+00:03:18,810 --> 00:03:22,220
+because it specifies what content
+provider we need to use, and
+
+58
+00:03:22,220 --> 00:03:24,520
+it's called the content authority.
+
+59
+00:03:24,520 --> 00:03:28,070
+So, what it does is it specifies
+which content provider class
+
+60
+00:03:28,070 --> 00:03:29,460
+we want to talk to.
+
+61
+00:03:29,460 --> 00:03:32,030
+So, think back to how in
+the Android manifest file,
+
+62
+00:03:32,030 --> 00:03:35,510
+we setup the content providers
+content authority and
+
+63
+00:03:35,510 --> 00:03:40,010
+set it to this,
+com.example.android.pets.
+
+64
+00:03:40,010 --> 00:03:44,400
+Well, this has to match
+the content authority for the URI.
+
+65
+00:03:44,400 --> 00:03:47,300
+So if this example were
+to be the pets example.
+
+66
+00:03:47,300 --> 00:03:50,640
+This content authority would
+have to be this line here.
+
+67
+00:03:50,640 --> 00:03:53,450
+So in our manifest,
+we added a provider tag.
+
+68
+00:03:53,450 --> 00:03:57,210
+And this tag in the manifest
+associates this content authority
+
+69
+00:03:57,210 --> 00:03:59,450
+with this provider Java class.
+
+70
+00:03:59,450 --> 00:04:01,700
+So our PetProvider Java class.
+
+71
+00:04:01,700 --> 00:04:05,330
+That means when our URI
+uses this authority,
+
+72
+00:04:05,330 --> 00:04:09,460
+it's specifying that we want to
+use this provider class.
+
+73
+00:04:09,460 --> 00:04:11,930
+Okay, so moving on to
+the last portion of the URI,
+
+74
+00:04:11,930 --> 00:04:16,459
+is this section here, which specifies
+the data we want to operate on.
+
+75
+00:04:16,459 --> 00:04:20,450
+So a common pattern that we'll follow in
+our pets app is that you'll have a URI
+
+76
+00:04:20,450 --> 00:04:22,740
+that has just the name of the table and
+
+77
+00:04:22,740 --> 00:04:26,320
+that means we want to return
+the data from the whole table.
+
+78
+00:04:26,320 --> 00:04:29,900
+So to give you more context,
+here are some examples of URI's
+
+79
+00:04:29,900 --> 00:04:33,408
+from different tables in our
+contacts provider table.
+
+80
+00:04:33,408 --> 00:04:36,730
+So notice that they all call
+from the same contacts provider
+
+81
+00:04:36,730 --> 00:04:39,150
+because they're all using
+the same content authority.
+
+82
+00:04:39,150 --> 00:04:42,500
+But they have different table
+names listed at the end.
+
+83
+00:04:42,500 --> 00:04:46,280
+So it can be the contacts table,
+the profiles table, the photo table or
+
+84
+00:04:46,280 --> 00:04:50,000
+the directories table but
+they're all from the contacts provider.
+
+85
+00:04:50,000 --> 00:04:51,710
+So let's take a step back and
+
+86
+00:04:51,710 --> 00:04:54,530
+we want to know what data we
+want to perform the action on.
+
+87
+00:04:54,530 --> 00:04:58,750
+But, how do we discuss between these two
+cases of whether we want to operate on
+
+88
+00:04:58,750 --> 00:05:02,810
+the whole pets table or
+just a single row of the pets table.
+
+89
+00:05:02,810 --> 00:05:05,440
+So we just saw how we can get
+data from the whole table,
+
+90
+00:05:05,440 --> 00:05:08,200
+ending our URI with /table name.
+
+91
+00:05:08,200 --> 00:05:12,380
+But what if we need data from
+a single row from the table?
+
+92
+00:05:12,380 --> 00:05:16,640
+Well, another URI we can use is to
+have the name followed by a number
+
+93
+00:05:16,640 --> 00:05:19,870
+which specifies the ID of the specific
+row that we're interested in.
+
+94
+00:05:19,870 --> 00:05:22,040
+So here's what I mean by that.
+
+95
+00:05:22,040 --> 00:05:26,460
+To specify a record from the table, we
+can narrow down the last part of the URI
+
+96
+00:05:26,460 --> 00:05:30,370
+with the ID of a specific
+row we're interested in.
+
+97
+00:05:30,370 --> 00:05:34,500
+So to reiterate those two situations,
+in order to get all the rows from
+
+98
+00:05:34,500 --> 00:05:38,560
+the contacts table, we can format
+our content URI to look like this.
+
+99
+00:05:38,560 --> 00:05:40,230
+Where it ends with contacts,
+
+100
+00:05:40,230 --> 00:05:42,910
+the name of the entire table
+that we are interested in.
+
+101
+00:05:42,910 --> 00:05:46,320
+But, if we want to further specify
+a single row of the table,
+
+102
+00:05:46,320 --> 00:05:50,410
+we can narrow the content URI based
+on its ID, which we'll do here.
+
+103
+00:05:50,410 --> 00:05:55,700
+So, in addition to the contacts
+table name, we end with slash id.
+
+104
+00:05:55,700 --> 00:05:56,650
+So let's go ahead and
+
+105
+00:05:56,650 --> 00:06:01,050
+recap those three parts of the content
+URI with our contacts example.
+
+106
+00:06:01,050 --> 00:06:05,250
+So the first part is the scheme
+which is the standard way to start
+
+107
+00:06:05,250 --> 00:06:06,578
+URIs in the Android app.
+
+108
+00:06:06,578 --> 00:06:09,827
+Remember it's content://.
+
+109
+00:06:09,827 --> 00:06:13,499
+So next up is the content authority
+which specifies what content
+
+110
+00:06:13,499 --> 00:06:14,760
+provider to use.
+
+111
+00:06:14,760 --> 00:06:17,990
+And remember we set this up
+in our Android manifest file.
+
+112
+00:06:17,990 --> 00:06:22,340
+And the file part of the URI specifies
+the data that we want to operate on,
+
+113
+00:06:22,340 --> 00:06:25,920
+whether that's the entire table or
+a single row from that table.
+
+114
+00:06:25,920 --> 00:06:29,410
+So, in the first line here,
+we have a pattern of the URI that has
+
+115
+00:06:29,410 --> 00:06:33,000
+just the name of the table and that
+returns the data in the entire table.
+
+116
+00:06:33,000 --> 00:06:36,070
+But, if we want to specify
+a single row in the table,
+
+117
+00:06:36,070 --> 00:06:42,350
+we can include more information in
+our URI using this, slash ID number.
+
+118
+00:06:42,350 --> 00:06:45,520
+Now, before we can move on,
+we need to figure out what the URI's for
+
+119
+00:06:45,520 --> 00:06:47,130
+our pets table will look like.
+
+120
+00:06:47,130 --> 00:06:50,300
+So remember that the pet's table
+can look something like this.
+
+121
+00:06:50,300 --> 00:06:51,820
+Now given the structure we just saw,
+
+122
+00:06:51,820 --> 00:06:55,240
+I want you to help design
+the content URIs for our pets table.
+
+123
+00:06:55,240 --> 00:06:58,290
+And to help you along,
+you can answer these two questions.
+
+124
+00:06:58,290 --> 00:07:02,300
+So first, what should the content
+URI for an entire pets table be?
+
+125
+00:07:02,300 --> 00:07:04,890
+And secondly,
+what should the content URI for
+
+126
+00:07:04,890 --> 00:07:07,370
+a single row from the pets table be?
+
+127
+00:07:07,370 --> 00:07:11,240
+And for this particular example,
+I want you to find the content URI for
+
+128
+00:07:11,240 --> 00:07:12,550
+the second row of the table.
+
+129
+00:07:12,550 --> 00:07:15,570
+If you need some hints,
+I've listed some down below,
+
+130
+00:07:15,570 --> 00:07:18,070
+where we're using
+the ContactsProvider as an example.
+
+131
+00:07:18,070 --> 00:07:21,156
+So if we were to create the Content URI
+for the Contacts table as a whole,
+
+132
+00:07:21,156 --> 00:07:22,659
+this is what that would look like.
+
+133
+00:07:22,659 --> 00:07:26,699
+And if we were to grab the Content URI
+for a single row in the Contacts table,
+
+134
+00:07:26,699 --> 00:07:29,410
+here's what it is for
+the fifth row of that table.

@@ -1,0 +1,536 @@
+1
+00:00:00,490 --> 00:00:02,380
+So the first step is to
+figure out a way for
+
+2
+00:00:02,380 --> 00:00:05,930
+the Word Adapter to tell if the word
+object has an image or not.
+
+3
+00:00:05,930 --> 00:00:08,500
+So let's take a look at the Word Adapter
+file and Android studio.
+
+4
+00:00:08,500 --> 00:00:11,947
+Now here the Word Adapter class,
+remember that we only want to
+
+5
+00:00:11,947 --> 00:00:16,257
+execute these lines of code that set up
+the ImageView, if there is an image for
+
+6
+00:00:16,257 --> 00:00:16,878
+the word.
+
+7
+00:00:16,878 --> 00:00:20,821
+In order to do this, we should create
+and expose another method in the Word
+
+8
+00:00:20,821 --> 00:00:24,968
+class, which should tell us if the word
+at the current position has an image.
+
+9
+00:00:24,968 --> 00:00:27,910
+So I want to hop over to work class and
+define that method.
+
+10
+00:00:27,910 --> 00:00:31,260
+So at the bottom of the word class, I'm
+going to create a public method called
+
+11
+00:00:31,260 --> 00:00:35,310
+hasImage and
+have it return a boolean value.
+
+12
+00:00:35,310 --> 00:00:38,740
+So I want this method to turn true,
+if the word has an image and
+
+13
+00:00:38,740 --> 00:00:42,310
+false, if there is no image, and
+remember it's important to always add
+
+14
+00:00:42,310 --> 00:00:47,020
+some comments to help readers understand
+your code I'm going to add that here.
+
+15
+00:00:47,020 --> 00:00:49,250
+Now how should we determine
+if a word has an image?
+
+16
+00:00:50,440 --> 00:00:52,670
+Well let's scroll up to
+the top of the word class.
+
+17
+00:00:52,670 --> 00:00:54,970
+And remember that we
+had this variable here,
+
+18
+00:00:54,970 --> 00:00:57,810
+mImageResourceId and we can check that.
+
+19
+00:00:57,810 --> 00:01:01,190
+We'll note that it doesn't actually help
+us predict what image is referenced.
+
+20
+00:01:01,190 --> 00:01:03,790
+However in our case, we only need
+to use it to check whether or
+
+21
+00:01:03,790 --> 00:01:04,980
+not there is a valid image.
+
+22
+00:01:04,980 --> 00:01:09,240
+All right so this is actually a really
+good use case for constant values.
+
+23
+00:01:09,240 --> 00:01:12,600
+We can create a constant that
+represents the no image state, and
+
+24
+00:01:12,600 --> 00:01:14,270
+I'm going to do that here.
+
+25
+00:01:14,270 --> 00:01:18,040
+So I created a variable called
+NO_IMAGE_PROVIDED, it's in all caps
+
+26
+00:01:18,040 --> 00:01:21,870
+because it's a constant, and
+each word is separated by an underscore.
+
+27
+00:01:21,870 --> 00:01:25,180
+Now I'm going to set this to
+a constant value of negative one, and
+
+28
+00:01:25,180 --> 00:01:25,970
+I use negative one,
+
+29
+00:01:25,970 --> 00:01:30,090
+because it's out of the range of
+all the possible valid resource ID.
+
+30
+00:01:30,090 --> 00:01:33,430
+Also notice that this constant
+is a private variable,
+
+31
+00:01:33,430 --> 00:01:36,200
+because we only need to use
+it within the word class.
+
+32
+00:01:36,200 --> 00:01:38,140
+So with this constant created,
+
+33
+00:01:38,140 --> 00:01:42,550
+I'm going to set the image variable to
+start at the no image state by default.
+
+34
+00:01:42,550 --> 00:01:45,090
+So I'm going to set that equal
+to our no image constant here.
+
+35
+00:01:46,450 --> 00:01:49,510
+Now as soon as this variable's
+updated to something else,
+
+36
+00:01:49,510 --> 00:01:51,460
+we know that the Word has an image.
+
+37
+00:01:51,460 --> 00:01:54,640
+So this means that if there is
+an image in this contractor,
+
+38
+00:01:54,640 --> 00:01:57,150
+this variable will be updated
+to something else, and
+
+39
+00:01:57,150 --> 00:02:01,150
+you would know that the word has an
+image and otherwise if no image is from
+
+40
+00:02:01,150 --> 00:02:04,400
+right in, then the image
+resource ID will say the same.
+
+41
+00:02:04,400 --> 00:02:07,020
+So, remain with the constant
+value negative one.
+
+42
+00:02:08,050 --> 00:02:12,040
+So, let's go back down to the has image
+method, which we still need to complete.
+
+43
+00:02:12,040 --> 00:02:15,850
+So, in this method we just need to check
+whether the image variable is equal or
+
+44
+00:02:15,850 --> 00:02:20,240
+not equal to the no image provided
+constant, and that will like this and
+
+45
+00:02:20,240 --> 00:02:24,930
+by the way the exclamation mark followed
+by the equal sign means not equal to.
+
+46
+00:02:24,930 --> 00:02:29,260
+So the result of this expression
+will be either true or false, and
+
+47
+00:02:29,260 --> 00:02:32,590
+that value gets returned as
+the return value of this method.
+
+48
+00:02:33,590 --> 00:02:36,770
+So no logic can be a little bit
+confusing, but I like you to try and
+
+49
+00:02:36,770 --> 00:02:37,740
+follow along.
+
+50
+00:02:37,740 --> 00:02:41,480
+So if the image resource variable
+is not equal to negative one,
+
+51
+00:02:41,480 --> 00:02:45,380
+then there is a valid image, and the
+method should return true, however if
+
+52
+00:02:45,380 --> 00:02:49,620
+the image variable Is equal to negative
+one then there is no image for
+
+53
+00:02:49,620 --> 00:02:52,300
+this word and
+the method to return false.
+
+54
+00:02:52,300 --> 00:02:55,290
+Now we don't want to force the word
+adopter class to do the quality check,
+
+55
+00:02:55,290 --> 00:02:58,590
+because all it cares about is whether or
+not there is an image.
+
+56
+00:02:58,590 --> 00:03:01,660
+So the word adapter doesn't need to know
+all the nitty gritty details of how we
+
+57
+00:03:01,660 --> 00:03:04,120
+used to cost in our
+world class decide this.
+
+58
+00:03:04,120 --> 00:03:06,940
+And hence this is why all the logic
+is within the work class.
+
+59
+00:03:06,940 --> 00:03:09,040
+All right.
+So good job so far.
+
+60
+00:03:09,040 --> 00:03:13,100
+Now in the word class we have exposed
+a public method called hasImage.
+
+61
+00:03:13,100 --> 00:03:15,720
+So let's switch back over to
+the word adapter class and
+
+62
+00:03:15,720 --> 00:03:18,810
+see how we can use this hasImage
+method on the word object.
+
+63
+00:03:18,810 --> 00:03:20,580
+So now this line of code
+they were concerned with.
+
+64
+00:03:20,580 --> 00:03:23,860
+Remember that we can use conditional
+logic, such as an if else statement.
+
+65
+00:03:23,860 --> 00:03:26,600
+So that our code behaves
+differently depending on whether or
+
+66
+00:03:26,600 --> 00:03:28,490
+not the word has an image.
+
+67
+00:03:28,490 --> 00:03:31,950
+So this if statement checks that
+if the current word has an image,
+
+68
+00:03:31,950 --> 00:03:35,170
+then we can proceed as we did before and
+set the correct image
+
+69
+00:03:35,170 --> 00:03:39,500
+from the word object on to the image
+view, and otherwise if that's not true,
+
+70
+00:03:39,500 --> 00:03:42,610
+we should hide the image view and
+that will go in our else statement.
+
+71
+00:03:42,610 --> 00:03:46,300
+So earlier, I showed you some code on
+how to change the visibility of a view
+
+72
+00:03:46,300 --> 00:03:47,860
+when the app is running.
+
+73
+00:03:47,860 --> 00:03:50,290
+So remember using the set
+visibility method,
+
+74
+00:03:50,290 --> 00:03:54,110
+we can completely hide the image, so
+to do so I'm going to set it to gone.
+
+75
+00:03:55,390 --> 00:03:58,980
+So either through experimentation or
+reading the documentation on your own.
+
+76
+00:03:58,980 --> 00:04:01,990
+I hope you found out that gone
+means that the view is hidden and
+
+77
+00:04:01,990 --> 00:04:04,340
+doesn't take up any space in the layout.
+
+78
+00:04:04,340 --> 00:04:07,500
+Now compare this with the invisible
+state which means that the view is
+
+79
+00:04:07,500 --> 00:04:09,640
+hidden but
+still takes up space in the layout.
+
+80
+00:04:10,710 --> 00:04:14,760
+In our up if we set the image view to be
+invisible there would be a blank space
+
+81
+00:04:14,760 --> 00:04:18,220
+left on the left hand side of
+the list item and we don't want that.
+
+82
+00:04:18,220 --> 00:04:22,500
+So instead we've set the image view
+to gone, so that hides it completely.
+
+83
+00:04:22,500 --> 00:04:24,748
+Here I'm want to add some comments
+describing what this line of code does.
+
+84
+00:04:24,748 --> 00:04:26,758
+[BLANK_AUDIO]
+
+85
+00:04:26,758 --> 00:04:28,560
+Now back in the if statement.
+
+86
+00:04:28,560 --> 00:04:33,220
+We need to be extra explicit code and
+set the visibility to be visible.
+
+87
+00:04:33,220 --> 00:04:37,310
+If we do have an image before we
+do this because views get reused.
+
+88
+00:04:37,310 --> 00:04:41,080
+So if the view was previously hidden, we
+want to make sure that it's made visible
+
+89
+00:04:41,080 --> 00:04:43,260
+again when we set a new
+image on the image view.
+
+90
+00:04:43,260 --> 00:04:46,650
+All right there were
+a lot of changes but
+
+91
+00:04:46,650 --> 00:04:48,500
+let's test our device
+down see what happen.
+
+92
+00:04:48,500 --> 00:04:50,320
+All right so first testing and phrases.
+
+93
+00:04:50,320 --> 00:04:52,730
+All right that looks good, no images.
+
+94
+00:04:54,160 --> 00:04:55,296
+Now let's try numbers.
+
+95
+00:04:55,296 --> 00:04:56,055
+Nice.
+
+96
+00:04:56,055 --> 00:04:57,190
+Images.
+
+97
+00:04:57,190 --> 00:04:59,650
+Family members.
+
+98
+00:04:59,650 --> 00:05:02,160
+Cool, got those cute faces there.
+
+99
+00:05:02,160 --> 00:05:02,990
+And then colors.
+
+100
+00:05:04,100 --> 00:05:05,160
+That's got the nice spectrum.
+
+101
+00:05:06,560 --> 00:05:09,730
+So, perfect, so all our categories
+are functioning as we hoped.
+
+102
+00:05:09,730 --> 00:05:11,150
+So going back to the quiz.
+
+103
+00:05:11,150 --> 00:05:13,080
+Let's answer these two questions.
+
+104
+00:05:13,080 --> 00:05:15,000
+So for the phrase list item,
+
+105
+00:05:15,000 --> 00:05:17,930
+the image view needs to be gone,
+because we want to hide it.
+
+106
+00:05:17,930 --> 00:05:20,350
+And we don't want to take
+up any space in the layout.
+
+107
+00:05:20,350 --> 00:05:23,620
+That way the two text views can
+shift all the way to the left.
+
+108
+00:05:23,620 --> 00:05:25,330
+Now for all the other list items.
+
+109
+00:05:25,330 --> 00:05:27,620
+The image view needs
+to be set to visible.
+
+110
+00:05:27,620 --> 00:05:29,310
+So that the user can see it.
+
+111
+00:05:29,310 --> 00:05:30,730
+So this reflects what
+we did in our code.
+
+112
+00:05:30,730 --> 00:05:32,760
+And our app looks the way we want it to.
+
+113
+00:05:32,760 --> 00:05:34,830
+So really great job on this
+very challenging quiz.

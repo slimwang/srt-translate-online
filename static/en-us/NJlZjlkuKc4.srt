@@ -1,0 +1,241 @@
+1
+00:00:00,120 --> 00:00:03,630
+More generally, a distributed file
+system is a file system that can be
+
+2
+00:00:03,630 --> 00:00:05,810
+organized in any of the following ways.
+
+3
+00:00:05,810 --> 00:00:09,290
+The first model is when the client or
+the clients and
+
+4
+00:00:09,290 --> 00:00:11,810
+the file server are on
+different machines.
+
+5
+00:00:11,810 --> 00:00:16,230
+The second model is when the file
+server is not just single machine but
+
+6
+00:00:16,230 --> 00:00:19,410
+instead, it's distributed
+on multiple machines.
+
+7
+00:00:19,410 --> 00:00:23,470
+This may mean that all the files
+are replicated, and available,
+
+8
+00:00:23,470 --> 00:00:25,210
+on every single machine.
+
+9
+00:00:25,210 --> 00:00:28,320
+This helps in the event that there
+are failures, because there's always
+
+10
+00:00:28,320 --> 00:00:32,259
+a replica of the file that's available
+on one of the other servers.
+
+11
+00:00:32,259 --> 00:00:36,070
+And this also helps with availability
+since all the requests that are coming
+
+12
+00:00:36,070 --> 00:00:38,980
+in can be split across
+these different servers.
+
+13
+00:00:38,980 --> 00:00:42,610
+Another way that the file server can
+be distributed among multiple machines
+
+14
+00:00:42,610 --> 00:00:46,740
+is by splitting the files,
+dividing them, or partitioning them.
+
+15
+00:00:46,740 --> 00:00:50,500
+So that different physical
+machines store different files.
+
+16
+00:00:50,500 --> 00:00:54,510
+This makes the system more scalable than
+the replicated model because if you need
+
+17
+00:00:54,510 --> 00:00:58,180
+to store more files,
+you simply add additional machines.
+
+18
+00:00:58,180 --> 00:01:03,010
+In the replicated model, we still need
+every single server to store all files
+
+19
+00:01:03,010 --> 00:01:07,700
+so if we need to scale the file system
+to be able to store more files,
+
+20
+00:01:07,700 --> 00:01:10,880
+we'll have to buy machines
+with larger discs.
+
+21
+00:01:10,880 --> 00:01:14,320
+At some point, unfortunately,
+will likely reach a limit, whereas
+
+22
+00:01:14,320 --> 00:01:18,460
+with the partitioned model, we can
+just keep adding additional machines.
+
+23
+00:01:18,460 --> 00:01:22,040
+Or we may use some combination of
+both approaches, replication and
+
+24
+00:01:22,040 --> 00:01:23,100
+partitioning.
+
+25
+00:01:23,100 --> 00:01:26,110
+For instance,
+we can partition all the files and then
+
+26
+00:01:26,110 --> 00:01:30,700
+each of the partitions can independently
+be replicated across multiple machines.
+
+27
+00:01:30,700 --> 00:01:34,490
+A lot of the big data file systems that
+are used by companies like Google and
+
+28
+00:01:34,490 --> 00:01:36,770
+Facebook use this kind of approach.
+
+29
+00:01:36,770 --> 00:01:39,840
+Finally, the files may be stored on and
+
+30
+00:01:39,840 --> 00:01:43,310
+served from all of
+the machines in the system.
+
+31
+00:01:43,310 --> 00:01:46,730
+This solution blurs the distinction
+between client machines and
+
+32
+00:01:46,730 --> 00:01:48,050
+server machines.
+
+33
+00:01:48,050 --> 00:01:52,080
+Because all the nodes in the system
+are peers in the sense that they're
+
+34
+00:01:52,080 --> 00:01:55,830
+all responsible for
+maintaining the shared files and
+
+35
+00:01:55,830 --> 00:01:58,740
+also providing the file systems service.
+
+36
+00:01:58,740 --> 00:02:01,430
+Each peer in the system
+will take some portion of
+
+37
+00:02:01,430 --> 00:02:05,650
+the load by servicing some requests,
+likely those that are for
+
+38
+00:02:05,650 --> 00:02:08,660
+files that are locally
+stored on the peer machine.
+
+39
+00:02:08,660 --> 00:02:13,100
+In this lesson, we will primarily focus
+on discussion of the first model,
+
+40
+00:02:13,100 --> 00:02:15,750
+clients and separate server machines.
+
+41
+00:02:15,750 --> 00:02:18,610
+And, we will focus on issues
+related to caching and
+
+42
+00:02:18,610 --> 00:02:21,425
+consistency management
+in such environments.
+
+43
+00:02:21,425 --> 00:02:24,835
+Note that, in the next lesson,
+we will discuss, more generally,
+
+44
+00:02:24,835 --> 00:02:27,515
+issues related to distributed
+state management,
+
+45
+00:02:27,515 --> 00:02:30,935
+when there are multiple peer nodes
+in a distributed environment,
+
+46
+00:02:30,935 --> 00:02:35,180
+that are involved jointly in the
+management of some distributed state.
+
+47
+00:02:35,180 --> 00:02:38,610
+Then we will talk about memory
+ascending sample but there will
+
+48
+00:02:38,610 --> 00:02:42,558
+be a lot of similarities between
+the mechanisms that will describe for
+
+49
+00:02:42,558 --> 00:02:47,090
+distributed memory management and
+the ones that one could apply for
+
+50
+00:02:47,090 --> 00:02:49,780
+distributed file management
+in this kind of model.

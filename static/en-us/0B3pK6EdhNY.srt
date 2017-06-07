@@ -1,0 +1,343 @@
+1
+00:00:00,580 --> 00:00:02,560
+So the first design alternative that we're going to
+
+2
+00:00:02,560 --> 00:00:06,450
+look at is using coarse grain session beans. In this
+
+3
+00:00:06,450 --> 00:00:09,470
+structure that I'm showing you, we're only looking at
+
+4
+00:00:09,470 --> 00:00:13,860
+the web container. The EJB container because, the applet container
+
+5
+00:00:13,860 --> 00:00:15,860
+that interfaces with the client, is in the web
+
+6
+00:00:15,860 --> 00:00:18,260
+browser. So we don't worry about that. We'll talk only
+
+7
+00:00:18,260 --> 00:00:21,800
+about how we structure the web container and the EJB
+
+8
+00:00:21,800 --> 00:00:26,240
+container in the different design alternatives. So the web container
+
+9
+00:00:26,240 --> 00:00:30,530
+contains the presentation logic and in the structure that I'm showing you a
+
+10
+00:00:30,530 --> 00:00:34,430
+servelet corresponds to an individual session with
+
+11
+00:00:34,430 --> 00:00:37,744
+a particular client. So, this box represents
+
+12
+00:00:37,744 --> 00:00:41,620
+a particular client. This box represents
+
+13
+00:00:41,620 --> 00:00:43,870
+a second client. And there's a presentation
+
+14
+00:00:43,870 --> 00:00:47,630
+logic commensurate with servelet one, that is
+
+15
+00:00:47,630 --> 00:00:51,560
+client number one. And similarly, presentation logic
+
+16
+00:00:51,560 --> 00:00:54,180
+commensurate with servelet two, which is client
+
+17
+00:00:54,180 --> 00:00:56,760
+number two. And there's a coarse grain session
+
+18
+00:00:56,760 --> 00:01:00,265
+bean that is associated with each of these
+
+19
+00:01:00,265 --> 00:01:04,550
+servelet. And in turn the, session bean corresponds
+
+20
+00:01:04,550 --> 00:01:07,110
+to the client that is being served through
+
+21
+00:01:07,110 --> 00:01:10,948
+the servelet number one. And similarly, servelet number
+
+22
+00:01:10,948 --> 00:01:13,410
+two is served by this session bean. And
+
+23
+00:01:13,410 --> 00:01:16,670
+as the name suggests, the session bean is
+
+24
+00:01:16,670 --> 00:01:20,340
+responsible for the specific needs of the
+
+25
+00:01:20,340 --> 00:01:23,110
+particular client that it is serving for
+
+26
+00:01:23,110 --> 00:01:26,840
+this particular session. Therefore, the session bean
+
+27
+00:01:26,840 --> 00:01:29,430
+will worry about the data accesses that are
+
+28
+00:01:29,430 --> 00:01:35,950
+needed to the database in order for the Business Logic to do its thing. So if,
+
+29
+00:01:35,950 --> 00:01:41,760
+let's say, we're doing an airline reservation system and if this is requesting
+
+30
+00:01:41,760 --> 00:01:48,180
+a particular booking, then the session bean is going to be the one that contacts
+
+31
+00:01:48,180 --> 00:01:50,110
+the database server in order to pull the
+
+32
+00:01:50,110 --> 00:01:54,540
+specific dates and airline reservation. Information that is
+
+33
+00:01:54,540 --> 00:01:57,090
+needed for the business logic to do
+
+34
+00:01:57,090 --> 00:02:01,750
+the pruning and selection commensurate with whatever this
+
+35
+00:02:01,750 --> 00:02:04,460
+particular client is requesting. And there are multiple
+
+36
+00:02:04,460 --> 00:02:07,160
+sessions that are contained in this EJB container,
+
+37
+00:02:07,160 --> 00:02:09,410
+depending on the number of clients that
+
+38
+00:02:09,410 --> 00:02:13,980
+have simultaneously temporally made requests to this particular
+
+39
+00:02:13,980 --> 00:02:17,270
+service. So the EJB container has to provide
+
+40
+00:02:17,270 --> 00:02:19,560
+some service for all the sessions that are
+
+41
+00:02:19,560 --> 00:02:23,510
+concurrently going on in this server. All of
+
+42
+00:02:23,510 --> 00:02:25,940
+the data accesses that are needed for a
+
+43
+00:02:25,940 --> 00:02:28,930
+particular session is taken care of by the
+
+44
+00:02:28,930 --> 00:02:32,340
+session bean. And therefore, the amount of help
+
+45
+00:02:32,340 --> 00:02:37,080
+that we need from the EJB container, in terms of services, is pretty minimal for
+
+46
+00:02:37,080 --> 00:02:40,040
+supporting this particular model, and, and in
+
+47
+00:02:40,040 --> 00:02:43,120
+fact, it is confined to any conflicts that
+
+48
+00:02:43,120 --> 00:02:46,940
+might arise in terms of external accesses
+
+49
+00:02:46,940 --> 00:02:49,510
+for satisfying the request of these different session
+
+50
+00:02:49,510 --> 00:02:53,480
+beans. So the EJB container service that would
+
+51
+00:02:53,480 --> 00:02:57,270
+be needed is primarily for coordinating, if any,
+
+52
+00:02:57,270 --> 00:03:01,170
+across concurrent independent sessions. An example would
+
+53
+00:03:01,170 --> 00:03:04,080
+be, if they want to access the same
+
+54
+00:03:04,080 --> 00:03:08,620
+portion of the database for writing some records.
+
+55
+00:03:08,620 --> 00:03:11,010
+In that case, they may need some coordination
+
+56
+00:03:11,010 --> 00:03:13,830
+help from the EJB container service. The
+
+57
+00:03:13,830 --> 00:03:17,360
+other important attribute of this structure is that
+
+58
+00:03:17,360 --> 00:03:20,280
+the business logic is confined to the corporate
+
+59
+00:03:20,280 --> 00:03:22,570
+network. It is not exposed to the outside
+
+60
+00:03:22,570 --> 00:03:24,730
+world because it's not contained in the web
+
+61
+00:03:24,730 --> 00:03:27,560
+container, it is contained in the EJB container
+
+62
+00:03:27,560 --> 00:03:31,110
+and therefore the business logic is not exposed
+
+63
+00:03:31,110 --> 00:03:34,260
+beyond the corporate network. That's a good thing. So,
+
+64
+00:03:34,260 --> 00:03:37,430
+the pros of this particular structure is that
+
+65
+00:03:37,430 --> 00:03:41,030
+you need minimal container services and also that the
+
+66
+00:03:41,030 --> 00:03:43,840
+business logic is not exposed to the outside
+
+67
+00:03:43,840 --> 00:03:47,750
+world. But the cons for this particular structure is,
+
+68
+00:03:47,750 --> 00:03:50,600
+this application structure is very akin to
+
+69
+00:03:50,600 --> 00:03:52,760
+a monolithic kernel that we've talked about
+
+70
+00:03:52,760 --> 00:03:55,200
+a lot. There is very limited concurrency
+
+71
+00:03:55,200 --> 00:03:58,930
+for accessing different parts of the database.
+
+72
+00:03:58,930 --> 00:04:02,550
+For instance, I mentioned that the services
+
+73
+00:04:02,550 --> 00:04:07,430
+provided by these giant scale services tend
+
+74
+00:04:07,430 --> 00:04:09,880
+to be embarrassingly parallel. So there is
+
+75
+00:04:09,880 --> 00:04:12,930
+a lots of opportunities for pulling in data,
+
+76
+00:04:12,930 --> 00:04:19,510
+example would be let's say, that the particular query is to compile demographic
+
+77
+00:04:19,510 --> 00:04:22,600
+distribution of all the employees in the
+
+78
+00:04:22,600 --> 00:04:25,720
+company. In that case, there's an opportunity
+
+79
+00:04:25,720 --> 00:04:29,380
+to pull in lots of data simultaneously
+
+80
+00:04:29,380 --> 00:04:32,700
+from the database. But unfortunately, the structure
+
+81
+00:04:32,700 --> 00:04:36,500
+doesn't allow you to exploit such concurrency.
+
+82
+00:04:36,500 --> 00:04:38,590
+So in other words, this core screen
+
+83
+00:04:38,590 --> 00:04:43,550
+session been structure represents a lost opportunity. For accessing and
+
+84
+00:04:43,550 --> 00:04:48,360
+pulling lots of data from the database in parallel for
+
+85
+00:04:48,360 --> 00:04:52,300
+satisfying either the same request or even concurrent requests that
+
+86
+00:04:52,300 --> 00:04:56,060
+may be accessing the same portions of the same database.

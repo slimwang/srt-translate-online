@@ -1,0 +1,292 @@
+1
+00:00:00,750 --> 00:00:03,520
+We're ready to start
+building Flick Finder.
+
+2
+00:00:03,520 --> 00:00:05,060
+Here, I have the starter code project,
+
+3
+00:00:05,060 --> 00:00:07,880
+which you can download from
+the link in the instructor notes.
+
+4
+00:00:07,880 --> 00:00:09,800
+Let's run it to see what we have.
+
+5
+00:00:09,800 --> 00:00:14,410
+The UI's fairly simple, we have a title,
+a place where our image will go here
+
+6
+00:00:14,410 --> 00:00:17,825
+in the middle, and then we have UI to
+support the different text search,
+
+7
+00:00:17,825 --> 00:00:20,680
+and a latitude and longitude search.
+
+8
+00:00:20,680 --> 00:00:23,330
+There's also some space left
+below the text fields so
+
+9
+00:00:23,330 --> 00:00:26,780
+we can display the image's title or
+error information.
+
+10
+00:00:26,780 --> 00:00:30,938
+If we open up the ViewController.swift
+file, we can see that actions have
+
+11
+00:00:30,938 --> 00:00:34,043
+already been connected for
+both of our search buttons.
+
+12
+00:00:34,043 --> 00:00:38,130
+We have the searchByPhrase action and
+the searchByLatLon action.
+
+13
+00:00:39,470 --> 00:00:43,700
+We also have this method called
+displayImageFromFlickrBySearch
+
+14
+00:00:43,700 --> 00:00:45,810
+that takes a dictionary of parameters,
+and
+
+15
+00:00:45,810 --> 00:00:48,110
+this is where we'll make our
+search request to Flickr.
+
+16
+00:00:50,040 --> 00:00:53,310
+We left some comments in the search
+actions that say we need
+
+17
+00:00:53,310 --> 00:00:58,020
+to add the necessary parameters for
+the methodParameters dictionary.
+
+18
+00:00:58,020 --> 00:01:00,548
+So there's one there and one here.
+
+19
+00:01:00,548 --> 00:01:03,820
+And this is similar to the approach
+we took in Sleeping In The Library,
+
+20
+00:01:03,820 --> 00:01:06,760
+where we're going to build our
+methodParameters dictionary and
+
+21
+00:01:06,760 --> 00:01:09,880
+then we'll pass it to
+displayImageFromFlickrBySearch.
+
+22
+00:01:09,880 --> 00:01:12,860
+And there we'll construct our URL and
+make our request.
+
+23
+00:01:14,830 --> 00:01:18,630
+Now the rest of the code in this view
+controller is primarily for the showing
+
+24
+00:01:18,630 --> 00:01:23,500
+and hiding of the keyboards that come up
+when we have our text field selected.
+
+25
+00:01:23,500 --> 00:01:24,990
+And also it has some code for
+
+26
+00:01:24,990 --> 00:01:29,050
+the checking of, did we enter
+a valid latitude or longitude?
+
+27
+00:01:29,050 --> 00:01:32,010
+Is the string empty when
+we're trying to search for?
+
+28
+00:01:32,010 --> 00:01:34,060
+I'm sorry.
+Is the text empty when we're trying to
+
+29
+00:01:34,060 --> 00:01:34,979
+do the text search?
+
+30
+00:01:34,979 --> 00:01:36,550
+And all those little edge cases.
+
+31
+00:01:39,150 --> 00:01:42,104
+But there is one more method that I
+want to show that we provided for
+
+32
+00:01:42,104 --> 00:01:43,043
+your convenience.
+
+33
+00:01:43,043 --> 00:01:46,490
+It's called flickerURLFromParameters.
+
+34
+00:01:46,490 --> 00:01:49,000
+This method uses the classes
+we just discussed.
+
+35
+00:01:49,000 --> 00:01:52,054
+NSURLComponents and NSURLQueryItem.
+
+36
+00:01:52,054 --> 00:01:56,448
+And what this method does is it takes
+in parameters that you pass it, and
+
+37
+00:01:56,448 --> 00:01:59,466
+then it constructs a URL for
+the Flickr request.
+
+38
+00:01:59,466 --> 00:02:01,900
+So, no more escapeParameters method.
+
+39
+00:02:01,900 --> 00:02:06,150
+Just pass this method, a dictionary of
+the name value parameter pairs, and
+
+40
+00:02:06,150 --> 00:02:08,229
+it'll construct a URL for
+the Flickr API.
+
+41
+00:02:10,008 --> 00:02:13,390
+Now let's take a peek at
+the constant.swift file.
+
+42
+00:02:13,390 --> 00:02:15,600
+Here, like before in
+the Sleeping In The Library app,
+
+43
+00:02:15,600 --> 00:02:18,320
+we've defined some useful
+constants that you can use as
+
+44
+00:02:18,320 --> 00:02:20,200
+you're writing the networking code for
+this app.
+
+45
+00:02:21,450 --> 00:02:23,710
+Okay, now to the exercise.
+
+46
+00:02:23,710 --> 00:02:26,360
+What I want you to do is
+correctly add the parameters for
+
+47
+00:02:26,360 --> 00:02:30,570
+the methodParameters dictionary so that
+it contains all the arguments needed to
+
+48
+00:02:30,570 --> 00:02:34,420
+perform a text search using
+the flicker.photos.search method.
+
+49
+00:02:35,540 --> 00:02:36,830
+Now remember, at your disposal,
+
+50
+00:02:36,830 --> 00:02:40,071
+you have the constants that we've
+defined in constants.swift,
+
+51
+00:02:40,071 --> 00:02:43,640
+and you'll also need to adjust your
+API key, make sure you do that.
+
+52
+00:02:43,640 --> 00:02:46,520
+And then the only other odd ball
+parameter is that you'll need to
+
+53
+00:02:46,520 --> 00:02:49,070
+include the text that's
+provided by the user.
+
+54
+00:02:49,070 --> 00:02:49,610
+And then,
+
+55
+00:02:49,610 --> 00:02:55,190
+when displayImageFromFlickrBySearch is
+called, print the URL that's constructed
+
+56
+00:02:55,190 --> 00:02:58,830
+by our flickrURLFromParameters
+method into the debug area.
+
+57
+00:03:00,300 --> 00:03:03,310
+And if you do everything correctly you
+should end up with a URL that looks
+
+58
+00:03:03,310 --> 00:03:04,220
+like this one,
+
+59
+00:03:04,220 --> 00:03:09,640
+assuming of course that the user inputs
+the text oranges in their search.
+
+60
+00:03:09,640 --> 00:03:13,280
+And you'll also want to have your
+api_key and not this little placeholder.
+
+61
+00:03:13,280 --> 00:03:14,803
+So take some time to code this up.
+
+62
+00:03:14,803 --> 00:03:16,370
+And when you're done, check this box.

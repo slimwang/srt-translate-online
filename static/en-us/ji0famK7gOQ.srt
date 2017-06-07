@@ -1,0 +1,804 @@
+﻿1
+00:00:00,430 --> 00:00:01,080
+All right, welcome back.
+
+2
+00:00:01,080 --> 00:00:03,640
+So we're in project six where we're
+going to be reducing noise by
+
+3
+00:00:03,640 --> 00:00:05,450
+strategically reducing the vocabulary.
+
+4
+00:00:05,450 --> 00:00:09,320
+So what we've done is we've taken
+these metrics that we've kind of used
+
+5
+00:00:09,320 --> 00:00:13,000
+earlier as a juristic to see
+whether an idea was a good idea.
+
+6
+00:00:13,000 --> 00:00:17,940
+And we're going to use it to carve
+out a little bit of the noise so
+
+7
+00:00:17,940 --> 00:00:20,859
+that the neural net can
+better see the signal.
+
+8
+00:00:20,859 --> 00:00:24,649
+Now in this case most of the action
+happens in this pre-processing step,
+
+9
+00:00:24,649 --> 00:00:24,879
+right?
+
+10
+00:00:24,879 --> 00:00:29,179
+So instead of,
+we kind of updated the training before.
+
+11
+00:00:29,179 --> 00:00:32,460
+Here we're going to try to reduce
+the vocabulary to this vocab object,
+
+12
+00:00:32,460 --> 00:00:35,820
+which gets turned into the word index
+object and used to create our indices.
+
+13
+00:00:35,820 --> 00:00:41,189
+We want to reduce this in specific ways
+according to different cut-offs and
+
+14
+00:00:41,189 --> 00:00:42,210
+thresholds.
+
+15
+00:00:42,210 --> 00:00:46,677
+So, in this case, I created a
+polarity_cutoff and a min_count cutoff.
+
+16
+00:00:46,677 --> 00:00:53,299
+Now what the min_count cutoff does,
+it says okay, so in order for a word
+
+17
+00:00:53,299 --> 00:00:58,094
+to be included in the review_vocab,
+Vocab, one of those created vocab.
+
+18
+00:00:58,094 --> 00:01:01,344
+It has to exceed a minimum count,
+all right?
+
+19
+00:01:01,344 --> 00:01:05,355
+So, if it doesn't get into vocab,
+it doesn't actually get trained
+
+20
+00:01:05,355 --> 00:01:08,995
+on according to the pre-processing
+step down here.
+
+21
+00:01:08,995 --> 00:01:12,750
+So if the word Is not in the vocab,
+it's not in words2index.keys.
+
+22
+00:01:12,750 --> 00:01:15,870
+It doesn't get added to this indices
+list, it doesn't get trained on, so
+
+23
+00:01:15,870 --> 00:01:17,189
+it gets ignored.
+
+24
+00:01:17,189 --> 00:01:18,390
+So that's the first thing.
+
+25
+00:01:18,390 --> 00:01:20,500
+And the second thing is
+this polarity cut off.
+
+26
+00:01:20,500 --> 00:01:24,150
+This is saying that this pos neg ratio
+has to be greater than or equal to
+
+27
+00:01:24,150 --> 00:01:28,950
+the polarity cut off or less than or
+equal to negative the polarity cut off.
+
+28
+00:01:28,950 --> 00:01:31,780
+because if you remember,
+this thing centers around one.
+
+29
+00:01:31,780 --> 00:01:36,900
+So we're saying a word has to either
+be less than the negative ratio or
+
+30
+00:01:36,900 --> 00:01:39,430
+more than the positive ratio, right?
+
+31
+00:01:39,430 --> 00:01:45,080
+So it's excluding this really tall, and
+yet irrelevant, section in the middle.
+
+32
+00:01:46,709 --> 00:01:47,819
+That's the idea.
+
+33
+00:01:47,819 --> 00:01:52,669
+One other thing I did was I required
+that it be a minimum count for
+
+34
+00:01:52,670 --> 00:01:54,859
+this pos_neg_ratio to
+really take effect.
+
+35
+00:01:55,900 --> 00:02:00,740
+And a reason I did that is that
+occasionally you have really infrequent
+
+36
+00:02:00,739 --> 00:02:08,400
+terms that have very little correlative
+power or a lot of correlative power.
+
+37
+00:02:08,400 --> 00:02:10,150
+But they only happen once or twice.
+
+38
+00:02:10,150 --> 00:02:14,030
+So the metric, it's a simple rule,
+it's a simple cutoff.
+
+39
+00:02:14,030 --> 00:02:15,509
+I can't have it be,
+
+40
+00:02:15,509 --> 00:02:18,310
+it's perfectly positively correlated
+would only happen once, right?
+
+41
+00:02:18,310 --> 00:02:21,310
+So in this case I found
+this was a good number.
+
+42
+00:02:22,400 --> 00:02:25,064
+So those are the two thresholds.
+
+43
+00:02:25,064 --> 00:02:26,889
+There's not really a right way or
+a wrong way to do this.
+
+44
+00:02:26,889 --> 00:02:29,229
+Again, we're trying to
+cut out the noise and
+
+45
+00:02:29,229 --> 00:02:31,239
+this is different for
+every data set, right?
+
+46
+00:02:31,240 --> 00:02:32,657
+So you're in kind of
+a new data setting and
+
+47
+00:02:32,657 --> 00:02:35,287
+you're trying to take a neural net and
+you're going to try to frame the neural
+
+48
+00:02:35,287 --> 00:02:37,300
+net a problem where it
+can succeed a data set.
+
+49
+00:02:37,300 --> 00:02:40,150
+This is just the method you go
+about by framing the problem
+
+50
+00:02:40,150 --> 00:02:40,828
+when you're in a domain.
+
+51
+00:02:40,828 --> 00:02:45,798
+Like these are not hard and fast rules,
+these are techniques to be able
+
+52
+00:02:45,798 --> 00:02:50,686
+to make sure that your neural net has
+the best chance to capture new and
+
+53
+00:02:50,686 --> 00:02:52,840
+interesting patterns.
+
+54
+00:02:52,840 --> 00:02:56,280
+So, all of this is the same,
+none of these has changed at all,
+
+55
+00:02:56,280 --> 00:02:57,747
+testing is not different,
+running is not different,
+
+56
+00:02:57,747 --> 00:02:59,570
+other than the real
+vocabulary is smaller.
+
+57
+00:02:59,569 --> 00:03:02,908
+So let's give it a shot,
+I'm going to set the min count at 20 and
+
+58
+00:03:02,908 --> 00:03:06,688
+the polarity cut off at .05 which
+is a really small polarity cutoff,
+
+59
+00:03:06,688 --> 00:03:10,120
+like this doesn't cut out
+too much of the vocabulary.
+
+60
+00:03:10,120 --> 00:03:13,491
+We can get more aggressive
+about it later,
+
+61
+00:03:13,491 --> 00:03:18,092
+and yeah, we'll see how this
+thing goes here in a second.
+
+62
+00:03:18,092 --> 00:03:22,273
+So what it's doing right now is it's
+calculating all the statistics as it
+
+63
+00:03:22,272 --> 00:03:26,769
+started, so we had do it then, and
+then it's going to start training.
+
+64
+00:03:26,770 --> 00:03:29,645
+So yeah, so
+when you call the constructor,
+
+65
+00:03:29,645 --> 00:03:34,467
+calls pre-processed data and
+pre-processed data runs all these stakes
+
+66
+00:03:34,467 --> 00:03:39,020
+from before to help kind of identify
+signal we're going to train.
+
+67
+00:03:39,020 --> 00:03:39,466
+All right, very.
+
+68
+00:03:39,466 --> 00:03:40,564
+Very good.
+
+69
+00:03:40,563 --> 00:03:42,734
+[BLANK_AUDIO]
+
+70
+00:03:42,735 --> 00:03:46,650
+So this is actually a little bit
+of a speed lift from before.
+
+71
+00:03:46,650 --> 00:03:50,849
+Not a lot, just a little bit, because
+we've reduced our vocabulary size.
+
+72
+00:03:50,849 --> 00:03:54,840
+And then we look at our testing data,
+85.9.
+
+73
+00:03:54,840 --> 00:03:58,979
+Not a huge lift, but
+a small and significant lift.
+
+74
+00:03:58,979 --> 00:04:03,019
+Like, and you can pick your battles and
+I didn't do this too long.
+
+75
+00:04:03,020 --> 00:04:06,550
+So you kind of keep playing with this
+min count and polarity cut off and
+
+76
+00:04:06,550 --> 00:04:09,090
+find which one seems to
+work the best for you.
+
+77
+00:04:09,090 --> 00:04:14,115
+Now the other thing that I wanted to
+show here is that if we take this and
+
+78
+00:04:14,115 --> 00:04:16,300
+just crank it up, right?
+
+79
+00:04:16,300 --> 00:04:20,939
+So, if we set this to be more like,
+I don't know.
+
+80
+00:04:20,939 --> 00:04:22,439
+We'll keep min count the same.
+
+81
+00:04:22,439 --> 00:04:23,779
+We'll set this to be .8.
+
+82
+00:04:23,779 --> 00:04:29,919
+We really carve out
+the middle of this guy.
+
+83
+00:04:29,920 --> 00:04:32,000
+We're just going to take a big chunk.
+
+84
+00:04:32,000 --> 00:04:36,350
+.8, that's like right here to right
+here, and we're going to say,
+
+85
+00:04:36,350 --> 00:04:37,330
+you know what?
+
+86
+00:04:37,329 --> 00:04:39,669
+This thing stuff has little correlation,
+
+87
+00:04:39,670 --> 00:04:44,569
+but I just think it's ambiguous,
+so just carve it all out.
+
+88
+00:04:44,569 --> 00:04:47,779
+And we say, okay,
+we're going to train on that.
+
+89
+00:04:47,779 --> 00:04:53,159
+Then we can really crank
+up the speed of this thing.
+
+90
+00:04:53,160 --> 00:04:54,900
+The speed by which it trains,
+
+91
+00:04:56,100 --> 00:05:00,570
+with a relatively small effect
+on our testing accuracy.
+
+92
+00:05:00,569 --> 00:05:05,319
+So sometimes you'll find that this
+can be beneficial for two reasons.
+
+93
+00:05:05,319 --> 00:05:09,050
+For some problems you want to be
+able to train on so much more data,
+
+94
+00:05:09,050 --> 00:05:10,750
+you want to be able to run a lot faster.
+
+95
+00:05:10,750 --> 00:05:13,375
+Let's see how much faster it goes.
+
+96
+00:05:13,375 --> 00:05:17,199
+Straining, my gosh, look at that.
+
+97
+00:05:17,199 --> 00:05:19,589
+So 7,000 reviews per second.
+
+98
+00:05:19,589 --> 00:05:23,929
+I mean, it trained whole
+thing in a couple seconds.
+
+99
+00:05:23,930 --> 00:05:28,014
+And let's see how,
+let's see the damages in the test.
+
+100
+00:05:28,014 --> 00:05:28,819
+82.2, so we lost 3%.
+
+101
+00:05:28,819 --> 00:05:35,112
+Not bad, we got a 7x increase
+in speed for a, well,
+
+102
+00:05:35,112 --> 00:05:40,560
+almost 7x, for a 3% decrease in quality.
+
+103
+00:05:40,560 --> 00:05:43,540
+Now, you're going to find in neural
+nets there's usually a speed
+
+104
+00:05:43,540 --> 00:05:44,150
+trade out quality.
+
+105
+00:05:44,149 --> 00:05:47,029
+The only time that I know of when
+there consistently isn't is when
+
+106
+00:05:47,029 --> 00:05:48,389
+you can reduce noise.
+
+107
+00:05:48,389 --> 00:05:51,250
+because reducing noise tends to reduce
+the amount of data that you have to
+
+108
+00:05:51,250 --> 00:05:53,569
+process, which increases both speed and
+accuracy.
+
+109
+00:05:53,569 --> 00:05:55,980
+It's why I like it so much.
+
+110
+00:05:55,980 --> 00:05:58,220
+But this can actually
+be really beneficial.
+
+111
+00:05:58,220 --> 00:06:00,090
+One, for production systems.
+
+112
+00:06:00,089 --> 00:06:03,489
+When you just need something to fly,
+to get through a ton of data.
+
+113
+00:06:03,490 --> 00:06:06,420
+To really solve a real world
+problem that exists out there.
+
+114
+00:06:06,420 --> 00:06:09,379
+Like the most laboratory
+
+115
+00:06:11,980 --> 00:06:16,430
+kind of sterile, highest possible
+score isn't always the best answer.
+
+116
+00:06:16,430 --> 00:06:19,410
+Sometimes the best answer is hey,
+we want to fly through
+
+117
+00:06:19,410 --> 00:06:22,730
+a million medical reports a day so
+that we can save the most lives.
+
+118
+00:06:22,730 --> 00:06:25,028
+Give me something that's faster.
+
+119
+00:06:25,028 --> 00:06:29,589
+And this is the something that
+you can do to try to do that.
+
+120
+00:06:29,589 --> 00:06:33,079
+And once again, we got almost 10X and
+if we cranked it up even further,
+
+121
+00:06:33,079 --> 00:06:34,680
+we probably could.
+
+122
+00:06:34,680 --> 00:06:38,329
+And so the cool thing about this is that
+the more you carve out you're saying,
+
+123
+00:06:38,329 --> 00:06:39,669
+hey, I need to go faster and
+
+124
+00:06:39,670 --> 00:06:43,500
+I'm trying to do the minimum amount
+of damage that I can to go faster.
+
+125
+00:06:43,500 --> 00:06:47,947
+So I'm getting rid of the terms that
+are most ambiguous in my prediction and
+
+126
+00:06:47,947 --> 00:06:51,069
+it's saving me lots of time.
+
+127
+00:06:51,069 --> 00:06:52,310
+So now why is it saving me time?
+
+128
+00:06:52,310 --> 00:06:54,780
+Well, we do fewer sums.
+
+129
+00:06:54,779 --> 00:06:58,251
+When we have fewer terms we do fewer
+sums in the display matrix and
+
+130
+00:06:58,252 --> 00:07:01,096
+we do fewer back propagation
+in the display matrix.
+
+131
+00:07:01,096 --> 00:07:04,800
+Because there are fewer words in
+the review that we've allowed to pass
+
+132
+00:07:04,800 --> 00:07:08,290
+through that were candidate
+words that we could train on.
+
+133
+00:07:08,290 --> 00:07:10,230
+That's just all we did, and
+
+134
+00:07:10,230 --> 00:07:13,550
+fortunately it increases
+the speed very significantly.
+
+135
+00:07:14,810 --> 00:07:20,079
+Now, the other reason that sometimes
+people will increase the speed
+
+136
+00:07:20,079 --> 00:07:25,109
+like this or in a variety of
+other ways is if you have so
+
+137
+00:07:25,110 --> 00:07:28,830
+much training data that you could
+never train over all of it.
+
+138
+00:07:28,829 --> 00:07:33,599
+It turns out that just being able
+to run faster over more data,
+
+139
+00:07:33,600 --> 00:07:36,040
+even if you choose a more
+naive algorithm or
+
+140
+00:07:36,040 --> 00:07:39,830
+your limiting a lot of stuff,
+makes the accuracy really, really high.
+
+141
+00:07:39,829 --> 00:07:43,919
+The most famous example of this
+that maybe people don't know is
+
+142
+00:07:45,240 --> 00:07:46,944
+taking its effect is Word2Vec.
+
+143
+00:07:46,944 --> 00:07:51,379
+So Word2Vec is a close approximation of
+
+144
+00:07:51,379 --> 00:07:54,319
+other language models that people
+have been training forever.
+
+145
+00:07:54,319 --> 00:07:57,377
+But the problem was other language
+models took like a month to train on
+
+146
+00:07:57,377 --> 00:08:00,920
+a billion tokens and even then it wasn't
+making as aggressive weight updates.
+
+147
+00:08:00,920 --> 00:08:04,632
+What Word2Vec showed was that if
+you striped out everything and
+
+148
+00:08:04,632 --> 00:08:09,180
+you skip some steps, yeah it's an
+approximation, but It's so much faster.
+
+149
+00:08:09,180 --> 00:08:11,120
+You can train it on,
+
+150
+00:08:11,120 --> 00:08:15,372
+was it eight billion tokens in like
+six hours on a 32 core machine?
+
+151
+00:08:15,372 --> 00:08:18,360
+I mean it's so much faster that
+you can train so much data.
+
+152
+00:08:18,360 --> 00:08:22,410
+You can gather so much more information
+that even though the backhoe is dropping
+
+153
+00:08:22,410 --> 00:08:27,640
+dirt while it's driving back to
+the dumpster, it can do it so
+
+154
+00:08:27,639 --> 00:08:30,250
+much faster, in so many more iterations,
+it just doesn’t matter.
+
+155
+00:08:30,250 --> 00:08:34,490
+So, there's a lot of cases where
+we might make it way faster and
+
+156
+00:08:34,490 --> 00:08:37,690
+then we'll train on seven
+times more data, and
+
+157
+00:08:37,690 --> 00:08:40,970
+then that'll actually get
+us to a higher score.
+
+158
+00:08:40,970 --> 00:08:44,899
+Actually I can almost guarantee you
+that if we had seven times more data and
+
+159
+00:08:44,899 --> 00:08:49,731
+we trained this with something that's
+seven times faster relative to this,
+
+160
+00:08:49,731 --> 00:08:51,475
+it's going to get a way higher score.
+
+161
+00:08:51,475 --> 00:08:55,179
+Because once again,
+you're covering more ground.
+
+162
+00:08:55,179 --> 00:08:58,689
+We lost a marginal
+amount of accuracy here.
+
+163
+00:08:58,690 --> 00:09:02,460
+So if training over more
+data was the problem,
+
+164
+00:09:02,460 --> 00:09:07,460
+then this can often be a really,
+really good solution.
+
+165
+00:09:07,460 --> 00:09:10,810
+So, I hope you've enjoyed and
+in the next section we're going to talk
+
+166
+00:09:10,809 --> 00:09:14,269
+a little bit more about what's actually
+happening under the hood in the weights.
+
+167
+00:09:14,269 --> 00:09:17,829
+How are they adjusting to each other,
+what's happening on the terms, and
+
+168
+00:09:17,830 --> 00:09:20,690
+really see some kind of cool
+visualizations that help us
+
+169
+00:09:20,690 --> 00:09:22,930
+get a more intuitive feeling for
+what's going on in the neural net.
+
+170
+00:09:22,929 --> 00:09:23,669
+See you there.
+

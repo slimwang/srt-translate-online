@@ -1,0 +1,216 @@
+1
+00:00:00,250 --> 00:00:03,723
+Here are the answers I got, for
+
+2
+00:00:03,723 --> 00:00:08,539
+the first question I got -41.382.
+
+3
+00:00:08,539 --> 00:00:15,226
+For the second question I got 56.397.
+
+4
+00:00:15,226 --> 00:00:23,049
+For the third question
+I got 3.072 radians.
+
+5
+00:00:23,049 --> 00:00:31,250
+And for
+the last question I got 60.276 degrees.
+
+6
+00:00:31,250 --> 00:00:33,980
+Let's take a look at how we can
+code functions in Python for
+
+7
+00:00:33,980 --> 00:00:35,910
+computing these answers.
+
+8
+00:00:35,910 --> 00:00:39,360
+For the dot product, I followed
+a similar pattern as before for
+
+9
+00:00:39,360 --> 00:00:41,250
+my time scalar function.
+
+10
+00:00:41,250 --> 00:00:43,980
+I use zip with a list comprehension
+
+11
+00:00:43,980 --> 00:00:48,400
+to compute products of corresponding
+coordinates between self and v.
+
+12
+00:00:48,400 --> 00:00:52,840
+And then I use an outer sum function
+to add these products together.
+
+13
+00:00:52,840 --> 00:00:57,290
+From my angle with function, I have
+an optional argument called in_degrees
+
+14
+00:00:57,290 --> 00:00:59,780
+which is set to false by default.
+
+15
+00:00:59,780 --> 00:01:03,210
+If it's set to true, then it will
+output the angle between self and
+
+16
+00:01:03,210 --> 00:01:07,680
+v in degrees, otherwise it will
+output the angle in radians.
+
+17
+00:01:07,680 --> 00:01:09,290
+For the angle with function,
+
+18
+00:01:09,290 --> 00:01:12,820
+I start by computing
+the normalizations of self and v.
+
+19
+00:01:12,820 --> 00:01:16,490
+I then take the dot product of
+the resulting unit vectors, and
+
+20
+00:01:16,490 --> 00:01:20,880
+then that dot product is fed
+into the arc cosine function,
+
+21
+00:01:20,880 --> 00:01:26,260
+which in Python is the function
+acos from the module math.
+
+22
+00:01:26,260 --> 00:01:30,280
+The output of acos gives
+me the angle in radians.
+
+23
+00:01:30,280 --> 00:01:32,890
+If in_degrees was set to true,
+
+24
+00:01:32,890 --> 00:01:37,980
+I can multiply the angle in
+radians by 180 divided by pi.
+
+25
+00:01:37,980 --> 00:01:40,380
+Pi is also found in the math module.
+
+26
+00:01:40,380 --> 00:01:42,900
+This obtains the angle in degrees.
+
+27
+00:01:42,900 --> 00:01:46,850
+I also make sure to check for the zero
+vector, by seeing if an exception is
+
+28
+00:01:46,850 --> 00:01:51,180
+raised with the message that comes from
+attempting to normalize the zero vector.
+
+29
+00:01:51,180 --> 00:01:54,880
+If that message is seen, an exception
+with a different message is raised,
+
+30
+00:01:54,880 --> 00:01:58,250
+stating that angles cannot be
+computed with the zero vector.
+
+31
+00:01:58,250 --> 00:02:02,630
+I also want to point out that I made
+some modifications to my vector class.
+
+32
+00:02:02,630 --> 00:02:07,240
+I'm now using the decimal package, which
+gives me better numerical precision.
+
+33
+00:02:07,240 --> 00:02:11,510
+Specifically, I changed my
+initializer to ensure all coordinates
+
+34
+00:02:11,510 --> 00:02:16,130
+are decimal objects instead of
+floating point numbers or integers.
+
+35
+00:02:16,130 --> 00:02:19,080
+I also made some other
+changes to ensure that
+
+36
+00:02:19,080 --> 00:02:23,920
+numbers coming from outside the vector
+object are treated as decimals.
+
+37
+00:02:23,920 --> 00:02:25,460
+Why did I do all this?
+
+38
+00:02:25,460 --> 00:02:29,130
+Well, remember that if two vectors
+point in the same direction,
+
+39
+00:02:29,130 --> 00:02:32,160
+their dot product is the product
+of their magnitudes.
+
+40
+00:02:32,160 --> 00:02:35,206
+So If self and
+v point in the same direction,
+
+41
+00:02:35,206 --> 00:02:41,320
+then the dot product of their two
+normalized unit vectors should be one.
+
+42
+00:02:41,320 --> 00:02:44,870
+However, sometimes I was getting
+a ratio greater than one due to loss of
+
+43
+00:02:44,870 --> 00:02:46,550
+numerical precission, and
+
+44
+00:02:46,550 --> 00:02:50,670
+this will give me a domain
+error inside the acos function.
+
+45
+00:02:50,670 --> 00:02:55,880
+Now that I finished coding these two
+functions, I can execute this code here
+
+46
+00:02:55,880 --> 00:02:58,480
+and it will output the answers
+to the questions from before.

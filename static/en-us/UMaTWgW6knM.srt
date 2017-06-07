@@ -1,0 +1,166 @@
+1
+00:00:00,025 --> 00:00:00,640
+There' s at least
+
+2
+00:00:00,640 --> 00:00:03,520
+one function in this app that
+would benefit from transactions.
+
+3
+00:00:03,520 --> 00:00:05,960
+And, that is registration for
+a conference.
+
+4
+00:00:05,960 --> 00:00:09,060
+When a person registers for a
+conference, the app needs to change two
+
+5
+00:00:09,060 --> 00:00:12,360
+pieces of data, the number of seats
+available at the conference, and
+
+6
+00:00:12,360 --> 00:00:15,080
+the set of conferences,
+the user is registered to attend.
+
+7
+00:00:15,080 --> 00:00:17,780
+The number of available seats
+is the seats available field in
+
+8
+00:00:17,780 --> 00:00:18,930
+the conference record.
+
+9
+00:00:18,930 --> 00:00:21,570
+And, we'll keep track of people's
+registrations by adding a field to their
+
+10
+00:00:21,570 --> 00:00:23,460
+profile, with the conference keys.
+
+11
+00:00:23,460 --> 00:00:26,770
+Transactions let us guarantee that both
+of these changes will happen in sync,
+
+12
+00:00:26,770 --> 00:00:27,690
+with each other.
+
+13
+00:00:27,690 --> 00:00:30,910
+If we updated the conferences for
+a user, but didn't update the seats
+
+14
+00:00:30,910 --> 00:00:33,910
+available, then if two people
+registered at the same time.
+
+15
+00:00:33,910 --> 00:00:36,330
+They could both be trying
+to take the last seat.
+
+16
+00:00:36,330 --> 00:00:38,710
+Transactions prevent
+that race condition.
+
+17
+00:00:38,710 --> 00:00:41,880
+Making sure that an api function
+uses transactions is easy.
+
+18
+00:00:41,880 --> 00:00:46,360
+You just have to add the decorator
+nbd.transactional to the function.
+
+19
+00:00:46,360 --> 00:00:49,670
+And, if the transaction has to work on,
+several kinds of entities that belong to
+
+20
+00:00:49,670 --> 00:00:54,590
+different entity groups, you have to
+use the parameter xg equals True.
+
+21
+00:00:54,590 --> 00:00:56,760
+xg stands for cross group.
+
+22
+00:00:56,760 --> 00:01:00,520
+The default behaviour for transactions
+is to work on only one entity group.
+
+23
+00:01:00,520 --> 00:01:04,650
+An entity group is defined as, entities
+that belong to the same ancestral path.
+
+24
+00:01:04,650 --> 00:01:08,000
+So, in this case, a conference
+that was created by user Joe, and
+
+25
+00:01:08,000 --> 00:01:11,370
+the profile of user Joe,
+are in the same entity group.
+
+26
+00:01:11,370 --> 00:01:13,090
+While a conference created by Alice,
+
+27
+00:01:13,090 --> 00:01:15,660
+is in a different group than
+the profile of user Joe.
+
+28
+00:01:15,660 --> 00:01:18,750
+You'll also need to modify
+the user profile class,
+
+29
+00:01:18,750 --> 00:01:21,150
+to have a property that
+will hold conference keys.
+
+30
+00:01:21,150 --> 00:01:22,257
+See TODO 6 files, for
+
+31
+00:01:22,257 --> 00:01:26,120
+the additional functions that
+implement conference registration.
+
+32
+00:01:26,120 --> 00:01:29,690
+So as you complete this, check these
+off, and then, think about this.
+
+33
+00:01:29,690 --> 00:01:31,810
+What is the correct decorate
+to use in this case?
+
+34
+00:01:31,810 --> 00:01:35,644
+Is it ndb.transactional,
+ndb.transactional xg equals False,
+
+35
+00:01:35,644 --> 00:01:37,941
+or ndb.transactional xgequals True?

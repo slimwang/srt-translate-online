@@ -1,0 +1,141 @@
+1
+00:00:00,240 --> 00:00:03,886
+Before I continue I want to make
+one important comment to contrast
+
+2
+00:00:03,886 --> 00:00:07,810
+the message-based and the shared
+memory-based approaches to IPC.
+
+3
+00:00:07,810 --> 00:00:11,184
+The end result of both of these
+approaches is that some data is
+
+4
+00:00:11,184 --> 00:00:15,580
+transferred from one address space
+into the target address space.
+
+5
+00:00:15,580 --> 00:00:21,020
+In message passing, this requires that
+the CPU is involved in copying the data.
+
+6
+00:00:21,020 --> 00:00:25,560
+This takes some number of CPU cycles
+to copy the data into the channel via
+
+7
+00:00:25,560 --> 00:00:30,010
+the port and then from the port and
+into the target address space.
+
+8
+00:00:30,010 --> 00:00:33,930
+In the shared memory-based case,
+at the minimum, there's CPU cycles that
+
+9
+00:00:33,930 --> 00:00:39,250
+are spent to map the physical memory
+into the appropriate address spaces.
+
+10
+00:00:39,250 --> 00:00:43,890
+The CPU is also used to copy the data
+into the channel when necessary.
+
+11
+00:00:43,890 --> 00:00:44,780
+However, note that,
+
+12
+00:00:44,780 --> 00:00:48,730
+in this case, there are no user to
+kernel level switches required.
+
+13
+00:00:48,730 --> 00:00:52,550
+The memory mapping operation
+itself is a costly operation.
+
+14
+00:00:52,550 --> 00:00:54,860
+However, if the channel
+is set up once and
+
+15
+00:00:54,860 --> 00:00:58,810
+used many times,
+then it will result in good payoff.
+
+16
+00:00:58,810 --> 00:01:04,480
+However, even for 1-time use, the memory
+mapped approach can perform well.
+
+17
+00:01:04,480 --> 00:01:08,480
+In particular, when we need to move
+large amounts of data from one address
+
+18
+00:01:08,480 --> 00:01:13,310
+space into another space, the CPU time
+that's required to perform the copy
+
+19
+00:01:13,310 --> 00:01:18,120
+can greatly exceed the CPU time that's
+required to perform the map operation.
+
+20
+00:01:18,120 --> 00:01:22,210
+In fact, Windows systems internally
+in the communication mechanisms they
+
+21
+00:01:22,210 --> 00:01:27,430
+support between processes, leverage the
+fact that there exists this difference.
+
+22
+00:01:27,430 --> 00:01:31,060
+So if the the data that needs to be
+transferred among address spaces is
+
+23
+00:01:31,060 --> 00:01:35,130
+smaller than a certain threshold,
+then the data is copied in and
+
+24
+00:01:35,130 --> 00:01:38,520
+out of a communication channel
+via a port like interface.
+
+25
+00:01:38,520 --> 00:01:42,620
+Otherwise, the data is potentially
+copied once to make sure that it's
+
+26
+00:01:42,620 --> 00:01:44,520
+in a page aligned area.
+
+27
+00:01:44,520 --> 00:01:48,830
+And then that areas is mapped into
+the address space of the target process.
+
+28
+00:01:48,830 --> 00:01:51,750
+This mechanism that the Windows
+kernel supports is called
+
+29
+00:01:51,750 --> 00:01:53,600
+Local Procedure Calls, or LPC.

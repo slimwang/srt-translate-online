@@ -1,0 +1,313 @@
+1
+00:00:00,400 --> 00:00:03,300
+So far we've seen how there
+must be an assignment
+
+2
+00:00:03,300 --> 00:00:08,600
+that satisfies at least seven-eighths
+of the clauses in any 3-CNF formula.
+
+3
+00:00:08,600 --> 00:00:12,248
+And in fact, the same argument gives
+us an algorithm that satisfies
+
+4
+00:00:12,248 --> 00:00:13,750
+seven-eighths on average.
+
+5
+00:00:13,750 --> 00:00:14,890
+Just pick a random assignment.
+
+6
+00:00:15,910 --> 00:00:19,400
+By itself however, this does not
+guarantee that we'll actually find
+
+7
+00:00:19,400 --> 00:00:21,989
+an assignment that satisfies
+seven-eighths of the clauses.
+
+8
+00:00:23,120 --> 00:00:24,560
+To obtain such a guarantee,
+
+9
+00:00:24,560 --> 00:00:27,410
+we're going to use a technique
+called derandomization.
+
+10
+00:00:27,410 --> 00:00:30,160
+That will take the randomness
+of our algorithm out and
+
+11
+00:00:30,160 --> 00:00:33,768
+give us a deterministic algorithm
+with a guaranteed seven-eighths
+
+12
+00:00:33,768 --> 00:00:35,240
+factor approximation.
+
+13
+00:00:35,240 --> 00:00:37,840
+An important part of the algorithm
+will be a subroutine that
+
+14
+00:00:37,840 --> 00:00:41,870
+assigns a value to a variable and
+simplifies the causes.
+
+15
+00:00:41,870 --> 00:00:44,380
+We call this procedure instantiate.
+
+16
+00:00:44,380 --> 00:00:47,570
+Let's say that we want to
+set a variable, x1, to true.
+
+17
+00:00:47,570 --> 00:00:51,450
+Then any clauses not involving
+x1 are simply left alone.
+
+18
+00:00:51,450 --> 00:00:55,100
+And if a clause has an x1 in it,
+then it gets set to true.
+
+19
+00:00:55,100 --> 00:00:57,610
+If a clause has a not x1 in it,
+
+20
+00:00:57,610 --> 00:01:00,560
+then we just eliminate that
+literal from the clause.
+
+21
+00:01:00,560 --> 00:01:03,410
+If not x1 is the only
+literal in the clause,
+
+22
+00:01:03,410 --> 00:01:05,680
+then we just set the clause to false.
+
+23
+00:01:05,680 --> 00:01:09,240
+Another important set routine will be
+one that calculates the expected number
+
+24
+00:01:09,240 --> 00:01:13,650
+of clauses that will be satisfied if the
+remaining variables are assigned true or
+
+25
+00:01:13,650 --> 00:01:15,840
+false uniformly at random.
+
+26
+00:01:15,840 --> 00:01:20,210
+Of course, if a clause is just true,
+then it gets assigned a value 1.
+
+27
+00:01:20,210 --> 00:01:24,300
+And a clause that's just false
+gets assigned a value 0.
+
+28
+00:01:24,300 --> 00:01:27,560
+A single literal gets
+assigned a value one-half.
+
+29
+00:01:27,560 --> 00:01:31,460
+Two literals get assigned
+a value of three-quarters.
+
+30
+00:01:31,460 --> 00:01:34,790
+And three literals gets
+a value of seven-eighths.
+
+31
+00:01:34,790 --> 00:01:38,310
+Remember that there's just one way
+to assign the relevant variables so
+
+32
+00:01:38,310 --> 00:01:40,780
+that the clause is false.
+
+33
+00:01:40,780 --> 00:01:45,530
+The E of Y procedure simply calculates
+these values for every clause and
+
+34
+00:01:45,530 --> 00:01:48,630
+then sums them up,
+using the linearity of expectations.
+
+35
+00:01:48,630 --> 00:01:50,890
+With these separate teams defined,
+
+36
+00:01:50,890 --> 00:01:53,890
+we can now write down our
+derandomized algorithm as follows.
+
+37
+00:01:54,960 --> 00:01:57,910
+We start with an empty assignment for
+the variables.
+
+38
+00:01:57,910 --> 00:02:00,160
+Then for each variable and term,
+
+39
+00:02:00,160 --> 00:02:04,500
+we consider the formula resulting from
+the variable Xi being sent to true.
+
+40
+00:02:05,590 --> 00:02:09,110
+And the one resulting from
+Xi being set to false,
+
+41
+00:02:09,110 --> 00:02:14,050
+between these two we pick the one
+that gives a larger value for E of Y.
+
+42
+00:02:14,050 --> 00:02:19,310
+That is the one where the expected
+number of satisfied clauses is greater,
+
+43
+00:02:19,310 --> 00:02:22,800
+assuming that the remaining
+variables are set at random.
+
+44
+00:02:22,800 --> 00:02:25,580
+Note that we're using our knowledge
+of how a random assignment
+
+45
+00:02:25,580 --> 00:02:27,240
+would behave here.
+
+46
+00:02:27,240 --> 00:02:30,070
+But we actually aren't
+using any randomization.
+
+47
+00:02:30,070 --> 00:02:33,800
+Having picked a better way of
+assigning the variable Xi,
+
+48
+00:02:33,800 --> 00:02:39,350
+we update the set of clauses and record
+our assignment of the variable Xi.
+
+49
+00:02:39,350 --> 00:02:42,580
+The reason this algorithm works is
+that it maintains the invariant
+
+50
+00:02:42,580 --> 00:02:47,320
+that the expected number of clauses of C
+that would be satisfied if the remaining
+
+51
+00:02:47,320 --> 00:02:52,440
+variables were assigned uniformly
+at random is at least 7m over 8.
+
+52
+00:02:52,440 --> 00:02:56,100
+This is true at the beginning,
+just by our previous theorem.
+
+53
+00:02:56,100 --> 00:02:59,290
+But this expectation is just the average
+of the expected number that would be
+
+54
+00:02:59,290 --> 00:03:04,500
+satisfied in Cp and the expected
+number that would be satisfied in Cm.
+
+55
+00:03:06,250 --> 00:03:08,870
+So by picking C to be the one for
+
+56
+00:03:08,870 --> 00:03:14,790
+which this E of Y is greater,
+the lavariant is maintained.
+
+57
+00:03:14,790 --> 00:03:19,120
+Of course, at the end of the algorithm,
+all the variables have been assigned, so
+
+58
+00:03:19,120 --> 00:03:23,240
+this expectation is just counting
+up the number of true clauses.
+
+59
+00:03:23,240 --> 00:03:27,300
+This technique is known as the method
+of conditional expectation and
+
+60
+00:03:27,300 --> 00:03:29,520
+it has a number of clever applications.
+
+61
+00:03:29,520 --> 00:03:32,480
+Overall then we've shown that
+there's the deterministic algorithm
+
+62
+00:03:32,480 --> 00:03:35,050
+which given any 3-CNF formula
+
+63
+00:03:35,050 --> 00:03:38,650
+finds an assignment that satisfies
+at least 7/8 of the clauses.
+
+64
+00:03:39,870 --> 00:03:43,200
+Remarkably, it turns out that
+this is the best we can do
+
+65
+00:03:43,200 --> 00:03:45,550
+assuming that P is not equal to NP.
+
+66
+00:03:45,550 --> 00:03:49,490
+For this argument we turn to the concept
+of probabilistically checkable proofs.

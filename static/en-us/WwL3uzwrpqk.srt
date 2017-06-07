@@ -1,0 +1,267 @@
+﻿1
+00:00:00,430 --> 00:00:04,689
+Open up the second exercise
+in the second lesson,
+
+2
+00:00:04,689 --> 00:00:08,019
+T 2.2 exercise add
+menu in Android Studio.
+
+3
+00:00:08,019 --> 00:00:11,399
+In this exercise, we're going to add
+a menu for the GitHub query application.
+
+4
+00:00:12,929 --> 00:00:17,199
+First, we'll add the title for our menu
+action to our strings.xml file, and
+
+5
+00:00:17,199 --> 00:00:18,070
+we'll call it Search.
+
+6
+00:00:20,160 --> 00:00:23,483
+Then we'll create a menu
+resource called main.xml.
+
+7
+00:00:23,483 --> 00:00:28,039
+To do that, we first need to create a
+directory to hold all of our menu files.
+
+8
+00:00:28,039 --> 00:00:31,994
+Right click the res directory,
+select Android Resource Directory,
+
+9
+00:00:31,995 --> 00:00:34,225
+choose menu for
+resource type, and hit OK.
+
+10
+00:00:35,645 --> 00:00:40,377
+Then right-click the new menu directory
+and choose Menu resource file.
+
+11
+00:00:40,377 --> 00:00:45,213
+We'll name it main and
+add one menu item with
+
+12
+00:00:45,213 --> 00:00:49,147
+an ID of @+id/action_search.
+
+13
+00:00:49,148 --> 00:00:52,198
+Even though it's not technically
+needed for a one-item menu,
+
+14
+00:00:52,198 --> 00:00:55,880
+we'll then set the orderInCategory to 1,
+since it's the first menu item.
+
+15
+00:00:57,619 --> 00:01:00,973
+Now we'll ask Android to show
+a button in the action bar using
+
+16
+00:01:00,973 --> 00:01:05,488
+app:showAsAction="ifRoom".
+
+17
+00:01:05,489 --> 00:01:08,442
+Note that if there isn't room to
+show the menu entry as a button,
+
+18
+00:01:08,442 --> 00:01:10,423
+it would still end up
+in the overflow menu.
+
+19
+00:01:10,423 --> 00:01:14,554
+We use app:showAsAction rather
+than android:showAsAction to keep
+
+20
+00:01:14,554 --> 00:01:19,100
+things compatible with Gingerbread and
+the support library.
+
+21
+00:01:19,099 --> 00:01:21,691
+You can use the Android Studio
+shortcut Alt or
+
+22
+00:01:21,691 --> 00:01:25,459
+Option/Enter to add the app
+namespace to your XML.
+
+23
+00:01:25,459 --> 00:01:30,003
+Finally set the title to the search
+string, search from strings.xml.
+
+24
+00:01:30,004 --> 00:01:32,740
+On to the main activity code.
+
+25
+00:01:32,739 --> 00:01:35,268
+First we'll override
+onCreateOptionsMenu and
+
+26
+00:01:35,268 --> 00:01:39,590
+call getMenuInflater to inflate our menu
+resource into our passed in menu object.
+
+27
+00:01:41,989 --> 00:01:44,920
+Then we'll override
+onOptionItemsSelected.
+
+28
+00:01:44,920 --> 00:01:47,649
+To demonstrate that your
+onOptionsItemSelected is
+
+29
+00:01:47,649 --> 00:01:49,819
+being called with the correct menu item,
+
+30
+00:01:49,819 --> 00:01:53,608
+we'll introduce another nice Android
+framework element, the Toast.
+
+31
+00:01:53,608 --> 00:01:57,469
+A Toast is typically used to provide
+simple feedback about an operation in
+
+32
+00:01:57,469 --> 00:01:59,010
+a small popup.
+
+33
+00:01:59,010 --> 00:02:01,770
+It only fills the amount of space
+required for the message, and
+
+34
+00:02:01,769 --> 00:02:04,979
+the current activity remains visible and
+interactive.
+
+35
+00:02:04,980 --> 00:02:08,789
+For example, navigating away from
+an email before you send it triggers
+
+36
+00:02:08,788 --> 00:02:13,479
+a draft saved toast to let you know
+that you can continue editing later.
+
+37
+00:02:13,479 --> 00:02:15,769
+Toasts automatically disappear
+after a certain timeout.
+
+38
+00:02:16,939 --> 00:02:19,705
+Menu items are identified
+by integer IDs, so first,
+
+39
+00:02:19,705 --> 00:02:21,619
+I'll grab the selected item's ID.
+
+40
+00:02:21,620 --> 00:02:25,281
+[BLANK_AUDIO]
+
+41
+00:02:25,281 --> 00:02:28,189
+Once I have the ID,
+I'll check if it equals the ID for
+
+42
+00:02:28,189 --> 00:02:29,990
+our action_search menu item.
+
+43
+00:02:31,069 --> 00:02:35,419
+Remember, we specify this idea
+in the XML resource file.
+
+44
+00:02:35,419 --> 00:02:37,206
+When you have more than one menu option,
+
+45
+00:02:37,206 --> 00:02:40,633
+a switch statement is a little cleaner
+than a bunch of chained if statements.
+
+46
+00:02:40,633 --> 00:02:43,759
+But I'll use a single if
+statement here for simplicity.
+
+47
+00:02:43,759 --> 00:02:47,090
+If this item was the search menu item,
+I'll show a toast.
+
+48
+00:02:47,090 --> 00:02:49,340
+Later I'll make this do
+something much more interesting.
+
+49
+00:02:50,800 --> 00:02:54,969
+To create a toast, we call the static
+Toast.makeText method with the current
+
+50
+00:02:54,969 --> 00:03:00,060
+context, our activity, the text to show,
+and one of the two constant values for
+
+51
+00:03:00,060 --> 00:03:05,310
+how long to show the toast,
+Toast.LENGTH_SHORT or Toast.LENGTH_LONG.
+
+52
+00:03:05,310 --> 00:03:09,390
+Make sure to call show() on the toast
+after you've created it to display it.
+
+53
+00:03:09,389 --> 00:03:10,929
+So now it's your turn.
+
+54
+00:03:10,930 --> 00:03:13,760
+Add the menu to your application,
+hook it up in code, and
+
+55
+00:03:13,759 --> 00:03:15,879
+use it to display a toast.
+
+56
+00:03:15,879 --> 00:03:16,349
+Have fun!
+

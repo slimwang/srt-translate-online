@@ -1,0 +1,43 @@
+1
+00:00:00,260 --> 00:00:02,670
+Let's use this new knowledge to add mutual exclusion
+
+2
+00:00:02,670 --> 00:00:06,300
+to our digitizer, tracker program. Hopefully now we won't
+
+3
+00:00:06,300 --> 00:00:08,230
+have the same problem but before, were we could
+
+4
+00:00:08,230 --> 00:00:10,160
+end up reading from a frame that was only
+
+5
+00:00:10,160 --> 00:00:15,140
+half filled with the data we wanted, because bufavail got out of sync. So we'll
+
+6
+00:00:15,140 --> 00:00:20,330
+create a new mutex lock variable. And we will set
+
+7
+00:00:20,330 --> 00:00:25,560
+this lock Before we do our manipulation and unset it afterwards.
+
+8
+00:00:25,560 --> 00:00:30,780
+We'll do that both in the digitizer part and then also in the tracker part.
+
+9
+00:00:32,549 --> 00:00:36,460
+What's wrong with this program? Does it not have any concurrency? Will we end
+
+10
+00:00:36,460 --> 00:00:41,340
+up with deadlock, where there's no thread to run? Is it that two threads cannot
+
+11
+00:00:41,340 --> 00:00:44,700
+use the same lock? Or is it that two procedures cannot use the same lock?

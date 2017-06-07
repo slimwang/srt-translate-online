@@ -1,0 +1,202 @@
+1
+00:00:00,390 --> 00:00:03,640
+Cudit has a lot of moving parts, and
+we'll see them all in lesson four.
+
+2
+00:00:03,640 --> 00:00:06,220
+But for now we're pairing things
+down to their essentials.
+
+3
+00:00:06,220 --> 00:00:09,740
+When objects are persistent, they live
+on the hard drive, often in SQL light.
+
+4
+00:00:09,740 --> 00:00:12,380
+We need to be able to pull them
+up out of the Core Data stack and
+
+5
+00:00:12,380 --> 00:00:13,790
+into our working memory.
+
+6
+00:00:13,790 --> 00:00:16,110
+When we use Core Data to bring
+these objects into memory,
+
+7
+00:00:16,110 --> 00:00:18,590
+we can't use plain old
+Swift objects anymore.
+
+8
+00:00:18,590 --> 00:00:21,150
+Our classes need to be a special
+subclass that fits into
+
+9
+00:00:21,150 --> 00:00:22,400
+the Core Data system.
+
+10
+00:00:22,400 --> 00:00:25,370
+It'll have to be subclasses
+of NSManagedObject.
+
+11
+00:00:25,370 --> 00:00:27,070
+It's not such a terrible price to pay.
+
+12
+00:00:27,070 --> 00:00:29,650
+We can work this into an inheritance
+hierarchy if we need to.
+
+13
+00:00:29,650 --> 00:00:32,698
+When we write the first lines
+of the class definitions here,
+
+14
+00:00:32,698 --> 00:00:36,360
+this is our movie class, we can see
+the inherits from NSManagedObject.
+
+15
+00:00:36,360 --> 00:00:37,549
+It's not a terrible price,
+
+16
+00:00:37,549 --> 00:00:40,678
+but I think that it begins to capture
+the feeling of working with Core Data.
+
+17
+00:00:40,678 --> 00:00:43,175
+The system owns our
+objects in a new way.
+
+18
+00:00:43,175 --> 00:00:46,175
+We're still going to have movie
+objects and person objects, but
+
+19
+00:00:46,175 --> 00:00:50,020
+each of these objects will be closely
+monitored by the Core Data system.
+
+20
+00:00:50,020 --> 00:00:53,740
+Core Data is going to keep a reference
+to every single NSManagedObject.
+
+21
+00:00:53,740 --> 00:00:54,810
+In a way it's really nice.
+
+22
+00:00:54,810 --> 00:00:58,200
+Let's say we make a change to one
+of our objects inside our code.
+
+23
+00:00:58,200 --> 00:01:01,080
+At any time,
+we could tell Core Data to save.
+
+24
+00:01:01,080 --> 00:01:03,860
+When we do, it'll capture the state
+of our real live objects,
+
+25
+00:01:03,860 --> 00:01:05,550
+persist them on the hard drive.
+
+26
+00:01:05,550 --> 00:01:08,470
+That's what we mean when we say
+that they're managed objects.
+
+27
+00:01:08,470 --> 00:01:11,390
+Even though we use them in our code,
+we tell Core Data to save and
+
+28
+00:01:11,390 --> 00:01:12,990
+they're all saved.
+
+29
+00:01:12,990 --> 00:01:16,200
+Notice that I'm referring to this object
+quite a bit at the top of the stack.
+
+30
+00:01:16,200 --> 00:01:18,640
+We call this a managed object context,
+
+31
+00:01:18,640 --> 00:01:20,290
+often we will refer to
+it just as a context.
+
+32
+00:01:20,290 --> 00:01:23,170
+We're going to start our exploration
+of Core Data by working with
+
+33
+00:01:23,170 --> 00:01:25,040
+a context that's all set up.
+
+34
+00:01:25,040 --> 00:01:27,440
+It's the object that'll keep
+track of all our managed objects,
+
+35
+00:01:27,440 --> 00:01:29,840
+it's the object that will
+handle the save method.
+
+36
+00:01:29,840 --> 00:01:32,610
+We'll also see that when we want to
+get our objects up and into memory,
+
+37
+00:01:32,610 --> 00:01:34,180
+we also used a context.
+
+38
+00:01:34,180 --> 00:01:36,510
+We'll accomplish this by
+invoking a fetch method.
+
+39
+00:01:36,510 --> 00:01:39,690
+In fact, let's jump into our favorite
+actor's app and see this in action.
+
+40
+00:01:39,690 --> 00:01:42,567
+The app is already fitted out with
+a Core Data stack as you'll see, and
+
+41
+00:01:42,567 --> 00:01:45,660
+it's pre-configured with a few actors.
+
+42
+00:01:45,660 --> 00:01:47,170
+Let's jump right into the action.
+
+43
+00:01:47,170 --> 00:01:50,660
+We'll use fetch to get to managed
+objects from the context.

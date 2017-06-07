@@ -1,0 +1,178 @@
+1
+00:00:00,310 --> 00:00:02,430
+When we assign types to columns,
+
+2
+00:00:02,430 --> 00:00:06,430
+we're restricting what sorts of
+values can later be put into them.
+
+3
+00:00:06,430 --> 00:00:09,150
+If we say that a column is an integer,
+
+4
+00:00:09,150 --> 00:00:12,540
+we shouldn't be able to
+put the word pies in it.
+
+5
+00:00:12,540 --> 00:00:15,530
+That's important, because if we
+later want to take the sum or
+
+6
+00:00:15,530 --> 00:00:19,660
+something, we can't add
+the string pies to some numbers.
+
+7
+00:00:19,660 --> 00:00:20,960
+But that's not the only sort of
+
+8
+00:00:20,960 --> 00:00:23,860
+restriction we might
+want to put onto a column.
+
+9
+00:00:23,860 --> 00:00:27,220
+Imagine that we're building
+a database for a retail store.
+
+10
+00:00:27,220 --> 00:00:30,750
+In one table, we have a list of all
+the products that we have for sale.
+
+11
+00:00:30,750 --> 00:00:33,220
+In another,
+we have all the sales that we've made.
+
+12
+00:00:33,220 --> 00:00:37,020
+Whenever we sell something, we insert
+a new row into the sales table.
+
+13
+00:00:37,020 --> 00:00:41,680
+By the way, the name S-K-U or
+sku on these columns, is just a name for
+
+14
+00:00:41,680 --> 00:00:45,160
+stock keeping unit, which is an ID
+number or code that's commonly used for
+
+15
+00:00:45,160 --> 00:00:47,630
+products in stores and
+warehouses and so forth.
+
+16
+00:00:48,630 --> 00:00:51,080
+We'd expect that every
+SKU in the sales tables,
+
+17
+00:00:51,080 --> 00:00:53,930
+would refer to one over
+in the products table.
+
+18
+00:00:53,930 --> 00:00:56,200
+But what if we inserted
+a row in the sales table,
+
+19
+00:00:56,200 --> 00:00:59,110
+that didn't match any row
+on the products table.
+
+20
+00:00:59,110 --> 00:01:01,100
+It wouldn't make any sense.
+
+21
+00:01:01,100 --> 00:01:05,080
+We don't have a product number 23,
+inserting this row must be a mistake.
+
+22
+00:01:06,250 --> 00:01:11,350
+And its a mistake that the database
+can catch, but only if we tell it to.
+
+23
+00:01:11,350 --> 00:01:15,070
+When we create a table, we can tell the
+database that a particular column should
+
+24
+00:01:15,070 --> 00:01:18,330
+only have values that refer
+to the key of another table.
+
+25
+00:01:18,330 --> 00:01:20,940
+To do this,
+we use the references keyword.
+
+26
+00:01:20,940 --> 00:01:25,230
+Create table sales,
+sku text references products.
+
+27
+00:01:25,230 --> 00:01:27,590
+If the name of the column
+is the same in both tables,
+
+28
+00:01:27,590 --> 00:01:30,870
+then we can just use,
+the name of the table over here.
+
+29
+00:01:30,870 --> 00:01:33,770
+Otherwise, we would use the name of
+the table followed by the column and
+
+30
+00:01:33,770 --> 00:01:34,650
+parenthesis.
+
+31
+00:01:34,650 --> 00:01:38,750
+In this case, this is actually
+unnecessary, so we don't need to use it.
+
+32
+00:01:38,750 --> 00:01:42,590
+So a references constraint,
+is a little bit like type checking.
+
+33
+00:01:42,590 --> 00:01:46,470
+It catches bugs that might lead to our
+database not making sense any more.
+
+34
+00:01:46,470 --> 00:01:47,960
+In database terminology,
+
+35
+00:01:47,960 --> 00:01:51,890
+we'd say that references constraints
+help us maintain referential integrity.
+
+36
+00:01:51,890 --> 00:01:54,670
+Which is our assurance that
+values in a column over here,
+
+37
+00:01:54,670 --> 00:01:57,160
+will always refer to values
+in a column over here.

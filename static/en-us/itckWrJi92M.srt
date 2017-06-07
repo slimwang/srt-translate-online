@@ -1,0 +1,147 @@
+1
+00:00:00,000 --> 00:00:05,000
+Now let's do one more example of a probabilistic problem--this time, spelling correction.
+
+2
+00:00:05,000 --> 00:00:08,000
+That is, given a word that is possibly misspelled,
+
+3
+00:00:08,000 --> 00:00:12,000
+how do we come up with the best correction for that word?
+
+4
+00:00:12,000 --> 00:00:14,000
+We're going to do the same type of analysis.
+
+5
+00:00:14,000 --> 00:00:20,000
+We're saying we're looking for the best possible correction, C*,
+
+6
+00:00:20,000 --> 00:00:26,000
+and that's going to be the argmax over all possible corrections c to maximize
+
+7
+00:00:26,000 --> 00:00:30,000
+the probability of that correction given the word.
+
+8
+00:00:30,000 --> 00:00:33,000
+So that's the definition of what it means to have the best correction.
+
+9
+00:00:33,000 --> 00:00:38,000
+Then we can start the analysis, and we can apply Bayes rule to say
+
+10
+00:00:38,000 --> 00:00:45,000
+that's going to be equal to the probability of the word given the correction
+
+11
+00:00:45,000 --> 00:00:48,000
+times the probability of the correction.
+
+12
+00:00:48,000 --> 00:00:52,000
+Of course, in Bayes rule there's a factor on the bottom, but that cancels out,
+
+13
+00:00:52,000 --> 00:00:54,000
+because it's equal for all possible corrections.
+
+14
+00:00:54,000 --> 00:00:59,000
+So to choose the maximum, we just have to deal with these two probabilities.
+
+15
+00:00:59,000 --> 00:01:02,000
+Now, it may seem like we made a backwards step.
+
+16
+00:01:02,000 --> 00:01:05,000
+Here we had one probability to estimate.
+
+17
+00:01:05,000 --> 00:01:10,000
+Now we've applied Bayes rule and now we have two probabilities we have to estimate,
+
+18
+00:01:10,000 --> 00:01:15,000
+but the hope is that we can come up with data that can help us with this.
+
+19
+00:01:15,000 --> 00:01:20,000
+And certainly, these unigram statistics--what's the probability of a correction?--
+
+20
+00:01:20,000 --> 00:01:25,000
+those we can get from our document counts, so we look at our corpus.
+
+21
+00:01:25,000 --> 00:01:30,000
+The probability of a correct word is from the data.
+
+22
+00:01:30,000 --> 00:01:35,000
+We just look at those counts and apply whatever smoothing we decided is best.
+
+23
+00:01:35,000 --> 00:01:41,000
+Now, the other part--what's the probability that somebody typed the word w
+
+24
+00:01:41,000 --> 00:01:45,000
+when they meant to type to the word c--that's harder.
+
+25
+00:01:45,000 --> 00:01:51,000
+We can't observe that directly by just looking at documents that are typed,
+
+26
+00:01:51,000 --> 00:01:54,000
+because there we only have the words where we are.
+
+27
+00:01:54,000 --> 00:01:56,000
+We don't have the intent and the word,
+
+28
+00:01:56,000 --> 00:02:01,000
+but maybe we can look at lists of spelling corrections.
+
+29
+00:02:01,000 --> 00:02:04,000
+So this is from spelling correction data.
+
+30
+00:02:04,000 --> 00:02:08,000
+Now that kind of data is much harder to come by.
+
+31
+00:02:08,000 --> 00:02:14,000
+It's easy to go out and collect billions of words of regular text and do those counts,
+
+32
+00:02:14,000 --> 00:02:17,000
+but to find spelling correction data--that's harder to do
+
+33
+00:02:17,000 --> 00:02:21,000
+unless you're, say, already running a spelling correction service.
+
+34
+00:02:21,000 --> 00:02:24,000
+If you're a big company that happens to run that, then it's easy to collect the data.
+
+35
+00:02:24,000 --> 00:02:26,000
+But bootstrapping it is hard.
+
+36
+00:02:26,000 --> 00:02:30,000
+There are, however, some sites that will give you on the order of thousands
+
+37
+00:02:30,000 --> 99:59:59,999
+or tens of thousands of examples of misspellings, not billions or trillions.

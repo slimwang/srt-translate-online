@@ -1,0 +1,530 @@
+1
+00:00:00,610 --> 00:00:02,650
+I added the code that we were
+just looking at into our app.
+
+2
+00:00:02,650 --> 00:00:07,660
+It says View orderSummaryTextView
+= findViewById,
+
+3
+00:00:07,660 --> 00:00:13,000
+then we pass in the resource ID for
+the order_summary_text_view.
+
+4
+00:00:13,000 --> 00:00:15,910
+But this causes an error in
+Android Studio on the next line.
+
+5
+00:00:17,750 --> 00:00:21,830
+It says it cannot resolve
+the method setText.
+
+6
+00:00:21,830 --> 00:00:24,430
+If I add another line of code here,
+
+7
+00:00:24,430 --> 00:00:27,880
+I can show you the types of methods
+that are valid on this variable.
+
+8
+00:00:28,890 --> 00:00:32,400
+So, we just created
+the orderSummaryTextView variable here,
+
+9
+00:00:32,400 --> 00:00:34,330
+and it's a TypeView, and so
+
+10
+00:00:34,330 --> 00:00:37,520
+on the next line,
+we should be able to call methods on it.
+
+11
+00:00:37,520 --> 00:00:40,540
+But if you look at
+the autocomplete suggestions,
+
+12
+00:00:40,540 --> 00:00:44,120
+these methods are actually View methods.
+
+13
+00:00:44,120 --> 00:00:46,140
+There's no TextView specific methods.
+
+14
+00:00:47,200 --> 00:00:49,350
+For example, there's no setText method.
+
+15
+00:00:51,320 --> 00:00:54,455
+That's why we get an error down
+here when we try to call setText.
+
+16
+00:00:56,020 --> 00:01:00,890
+You also can't set text size, or
+set text color, or any of those.
+
+17
+00:01:00,890 --> 00:01:02,350
+So where are all those methods?
+
+18
+00:01:03,840 --> 00:01:08,700
+Well, the thing is that a TextView
+is a more specific type of View.
+
+19
+00:01:10,430 --> 00:01:13,240
+So if we want to call TextView methods
+
+20
+00:01:13,240 --> 00:01:16,777
+on this object we need to make sure
+that this is a TextView object.
+
+21
+00:01:17,820 --> 00:01:21,160
+Okay.
+Now the variable is a TextView object.
+
+22
+00:01:21,160 --> 00:01:25,750
+But then I get another error that says
+incompatible types, because a TextView
+
+23
+00:01:25,750 --> 00:01:31,090
+is required on the right hand side,
+but we're finding just a regular view.
+
+24
+00:01:31,090 --> 00:01:34,240
+That's because the findViewById
+method returns a View.
+
+25
+00:01:34,240 --> 00:01:35,558
+So how do we reconcile this?
+
+26
+00:01:35,558 --> 00:01:41,720
+Well, since TextView is a more specific
+type of View or put another way,
+
+27
+00:01:41,720 --> 00:01:47,260
+a TextView is a subclass of view, we can
+actually use something called casting.
+
+28
+00:01:47,260 --> 00:01:51,970
+Casting in Java means that we can take
+the View returned by this method and
+
+29
+00:01:51,970 --> 00:01:54,280
+actually treat it as a TextView.
+
+30
+00:01:54,280 --> 00:01:58,760
+So now this right hand side is
+actually a TextView object, and
+
+31
+00:01:58,760 --> 00:02:02,168
+then we can store it inside this
+orderSummaryTextView variable.
+
+32
+00:02:03,460 --> 00:02:06,110
+I know that this must be really
+overwhelming because I just mentioned
+
+33
+00:02:06,110 --> 00:02:07,970
+a ton of new concepts.
+
+34
+00:02:07,970 --> 00:02:09,210
+Let me try to explain again.
+
+35
+00:02:10,229 --> 00:02:14,280
+The findViewById method turns
+an object of type View.
+
+36
+00:02:14,280 --> 00:02:15,820
+By writing this notation,
+
+37
+00:02:15,820 --> 00:02:19,690
+parentheses with the desired object
+data type in the middle of it.
+
+38
+00:02:19,690 --> 00:02:23,250
+We're casting this View into a TextView.
+
+39
+00:02:23,250 --> 00:02:27,217
+So the whole expression here
+evaluates to a TextView object.
+
+40
+00:02:28,600 --> 00:02:32,140
+Then, we can store that in the variable,
+on the left-hand side,
+
+41
+00:02:32,140 --> 00:02:35,790
+which is orderSummary TextView,
+and it has a type TextView.
+
+42
+00:02:35,790 --> 00:02:40,740
+Now, on subsequent lines, we can call
+TextView methods on this object.
+
+43
+00:02:40,740 --> 00:02:43,720
+Do you see now how all the text
+methods are showing up here?
+
+44
+00:02:44,840 --> 00:02:48,070
+setAllCaps, setTextSize, and more.
+
+45
+00:02:48,070 --> 00:02:51,660
+So I can just erase this now,
+because setText should work,
+
+46
+00:02:51,660 --> 00:02:54,170
+and there's no more errors.
+
+47
+00:02:54,170 --> 00:02:57,100
+So if we want to be able
+to call TextView methods,
+
+48
+00:02:57,100 --> 00:02:59,410
+we need to have a TextView object.
+
+49
+00:02:59,410 --> 00:03:02,500
+In order to have a TextView object,
+We need to call findViewById,
+
+50
+00:03:02,500 --> 00:03:06,890
+and then cast this View
+object into a TextView.
+
+51
+00:03:06,890 --> 00:03:09,700
+The reason why casting works is because
+
+52
+00:03:09,700 --> 00:03:13,440
+this View here in the view
+hierarchy is actually a TextView.
+
+53
+00:03:13,440 --> 00:03:17,520
+If we we try to cast it into something
+like a radio button, that wouldn't work,
+
+54
+00:03:17,520 --> 00:03:20,840
+because the orderSummaryTextView
+is actually a TextView, so
+
+55
+00:03:20,840 --> 00:03:23,000
+we have to cast it into
+the appropriate type.
+
+56
+00:03:24,275 --> 00:03:28,370
+Similarly, in the displayQuantity
+method, we're calling findViewById and
+
+57
+00:03:28,370 --> 00:03:32,350
+we're passing in this resource ID for
+the quantity TextView.
+
+58
+00:03:32,350 --> 00:03:36,090
+This returns a View, and
+we cast it into a TextView, and
+
+59
+00:03:36,090 --> 00:03:39,330
+we can store that inside this
+variable called quantityTextView.
+
+60
+00:03:40,400 --> 00:03:43,450
+This variable has type TextView, and so,
+
+61
+00:03:43,450 --> 00:03:48,170
+on subsequent lines, we can TextView
+methods on it, like setText.
+
+62
+00:03:48,170 --> 00:03:51,160
+Here's the updated MainActivity
+code using casting.
+
+63
+00:03:51,160 --> 00:03:56,400
+We can cast these Views into TextViews
+so that we can store them in variables
+
+64
+00:03:56,400 --> 00:04:00,622
+that have type TextView so
+in this list of MainActivity variables,
+
+65
+00:04:00,622 --> 00:04:05,090
+now quantityTextView and
+orderSummaryTextView are type TextView.
+
+66
+00:04:05,090 --> 00:04:06,820
+We can call TextView methods on these,
+
+67
+00:04:06,820 --> 00:04:10,810
+and we're not just limited
+to treating them as Views.
+
+68
+00:04:10,810 --> 00:04:15,050
+And now we can call TextView
+specific methods on these variables.
+
+69
+00:04:15,050 --> 00:04:19,041
+For example we can call setText
+on the orderSummaryTextView,
+
+70
+00:04:19,041 --> 00:04:21,880
+and we can call setText
+on the quantityTextView.
+
+71
+00:04:21,880 --> 00:04:22,650
+As you can see,
+
+72
+00:04:22,650 --> 00:04:27,180
+you have to be careful about what
+data types are being used where.
+
+73
+00:04:27,180 --> 00:04:31,290
+So far, when we've called methods, we
+haven't worried about the return value,
+
+74
+00:04:31,290 --> 00:04:34,400
+because the setText method
+actually has no return value.
+
+75
+00:04:34,400 --> 00:04:37,180
+Same with
+the imageView.setImageResource method.
+
+76
+00:04:37,180 --> 00:04:39,060
+This has no return value.
+
+77
+00:04:39,060 --> 00:04:41,540
+But other methods can
+have return values.
+
+78
+00:04:41,540 --> 00:04:45,590
+For example, in the TextView class
+we have a getTextSize method.
+
+79
+00:04:45,590 --> 00:04:47,680
+This returns an integer, so
+
+80
+00:04:47,680 --> 00:04:53,410
+we can store the result of this method
+in a variable called size of type int.
+
+81
+00:04:53,410 --> 00:04:55,140
+Here's another method
+that has a return value.
+
+82
+00:04:55,140 --> 00:04:58,270
+In the Button class you can
+call the getHeight method,
+
+83
+00:04:58,270 --> 00:05:03,420
+and this returns an integer value, so
+you can store it inside a variable.
+
+84
+00:05:03,420 --> 00:05:06,450
+If you tried to store this result
+inside a string, for example,
+
+85
+00:05:06,450 --> 00:05:10,810
+you would get an error,
+because this method returns an integer.
+
+86
+00:05:10,810 --> 00:05:14,988
+In order to know what type of data needs
+to be passed into a method and what data
+
+87
+00:05:14,988 --> 00:05:19,290
+type gets returned back from a method,
+you should check the documentation.
+
+88
+00:05:19,290 --> 00:05:21,260
+And for example, in the TextView class,
+
+89
+00:05:21,260 --> 00:05:25,760
+if you call any of these methods,
+it returns a value of type int.
+
+90
+00:05:25,760 --> 00:05:28,620
+The return value data type is
+in the left-hand column here.
+
+91
+00:05:28,620 --> 00:05:33,040
+For other methods, you might get
+void as a return value, or booleans,
+
+92
+00:05:33,040 --> 00:05:38,330
+which we haven't learned about yet,
+or floats or longs and etc.
+
+93
+00:05:38,330 --> 00:05:42,790
+This documentation page also shows
+what are the expected data types for
+
+94
+00:05:42,790 --> 00:05:45,010
+the inputs for each method.
+
+95
+00:05:45,010 --> 00:05:49,590
+For example, the setTextColor method
+requires an integer as input and
+
+96
+00:05:49,590 --> 00:05:53,110
+the return value is void,
+so there's no return value.
+
+97
+00:05:53,110 --> 00:05:56,010
+So check the documentation to know
+what data types are expected.
+
+98
+00:05:56,010 --> 00:05:58,750
+Otherwise, you'll get errors
+in Android Studio saying that
+
+99
+00:05:58,750 --> 00:06:01,070
+the data types don't match.
+
+100
+00:06:01,070 --> 00:06:02,630
+Now it's your turn to practice.
+
+101
+00:06:02,630 --> 00:06:05,580
+Below are four different code examples.
+
+102
+00:06:05,580 --> 00:06:10,100
+Some of the code may contain errors
+relating to data types not matching.
+
+103
+00:06:10,100 --> 00:06:11,165
+If you find an error,
+
+104
+00:06:11,165 --> 00:06:15,540
+describe how you're supposed to fix it
+by writing it in the boxes provided.
+
+105
+00:06:15,540 --> 00:06:19,948
+Otherwise, you can just write No
+error if the code is perfectly fine.
+
+106
+00:06:19,948 --> 00:06:22,545
+This is going to be challenging
+quiz because we just covered
+
+107
+00:06:22,545 --> 00:06:26,555
+a lot of concepts, and
+this code is still pretty new to you.
+
+108
+00:06:26,555 --> 00:06:30,105
+Take your time and check
+the documentation for these methods.
+
+109
+00:06:30,105 --> 00:06:33,695
+Make sure that the inputs and
+the return values are correct and
+
+110
+00:06:33,695 --> 00:06:37,665
+that, if we're declaring variables, that
+we have the correct data types here.
+
+111
+00:06:37,665 --> 00:06:39,265
+Also, look up the documentation for
+
+112
+00:06:39,265 --> 00:06:42,375
+these method calls to make sure that
+we're using the methods correctly.

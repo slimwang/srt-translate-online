@@ -1,0 +1,192 @@
+1
+00:00:00,680 --> 00:00:03,156
+So here you can see I'm getting
+the list of geofences and
+
+2
+00:00:03,156 --> 00:00:05,164
+I'm going to call it
+triggeringGeoFences.
+
+3
+00:00:05,164 --> 00:00:08,692
+And I get this by calling
+the getTriggeringGeoFences method on my
+
+4
+00:00:08,692 --> 00:00:10,550
+geofencing event.
+
+5
+00:00:10,550 --> 00:00:13,900
+So no matter how many geofences have
+been triggered, be it one, be it many,
+
+6
+00:00:13,900 --> 00:00:16,910
+they will return to this
+list of geofences for me.
+
+7
+00:00:18,010 --> 00:00:21,810
+Now the getGeoFenceTransitionDetails
+helper function.
+
+8
+00:00:21,810 --> 00:00:23,540
+We'll turn all of these into a string.
+
+9
+00:00:23,540 --> 00:00:27,235
+So, I just say string,
+geofenceTransitionDetails equals
+
+10
+00:00:27,235 --> 00:00:30,990
+getGeofenceTransitionDetails, and
+I pass at this,
+
+11
+00:00:30,990 --> 00:00:35,810
+I pass at my geofenceTransition, and
+I pass at my triggeringGeofences.
+
+12
+00:00:35,810 --> 00:00:37,740
+Let's take a look at this function.
+
+13
+00:00:37,740 --> 00:00:40,044
+Here's the getGeofenceTransitionDetails.
+
+14
+00:00:40,044 --> 00:00:43,563
+And you can see it takes the context and
+it takes the geofenceTransition,
+
+15
+00:00:43,563 --> 00:00:44,882
+which was just an integer.
+
+16
+00:00:44,882 --> 00:00:49,120
+And it takes a list of geofences,
+which are my triggeringGeofences.
+
+17
+00:00:49,120 --> 00:00:52,120
+So first of all I'm going to
+get the transition string for
+
+18
+00:00:52,120 --> 00:00:53,270
+my actual transition.
+
+19
+00:00:53,270 --> 00:00:56,930
+And I'm just going to call that
+string geofenceTransitionString.
+
+20
+00:00:56,930 --> 00:01:00,189
+And then I'm going to iterate
+through each of my geofences,
+
+21
+00:01:00,189 --> 00:01:02,330
+and get a string out of them.
+
+22
+00:01:02,330 --> 00:01:06,230
+Load that string into an array list and
+then use TextUtils.join on that
+
+23
+00:01:06,230 --> 00:01:10,268
+array list to join all of those strings
+together and to concatenate them.
+
+24
+00:01:10,268 --> 00:01:12,719
+There are a number of ways
+that you could do this, but
+
+25
+00:01:12,719 --> 00:01:15,020
+ultimately what you're
+interested in is this.
+
+26
+00:01:15,020 --> 00:01:17,620
+The geofence.getRequestId.
+
+27
+00:01:17,620 --> 00:01:21,450
+This gives you the ID of the geofence
+that triggered the event and
+
+28
+00:01:21,450 --> 00:01:24,460
+it's up to you how you would
+handle that ID, in this case.
+
+29
+00:01:24,460 --> 00:01:27,677
+Like I said, I'm just concatenating
+them all together, so,
+
+30
+00:01:27,677 --> 00:01:30,652
+if there were a number of
+different geofences triggered,
+
+31
+00:01:30,652 --> 00:01:34,475
+I would get their IDs all listed in
+this single notification, saying, for
+
+32
+00:01:34,475 --> 00:01:36,986
+example, Lawrence has
+entered Mountain View.
+
+33
+00:01:36,986 --> 00:01:39,025
+Lawrence has entered entered
+the Audacity Studios.
+
+34
+00:01:39,025 --> 00:01:40,515
+Lawrence has entered Studio X.
+
+35
+00:01:40,515 --> 00:01:44,335
+That type of thing all in a single
+notification instead of multiple
+
+36
+00:01:44,335 --> 00:01:45,695
+notifications.
+
+37
+00:01:45,695 --> 00:01:49,255
+And then, as a result, I just return
+my geofenceTransitionString and
+
+38
+00:01:49,255 --> 00:01:50,945
+the list of IDs that came.
+
+39
+00:01:50,945 --> 00:01:54,595
+So it would be entered plus the list or
+exited plus the list.
+
+40
+00:01:54,595 --> 00:01:55,755
+That type of thing.
+
+41
+00:01:55,755 --> 00:01:57,815
+So this helper function
+achieves all of that for you.

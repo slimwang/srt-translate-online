@@ -1,0 +1,243 @@
+1
+00:00:00,000 --> 00:00:04,000
+So, let me step back a step and talk a bit about
+
+2
+00:00:04,000 --> 00:00:07,000
+overfitting prevention in machine learning
+
+3
+00:00:07,000 --> 00:00:09,000
+because it's such an important topic.
+
+4
+00:00:09,000 --> 00:00:12,000
+We talked about Occam's Razor,
+
+5
+00:00:12,000 --> 00:00:16,000
+which in a generalized way suggests there is
+
+6
+00:00:16,000 --> 00:00:22,000
+a tradeoff between how well we can fit the data
+
+7
+00:00:22,000 --> 00:00:28,000
+and how smooth our learning algorithm is.
+
+8
+00:00:28,000 --> 00:00:32,000
+In our class in smoothing, we already found 1 way
+
+9
+00:00:32,000 --> 00:00:34,000
+to let Occam's Razor play, which is by
+
+10
+00:00:34,000 --> 00:00:40,000
+selecting the value K to make our statistical counts smoother.
+
+11
+00:00:40,000 --> 00:00:44,000
+I alluded to a similar way in the image recognition domain
+
+12
+00:00:44,000 --> 00:00:49,000
+where we smoothed the image so the neighboring pixels count similar.
+
+13
+00:00:49,000 --> 00:00:53,000
+This all raises the question of how to choose the smoothing parameter.
+
+14
+00:00:53,000 --> 00:00:58,000
+So, in particular, in Laplacian smoothing, how to choose the K.
+
+15
+00:00:58,000 --> 00:01:02,000
+There is a method called cross-validation
+
+16
+00:01:02,000 --> 00:01:05,000
+which can help you find an answer.
+
+17
+00:01:05,000 --> 00:01:09,000
+This method assumes there is plenty of training examples, but
+
+18
+00:01:09,000 --> 00:01:14,000
+to tell you the truth, in spam filtering there is more than you'd ever want.
+
+19
+00:01:14,000 --> 00:01:17,000
+Take your training data
+
+20
+00:01:17,000 --> 00:01:19,000
+and divide it into 3 buckets.
+
+21
+00:01:19,000 --> 00:01:24,000
+Train, cross-validate, and test.
+
+22
+00:01:24,000 --> 00:01:27,000
+Typical ratios will be 80% goes into train,
+
+23
+00:01:27,000 --> 00:01:30,000
+10% into cross-validate,
+
+24
+00:01:30,000 --> 00:01:33,000
+and 10% into test.
+
+25
+00:01:33,000 --> 00:01:37,000
+You use the train to find all your parameters.
+
+26
+00:01:37,000 --> 00:01:40,000
+For example, the probabilities of a base network.
+
+27
+00:01:40,000 --> 00:01:43,000
+You use your cross-validation set
+
+28
+00:01:43,000 --> 00:01:46,000
+to find the optimal K, and the way you do this is
+
+29
+00:01:46,000 --> 00:01:49,000
+you train for different values of K,
+
+30
+00:01:49,000 --> 00:01:55,000
+you observe how well the training model performs on the CV data,
+
+31
+00:01:55,000 --> 00:01:58,000
+not touching the test data,
+
+32
+00:01:58,000 --> 00:02:01,000
+and then you maximize over all the Ks to get the best performance
+
+33
+00:02:01,000 --> 00:02:03,000
+on the cross-validation set.
+
+34
+00:02:03,000 --> 00:02:06,000
+You iterate this many times until you find the best K.
+
+35
+00:02:06,000 --> 00:02:09,000
+When you're done with the best K,
+
+36
+00:02:09,000 --> 00:02:12,000
+you train again, and then finally
+
+37
+00:02:12,000 --> 00:02:15,000
+only one you touch the test data
+
+38
+00:02:15,000 --> 00:02:17,000
+to verify the performance,
+
+39
+00:02:17,000 --> 00:02:20,000
+and this is the performance you report.
+
+40
+00:02:20,000 --> 00:02:23,000
+It's really important in cross-validation
+
+41
+00:02:23,000 --> 00:02:28,000
+split apart a cross-validation set that's different from the test set.
+
+42
+00:02:28,000 --> 00:02:31,000
+If you were to use the test set to find the optimal K,
+
+43
+00:02:31,000 --> 00:02:35,000
+then your test set becomes an effective part of your training routine,
+
+44
+00:02:35,000 --> 00:02:38,000
+and you might overfit your test data,
+
+45
+00:02:38,000 --> 00:02:40,000
+and you wouldn't even know.
+
+46
+00:02:40,000 --> 00:02:43,000
+By keeping the test data separate from the beginning,
+
+47
+00:02:43,000 --> 00:02:46,000
+and train on the training data, you use
+
+48
+00:02:46,000 --> 00:02:49,000
+the cross-validation data to find how good your train data is doing,
+
+49
+00:02:49,000 --> 00:02:53,000
+and the unknown parameters of K to fine-tune the K.
+
+50
+00:02:53,000 --> 00:02:56,000
+Finally, only once you use the test data
+
+51
+00:02:56,000 --> 00:02:59,000
+do you get a fair answer to the question,
+
+52
+00:02:59,000 --> 00:03:02,000
+"How well will your model perform on future data?"
+
+53
+00:03:02,000 --> 00:03:05,000
+So, pretty much everybody in machine learning
+
+54
+00:03:05,000 --> 00:03:08,000
+uses this model.
+
+55
+00:03:08,000 --> 00:03:12,000
+You can redo the split between training and the cross-validation part,
+
+56
+00:03:12,000 --> 00:03:15,000
+people often use the word 10-fold cross-validation
+
+57
+00:03:15,000 --> 00:03:17,000
+where they do 10 different forwardings
+
+58
+00:03:17,000 --> 00:03:20,000
+and run the model 10 times to find the optimal K
+
+59
+00:03:20,000 --> 00:03:22,000
+or smoothing parameter.
+
+60
+00:03:22,000 --> 00:03:25,000
+No matter which way you do it, find the optimal smoothing parameter
+
+61
+00:03:25,000 --> 99:59:59,999
+and then use a test set exactly once to verify in a report.

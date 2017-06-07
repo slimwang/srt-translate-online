@@ -1,0 +1,303 @@
+1
+00:00:00,520 --> 00:00:03,990
+As your mobile device is busy executing
+tasks, calculating how to split a bar
+
+2
+00:00:03,990 --> 00:00:07,190
+tab and uploading photos of your cat,
+the underlying hardware is
+
+3
+00:00:07,190 --> 00:00:11,130
+effectively pulling energy from your
+battery to accomplish this work.
+
+4
+00:00:11,130 --> 00:00:13,850
+And, as we've all seen,
+the more work your device does,
+
+5
+00:00:13,850 --> 00:00:17,500
+the more battery it pulls and sooner
+rather than later, your users are left
+
+6
+00:00:17,500 --> 00:00:22,130
+holding onto an uncharged phone that
+doubles as an expensive doorstop.
+
+7
+00:00:22,130 --> 00:00:25,510
+The key to writing applications
+that are light on battery drain
+
+8
+00:00:25,510 --> 00:00:30,370
+has everything to do with understanding
+how the process works under the hood.
+
+9
+00:00:30,370 --> 00:00:34,290
+In the electrical engineering world,
+this action of a hardware pulling energy
+
+10
+00:00:34,290 --> 00:00:39,080
+from the battery to execute tasks is
+called current draw over time and
+
+11
+00:00:39,080 --> 00:00:42,440
+anyone who has an undergraduate in
+electrical engineering will tell you not
+
+12
+00:00:42,440 --> 00:00:46,060
+every action on your device draws the
+same amount of battery in the same way,
+
+13
+00:00:46,060 --> 00:00:47,960
+over the same period of time.
+
+14
+00:00:47,960 --> 00:00:51,670
+To prove this, let's take a handy Nexus
+5 device, turn it on airplane mode and
+
+15
+00:00:51,670 --> 00:00:53,070
+let it sit on our desk.
+
+16
+00:00:53,070 --> 00:00:55,260
+If we leave the phone like this,
+doing nothing,
+
+17
+00:00:55,260 --> 00:00:58,900
+we'll roughly get a month of life before
+the battery is completely exhausted.
+
+18
+00:00:58,900 --> 00:01:00,950
+Feel free to try this one at home, kids.
+
+19
+00:01:00,950 --> 00:01:04,440
+We can consider this the baseline
+in terms of battery life but
+
+20
+00:01:04,440 --> 00:01:06,460
+that's not really how these
+devices are typically used.
+
+21
+00:01:06,460 --> 00:01:09,790
+As soon as your active, you're
+going to be eating up more battery.
+
+22
+00:01:09,790 --> 00:01:13,270
+Now active in this context includes
+things like the CPU doing work,
+
+23
+00:01:13,270 --> 00:01:16,930
+cellular radio transmitting data,
+and the screen itself being awake.
+
+24
+00:01:16,930 --> 00:01:18,600
+So the question is this,
+
+25
+00:01:18,600 --> 00:01:22,020
+what tasks are my application doing
+that's eating up the most battery?
+
+26
+00:01:22,020 --> 00:01:24,180
+Sadly though, that's not easy to answer.
+
+27
+00:01:24,180 --> 00:01:28,390
+Monitoring battery drain at the hardware
+level is a catch-22 because of course
+
+28
+00:01:28,390 --> 00:01:32,210
+the monitoring itself needs to drain
+battery to execute the actions to record
+
+29
+00:01:32,210 --> 00:01:37,640
+how much battery is being drained and as
+such, most mobile devices don't do this.
+
+30
+00:01:37,640 --> 00:01:41,460
+The only real way to gather these
+types of statistics on battery draw
+
+31
+00:01:41,460 --> 00:01:45,010
+is to attach a third party piece of
+hardware to your Android device,
+
+32
+00:01:45,010 --> 00:01:49,560
+which can record the operations without
+using up the phone's power to do so.
+
+33
+00:01:49,560 --> 00:01:53,170
+Now when we do this, we actually get
+some really interesting information.
+
+34
+00:01:53,170 --> 00:01:56,450
+For example,
+when a Nexus 5 is in standby mode,
+
+35
+00:01:56,450 --> 00:01:59,350
+there's actually not much
+power drain going on, right?
+
+36
+00:01:59,350 --> 00:02:02,750
+But when we wake the device up or
+turn on the screen, we can see a huge
+
+37
+00:02:02,750 --> 00:02:06,040
+power spike in the battery monitor,
+which I mean, you kind of expect, right?
+
+38
+00:02:06,040 --> 00:02:10,380
+Turning on LEDs, painting the screen and
+then all that CPU, GPU work required to
+
+39
+00:02:10,380 --> 00:02:14,040
+draw to the screen isn't free from a
+battery perspective, which by the way is
+
+40
+00:02:14,040 --> 00:02:17,560
+completely different from when
+the application wakes up the device,
+
+41
+00:02:17,560 --> 00:02:22,490
+say if it's using wake clock,
+alarm manager or the job scheduler API.
+
+42
+00:02:22,490 --> 00:02:25,380
+When the device is asleep and
+it's woken up through one of these APIs,
+
+43
+00:02:25,380 --> 00:02:29,070
+you'll see an initial battery spike
+as the processor first wakes up,
+
+44
+00:02:29,070 --> 00:02:32,880
+followed by a bit of
+work as it's executed.
+
+45
+00:02:32,880 --> 00:02:35,310
+Now, it's important to note
+that once the work is done,
+
+46
+00:02:35,310 --> 00:02:38,810
+the device will go back to sleep on
+its own, which, is really important.
+
+47
+00:02:38,810 --> 00:02:41,720
+Keeping the device awake for
+long periods when doing little or
+
+48
+00:02:41,720 --> 00:02:44,580
+no work will easily chew
+up your battery life.
+
+49
+00:02:44,580 --> 00:02:46,510
+Now your cellular radio,
+on the other hand,
+
+50
+00:02:46,510 --> 00:02:49,550
+is a completely different
+beast in this regard.
+
+51
+00:02:49,550 --> 00:02:52,370
+When your device tries to send data over
+the mobile network, you can see that
+
+52
+00:02:52,370 --> 00:02:55,880
+there is a quick wake up cost associated
+with getting your mobile hardware ready,
+
+53
+00:02:55,880 --> 00:02:59,440
+followed by a large spike for
+sending out a data packet and
+
+54
+00:02:59,440 --> 00:03:02,160
+then another large spike for
+receiving one back.
+
+55
+00:03:02,160 --> 00:03:04,830
+And because getting the radio
+started is so expensive,
+
+56
+00:03:04,830 --> 00:03:08,720
+after it's done executing work, it will
+stay on in a wait state for a short
+
+57
+00:03:08,720 --> 00:03:12,300
+period of time in case there are more
+packets ready to come in right away.
+
+58
+00:03:12,300 --> 00:03:13,970
+So all this is great data but
+
+59
+00:03:13,970 --> 00:03:16,855
+most developers don't have access
+to this kind of equipment, right?
+
+60
+00:03:16,855 --> 00:03:19,705
+I mean but with the L release of
+Android, you've got a whole new set of
+
+61
+00:03:19,705 --> 00:03:24,165
+tools to help you optimize
+the battery draw of your application.
+
+62
+00:03:24,165 --> 00:03:26,775
+Let's take a deeper look
+at Battery Historian.

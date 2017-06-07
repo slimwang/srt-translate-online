@@ -1,0 +1,287 @@
+1
+00:00:00,270 --> 00:00:03,380
+So we're currently looking at PlaySoundsViewController, and
+
+2
+00:00:03,380 --> 00:00:06,520
+what I've done here is that I've taken this pseudocode that we created in
+
+3
+00:00:06,520 --> 00:00:10,300
+the previous video and I've converted it into real code here.
+
+4
+00:00:10,300 --> 00:00:11,360
+Let me walk you through it.
+
+5
+00:00:11,360 --> 00:00:15,200
+By the way, all of this new code is also available in the instructor notes for
+
+6
+00:00:15,200 --> 00:00:16,430
+you to experiment with.
+
+7
+00:00:16,430 --> 00:00:19,990
+First I created a global object for AVAudioEngine.
+
+8
+00:00:19,990 --> 00:00:23,960
+And then I initialized it in viewDidLoad, right here.
+
+9
+00:00:23,960 --> 00:00:25,960
+So the step one in our pseudocode is done.
+
+10
+00:00:25,960 --> 00:00:28,700
+Let me scroll down a little bit to show you some of the other changes I
+
+11
+00:00:28,700 --> 00:00:31,620
+made in the playChipmunkAudio action.
+
+12
+00:00:31,620 --> 00:00:34,340
+Now remember that this is the method that actually runs,
+
+13
+00:00:34,340 --> 00:00:36,310
+when we press the Chipmunk button.
+
+14
+00:00:36,310 --> 00:00:41,370
+In here I called a new function called playAudioWithVariablePitch and
+
+15
+00:00:41,370 --> 00:00:43,980
+I passed in 1000 as the value of the pitch.
+
+16
+00:00:43,980 --> 00:00:47,590
+I defined this new function right here and within this function.
+
+17
+00:00:47,590 --> 00:00:51,260
+I make sure that I stop all audio before I play it back again.
+
+18
+00:00:51,260 --> 00:00:55,060
+Then I create an object for something called AVAudioPlayerNode.
+
+19
+00:00:55,060 --> 00:00:57,970
+So at this point the step two in the pseudo code is done.
+
+20
+00:00:57,970 --> 00:01:02,930
+The next step, step three, is to attach the audio player node we just created.
+
+21
+00:01:02,930 --> 00:01:04,140
+To the audio engine.
+
+22
+00:01:04,140 --> 00:01:06,090
+And I do that right here.
+
+23
+00:01:06,090 --> 00:01:06,640
+Whew!
+
+24
+00:01:06,640 --> 00:01:07,990
+We're making good progress.
+
+25
+00:01:07,990 --> 00:01:10,750
+All right, so the next thing for us to do is to create an object of
+
+26
+00:01:10,750 --> 00:01:15,160
+something called AVAudioUnitTimePitch, which I do right over here.
+
+27
+00:01:15,160 --> 00:01:19,280
+I updated the effects pitch to the argument this function was taking,
+
+28
+00:01:19,280 --> 00:01:20,700
+which in this case is going to be 1,000.
+
+29
+00:01:20,700 --> 00:01:23,910
+So our audio is going to have a really high pitch.
+
+30
+00:01:23,910 --> 00:01:26,850
+Okay, step four in our pseudo code is also done.
+
+31
+00:01:26,850 --> 00:01:28,770
+And then I attach this pitch effect.
+
+32
+00:01:28,770 --> 00:01:31,950
+To the audio engine so we're now done with step five.
+
+33
+00:01:31,950 --> 00:01:35,820
+Step six is about connecting the nodes to the audio engine.
+
+34
+00:01:35,820 --> 00:01:40,320
+So I used audio engines connect function to connect the audio player node
+
+35
+00:01:40,320 --> 00:01:45,070
+to the pitch effect and then the pitch effect to an output or the speakers.
+
+36
+00:01:45,070 --> 00:01:48,833
+So at this point step six and seven in our [INAUDIBLE] code are done.
+
+37
+00:01:48,833 --> 00:01:50,958
+Okay, finally I want to play the audio.
+
+38
+00:01:50,958 --> 00:01:53,940
+To do this I will use the audio player nodes.
+
+39
+00:01:53,940 --> 00:01:55,540
+Schedule file function.
+
+40
+00:01:55,540 --> 00:01:59,240
+Now, curiously enough this function schedule file takes in
+
+41
+00:01:59,240 --> 00:02:00,540
+an argument called file.
+
+42
+00:02:00,540 --> 00:02:02,530
+Which is going to be our audio recording.
+
+43
+00:02:02,530 --> 00:02:05,380
+And the type of this is AV audio file.
+
+44
+00:02:05,380 --> 00:02:08,810
+I must admit at this point that we haven't created any object with
+
+45
+00:02:08,810 --> 00:02:10,550
+this type previously.
+
+46
+00:02:10,550 --> 00:02:13,510
+The closest thing we have to this AV audio file,
+
+47
+00:02:13,510 --> 00:02:17,500
+is at the very top of our program, which is this received audio.
+
+48
+00:02:17,500 --> 00:02:21,460
+Now, this thing contains an NSURL to our recorded voice.
+
+49
+00:02:21,460 --> 00:02:24,940
+So, what we need to do is somehow convert the NSURL contained within
+
+50
+00:02:24,940 --> 00:02:27,250
+this to an AVAudioFile.
+
+51
+00:02:27,250 --> 00:02:30,740
+So, I googled to figure out that I could do this by creating a global variable
+
+52
+00:02:30,740 --> 00:02:32,620
+for AVAudioFile.
+
+53
+00:02:32,620 --> 00:02:34,900
+And, then initialize this in the ViewDidLoad.
+
+54
+00:02:36,270 --> 00:02:37,070
+Like that.
+
+55
+00:02:37,070 --> 00:02:40,030
+You will notice that I created this AVAudioFile by using
+
+56
+00:02:40,030 --> 00:02:41,830
+the receivedAudio's NSURL.
+
+57
+00:02:41,830 --> 00:02:43,020
+All right.
+
+58
+00:02:43,020 --> 00:02:47,190
+Now that I have the AVAudioFile, I can scroll back down, and
+
+59
+00:02:47,190 --> 00:02:50,710
+use the new AVAudioFile object, right here.
+
+60
+00:02:50,710 --> 00:02:52,212
+The other two arguments can be nil for now.
+
+61
+00:02:55,416 --> 00:02:58,604
+Now, I remember that the stack overflow page suggested that I
+
+62
+00:02:58,604 --> 00:03:02,510
+then start the audio engine, and finally play the audio player.
+
+63
+00:03:02,510 --> 00:03:04,940
+All right, it's time to run this code and see if it works.
+
+64
+00:03:06,050 --> 00:03:07,810
+I'm going to hit Record.
+
+65
+00:03:07,810 --> 00:03:09,440
+Won't you take me to.
+
+66
+00:03:09,440 --> 00:03:10,020
+Funky town.
+
+67
+00:03:10,020 --> 00:03:14,142
+And then when I hit the chipmunk button,.
+
+68
+00:03:14,142 --> 00:03:17,628
+[MUSIC].
+
+69
+00:03:17,628 --> 00:03:18,990
+It works.
+
+70
+00:03:18,990 --> 00:03:22,710
+All of this code is available in instructor nodes for you to play with.
+
+71
+00:03:22,710 --> 00:03:25,540
+If you have questions about any of the code over here,
+
+72
+00:03:25,540 --> 00:03:26,950
+please ask us on the discussion forum

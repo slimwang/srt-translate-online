@@ -1,0 +1,113 @@
+﻿1
+00:00:00,360 --> 00:00:05,230
+So after that detour about URIs,
+let's get back to the task at hand.
+
+2
+00:00:05,230 --> 00:00:10,480
+Opening a map, we'll be creating
+the intent that opens this map,
+
+3
+00:00:10,480 --> 00:00:13,210
+so here's where that
+code will get called.
+
+4
+00:00:13,210 --> 00:00:16,429
+Let's start with the address
+of Google's headquarters.
+
+5
+00:00:16,429 --> 00:00:19,242
+We'll need to convert
+this address to a GOURI.
+
+6
+00:00:19,242 --> 00:00:24,130
+A properly composed
+Android GO URI consist of
+
+7
+00:00:24,129 --> 00:00:28,829
+the geo scheme, a latitude and
+longitude, and optional
+
+8
+00:00:28,829 --> 00:00:32,890
+query parameters to indicate the street
+address or business, and the zoom level.
+
+9
+00:00:33,909 --> 00:00:36,559
+It's important to note that if
+there is a query parameters for
+
+10
+00:00:36,560 --> 00:00:42,670
+our street address or business,
+the lat long path must be 0,0.
+
+11
+00:00:42,670 --> 00:00:47,644
+Here is a geo URI that shows the city of
+Antwerp in Belgium with a zoom factor of
+
+12
+00:00:47,643 --> 00:00:48,128
+10.
+
+13
+00:00:48,128 --> 00:00:51,530
+There are a couple of
+ways to build the URI.
+
+14
+00:00:51,530 --> 00:00:58,240
+One way is to use URI.parse in
+an inline string concatenation.
+
+15
+00:00:58,240 --> 00:01:04,120
+But it's less error prone to use
+URI.builder to create our URI.
+
+16
+00:01:04,120 --> 00:01:05,150
+It's a bit more code,
+
+17
+00:01:05,150 --> 00:01:10,880
+but as the URI gets more complex, the
+builder pattern makes it more readable.
+
+18
+00:01:10,879 --> 00:01:13,469
+Next we can create an intent
+with that address URI, but
+
+19
+00:01:13,469 --> 00:01:15,989
+we shouldn't try to call
+start activity just yet.
+
+20
+00:01:17,019 --> 00:01:20,637
+It's important to check to see if
+the device can handle the request.
+
+21
+00:01:20,637 --> 00:01:25,474
+It's possible there is no map app
+installed to handle this intent.
+
+22
+00:01:25,474 --> 00:01:30,309
+resolveActivity ensures some app on the
+device is able to handle this intent.
+
+23
+00:01:31,469 --> 00:01:34,480
+So when we run the app,
+we can see our map comes up.
+

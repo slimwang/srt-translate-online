@@ -1,0 +1,511 @@
+1
+00:00:00,233 --> 00:00:06,566
+Hey, Peter here. Time for another office hours, and unfortunately this week, again, Sebastian can't be with us.
+
+2
+00:00:06,567 --> 00:00:09,666
+He's gotten a little bit sick and has lost his voice.
+
+3
+00:00:09,667 --> 00:00:15,266
+However, we went over the questions together and answered them together in written form.
+
+4
+00:00:15,267 --> 00:00:17,599
+So I'm going to discuss that now.
+
+5
+00:00:17,600 --> 00:00:24,832
+So for half the questions, just imagine I have a German accent and I'm a little bit more handsome.
+
+6
+00:00:24,833 --> 00:00:30,432
+So the first question is, "Can you discuss common filters, their importance, usage and algorithms?"
+
+7
+00:00:30,433 --> 00:00:34,899
+And particle filters were discussed, but common filters were only mentioned briefly.
+
+8
+00:00:34,900 --> 00:00:43,299
+And yes, it's true, common filters are an important form of filtering, and they existed before they were popular in AI.
+
+9
+00:00:43,300 --> 00:00:49,632
+They were important in control theory. They've been used in a lot of engineering applications.
+
+10
+00:00:49,633 --> 00:00:57,766
+One of the first was at NASA Ames, where they were used in the Apollo Program, that was before my time at Ames.
+
+11
+00:00:57,767 --> 00:01:01,032
+But were historically important.
+
+12
+00:01:01,033 --> 00:01:06,799
+It's only in recent years that particle filters have been used in more applications.
+
+13
+00:01:06,800 --> 00:01:15,932
+The difference, I think, is that common filters are great if the state is largely known, and we're just trying to track it more exactly.
+
+14
+00:01:15,933 --> 00:01:21,632
+For example, if you have a spacecraft or an airplane that's flying in mostly a straight line,
+
+15
+00:01:21,633 --> 00:01:25,299
+but you want to know precisely where it is, common filter is a great way to go.
+
+16
+00:01:25,300 --> 00:01:32,132
+But if you got something with a more erratic movement, something that's making kind of binary decisions
+
+17
+00:01:32,133 --> 00:01:39,866
+and going right or left, like say a person walking through a crowd, then particle filters are better than common filters
+
+18
+00:01:39,867 --> 00:01:42,366
+at representing that kind of movement.
+
+19
+00:01:42,367 --> 00:01:47,399
+Now, next question is from Jamie in Oxford, Ohio:
+
+20
+00:01:47,400 --> 00:01:53,366
+"This is just a clarification on Laplacian smoothing. In the lecture videos, the K parameter is assumed to be one.
+
+21
+00:01:53,367 --> 00:01:58,066
+"In real-life applications, how exactly would K be determined?"
+
+22
+00:01:58,067 --> 00:02:07,599
+And Sebastian says for the application he knows having to do with robotics and so on, K is usually one.
+
+23
+00:02:07,600 --> 00:02:12,999
+In some natural language applications, different values of K are chosen.
+
+24
+00:02:13,000 --> 00:02:22,499
+It really has to do with how much you trust the accumulated evidence, versus how much you want to look towards the future.
+
+25
+00:02:22,500 --> 00:02:28,299
+So you can just set it by hand to one. I think that's the important step, is to do anything at all,
+
+26
+00:02:28,300 --> 00:02:33,866
+if you have, especially in cases with high dimensional data, using some value of K greater than zero
+
+27
+00:02:33,867 --> 00:02:38,866
+is usually much better than not using it, which corresponds to the maximum likelihood estimator.
+
+28
+00:02:38,867 --> 00:02:43,799
+If you're nervous about choosing a particular value, then you can always try to learn it
+
+29
+00:02:43,800 --> 00:02:47,432
+using some of the machine learning techniques that we've talked about.
+
+30
+00:02:47,433 --> 00:02:50,032
+For example, cross-validation could be a good way to go.
+
+31
+00:02:50,033 --> 00:02:56,199
+Take out some of the data, try it with K=1, try it with K=2, and so on,
+
+32
+00:02:56,200 --> 00:03:00,199
+and then choose the one that performs the best on the held out data.
+
+33
+00:03:00,200 --> 00:03:06,366
+Next question is, "I wonder how HMMs are used for speech recognition? Regarding speech as noise,
+
+34
+00:03:06,367 --> 00:03:12,132
+"and noise as the addition of sine waves, what are the hidden Marcobian states in a wave?"
+
+35
+00:03:12,133 --> 00:03:22,932
+Well, usually speech recognition represents the sine or the sound wave in a set of features in some transform space.
+
+36
+00:03:22,933 --> 00:03:29,066
+Sometimes a (Foyer) space, or what's called a (Mell Hebstrom) space, which is similar.
+
+37
+00:03:29,067 --> 00:03:34,466
+So you extract some of the features, you represent each state with that.
+
+38
+00:03:34,467 --> 00:03:40,932
+And so you're breaking it out in that domain, and then you're also breaking it out in the time domain--
+
+39
+00:03:40,933 --> 00:03:47,232
+Maybe ten or so frames per second. So each one of those would be a state linked to the previous state.
+
+40
+00:03:47,233 --> 00:03:52,632
+And there's usually not that much hidden state at each node.
+
+41
+00:03:52,633 --> 00:03:59,166
+You could have some hidden state corresponding to different types of speakers, different dialects,
+
+42
+00:03:59,167 --> 00:04:02,332
+male versus female and so on.
+
+43
+00:04:02,333 --> 00:04:07,599
+Then the output from each state is the phoneme or part of the phoneme that the sound represents,
+
+44
+00:04:07,600 --> 00:04:16,866
+and the process of speech recognition is then finding a best path through your network that outputs those phonemes
+
+45
+00:04:16,867 --> 00:04:21,966
+and string those phonemes together to make words and string the words together to make a sentence.
+
+46
+00:04:21,966 --> 00:04:26,266
+Next question is from Frederick Johnson in Stockholm.
+
+47
+00:04:26,267 --> 00:04:33,566
+"I just heard about Markov chain Monte Carlo or MCMC. It would be interesting to hear a bit about that."
+
+48
+00:04:33,567 --> 00:04:40,599
+So this is an advanced topic for estimating a probability density for a Bayesian network.
+
+49
+00:04:40,600 --> 00:04:46,266
+And rather than propagating exact values throughout the graph like we did with variable elimination,
+
+50
+00:04:46,267 --> 00:04:54,366
+MCMC is an approximation technique. So something like particle filters are a very basic way of performing MCMC.
+
+51
+00:04:54,367 --> 00:05:03,066
+But there are other techniques as well. So anything that making a selection and making an approximation
+
+52
+00:05:03,067 --> 00:05:06,699
+would count as an MCMC algorithm.
+
+53
+00:05:06,700 --> 00:05:14,266
+Next comes from MJL in Vienna. "The mind mapping robot uses particle filters for location,
+
+54
+00:05:14,267 --> 00:05:22,032
+"yet it only builds the map as it goes along. How can I use particle filters without a map? Isn't that a chicken and egg?
+
+55
+00:05:22,033 --> 00:05:28,832
+"You cannot locate because you have no map, and you cannot build an exact map because you have zero location (amount)."
+
+56
+00:05:28,833 --> 00:05:39,199
+So that's a great question, and it is a real problem. It's a separate problem from treating one of them alone.
+
+57
+00:05:39,200 --> 00:05:46,732
+And the problem has been known as SLAM, which stands for Simultaneous Localization and Mapping.
+
+58
+00:05:46,733 --> 00:05:52,232
+And there's an algorithm called FastSLAM in the literature, that's a great one, that uses particle filtering.
+
+59
+00:05:52,233 --> 00:05:59,132
+So if you're into building, if you're building a map as a robot moves, you need to attach a map to each particle filter,
+
+60
+00:05:59,133 --> 00:06:06,566
+and that's basically the trick. So each filter has a location, and then it also has a map associated with it.
+
+61
+00:06:06,567 --> 00:06:13,966
+And the theory is a little bit complicated. It actually turns out that Mike Montemerlo, who wrote a Ph.D. thesis
+
+62
+00:06:13,967 --> 00:06:22,632
+on this FastSLAM algorithm, Mike was a software lead for Sebastian's project that won the DARPA Grand Challenge
+
+63
+00:06:22,633 --> 00:06:26,366
+with his car, and Mike now works at Google.
+
+64
+00:06:26,367 --> 00:06:34,799
+Next question is from Monty. "Hi. As you know, due to lack of programming homeworks, can you provide a quick guide
+
+65
+00:06:34,800 --> 00:06:39,932
+"as to how we could start programming or recommend a book or site for this issue? Thanks."
+
+66
+00:06:39,933 --> 00:06:46,932
+Well, I have a textbook on A.I. programming, but it's almost 20 years old now, so maybe that's not the best first place to start.
+
+67
+00:06:46,933 --> 00:06:53,832
+I'd say probably the best more recent book on A.I. programming doesn't sound like it--
+
+68
+00:06:53,833 --> 00:07:01,699
+doesn't sound like it's an A.I. programming book, but it is, which is Toby Segaran, "Programming Collective Intelligence."
+
+69
+00:07:01,700 --> 00:07:08,099
+If you want to go beyond books, if you like A.I. in games, you can check out the website aiwisdom.com.
+
+70
+00:07:08,100 --> 00:07:14,699
+If you like natural language, try The Natural Language Toolkit, which is NLTK.com.
+
+71
+00:07:14,700 --> 00:07:20,366
+And related question: "Can you recommend a program or two to simulate robots physically,
+
+72
+00:07:20,367 --> 00:07:26,866
+"and another program other than Nero," the neuro evolving site that we've told you about, "to train agents?"
+
+73
+00:07:26,867 --> 00:07:30,599
+And that's from Noreldon in Cairo.
+
+74
+00:07:30,600 --> 00:07:36,632
+Well, I haven't kept up with all of the options there, but one I really like is called Pyro Robotics--
+
+75
+00:07:36,633 --> 00:07:44,699
+PyroRobotics.org. And that has a number of simulators where you can simulate robots,
+
+76
+00:07:44,700 --> 00:07:49,932
+and the great thing about them is that if you actually have a physical robot as well, you can run the simulation,
+
+77
+00:07:49,933 --> 00:07:55,566
+and then they have a method for hooking up the same code to the actual physical robot.
+
+78
+00:07:55,567 --> 00:08:00,632
+Here's another question about particle filters, this is from Trainor in Rome:
+
+79
+00:08:00,633 --> 00:08:08,732
+"Sorry, I find the description of particle filters quite confusing. Could you please clarify the meaning of U in sampling part?"
+
+80
+00:08:08,733 --> 00:08:15,932
+So the U is the controls. That is how the movement of the agent or the actions of the agents are going to change.
+
+81
+00:08:15,933 --> 00:08:20,332
+And sometimes we give specific action commands to a robot,
+
+82
+00:08:20,333 --> 00:08:24,499
+and whatever happens next is a function of those commands, and we call that U.
+
+83
+00:08:24,500 --> 00:08:32,066
+"Could you please clarify why particle filters are not good in situations where uncertainty of measurements or controls is very low?"
+
+84
+00:08:32,067 --> 00:08:38,532
+And that's from Andrei in Russia. So these are extreme cases, and when measurements have no uncertainty,
+
+85
+00:08:38,533 --> 00:08:43,932
+then it's quite unlikely to guess a state that corresponds exactly to any given measurement.
+
+86
+00:08:43,933 --> 00:08:50,799
+And take for example range sensors. If the ranges are measured exactly, without any noise whatsoever,
+
+87
+00:08:50,800 --> 00:08:55,366
+then only states that meet those measurements exactly will have non-zero importance weights.
+
+88
+00:08:55,367 --> 00:09:00,399
+And so it's a bit of a problem, as in practice all the guesses would be wrong.
+
+89
+00:09:00,400 --> 00:09:06,566
+Now, if there is uncertainty in measurements, then pretty much any state could have a small non-zero probability.
+
+90
+00:09:06,567 --> 00:09:11,366
+And it's the same with actions. So if actions and controls are perfect, we never really spread out the particles
+
+91
+00:09:11,367 --> 00:09:17,399
+in the next state prediction, and this means we can never generate particle outside the set of initial particles.
+
+92
+00:09:17,400 --> 00:09:24,599
+Or put differently, if we fail to guess the exact initial state with at least one particle, we can't get a good solution.
+
+93
+00:09:24,600 --> 00:09:32,599
+And those are all extreme cases because it's really only in an artificial game or something that you have no uncertainty at all.
+
+94
+00:09:32,600 --> 00:09:37,699
+So it's a little academic. In real life there's plenty of uncertainty and there's no problem.
+
+95
+00:09:37,700 --> 00:09:45,566
+I guess maybe a metaphor to think about it is trying to shine a flashlight out to figure out where you are:
+
+96
+00:09:45,567 --> 00:09:56,099
+With any real flashlight, the beam spreads out and you have a variety and you can see a pretty big distance,
+
+97
+00:09:56,100 --> 00:09:58,966
+you see a large circle for the flashlight's beam.
+
+98
+00:09:58,967 --> 00:10:07,366
+If you had a laser instead of a flashlight, then you'd only see a little dot. So the laser corresponds to having no uncertainty,
+
+99
+00:10:07,367 --> 00:10:11,732
+you see this little dot, you can never spread out and explore more.
+
+100
+00:10:11,733 --> 00:10:18,899
+But in real life it's like the flashlight: You're spreading out as you go out into the future, and you usually have no trouble.
+
+101
+00:10:18,900 --> 00:10:24,366
+"Can we use a particle filter if the environment is changing? Like in the room example, if furniture's being moved around,
+
+102
+00:10:24,367 --> 00:10:32,332
+"can a robot still navigate?" Yes, that can be done, but it's not trivial because you need this map that has sort of time as a function,
+
+103
+00:10:32,333 --> 00:10:36,432
+needs to have some idea of what can change and not change.
+
+104
+00:10:36,433 --> 00:10:43,999
+The environment change introduces systematic noise in this case, and that can have bad side effects,
+
+105
+00:10:44,000 --> 00:10:46,766
+so it's difficult to get that right.
+
+106
+00:10:46,767 --> 00:10:55,999
+"Unit 11.2 looks like a batch update on all the particles. Will this method still work if we do a sequential particle update of S instead?
+
+107
+00:10:56,000 --> 00:11:01,666
+"That is, update our working copy of S rather than keeping it separate, S prime, and then swapping them over?"
+
+108
+00:11:01,667 --> 00:11:10,266
+That's from John in Singapore. And the best suggestion I can come up with is, yes, we think that that will work,
+
+109
+00:11:10,267 --> 00:11:13,999
+and that it will converge. But it's not commonly done.
+
+110
+00:11:14,000 --> 00:11:21,899
+And basically, it's just not a difficulty to keep two separate states and swap them back and forth,
+
+111
+00:11:21,900 --> 00:11:28,766
+and modern machines have plenty of memory, it's easy to do that, and the math is worked out, so we understand how that works,
+
+112
+00:11:28,767 --> 00:11:31,766
+so that's just how it's usually done.
+
+113
+00:11:31,767 --> 00:11:39,532
+Next question is from Gefetti in Turin. "Is it possible to use A.I. in production scheduling?
+
+114
+00:11:39,533 --> 00:11:48,032
+"I know of cases where I feel a stochastic approach would be really helpful, and usually we just work with mean time between failure.
+
+115
+00:11:48,033 --> 00:11:53,599
+"It seems better to use A.I." So yes, A.I. is used in real-world production scheduling.
+
+116
+00:11:53,600 --> 00:12:01,966
+For example, we used it in the Deep Space One spacecraft, which was controlled by an on-board planning and scheduling program.
+
+117
+00:12:01,967 --> 00:12:09,199
+Scheduling was an important part of it. The majority of real world scheduling is done by techniques from operations research,
+
+118
+00:12:09,200 --> 00:12:15,799
+which has a large overlap with A.I. techniques. For example, constraint programming started out in A.I.,
+
+119
+00:12:15,800 --> 00:12:24,299
+but now has shifted largely over into the operations research community. And so it's sort of a combination there of A.I.
+
+120
+00:12:24,300 --> 00:12:31,032
+and kind of linear programming-type techniques. And broadly used in industry.
+
+121
+00:12:31,033 --> 00:12:37,832
+And last question is from Mitchy in the UK. "In HMMs, how would you deal with multiple independent hidden states?
+
+122
+00:12:37,833 --> 00:12:46,466
+"We saw an example of rain/sun with happy/grumpy measurements. What if it was rain and pay rise and illness and so on,
+
+123
+00:12:46,467 --> 00:12:52,966
+"sort of many states in a month?" That just means the internal hidden state would grow exponentially.
+
+124
+00:12:52,967 --> 00:12:58,499
+And we can do that either by multiplying out and having one state variable that has all the values,
+
+125
+00:12:58,500 --> 00:13:06,066
+or by using something called a dynamic Bayesian network, which was actually introduced by my officemate, Tom Dean,
+
+126
+00:13:06,067 --> 00:13:12,399
+where each individual state, rather than being a single state variable, has a little Bayesian network,
+
+127
+00:13:12,400 --> 00:13:15,966
+but they're linked together just like a normal HMM.
+
+128
+00:13:15,967 --> 00:13:23,500
+Okay. So that's it for this week. Thanks for all the great questions, and we'll see you again soon.

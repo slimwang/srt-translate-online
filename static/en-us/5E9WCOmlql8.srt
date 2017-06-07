@@ -1,0 +1,180 @@
+1
+00:00:00,630 --> 00:00:05,030
+First of all, this answer and
+that answer are definitely wrong.
+
+2
+00:00:05,030 --> 00:00:07,010
+It's totally reasonable to read and
+
+3
+00:00:07,010 --> 00:00:10,030
+modify layout properties and
+styles with JavaScript.
+
+4
+00:00:10,030 --> 00:00:12,180
+In fact, that's why the language exists.
+
+5
+00:00:12,180 --> 00:00:13,100
+So don't be afraid of it,
+
+6
+00:00:13,100 --> 00:00:16,270
+even though for
+synchronous layouts sometimes happen.
+
+7
+00:00:16,270 --> 00:00:18,230
+So that leaves these two answers.
+
+8
+00:00:18,230 --> 00:00:19,880
+And I want to take a look
+at them individually.
+
+9
+00:00:19,880 --> 00:00:22,010
+And I will start with this one.
+
+10
+00:00:22,010 --> 00:00:24,670
+In loops, you should always
+change your styles first and
+
+11
+00:00:24,670 --> 00:00:26,450
+then read layout properties.
+
+12
+00:00:26,450 --> 00:00:28,950
+Now this answer sounds somewhat
+reasonable because you're
+
+13
+00:00:28,950 --> 00:00:32,280
+changing the styles first and
+then hitting the layout properties.
+
+14
+00:00:32,280 --> 00:00:35,310
+The problem here is this keyword,
+"loops".
+
+15
+00:00:35,310 --> 00:00:37,780
+Once you change the styles,
+you have to run layout.
+
+16
+00:00:37,780 --> 00:00:40,340
+Okay, so if that happens
+once that's not a big deal.
+
+17
+00:00:40,340 --> 00:00:43,960
+But if before the end of the frame
+you have to recalculate styles and
+
+18
+00:00:43,960 --> 00:00:47,510
+then run layout again, you're putting
+the browser in a situation where it's
+
+19
+00:00:47,510 --> 00:00:51,560
+redoing a lot of work and ultimately
+creating a for synchronous layout.
+
+20
+00:00:51,560 --> 00:00:53,810
+So this answer is not correct.
+
+21
+00:00:53,810 --> 00:00:56,530
+So by the process of elimination,
+this answer's right.
+
+22
+00:00:57,690 --> 00:00:58,940
+I'll show you why.
+
+23
+00:00:58,940 --> 00:01:01,840
+Reading the layout properties
+first in the JavaScript phase
+
+24
+00:01:01,840 --> 00:01:04,989
+means that you'll be using
+the layout from the previous frame.
+
+25
+00:01:04,989 --> 00:01:07,960
+Then if you do all of your
+style changes afterwards,
+
+26
+00:01:07,960 --> 00:01:11,060
+right here in the pipeline,
+the rest of it looks like normal.
+
+27
+00:01:11,060 --> 00:01:11,615
+The key word here.
+
+28
+00:01:11,615 --> 00:01:12,495
+Here is batch.
+
+29
+00:01:12,495 --> 00:01:15,245
+And then all of the style changes
+will be batched up to happen after
+
+30
+00:01:15,245 --> 00:01:16,265
+JavaScript.
+
+31
+00:01:16,265 --> 00:01:19,195
+This means that recalculate style will
+happen at the end of the frame and
+
+32
+00:01:19,195 --> 00:01:21,295
+in the right place for the pipeline.
+
+33
+00:01:21,295 --> 00:01:25,235
+So then, what does this strategy look
+like with the example you just saw?
+
+34
+00:01:25,235 --> 00:01:26,185
+Let me show you.
+
+35
+00:01:26,185 --> 00:01:27,905
+This is the old janky code, and
+
+36
+00:01:27,905 --> 00:01:31,340
+this is the 60 frames per
+second silky smooth code.
+
+37
+00:01:31,340 --> 00:01:34,840
+Notice that this frame only reads
+a layout property once at the beginning
+
+38
+00:01:34,840 --> 00:01:37,760
+and then batch changes all
+of the styles afterwards.
+
+39
+00:01:37,760 --> 00:01:41,250
+This is a pretty simple fix that
+will give you a big performance win.

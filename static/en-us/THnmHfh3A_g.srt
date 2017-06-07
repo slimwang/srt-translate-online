@@ -1,0 +1,163 @@
+1
+00:00:00,150 --> 00:00:00,870
+How is this done?
+
+2
+00:00:00,870 --> 00:00:01,960
+Well, simply put,
+
+3
+00:00:01,960 --> 00:00:05,050
+what we want to do is, we have a target image and a source image.
+
+4
+00:00:05,050 --> 00:00:08,310
+What we want to do is create a small graphical representation.
+
+5
+00:00:08,310 --> 00:00:10,150
+And now we want to figure out from this one is,
+
+6
+00:00:10,150 --> 00:00:13,430
+that, which pixels come from which image.
+
+7
+00:00:13,430 --> 00:00:17,390
+So in essence, what we can do is take this small three by three grid
+
+8
+00:00:17,390 --> 00:00:20,408
+representation and create a node structure out of it.
+
+9
+00:00:20,408 --> 00:00:23,800
+You will add constraints to it, and this linked structure is there, but
+
+10
+00:00:23,800 --> 00:00:29,950
+we want to make sure that there is a node on this one and another one.
+
+11
+00:00:29,950 --> 00:00:32,049
+So this node is related to target image,
+
+12
+00:00:32,049 --> 00:00:36,200
+this node is related to the source image, and you can represent that here also.
+
+13
+00:00:36,200 --> 00:00:39,730
+So now we laid this out here, these are all the nodes, and between each and
+
+14
+00:00:39,730 --> 00:00:41,680
+every node is a cost function.
+
+15
+00:00:41,680 --> 00:00:46,380
+A cost function basically says how similar it is to go from here to there, and
+
+16
+00:00:46,380 --> 00:00:49,940
+this could be dependent on, of course, how similar these pixels are.
+
+17
+00:00:49,940 --> 00:00:52,710
+If these two pixels are really similar versus this one,
+
+18
+00:00:52,710 --> 00:00:55,290
+I want to keep these two and cut this one.
+
+19
+00:00:55,290 --> 00:00:57,720
+And again, if these two pixels are similar over this one,
+
+20
+00:00:57,720 --> 00:00:58,640
+I want to create a cut here.
+
+21
+00:00:58,640 --> 00:00:59,740
+So looking at it,
+
+22
+00:00:59,740 --> 00:01:03,660
+I find the most similar ones between those two within this neighborhood.
+
+23
+00:01:03,660 --> 00:01:07,650
+And I choose which one to cut, this or that, this or that, or this or that.
+
+24
+00:01:07,650 --> 00:01:12,760
+So this allows me to now come up with a way to kind of take a target image, and,
+
+25
+00:01:12,760 --> 00:01:16,610
+of course, this target image is constrained to this node here, and this source
+
+26
+00:01:16,610 --> 00:01:19,790
+image is constrained to this, so they have to come up with one or the other.
+
+27
+00:01:19,790 --> 00:01:21,900
+The rest of them, I have to choose, and I have to look at,
+
+28
+00:01:21,900 --> 00:01:25,880
+again, similarity between these two to chose where to cut between them.
+
+29
+00:01:25,880 --> 00:01:30,406
+And in essence, find a path of cut through this that gives me the results.
+
+30
+00:01:30,406 --> 00:01:32,980
+So here, for example, a cut is through this, where I
+
+31
+00:01:32,980 --> 00:01:36,646
+cut through these two different connections and I find that basically these
+
+32
+00:01:36,646 --> 00:01:40,690
+pixels are coming from the source and these pixels are coming from the target.
+
+33
+00:01:40,690 --> 00:01:45,750
+Such minimum cost cut is, can be computed by a variety of algorithms, and
+
+34
+00:01:45,750 --> 00:01:49,260
+the more popular one is the max-flow/min-cut algorithm that's used widely.
+
+35
+00:01:49,260 --> 00:01:52,770
+Again, I recommend you to look at these two papers that I've cited here.
+
+36
+00:01:52,770 --> 00:01:56,030
+This allows me to now basically come up with a solution that says,
+
+37
+00:01:56,030 --> 00:01:59,520
+I'm taking pixels from target here and source here.
+
+38
+00:01:59,520 --> 00:02:02,930
+And that allows me to generate an image like the one I showed you.
+
+39
+00:02:02,930 --> 00:02:05,560
+Another approach is to use this kind of stuff dynamic programming, and
+
+40
+00:02:05,560 --> 00:02:09,199
+that's also something that's available for you to look at.
+
+41
+00:02:09,199 --> 00:02:11,350
+It's one of the cited papers in the list.

@@ -1,0 +1,134 @@
+1
+00:00:00,110 --> 00:00:02,590
+You could make a case for
+many of these methods.
+
+2
+00:00:02,590 --> 00:00:06,440
+For example, you could choose to
+use the list name as the key here.
+
+3
+00:00:06,440 --> 00:00:07,980
+Then you could use setValue and
+
+4
+00:00:07,980 --> 00:00:11,920
+pass in the list as an object to add
+a new list, much like we do here.
+
+5
+00:00:11,920 --> 00:00:14,725
+You could generate the URL
+location like this.
+
+6
+00:00:14,725 --> 00:00:17,300
+You'd make a new Firebase
+reference at the base URL.
+
+7
+00:00:17,300 --> 00:00:20,510
+Then you go to the child activeLists,
+and then you make a new child,
+
+8
+00:00:20,510 --> 00:00:23,070
+which is the name of the current list,
+so
+
+9
+00:00:23,070 --> 00:00:25,730
+setValue is definitely
+possibly an option.
+
+10
+00:00:25,730 --> 00:00:29,850
+Now, updateChildren will only edit
+the key value pairs that you pass it, so
+
+11
+00:00:29,850 --> 00:00:32,305
+it's a little bit clunky for
+creating a new list.
+
+12
+00:00:32,305 --> 00:00:35,420
+You'd have to convert your object into
+a hashmap, so it's really good for
+
+13
+00:00:35,420 --> 00:00:39,400
+editing a couple items, but in this
+case, we probably don't want to use it.
+
+14
+00:00:39,400 --> 00:00:41,770
+runTransaction doesn't make
+a huge amount of sense.
+
+15
+00:00:41,770 --> 00:00:45,300
+You don't need to worry about two
+people both editing a previous
+
+16
+00:00:45,300 --> 00:00:46,630
+version of a list.
+
+17
+00:00:46,630 --> 00:00:48,680
+Since we're making
+a completely new list,
+
+18
+00:00:48,680 --> 00:00:51,070
+two users are not trying
+to edit the same data,
+
+19
+00:00:51,070 --> 00:00:54,850
+and the order that people make their
+lists in isn't extremely important.
+
+20
+00:00:54,850 --> 00:00:58,950
+So the actual answer is a combination
+of both push and setValue.
+
+21
+00:00:58,950 --> 00:01:01,780
+How do you use this combination,
+and why is it superior?
+
+22
+00:01:01,780 --> 00:01:04,900
+Well, push creates a new key for you,
+so instead of relying on something like
+
+23
+00:01:04,900 --> 00:01:08,200
+the list name, you can allow
+push to make some sort of key.
+
+24
+00:01:08,200 --> 00:01:09,530
+Push creates the key for you,
+
+25
+00:01:09,530 --> 00:01:14,080
+and then setValue actually sets
+the shopping list at that location.
+
+26
+00:01:14,080 --> 00:01:17,720
+Now you might be wondering, why do we
+really need to use this push thing,
+
+27
+00:01:17,720 --> 00:01:19,760
+and why's the key so important?
+
+28
+00:01:19,760 --> 00:01:20,670
+Well, let me tell you why.

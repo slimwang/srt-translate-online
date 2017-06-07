@@ -1,0 +1,115 @@
+1
+00:00:00,000 --> 00:00:04,000
+Strong oracles are extremely useful and you should always use one if you can possibly find one.
+
+2
+00:00:04,000 --> 00:00:06,000
+We're going to have a bunch of examples here.
+
+3
+00:00:06,000 --> 00:00:10,000
+Let's start off with one of the important ones which is having an alternate implementation
+
+4
+00:00:10,000 --> 00:00:14,000
+of the same specification, and if you think about it, this is what my random tester
+
+5
+00:00:14,000 --> 00:00:18,000
+for the bounded queue did and perhaps what yours also did, and what I mean by that is
+
+6
+00:00:18,000 --> 00:00:23,000
+my queue tester included a second implementation of the same queue abstraction.
+
+7
+00:00:23,000 --> 00:00:26,000
+This one was implemented with a Python list and this was the second
+
+8
+00:00:26,000 --> 00:00:28,000
+implementation of the same abstraction.
+
+9
+00:00:28,000 --> 00:00:31,000
+We could use to actually check that the queue that we're testing gave the right answers.
+
+10
+00:00:31,000 --> 00:00:33,000
+That's a very strong kind of a check.
+
+11
+00:00:33,000 --> 00:00:36,000
+Another example that we use in my compiler testing work--
+
+12
+00:00:36,000 --> 00:00:40,000
+we do what's called differential testing of compilers, and what that basically means is that if we have multiple
+
+13
+00:00:40,000 --> 00:00:45,000
+implementations of the same compiler specification--that is to say, for example, multiple C compilers--
+
+14
+00:00:45,000 --> 00:00:48,000
+we expect them to behave the same given equivalent inputs.
+
+15
+00:00:48,000 --> 00:00:51,000
+Another way that we might get an alternative implementation is simply looking of an older
+
+16
+00:00:51,000 --> 00:00:53,000
+version of the software that we're testing.
+
+17
+00:00:53,000 --> 00:00:57,000
+This is checking not necessarily whether the software is correct but just whether we've broken it.
+
+18
+00:00:57,000 --> 00:00:59,000
+And so remember for example that I said that in S.U.T probably could have tested
+
+19
+00:00:59,000 --> 00:01:03,000
+the Pentium floating-point unit against the 487 floating-point unit.
+
+20
+00:01:03,000 --> 00:01:08,000
+Another kind of old version oracle that tends to be extremely effective is after a refactoring change--
+
+21
+00:01:08,000 --> 00:01:12,000
+that is to say, the change of our source code base that isn't intended to have any functional effect--
+
+22
+00:01:12,000 --> 00:01:14,000
+we could use the version before and after refactoring.
+
+23
+00:01:14,000 --> 00:01:18,000
+We can do differential testing of the version before and after refactoring and in that way
+
+24
+00:01:18,000 --> 00:01:21,000
+try to get a pretty good idea that the refactoring did not actually break the code.
+
+25
+00:01:21,000 --> 00:01:25,000
+The best kind of alternate implementations you could have is a reference implementation.
+
+26
+00:01:25,000 --> 00:01:29,000
+That is to say, some sort of implementation of the specification, which you are after that you can trust.
+
+27
+00:01:29,000 --> 00:01:33,000
+For example, following to implement an extremely high performance Python compiler,
+
+28
+00:01:33,000 --> 00:01:35,000
+what I would do is I would use the regular C Python implementation
+
+29
+00:01:35,000 --> 99:59:59,999
+as the reference implementation, and that would be treated as correct.

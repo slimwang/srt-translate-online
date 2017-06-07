@@ -1,0 +1,282 @@
+﻿1
+00:00:00,600 --> 00:00:05,719
+Our last activity includes a mock
+list of contacts in a recycler view.
+
+2
+00:00:05,719 --> 00:00:08,839
+And we'll be adding a touch
+selector to these list items, so
+
+3
+00:00:08,839 --> 00:00:13,349
+that when you click them, they turn a
+different color and react to your touch.
+
+4
+00:00:13,349 --> 00:00:15,309
+By responding to a user's touch,
+
+5
+00:00:15,310 --> 00:00:18,600
+selectors provide important
+interactive feedback.
+
+6
+00:00:18,600 --> 00:00:22,650
+So even though adding touch selectors
+is just a small visual detail,
+
+7
+00:00:22,649 --> 00:00:25,649
+it enhances the overall user experience.
+
+8
+00:00:25,649 --> 00:00:29,619
+Now that was the final state of the app,
+but the starter code you've been
+
+9
+00:00:29,620 --> 00:00:33,649
+doesn't include selectors, so
+when you click it, nothing happens.
+
+10
+00:00:33,649 --> 00:00:36,449
+So let's go in and
+build a touch selector.
+
+11
+00:00:36,450 --> 00:00:40,459
+To create a touch selector, we'll be
+creating a new drawable resource,
+
+12
+00:00:40,459 --> 00:00:43,628
+which is basically something
+that can be drawn on screen,
+
+13
+00:00:43,628 --> 00:00:47,009
+in this case a colored background for
+the selected list item.
+
+14
+00:00:47,009 --> 00:00:51,237
+To create a new drawable,
+I'll right click on our res folder and
+
+15
+00:00:51,237 --> 00:00:54,066
+select create new Android resource file.
+
+16
+00:00:54,066 --> 00:00:58,540
+Then it'll prompt for the resource type,
+which is a Drawable in this case.
+
+17
+00:00:58,539 --> 00:01:02,909
+And you want to make sure that the root
+element for this drawable is a selector.
+
+18
+00:01:02,909 --> 00:01:06,049
+And I'll give this a name,
+list_item_selector,
+
+19
+00:01:06,049 --> 00:01:07,590
+no qualifiers necessary.
+
+20
+00:01:07,590 --> 00:01:09,689
+So then click OK, great.
+
+21
+00:01:09,689 --> 00:01:13,399
+Then we should get this empty selector
+file, which I'll add some to-dos to.
+
+22
+00:01:13,400 --> 00:01:16,680
+Ok, so here's our starting
+selector code and to-do's.
+
+23
+00:01:16,680 --> 00:01:20,829
+First we created a new drawable
+resource named list_item_selector and
+
+24
+00:01:20,828 --> 00:01:23,189
+choosing selector as the root element.
+
+25
+00:01:23,189 --> 00:01:25,469
+The next thing we'll need
+to do is add items for
+
+26
+00:01:25,469 --> 00:01:27,959
+the different touch
+states of our list items.
+
+27
+00:01:27,959 --> 00:01:30,379
+This will be kind of similar
+to creating a style.
+
+28
+00:01:30,379 --> 00:01:32,250
+First, let's open an item tag.
+
+29
+00:01:32,250 --> 00:01:34,489
+Each item will include two properties.
+
+30
+00:01:34,489 --> 00:01:36,530
+The first is a drawable property.
+
+31
+00:01:36,530 --> 00:01:40,049
+This property will be the color
+background for a selected item.
+
+32
+00:01:40,049 --> 00:01:42,459
+And I'll have this be
+our primary light color.
+
+33
+00:01:42,459 --> 00:01:45,819
+The second will be a state property,
+of which there are three main ones for
+
+34
+00:01:45,819 --> 00:01:47,019
+clicked items.
+
+35
+00:01:47,019 --> 00:01:49,001
+The first is state_pressed.
+
+36
+00:01:49,001 --> 00:01:52,979
+When state_pressed equals true,
+that means an item has been pressed on.
+
+37
+00:01:52,980 --> 00:01:56,005
+The next two states I'll
+add are state_activated and
+
+38
+00:01:56,004 --> 00:01:59,890
+state_selected, also both
+true when an item is touched.
+
+39
+00:01:59,890 --> 00:02:02,195
+And by including all
+three of these states,
+
+40
+00:02:02,195 --> 00:02:05,447
+you cover all scenarios when
+a user has clicked on a list item.
+
+41
+00:02:05,447 --> 00:02:08,659
+And these will all have the same
+drawable background color.
+
+42
+00:02:08,659 --> 00:02:12,756
+Then we also have to include one more
+item for the default unselected state.
+
+43
+00:02:12,756 --> 00:02:16,685
+This will be an item with Android's
+default background_light color.
+
+44
+00:02:16,685 --> 00:02:20,664
+There's no need to specify a state for
+this one, since it will be a default.
+
+45
+00:02:20,664 --> 00:02:23,394
+And these four items
+complete our selector.
+
+46
+00:02:23,395 --> 00:02:26,225
+Now we just need to apply
+this to the list items.
+
+47
+00:02:26,224 --> 00:02:29,364
+So let's go to
+the selector_list_item layout code.
+
+48
+00:02:29,365 --> 00:02:31,435
+Each list item is a linear layout.
+
+49
+00:02:31,435 --> 00:02:34,134
+And we just need to set the touch
+selector we just created
+
+50
+00:02:34,134 --> 00:02:36,519
+to the background
+property of this layout.
+
+51
+00:02:36,520 --> 00:02:40,040
+We refer to our list item
+selector by saying @drawable/
+
+52
+00:02:40,039 --> 00:02:43,079
+the name of our selector and that's it.
+
+53
+00:02:43,080 --> 00:02:45,530
+Let's save this and
+run it to see if it worked.
+
+54
+00:02:45,530 --> 00:02:49,324
+Now if we go to our Touch Selectors
+activity, we can click on each of these
+
+55
+00:02:49,324 --> 00:02:52,564
+and it should be highlighted in
+our color, primary light color.
+
+56
+00:02:52,564 --> 00:02:54,914
+And we can see that our
+touch selector works.
+
+57
+00:02:54,914 --> 00:02:57,834
+It highlights each of these
+items as I click on them.
+
+58
+00:02:57,835 --> 00:03:00,365
+Next it will be your
+turn to implement this.
+
+59
+00:03:00,365 --> 00:03:01,844
+And then you'll be
+done building this app.
+

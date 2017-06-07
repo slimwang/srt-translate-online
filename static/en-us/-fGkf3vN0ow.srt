@@ -1,0 +1,263 @@
+1
+00:00:00,290 --> 00:00:03,490
+So far in our discussion,
+we assume that the task that's
+
+2
+00:00:03,490 --> 00:00:07,939
+executing on the CPU cannot be
+interrupted, cannot be preempted.
+
+3
+00:00:07,939 --> 00:00:09,760
+Let's now relax that requirement, and
+
+4
+00:00:09,760 --> 00:00:12,600
+start talking about preemptive
+scheduling, scheduling
+
+5
+00:00:12,600 --> 00:00:17,570
+in which the tasks don't just get the
+CPU and hog it until they're completed.
+
+6
+00:00:17,570 --> 00:00:19,150
+So we'll consider preemption.
+
+7
+00:00:19,150 --> 00:00:23,290
+First in the context of
+the shortest job first algorithm.
+
+8
+00:00:23,290 --> 00:00:26,950
+And for this,
+we will also make another assumption or
+
+9
+00:00:26,950 --> 00:00:29,840
+we will modify another
+assumption that we made earlier.
+
+10
+00:00:29,840 --> 00:00:32,670
+Tasks don't all have to
+arrive at the same time.
+
+11
+00:00:32,670 --> 00:00:35,770
+So we're going to look at
+the system that has three tasks.
+
+12
+00:00:35,770 --> 00:00:37,870
+T1, T2, and T3.
+
+13
+00:00:37,870 --> 00:00:42,260
+We know their execution time,
+so that assumption still holds.
+
+14
+00:00:42,260 --> 00:00:45,870
+And we will assume that they
+arrive now at arbitrary times.
+
+15
+00:00:45,870 --> 00:00:48,670
+In this particular case,
+T2 arrives first.
+
+16
+00:00:48,670 --> 00:00:52,160
+When T2 arrives,
+it's the only task in the system.
+
+17
+00:00:52,160 --> 00:00:54,070
+T1 and T3 haven't arrived yet.
+
+18
+00:00:54,070 --> 00:00:58,500
+So the scheduler will clearly schedule
+it and it will start executing.
+
+19
+00:00:58,500 --> 00:01:03,260
+When the tasks T1 and T3 show up,
+then T2 should be preempted.
+
+20
+00:01:03,260 --> 00:01:05,890
+We're using shortest job first,
+and T1 and
+
+21
+00:01:05,890 --> 00:01:08,510
+T3 have shortest jobs compared to T2.
+
+22
+00:01:08,510 --> 00:01:13,150
+The execution of the rest of the
+scenario will look something as follows.
+
+23
+00:01:13,150 --> 00:01:17,480
+Let's say at T2 when the tasks T1 and
+T3 show up.
+
+24
+00:01:17,480 --> 00:01:20,020
+T1 is the one that's scheduled next.
+
+25
+00:01:20,020 --> 00:01:25,200
+Then once it completes, T3 is the next
+one that has the shortest running time.
+
+26
+00:01:25,200 --> 00:01:26,950
+So T3 will execute.
+
+27
+00:01:26,950 --> 00:01:28,770
+And once these two have completed,
+
+28
+00:01:28,770 --> 00:01:32,810
+then T2 can take the remaining
+of its time to execute.
+
+29
+00:01:32,810 --> 00:01:36,590
+So basically, what would need to happen
+in order for us to achieve this kind of
+
+30
+00:01:36,590 --> 00:01:41,330
+behavior is that, whenever tasks
+enter the run queue, like T1 and
+
+31
+00:01:41,330 --> 00:01:46,020
+T3, the scheduler needs to be involved,
+so that the scheduler can
+
+32
+00:01:46,020 --> 00:01:51,450
+inspect their execution times, and
+then decide whether to preempt
+
+33
+00:01:51,450 --> 00:01:56,580
+the currently running task, task T2, and
+schedule one of the newly readied tasks.
+
+34
+00:01:57,580 --> 00:02:02,170
+Now, so far we talked as if we
+know the execution time of a task.
+
+35
+00:02:02,170 --> 00:02:04,590
+But it's principle, that's,
+that's hard to tell.
+
+36
+00:02:04,590 --> 00:02:08,970
+It's really hard to claim that you know
+what is the execution time of a task.
+
+37
+00:02:08,970 --> 00:02:12,870
+There are a number of factors that
+depend on the inputs of the task,
+
+38
+00:02:12,870 --> 00:02:15,920
+on whether the data is
+present in the cache or not.
+
+39
+00:02:15,920 --> 00:02:18,790
+Which other tasks
+are running in the system.
+
+40
+00:02:18,790 --> 00:02:23,950
+So in principle, we have to use some
+kind of heuristics in order to estimate,
+
+41
+00:02:23,950 --> 00:02:28,360
+or rather guesstimate what
+the execution time of a task will be.
+
+42
+00:02:28,360 --> 00:02:30,960
+When it comes to the execution time, so
+
+43
+00:02:30,960 --> 00:02:35,980
+the future execution time of the task,
+it's probably useful to consider,
+
+44
+00:02:35,980 --> 00:02:39,920
+what was the past execution
+time of that task, or that job.
+
+45
+00:02:39,920 --> 00:02:43,590
+So in a sense, history is a good
+predictor of what will happen, so
+
+46
+00:02:43,590 --> 00:02:47,770
+we will use the past execution
+time to predict the future.
+
+47
+00:02:47,770 --> 00:02:48,300
+For instance,
+
+48
+00:02:48,300 --> 00:02:53,160
+we can think about how long a task ran
+the very last time it was executed.
+
+49
+00:02:53,160 --> 00:02:57,210
+Or maybe we can take an average
+over a period of time or
+
+50
+00:02:57,210 --> 00:03:01,050
+over a number of past runs
+of that particular task.
+
+51
+00:03:01,050 --> 00:03:04,950
+We call this scenario in which we
+compute the averages over a period of
+
+52
+00:03:04,950 --> 00:03:09,270
+the past, a windowed average, so
+we compute some kind of metric based
+
+53
+00:03:09,270 --> 00:03:13,640
+on a window of values from the past,
+and the window of historic values.
+
+54
+00:03:13,640 --> 00:03:15,690
+And then use that average for
+
+55
+00:03:15,690 --> 00:03:18,300
+prediction of the behavior
+of the task in the future.

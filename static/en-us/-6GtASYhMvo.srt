@@ -1,0 +1,235 @@
+1
+00:00:00,000 --> 00:00:05,000
+[Narrator] We've been considering sensor-less planning in a deterministic world.
+
+2
+00:00:05,000 --> 00:00:08,000
+Now I want to turn our attention to partially observable planning
+
+3
+00:00:08,000 --> 00:00:10,000
+but still in a deterministic world.
+
+4
+00:00:10,000 --> 00:00:13,000
+Suppose we have what's called local sensing,
+
+5
+00:00:13,000 --> 00:00:15,000
+that is our vacuum can see what location
+
+6
+00:00:15,000 --> 00:00:17,000
+it is in and it can see
+
+7
+00:00:17,000 --> 00:00:21,000
+what's going on in the current location, that is
+
+8
+00:00:21,000 --> 00:00:23,000
+whether there's dirt in the current location or not,
+
+9
+00:00:23,000 --> 00:00:25,000
+but it can't see anything about
+
+10
+00:00:25,000 --> 00:00:29,000
+whether there's dirt in any other location.
+
+11
+00:00:29,000 --> 00:00:31,000
+So here's a partial diagram of the--
+
+12
+00:00:31,000 --> 00:00:35,000
+part of the belief state from that world,
+
+13
+00:00:35,000 --> 00:00:37,000
+and I want it to show
+
+14
+00:00:37,000 --> 00:00:39,000
+how the belief state unfolds
+
+15
+00:00:39,000 --> 00:00:41,000
+as 2 things happen.
+
+16
+00:00:41,000 --> 00:00:43,000
+First, as we take action,
+
+17
+00:00:43,000 --> 00:00:46,000
+so we start in this state,
+
+18
+00:00:46,000 --> 00:00:49,000
+and we take the action of going right,
+
+19
+00:00:49,000 --> 00:00:53,000
+and in this case we still go
+
+20
+00:00:53,000 --> 00:00:56,000
+from 2 world states in our belief state
+
+21
+00:00:56,000 --> 00:00:58,000
+to 2 new ones,
+
+22
+00:00:58,000 --> 00:01:00,000
+but then, after we do an action,
+
+23
+00:01:00,000 --> 00:01:03,000
+we do an observation, and we have the act
+
+24
+00:01:03,000 --> 00:01:05,000
+precept cycle, and now,
+
+25
+00:01:05,000 --> 00:01:07,000
+once we get the observation,
+
+26
+00:01:07,000 --> 00:01:09,000
+we can split that world,
+
+27
+00:01:09,000 --> 00:01:11,000
+we can split our belief state to say,
+
+28
+00:01:11,000 --> 00:01:13,000
+"If we observe that we're in
+
+29
+00:01:13,000 --> 00:01:15,000
+location B and it's dirty, then we know
+
+30
+00:01:15,000 --> 00:01:18,000
+we're in this belief state here,
+
+31
+00:01:18,000 --> 00:01:21,000
+which happens to have exactly 1 world state in it,
+
+32
+00:01:21,000 --> 00:01:23,000
+and if we observe that we're clean
+
+33
+00:01:23,000 --> 00:01:25,000
+then we know that we're in this state,
+
+34
+00:01:25,000 --> 00:01:27,000
+which also has exactly 1 in it.
+
+35
+00:01:27,000 --> 00:01:29,000
+Now what is the act-observe cycle do
+
+36
+00:01:29,000 --> 00:01:32,000
+to the sizes of the belief states?
+
+37
+00:01:32,000 --> 00:01:34,000
+Well in a deterministic world,
+
+38
+00:01:34,000 --> 00:01:36,000
+each of the individual world states within
+
+39
+00:01:36,000 --> 00:01:40,000
+a belief state maps into exactly 1 other one.
+
+40
+00:01:40,000 --> 00:01:42,000
+That's what we mean by deterministic,
+
+41
+00:01:42,000 --> 00:01:45,000
+and so that means the size of the belief state
+
+42
+00:01:45,000 --> 00:01:48,000
+will either stay the same or it might decrease
+
+43
+00:01:48,000 --> 00:01:50,000
+if 2 of the actions sort of accidentally
+
+44
+00:01:50,000 --> 00:01:53,000
+end up bringing you to the same place.
+
+45
+00:01:53,000 --> 00:01:55,000
+On the other hand, the observation
+
+46
+00:01:55,000 --> 00:01:58,000
+works in kind of the opposite way.
+
+47
+00:01:58,000 --> 00:02:00,000
+When we observe the world, what we're doing
+
+48
+00:02:00,000 --> 00:02:02,000
+is we're taking the current belief state and
+
+49
+00:02:02,000 --> 00:02:05,000
+partitioning it up into pieces.
+
+50
+00:02:05,000 --> 00:02:07,000
+Observations alone can't introduce
+
+51
+00:02:07,000 --> 00:02:10,000
+a new state--a new world state into the belief state.
+
+52
+00:02:10,000 --> 00:02:13,000
+All they can do is say,
+
+53
+00:02:13,000 --> 00:02:16,000
+"Some of them go here and some of them go here."
+
+54
+00:02:16,000 --> 00:02:18,000
+Now maybe that for some observation
+
+55
+00:02:18,000 --> 00:02:21,000
+all the belief states go into 1 bin,
+
+56
+00:02:21,000 --> 00:02:23,000
+and so we make an observation
+
+57
+00:02:23,000 --> 00:02:25,000
+that we don't learn anything new, but at least
+
+58
+00:02:25,000 --> 00:02:28,000
+the observation can't make us more confused
+
+59
+00:02:28,000 --> 99:59:59,999
+than we were before the observation.

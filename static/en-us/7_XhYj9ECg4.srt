@@ -1,0 +1,99 @@
+1
+00:00:00,240 --> 00:00:02,690
+The correct answer is, all of the above.
+
+2
+00:00:02,690 --> 00:00:06,424
+For instance, when we have multiple consumer threads,
+
+3
+00:00:06,424 --> 00:00:08,609
+one consumer thread is waiting.
+
+4
+00:00:08,609 --> 00:00:12,394
+It wakes up from the Wait statement because the list is full.
+
+5
+00:00:12,394 --> 00:00:16,486
+However, before it gets to actually process that list,
+
+6
+00:00:16,486 --> 00:00:20,260
+we acquired the mutex and processed that list.
+
+7
+00:00:20,260 --> 00:00:25,588
+Newly arriving other consumers, they will reacquire the mutex,
+
+8
+00:00:25,588 --> 00:00:31,306
+see that the list is actually full, and print and remove its contents.
+
+9
+00:00:31,306 --> 00:00:35,690
+So, the one consumer that was waiting on the list when the signal or
+
+10
+00:00:35,690 --> 00:00:40,702
+broadcast notification arrived, when it comes out of the wait, the list,
+
+11
+00:00:40,702 --> 00:00:42,844
+its state has already changed.
+
+12
+00:00:42,844 --> 00:00:46,380
+So, we need the while in order to deal with situations where there
+
+13
+00:00:46,380 --> 00:00:48,631
+are multiple of these consumer threads,
+
+14
+00:00:48,631 --> 00:00:52,280
+multiple threads that are waiting on the same condition.
+
+15
+00:00:52,280 --> 00:00:53,490
+This is related, also,
+
+16
+00:00:53,490 --> 00:00:58,390
+to the second statement in that when we signal a condition, we have
+
+17
+00:00:58,390 --> 00:01:03,920
+no way to guarantee the order in which the access to the mutex will be granted.
+
+18
+00:01:03,920 --> 00:01:08,710
+So, there may be other threads that will require this mutex before you
+
+19
+00:01:08,710 --> 00:01:12,410
+get to respond on the fact that a condition has been signaled.
+
+20
+00:01:12,410 --> 00:01:16,500
+And so in that regard, if you cannot control the access to the mutex and
+
+21
+00:01:16,500 --> 00:01:23,030
+guarantee it, you have no way to guarantee that the value of this list
+
+22
+00:01:23,030 --> 00:01:29,400
+variable will not change before the consumer gets to have access to it again.
+
+23
+00:01:29,400 --> 00:01:34,506
+So, all of these three factors contribute to the fact that we have to
+
+24
+00:01:34,506 --> 00:01:40,058
+use while in order to make sure that when we wake up from a while statement,
+
+25
+00:01:40,058 --> 00:01:44,470
+indeed this condition that we were waiting on, it is met.

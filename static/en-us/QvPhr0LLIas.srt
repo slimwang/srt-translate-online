@@ -1,0 +1,55 @@
+1
+00:00:00,470 --> 00:00:02,630
+We'll start with a naive attempt to implement our tracking
+
+2
+00:00:02,630 --> 00:00:05,630
+application. This digitized procedure here,
+
+3
+00:00:05,630 --> 00:00:08,320
+represents the producer method and the
+
+4
+00:00:08,320 --> 00:00:12,130
+tracker is the consumer one. This if statement is intended
+
+5
+00:00:12,130 --> 00:00:14,585
+to stop the digitizer from wrapping all the way around the
+
+6
+00:00:14,585 --> 00:00:17,210
+queue and overriding a frame before the tracker has had
+
+7
+00:00:17,210 --> 00:00:20,430
+a chance to process it. This if statement is intended to
+
+8
+00:00:20,430 --> 00:00:22,460
+stop the tracker to work all the way around the
+
+9
+00:00:22,460 --> 00:00:25,530
+queue to a frame it has already tracked again. Try to
+
+10
+00:00:25,530 --> 00:00:28,630
+see if you can find the problem with this code. Is it that we
+
+11
+00:00:28,630 --> 00:00:31,750
+can't write to the same memory more than once in a threaded program? Is
+
+12
+00:00:31,750 --> 00:00:34,930
+it that the threads will go into an infinite loop? Is it that this
+
+13
+00:00:34,930 --> 00:00:37,730
+bufavail isn't updated atomically? Or is it
+
+14
+00:00:37,730 --> 00:00:40,140
+that each thread has its own bufavail variable.
