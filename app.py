@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template
 from textblob import TextBlob
 import translate as ts
+import os
 
 app = Flask(__name__)
 
@@ -20,10 +21,8 @@ def search(file_name):
 
 @app.route('/translate/<file_name>')
 def translate(file_name):
-    ts.translate(file_name, 'static/en-us/', '/static/tmp/')
-    with open('/static/tmp/file_name', 'r') as f:
-        response = f.readlines()
-    return " ".join(response)
+    return ts.translate(file_name)
+    
 
 
 @app.route('/api/v1/sentiment/<message>')
@@ -37,4 +36,6 @@ def sentiment(message):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port=int(os.getenv('PORT'))
+    host=os.getenv('IP')
+    app.run(port=port, host=host, debug=True)
