@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/style.css">
+    <!-- <link rel="stylesheet" href="/css/style.css"> -->
 </head>
 
 <body class="container">
@@ -52,8 +52,8 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="eg: qbBngrXR2Mo.srt">
-                    <span class="input-group-btn">
+                    <input type="text" id='file_name_input' class="form-control" placeholder="eg: qbBngrXR2Mo.srt">
+                    <span id='trans-btn' class="input-group-btn">
                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-text-width" aria-hidden="true"></span>翻译</button>
                     </span>
                 </div>
@@ -62,11 +62,10 @@
         <hr>
         <div class="row">
             <div class="col-md-6">
-                <textarea class="form-control" rows="25" placeholder="To translate."></textarea>
+                <textarea id="to_translate_textarea" class="form-control" rows="25" placeholder="To translate."></textarea>
             </div>
             <div class="col-md-6">
-                <!-- <p id="result"></p> -->
-                <textarea class="form-control" rows="25" placeholder="Translated."></textarea>
+                <textarea id="translated_textarea" class="form-control" rows="25" placeholder="Translated."></textarea>
             </div>
         </div>
 
@@ -77,6 +76,15 @@
     <!-- bootstrap js file -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script type="text/javascript">
+        $('#trans-btn').click(function() {
+            file_name = $('#file_name_input').val();
+            $.get('/search/' + file_name, function(res) {
+                $("#to_translate_textarea").val(res);
+            });
+            $.get('/translate/' + file_name, function(res) {
+
+            });
+        });
         $("textarea").keyup(function(e) {
             console.log('keycode ' + e.keyCode);
             switch (e.keyCode) {

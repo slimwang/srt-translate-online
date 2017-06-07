@@ -10,13 +10,16 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/search')
-def search1():
-    return search2('hello')
+@app.route('/search/<file_name>')
+def search(file_name):
+    with open('static/en-us/' + file_name, 'r') as srt:
+        response = srt.readlines()
+    return " ".join(response)
 
 
-def search2(test):
-    return test
+@app.route('/translate/<file_name>')
+def translate(file_name):
+    return file_name
 
 
 @app.route('/api/v1/sentiment/<message>')
