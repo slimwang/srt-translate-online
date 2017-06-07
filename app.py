@@ -10,6 +10,15 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/search')
+def search1():
+    return search2('hello')
+
+
+def search2(test):
+    return test
+
+
 @app.route('/api/v1/sentiment/<message>')
 def sentiment(message):
     text = TextBlob(message)
