@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template
 from textblob import TextBlob
+import translate as ts
 
 app = Flask(__name__)
 
@@ -19,7 +20,10 @@ def search(file_name):
 
 @app.route('/translate/<file_name>')
 def translate(file_name):
-    return file_name
+    ts.translate(file_name, 'static/en-us/', '/static/tmp/')
+    with open('/static/tmp/file_name', 'r') as f:
+        response = f.readlines()
+    return " ".join(response)
 
 
 @app.route('/api/v1/sentiment/<message>')
