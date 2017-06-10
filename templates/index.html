@@ -84,7 +84,9 @@
         $('#trans-btn').click(function() {
             file_name = $('#file_name_input').val();
             $.get('/search/' + file_name, function(res) {
-                $("#to_translate_textarea").val(res);
+                console.log(res);
+                $("#to_translate_textarea").val(res[0]);
+                $('#translated_textarea').val(res[1])
             });
             $.get('/translate/' + file_name, function(res) {
                 $('#return-info').parent().removeClass("hidden");

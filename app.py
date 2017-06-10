@@ -15,8 +15,19 @@ def index():
 @app.route('/search/<file_name>')
 def search(file_name):
     with open('static/en-us/' + file_name, 'r') as srt:
-        response = srt.readlines()
-    return " ".join(response)
+        response = []
+        lines = srt.readlines()
+        ex_en_lines = []
+        for l in lines:
+            #exclude English lines
+            ex_en_lines.append("\n") if ts.check_contain_english(l) else ex_en_lines.append(l)
+        
+        in_en_str = " ".join(lines)
+        ex_en_str = " ".join(ex_en_lines)
+        
+        response.extend((in_en_str, ex_en_str))
+        print jsonify(response)
+    return jsonify(response)
 
 
 @app.route('/translate/<file_name>')
