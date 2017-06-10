@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>字幕翻译</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="/css/style.css"> -->
+     <link rel="stylesheet" href="static/css/style.css"> 
 </head>
 
 <body class="container">
@@ -47,7 +47,12 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-
+    
+    <!-- return info -->
+    <div class="hidden well well-lg alert-info">
+        <p id="return-info"></p>
+    </div>
+    
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -82,51 +87,9 @@
                 $("#to_translate_textarea").val(res);
             });
             $.get('/translate/' + file_name, function(res) {
-                $("#translated_textarea").val(res);
+                $('#return-info').parent().removeClass("hidden");
+                $("#return-info").text(res);
             });
-        });
-        $("textarea").keyup(function(e) {
-            console.log('keycode ' + e.keyCode);
-            switch (e.keyCode) {
-                case 8: // Backspace
-                    console.log('backspace' + e);
-                case 9: // Tab
-                    console.log('Tab');
-                case 13: // Enter
-                    console.log('Enter');
-                case 37: // Left
-                    console.log('Left');
-                case 38: // Up
-                    console.log('Up');
-                case 39: // Right
-                    console.log('Right');
-                case 40: // Down
-                    console.log('Down');
-                    break;
-
-                default:
-                    var input = $('textarea').val();
-                    $('#result').removeClass("alert alert-warning");
-                    $('#result').removeClass("alert alert-danger");
-                    $('#result').removeClass("alert alert-success");
-                    if (input.length > 10) {
-
-                        $.get('/api/v1/sentiment/' + input, function(result) {
-
-                            if (result.polarity < 0.0) {
-
-                                $('#result').addClass("alert alert-danger").text(input);
-                            } else if (result.polarity >= 0.0 && result.polarity <= 0.5) {
-                                $('#result').addClass("alert alert-warning").text(input);
-                            } else {
-                                $('#result').addClass("alert alert-success").text(input);
-                            }
-
-                        })
-                    }
-            }
-
-
         });
     </script>
 </body>
