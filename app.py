@@ -1,7 +1,9 @@
+# encoding=utf8 
 from flask import Flask, jsonify, render_template
 from textblob import TextBlob
 import translate as ts
 import os
+
 
 app = Flask(__name__)
 
@@ -22,17 +24,6 @@ def search(file_name):
 @app.route('/translate/<file_name>')
 def translate(file_name):
     return ts.translate(file_name)
-    
-
-
-@app.route('/api/v1/sentiment/<message>')
-def sentiment(message):
-    text = TextBlob(message)
-
-    text.polarity = 0.3
-
-    response = {'polarity': text.polarity, 'subjectivity': text.subjectivity}
-    return jsonify(response)
 
 
 if __name__ == "__main__":

@@ -85,49 +85,6 @@
                 $("#translated_textarea").val(res);
             });
         });
-        $("textarea").keyup(function(e) {
-            console.log('keycode ' + e.keyCode);
-            switch (e.keyCode) {
-                case 8: // Backspace
-                    console.log('backspace' + e);
-                case 9: // Tab
-                    console.log('Tab');
-                case 13: // Enter
-                    console.log('Enter');
-                case 37: // Left
-                    console.log('Left');
-                case 38: // Up
-                    console.log('Up');
-                case 39: // Right
-                    console.log('Right');
-                case 40: // Down
-                    console.log('Down');
-                    break;
-
-                default:
-                    var input = $('textarea').val();
-                    $('#result').removeClass("alert alert-warning");
-                    $('#result').removeClass("alert alert-danger");
-                    $('#result').removeClass("alert alert-success");
-                    if (input.length > 10) {
-
-                        $.get('/api/v1/sentiment/' + input, function(result) {
-
-                            if (result.polarity < 0.0) {
-
-                                $('#result').addClass("alert alert-danger").text(input);
-                            } else if (result.polarity >= 0.0 && result.polarity <= 0.5) {
-                                $('#result').addClass("alert alert-warning").text(input);
-                            } else {
-                                $('#result').addClass("alert alert-success").text(input);
-                            }
-
-                        })
-                    }
-            }
-
-
-        });
     </script>
 </body>
 
