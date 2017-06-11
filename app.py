@@ -38,6 +38,6 @@ def translate(file_name):
 
 
 if __name__ == "__main__":
-    port=int(os.getenv('PORT'))
-    host=os.getenv('IP')
+    port=int(os.getenv('PORT', 8080))
+    host=os.getenv('IP', '0.0.0.0')
     app.run(port=port, host=host, debug=True)
