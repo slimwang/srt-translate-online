@@ -12,8 +12,7 @@ def translate(file_name):
     with open('static/en-us/' + file_name) as f:
         lines = f.readlines()
         lines = [l for l in lines if check_contain_english(l) ]  # english filter
-        en_blob = TextBlob(" ".join(lines))
+        en_blob = TextBlob("".join(lines))
         return_str = en_blob.translate(to='zh')
         return_str = str(return_str).replace("。","。\n")
-        return_str = " " + return_str  # str's first line misses a space, so this line of code adds it manually.
         return return_str
