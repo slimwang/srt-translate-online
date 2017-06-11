@@ -1,7 +1,9 @@
+# encoding=utf8 
 from flask import Flask, jsonify, render_template
 from textblob import TextBlob
 import translate as ts
 import os
+
 
 app = Flask(__name__)
 
